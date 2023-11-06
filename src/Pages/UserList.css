@@ -1,0 +1,228 @@
+.user-menu {
+  list-style: none;
+  padding: 0;
+
+}
+.user-menu ul {
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 5px;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.user-menu ul.active {
+  color: #2F74EB;
+  border-bottom: 2px solid #2F74EB;
+  }
+
+.table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+  
+
+
+}
+
+
+.io {
+  margin-right: 25px;
+}
+
+.bs {
+  margin-right: 19px;
+}
+
+.bbbbttt {
+
+  width: 150px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+
+}
+
+.img1 {
+  width: 20px;
+  height:20px;
+}
+
+.iconnn {
+  background-color: #D2D7DC;
+}
+
+.samson {
+  height: 40px;
+}
+
+.add {
+  font-size: 13;
+  margin-left: 1%;
+}
+
+.i-circle {
+  display: inline-block;
+  background-color: #EDEEF1;
+  color: #fff;
+  border-radius: 100%;
+  font-size: 10px;
+  line-height: 30px;
+    width: 30px;
+  height: 30px;
+  text-align: center;
+   padding-bottom: 5px;
+ }
+
+.tablebody {
+  font-size: 10px;
+}
+
+.pagination {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5rem;
+  font-size: 10px;
+  gap: 5px;
+}
+
+.pagination .page-num {
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-weight: 13;
+}
+
+.pagination .page-num:hover {
+  background-color: #0066ff;
+  color: #fff;
+  border-radius: 100%;
+
+}
+
+.pagination .page-active {
+  background-color: #0066ff !important;
+  color: #fff;
+  border-radius: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.previousLabel {
+  text-decoration: none;
+}
+
+.user1 {
+  font-size: 30;
+
+}
+
+
+@media only screen and (max-width: 665px) and (min-width: 300px)  {
+
+  .table {
+    width: 100%
+  }
+
+  .bbbbttt {
+    width: 100px;
+    padding: 0px;
+    height: 40px;
+  }
+  .add {
+    font-size: 10px;
+    
+  }
+
+  .user1 {
+    font-size: 30px;
+    margin-right: 50px;
+    margin-top: 30px !important;
+  }
+ 
+
+}
+
+@media only screen and (max-width: 650px) and (min-width: 100px)  {
+
+  .bbbbttt {
+    width: 50% !important;
+    padding: 0px !important;
+    height: 30px !important;
+    margin-left: 80px !important;
+    margin-top: -20px;
+  
+  }
+  .add {
+    font-size: 8px !important;
+    margin: 0px !important;
+  }
+
+  .user1 {
+    font-size: 10px !important;
+    margin-right: 15px !important;
+    margin-top: -0px !important;
+  }
+  .user {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+    margin-top: 0px !important;
+  
+  }
+  .user2{
+    margin-top: -5px !important;
+
+  }
+
+
+}
+@media only screen and (max-width: 667px) and (min-width: 650px)  {
+  .bbbbttt {
+    width: 50% !important;
+    padding: 0px !important;
+    height: 30px !important;
+    margin-left: 80px !important;
+    margin-top: -20px;
+  
+  }
+
+}
+@media only screen and (max-width: 450px){
+  .user2{
+ margin-left: 70px;
+
+  }
+
+}
+@media only screen and (max-width: 280px) and (min-width: 100px){
+  .bbbbttt {
+    width: 50% !important;
+    padding: 0px !important;
+    height: 30px !important;
+    margin-left: 80px !important;
+    margin-top: -20px;
+  
+  }
+  .user2{
+    margin-left: 10px;
+   
+     }
+
+}
+
+@media only screen and (max-width: 540px) and (min-width: 540px){
+  .user2{
+    margin-left: 170px;
+   
+     }
+
+}

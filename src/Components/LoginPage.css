@@ -1,0 +1,21 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+
+
+@media (max-width: 600px) {
+    .Form{
+      
+        padding:20px;
+      
+    }
+   
+  }
+  @media (max-width: 390px) {
+    #Welcome{
+        padding-top:50px !important;
+    }
+  }

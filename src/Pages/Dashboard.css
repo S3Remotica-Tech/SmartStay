@@ -1,0 +1,32 @@
+
+.container{
+width:100%;
+display:block;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+}
+.content{
+    width:100%;
+    background-color:#FFFFFF;
+}
+
+#exampleInput1{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    width:400px;
+    border-bottom: 1px solid lightgray;
+    font-weight: 700;
+  }
+  
+  #exampleInput1 {
+    box-shadow: none;
+  }
+@media (max-width:650px){
+.container{
+    display:flex;
+    flex-direction: column;
+}
+}
