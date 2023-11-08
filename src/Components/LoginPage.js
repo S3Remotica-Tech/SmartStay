@@ -21,7 +21,7 @@
 
 //   EmailId:"",
 //   Password:"", 
-     
+
 //   }
 // const MyComponent = () => {
 //   let navigate = useNavigate();
@@ -31,7 +31,7 @@
 //     EmailId: "",
 //     Password: "",
 //   });
-  
+
 //   const [email, setEmail] = useState('');
 //   const [error, setError] = useState(null);
 
@@ -42,17 +42,17 @@
 //   const EmailValidation = (e)=>{
 //     setLoginDetails({...loginDetails,EmailId:e.target.value});
 //     checkEmail(e);
-  
+
 //   }
 
 //   const regex = /^[a-zA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
 
 //   const checkEmail = (e) =>{
 //     setEmail(e.target.value);
-  
+
 //     if(regex.test(email)===false){
 //    setError('Please Enter Valid Email Address');
-    
+
 //   }else{
 //       setError('');
 //     return true;
@@ -63,7 +63,7 @@
 
 
 //   const handleLogin = async(e)=>{
-  
+
 //     e.preventDefault();
 
 //     var status = false;
@@ -83,11 +83,11 @@
 //         document.getElementById("Passworduser").innerHTML = " ";
 //         status = true;
 //     }
-   
+
 //    if(loginDetails){
 //         try{
 //      const { data } = await API.post('/login/login',loginDetails);
-  
+
 //            if(data.statusCode==200){
 //         Swal.fire({
 //              icon: 'success',
@@ -101,7 +101,7 @@
 //               setTimeout(()=> {
 //             window.location.href = '/royalgrandhostel'
 //         }, 1000);
-           
+
 //        } else {
 //         setLoginDetails(logindetailsclear);
 //         Swal.fire({
@@ -125,11 +125,11 @@
 //              }
 //    }
 //    else{
-   
+
 //    }
-     
+
 //       }
-  
+
 
 //   const handleForgetPassword = () => {
 //     navigate('/forget-password')
@@ -140,7 +140,7 @@
 //   return (
 //     <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
 //       <div className="row g-0" style={{ height: "100vh", width: "100%" }} >
-        
+
 //         <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white",overflowX: "hidden" }}>
 //           <div className="d-flex justify-content-center ps-5 pt-5" >
 //             <img src={Smart} class="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} />
@@ -188,7 +188,7 @@
 //                       color: "gray", 
 //                       '::placeholder': { color: "gray",fontSize:"12px" } 
 //                     }}
-                  
+
 //                             />
 //                   <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none',borderRadius:"2px" }} >
 //                     <img src={Login} height="13" width="13" />
@@ -204,7 +204,7 @@
 //                     className='form-control border border-0 '
 //                     aria-describedby="basic-addon2" style={{ borderRadius:"2px",fontSize: "12px", fontWeight: "530",color:"gray",
 //                     '::placeholder': { color: "gray",fontSize:12 } 
-                                    
+
 //                   }}
 //                   value={loginDetails.Password} onChange={(e) => setLoginDetails({ ...loginDetails, Password: e.target.value })}
 //                    />
@@ -260,21 +260,29 @@ import './LoginPage.css';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {API} from "../Api/index";
+import { useDispatch, useSelector } from 'react-redux';
+import { Password } from '@mui/icons-material';
+
+
 
 
 
 const MyComponent = () => {
+
+  const dispatch = useDispatch()
+  const state = useSelector(state => state)
+  console.log("state", state)
+
+
+
   let navigate = useNavigate();
 
+  const [EmailId, setEmailId] = useState('')
+  const [Password, setPassword] = useState('')
 
-  const [loginDetails, setLoginDetails] = useState({
-    EmailId: "",
-    Password: "",
-  });
-  
-  
-  const [error, setError] = useState(null);
+
+
+
 
   const handleCreateAccount = () => {
     navigate('/create-account')
@@ -284,75 +292,34 @@ const MyComponent = () => {
   }
 
 
+  const handleEmailChange = (e) => {
+    setEmailId(e.target.value)
+    console.log("Emailsss", e.target.value)
+  }
 
-  const EmailValidation = (e) => {
-    const email = e.target.value;
-    setLoginDetails({ ...loginDetails, EmailId: email });
 
-    if (!regex.test(email)) {
-      setError('Please Enter Valid Email Address');
-    } else {
-      setError('');
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value)
+  }
+
+
+
+  const handleLogin = () => {
+    if (EmailId && Password) {
+      const response = dispatch({ type: 'LOGININFO', payload: { EmailId: EmailId, Password: Password } });
+      // alert("Login Successfully")
+      // navigate('/royalgrandhostel')
     }
-  };
-
-  const regex = /^[a-zA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
-
-  
-
-
-
-  const handleLogin = async (e) => {
-     if (!regex.test(loginDetails.EmailId) || !loginDetails.Password) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Please enter a valid Email and Password',
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      return;
+    else {
+      dispatch({ type: "ERROR", payload: "Enter Email id and Password" });
     }
-
-    try {
-      const response = await API.post('/login/login', loginDetails);
-      console.log('API response:', response);
-      if (response.data.statusCode === 200) {
-             Swal.fire({
-          icon: 'success',
-          title: response.data.message,
-          showConfirmButton: true,
-          timer: 3000,
-        });
-              navigate('/royalgrandhostel');   
-       
-      } else {
-        Swal.fire({
-          icon: 'warning',
-          title: response.data.message,
-          showConfirmButton: false,
-          timer: 3000,
-        });
-      }
-    } catch (err) {
-      Swal.fire({
-        icon: 'error',
-        title: 'An error occurred while processing your request',
-        showConfirmButton: false,
-        timer: 3000,
-      });
-    }
-  };
-  
-
-  
-
-
+  }
 
   return (
     <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
       <div className="row g-0" style={{ height: "100vh", width: "100%" }} >
-        
-        <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white",overflowX: "hidden" }}>
+
+        <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white", overflowX: "hidden" }}>
           <div className="d-flex justify-content-center ps-5 pt-5" >
             <img src={Smart} class="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} />
             <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: "400", wordSpacing: "" }}>smartstay</h3>
@@ -373,39 +340,42 @@ const MyComponent = () => {
         </div>
 
 
-        <div className="col-lg-8 col-md-12 col-sm-12 col-xs-12 " style={{ backgroundColor: "#F6F7FB",overflowX: "hidden" }}>
+        <div className="col-lg-8 col-md-12 col-sm-12 col-xs-12 " style={{ backgroundColor: "#F6F7FB", overflowX: "hidden" }}>
           <div className="text-end m-2" >
-            <span className="right-content lh-1" style={{ fontSize: "13px" }}>New to Smartstay account?</span> 
-             <button  style={{ fontSize: "13px", padding: "2px", backgroundColor: "white", color: "#007FFF", borderRadius: "30px", fontWeight: "bold", borderColor: "#2C77EC", width: "150px", height: "30px" }} type="button" class="btn btn-outline-primary createbutton ms-2" onClick={() => handleCreateAccount()}>Create an Account</button>
+            <span className="right-content lh-1" style={{ fontSize: "13px" }}>New to Smartstay account?</span>
+            <button style={{ fontSize: "13px", padding: "2px", backgroundColor: "white", color: "#007FFF", borderRadius: "30px", fontWeight: "bold", borderColor: "#2C77EC", width: "150px", height: "30px" }} type="button" class="btn btn-outline-primary createbutton ms-2" onClick={() => handleCreateAccount()}>Create an Account</button>
           </div>
           <div className="d-flex justify-content-center" id="Welcome" style={{ fontSize: "18px", paddingTop: "100px", fontWeight: "600" }}><strong>Welcome at Smartstay</strong><img src={Hai} width="30" height="30" /></div>
-          <div className="d-flex justify-content-center pt-1"><p style={{ fontSize: "13px",color:"gray" }}>We need a few basic details to consider your profile</p></div>
+          <div className="d-flex justify-content-center pt-1"><p style={{ fontSize: "13px", color: "gray" }}>We need a few basic details to consider your profile</p></div>
           <div className="row d-flex justify-content-center">
             <div className="col-md-7 col-sm-7 col-xs-7 right-side-form">
               <Form className="Form">
-                <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530"}}><b>Email Or Phone Number</b></Form.Label>
-                <InputGroup className="mb-3" size="lg" style={{color:"#D9D9D9"}} >
+
+                <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>Email Or Phone Number</b></Form.Label>
+                <InputGroup className="mb-3" size="lg" style={{ color: "#D9D9D9" }} >
                   <Form.Control
                     placeholder="Enter Email or Business"
                     aria-label="Recipient's username"
                     className='form-control border border-0 '
                     aria-describedby="basic-addon2"
-                    value={loginDetails.EmailId} onChange={(e)=>EmailValidation(e)}
-                     style={{
+                    value={EmailId} onChange={(e) => handleEmailChange(e)}
+                    style={{
                       fontSize: "12px",
                       fontWeight: "530",
-                      opacity:1,
-                      borderRadius:"2px",
-                      color: "gray", 
-                      '::placeholder': { color: "gray",fontSize:"12px" } 
+                      opacity: 1,
+                      borderRadius: "2px",
+                      color: "gray",
+                      '::placeholder': { color: "gray", fontSize: "12px" }
                     }}
-                  
-                            />
-                  <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none',borderRadius:"2px" }} >
+
+                  />
+                  <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none', borderRadius: "2px" }} >
                     <img src={Login} height="13" width="13" />
                   </InputGroup.Text>
                 </InputGroup>
-                <p style={{fontSize:"11px",marginLeft:"0px",paddingTop:"0px",color:"red"}} >{error}</p>
+
+                <div>{state.login.errorEmail?.length > 0 ? <label style={{ color: "red" }}>{state.login.errorEmail}</label> : null}</div>
+
 
                 <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>Password</b></Form.Label>
                 <InputGroup className="mb-3" size="lg">
@@ -413,18 +383,22 @@ const MyComponent = () => {
                     placeholder="Enter Password"
                     aria-label="Recipient's username"
                     className='form-control border border-0 '
-                    aria-describedby="basic-addon2" style={{ borderRadius:"2px",fontSize: "12px", fontWeight: "530",color:"gray",
-                    '::placeholder': { color: "gray",fontSize:12 } 
-                                    
-                  }}
-                  value={loginDetails.Password} onChange={(e) => setLoginDetails({ ...loginDetails, Password: e.target.value })}
-                   />
+                    aria-describedby="basic-addon2" style={{
+                      borderRadius: "2px", fontSize: "12px", fontWeight: "530", color: "gray",
+                      '::placeholder': { color: "gray", fontSize: 12 }
 
-                  <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none',borderRadius:"2px" }}>
+                    }}
+                    value={Password} onChange={(e) => handlePasswordChange(e)}
+                  />
+
+                  <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none', borderRadius: "2px" }}>
                     <img src={Eye} height="13" width="13" />
                   </InputGroup.Text>
                 </InputGroup>
-                                <p style={{fontSize:"11px",marginLeft:"0px",paddingTop:"0px",color:"red"}} >{error}</p>
+
+                <div>{state.login.errorPassword?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.login.errorPassword}</label> : null}</div>
+
+
                 <div className="mb-3 d-flex justify-content-between" >
                   <Form.Group controlId="formBasicCheckbox">
                     <Form.Check type="checkbox" label="Remember me" style={{ fontWeight: "700", fontSize: "11px", fontWeight: "700" }} />
