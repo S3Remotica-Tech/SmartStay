@@ -8,7 +8,7 @@ import RoyalGrandHostel from './Components/RoyalGrandHostel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useSelector } from 'react-redux/es/hooks/useSelector';
-  
+
 function App() {
 
 
@@ -17,19 +17,22 @@ function App() {
   return (
     <div>
 
-     
-         <Router>
-        <Routes>
-        <Route index element={<FrontPage />} />
-           <Route path="/login-Page" element={<LoginPage />} /> 
-          <Route path="/create-account" element={<CreateAccount />} />
-          <Route path="/forget-password" element={< ForgetPassword />} />
-          <Route path="/royalgrandhostel" element={< RoyalGrandHostel />} />
+      {state.login.isLoggedIn ?
+
+        <RoyalGrandHostel />
+        :
+        <Router>
+          <Routes>
+            <Route index element={<FrontPage />} />
+            <Route path="/login-Page" element={<LoginPage />} />
+            <Route path="/create-account" element={<CreateAccount />} />
+            <Route path="/forget-password" element={< ForgetPassword />} />
           </Routes>
-      </Router> 
+        </Router>
+      }
     </div>
   );
 }
 
-export default App; 
+export default App;
 

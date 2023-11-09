@@ -1,17 +1,10 @@
 import AxiosConfig from "../../WebService/AxiosConfig";
 
 
-export async function login(EmailId,Password){
-   console.log("Email",EmailId)
-   console.log("password", Password)
+export async function login(email_Id,password){
+   
     return await AxiosConfig.get('/login/login', {
-      params: EmailId,Password
+      params:  email_Id , password
     })
   }
 
-
-  // params= {EmailId: EmailId, password: password}
-
-  // params = {EmailId, password}
-
-  
