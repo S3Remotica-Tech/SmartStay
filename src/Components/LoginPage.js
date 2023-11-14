@@ -107,7 +107,7 @@ const MyComponent = () => {
                   <Form.Control
                     placeholder="Enter Email or Business"
                     aria-label="Recipient's username"
-                    className='form-control border border-0 '
+                    className='border border-0 custom-input'
                     aria-describedby="basic-addon2"
                     autoFocus
                     value={email_Id} onChange={(e) => handleEmailChange(e)}
@@ -134,7 +134,7 @@ const MyComponent = () => {
                   <Form.Control type="password"
                     placeholder="Enter Password"
                     aria-label="Recipient's username"
-                    className='form-control border border-0 '
+                    className='border border-0 custom-input'
                     aria-describedby="basic-addon2" style={{
                       borderRadius: "2px", fontSize: "12px", fontWeight: "530", color: "gray",
                       '::placeholder': { color: "gray", fontSize: 12 }
