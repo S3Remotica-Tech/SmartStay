@@ -73,12 +73,18 @@ const MyComponent = () => {
     <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
       <div className="row g-0" style={{ height: "100vh", width: "100%" }} >
         <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white", overflowX: "hidden" }}>
-          <div className="d-flex justify-content-center ps-5 pt-5" >
+          <div className="d-flex justify-content-center pt-5" >
             <img src={Smart} class="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} />
-            <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: "400", wordSpacing: "" }}>smartstay</h3>
+            <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: 550, letterSpacing:"0.02em" }}>smartstay</h3>
           </div>
-          <p className="d-flex justify-content-center pt-2 mb-2" style={{ fontSize: "15px" }}>Welcome to Smartstay</p>
-          <p className="d-flex justify-content-center" style={{ fontSize: "11px", paddingTop: "-1px" }}>Over 157,000 hotels and homes across 35 countries</p>
+<div className="d-flex justify-content-center pt-2 mb-2">
+<p  style={{ fontSize: "15px",marginBottom:0}}>Welcome to Smartstay</p>
+  </div>
+<div className="d-flex justify-content-center pt-2 mb-2">
+<p  style={{ fontSize: "11px",   }}>Over 157,000 hotels and homes across 35 countries</p>
+</div>
+         
+        
           <div style={{ paddingTop: "40px" }}>
             <div className="d-flex justify-content-start ps-5" ><img src={Tools} class="img-fluid" style={{ height: "50px", width: "50px" }} /></div>
             <p className="d-flex justify-content-start ps-5 pt-0 mb-0" style={{ fontSize: "13px" }} >Smart Tools</p>
