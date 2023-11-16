@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import './CreateAccount.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import hand from "../Assets/Images/hand.png"
@@ -9,18 +9,42 @@ import Smart from "../Assets/Images/Logo-Icon-White.png";
 import Tools from "../Assets/Images/Smart-Tools.png";
 import Support from "../Assets/Images/Total-Support.png";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 
 function CreateAccountPage() {
 
+  const dispatch = useDispatch()
+  const state = useSelector(state => state)
   let navigate = useNavigate();
+const [userName,setUserName] = useState('');
+const [phoneNo,setPhoneNo] = useState('');
+const [emailID,setEmailID] = useState('');
+const [password,setPassword] = useState('')
 
+const handlePhoneNo =(e)=>{
+  setPhoneNo(e.target.value)
+}
 
+const handleEmailID = (e) =>{
+setEmailID(e.target.value)
+}
+
+const handlePassword = (e)=>{
+  setPassword(e.target.value)
+}
   const handleLoginPage = () => {
     navigate('/login-Page')
   }
   const handleRoyal = () => {
-    navigate('/royalgrandhostel')
+    try {
+     dispatch({type:'REGISTER_USER',payload:{mobileNo:phoneNo,name:userName,emailId:emailID,password:password}})
+      navigate('/royalgrandhostel')
+    } catch (error) {
+      console.log('error',error);
+    }
+   
   }
+  console.log("state",state);
   return (
     <>
       <div className="" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
@@ -60,19 +84,19 @@ function CreateAccountPage() {
 
                 <div class="mb-2 mt-3" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginLeft: "20%" }}>
                   <label class="sr-only mb-0" style={{ fontSize: "12px", marginTop: "2%",fontWeight:"530" }}><b>Name or Business Name </b></label>
-                  <input class="name form-control mt-1" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "2%" }} type="name" id="name" placeholder="Enter Name or Business" name="name" />
+                  <input class="name form-control mt-1" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "2%" }} type="name" id="name" placeholder="Enter Name or Business" name="name" value={userName} onChange={(e)=>{setUserName(e.target.value)}}/>
                 </div>
 
                 <div className="secondrow mt-3 mb-2" style={{ marginLeft: "20%" }}>
 
                   <div className="mobphno" style={{ display: "flex", flexDirection: "column", alignItems: 'start', marginRight: "4%" }}>
                     <label class="sr-only" style={{ fontSize: "12px", marginTop: "2%" ,fontWeight:"530"}}><b>Phone Number</b></label>
-                    <input class="phone form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%" }} type="phone" id="phone" placeholder="Enter Phone Number" name="Phone" />
+                    <input class="phone form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%" }} type="phone" id="phone" placeholder="Enter Phone Number" name="Phone" value={phoneNo} onChange={(e)=>{handlePhoneNo(e)}}/>
                   </div>
 
                   <div className="mobphno" style={{ display: "flex", flexDirection: "column", alignItems: 'start' }}>
                     <label class="sr-only" style={{ fontSize: "12px", marginTop: "2%",fontWeight:"530" }}><b>Email Id</b></label>
-                    <input class="email form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%" }} type="email" id="email" placeholder="Enter Email Id" name="email" />
+                    <input class="email form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%" }} type="email" id="email" placeholder="Enter Email Id" name="email" value={emailID} onChange={(e)=>{handleEmailID(e)}}/>
                   </div>
 
                 </div>
@@ -80,7 +104,7 @@ function CreateAccountPage() {
 
                 <div class="mb-2"  style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "12", marginLeft: "20%" }}>
                   <label class="sr-only" style={{ fontSize: "12px", marginTop: "2%",fontWeight:"530" }}><b>Password</b></label>
-                  <input class="pwd form-control" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "1%" }} type="password" id="pwd" placeholder="Enter password" name="pwd" />
+                  <input class="pwd form-control" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "1%" }} type="password" id="pwd" placeholder="Enter password" name="pwd" value={password} onChange={(e)=>{handlePassword(e)}}/>
                 </div>
                 <div class="lists d-flex mt-1" style={{  justifyContent: "space-between", textAlign: "left", width: "64%", fontSize: "13px", marginLeft: "19%" }}>
                   <ul>
