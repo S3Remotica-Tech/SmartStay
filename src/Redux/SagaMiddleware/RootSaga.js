@@ -1,12 +1,13 @@
 import {all} from 'redux-saga/effects';
-import LoginSaga from '../SagaMiddleware/LoginSaga'
+import LoginSaga from '../SagaMiddleware/LoginSaga';
+import CreateAccountSaga from './CreateAccountSaga';
 
 
 
 function* RootSaga() {
     
 yield all([
-    LoginSaga()
+    LoginSaga(),CreateAccountSaga()
 ])
 }
 export default RootSaga;
