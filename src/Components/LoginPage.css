@@ -5,7 +5,10 @@
 }
 
 
-
+.custom-input:focus {
+  box-shadow: none !important; 
+  border-color: #ced4da !important; 
+}
 @media (max-width: 600px) {
     .Form{
       
