@@ -15,6 +15,8 @@ import Plus from '../Assets/Images/Create-button.png';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
 const currencies = [
   {
@@ -34,14 +36,23 @@ const currencies = [
 
 
 function UserList() {
+
+  const state = useSelector(state=> state)  
+  console.log('state',state)
+
+  const dispatch = useDispatch()
+
+  useEffect(()=> {
+    console.log("executing useEffect")
+    dispatch({type:'USERLIST'})
+},[])
+
   const [showMenu, setShowMenu] = useState(false);
 
 
 
   const totalPages = 10;
   const [activePage, setActivePage] = useState(1);
-
-  const [datas, setDatas] = useState([]);
 
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,27 +88,17 @@ function UserList() {
 
 
 
-  const data = [
-    { id: 1, circle: 'RK', Name: 'Ranganath Krishna', phone: <span>+91 9025056737</span>, Floor: 'Ground Floor', Room: 'G005-B02', Rent: '₹6,500.00', Balance: '₹00.00', payment: 'Cash ', Status: 'Success' },
-    { id: 2, circle: 'SG', Name: 'Sathish Gangaiah', phone: <span>+91 6382678710</span>, Floor: '1st Floor', Room: 'F002-RB05', Rent: '₹6,500.00', Balance: '₹700.00', payment: 'Online ', Status: 'Pending' },
-    { id: 3, circle: 'PN', Name: 'Praveen N', phone: <span>+91 8098171974</span>, Floor: '2nd Floor', Room: 'S007-RB05', Rent: '₹6,500.00', Balance: '₹00.00', payment: 'Cash ', Status: 'Success' },
-    { id: 4, circle: 'JH', Name: 'Janah Hagan', phone: <span>+91 9942675899</span>, Floor: 'Ground Floor', Room: 'G005-B02', Rent: '₹6,500.00', Balance: '₹2000.00', payment: 'Online ', Status: 'Pending' },
-    { id: 5, circle: 'AH', Name: 'Azizul Hakim', phone: <span>+91 9942208719</span>, Floor: '3rd Floor', Room: 'T001-RB04', Rent: '₹6,500.00', Balance: '₹00.00', payment: 'Cash ', Status: 'Success' },
-    { id: 6, circle: 'SR', Name: 'Sajib Rahman', phone: <span>+91 9977123380</span>, Floor: '1st Floor', Room: 'F003-RB04', Rent: '₹6,500.00', Balance: '₹00.00', payment: 'Online ', Status: 'Success' },
-    { id: 7, circle: 'SR', Name: 'Samson Raj', phone: <span>+91 9725036012</span>, Floor: 'Ground Floor', Room: 'G004-B01', Rent: '₹6,500.00', Balance: '₹00.00', payment: 'Online ', Status: 'Success' }
-  ]
   const itemsPerPage = 7;
   useEffect(() => {
-    setFilteredData(data);
+    setFilteredData(state.UsersList.Users);
   }, [])
 
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  const handleFilterChange = (filterValue) => {
 
-    // setFilteredData(filtered);
+  const handleFilterChange = (filterValue) => {
     setCurrentPage(1);
   };
 
@@ -279,19 +280,19 @@ function UserList() {
 
                   <td><div style={{ display: 'flex', flexDirection: "row" }}>
                     <div>
-                      <span class="i-circle"><p style={{ fontSize: 12, color: "black" }}>{u.circle}</p></span>
+                      <span class="i-circle"><p style={{ fontSize: 12, color: "black" }}>{u.Circle}</p></span>
                     </div>
                     <div style={{ marginLeft: "10px" }}>
                       <label style={{ color: "#0D99FF", fontWeight: 600 }}>{u.Name}</label><br />
-                      <label style={{ color: "#9DA9BC", fontWeight: 600 }}>{u.phone}</label>
+                      <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {u.Phone}</label>
                     </div>
                   </div></td>
                   <td style={{ color: "black", fontWeight: 500 }}>{u.Floor}</td>
-                  <td style={{ color: "black", fontWeight: 500 }}>{u.Room}</td>
-                  <td style={{ color: "black", fontWeight: 500 }}>{u.Rent}</td>
-                  <td style={{ color: "black", fontWeight: 500 }}>{u.Balance}</td>
-                  <td style={{ color: "black", fontWeight: 500 }}>{u.payment}<MdExpandMore style={{ fontSize: 15 }} /></td>
-                  <td style={u.Status == "Success" ? { color: "green" } : { color: "red" }}>{u.Status}</td>
+                  <td style={{ color: "black", fontWeight: 500 }}>{u.Rooms}</td>
+                  <td style={{ color: "black", fontWeight: 500 }}>₹ {u.RoomRent}</td>
+                  <td style={{ color: "black", fontWeight: 500 }}>₹ {u.BalanceDue}</td>
+                  <td style={{ color: "black", fontWeight: 500 }}>{u.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
+                  <td style={u.UserListStatus == "Success" ? { color: "green" } : { color: "red" }}>{u.UserListStatus}</td>
                   <td><img src={img1} className='img1' /><img src={img2} className='img1 ms-1' /></td>
                 </tr>
               );

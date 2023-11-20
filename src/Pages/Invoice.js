@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Table, Pagination } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
@@ -9,18 +9,32 @@ import { Button, Row, Col } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
 import { BsFilter, BsPlusCircleFill } from "react-icons/bs";
 import Plus from '../Assets/Images/Create-button.png';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+
+
 
 const TableWithPagination = () => {
-  const data = [
-    { id: 1, Date: '02-01-2023', Invoices: '20230102-407', circle: 'RK', NamePhone: 'Ranganath krishna', Amount: '₹6500.00', BalanceDue: '00.00', DueDate: '02-01-2023', Status: 'Success' },
-    { id: 2, Date: '02-12-2022', Invoices: '20230102-407', circle: 'SG', NamePhone: 'Satish Gangalah', Amount: '₹6500.00', BalanceDue: '700.00', DueDate: '02-12-2022', Status: 'Overdue by 13 days' },
-    { id: 3, Date: '02-11-2022', Invoices: '20220102-364', circle: 'PN', NamePhone: 'Praveen N', Amount: '₹6500.00', BalanceDue: '00.00', DueDate: '02-11-2022', Status: 'Success' },
-    { id: 4, Date: '02-10-2022', Invoices: '20221002-239', circle: 'JH', NamePhone: 'Janna Hagan', Amount: '₹6500.00', BalanceDue: '2000.00', DueDate: '02-10-2022', Status: 'Overdue by 15 days' },
-    { id: 5, Date: '02-09-2022', Invoices: '20220902-326', circle: 'AH', NamePhone: 'Azizul Hakim', Amount: '₹6500.00', BalanceDue: '00.00', DueDate: '02-09-2022', Status: 'Success' },
-    { id: 6, Date: '02-08-2022', Invoices: '20220802-251', circle: 'SR', NamePhone: 'Sajib Rahman', Amount: '₹6500.00', BalanceDue: '00.00', DueDate: '02-08-2022', Status: 'Success' },
-    { id: 7, Date: '02-08-2022', Invoices: '20220802-212', circle: 'SR', NamePhone: 'Samson Raj', Amount: '₹6500.00', BalanceDue: '00.00', DueDate: '02-08-2022', Status: 'Success' },
+ 
 
-  ];
+  const[data,setData] = useState([]);
+
+  const state = useSelector(state=> state)  
+  console.log('state',state)
+
+  const dispatch = useDispatch()
+
+  useEffect(()=> {
+    console.log("executing useEffect")
+    dispatch({type:'INVOICE-LIST'})
+},[])
+
+useEffect(()=> {
+ setData(state.InvoiceList.Invoice)
+},[])
+
+
+
 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -93,14 +107,14 @@ const TableWithPagination = () => {
         </thead>
         <tbody style={{ fontSize: "10px" }}>
           {currentItems.map((item) => (
-            <tr key={item.id}>
-              <td style={{ color: "black", fontWeight: 500 }} >{item.Date}</td>
+            <tr key={item.id}>  
+              <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices}</td>
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}> <span class="i-circle"><p style={{ fontSize: 12, color: "black" }} class="mb-0">{item.circle}</p></span><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.NamePhone}</span></td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.DueDate}</td>
-              <td style={item.Status == "Success" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
+              <td style={{ color: "#0D99FF", fontWeight: 600 }}> <span class="i-circle"><p style={{ fontSize: 12, color: "black" }} class="mb-0">{item.Circle}</p></span><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.Name}</span></td>
+              <td style={{ color: "black", fontWeight: 500 }}>₹ {item.RoomRent}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>₹ {item.BalanceDue}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
+              <td style={item.InvoiceStatus == "Success" ? { color: "green" } : { color: "red" }}>{item.InvoiceStatus}</td>
               <td class="justify-content-between"><img src={List} height="20" width="20" /><img class="ms-1" src={Edit} height="20" width="20" /></td>
             </tr>
           ))}
