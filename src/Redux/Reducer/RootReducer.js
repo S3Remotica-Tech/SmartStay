@@ -7,7 +7,7 @@ import ForgetReducer from "./ForgetReducer";
 
 const RootReducer = combineReducers({
 login:SmartStayReducer,
-// createAccount :CreateAccountReducer,
+// createAccount :CreateAccountReducer,,
 NewPass:ForgetReducer
 
 })
