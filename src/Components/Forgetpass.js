@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Forgetpass.css";
 import img from "../Assets/Images/hand.png";
@@ -6,11 +6,65 @@ import Smart from "../Assets/Images/Logo-Icon-White.png";
 import Tools from "../Assets/Images/Smart-Tools.png";
 import Support from "../Assets/Images/Total-Support.png";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2'
 
 
 
 
 function ForgetPasswordPage() {
+    const state = useSelector(state => state)
+    const dispatch = useDispatch();
+
+    console.log("state", state)
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [errorPW, seterrorPW] = useState(null)
+    const [error, setError] = useState(null);
+
+
+
+
+
+    const handleEmailid = (e) => {
+        dispatch({ type: 'CLEAR_ERROR'})
+        setEmail(e.target.value);
+    };
+
+    const handlePassword = (e) => {
+        dispatch({ type: 'CLEAR_ERROR'})
+        setPassword(e.target.value)
+    }
+
+
+    const handlePasswordReset = () => {
+      
+        
+        if (email&&password) {
+            dispatch({ type: 'FORGETPAGE', payload: { NewPassword: password, email: email }  })
+           
+   setEmail("")
+   setPassword("")
+           
+        }
+        else  {
+            if( email==''){
+                dispatch({ type: 'ERROR', payload: "Please Enter Email" })
+
+            }
+              else if(password==''){
+                dispatch({ type: 'ERROR', payload: "Please Enter password" })
+
+              }
+              else{
+                dispatch({ type: 'ERROR' })
+
+              }
+        }
+        
+    }
+
+
 
     let navigate = useNavigate();
     const handleLogin = () => {
@@ -43,32 +97,44 @@ function ForgetPasswordPage() {
 
                 <div className="forget1 col">
 
-                <div className="text-end m-2" >
-            <span className="right-content lh-1" style={{ fontSize: "13px" }}>Return to your</span> 
-             <button onClick={() => handleLogin()} style={{ fontSize: "13px", padding: "2px", backgroundColor: "white", color: "#007FFF", borderRadius: "30px", fontWeight: "bold", borderColor: "#2C77EC", width: "150px", height: "30px" }} type="button" class="btn btn-outline-primary createbutton ms-2" >Login</button>
-          </div>
-                  
+                    <div className="text-end m-2" >
+                        <span className="right-content lh-1" style={{ fontSize: "13px" }}>Return to your</span>
+                        <button onClick={() => handleLogin()} style={{ fontSize: "13px", padding: "2px", backgroundColor: "white", color: "#007FFF", borderRadius: "30px", fontWeight: "bold", borderColor: "#2C77EC", width: "150px", height: "30px" }} type="button" class="btn btn-outline-primary createbutton ms-2" >Login</button>
+                    </div>
+
                     <div className="text-center mt-5">
                         <div style={{ lineHeight: "0px" }}>
-                            <h4 style={{ fontSize: "18px",fontWeight:"600" }}><b className="m-1 mt-4 fw-bold">Forget your password<img src={img} style={{ marginBottom: "5px", width: "30px", height: "30px" }} ></img></b></h4>
+                            <h4 style={{ fontSize: "18px", fontWeight: "600" }}><b className="m-1 mt-4 fw-bold">Forget your password<img src={img} style={{ marginBottom: "5px", width: "30px", height: "30px" }} ></img></b></h4>
                             <p style={{ fontSize: "13px" }} className="few" >We need a few basic details to consider your profile</p><br />
                         </div>
                         <div style={{ paddingLeft: "20%", marginTop: "30px" }}>
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                                <label class="reset" htmlFor="pwd1" >Reset Key From Your Email </label>
-                                <input className="pass" type="password" id="pwd1" placeholder="Enter Reset Key From Your Email" name="pwd1" />
+                            {
+                                    state.NewPass.errorMessage?.length > 0 ? <label style={{color:"red"}}>{state.NewPass.errorMessage}</label> : null
+
+
+                                }
+                                <label class="reset" htmlFor="email" >Reset Key From Your Email </label>
+                                <input className="pass" type="email" id="email" placeholder="Enter Reset Key From Your Email" name="email" value={email} onChange={(e) => handleEmailid(e)} />
+                              
                             </div>
 
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "2%" }}>
                                 <label htmlFor="pwd" class="reset1">New Password</label>
-                                <input className="pass1" type="password" id="pwd" placeholder="Enter new password" name="pwd" />
+                                <input className="pass1" type="password" id="pwd" placeholder="Enter new password" name="pwd" value={password} onChange={(e) => handlePassword(e)} />
+                                {
+                                    state.NewPass.errorPassword.length > 0 ? <label style={{color:"red"}}>{state.NewPass.errorPassword}</label> : null
+
+
+                                }
+                                {/* {errorPW && <h2 style={{color: 'red'}}>{errorPW}</h2>} */}
                             </div>
                         </div>
 
 
                         <div className="list d-flex" >
                             <ul>
-                                <li className="one" style={{ textAlign: "left"}}>One Upper Case Character</li>
+                                <li className="one" style={{ textAlign: "left" }}>One Upper Case Character</li>
                                 <li style={{ textAlign: "left" }}>One Special Character</li>
                             </ul>
                             <div className="rightside">
@@ -80,7 +146,7 @@ function ForgetPasswordPage() {
                             </div>
                         </div>
 
-                        <button type="submit" style={{ backgroundColor: "#2f74eb" }} className="btn  mt-2 ps-4 pe-4 text-white"><p className="passss" style={{ fontSize: 12, fontWeight: 500 }}>PASSWORD RESET</p></button>
+                        <button type="submit" style={{ backgroundColor: "#2f74eb" }} className="btn  mt-2 ps-4 pe-4 text-white"><p className="passss" style={{ fontSize: 12, fontWeight: 500 }} onClick={handlePasswordReset}>PASSWORD RESET</p></button>
 
                         <div className="footer" style={{ lineHeight: "30%", marginTop: "20px", fontSize: 13 }}>
                             <p>By clicking 'sign in for free' I accept the</p>
