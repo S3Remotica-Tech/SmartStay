@@ -6,7 +6,7 @@ import CreateAccountReducer from "./CreateAccountReducer";
 
 const RootReducer = combineReducers({
 login:SmartStayReducer,
-createAccount :CreateAccountReducer
+createAccount :CreateAccountReducer,
 
 })
 export default RootReducer;
