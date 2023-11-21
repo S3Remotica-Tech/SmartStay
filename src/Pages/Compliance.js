@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import { Table, Dropdown } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
@@ -7,21 +7,32 @@ import Edit from '../Assets/Images/edit.png';
 import Create from '../Assets/Images/Create-button.png';
 import { Button, Row, Col } from 'react-bootstrap';
 import Plus from '../Assets/Images/Create-button.png';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 
 
 
 
 const Compliance = () => {
-  const data = [
-    { id: 1, Date: '02-01-2023', RequestId: 'C00371', circle: 'RK', NamePhone: 'Ranganath krishna', phone: <span>+91 9025056737</span>, RoomDetail: 'Ground Floor', CompliantType: 'Furniture issue', Assign: 'Viji Vaithi', Status: 'Success' },
-    { id: 2, Date: '02-12-2022', RequestId: 'C13678', circle: 'SG', NamePhone: 'Satish Gangaiah', phone: <span>+91 6382678710</span>, RoomDetail: '1st Floor', CompliantType: 'Bed issue', Assign: 'Saravanan', Status: 'Hold' },
-    { id: 3, Date: '02-11-2022', RequestId: 'C81262', circle: 'PN', NamePhone: 'Praveen N', phone: <span>+91 8098171974</span>, RoomDetail: '2nd Floor', CompliantType: 'AC Remote Not Working', Assign: 'Assign to', Status: 'Pending' },
-    { id: 4, Date: '02-10-2022', RequestId: 'C90221', circle: 'JH', NamePhone: 'Janna Hagan', phone: <span>+91 9942675899</span>, RoomDetail: '3rd Floor', CompliantType: 'Both Room Sweeping issue', Assign: 'Boopathi raj', Status: 'Hold' },
-    { id: 5, Date: '02-09-2022', RequestId: 'C17292', circle: 'AH', NamePhone: 'Azizul Hakim', phone: <span>+91 9942208719</span>, RoomDetail: 'Ground Floor', CompliantType: 'Door issue', Assign: 'Assign to', Status: 'Success' },
-    { id: 6, Date: '02-08-2022', RequestId: 'C91792', circle: 'SR', NamePhone: 'Sajib Rahman', phone: <span>+91 9977123380</span>, RoomDetail: '1st Floor', CompliantType: 'Bed issue', Assign: 'Assign to', Status: 'Success' },
-    { id: 7, Date: '02-08-2022', RequestId: 'C12973', circle: 'RK', NamePhone: 'Ranganath krishna', phone: <span>+91 9725036012</span>, RoomDetail: '2nd Floor', CompliantType: 'AC Remote Not Working', Assign: 'Sukumar', Status: 'Success' },
-  ];
+ 
+
+  const[data,setData] = useState([]);
+
+  const state = useSelector(state=> state)  
+  console.log('state',state)
+
+  const dispatch = useDispatch()
+
+  useEffect(()=> {
+    console.log("executing useEffect")
+    dispatch({type:'COMPLIANCE-LIST'})
+},[])
+
+useEffect(()=> {
+ setData(state.ComplianceList.Compliance)
+},[])
+
 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -91,21 +102,21 @@ const Compliance = () => {
         <tbody style={{ fontSize: "10px" }}>
           {currentItems.map((item) => (
             <tr key={item.id} >
-              <td style={{ color: "black", fontWeight: 500 }}>{item.Date}</td>
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.RequestId}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.Date).format('DD/MM/YY')}</td>
+              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.RequestID}</td>
               <td>
                 <div class="d-flex">
-                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.circle}</p></span>
+                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Circle}</p></span>
                   <div class="ms-2">
-                    <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.NamePhone}</label><br />
-                    <label style={{ color: "#9DA9BC", fontWeight: 600 }}>{item.phone}</label>
+                    <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
+                    <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.Phone}</label>
                   </div>
                 </div>
               </td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.RoomDetail}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.ComplianceRoom}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.CompliantType}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
-              <td style={item.Status == "Success" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
+              <td style={item.ComplianceStatus == "Success" ? { color: "green" } : { color: "red" }}>{item.ComplianceStatus}</td>
               <td class=""><img src={List} height="20" width="20" /><img class="ms-1" src={Edit} height="20" width="20" /></td>
             </tr>
           ))}
