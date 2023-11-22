@@ -1,13 +1,12 @@
-import React, { useState ,useEffect} from 'react';
-import { Table, Pagination } from 'react-bootstrap';
+
+import React, { useState } from 'react';
+import { Table } from 'react-bootstrap';
+
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
 import List from '../Assets/Images/list-report.png';
 import Edit from '../Assets/Images/edit.png';
-import Create from '../Assets/Images/Create-button.png';
-import { Button, Row, Col } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
-import { BsFilter, BsPlusCircleFill } from "react-icons/bs";
 import Plus from '../Assets/Images/Create-button.png';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -110,12 +109,14 @@ useEffect(()=> {
             <tr key={item.id}>  
               <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices}</td>
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}> <span class="i-circle"><p style={{ fontSize: 12, color: "black" }} class="mb-0">{item.Circle}</p></span><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.Name}</span></td>
-              <td style={{ color: "black", fontWeight: 500 }}>₹ {item.RoomRent}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>₹ {item.BalanceDue}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
-              <td style={item.InvoiceStatus == "Success" ? { color: "green" } : { color: "red" }}>{item.InvoiceStatus}</td>
-              <td class="justify-content-between"><img src={List} height="20" width="20" /><img class="ms-1" src={Edit} height="20" width="20" /></td>
+
+              <td style={{ color: "#0D99FF", fontWeight: 600 }}> <span class="i-circle"><p style={{ fontSize: 12, color: "black" }} class="mb-0">{item.circle}</p></span><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.NamePhone}</span></td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.DueDate}</td>
+              <td style={item.Status == "Success" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
+              <td class="justify-content-between"><img src={List} height="20" width="20" alt='List'/><img class="ms-1" src={Edit} height="20" width="20" alt='Edit'/></td>
+
             </tr>
           ))}
         </tbody>

@@ -8,8 +8,6 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate } from "react-router-dom";
 import Lock from "../Assets/Images/Lock.png";
-import Container from 'react-bootstrap/Container';
-import Copy from '../Assets/Images/copyright.png';
 import Heart from '../Assets/Images/heart.png';
 import { BiCopyright } from "react-icons/bi";
 
@@ -40,6 +38,7 @@ function FrontPage() {
           className="navigation" style={{ height: "auto", width: "100%", display: "flex" }}>
           <img src={Logo}
             class="smartstay"
+            alt='SmartStay Logo'
           ></img>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
@@ -52,7 +51,7 @@ function FrontPage() {
 
 
               <Nav.Link href="#action6" className="sign-in d-flex justify-content-center align-items-center" onClick={() => handleSignIn()}>
-                <img src={Lock} style={{ height: "15px", width: "15px" }} /> <label style={{cursor:"pointer"}}>Sign-In</label>
+                <img src={Lock} style={{ height: "15px", width: "15px" }} alt='Lock'/> <label style={{cursor:"pointer"}}>Sign-In</label>
               </Nav.Link>
               <Nav.Link href="#action7">
                 <button type="button"
