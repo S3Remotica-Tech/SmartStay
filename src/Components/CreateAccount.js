@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './CreateAccount.css';
 import hand from "../Assets/Images/hand.png";
-// import {BsHandThumbsUpFill}from "react-icons/bs";
-// import { BsLockFill } from "react-icons/bs";
-import Grid from '@mui/material/Grid';
 import Smart from "../Assets/Images/Logo-Icon-White.png";
 import Tools from "../Assets/Images/Smart-Tools.png";
 import Support from "../Assets/Images/Total-Support.png";
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 function CreateAccountPage() {
 
@@ -21,12 +20,26 @@ function CreateAccountPage() {
   const [emailID, setEmailID] = useState('');
   const [password, setPassword] = useState('')
 
+useEffect(()=>{
+  if(state.createAccount.accountMgs.statusCode===200){
+    Swal.fire({
+      title: state.createAccount.accountMgs.message,
+      confirmButtonText: "ok"
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        navigate('/login-Page')
+      }
+    });
+    
+  }
+},[state.createAccount.accountMgs.statusCode])
+
   const handlePhoneNo = (e) => {
     setPhoneNo(e.target.value);
-    // const mobile = e.target.value
     const pattern = new RegExp(/^\d{1,10}$/);
    const isValidMobileNo = pattern.test(e.target.value)
-    if (isValidMobileNo && e.target.value.length == 10) {
+    if (isValidMobileNo && e.target.value.length === 10) {
       document.getElementById('MobileNumberError').innerHTML = ''
     }
     else {
@@ -39,7 +52,6 @@ function CreateAccountPage() {
     const email = e.target.value
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const isValidEmail = emailRegex.test(email);
-    console.log('isValidEmail', isValidEmail);
     if (isValidEmail) {
       document.getElementById('emailIDError').innerHTML = ''
     }
@@ -56,33 +68,32 @@ function CreateAccountPage() {
   }
   const handleRoyal = () => {
     try {
-      dispatch({ type: 'REGISTER_USER', payload: { mobileNo: phoneNo, name: userName, emailId: emailID, password: password } })
-      navigate('/royalgrandhostel')
+      dispatch({ type: 'CREATE_ACCOUNT', payload: { mobileNo: phoneNo, name: userName, emailId: emailID, password: password } })
     } catch (error) {
       console.log('error', error);
     }
 
   }
-  console.log("state", state);
+ 
   return (
     <>
       <div className="" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
         <div className="row g-0" style={{ height: "100vh", width: "100%" }} >
           <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white" }}>
             <div className="d-flex justify-content-center ps-5 pt-5" >
-              <img src={Smart} class="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} />
+              <img src={Smart} class="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} alt="Smart"/>
               <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: "400", wordSpacing: "" }}>smartstay</h3>
             </div>
             <p className="d-flex justify-content-center pt-2 mb-2" style={{ fontSize: "15px" }}>Welcome to Smartstay</p>
             <p className="d-flex justify-content-center" style={{ fontSize: "11px", paddingTop: "-1px" }}>Over 157,000 hotels and homes across 35 countries</p>
             <div style={{ paddingTop: "40px" }}>
-              <div className="d-flex justify-content-start ps-5" ><img src={Tools} class="img-fluid" style={{ height: "50px", width: "50px" }} /></div>
+              <div className="d-flex justify-content-start ps-5" ><img src={Tools} class="img-fluid" style={{ height: "50px", width: "50px" }} alt="Tools"/></div>
               <p className="d-flex justify-content-start ps-5 pt-0 mb-0" style={{ fontSize: "13px" }} >Smart Tools</p>
               <p className="d-flex justify-content-start ps-5 pe-5 pt-2" style={{ fontSize: "11px" }} >Easy-to-use tools that let you integrate our offerings, search
                 and share content, track performance and manage earnings.</p>
             </div>
             <div style={{ paddingTop: "20px" }}>
-              <div className="d-flex justify-content-start ps-5"  ><img src={Support} class="img-fluid" style={{ height: "50px", width: "50px" }} /></div>
+              <div className="d-flex justify-content-start ps-5"  ><img src={Support} class="img-fluid" style={{ height: "50px", width: "50px" }} alt="Support"/></div>
               <p className="d-flex justify-content-start ps-5 mb-0" style={{ fontSize: "13px" }} >Total Support</p>
               <p className="d-flex justify-content-start ps-5  pe-5 text-justify pt-2 mb-5" style={{ fontSize: "11px" }} >A dedicated team to help resolve any issues yoiu may face while using our products or promoting our hotels.</p>
             </div>
@@ -94,7 +105,7 @@ function CreateAccountPage() {
               <button style={{ fontSize: "13px", padding: "2px", backgroundColor: "white", color: "#007FFF", borderRadius: "30px", fontWeight: "bold", borderColor: "#2C77EC", width: "150px", height: "30px" }} type="button" class="btn btn-outline-primary createbutton ms-2" onClick={() => handleLoginPage()}>Login</button>
             </div>
             <div class="d-flex align-items-center flex-column mb-1">
-              <h5 className="mb-1" style={{ paddingTop: "20px", fontSize: "18px", fontWeight: "600" }}><strong>Welcome at Smartstay</strong><img src={hand} style={{ width: "30px", height: "30px" }}></img></h5>
+              <h5 className="mb-1" style={{ paddingTop: "20px", fontSize: "18px", fontWeight: "600" }}><strong>Welcome at Smartstay</strong><img src={hand} style={{ width: "30px", height: "30px" }} alt="Hand"></img></h5>
               <label className="profile pt-0" style={{ fontSize: "13px" }}>We need a few basic details to consider your profile</label>
             </div>
             <div>
