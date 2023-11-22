@@ -27,6 +27,5 @@ function* Login(args) {
 function* LoginSaga() {
   console.log("Execute LoginSaga")
   yield takeEvery('LOGININFO', Login)
-
 }
 export default LoginSaga;
