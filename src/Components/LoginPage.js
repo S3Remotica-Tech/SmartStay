@@ -64,7 +64,7 @@ const MyComponent = () => {
       Swal.fire({
         icon: 'warning',
         title: 'Error',
-        text: 'Enter Email id and Password',
+        text: email_Id ? 'Enter Password' : 'Enter Email id and Password',
       });
     }
   };
@@ -165,8 +165,8 @@ const MyComponent = () => {
                 </div>
               </Form>
               <div class="d-flex justify-content-center pt-2">
-                <Button type="" className="btn" style={{ width: "200px", fontSize: "12px", backgroundColor: "#2F74EB", color: "white" }} onClick={() => handleLogin()}>
-                  <b>CREATE ACCOUNT</b>
+                <Button type="" className="btn" style={{fontWeight:600, width: "200px", fontSize: "12px", backgroundColor: "#2F74EB", color: "white" }} onClick={() => handleLogin()}>
+                  LOGIN
                 </Button>
               </div>
               <div className="d-flex justify-content-center pt-3">
