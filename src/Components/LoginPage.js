@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Button from 'react-bootstrap/Button';
@@ -74,7 +74,7 @@ const MyComponent = () => {
       <div className="row g-0" style={{ height: "100vh", width: "100%" }} >
         <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white", overflowX: "hidden" }}>
           <div className="d-flex justify-content-center pt-5" >
-            <img src={Smart} class="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} />
+            <img src={Smart} class="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} alt='smart'/>
             <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: 550, letterSpacing:"0.02em" }}>smartstay</h3>
           </div>
 <div className="d-flex justify-content-center pt-2 mb-2">
@@ -86,13 +86,13 @@ const MyComponent = () => {
          
         
           <div style={{ paddingTop: "40px" }}>
-            <div className="d-flex justify-content-start ps-5" ><img src={Tools} class="img-fluid" style={{ height: "50px", width: "50px" }} /></div>
+            <div className="d-flex justify-content-start ps-5" ><img src={Tools} class="img-fluid" style={{ height: "50px", width: "50px" }} alt='Tools'/></div>
             <p className="d-flex justify-content-start ps-5 pt-0 mb-0" style={{ fontSize: "13px" }} >Smart Tools</p>
             <p className="d-flex justify-content-start ps-5 pe-5 pt-2" style={{ fontSize: "11px" }}  >Easy-to-use tools that let you integrate our offerings, search
               and share content, track performance and manage earnings.</p>
           </div>
           <div style={{ paddingTop: "20px" }}>
-            <div className="d-flex justify-content-start ps-5"  ><img src={Support} class="img-fluid" style={{ height: "50px", width: "50px" }} /></div>
+            <div className="d-flex justify-content-start ps-5"  ><img src={Support} class="img-fluid" style={{ height: "50px", width: "50px" }} alt='Support'/></div>
             <p className="d-flex justify-content-start ps-5 mb-0" style={{ fontSize: "13px" }} >Total Support</p>
             <p className="d-flex justify-content-start ps-5  pe-5 text-justify pt-2 mb-5" style={{ fontSize: "11px" }} >A dedicated team to help resolve any issues yoiu may face while using our products or promoting our hotels.</p>
           </div>
@@ -102,7 +102,7 @@ const MyComponent = () => {
             <span className="right-content lh-1" style={{ fontSize: "13px" }}>New to Smartstay account?</span>
             <button style={{ fontSize: "13px", padding: "2px", backgroundColor: "white", color: "#007FFF", borderRadius: "30px", fontWeight: "bold", borderColor: "#2C77EC", width: "150px", height: "30px" }} type="button" class="btn btn-outline-primary createbutton ms-2" onClick={() => handleCreateAccount()}>Create an Account</button>
           </div>
-          <div className="d-flex justify-content-center" id="Welcome" style={{ fontSize: "18px", paddingTop: "100px", fontWeight: "600" }}><strong>Welcome at Smartstay</strong><img src={Hai} width="30" height="30" /></div>
+          <div className="d-flex justify-content-center" id="Welcome" style={{ fontSize: "18px", paddingTop: "100px", fontWeight: "600" }}><strong>Welcome at Smartstay</strong><img src={Hai} width="30" height="30" alt='Hai'/></div>
           <div className="d-flex justify-content-center pt-1"><p style={{ fontSize: "13px", color: "gray" }}>We need a few basic details to consider your profile</p></div>
           <div className="row d-flex justify-content-center">
             <div className="col-md-7 col-sm-7 col-xs-7 right-side-form">
@@ -128,7 +128,7 @@ const MyComponent = () => {
 
                   />
                   <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none', borderRadius: "2px" }} >
-                    <img src={Login} height="13" width="13" />
+                    <img src={Login} height="13" width="13" alt='Login'/>
                   </InputGroup.Text>
                 </InputGroup>
 
@@ -150,7 +150,7 @@ const MyComponent = () => {
                   />
 
                   <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none', borderRadius: "2px" }}>
-                    <img src={Eye} height="13" width="13" />
+                    <img src={Eye} height="13" width="13" alt='Eye'/>
                   </InputGroup.Text>
                 </InputGroup>
 
@@ -159,7 +159,7 @@ const MyComponent = () => {
 
                 <div className="mb-3 d-flex justify-content-between" >
                   <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Remember me" style={{ fontWeight: "700", fontSize: "11px", fontWeight: "700" }} />
+                    <Form.Check type="checkbox" label="Remember me" style={{ fontSize: "11px", fontWeight: 700 }} />
                   </Form.Group>
                   <Form.Label style={{ color: "#007FFF", fontSize: "11px", cursor: "pointer" }} onClick={() => handleForgetPassword()} ><b>Forgot Password?</b></Form.Label>
                 </div>

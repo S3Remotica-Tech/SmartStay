@@ -1,10 +1,8 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Smart from "../Assets/Images/Logo-Icon-White.png";
 import Hostel from '../Assets/Images/hostel.png';
@@ -19,7 +17,7 @@ function NavScrollExample() {
     <Navbar bg="light" expand="lg" style={{ backgroundColor: "#FFFFFF", padding: "0px 0px", boxShadow: "1px 1px 2px lightgray" }} >
       <Container fluid style={{ backgroundColor: "#FFFFFF", padding: "0px" }}>
         <div class="d-flex justify-content-start" style={{ marginLeft: "0px" }} >
-          <Navbar.Brand href="#"  style={{ padding:"5px 8px",backgroundColor: "#2E75EA", height: "100%", width:"auto" }}><img class="img-fluid" src={Smart} style={{ height: "30px", width: "30px" }} /></Navbar.Brand>
+          <Navbar.Brand href="#"  style={{ padding:"5px 8px",backgroundColor: "#2E75EA", height: "100%", width:"auto" }}><img class="img-fluid" src={Smart} style={{ height: "30px", width: "30px" }} alt='Smart'/></Navbar.Brand>
         </div>
 
 
@@ -47,8 +45,8 @@ function NavScrollExample() {
           </div>
           <Form className="d-flex">
             <div class="justify-content-evenly">
-              <img src={Notification} class="me-3" style={{ height: "25px", width: "25px" }} />
-              <img src={Settings} class="me-3" style={{ height: "25px", width: "25px" }} />
+              <img src={Notification} class="me-3" style={{ height: "25px", width: "25px" }} alt='Notification'/>
+              <img src={Settings} class="me-3" style={{ height: "25px", width: "25px" }} alt='Settings'/>
             </div>
             <Image src={Men} roundedCircle style={{ height: "30px", width: "30px" }} />
         <div class="d-block ms-2">

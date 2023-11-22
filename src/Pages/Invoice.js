@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { Table, Pagination } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
 import List from '../Assets/Images/list-report.png';
 import Edit from '../Assets/Images/edit.png';
-import Create from '../Assets/Images/Create-button.png';
-import { Button, Row, Col } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
-import { BsFilter, BsPlusCircleFill } from "react-icons/bs";
 import Plus from '../Assets/Images/Create-button.png';
 
 const TableWithPagination = () => {
@@ -101,7 +98,7 @@ const TableWithPagination = () => {
               <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.DueDate}</td>
               <td style={item.Status == "Success" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
-              <td class="justify-content-between"><img src={List} height="20" width="20" /><img class="ms-1" src={Edit} height="20" width="20" /></td>
+              <td class="justify-content-between"><img src={List} height="20" width="20" alt='List'/><img class="ms-1" src={Edit} height="20" width="20" alt='Edit'/></td>
             </tr>
           ))}
         </tbody>
