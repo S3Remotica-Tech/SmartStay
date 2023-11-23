@@ -4,8 +4,6 @@ import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
 import List from '../Assets/Images/list-report.png';
 import Edit from '../Assets/Images/edit.png';
-import Create from '../Assets/Images/Create-button.png';
-import { Button, Row, Col } from 'react-bootstrap';
 import Plus from '../Assets/Images/Create-button.png';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -31,7 +29,7 @@ const Compliance = () => {
 
 useEffect(()=> {
  setData(state.ComplianceList.Compliance)
-},[])
+},[state.ComplianceList.Compliance])
 
 
   const itemsPerPage = 10;
@@ -78,7 +76,7 @@ useEffect(()=> {
           <div class="p-1 d-flex justify-content-end align-items-center"  >
             <BsSearch class=" me-4" />
             <IoFilterOutline class=" me-4" />
-            <button type="button" class="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" /> Add Compliance</button>
+            <button type="button" class="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" alt='Plus'/> Add Compliance</button>
           </div>
         </div>
         <div>
@@ -117,7 +115,7 @@ useEffect(()=> {
               <td style={{ color: "black", fontWeight: 500 }}>{item.CompliantType}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
               <td style={item.ComplianceStatus == "Success" ? { color: "green" } : { color: "red" }}>{item.ComplianceStatus}</td>
-              <td class=""><img src={List} height="20" width="20" /><img class="ms-1" src={Edit} height="20" width="20" /></td>
+              <td class=""><img src={List} height="20" width="20" alt='List'/><img class="ms-1" src={Edit} height="20" width="20" alt='Edit'/></td>
             </tr>
           ))}
         </tbody>

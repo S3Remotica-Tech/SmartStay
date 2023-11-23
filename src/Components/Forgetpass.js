@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Forgetpass.css";
 import img from "../Assets/Images/hand.png";
@@ -7,10 +7,6 @@ import Tools from "../Assets/Images/Smart-Tools.png";
 import Support from "../Assets/Images/Total-Support.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import Swal from 'sweetalert2'
-
-
-
 
 function ForgetPasswordPage() {
     const state = useSelector(state => state)
@@ -19,12 +15,6 @@ function ForgetPasswordPage() {
     console.log("state", state)
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [errorPW, seterrorPW] = useState(null)
-    const [error, setError] = useState(null);
-
-
-
-
 
     const handleEmailid = (e) => {
         dispatch({ type: 'CLEAR_ERROR'})
@@ -104,7 +94,7 @@ function ForgetPasswordPage() {
 
                     <div className="text-center mt-5">
                         <div style={{ lineHeight: "0px" }}>
-                            <h4 style={{ fontSize: "18px", fontWeight: "600" }}><b className="m-1 mt-4 fw-bold">Forget your password<img src={img} style={{ marginBottom: "5px", width: "30px", height: "30px" }} ></img></b></h4>
+                            <h4 style={{ fontSize: "18px", fontWeight: "600" }}><b className="m-1 mt-4 fw-bold">Forget your password<img src={img} style={{ marginBottom: "5px", width: "30px", height: "30px" }} alt="forgetPass"></img></b></h4>
                             <p style={{ fontSize: "13px" }} className="few" >We need a few basic details to consider your profile</p><br />
                         </div>
                         <div style={{ paddingLeft: "20%", marginTop: "30px" }}>
