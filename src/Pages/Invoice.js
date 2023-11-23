@@ -1,7 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Table } from 'react-bootstrap';
-
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
 import List from '../Assets/Images/list-report.png';
