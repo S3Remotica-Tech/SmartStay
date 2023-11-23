@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./UserList.css";
 import { IoIosSearch } from "react-icons/io";
-import { BsFilter, BsPlusCircleFill } from "react-icons/bs";
+import { BsFilter } from "react-icons/bs";
 import { MdExpandMore } from "react-icons/md";
 import img1 from '../Assets/Images/list-report.png';
 import img2 from '../Assets/Images/edit.png';
 import Profile from '../Assets/Images/Profile.jpg';
-import Createbutton from '../Assets/Images/Create-button.png';
-import ReactPaginate from 'react-paginate';
-import { Pagination, Dropdown } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
 import { Button, Offcanvas, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Plus from '../Assets/Images/Create-button.png';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 const currencies = [
@@ -81,26 +78,26 @@ function UserList() {
     setShowMenu(true);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleClose();
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   handleClose();
+  // };
 
 
 
   const itemsPerPage = 7;
   useEffect(() => {
     setFilteredData(state.UsersList.Users);
-  }, [])
+  }, [state.UsersList.Users])
 
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handleFilterChange = (filterValue) => {
-    setCurrentPage(1);
-  };
+  // const handleFilterChange = (filterValue) => {
+  //   setCurrentPage(1);
+  // };
 
   const handleNext = () => {
     if (currentPage < 10) {
@@ -180,7 +177,7 @@ const handleiconshow = () => {
           onClick={handleiconshow}
           />
           <BsFilter className='bs' />
-          <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" />Add User</button>
+          <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus"/>Add User</button>
 
         </div>
 
@@ -324,8 +321,10 @@ const handleiconshow = () => {
                   <td style={{ color: "black", fontWeight: 500 }}>₹ {u.RoomRent}</td>
                   <td style={{ color: "black", fontWeight: 500 }}>₹ {u.BalanceDue}</td>
                   <td style={{ color: "black", fontWeight: 500 }}>{u.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
-                  <td style={u.Status == "Success" ? { color: "green" } : { color: "red" }}>{u.Status}</td>
-                  <td><img src={img1} className='img1' /><img src={img2} className='img1 ms-1' /></td>
+
+                  <td style={u.UserListStatus == "Success" ? { color: "green" } : { color: "red" }}>{u.UserListStatus}</td>
+                  <td><img src={img1} className='img1' alt="img1"/><img src={img2} className='img1 ms-1' alt="img1"/></td>
+
                 </tr>
               );
             })}
