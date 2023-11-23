@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Hostel from '../Assets/Images/hostel.png';
 import Plus from '../Assets/Images/Create-button.png';
-import Welcome from '../Assets/Images/dashboard-welcome.png';
 import Image from 'react-bootstrap/Image';
 import '../Pages/Dashboard.css';
 import { FaSquare } from "react-icons/fa";
@@ -9,7 +8,6 @@ import Room from '../Assets/Images/Room.png';
 import { FaAngleRight } from "react-icons/fa";
 import { FaSearch } from 'react-icons/fa';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Menu from '../Assets/Images/Menu-plus.png';
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AiOutlineDelete } from "react-icons/ai";
 import RoomDetails from '../Pages/RoomDetails';
@@ -20,17 +18,9 @@ import Form from 'react-bootstrap/Form';
 function Dashboard() {
 
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-
     const [activePage, setActivePage] = useState(true)
-
-
-
-
-
     const [roomDetails, setRoomDetails] = useState('')
 
     const handlePageClicks = (page) => {
@@ -92,7 +82,7 @@ function Dashboard() {
                                 <div>
                                     <button type="button" class="" style={{backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleShow}>
                                         <span style={{padding:"20px 20px"}}>
-                                    <img src={Plus} height="12" width="12" /> Create Floor  </span></button>
+                                    <img src={Plus} height="12" width="12" alt='Plus'/> Create Floor  </span></button>
                                 </div>
                             </div>
                         </div>
@@ -130,13 +120,6 @@ function Dashboard() {
                                 <div>
                                     <AiOutlinePlusCircle style={{ height: "30px" }} /> <label style={{ color: "gray", fontSize: "14px" }}>Add Floor</label>
                                 </div>
-
-
-
-
-
-
-
                                 <hr style={{ marginTop: "200px" }} />
                                 <div class="d-flex justify-content-end">
                                     <button type="button" class="btn btn-outline-dark border-0 w-25" style={{ borderRadius: "50px", fontWeight: "600" }}>Cancel</button>
@@ -168,31 +151,31 @@ function Dashboard() {
                                         <div class="row  row-gap-3 pe-3">
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>G001</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" onClick={() => handlePageClicks('RoomDetailsPage')} style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }} >G002</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>G003</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>G004</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }}>
-                                                    <img src={Plus} class="pt-2 mb-0" height="25" width="15" />
+                                                    <img src={Plus} class="pt-2 mb-0" height="25" width="15" alt='Room'/>
                                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} class="mb-0">Create Room</p>
                                                 </div>
                                             </div>
@@ -208,37 +191,37 @@ function Dashboard() {
                                         <div class="row row-gap-3 pe-3">
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>F001</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>F002</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>F003</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>F004</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>F005</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }}>
-                                                    <img src={Plus} class="pt-2 mb-0" height="25" width="15" />
+                                                    <img src={Plus} class="pt-2 mb-0" height="25" width="15" alt='Room'/>
                                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} class="mb-0">Create Room</p>
                                                 </div>
                                             </div>
@@ -254,26 +237,26 @@ function Dashboard() {
                                         <div class="row row-gap-3 pe-3">
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>S001</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>S002</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>S003</p>
                                                 </div>
                                             </div>
 
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }}>
-                                                    <img src={Plus} class="pt-2 mb-0" height="25" width="15" />
+                                                    <img src={Plus} class="pt-2 mb-0" height="25" width="15" alt='Room'/>
                                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} class="mb-0">Create Room</p>
                                                 </div>
                                             </div>
@@ -289,31 +272,31 @@ function Dashboard() {
                                         <div class="row row-gap-3 pe-3">
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>T001</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>T002</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>T003</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} />
+                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>T004</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }}>
-                                                    <img src={Plus} class="pt-2 mb-0" height="25" width="15" />
+                                                    <img src={Plus} class="pt-2 mb-0" height="25" width="15" alt='Plus'/>
                                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} class="mb-0">Create Room</p>
                                                 </div>
                                             </div>
@@ -327,7 +310,7 @@ function Dashboard() {
                             <div class="col-lg-2 col-md-6  col-sm-12 col-xs-12">
                                 <div class="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }} id="card-hover">
                                     <div class="d-flex justify-content-center" style={{ marginTop: "50%" }}>
-                                        <img src={Plus} height="25" width="20" onClick={handleShow} />
+                                        <img src={Plus} height="25" width="20" onClick={handleShow} alt='Plus'/>
                                     </div>
                                     <div class="d-flex justify-content-center">
                                         <p style={{ color: "#1F75FE", paddingLeft: "", fontSize: "15px" }}>Create Floor</p>
