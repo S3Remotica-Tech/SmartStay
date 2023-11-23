@@ -3,9 +3,10 @@ import { login } from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
 
 function* Login(args) {
+  console.log("arguments",args)
   try {
     const response = yield call(login, args.payload);
-    console.log('Response:', response);
+    console.log('Responsesssssssssssssssss:', response);
     if (response.status === 200) {
       yield put({ type: 'LOGIN-INFO', payload: response.data });
       Swal.fire({
@@ -15,8 +16,19 @@ function* Login(args) {
       });
     } else if (response.status === 201) {
       yield put({ type: 'ERROR_EMAIL', payload: response.data.message });
+      Swal.fire({
+        icon: 'warning',
+        title: 'Error',
+        html: `<span style="color: red">${args.payload.email_Id}</span> is not exist in the database`,
+      });
+
     } else if (response.status === 203) {
       yield put({ type: 'ERROR_PASSWORD', payload: response.data.message });
+      Swal.fire({
+        icon: 'warning',
+        title: 'Error',
+        text: 'Password not exist in the  database',
+      });
     }
   } catch (error) {
     yield put({ type: 'ERROR', payload: 'An error occurred.' });

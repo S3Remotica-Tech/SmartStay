@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import "./FrontPage.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -23,10 +23,16 @@ function FrontPage() {
     navigate('/create-account')
   }
 
+  
+ 
+  
+
+
   return (
     <>
+<div>
 
-      <div class="m-0 p-0" style={{ width: "100%", height: "100vh" }}>
+     
         <Navbar
           expand="lg"
           className="navigation" style={{ height: "auto", width: "100%", display: "flex" }}>
@@ -58,7 +64,7 @@ function FrontPage() {
           </Navbar.Collapse>
         </Navbar>
 
-        <div class="join" style={{ position: "relative" }} >
+        <div class="join" style={{ position: "relative",height:"85vh",backgroundColor:"" }} >
           <div class="paragraph" style={{ backgroundColor: "" }}>
             <h2 className="mb-3">Join. Promote. Earn.</h2>
             <p style={{ fontSize: "15px", color: "gray", textAlign: "justify", wordSpacing: -2 }} >
@@ -78,7 +84,7 @@ function FrontPage() {
           </div>
         </div>
 
-        <div class="row m-0 pt-3" style={{ position: "absolute", bottom: 0, backgroundColor: "#EDF1F2", width: "100%", height: "6vh", color: "black", }}>
+        <div class="row m-0 pt-3" style={{backgroundColor: "#EDF1F2", width: "100%", height: "auto", color: "black", }}>
           <div class="col-lg-3 offset-lg-1 p-0" >
             <div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
               <BiCopyright  class="mb-0" style={{ height:12, color: "gray" }} />
@@ -92,7 +98,7 @@ function FrontPage() {
             </div>
           </div>
         </div>
-      </div>
+     </div>
     </>
 
   )

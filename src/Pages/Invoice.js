@@ -68,6 +68,25 @@ useEffect(()=> {
     setCurrentPage(selectedPage);
   };
 
+  const [searchItem, setSearchItem] = useState('')
+  const handleInputChange = (e) => { 
+    const searchTerm = e.target.value;
+    setSearchItem(searchTerm)
+
+    const filteredItems = state.InvoiceList.Invoice.filter((user) =>
+    user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setData(filteredItems);
+  }
+
+
+const [searchicon ,setSearchicon] = useState(false);
+
+const handleiconshow = () => {
+  setSearchicon(!searchicon)
+}
+
 
 
   return (
@@ -81,7 +100,23 @@ useEffect(()=> {
         </div>
         <div class="col-lg-6  offset-lg-4 col-md-6 col-sm-12 col-xs-12">
           <div class="p-1 d-flex justify-content-end align-items-center"  >
-            <BsSearch class=" me-4" />
+
+          {
+            searchicon && 
+            <>
+            <input
+            type="text"
+            value={searchItem}
+            
+            onChange={(e)=>handleInputChange(e)}
+            placeholder='Type to search'
+            class="form-control ps-2 pe-1 pb-1 pt-1 searchinput"
+            style={{width:'150px',marginRight:'20px'}}
+            
+          />
+          </>
+          }
+            <BsSearch class=" me-4"  onClick={handleiconshow}/>
             <IoFilterOutline class=" me-4" />
             <button type="button" class="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" /> Add Invoice</button>
           </div>
@@ -109,10 +144,10 @@ useEffect(()=> {
               <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices}</td>
 
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}> <span class="i-circle"><p style={{ fontSize: 12, color: "black" }} class="mb-0">{item.circle}</p></span><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.NamePhone}</span></td>
+              <td style={{ color: "#0D99FF", fontWeight: 600 }}> <span class="i-circle"><p style={{ fontSize: 12, color: "black" }} class="mb-0">{item.Circle}</p></span><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.Name}</span></td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.DueDate}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Balancedue}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.Duedate).format('DD/MM/YY')}</td>
               <td style={item.Status == "Success" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
               <td class="justify-content-between"><img src={List} height="20" width="20" alt='List'/><img class="ms-1" src={Edit} height="20" width="20" alt='Edit'/></td>
 

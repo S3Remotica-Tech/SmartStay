@@ -64,6 +64,28 @@ useEffect(()=> {
   };
 
 
+  const [searchItem, setSearchItem] = useState('')
+  const handleInputChange = (e) => { 
+    const searchTerm = e.target.value;
+    setSearchItem(searchTerm)
+
+    const filteredItems = state.ComplianceList.Compliance.filter((user) =>
+    user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setData(filteredItems);
+  }
+
+
+const [searchicon ,setSearchicon] = useState(false);
+
+const handleiconshow = () => {
+  setSearchicon(!searchicon)
+}
+
+
+
+
   return (
     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
       <div class="row g-0" style={{ width: "100%" }}>
@@ -74,7 +96,23 @@ useEffect(()=> {
         </div>
         <div class="col-lg-6  offset-lg-4 col-md-6 col-sm-12 col-xs-12">
           <div class="p-1 d-flex justify-content-end align-items-center"  >
-            <BsSearch class=" me-4" />
+
+          {
+            searchicon && 
+            <>
+            <input
+            type="text"
+            value={searchItem}
+            
+            onChange={(e)=>handleInputChange(e)}
+            placeholder='Type to search'
+            class="form-control ps-2 pe-1 pb-1 pt-1 searchinput"
+            style={{width:'150px',marginRight:'20px'}}
+            
+          />
+          </>
+          }
+            <BsSearch class=" me-4"  onClick={handleiconshow}/>
             <IoFilterOutline class=" me-4" />
             <button type="button" class="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" alt='Plus'/> Add Compliance</button>
           </div>
@@ -101,7 +139,7 @@ useEffect(()=> {
           {currentItems.map((item) => (
             <tr key={item.id} >
               <td style={{ color: "black", fontWeight: 500 }}>{moment(item.Date).format('DD/MM/YY')}</td>
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.RequestID}</td>
+              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Requestid}</td>
               <td>
                 <div class="d-flex">
                   <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Circle}</p></span>
@@ -111,8 +149,8 @@ useEffect(()=> {
                   </div>
                 </div>
               </td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.ComplianceRoom}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.CompliantType}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Roomdetail}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
               <td style={item.ComplianceStatus == "Success" ? { color: "green" } : { color: "red" }}>{item.ComplianceStatus}</td>
               <td class=""><img src={List} height="20" width="20" alt='List'/><img class="ms-1" src={Edit} height="20" width="20" alt='Edit'/></td>

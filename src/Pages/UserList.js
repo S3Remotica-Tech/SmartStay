@@ -129,10 +129,24 @@ function UserList() {
 
 
 
+  const [searchItem, setSearchItem] = useState('')
+  const handleInputChange = (e) => { 
+    const searchTerm = e.target.value;
+    setSearchItem(searchTerm)
+
+    const filteredItems = state.UsersList.Users.filter((user) =>
+    user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setFilteredData(filteredItems);
+  }
 
 
+const [searchicon ,setSearchicon] = useState(false);
 
-
+const handleiconshow = () => {
+  setSearchicon(!searchicon)
+}
 
 
   return (
@@ -143,7 +157,25 @@ function UserList() {
           <h6>User List</h6>
         </div>
         <div className="user2">
-          <IoIosSearch className='io' />
+          {
+            searchicon && 
+            <>
+            <input
+            type="text"
+            value={searchItem}
+            
+            onChange={(e)=>handleInputChange(e)}
+            placeholder='Type to search'
+            class="form-control ps-2 pe-1 pb-1 pt-1 searchinput"
+            style={{width:'150px',marginRight:'20px'}}
+            
+          />
+          </>
+          }
+      
+          <IoIosSearch className='io' 
+          onClick={handleiconshow}
+          />
           <BsFilter className='bs' />
           <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus"/>Add User</button>
 
@@ -289,8 +321,10 @@ function UserList() {
                   <td style={{ color: "black", fontWeight: 500 }}>₹ {u.RoomRent}</td>
                   <td style={{ color: "black", fontWeight: 500 }}>₹ {u.BalanceDue}</td>
                   <td style={{ color: "black", fontWeight: 500 }}>{u.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
+
                   <td style={u.UserListStatus == "Success" ? { color: "green" } : { color: "red" }}>{u.UserListStatus}</td>
                   <td><img src={img1} className='img1' alt="img1"/><img src={img2} className='img1 ms-1' alt="img1"/></td>
+
                 </tr>
               );
             })}
