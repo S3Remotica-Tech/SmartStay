@@ -32,14 +32,23 @@
 
 
 }
+.user2{
+  display: flex;
+  flex-direction: row;
+}
 
-
+.searchinput:focus {
+  box-shadow: none !important; 
+  border-color: #ced4da !important; 
+}
 .io {
-  margin-right: 25px;
+  margin-top: 10px;
+  margin-right: 20px;
 }
 
 .bs {
-  margin-right: 19px;
+  margin-top: 10px;
+  margin-right: 15px;
 }
 
 .bbbbttt {
@@ -182,6 +191,7 @@ a {
   
   }
   .user2{
+    
     margin-top: -5px !important;
 
   }
