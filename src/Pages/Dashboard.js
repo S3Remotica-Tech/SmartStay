@@ -28,7 +28,7 @@ function Dashboard() {
         setActivePage(false)
 
     };
-
+ 
     return (
         <>
             {activePage &&
@@ -202,13 +202,13 @@ function Dashboard() {
                                                 </div>
                                             </div>
                                             <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
+                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }} onClick={() => handlePageClicks('RoomDetailsPage')}>
                                                     <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>F003</p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
+                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }} >
                                                     <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
                                                     <p style={{ marginTop: "2px", fontSize: "10px" }}>F004</p>
                                                 </div>
