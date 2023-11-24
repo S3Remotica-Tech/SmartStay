@@ -11,10 +11,8 @@
 }
 @media (max-width: 600px) {
     .Form{
-      
-        padding:20px;
-      
-    }
+      padding:20px;
+          }
    
   }
   @media (max-width: 390px) {

@@ -9,7 +9,10 @@
   padding: 5px;
   transition: color 0.3s, border-color 0.3s;
 }
-
+.custom-text:focus{
+  box-shadow: none !important; 
+  border-color: #ced4da !important; 
+}
 .user-menu ul.active {
   color: #2F74EB;
   border-bottom: 2px solid #2F74EB;

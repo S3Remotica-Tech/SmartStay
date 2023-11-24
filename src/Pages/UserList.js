@@ -132,10 +132,24 @@ function UserList() {
 
 
 
+  const [searchItem, setSearchItem] = useState('')
+  const handleInputChange = (e) => { 
+    const searchTerm = e.target.value;
+    setSearchItem(searchTerm)
+
+    const filteredItems = state.UsersList.Users.filter((user) =>
+    user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setFilteredData(filteredItems);
+  }
 
 
+const [searchicon ,setSearchicon] = useState(false);
 
-
+const handleiconshow = () => {
+  setSearchicon(!searchicon)
+}
 
 
   return (
@@ -146,13 +160,15 @@ function UserList() {
           <h6>User List</h6>
         </div>
         <div className="user2">
-          <IoIosSearch className='io' />
+        
+            
+          <IoIosSearch className='io' 
+          onClick={handleiconshow}
+          />
           <BsFilter className='bs' />
           <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" />Add User</button>
 
         </div>
-
-
 
         <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: '69vh' }}>
           <Offcanvas.Title style={{ background: '#2F74EB', color: 'white', paddingLeft: '20px', height: '40px' }}>
@@ -193,7 +209,7 @@ function UserList() {
                   <TextField
                     id="standard-select-currency"
                     select
-                    label="Select"
+                    label="Select Floor"
                     defaultValue="EUR"
                     //   helperText="Please select your currency"
                     variant="standard"
@@ -209,7 +225,7 @@ function UserList() {
                   <TextField
                     id="standard-select-currency"
                     select
-                    label="Select"
+                    label="Select Room"
                     defaultValue="EUR"
                     //   helperText="Please select your currency"
                     variant="standard"
@@ -225,7 +241,7 @@ function UserList() {
                   <TextField
                     id="standard-select-currency"
                     select
-                    label="Select"
+                    label="Select Bed"
                     defaultValue="ER"
                     //   helperText="Please select your currency"
                     variant="standard"
@@ -292,7 +308,7 @@ function UserList() {
                   <td style={{ color: "black", fontWeight: 500 }}>₹ {u.RoomRent}</td>
                   <td style={{ color: "black", fontWeight: 500 }}>₹ {u.BalanceDue}</td>
                   <td style={{ color: "black", fontWeight: 500 }}>{u.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
-                  <td style={u.UserListStatus == "Success" ? { color: "green" } : { color: "red" }}>{u.UserListStatus}</td>
+                  <td style={u.Status == "Success" ? { color: "green" } : { color: "red" }}>{u.Status}</td>
                   <td><img src={img1} className='img1' /><img src={img2} className='img1 ms-1' /></td>
                 </tr>
               );
