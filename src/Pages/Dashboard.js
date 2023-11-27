@@ -32,6 +32,25 @@ function Dashboard() {
         setActivePage(false)
 
     };
+    const handleCancel = () => {
+        handleClose();
+    };
+    const handleCancels = () => {
+        handleCloses();
+    };
+
+
+    const [floors, setFloors] = useState([
+        { name: 'Ground Floor', rooms: ['G001', 'G002', 'G003', 'G004'] },
+        { name: '1st Floor', rooms: ['F001', 'F002', 'F003', 'F004', 'F005'] },
+        { name: '2nd Floor', rooms: ['S001', 'S002', 'S003'] },
+        { name: '3rd Floor', rooms: ['T001', 'T002', 'T003', 'T004'] },
+    ]);
+    const groundFloor = floors.find(floor => floor.name === 'Ground Floor');
+    const firstFloor = floors.find(floor => floor.name === '1st Floor');
+    const secondFloor = floors.find(floor => floor.name === '2nd Floor')
+    const thirdFloor = floors.find(floor => floor.name === '3rd Floor')
+
 
     return (
         <>
@@ -125,14 +144,14 @@ function Dashboard() {
                                     <AiOutlinePlusCircle style={{ height: "30px" }} /> <label style={{ color: "gray", fontSize: "14px" }}>Add Floor</label>
                                 </div>
                                 <hr style={{ marginTop: "130px" }} />
-                               
+
                                 <div class="d-flex justify-content-end" style={{ marginTop: "40px" }} >
 
-                                    <Button variant="white" size="sm" style={{ width: "90px" }}>
+                                    <Button variant="white" size="sm" style={{ width: "90px" }} onClick={handleCancel}>
                                         Cancel
                                     </Button>
                                     <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}>
-                                    Save
+                                        Save
                                     </Button>
 
                                 </div>
@@ -144,7 +163,7 @@ function Dashboard() {
                             <Offcanvas.Body>
                                 <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
                                 <p class="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
-                                <div class="row column-gap-3 g-1">
+                                <div class="row column-gap-3 g-3">
 
                                     <div class="col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
                                         <div class="form-group mb-4 ps-1" >
@@ -153,7 +172,7 @@ function Dashboard() {
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
-                                    <div class="form-group mb-4 ps-1" >
+                                        <div class="form-group mb-4 ps-1" >
                                             <label for="exampleInput" class="form-label mb-1" style={{ fontSize: "11px" }}>Select Bed</label>
                                             <div class="d-flex">
                                                 <select class="form-select custom-border-bottom" id="exampleInput1" aria-label="Default select example" style={{ fontSize: "11px", backgroundColor: "#F6F7FB" }}>
@@ -161,21 +180,21 @@ function Dashboard() {
                                                     <option value="2">Two</option>
                                                     <option value="3">Three</option>
                                                 </select>
-                                                                                                                                         </div>
+                                            </div>
 
                                         </div>
                                     </div>
                                 </div>
-                               
+
                                 <div class="row column-gap-1 g-0 d-flex justify-content-between">
                                     <div class=" col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
-                                    <div class="form-group mb-4 ps-1" >
+                                        <div class="form-group mb-4 ps-1" >
                                             <label for="exampleInput" class="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
                                             <input type="text" class="form-control custom-border-bottom p-0" id="exampleInput1" placeholder="" style={{ fontSize: "11px", backgroundColor: "#F6F7FB" }} />
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
-                                    <div class="form-group mb-4 ps-1" >
+                                        <div class="form-group mb-4 ps-1" >
                                             <label for="exampleInput" class="form-label mb-1" style={{ fontSize: "11px" }}>Select Bed</label>
                                             <div class="d-flex">
                                                 <select class="form-select custom-border-bottom" id="exampleInput1" aria-label="Default select example" style={{ fontSize: "11px", backgroundColor: "#F6F7FB" }}>
@@ -183,25 +202,25 @@ function Dashboard() {
                                                     <option value="2">Two</option>
                                                     <option value="3">Three</option>
                                                 </select>
-                                                                                                                                         </div>
+                                            </div>
 
                                         </div>
-                                                                            
+
                                     </div>
                                     <div class="col-lg-1">
-                                        <TiDeleteOutline style={{fontSize:18,color:"red"}} />
-                                        </div>
-                                    
+                                        <TiDeleteOutline style={{ fontSize: 18, color: "red" }} />
+                                    </div>
+
                                 </div>
                                 <div class="row column-gap-1 g-0 d-flex justify-content-between">
                                     <div class=" col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
-                                    <div class="form-group mb-4 ps-1" >
+                                        <div class="form-group mb-4 ps-1" >
                                             <label for="exampleInput" class="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
                                             <input type="text" class="form-control custom-border-bottom p-0" id="exampleInput1" placeholder="" style={{ fontSize: "11px", backgroundColor: "#F6F7FB" }} />
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
-                                    <div class="form-group mb-4 ps-1" >
+                                        <div class="form-group mb-4 ps-1" >
                                             <label for="exampleInput" class="form-label mb-1" style={{ fontSize: "11px" }}>Select Bed</label>
                                             <div class="d-flex">
                                                 <select class="form-select custom-border-bottom" id="exampleInput1" aria-label="Default select example" style={{ fontSize: "11px", backgroundColor: "#F6F7FB" }}>
@@ -209,29 +228,29 @@ function Dashboard() {
                                                     <option value="2">Two</option>
                                                     <option value="3">Three</option>
                                                 </select>
-                                                                                                                                         </div>
+                                            </div>
 
                                         </div>
-                                                                            
+
                                     </div>
                                     <div class="col-lg-1">
-                                        <TiDeleteOutline style={{fontSize:18,color:"red"}} />
-                                        </div>
-                                    
+                                        <TiDeleteOutline style={{ fontSize: 18, color: "red" }} />
+                                    </div>
+
                                 </div>
-                                
+
                                 <div>
                                     <AiOutlinePlusCircle style={{ height: "30px" }} /> <label style={{ color: "gray", fontSize: "14px" }}>Add Room</label>
                                 </div>
                                 <hr style={{ marginTop: "100px" }} />
-                               
+
                                 <div class="d-flex justify-content-end" style={{ marginTop: "15px" }} >
 
-                                    <Button variant="white" size="sm" style={{ width: "90px" }}>
+                                    <Button variant="white" size="sm" style={{ width: "90px" }} onClick={handleCancels}>
                                         Cancel
                                     </Button>
                                     <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}>
-                                    Save
+                                        Save
                                     </Button>
 
                                 </div>
@@ -258,37 +277,23 @@ function Dashboard() {
                                     <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>Ground Floor</strong><FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
                                     <div class="card-body">
                                         <p class="card-title text-center">(04) Rooms</p>
+
                                         <div class="row  row-gap-3 pe-3">
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>G001</p>
+                                            {groundFloor.rooms.map((ground) => (
+                                                <div class="col-4">
+                                                    <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
+                                                        <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
+                                                        <p style={{ marginTop: "2px", fontSize: "10px" }}>{ground}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" onClick={() => handlePageClicks('RoomDetailsPage')} style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }} >G002</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>G003</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>G004</p>
-                                                </div>
-                                            </div>
+                                            ))}
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }} onClick={handleShows}>
                                                     <img src={Plus} class="pt-2 mb-0" height="25" width="15" alt='Room' />
                                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} class="mb-0" >Create Room</p>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -299,38 +304,16 @@ function Dashboard() {
                                     <div class="card-body">
                                         <p class="card-title text-center">(05) Rooms</p>
                                         <div class="row row-gap-3 pe-3">
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>F001</p>
+                                            {firstFloor.rooms.map((first) => (
+                                                <div class="col-4">
+                                                    <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
+                                                        <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
+                                                        <p style={{ marginTop: "2px", fontSize: "10px" }}>{first}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            ))}
                                             <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>F002</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }} onClick={() => handlePageClicks('RoomDetailsPage')}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>F003</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }} >
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>F004</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>F005</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }}  onClick={handleShows}>
+                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }} onClick={handleShows}>
                                                     <img src={Plus} class="pt-2 mb-0" height="25" width="15" alt='Room' />
                                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} class="mb-0">Create Room</p>
                                                 </div>
@@ -345,27 +328,19 @@ function Dashboard() {
                                     <div class="card-body">
                                         <p class="card-title text-center">(03) Rooms</p>
                                         <div class="row row-gap-3 pe-3">
+
+                                        {secondFloor.rooms.map((second) =>(
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
                                                     <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>S001</p>
+                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>{second}</p>
                                                 </div>
                                             </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>S002</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>S003</p>
-                                                </div>
-                                            </div>
+                                        ))}    
+                                                                        
 
                                             <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }}  onClick={handleShows}>
+                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }} onClick={handleShows}>
                                                     <img src={Plus} class="pt-2 mb-0" height="25" width="15" alt='Room' />
                                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} class="mb-0">Create Room</p>
                                                 </div>
@@ -380,32 +355,18 @@ function Dashboard() {
                                     <div class="card-body">
                                         <p class="card-title text-center">(04) Rooms</p>
                                         <div class="row row-gap-3 pe-3">
+                                         {thirdFloor.rooms.map((third)=>(
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
                                                     <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>T001</p>
+                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>{third}</p>
                                                 </div>
                                             </div>
+                                         ))}   
+                                            
+                                           
                                             <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>T002</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>T003</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>T004</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }}  onClick={handleShows}>
+                                                <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }} onClick={handleShows}>
                                                     <img src={Plus} class="pt-2 mb-0" height="25" width="15" alt='Plus' />
                                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} class="mb-0">Create Room</p>
                                                 </div>
@@ -420,7 +381,7 @@ function Dashboard() {
                             <div class="col-lg-2 col-md-6  col-sm-12 col-xs-12">
                                 <div class="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }} id="card-hover">
                                     <div class="d-flex justify-content-center" style={{ marginTop: "50%" }}>
-                                        <img src={Plus} height="25" width="20" onClick={handleShow} alt='Plus' />
+                                        <img src={Plus} height="18" width="14" onClick={handleShow} alt='Plus' />
                                     </div>
                                     <div class="d-flex justify-content-center">
                                         <p style={{ color: "#1F75FE", paddingLeft: "", fontSize: "15px" }}>Create Floor</p>
