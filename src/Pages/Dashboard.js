@@ -46,6 +46,7 @@ function Dashboard() {
         { name: '2nd Floor', rooms: ['S001', 'S002', 'S003'] },
         { name: '3rd Floor', rooms: ['T001', 'T002', 'T003', 'T004'] },
     ]);
+
     const groundFloor = floors.find(floor => floor.name === 'Ground Floor');
     const firstFloor = floors.find(floor => floor.name === '1st Floor');
     const secondFloor = floors.find(floor => floor.name === '2nd Floor')
@@ -115,13 +116,13 @@ function Dashboard() {
                             <Offcanvas.Body>
                                 <p class="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
                                 <div class="mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
-                                    <div class="form-group mb-4 ps-1" >
+                                    <div class="form-group mb-4 ps-3 pe-3" >
                                         <label for="exampleInput" class="form-label mb-1" style={{ fontSize: "11px" }}>Floor Name</label>
                                         <input type="text" class="form-control custom-border-bottom p-0" id="exampleInput1" placeholder="4th Floor" style={{ fontSize: "11px", backgroundColor: "#F6F7FB" }} />
                                     </div>
                                 </div>
                                 <div class="mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
-                                    <div class="form-group mb-4 ps-1" >
+                                    <div class="form-group mb-4 ps-3 pe-3" >
                                         <label for="exampleInput" class="form-label mb-1" style={{ fontSize: "11px" }}>Floor Name</label>
                                         <div class="d-flex">
                                             <input type="text" class="form-control custom-border-bottom p-0" id="exampleInput1" placeholder="5th Floor" style={{ fontSize: "11px", backgroundColor: "#F6F7FB" }} />
@@ -131,7 +132,7 @@ function Dashboard() {
                                     </div>
                                 </div>
                                 <div class="mb-3" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
-                                    <div class="form-group mb-4 ps-1" >
+                                    <div class="form-group mb-4 ps-3 pe-3" >
                                         <label for="exampleInput" class="form-label mb-1" style={{ fontSize: "11px" }}>Floor Name</label>
                                         <div class="d-flex">
                                             <input type="text" class="form-control custom-border-bottom p-0" id="exampleInput1" placeholder="6th Floor" style={{ fontSize: "11px", backgroundColor: "#F6F7FB" }} />
@@ -186,7 +187,7 @@ function Dashboard() {
                                     </div>
                                 </div>
 
-                                <div class="row column-gap-1 g-0 d-flex justify-content-between">
+                                <div class="row column-gap-1 g-3 d-flex justify-content-between">
                                     <div class=" col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
                                         <div class="form-group mb-4 ps-1" >
                                             <label for="exampleInput" class="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
@@ -212,7 +213,7 @@ function Dashboard() {
                                     </div>
 
                                 </div>
-                                <div class="row column-gap-1 g-0 d-flex justify-content-between">
+                                <div class="row column-gap-1 g-3 d-flex justify-content-between">
                                     <div class=" col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }} >
                                         <div class="form-group mb-4 ps-1" >
                                             <label for="exampleInput" class="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
