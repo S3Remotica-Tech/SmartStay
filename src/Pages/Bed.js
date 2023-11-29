@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa';
 import Bed from '../Assets/Images/bed.png';
 import Plus from '../Assets/Images/Create-button.png';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Room from '../Assets/Images/Room.png';
+
 
 function BedDetails() {
   const [floors, setFloors] = useState([
@@ -14,20 +17,19 @@ function BedDetails() {
     },
   ]);
 
-  const filteredRooms = floors.filter(floor => floor.name === 'Ground Floor');
+  const filteredRooms = floors.filter((floor) => floor.name === 'Ground Floor');
 
   return (
-    <div className="row pt-5 ms-5 g-1 justify-content-evenly">
-     
-         <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
-       <div className="card h-100 d-flex" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
-          {filteredRooms.map((floor) => (
-            <div key={floor.name}>
-              {floor.rooms.map((room) => (
-                <div key={room.name} className="card">
+    <div className="" style={{ width: "100%" }}>
+      {filteredRooms.map((floor) => (
+        <div key={floor.name} className="row" style={{ backgroundColor: "", padding: 50 }}>
+          {floor.rooms.map((room) => (
+            <>
+              <div className='col-lg-2 col-md-6 col-xs-12 col-sm-12 mb-3'>
+                <div key={room.name} className="card mb-3" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
                   <div className="card-header d-flex justify-content-between p-2">
                     <strong style={{ fontSize: "13px" }}>ROOM-{room.name}</strong>
-                    <FaAngleRight className="" style={{ height: "15px", width: "15px", color: "grey" }} />
+                    <FaAngleRight style={{ height: "15px", width: "15px", color: "grey" }} />
                   </div>
                   <div className="card-body">
                     <p className="card-title text-center">({room.beds.length}) Beds</p>
@@ -35,7 +37,7 @@ function BedDetails() {
                       {room.beds.map((bed, index) => (
                         <div key={index} className="col-4">
                           <div className="card text-bg-light text-center align-items-center justify-content-center pt-3" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                            <img src={Bed} style={{ height: "100px", width: "29px", paddingTop: "", color: "gray" }} className="img-fluid mb-0" alt="Room" />
+                            <img src={Bed} style={{ height: "100px", width: "29px", color: "gray" }} className="img-fluid mb-0" alt="Room" />
                             <p style={{ marginTop: "2px", fontSize: "10px" }}>{bed}</p>
                           </div>
                         </div>
@@ -49,23 +51,31 @@ function BedDetails() {
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
+
+
+            </>
+          )
+
+          )}
+          <div className='col-lg-2 col-md-6 col-xs-12 col-sm-12 mb-3'>
+            <div className="card d-flex justify-content-center align-items-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", height: "234px" }} id="card-hover">
+              <div className="">
+                <img src={Plus} height="18" width="16" alt="Plus" />
+              </div>
+              <div className="">
+                <p style={{ color: "#1F75FE", paddingLeft: "", fontSize: "15px" }}>Create Room</p>
+              </div>
             </div>
-          ))}
-        </div>
-        </div> 
-       
-  
-      <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
-        <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }} id="card-hover">
-          <div className="d-flex justify-content-center" style={{ marginTop: "50%" }}>
-            <img src={Plus} height="18" width="16" alt="Plus" />
+
           </div>
-          <div className="d-flex justify-content-center">
-            <p style={{ color: "#1F75FE", paddingLeft: "", fontSize: "15px" }}>Create Room</p>
-          </div>
+
         </div>
-      </div>
+      ))}
+
+
+
+
     </div>
   );
 }

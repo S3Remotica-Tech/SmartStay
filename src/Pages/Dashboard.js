@@ -40,12 +40,7 @@ function Dashboard() {
     };
 
 
-    // const [floors, setFloors] = useState([
-    //     { name: 'Ground Floor', rooms: ['G001', 'G002', 'G003', 'G004'] },
-    //     { name: '1st Floor', rooms: ['F001', 'F002', 'F003', 'F004', 'F005'] },
-    //     { name: '2nd Floor', rooms: ['S001', 'S002', 'S003'] },
-    //     { name: '3rd Floor', rooms: ['T001', 'T002', 'T003', 'T004'] },
-    // ]);
+    
     const [floors, setFloors] = useState([
         { name: 'Ground Floor', rooms: [{ name: 'G001', beds: ['BED 1', 'BED 2', 'BED 3', 'BED 4'] }, { name: 'G002', beds: ['BED 1', 'BED 2', 'BED 3'] },{ name: 'G003', beds: ['BED 1', 'BED 2', 'BED 3'] },{ name: 'G004', beds: ['BED 1', 'BED 2', 'BED 3'] }, ] },
         { name: '1st Floor', rooms: [{ name: 'F001', beds: ['BED 1', 'BED 2', 'BED 3', 'BED 4', 'BED 5'] }, { name: 'F002', beds: ['BED 1', 'BED 2', 'BED 3'] },{ name: 'F003', beds: ['BED 1', 'BED 2', 'BED 3'] },{ name: 'F004', beds: ['BED 1', 'BED 2', 'BED 3'] },{ name: 'F005', beds: ['BED 1', 'BED 2', 'BED 3'] }] },
