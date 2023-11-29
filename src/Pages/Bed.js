@@ -26,7 +26,7 @@ function BedDetails() {
           {floor.rooms.map((room) => (
             <>
               <div className='col-lg-2 col-md-6 col-xs-12 col-sm-12 mb-3'>
-                <div key={room.name} className="card mb-3" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
+                <div key={room.name} className="card mb-3 h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
                   <div className="card-header d-flex justify-content-between p-2">
                     <strong style={{ fontSize: "13px" }}>ROOM-{room.name}</strong>
                     <FaAngleRight style={{ height: "15px", width: "15px", color: "grey" }} />
@@ -59,7 +59,7 @@ function BedDetails() {
 
           )}
           <div className='col-lg-2 col-md-6 col-xs-12 col-sm-12 mb-3'>
-            <div className="card d-flex justify-content-center align-items-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", height: "234px" }} id="card-hover">
+            <div className="card d-flex justify-content-center align-items-center h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }} id="card-hover">
               <div className="">
                 <img src={Plus} height="18" width="16" alt="Plus" />
               </div>
