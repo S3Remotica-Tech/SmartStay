@@ -50,13 +50,13 @@ function FrontPage() {
               <Nav.Link href="#action5" className="mainNavbar">Contact</Nav.Link>
 
 
-              <Nav.Link href="#action6" className="sign-in d-flex justify-content-center align-items-center" onClick={() => handleSignIn()}>
-                <img src={Lock} style={{ height: "15px", width: "15px" }} alt='Lock'/> <label style={{cursor:"pointer"}}>Sign-In</label>
+              <Nav.Link  className="sign-in d-flex justify-content-center align-items-center" onClick={() => handleSignIn()}>
+                <img src={Lock} style={{ height: "15px", width: "15px" }} alt='Lock'/> <label className="ms-1" style={{cursor:"pointer",fontSize:14}}>Sign-In</label>
               </Nav.Link>
-              <Nav.Link href="#action7">
+              <Nav.Link >
                 <button type="button"
                   className="btn btn-primary btn-sm rounded-pill bg-primary signup ps-4 pe-4 ms-4"
-                  onClick={() => handleSignUp()}>
+                  onClick={() => handleSignUp()} style={{cursor:"pointer",fontSize:14}}>
                   Sign-Up
                 </button>
               </Nav.Link>

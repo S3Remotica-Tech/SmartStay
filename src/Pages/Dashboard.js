@@ -40,17 +40,22 @@ function Dashboard() {
     };
 
 
+    // const [floors, setFloors] = useState([
+    //     { name: 'Ground Floor', rooms: ['G001', 'G002', 'G003', 'G004'] },
+    //     { name: '1st Floor', rooms: ['F001', 'F002', 'F003', 'F004', 'F005'] },
+    //     { name: '2nd Floor', rooms: ['S001', 'S002', 'S003'] },
+    //     { name: '3rd Floor', rooms: ['T001', 'T002', 'T003', 'T004'] },
+    // ]);
     const [floors, setFloors] = useState([
-        { name: 'Ground Floor', rooms: ['G001', 'G002', 'G003', 'G004'] },
-        { name: '1st Floor', rooms: ['F001', 'F002', 'F003', 'F004', 'F005'] },
-        { name: '2nd Floor', rooms: ['S001', 'S002', 'S003'] },
-        { name: '3rd Floor', rooms: ['T001', 'T002', 'T003', 'T004'] },
+        { name: 'Ground Floor', rooms: [{ name: 'G001', beds: ['BED 1', 'BED 2', 'BED 3', 'BED 4'] }, { name: 'G002', beds: ['BED 1', 'BED 2', 'BED 3'] },{ name: 'G003', beds: ['BED 1', 'BED 2', 'BED 3'] },{ name: 'G004', beds: ['BED 1', 'BED 2', 'BED 3'] }, ] },
+        { name: '1st Floor', rooms: [{ name: 'F001', beds: ['BED 1', 'BED 2', 'BED 3', 'BED 4', 'BED 5'] }, { name: 'F002', beds: ['BED 1', 'BED 2', 'BED 3'] },{ name: 'F003', beds: ['BED 1', 'BED 2', 'BED 3'] },{ name: 'F004', beds: ['BED 1', 'BED 2', 'BED 3'] },{ name: 'F005', beds: ['BED 1', 'BED 2', 'BED 3'] }] },
+        { name: '2nd Floor', rooms: [{ name: 'S001', beds: ['BED 1', 'BED 2', 'BED 3'] }, { name: 'S002', beds: ['BED 1', 'BED 2'] }, { name: 'S003', beds: ['BED 1', 'BED 2', 'BED 3', 'BED 4'] }] },
+        { name: '3rd Floor', rooms: [{ name: 'T001', beds: ['BED 1', 'BED 2', 'BED 3'] }, { name: 'T002', beds: ['BED 1', 'BED 2', 'BED 3'] }, { name: 'T003', beds: ['BED 1', 'BED 2', 'BED 3', 'BED 4'] }, { name: 'T004', beds: ['BED 1', 'BED 2'] }] },
     ]);
-
     const groundFloor = floors.find(floor => floor.name === 'Ground Floor');
     const firstFloor = floors.find(floor => floor.name === '1st Floor');
-    const secondFloor = floors.find(floor => floor.name === '2nd Floor')
-    const thirdFloor = floors.find(floor => floor.name === '3rd Floor')
+    const secondFloor = floors.find(floor => floor.name === '2nd Floor');
+    const thirdFloor = floors.find(floor => floor.name === '3rd Floor');
 
 
     return (
@@ -275,16 +280,21 @@ function Dashboard() {
                         <div class="row row-cols-1  row-cols-md-6 g-1 justify-content-evenly pt-5" >
                             <div class="col-lg-2 col-md-6  col-sm-12 col-xs-12">
                                 <div class="card h-auto" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
-                                    <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>Ground Floor</strong><FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
+                                    {floors.map((floor)=>{
+                                        if (floor.name === 'Ground Floor') {
+                                        return(
+                                            <>
+                                            <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>{floor.name}</strong><FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
+                                                                         
                                     <div class="card-body">
-                                        <p class="card-title text-center">(04) Rooms</p>
+                                        <p class="card-title text-center">({floor.rooms.length}) Rooms</p>
 
                                         <div class="row  row-gap-3 pe-3">
-                                            {groundFloor.rooms.map((ground) => (
+                                        {groundFloor.rooms.map((ground) => (
                                                 <div class="col-4">
                                                     <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
                                                         <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                        <p style={{ marginTop: "2px", fontSize: "10px" }}>{ground}</p>
+                                                        <p style={{ marginTop: "2px", fontSize: "10px" }}>{ground.name}</p>
                                                     </div>
                                                 </div>
                                             ))}
@@ -297,19 +307,33 @@ function Dashboard() {
 
                                         </div>
                                     </div>
+                                    </>
+                                      )
+                                    }
+                                    return null
+                                })}
                                 </div>
+                              
                             </div>
+ 
+                                       
                             <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12">
                                 <div class="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
-                                    <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>1st Floor</strong> <FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
+                                  
+                                {floors.map((floor)=>{
+                                        if (floor.name === '1st Floor') {
+                                        return(
+                                            <>
+                                    <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>{floor.name}</strong> <FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
+                                    
                                     <div class="card-body">
-                                        <p class="card-title text-center">(05) Rooms</p>
+                                        <p class="card-title text-center">({floor.rooms.length}) Rooms</p>
                                         <div class="row row-gap-3 pe-3">
-                                            {firstFloor.rooms.map((first) => (
+                                        {firstFloor.rooms.map((first) => (
                                                 <div class="col-4">
                                                     <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
                                                         <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                        <p style={{ marginTop: "2px", fontSize: "10px" }}>{first}</p>
+                                                        <p style={{ marginTop: "2px", fontSize: "10px" }}>{first.name}</p>
                                                     </div>
                                                 </div>
                                             ))}
@@ -321,20 +345,33 @@ function Dashboard() {
                                             </div>
                                         </div>
                                     </div>
+                                    </>
+                                )
+                                        }
+                                        return null
+                                    })}
                                 </div>
+                               
                             </div>
                             <div class="col-lg-2 col-md-6  col-sm-12 col-xs-12">
                                 <div class="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
-                                    <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>2nd Floor</strong> <FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
-                                    <div class="card-body">
-                                        <p class="card-title text-center">(03) Rooms</p>
+                                  
+                                {floors.map((floor)=>{
+                                        if (floor.name === '2nd Floor') {
+                                        return(
+                                  <>
+                                    <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>{floor.name}</strong> <FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
+                                   
+                                    
+                                   <div class="card-body">
+                                        <p class="card-title text-center">({floor.rooms.length}) Rooms</p>
                                         <div class="row row-gap-3 pe-3">
 
-                                        {secondFloor.rooms.map((second) =>(
+                                        {secondFloor.rooms.map((second) => (
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
                                                     <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>{second}</p>
+                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>{second.name}</p>
                                                 </div>
                                             </div>
                                         ))}    
@@ -348,19 +385,32 @@ function Dashboard() {
                                             </div>
                                         </div>
                                     </div>
+                                    </>
+                                    )
+                                }
+                                return null
+                            })}
+                           
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12">
                                 <div class="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
-                                    <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>3rd Floor</strong> <FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
-                                    <div class="card-body">
-                                        <p class="card-title text-center">(04) Rooms</p>
+                                {floors.map((floor)=>{
+                                        if (floor.name === '3rd Floor') {
+                                        return(
+                                <>
+                                    <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>{floor.name}</strong> <FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
+                                   
+                                   
+                                   
+                                   <div class="card-body">
+                                        <p class="card-title text-center">({floor.rooms.length}) Rooms</p>
                                         <div class="row row-gap-3 pe-3">
-                                         {thirdFloor.rooms.map((third)=>(
+                                        {thirdFloor.rooms.map((third) => (
                                             <div class="col-4">
                                                 <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
                                                     <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>{third}</p>
+                                                    <p style={{ marginTop: "2px", fontSize: "10px" }}>{third.name}</p>
                                                 </div>
                                             </div>
                                          ))}   
@@ -374,15 +424,20 @@ function Dashboard() {
                                             </div>
                                         </div>
                                     </div>
+                                    </>
+                                     )
+                                    }
+                                    return null
+                                })}
                                 </div>
                             </div>
 
 
 
                             <div class="col-lg-2 col-md-6  col-sm-12 col-xs-12">
-                                <div class="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }} id="card-hover">
+                                <div class="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }} id="card-hover" onClick={handleShow}>
                                     <div class="d-flex justify-content-center" style={{ marginTop: "50%" }}>
-                                        <img src={Plus} height="18" width="14" onClick={handleShow} alt='Plus' />
+                                        <img src={Plus} height="18" width="16"  alt='Plus' />
                                     </div>
                                     <div class="d-flex justify-content-center">
                                         <p style={{ color: "#1F75FE", paddingLeft: "", fontSize: "15px" }}>Create Floor</p>
