@@ -1,13 +1,18 @@
 const initialState = {
-    Users: []
-    
+    Users: [],
+    addUser :[],
+    errorMessage :{}
     }
     
     const UserListReducer = (state = initialState, action) => {
         console.log("action",action);
         switch(action.type) {
-            case 'USERS_LIST':
+            case 'USER_LIST':
                 return {...state, Users: action.payload}
+            case 'ADD_USER':
+                return {...state, addUser:action.payload}
+            case 'ERROR':
+                return {...state, errorMessage:action.payload}
         }
         return state;
     } 

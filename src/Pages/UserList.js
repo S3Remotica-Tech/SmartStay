@@ -7,60 +7,64 @@ import img1 from '../Assets/Images/list-report.png';
 import img2 from '../Assets/Images/edit.png';
 import Profile from '../Assets/Images/Profile.jpg';
 import { Dropdown } from 'react-bootstrap';
-import { Button, Offcanvas, Form } from 'react-bootstrap';
+import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Plus from '../Assets/Images/Create-button.png';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
+// import Box from '@mui/material/Box';
+// import TextField from '@mui/material/TextField';
+// import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
+import { FaPlusCircle } from "react-icons/fa";
 
-const currencies = [
-  {
-    value: 'USD',
-    label: 'Ground Floor',
-  },
-  {
-    value: 'EUR',
-    label: 'GOO5',
-  },
-  {
-    value: 'BTC',
-    label: 'BO2',
-  },
+// const currencies = [
+//   {
+//     value: 'USD',
+//     label: 'Ground Floor',
+//   },
+//   {
+//     value: 'EUR',
+//     label: 'GOO5',
+//   },
+//   {
+//     value: 'BTC',
+//     label: 'BO2',
+//   },
 
-]
+// ]
 
 
 function UserList() {
 
-  const state = useSelector(state=> state)  
-  console.log('state',state)
-
-  const dispatch = useDispatch()
-
-  useEffect(()=> {
+  const state = useSelector(state => state)
+  console.log('state', state)
+  const dispatch = useDispatch();
+  useEffect(() => {
     console.log("executing useEffect")
-    dispatch({type:'USERLIST'})
-},[])
+    dispatch({ type: 'USERLIST' })
+  }, [])
 
   const [showMenu, setShowMenu] = useState(false);
-
-
-
   const totalPages = 10;
   const [activePage, setActivePage] = useState(1);
-
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
-
-
   const [showForm, setShowForm] = useState(false);
-
-
   const [isUserClicked, setUserClicked] = useState(true);
-
+  const [searchItem, setSearchItem] = useState('');
+  const [searchicon, setSearchicon] = useState(false);
+  const [userList, setUserList] = useState({
+    firstName: '',
+    lastName: '',
+    PhoneNo: '',
+    Email: '',
+    Address: '',
+    AdvanceAmount: '',
+    RoomRent: ''
+  })
+  const itemsPerPage = 7;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const handleMenuClick = () => {
     setShowForm(true);
     setUserClicked(true);
@@ -85,15 +89,10 @@ function UserList() {
 
 
 
-  const itemsPerPage = 7;
+
   useEffect(() => {
     setFilteredData(state.UsersList.Users);
   }, [state.UsersList.Users])
-
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
   // const handleFilterChange = (filterValue) => {
   //   setCurrentPage(1);
@@ -112,11 +111,9 @@ function UserList() {
 
   }
 
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
 
   const generatepagenumbers = () => {
     const pageNumbers = [];
@@ -127,28 +124,33 @@ function UserList() {
     return pageNumbers;
   }
 
-
-
-  const [searchItem, setSearchItem] = useState('')
-  const handleInputChange = (e) => { 
+  const handleInputChange = (e) => {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
 
     const filteredItems = state.UsersList.Users.filter((user) =>
-    user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+      user.Name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredData(filteredItems);
   }
 
-
-const [searchicon ,setSearchicon] = useState(false);
-
-const handleiconshow = () => {
-  setSearchicon(!searchicon)
-}
-
-
+  const handleiconshow = () => {
+    setSearchicon(!searchicon)
+  }
+  const handleSaveUserlist = () => {
+    console.log('firstName', userList);
+    dispatch({type:'ADDUSER',payload:userList})
+  }
+  const bottomBorderStyle = {
+    border: 'none',
+    borderBottom: '1px solid #ced4da',
+    borderRadius: '0',
+    boxShadow: 'none',
+    fontWeight: 'bold',
+    fontSize: "11px",
+    marginTop: "-13px"
+  };
   return (
     <div className='container' >
       <div className="user" >
@@ -158,32 +160,32 @@ const handleiconshow = () => {
         </div>
         <div className="user2">
           {
-            searchicon && 
+            searchicon &&
             <>
-            <input
-            type="text"
-            value={searchItem}
-            
-            onChange={(e)=>handleInputChange(e)}
-            placeholder='Type to search'
-            class="form-control ps-2 pe-1 pb-1 pt-1 searchinput"
-            style={{width:'150px',marginRight:'20px'}}
-            
-          />
-          </>
+              <input
+                type="text"
+                value={searchItem}
+
+                onChange={(e) => handleInputChange(e)}
+                placeholder='Type to search'
+                class="form-control ps-2 pe-1 pb-1 pt-1 searchinput"
+                style={{ width: '150px', marginRight: '20px' }}
+
+              />
+            </>
           }
-      
-          <IoIosSearch className='io' 
-          onClick={handleiconshow}
+
+          <IoIosSearch className='io'
+            onClick={handleiconshow}
           />
           <BsFilter className='bs' />
-          <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus"/>Add User</button>
+          <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus" />Add User</button>
 
         </div>
 
 
 
-        <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: '69vh' }}>
+        {/* <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: '69vh' }}>
           <Offcanvas.Title style={{ background: '#2F74EB', color: 'white', paddingLeft: '20px', height: '40px' }}>
             Add User
           </Offcanvas.Title>
@@ -214,11 +216,11 @@ const handleiconshow = () => {
                 // autoComplete="off"
                 >
 
-                  <TextField id="standard-basic" label="First Name" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Last Name" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Phone Number" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Email Id" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Address" variant="standard" style={{ m: 1, width: '46ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField id="standard-basic" label="First Name" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.firstName} onChange={(e)=>{setUserList({...userList,firstName:e.target.value})}}/>
+                  <TextField id="standard-basic" label="Last Name" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.lastName} onChange={(e)=>{setUserList({...userList,lastName:e.target.value})}}/>
+                  <TextField id="standard-basic" label="Phone Number" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.PhoneNo} onChange={(e)=>{setUserList({...userList,PhoneNo:e.target.value})}}/>
+                  <TextField id="standard-basic" label="Email Id" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.Email} onChange={(e)=>{setUserList({...userList,Email:e.target.value})}}/>
+                  <TextField id="standard-basic" label="Address" variant="standard" style={{ m: 1, width: '46ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.Address} onChange={(e)=>{setUserList({...userList,Address:e.target.value})}}/>
                   <TextField
                     id="standard-select-currency"
                     select
@@ -268,19 +270,192 @@ const handleiconshow = () => {
                     ))}
                   </TextField>
 
-                  <TextField id="standard-basic" label="Advance Amount" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Room Rent(Monthly)" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField id="standard-basic" label="Advance Amount" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.AdvanceAmount} onChange={(e)=>{setUserList({...userList,AdvanceAmount:e.target.value})}}/>
+                  <TextField id="standard-basic" label="Room Rent(Monthly)" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.RoomRent} onChange={(e)=>{setUserList({...userList,RoomRent:e.target.value})}}/>
                 </Box>
                 <hr />
                 <div class="d-flex justify-content-end" style={{ marginTop: '20px' }}>
                   <Button variant="white" size="sm">
                     Cancel
                   </Button>
-                  <Button variant="outline-primary" size="sm" style={{ borderRadius: '20vh', width: '80px' }}>
+                  <Button variant="outline-primary" size="sm" style={{ borderRadius: '20vh', width: '80px'}} onClick={handleSaveUserlist}>
                     Next
                   </Button>
                 </div>
               </Form>
+            )}
+          </Offcanvas.Body>
+        </Offcanvas> */}
+
+        <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: "69vh" }}>
+
+          <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Add User</Offcanvas.Title>
+
+          <Offcanvas.Body>
+            <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
+              <div class="p-1 bd-highlight user-menu">
+
+                <ul className={isUserClicked ? 'active' : ''} onClick={handleMenuClick}  >
+
+
+                  User Details
+                </ul>
+              </div>
+              <div class="p-2 bd-highlight">
+                <ul onClick={() => setShowForm(false)}>KYC Details</ul>
+
+              </div>
+
+            </div>
+
+            {showForm && (
+              <Form>
+                <p style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
+
+
+                <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
+                  <img src={Profile} alt='user1' style={{ width: '70px', marginBottom: '-15px' }} />
+                  <FaPlusCircle style={{ color: 'blue', position: 'absolute', bottom: '-20px', left: '50%', transform: 'translateX(-50%)' }} />
+                </div>
+
+
+
+
+                <div className='container' style={{ marginTop: "30px" }}>
+                  <div className='row'>
+                    <div className='col lg-6'>
+                      <Form.Group className="mb-3">
+                        <Form.Label style={{ fontSize: "12px" }}>First Name</Form.Label>
+                        <FormControl
+                          type="text"
+                          value={userList.firstName} onChange={(e) => { setUserList({ ...userList, firstName: e.target.value }) }}
+                          style={bottomBorderStyle}
+                        />
+                      </Form.Group>
+                    </div>
+                    <div className='col lg-6'>
+                      <Form.Group className="mb-3">
+                        <Form.Label style={{ fontSize: "12px" }}>Last Name</Form.Label>
+                        <FormControl
+                          type="text"
+                          value={userList.lastName} onChange={(e) => { setUserList({ ...userList, lastName: e.target.value }) }}
+                          style={bottomBorderStyle}
+                        />
+                      </Form.Group>
+                    </div>
+                  </div>
+                  <div className='row'>
+                    <div className='col lg-6'>
+                      <Form.Group className="mb-3">
+                        <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
+                        <FormControl
+                          type="text"
+                          value={userList.PhoneNo} onChange={(e) => { setUserList({ ...userList, PhoneNo: e.target.value }) }}
+                          style={bottomBorderStyle}
+                        />
+                      </Form.Group>
+                    </div>
+                    <div className='col lg-6'>
+                      <Form.Group className="mb-3">
+                        <Form.Label style={{ fontSize: "12px" }}>Email Id</Form.Label>
+                        <FormControl
+                          type="text"
+                          value={userList.Email} onChange={(e) => { setUserList({ ...userList, Email: e.target.value }) }}
+                          style={bottomBorderStyle}
+                        />
+                      </Form.Group>
+                    </div>
+                  </div>
+                  <div className='row'>
+                    <div className='col lg-12'>
+                      <Form.Group className="mb-3">
+                        <Form.Label style={{ fontSize: "12px" }}>Address</Form.Label>
+                        <FormControl
+                          type="text"
+                          value={userList.Address} onChange={(e) => { setUserList({ ...userList, Address: e.target.value }) }}
+                          style={bottomBorderStyle}
+                        />
+                      </Form.Group>
+                    </div>
+                  </div>
+                  <div className='row'>
+                    <div className='col lg-4'>
+                      <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
+                      <Form.Select aria-label="Default select example"
+                        style={bottomBorderStyle}>
+
+                        <option value="1"></option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+
+                      </Form.Select>
+                    </div>
+                    <div className='col lg-4'>
+                      <Form.Label style={{ fontSize: "12px" }}>Select Room</Form.Label>
+                      <Form.Select aria-label="Default select example"
+                        style={bottomBorderStyle}>
+
+                        <option value="1"></option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+
+                      </Form.Select>
+                    </div>
+                    <div className='col lg-4'>
+                      <Form.Label style={{ fontSize: "12px" }}>Select Bed</Form.Label>
+                      <Form.Select aria-label="Default select example"
+                        style={bottomBorderStyle}>
+
+                        <option value="1"></option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+
+                      </Form.Select>
+                    </div>
+
+                  </div>
+                  <div className='row'>
+                    <div className='col lg-6'>
+                      <Form.Group className="mb-3">
+                        <Form.Label style={{ fontSize: "12px", marginTop: "15px" }}>Advance Amount</Form.Label>
+                        <FormControl
+                          type="text"
+
+                          style={bottomBorderStyle}
+                        />
+                      </Form.Group>
+                    </div>
+
+                    <div className='col lg-6'>
+                      <Form.Group className="mb-3">
+                        <Form.Label style={{ fontSize: "12px", marginTop: "15px" }}>Room Rent (Monthly)</Form.Label>
+                        <FormControl
+                          type="text"
+
+                          style={bottomBorderStyle}
+                        />
+                      </Form.Group>
+                    </div>
+                  </div>
+
+                </div>
+                <hr />
+                <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
+
+                  <Button variant="white" size="sm">
+                    Cancel
+                  </Button>
+                  <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
+                    Next
+                  </Button>
+
+                </div>
+              </Form>
+
+
+
+
+
             )}
           </Offcanvas.Body>
         </Offcanvas>
@@ -323,7 +498,7 @@ const handleiconshow = () => {
                   <td style={{ color: "black", fontWeight: 500 }}>{u.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
 
                   <td style={u.UserListStatus == "Success" ? { color: "green" } : { color: "red" }}>{u.UserListStatus}</td>
-                  <td><img src={img1} className='img1' alt="img1"/><img src={img2} className='img1 ms-1' alt="img1"/></td>
+                  <td><img src={img1} className='img1' alt="img1" /><img src={img2} className='img1 ms-1' alt="img1" /></td>
 
                 </tr>
               );
