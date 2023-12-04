@@ -11,3 +11,7 @@ export async function addUser (datum) {
     data:datum
   })
 }
+export async function hostelList() {
+  return await AxiosConfig.get('/list/hostel-list',{
+  })
+}

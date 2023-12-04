@@ -183,110 +183,6 @@ function UserList() {
 
         </div>
 
-
-
-        {/* <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: '69vh' }}>
-          <Offcanvas.Title style={{ background: '#2F74EB', color: 'white', paddingLeft: '20px', height: '40px' }}>
-            Add User
-          </Offcanvas.Title>
-          <Offcanvas.Body>
-            <div class="d-flex flex-row bd-highlight mb-3 item" style={{ marginTop: '-20px' }}>
-              <div class="p-1 bd-highlight user-menu">
-                <ul className={isUserClicked ? 'active' : ''} onClick={handleMenuClick}>
-                  User Details
-                </ul>
-              </div>
-              <div class="p-2 bd-highlight">
-                <ul onClick={() => setShowForm(false)}>KYC Details</ul>
-              </div>
-            </div>
-
-            {showForm && (
-              <Form>
-                <p style={{ textAlign: 'center', marginTop: '-20px' }}>Upload Profile</p>
-                <div class="d-flex justify-content-center">
-                  <img src={Profile} alt="Profile" style={{ width: '100px', alignItems: 'center', marginTop: '-18px' }} />
-                </div>
-                <Box
-                  component="form"
-                  sx={{
-                    '& > :not(style)': { m: 1, width: '22ch' },
-                  }}
-                // noValidate
-                // autoComplete="off"
-                >
-
-                  <TextField id="standard-basic" label="First Name" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.firstName} onChange={(e)=>{setUserList({...userList,firstName:e.target.value})}}/>
-                  <TextField id="standard-basic" label="Last Name" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.lastName} onChange={(e)=>{setUserList({...userList,lastName:e.target.value})}}/>
-                  <TextField id="standard-basic" label="Phone Number" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.PhoneNo} onChange={(e)=>{setUserList({...userList,PhoneNo:e.target.value})}}/>
-                  <TextField id="standard-basic" label="Email Id" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.Email} onChange={(e)=>{setUserList({...userList,Email:e.target.value})}}/>
-                  <TextField id="standard-basic" label="Address" variant="standard" style={{ m: 1, width: '46ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.Address} onChange={(e)=>{setUserList({...userList,Address:e.target.value})}}/>
-                  <TextField
-                    id="standard-select-currency"
-                    select
-                    label="Select"
-                    defaultValue="EUR"
-                    //   helperText="Please select your currency"
-                    variant="standard"
-                    style={{ m: 1, width: '14ch' }}
-                    sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }}
-                  >
-                    {currencies.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  <TextField
-                    id="standard-select-currency"
-                    select
-                    label="Select"
-                    defaultValue="EUR"
-                    //   helperText="Please select your currency"
-                    variant="standard"
-                    style={{ m: 1, width: '14ch' }}
-                    sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }}
-                  >
-                    {currencies.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  <TextField
-                    id="standard-select-currency"
-                    select
-                    label="Select"
-                    defaultValue="ER"
-                    //   helperText="Please select your currency"
-                    variant="standard"
-                    style={{ m: 1, width: '14ch' }}
-                    sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }}
-                  >
-                    {currencies.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-
-                  <TextField id="standard-basic" label="Advance Amount" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.AdvanceAmount} onChange={(e)=>{setUserList({...userList,AdvanceAmount:e.target.value})}}/>
-                  <TextField id="standard-basic" label="Room Rent(Monthly)" variant="standard" sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} value={userList.RoomRent} onChange={(e)=>{setUserList({...userList,RoomRent:e.target.value})}}/>
-                </Box>
-                <hr />
-                <div class="d-flex justify-content-end" style={{ marginTop: '20px' }}>
-                  <Button variant="white" size="sm">
-                    Cancel
-                  </Button>
-                  <Button variant="outline-primary" size="sm" style={{ borderRadius: '20vh', width: '80px'}} onClick={handleSaveUserlist}>
-                    Next
-                  </Button>
-                </div>
-              </Form>
-            )}
-          </Offcanvas.Body>
-        </Offcanvas> */}
-
         <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: "69vh" }}>
 
           <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Add User</Offcanvas.Title>
@@ -317,9 +213,6 @@ function UserList() {
                   <img src={Profile} alt='user1' style={{ width: '70px', marginBottom: '-15px' }} />
                   <FaPlusCircle style={{ color: 'blue', position: 'absolute', bottom: '-20px', left: '50%', transform: 'translateX(-50%)' }} />
                 </div>
-
-
-
 
                 <div className='container' style={{ marginTop: "30px" }}>
                   <div className='row'>
@@ -451,11 +344,6 @@ function UserList() {
 
                 </div>
               </Form>
-
-
-
-
-
             )}
           </Offcanvas.Body>
         </Offcanvas>

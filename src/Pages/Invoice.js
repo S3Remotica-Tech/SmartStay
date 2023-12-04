@@ -24,11 +24,11 @@ const TableWithPagination = () => {
 
   useEffect(()=> {
     console.log("executing useEffect")
-    dispatch({type:'INVOICE-LIST'})
+    dispatch({type:'USERLIST'})
 },[])
 
 useEffect(()=> {
- setData(state.InvoiceList.Invoice)
+ setData(state.UsersList.Users)
 },[])
 
 

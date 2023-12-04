@@ -1,7 +1,8 @@
 const initialState = {
     Users: [],
     addUser :[],
-    errorMessage :{}
+    errorMessage :{},
+    hostelList:[]
     }
     
     const UserListReducer = (state = initialState, action) => {
@@ -13,6 +14,8 @@ const initialState = {
                 return {...state, addUser:action.payload}
             case 'ERROR':
                 return {...state, errorMessage:action.payload}
+            case 'HOSTEL_LIST':
+                return {...state, hostelList:action.payload}
         }
         return state;
     } 

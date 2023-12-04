@@ -24,12 +24,12 @@ const Compliance = () => {
 
   useEffect(()=> {
     console.log("executing useEffect")
-    dispatch({type:'COMPLIANCE-LIST'})
+    dispatch({type:'USERLIST'})
 },[])
 
 useEffect(()=> {
- setData(state.ComplianceList.Compliance)
-},[state.ComplianceList.Compliance])
+ setData(state.UsersList.Users)
+},[])
 
 
   const itemsPerPage = 10;
