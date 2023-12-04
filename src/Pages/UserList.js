@@ -183,9 +183,11 @@ function UserList() {
 
         </div>
 
+
         <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: "69vh" }}>
 
           <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Add User</Offcanvas.Title>
+
 
           <Offcanvas.Body>
             <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
@@ -332,6 +334,8 @@ function UserList() {
                   </div>
 
                 </div>
+
+
                 <hr />
                 <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
 

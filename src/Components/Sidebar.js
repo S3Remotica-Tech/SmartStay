@@ -29,6 +29,8 @@ import Menu from '../Assets/Images/Menu-plus.png';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Hostel from '../Assets/Images/hostel.png';
 import CreateButton from '../Assets/Images/Create-button.png';
+import Button from 'react-bootstrap/Button';
+
 
 function App() {
 
@@ -52,6 +54,9 @@ function App() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCancels = () => {
+    handleClose();
+};
 
 
   return (
@@ -165,11 +170,17 @@ function App() {
                         </div>
                       </div>
 
-                      <hr style={{ marginTop: "120px" }} />
-                      <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-dark border-0 w-25" style={{ borderRadius: "50px",fontWeight:"600" }}>Cancel</button>
-                        <button type="button" class="btn btn-outline-primary w-25 ms-3" style={{ borderRadius: "50px",fontWeight:"600" }}>Save</button>
-                      </div>
+                      <hr style={{ marginTop: "50px" }} />
+                      <div class="d-flex justify-content-end" style={{ marginTop: "15px" }} >
+
+<Button variant="white" size="sm" style={{ width: "90px" }} onClick={handleCancels}>
+    Cancel
+</Button>
+<Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}>
+    Save
+</Button>
+
+</div>
                     </form>
                   </Offcanvas.Body>
                 </Offcanvas>

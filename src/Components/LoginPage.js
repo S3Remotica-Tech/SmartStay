@@ -74,7 +74,7 @@ const MyComponent = () => {
       <div className="row g-0" style={{ height: "100vh", width: "100%" }} >
         <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white", overflowX: "hidden" }}>
           <div className="d-flex justify-content-center pt-5" >
-            <img src={Smart} class="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} alt='smart'/>
+            <img src={Smart} className="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} alt='smart'/>
             <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: 550, letterSpacing:"0.02em" }}>smartstay</h3>
           </div>
 <div className="d-flex justify-content-center pt-2 mb-2">
@@ -86,13 +86,13 @@ const MyComponent = () => {
          
         
           <div style={{ paddingTop: "40px" }}>
-            <div className="d-flex justify-content-start ps-5" ><img src={Tools} class="img-fluid" style={{ height: "50px", width: "50px" }} alt='Tools'/></div>
+            <div className="d-flex justify-content-start ps-5" ><img src={Tools} className="img-fluid" style={{ height: "50px", width: "50px" }} alt='Tools'/></div>
             <p className="d-flex justify-content-start ps-5 pt-0 mb-0" style={{ fontSize: "13px" }} >Smart Tools</p>
             <p className="d-flex justify-content-start ps-5 pe-5 pt-2" style={{ fontSize: "11px" }}  >Easy-to-use tools that let you integrate our offerings, search
               and share content, track performance and manage earnings.</p>
           </div>
           <div style={{ paddingTop: "20px" }}>
-            <div className="d-flex justify-content-start ps-5"  ><img src={Support} class="img-fluid" style={{ height: "50px", width: "50px" }} alt='Support'/></div>
+            <div className="d-flex justify-content-start ps-5"  ><img src={Support} className="img-fluid" style={{ height: "50px", width: "50px" }} alt='Support'/></div>
             <p className="d-flex justify-content-start ps-5 mb-0" style={{ fontSize: "13px" }} >Total Support</p>
             <p className="d-flex justify-content-start ps-5  pe-5 text-justify pt-2 mb-5" style={{ fontSize: "11px" }} >A dedicated team to help resolve any issues yoiu may face while using our products or promoting our hotels.</p>
           </div>
@@ -164,7 +164,7 @@ const MyComponent = () => {
                   <Form.Label style={{ color: "#007FFF", fontSize: "11px", cursor: "pointer" }} onClick={() => handleForgetPassword()} ><b>Forgot Password?</b></Form.Label>
                 </div>
               </Form>
-              <div class="d-flex justify-content-center pt-2">
+              <div className="d-flex justify-content-center pt-2">
                 <Button type="" className="btn" style={{fontWeight:600, width: "200px", fontSize: "12px", backgroundColor: "#2F74EB", color: "white" }} onClick={() => handleLogin()}>
                   LOGIN
                 </Button>
