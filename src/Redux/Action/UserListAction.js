@@ -15,3 +15,8 @@ export async function hostelList() {
   return await AxiosConfig.get('/list/hostel-list',{
   })
 }
+export async function roomsCount(floorAndHostelID){
+  return await AxiosConfig.post('/list/numberOf-Rooms',floorAndHostelID,{
+    data:floorAndHostelID
+  })
+}

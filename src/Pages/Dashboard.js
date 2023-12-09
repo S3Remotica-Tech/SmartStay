@@ -13,6 +13,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AiOutlineDelete } from "react-icons/ai";
 import RoomDetails from '../Pages/RoomDetails';
 import Form from 'react-bootstrap/Form';
+import DashBoardRoomsList from './DashBoardRoomsList';
 
 
 
@@ -33,7 +34,10 @@ function Dashboard() {
         dispatch({ type: 'HOSTELLIST' })
         console.log("state",state);
       }, [])
-
+const handleRoomCount =(floorID) =>{
+    dispatch({type:'ROOMCOUNT',payload:{floor_Id:floorID,hostel_Id:1}})
+    console.log("state",state);
+}
     const handlePageClicks = (page) => {
         setRoomDetails(page);
         setActivePage(false)
@@ -166,9 +170,11 @@ function Dashboard() {
 
                                     {
                                         Array.from(Array(item.number_Of_Floor), (index, element) => {
-                                            console.log("no.Of.Floor",item.number_Of_Floor);
-                                            return <div class="floor d-flex">
-                                            <div class="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
+                                            // handleRoomCount(index+1)
+                                            console.log("FloorID",index,element);
+                                            return <DashBoardRoomsList floorID={element+1} hostel_Id={item.id}/>
+                                            // <div class="floor d-flex">
+                                            {/* <div class="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
                                                 <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>1st Floor</strong> <FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
                                                 <div class="card-body">
                                                     <p class="card-title text-center">(05) Rooms</p>
@@ -211,8 +217,8 @@ function Dashboard() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </div> */}
+                                        // </div>
                                         })
                                        
                                     }                           
