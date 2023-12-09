@@ -13,13 +13,10 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AiOutlineDelete } from "react-icons/ai";
 import RoomDetails from '../Pages/RoomDetails';
 import Form from 'react-bootstrap/Form';
-<<<<<<< HEAD
 import DashBoardRoomsList from './DashBoardRoomsList';
 
-=======
 import { TiDeleteOutline } from "react-icons/ti";
 import Button from 'react-bootstrap/Button';
->>>>>>> 7c32e479acf72b0ec07ac1aeb732abb13157c838
 
 
 function Dashboard() {
@@ -299,11 +296,8 @@ const handleRoomCount =(floorID) =>{
                                         <FaSquare style={{ color: "green", height: "20px" }} />   <h6 class="ps-2" style={{ color: "green" }}>Room Full</h6>
 
                                     </div>
-                                    </>
-                                )
-                                        }
-                                        return null
-                                    })}
+                                   
+                                      
                                 </div>
 
                                 
