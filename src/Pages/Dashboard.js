@@ -5,8 +5,6 @@ import Plus from '../Assets/Images/Create-button.png';
 import Image from 'react-bootstrap/Image';
 import '../Pages/Dashboard.css';
 import { FaSquare } from "react-icons/fa";
-import Room from '../Assets/Images/Room.png';
-import { FaAngleRight } from "react-icons/fa";
 import { FaSearch } from 'react-icons/fa';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -14,7 +12,6 @@ import { AiOutlineDelete } from "react-icons/ai";
 import RoomDetails from '../Pages/RoomDetails';
 import Form from 'react-bootstrap/Form';
 import DashBoardRoomsList from './DashBoardRoomsList';
-
 import { TiDeleteOutline } from "react-icons/ti";
 import Button from 'react-bootstrap/Button';
 
@@ -22,7 +19,6 @@ import Button from 'react-bootstrap/Button';
 function Dashboard() {
 
     const state = useSelector(state => state)
-    // console.log('state', state)
     const dispatch = useDispatch();
     
     const [show, setShow] = useState(false);
@@ -30,7 +26,7 @@ function Dashboard() {
     const handleShow = () => setShow(true);
     const [shows, setShows] = useState(false);
     const handleCloses = () => setShows(false);
-    const handleShows = () => setShows(true);
+    // const handleShows = () => setShows(true);
     const [activePage, setActivePage] = useState(true)
     const [roomDetails, setRoomDetails] = useState('');
     const [hostel_List,setHostel_List] = useState(state.UsersList.hostelList)
@@ -39,15 +35,15 @@ function Dashboard() {
         dispatch({ type: 'HOSTELLIST' })
         console.log("state",state);
       }, [])
-const handleRoomCount =(floorID) =>{
-    dispatch({type:'ROOMCOUNT',payload:{floor_Id:floorID,hostel_Id:1}})
-    console.log("state",state);
-}
-    const handlePageClicks = (page) => {
-        setRoomDetails(page);
-        setActivePage(false)
+// const handleRoomCount =(floorID) =>{
+//     dispatch({type:'ROOMCOUNT',payload:{floor_Id:floorID,hostel_Id:1}})
+//     console.log("state",state);
+// }
+//     const handlePageClicks = (page) => {
+//         setRoomDetails(page);
+//         setActivePage(false)
 
-    };
+//     };
     const handleCancel = () => {
         handleClose();
     };
@@ -63,10 +59,10 @@ const handleRoomCount =(floorID) =>{
         { name: '2nd Floor', rooms: [{ name: 'S001', beds: ['BED 1', 'BED 2', 'BED 3'] }, { name: 'S002', beds: ['BED 1', 'BED 2'] }, { name: 'S003', beds: ['BED 1', 'BED 2', 'BED 3', 'BED 4'] }] },
         { name: '3rd Floor', rooms: [{ name: 'T001', beds: ['BED 1', 'BED 2', 'BED 3'] }, { name: 'T002', beds: ['BED 1', 'BED 2', 'BED 3'] }, { name: 'T003', beds: ['BED 1', 'BED 2', 'BED 3', 'BED 4'] }, { name: 'T004', beds: ['BED 1', 'BED 2'] }] },
     ]);
-    const groundFloor = floors.find(floor => floor.name === 'Ground Floor');
-    const firstFloor = floors.find(floor => floor.name === '1st Floor');
-    const secondFloor = floors.find(floor => floor.name === '2nd Floor');
-    const thirdFloor = floors.find(floor => floor.name === '3rd Floor');
+    // const groundFloor = floors.find(floor => floor.name === 'Ground Floor');
+    // const firstFloor = floors.find(floor => floor.name === '1st Floor');
+    // const secondFloor = floors.find(floor => floor.name === '2nd Floor');
+    // const thirdFloor = floors.find(floor => floor.name === '3rd Floor');
 
 
     return (
@@ -306,55 +302,9 @@ const handleRoomCount =(floorID) =>{
 
                                     {
                                         Array.from(Array(item.number_Of_Floor), (index, element) => {
-                                            // handleRoomCount(index+1)
                                             console.log("FloorID",index,element);
                                             return <DashBoardRoomsList floorID={element+1} hostel_Id={item.id}/>
-                                            // <div class="floor d-flex">
-                                            {/* <div class="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto" }}>
-                                                <div class="card-header d-flex justify-content-between p-2"><strong style={{ fontSize: "13px" }}>1st Floor</strong> <FaAngleRight class="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
-                                                <div class="card-body">
-                                                    <p class="card-title text-center">(05) Rooms</p>
-                                                    <div class="row row-gap-3 pe-3">
-                                                        <div class="col-4">
-                                                            <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                                <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
-                                                                <p style={{ marginTop: "2px", fontSize: "10px" }}>F001</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                                <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
-                                                                <p style={{ marginTop: "2px", fontSize: "10px" }}>F002</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                                <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
-                                                                <p style={{ marginTop: "2px", fontSize: "10px" }}>F003</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                                <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
-                                                                <p style={{ marginTop: "2px", fontSize: "10px" }}>F004</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
-                                                                <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room'/>
-                                                                <p style={{ marginTop: "2px", fontSize: "10px" }}>F005</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="card text-bg-light text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }}>
-                                                                <img src={Plus} class="pt-2 mb-0" height="25" width="15" alt='Room'/>
-                                                                <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} class="mb-0">Create Room</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
-                                        // </div>
+                                            
                                         })
                                        
                                     }                           
