@@ -21,7 +21,15 @@ const TableWithPagination = () => {
   const [showForm, setShowForm] = useState(false);
   const [isUserClicked, setUserClicked] = useState(true);
 
- 
+ const [invoiceList,setInvoiceList] = useState({
+  firstName:'',
+  lastName:'',
+  phone:'',
+  email:'',
+  amount:'',
+  balanceDue:'',
+  dueDate:'2023-12-30'
+ })
 
 
   const itemsPerPage = 10;
@@ -40,7 +48,8 @@ const TableWithPagination = () => {
 
   useEffect(()=> {
     console.log("executing useEffect")
-    dispatch({type:'USERLIST'})
+    // dispatch({type:'USERLIST'})
+    dispatch({type:'INVOICELIST'})
 },[])
 
 useEffect(()=> {
@@ -122,6 +131,13 @@ const bottomBorderStyle = {
   marginTop: "-13px"
 };
 
+const handleSaveInvoiceList = () =>{
+  console.log('save');
+  dispatch({type:'ADDINVOICEDETAILS',
+  payload:{Name:invoiceList.firstName +' '+ invoiceList.lastName,Phone:invoiceList.phone,Email:invoiceList.email,Amount:invoiceList.amount,BalanceDue:invoiceList.balanceDue,DueDate:invoiceList.dueDate,Status:invoiceList.balanceDue==0?"Success":"Pending"}})
+
+  dispatch({type:'INVOICELIST'})
+}
 
 console.log("state",state);
 console.log("currentItems",currentItems);
@@ -204,7 +220,7 @@ console.log("currentItems",currentItems);
               <Form.Label style={{ fontSize: "12px" }}>First Name</Form.Label>
               <FormControl
                 type="text"
-                // value={userList.firstName} onChange={(e) => { setUserList({ ...userList, firstName: e.target.value }) }}
+                value={invoiceList.firstName} onChange={(e) => { setInvoiceList({ ...invoiceList, firstName: e.target.value }) }}
                 style={bottomBorderStyle}
               />
             </Form.Group>
@@ -214,118 +230,65 @@ console.log("currentItems",currentItems);
               <Form.Label style={{ fontSize: "12px" }}>Last Name</Form.Label>
               <FormControl
                 type="text"
-                // value={userList.lastName} onChange={(e) => { setUserList({ ...userList, lastName: e.target.value }) }}
+                value={invoiceList.lastName} onChange={(e) => { setInvoiceList({ ...invoiceList, lastName: e.target.value }) }}
                 style={bottomBorderStyle}
               />
             </Form.Group>
           </div>
         </div>
-        <div className='row'>
           <div className='col lg-6'>
             <Form.Group className="mb-3">
               <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
               <FormControl
                 type="text"
-                // value={userList.PhoneNo} onChange={(e) => { setUserList({ ...userList, PhoneNo: e.target.value }) }}
+                value={invoiceList.phone} onChange={(e) => { setInvoiceList({ ...invoiceList, phone: e.target.value }) }}
                 style={bottomBorderStyle}
               />
             </Form.Group>
           </div>
           <div className='col lg-6'>
             <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Email Id</Form.Label>
+              <Form.Label style={{ fontSize: "12px" }}>Email ID</Form.Label>
               <FormControl
                 type="text"
-                // value={userList.Email} onChange={(e) => { setUserList({ ...userList, Email: e.target.value})}}
+                value={invoiceList.email} onChange={(e) => { setInvoiceList({ ...invoiceList, email: e.target.value }) }}
                 style={bottomBorderStyle}
               />
             </Form.Group>
           </div>
-        </div>
         <div className='row'>
+          <div className='col lg-6'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px" }}>Amount</Form.Label>
+              <FormControl
+                type="text"
+                value={invoiceList.amount} onChange={(e) => { setInvoiceList({ ...invoiceList, amount: e.target.value})}}
+                style={bottomBorderStyle}
+              />
+            </Form.Group>
+          </div>
           <div className='col lg-12'>
             <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Address</Form.Label>
+              <Form.Label style={{ fontSize: "12px" }}>Balance Due</Form.Label>
               <FormControl
                 type="text"
-                // value={userList.Address} onChange={(e) => { setUserList({ ...userList, Address: e.target.value }) }}
+                value={invoiceList.balanceDue} onChange={(e) => { setInvoiceList({ ...invoiceList, balanceDue: e.target.value }) }}
                 style={bottomBorderStyle}
               />
             </Form.Group>
           </div>
         </div>
-        <div className='row'>
-          <div className='col lg-4'>
-            <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
-            <Form.Select aria-label="Default select example"
-              style={bottomBorderStyle}>
-              <option value="1"></option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-
-            </Form.Select>
-          </div>
-          <div className='col lg-4'>
-            <Form.Label style={{ fontSize: "12px" }}>Select Room</Form.Label>
-            <Form.Select aria-label="Default select example"
-              style={bottomBorderStyle}>
-
-              <option value="1"></option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-
-            </Form.Select>
-          </div>
-          <div className='col lg-4'>
-            <Form.Label style={{ fontSize: "12px" }}>Select Bed</Form.Label>
-            <Form.Select aria-label="Default select example"
-              style={bottomBorderStyle}>
-
-              <option value="1"></option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-
-            </Form.Select>
-          </div>
-
-        </div>
-        <div className='row'>
-          <div className='col lg-6'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px", marginTop: "15px" }}>Advance Amount</Form.Label>
-              <FormControl
-                type="text"
-
-                style={bottomBorderStyle}
-              />
-            </Form.Group>
-          </div>
-
-          <div className='col lg-6'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px", marginTop: "15px" }}>Room Rent (Monthly)</Form.Label>
-              <FormControl
-                type="text"
-
-                style={bottomBorderStyle}
-              />
-            </Form.Group>
-          </div>
-        </div>
-
       </div>
 
+      <div class="d-flex justify-content-center" style={{ marginTop: "30px" }} >
 
-      <hr />
-      <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
-
-        <Button variant="white" size="sm">
+        <Button variant="white" size="sm" onClick={()=>{handleClose()}}>
           Cancel
         </Button>
         <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} 
-        // onClick={handleSaveUserlist}
+        onClick={handleSaveInvoiceList}
         >
-          Next
+          Save
         </Button>
 
       </div>
@@ -350,16 +313,25 @@ console.log("currentItems",currentItems);
           </tr>
         </thead>
         <tbody style={{ fontSize: "10px" }}>
-          {currentItems.map((item) => (
+          {state.InvoiceList.Invoice.map((item) => (
             <tr key={item.id}>  
               <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices}</td>
+              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices==null?'0.00':item.Invoices}</td>
 
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}> <span class="i-circle"><p style={{ fontSize: 12, color: "black" }} class="mb-0">{item.Circle}</p></span><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.Name}</span></td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.RoomRent}</td>
+              <td style={{ color: "#0D99FF", fontWeight: 600 }}>
+              <div class="d-flex">
+                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.slice(0,1,0)}{item.Name.slice(0,1,0)}</p></span>
+                  <div class="ms-2">
+                    <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
+                    <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.phoneNo}</label>
+                  </div>
+                </div>
+                 {/* <span class="i-circle"><p style={{ fontSize: 12, color: "black" }} class="mb-0">{item.Circle}</p></span><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.Name}</span><br></br><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.Phone}</span> */}
+                 </td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.Duedate).format('DD/MM/YY')}</td>
-              <td style={item.Status == "Success" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
+              <td style={item.BalanceDue == 0 ? { color: "green" } : { color: "red" }}>{item.BalanceDue ==0?"Success":"Pending"}</td>
               <td class="justify-content-between"><img src={List} height="20" width="20" alt='List'/><img class="ms-1" src={Edit} height="20" width="20" alt='Edit'/></td>
 
             </tr>

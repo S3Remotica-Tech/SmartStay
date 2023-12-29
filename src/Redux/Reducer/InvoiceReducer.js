@@ -1,6 +1,6 @@
 const initialState = {
-    Invoice: []
-    
+    Invoice: [],
+    message:''
     }
     
     const InvoiceReducer = (state = initialState, action) => {
@@ -8,6 +8,8 @@ const initialState = {
         switch(action.type) {
             case 'INVOICE_LIST':
                 return {...state, Invoice: action.payload}
+            case 'ADDINVOICE_DETAILS':
+                return {...state, message:action.payload.message}
         }
         return state;
     } 
