@@ -223,12 +223,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 
-
-
-
-
-
-
 const currencies = [
   {
     value: 'USD',
@@ -260,11 +254,12 @@ const Compliance = () => {
   useEffect(()=> {
     console.log("executing useEffect")
     dispatch({type:'COMPLIANCE-LIST'})
+    setData(state.ComplianceList.Compliance)
 },[])
 
-useEffect(()=> {
- setData(state.ComplianceList.Compliance)
-},[])
+// useEffect(()=> {
+//  setData(state.ComplianceList.Compliance)
+// },[])
 
 const [showForm, setShowForm] = useState(false);
 const [isUserClicked, setUserClicked] = useState(true);

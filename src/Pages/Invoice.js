@@ -1,35 +1,37 @@
 
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
 import List from '../Assets/Images/list-report.png';
 import Edit from '../Assets/Images/edit.png';
-import {  Button, Offcanvas, Form, Dropdown, FormControl } from 'react-bootstrap';
+import { Button, Offcanvas, Form, Dropdown, FormControl } from 'react-bootstrap';
 import Plus from '../Assets/Images/Create-button.png';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 
 const TableWithPagination = () => {
- 
 
-  const[data,setData] = useState([]);
+
+  const [data, setData] = useState([]);
   //offcanvas variable
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [isUserClicked, setUserClicked] = useState(true);
 
- const [invoiceList,setInvoiceList] = useState({
-  firstName:'',
-  lastName:'',
-  phone:'',
-  email:'',
-  amount:'',
-  balanceDue:'',
-  dueDate:'2023-12-30'
- })
+  const [invoiceList, setInvoiceList] = useState({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    amount: '',
+    balanceDue: '',
+    dueDate: '2023-12-30'
+  })
 
 
   const itemsPerPage = 10;
@@ -41,21 +43,44 @@ const TableWithPagination = () => {
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  const state = useSelector(state=> state)  
-  console.log('state',state)
-
+  const state = useSelector(state => state)
+  const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
 
-  useEffect(()=> {
-    console.log("executing useEffect")
+  useEffect(() => {
     // dispatch({type:'USERLIST'})
-    dispatch({type:'INVOICELIST'})
-},[])
+    dispatch({ type: 'INVOICELIST' })
+  }, [])
 
-useEffect(()=> {
- setData(state.UsersList.Users)
-},[])
+  useEffect(() => {
+    setData(state.UsersList.Users)
+  }, [])
 
+const handlePhoneNo = (e) => {
+  const result = e.target.value.replace(/\D/g, '');
+  const phoneError = document.getElementById("phoneError");
+  setInvoiceList({ ...invoiceList, phone: result })
+  if(result.length < 10){
+    phoneError.textContent = "Please put 10 digit mobile number";
+  }
+  else{
+    phoneError.textContent = "";
+  }
+}
+
+  const handleEmailID = (e) =>{
+    const emailID = e.target.value
+    const emailError = document.getElementById("emailError");
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    if (!emailPattern.test(emailID)) {
+      setInvoiceList({ ...invoiceList, email: emailID })
+      emailError.textContent = "Invalid email format";
+    } else {
+      emailError.textContent = "";
+    }
+    // setInvoiceList({ ...invoiceList, email: emailID })
+  }
 
   // pagination
   const handleNextClick = () => {
@@ -66,23 +91,50 @@ useEffect(()=> {
     setCurrentPage((prevPage) => prevPage - 1);
   };
 
-//offcanvas function
-const handleMenuClick = () => {
-  setShowForm(true);
-  setUserClicked(true);
-};
+  //offcanvas function
+  const handleMenuClick = () => {
+    setShowForm(true);
+    setUserClicked(true);
+  };
 
-const handleClose = () => {
-  setShowMenu(false);
-  setUserClicked(false);
-  setShowForm(false);
-};
+  const handleClose = () => {
+    setInvoiceList({
+      firstName: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      amount: '',
+      balanceDue: '',
+      dueDate: '2023-12-30'
+    })
+    setShowMenu(false);
+    setUserClicked(false);
+    setShowForm(false);
+  };
 
-const handleShow = () => {
-  // Call handleMenuClick when "Add User" button is clicked
-  handleMenuClick();
-  setShowMenu(true);
-};
+  const handleShow = (item) => {
+    console.log("item", item);
+    if (item.id) {
+      setEditOption('Edit')
+      let value =  item.Name.split(" ")
+      setInvoiceList({
+        id: item.id,
+        firstName: value[0],
+        lastName: value[1],
+        phone: item.phoneNo,
+        email: item.EmailID,
+        amount: item.Amount,
+        balanceDue: item.BalanceDue,
+        dueDate: '2023-12-30'
+      })
+    }
+    else {
+      setEditOption('Add')
+    }
+    // Call handleMenuClick when "Add User" button is clicked
+    handleMenuClick();
+    setShowMenu(true);
+  };
 
 
   // page range
@@ -102,45 +154,87 @@ const handleShow = () => {
   };
 
   const [searchItem, setSearchItem] = useState('')
-  const handleInputChange = (e) => { 
+  const handleInputChange = (e) => {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
 
     const filteredItems = state.InvoiceList.Invoice.filter((user) =>
-    user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+      user.Name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setData(filteredItems);
   }
 
 
-const [searchicon ,setSearchicon] = useState(false);
+  const [searchicon, setSearchicon] = useState(false);
 
-const handleiconshow = () => {
-  setSearchicon(!searchicon)
-}
+  const handleiconshow = () => {
+    setSearchicon(!searchicon)
+  }
 
-//offcanvas style
-const bottomBorderStyle = {
-  border: 'none',
-  borderBottom: '1px solid #ced4da',
-  borderRadius: '0',
-  boxShadow: 'none',
-  fontWeight: 'bold',
-  fontSize: "11px",
-  marginTop: "-13px"
-};
+  //offcanvas style
+  const bottomBorderStyle = {
+    border: 'none',
+    borderBottom: '1px solid #ced4da',
+    borderRadius: '0',
+    boxShadow: 'none',
+    fontWeight: 'bold',
+    fontSize: "11px",
+    marginTop: "-13px"
+  };
 
-const handleSaveInvoiceList = () =>{
-  console.log('save');
-  dispatch({type:'ADDINVOICEDETAILS',
-  payload:{Name:invoiceList.firstName +' '+ invoiceList.lastName,Phone:invoiceList.phone,Email:invoiceList.email,Amount:invoiceList.amount,BalanceDue:invoiceList.balanceDue,DueDate:invoiceList.dueDate,Status:invoiceList.balanceDue==0?"Success":"Pending"}})
+  const handleSaveInvoiceList = () => {
+    if(invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue){
+    dispatch({
+      type: 'ADDINVOICEDETAILS',
+      payload: { Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue, DueDate: invoiceList.dueDate, Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '' }
+    })
 
-  dispatch({type:'INVOICELIST'})
-}
+    dispatch({ type: 'INVOICELIST' })
+    setInvoiceList({
+      firstName: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      amount: '',
+      balanceDue: '',
+      dueDate: '2023-12-30'
+    })
+    Swal.fire({
+      icon: "success",
+      title: editOption == 'Add' ? 'Details Saved Successfully' : 'Details Updated Successfully',
+      confirmButtonText: "ok"
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        setInvoiceList({
+          firstName: '',
+          lastName: '',
+          phone: '',
+          email: '',
+          amount: '',
+          balanceDue: '',
+          dueDate: '2023-12-30'
+        })
+        handleClose()
 
-console.log("state",state);
-console.log("currentItems",currentItems);
+      }
+    });
+    }
+    else{
+      Swal.fire({
+        icon: "warning",
+        title: 'Please Enter All Field',
+        confirmButtonText: "ok"
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {          
+        }
+      });
+    }
+
+
+  }
 
   return (
     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
@@ -154,24 +248,24 @@ console.log("currentItems",currentItems);
         <div class="col-lg-6  offset-lg-4 col-md-6 col-sm-12 col-xs-12">
           <div class="p-1 d-flex justify-content-end align-items-center"  >
 
-          {
-            searchicon && 
-            <>
-            <input
-            type="text"
-            value={searchItem}
-            
-            onChange={(e)=>handleInputChange(e)}
-            placeholder='Type to search'
-            class="form-control ps-2 pe-1 pb-1 pt-1 searchinput"
-            style={{width:'150px',marginRight:'20px'}}
-            
-          />
-          </>
-          }
-            <BsSearch class=" me-4"  onClick={handleiconshow}/>
+            {
+              searchicon &&
+              <>
+                <input
+                  type="text"
+                  value={searchItem}
+
+                  onChange={(e) => handleInputChange(e)}
+                  placeholder='Type to search'
+                  class="form-control ps-2 pe-1 pb-1 pt-1 searchinput"
+                  style={{ width: '150px', marginRight: '20px' }}
+
+                />
+              </>
+            }
+            <BsSearch class=" me-4" onClick={handleiconshow} />
             <IoFilterOutline class=" me-4" />
-            <button type="button"  onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" /> Add Invoice</button>
+            <button type="button" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" /> Add Invoice</button>
           </div>
         </div>
         <div>
@@ -183,29 +277,29 @@ console.log("currentItems",currentItems);
 
       <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: "69vh" }}>
 
-<Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Add Invoice</Offcanvas.Title>
+        <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >{editOption == 'Add' ? "Add Invoice" : "Edit Invoice"}</Offcanvas.Title>
 
 
-<Offcanvas.Body>
-  <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
-    <div class="p-1 bd-highlight user-menu">
+        <Offcanvas.Body>
+          <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
+            <div class="p-1 bd-highlight user-menu">
 
-      <ul className={isUserClicked ? 'active' : ''} onClick={handleMenuClick}  >
+              <ul className={isUserClicked ? 'active' : ''} onClick={handleMenuClick}  >
 
 
-        User Details
-      </ul>
-    </div>
-    {/* <div class="p-2 bd-highlight">
+                User Details
+              </ul>
+            </div>
+            {/* <div class="p-2 bd-highlight">
       <ul onClick={() => setShowForm(false)}>KYC Details</ul>
 
     </div> */}
 
-  </div>
+          </div>
 
-  {showForm && (
-    <Form>
-      {/* <p style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
+          {showForm && (
+            <Form>
+              {/* <p style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
 
 
       <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
@@ -213,89 +307,93 @@ console.log("currentItems",currentItems);
         <FaPlusCircle style={{ color: 'blue', position: 'absolute', bottom: '-20px', left: '50%', transform: 'translateX(-50%)' }} />
       </div> */}
 
-      <div className='container' style={{ marginTop: "30px" }}>
-        <div className='row'>
-          <div className='col lg-6'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>First Name</Form.Label>
-              <FormControl
-                type="text"
-                value={invoiceList.firstName} onChange={(e) => { setInvoiceList({ ...invoiceList, firstName: e.target.value }) }}
-                style={bottomBorderStyle}
-              />
-            </Form.Group>
-          </div>
-          <div className='col lg-6'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Last Name</Form.Label>
-              <FormControl
-                type="text"
-                value={invoiceList.lastName} onChange={(e) => { setInvoiceList({ ...invoiceList, lastName: e.target.value }) }}
-                style={bottomBorderStyle}
-              />
-            </Form.Group>
-          </div>
-        </div>
-          <div className='col lg-6'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
-              <FormControl
-                type="text"
-                value={invoiceList.phone} onChange={(e) => { setInvoiceList({ ...invoiceList, phone: e.target.value }) }}
-                style={bottomBorderStyle}
-              />
-            </Form.Group>
-          </div>
-          <div className='col lg-6'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Email ID</Form.Label>
-              <FormControl
-                type="text"
-                value={invoiceList.email} onChange={(e) => { setInvoiceList({ ...invoiceList, email: e.target.value }) }}
-                style={bottomBorderStyle}
-              />
-            </Form.Group>
-          </div>
-        <div className='row'>
-          <div className='col lg-6'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Amount</Form.Label>
-              <FormControl
-                type="text"
-                value={invoiceList.amount} onChange={(e) => { setInvoiceList({ ...invoiceList, amount: e.target.value})}}
-                style={bottomBorderStyle}
-              />
-            </Form.Group>
-          </div>
-          <div className='col lg-12'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Balance Due</Form.Label>
-              <FormControl
-                type="text"
-                value={invoiceList.balanceDue} onChange={(e) => { setInvoiceList({ ...invoiceList, balanceDue: e.target.value }) }}
-                style={bottomBorderStyle}
-              />
-            </Form.Group>
-          </div>
-        </div>
-      </div>
+              <div className='container' style={{ marginTop: "30px" }}>
+                <div className='row'>
+                  <div className='col lg-6'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: "12px" }}>First Name</Form.Label>
+                      <FormControl
+                        type="text"
+                        value={invoiceList.firstName} onChange={(e) => { setInvoiceList({ ...invoiceList, firstName: e.target.value }) }}
+                        style={bottomBorderStyle}
+                      />
+                    </Form.Group>
+                  </div>
+                  <div className='col lg-6'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: "12px" }}>Last Name</Form.Label>
+                      <FormControl
+                        type="text"
+                        value={invoiceList.lastName} onChange={(e) => { setInvoiceList({ ...invoiceList, lastName: e.target.value }) }}
+                        style={bottomBorderStyle}
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
+                <div className='col lg-6'>
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
+                    <FormControl
+                      type="text"
+                      value={invoiceList.phone} 
+                      onChange={(e)=>{handlePhoneNo(e)}}
+                      style={bottomBorderStyle}
+                    />
+                  </Form.Group>
+                  <p id='phoneError' style={{color:'red',fontSize:14}}></p>
+                </div>
+                <div className='col lg-6'>
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontSize: "12px" }}>Email ID</Form.Label>
+                    <FormControl
+                      type="email"
+                      value={invoiceList.email} 
+onChange={(e)=>{handleEmailID(e)}}
+                      style={bottomBorderStyle}
+                    />
+                  </Form.Group>
+                  <p id='emailError' style={{color:'red',fontSize:14}}></p>
+                </div>
+                <div className='row'>
+                  <div className='col lg-6'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: "12px" }}>Amount</Form.Label>
+                      <FormControl
+                        type="text"
+                        value={invoiceList.amount} onChange={(e) => { setInvoiceList({ ...invoiceList, amount: e.target.value }) }}
+                        style={bottomBorderStyle}
+                      />
+                    </Form.Group>
+                  </div>
+                  <div className='col lg-12'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: "12px" }}>Balance Due</Form.Label>
+                      <FormControl
+                        type="text"
+                        value={invoiceList.balanceDue} onChange={(e) => { setInvoiceList({ ...invoiceList, balanceDue: e.target.value }) }}
+                        style={bottomBorderStyle}
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
+              </div>
 
-      <div class="d-flex justify-content-center" style={{ marginTop: "30px" }} >
+              <div class="d-flex justify-content-center" style={{ marginTop: "30px" }} >
 
-        <Button variant="white" size="sm" onClick={()=>{handleClose()}}>
-          Cancel
-        </Button>
-        <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} 
-        onClick={handleSaveInvoiceList}
-        >
-          Save
-        </Button>
+                <Button variant="white" size="sm" onClick={() => { handleClose() }}>
+                  Cancel
+                </Button>
+                <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
+                  onClick={handleSaveInvoiceList}
+                >
+                  {editOption === 'Add' ? "Save" : "Update"}
+                </Button>
 
-      </div>
-    </Form>
-  )}
-</Offcanvas.Body>
-</Offcanvas>
+              </div>
+            </Form>
+          )}
+        </Offcanvas.Body>
+      </Offcanvas>
 
 
 
@@ -314,33 +412,28 @@ console.log("currentItems",currentItems);
         </thead>
         <tbody style={{ fontSize: "10px" }}>
           {state.InvoiceList.Invoice.map((item) => (
-            <tr key={item.id}>  
+            <tr key={item.id}>
               <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices==null?'0.00':item.Invoices}</td>
+              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices == null ? '0.00' : item.Invoices}</td>
 
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>
-              <div class="d-flex">
-                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.slice(0,1,0)}{item.Name.slice(0,1,0)}</p></span>
+                <div class="d-flex">
+                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1, 0)}</p></span>
                   <div class="ms-2">
                     <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
                     <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.phoneNo}</label>
                   </div>
                 </div>
-                 {/* <span class="i-circle"><p style={{ fontSize: 12, color: "black" }} class="mb-0">{item.Circle}</p></span><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.Name}</span><br></br><span style={{ color: "#0D99FF", fontWeight: 600, marginLeft: 5 }}>{item.Phone}</span> */}
-                 </td>
+              </td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
-              <td style={item.BalanceDue == 0 ? { color: "green" } : { color: "red" }}>{item.BalanceDue ==0?"Success":"Pending"}</td>
-              <td class="justify-content-between"><img src={List} height="20" width="20" alt='List'/><img class="ms-1" src={Edit} height="20" width="20" alt='Edit'/></td>
-
-            </tr>
+              <td style={item.BalanceDue == 0 ? { color: "green" } : { color: "red" }}>{item.BalanceDue == 0 ? "Success" : "Pending"}</td>
+              <td class="justify-content-between"><img src={List} height="20" width="20" alt='List' /><img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /></td>
+</tr>
           ))}
         </tbody>
       </Table>
-
-
-
       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
 
         <div style={{ display: "flex", flexDirection: "row" }}>
