@@ -49,11 +49,24 @@ function Sidebar() {
     email_Id: '',
     location: '',
     number_Of_Floor: '',
-    room_Id: '',
-    number_Of_Bed: '',
-    floorDetails: []
-
+    // room_Id: '',
+    // number_Of_Bed: '',
+  //   floorDetails: [
+  //     {
+  //     floorNo:'',
+  //     RoomDetails:[]
+  //   }
+  // ]
   })
+  const [floorDetails,setfloorDetails] = useState(
+    {
+    floorName:'',
+    RoomDetails:[{
+      RoomNo:'',
+      NumberOfBeds:''
+    }]
+  }
+)
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
@@ -129,15 +142,15 @@ function Sidebar() {
     }
   
    
-    setPgList({
-      Name: '',
-      phoneNumber: '',
-      email_Id: '',
-      location: '',
-      number_Of_Floor: '',
-      room_Id: '',
-      number_Of_Bed: '',
-    });
+    // setPgList({
+    //   Name: '',
+    //   phoneNumber: '',
+    //   email_Id: '',
+    //   location: '',
+    //   number_Of_Floor: '',
+    //   // room_Id: '',
+    //   // number_Of_Bed: '',
+    // });
   
     
     handleClose();
@@ -164,7 +177,7 @@ function Sidebar() {
     };
   }, []);
 
-
+console.log("pglist",pgList);
   return (
     <Container fluid className='p-0'>
 
@@ -325,6 +338,8 @@ function Sidebar() {
                                         id="exampleInput"
                                         placeholder="Enter here"
                                         style={{ fontSize: "11px" }}
+                                        onChange={(e)=>{setfloorDetails([...floorDetails.RoomDetails,{RoomNo:e.target.value}])}}
+                                        // onChange={(e)=>{setPgList({...pgList,floorDetails:[...pgList.floorDetails,{roomNo:e.target.value}]})}}
                                       />
                                     </div>
 
@@ -336,6 +351,8 @@ function Sidebar() {
                                         id="exampleInput"
                                         placeholder="Enter here"
                                         style={{ fontSize: "11px" }}
+                                        onChange={(e)=>{setfloorDetails([...floorDetails.RoomDetails,{NumberOfBeds:e.target.value}])}}
+                                        // onChange={(e)=>{setPgList({...pgList,floorDetails:[...pgList.floorDetails,{number_Of_Bed:e.target.value}]})}}
                                       />
                                     </div>
                                   </div>

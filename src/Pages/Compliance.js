@@ -21,8 +21,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-
-
 const currencies = [
   {
     value: 'USD',
