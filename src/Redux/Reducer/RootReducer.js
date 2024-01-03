@@ -5,6 +5,7 @@ import ForgetReducer from "./ForgetReducer";
 import UserListReducer from "./UserListReducer";
 import InvoiceReducer from "./InvoiceReducer";
 import ComplianceReducer from "./ComplianceReducer";
+import PgListReducer from "./PgListReducer";
 
 
 const RootReducer = combineReducers({
@@ -13,7 +14,8 @@ createAccount :CreateAccountReducer,
 NewPass:ForgetReducer,
 UsersList:UserListReducer,
 InvoiceList:InvoiceReducer,
-ComplianceList:ComplianceReducer
+ComplianceList:ComplianceReducer,
+PgList: PgListReducer
 
 
 })

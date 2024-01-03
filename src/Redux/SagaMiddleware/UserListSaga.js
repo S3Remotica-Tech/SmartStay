@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { userlist, addUser, hostelList, roomsCount} from "../Action/UserListAction"
+import { userlist, addUser, hostelList, roomsCount,hosteliddetail} from "../Action/UserListAction"
 
 
 function* handleuserlist() {
@@ -44,10 +44,23 @@ function* handleNumberOfRooms(ID) {
    }
 }
 
+function* handlehosteliddetail(data) {
+   const response = yield call(hosteliddetail,data.payload);
+   console.log("responseesssss", response);
+   if (response.status === 200) {
+      yield put({ type: 'HOSTEL_DETAIL_LIST', payload: response.data })
+
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+}
+
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
    yield takeEvery('HOSTELLIST', handleHostelList)
    yield takeEvery('ROOMCOUNT', handleNumberOfRooms)
+   yield takeEvery('HOSTELDETAILLIST', handlehosteliddetail)
 }
 export default UserListSaga;
