@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
@@ -38,7 +37,6 @@ const TableWithPagination = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // dispatch({type:'USERLIST'})
     dispatch({ type: 'INVOICELIST' })
     setData(state.InvoiceList.Invoice)
   }, [])
@@ -51,47 +49,43 @@ const TableWithPagination = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const [currentItems,setcurrentItems] = useState(state.InvoiceList?.Invoice.slice(indexOfFirstItem, indexOfLastItem));
-  const currentItems= state.InvoiceList?.Invoice.length >0 && state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = state.InvoiceList?.Invoice.length > 0 && state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  // useEffect(() => {
-  //   setData(state.UsersList.Users)
-  // }, [])
-
-const handlePhoneNo = (e) => {
-  const result = e.target.value.replace(/\D/g, '');
-  const phoneError = document.getElementById("phoneError");
-  setInvoiceList({ ...invoiceList, phone: result })
-  if(result.length < 10){
-    phoneError.textContent = "Please put 10 digit mobile number";
+  const handlePhoneNo = (e) => {
+    const result = e.target.value.replace(/\D/g, '');
+    const phoneError = document.getElementById("phoneError");
+    setInvoiceList({ ...invoiceList, phone: result })
+    if (result.length < 10) {
+      phoneError.textContent = "Please put 10 digit mobile number";
+    }
+    else {
+      phoneError.textContent = "";
+    }
   }
-  else{
-    phoneError.textContent = "";
-  }
-}
 
-  const handleEmailID = (e) =>{
-    const emailID = e.target.value
+  const handleEmailID = (e) => {
+    const emailID = e.target.value;
     const emailError = document.getElementById("emailError");
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
     if (!emailPattern.test(emailID)) {
-      setInvoiceList({ ...invoiceList, email: emailID })
+      setInvoiceList({ ...invoiceList, email: emailID }); // Corrected this line
       emailError.textContent = "Invalid email format";
     } else {
+      setInvoiceList({ ...invoiceList, email: emailID }); // Set email even when valid (optional, depends on your use case)
       emailError.textContent = "";
     }
-    // setInvoiceList({ ...invoiceList, email: emailID })
+
   }
 
   // pagination
   const handleNextClick = () => {
-    console.log("totalPage",totalPages);
-    setCurrentPage((prevPage) => prevPage === totalPages? prevPage : prevPage + 1);
+    setCurrentPage((prevPage) => prevPage === totalPages ? prevPage : prevPage + 1);
   };
 
   const handlePreviousClick = () => {
-    setCurrentPage((prevPage) => prevPage === 1 ? prevPage:prevPage - 1);
+    setCurrentPage((prevPage) => prevPage === 1 ? prevPage : prevPage - 1);
   };
 
   //offcanvas function
@@ -119,7 +113,7 @@ const handlePhoneNo = (e) => {
     console.log("item", item);
     if (item.id) {
       setEditOption('Edit')
-      let value =  item.Name.split(" ")
+      let value = item.Name.split(" ")
       setInvoiceList({
         id: item.id,
         firstName: value[0],
@@ -160,19 +154,15 @@ const handlePhoneNo = (e) => {
   const handleInputChange = (e) => {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
-if (searchItem != '') {
-  const filteredItems = state.InvoiceList.Invoice.filter((user) =>
-  user.Name.toLowerCase().includes(searchTerm.toLowerCase())
-);
-
-// setcurrentItems(filteredItems.slice(indexOfFirstItem, indexOfLastItem))
-// setData(filteredItems);
-setData(filteredItems.slice(indexOfFirstItem, indexOfLastItem))
-}
-else{
-setData(currentItems)
-}
-   
+    if (searchItem != '') {
+      const filteredItems = state.InvoiceList.Invoice.filter((user) =>
+        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setData(filteredItems.slice(indexOfFirstItem, indexOfLastItem))
+    }
+    else {
+      setData(currentItems)
+    }
   }
 
 
@@ -194,59 +184,57 @@ setData(currentItems)
   };
 
   const handleSaveInvoiceList = () => {
-    if(invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue){
-    dispatch({
-      type: 'ADDINVOICEDETAILS',
-      payload: { Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue, DueDate: invoiceList.dueDate, Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '' }
-    })
+    if (invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue) {
+      dispatch({
+        type: 'ADDINVOICEDETAILS',
+        payload: { Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue, DueDate: invoiceList.dueDate, Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '' }
+      })
 
-    dispatch({ type: 'INVOICELIST' })
-    setData(state.InvoiceList.Invoice)
-    setInvoiceList({
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      amount: '',
-      balanceDue: '',
-      dueDate: '2023-12-30'
-    })
-    Swal.fire({
-      icon: "success",
-      title: editOption == 'Add' ? 'Details Saved Successfully' : 'Details Updated Successfully',
-      confirmButtonText: "ok"
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        setInvoiceList({
-          firstName: '',
-          lastName: '',
-          phone: '',
-          email: '',
-          amount: '',
-          balanceDue: '',
-          dueDate: '2023-12-30'
-        })
-        handleClose()
+      dispatch({ type: 'INVOICELIST' })
+      setData(state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem))
+      setInvoiceList({
+        firstName: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        amount: '',
+        balanceDue: '',
+        dueDate: '2023-12-30'
+      })
+      Swal.fire({
+        icon: "success",
+        title: editOption == 'Add' ? 'Details Saved Successfully' : 'Details Updated Successfully',
+        confirmButtonText: "ok"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setInvoiceList({
+            firstName: '',
+            lastName: '',
+            phone: '',
+            email: '',
+            amount: '',
+            balanceDue: '',
+            dueDate: '2023-12-30'
+          })
+          handleClose()
 
-      }
-    });
+        }
+      });
     }
-    else{
+    else {
       Swal.fire({
         icon: "warning",
         title: 'Please Enter All Field',
         confirmButtonText: "ok"
       }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {          
+        if (result.isConfirmed) {
         }
       });
     }
 
 
   }
-console.log("data",data);
+
   return (
     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
 
@@ -346,24 +334,24 @@ console.log("data",data);
                     <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
                     <FormControl
                       type="text"
-                      value={invoiceList.phone} 
-                      onChange={(e)=>{handlePhoneNo(e)}}
+                      value={invoiceList.phone}
+                      onChange={(e) => { handlePhoneNo(e) }}
                       style={bottomBorderStyle}
                     />
                   </Form.Group>
-                  <p id='phoneError' style={{color:'red',fontSize:14}}></p>
+                  <p id='phoneError' style={{ color: 'red', fontSize: 14 }}></p>
                 </div>
                 <div className='col lg-6'>
                   <Form.Group className="mb-3">
                     <Form.Label style={{ fontSize: "12px" }}>Email ID</Form.Label>
                     <FormControl
                       type="email"
-                      value={invoiceList.email} 
-onChange={(e)=>{handleEmailID(e)}}
+                      value={invoiceList.email}
+                      onChange={(e) => { handleEmailID(e) }}
                       style={bottomBorderStyle}
                     />
                   </Form.Group>
-                  <p id='emailError' style={{color:'red',fontSize:14}}></p>
+                  <p id='emailError' style={{ color: 'red', fontSize: 14 }}></p>
                 </div>
                 <div className='row'>
                   <div className='col lg-6'>
@@ -407,10 +395,10 @@ onChange={(e)=>{handleEmailID(e)}}
       </Offcanvas>
 
 
-  <Table responsive >
+      <Table responsive >
         <thead class='pt-0' style={{ backgroundColor: "#F6F7FB", color: "#91969E", fontSize: "10px" }}>
           <tr style={{}}>
-          <th style={{ color: "#91969E" }} >ID</th>
+            <th style={{ color: "#91969E" }} >ID</th>
             <th style={{ color: "#91969E" }} >Date</th>
             <th style={{ color: "#91969E" }} >Invoices#</th>
             <th style={{ color: "#91969E" }} >Name & Phone</th>
@@ -444,53 +432,13 @@ onChange={(e)=>{handleEmailID(e)}}
               <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
               <td style={item.BalanceDue == 0 ? { color: "green" } : { color: "red" }}>{item.BalanceDue == 0 ? "Success" : "Pending"}</td>
               <td class="justify-content-between"><img src={List} height="20" width="20" alt='List' /><img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /></td>
-</tr>
+            </tr>
           ))}
         </tbody>
         {/* :<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',color:'red',padding:50}}> Invoice Data Not Found ! </div>
       } */}
       </Table>
-      
 
-      {/* <Table responsive >
-        <thead class='pt-0' style={{ backgroundColor: "#F6F7FB", color: "#91969E", fontSize: "10px" }}>
-          <tr style={{}}>
-          <th style={{ color: "#91969E" }} >ID</th>
-            <th style={{ color: "#91969E" }} >Date</th>
-            <th style={{ color: "#91969E" }} >Invoices#</th>
-            <th style={{ color: "#91969E" }} >Name & Phone</th>
-            <th style={{ color: "#91969E" }} >Amount</th>
-            <th style={{ color: "#91969E" }} >Balance Due</th>
-            <th style={{ color: "#91969E" }} >Due Date</th>
-            <th style={{ color: "#91969E" }} >Status</th>
-            <th style={{ color: "#91969E" }} >Action</th>
-          </tr>
-        </thead>
-        <tbody style={{ fontSize: "10px" }}>
-          {data.map((item) => (
-            <tr key={item.id}>
-              <td style={{ color: "black", fontWeight: 500 }} >{item.id}</td>
-              <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices == null ? '0.00' : item.Invoices}</td>
-
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}>
-                <div class="d-flex">
-                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1, 0)}</p></span>
-                  <div class="ms-2">
-                    <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
-                    <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.phoneNo}</label>
-                  </div>
-                </div>
-              </td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
-              <td style={item.BalanceDue == 0 ? { color: "green" } : { color: "red" }}>{item.BalanceDue == 0 ? "Success" : "Pending"}</td>
-              <td class="justify-content-between"><img src={List} height="20" width="20" alt='List' /><img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /></td>
-</tr>
-          ))}
-        </tbody>
-      </Table> */}
       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
 
         <div style={{ display: "flex", flexDirection: "row" }}>
@@ -515,11 +463,11 @@ onChange={(e)=>{handleEmailID(e)}}
         </div>
         <div style={{ display: "flex", flexDirection: "row" }}>
 
-          <div onClick={handlePreviousClick} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px",cursor:'pointer' }}>
+          <div onClick={handlePreviousClick} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
             Prev
           </div>
           <span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPage} </span>
-          <div onClick={handleNextClick} disabled={currentPage === 10} style={{ fontSize: "10px", border: "none", marginTop: "10px" ,cursor:'pointer' }}>
+          <div onClick={handleNextClick} disabled={currentPage === 10} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
             Next
           </div>
         </div>

@@ -286,12 +286,13 @@ const handleSaveUserlist = () => {
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
           PaymentType: PaymentType,
-          ID: edit === 'Edit' ? id : '',
+          ID: edit === 'Edit' ? id : ''
         },
       });
   
       // Checking for error message in the UsersList state
-      if (state.UsersList.errorMessage) {
+      if (state.UsersList?.errorMessage?.length>0) {
+        console.log("check");
         Swal.fire({
           icon: 'warning',
           title: state.UsersList.errorMessage,
@@ -300,7 +301,7 @@ const handleSaveUserlist = () => {
       } else {
         Swal.fire({
           icon: 'success',
-          title: edit === 'Add' ? 'Detail Saved Successfully' : 'Detail Updated Successfully',
+          title: edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
           text: 'You have been Created successfully!',
           confirmButtonText: 'ok',
         }).then((result) => {
