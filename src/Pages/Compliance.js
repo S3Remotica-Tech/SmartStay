@@ -183,12 +183,16 @@ const Compliance = () => {
   const handleInputChange = (e) => {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
+if(searchTerm != ''){
+  const filteredItems = state.ComplianceList.Compliance.filter((user) =>
+  user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
-    const filteredItems = state.ComplianceList.Compliance.filter((user) =>
-      user.Name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    setData(filteredItems);
+setData(filteredItems); 
+}
+ else{
+  setData(state.ComplianceList.Compliance)
+ }  
   }
 
   const handleiconshow = () => {

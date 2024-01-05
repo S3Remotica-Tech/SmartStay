@@ -13,9 +13,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 
-
-const TableWithPagination = () => {
-
+const InvoicePage = () => {
   
   //offcanvas style
   const bottomBorderStyle = {
@@ -49,23 +47,25 @@ const TableWithPagination = () => {
   const state = useSelector(state => state)
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({ type: 'INVOICELIST' })
+  }, [])
+  useEffect(()=>{
+    setData(state.InvoiceList.Invoice)
+  },[state.InvoiceList.Invoice])
+
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(state.InvoiceList?.Invoice.length / itemsPerPage);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const [currentItems,setcurrentItems] = useState(state.InvoiceList?.Invoice.slice(indexOfFirstItem, indexOfLastItem));
-  const currentItems = state.InvoiceList?.Invoice.length > 0 && state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
 
   const [filtericon, setFiltericon] = useState(false)
 
   const [statusfilter, setStatusfilter] = useState('')
-
-  useEffect(() => {
-    dispatch({ type: 'INVOICELIST' })
-    setData(state.InvoiceList.Invoice)
-  }, [])
 
   const handleImageChange = (event) => {
     const fileimgage = event.target.files[0];
@@ -182,7 +182,7 @@ const TableWithPagination = () => {
       setData(filteredItems.slice(indexOfFirstItem, indexOfLastItem))
     }
     else {
-      setData(currentItems)
+      setData(state.InvoiceList.Invoice)
     }
   }
 
@@ -253,7 +253,6 @@ const TableWithPagination = () => {
     setStatusfilter(searchTerm)
     if (searchTerm == "ALL") {
       setData(state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem))
-      // setData(state.InvoiceList.Invoice)
     }
     else {
       console.log("data",data);
@@ -306,44 +305,21 @@ const TableWithPagination = () => {
           </div>
         </div>
         <div>
-
         </div>
       </div>
-
-
-
       <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: "69vh" }}>
-
         <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >{editOption == 'Add' ? "Add Invoice" : "Edit Invoice"}</Offcanvas.Title>
-
-
-        <Offcanvas.Body>
+<Offcanvas.Body>
           <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
             <div class="p-1 bd-highlight user-menu">
-
-              <ul className={isUserClicked ? 'active' : ''} onClick={handleMenuClick}  >
-
-
+              <ul className={isUserClicked ? 'active' : ''} onClick={handleMenuClick}>
                 User Details
               </ul>
-            </div>
-            {/* <div class="p-2 bd-highlight">
-      <ul onClick={() => setShowForm(false)}>KYC Details</ul>
-
-    </div> */}
-
+            </div>            
           </div>
-
           {showForm && (
             <Form>
-              {/* <p style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
-
-
-      <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
-        <img src={Profile} alt='user1' style={{ width: '70px', marginBottom: '-15px' }} />
-        <FaPlusCircle style={{ color: 'blue', position: 'absolute', bottom: '-20px', left: '50%', transform: 'translateX(-50%)' }} />
-      </div> */}
-       <p style={{ textAlign: 'center', marginTop: '-20px' }}>Upload Profile</p>
+                    <p style={{ textAlign: 'center', marginTop: '-20px' }}>Upload Profile</p>
                 <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
                   {file ? <>
                     <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
@@ -363,7 +339,6 @@ const TableWithPagination = () => {
                     onChange={handleImageChange}
                     style={{ display: "none" }} />
                 </div>
-
               <div className='container' style={{ marginTop: "30px" }}>
                 <div className='row'>
                   <div className='col lg-6'>
@@ -434,7 +409,6 @@ const TableWithPagination = () => {
                   </div>
                 </div>
               </div>
-
               <div class="d-flex justify-content-center" style={{ marginTop: "30px" }} >
 
                 <Button variant="white" size="sm" onClick={() => { handleClose() }}>
@@ -445,14 +419,11 @@ const TableWithPagination = () => {
                 >
                   {editOption === 'Add' ? "Save" : "Update"}
                 </Button>
-
               </div>
             </Form>
           )}
         </Offcanvas.Body>
       </Offcanvas>
-
-
       <Table responsive >
         <thead class='pt-0' style={{ backgroundColor: "#F6F7FB", color: "#91969E", fontSize: "10px" }}>
           <tr style={{}}>
@@ -467,15 +438,12 @@ const TableWithPagination = () => {
             <th style={{ color: "#91969E" }} >Action</th>
           </tr>
         </thead>
-        {/* {
-  data.length > 0 ? */}
         <tbody style={{ fontSize: "10px" }}>
-          {data.map((item) => (
+          {currentItems.map((item) => (
             <tr key={item.id}>
               <td style={{ color: "black", fontWeight: 500 }} >{item.id}</td>
               <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices == null ? '0.00' : item.Invoices}</td>
-
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>
                 <div class="d-flex">
                   <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1, 0)}</p></span>
@@ -493,12 +461,8 @@ const TableWithPagination = () => {
             </tr>
           ))}
         </tbody>
-        {/* :<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',color:'red',padding:50}}> Invoice Data Not Found ! </div>
-      } */}
       </Table>
-
       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-
         <div style={{ display: "flex", flexDirection: "row" }}>
           <div>
             <p style={{ fontSize: 13, marginTop: "5px" }}>Results:</p>
@@ -520,7 +484,6 @@ const TableWithPagination = () => {
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "row" }}>
-
           <div onClick={handlePreviousClick} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
             Prev
           </div>
@@ -534,4 +497,4 @@ const TableWithPagination = () => {
   );
 };
 
-export default TableWithPagination;
+export default InvoicePage;

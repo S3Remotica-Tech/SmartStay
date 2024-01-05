@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./UserList.css";
 import { IoIosSearch } from "react-icons/io";
-import { BsFilter } from "react-icons/bs";
+import { IoFilterOutline } from "react-icons/io5";
 import { MdExpandMore } from "react-icons/md";
 import img1 from '../Assets/Images/list-report.png';
 import img2 from '../Assets/Images/edit.png';
@@ -11,21 +11,28 @@ import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Plus from '../Assets/Images/Create-button.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { Edit } from "@material-ui/icons";
 import Swal from 'sweetalert2';
 
 
 
 function UserList() {
+  
+  const bottomBorderStyle = {
+    border: 'none',
+    borderBottom: '1px solid #ced4da',
+    borderRadius: '0',
+    boxShadow: 'none',
+    fontWeight: 'bold',
+    fontSize: "11px",
+    marginTop: "-13px"
+  };
 
   const state = useSelector(state => state)
-  console.log('state', state)
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("executing useEffect")
     dispatch({ type: 'USERLIST' })
     dispatch({ type: 'HOSTELLIST' })
-   
+
   }, [])
 
   const [showMenu, setShowMenu] = useState(false);
@@ -52,6 +59,9 @@ function UserList() {
   const [Email, setEmail] = useState('')
   const [edit, setEdit] = useState('')
   const [id, setId] = useState('')
+  const [filtericon, setFiltericon] = useState(false)
+
+  const [statusfilter, setStatusfilter] = useState('')
 
 
   const handleFirstName = (e) => {
@@ -67,11 +77,7 @@ function UserList() {
     setPhone(e.target.value)
   }
   const handleHostelId = (e) => {
-    console.log("e.target.value",e.target.value);
-
-    
-    // dispatch({ type: 'CLEAR_ERROR' })
-    dispatch({type:'HOSTELDETAILLIST', payload:{hostel_Id:e.target.value}})
+    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } })
     setHostel_Id(e.target.value)
   }
   const handleFloor = (e) => {
@@ -114,8 +120,8 @@ function UserList() {
   const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const totalPages = Math.ceil(state.InvoiceList?.Invoice.length / itemsPerPage);
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const handleMenuClick = () => {
     setShowForm(true);
     setUserClicked(true);
@@ -127,7 +133,6 @@ function UserList() {
     setShowForm(false);
   };
   const handleImageChange = (event) => {
-
     const fileimgage = event.target.files[0];
 
     if (fileimgage) {
@@ -155,13 +160,10 @@ function UserList() {
       setRoomRent(u.RoomRent)
       setPaymentType(u.PaymentType)
       setBalanceDue(u.BalanceDue)
-
     }
-
     else {
       setEdit('Add')
     }
-
   };
 
   useEffect(() => {
@@ -170,13 +172,13 @@ function UserList() {
 
   const handleNext = () => {
     if (currentPage < 10) {
-      setCurrentPage((prevPage) => prevPage === totalPages? prevPage : prevPage + 1);
+      setCurrentPage((prevPage) => prevPage === totalPages ? prevPage : prevPage + 1);
     }
   };
 
   const handlePrevious = () => {
     if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage === 1 ? prevPage:prevPage - 1);
+      setCurrentPage((prevPage) => prevPage === 1 ? prevPage : prevPage - 1);
     }
 
   }
@@ -197,62 +199,38 @@ function UserList() {
   const handleInputChange = (e) => {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
-
+    if (searchItem != '') {
     const filteredItems = state.UsersList.Users.filter((user) =>
       user.Name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredData(filteredItems);
+    }
+    else{
+      setFilteredData(state.UsersList.Users)
+    }
   }
 
   const handleiconshow = () => {
     setSearchicon(!searchicon)
   }
-
-  // const handleSaveUserlist = () => {
-
-  //   if (firstname && lastname && Phone && Email && Address && hostel_Id && Floor && Rooms && bed && AdvanceAmount && RoomRent && BalanceDue && PaymentType) {
-  //     dispatch({ type: 'ADDUSER', payload: { firstname: firstname, lastname: lastname, Phone: Phone, Email: Email, Address: Address, hostel_Id: hostel_Id, Floor: Floor, Rooms: Rooms, bed: bed, AdvanceAmount: AdvanceAmount, RoomRent: RoomRent, BalanceDue: BalanceDue, PaymentType: PaymentType, ID: edit === 'Edit' ? id : '' } })
-  //     Swal.fire({
-  //       icon: 'success',
-  //       title: edit == 'Add' ? 'Detail Saved Successfully' : 'Detail Updated Successfully',
-  //       text: 'You have been Created successfully!',
-  //       confirmButtonText: 'ok'
-  //     })
-  //     .then((result) => {
-  //       if (result.isConfirmed) {
-  //         setFirstname('')
-  //         setLastname('')
-  //         setAddress('')
-  //         setPhone('')
-  //         setEmail('')
-  //         setHostel_Id('')
-  //         setFloor('')
-  //         setRooms('')
-  //         setBed('')
-  //         setAdvanceAmount('')
-  //         setRoomRent('')
-  //         setPaymentType('')
-  //         setBalanceDue('')
-  //       }
-  //     })
-     
-     
-  //   }
-  //   else {
-  //     Swal.fire({
-  //       icon: 'warning',
-  //       title: 'please Enter AllField',
-  //       confirmButtonText: 'ok'
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-
-  //       }
-  //     })
-  //   }
-
-  // }
-const handleSaveUserlist = () => {
+  const handleFiltershow = () => {
+    setFiltericon(!filtericon)
+  }
+  const handleStatusFilter = (e) => {
+    const searchTerm = e.target.value;
+    setStatusfilter(searchTerm)
+    if (searchTerm == "ALL") {
+      setFilteredData(state.UsersList.Users)
+    }
+    else {
+      const filteredItems = state.UsersList.Users.filter((user) =>
+        user.Status.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredData(filteredItems);
+    }
+  }
+  const handleSaveUserlist = () => {
     // Assuming these variables are coming from the component's state
     // You should check if they are defined and not empty before proceeding
     if (
@@ -289,9 +267,9 @@ const handleSaveUserlist = () => {
           ID: edit === 'Edit' ? id : ''
         },
       });
-  
+
       // Checking for error message in the UsersList state
-      if (state.UsersList?.errorMessage?.length>0) {
+      if (state.UsersList?.errorMessage?.length > 0) {
         console.log("check");
         Swal.fire({
           icon: 'warning',
@@ -332,15 +310,6 @@ const handleSaveUserlist = () => {
     }
   };
 
-  const bottomBorderStyle = {
-    border: 'none',
-    borderBottom: '1px solid #ced4da',
-    borderRadius: '0',
-    boxShadow: 'none',
-    fontWeight: 'bold',
-    fontSize: "11px",
-    marginTop: "-13px"
-  };
   return (
     <div className='container' >
       <div className="user" >
@@ -352,23 +321,33 @@ const handleSaveUserlist = () => {
           {
             searchicon &&
             <>
-              <input
-                type="text"
-                value={searchItem}
+            <input
+              type="text"
+              value={searchItem}
+              onChange={(e) => handleInputChange(e)}
+              placeholder='Type to search'
+              class="form-control ps-4 pe-1   searchinput"
+              style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
 
-                onChange={(e) => handleInputChange(e)}
-                placeholder='Type to search'
-                class="form-control ps-2 pe-1 pb-1 pt-1 searchinput"
-                style={{ width: '150px', marginRight: '20px' }}
-
-              />
-            </>
+            />
+          </>
           }
 
           <IoIosSearch className='io'
             onClick={handleiconshow}
           />
-          <BsFilter className='bs' />
+          {
+            filtericon &&
+            <>
+              <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
+              >
+                <option selected value="ALL"> ALL</option>
+                <option value="Success">Success</option>
+                <option value="Pending">Pending</option>
+              </select>
+            </>
+          }
+          <IoFilterOutline class=" me-4" onClick={handleFiltershow} />
           <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus" />Add User</button>
 
         </div>
@@ -377,9 +356,9 @@ const handleSaveUserlist = () => {
         <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: "69vh" }}>
 
           <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >
-          {edit === 'Add' ? "Add User" : "EditUser"}
+            {edit === 'Add' ? "Add User" : "EditUser"}
           </Offcanvas.Title>
-        
+
 
           <Offcanvas.Body>
             <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
@@ -401,22 +380,15 @@ const handleSaveUserlist = () => {
             {showForm && (
               <Form>
                 <p style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
-
-
-                {/* <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
-                  <img src={Profile} alt='user1' style={{ width: '70px', marginBottom: '-15px' }} />
-                  <FaPlusCircle style={{ color: 'blue', position: 'absolute', bottom: '-20px', left: '50%', transform: 'translateX(-50%)' }} />
-                </div> */}
                 <div>
-
                   <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
                     {file ? <>
-                      <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '70px', marginBottom: '-15px' }} />
+                      <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
                     </> :
-                      <img src={Profile} alt='user1' style={{ width: '70px', marginBottom: '-15px' }} />
+                      <img src={Profile} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
                     }
                     <label htmlFor="imageInput" className=''>
-                      <img src={Plus} style={{ color: 'blue', position: 'absolute', bottom: '-35px', left: '48%', height: 20, width: 20 }} />
+                      <img src={Plus} style={{ color: 'blue', position: 'absolute', bottom: '-5px', left: '48%', height: 20, width: 20 }} />
                     </label>
 
                     <input
@@ -431,21 +403,18 @@ const handleSaveUserlist = () => {
                 </div>
 
                 <div className='container' style={{ marginTop: "30px" }}>
-                  {/* {
-                    <div>{state.UsersList.errorMessage?.length > 0 ? <label style={{ color: "red", fontSize: 18 }}>{state.UsersList.errorMessage}</label> : null}</div>
-                  } */}
-<div>
-    {state.UsersList.errorMessage?.length > 0 ? (
-      <div>
-        <label style={{ color: 'red', fontSize: 18 }}>{state.UsersList.errorMessage}</label>
-        {setTimeout(() => {
-          dispatch({
-            type: 'CLEAR_ERROR_MESSAGE',  // Add an action to clear the error message in your reducer
-          });
-        }, 5000 )}
-      </div>
-    ) : null}
-  </div>
+                  <div>
+                    {state.UsersList.errorMessage?.length > 0 ? (
+                      <div>
+                        <label style={{ color: 'red', fontSize: 18 }}>{state.UsersList.errorMessage}</label>
+                        {setTimeout(() => {
+                          dispatch({
+                            type: 'CLEAR_ERROR_MESSAGE',  // Add an action to clear the error message in your reducer
+                          });
+                        }, 5000)}
+                      </div>
+                    ) : null}
+                  </div>
 
                   <div className='row'>
                     <div className='col lg-6'>
@@ -642,7 +611,7 @@ const handleSaveUserlist = () => {
                   </Button>
                   <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
                     {edit === 'Add' ? "save" : "update"}
-                   
+
                   </Button>
 
                 </div>
@@ -729,11 +698,11 @@ const handleSaveUserlist = () => {
           </div>
           <div style={{ display: "flex", flexDirection: "row" }}>
 
-            <div onClick={handlePrevious} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px",cursor:'pointer'}}>
+            <div onClick={handlePrevious} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
               Prev
             </div>
             <span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPage} </span>
-            <div onClick={handleNext} disabled={currentPage === 10} style={{ fontSize: "10px", border: "none", marginTop: "10px",cursor:'pointer'}}>
+            <div onClick={handleNext} disabled={currentPage === 10} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
               Next
             </div>
           </div>
