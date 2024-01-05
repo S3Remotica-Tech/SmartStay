@@ -15,28 +15,24 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useDispatch, useSelector } from 'react-redux';
+import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
 
- 
-
-
-
-const MyComponent = () => {
+ const MyComponent = () => {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  console.log("state", state)
-  
 
   let navigate = useNavigate();
 
   const [email_Id, setemail_Id] = useState('')
   const [password, setpassword] = useState('')
 
+  const[showPassword,setShowpassword]=useState(false)
 
+  const togglePasswordVisibility = () => {
+    setShowpassword(!showPassword);
+  };
   
-  
-
-
   const handleCreateAccount = () => {
     navigate('/create-account')
   }
@@ -59,12 +55,14 @@ const MyComponent = () => {
 
   const handleLogin = () => {
     if (email_Id && password) {
-    dispatch({ type: 'LOGININFO', payload: { email_Id: email_Id, password: password } });
+      dispatch({ type: 'LOGININFO', payload: { email_Id: email_Id, password: password } });
     } else {
       Swal.fire({
         icon: 'warning',
         title: 'Error',
         text: email_Id ? 'Enter Password' : 'Enter Email id and Password',
+        timer: 3000, 
+        showConfirmButton: false, 
       });
     }
   };
@@ -137,7 +135,7 @@ const MyComponent = () => {
 
                 <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>Password</b></Form.Label>
                 <InputGroup className="mb-3" size="lg">
-                  <Form.Control type="password"
+                  <Form.Control type={showPassword?'text':'password'}
                     placeholder="Enter Password"
                     aria-label="Recipient's username"
                     className='border border-0 custom-input'
@@ -150,7 +148,7 @@ const MyComponent = () => {
                   />
 
                   <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none', borderRadius: "2px" }}>
-                    <img src={Eye} height="13" width="13" alt='Eye'/>
+                    <img  src={showPassword ? Eye : eyeClosed} height="13" width="13" alt='Eye' onClick={togglePasswordVisibility} />
                   </InputGroup.Text>
                 </InputGroup>
 

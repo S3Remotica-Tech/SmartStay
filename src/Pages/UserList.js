@@ -431,9 +431,22 @@ const handleSaveUserlist = () => {
                 </div>
 
                 <div className='container' style={{ marginTop: "30px" }}>
-                  {
+                  {/* {
                     <div>{state.UsersList.errorMessage?.length > 0 ? <label style={{ color: "red", fontSize: 18 }}>{state.UsersList.errorMessage}</label> : null}</div>
-                  }
+                  } */}
+<div>
+    {state.UsersList.errorMessage?.length > 0 ? (
+      <div>
+        <label style={{ color: 'red', fontSize: 18 }}>{state.UsersList.errorMessage}</label>
+        {setTimeout(() => {
+          dispatch({
+            type: 'CLEAR_ERROR_MESSAGE',  // Add an action to clear the error message in your reducer
+          });
+        }, 5000 )}
+      </div>
+    ) : null}
+  </div>
+
                   <div className='row'>
                     <div className='col lg-6'>
                       <Form.Group className="mb-3">

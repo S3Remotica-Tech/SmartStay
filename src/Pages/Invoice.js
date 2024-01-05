@@ -6,6 +6,7 @@ import List from '../Assets/Images/list-report.png';
 import Edit from '../Assets/Images/edit.png';
 import { Button, Offcanvas, Form, Dropdown, FormControl } from 'react-bootstrap';
 import Plus from '../Assets/Images/Create-button.png';
+import Profile from '../Assets/Images/Profile.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -15,6 +16,17 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 const TableWithPagination = () => {
 
+  
+  //offcanvas style
+  const bottomBorderStyle = {
+    border: 'none',
+    borderBottom: '1px solid #ced4da',
+    borderRadius: '0',
+    boxShadow: 'none',
+    fontWeight: 'bold',
+    fontSize: "11px",
+    marginTop: "-13px"
+  };
 
   const [data, setData] = useState([]);
   //offcanvas variable
@@ -22,6 +34,8 @@ const TableWithPagination = () => {
   const [showForm, setShowForm] = useState(false);
   const [isUserClicked, setUserClicked] = useState(true);
 
+  const [file, setFile] = useState(null)
+   
   const [invoiceList, setInvoiceList] = useState({
     firstName: '',
     lastName: '',
@@ -35,13 +49,6 @@ const TableWithPagination = () => {
   const state = useSelector(state => state)
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch({ type: 'INVOICELIST' })
-    setData(state.InvoiceList.Invoice)
-  }, [])
-
-
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(state.InvoiceList?.Invoice.length / itemsPerPage);
@@ -51,7 +58,22 @@ const TableWithPagination = () => {
   // const [currentItems,setcurrentItems] = useState(state.InvoiceList?.Invoice.slice(indexOfFirstItem, indexOfLastItem));
   const currentItems = state.InvoiceList?.Invoice.length > 0 && state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem);
 
+  const [filtericon, setFiltericon] = useState(false)
 
+  const [statusfilter, setStatusfilter] = useState('')
+
+  useEffect(() => {
+    dispatch({ type: 'INVOICELIST' })
+    setData(state.InvoiceList.Invoice)
+  }, [])
+
+  const handleImageChange = (event) => {
+    const fileimgage = event.target.files[0];
+    if (fileimgage) {
+      setFile(fileimgage);
+    }
+  };
+ 
   const handlePhoneNo = (e) => {
     const result = e.target.value.replace(/\D/g, '');
     const phoneError = document.getElementById("phoneError");
@@ -133,7 +155,6 @@ const TableWithPagination = () => {
     setShowMenu(true);
   };
 
-
   // page range
   const generatePageNumbers = () => {
     const pageNumbers = [];
@@ -165,23 +186,12 @@ const TableWithPagination = () => {
     }
   }
 
-
   const [searchicon, setSearchicon] = useState(false);
 
   const handleiconshow = () => {
     setSearchicon(!searchicon)
   }
 
-  //offcanvas style
-  const bottomBorderStyle = {
-    border: 'none',
-    borderBottom: '1px solid #ced4da',
-    borderRadius: '0',
-    boxShadow: 'none',
-    fontWeight: 'bold',
-    fontSize: "11px",
-    marginTop: "-13px"
-  };
 
   const handleSaveInvoiceList = () => {
     if (invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue) {
@@ -234,7 +244,25 @@ const TableWithPagination = () => {
 
 
   }
+  const handleFiltershow = () => {
+    setFiltericon(!filtericon)
+  }
 
+  const handleStatusFilter = (e) => {
+    const searchTerm = e.target.value;
+    setStatusfilter(searchTerm)
+    if (searchTerm == "ALL") {
+      setData(state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem))
+      // setData(state.InvoiceList.Invoice)
+    }
+    else {
+      console.log("data",data);
+      const filteredItems = state.InvoiceList.Invoice.filter((user) =>
+        user.Status.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setData(filteredItems);
+    }
+  }
   return (
     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
 
@@ -247,23 +275,33 @@ const TableWithPagination = () => {
         <div class="col-lg-6  offset-lg-4 col-md-6 col-sm-12 col-xs-12">
           <div class="p-1 d-flex justify-content-end align-items-center"  >
 
-            {
+          {
               searchicon &&
               <>
                 <input
                   type="text"
                   value={searchItem}
-
                   onChange={(e) => handleInputChange(e)}
                   placeholder='Type to search'
-                  class="form-control ps-2 pe-1 pb-1 pt-1 searchinput"
-                  style={{ width: '150px', marginRight: '20px' }}
+                  class="form-control ps-4 pe-1   searchinput"
+                  style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
 
                 />
               </>
             }
             <BsSearch class=" me-4" onClick={handleiconshow} />
-            <IoFilterOutline class=" me-4" />
+             {
+              filtericon &&
+              <>
+                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
+                >
+                  <option selected value="ALL"> ALL</option>
+                  <option value="Success">Success</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </>
+            }
+            <IoFilterOutline class=" me-4" onClick={handleFiltershow} />
             <button type="button" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" /> Add Invoice</button>
           </div>
         </div>
@@ -305,6 +343,26 @@ const TableWithPagination = () => {
         <img src={Profile} alt='user1' style={{ width: '70px', marginBottom: '-15px' }} />
         <FaPlusCircle style={{ color: 'blue', position: 'absolute', bottom: '-20px', left: '50%', transform: 'translateX(-50%)' }} />
       </div> */}
+       <p style={{ textAlign: 'center', marginTop: '-20px' }}>Upload Profile</p>
+                <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
+                  {file ? <>
+                    <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
+                  </> :
+                    <img src={Profile} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
+                  }
+                  <label htmlFor="imageInput" className=''>
+                    <img src={Plus} style={{ color: 'blue', position: 'absolute', bottom: '-5px', left: '48%', height: 20, width: 20 }} />
+                  </label>
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="sr-only"
+                    id="imageInput"
+                    onChange={handleImageChange}
+                    style={{ display: "none" }} />
+                </div>
 
               <div className='container' style={{ marginTop: "30px" }}>
                 <div className='row'>

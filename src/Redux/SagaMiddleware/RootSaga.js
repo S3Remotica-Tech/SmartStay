@@ -1,6 +1,6 @@
 import {all} from 'redux-saga/effects';
 import LoginSaga from '../SagaMiddleware/LoginSaga';
-// import CreateAccountSaga from './CreateAccountSaga';
+import CreateAccountSaga from './CreateAccountSaga';
 import ForgetSaga from './ForgetSaga';
 import UserListSaga from './UserListSaga';
 import InvoiceSaga from './InvoiceSaga';
@@ -12,7 +12,7 @@ function* RootSaga() {
     
 yield all([
     LoginSaga(),
-    // CreateAccountSaga(),
+    CreateAccountSaga(),
     ForgetSaga(),
     UserListSaga(),
     InvoiceSaga(),

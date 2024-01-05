@@ -18,7 +18,7 @@ export async function login(EmailId, Password) {
 
 export async function CreateAccountAction(userList) {
   console.log("userList", userList);
-  return await AxiosConfig.post('/ceate/create-account',userList, {
+  return await AxiosConfig.post('/create/create-account',userList, {
     data: userList
   })
 } 

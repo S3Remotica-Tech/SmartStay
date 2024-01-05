@@ -35,6 +35,7 @@ import { BsTextIndentLeft } from "react-icons/bs";
 import { BsTextIndentRight } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import CreatePG from './CreatePG';
 
 function Sidebar() {
 
@@ -49,25 +50,84 @@ function Sidebar() {
     email_Id: '',
     location: '',
     number_Of_Floor: '',
-    // room_Id: '',
-    // number_Of_Bed: '',
-  //   floorDetails: [
-  //     {
-  //     floorNo:'',
-  //     RoomDetails:[]
-  //   }
-  // ]
+    number_Of_Rooms: '',
+    floorDetails: []
   })
-  const [floorDetails,setfloorDetails] = useState(
-    {
-    floorName:'',
-    RoomDetails:[{
-      RoomNo:'',
-      NumberOfBeds:''
-    }]
-  }
-)
+  const [floorDetails, setfloorDetails] = useState([])
+  const [floorName, setFloorName] = useState('');
+  const [roomDetails, setRoomDetails] = useState({
+    // roomNo:'',
+    // numberOfBed:''
+  })
+  // const [roomNo,setRoomNo] = useState('');
+  // const [numberOfBed,setNumberOfBed] = useState('')
+  // const handleRoom = (e) =>{
+  // const room = e.target.value;
+  // setRoomDetails({...roomDetails,roomNo:room})
+  // setfloorDetails([...floorDetails,{roomDetails}])
+  // // setRoomNo(room)
+  // // setfloorDetails([...floorDetails,{RoomNo:room}])
+  // }
+  // const handleUpdateBed = (e) =>{
+  //   const bed = e.target.value;
+  //   setRoomDetails({...roomDetails,numberOfBed:bed})
+  //   setfloorDetails([...floorDetails,{roomDetails}])
+  //   // setNumberOfBed(bed)
+  //   // setfloorDetails([...floorDetails,{NumberOfBed:bed}])
+  // }
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      console.log('pgList.number_Of_Floor', pgList.number_Of_Floor);
+      let tempArry = [];
+      for (let i = 0; i < pgList.number_Of_Floor; i++) {
+        var a = {}
+        tempArry.push(a)
+      }
+      setPgList({ ...pgList, floorDetails: tempArry })
+      console.log("tempArry", tempArry);
+
+    }, 1000);
+    return () => clearTimeout(timeout)
+  }, [pgList.number_Of_Floor])
+
+  // useEffect(()=>{
+  //   const timeout = setTimeout(() => {
+  //   let tempArry =[];
+  //   for(let i=0;i<pgList.number_Of_Rooms;i++){
+  //     var a={}
+  //     tempArry.push(a)
+  //   }
+  //   setPgList({...pgList,floorDetails[pgList.number_Of_Floor-i]:a})
+  // }, 1000);
+
+  //   return () => clearTimeout(timeout)
+  // },[pgList.number_Of_Rooms])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      let tempArray = [];
+      for (let i = 0; i < pgList.number_Of_Rooms; i++) {
+        let newRoom = {
+          roomNumber: i + 1,
+          number_Of_Bed: ''
+        };
+        tempArray.push(newRoom);
+      }
+
+      setPgList((prevPgList) => ({
+        ...prevPgList,
+        floorDetails: [tempArray],
+      }));
+
+      console.log("tempArray...Room", tempArray);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [pgList.number_Of_Rooms]);
+
+  const handlenumberOfFloor = () => {
+    console.log("check");
+  }
   const dispatch = useDispatch()
   const state = useSelector(state => state)
   console.log("state for PgList", state)
@@ -111,11 +171,13 @@ function Sidebar() {
   // }
 
   const handleSubmitPgList = () => {
+    console.log("floorDetails", floorDetails);
+    console.log("pglist",pgList);
     if (pgList.Name && pgList.phoneNumber) {
-           const floorDetailsArray = Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
+      const floorDetailsArray = Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
         const floorNumber = index + 1;
         const numberOfRooms = parseInt(pgList[`number_Of_Rooms_${floorNumber}`]) || 0;
-  
+
         return {
           floor: floorNumber,
           roomDetails: Array.from({ length: numberOfRooms }, (_, roomIndex) => {
@@ -127,7 +189,7 @@ function Sidebar() {
           }),
         };
       });
-  
+
       dispatch({
         type: 'PGLIST',
         payload: {
@@ -140,8 +202,8 @@ function Sidebar() {
         }
       });
     }
-  
-   
+
+
     // setPgList({
     //   Name: '',
     //   phoneNumber: '',
@@ -151,12 +213,12 @@ function Sidebar() {
     //   // room_Id: '',
     //   // number_Of_Bed: '',
     // });
-  
-    
+
+
     handleClose();
   }
-  
- 
+
+
   const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);
   const toggleSidebar = () => {
     setIsSidebarMaximized(!isSidebarMaximized);
@@ -177,7 +239,7 @@ function Sidebar() {
     };
   }, []);
 
-console.log("pglist",pgList);
+  console.log("pglist", pgList);
   return (
     <Container fluid className='p-0'>
 
@@ -286,6 +348,7 @@ console.log("pglist",pgList);
                           type="text"
                           value={pgList.number_Of_Floor}
                           onChange={(e) => setPgList({ ...pgList, number_Of_Floor: e.target.value })}
+                          // onBlur={()=>{handlenumberOfFloor()}}
                           className="form-control custom-border-bottom p-0 mt-2"
                           id="exampleInput"
                           placeholder="Enter Number of Floors"
@@ -293,23 +356,22 @@ console.log("pglist",pgList);
                         />
                       </div>
 
- 
+
                       {pgList.number_Of_Floor && (
                         <div>
                           {Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
                             const floorNumber = index + 1;
                             const numberOfRooms = parseInt(pgList[`number_Of_Rooms_${floorNumber}`]) || 0;
-                            const floorLabel = floorNumber === 1 ? 'Ground' : `${floorNumber-1}`;
-                          console.log("pglist number ************",pgList.number_Of_Floor)
+                            const floorLabel = floorNumber === 1 ? 'Ground' : `${floorNumber - 1}`;
+                            console.log("pglist number ************", pgList.number_Of_Floor)
                             return (
                               <div key={index} className="form-group mb-3">
-                                <label htmlFor="exampleInput" className="form-label mb-1" style={{fontWeight:700, fontSize: "11px" }}>
-                                {/* {`${pgList.number_Of_Floor === 1 ? 'Ground' : `${pgList.number_Of_Floor}`} Floor `} */}
-                                {`${floorLabel} Floor:`}
-                                  </label>
-
-                               
-                                <div className="row mb-2">
+                                <label htmlFor="exampleInput" className="form-label mb-1" style={{ fontWeight: 700, fontSize: "11px" }}>
+                                  {/* {`${pgList.number_Of_Floor === 1 ? 'Ground' : `${pgList.number_Of_Floor}`} Floor `} */}
+                                  {`${floorLabel} Floor:`}
+                                </label>
+                                <CreatePG index={index} pgList={pgList} setPgList={setPgList}></CreatePG>
+                                {/* <div className="row mb-2">
                                   <div className="col">
                                     <label className='mb-2' htmlFor={`totalRooms-${index}`} style={{ fontSize: "11px" }}>Number of Rooms</label>
                                     <input
@@ -318,17 +380,19 @@ console.log("pglist",pgList);
                                       id="exampleInput"
                                       placeholder="Enter here"
                                       style={{ fontSize: "11px" }}
+                                      value={pgList.number_Of_Rooms}
                                       onChange={(e) => {
                                         setPgList({
                                           ...pgList,
-                                          [`number_Of_Rooms_${floorNumber}`]: e.target.value,
+                                          number_Of_Rooms:e.target.value
+                                          // [`number_Of_Rooms_${floorNumber}`]: e.target.value,
                                         });
                                       }}
                                     />
                                   </div>
-                                </div>
+                                </div> */}
 
-                                {Array.from({ length: numberOfRooms }, (_, roomIndex) => (
+                                {/* {Array.from({ length: pgList.number_Of_Rooms }, (_, roomIndex) => (
                                   <div key={roomIndex} className="row">
                                     <div className="col">
                                       <label htmlFor={`roomName-${roomIndex}`} style={{ fontSize: "11px" }}>Room Name</label>
@@ -338,7 +402,9 @@ console.log("pglist",pgList);
                                         id="exampleInput"
                                         placeholder="Enter here"
                                         style={{ fontSize: "11px" }}
-                                        onChange={(e)=>{setfloorDetails([...floorDetails.RoomDetails,{RoomNo:e.target.value}])}}
+                                        value={roomDetails.roomNo}
+                                        onChange={(e)=>{handleRoom(e)}}
+                                        // onChange={(e)=>{setfloorDetails([...floorDetails.RoomDetails,{RoomNo:e.target.value}])}}
                                         // onChange={(e)=>{setPgList({...pgList,floorDetails:[...pgList.floorDetails,{roomNo:e.target.value}]})}}
                                       />
                                     </div>
@@ -351,17 +417,19 @@ console.log("pglist",pgList);
                                         id="exampleInput"
                                         placeholder="Enter here"
                                         style={{ fontSize: "11px" }}
-                                        onChange={(e)=>{setfloorDetails([...floorDetails.RoomDetails,{NumberOfBeds:e.target.value}])}}
+                                        value={roomDetails.numberOfBed}
+                                        onChange={(e)=>{handleUpdateBed(e)}}
+                                        // onChange={(e)=>{setfloorDetails([...floorDetails.RoomDetails,{NumberOfBeds:e.target.value}])}}
                                         // onChange={(e)=>{setPgList({...pgList,floorDetails:[...pgList.floorDetails,{number_Of_Bed:e.target.value}]})}}
                                       />
                                     </div>
                                   </div>
-                                ))}
+                                ))} */}
                               </div>
                             );
                           })}
                         </div>
-                      )}  
+                      )}
 
 
 

@@ -13,6 +13,8 @@ function* Login(args) {
         icon: 'success',
         title: 'Login Successful',
         text: 'You have been logged in successfully!',
+        timer: 1000, // Set the timer to 2 seconds (2000 milliseconds)
+        showConfirmButton: false, // Hide the "OK" button
       });
     } else if (response.status === 201) {
       yield put({ type: 'ERROR_EMAIL', payload: response.data.message });
