@@ -22,7 +22,8 @@ function CreateAccountPage() {
   const [phoneNo, setPhoneNo] = useState('');
   const [emailID, setEmailID] = useState('');
   const [password, setPassword] = useState('')
-  const [showPassword, setShowpassword] = useState(false)
+  const [showPassword, setShowpassword] = useState(false);
+  const [error, setError] = useState(null);
 
   const togglePasswordVisibility = () => {
     setShowpassword(!showPassword);
@@ -53,13 +54,38 @@ function CreateAccountPage() {
     }
   }
 
+  // const handlePassword = (e) => {
+  //   setPassword(e.target.value)
+  // }
+
   const handlePassword = (e) => {
     setPassword(e.target.value)
+    const newPassword = e.target.value;
+
+    // Password validation criteria
+    const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+
+    if (passwordRegex.test(newPassword)) {
+        // Password meets criteria, set it
+        setPassword(newPassword);
+        setError(null); // Clear any previous error
+    } else {
+        // Password does not meet criteria
+        // You can dispatch an error action or show a message to the user
+        const errorMessage = "Invalid password";
+        console.log(errorMessage);
+
+        // Example: Dispatching an error action (replace with your actual error handling logic)
+        dispatch({ type: 'SET_ERROR', payload: errorMessage });
+
+        setError(errorMessage);
+    }
   }
+
   const handleLoginPage = () => {
     navigate('/login-Page')
   }
-  
+
 
   const handleRoyal = () => {
     if (userName && phoneNo && emailID && password) {
@@ -98,13 +124,25 @@ function CreateAccountPage() {
       <div className="" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
         <div className="row g-0" style={{ height: "100vh", width: "100%" }} >
           <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white" }}>
-            <div className="d-flex justify-content-center ps-5 pt-5" >
+            {/* <div className="d-flex justify-content-center ps-5 pt-5" >
               <img src={Smart} class="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} alt="Smart" />
               <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: "400", wordSpacing: "" }}>smartstay</h3>
             </div>
             <p className="d-flex justify-content-center pt-2 mb-2" style={{ fontSize: "15px" }}>Welcome to Smartstay</p>
             <p className="d-flex justify-content-center" style={{ fontSize: "11px", paddingTop: "-1px" }}>Over 157,000 hotels and homes across 35 countries</p>
             <div style={{ paddingTop: "40px" }}>
+              <div className="d-flex justify-content-start ps-5" ><img src={Tools} class="img-fluid" style={{ height: "50px", width: "50px" }} alt="Tools" /></div>
+              <p className="d-flex justify-content-start ps-5 pt-0 mb-0" style={{ fontSize: "13px" }} >Smart Tools</p>
+              <p className="d-flex justify-content-start ps-5 pe-5 pt-2" style={{ fontSize: "11px" }} >Easy-to-use tools that let you integrate our offerings, search
+                and share content, track performance and manage earnings.</p>
+            </div> */}
+            <div className="d-flex justify-content-center pt-5" >
+              <img src={Smart} class="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} alt="Smart" />
+              <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: "400", }}>smartstay</h3>
+            </div>
+            <p className="d-flex justify-content-center pt-2 mb-2" style={{ fontSize: "15px" }}>Welcome to Smartstay</p>
+            <p className="d-flex justify-content-center pt-2 mb-2" style={{ fontSize: "11px" }}>Over 157,000 hotels and homes across 35 countries</p>
+            <div style={{ paddingTop: "56px" }}>
               <div className="d-flex justify-content-start ps-5" ><img src={Tools} class="img-fluid" style={{ height: "50px", width: "50px" }} alt="Tools" /></div>
               <p className="d-flex justify-content-start ps-5 pt-0 mb-0" style={{ fontSize: "13px" }} >Smart Tools</p>
               <p className="d-flex justify-content-start ps-5 pe-5 pt-2" style={{ fontSize: "11px" }} >Easy-to-use tools that let you integrate our offerings, search
@@ -155,6 +193,7 @@ function CreateAccountPage() {
                 <div class="mb-2" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "12", marginLeft: "20%" }}>
                   <label class="sr-only" style={{ fontSize: "12px", marginTop: "2%", fontWeight: "530" }}><b>Password</b></label>
                   <input class="pwd form-control" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "1%" }} type={showPassword ? 'text' : 'password'} id="pwd" placeholder="Enter password" name="pwd" value={password} onChange={(e) => { handlePassword(e) }} />
+                  {error && <div style={{ color: 'red' }}>{error}</div>}
                   <div className="pwd" style={{ position: 'relative', width: '80%' }}>
 
                     <img
@@ -173,7 +212,7 @@ function CreateAccountPage() {
                     />
                   </div>
                 </div>
-                <div class="lists d-flex mt-1" style={{ justifyContent: "space-between", textAlign: "left", width: "64%", fontSize: "13px", marginLeft: "19%" }}>
+                {/* <div class="lists d-flex mt-1" style={{ justifyContent: "space-between", textAlign: "left", width: "64%", fontSize: "13px", marginLeft: "19%" }}>
                   <ul  >
                     <li className="lists1">One Upper Case Character</li>
                     <li class="pt-1">One Special Character</li>
@@ -182,6 +221,17 @@ function CreateAccountPage() {
                   <ul>
                     <li class="mb-0">8 Characters Minimum</li>
                     <li class="mt-0 pt-1">One number</li>
+                  </ul>
+                </div> */}
+                <div className="lists d-flex mt-1" style={{ justifyContent: "space-between", textAlign: "left", width: "64%", fontSize: "13px", marginLeft: "19%" }}>
+                  <ul className="hoverList">
+                    <li className="lists1">One Upper Case Character</li>
+                    <li className="pt-1">One Special Character</li>
+                  </ul>
+
+                  <ul className="hoverList">
+                    <li className="mb-0">8 Characters Minimum</li>
+                    <li className="mt-0 pt-1">One number</li>
                   </ul>
                 </div>
               </div>

@@ -17,7 +17,8 @@ function ForgetPasswordPage() {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [showPassword, setShowpassword] = useState(false)
+    const [showPassword, setShowpassword] = useState(false);
+    const [error, setError] = useState(null);
 
     let navigate = useNavigate();
 
@@ -30,10 +31,35 @@ function ForgetPasswordPage() {
         setEmail(e.target.value);
     };
 
+    // const handlePassword = (e) => {
+    //     dispatch({ type: 'CLEAR_ERROR' })
+    //     setPassword(e.target.value)
+    // }
+
     const handlePassword = (e) => {
-        dispatch({ type: 'CLEAR_ERROR' })
-        setPassword(e.target.value)
-    }
+        dispatch({ type: 'CLEAR_ERROR' });
+
+        const newPassword = e.target.value;
+
+        // Password validation criteria
+        const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+
+        if (passwordRegex.test(newPassword)) {
+            // Password meets criteria, set it
+            setPassword(newPassword);
+            setError(null); // Clear any previous error
+        } else {
+            // Password does not meet criteria
+            // You can dispatch an error action or show a message to the user
+            const errorMessage = "Invalid password";
+            console.log(errorMessage);
+
+            // Example: Dispatching an error action (replace with your actual error handling logic)
+            dispatch({ type: 'SET_ERROR', payload: errorMessage });
+
+            setError(errorMessage);
+        }
+    };
 
     const handlePasswordReset = () => {
         if (email && password) {
@@ -115,6 +141,7 @@ function ForgetPasswordPage() {
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "2%" }}>
                                 <label htmlFor="pwd" class="reset1">New Password</label>
                                 <input className="pass1" type={showPassword ? 'text' : 'password'} id="pwd" placeholder="Enter new password" name="pwd" value={password} onChange={(e) => handlePassword(e)} />
+                               
                                 <div className="pwd" style={{ position: 'relative', width: '70%' }}>
 
                                     <img
@@ -132,17 +159,31 @@ function ForgetPasswordPage() {
                                         onClick={togglePasswordVisibility}
                                     />
                                 </div>
-
+ {error && <div style={{ color: 'red' }}>{error}</div>}
                                 {
                                     state.NewPass.errorPassword.length > 0 ? <label style={{ color: "red" }}>{state.NewPass.errorPassword}</label> : null
 
 
                                 }
                             </div>
+                           
                         </div>
 
 
-                        <div className="list d-flex" >
+                        {/* <div className="list d-flex" >
+                            <ul>
+                                <li className="one" style={{ textAlign: "left" }}>One Upper Case Character</li>
+                                <li style={{ textAlign: "left" }}>One Special Character</li>
+                            </ul>
+                            <div className="rightside">
+
+                                <ul>
+                                    <li style={{ textAlign: "left" }}>8 Characters Minimum</li>
+                                    <li style={{ textAlign: "left" }}>One number</li>
+                                </ul>
+                            </div>
+                        </div> */}
+<div className="list d-flex" >
                             <ul>
                                 <li className="one" style={{ textAlign: "left" }}>One Upper Case Character</li>
                                 <li style={{ textAlign: "left" }}>One Special Character</li>
@@ -155,7 +196,6 @@ function ForgetPasswordPage() {
                                 </ul>
                             </div>
                         </div>
-
                         <button type="submit" style={{ backgroundColor: "#2f74eb" }} className="btn  mt-2 ps-4 pe-4 text-white"><p className="passss" style={{ fontSize: 12, fontWeight: 500 }} onClick={handlePasswordReset}>PASSWORD RESET</p></button>
 
                         <div className="footer" style={{ lineHeight: "30%", marginTop: "20px", fontSize: 13 }}>

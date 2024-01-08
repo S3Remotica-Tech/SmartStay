@@ -9,7 +9,7 @@ function RoomDetailsPage (props) {
     const handleRoom = (e) => {
         const room = e.target.value;
         setRoomDetails({ ...roomDetails, roomNo: room })
-        props.handleRoom(0, false, e.target.value)
+        props.updateRoom(0, false, e.target.value)
         // setfloorDetails([...floorDetails, { roomDetails }])
         // setRoomNo(room)
         // setfloorDetails([...floorDetails,{RoomNo:room}])
@@ -17,7 +17,7 @@ function RoomDetailsPage (props) {
     const handleUpdateBed = (e) => {
         const bed = e.target.value;
         setRoomDetails({ ...roomDetails, numberOfBed: bed })
-        props.handleRoom(0, true, e.target.value)
+        props.updateRoom(0, true, e.target.value)
         // setfloorDetails([...floorDetails, { roomDetails }])
         // setNumberOfBed(bed)
         // setfloorDetails([...floorDetails,{NumberOfBed:bed}])

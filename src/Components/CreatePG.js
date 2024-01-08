@@ -23,7 +23,7 @@ return () => clearTimeout(timeOut)
 },[number_Of_Rooms])
 
 const handleUpdateRoomList = (index,isnumberOfBed, value) =>{
-
+console.log("index,isnumberOfBed, value",index,isnumberOfBed, value);
 }
 
     return (

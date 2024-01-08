@@ -9,6 +9,21 @@ Roboto, Oxygen, Ubuntu, Cantarell,
 /* overflow: hidden; */
 
 }
+.list {
+  display: flex;
+}
+
+.list ul {
+  list-style: circle;
+  padding-left: 25px;
+}
+
+
+.list ul li:hover {
+  background-color: #F6F7FB; 
+  /* cursor: pointer; */
+  color: grey;
+}
 .forget1{
   background-color: rgb(246,247,251);
   height: 100vh;
@@ -59,8 +74,8 @@ flex-direction: row;
 
       .pass1{
        
-        background: transparent url( '../Assets/new-password.png') no-repeat right;
-        background-size: 40px;
+        /* background: transparent url( '../Assets/new-password.png') no-repeat right; */
+        /* background-size: 40px; */
         width: 70%;
         border: none ;
         padding: 10px ;

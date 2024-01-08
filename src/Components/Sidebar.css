@@ -51,12 +51,12 @@ margin-top:38px;
 }
 
 
-li:hover{
-  background-color:#b0b5b2;
-  color:white;
+.list-Item:hover{
+  background-color:#b0b5b2 !important;
+  color:white !important;
 }
 
-.menu-icon:hover{
+.menu-icon:hover img{
  
   color:white !important;
 }
@@ -64,8 +64,8 @@ li:hover{
 
 
 @media (max-width: 768px) {
-  span {
-    display: none;
+  .Title{
+    display: none !important;
   }
 }
 
@@ -75,5 +75,14 @@ li:hover{
   .container {
     display: flex;
     flex-direction: column;
+  }
+}
+
+@media (max-width: 390px) {
+  .Title {
+    display: none !important;
+  }
+  .toggleButton{
+    display:none !important;
   }
 }

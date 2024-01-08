@@ -71,7 +71,7 @@ import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
     <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
       <div className="row g-0" style={{ height: "100vh", width: "100%" }} >
         <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white", overflowX: "hidden" }}>
-          <div className="d-flex justify-content-center pt-5" >
+          {/* <div className="d-flex justify-content-center pt-5" >
             <img src={Smart} className="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} alt='smart'/>
             <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: 550, letterSpacing:"0.02em" }}>smartstay</h3>
           </div>
@@ -80,8 +80,17 @@ import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
   </div>
 <div className="d-flex justify-content-center pt-2 mb-2">
 <p  style={{ fontSize: "11px",   }}>Over 157,000 hotels and homes across 35 countries</p>
-</div>
-         
+</div> */}
+<div className="d-flex justify-content-center pt-5" >
+            <img src={Smart} className="img-fluid rounded-3" style={{ height: "35px", width: "35px" }} alt='smart'/>
+            <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: 400, }}>smartstay</h3>
+          </div>
+<div className="d-flex justify-content-center pt-2 mb-2">
+<p  style={{ fontSize: "15px",marginBottom:0}}>Welcome to Smartstay</p>
+  </div>
+<div className="d-flex justify-content-center pt-2 mb-2">
+<p  style={{ fontSize: "11px",   }}>Over 157,000 hotels and homes across 35 countries</p>
+</div>         
         
           <div style={{ paddingTop: "40px" }}>
             <div className="d-flex justify-content-start ps-5" ><img src={Tools} className="img-fluid" style={{ height: "50px", width: "50px" }} alt='Tools'/></div>

@@ -16,6 +16,28 @@ body{
   padding:0;
   box-sizing: border-box;
 }
+.lists {
+  display: flex;
+  padding-left: 25px;
+}
+
+.hoverList {
+  list-style: circle;
+  padding: 0;
+  
+}
+
+
+.hoverList li {
+  padding: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.hoverList li:hover {
+  background-color: #F6F7FB;
+  cursor: pointer;
+  color: grey;
+}
 .profile{
   color: gray;
 }
