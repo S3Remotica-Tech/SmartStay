@@ -26,3 +26,7 @@ export async function hosteliddetail(id) {
     data:id
   })
 }
+export async function userBillPaymentHistory() {
+  return await AxiosConfig.get('/user-list/bill-payment',{
+  })
+}

@@ -4,11 +4,14 @@ const initialState = {
     errorMessage: {},
     hostelList: [],
     roomCount: [],
+    billPaymentHistory:[]
 }
 
 const UserListReducer = (state = initialState, action) => {
     console.log("action", action);
     switch (action.type) {
+        case 'BILL_PAYMENT_HISTORY':
+                return {...state,billPaymentHistory:action.payload }
         case 'USER_LIST':
             return { ...state, Users: action.payload }
         case 'ADD_USER':

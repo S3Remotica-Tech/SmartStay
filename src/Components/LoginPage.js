@@ -4,9 +4,6 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Smart from "../Assets/Images/Logo-Icon-White.png";
-import Tools from "../Assets/Images/Smart-Tools.png";
-import Support from "../Assets/Images/Total-Support.png";
 import Hai from "../Assets/Images/hand.png";
 import Login from "../Assets/Images/new icon/login-user.png";
 import Eye from "../Assets/Images/new icon/eye.png";
@@ -15,9 +12,10 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useDispatch, useSelector } from 'react-redux';
-import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
+import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png';
+import HomeSideComponent from "./HomeSideContent";
 
- const MyComponent = () => {
+const MyComponent = () => {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
@@ -27,12 +25,12 @@ import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
   const [email_Id, setemail_Id] = useState('')
   const [password, setpassword] = useState('')
 
-  const[showPassword,setShowpassword]=useState(false)
+  const [showPassword, setShowpassword] = useState(false)
 
   const togglePasswordVisibility = () => {
     setShowpassword(!showPassword);
   };
-  
+
   const handleCreateAccount = () => {
     navigate('/create-account')
   }
@@ -61,55 +59,24 @@ import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
         icon: 'warning',
         title: 'Error',
         text: email_Id ? 'Enter Password' : 'Enter Email id and Password',
-        timer: 3000, 
-        showConfirmButton: false, 
+        timer: 3000,
+        showConfirmButton: false,
       });
     }
   };
- 
+
   return (
     <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
       <div className="row g-0" style={{ height: "100vh", width: "100%" }} >
         <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white", overflowX: "hidden" }}>
-          {/* <div className="d-flex justify-content-center pt-5" >
-            <img src={Smart} className="img-fluid rounded-3" style={{ height: "35px", width: "35px", backgroundColor: "" }} alt='smart'/>
-            <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: 550, letterSpacing:"0.02em" }}>smartstay</h3>
-          </div>
-<div className="d-flex justify-content-center pt-2 mb-2">
-<p  style={{ fontSize: "15px",marginBottom:0}}>Welcome to Smartstay</p>
-  </div>
-<div className="d-flex justify-content-center pt-2 mb-2">
-<p  style={{ fontSize: "11px",   }}>Over 157,000 hotels and homes across 35 countries</p>
-</div> */}
-<div className="d-flex justify-content-center pt-5" >
-            <img src={Smart} className="img-fluid rounded-3" style={{ height: "35px", width: "35px" }} alt='smart'/>
-            <h3 className="ps-2" style={{ fontSize: "25px", fontWeight: 400, }}>smartstay</h3>
-          </div>
-<div className="d-flex justify-content-center pt-2 mb-2">
-<p  style={{ fontSize: "15px",marginBottom:0}}>Welcome to Smartstay</p>
-  </div>
-<div className="d-flex justify-content-center pt-2 mb-2">
-<p  style={{ fontSize: "11px",   }}>Over 157,000 hotels and homes across 35 countries</p>
-</div>         
-        
-          <div style={{ paddingTop: "40px" }}>
-            <div className="d-flex justify-content-start ps-5" ><img src={Tools} className="img-fluid" style={{ height: "50px", width: "50px" }} alt='Tools'/></div>
-            <p className="d-flex justify-content-start ps-5 pt-0 mb-0" style={{ fontSize: "13px" }} >Smart Tools</p>
-            <p className="d-flex justify-content-start ps-5 pe-5 pt-2" style={{ fontSize: "11px" }}  >Easy-to-use tools that let you integrate our offerings, search
-              and share content, track performance and manage earnings.</p>
-          </div>
-          <div style={{ paddingTop: "20px" }}>
-            <div className="d-flex justify-content-start ps-5"  ><img src={Support} className="img-fluid" style={{ height: "50px", width: "50px" }} alt='Support'/></div>
-            <p className="d-flex justify-content-start ps-5 mb-0" style={{ fontSize: "13px" }} >Total Support</p>
-            <p className="d-flex justify-content-start ps-5  pe-5 text-justify pt-2 mb-5" style={{ fontSize: "11px" }} >A dedicated team to help resolve any issues yoiu may face while using our products or promoting our hotels.</p>
-          </div>
+          <HomeSideComponent />
         </div>
         <div className="col-lg-8 col-md-12 col-sm-12 col-xs-12 " style={{ backgroundColor: "#F6F7FB", overflowX: "hidden" }}>
           <div className="text-end m-2" >
             <span className="right-content lh-1" style={{ fontSize: "13px" }}>New to Smartstay account?</span>
             <button style={{ fontSize: "13px", padding: "2px", backgroundColor: "white", color: "#007FFF", borderRadius: "30px", fontWeight: "bold", borderColor: "#2C77EC", width: "150px", height: "30px" }} type="button" class="btn btn-outline-primary createbutton ms-2" onClick={() => handleCreateAccount()}>Create an Account</button>
           </div>
-          <div className="d-flex justify-content-center" id="Welcome" style={{ fontSize: "18px", paddingTop: "100px", fontWeight: "600" }}><strong>Welcome at Smartstay</strong><img src={Hai} width="30" height="30" alt='Hai'/></div>
+          <div className="d-flex justify-content-center" id="Welcome" style={{ fontSize: "18px", paddingTop: "100px", fontWeight: "600" }}><strong>Welcome at Smartstay</strong><img src={Hai} width="30" height="30" alt='Hai' /></div>
           <div className="d-flex justify-content-center pt-1"><p style={{ fontSize: "13px", color: "gray" }}>We need a few basic details to consider your profile</p></div>
           <div className="row d-flex justify-content-center">
             <div className="col-md-7 col-sm-7 col-xs-7 right-side-form">
@@ -135,7 +102,7 @@ import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
 
                   />
                   <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none', borderRadius: "2px" }} >
-                    <img src={Login} height="13" width="13" alt='Login'/>
+                    <img src={Login} height="13" width="13" alt='Login' />
                   </InputGroup.Text>
                 </InputGroup>
 
@@ -144,7 +111,7 @@ import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
 
                 <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>Password</b></Form.Label>
                 <InputGroup className="mb-3" size="lg">
-                  <Form.Control type={showPassword?'text':'password'}
+                  <Form.Control type={showPassword ? 'text' : 'password'}
                     placeholder="Enter Password"
                     aria-label="Recipient's username"
                     className='border border-0 custom-input'
@@ -157,7 +124,7 @@ import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
                   />
 
                   <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none', borderRadius: "2px" }}>
-                    <img  src={showPassword ? Eye : eyeClosed} height="13" width="13" alt='Eye' onClick={togglePasswordVisibility} />
+                    <img src={showPassword ? Eye : eyeClosed} height="13" width="13" alt='Eye' onClick={togglePasswordVisibility} />
                   </InputGroup.Text>
                 </InputGroup>
 
@@ -172,7 +139,7 @@ import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
                 </div>
               </Form>
               <div className="d-flex justify-content-center pt-2">
-                <Button type="" className="btn" style={{fontWeight:600, width: "200px", fontSize: "12px", backgroundColor: "#2F74EB", color: "white" }} onClick={() => handleLogin()}>
+                <Button type="" className="btn" style={{ fontWeight: 600, width: "200px", fontSize: "12px", backgroundColor: "#2F74EB", color: "white" }} onClick={() => handleLogin()}>
                   LOGIN
                 </Button>
               </div>
