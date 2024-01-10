@@ -52,7 +52,6 @@ function ForgetPasswordPage() {
       // Password does not meet criteria
       // You can dispatch an error action or show a message to the user
       const errorMessage = "Invalid password";
-      console.log(errorMessage);
 
       // Example: Dispatching an error action (replace with your actual error handling logic)
       dispatch({ type: 'SET_ERROR', payload: errorMessage });

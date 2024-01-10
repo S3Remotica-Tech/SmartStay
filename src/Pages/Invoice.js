@@ -133,7 +133,6 @@ const InvoicePage = () => {
   };
 
   const handleShow = (item) => {
-    console.log("item", item);
     if (item.id) {
       setEditOption('Edit')
       let value = item.Name.split(" ")
@@ -256,7 +255,6 @@ const InvoicePage = () => {
       setData(state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem))
     }
     else {
-      console.log("data",data);
       const filteredItems = state.InvoiceList.Invoice.filter((user) =>
         user.Status.toLowerCase().includes(searchTerm.toLowerCase())
       );

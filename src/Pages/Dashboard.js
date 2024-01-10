@@ -41,19 +41,14 @@ function Dashboard() {
 
 
     const state = useSelector(state => state)
-    console.log("state for Dashboard", state)
-
     const dispatch = useDispatch()
 
     useEffect(() => {
-        console.log("executing useEffect")
         dispatch({ type: 'HOSTELLIST' })
     }, [])
 
     const handleHostelSelect = (hostelName) => {
-        console.log("Selected HostelName:", hostelName);
         const selected = state.UsersList.hostelList.find(item => item.Name === hostelName);
-        console.log("Selected Hostel:", selected);
         setSelectedHostel(selected);
     };
     return (
@@ -86,7 +81,6 @@ function Dashboard() {
                                         <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-0" aria-label="Default select example" style={{backgroundColor:"",padding:"8px", border: "none", boxShadow: "none", width: "100px", fontSize: 9, fontWeight: 700 }}>
                                             <option disabled selected className='p-3'>Select Hostel</option>
                                             {state.UsersList.hostelList.map((obj) => {
-                                                // console.log("hostel map", obj)
 
                                                 return (<>
                                                     <option style={{ fontSize: 15 }}>{obj.Name}</option>
@@ -193,7 +187,6 @@ function Dashboard() {
 
                                 {
                                     Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
-                                        console.log("floors id ***********************", index, element);
                                         return <DashboardRoomList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
                                     })}
 

@@ -23,9 +23,9 @@ function FrontPage() {
     navigate('/create-account')
   }
 
-  
- 
-  
+  const handleStartNow = () =>{
+    navigate('/create-account')
+  }  
 
 
   return (
@@ -72,7 +72,7 @@ function FrontPage() {
               Smartstay hostels and homes. Be a part of Smartstay
               Circle, an invite-only, global community of social
               media influencers and affiliate networks.
-              <button type="button" class="btn btn-primary rounded-pill bg-primary startNow d-flex justify-content-center align-items-center" style={{ fontSize: "13px", width: 200, height: 35 }} >
+              <button type="button" class="btn btn-primary rounded-pill bg-primary startNow d-flex justify-content-center align-items-center" style={{ fontSize: "13px", width: 200, height: 35 }} onClick={handleStartNow}>
                 Start Now
               </button>
             </p>

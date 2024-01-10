@@ -137,7 +137,6 @@ const Compliance = () => {
 
 
   const handleEdit = (item) => {
-    console.log('item', item);
     setEditbtn(true)
     setId(item.ID)
     setName(item.Name)
@@ -223,7 +222,6 @@ setData(filteredItems);
   };
   const handleDatePicker = (e) => {
     setDate(e.target.value)
-    console.log("date", e.target.value);
   }
 
   return (

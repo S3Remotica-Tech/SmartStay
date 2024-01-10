@@ -42,7 +42,6 @@ const MyComponent = () => {
   const handleEmailChange = (e) => {
     dispatch({ type: 'CLEAR_EMAIL_ERROR' });
     setemail_Id(e.target.value)
-    console.log("Email", e.target.value)
   }
 
 

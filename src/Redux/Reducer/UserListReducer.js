@@ -26,7 +26,6 @@ const UserListReducer = (state = initialState, action) => {
             if (state.roomCount.length > 0) {
                 if (action.payload.length > 0) {
                     let tempArray = state.roomCount.filter((item) => {
-                        console.log("item", item);
                         return item[0]?.Floor_Id === action.payload[0].Floor_Id
                     })
 

@@ -6,7 +6,6 @@ export async function userlist() {
     })
   }
 export async function addUser (datum) {
-  console.log("datum",datum);
   return await AxiosConfig.post('/add/adduser-list',datum,{
     data:datum
   })
@@ -21,7 +20,6 @@ export async function roomsCount(floorAndHostelID){
   })
 }
 export async function hosteliddetail(id) {
-  console.log("id",id);
   return await AxiosConfig.post('/floor_list', id,{
     data:id
   })

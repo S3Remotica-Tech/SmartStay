@@ -4,7 +4,6 @@ import {invoicelist, invoiceList,addInvoice } from "../Action/InvoiceAction"
 
  function* handleinvoicelist (){
     const response = yield call (invoicelist);
-    console.log("response",response);
     if (response.status === 200){
        yield put ({type : 'INVOICE-ITEM' , payload:response.data})
     }

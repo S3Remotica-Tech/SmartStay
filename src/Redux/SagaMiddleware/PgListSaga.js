@@ -27,6 +27,7 @@ function* handlePgList(datum){
       Swal.fire({
         icon: 'success',
         title: 'Room Details saved Successfully',
+        timer:1000
                });
 
    }

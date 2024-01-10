@@ -3,17 +3,15 @@ import { login } from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
 
 function* Login(args) {
-  console.log("arguments",args)
   try {
     const response = yield call(login, args.payload);
-    console.log('Responsesssssssssssssssss:', response);
     if (response.status === 200) {
       yield put({ type: 'LOGIN-INFO', payload: response.data });
       Swal.fire({
         icon: 'success',
         title: 'Login Successful',
         text: 'You have been logged in successfully!',
-        timer: 1000, // Set the timer to 2 seconds (2000 milliseconds)
+        timer: 1000, 
         showConfirmButton: false, // Hide the "OK" button
       });
     } else if (response.status === 201) {
@@ -39,7 +37,6 @@ function* Login(args) {
 
 
 function* LoginSaga() {
-  console.log("Execute LoginSaga")
   yield takeEvery('LOGININFO', Login)
 }
 export default LoginSaga;

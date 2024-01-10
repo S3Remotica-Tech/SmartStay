@@ -6,7 +6,6 @@ const initialState = {
 }
 
 const ForgetReducer = (state = initialState, action) => {
-    console.log("action.payload", action.payload);
     
     switch (action.type) {
         

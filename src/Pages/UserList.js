@@ -343,8 +343,6 @@ function UserList() {
   const [search, setSearch] = useState(false)
   const [isOpenTab, setIsOpenTab] = useState(true)
 
-  console.log('state for Room details', state)
-
   const handleOpen = () => {
     setIsOpenTab(!isOpenTab)
   }
@@ -417,7 +415,6 @@ function UserList() {
   const getFormattedRoomId = (Floor, Rooms) => {
 
     const floor = parseInt(Floor)
-    console.log("floor is ", floor)
     const roomIdString = String(Rooms);
     switch (floor) {
       case 1:

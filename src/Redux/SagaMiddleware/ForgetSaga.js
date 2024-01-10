@@ -4,7 +4,6 @@ import Swal from 'sweetalert2'
 
 
 function* handleforgetpage(rpsd) {
-    console.log("rpsd",rpsd);
     try {
        const response = yield call(forgetpage, rpsd.payload)
    

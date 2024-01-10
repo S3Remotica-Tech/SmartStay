@@ -84,7 +84,6 @@ function Sidebar() {
   }, [pgList.number_Of_Rooms]);
 
   const handleFloorList = (index, roomlist) => {
-    console.log("pgList.floorDetails", pgList.floorDetails);
     var tempArray = pgList.floorDetails
     tempArray[index] = roomlist
     setPgList({ ...pgList, floorDetails: tempArray })
@@ -308,7 +307,6 @@ function Sidebar() {
                             const floorNumber = index + 1;
                             const numberOfRooms = parseInt(pgList[`number_Of_Rooms_${floorNumber}`]) || 0;
                             const floorLabel = floorNumber === 1 ? 'Ground' : `${floorNumber - 1}`;
-                            console.log("pglist number ************", pgList.number_Of_Floor)
                             return (
                               <div key={index} className="form-group mb-3">
                                 <label htmlFor="exampleInput" className="form-label mb-1" style={{ fontWeight: 700, fontSize: "11px" }}>

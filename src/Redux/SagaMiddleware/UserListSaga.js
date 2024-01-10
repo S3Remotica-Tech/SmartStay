@@ -4,7 +4,6 @@ import { userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymen
 
 function* handleuserlist() {
    const response = yield call(userlist);
-   //  console.log("response",response);
    if (response.status === 200) {
       yield put({ type: 'USER_LIST', payload: response.data })
    }
@@ -13,9 +12,7 @@ function* handleuserlist() {
    }
 }
 function* handleAddUser(datum) {
-   console.log("datum...saga", datum);
    const response = yield call(addUser, datum.payload);
-   console.log("response", response);
    if (response.status === 200) {
       yield put({ type: 'ADD_USER', payload: response.data })
    }
@@ -25,7 +22,6 @@ function* handleAddUser(datum) {
 }
 function* handleHostelList() {
    const response = yield call(hostelList)
-   console.log("response.....hostelList", response);
    if (response.status === 200) {
       yield put({ type: 'HOSTEL_LIST', payload: response.data })
    }
@@ -46,7 +42,6 @@ function* handleNumberOfRooms(ID) {
 
 function* handlehosteliddetail(data) {
    const response = yield call(hosteliddetail,data.payload);
-   console.log("responseesssss", response);
    if (response.status === 200) {
       yield put({ type: 'HOSTEL_DETAIL_LIST', payload: response.data })
 
@@ -57,7 +52,6 @@ function* handlehosteliddetail(data) {
 }
 function* handleUserBillPaymentHistory(){
    const response = yield call(userBillPaymentHistory)
-   console.log("response.....userBillPaymentHistory",response);
    if (response.status === 200) {
       yield put ({type:'BILL_PAYMENT_HISTORY',payload:response.data})
    }

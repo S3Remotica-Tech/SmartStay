@@ -10,7 +10,6 @@ function PgList() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    console.log('executing useEffect');
     dispatch({ type: 'HOSTELLIST' });
   }, [state.UsersList.hostelList]);
 
