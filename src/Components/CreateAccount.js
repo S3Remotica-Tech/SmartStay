@@ -80,38 +80,134 @@ function CreateAccountPage() {
     navigate('/login-Page')
   }
 
-
   const handleRoyal = () => {
-    if (userName && phoneNo && emailID && password) {
-      dispatch({ type: 'CREATE_ACCOUNT', payload: { name: userName, mobileNo: phoneNo, emailId: emailID, password: password } })
+
+    if (!userName || !phoneNo || !emailID || !password) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter All Fields',
+        confirmButtonText: 'Ok'
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+        }
+      });
+      return;
+    }
+
+    if (!error) {
+      dispatch({
+        type: 'CREATE_ACCOUNT',
+        payload: { name: userName, mobileNo: phoneNo, emailId: emailID, password: password }
+      });
+
       Swal.fire({
         icon: 'success',
         title: state.createAccount?.accountMgs?.message,
         text: 'You have been Created successfully!',
-        confirmButtonText: 'ok'
+        confirmButtonText: 'Ok'
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate('/login-Page')
-          setUserName('')
-          setPhoneNo('')
-          setEmailID('')
-          setPassword('')
-        }
-      })
+          navigate('/login-Page');
 
-    }
-    else {
+          setUserName('');
+          setPhoneNo('');
+          setEmailID('');
+          setPassword('');
+        }
+      });
+    } else {
       Swal.fire({
         icon: 'warning',
-        title: 'please Enter AllField',
-        confirmButtonText: 'ok'
+        title: 'Please Correct Password',
+        confirmButtonText: 'Ok'
       }).then((result) => {
         if (result.isConfirmed) {
-
         }
-      })
+      });
     }
-  }
+  };
+
+//   const handleRoyal = () => {
+
+//     if (!userName || !phoneNo || !emailID || !password) {
+//       Swal.fire({
+//         icon: 'warning',
+//         title: 'Please Enter All Fields',
+//         confirmButtonText: 'Ok'
+//       }).then((result) => {
+//         if (result.isConfirmed) {
+
+//         }
+//       });
+//       return;
+//     }
+// // else{
+//     if (!error) {
+//       dispatch({
+//         type: 'CREATE_ACCOUNT',
+//         payload: { name: userName, mobileNo: phoneNo, emailId: emailID, password: password }
+//       });
+
+//       Swal.fire({
+//         icon: 'success',
+//         title: state.createAccount?.accountMgs?.message,
+//         text: 'You have been Created successfully!',
+//         confirmButtonText: 'Ok'
+//       }).then((result) => {
+//         if (result.isConfirmed) {
+//           navigate('/login-Page');
+
+//           setUserName('');
+//           setPhoneNo('');
+//           setEmailID('');
+//           setPassword('');
+//         }
+//       });
+//     } else {
+//       Swal.fire({
+//         icon: 'warning',
+//         title: 'Please Correct Password',
+//         confirmButtonText: 'Ok'
+//       }).then((result) => {
+//         if (result.isConfirmed) {
+//         }
+//       });
+//     }
+//   // }
+//   };
+
+  // const handleRoyal = () => {
+  //   if (userName && phoneNo && emailID && password) {
+  //     dispatch({ type: 'CREATE_ACCOUNT', payload: { name: userName, mobileNo: phoneNo, emailId: emailID, password: password } })
+  //     Swal.fire({
+  //       icon: 'success',
+  //       title: state.createAccount?.accountMgs?.message,
+  //       text: 'You have been Created successfully!',
+  //       confirmButtonText: 'ok'
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         navigate('/login-Page')
+  //         setUserName('')
+  //         setPhoneNo('')
+  //         setEmailID('')
+  //         setPassword('')
+  //       }
+  //     })
+
+  //   }
+  //   else {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'please Enter AllField',
+  //       confirmButtonText: 'ok'
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+
+  //       }
+  //     })
+  //   }
+  // }
 
   return (
     <>
@@ -158,9 +254,11 @@ function CreateAccountPage() {
 
                 <div class="mb-2" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "12", marginLeft: "20%" }}>
                   <label class="sr-only" style={{ fontSize: "12px", marginTop: "2%", fontWeight: "530" }}><b>Password</b></label>
-                  <input class="pwd form-control" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "1%" }} type={showPassword ? 'text' : 'password'} id="pwd" placeholder="Enter password" name="pwd" value={password} onChange={(e) => { handlePassword(e) }} />
-                  {error && <div style={{ color: 'red' }}>{error}</div>}
-                  <div className="pwd" style={{ position: 'relative', width: '80%' }}>
+                  <input class="form-control" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "1%" }} type={showPassword ? 'text' : 'password'} id="pwd" placeholder="Enter password" name="pwd" value={password} onChange={(e) => { handlePassword(e) }} />
+                 
+                  <div
+                  //  className="pwd" 
+                   style={{ position: 'relative', width: '80%' }}>
 
                     <img
                       src={showPassword ? eye : eyeClosed}
@@ -168,8 +266,8 @@ function CreateAccountPage() {
                       style={{
 
                         position: 'absolute',
-                        right: '10px',
-                        bottom: "8px",
+                        right: 10,
+                        bottom: 8,
                         width: 20,
                         cursor: 'pointer',
 
@@ -177,6 +275,7 @@ function CreateAccountPage() {
                       onClick={togglePasswordVisibility}
                     />
                   </div>
+                  {error && <div style={{ color: 'red' }}>{error}</div>}
                 </div>
                 <div className="lists d-flex mt-1" style={{ justifyContent: "space-between", textAlign: "left", width: "64%", fontSize: "13px", marginLeft: "19%" }}>
                   <ul className="hoverList">

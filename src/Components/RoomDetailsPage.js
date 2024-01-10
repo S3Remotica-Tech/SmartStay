@@ -7,9 +7,10 @@ function RoomDetailsPage (props) {
     const [roomList,setRoomList] = useState([])
     const [floorDetails, setfloorDetails] = useState([])
     const handleRoom = (e) => {
+        console.log("props.roomIndex",props.roomIndex);
         const room = e.target.value;
         setRoomDetails({ ...roomDetails, roomNo: room })
-        props.updateRoom(0, false, e.target.value)
+        props.updateRoom(props.roomIndex, false, e.target.value)
         // setfloorDetails([...floorDetails, { roomDetails }])
         // setRoomNo(room)
         // setfloorDetails([...floorDetails,{RoomNo:room}])
@@ -17,7 +18,7 @@ function RoomDetailsPage (props) {
     const handleUpdateBed = (e) => {
         const bed = e.target.value;
         setRoomDetails({ ...roomDetails, numberOfBed: bed })
-        props.updateRoom(0, true, e.target.value)
+        props.updateRoom(props.roomIndex, true, e.target.value)
         // setfloorDetails([...floorDetails, { roomDetails }])
         // setNumberOfBed(bed)
         // setfloorDetails([...floorDetails,{NumberOfBed:bed}])

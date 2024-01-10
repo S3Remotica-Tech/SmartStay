@@ -8,3 +8,8 @@ export async function createPgList(datum){
       data:datum
     })
   }
+  export async function createRoom(datum){
+    return await AxiosConfig.post('/room/create-room',datum,{
+      data:datum
+    })
+  }

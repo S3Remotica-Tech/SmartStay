@@ -50,6 +50,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     dispatch({ type: 'INVOICELIST' })
+    setData(state.InvoiceList.Invoice)
   }, [])
   useEffect(()=>{
     setData(state.InvoiceList.Invoice)
@@ -446,7 +447,9 @@ const InvoicePage = () => {
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices == null ? '0.00' : item.Invoices}</td>
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>
                 <div class="d-flex">
-                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1, 0)}</p></span>
+                  {/* <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name && item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1, 0)}</p></span> */}
+                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name && item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1)}</p></span>
+                  
                   <div class="ms-2">
                     <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
                     <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.phoneNo}</label>

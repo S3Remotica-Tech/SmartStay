@@ -35,14 +35,17 @@
 .user2{
   display: flex;
   flex-direction: row;
+justify-content: center;
+align-items: center;
+  
 }
 
 .searchinput:focus {
   box-shadow: none !important; 
-  border-color: #ced4da !important; 
+  border-color: 1px solid #ced4da !important; 
 }
 .io {
-  /* margin-top: 10px; */
+  margin-top: 10px;
   margin-right: 20px;
 }
 
@@ -193,7 +196,10 @@ a {
   .user2{
     
     margin-top: -5px !important;
-
+    display: flex;
+    flex-direction: row;
+  justify-content: center;
+  align-items: center;
   }
 
 
@@ -212,6 +218,10 @@ a {
 @media only screen and (max-width: 450px){
   .user2{
  margin-left: 70px;
+ display: flex;
+ flex-direction: row;
+justify-content: center;
+align-items: center;
 
   }
 
@@ -227,7 +237,10 @@ a {
   }
   .user2{
     margin-left: 10px;
-   
+    display: flex;
+  flex-direction: row;
+justify-content: center;
+align-items: center;
      }
 
 }
@@ -235,7 +248,11 @@ a {
 @media only screen and (max-width: 540px) and (min-width: 540px){
   .user2{
     margin-left: 170px;
-   
+    display: flex;
+  flex-direction: row;
+justify-content: center;
+align-items: center;
      }
 
 }
+

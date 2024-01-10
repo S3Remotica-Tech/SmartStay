@@ -23,7 +23,26 @@ return () => clearTimeout(timeOut)
 },[number_Of_Rooms])
 
 const handleUpdateRoomList = (index,isnumberOfBed, value) =>{
+    console.log("roomList",roomList);
 console.log("index,isnumberOfBed, value",index,isnumberOfBed, value);
+if(isnumberOfBed===true){
+    var roomListTemp = roomList
+    roomListTemp[index].number_Of_Bed = value
+    setRoomList(roomListTemp)
+    // setRoomList([...roomList[index],roomList[index]={number_Of_Bed:value}])
+    // setRoomList([...roomList,roomList[index].number_Of_Bed=value])
+    // setRoomList(roomList[index].number_Of_Bed=value)
+}
+else{
+    // setRoomList([...roomList[index],roomList[index]={roomName:value}])
+    //etRoomList([...roomList,roomList[index].roomName=value])
+    // setRoomList(roomList[index].roomName=value)
+
+    var roomListTemp = roomList
+    roomListTemp[index].roomName = value
+    setRoomList(roomListTemp)
+}
+props.handleFloorList(props.index,roomList)
 }
 
     return (

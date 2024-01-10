@@ -15,14 +15,11 @@ import Hostels from '../Assets/Images/hostel.png';
 import Plus from '../Assets/Images/Create-button.png';
 import Welcome from '../Assets/Images/dashboard-welcome.png';
 import Image from 'react-bootstrap/Image';
-import Menu from '../Assets/Images/Menu-plus.png';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Hostel from '../Assets/Images/hostel.png';
 import CreateButton from '../Assets/Images/Create-button.png';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { BsTextIndentLeft } from "react-icons/bs";
-import { BsTextIndentRight } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import { RiDashboard3Line } from "react-icons/ri";
@@ -43,7 +40,7 @@ function Sidebar() {
 
   const [activePage, setActivePage] = useState(true);
 
-  const [collapsed, setCollapsed] = useState(true);
+  // const [collapsed, setCollapsed] = useState(true);
   const [currentPage, setCurrentPage] = useState('');
 
   const [pgList, setPgList] = useState({
@@ -55,56 +52,17 @@ function Sidebar() {
     number_Of_Rooms: '',
     floorDetails: []
   })
-  const [floorDetails, setfloorDetails] = useState([])
-  const [floorName, setFloorName] = useState('');
-  const [roomDetails, setRoomDetails] = useState({
-    // roomNo:'',
-    // numberOfBed:''
-  })
-  // const [roomNo,setRoomNo] = useState('');
-  // const [numberOfBed,setNumberOfBed] = useState('')
-  // const handleRoom = (e) =>{
-  // const room = e.target.value;
-  // setRoomDetails({...roomDetails,roomNo:room})
-  // setfloorDetails([...floorDetails,{roomDetails}])
-  // // setRoomNo(room)
-  // // setfloorDetails([...floorDetails,{RoomNo:room}])
-  // }
-  // const handleUpdateBed = (e) =>{
-  //   const bed = e.target.value;
-  //   setRoomDetails({...roomDetails,numberOfBed:bed})
-  //   setfloorDetails([...floorDetails,{roomDetails}])
-  //   // setNumberOfBed(bed)
-  //   // setfloorDetails([...floorDetails,{NumberOfBed:bed}])
-  // }
-
   useEffect(() => {
     const timeout = setTimeout(() => {
-      console.log('pgList.number_Of_Floor', pgList.number_Of_Floor);
       let tempArry = [];
       for (let i = 0; i < pgList.number_Of_Floor; i++) {
         var a = {}
         tempArry.push(a)
       }
       setPgList({ ...pgList, floorDetails: tempArry })
-      console.log("tempArry", tempArry);
-
     }, 1000);
     return () => clearTimeout(timeout)
   }, [pgList.number_Of_Floor])
-
-  // useEffect(()=>{
-  //   const timeout = setTimeout(() => {
-  //   let tempArry =[];
-  //   for(let i=0;i<pgList.number_Of_Rooms;i++){
-  //     var a={}
-  //     tempArry.push(a)
-  //   }
-  //   setPgList({...pgList,floorDetails[pgList.number_Of_Floor-i]:a})
-  // }, 1000);
-
-  //   return () => clearTimeout(timeout)
-  // },[pgList.number_Of_Rooms])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -121,60 +79,34 @@ function Sidebar() {
         ...prevPgList,
         floorDetails: [tempArray],
       }));
-
-      console.log("tempArray...Room", tempArray);
     }, 1000);
     return () => clearTimeout(timeout);
   }, [pgList.number_Of_Rooms]);
 
-  const handlenumberOfFloor = () => {
-    console.log("check");
+  const handleFloorList = (index, roomlist) => {
+    console.log("pgList.floorDetails", pgList.floorDetails);
+    var tempArray = pgList.floorDetails
+    tempArray[index] = roomlist
+    setPgList({ ...pgList, floorDetails: tempArray })
   }
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  console.log("state for PgList", state)
-
-
-  const toggleCollapse = () => {
-    setCollapsed(!collapsed);
-  };
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
     setActivePage(false);
-    setCollapsed(true);
+    // setCollapsed(true);
   };
 
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCancels = () => {
     handleClose();
   };
 
-  // const handleSubmitPgList = () => {
-  //      if (pgList.Name && pgList.phoneNumber) {
-  //     dispatch({
-  //       type: 'PGLIST',
-  //       payload: { name: pgList.Name, phoneNo: pgList.phoneNumber, email_Id: pgList.email_Id, location: pgList.location, number_of_floors: pgList.number_Of_Floor, room: pgList.room_Id, bed: pgList.number_Of_Bed, }
-  //     })
-  //   }
-  //   setPgList({
-  //     Name: '',
-  //     phoneNumber: '',
-  //     email_Id: '',
-  //     location: '',
-  //     number_Of_Floor: '',
-  //     room_Id: '',
-  //     number_Of_Bed: '',
-  //   });
-  // }
-
   const handleSubmitPgList = () => {
-    console.log("floorDetails", floorDetails);
-    console.log("pglist", pgList);
     if (pgList.Name && pgList.phoneNumber) {
       const floorDetailsArray = Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
         const floorNumber = index + 1;
@@ -185,7 +117,6 @@ function Sidebar() {
           roomDetails: Array.from({ length: numberOfRooms }, (_, roomIndex) => {
             return {
               number_Of_Rooms: pgList[`number_Of_Rooms_${floorNumber}_${roomIndex}`] || 0,
-              // room_Name: pgList[`room_Name_${floorNumber}_${roomIndex}`] || "",
               number_Of_Bed: pgList[`number_Of_Bed_${floorNumber}_${roomIndex}`] || "",
             };
           }),
@@ -200,21 +131,23 @@ function Sidebar() {
           email_Id: pgList.email_Id,
           location: pgList.location,
           number_of_floors: pgList.number_Of_Floor,
-          floorDetails: floorDetailsArray,
+          number_Of_Rooms: pgList.number_Of_Rooms,
+          floorDetails: pgList.floorDetails,
+          created_by: state.login.id
         }
       });
     }
 
 
-    // setPgList({
-    //   Name: '',
-    //   phoneNumber: '',
-    //   email_Id: '',
-    //   location: '',
-    //   number_Of_Floor: '',
-    //   // room_Id: '',
-    //   // number_Of_Bed: '',
-    // });
+    setPgList({
+      Name: '',
+      phoneNumber: '',
+      email_Id: '',
+      location: '',
+      number_Of_Floor: '',
+      number_Of_Rooms: '',
+      floorDetails: []
+    });
 
 
     handleClose();
@@ -246,63 +179,47 @@ function Sidebar() {
 
       <Row className='g-0 m-0 vh-100'>
         <Col lg={isSidebarMaximized ? 2 : 1} md={isSidebarMaximized ? 2 : 1} sm={isSidebarMaximized ? 2 : 1} xs={isSidebarMaximized ? 2 : 1} className="d-sm-block bg-light" style={{ cursor: "pointer" }} >
-          <div className="d-flex align-items-center justify-content-end m-2">
+          <div className="d-flex align-items-center m-3" style={{ justifyContent: isSidebarMaximized ? "end" : "center" }}>
             <div onClick={toggleSidebar} className="d-flex align-items-center justify-content-center  toggleButton" style={{ borderRadius: 10, width: "auto", padding: 5, backgroundColor: "#FFFFFF", boxShadow: "lightgray", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
               {isSidebarMaximized ? <label className="mb-0" style={{ fontSize: 11, color: "gray" }}><IoIosArrowBack style={{ fontSize: 11, color: "gray", fontFamily: "sans-serif" }} />Hide</label> : <label className="mb-0" style={{ fontSize: 11, color: "gray" }}><IoIosArrowForward style={{ fontSize: 11, color: "gray" }} />Show</label>}
             </div>
           </div>
           <ul className="m-0 mt-3 p-0">
 
-            <li className="p-2 align-items-center list-Item" onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><RiDashboard3Line /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Dashboard</span></li>
-            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", position: "relative", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center", }}> <FaBuilding /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>PG list</span><FaCirclePlus style={{ fontSize: 15, marginLeft: 15, marginRight: 5, display: "inline-block" }} alt='Menu' /></li>
-            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('user-list')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><LuUserCog /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>User list</span></li>
+            <li className="p-2 align-items-center list-Item" onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}>
+              <div className='d-flex  align-items-center justify-content-between'>
+                <RiDashboard3Line style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Dashboard</span>
+              </div>
+            </li>
+            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", position: "", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}>
+              <div className='d-flex  align-items-center justify-content-between'>
+                <FaBuilding style={{ fontSize: isSidebarMaximized ? '16px' : '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>PG list</span>
+                <FaCirclePlus style={{ fontSize: isSidebarMaximized ? '16px' : '13px', marginLeft: isSidebarMaximized ? 15 : 5, display: "inline-block" }} alt='Menu' />
+              </div>
+            </li>
+
+            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('user-list')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><LuUserCog style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>User list</span></li>
           </ul>
 
           <ul className="m-0 mt-3 p-0">
-            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('invoice')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><GrCompliance /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Invoice</span></li>
-            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><TbFileInvoice /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Compliance</span></li>
-            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('payment')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><MdPayment /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Payment gateway</span></li>
-            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('user-access')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaUsersRectangle /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>User and access</span></li>
-            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BiBarChartAlt /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Reports</span></li>
+            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('invoice')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><GrCompliance style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Invoice</span></li>
+            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><TbFileInvoice style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Compliance</span></li>
+            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('payment')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><MdPayment style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Payment gateway</span></li>
+            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('user-access')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaUsersRectangle style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>User and access</span></li>
+            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BiBarChartAlt style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Reports</span></li>
           </ul>
 
           <ul className="m-0 mt-3 p-0">
-            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><IoSettingsOutline /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Settings</span></li>
-            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('support')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaCircleExclamation /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Support</span></li>
+            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><IoSettingsOutline style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Settings</span></li>
+            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('support')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaCircleExclamation style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Support</span></li>
 
           </ul>
 
 
 
         </Col>
-
-        {/* <Col lg={isSidebarMaximized ? 2 : 1} md={isSidebarMaximized ? 2 : 1} sm={isSidebarMaximized ? 2 : 1} xs={isSidebarMaximized ? 2 : 1} className="d-sm-block bg-light" style={{ cursor: "pointer", position: "relative" }} >
-          <div onClick={toggleSidebar} className=" d-flex align-items-center justify-content-center mb-2 mt-2 me-2 toggleButton" style={{ position: "absolute", right: 0, borderRadius: 10, width: "auto",padding:5, backgroundColor: "#FFFFFF", boxShadow: "lightgray", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",display: windowWidth <= 390 ? "none" : "block" }}>
-            {isSidebarMaximized ? <label className="mb-0" style={{ fontSize: 11, color: "gray" }} ><IoIosArrowBack style={{ fontSize: 11, color: "gray", fontFamily: "sans-serif" }} />Hide</label> : <label className="mb-0" style={{ fontSize: 11, color: "gray" }} ><IoIosArrowForward style={{ fontSize: 11, color: "gray" }} />Show</label>}
-          </div>
-          <ul className="m-0 mt-5 p-0">
-            <li className="p-2 align-items-center list-Item" onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none",display:"flex",justifyContent:isSidebarMaximized ? "start":"center" }}><RiDashboard3Line /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Dashboard</span></li>
-            <li className="p-2  align-items-center list-Item" onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none",position:"relative",display:"flex",justifyContent:isSidebarMaximized ? "start":"center" }}> <FaBuilding /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>PG list</span><FaCirclePlus style={{position:"absolute",left:isSidebarMaximized?150:70 }} alt='Menu' /></li>
-            <li  className="p-2  align-items-center list-Item" onClick={() => handlePageClick('user-list')} style={{ listStyleType: "none",display:"flex",justifyContent:isSidebarMaximized ? "start":"center" }}><LuUserCog /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>User list</span></li>
-          </ul>
-
-          <ul className="m-0 mt-3 p-0">
-            <li  className="p-2  align-items-center list-Item" onClick={() => handlePageClick('invoice')} style={{ listStyleType: "none",display:"flex",justifyContent:isSidebarMaximized ? "start":"center" }}><GrCompliance /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Invoice</span></li>
-            <li  className="p-2  align-items-center list-Item" onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none",display:"flex",justifyContent:isSidebarMaximized ? "start":"center" }}><TbFileInvoice /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Compliance</span></li>
-            <li  className="p-2  align-items-center list-Item" onClick={() => handlePageClick('payment')} style={{ listStyleType: "none",display:"flex",justifyContent:isSidebarMaximized ? "start":"center" }}><MdPayment /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Payment gateway</span></li>
-            <li  className="p-2  align-items-center list-Item" onClick={() => handlePageClick('user-access')} style={{ listStyleType: "none",display:"flex",justifyContent:isSidebarMaximized ? "start":"center" }}><FaUsersRectangle /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>User and access</span></li>
-            <li  className="p-2  align-items-center list-Item" onClick={() => handlePageClick('reports')} style={{ listStyleType: "none",display:"flex",justifyContent:isSidebarMaximized ? "start":"center" }}><BiBarChartAlt /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Reports</span></li>
-          </ul>
-
-          <ul className="m-0 mt-3 p-0">
-            <li  className="p-2  align-items-center list-Item" onClick={() => handlePageClick('settings')} style={{ listStyleType: "none",display:"flex",justifyContent:isSidebarMaximized ? "start":"center" }}><IoSettingsOutline /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Settings</span></li>
-            <li  className="p-2  align-items-center list-Item" onClick={() => handlePageClick('support')} style={{ listStyleType: "none",display:"flex",justifyContent:isSidebarMaximized ? "start":"center" }}><FaCircleExclamation /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Support</span></li>
-
-          </ul>
-
-
-
-        </Col> */}
         <Col lg={isSidebarMaximized ? 10 : 11} md={isSidebarMaximized ? 10 : 11} sm={isSidebarMaximized ? 10 : 11} xs={isSidebarMaximized ? 10 : 11} className="bg-white">
 
           {activePage ?
@@ -377,7 +294,6 @@ function Sidebar() {
                           type="text"
                           value={pgList.number_Of_Floor}
                           onChange={(e) => setPgList({ ...pgList, number_Of_Floor: e.target.value })}
-                          // onBlur={()=>{handlenumberOfFloor()}}
                           className="form-control custom-border-bottom p-0 mt-2"
                           id="exampleInput"
                           placeholder="Enter Number of Floors"
@@ -399,61 +315,8 @@ function Sidebar() {
                                   {/* {`${pgList.number_Of_Floor === 1 ? 'Ground' : `${pgList.number_Of_Floor}`} Floor `} */}
                                   {`${floorLabel} Floor:`}
                                 </label>
-                                <CreatePG index={index} pgList={pgList} setPgList={setPgList}></CreatePG>
-                                {/* <div className="row mb-2">
-                                  <div className="col">
-                                    <label className='mb-2' htmlFor={`totalRooms-${index}`} style={{ fontSize: "11px" }}>Number of Rooms</label>
-                                    <input
-                                      type="text"
-                                      className="form-control custom-border-bottom p-0"
-                                      id="exampleInput"
-                                      placeholder="Enter here"
-                                      style={{ fontSize: "11px" }}
-                                      value={pgList.number_Of_Rooms}
-                                      onChange={(e) => {
-                                        setPgList({
-                                          ...pgList,
-                                          number_Of_Rooms:e.target.value
-                                          // [`number_Of_Rooms_${floorNumber}`]: e.target.value,
-                                        });
-                                      }}
-                                    />
-                                  </div>
-                                </div> */}
-
-                                {/* {Array.from({ length: pgList.number_Of_Rooms }, (_, roomIndex) => (
-                                  <div key={roomIndex} className="row">
-                                    <div className="col">
-                                      <label htmlFor={`roomName-${roomIndex}`} style={{ fontSize: "11px" }}>Room Name</label>
-                                      <input
-                                        type="text"
-                                        className="form-control custom-border-bottom p-0"
-                                        id="exampleInput"
-                                        placeholder="Enter here"
-                                        style={{ fontSize: "11px" }}
-                                        value={roomDetails.roomNo}
-                                        onChange={(e)=>{handleRoom(e)}}
-                                        // onChange={(e)=>{setfloorDetails([...floorDetails.RoomDetails,{RoomNo:e.target.value}])}}
-                                        // onChange={(e)=>{setPgList({...pgList,floorDetails:[...pgList.floorDetails,{roomNo:e.target.value}]})}}
-                                      />
-                                    </div>
-
-                                    <div className="col">
-                                      <label htmlFor={`beds-${roomIndex}`} style={{ fontSize: "11px" }}>Number of Beds</label>
-                                      <input
-                                        type="text"
-                                        className="form-control custom-border-bottom p-0 mt-2"
-                                        id="exampleInput"
-                                        placeholder="Enter here"
-                                        style={{ fontSize: "11px" }}
-                                        value={roomDetails.numberOfBed}
-                                        onChange={(e)=>{handleUpdateBed(e)}}
-                                        // onChange={(e)=>{setfloorDetails([...floorDetails.RoomDetails,{NumberOfBeds:e.target.value}])}}
-                                        // onChange={(e)=>{setPgList({...pgList,floorDetails:[...pgList.floorDetails,{number_Of_Bed:e.target.value}]})}}
-                                      />
-                                    </div>
-                                  </div>
-                                ))} */}
+                                <CreatePG index={index} pgList={pgList} setPgList={setPgList} handleFloorList={handleFloorList}></CreatePG>
+                               
                               </div>
                             );
                           })}

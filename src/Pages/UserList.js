@@ -151,7 +151,6 @@ function UserList() {
   const handleShow = (u) => {
     handleMenuClick();
     setShowMenu(true);
-    console.log("u", u);
     if (u.ID) {
       let value = u.Name.split(" ")
       setEdit('Edit')
@@ -222,9 +221,11 @@ function UserList() {
 
   const handleiconshow = () => {
     setSearchicon(!searchicon)
+    setFiltericon(false)
   }
   const handleFiltershow = () => {
     setFiltericon(!filtericon)
+    setSearchicon(false)
   }
   const handleStatusFilter = (e) => {
     const searchTerm = e.target.value;
@@ -279,7 +280,6 @@ function UserList() {
 
       // Checking for error message in the UsersList state
       if (state.UsersList?.errorMessage?.length > 0) {
-        console.log("check");
         Swal.fire({
           icon: 'warning',
           title: state.UsersList.errorMessage,
@@ -326,10 +326,12 @@ function UserList() {
   const [roomDetail, setRoomDetail] = useState(false)
   const [userList, setUserList] = useState(true)
   const [clickedUserData, setClickedUserData] = useState([]);
+  const [filterByDate, setFilterByDate] = useState('');
+  const [filterStatus, setFilterStatus] = useState(false)
+  const [filterByStatus, setFilterByStatus] = useState('ALL')
 
 
   const handleRoomDetailsPage = (userData) => {
-    console.log("Clicked row data:", userData);
     const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
     setRoomDetail(true)
     setUserList(false)
@@ -337,15 +339,11 @@ function UserList() {
   }
 
 
-
   const [activeStep, setActiveStep] = React.useState(0);
   const [search, setSearch] = useState(false)
   const [isOpenTab, setIsOpenTab] = useState(true)
 
-
   console.log('state for Room details', state)
-
-
 
   const handleOpen = () => {
     setIsOpenTab(!isOpenTab)
@@ -353,53 +351,39 @@ function UserList() {
 
 
 
-
-
-  const handleSearch = () => {
-    setSearch(!search)
-  }
-
-
-
-
   useEffect(() => {
-
     dispatch({ type: 'BILLPAYMENTHISTORY' })
-
-
   }, [])
 
 
   const [filteredDatas, setFilteredDatas] = useState([]);
-
-
   const billPaymentHistory = state.UsersList.billPaymentHistory;
-
   const invoicePhones = billPaymentHistory.map((item) => item.invoicePhone);
-  console.log("invoicePhones:", invoicePhones);
-
-  
-
-
-  console.log("selected UserData", clickedUserData)
-
 
 
   useEffect(() => {
     if (clickedUserData.length > 0 && clickedUserData[0].Phone) {
       const userPhone = clickedUserData[0].Phone;
-      console.log("userPhone", userPhone);
+     
+      const filteredDataForStatus = filterByStatus === 'ALL'
+        ? billPaymentHistory 
+        : billPaymentHistory.filter((item) => item.invStatus === filterByStatus);
 
-      const invoicePhones = billPaymentHistory.map((item) => item.invoicePhone);
-      const filteredDataForBillPayment = billPaymentHistory.filter((item) => item.invoicePhone === userPhone);
-      console.log("filteredDataForBillPayment", filteredDataForBillPayment);
-      setFilteredDatas(filteredDataForBillPayment);
+     
+      const filteredDataForPhone = filteredDataForStatus.filter((item) => item.invoicePhone === userPhone);
+    
+      const filteredDataForDate = filterByDate
+        ? filteredDataForPhone.filter((item) => {
+          const formattedSearchDate = new Date(filterByDate).toLocaleDateString('en-GB');
+          const formattedInvoiceDate = new Date(item.invDate).toLocaleDateString('en-GB');
+          return formattedInvoiceDate === filterByDate;
+        })
+        : filteredDataForPhone;
+
+      setFilteredDatas(filteredDataForDate);
     }
-  }, [clickedUserData, billPaymentHistory]);
+  }, [clickedUserData, billPaymentHistory, filterByStatus, filterByDate]);
 
-
-  console.log("filtered Datas", filteredDatas)
-  
 
   const getFloorName = (Floor) => {
     if (Floor === "1") {
@@ -429,12 +413,6 @@ function UserList() {
       return `${adjustedFloor}${suffix} Floor`;
     }
   }
-
-
-
-
-
-
 
   const getFormattedRoomId = (Floor, Rooms) => {
 
@@ -474,10 +452,36 @@ function UserList() {
   };
 
 
-  const handleBack = () =>{
+  const handleBack = () => {
     setUserList(true)
     setRoomDetail(false)
   }
+
+
+
+  const handleFilterByDate = (e) => {
+    const searchDate = e.target.value;
+    setFilterByDate(searchDate);
+
+  }
+
+  const handleSearch = () => {
+    setSearch(!search)
+    setFilterStatus(false)
+    }
+
+
+
+  const handleFliterByStatus = () => {
+    setFilterStatus(!filterStatus)
+    setSearch(false)
+      }
+
+  const handleStatusFilterChange = (e) => {
+    const selectedStatus = e.target.value;
+    setFilterByStatus(selectedStatus);
+  };
+
 
 
 
@@ -499,29 +503,28 @@ function UserList() {
                   type="text"
                   value={searchItem}
                   onChange={(e) => handleInputChange(e)}
-                  placeholder='Type to search'
-                  class="form-control ps-4 pe-1   searchinput"
-                  style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
-
+                  className='form-control form-control-sm me-2' placeholder='Search Here' style={{width:"150px", boxShadow: "none", border: "1px solid lightgray" }}
                 />
               </>
             }
 
-            <IoIosSearch className='io'
+            <IoIosSearch className='io' style={{fontSize:20}}
               onClick={handleiconshow}
             />
             {
               filtericon &&
               <>
-                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
-                >
+                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} class="form-control form-control-sm m-2"
+                            style={{ fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", boxShadow: "none", padding: "5px", border: "1px Solid lightgray" }}
+                          >
+                
                   <option selected value="ALL"> ALL</option>
                   <option value="Success">Success</option>
                   <option value="Pending">Pending</option>
                 </select>
               </>
             }
-            <IoFilterOutline class=" me-4" onClick={handleFiltershow} />
+            <IoFilterOutline class=" me-4" onClick={handleFiltershow} style={{ fontSize: 20 }} />
             <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus" />Add User</button>
 
           </div>
@@ -552,7 +555,7 @@ function UserList() {
 
               {currentItems.map((u) => {
                 return (
-                  <tr style={{ fontWeight: "700" }} onClick={()=>handleRoomDetailsPage(u)}>
+                  <tr style={{ fontWeight: "700" }} >
 
                     <td><div style={{ display: 'flex', flexDirection: "row" }}>
                       <div>
@@ -573,7 +576,7 @@ function UserList() {
                     <td style={{ color: "black", fontWeight: 500 }}>{u.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
 
                     <td style={u.Status == "Success" ? { color: "green" } : { color: "red" }}>{u.Status}</td>
-                    <td><img src={img1} className='img1' alt="img1" /><img src={img2} className='img1 ms-1' alt="img1" onClick={() => { handleShow(u) }} /></td>
+                    <td><img src={img1} className='img1' alt="img1" onClick={() => handleRoomDetailsPage(u)} /><img src={img2} className='img1 ms-1' alt="img1" onClick={() => { handleShow(u) }} /></td>
 
                   </tr>
                 );
@@ -631,8 +634,6 @@ function UserList() {
             <div class="p-1 bd-highlight user-menu">
 
               <ul className={isUserClicked ? 'active' : ''} onClick={handleMenuClick}  >
-
-
                 User Details
               </ul>
             </div>
@@ -949,7 +950,6 @@ function UserList() {
                   <div class="d-flex justify-content-between pt-1 mb-0">
                     <p style={{ fontSize: "12px", fontWeight: '700' }} >ADDRESS DETAIL</p>
 
-                    {/* <img src={Edits} style={{ height: "18px", width: "18px" }} alt='Edits' /> */}
                   </div>
                   <hr class="m-0 mb-2" />
                   <div class="d-block">
@@ -963,7 +963,7 @@ function UserList() {
                   </div>
                   <div class="d-flex justify-content-between">
                     <p style={{ fontSize: "12px", fontWeight: '700' }} >KYC DETAIL</p>
-                    {/* <img src={Edits} style={{ height: "18px", width: "18px" }} alt='Edits' /> */}
+
                   </div>
                   <hr class="m-0 mb-2" />
 
@@ -985,18 +985,37 @@ function UserList() {
                   </div>
                 </div>
                 <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 p-2">
+
+
                   <div class="d-flex justify-content-between" style={{ backgroundColor: "", width: "100%" }}>
                     <div class="p-2" style={{ backgroundColor: "" }}>
                       <h6 style={{ fontSize: "16px" }}>Bill Payment</h6>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center" style={{ backgroundColor: "" }} >
+                    <div class="d-flex justify-content-between align-items-center" style={{ backgroundColor: "" }} >
 
-                      {search && <><input type="text" className='form-control me-2' placeholder='Search Here' style={{ boxShadow: "none", border: "1px solid lightgray" }} /></>}
+                      {search && <>
+                        <input type="text" value={filterByDate} onChange={(e) => handleFilterByDate(e)} className='form-control form-control-sm me-2' placeholder='Search Here' style={{width:"150px", boxShadow: "none", border: "1px solid lightgray" }} /></>
+                      }
                       <BsSearch class="me-2" style={{ fontSize: 20 }} onClick={handleSearch} />
-                      <IoFilterOutline class="me-2" style={{ fontSize: 18 }} />
-                      <button className="btn btn-primary  w-75 d-flex jistify-content-center align-items-center" onClick={handleBack}><p className="m-0">Back to User</p></button>
+
+                      {
+                        filterStatus &&
+                        <>
+                          <select value={filterByStatus} onChange={(e) => handleStatusFilterChange(e)} class="form-control form-control-sm m-2"
+                            style={{ fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", boxShadow: "none", padding: "5px", border: "1px Solid lightgray" }}
+                          >
+                            <option selected value="ALL"> ALL</option>
+                            <option value="Success">Success</option>
+                            <option value="Pending">Pending</option>
+                          </select>
+                        </>
+                      }
+
+
+                      <IoFilterOutline class="me-2" style={{ fontSize: 20 }} onClick={handleFliterByStatus} />
+                      <button className="btn btn-primary  w-auto d-flex justify-content-center align-items-center" onClick={handleBack}><p className="m-0">Back</p></button>
                     </div>
-                   
+
                   </div>
 
 
@@ -1013,25 +1032,25 @@ function UserList() {
                       </tr>
                     </thead>
                     <tbody style={{ height: "50px", fontSize: "11px" }}>
-                      {filteredDatas.length > 0 ? (
-                        filteredDatas.map((view) => (
-                          <tr key={view.Invoices}>
-                            <td>{new Date(view.invDate).toLocaleDateString('en-GB')}</td>
-                            <td>{view.Invoices}</td>
-                            <td>₹{view.invAmount}</td>
-                            <td>₹{view.invBalance}</td>
-                            <td style={view.invStatus === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.invStatus}</td>
-                            <td className="justify-content-between">
-                              <img src={List} height="20" width="20" alt='List' />
-                              <img className="ms-1" src={Edits} height="20" width="20" alt='Edits' />
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
+                      {filteredDatas.map((view) => (
+                        <tr key={view.Invoices}>
+                          <td>{new Date(view.invDate).toLocaleDateString('en-GB')}</td>
+                          <td>{view.Invoices}</td>
+                          <td>₹{view.invAmount}</td>
+                          <td>₹{view.invBalance}</td>
+                          <td style={view.invStatus === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.invStatus}</td>
+                          <td className="justify-content-between">
+                            <img src={List} height="20" width="20" alt='List' />
+                            <img className="ms-1" src={Edits} height="20" width="20" alt='Edits' />
+                          </td>
+                        </tr>
+                      ))}
+                      {filteredDatas.length === 0 && (
                         <tr>
                           <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
                         </tr>
                       )}
+
                     </tbody>
                   </Table>
 
@@ -1039,29 +1058,30 @@ function UserList() {
 
 
 
-                  <div class="d-flex justify-content-between mb-">
+
+                  <div class="d-flex justify-content-between mb-3">
                     <p style={{ fontWeight: 700 }}>Comments</p>
                     <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline" }}>+ Add Comment</p>
                   </div>
 
 
 
-                  <div class="row" style={{ marginTop: 30 }}>
+                  {/* <div class="row" style={{ marginTop: 30 }}>
 
-                    <div class="col-lg-3 offset-lg-1 col-md-12 col-xs-12 d-flex justify-content-center align-items-center" style={{ backgroundColor: "", }}>
+                    <div class="col-lg-3 offset-lg-1 col-md-12 col-xs-12 d-flex justify-content-center align-items-center" style={{ backgroundColor: "red", }}>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: '', height: "" }}>
-                        <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "" }}>
-                          <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }} >
+                        <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "",  }}>
+                          <Step sx={{ color: "#2F74EB" }} style={{ position: "relative"}} >
                             <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
                               <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
                             </div>
-                            <div style={{ position: "absolute", left: -100, top: 0 }}>
+                            <div style={{ position: "absolute", left: -80, top: 0 }}>
                               <p class="mb-0" style={{ color: "black", fontSize: '11px' }}>05-01-2023</p>
                               <p style={{ color: "black", fontSize: '11px' }}>07.23PM</p>
                             </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute", left: 50, top: -30 }}>
-                              <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "70vh", borderRadius: 5 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute",left: 50, top: -30 }}>
+                              <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "100%",maxWidth:"600px", borderRadius: 5 }}>
                                 <div class="d-block">
                                   <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice updated</p>
                                   <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri emailed by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
@@ -1088,7 +1108,7 @@ function UserList() {
                               <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
                                 <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
                               </div>
-                              <div style={{ position: "absolute", left: -100, top: 0 }}>
+                              <div style={{ position: "absolute", left: -80, top: 0 }}>
                                 <p class="mb-0" style={{ color: "black", fontSize: '11px' }} >05-01-2023</p>
                                 <p style={{ color: "black", fontSize: '11px' }}>07.20PM</p>
                               </div>
@@ -1111,7 +1131,73 @@ function UserList() {
                         </Stepper>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
+ <div class="" style={{ marginTop: 30 }}>
+
+<div class="d-flex justify-content-start align-items-center" style={{ backgroundColor: "",marginLeft:100,marginTop:50 }}>
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: '', height: "" }}>
+    <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "",  }}>
+      <Step sx={{ color: "#2F74EB" }} style={{ position: "relative"}} >
+        <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
+          <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
+        </div>
+        <div style={{ position: "absolute", left: -80, top: 0 }}>
+          <p class="mb-0" style={{ color: "black", fontSize: '11px' }}>05-01-2023</p>
+          <p style={{ color: "black", fontSize: '11px' }}>07.23PM</p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute",left: 50, top: -30}}>
+          <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "70vh",maxWidth:"1000px", borderRadius: 5 }}>
+            <div class="d-block">
+              <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice updated</p>
+              <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri emailed by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
+            </div>
+
+            <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
+          </div>
+        </div>
+
+      </Step>
+      <Step sx={{ color: "#2F74EB" }}>
+      </Step>
+      <Step sx={{ color: "#2F74EB", }}>
+      </Step>
+      <Step sx={{ color: "#2F74EB" }}>
+
+      </Step>
+      <Step sx={{ color: "#2F74EB" }}>
+
+      </Step>
+
+      <div>
+        <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }}>
+          <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
+            <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
+          </div>
+          <div style={{ position: "absolute", left: -80, top: 0 }}>
+            <p class="mb-0" style={{ color: "black", fontSize: '11px' }} >05-01-2023</p>
+            <p style={{ color: "black", fontSize: '11px' }}>07.20PM</p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute", left: 50, top: -30 }}>
+            <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "70vh", borderRadius: 5 }}>
+              <div class="d-block">
+                <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice added</p>
+                <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri amount of ₹500.00 created by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
+              </div>
+
+              <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
+            </div>
+          </div>
+
+
+
+        </Step>
+      </div>
+
+    </Stepper>
+  </div>
+</div>
+</div>
 
 
 
