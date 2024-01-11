@@ -190,6 +190,7 @@ const InvoicePage = () => {
 
   const handleiconshow = () => {
     setSearchicon(!searchicon)
+    setFiltericon(false)
   }
 
 
@@ -199,8 +200,6 @@ const InvoicePage = () => {
         type: 'ADDINVOICEDETAILS',
         payload: { Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue, DueDate: invoiceList.dueDate, Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '' }
       })
-
-      dispatch({ type: 'INVOICELIST' })
       setData(state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem))
       setInvoiceList({
         firstName: '',
@@ -217,6 +216,7 @@ const InvoicePage = () => {
         confirmButtonText: "ok"
       }).then((result) => {
         if (result.isConfirmed) {
+          dispatch({ type: 'INVOICELIST' })
           setInvoiceList({
             firstName: '',
             lastName: '',
@@ -246,6 +246,7 @@ const InvoicePage = () => {
   }
   const handleFiltershow = () => {
     setFiltericon(!filtericon)
+    setSearchicon(false)
   }
 
   const handleStatusFilter = (e) => {
@@ -291,7 +292,8 @@ const InvoicePage = () => {
              {
               filtericon &&
               <>
-                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
+                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} 
+                class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
                 >
                   <option selected value="ALL"> ALL</option>
                   <option value="Success">Success</option>
@@ -442,11 +444,11 @@ const InvoicePage = () => {
             <tr key={item.id}>
               <td style={{ color: "black", fontWeight: 500 }} >{item.id}</td>
               <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices == null ? '0.00' : item.Invoices}</td>
+              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</td>
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>
                 <div class="d-flex">
                   {/* <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name && item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1, 0)}</p></span> */}
-                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name && item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1)}</p></span>
+                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name && item.Name.split(" ")[0].slice(0, 1, 0).toUpperCase()}{item.Name.split(" ")[1] && item.Name.split(" ")[1].slice(0, 1).toUpperCase()}</p></span>
                   
                   <div class="ms-2">
                     <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />

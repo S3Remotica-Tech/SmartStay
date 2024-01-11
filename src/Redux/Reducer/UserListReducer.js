@@ -4,12 +4,14 @@ const initialState = {
     errorMessage: {},
     hostelList: [],
     roomCount: [],
-    billPaymentHistory:[]
+    billPaymentHistory:[],
+    number_of_floor: '',
 }
 
 const UserListReducer = (state = initialState, action) => {
-    console.log("action", action);
     switch (action.type) {
+        case 'CREATE_FLOOR':
+            return { ...state, number_of_floor: action.payload.number_of_floors }
         case 'BILL_PAYMENT_HISTORY':
                 return {...state,billPaymentHistory:action.payload }
         case 'USER_LIST':

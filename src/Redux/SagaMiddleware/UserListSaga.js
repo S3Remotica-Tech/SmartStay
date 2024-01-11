@@ -1,5 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory} from "../Action/UserListAction"
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import { userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor} from "../Action/UserListAction"
 
 
 function* handleuserlist() {
@@ -59,6 +61,22 @@ function* handleUserBillPaymentHistory(){
       yield put ({type:'ERROR', payload:response.data.message})
    }
 }
+
+function* handleCreateFloor(data) {
+   const response = yield call(createFloor,data.payload);
+   if (response.status === 200) {
+      yield put({ type: 'CREATE_FLOOR', payload: response.data })
+      Swal.fire({
+         icon: 'success',
+         title: 'Create Floor details saved Successfully',
+         timer:1000,
+                });
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+}
+
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
@@ -66,5 +84,6 @@ function* UserListSaga() {
    yield takeEvery('ROOMCOUNT', handleNumberOfRooms)
    yield takeEvery('HOSTELDETAILLIST', handlehosteliddetail)
    yield takeEvery('BILLPAYMENTHISTORY',handleUserBillPaymentHistory)
+   yield takeEvery('CREATEFLOOR',handleCreateFloor)
 }
 export default UserListSaga;

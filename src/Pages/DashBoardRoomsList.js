@@ -175,6 +175,7 @@ function DashboardRoom(props) {
                         <div className="row  row-gap-3  pe-3">
                             {
                                 state.UsersList.roomCount[props.floorID - 1]?.map((room) => {
+                                    console.log("state",state);
                                     const formattedRoomId = getFormattedRoomId(props.floorID, room.Room_Id);
                                     return (
                                         <>

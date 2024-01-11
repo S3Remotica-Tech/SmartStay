@@ -37,27 +37,37 @@ function ForgetPasswordPage() {
 
 
   const handlePassword = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' });
-
-    const newPassword = e.target.value;
-
-    // Password validation criteria
-    const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
-
-    if (passwordRegex.test(newPassword)) {
-      // Password meets criteria, set it
-      setPassword(newPassword);
-      setError(null); // Clear any previous error
-    } else {
-      // Password does not meet criteria
-      // You can dispatch an error action or show a message to the user
-      const errorMessage = "Invalid password";
-
-      // Example: Dispatching an error action (replace with your actual error handling logic)
-      dispatch({ type: 'SET_ERROR', payload: errorMessage });
-
-      setError(errorMessage);
+    setPassword(e.target.value);
+    const pattern = new RegExp(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/);
+    const isValidpasswordNo = pattern.test(e.target.value)
+    if (isValidpasswordNo) {
+      document.getElementById('passwordError').innerHTML = ''
     }
+    else {
+      document.getElementById('passwordError').innerHTML = 'invalid password *'
+    }
+
+    // dispatch({ type: 'CLEAR_ERROR' });
+
+    // const newPassword = e.target.value;
+
+    // // Password validation criteria
+    // const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+
+    // if (passwordRegex.test(newPassword)) {
+    //   // Password meets criteria, set it
+    //   setPassword(newPassword);
+    //   setError(null); // Clear any previous error
+    // } else {
+    //   // Password does not meet criteria
+    //   // You can dispatch an error action or show a message to the user
+    //   const errorMessage = "Invalid password";
+
+    //   // Example: Dispatching an error action (replace with your actual error handling logic)
+    //   dispatch({ type: 'SET_ERROR', payload: errorMessage });
+
+    //   setError(errorMessage);
+    // }
   };
 
   const handlePasswordReset = () => {
@@ -153,8 +163,8 @@ function ForgetPasswordPage() {
                     <img src={showPassword ? Eye : eyeClosed} height="13" width="13" alt='Eye' onClick={togglePasswordVisibility} />
                   </InputGroup.Text>
                 </InputGroup>
-
-                {error && <div style={{ color: 'red' }}>{error}</div>}
+                <p id="passwordError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                {/* {error && <div style={{ color: 'red' }}>{error}</div>} */}
                 {
                   state.NewPass.errorPassword.length > 0 ? <label style={{ color: "red" }}>{state.NewPass.errorPassword}</label> : null
 

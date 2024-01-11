@@ -71,8 +71,22 @@ function UserList() {
   const [filtericon, setFiltericon] = useState(false)
 
   const [statusfilter, setStatusfilter] = useState('')
+  const [AadharNo, setAadharNo] = useState('')
+  const [PancardNo, setPancardNo] = useState('')
+  const [licence, setLicence] = useState('')
 
-
+  const handleAadharNo = (e) => {
+    dispatch({ type: 'CLEAR_ERROR' })
+    setAadharNo(e.target.value)
+  }
+  const handlePancardNo = (e) => {
+    dispatch({ type: 'CLEAR_ERROR' })
+    setPancardNo(e.target.value)
+  }
+  const handlelicence = (e) => {
+    dispatch({ type: 'CLEAR_ERROR' })
+    setLicence(e.target.value)
+  }
   const handleFirstName = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
     setFirstname(e.target.value)
@@ -158,9 +172,12 @@ function UserList() {
       setFirstname(value[0])
       setLastname(value[1])
       setAddress(u.Address)
+      setAadharNo(u.AadharNo)
+      setPancardNo(u.PancardNo)
+      setLicence(u.licence)
       setPhone(u.Phone)
       setEmail(u.Email)
-      setHostel_Id(u.Hostel_Id)
+      setHostel_Id(u.hostel_Id)
       setFloor(u.Floor)
       setRooms(u.Rooms)
       setBed(u.Bed)
@@ -249,6 +266,9 @@ function UserList() {
       Phone &&
       Email &&
       Address &&
+      AadharNo &&
+      PancardNo &&
+      licence &&
       hostel_Id &&
       Floor &&
       Rooms &&
@@ -266,6 +286,9 @@ function UserList() {
           Phone: Phone,
           Email: Email,
           Address: Address,
+          AadharNo: AadharNo,
+          PancardNo: PancardNo,
+          licence: licence,
           hostel_Id: hostel_Id,
           Floor: Floor,
           Rooms: Rooms,
@@ -293,10 +316,14 @@ function UserList() {
           confirmButtonText: 'ok',
         }).then((result) => {
           if (result.isConfirmed) {
+            dispatch({ type: 'USERLIST' })
             // Resetting form fields after successful save/update
             setFirstname('');
             setLastname('');
             setAddress('');
+            setAadharNo('');
+            setPancardNo('');
+            setLicence('');
             setPhone('');
             setEmail('');
             setHostel_Id('');
@@ -362,14 +389,14 @@ function UserList() {
   useEffect(() => {
     if (clickedUserData.length > 0 && clickedUserData[0].Phone) {
       const userPhone = clickedUserData[0].Phone;
-     
+
       const filteredDataForStatus = filterByStatus === 'ALL'
-        ? billPaymentHistory 
+        ? billPaymentHistory
         : billPaymentHistory.filter((item) => item.invStatus === filterByStatus);
 
-     
+
       const filteredDataForPhone = filteredDataForStatus.filter((item) => item.invoicePhone === userPhone);
-    
+
       const filteredDataForDate = filterByDate
         ? filteredDataForPhone.filter((item) => {
           const formattedSearchDate = new Date(filterByDate).toLocaleDateString('en-GB');
@@ -465,14 +492,14 @@ function UserList() {
   const handleSearch = () => {
     setSearch(!search)
     setFilterStatus(false)
-    }
+  }
 
 
 
   const handleFliterByStatus = () => {
     setFilterStatus(!filterStatus)
     setSearch(false)
-      }
+  }
 
   const handleStatusFilterChange = (e) => {
     const selectedStatus = e.target.value;
@@ -500,21 +527,28 @@ function UserList() {
                   type="text"
                   value={searchItem}
                   onChange={(e) => handleInputChange(e)}
-                  className='form-control form-control-sm me-2' placeholder='Search Here' style={{width:"150px", boxShadow: "none", border: "1px solid lightgray" }}
+                  placeholder='Search Here'
+                  class="form-control ps-4 pe-1   searchinput"
+                  style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
+
+                  // className='form-control form-control-sm me-2' placeholder='Search Here' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }}
                 />
               </>
             }
 
-            <IoIosSearch className='io' style={{fontSize:20}}
+            <IoIosSearch className='io' style={{ fontSize: 20 }}
               onClick={handleiconshow}
             />
             {
               filtericon &&
               <>
-                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} class="form-control form-control-sm m-2"
-                            style={{ fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", boxShadow: "none", padding: "5px", border: "1px Solid lightgray" }}
-                          >
+                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} 
+                class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
                 
+                // class="form-control form-control-sm m-2"
+                //   style={{ fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", boxShadow: "none", padding: "5px", border: "1px Solid lightgray" }}
+                >
+
                   <option selected value="ALL"> ALL</option>
                   <option value="Success">Success</option>
                   <option value="Pending">Pending</option>
@@ -537,6 +571,9 @@ function UserList() {
                 <th style={{ color: "#91969E" }} >Name & Phone</th>
                 <th style={{ color: "#91969E" }} >EmailId</th>
                 <th style={{ color: "#91969E" }} >Address</th>
+                <th style={{ color: "#91969E" }} >AadharNo</th>
+                <th style={{ color: "#91969E" }} >PanCardNo</th>
+                <th style={{ color: "#91969E" }} >Licence</th>
                 <th style={{ color: "#91969E" }}>Floor</th>
                 <th style={{ color: "#91969E" }} >Room & Bed</th>
                 <th style={{ color: "#91969E" }} >AdvanceAmount</th>
@@ -565,6 +602,9 @@ function UserList() {
                     </div></td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.Email}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.Address}</td>
+                    <td style={{ color: "black", fontWeight: 500 }}>{u.AadharNo}</td>
+                    <td style={{ color: "black", fontWeight: 500 }}>{u.PancardNo}</td>
+                    <td style={{ color: "black", fontWeight: 500 }}>{u.licence}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.Floor}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.Rooms}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.AdvanceAmount}</td>
@@ -618,7 +658,6 @@ function UserList() {
           </div>
         </div>
       </>}
-
       <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: "69vh" }}>
 
         <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >
@@ -630,21 +669,30 @@ function UserList() {
           <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
             <div class="p-1 bd-highlight user-menu">
 
-              <ul className={isUserClicked ? 'active' : ''} onClick={handleMenuClick}  >
+              <ul className={showForm ? 'active' : ''} onClick={handleMenuClick}  >
+
+
                 User Details
               </ul>
             </div>
-            <div class="p-2 bd-highlight">
-              <ul onClick={() => setShowForm(false)}>KYC Details</ul>
+            <div class="p-2 bd-highlight  user-menu">
+              <ul className={showForm ? '' : 'active'}
+                onClick={() => setShowForm(false)}
+
+              >KYC Details</ul>
 
             </div>
 
           </div>
 
-          {showForm && (
-            <Form>
+
+          {showForm ?
+            <Form >
               <p style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
+
+
               <div>
+
                 <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
                   {file ? <>
                     <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
@@ -667,24 +715,27 @@ function UserList() {
               </div>
 
               <div className='container' style={{ marginTop: "30px" }}>
-                <div>
-                  {state.UsersList.errorMessage?.length > 0 ? (
-                    <div>
-                      <label style={{ color: 'red', fontSize: 18 }}>{state.UsersList.errorMessage}</label>
-                      {setTimeout(() => {
-                        dispatch({
-                          type: 'CLEAR_ERROR_MESSAGE',  // Add an action to clear the error message in your reducer
-                        });
-                      }, 5000)}
-                    </div>
-                  ) : null}
-                </div>
-
-                <div className='row'>
+               
+                {
+                  <div>
+                    {state.UsersList.errorMessage?.length > 0 ? (
+                      <div>
+                        <label style={{ color: 'red', fontSize: 18 }}>{state.UsersList.errorMessage}</label>
+                        {setTimeout(() => {
+                          dispatch({
+                            type: 'CLEAR_ERROR_MESSAGE',  // Add an action to clear the error message in your reducer
+                          });
+                        }, 5000)}
+                      </div>
+                    ) : null}
+                  </div>
+                }
+                <div className='row' >
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px" }}>First Name</Form.Label>
                       <FormControl
+
                         type="text"
                         value={firstname} onChange={(e) => handleFirstName(e)}
                         style={bottomBorderStyle}
@@ -707,10 +758,12 @@ function UserList() {
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
                       <FormControl
-                        type="text"
+                        type="phone"
+                        id="phone"
                         value={Phone} onChange={(e) => handlePhone(e)}
                         style={bottomBorderStyle}
                       />
+                      <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
                     </Form.Group>
                   </div>
                   <div className='col lg-6'>
@@ -722,6 +775,7 @@ function UserList() {
                         value={Email} onChange={(e) => handleEmail(e)}
                         style={bottomBorderStyle}
                       />
+                      <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
                     </Form.Group>
                   </div>
                 </div>
@@ -743,7 +797,7 @@ function UserList() {
                     <Form.Select aria-label="Default select example"
                       style={bottomBorderStyle}
                       value={hostel_Id} onChange={(e) => handleHostelId(e)}>
-                      <option></option>
+                      <option>Select hostel</option>
                       {
                         state.UsersList?.hostelList?.map((item) => {
                           return (
@@ -758,6 +812,7 @@ function UserList() {
                     </Form.Select>
                   </div>
                 </div>
+
                 <div className='row mt-2'>
                   <div className='col lg-4'>
                     <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
@@ -779,24 +834,31 @@ function UserList() {
 
                     </Form.Select>
                   </div>
-                  <div className='col lg-4'>
-                    <Form.Label style={{ fontSize: "12px" }}>Select Room</Form.Label>
-                    <Form.Select aria-label="Default select example"
-                      style={bottomBorderStyle}
-                      value={Rooms} onChange={(e) => handleRooms(e)}>
-                      <option>Selected Room</option>
-                      {
-                        state.UsersList?.hosteldetailslist?.map((item) => {
-                          return (
-                            <>
 
-                              <option>{item.Room_Id}</option>
-                            </>
-                          )
-                        })
-                      }
+
+
+
+
+
+                  <div className='col lg-4'>
+                    <Form.Label style={{ fontSize: '12px' }}>Select Room</Form.Label>
+                    <Form.Select
+                      aria-label='Default select example'
+                      style={bottomBorderStyle}
+                      value={Rooms}
+                      onChange={(e) => handleRooms(e)}
+                    >
+                      <option>Selected Room</option>
+                      {state.UsersList?.hosteldetailslist
+                        ?.filter((item, index, self) => self.findIndex((i) => i.Room_Id === item.Room_Id) === index)
+                        .map((item) => (
+                          <option key={item.Room_Id}>{item.Room_Id}</option>
+                        ))}
                     </Form.Select>
                   </div>
+
+
+
                   <div className='col lg-4'>
                     <Form.Label style={{ fontSize: "12px" }}>Select Bed</Form.Label>
                     <Form.Select aria-label="Default select example"
@@ -815,6 +877,11 @@ function UserList() {
                       }
                     </Form.Select>
                   </div>
+
+
+
+
+
 
                 </div>
                 <div className='row'>
@@ -873,17 +940,94 @@ function UserList() {
                 <Button variant="white" size="sm" onClick={handleClose}>
                   Cancel
                 </Button>
-                <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
-                  {edit === 'Add' ? "save" : "update"}
+                <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
+                  onClick={() => setShowForm(false)}>
+                  Next
 
                 </Button>
 
               </div>
+
             </Form>
-          )}
+            :
+            <Form>
+
+
+
+
+              <div className='container' style={{ marginTop: "30px" }}>
+
+
+
+
+                <div className='row'>
+                  <div className='col lg-12'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: "12px" }}>Author Card Number</Form.Label>
+                      <FormControl
+                        type="text"
+                        value={AadharNo}
+                        onChange={(e) => handleAadharNo(e)}
+                        style={bottomBorderStyle}
+                        maxLength={12}
+                        pattern="\d*"
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
+
+                <div className='row'>
+                  <div className='col lg-12'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: "12px" }}>Pan Card Number</Form.Label>
+                      <FormControl
+                        type="text"
+                        value={PancardNo} onChange={(e) => handlePancardNo(e)}
+                        style={bottomBorderStyle}
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
+
+                <div className='row'>
+                  <div className='col lg-12'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: "12px" }}>Licence</Form.Label>
+                      <FormControl
+                        type="text"
+                        value={licence} onChange={(e) => handlelicence(e)}
+                        style={bottomBorderStyle}
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
+
+
+
+
+
+              </div>
+
+
+              <hr />
+              <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
+
+                <Button variant="white" size="sm" onClick={handleClose}>
+                  Cancel
+                </Button>
+                <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
+                  {edit === 'Add' ? "Save" : "Update"}
+
+                </Button>
+
+              </div>
+
+            </Form>
+
+          }
+
         </Offcanvas.Body>
       </Offcanvas>
-
 
       {
         roomDetail && (
@@ -991,7 +1135,7 @@ function UserList() {
                     <div class="d-flex justify-content-between align-items-center" style={{ backgroundColor: "" }} >
 
                       {search && <>
-                        <input type="text" value={filterByDate} onChange={(e) => handleFilterByDate(e)} className='form-control form-control-sm me-2' placeholder='Search Here' style={{width:"150px", boxShadow: "none", border: "1px solid lightgray" }} /></>
+                        <input type="text" value={filterByDate} onChange={(e) => handleFilterByDate(e)} className='form-control form-control-sm me-2' placeholder='Search Here' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }} /></>
                       }
                       <BsSearch class="me-2" style={{ fontSize: 20 }} onClick={handleSearch} />
 
@@ -1036,9 +1180,13 @@ function UserList() {
                           <td>₹{view.invAmount}</td>
                           <td>₹{view.invBalance}</td>
                           <td style={view.invStatus === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.invStatus}</td>
-                          <td className="justify-content-between">
-                            <img src={List} height="20" width="20" alt='List' />
-                            <img className="ms-1" src={Edits} height="20" width="20" alt='Edits' />
+                          <td
+                           className="justify-content-between"
+                           >
+                            <img src={List} height={20} width={20} alt='List' />
+                            <img 
+                            className="ms-1"
+                             src={Edits} height={20} width={20} alt='Edits' />
                           </td>
                         </tr>
                       ))}
@@ -1063,12 +1211,13 @@ function UserList() {
 
 
 
-                  {/* <div class="row" style={{ marginTop: 30 }}>
+                
+                  <div class="" style={{ marginTop: 30 }}>
 
-                    <div class="col-lg-3 offset-lg-1 col-md-12 col-xs-12 d-flex justify-content-center align-items-center" style={{ backgroundColor: "red", }}>
+                    <div class="d-flex justify-content-start align-items-center" style={{ backgroundColor: "", marginLeft: 100, marginTop: 50 }}>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: '', height: "" }}>
-                        <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "",  }}>
-                          <Step sx={{ color: "#2F74EB" }} style={{ position: "relative"}} >
+                        <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "", }}>
+                          <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }} >
                             <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
                               <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
                             </div>
@@ -1077,8 +1226,8 @@ function UserList() {
                               <p style={{ color: "black", fontSize: '11px' }}>07.23PM</p>
                             </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute",left: 50, top: -30 }}>
-                              <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "100%",maxWidth:"600px", borderRadius: 5 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute", left: 50, top: -30 }}>
+                              <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "70vh", maxWidth: "1000px", borderRadius: 5 }}>
                                 <div class="d-block">
                                   <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice updated</p>
                                   <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri emailed by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
@@ -1128,73 +1277,7 @@ function UserList() {
                         </Stepper>
                       </div>
                     </div>
-                  </div> */}
- <div class="" style={{ marginTop: 30 }}>
-
-<div class="d-flex justify-content-start align-items-center" style={{ backgroundColor: "",marginLeft:100,marginTop:50 }}>
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: '', height: "" }}>
-    <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "",  }}>
-      <Step sx={{ color: "#2F74EB" }} style={{ position: "relative"}} >
-        <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
-          <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
-        </div>
-        <div style={{ position: "absolute", left: -80, top: 0 }}>
-          <p class="mb-0" style={{ color: "black", fontSize: '11px' }}>05-01-2023</p>
-          <p style={{ color: "black", fontSize: '11px' }}>07.23PM</p>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute",left: 50, top: -30}}>
-          <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "70vh",maxWidth:"1000px", borderRadius: 5 }}>
-            <div class="d-block">
-              <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice updated</p>
-              <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri emailed by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
-            </div>
-
-            <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
-          </div>
-        </div>
-
-      </Step>
-      <Step sx={{ color: "#2F74EB" }}>
-      </Step>
-      <Step sx={{ color: "#2F74EB", }}>
-      </Step>
-      <Step sx={{ color: "#2F74EB" }}>
-
-      </Step>
-      <Step sx={{ color: "#2F74EB" }}>
-
-      </Step>
-
-      <div>
-        <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }}>
-          <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
-            <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
-          </div>
-          <div style={{ position: "absolute", left: -80, top: 0 }}>
-            <p class="mb-0" style={{ color: "black", fontSize: '11px' }} >05-01-2023</p>
-            <p style={{ color: "black", fontSize: '11px' }}>07.20PM</p>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute", left: 50, top: -30 }}>
-            <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "70vh", borderRadius: 5 }}>
-              <div class="d-block">
-                <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice added</p>
-                <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri amount of ₹500.00 created by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
-              </div>
-
-              <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
-            </div>
-          </div>
-
-
-
-        </Step>
-      </div>
-
-    </Stepper>
-  </div>
-</div>
-</div>
+                  </div>
 
 
 

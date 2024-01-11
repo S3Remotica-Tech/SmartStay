@@ -28,3 +28,8 @@ export async function userBillPaymentHistory() {
   return await AxiosConfig.get('/user-list/bill-payment',{
   })
 }
+export async function createFloor(id) {
+  return await AxiosConfig.post('/floor/create-floor', id,{
+    data:id
+  })
+}

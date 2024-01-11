@@ -26,7 +26,44 @@ function Dashboard() {
     const [activePage, setActivePage] = useState(true)
     const [roomDetails, setRoomDetails] = useState('')
     const [selectedHostel, setSelectedHostel] = useState(null);
+    const [floorDetails, setFloorDetails] = useState([{ number_of_floor: '' }, { number_of_floor: '' }, { number_of_floor: '' }]);
+   
+    const handleFloorChange = (value, index) => {
+ setFloorDetails((prevDetails) => {
+     const updatedDetails = [...prevDetails];
+     updatedDetails[index].number_of_floor = value;
+     return updatedDetails;
+ });
+};
 
+
+const handleCreateFloor = () => {
+ const floors = floorDetails.map((floor) => ({ number_of_floors: parseInt(floor.number_of_floor) }));
+ const phoneNumber = selectedHostel.hostel_PhoneNo.toString()
+ console.log("phoneNumber for floor", phoneNumber)
+ dispatch({
+     type: 'CREATEFLOOR',
+     payload: {
+         phoneNo: phoneNumber,
+         hostelDetails: floors,
+     },
+ });
+ setFloorDetails([])
+ handleClose();
+};
+
+const handleAddFloor = () => {
+ setFloorDetails([...floorDetails, { number_of_floor: '' }])
+}
+
+
+const handleDeleteFloor = (index) => {
+ setFloorDetails((prevDetails) => {
+     const updatedDetails = [...prevDetails];
+     updatedDetails.splice(index, 1);
+     return updatedDetails;
+ });
+};
 
 
 
@@ -114,7 +151,7 @@ function Dashboard() {
                             </div>
                         </div>
 
-                        <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>
+                        {/* <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>
                             <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-4">Create PG</Offcanvas.Title>
                             <Offcanvas.Body>
                                 <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
@@ -160,8 +197,59 @@ function Dashboard() {
 
                                 </div>
                             </Offcanvas.Body>
-                        </Offcanvas>
+                        </Offcanvas> */}
+<Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>
+                            <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-4">Create Floor</Offcanvas.Title>
+                            <Offcanvas.Body>
+                                <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
+                                <div className="row g-3 d-flex align-items-center " >
+                                    {floorDetails.map((floor, index) => (
+                                        <>
+                                            <div key={index} className='col-lg-10 col-md-10 col-xs-12 col-sm-12 col-12' style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "0px" }}>
+                                                <div className="form-group mb-4 ps-1" >
+                                                    <label htmlFor={`floorName${index}`} for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Floor Name</label>
 
+                                                    <input type="text" id={`floorName${index}`}
+                                                        onChange={(e) => handleFloorChange(e.target.value, index)}
+                                                        value={floor.number_of_floor} className="form-control custom-border-bottom p-0" placeholder="Enter here" style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, width: "", borderRight: "none", borderBottom: "1px solid lightgray" }} />
+                                                </div>
+
+                                            </div>
+                                            <div className='col-lg-2 col-md-2 col-xs-12 col-sm-12 col-12 d-flex justify-content-between align-items-center' style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "0px" }}>
+                                                {index > 0 &&
+                                                    <AiOutlineDelete style={{ color: "red" }} onClick={() => handleDeleteFloor(index)} />
+                                                }
+
+
+                                            </div>
+
+                                        </>
+                                    ))}
+
+
+
+
+                                </div>
+
+
+                                <div className='d-flex mt-2' onClick={handleAddFloor}>
+                                    <div><AiOutlinePlusCircle style={{ height: "30px" }} /> </div>
+                                    <div className='ms-1'><label style={{ color: "gray", fontSize: "12px" }}>Add Floor</label></div>
+                                </div>
+                                <hr style={{ marginTop: "130px" }} />
+
+                                <div className="d-flex justify-content-end" style={{ marginTop: "40px" }} >
+
+                                    <Button variant="outline-secondary" className='ms-2 me-2' size="sm" style={{ width: "80px", borderRadius: 200 }} onClick={handleCancel}>
+                                        Cancel
+                                    </Button>
+                                    <Button variant="outline-primary" className='ms-2 me-2' size="sm" style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateFloor}>
+                                        Save
+                                    </Button>
+
+                                </div>
+                            </Offcanvas.Body>
+                        </Offcanvas>
 
                         <hr />
 

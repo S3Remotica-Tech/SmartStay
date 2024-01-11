@@ -70,6 +70,7 @@ const Compliance = () => {
 
   const handleFiltershow = () => {
     setFiltericon(!filtericon)
+    setSearchicon(false)
   }
 
   const handleStatusFilter = (e) => {
@@ -153,7 +154,7 @@ const Compliance = () => {
 
   const handleSubmit = () => {
     if (Name && Phone && Requestid && Roomdetail && Complainttype && Assign && Status && date) {
-      dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: Name, Phone: Phone, Requestid: Requestid, Roomdetail: Roomdetail, Complainttype: Complainttype, Assign: Assign, Status: Status, date: date, id: id } })
+      dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: Name, Phone: Phone, Requestid: Requestid, Roomdetail: Roomdetail, Complainttype: Complainttype, Assign: Assign, Status: Status, date: date,  id :editbtn ? id : '' } })
       setId('')
       setName('')
       setPhone('')
@@ -165,6 +166,16 @@ const Compliance = () => {
       setStatus('')
       setShowMessage(true)
       dispatch({ type: 'COMPLIANCE-LIST' })
+      Swal.fire({
+        icon: "success",
+        title: editbtn ? 'Complaince Updated successfully' : 'Complaince Added successfully',
+        confirmButtonText: "ok"
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          dispatch({ type: 'COMPLIANCE-LIST' })
+        }
+      });
     }
     else {
       Swal.fire({
@@ -196,6 +207,7 @@ setData(filteredItems);
 
   const handleiconshow = () => {
     setSearchicon(!searchicon)
+    setFiltericon(false)
   }
 
   const handleNextClick = () => {
@@ -367,7 +379,7 @@ setData(filteredItems);
               <td style={{ color: "black", fontWeight: 500 }}>{item.Roomdetail}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
-              <td style={item.Status == "Success" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
+              <td style={item.Status.toUpperCase() == "SUCCESS" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
               <td class=""><img src={List} height="20" width="20" /><img class="ms-1" src={Edit} height="20" width="20" onClick={() => handleEdit(item)} style={{ cursor: 'pointer' }} /></td>
             </tr>
           ))}
