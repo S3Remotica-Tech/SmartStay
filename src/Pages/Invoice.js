@@ -33,7 +33,7 @@ const InvoicePage = () => {
   const [isUserClicked, setUserClicked] = useState(true);
 
   const [file, setFile] = useState(null)
-   
+  const d= new Date();  
   const [invoiceList, setInvoiceList] = useState({
     firstName: '',
     lastName: '',
@@ -41,7 +41,7 @@ const InvoicePage = () => {
     email: '',
     amount: '',
     balanceDue: '',
-    dueDate: '2023-12-30'
+    dueDate: new Date(d.getFullYear(), d.getMonth()+1, 0)
   })
 
   const state = useSelector(state => state)
@@ -125,7 +125,7 @@ const InvoicePage = () => {
       email: '',
       amount: '',
       balanceDue: '',
-      dueDate: '2023-12-30'
+      dueDate: ''
     })
     setShowMenu(false);
     setUserClicked(false);
@@ -144,7 +144,7 @@ const InvoicePage = () => {
         email: item.EmailID,
         amount: item.Amount,
         balanceDue: item.BalanceDue,
-        dueDate: '2023-12-30'
+        dueDate: new Date(d.getFullYear(), d.getMonth()+1, 0)
       })
     }
     else {
@@ -189,6 +189,7 @@ const InvoicePage = () => {
   const [searchicon, setSearchicon] = useState(false);
 
   const handleiconshow = () => {
+    console.log("randomNumberInRange",randomNumberInRange(1,new Date()));
     setSearchicon(!searchicon)
     setFiltericon(false)
   }
@@ -208,7 +209,7 @@ const InvoicePage = () => {
         email: '',
         amount: '',
         balanceDue: '',
-        dueDate: '2023-12-30'
+        dueDate: ''
       })
       Swal.fire({
         icon: "success",
@@ -224,7 +225,7 @@ const InvoicePage = () => {
             email: '',
             amount: '',
             balanceDue: '',
-            dueDate: '2023-12-30'
+            dueDate: ''
           })
           handleClose()
 
@@ -262,6 +263,15 @@ const InvoicePage = () => {
       setData(filteredItems);
     }
   }
+
+  const randomNumberInRange = (min, max) => {
+    const invoice = 'SSN' + (Math.floor(Math.random()
+    * (max - min + 1)) + min);
+return invoice
+    // return 'SSN' + Math.floor(Math.random()
+    //     * (max - min + 1)) + min;
+};
+
   return (
     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
 

@@ -20,7 +20,6 @@ function CreateAccountPage() {
   const [emailID, setEmailID] = useState('');
   const [password, setPassword] = useState('')
   const [showPassword, setShowpassword] = useState(false);
-  const [error, setError] = useState(null);
 
   const togglePasswordVisibility = () => {
     setShowpassword(!showPassword);
@@ -50,47 +49,24 @@ function CreateAccountPage() {
       document.getElementById('emailIDError').innerHTML = 'invalid Email Id *'
     }
   }
-//   const handlePassword = (e) => {
-//     setPassword(e.target.value)
-//     const newPassword = e.target.value;
-//     const pattern = new RegExp(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/);
-//   const isValidpasswordNo = pattern.test(e.target.value)
-// //     var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-// // if(inputtxt.value.match(passw)) 
-//     // const pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-//     const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
-//     const isPwdCorrect = newPassword.match(passwordRegex)
-//     console.log("isValidpasswordNo",isValidpasswordNo);
-//     if (isValidpasswordNo) {
-//       document.getElementById('passwordError').innerHTML = ''
-//       setPassword(newPassword);
-//       // setError(null); 
-//     } else {
-//       document.getElementById('passwordError').innerHTML = 'Invalid password'
-//       // const errorMessage = "Invalid password";
-//       // console.log(errorMessage);
-//       // dispatch({ type: 'SET_ERROR', payload: errorMessage });
-//       // setError(errorMessage);
-//     }
-//   }
 
-const handlePassword = (e) => {
-  setPassword(e.target.value);
-  const pattern = new RegExp(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/);
-  const isValidpasswordNo = pattern.test(e.target.value)
-  if (isValidpasswordNo) {
-    document.getElementById('passwordError').innerHTML = ''
-  }
-  else {
-    document.getElementById('passwordError').innerHTML = 'invalid password *'
-  }
-}
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/;
+    const isValidpasswordNo = pattern.test(e.target.value);
+  
+    if (isValidpasswordNo) {
+      document.getElementById('passwordError').innerHTML = '';
+    } else {
+      document.getElementById('passwordError').innerHTML = 'Invalid password *';
+    }
+  };  
+  
   const handleLoginPage = () => {
-    navigate('/login-Page')
+       navigate('/login-Page')
   }
 
   const handleRoyal = () => {
-
     if (!userName || !phoneNo || !emailID || !password) {
       Swal.fire({
         icon: 'warning',
@@ -98,44 +74,44 @@ const handlePassword = (e) => {
         confirmButtonText: 'Ok'
       }).then((result) => {
         if (result.isConfirmed) {
-
+         
         }
       });
       return;
-    }
-
-    if (!error) {
-      dispatch({
-        type: 'CREATE_ACCOUNT',
-        payload: { name: userName, mobileNo: phoneNo, emailId: emailID, password: password }
-      });
-
-      Swal.fire({
-        icon: 'success',
-        title: state.createAccount?.accountMgs?.message,
-        text: 'You have been Created successfully!',
-        confirmButtonText: 'Ok'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate('/login-Page');
-          setUserName('');
-          setPhoneNo('');
-          setEmailID('');
-          setPassword('');
-        }
-      });
-    } else {
+    } 
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/;
+    const isValidPassword = pattern.test(password);  
+    if (!isValidPassword) {
       Swal.fire({
         icon: 'warning',
-        title: 'Please Correct Password',
+        title: 'Invalid password. Please enter a valid password.',
         confirmButtonText: 'Ok'
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
       });
+      return;
     }
+  
+    // If all checks pass, proceed with account creation
+    dispatch({
+      type: 'CREATE_ACCOUNT',
+      payload: { name: userName, mobileNo: phoneNo, emailId: emailID, password: password }
+    });
+  
+    Swal.fire({
+      icon: 'success',
+      title: state.createAccount?.accountMgs?.message,
+      text: 'You have been created successfully!',
+      confirmButtonText: 'Ok'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/login-Page');
+  
+        setUserName('');
+        setPhoneNo('');
+        setEmailID('');
+        setPassword('');
+      }
+    });
   };
-
 
   return (
     <>
@@ -183,28 +159,24 @@ const handlePassword = (e) => {
                 <div class="mb-2" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "12", marginLeft: "20%" }}>
                   <label class="sr-only" style={{ fontSize: "12px", marginTop: "2%", fontWeight: "530" }}><b>Password</b></label>
                   <input class="form-control" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "1%" }} type={showPassword ? 'text' : 'password'} id="pwd" placeholder="Enter password" name="pwd" value={password} onChange={(e) => { handlePassword(e) }} />
-
+                 
                   <div
-                    //  className="pwd" 
-                    style={{ position: 'relative', width: '80%' }}>
+                  
+                   style={{ position: 'relative', width: '80%' }}>
 
                     <img
                       src={showPassword ? eye : eyeClosed}
-
                       style={{
-
-                        position: 'absolute',
+                       position: 'absolute',
                         right: 10,
                         bottom: 8,
                         width: 20,
                         cursor: 'pointer',
-
                       }}
                       onClick={togglePasswordVisibility}
                     />
                   </div>
                   <p id="passwordError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                  {/* {error && <div style={{ color: 'red' }}>{error}</div>} */}
                 </div>
                 <div className="lists d-flex mt-1" style={{ justifyContent: "space-between", textAlign: "left", width: "64%", fontSize: "13px", marginLeft: "19%" }}>
                   <ul className="hoverList">

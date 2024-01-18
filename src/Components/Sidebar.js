@@ -225,8 +225,8 @@ function Sidebar() {
             <>
               <h4 className="p-3">Dashboard</h4>
               <p className="ps-3">Hi,Rahul! Welcome to Business Dashboard</p>
-              <hr />
-              <div className="d-flex justify-content-between p-3">
+              {/* <hr /> */}
+              {/* <div className="d-flex justify-content-between p-3">
                 <div className="d-flex">
                   <Image src={Hostels} roundedCircle style={{ height: "30px", width: "30px" }} />
                   <div className="d-block ms-2">
@@ -310,7 +310,6 @@ function Sidebar() {
                             return (
                               <div key={index} className="form-group mb-3">
                                 <label htmlFor="exampleInput" className="form-label mb-1" style={{ fontWeight: 700, fontSize: "11px" }}>
-                                  {/* {`${pgList.number_Of_Floor === 1 ? 'Ground' : `${pgList.number_Of_Floor}`} Floor `} */}
                                   {`${floorLabel} Floor:`}
                                 </label>
                                 <CreatePG index={index} pgList={pgList} setPgList={setPgList} handleFloorList={handleFloorList}></CreatePG>
@@ -352,7 +351,7 @@ function Sidebar() {
                 <div style={{ flex: 1 }} className="d-flex justify-content-center content pt-3" >
                   <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleShow}><img src={Plus} height="12" width="12" alt='Plus' /> Create PG</button>
                 </div>
-              </div>
+              </div> */}
             </>
             :
             ""

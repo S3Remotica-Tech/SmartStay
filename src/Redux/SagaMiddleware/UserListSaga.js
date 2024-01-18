@@ -77,6 +77,16 @@ function* handleCreateFloor(data) {
    }
 }
 
+function* handleRoomsDetails(ID) {
+   const response = yield call(roomsCount, ID.payload)
+   if (response.status === 200) {
+      yield put({ type: 'ROOM_DETAILS', payload: response.data })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+}
+
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
@@ -85,5 +95,6 @@ function* UserListSaga() {
    yield takeEvery('HOSTELDETAILLIST', handlehosteliddetail)
    yield takeEvery('BILLPAYMENTHISTORY',handleUserBillPaymentHistory)
    yield takeEvery('CREATEFLOOR',handleCreateFloor)
+   yield takeEvery('ROOMDETAILS',handleRoomsDetails)
 }
 export default UserListSaga;

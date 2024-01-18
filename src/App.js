@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useEffect} from 'react';
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import FrontPage from "./Components/FrontPage"
@@ -15,23 +15,37 @@ function App() {
 
 
   const state = useSelector(state => state)
+ const login = localStorage.getItem("login")
+
+ useEffect (()=>{
+  if(state.login.isLoggedIn===true){
+    localStorage.setItem("login",true)
+  } 
+},[state.login.isLoggedIn])
+
+
   return (
     <div>
+{
+  login ?
+  <RoyalGrandHostel />
+  :
+  state.login.isLoggedIn ?
 
-      {state.login.isLoggedIn ?
-
-        <RoyalGrandHostel />
-        :
-        <Router>
-          <Routes>
-            <Route index element={<FrontPage />} />
-            <Route path="/login-Page" element={<LoginPage />} />
-            <Route path="/create-account" element={<CreateAccount />} />
-            <Route path="/forget-password" element={< ForgetPassword />} />
-            <Route path="/Bed" element={< BedDetails />} />
-          </Routes>
-        </Router>
-      }
+    <RoyalGrandHostel />
+    :
+    <Router>
+      <Routes>
+        <Route index element={<FrontPage />} />
+        <Route path="/login-Page" element={<LoginPage />} />
+        <Route path="/create-account" element={<CreateAccount />} />
+        <Route path="/forget-password" element={< ForgetPassword />} />
+        <Route path="/Bed" element={< BedDetails />} />
+      </Routes>
+    </Router>
+  
+}
+      
     </div>
   );
 }

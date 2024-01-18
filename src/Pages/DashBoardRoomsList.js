@@ -9,8 +9,6 @@ import { TiDeleteOutline } from "react-icons/ti";
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 
-
-
 function getFloorName(floor_Id) {
     if (floor_Id === 1) {
         return 'Ground Floor';
@@ -103,12 +101,15 @@ function DashboardRoom(props) {
         dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
     }, [props.floorID, props.hostel_Id, props.room_id])
 
+    useEffect(() => {
+        dispatch({ type: 'CHECKROOM' })
+    }, [])
 
+    const roomDetailsFromState = state.PgList.checkRoomList.map(room => ({ roomId: room.RoomId, numberOfBeds: room.NumberOfBeds, hostel_Id: room.Hostel_Id, floor_Id: room.Floor_Id }));
 
-
-
-
-    const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }]);
+    const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '' }
+    // , { roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }
+]);
 
 
     const handleRoomIdChange = (roomId, index) => {
@@ -175,7 +176,6 @@ function DashboardRoom(props) {
                         <div className="row  row-gap-3  pe-3">
                             {
                                 state.UsersList.roomCount[props.floorID - 1]?.map((room) => {
-                                    console.log("state",state);
                                     const formattedRoomId = getFormattedRoomId(props.floorID, room.Room_Id);
                                     return (
                                         <>
@@ -217,6 +217,14 @@ function DashboardRoom(props) {
                     <div className="row column-gap-3 g-3 d-flex align-items-center ">
                         {roomDetails.map((room, index) => (
                             <>
+                            
+                          {roomDetailsFromState.some(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId)) && (
+                                    <div className="p-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
+                                        RoomId <strong>{room.roomId}</strong> is already exists &
+                                        available beds are <strong style={{color:"white"}}>{roomDetailsFromState.find(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId))?.numberOfBeds}</strong>
+                                    </div>
+                                )}
+
                                 <div key={index} className="col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
                                     <div className="form-group mb-4 ps-1">
                                         <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>

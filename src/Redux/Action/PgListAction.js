@@ -13,3 +13,8 @@ export async function createPgList(datum){
       data:datum
     })
   }
+
+  export async function CheckRoomId() {
+    return await AxiosConfig.get('/room-id/check-room-id',{
+    })
+  }

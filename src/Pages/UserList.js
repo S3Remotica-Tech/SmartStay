@@ -103,14 +103,31 @@ function UserList() {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } })
     setHostel_Id(e.target.value)
   }
+  // const handleFloor = (e) => {
+  //   dispatch({ type: 'CLEAR_ERROR' })
+  //   setFloor(e.target.value)
+  // }
+
   const handleFloor = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
+    dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: e.target.value } })
     setFloor(e.target.value)
+
   }
+
+  // const handleRooms = (e) => {
+  //   dispatch({ type: 'CLEAR_ERROR' })
+  //   setRooms(e.target.value)
+  // }
+
   const handleRooms = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
-    setRooms(e.target.value)
+    setRooms(e.target.value);
+    // Filter the bed options based on the selected room
+    // const selectedRoom = state.UsersList?.hosteldetailslist.find(item => item.Room_Id === e.target.value);
+    // setBedOptions(selectedRoom ? selectedRoom.Number_Of_Beds : []);
   }
+
   const handleBed = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
     setBed(e.target.value)
@@ -272,7 +289,7 @@ function UserList() {
       hostel_Id &&
       Floor &&
       Rooms &&
-      bed &&
+      // bed &&
       AdvanceAmount &&
       RoomRent &&
       BalanceDue &&
@@ -292,7 +309,7 @@ function UserList() {
           hostel_Id: hostel_Id,
           Floor: Floor,
           Rooms: Rooms,
-          bed: bed,
+          // bed: bed,
           AdvanceAmount: AdvanceAmount,
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
@@ -329,7 +346,7 @@ function UserList() {
             setHostel_Id('');
             setFloor('');
             setRooms('');
-            setBed('');
+            // setBed('');
             setAdvanceAmount('');
             setRoomRent('');
             setPaymentType('');
@@ -531,7 +548,7 @@ function UserList() {
                   class="form-control ps-4 pe-1   searchinput"
                   style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
 
-                  // className='form-control form-control-sm me-2' placeholder='Search Here' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }}
+                // className='form-control form-control-sm me-2' placeholder='Search Here' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }}
                 />
               </>
             }
@@ -542,9 +559,9 @@ function UserList() {
             {
               filtericon &&
               <>
-                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} 
-                class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
-                
+                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)}
+                  class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
+
                 // class="form-control form-control-sm m-2"
                 //   style={{ fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", boxShadow: "none", padding: "5px", border: "1px Solid lightgray" }}
                 >
@@ -715,7 +732,7 @@ function UserList() {
               </div>
 
               <div className='container' style={{ marginTop: "30px" }}>
-               
+
                 {
                   <div>
                     {state.UsersList.errorMessage?.length > 0 ? (
@@ -813,7 +830,7 @@ function UserList() {
                   </div>
                 </div>
 
-                <div className='row mt-2'>
+                {/* <div className='row mt-2'>
                   <div className='col lg-4'>
                     <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
                     <Form.Select aria-label="Default select example"
@@ -883,7 +900,49 @@ function UserList() {
 
 
 
+                </div> */}
+
+                <div className='row mt-2'>
+
+
+                  <div className='col lg-4'>
+                    <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
+                    <Form.Select aria-label="Default select example"
+                      style={bottomBorderStyle}
+                      value={Floor} onChange={(e) => handleFloor(e)}>
+                      <option>Selected Floor</option>
+                      {
+                        state.UsersList?.hosteldetailslist
+                          ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
+                          .map((u) => (
+                            <option key={u.Floor_Id}>{u.Floor_Id}</option>
+                          ))
+                      }
+                    </Form.Select>
+                  </div>
+
+
+
+
+                  <div className='col lg-4'>
+                    <Form.Label style={{ fontSize: '12px' }}>Select Room</Form.Label>
+                    <Form.Select
+                      aria-label='Default select example'
+                      style={bottomBorderStyle}
+                      value={Rooms}
+                      onChange={(e) => handleRooms(e)}
+                    >
+                      <option>Selected Room</option>
+                      {state.UsersList?.roomdetails
+                        ?.filter((item, index, self) => self.findIndex((i) => i.Room_Id === item.Room_Id) === index)
+                        .map((item) => (
+                          <option key={item.Room_Id}>{item.Room_Id}</option>
+                        ))}
+                    </Form.Select>
+                  </div>
+
                 </div>
+
                 <div className='row'>
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
@@ -908,7 +967,20 @@ function UserList() {
                   </div>
                 </div>
                 <div className='row'>
-                  <div className='col lg-6'>
+                <div className='col lg-6 pt-2'>
+                    <Form.Label style={{ fontSize: '12px' }}>PaymentType</Form.Label>
+                    <Form.Select
+                      aria-label='Default select example'
+                      style={bottomBorderStyle}
+                      value={PaymentType}
+                      onChange={(e) => handlePaymentType(e)}
+                    >
+                      <option>Selected PaymentType</option>
+                     <option>Cash</option>
+                     <option>Online</option>
+                    </Form.Select>
+                  </div>
+                  {/* <div className='col lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px", marginTop: "15px" }}>PaymentType</Form.Label>
                       <FormControl
@@ -917,7 +989,7 @@ function UserList() {
                         style={bottomBorderStyle}
                       />
                     </Form.Group>
-                  </div>
+                  </div> */}
 
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
@@ -1181,12 +1253,12 @@ function UserList() {
                           <td>₹{view.invBalance}</td>
                           <td style={view.invStatus === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.invStatus}</td>
                           <td
-                           className="justify-content-between"
-                           >
+                            className="justify-content-between"
+                          >
                             <img src={List} height={20} width={20} alt='List' />
-                            <img 
-                            className="ms-1"
-                             src={Edits} height={20} width={20} alt='Edits' />
+                            <img
+                              className="ms-1"
+                              src={Edits} height={20} width={20} alt='Edits' />
                           </td>
                         </tr>
                       ))}
@@ -1211,7 +1283,7 @@ function UserList() {
 
 
 
-                
+
                   <div class="" style={{ marginTop: 30 }}>
 
                     <div class="d-flex justify-content-start align-items-center" style={{ backgroundColor: "", marginLeft: 100, marginTop: 50 }}>

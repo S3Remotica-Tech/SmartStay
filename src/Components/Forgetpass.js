@@ -7,10 +7,11 @@ import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Hai from "../Assets/Images/hand.png";
+import Hand from "../Assets/Images/hand.png";
 import Key from "../Assets/Images/new icon/key.png";
 import Eye from "../Assets/Images/new icon/eye.png";
 import HomeSideComponent from "./HomeSideContent";
+import Swal from 'sweetalert2'
 
 
 function ForgetPasswordPage() {
@@ -21,7 +22,6 @@ function ForgetPasswordPage() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [showPassword, setShowpassword] = useState(false);
-  const [error, setError] = useState(null);
 
   let navigate = useNavigate();
 
@@ -38,61 +38,46 @@ function ForgetPasswordPage() {
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    const pattern = new RegExp(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/);
-    const isValidpasswordNo = pattern.test(e.target.value)
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/;
+    const isValidpasswordNo = pattern.test(e.target.value);
+
     if (isValidpasswordNo) {
-      document.getElementById('passwordError').innerHTML = ''
+      document.getElementById('passwordError').innerHTML = '';
+    } else {
+      document.getElementById('passwordError').innerHTML = 'Invalid password *';
     }
-    else {
-      document.getElementById('passwordError').innerHTML = 'invalid password *'
-    }
-
-    // dispatch({ type: 'CLEAR_ERROR' });
-
-    // const newPassword = e.target.value;
-
-    // // Password validation criteria
-    // const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
-
-    // if (passwordRegex.test(newPassword)) {
-    //   // Password meets criteria, set it
-    //   setPassword(newPassword);
-    //   setError(null); // Clear any previous error
-    // } else {
-    //   // Password does not meet criteria
-    //   // You can dispatch an error action or show a message to the user
-    //   const errorMessage = "Invalid password";
-
-    //   // Example: Dispatching an error action (replace with your actual error handling logic)
-    //   dispatch({ type: 'SET_ERROR', payload: errorMessage });
-
-    //   setError(errorMessage);
-    // }
   };
 
+  
   const handlePasswordReset = () => {
-    if (email && password) {
-      dispatch({ type: 'FORGETPAGE', payload: { NewPassword: password, email: email } })
-
-      setEmail("")
-      setPassword("")
-
+    const isValidPassword = validatePassword();   
+    if (email && isValidPassword) {
+      dispatch({ type: 'FORGETPAGE', payload: { NewPassword: password, email: email } });
+      setEmail("");
+      setPassword("");
+    } else {
+      let errorMessage = "";
+      if (email === '') {
+        errorMessage = "Please Enter Email";
+      } else if (!isValidPassword) {
+        errorMessage = "Invalid Password";
+      } else {
+        errorMessage = "Please Enter Email and Valid Password";
+      }
+  
+      Swal.fire({
+        icon: 'error',
+        title: 'Please Enter All Fields',
+        text: errorMessage,
+      });
+  
+      dispatch({ type: 'ERROR', payload: errorMessage });
     }
-    else {
-      if (email == '') {
-        dispatch({ type: 'ERROR', payload: "Please Enter Email" })
-
-      }
-      else if (password == '') {
-        dispatch({ type: 'ERROR', payload: "Please Enter password" })
-
-      }
-      else {
-        dispatch({ type: 'ERROR' })
-
-      }
-    }
-
+  };
+  
+  const validatePassword = () => {
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/;
+    return pattern.test(password);
   }
 
   const handleLogin = () => {
@@ -113,11 +98,11 @@ function ForgetPasswordPage() {
             <span className="right-content lh-1" style={{ fontSize: "13px" }}>Return to your</span>
             <button style={{ fontSize: "13px", padding: "2px", backgroundColor: "white", color: "#007FFF", borderRadius: "30px", fontWeight: "bold", borderColor: "#2C77EC", width: "150px", height: "30px" }} type="button" class="btn btn-outline-primary createbutton ms-2" onClick={() => handleLogin()}>Login</button>
           </div>
-          <div className="d-flex justify-content-center" id="Welcome" style={{ fontSize: "18px", paddingTop: "100px", fontWeight: "600" }}><strong>Forget your password</strong><img src={Hai} width="30" height="30" alt='Hai' /></div>
+          <div className="d-flex justify-content-center" id="Welcome" style={{ fontSize: "18px", paddingTop: "100px", fontWeight: "600" }}><strong>Forget your password</strong><img src={Hand} width="30" height="30" alt='Hand' /></div>
           <div className="d-flex justify-content-center pt-1"><p style={{ fontSize: "13px", color: "gray" }}>We need a few basic details to consider your profile</p></div>
           <div className="row d-flex justify-content-center">
             <div className="col-md-7 col-sm-7 col-xs-7 right-side-form">
-              <div>{state.NewPass.errorMessage?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.NewPass.errorMessage}</label> : null}</div>
+              {/* <div>{state.NewPass.errorMessage?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.NewPass.errorMessage}</label> : null}</div> */}
               <Form className="Form">
                 <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>Reset Key From Your Email</b></Form.Label>
                 <InputGroup className="mb-3" size="lg" style={{ color: "#D9D9D9" }} >
@@ -142,9 +127,6 @@ function ForgetPasswordPage() {
                     <img src={Key} height="13" width="13" alt='key' />
                   </InputGroup.Text>
                 </InputGroup>
-
-
-
                 <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>New Password</b></Form.Label>
                 <InputGroup className="mb-3" size="lg">
                   <Form.Control type={showPassword ? 'text' : 'password'}
@@ -163,13 +145,12 @@ function ForgetPasswordPage() {
                     <img src={showPassword ? Eye : eyeClosed} height="13" width="13" alt='Eye' onClick={togglePasswordVisibility} />
                   </InputGroup.Text>
                 </InputGroup>
+
                 <p id="passwordError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                {/* {error && <div style={{ color: 'red' }}>{error}</div>} */}
-                {
+
+                {/* {
                   state.NewPass.errorPassword.length > 0 ? <label style={{ color: "red" }}>{state.NewPass.errorPassword}</label> : null
-
-
-                }
+                } */}
 
                 <div className="lists d-flex " style={{ fontSize: "13px", justifyContent: "space-between", textAlign: "left", width: "100%" }} >
                   <ul className="hoverList">
