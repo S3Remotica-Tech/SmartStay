@@ -125,7 +125,7 @@ const InvoicePage = () => {
       email: '',
       amount: '',
       balanceDue: '',
-      dueDate: ''
+      dueDate: new Date(d.getFullYear(), d.getMonth()+1, 0)
     })
     setShowMenu(false);
     setUserClicked(false);
@@ -209,7 +209,7 @@ const InvoicePage = () => {
         email: '',
         amount: '',
         balanceDue: '',
-        dueDate: ''
+        dueDate: new Date(d.getFullYear(), d.getMonth()+1, 0)
       })
       Swal.fire({
         icon: "success",
@@ -225,7 +225,7 @@ const InvoicePage = () => {
             email: '',
             amount: '',
             balanceDue: '',
-            dueDate: ''
+            dueDate: new Date(d.getFullYear(), d.getMonth()+1, 0)
           })
           handleClose()
 

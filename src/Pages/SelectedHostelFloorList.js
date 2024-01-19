@@ -38,7 +38,7 @@ function SelectedHostelFloorList(props) {
 
 
     const state = useSelector(state => state)
-    console.log("state for Dashboard", state)
+    // console.log("state for Dashboard", state)
 
     const dispatch = useDispatch()
 

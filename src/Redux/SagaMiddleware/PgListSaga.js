@@ -24,11 +24,11 @@ function* handlePgList(datum){
    if (response.status === 200) {
       yield put ({type:'CREATE_ROOM',payload:response.data})
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Room Details saved Successfully',
-        timer:1000
-               });
+      // Swal.fire({
+      //   icon: 'success',
+      //   title: 'Room Details saved Successfully',
+      //   timer:1000
+      //          });
 
    }
    else {

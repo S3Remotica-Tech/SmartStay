@@ -82,10 +82,10 @@ const MyComponent = () => {
             <div className="col-md-7 col-sm-7 col-xs-7 right-side-form">
               <div>{state.login.errorMessage?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.login.errorMessage}</label> : null}</div>
               <Form className="Form">
-                <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>Email Or Phone Number</b></Form.Label>
+                <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>Email</b></Form.Label>
                 <InputGroup className="mb-3" size="lg" style={{ color: "#D9D9D9" }} >
                   <Form.Control
-                    placeholder="Enter Email or Business"
+                    placeholder="Enter Email"
                     aria-label="Recipient's username"
                     className='border border-0 custom-input'
                     aria-describedby="basic-addon2"

@@ -96,9 +96,9 @@ function Dashboard() {
 
                         <div className="d-flex justify-content-between">
 
-                            <div className="">
-                                <h5>Dashboard</h5>
-                                <p style={{ fontSize: "12px", }}>Hi,Rahul! Welcome to Business Dashboard</p>
+                            <div>
+                            <h4 className="p-3">Dashboard</h4>
+              <p className="ps-3">Hi, Welcome to Business Dashboard</p>
                             </div>
                             <div className="" style={{ backgroundColor: "#F8F9FA", borderRadius: "50%", height: "30px", width: "30px" }}>
                                 <FaSearch className="p-2" style={{ color: "lightgray" }} size={30} />

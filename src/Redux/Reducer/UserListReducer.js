@@ -10,6 +10,8 @@ const initialState = {
 }
 
 const UserListReducer = (state = initialState, action) => {
+    console.log("userlistReducer", action.payload);
+    console.log("roomCount", state.roomCount);
     switch (action.type) {
         case 'CLEAR_ERROR_MESSAGE':
             return {
@@ -36,10 +38,12 @@ const UserListReducer = (state = initialState, action) => {
             if (state.roomCount.length > 0) {
                 if (action.payload.length > 0) {
                     let tempArray = state.roomCount.filter((item) => {
+                        console.log("item", item);
                         return item[0]?.Floor_Id === action.payload[0].Floor_Id
                     })
-
+                    console.log("tempArray", tempArray);
                     if (tempArray.length > 0) {
+                        console.log('tempArray length = 0');
                         return { ...state }
                     }
 

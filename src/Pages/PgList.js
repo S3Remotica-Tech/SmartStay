@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import TotalPgList from './TotalPgList';
-// import { FaSearch } from 'react-icons/fa';
-// import Picture from '../Assets/Images/men.jpg';
-// import Hostels from '../Assets/Images/hostel.png';
 import Plus from '../Assets/Images/Create-button.png';
 import Welcome from '../Assets/Images/dashboard-welcome.png';
 import Image from 'react-bootstrap/Image';
@@ -11,24 +7,16 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Hostel from '../Assets/Images/hostel.png';
 import CreateButton from '../Assets/Images/Create-button.png';
 import Button from 'react-bootstrap/Button';
-
 import CreatePG from '../Components/CreatePG';
-
-
-// import Hostel from '../Assets/Images/hostel.png';
-// import Plus from '../Assets/Images/Create-button.png';
-// import Image from 'react-bootstrap/Image';
 import '../Pages/Dashboard.css';
 import { FaSquare } from "react-icons/fa";
-// import { FaSearch } from 'react-icons/fa';
-// import Offcanvas from 'react-bootstrap/Offcanvas';
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { AiOutlineDelete } from "react-icons/ai";
 import RoomDetails from '../Pages/RoomDetails';
-// import Button from 'react-bootstrap/Button';
-// import { useDispatch, useSelector } from 'react-redux';
 import DashboardRoomList from './DashBoardRoomsList';
 import SelectedHostelFloorList from './SelectedHostelFloorList';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 function PgList() {
@@ -45,6 +33,20 @@ function PgList() {
     number_Of_Rooms: '',
     floorDetails: []
   })
+
+  
+  const [activePage, setActivePage] = useState(true)
+  const [roomDetails, setRoomDetails] = useState('')
+  const [selectedHostel, setSelectedHostel] = useState(null);
+  const [floorDetails, setFloorDetails] = useState([{ number_of_floor: '' }
+  // , { number_of_floor: '' }, { number_of_floor: '' }
+]);
+
+
+useEffect(() => {
+  dispatch({ type: 'HOSTELLIST' })
+}, [])
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       let tempArry = [];
@@ -83,7 +85,10 @@ function PgList() {
   }
   
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setFloorDetails([ { number_of_floor: '' }])
+    setShow(false);
+  }
   const handleShow = () => setShow(true);
   const handleCancels = () => {
     handleClose();
@@ -97,7 +102,7 @@ const handlecloseHostelForm = () =>{
 }
 
   const handleSubmitPgList = () => {
-    if (pgList.Name && pgList.phoneNumber) {
+    if (pgList.Name && pgList.phoneNumber && pgList.email_Id) {
       const floorDetailsArray = Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
         const floorNumber = index + 1;
         const numberOfRooms = parseInt(pgList[`number_Of_Rooms_${floorNumber}`]) || 0;
@@ -112,7 +117,7 @@ const handlecloseHostelForm = () =>{
           }),
         };
       });
-
+console.log("floorDetailsArray",floorDetailsArray);
       dispatch({
         type: 'PGLIST',
         payload: {
@@ -126,32 +131,41 @@ const handlecloseHostelForm = () =>{
           created_by: state.login.id
         }
       });
-    }
-
-    setPgList({
-      Name: '',
-      phoneNumber: '',
-      email_Id: '',
-      location: '',
-      number_Of_Floor: '',
-      number_Of_Rooms: '',
-      floorDetails: []
-    });
+       
+      Swal.fire({
+        icon: 'success',
+        title: 'Hostel Details saved Successful',
+               }).then((result) => {
+                if (result.isConfirmed) {
+                  dispatch({ type: 'HOSTELLIST' })
+                  setPgList({
+                    Name: '',
+                    phoneNumber: '',
+                    email_Id: '',
+                    location: '',
+                    number_Of_Floor: '',
+                    number_Of_Rooms: '',
+                    floorDetails: []
+                  });
+                }
+              });
+    
 
 
     handlecloseHostelForm();
+    }
+    else{
+
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter All Field',
+               }).then((result) => {
+                if (result.isConfirmed) {
+                }
+              });
+    }
+
   }
-
-  // const [show, setShow] = useState(false);
-  //   const handleClose = () => setShow(false);
-  //   const handleShow = () => setShow(true);
-
-    const [activePage, setActivePage] = useState(true)
-    const [roomDetails, setRoomDetails] = useState('')
-    const [selectedHostel, setSelectedHostel] = useState(null);
-    const [floorDetails, setFloorDetails] = useState([{ number_of_floor: '' }
-    // , { number_of_floor: '' }, { number_of_floor: '' }
-]);
 
     const handleFloorChange = (value, index) => {
         setFloorDetails((prevDetails) => {
@@ -200,35 +214,26 @@ const handlecloseHostelForm = () =>{
         handleClose();
     };
 
-    useEffect(() => {
-        dispatch({ type: 'HOSTELLIST' })
-    }, [])
 
     const handleHostelSelect = (hostelName) => {
-        console.log("state.UsersList.hostelList",state.UsersList.hostelList);
         const selected = state.UsersList.hostelList.find(item => item.Name === hostelName);
         setSelectedHostel(selected);
     };
 
+console.log("state",state);
 
   return (
         <>
-              {/* <h4 className="p-3">Pg List</h4> */}
-              {/* <p className="ps-3">Hi,Rahul! Welcome to Business Dashboard</p> */}
-              {/* <hr /> */}
               <div className="d-flex justify-content-between p-3">
               <h4>Pg List</h4>
+              <div className="d-flex justify-content-center align-items-center p-2">
+                  <div><p className='mb-0 me-2' style={{fontSize:16,fontWeight:700}}>Create a new PG</p></div>
+                 <div><button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleshowHostelForm}><img src={Plus} height="12" width="12" alt='Plus' /> Create PG</button></div> 
+                </div>
                 {/* <div className="d-flex">
-                  <Image src={Hostel} roundedCircle style={{ height: "30px", width: "30px" }} />
-                  <div className="d-block ms-2">
-                    <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>PG Detail</p>
-                    <p style={{ fontSize: "11px", marginBottom: "0px", marginRight: "0px", fontWeight: "800" }}>Royal Grand Hostel</p>
-                  </div>
-                </div> */}
-                <div className="d-flex">
                   <p className='p-1 mr-1'>Create a new PG</p>
                   <button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleshowHostelForm}><img src={Plus} height="12" width="12" alt='Plus' /> Create PG</button>
-                </div>
+                </div> */}
 
                 <Offcanvas show={addhostelForm} onHide={handlecloseHostelForm} placement="end" style={{ width: "70vh" }}>
                   <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="p-3 m-0 d-flex align-items-center">Create PG</Offcanvas.Title>
@@ -312,9 +317,6 @@ const handlecloseHostelForm = () =>{
                           })}
                         </div>
                       )}
-
-
-
                       <hr style={{ marginTop: "50px" }} />
                       <div className="d-flex justify-content-end" style={{ marginTop: "15px" }} >
 
@@ -331,24 +333,7 @@ const handlecloseHostelForm = () =>{
                 </Offcanvas>
               </div>
               <hr />
-              {/* <div className="container">
-                <div style={{ flex: 1 }} className="d-flex justify-content-center content">
-                  <img src={Welcome} className="pt-5" height="100" width="50" alt='Welcome' />
-                </div>
-                <div style={{ flex: 1 }} className="d-flex justify-content-center content pt-2">
-                  <h3>World's fastest growing hotel chain.</h3>
-                </div>
-                <div style={{ flex: 1 }} className="d-flex justify-content-center content pt-2">
-                  <p>We need a few basic details to consider your hostel</p>
-                </div>
-                <div style={{ flex: 1 }} className="d-flex justify-content-center content pt-3" >
-                  <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleShow}><img src={Plus} height="12" width="12" alt='Plus' /> Create PG</button>
-                </div>
-              </div> */}
-
-
-{/* <hr className="mt-1 mb-3" /> */}
-                        <div className="row g-0 d-flex justify-content-start align-items-center" >
+                        <div className="row g-0 d-flex justify-content-start align-items-center p-2" >
                             <div className="col-lg-2 col-md-4 col-sm-12 col-xs-12 col-12 d-flex justify-content-between align-items-center p-0" style={{ backgroundColor: "" }} >
                                 <div className="d-flex justify-content-between align-items-center">
                                     <Image src={Hostel} roundedCircle style={{ height: "30px", width: "30px" }} />
@@ -374,7 +359,6 @@ const handlecloseHostelForm = () =>{
                                     Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
                                         return <SelectedHostelFloorList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
                                     })}
-
 
                                 <div className="col-lg-2  col-md-4 col-sm-12 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <div>
@@ -414,10 +398,6 @@ const handlecloseHostelForm = () =>{
 
                                         </>
                                     ))}
-
-
-
-
                                 </div>
 
 
@@ -442,11 +422,8 @@ const handlecloseHostelForm = () =>{
 
                         <hr />
 
-
-
-
                         {selectedHostel && <>
-                            <div className="d-flex justify-content-between">
+                            <div className="d-flex justify-content-between p-2">
                                 <div>
                                     <h5 style={{ fontSize: 18, color: "black", fontWeight: 600 }}>{selectedHostel.Name}</h5>
                                 </div>
@@ -466,17 +443,17 @@ const handlecloseHostelForm = () =>{
                                     Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
                                         return <DashboardRoomList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
                                     })}
-
-                                <div className="col-lg-2 col-md-4  col-sm-12 col-xs-12 col-12">
-                                    <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover" onClick={handleShow}>
-                                        <div className="d-flex justify-content-center" style={{ marginTop: "50%" }}>
+                                    <div className="col-lg-2 col-md-4  col-sm-12 col-xs-12 col-12">
+                                    <div className="card h-100 d-flex justify-content-center align-items-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover" onClick={handleShow}>
+                                        <div className="">
                                             <img src={Plus} height="18" width="16" alt='Plus' />
                                         </div>
-                                        <div className="d-flex justify-content-center">
+                                        <div className="">
                                             <p style={{ color: "#1F75FE", paddingLeft: "", fontSize: "15px", fontWeight: 600 }}>Create Floor</p>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </>}
 

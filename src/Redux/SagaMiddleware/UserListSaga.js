@@ -13,15 +13,15 @@ function* handleuserlist() {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
 }
-function* handleAddUser(datum) {
-   const response = yield call(addUser, datum.payload);
-   if (response.status === 200) {
-      yield put({ type: 'ADD_USER', payload: response.data })
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-}
+// function* handleAddUser(datum) {
+//    const response = yield call(addUser, datum.payload);
+//    if (response.status === 200) {
+//       yield put({ type: 'ADD_USER', payload: response.data })
+//    }
+//    else {
+//       yield put({ type: 'ERROR', payload: response.data.message })
+//    }
+// }
 function* handleHostelList() {
    const response = yield call(hostelList)
    if (response.status === 200) {
@@ -83,6 +83,24 @@ function* handleRoomsDetails(ID) {
       yield put({ type: 'ROOM_DETAILS', payload: response.data })
    }
    else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+}
+
+function* handleAddUser(datum) {
+   const response = yield call(addUser, datum.payload);
+   if (response.status === 200) {
+      yield put({ type: 'ADD_USER', payload: response.data })
+   }
+   else if(response.status === 202) {
+
+          Swal.fire({
+            icon: 'warning',
+            title: "Phone Number Already Exist",
+            confirmButtonText: 'Ok',
+          });
+             
+   }else{
       yield put({ type: 'ERROR', payload: response.data.message })
    }
 }

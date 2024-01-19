@@ -27,9 +27,9 @@ function App() {
   return (
     <div>
 {
-  login ?
-  <RoyalGrandHostel />
-  :
+  // login ?
+  // <RoyalGrandHostel />
+  // :
   state.login.isLoggedIn ?
 
     <RoyalGrandHostel />

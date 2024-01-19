@@ -8,6 +8,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 function getFloorName(floor_Id) {
     if (floor_Id === 1) {
@@ -90,7 +91,10 @@ function DashboardRoom(props) {
     const dispatch = useDispatch();
 
     const [shows, setShows] = useState(false);
-    const handleCloses = () => setShows(false);
+    const handleCloses = () => {
+        setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
+        setShows(false)
+    };
     const handleShows = () => setShows(true);
 
     const handleCancels = () => {
@@ -105,11 +109,11 @@ function DashboardRoom(props) {
         dispatch({ type: 'CHECKROOM' })
     }, [])
 
-    const roomDetailsFromState = state.PgList.checkRoomList.map(room => ({ roomId: room.RoomId, numberOfBeds: room.NumberOfBeds, hostel_Id: room.Hostel_Id, floor_Id: room.Floor_Id }));
+    const roomDetailsFromState = state.PgList?.checkRoomList && state.PgList.checkRoomList.map(room => ({ roomId: room.RoomId, numberOfBeds: room.NumberOfBeds, hostel_Id: room.Hostel_Id, floor_Id: room.Floor_Id }));
 
     const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '' }
-    // , { roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }
-]);
+        // , { roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }
+    ]);
 
 
     const handleRoomIdChange = (roomId, index) => {
@@ -151,12 +155,28 @@ function DashboardRoom(props) {
                 },
             });
 
+            Swal.fire({
+                icon: 'success',
+                title: 'Room Details saved Successfully',
+                // timer:1000
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                }
+            });
+
 
             setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
             handleCloses();
         } else {
 
-            alert('Please enter at least one valid room.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Please enter at least one valid room.',
+                // timer:1000
+            });
+
+            // alert('Please enter at least one valid room.');
         }
     };
     const handleRemoveRoomDetails = (indexToRemove) => {
@@ -168,21 +188,22 @@ function DashboardRoom(props) {
 
                 <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }}>
 
-                    <div className="card-header d-flex justify-content-between p-2" style={{backgroundColor:"#f6f7fb"}}><strong style={{ fontSize: "13px" }}>{getFloorName(props.floorID)}</strong><FaAngleRight className="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
+                    <div className="card-header d-flex justify-content-between p-2" style={{ backgroundColor: "#f6f7fb" }}><strong style={{ fontSize: "13px" }}>{getFloorName(props.floorID)}</strong><FaAngleRight className="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
 
                     <div className="card-body">
-                        <p className="card-title text-center" style={{fontWeight:600}}>({state.UsersList.roomCount[props.floorID - 1]?.length || 0}) Rooms</p>
+                        <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.UsersList.roomCount[props.floorID - 1]?.length || 0}) Rooms</p>
 
                         <div className="row  row-gap-3  pe-3">
                             {
-                                state.UsersList.roomCount[props.floorID - 1]?.map((room) => {
+                                // state.UsersList.roomCount[(props.floorID * 2) - 1]?.map((room) => {
+                                state.UsersList?.roomCount && state.UsersList.roomCount[(props.floorID) - 1]?.map((room) => {
                                     const formattedRoomId = getFormattedRoomId(props.floorID, room.Room_Id);
                                     return (
                                         <>
                                             <div className="col-4">
-                                                <div className="card  text-center align-items-center" style={{ height: "60px", width:35, borderRadius: "5px", backgroundColor: "#f6f7fb" }}>
+                                                <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }}>
                                                     <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px",fontWeight:600 }}>
+                                                    <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
                                                         {formattedRoomId}
                                                     </p>
                                                 </div>
@@ -195,7 +216,7 @@ function DashboardRoom(props) {
                             <div className="col-4">
                                 <div className="card  text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA", backgroundColor: "#cccccc11" }} onClick={handleShows}>
                                     <img src={Plus} className="pt-2 mb-0" height="25" width="15" alt='Room' />
-                                    <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px",fontWeight:600 }} className="mb-0" >Create Room</p>
+                                    <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px", fontWeight: 600 }} className="mb-0" >Create Room</p>
                                 </div>
                             </div>
                         </div >
@@ -217,11 +238,11 @@ function DashboardRoom(props) {
                     <div className="row column-gap-3 g-3 d-flex align-items-center ">
                         {roomDetails.map((room, index) => (
                             <>
-                            
-                          {roomDetailsFromState.some(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId)) && (
+
+                                {roomDetailsFromState && roomDetailsFromState.some(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId)) && (
                                     <div className="p-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
                                         RoomId <strong>{room.roomId}</strong> is already exists &
-                                        available beds are <strong style={{color:"white"}}>{roomDetailsFromState.find(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId))?.numberOfBeds}</strong>
+                                        available beds are <strong style={{ color: "white" }}>{roomDetailsFromState.find(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId))?.numberOfBeds}</strong>
                                     </div>
                                 )}
 
@@ -287,18 +308,3 @@ function DashboardRoom(props) {
 }
 
 export default DashboardRoom;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
