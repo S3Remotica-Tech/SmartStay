@@ -66,11 +66,11 @@ function* handleCreateFloor(data) {
    const response = yield call(createFloor,data.payload);
    if (response.status === 200) {
       yield put({ type: 'CREATE_FLOOR', payload: response.data })
-      Swal.fire({
-         icon: 'success',
-         title: 'Create Floor details saved Successfully',
-         timer:1000,
-                });
+      // Swal.fire({
+      //    icon: 'success',
+      //    title: 'Create Floor details saved Successfully',
+      //    timer:1000,
+      //           });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -87,20 +87,43 @@ function* handleRoomsDetails(ID) {
    }
 }
 
+// function* handleAddUser(datum) {
+//    const response = yield call(addUser, datum.payload);
+//    if (response.status === 200) {
+//       yield put({ type: 'ADD_USER', payload: response.data })
+//    }
+//    else if(response.status === 202) {
+
+//           Swal.fire({
+//             icon: 'warning',
+//             title: "Phone Number Already Exist",
+//             confirmButtonText: 'Ok',
+//           });
+             
+//    }else{
+//       yield put({ type: 'ERROR', payload: response.data.message })
+//    }
+// }
 function* handleAddUser(datum) {
    const response = yield call(addUser, datum.payload);
    if (response.status === 200) {
       yield put({ type: 'ADD_USER', payload: response.data })
    }
    else if(response.status === 202) {
-
-          Swal.fire({
-            icon: 'warning',
-            title: "Phone Number Already Exist",
-            confirmButtonText: 'Ok',
-          });
-             
-   }else{
+      Swal.fire({
+         icon: 'warning',
+         title: "Phone Number Already Exist",
+         confirmButtonText: 'Ok',
+      });
+   }
+   else if(response.status === 203) {
+      Swal.fire({
+         icon: 'warning',
+         title: "Email Already Exist",
+         confirmButtonText: 'Ok',
+      });
+   }
+   else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
 }

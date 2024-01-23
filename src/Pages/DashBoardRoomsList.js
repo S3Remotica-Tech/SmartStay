@@ -17,7 +17,11 @@ function getFloorName(floor_Id) {
         return '1st Floor';
     } else if (floor_Id === 3) {
         return '2nd Floor';
+    } else if (floor_Id === 4) {
+        return '3rd Floor';
     } else if (floor_Id >= 11 && floor_Id <= 13) {
+        const id = floor_Id - 1
+        console.log("id.....", id);
         return `${floor_Id}th Floor`;
     } else {
         const lastDigit = floor_Id % 10;
@@ -35,7 +39,7 @@ function getFloorName(floor_Id) {
                 break;
         }
 
-        return `${floor_Id}${suffix} Floor`;
+        return `${floor_Id - 1}${suffix} Floor`;
     }
 }
 
@@ -87,15 +91,43 @@ function getFloorAbbreviation(floor_Id) {
 
 function DashboardRoom(props) {
 
+    const noOfFloor = Number(props.floorID) + Number(props.floorID);
     const state = useSelector(state => state)
     const dispatch = useDispatch();
-
+    const [updateRoom, setUpdateRoom] = useState(false)
     const [shows, setShows] = useState(false);
     const handleCloses = () => {
         setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
         setShows(false)
     };
-    const handleShows = () => setShows(true);
+
+    const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '' }
+        // , { roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }
+    ]);
+
+    const handleShows = (val, index) => {
+        // console.log("val,index",val,index);
+        setShows(true);
+        if (val) {
+            setUpdateRoom('Edit');
+            // const room = val.Room_Id
+            // const bed = val.Number_Of_Beds
+            setRoomDetails(prevState => {
+                console.log('pre', prevState);
+                const updatedRooms = [...prevState];
+                // updatedRooms[index].roomId = val.Room_Id;
+                // updatedRooms[index].numberOfBeds = val.Number_Of_Beds;
+                updatedRooms[0].roomId = val.Room_Id;
+                updatedRooms[0].numberOfBeds = val.Number_Of_Beds;
+                console.log("updatedRooms", updatedRooms);
+                return updatedRooms;
+            });
+            // setR
+        }
+        else {
+            setUpdateRoom('Add')
+        }
+    }
 
     const handleCancels = () => {
         handleCloses();
@@ -103,17 +135,13 @@ function DashboardRoom(props) {
 
     useEffect(() => {
         dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-    }, [props.floorID, props.hostel_Id, props.room_id])
+    }, [props.floorID, props.hostel_Id, state.PgList.createRoomMessage])
 
     useEffect(() => {
         dispatch({ type: 'CHECKROOM' })
     }, [])
 
     const roomDetailsFromState = state.PgList?.checkRoomList && state.PgList.checkRoomList.map(room => ({ roomId: room.RoomId, numberOfBeds: room.NumberOfBeds, hostel_Id: room.Hostel_Id, floor_Id: room.Floor_Id }));
-
-    const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '' }
-        // , { roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }
-    ]);
 
 
     const handleRoomIdChange = (roomId, index) => {
@@ -139,9 +167,8 @@ function DashboardRoom(props) {
         const floorId = props.floorID.toString();
         const phoneNumber = props.phoneNumber.toString();
 
-
         const validRooms = roomDetails.filter(room => room.roomId && room.numberOfBeds);
-
+        console.log("validRooms", validRooms);
         if (validRooms.length > 0) {
             dispatch({
                 type: 'CREATEROOM',
@@ -154,22 +181,20 @@ function DashboardRoom(props) {
                     })),
                 },
             });
+            if (state.PgList.createRoomMessage) {
+                Swal.fire({
+                    icon: 'success',
+                    title: state.PgList.createRoomMessage,
+                }).then((result) => {
+                    if (result.isConfirmed) {
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Room Details saved Successfully',
-                // timer:1000
-            }).then((result) => {
-                if (result.isConfirmed) {
+                    }
+                });
+                setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
+                handleCloses();
+            }
 
-                }
-            });
-
-
-            setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
-            handleCloses();
         } else {
-
             Swal.fire({
                 icon: 'warning',
                 title: 'Please enter at least one valid room.',
@@ -182,6 +207,8 @@ function DashboardRoom(props) {
     const handleRemoveRoomDetails = (indexToRemove) => {
         setRoomDetails((prevDetails) => prevDetails.filter((_, index) => index !== indexToRemove));
     };
+    const arr = [];
+    console.log("state", state);
     return (
         <>
             <div className="col-lg-2 col-md-4  col-sm-12 col-xs-12 col-12">
@@ -191,30 +218,209 @@ function DashboardRoom(props) {
                     <div className="card-header d-flex justify-content-between p-2" style={{ backgroundColor: "#f6f7fb" }}><strong style={{ fontSize: "13px" }}>{getFloorName(props.floorID)}</strong><FaAngleRight className="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
 
                     <div className="card-body">
-                        <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.UsersList.roomCount[props.floorID - 1]?.length || 0}) Rooms</p>
+                        <p className="card-title text-center" style={{ fontWeight: 600 }}>({arr}) Rooms</p>
+                        {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.UsersList.roomCount[props.floorID - 1] && state.UsersList.roomCount[props.floorID - 1].length > 0 ? state.UsersList.roomCount[props.floorID - 1].length : 0}) Rooms</p> */}
+                        {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.UsersList.roomCount[props.floorID - 1].length >0 ? state.UsersList.roomCount[props.floorID - 1].length : 0}) Rooms</p> */}
 
                         <div className="row  row-gap-3  pe-3">
                             {
                                 // state.UsersList.roomCount[(props.floorID * 2) - 1]?.map((room) => {
-                                state.UsersList?.roomCount && state.UsersList.roomCount[(props.floorID) - 1]?.map((room) => {
-                                    const formattedRoomId = getFormattedRoomId(props.floorID, room.Room_Id);
+                                // state.UsersList?.roomCount && state.UsersList.roomCount[(props.floorID) - 1]?.map((room) => {
+                                state.UsersList?.roomCount.length > 0 && state.UsersList.roomCount.map((room) => {
+                                    // const arr = [];
                                     return (
                                         <>
-                                            <div className="col-4">
-                                                <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }}>
-                                                    <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                    <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
-                                                        {formattedRoomId}
-                                                    </p>
-                                                </div>
-                                            </div>
+                                            {room.length > 0 &&
+                                                room.map((val, index) => {
+                                                    if (val.Floor_Id == props.floorID) {
+                                                        arr.length == 0 && arr.push(room.length)
+                                                        const formattedRoomId = getFormattedRoomId(val.Floor_Id, val.Room_Id);
+
+                                                        return (
+                                                            <>
+                                                                {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({arr}) Rooms</p> */}
+                                                                {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({room.length}) Rooms</p> */}
+                                                                <div className="col-4">
+                                                                    <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }} onClick={() => { handleShows(val, index) }}>
+                                                                        <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
+                                                                        <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
+                                                                            {formattedRoomId}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                        )
+                                                    }
+                                                })
+                                            }
                                         </>
                                     )
+
+                                    // console.log("room[0]?.length",room.length);
+                                    // console.log("props.floorID",props.floorID);
+                                    // console.log("room[0].Floor_Id",room[0].Floor_Id);
+
+
+                                    // if (room.length > 0 ) {
+                                    //     console.log("room",room);
+                                    //     // const roomLength = room.length
+                                    //     room.map((val)=>{
+                                    //         if(val.Floor_Id  == props.floorID){
+                                    //             // console.log("room", room);
+                                    //             // console.log("if",room.length);
+                                    //             const formattedRoomId = getFormattedRoomId(val.Floor_Id, val.Room_Id);
+                                    //             console.log("formattedRoomId",formattedRoomId);
+                                    //             // console.log("room[0].Floor_Id", room[0].Floor_Id);
+                                    //             // console.log("room[0].Room_Id", room[0].Room_Id);
+                                    //             // console.log("stste", state);
+                                    //             return (
+                                    //                 <>
+                                    //                  <p className="card-title text-center" style={{ fontWeight: 600 }}>({room.length}) Rooms</p>
+                                    //                     <div className="col-4">
+                                    //                         <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }}>
+                                    //                             <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
+                                    //                             <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
+                                    //                                 {formattedRoomId}
+                                    //                             </p>
+                                    //                         </div>
+                                    //                     </div>
+                                    //                 </>
+                                    //             )
+                                    //         }
+                                    //     })
+
+
+                                    //     // for(let j = 0; j < room.length; j++){
+                                    //     //     console.log("roomLength[i]",room[j]);
+                                    //     //     console.log("props.floorID",props.floorID);
+                                    //     //     if(room[j].Floor_Id  == props.floorID){
+                                    //     //         // console.log("room", room);
+                                    //     //         // console.log("if",room.length);
+                                    //     //         const formattedRoomId = getFormattedRoomId(room[j].Floor_Id, room[j].Room_Id);
+                                    //     //         console.log("formattedRoomId",formattedRoomId);
+                                    //     //         // console.log("room[0].Floor_Id", room[0].Floor_Id);
+                                    //     //         // console.log("room[0].Room_Id", room[0].Room_Id);
+                                    //     //         // console.log("stste", state);
+                                    //     //         return (
+                                    //     //             <>
+                                    //     //              <p className="card-title text-center" style={{ fontWeight: 600 }}>({room.length}) Rooms</p>
+                                    //     //                 <div className="col-4">
+                                    //     //                     <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }}>
+                                    //     //                         <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
+                                    //     //                         <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
+                                    //     //                             {formattedRoomId}
+                                    //     //                         </p>
+                                    //     //                     </div>
+                                    //     //                 </div>
+                                    //     //             </>
+                                    //     //         )
+                                    //     //     }
+                                    //     // }
+
+
+                                    //     // console.log("room", room);
+                                    //     // // console.log("if",room.length);
+                                    //     // const formattedRoomId = getFormattedRoomId(room[0].Floor_Id, room[0].Room_Id);
+                                    //     // // console.log("room[0].Floor_Id", room[0].Floor_Id);
+                                    //     // // console.log("room[0].Room_Id", room[0].Room_Id);
+                                    //     // // console.log("stste", state);
+                                    //     // return (
+                                    //     //     <>
+                                    //     //      <p className="card-title text-center" style={{ fontWeight: 600 }}>({room.length}) Rooms</p>
+                                    //     //         <div className="col-4">
+                                    //     //             <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }}>
+                                    //     //                 <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
+                                    //     //                 <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
+                                    //     //                     {formattedRoomId}
+                                    //     //                 </p>
+                                    //     //             </div>
+                                    //     //         </div>
+                                    //     //     </>
+                                    //     // )
+                                    // }
+
                                 })
+
+                                // state.UsersList?.roomCount.length > 0 && state.UsersList.roomCount.map((room) => {
+                                //     if (room.length > 0 ) {
+                                //         return(
+                                //             <>
+                                //         {
+                                //             room.map((val)=>{
+                                //                     if(val.Floor_Id  == props.floorID){
+                                //                         const formattedRoomId = getFormattedRoomId(val.Floor_Id, val.Room_Id);
+                                //                         return (
+                                //                             <>
+                                //                             <p className="card-title text-center" style={{ fontWeight: 600 }}>({room.length}) Rooms</p>                                                            
+                                //                                 <div className="col-4">
+                                //                                     <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }}>
+                                //                                         <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
+                                //                                         <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
+                                //                                             {formattedRoomId}
+                                //                                         </p>
+                                //                                     </div>
+                                //                                 </div>
+                                //                             </>
+                                //                         )
+                                //                     }
+                                //             })
+                                //         }
+                                //         </>
+                                //         )
+                                //         // console.log("room",room.length);
+                                //         // // const roomLength = room.length
+                                //         // for(let j = 0; j < room.length; j++){
+                                //         //     // console.log("roomLength[i]",roomLength[i]);
+                                //         //     console.log("props.floorID",props.floorID);
+                                //         //     if(room[j].Floor_Id  == props.floorID){
+                                //         //         // console.log("room", room);
+                                //         //         // console.log("if",room.length);
+                                //         //         const formattedRoomId = getFormattedRoomId(room[j].Floor_Id, room[j].Room_Id);
+                                //         //         console.log("formattedRoomId",formattedRoomId);
+                                //         //         // console.log("room[0].Floor_Id", room[0].Floor_Id);
+                                //         //         // console.log("room[0].Room_Id", room[0].Room_Id);
+                                //         //         // console.log("stste", state);
+                                //         //         return (
+                                //         //             <>
+                                //         //              <p className="card-title text-center" style={{ fontWeight: 600 }}>({room.length}) Rooms</p>
+                                //         //                 <div className="col-4">
+                                //         //                     <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }}>
+                                //         //                         <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
+                                //         //                         <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
+                                //         //                             {formattedRoomId}
+                                //         //                         </p>
+                                //         //                     </div>
+                                //         //                 </div>
+                                //         //             </>
+                                //         //         )
+                                //         //     }
+                                //         // }
+                                //         // console.log("room", room);
+                                //         // // console.log("if",room.length);
+                                //         // const formattedRoomId = getFormattedRoomId(room[0].Floor_Id, room[0].Room_Id);
+                                //         // // console.log("room[0].Floor_Id", room[0].Floor_Id);
+                                //         // // console.log("room[0].Room_Id", room[0].Room_Id);
+                                //         // // console.log("stste", state);
+                                //         // return (
+                                //         //     <>
+                                //         //      <p className="card-title text-center" style={{ fontWeight: 600 }}>({room.length}) Rooms</p>
+                                //         //         <div className="col-4">
+                                //         //             <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }}>
+                                //         //                 <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
+                                //         //                 <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
+                                //         //                     {formattedRoomId}
+                                //         //                 </p>
+                                //         //             </div>
+                                //         //         </div>
+                                //         //     </>
+                                //         // )
+                                //     }
+
+                                // })
                             }
 
                             <div className="col-4">
-                                <div className="card  text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA", backgroundColor: "#cccccc11" }} onClick={handleShows}>
+                                <div className="card  text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA", backgroundColor: "#cccccc11" }} onClick={() => { handleShows() }}>
                                     <img src={Plus} className="pt-2 mb-0" height="25" width="15" alt='Room' />
                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px", fontWeight: 600 }} className="mb-0" >Create Room</p>
                                 </div>
@@ -238,28 +444,51 @@ function DashboardRoom(props) {
                     <div className="row column-gap-3 g-3 d-flex align-items-center ">
                         {roomDetails.map((room, index) => (
                             <>
-
-                                {roomDetailsFromState && roomDetailsFromState.some(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId)) && (
-                                    <div className="p-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
-                                        RoomId <strong>{room.roomId}</strong> is already exists &
-                                        available beds are <strong style={{ color: "white" }}>{roomDetailsFromState.find(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId))?.numberOfBeds}</strong>
+                                {
+                                    updateRoom === 'Add' &&
+                                    roomDetailsFromState && roomDetailsFromState.some(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId)) && (
+                                        <div className="p-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
+                                            RoomId <strong>{room.roomId}</strong> is already exists &
+                                            available beds are <strong style={{ color: "white" }}>{roomDetailsFromState.find(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId))?.numberOfBeds}</strong>
+                                        </div>
+                                    )
+                                }
+                                {
+                                    updateRoom === 'Edit' ?
+                                        <>
+                                            <div key={index} className="col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                                                <div className="form-group mb-4 p-2 d-flex flex-column">
+                                                    <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}><b>Room Number : </b></label>
+                                                    <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>{room.roomId}</label>
+                                                </div>
+                                            </div>
+                                            {/* <div key={index} className="col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                                    <div className="form-group mb-4 p-2 d-flex flex-column">
+                                        <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}><b>Number of Beds : </b></label>
+                                        <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>{room.numberOfBeds}</label>
                                     </div>
-                                )}
+    </div> */}
+                                        </>
+                                        :
+                                        <>
+                                            <div key={index} className="col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                                                <div className="form-group mb-4 ps-1">
+                                                    <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
+                                                    <input
+                                                        type="text"
+                                                        value={room.roomId}
+                                                        onChange={(e) => handleRoomIdChange(e.target.value, index)}
+                                                        className="form-control custom-border-bottom p-0"
+                                                        id={`roomNumber${index}`}
+                                                        placeholder="Enter here"
+                                                        style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </>
+                                }
 
-                                <div key={index} className="col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
-                                    <div className="form-group mb-4 ps-1">
-                                        <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
-                                        <input
-                                            type="text"
-                                            value={room.roomId}
-                                            onChange={(e) => handleRoomIdChange(e.target.value, index)}
-                                            className="form-control custom-border-bottom p-0"
-                                            id={`roomNumber${index}`}
-                                            placeholder="Enter here"
-                                            style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
-                                        />
-                                    </div>
-                                </div>
+
 
                                 <div key={`beds${index}`} className="col-lg-4 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
                                     <div className="form-group mb-4 ps-1">
@@ -297,7 +526,7 @@ function DashboardRoom(props) {
                             Cancel
                         </Button>
                         <Button variant="outline-primary" className='ms-2 me-2' size="sm" style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
-                            Save
+                            {updateRoom == 'Add' ? "Save" : "Update"}
                         </Button>
                     </div>
                 </Offcanvas.Body>

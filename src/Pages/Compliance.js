@@ -171,9 +171,9 @@ const Compliance = () => {
         title: editbtn ? 'Complaince Updated successfully' : 'Complaince Added successfully',
         confirmButtonText: "ok"
       }).then((result) => {
+        dispatch({ type: 'COMPLIANCE-LIST' })
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          dispatch({ type: 'COMPLIANCE-LIST' })
         }
       });
     }

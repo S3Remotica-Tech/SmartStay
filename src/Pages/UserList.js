@@ -33,7 +33,6 @@ function UserList() {
     boxShadow: 'none',
     fontWeight: 'bold',
     fontSize: "11px",
-    marginTop: "-13px"
   };
 
   const state = useSelector(state => state)
@@ -135,6 +134,7 @@ function UserList() {
   const handleRoomRent = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
     setRoomRent(e.target.value)
+    setBalanceDue(AdvanceAmount-e.target.value)
   }
   const handleBalanceDue = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
@@ -168,6 +168,21 @@ function UserList() {
   };
 
   const handleClose = () => {
+    setFirstname('');
+          setLastname('');
+          setAddress('');
+          setAadharNo('');
+          setPancardNo('');
+          setLicence('');
+          setPhone('');
+          setEmail('');
+          setHostel_Id('');
+          setFloor('');
+          setRooms('');
+          setAdvanceAmount('');
+          setRoomRent('');
+          setPaymentType('');
+          setBalanceDue('');
     setShowMenu(false);
     setUserClicked(false);
     setShowForm(false);
@@ -1333,9 +1348,20 @@ function UserList() {
                       />
                     </Form.Group>
                   </div> */}
-                  <div className='col lg-6 pt-2'>
+                  <div className='col lg-6'>
                     <Form.Label style={{ fontSize: '12px' }}>PaymentType</Form.Label>
                     <Form.Select
+                     id="form-selects"
+                      aria-label='Default select example'
+                      style={bottomBorderStyle}
+                      value={PaymentType}
+                      onChange={(e) => handlePaymentType(e)}
+                    >
+                      <option>Selected PaymentType</option>
+                      <option value="Cash">Cash</option>
+                      <option value="Online">Online</option>
+                    </Form.Select>
+                    {/* <Form.Select
                       aria-label='Default select example'
                       style={bottomBorderStyle}
                       value={PaymentType}
@@ -1344,9 +1370,9 @@ function UserList() {
                       <option>Selected PaymentType</option>
                       <option>Cash</option>
                       <option>Online</option>
-                    </Form.Select>
+                    </Form.Select> */}
                   </div>
-                  <div className='col lg-6'>
+                  {/* <div className='col lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px" }}>BalanceDue</Form.Label>
                       <FormControl
@@ -1355,6 +1381,14 @@ function UserList() {
                         value={BalanceDue} onChange={(e) => handleBalanceDue(e)}
                         style={bottomBorderStyle}
                       />
+                    </Form.Group>
+                  </div> */}
+                  <div className='col lg-6'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: "12px" }}>BalanceDue:</Form.Label>
+                      <h1 style={{ fontSize: "12px",backgroundColor:"#F6F7FB",padding:8 }}>{BalanceDue}</h1>
+                    
+                    
                     </Form.Group>
                   </div>
                 </div>
