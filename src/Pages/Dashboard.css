@@ -1,67 +1,72 @@
 .searchinput:focus {
-  box-shadow: none !important; 
-  border-color: #ced4da !important; 
+  box-shadow: none !important;
+  border-color: #ced4da !important;
 }
-.container{
-width:100%;
-display:block;
-flex-direction: row;
-justify-content: center;
-align-items: center;
+
+.container {
+  width: 100%;
+  display: block;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
-.content{
-    width:100%;
-    background-color:#FFFFFF;
+
+.content {
+  width: 100%;
+  background-color: #FFFFFF;
 }
-.custom-border-bottom{
+
+.custom-border-bottom {
   border-top: none;
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
-    /* width:400px; */
-    border-bottom: 1px solid lightgray;
-    font-weight: 700;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  border-bottom: 1px solid lightgray;
+  font-weight: 700;
 }
-#exampleInput1{
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
-    /* width:400px; */
-    border-bottom: 1px solid lightgray;
-    font-weight: 700;
-  }
-  
-  #exampleInput1 {
-    box-shadow: none;
-  }
 
-  .floor{
-    flex: 0 0 20% !important;
-  }
+#exampleInput1 {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  border-bottom: 1px solid lightgray;
+  font-weight: 700;
+}
 
-@media (max-width:650px){
-.container{
-    display:flex;
+#exampleInput1 {
+  box-shadow: none;
+}
+
+.floor {
+  flex: 0 0 20% !important;
+}
+
+@media (max-width:650px) {
+  .container {
+    display: flex;
     flex-direction: column;
+  }
+
+  .floor {
+    flex: 0 0 33.3% !important;
+  }
 }
-.floor{
-  flex: 0 0 33.3% !important;
-}
-}
-@media (max-width:500px){
-  .floor{
+
+@media (max-width:500px) {
+  .floor {
     flex: 0 0 100% !important;
   }
-  }
-  @media (min-width:500px)and (max-width:650px){
-    .floor{
-      flex: 0 0 50% !important;
-    }
-    }
+}
 
-    @media (max-width:768px){
-      .floor{
-        flex: 0 0 33.33% !important;
-      }
-      }
+@media (min-width:500px)and (max-width:650px) {
+  .floor {
+    flex: 0 0 50% !important;
+  }
+}
+
+@media (max-width:768px) {
+  .floor {
+    flex: 0 0 33.33% !important;
+  }
+}

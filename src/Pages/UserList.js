@@ -95,29 +95,27 @@ function UserList() {
     setLastname(e.target.value)
   }
   const handlePhone = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
+    dispatch({ type: 'CLEAR_ERROR' });
     setPhone(e.target.value)
+    const pattern = new RegExp(/^\d{1,10}$/);
+    const isValidMobileNo = pattern.test(e.target.value)
+    if (isValidMobileNo && e.target.value.length === 10) {
+      document.getElementById('MobileNumberError').innerHTML = ''
+    }
+    else {
+      document.getElementById('MobileNumberError').innerHTML = 'invalid mobile number *'
+    }
   }
   const handleHostelId = (e) => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } })
     setHostel_Id(e.target.value)
   }
-  // const handleFloor = (e) => {
-  //   dispatch({ type: 'CLEAR_ERROR' })
-  //   setFloor(e.target.value)
-  // }
-
   const handleFloor = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
     dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: e.target.value } })
     setFloor(e.target.value)
 
   }
-
-  // const handleRooms = (e) => {
-  //   dispatch({ type: 'CLEAR_ERROR' })
-  //   setRooms(e.target.value)
-  // }
 
   const handleRooms = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
@@ -132,10 +130,15 @@ function UserList() {
     setBed(e.target.value)
   }
   const handleRoomRent = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
-    setRoomRent(e.target.value)
-    setBalanceDue(AdvanceAmount-e.target.value)
-  }
+    dispatch({ type: 'CLEAR_ERROR' });
+
+    const roomRentValue = e.target.value;
+    setRoomRent(roomRentValue);
+
+    const newBalanceDue = AdvanceAmount - roomRentValue;
+    const BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+    setBalanceDue(BalanceDuelength);
+}
   const handleBalanceDue = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
     setBalanceDue(e.target.value)
@@ -155,6 +158,15 @@ function UserList() {
   const handleEmail = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
     setEmail(e.target.value)
+    const email = e.target.value
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const isValidEmail = emailRegex.test(email);
+    if (isValidEmail) {
+      document.getElementById('emailIDError').innerHTML = ''
+    }
+    else {
+      document.getElementById('emailIDError').innerHTML = 'invalid Email Id *'
+    }
   }
 
   const itemsPerPage = 7;
@@ -289,95 +301,6 @@ function UserList() {
       setFilteredData(filteredItems);
     }
   }
-  // const handleSaveUserlist = () => {
-  //   // Assuming these variables are coming from the component's state
-  //   // You should check if they are defined and not empty before proceeding
-  //   if (
-  //     firstname &&
-  //     lastname &&
-  //     Phone &&
-  //     Email &&
-  //     Address &&
-  //     AadharNo &&
-  //     PancardNo &&
-  //     licence &&
-  //     hostel_Id &&
-  //     Floor &&
-  //     Rooms &&
-  //     // bed &&
-  //     AdvanceAmount &&
-  //     RoomRent &&
-  //     BalanceDue &&
-  //     PaymentType
-  //   ) {
-  //     dispatch({
-  //       type: 'ADDUSER',
-  //       payload: {
-  //         firstname: firstname,
-  //         lastname: lastname,
-  //         Phone: Phone,
-  //         Email: Email,
-  //         Address: Address,
-  //         AadharNo: AadharNo,
-  //         PancardNo: PancardNo,
-  //         licence: licence,
-  //         hostel_Id: hostel_Id,
-  //         Floor: Floor,
-  //         Rooms: Rooms,
-  //         // bed: bed,
-  //         AdvanceAmount: AdvanceAmount,
-  //         RoomRent: RoomRent,
-  //         BalanceDue: BalanceDue,
-  //         PaymentType: PaymentType,
-  //         ID: edit === 'Edit' ? id : ''
-  //       },
-  //     });
-
-  //     // Checking for error message in the UsersList state
-  //     if (state.UsersList?.errorMessage?.length > 0) {
-  //       Swal.fire({
-  //         icon: 'warning',
-  //         title: state.UsersList.errorMessage,
-  //         confirmButtonText: 'Ok',
-  //       });
-  //     } else {
-  //       Swal.fire({
-  //         icon: 'success',
-  //         title: edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
-  //         text: 'You have been Created successfully!',
-  //         confirmButtonText: 'ok',
-  //       }).then((result) => {
-  //         if (result.isConfirmed) {
-  //           dispatch({ type: 'USERLIST' })
-  //           // Resetting form fields after successful save/update
-  //           setFirstname('');
-  //           setLastname('');
-  //           setAddress('');
-  //           setAadharNo('');
-  //           setPancardNo('');
-  //           setLicence('');
-  //           setPhone('');
-  //           setEmail('');
-  //           setHostel_Id('');
-  //           setFloor('');
-  //           setRooms('');
-  //           // setBed('');
-  //           setAdvanceAmount('');
-  //           setRoomRent('');
-  //           setPaymentType('');
-  //           setBalanceDue('');
-  //         }
-  //       });
-  //     }
-  //   } else {
-  //     Swal.fire({
-  //       icon: 'warning',
-  //       title: 'please Enter All Fields',
-  //       confirmButtonText: 'ok',
-  //     });
-  //   }
-  // };
-
   const handleSaveUserlist = () => {
     if (
       firstname &&
@@ -617,7 +540,7 @@ function UserList() {
 
 
 
-
+console.log("clickedUserData",clickedUserData);
 
   return (
     <div className='container p-2' >
@@ -767,350 +690,6 @@ function UserList() {
           </div>
         </div>
       </>}
-      {/* <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: "69vh" }}>
-
-        <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >
-          {edit === 'Add' ? "Add User" : "EditUser"}
-        </Offcanvas.Title>
-
-
-        <Offcanvas.Body>
-          <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
-            <div class="p-1 bd-highlight user-menu">
-
-              <ul className={showForm ? 'active' : ''} onClick={handleMenuClick}  >
-
-
-                User Details
-              </ul>
-            </div>
-            <div class="p-2 bd-highlight  user-menu">
-              <ul className={showForm ? '' : 'active'}
-                onClick={() => setShowForm(false)}
-
-              >KYC Details</ul>
-
-            </div>
-
-          </div>
-
-
-          {showForm ?
-            <Form >
-              <p style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
-
-
-              <div>
-
-                <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
-                  {file ? <>
-                    <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
-                  </> :
-                    <img src={Profile} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
-                  }
-                  <label htmlFor="imageInput" className=''>
-                    <img src={Plus} style={{ color: 'blue', position: 'absolute', bottom: '-5px', left: '48%', height: 20, width: 20 }} />
-                  </label>
-
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    className="sr-only"
-                    id="imageInput"
-                    onChange={handleImageChange}
-                    style={{ display: "none" }} />
-                </div>
-              </div>
-
-              <div className='container' style={{ marginTop: "30px" }}>
-
-                {
-                  <div>
-                    {state.UsersList.errorMessage?.length > 0 ? (
-                      <div>
-                        <label style={{ color: 'red', fontSize: 18 }}>{state.UsersList.errorMessage}</label>
-                        {setTimeout(() => {
-                          dispatch({
-                            type: 'CLEAR_ERROR_MESSAGE',  // Add an action to clear the error message in your reducer
-                          });
-                        }, 5000)}
-                      </div>
-                    ) : null}
-                  </div>
-                }
-                <div className='row' >
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>First Name</Form.Label>
-                      <FormControl
-
-                        type="text"
-                        value={firstname} onChange={(e) => handleFirstName(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Last Name</Form.Label>
-                      <FormControl
-                        type="text"
-                        value={lastname} onChange={(e) => handleLastName(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-                <div className='row'>
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
-                      <FormControl
-                        type="phone"
-                        id="phone"
-                        value={Phone} onChange={(e) => handlePhone(e)}
-                        style={bottomBorderStyle}
-                      />
-                      <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                    </Form.Group>
-                  </div>
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Email Id</Form.Label>
-                      <FormControl
-                        type="text"
-
-                        value={Email} onChange={(e) => handleEmail(e)}
-                        style={bottomBorderStyle}
-                      />
-                      <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                    </Form.Group>
-                  </div>
-                </div>
-                <div className='row'>
-                  <div className='col lg-12'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Address</Form.Label>
-                      <FormControl
-                        type="text"
-                        value={Address} onChange={(e) => handleAddress(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-                <div className='row'>
-                  <div className='col lg-12'>
-                    <Form.Label style={{ fontSize: "12px" }}>Select PG</Form.Label>
-                    <Form.Select aria-label="Default select example"
-                      style={bottomBorderStyle}
-                      value={hostel_Id} onChange={(e) => handleHostelId(e)}>
-                      <option>Select hostel</option>
-                      {
-                        state.UsersList?.hostelList?.map((item) => {
-                          return (
-                            <>
-
-                              <option value={item.id}>{item.Name}</option>
-                            </>
-                          )
-                        })
-                      }
-
-                    </Form.Select>
-                  </div>
-                </div>
-
-                <div className='row mt-2'>
-
-
-                  <div className='col lg-4'>
-                    <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
-                    <Form.Select aria-label="Default select example"
-                      style={bottomBorderStyle}
-                      value={Floor} onChange={(e) => handleFloor(e)}>
-                      <option>Selected Floor</option>
-                      {
-                        state.UsersList?.hosteldetailslist
-                          ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
-                          .map((u) => (
-                            <option key={u.Floor_Id}>{u.Floor_Id}</option>
-                          ))
-                      }
-                    </Form.Select>
-                  </div>
-
-
-
-
-                  <div className='col lg-4'>
-                    <Form.Label style={{ fontSize: '12px' }}>Select Room</Form.Label>
-                    <Form.Select
-                      aria-label='Default select example'
-                      style={bottomBorderStyle}
-                      value={Rooms}
-                      onChange={(e) => handleRooms(e)}
-                    >
-                      <option>Selected Room</option>
-                      {state.UsersList?.roomdetails
-                        ?.filter((item, index, self) => self.findIndex((i) => i.Room_Id === item.Room_Id) === index)
-                        .map((item) => (
-                          <option key={item.Room_Id}>{item.Room_Id}</option>
-                        ))}
-                    </Form.Select>
-                  </div>
-
-                </div>
-
-                <div className='row'>
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px", marginTop: "15px" }}>Advance Amount</Form.Label>
-                      <FormControl
-                        type="text"
-                        value={AdvanceAmount} onChange={(e) => handleAdvanceAmount(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px", marginTop: "15px" }}>Room Rent (Monthly)</Form.Label>
-                      <FormControl
-                        type="text"
-                        value={RoomRent} onChange={(e) => handleRoomRent(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-                <div className='row'>
-                <div className='col lg-6 pt-2'>
-                    <Form.Label style={{ fontSize: '12px' }}>PaymentType</Form.Label>
-                    <Form.Select
-                      aria-label='Default select example'
-                      style={bottomBorderStyle}
-                      value={PaymentType}
-                      onChange={(e) => handlePaymentType(e)}
-                    >
-                      <option>Selected PaymentType</option>
-                     <option>Cash</option>
-                     <option>Online</option>
-                    </Form.Select>
-                  </div>
-                  
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px", marginTop: "15px" }}>BalanceDue</Form.Label>
-                      <FormControl
-                        type="text"
-                        value={BalanceDue} onChange={(e) => handleBalanceDue(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-
-              </div>
-
-
-              <hr />
-              <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
-
-                <Button variant="white" size="sm" onClick={handleClose}>
-                  Cancel
-                </Button>
-                <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
-                  onClick={() => setShowForm(false)}>
-                  Next
-
-                </Button>
-
-              </div>
-
-            </Form>
-            :
-            <Form>
-
-
-
-
-              <div className='container' style={{ marginTop: "30px" }}>
-
-
-
-
-                <div className='row'>
-                  <div className='col lg-12'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Author Card Number</Form.Label>
-                      <FormControl
-                        type="text"
-                        value={AadharNo}
-                        onChange={(e) => handleAadharNo(e)}
-                        style={bottomBorderStyle}
-                        maxLength={12}
-                        pattern="\d*"
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-
-                <div className='row'>
-                  <div className='col lg-12'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Pan Card Number</Form.Label>
-                      <FormControl
-                        type="text"
-                        value={PancardNo} onChange={(e) => handlePancardNo(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-
-                <div className='row'>
-                  <div className='col lg-12'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Licence</Form.Label>
-                      <FormControl
-                        type="text"
-                        value={licence} onChange={(e) => handlelicence(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-
-
-
-
-
-              </div>
-
-
-              <hr />
-              <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
-
-                <Button variant="white" size="sm" onClick={handleClose}>
-                  Cancel
-                </Button>
-                <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
-                  {edit === 'Add' ? "Save" : "Update"}
-
-                </Button>
-
-              </div>
-
-            </Form>
-
-          }
-
-        </Offcanvas.Body>
-      </Offcanvas> */}
-
       <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: "69vh" }}>
 
         <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >
@@ -1337,17 +916,6 @@ function UserList() {
                   </div>
                 </div>
                 <div className='row'>
-                  {/* <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px", }}>PaymentType</Form.Label>
-                      <FormControl
-                        type="text"
-                        id="form-controls"
-                        value={PaymentType} onChange={(e) => handlePaymentType(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div> */}
                   <div className='col lg-6'>
                     <Form.Label style={{ fontSize: '12px' }}>PaymentType</Form.Label>
                     <Form.Select
@@ -1361,28 +929,7 @@ function UserList() {
                       <option value="Cash">Cash</option>
                       <option value="Online">Online</option>
                     </Form.Select>
-                    {/* <Form.Select
-                      aria-label='Default select example'
-                      style={bottomBorderStyle}
-                      value={PaymentType}
-                      onChange={(e) => handlePaymentType(e)}
-                    >
-                      <option>Selected PaymentType</option>
-                      <option>Cash</option>
-                      <option>Online</option>
-                    </Form.Select> */}
                   </div>
-                  {/* <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>BalanceDue</Form.Label>
-                      <FormControl
-                        type="text"
-                        id="form-controls"
-                        value={BalanceDue} onChange={(e) => handleBalanceDue(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div> */}
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px" }}>BalanceDue:</Form.Label>
@@ -1565,9 +1112,9 @@ function UserList() {
 
                   </div>
 
-                  <div class="d-flex">
+                  {/* <div class="d-flex">
                     <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline" }}> + Add Additional Address</p>
-                  </div>
+                  </div> */}
                   <div class="d-flex justify-content-between">
                     <p style={{ fontSize: "12px", fontWeight: '700' }} >KYC DETAIL</p>
 
@@ -1587,7 +1134,7 @@ function UserList() {
                   </div>
                   <div class="d-flex justify-content-between mb-3">
                     <p style={{ fontSize: "12px" }}>licence</p>
-                    <p style={{ fontSize: "12px" }}>{item.license}</p>
+                    <p style={{ fontSize: "12px" }}>{item.licence}</p>
                     <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
                   </div>
                 </div>

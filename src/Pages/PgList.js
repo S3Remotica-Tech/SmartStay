@@ -180,7 +180,6 @@ const [hostelIndex,setHostelIndex] = useState('')
 
 
   const handleCreateFloor = () => {
-    console.log("floorDetails",floorDetails);
     const floors = floorDetails.map((floor) => (
       { number_of_floors: parseInt(floor.number_of_floor)}));
     const phoneNumber = selectedHostel.hostel_PhoneNo.toString()
@@ -226,26 +225,17 @@ const [hostelIndex,setHostelIndex] = useState('')
   const handleHostelSelect = (hostelName) => {
     const selected = state.UsersList.hostelList.find((item,index) => {
       setHostelIndex(index)
-      console.log("index",index);
      return  item.Name === hostelName
     });
-    console.log("selected",selected);
     setSelectedHostel(selected);
   };
   useEffect(()=>{
-    // console.log("state...",state);
     const selected = state.UsersList.hostelList.find(item => item.Name === selectedHostel?.Name);
     setSelectedHostel(selected);
   },[state.UsersList.hostelList[hostelIndex]?.number_Of_Floor])
 
-  // console.log("updatedstate...",state);
-  //   useEffect(() => {
-  //     dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorID, hostel_Id: selectedHostel.id} })
-  // }, [floorID, selectedHostel.id, room_id])
-
   return (
     <>
-      {console.log("return")}
       <div className="d-flex justify-content-between p-3">
         <h4>Pg List</h4>
         <div className="d-flex justify-content-center align-items-center p-2">
@@ -460,11 +450,9 @@ const [hostelIndex,setHostelIndex] = useState('')
         </div>
 
         <div className="row row-cols-1 row-gap-3 row-cols-md-6 g-1 justify-content-evenly pt-5" >
-          {console.log("array")}
           {
+            selectedHostel.id &&
             Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
-              console.log("element", element);
-              console.log("selectedHostel.number_Of_Floor", selectedHostel.number_Of_Floor);
               // setFloorID(element + 1)
               return <DashboardRoomList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
             })}

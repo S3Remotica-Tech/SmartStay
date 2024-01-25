@@ -49,11 +49,6 @@ props.handleFloorList(props.index,roomList)
                         value={number_Of_Rooms}
                         onChange={(e) => {
                             setnumber_Of_Rooms(e.target.value)
-                            // props.setPgList({
-                            //     ...props.pgList,
-                            //     number_Of_Rooms: e.target.value
-                            //     // [`number_Of_Rooms_${floorNumber}`]: e.target.value,
-                            // });
                         }}
                     />
                 </div>

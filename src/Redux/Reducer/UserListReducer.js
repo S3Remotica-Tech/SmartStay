@@ -7,12 +7,10 @@ const initialState = {
     billPaymentHistory: [],
     number_of_floor: '',
     roomdetails: [],
-    message :''
+    message: ''
 }
 
 const UserListReducer = (state = initialState, action) => {
-    console.log("userlistReducer", action.payload);
-    // console.log("roomCount", state.roomCount);
     switch (action.type) {
         case 'CLEAR_ERROR_MESSAGE':
             return {
@@ -22,7 +20,7 @@ const UserListReducer = (state = initialState, action) => {
         case 'ROOM_DETAILS':
             return { ...state, roomdetails: action.payload }
         case 'CREATE_FLOOR':
-            return { ...state,message:action.payload.message, number_of_floor: action.payload.number_of_floors }
+            return { ...state, message: action.payload.message, number_of_floor: action.payload.number_of_floors }
         case 'BILL_PAYMENT_HISTORY':
             return { ...state, billPaymentHistory: action.payload }
         case 'USER_LIST':
@@ -36,40 +34,39 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, hostelList: action.payload }
         case 'HOSTEL_DETAIL_LIST':
             return { ...state, hosteldetailslist: action.payload }
-        // case 'ROOM_COUNT':    
-        //         return { ...state, roomCount:[ ...state.roomCount,action.payload]}
         case 'ROOM_COUNT':
-            console.log("action.payload", action.payload);
+            // tempArray has one index and array of object
+            // action.payload has a list of rooms based on the floor_id and hostel_id
             // state.roomCount=[]
             if (state.roomCount.length > 0) {
                 if (action.payload.length > 0) {
-                    let tempArray = state.roomCount.filter((item) => {
-                        console.log("item", item);
-                        return item[0]?.Floor_Id === action.payload[0].Floor_Id 
+                    let floor = action.payload[0].Floor_Id
+
+                    let index = state.roomCount.findIndex((item) => {
+                        return item[0]?.Floor_Id === floor
                     })
-                    if (tempArray.length > 0) {
-                        if (action.payload.length > 0) {
-                            let array = action.payload
-                            let i = 0
-                            do {
-                                array = action.payload.filter((item)=>{
-                                    return item.Room_Id !== tempArray[i].Room_Id
-                                })
+                    if (index < 0) {
+                        const temp = state.roomCount
+                        temp.push(action.payload)
+                        return { ...state, roomCount: temp }
+                    }
+                    else {
+                        state.roomCount[index] = action.payload
 
-                                i = i+ 1
-                            }
-                            while(tempArray.length > 0)
-                            console.log('array',array);
-                        }
-
-                       
-                        return { ...state }
+                        return state
                     }
 
+
+                }
+                else {
+                    return state
                 }
             }
-
-            return { ...state, roomCount: [...state.roomCount, action.payload] }
+            else {
+                const temp = state.roomCount
+                temp.push(action.payload)
+                return { ...state, roomCount: temp }
+            }
     }
     return state;
 }

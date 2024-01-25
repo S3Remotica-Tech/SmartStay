@@ -14,6 +14,7 @@ function CreateAccountPage() {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
+  console.log("state for create Account",state.createAccount)
   let navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
@@ -66,7 +67,7 @@ function CreateAccountPage() {
        navigate('/login-Page')
   }
 
-  const handleRoyal = () => {
+  const handleRoyal = async () => {
     if (!userName || !phoneNo || !emailID || !password) {
       Swal.fire({
         icon: 'warning',
@@ -79,38 +80,29 @@ function CreateAccountPage() {
       });
       return;
     } 
+
+    const phoneNumber = parseInt(phoneNo, 10);
+
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/;
     const isValidPassword = pattern.test(password);  
     if (!isValidPassword) {
       Swal.fire({
         icon: 'warning',
-        title: 'Invalid password. Please enter a valid password.',
+        title: 'Invalid password. Please Enter a valid password.',
         confirmButtonText: 'Ok'
       });
       return;
     }
   
-    // If all checks pass, proceed with account creation
-    dispatch({
+   dispatch({
       type: 'CREATE_ACCOUNT',
-      payload: { name: userName, mobileNo: phoneNo, emailId: emailID, password: password }
+      payload: { name: userName, mobileNo: phoneNumber, emailId: emailID, password: password }
     });
-  
-    Swal.fire({
-      icon: 'success',
-      title: state.createAccount?.accountMgs?.message,
-      text: 'You have been created successfully!',
-      confirmButtonText: 'Ok'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate('/login-Page');
-  
-        setUserName('');
-        setPhoneNo('');
-        setEmailID('');
-        setPassword('');
-      }
-    });
+    setUserName('');
+    setPhoneNo('');
+    setEmailID('');
+    setPassword('');
+     
   };
 
   return (
@@ -136,20 +128,20 @@ function CreateAccountPage() {
 
                 <div class="mb-2 mt-3" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginLeft: "20%" }}>
                   <label class="sr-only mb-0" style={{ fontSize: "12px", marginTop: "2%", fontWeight: "530" }}><b>Name or Business Name </b></label>
-                  <input class="name form-control mt-1" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "2%" }} type="name" id="name" placeholder="Enter Name or Business" name="name" value={userName} onChange={(e) => { setUserName(e.target.value) }} />
+                  <input class="name form-control mt-1" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "2%",boxShadow:"none" }} type="name" id="name" placeholder="Enter Name or Business" name="name" value={userName} onChange={(e) => { setUserName(e.target.value) }} />
                 </div>
 
                 <div className="secondrow mt-3 mb-2" style={{ marginLeft: "20%" }}>
 
                   <div className="mobphno" style={{ display: "flex", flexDirection: "column", alignItems: 'start', marginRight: "4%" }}>
                     <label class="sr-only" style={{ fontSize: "12px", marginTop: "2%", fontWeight: "530" }}><b>Phone Number</b></label>
-                    <input class="phone form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%" }} type="phone" id="phone" placeholder="Enter Phone Number" name="Phone" value={phoneNo} onChange={(e) => { handlePhoneNo(e) }} />
+                    <input class="phone form-control mt-1" maxLength={10} style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%",boxShadow:"none" }} type="phone" id="phone" placeholder="Enter Phone Number" name="Phone" value={phoneNo} onChange={(e) => { handlePhoneNo(e) }} />
                     <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
                   </div>
 
                   <div className="mobphno" style={{ display: "flex", flexDirection: "column", alignItems: 'start' }}>
                     <label class="sr-only" style={{ fontSize: "12px", marginTop: "2%", fontWeight: "530" }}><b>Email Id</b></label>
-                    <input class="email form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%" }} type="email" id="email" placeholder="Enter Email Id" name="email" value={emailID} onChange={(e) => { handleEmailID(e) }} />
+                    <input class="email form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%",boxShadow:"none" }} type="email" id="email" placeholder="Enter Email Id" name="email" value={emailID} onChange={(e) => { handleEmailID(e) }} />
                     <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
                   </div>
 
@@ -158,7 +150,7 @@ function CreateAccountPage() {
 
                 <div class="mb-2" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "12", marginLeft: "20%" }}>
                   <label class="sr-only" style={{ fontSize: "12px", marginTop: "2%", fontWeight: "530" }}><b>Password</b></label>
-                  <input class="form-control" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "1%" }} type={showPassword ? 'text' : 'password'} id="pwd" placeholder="Enter password" name="pwd" value={password} onChange={(e) => { handlePassword(e) }} />
+                  <input class="form-control" style={{ width: "80%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "1%",boxShadow:"none" }} type={showPassword ? 'text' : 'password'} id="pwd" placeholder="Enter password" name="pwd" value={password} onChange={(e) => { handlePassword(e) }} />
                  
                   <div
                   

@@ -166,9 +166,9 @@ function RoomDetails() {
                             <p class="mb-1" style={{ fontSize: "12px" }}>Salem, TamilNadu -36001</p>
                         </div>
 
-                        <div class="d-flex">
+                        {/* <div class="d-flex">
                             <p style={{ color: "#0D99FF", fontSize: "13px" }}>Add Additional Address</p>
-                        </div>
+                        </div> */}
                         <div class="d-flex justify-content-between">
                             <p style={{ fontSize: "12px", fontWeight: '700' }} >KYC DETAIL</p>
                             <img src={Edits} style={{ height: "18px", width: "18px" }} alt='Edits'/>

@@ -13,15 +13,6 @@ function* handleuserlist() {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
 }
-// function* handleAddUser(datum) {
-//    const response = yield call(addUser, datum.payload);
-//    if (response.status === 200) {
-//       yield put({ type: 'ADD_USER', payload: response.data })
-//    }
-//    else {
-//       yield put({ type: 'ERROR', payload: response.data.message })
-//    }
-// }
 function* handleHostelList() {
    const response = yield call(hostelList)
    if (response.status === 200) {
@@ -33,9 +24,11 @@ function* handleHostelList() {
 }
 
 function* handleNumberOfRooms(ID) {
+   console.log("payload", ID)
    const response = yield call(roomsCount, ID.payload)
    if (response.status === 200) {
       yield put({ type: 'ROOM_COUNT', payload: response.data })
+      yield put({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: 'CREATED SUCCESSFULLT'})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -66,11 +59,6 @@ function* handleCreateFloor(data) {
    const response = yield call(createFloor,data.payload);
    if (response.status === 200) {
       yield put({ type: 'CREATE_FLOOR', payload: response.data })
-      // Swal.fire({
-      //    icon: 'success',
-      //    title: 'Create Floor details saved Successfully',
-      //    timer:1000,
-      //           });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -87,46 +75,32 @@ function* handleRoomsDetails(ID) {
    }
 }
 
-// function* handleAddUser(datum) {
-//    const response = yield call(addUser, datum.payload);
-//    if (response.status === 200) {
-//       yield put({ type: 'ADD_USER', payload: response.data })
-//    }
-//    else if(response.status === 202) {
 
-//           Swal.fire({
-//             icon: 'warning',
-//             title: "Phone Number Already Exist",
-//             confirmButtonText: 'Ok',
-//           });
-             
-//    }else{
-//       yield put({ type: 'ERROR', payload: response.data.message })
-//    }
-// }
 function* handleAddUser(datum) {
-   const response = yield call(addUser, datum.payload);
-   if (response.status === 200) {
-      yield put({ type: 'ADD_USER', payload: response.data })
+   console.log("datum......",datum.payload)
+      const response = yield call(addUser, datum.payload);
+      if (response.status === 200) {
+         yield put({ type: 'ADD_USER', payload: response.data })
+      }
+      else if(response.status === 202) {
+         Swal.fire({
+            icon: 'warning',
+           title: 'Error',
+           html: `<span style="color: red">${datum.payload.Phone}</span> is already exist in the database`,
+           
+         });
+      }
+      else if(response.status === 203) {
+         Swal.fire({
+           icon: 'warning',
+           title: 'Error',
+           html: `<span style="color: red">${datum.payload.Email}</span> is already exist in the database`,
+         });
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
    }
-   else if(response.status === 202) {
-      Swal.fire({
-         icon: 'warning',
-         title: "Phone Number Already Exist",
-         confirmButtonText: 'Ok',
-      });
-   }
-   else if(response.status === 203) {
-      Swal.fire({
-         icon: 'warning',
-         title: "Email Already Exist",
-         confirmButtonText: 'Ok',
-      });
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-}
 
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)

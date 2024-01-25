@@ -43,7 +43,8 @@ function SelectedHostelFloorList(props) {
 
 
     useEffect(() => {
-        dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID } })
+        //dispatch({ type: 'ROOM----COUNT', payload: { floor_Id: props.floorID } })
+        dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
     }, [props.floorID])
 
 

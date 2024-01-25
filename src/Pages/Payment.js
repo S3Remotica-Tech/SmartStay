@@ -4,9 +4,7 @@ import Paytm from '../Assets/Images/Paytm.jpg';
 import Easypay from '../Assets/Images/Easypay.jpg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Payment.css";
-
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 
 
 

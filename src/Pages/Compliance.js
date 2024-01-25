@@ -15,24 +15,40 @@ import TextField from '@mui/material/TextField';
 import Profile from '../Assets/Images/Profile.jpg';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 const Compliance = () => {
 
-  const [data, setData] = useState([]);
+  useEffect(() => {
+    dispatch({ type: 'COMPLIANCE-LIST' })
+  }, [])
+
   const state = useSelector(state => state)
   const dispatch = useDispatch()
+  const [data, setData] = useState(state.ComplianceList.Compliance);
+
+  useEffect(() => {
+    setData(state.ComplianceList.Compliance)
+  }, [state.ComplianceList.Compliance])
 
   const [id, setId] = useState('')
   const [Name, setName] = useState('');
   const [Phone, setPhone] = useState('');
   const [Requestid, setRequestid] = useState('')
-  const [Roomdetail, setRoomdetail] = useState('');
   const [Complainttype, setComplainttype] = useState('');
   const [Assign, setAssign] = useState('');
   const [showMessage, setShowMessage] = useState(false);
   const [Status, setStatus] = useState('')
   const [date, setDate] = useState();
   const [editbtn, setEditbtn] = useState(false)
+
+  const [hostel_Id, setHostel_Id] = useState('')
+  const [Floor, setFloor] = useState('')
+  const [Rooms, setRooms] = useState('')
 
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,11 +70,24 @@ const Compliance = () => {
   const [filtericon, setFiltericon] = useState(false)
 
   const [statusfilter, setStatusfilter] = useState('')
-
   useEffect(() => {
-    dispatch({ type: 'COMPLIANCE-LIST' })
-    setData(state.ComplianceList.Compliance)
+    dispatch({ type: 'HOSTELLIST' })
+
   }, [])
+
+  const bottomBorderStyle = {
+    border: 'none',
+    borderBottom: '1px solid #ced4da',
+    borderRadius: '0',
+    boxShadow: 'none',
+    fontWeight: 'bold',
+    fontSize: "11px",
+  };
+
+  const handleHostelId = (e) => {
+    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } })
+    setHostel_Id(e.target.value)
+  }
 
   const handleImageChange = (event) => {
     const fileimgage = event.target.files[0];
@@ -100,10 +129,12 @@ const Compliance = () => {
     setName('')
     setPhone('')
     setRequestid('')
-    setRoomdetail('')
     setComplainttype('')
     setAssign('')
     setDate('')
+    setHostel_Id('')
+    setFloor('')
+    setRooms('')
     setStatus('')
   };
 
@@ -116,6 +147,17 @@ const Compliance = () => {
   const handleFormclose = () => {
     handleMenuClick();
     setShowMenu(false);
+    setId('')
+    setName('')
+    setPhone('')
+    setRequestid('')
+    setComplainttype('')
+    setAssign('')
+    setDate('')
+    setStatus('')
+    setHostel_Id('')
+    setFloor('')
+    setRooms('')
   }
 
   const handlePhone = (e) => {
@@ -143,29 +185,34 @@ const Compliance = () => {
     setName(item.Name)
     setPhone(item.Phone)
     setRequestid(item.Requestid)
-    setRoomdetail(item.Roomdetail)
     setComplainttype(item.Complainttype)
     setAssign(item.Assign)
     setDate('')
     setStatus(item.Status)
+    setHostel_Id(item.Hostel_id)
+    setFloor(item.Floor_id)
+    setRooms(item.Room)
     handleMenuClick();
     setShowMenu(true);
   }
 
   const handleSubmit = () => {
-    if (Name && Phone && Requestid && Roomdetail && Complainttype && Assign && Status && date) {
-      dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: Name, Phone: Phone, Requestid: Requestid, Roomdetail: Roomdetail, Complainttype: Complainttype, Assign: Assign, Status: Status, date: date,  id :editbtn ? id : '' } })
+    if (Name && Phone && Requestid && Complainttype && Assign && Status && date && hostel_Id && Floor && Rooms) {
+      dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: Name, Phone: Phone, Requestid: Requestid, Complainttype: Complainttype, Assign: Assign, Status: Status, date: date, id: editbtn ? id : '', Hostel_id: hostel_Id, Floor_id: Floor, Room: Rooms } })
       setId('')
       setName('')
       setPhone('')
       setRequestid('')
-      setRoomdetail('')
       setComplainttype('')
       setAssign('')
       setDate('')
       setStatus('')
+      setHostel_Id('')
+      setFloor('')
+      setRooms('')
       setShowMessage(true)
       dispatch({ type: 'COMPLIANCE-LIST' })
+      setShowMenu(false);
       Swal.fire({
         icon: "success",
         title: editbtn ? 'Complaince Updated successfully' : 'Complaince Added successfully',
@@ -193,16 +240,16 @@ const Compliance = () => {
   const handleInputChange = (e) => {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
-if(searchTerm != ''){
-  const filteredItems = state.ComplianceList.Compliance.filter((user) =>
-  user.Name.toLowerCase().includes(searchTerm.toLowerCase())
-);
+    if (searchTerm != '') {
+      const filteredItems = state.ComplianceList.Compliance.filter((user) =>
+        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 
-setData(filteredItems); 
-}
- else{
-  setData(state.ComplianceList.Compliance)
- }  
+      setData(filteredItems);
+    }
+    else {
+      setData(state.ComplianceList.Compliance)
+    }
   }
 
   const handleiconshow = () => {
@@ -322,14 +369,81 @@ setData(filteredItems);
                     '& > :not(style)': { m: 0.6, width: '22ch' },
                   }}
                 >
-                  <TextField id="standard-basic" label="Request Id" value={Requestid} onChange={(e) => { setRequestid(e.target.value) }} variant="standard" style={{ m: 1, width: '19ch' }} sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Name" value={Name} onChange={(e) => { setName(e.target.value) }} variant="standard" style={{ m: 1, width: '19ch' }} sx={{ '& > :not(style)': { paddingTop: "10px", fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Phone Number" value={Phone} onChange={(e) => { handlePhone(e) }} variant="standard" style={{ m: 1, width: '19ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Room Details" value={Roomdetail} onChange={(e) => { setRoomdetail(e.target.value) }} variant="standard" style={{ m: 1, width: '19ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Complaint Type" value={Complainttype} onChange={(e) => { setComplainttype(e.target.value) }} variant="standard" style={{ m: 1, width: '19ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '19ch', marginBottom: '20px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="status" value={Status} onChange={(e) => { setStatus(e.target.value) }} variant="standard" style={{ m: 1, width: '19ch', marginTop: '-10px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" type='date' value={date} onChange={(e) => { handleDatePicker(e) }} variant="standard" style={{ m: 1, width: '19ch', marginTop: '5px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+
+                  <TextField id="standard-basic" label="Request Id" value={Requestid} onChange={(e) => { setRequestid(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '0px' }} sx={{ '& > :not(style)': { paddingTop: "5px", fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField id="standard-basic" label="Name" value={Name} onChange={(e) => { setName(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField id="standard-basic" label="Phone Number" value={Phone} onChange={(e) => { handlePhone(e) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '8px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+
+
+
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 100 }}>
+                    <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select PG</InputLabel>
+                    <Select
+                      id="standard-basic"
+                      variant="standard"
+
+                      value={hostel_Id}
+                      onChange={(e) => handleHostelId(e)}
+                      label="Select PG"
+                    >
+
+                      {state.UsersList?.hostelList?.map((item) => (
+                        <MenuItem key={item.Name} value={item.id}>
+                          {item.Name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select Floor</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-standard-label"
+                      id="demo-simple-select-standard"
+                      label="Select Floor"
+                      value={Floor}
+                      onChange={(e) => setFloor(e.target.value)}
+                    >
+                      <MenuItem value="none">
+                        <em>None</em>
+                      </MenuItem>
+                      {state.UsersList?.hosteldetailslist
+                        ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
+                        .map((u) => (
+                          <MenuItem key={u.Floor_Id} value={u.Floor_Id}>
+                            {u.Floor_Id}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select Room No</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-standard-label"
+                      id="demo-simple-select-standard"
+                      label="Select Room No"
+                      value={Rooms}
+                      onChange={(e) => setRooms(e.target.value)}
+                    >
+                      <MenuItem value="none">
+                        <em>None</em>
+                      </MenuItem>
+                      {state.UsersList?.hosteldetailslist
+                        ?.filter(item => item.Floor_Id === Floor)
+                        .map((item) => (
+                          <MenuItem key={item.Room_Id} value={item.Room_Id}>
+                            {item.Room_Id}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+
+
+                  <TextField id="standard-basic" label="Complaint Type" value={Complainttype} onChange={(e) => { setComplainttype(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginBottom: '20px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField id="standard-basic" label="status" value={Status} onChange={(e) => { setStatus(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '-10px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField id="standard-basic" type='date' value={date} onChange={(e) => { handleDatePicker(e) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '5px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
 
                 </Box>
                 {
@@ -355,7 +469,6 @@ setData(filteredItems);
             <th style={{ color: "#91969E" }}>Date</th>
             <th style={{ color: "#91969E" }}>Request ID</th>
             <th style={{ color: "#91969E" }}>Name & Phone</th>
-            <th style={{ color: "#91969E" }}>Room Detail</th>
             <th style={{ color: "#91969E" }}>Compliant Type</th>
             <th style={{ color: "#91969E" }}>Assign</th>
             <th style={{ color: "#91969E" }}>Status</th>
@@ -376,7 +489,6 @@ setData(filteredItems);
                   </div>
                 </div>
               </td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.Roomdetail}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
               <td style={item.Status.toUpperCase() == "SUCCESS" ? { color: "green" } : { color: "red" }}>{item.Status}</td>

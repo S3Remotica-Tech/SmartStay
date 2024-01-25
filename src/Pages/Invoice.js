@@ -14,7 +14,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 const InvoicePage = () => {
-  
+
   //offcanvas style
   const bottomBorderStyle = {
     border: 'none',
@@ -33,7 +33,7 @@ const InvoicePage = () => {
   const [isUserClicked, setUserClicked] = useState(true);
 
   const [file, setFile] = useState(null)
-  const d= new Date();  
+  const d = new Date();
   const [invoiceList, setInvoiceList] = useState({
     firstName: '',
     lastName: '',
@@ -41,7 +41,7 @@ const InvoicePage = () => {
     email: '',
     amount: '',
     balanceDue: '',
-    dueDate: new Date(d.getFullYear(), d.getMonth()+1, 0)
+    dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
   })
 
   const state = useSelector(state => state)
@@ -52,9 +52,9 @@ const InvoicePage = () => {
     dispatch({ type: 'INVOICELIST' })
     setData(state.InvoiceList.Invoice)
   }, [])
-  useEffect(()=>{
+  useEffect(() => {
     setData(state.InvoiceList.Invoice)
-  },[state.InvoiceList.Invoice])
+  }, [state.InvoiceList.Invoice])
 
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,7 +74,7 @@ const InvoicePage = () => {
       setFile(fileimgage);
     }
   };
- 
+
   const handlePhoneNo = (e) => {
     const result = e.target.value.replace(/\D/g, '');
     const phoneError = document.getElementById("phoneError");
@@ -125,7 +125,7 @@ const InvoicePage = () => {
       email: '',
       amount: '',
       balanceDue: '',
-      dueDate: new Date(d.getFullYear(), d.getMonth()+1, 0)
+      dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
     })
     setShowMenu(false);
     setUserClicked(false);
@@ -143,8 +143,8 @@ const InvoicePage = () => {
         phone: item.phoneNo,
         email: item.EmailID,
         amount: item.Amount,
-        balanceDue: item.BalanceDue,
-        dueDate: new Date(d.getFullYear(), d.getMonth()+1, 0)
+        balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
+        dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
       })
     }
     else {
@@ -189,17 +189,19 @@ const InvoicePage = () => {
   const [searchicon, setSearchicon] = useState(false);
 
   const handleiconshow = () => {
-    console.log("randomNumberInRange",randomNumberInRange(1,new Date()));
+    console.log("randomNumberInRange", randomNumberInRange(1, new Date()));
     setSearchicon(!searchicon)
     setFiltericon(false)
   }
 
 
   const handleSaveInvoiceList = () => {
+    const invoiceNo = randomNumberInRange(1, new Date())
+    console.log("editOption == 'Add' && invoiceNo", editOption == 'Add' && invoiceNo);
     if (invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue) {
       dispatch({
         type: 'ADDINVOICEDETAILS',
-        payload: { Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue, DueDate: invoiceList.dueDate, Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '' }
+        payload: { Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue, DueDate: invoiceList.dueDate, invoiceNo: editOption == 'Add' ? invoiceNo : '', Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '' }
       })
       setData(state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem))
       setInvoiceList({
@@ -209,7 +211,7 @@ const InvoicePage = () => {
         email: '',
         amount: '',
         balanceDue: '',
-        dueDate: new Date(d.getFullYear(), d.getMonth()+1, 0)
+        dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
       })
       Swal.fire({
         icon: "success",
@@ -225,7 +227,7 @@ const InvoicePage = () => {
             email: '',
             amount: '',
             balanceDue: '',
-            dueDate: new Date(d.getFullYear(), d.getMonth()+1, 0)
+            dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
           })
           handleClose()
 
@@ -265,12 +267,10 @@ const InvoicePage = () => {
   }
 
   const randomNumberInRange = (min, max) => {
-    const invoice = 'SSN' + (Math.floor(Math.random()
-    * (max - min + 1)) + min);
-return invoice
-    // return 'SSN' + Math.floor(Math.random()
-    //     * (max - min + 1)) + min;
-};
+    const invoice = 'SSN#' + (Math.floor(Math.random()
+      * (max - min + 1)) + min);
+    return invoice
+  };
 
   return (
     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
@@ -284,7 +284,7 @@ return invoice
         <div class="col-lg-6  offset-lg-4 col-md-6 col-sm-12 col-xs-12">
           <div class="p-1 d-flex justify-content-end align-items-center"  >
 
-          {
+            {
               searchicon &&
               <>
                 <input
@@ -299,11 +299,11 @@ return invoice
               </>
             }
             <BsSearch class=" me-4" onClick={handleiconshow} />
-             {
+            {
               filtericon &&
               <>
-                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} 
-                class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
+                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)}
+                  class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
                 >
                   <option selected value="ALL"> ALL</option>
                   <option value="Success">Success</option>
@@ -320,36 +320,36 @@ return invoice
       </div>
       <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: "69vh" }}>
         <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >{editOption == 'Add' ? "Add Invoice" : "Edit Invoice"}</Offcanvas.Title>
-<Offcanvas.Body>
+        <Offcanvas.Body>
           <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
             <div class="p-1 bd-highlight user-menu">
               <ul className={isUserClicked ? 'active' : ''} onClick={handleMenuClick}>
                 User Details
               </ul>
-            </div>            
+            </div>
           </div>
           {showForm && (
             <Form>
-                    <p style={{ textAlign: 'center', marginTop: '-20px' }}>Upload Profile</p>
-                <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
-                  {file ? <>
-                    <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
-                  </> :
-                    <img src={Profile} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
-                  }
-                  <label htmlFor="imageInput" className=''>
-                    <img src={Plus} style={{ color: 'blue', position: 'absolute', bottom: '-5px', left: '48%', height: 20, width: 20 }} />
-                  </label>
+              <p style={{ textAlign: 'center', marginTop: '-20px' }}>Upload Profile</p>
+              <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
+                {file ? <>
+                  <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
+                </> :
+                  <img src={Profile} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
+                }
+                <label htmlFor="imageInput" className=''>
+                  <img src={Plus} style={{ color: 'blue', position: 'absolute', bottom: '-5px', left: '48%', height: 20, width: 20 }} />
+                </label>
 
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    className="sr-only"
-                    id="imageInput"
-                    onChange={handleImageChange}
-                    style={{ display: "none" }} />
-                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="sr-only"
+                  id="imageInput"
+                  onChange={handleImageChange}
+                  style={{ display: "none" }} />
+              </div>
               <div className='container' style={{ marginTop: "30px" }}>
                 <div className='row'>
                   <div className='col lg-6'>
@@ -459,7 +459,7 @@ return invoice
                 <div class="d-flex">
                   {/* <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name && item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1, 0)}</p></span> */}
                   <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name && item.Name.split(" ")[0].slice(0, 1, 0).toUpperCase()}{item.Name.split(" ")[1] && item.Name.split(" ")[1].slice(0, 1).toUpperCase()}</p></span>
-                  
+
                   <div class="ms-2">
                     <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
                     <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.phoneNo}</label>
