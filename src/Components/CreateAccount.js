@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,6 +25,15 @@ function CreateAccountPage() {
   const togglePasswordVisibility = () => {
     setShowpassword(!showPassword);
   };
+
+  useEffect(() => {
+    if (state.createAccount.accountMgs.data && state.createAccount.accountMgs.data.statusCode === 200) {
+      setUserName('');
+      setPhoneNo('');
+      setEmailID('');
+      setPassword('');
+    }
+  }, [state.createAccount.accountMgs.data]);
 
   const handlePhoneNo = (e) => {
     setPhoneNo(e.target.value);

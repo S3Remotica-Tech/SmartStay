@@ -39,6 +39,9 @@ const InvoicePage = () => {
     lastName: '',
     phone: '',
     email: '',
+    hostel_Id:'',
+    FloorNo:'',
+    RoomNo:'',
     amount: '',
     balanceDue: '',
     dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
@@ -193,7 +196,25 @@ const InvoicePage = () => {
     setSearchicon(!searchicon)
     setFiltericon(false)
   }
+  const handleHostelId = (e) => {
+    console.log("e.target.value", e.target.value)
+    const selectedHostel = state.UsersList.hostelList.filter(item => item.id == e.target.value);
+    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } });
+    setInvoiceList({...invoiceList,hostel_Id:e.target.value})
+  }
 
+  const handleFloor = (e) => {
+    dispatch({ type: 'CLEAR_ERROR' })
+    dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: invoiceList.hostel_Id, floor_Id: e.target.value } })
+    setInvoiceList({...invoiceList,FloorNo:e.target.value})
+
+  }
+
+  const handleRooms = (e) => {
+    dispatch({ type: 'CLEAR_ERROR'})
+    setInvoiceList({...invoiceList,RoomNo:e.target.value})
+
+  }
 
   const handleSaveInvoiceList = () => {
     const invoiceNo = randomNumberInRange(1, new Date())
@@ -201,7 +222,10 @@ const InvoicePage = () => {
     if (invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue) {
       dispatch({
         type: 'ADDINVOICEDETAILS',
-        payload: { Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue, DueDate: invoiceList.dueDate, invoiceNo: editOption == 'Add' ? invoiceNo : '', Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '' }
+        payload: { Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue,
+        DueDate: invoiceList.dueDate, invoiceNo: editOption == 'Add' ? invoiceNo : '', 
+        hostel_Id:invoiceList.hostel_Id,Floor_Id:invoiceList.FloorNo,RoomNo:invoiceList.RoomNo,
+        Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '' }
       })
       setData(state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem))
       setInvoiceList({
@@ -396,6 +420,63 @@ const InvoicePage = () => {
                     />
                   </Form.Group>
                   <p id='emailError' style={{ color: 'red', fontSize: 14 }}></p>
+                </div>
+                <div className='row mb-3'>
+                  <div className='col-lg-12'>
+                    <Form.Label style={{ fontSize: "12px" }}>Select PG</Form.Label>
+                    <Form.Select aria-label="Default select example"
+                      style={bottomBorderStyle}
+                      id="form-selects"
+                      value={invoiceList.hostel_Id} onChange={(e) => handleHostelId(e)}>
+                      <option>Select hostel</option>
+                      {
+                        state.UsersList?.hostelList?.map((item) => {
+                          return (
+                            <>
+
+                              <option value={item.id}>{item.Name}</option>
+                            </>
+                          )
+                        })
+                      }
+
+                    </Form.Select>
+                  </div>
+                </div>
+                <div className='row mb-3'>
+                  <div className='col-lg-6'>
+                    <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
+                    <Form.Select aria-label="Default select example"
+                      style={bottomBorderStyle}
+                      id="form-selects"
+                      value={invoiceList.FloorNo} onChange={(e) => handleFloor(e)}>
+                      <option>Selected Floor</option>
+                      {
+                        state.UsersList?.hosteldetailslist
+                          ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
+                          .map((u) => (
+                            <option key={u.Floor_Id}>{u.Floor_Id}</option>
+                          ))
+                      }
+                    </Form.Select>
+                  </div>
+                  <div className='col-lg-6'>
+                    <Form.Label style={{ fontSize: '12px' }}>Select Room</Form.Label>
+                    <Form.Select
+                      aria-label='Default select example'
+                      style={bottomBorderStyle}
+                      value={invoiceList.RoomNo}
+                      id="form-selects"
+                      onChange={(e) => handleRooms(e)}
+                    >
+                      <option>Selected Room</option>
+                      {state.UsersList?.roomdetails
+                        ?.filter((item, index, self) => self.findIndex((i) => i.Room_Id === item.Room_Id) === index)
+                        .map((item) => (
+                          <option key={item.Room_Id}>{item.Room_Id}</option>
+                        ))}
+                    </Form.Select>
+                  </div>
                 </div>
                 <div className='row'>
                   <div className='col lg-6'>

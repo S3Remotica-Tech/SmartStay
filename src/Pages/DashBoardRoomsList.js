@@ -9,6 +9,8 @@ import { TiDeleteOutline } from "react-icons/ti";
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import BedDetails from './Bed';
 
 function getFloorName(floor_Id) {
     if (floor_Id === 1) {
@@ -42,10 +44,6 @@ function getFloorName(floor_Id) {
         return `${floor_Id - 1}${suffix} Floor`;
     }
 }
-
-
-
-
 
 function getFormattedRoomId(floor_Id, room_Id) {
     const roomIdString = String(room_Id);
@@ -85,12 +83,9 @@ function getFloorAbbreviation(floor_Id) {
 }
 
 
-
-
-
-
 function DashboardRoom(props) {
 
+    const navigate = useNavigate();
     const noOfFloor = Number(props.floorID) + Number(props.floorID);
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -108,8 +103,8 @@ function DashboardRoom(props) {
     const [roomCount, setRoomCount] = useState([])
 
     useEffect(() => {
-        setRoomCount(state.UsersList.roomCount)
-    }, [state.UsersList.roomCount])
+        setRoomCount(state.PgList.roomCount)
+    }, [state.PgList.roomCount])
 
     useEffect(() => {
         console.log("RoomCount",props.hostel_Id);
@@ -211,13 +206,18 @@ function DashboardRoom(props) {
                 title: 'Please enter at least one valid room.',
             });
         }
-        setRoomCount(state.UsersList.roomCount)
+        setRoomCount(state.PgList.roomCount)
     };
     const handleRemoveRoomDetails = (indexToRemove) => {
         setRoomDetails((prevDetails) => prevDetails.filter((_, index) => index !== indexToRemove));
     };
     const arr = [];
     console.log("state", state);
+const handleRoomDetails = () =>{
+console.log("Click RoomDetails");
+navigate('/Bed')
+}
+
     return (
         <>
             <div className="col-lg-2 col-md-4  col-sm-12 col-xs-12 col-12">
@@ -228,8 +228,8 @@ function DashboardRoom(props) {
 
                     <div className="card-body">
                         <p className="card-title text-center" style={{ fontWeight: 600 }}>({arr || 0}) Rooms</p>
-                        {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.UsersList.roomCount[props.floorID - 1] && state.UsersList.roomCount[props.floorID - 1].length > 0 ? state.UsersList.roomCount[props.floorID - 1].length : 0}) Rooms</p> */}
-                        {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.UsersList.roomCount[props.floorID - 1].length >0 ? state.UsersList.roomCount[props.floorID - 1].length : 0}) Rooms</p> */}
+                        {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.PgList.roomCount[props.floorID - 1] && state.PgList.roomCount[props.floorID - 1].length > 0 ? state.PgList.roomCount[props.floorID - 1].length : 0}) Rooms</p> */}
+                        {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.PgList.roomCount[props.floorID - 1].length >0 ? state.PgList.roomCount[props.floorID - 1].length : 0}) Rooms</p> */}
 
                         <div className="row  row-gap-3  pe-3">
                             {
@@ -250,7 +250,7 @@ function DashboardRoom(props) {
                                                                 {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({room.length}) Rooms</p> */}
                                                                 <div className="col-4"
                                                                     key={val.id}>
-                                                                    <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }} onClick={() => { handleShows(val, index) }}>
+                                                                    <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }} onClick={() => { handleRoomDetails()}}>
                                                                         <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
                                                                         <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
                                                                             {formattedRoomId}

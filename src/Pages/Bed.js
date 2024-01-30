@@ -7,6 +7,7 @@ import Room from '../Assets/Images/Room.png';
 
 
 function BedDetails() {
+  console.log("bedDetails");
   const [floors, setFloors] = useState([
     {
       name: 'Ground Floor',

@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import BedDetails from './Pages/Bed';
+import DashboardRoomList from './Pages/DashBoardRoomsList';
 
 function App() {
 
@@ -27,12 +28,16 @@ function App() {
   return (
     <div>
 {
-  // login ?
-  // <RoyalGrandHostel />
-  // :
-  state.login.isLoggedIn ?
+  login || state.login.isLoggedIn ?
 
-    <RoyalGrandHostel />
+    
+    <Router>
+    <Routes>
+      <Route index path='/' element={<RoyalGrandHostel />}></Route>
+        <Route path="/Bed" element={< BedDetails />} />
+        <Route path='/roomList' element ={<DashboardRoomList/>}/>
+      </Routes>  
+    </Router>
     :
     <Router>
       <Routes>
@@ -40,7 +45,6 @@ function App() {
         <Route path="/login-Page" element={<LoginPage />} />
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/forget-password" element={< ForgetPassword />} />
-        <Route path="/Bed" element={< BedDetails />} />
       </Routes>
     </Router>
   

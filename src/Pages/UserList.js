@@ -37,11 +37,14 @@ function UserList() {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
+  console.log("state", state)
   useEffect(() => {
     dispatch({ type: 'USERLIST' })
-    dispatch({ type: 'HOSTELLIST' })
-
   }, [])
+  useEffect(() => {
+    dispatch({ type: 'HOSTELLIST' })
+  }, [])
+
 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -56,6 +59,7 @@ function UserList() {
   const [lastname, setLastname] = useState('')
   const [Phone, setPhone] = useState('')
   const [hostel_Id, setHostel_Id] = useState('')
+  const [HostelName, setHostelName] = useState('')
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
   const [bed, setBed] = useState('')
@@ -68,7 +72,6 @@ function UserList() {
   const [edit, setEdit] = useState('')
   const [id, setId] = useState('')
   const [filtericon, setFiltericon] = useState(false)
-
   const [statusfilter, setStatusfilter] = useState('')
   const [AadharNo, setAadharNo] = useState('')
   const [PancardNo, setPancardNo] = useState('')
@@ -106,28 +109,30 @@ function UserList() {
       document.getElementById('MobileNumberError').innerHTML = 'invalid mobile number *'
     }
   }
+  useEffect(() => {
+    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
+    console.log("Updated Floor:", Floor);
+  }, [Floor]);
+
   const handleHostelId = (e) => {
-    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } })
-    setHostel_Id(e.target.value)
+    console.log("e.target.value", e.target.value)
+    const selectedHostelId = e.target.value;
+    const selectedHostel = state.UsersList.hostelList.filter(item => item.id == e.target.value);
+    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } });
+    setHostel_Id(selectedHostelId);
+    console.log("selectedHostelId", selectedHostel);
+    setHostelName(selectedHostel ? selectedHostel[0]?.Name : '');
   }
+
+  useEffect(() => {
+    dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: Floor } })
+  }, [Rooms])
+
   const handleFloor = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
     dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: e.target.value } })
     setFloor(e.target.value)
 
-  }
-
-  const handleRooms = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
-    setRooms(e.target.value);
-    // Filter the bed options based on the selected room
-    // const selectedRoom = state.UsersList?.hosteldetailslist.find(item => item.Room_Id === e.target.value);
-    // setBedOptions(selectedRoom ? selectedRoom.Number_Of_Beds : []);
-  }
-
-  const handleBed = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
-    setBed(e.target.value)
   }
   const handleRoomRent = (e) => {
     dispatch({ type: 'CLEAR_ERROR' });
@@ -138,7 +143,19 @@ function UserList() {
     const newBalanceDue = AdvanceAmount - roomRentValue;
     const BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
     setBalanceDue(BalanceDuelength);
-}
+  }
+ 
+
+  const handleRooms = (e) => {
+    dispatch({ type: 'CLEAR_ERROR' })
+    setRooms(e.target.value);
+
+  }
+  const handleBed = (e) => {
+    dispatch({ type: 'CLEAR_ERROR' })
+    setBed(e.target.value)
+  }
+
   const handleBalanceDue = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
     setBalanceDue(e.target.value)
@@ -181,20 +198,20 @@ function UserList() {
 
   const handleClose = () => {
     setFirstname('');
-          setLastname('');
-          setAddress('');
-          setAadharNo('');
-          setPancardNo('');
-          setLicence('');
-          setPhone('');
-          setEmail('');
-          setHostel_Id('');
-          setFloor('');
-          setRooms('');
-          setAdvanceAmount('');
-          setRoomRent('');
-          setPaymentType('');
-          setBalanceDue('');
+    setLastname('');
+    setAddress('');
+    setAadharNo('');
+    setPancardNo('');
+    setLicence('');
+    setPhone('');
+    setEmail('');
+    setHostel_Id('');
+    setFloor('');
+    setRooms('');
+    setAdvanceAmount('');
+    setRoomRent('');
+    setPaymentType('');
+    setBalanceDue('');
     setShowMenu(false);
     setUserClicked(false);
     setShowForm(false);
@@ -206,34 +223,38 @@ function UserList() {
       setFile(fileimgage);
     }
   };
+
+  
   const handleShow = (u) => {
     handleMenuClick();
     setShowMenu(true);
     if (u.ID) {
-      let value = u.Name.split(" ")
-      setEdit('Edit')
-      setId(u.ID)
-      setFirstname(value[0])
-      setLastname(value[1])
-      setAddress(u.Address)
-      setAadharNo(u.AadharNo)
-      setPancardNo(u.PancardNo)
-      setLicence(u.licence)
-      setPhone(u.Phone)
-      setEmail(u.Email)
-      setHostel_Id(u.hostel_Id)
-      setFloor(u.Floor)
-      setRooms(u.Rooms)
-      setBed(u.Bed)
-      setAdvanceAmount(u.AdvanceAmount)
-      setRoomRent(u.RoomRent)
-      setPaymentType(u.PaymentType)
-      setBalanceDue(u.BalanceDue)
+      console.log("Hostel ID from 'u':", u);
+      let value = u.Name.split(" ");
+      setEdit('Edit');
+      setId(u.ID);
+      setFirstname(value[0]);
+      setLastname(value[1]);
+      setAddress(u.Address);
+      setAadharNo(u.AadharNo);
+      setPancardNo(u.PancardNo);
+      setLicence(u.licence);
+      setPhone(u.Phone);
+      setEmail(u.Email);
+      setHostel_Id(u.Hostel_Id);
+      setFloor(u.Floor);
+      setRooms(u.Rooms);
+      setBed(u.Bed);
+      setAdvanceAmount(u.AdvanceAmount);
+      setRoomRent(u.RoomRent);
+      setPaymentType(u.PaymentType);
+      setBalanceDue(u.BalanceDue);
+    } else {
+      setEdit('Add');
     }
-    else {
-      setEdit('Add')
-    }
+
   };
+
 
   useEffect(() => {
     setFilteredData(state.UsersList.Users);
@@ -301,6 +322,8 @@ function UserList() {
       setFilteredData(filteredItems);
     }
   }
+
+
   const handleSaveUserlist = () => {
     if (
       firstname &&
@@ -314,9 +337,8 @@ function UserList() {
       hostel_Id &&
       Floor &&
       Rooms &&
-      AdvanceAmount &&
+      AdvanceAmount  &&  
       RoomRent &&
-      BalanceDue &&
       PaymentType
     ) {
       dispatch({
@@ -330,6 +352,7 @@ function UserList() {
           AadharNo: AadharNo,
           PancardNo: PancardNo,
           licence: licence,
+          HostelName: HostelName,
           hostel_Id: hostel_Id,
           Floor: Floor,
           Rooms: Rooms,
@@ -341,7 +364,7 @@ function UserList() {
         },
       });
 
-      // Checking for error message in the UsersList state
+
 
       Swal.fire({
         icon: 'success',
@@ -378,7 +401,7 @@ function UserList() {
     }
   };
 
-  // Roomdetails here 
+
 
 
 
@@ -540,7 +563,7 @@ function UserList() {
 
 
 
-console.log("clickedUserData",clickedUserData);
+
 
   return (
     <div className='container p-2' >
@@ -563,7 +586,7 @@ console.log("clickedUserData",clickedUserData);
                   class="form-control ps-4 pe-1   searchinput"
                   style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
 
-                // className='form-control form-control-sm me-2' placeholder='Search Here' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }}
+
                 />
               </>
             }
@@ -576,11 +599,7 @@ console.log("clickedUserData",clickedUserData);
               <>
                 <select value={statusfilter} onChange={(e) => handleStatusFilter(e)}
                   class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
-
-                // class="form-control form-control-sm m-2"
-                //   style={{ fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", boxShadow: "none", padding: "5px", border: "1px Solid lightgray" }}
                 >
-
                   <option selected value="ALL"> ALL</option>
                   <option value="Success">Success</option>
                   <option value="Pending">Pending</option>
@@ -591,10 +610,6 @@ console.log("clickedUserData",clickedUserData);
             <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus" />Add User</button>
 
           </div>
-
-
-
-
         </div>
         <div class="table-responsive" style={{ width: "100%" }} >
           <table className='table'>
@@ -606,6 +621,7 @@ console.log("clickedUserData",clickedUserData);
                 <th style={{ color: "#91969E" }} >AadharNo</th>
                 <th style={{ color: "#91969E" }} >PanCardNo</th>
                 <th style={{ color: "#91969E" }} >Licence</th>
+                <th style={{ color: "#91969E" }} >HostelName</th>
                 <th style={{ color: "#91969E" }}>Floor</th>
                 <th style={{ color: "#91969E" }} >Room & Bed</th>
                 <th style={{ color: "#91969E" }} >AdvanceAmount</th>
@@ -617,8 +633,6 @@ console.log("clickedUserData",clickedUserData);
               </tr>
             </thead>
             <tbody className='tablebody'>
-
-
               {currentItems.map((u) => {
                 return (
                   <tr style={{ fontWeight: "700" }} >
@@ -637,6 +651,7 @@ console.log("clickedUserData",clickedUserData);
                     <td style={{ color: "black", fontWeight: 500 }}>{u.AadharNo}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.PancardNo}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.licence}</td>
+                    <td style={{ color: "black", fontWeight: 500 }}>{u.HostelName}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.Floor}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.Rooms}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.AdvanceAmount}</td>
@@ -652,8 +667,6 @@ console.log("clickedUserData",clickedUserData);
               })}
             </tbody>
           </table>
-
-
 
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
 
@@ -695,15 +708,10 @@ console.log("clickedUserData",clickedUserData);
         <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >
           {edit === 'Add' ? "Add User" : "EditUser"}
         </Offcanvas.Title>
-
-
         <Offcanvas.Body>
           <div class="d-flex flex-row bd-highlight mb-4  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
             <div class="p-1 bd-highlight user-menu">
-
               <ul className={showForm ? 'active' : ''} onClick={handleMenuClick}  >
-
-
                 User Details
               </ul>
             </div>
@@ -730,10 +738,6 @@ console.log("clickedUserData",clickedUserData);
           {showForm ?
             <div>
               <p className="mb-1" style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
-
-
-
-
               <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
                 {file ? <>
                   <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
@@ -743,7 +747,6 @@ console.log("clickedUserData",clickedUserData);
                 <label htmlFor="imageInput" className=''>
                   <img src={Plus} style={{ color: 'blue', position: 'absolute', bottom: '-5px', left: '48%', height: 20, width: 20 }} />
                 </label>
-
                 <input
                   type="file"
                   accept="image/*"
@@ -753,11 +756,7 @@ console.log("clickedUserData",clickedUserData);
                   onChange={handleImageChange}
                   style={{ display: "none" }} />
               </div>
-
-
               <div className='container' style={{ marginTop: "30px" }}>
-
-
                 <div className='row' >
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
@@ -844,12 +843,7 @@ console.log("clickedUserData",clickedUserData);
                     </Form.Select>
                   </div>
                 </div>
-
-
-
                 <div className='row mb-3'>
-
-
                   <div className='col-lg-6'>
                     <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
                     <Form.Select aria-label="Default select example"
@@ -866,10 +860,6 @@ console.log("clickedUserData",clickedUserData);
                       }
                     </Form.Select>
                   </div>
-
-
-
-
                   <div className='col-lg-6'>
                     <Form.Label style={{ fontSize: '12px' }}>Select Room</Form.Label>
                     <Form.Select
@@ -887,9 +877,7 @@ console.log("clickedUserData",clickedUserData);
                         ))}
                     </Form.Select>
                   </div>
-
                 </div>
-
                 <div className='row'>
                   <div className='col-lg-6'>
                     <Form.Group className="">
@@ -902,7 +890,6 @@ console.log("clickedUserData",clickedUserData);
                       />
                     </Form.Group>
                   </div>
-
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Room Rent (Monthly)</Form.Label>
@@ -919,7 +906,7 @@ console.log("clickedUserData",clickedUserData);
                   <div className='col lg-6'>
                     <Form.Label style={{ fontSize: '12px' }}>PaymentType</Form.Label>
                     <Form.Select
-                     id="form-selects"
+                      id="form-selects"
                       aria-label='Default select example'
                       style={bottomBorderStyle}
                       value={PaymentType}
@@ -929,13 +916,15 @@ console.log("clickedUserData",clickedUserData);
                       <option value="Cash">Cash</option>
                       <option value="Online">Online</option>
                     </Form.Select>
+
                   </div>
+
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px" }}>BalanceDue:</Form.Label>
-                      <h1 style={{ fontSize: "12px",backgroundColor:"#F6F7FB",padding:8 }}>{BalanceDue}</h1>
-                    
-                    
+                      <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 8 }}>{BalanceDue}</h1>
+
+
                     </Form.Group>
                   </div>
                 </div>
@@ -952,23 +941,12 @@ console.log("clickedUserData",clickedUserData);
                 <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
                   onClick={() => setShowForm(false)}>
                   Next
-
                 </Button>
-
               </div>
-
             </div>
             :
             <div>
-
-
-
-
               <div className='container' style={{ marginTop: "30px" }}>
-
-
-
-
                 <div className='row'>
                   <div className='col lg-12'>
                     <Form.Group className="mb-3">
@@ -1013,14 +991,7 @@ console.log("clickedUserData",clickedUserData);
                     </Form.Group>
                   </div>
                 </div>
-
-
-
-
-
               </div>
-
-
               <hr />
               <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
 
@@ -1029,24 +1000,15 @@ console.log("clickedUserData",clickedUserData);
                 </Button>
                 <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
                   {edit === 'Add' ? "Save" : "Update"}
-
                 </Button>
-
               </div>
-
             </div>
-
           }
-
         </Offcanvas.Body>
       </Offcanvas>
-
-
       {
         roomDetail && (
           <>
-
-
             {clickedUserData && clickedUserData.map((item, index) => (
 
               <div class="row d-flex g-0">
@@ -1112,9 +1074,9 @@ console.log("clickedUserData",clickedUserData);
 
                   </div>
 
-                  {/* <div class="d-flex">
+                  <div class="d-flex">
                     <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline" }}> + Add Additional Address</p>
-                  </div> */}
+                  </div>
                   <div class="d-flex justify-content-between">
                     <p style={{ fontSize: "12px", fontWeight: '700' }} >KYC DETAIL</p>
 
@@ -1134,7 +1096,7 @@ console.log("clickedUserData",clickedUserData);
                   </div>
                   <div class="d-flex justify-content-between mb-3">
                     <p style={{ fontSize: "12px" }}>licence</p>
-                    <p style={{ fontSize: "12px" }}>{item.licence}</p>
+                    <p style={{ fontSize: "12px" }}>{item.license}</p>
                     <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
                   </div>
                 </div>

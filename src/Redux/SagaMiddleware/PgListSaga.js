@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 function* handlePgList(datum){
     const response = yield call (createPgList,datum.payload);
     if (response.status === 200) {
-       yield put ({type:'PG_LIST',payload:response.data})
+       yield put ({type:'PG_LIST',payload:response.data,roomCount:['']})
 
        Swal.fire({
          icon: 'success',

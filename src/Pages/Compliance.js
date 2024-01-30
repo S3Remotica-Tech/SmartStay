@@ -40,6 +40,7 @@ const Compliance = () => {
   const [Phone, setPhone] = useState('');
   const [Requestid, setRequestid] = useState('')
   const [Complainttype, setComplainttype] = useState('');
+  const [description,setDescription] = useState('')
   const [Assign, setAssign] = useState('');
   const [showMessage, setShowMessage] = useState(false);
   const [Status, setStatus] = useState('')
@@ -58,37 +59,35 @@ const Compliance = () => {
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const [searchItem, setSearchItem] = useState('');
-
   const [searchicon, setSearchicon] = useState(false);
-
   const [showForm, setShowForm] = useState(false);
   const [isUserClicked, setUserClicked] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
-
   const [file, setFile] = useState(null)
-
   const [filtericon, setFiltericon] = useState(false)
-
   const [statusfilter, setStatusfilter] = useState('')
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
 
+
+
+  useEffect(() => {
+     dispatch({ type: 'HOSTELLIST' })
   }, [])
 
-  const bottomBorderStyle = {
-    border: 'none',
-    borderBottom: '1px solid #ced4da',
-    borderRadius: '0',
-    boxShadow: 'none',
-    fontWeight: 'bold',
-    fontSize: "11px",
+  useEffect(() => {
+    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
+    console.log("Updated Floor:", Floor);
+  }, [Floor]);
+    const [hostelname,setHostelName] = useState('')
+    const handleHostelId = (e) => {
+    console.log("e.target.value", e.target.value);
+    const selectedHostelId = e.target.value;
+    const selectedHostel = state.UsersList?.hostelList?.find(item => item.id == selectedHostelId);
+    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: selectedHostelId } });
+    setHostel_Id(selectedHostelId);
+    console.log("selectedHostel", selectedHostel);
+    setHostelName(selectedHostel ? selectedHostel.Name : '');
   };
-
-  const handleHostelId = (e) => {
-    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } })
-    setHostel_Id(e.target.value)
-  }
-
+  
   const handleImageChange = (event) => {
     const fileimgage = event.target.files[0];
     if (fileimgage) {
@@ -96,12 +95,10 @@ const Compliance = () => {
     }
   };
 
-
   const handleFiltershow = () => {
     setFiltericon(!filtericon)
     setSearchicon(false)
   }
-
   const handleStatusFilter = (e) => {
     const searchTerm = e.target.value;
     setStatusfilter(searchTerm)
@@ -131,6 +128,7 @@ const Compliance = () => {
     setRequestid('')
     setComplainttype('')
     setAssign('')
+    setDescription('')
     setDate('')
     setHostel_Id('')
     setFloor('')
@@ -153,6 +151,7 @@ const Compliance = () => {
     setRequestid('')
     setComplainttype('')
     setAssign('')
+    setDescription('')
     setDate('')
     setStatus('')
     setHostel_Id('')
@@ -168,6 +167,8 @@ const Compliance = () => {
     }
 
   }
+
+  console.log("state",state);
 
   useEffect(() => {
     if (showMessage) {
@@ -187,6 +188,7 @@ const Compliance = () => {
     setRequestid(item.Requestid)
     setComplainttype(item.Complainttype)
     setAssign(item.Assign)
+    setDescription(item.Description)
     setDate('')
     setStatus(item.Status)
     setHostel_Id(item.Hostel_id)
@@ -197,14 +199,15 @@ const Compliance = () => {
   }
 
   const handleSubmit = () => {
-    if (Name && Phone && Requestid && Complainttype && Assign && Status && date && hostel_Id && Floor && Rooms) {
-      dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: Name, Phone: Phone, Requestid: Requestid, Complainttype: Complainttype, Assign: Assign, Status: Status, date: date, id: editbtn ? id : '', Hostel_id: hostel_Id, Floor_id: Floor, Room: Rooms } })
+    if (Name && Phone && Requestid && Complainttype && Assign && description && Status && date && hostel_Id && Floor && Rooms ) {
+      dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: Name, Phone: Phone, Requestid: Requestid, Complainttype: Complainttype, Assign: Assign, Description:description, Status: Status, date: date, id: editbtn ? id : '', Hostel_id: hostel_Id, Floor_id: Floor, Room: Rooms ,hostelname:hostelname } })
       setId('')
       setName('')
       setPhone('')
       setRequestid('')
       setComplainttype('')
       setAssign('')
+      setDescription('')
       setDate('')
       setStatus('')
       setHostel_Id('')
@@ -219,7 +222,6 @@ const Compliance = () => {
         confirmButtonText: "ok"
       }).then((result) => {
         dispatch({ type: 'COMPLIANCE-LIST' })
-        /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
         }
       });
@@ -230,7 +232,6 @@ const Compliance = () => {
         title: 'Please Enter All Field',
         confirmButtonText: "ok"
       }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
         }
       });
@@ -404,8 +405,7 @@ const Compliance = () => {
                       value={Floor}
                       onChange={(e) => setFloor(e.target.value)}
                     >
-                      <MenuItem value="none">
-                        <em>None</em>
+                      <MenuItem value="none">                      
                       </MenuItem>
                       {state.UsersList?.hosteldetailslist
                         ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
@@ -427,7 +427,7 @@ const Compliance = () => {
                       onChange={(e) => setRooms(e.target.value)}
                     >
                       <MenuItem value="none">
-                        <em>None</em>
+                        
                       </MenuItem>
                       {state.UsersList?.hosteldetailslist
                         ?.filter(item => item.Floor_Id === Floor)
@@ -439,10 +439,44 @@ const Compliance = () => {
                     </Select>
                   </FormControl>
 
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 390 }}>
+                    <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Complainttype</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-standard-label"
+                      id="demo-simple-select-standard"
+                      label="Select Room No"
+                      value={Complainttype}
+                      onChange={(e) => { setComplainttype(e.target.value) }}
+                    >
+                      <MenuItem value="none">
+                        <em>None</em>
+                      </MenuItem>
+                      
+                          <MenuItem value="Invoice">
+                            Invoice
+                          
+                          </MenuItem>
+                          <MenuItem value="Others">
+                            Others
+                          
+                          </MenuItem>
+                       
+                    </Select>
+                  </FormControl>
 
-                  <TextField id="standard-basic" label="Complaint Type" value={Complainttype} onChange={(e) => { setComplainttype(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginBottom: '20px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="status" value={Status} onChange={(e) => { setStatus(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '-10px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField
+          id="standard-multiline-flexible"
+          label="Description"
+          multiline
+          maxRows={4}
+          variant="standard"
+          sx={{ m: 1, minWidth: 390 }}  
+          style={{ fontSize: '0.8rem', fontWeight: "bold" }}
+          value={description} onChange={(e) => { setDescription(e.target.value) }} 
+        />
+             
+                  <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginBottom: '10px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField id="standard-basic" label="status" value={Status} onChange={(e) => { setStatus(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
                   <TextField id="standard-basic" type='date' value={date} onChange={(e) => { handleDatePicker(e) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '5px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
 
                 </Box>
@@ -450,7 +484,7 @@ const Compliance = () => {
                   showMessage &&
                   <div ><p>We have taken your request successfuly</p></div>
                 }
-                <div class="d-flex justify-content-center" style={{ marginTop: '30px' }}>
+                <div class="d-flex justify-content-center" style={{ marginTop: '20px' }}>
                   <Button variant="dark" size="sm" onClick={handleFormclose} style={{ borderRadius: '20vh', width: '100px', marginRight: '15px' }}>
                     Cancel
                   </Button>
@@ -469,7 +503,11 @@ const Compliance = () => {
             <th style={{ color: "#91969E" }}>Date</th>
             <th style={{ color: "#91969E" }}>Request ID</th>
             <th style={{ color: "#91969E" }}>Name & Phone</th>
+            <th style={{ color: "#91969E" }}>Hostel Name</th>
+            <th style={{ color: "#91969E" }}>Floor No</th>
+            <th style={{ color: "#91969E" }}>Room No </th>
             <th style={{ color: "#91969E" }}>Compliant Type</th>
+            <th style={{ color: "#91969E" }}>Description</th>
             <th style={{ color: "#91969E" }}>Assign</th>
             <th style={{ color: "#91969E" }}>Status</th>
             <th style={{ color: "#91969E" }}>Action</th>
@@ -489,7 +527,13 @@ const Compliance = () => {
                   </div>
                 </div>
               </td>
+
+              <th style={{ color: "#91969E" }}>{item.hostelname}</th>
+              
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_id}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Room}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Description}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
               <td style={item.Status.toUpperCase() == "SUCCESS" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
               <td class=""><img src={List} height="20" width="20" /><img class="ms-1" src={Edit} height="20" width="20" onClick={() => handleEdit(item)} style={{ cursor: 'pointer' }} /></td>
