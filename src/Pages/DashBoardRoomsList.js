@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import BedDetails from './Bed';
+import { MdMeetingRoom } from "react-icons/md";
 
 function getFloorName(floor_Id) {
     if (floor_Id === 1) {
@@ -84,8 +85,9 @@ function getFloorAbbreviation(floor_Id) {
 
 
 function DashboardRoom(props) {
-
+console.log("props",props);
     const navigate = useNavigate();
+    const [roomLength,setRoomLength] = useState(0)
     const noOfFloor = Number(props.floorID) + Number(props.floorID);
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -101,24 +103,34 @@ function DashboardRoom(props) {
     ]);
 
     const [roomCount, setRoomCount] = useState([])
-
+   
+    console.log("state.UsersList.roomFullCheck *", state);
     useEffect(() => {
         setRoomCount(state.PgList.roomCount)
     }, [state.PgList.roomCount])
 
     useEffect(() => {
-        console.log("RoomCount",props.hostel_Id);
+        
+        console.log("RoomCount", props.hostel_Id);
         dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-    }, [])
+        const tempArray = state.PgList.roomCount.filter((item)=>{
+            console.log("item",item);
+            return item[0].Floor_Id == props.floorID && item[0].id == props.hostel_Id
+        })
+        console.log("tempArray.",tempArray);
+return ()=>{
+    console.log("RoomCount unmount");
+}
+    }, [props.hostel_Id])
 
     useEffect(() => {
-        if (state.PgList.createRoomMessage) {
+        if (state.PgList.createRoomMessage !== null) {
             dispatch({ type: 'HOSTELLIST' })
             console.log("useEffect");
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
 
             setTimeout(() => {
-                dispatch({type: 'UPDATE_MESSAGE_AFTER_CREATION', message: null})
+                dispatch({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: null })
             }, 100)
         }
     }, [state.PgList.createRoomMessage])
@@ -191,8 +203,7 @@ function DashboardRoom(props) {
             Swal.fire({
                 icon: 'success',
                 title: "Room created successfully",
-            }).then((result) => { 
-                // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })                   
+            }).then((result) => {                   
                 if (result.isConfirmed) {
                 }
             });
@@ -213,21 +224,25 @@ function DashboardRoom(props) {
     };
     const arr = [];
     console.log("state", state);
-const handleRoomDetails = () =>{
-console.log("Click RoomDetails");
-navigate('/Bed')
-}
+    // const handleRoomDetails = (val) => {
+
+    //     navigate('/Bed', { state: { val: val } });
+    // }
+   const handleRoomDetails = (val) => {
+        props.onRowVisibilityChange(false);
+        props.onRowBedVisibilityChange(true,val)
+    }
 
     return (
         <>
-            <div className="col-lg-2 col-md-4  col-sm-12 col-xs-12 col-12">
+            <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
 
                 <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }}>
 
                     <div className="card-header d-flex justify-content-between p-2" style={{ backgroundColor: "#f6f7fb" }}><strong style={{ fontSize: "13px" }}>{getFloorName(props.floorID)}</strong><FaAngleRight className="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
 
                     <div className="card-body">
-                        <p className="card-title text-center" style={{ fontWeight: 600 }}>({arr || 0}) Rooms</p>
+                        <p className="card-title text-center" style={{ fontWeight: 600 }}>({arr}) Rooms</p>
                         {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.PgList.roomCount[props.floorID - 1] && state.PgList.roomCount[props.floorID - 1].length > 0 ? state.PgList.roomCount[props.floorID - 1].length : 0}) Rooms</p> */}
                         {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.PgList.roomCount[props.floorID - 1].length >0 ? state.PgList.roomCount[props.floorID - 1].length : 0}) Rooms</p> */}
 
@@ -242,13 +257,46 @@ navigate('/Bed')
                                                 room.map((val, index) => {
                                                     if (val.Floor_Id == props.floorID) {
                                                         arr.length == 0 && arr.push(room.length)
+                                                        // setRoomLength(room.length)
                                                         const formattedRoomId = getFormattedRoomId(val.Floor_Id, val.Room_Id);
-
+                                                        // const isFiltered = RoomFull.some(item =>
+                                                        //     item.length > 0 &&
+                                                        //     item.some(room =>
+                                                        //         room.Room_Id === val.Room_Id &&
+                                                        //         room.Floor_Id === val.Floor_Id &&
+                                                        //         room.Hostel_Id === val.Hostel_Id
+                                                        //     )
+                                                        // )
+                                                        // console.log("isFiltered",isFiltered);
                                                         return (
                                                             <>
+
+                                                                <div className="col-4" key={index} >
+                                                                    <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: val.Number_Of_Beds - val.bookedBedCount == 0 ? "#25D366" : "#e3e4e8" }} onClick={() => { handleRoomDetails(val) }}>
+                                                                        <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "2px", filter: val.Number_Of_Beds - val.bookedBedCount == 0 ? "brightness(0) invert(1)" : "none" }} alt='Room' />
+                                                                        <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600, color: val.Number_Of_Beds - val.bookedBedCount == 0 ? "white" : "gray" }}>
+                                                                            {formattedRoomId}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
                                                                 {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({arr}) Rooms</p> */}
                                                                 {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({room.length}) Rooms</p> */}
-                                                                <div className="col-4"
+                                                                {/* <div className="col-4">
+                                                                    <div className="card d-flex text-center align-items-center justify-content-center" style={{ height: "60px", width: 35, borderRadius: "5px", 
+                                                                     backgroundColor: filteredBackgroundColor
+                                                                    }} onClick={() => { handleRoomDetails(val)}}> */}
+                                                                {/* <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", 
+                                                                         color: filteredColor
+                                                                        }} alt='Room' /> */}
+                                                                {/* <div><MdMeetingRoom  style={{color:filteredColor,fontSize: 40,paddingTop:5}}/>
+                                                                        <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 ,marginBottom:0,
+                                                                         color:filteredColor
+                                                                        }}>
+                                                                            {formattedRoomId}
+                                                                        </p></div>
+                                                                    </div>
+                                                                </div> */}
+                                                                {/* <div className="col-4"
                                                                     key={val.id}>
                                                                     <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }} onClick={() => { handleRoomDetails()}}>
                                                                         <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
@@ -256,7 +304,7 @@ navigate('/Bed')
                                                                             {formattedRoomId}
                                                                         </p>
                                                                     </div>
-                                                                </div>
+                                                                </div> */}
                                                             </>
                                                         )
                                                     }
@@ -374,4 +422,4 @@ navigate('/Bed')
         </>)
 }
 
-export default DashboardRoom;
+export default React.memo(DashboardRoom) ;

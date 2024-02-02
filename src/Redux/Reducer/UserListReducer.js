@@ -7,7 +7,8 @@ const initialState = {
     billPaymentHistory: [],
     number_of_floor: '',
     roomdetails: [],
-    message: ''
+    message: '',
+    roomFullCheck: [],
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -34,6 +35,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, hostelList: action.payload }
         case 'HOSTEL_DETAIL_LIST':
             return { ...state, hosteldetailslist: action.payload }
+        case 'ROOM_FULL':
+            if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {
+                return { ...state, roomFullCheck: [...state.roomFullCheck, action.payload] };
+            } else {
+                return { ...state, roomFullCheck: action.payload };
+            }
         // case 'ROOM_COUNT':
         //     // tempArray has one index and array of object
         //     // action.payload has a list of rooms based on the floor_id and hostel_id

@@ -32,13 +32,13 @@ function getFloorName(floor_Id) {
 
 function TotalPgList(props) {
 
-    const state = useSelector(state => state)
-    const dispatch = useDispatch();
+    // const state = useSelector(state => state)
+    // const dispatch = useDispatch();
 
 
-    useEffect(() => {
-        dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-           }, [props.floorID, props.hostel_Id,props.room_id])
+    // useEffect(() => {
+    //     dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+    //        }, [props.floorID, props.hostel_Id,props.room_id])
 
 
 

@@ -33,3 +33,10 @@ export async function createFloor(id) {
     data:id
   })
 }
+
+export async function roomFullCheck(roomCheck){
+  console.log("roomCheck",roomCheck)
+  return await AxiosConfig.post('/check/room-full',roomCheck,{
+    data:roomCheck
+  })
+}

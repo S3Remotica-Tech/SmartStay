@@ -15,6 +15,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import RoomDetails from '../Pages/RoomDetails';
 import DashboardRoomList from './DashBoardRoomsList';
 import SelectedHostelFloorList from './SelectedHostelFloorList';
+import BedDetail from './Bed';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -227,12 +228,30 @@ const [hostelIndex,setHostelIndex] = useState('')
       setHostelIndex(index)
      return  item.Name === hostelName
     });
+    console.log("selected",selected);
     setSelectedHostel(selected);
+    handleRowVisibilityChange(true);
+    handleBedVisibilityChange(false)
   };
   useEffect(()=>{
     const selected = state.UsersList.hostelList.find(item => item.Name === selectedHostel?.Name);
-    setSelectedHostel(selected);
+    // setSelectedHostel(selected);
   },[state.UsersList.hostelList[hostelIndex]?.number_Of_Floor])
+
+  const [isRowVisible, setIsRowVisible] = useState(true);
+  const [bedDetailShow, setBedDetailShow] = useState(false)
+  const [bedDetailsPage, setBedDetailsPage] = useState('')
+
+  const handleRowVisibilityChange = (isVisible) => {
+    setIsRowVisible(isVisible);
+  };
+
+const handleBedVisibilityChange = (isVisible,BedDetails) => {
+  setBedDetailShow(isVisible)
+  console.log("isVisible",isVisible)
+  console.log("BedDetails",BedDetails)
+  setBedDetailsPage(BedDetails)
+}
 
   return (
     <>
@@ -346,7 +365,7 @@ const [hostelIndex,setHostelIndex] = useState('')
       </div>
       <hr />
       <div className="row g-0 d-flex justify-content-start align-items-center p-2" >
-        <div className="col-lg-2 col-md-4 col-sm-12 col-xs-12 col-12 d-flex justify-content-between align-items-center p-0" style={{ backgroundColor: "" }} >
+        <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12 col-12 d-flex justify-content-between align-items-center p-0" style={{ backgroundColor: "" }} >
           <div className="d-flex justify-content-between align-items-center">
             <Image src={Hostel} roundedCircle style={{ height: "30px", width: "30px" }} />
             <div className="d-block ps-2">
@@ -372,7 +391,7 @@ const [hostelIndex,setHostelIndex] = useState('')
               return <SelectedHostelFloorList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
             })}
 
-          <div className="col-lg-2  col-md-4 col-sm-12 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div className="col-lg-2  col-md-3 col-sm-4 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <div>
               <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleShow}>
                 <span style={{ padding: "20px 20px" }}>
@@ -435,41 +454,54 @@ const [hostelIndex,setHostelIndex] = useState('')
       <hr />
 
       {selectedHostel && <>
-        <div className="d-flex justify-content-between p-2">
+        <div className="ms-5 me-5 d-flex justify-content-between p-2">
           <div>
             <h5 style={{ fontSize: 18, color: "black", fontWeight: 600 }}>{selectedHostel.Name}</h5>
           </div>
-          <div className="d-flex gap-5">
+          <div className="d-flex gap-5 ms-2">
             <div className="d-flex gap-1">
               <FaSquare style={{ color: "gray", height: "20px" }} />   <h6 className="ps-2" style={{ color: "gray", fontSize: "" }}>Room Empty</h6>
             </div>
             <div className="d-flex gap-1">
-              <FaSquare style={{ color: "green", height: "20px" }} />   <h6 className="ps-2" style={{ color: "green" }}>Room Full</h6>
+              <FaSquare style={{ color: "#25D366", height: "20px" }} />   <h6 className="ps-2" style={{ color: "#25D366" }}>Room Full</h6>
             </div>
           </div>
         </div>
+{
+  isRowVisible &&
 
-        <div className="row row-cols-1 row-gap-3 row-cols-md-6 g-1 justify-content-evenly pt-5" >
+        <div className="row row-cols-1 row-gap-3 row-cols-md-6 g-1 pt-2" >
           {
             selectedHostel.id &&
             Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
               // setFloorID(element + 1)
-              return <DashboardRoomList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
+              return <DashboardRoomList onRowVisibilityChange={handleRowVisibilityChange} onRowBedVisibilityChange={handleBedVisibilityChange} floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
             })}
-          <div className="col-lg-2 col-md-4  col-sm-12 col-xs-12 col-12">
-            <div className="card h-100 d-flex justify-content-center align-items-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover" onClick={handleShow}>
-              <div className="">
+          <div className="col-lg-3 col-md-5  col-sm-8 col-xs-10 col-10 ms-5">
+            <div className="card h-100 d-flex justify-content-center align-items-center text-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400}} id="card-hover" onClick={handleShow}>
+            <div className=" d-flex justify-content-between p-2" style={{height:'50px'}}></div>
+              <div style={{ display: "flex",flexDirection:'column', justifyContent: "center", alignItems: "center" }} >
+              <div className="d-flex justify-content-center align-items-center" >
                 <img src={Plus} height="18" width="16" alt='Plus' />
               </div>
               <div>
                 <p style={{ color: "#1F75FE", fontSize: "15px", fontWeight: 600 }}>Create Floor</p>
               </div>
+              </div>
+              <div className="col-4">
+                                <div className=" text-center align-items-center" style={{ height: "60px", width: "35px"}} >
+                                  
+                                </div>
+                            </div>
             </div>
           </div>
 
         </div>
+        }
+         {bedDetailShow && (
+  <BedDetail bedDetailsSendThePage={bedDetailsPage} />)
+}
       </>}
-
       {roomDetails === 'RoomDetailsPage' && <RoomDetails />}
     </>
 

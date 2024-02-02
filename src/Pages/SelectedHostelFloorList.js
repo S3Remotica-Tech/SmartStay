@@ -37,22 +37,22 @@ function getFloorName(floorID) {
 function SelectedHostelFloorList(props) {
 
 
-    const state = useSelector(state => state)
+    // const state = useSelector(state => state)
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
 
-    useEffect(() => {
-        //dispatch({ type: 'ROOM----COUNT', payload: { floor_Id: props.floorID } })
-        dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-    }, [props.floorID])
+    // useEffect(() => {
+    //     //dispatch({ type: 'ROOM----COUNT', payload: { floor_Id: props.floorID } })
+    //     dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+    // }, [props.floorID])
 
 
 
 
 
   return (
-    <div className="col-lg-2 col-md-4 col-sm-12 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
+    <div className="col-lg-1 col-md-2 col-sm-2 col-xs-12 col-12 " style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
 
 <div style={{ fontSize: "11px", color: "gray", fontWeight: "700" }}>{getFloorName(props.floorID)}</div>
 

@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor} from "../Action/UserListAction"
+import { userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck} from "../Action/UserListAction"
 
 
 function* handleuserlist() {
@@ -102,6 +102,21 @@ function* handleAddUser(datum) {
       }
    }
 
+
+   function* handleRoomCheck(action) {
+      console.log("action",action)
+      console.log('ROOM_FULL saga triggered. Payload:', action.payload);
+      const response = yield call(roomFullCheck, action.payload)
+        console.log("response",response)
+      if (response.status === 200 && response.data.length > 0) {
+         yield put({ type: 'ROOM_FULL', payload: response.data })
+         console.log("response.data",response.data)
+            }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+   }
+
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
@@ -111,5 +126,6 @@ function* UserListSaga() {
    yield takeEvery('BILLPAYMENTHISTORY',handleUserBillPaymentHistory)
    yield takeEvery('CREATEFLOOR',handleCreateFloor)
    yield takeEvery('ROOMDETAILS',handleRoomsDetails)
+   yield takeEvery('ROOMFULL', handleRoomCheck)
 }
 export default UserListSaga;
