@@ -9,6 +9,8 @@ const initialState = {
     roomdetails: [],
     message: '',
     roomFullCheck: [],
+    beddetails: [],
+    bedCount: [],
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -18,6 +20,10 @@ const UserListReducer = (state = initialState, action) => {
                 ...state,
                 errorMessage: '',
             };
+            case 'BED_COUNTING_LIST':
+                return { ...state, bedCount: action.payload }
+            case 'BED_DETAILS':
+                return { ...state, beddetails: action.payload }
         case 'ROOM_DETAILS':
             return { ...state, roomdetails: action.payload }
         case 'CREATE_FLOOR':
