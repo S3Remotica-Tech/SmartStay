@@ -288,15 +288,7 @@ return ()=>{
                                                         arr.length == 0 && arr.push(room.length)
                                                         // setRoomLength(room.length)
                                                         const formattedRoomId = getFormattedRoomId(val.Floor_Id, val.Room_Id);
-                                                        // const isFiltered = RoomFull.some(item =>
-                                                        //     item.length > 0 &&
-                                                        //     item.some(room =>
-                                                        //         room.Room_Id === val.Room_Id &&
-                                                        //         room.Floor_Id === val.Floor_Id &&
-                                                        //         room.Hostel_Id === val.Hostel_Id
-                                                        //     )
-                                                        // )
-                                                        // console.log("isFiltered",isFiltered);
+                                                       
                                                         return (
                                                             <>
 
@@ -308,32 +300,7 @@ return ()=>{
                                                                         </p>
                                                                     </div>
                                                                 </div>
-                                                                {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({arr}) Rooms</p> */}
-                                                                {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({room.length}) Rooms</p> */}
-                                                                {/* <div className="col-4">
-                                                                    <div className="card d-flex text-center align-items-center justify-content-center" style={{ height: "60px", width: 35, borderRadius: "5px", 
-                                                                     backgroundColor: filteredBackgroundColor
-                                                                    }} onClick={() => { handleRoomDetails(val)}}> */}
-                                                                {/* <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", 
-                                                                         color: filteredColor
-                                                                        }} alt='Room' /> */}
-                                                                {/* <div><MdMeetingRoom  style={{color:filteredColor,fontSize: 40,paddingTop:5}}/>
-                                                                        <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 ,marginBottom:0,
-                                                                         color:filteredColor
-                                                                        }}>
-                                                                            {formattedRoomId}
-                                                                        </p></div>
-                                                                    </div>
-                                                                </div> */}
-                                                                {/* <div className="col-4"
-                                                                    key={val.id}>
-                                                                    <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: "#f6f7fb" }} onClick={() => { handleRoomDetails()}}>
-                                                                        <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "1px", color: "gray" }} alt='Room' />
-                                                                        <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600 }}>
-                                                                            {formattedRoomId}
-                                                                        </p>
-                                                                    </div>
-                                                                </div> */}
+                                                              
                                                             </>
                                                         )
                                                     }

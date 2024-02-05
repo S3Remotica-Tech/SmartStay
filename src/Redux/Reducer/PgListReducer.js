@@ -31,10 +31,7 @@ const PgListReducer = (state = initialState, action) => {
         case 'UPDATE_MESSAGE_AFTER_CREATION':
             return { ...state, createRoomMessage: action.message }
         case 'ROOM_COUNT':
-            // tempArray has one index and array of object
-            // action.payload has a list of rooms based on the floor_id and hostel_id
-            // state.roomCount=[]
-            if (state.roomCount.length > 0) {
+                        if (state.roomCount.length > 0) {
                 if (action.payload.length > 0) {
                     console.log("action.payload[0]", action.payload[0]);
                     let floor = action.payload[0].Floor_Id
@@ -67,6 +64,14 @@ const PgListReducer = (state = initialState, action) => {
                 temp.push(action.payload)
                 return { ...state, roomCount: temp }
             }
+
+      
+      
+         
+
+
+
+
     }
     return state;
 }
