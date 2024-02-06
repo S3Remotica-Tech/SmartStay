@@ -32,6 +32,25 @@ function getFormattedRoomId(floor_Id, room_Id) {
 }
 
 
+function getFloorAbbreviation(floor_Id) {
+
+  switch (floor_Id) {
+      case 5:
+          return 'F';
+      case 6:
+          return 'S';
+      case 8:
+          return 'E';
+      case 9:
+          return 'N';
+      case 10:
+          return 'T';
+
+      default:
+          return `${floor_Id}`;
+  }
+}
+
 
 
 function BedDetails(props) {
@@ -142,9 +161,9 @@ const handleNumberOfBedChange = (numberOfBeds) => {
          <> 
       <div style={{ width: "100%" }}>
         
-        <div className="row row-gap-3 row-column-gap-4 gap-3 g-2 justify-content-start p-5" style={{ backgroundColor: "" }}>
+        <div className="row row-gap-3 row-column-gap-4 gap-3 g-2 justify-content-start ps-5 pt-2 pe-5" style={{ backgroundColor: "" }}>
                 
-            <div  className='col-lg-2 col-md-6 col-xs-12 col-sm-12'>
+            <div  className='col-lg-4 col-md-5 col-xs-12 col-sm-12'>
               <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)", width: "auto", maxWidth:400  }}>
                 <div className="card-header d-flex justify-content-between p-2">
                   <strong style={{ fontSize: "13px" }}>ROOM-{RoomName}</strong>
@@ -154,7 +173,7 @@ const handleNumberOfBedChange = (numberOfBeds) => {
                   <p className="card-title text-center">({numberOfBeds || 0}) Beds</p>
                   <div className="row row-gap-3 pe-3 d-flex  text-center">
                      {bedName.map((item,index)=> ( 
-                      <div className="col-4" >
+                      <div className="col-3" >
                       <div className="card  text-center align-items-center p-1" style={{ height: "60px", width: "35px", borderRadius: "5px" }}>
                         <img src={Bed} style={{  height: "100px", width: "35px", color: "gray" }} className="img-fluid mb-0" alt="Room" />
                         <p style={{ marginTop: "2px", fontSize: "10px" }}>Bed {index + 1}</p>
@@ -162,7 +181,7 @@ const handleNumberOfBedChange = (numberOfBeds) => {
                     </div>
                      ))} 
                     
-                    <div className="col-4">
+                    <div className="col-3">
                       <div className="card text-bg-light text-center align-items-center p-1" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA" }} onClick={() => { handleShows({RoomName,roomId}) }}>
                         <img src={Plus} className="pt-2 mb-0" height="25" width="15" alt="Room" />
                         <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} className="mb-0">Create Bed</p>
@@ -172,14 +191,22 @@ const handleNumberOfBedChange = (numberOfBeds) => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2 col-md-4  col-sm-12 col-xs-12 col-12">
-            <div className="card h-100 d-flex justify-content-center align-items-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover">
-              <div className="">
+            <div className="col-lg-4 col-md-5 col-xs-12 col-sm-12">
+            <div className="card h-100 d-flex justify-content-center align-items-center text-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400}} id="card-hover" >
+            <div className=" d-flex justify-content-between p-2" style={{height:'50px'}}></div>
+              <div style={{ display: "flex",flexDirection:'column', justifyContent: "center", alignItems: "center" }} >
+              <div className="d-flex justify-content-center align-items-center" >
                 <img src={Plus} height="18" width="16" alt='Plus' />
               </div>
               <div>
                 <p style={{ color: "#1F75FE", fontSize: "15px", fontWeight: 600 }}>Create Room</p>
               </div>
+              </div>
+              <div className="col-4">
+                                <div className=" text-center align-items-center" style={{ height: "60px", width: "35px"}} >
+                                  
+                                </div>
+                            </div>
             </div>
           </div>
           

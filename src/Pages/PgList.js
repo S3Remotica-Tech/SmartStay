@@ -477,7 +477,7 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
               // setFloorID(element + 1)
               return <DashboardRoomList onRowVisibilityChange={handleRowVisibilityChange} onRowBedVisibilityChange={handleBedVisibilityChange} floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
             })}
-          <div className="col-lg-3 col-md-5  col-sm-8 col-xs-10 col-10 ms-5">
+          <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
             <div className="card h-100 d-flex justify-content-center align-items-center text-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400}} id="card-hover" onClick={handleShow}>
             <div className=" d-flex justify-content-between p-2" style={{height:'50px'}}></div>
               <div style={{ display: "flex",flexDirection:'column', justifyContent: "center", alignItems: "center" }} >
