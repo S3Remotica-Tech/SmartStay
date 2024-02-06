@@ -269,7 +269,7 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
 
         <Offcanvas show={addhostelForm} onHide={handlecloseHostelForm} placement="end" style={{ width: "70vh" }}>
           <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="p-3 m-0 d-flex align-items-center">Create PG</Offcanvas.Title>
-          <Offcanvas.Body >
+          <Offcanvas.Body  className='p-0'>   <div className='ps-3 pt-2 pe-3 pb-2'>
             <h6 style={{ color: "#0D6EFD" }}>PG Detail</h6>
             <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
             <div className="d-flex justify-content-center">
@@ -350,7 +350,7 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
                 </div>
               )}
               
-                </Offcanvas.Body>
+              </div>  
               <hr style={{ marginTop: "50px" }} />
               <div className="d-flex justify-content-end m-3"  >
 
@@ -361,8 +361,8 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
                   Save
                 </Button>
 
-              </div>
-                 
+              </div>  
+              </Offcanvas.Body>
         </Offcanvas>
       </div>
       <hr />
