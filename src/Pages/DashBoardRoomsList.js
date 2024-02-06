@@ -85,9 +85,9 @@ function getFloorAbbreviation(floor_Id) {
 
 
 function DashboardRoom(props) {
-console.log("props",props);
+    console.log("props", props);
     const navigate = useNavigate();
-    const [roomLength,setRoomLength] = useState(0)
+    const [roomLength, setRoomLength] = useState(0)
     const noOfFloor = Number(props.floorID) + Number(props.floorID);
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -103,28 +103,29 @@ console.log("props",props);
     ]);
 
     const [roomCount, setRoomCount] = useState([])
-   
+
     console.log("state.UsersList.roomFullCheck *", state);
     useEffect(() => {
         setRoomCount(state.PgList.roomCount)
     }, [state.PgList.roomCount])
 
     useEffect(() => {
-        
-        console.log("RoomCount", props.hostel_Id);
-        dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-        const tempArray = state.PgList.roomCount.filter((item)=>{
-            console.log("item",item);
-            return item[0].Floor_Id == props.floorID && item[0].id == props.hostel_Id
-        })
-        console.log("tempArray.",tempArray);
-return ()=>{
-    console.log("RoomCount unmount");
-}
+        if (props.floorID && props.hostel_Id) {
+            console.log("RoomCount", props.hostel_Id);
+            dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+            const tempArray = state.PgList.roomCount.filter((item) => {
+                console.log("item", item);
+                return item[0].Floor_Id == props.floorID && item[0].id == props.hostel_Id
+            })
+            console.log("tempArray.", tempArray);
+            return () => {
+                console.log("RoomCount unmount");
+            }
+        }
     }, [props.hostel_Id])
 
     useEffect(() => {
-        if (state.PgList.createRoomMessage !== null) {
+        if (state.PgList.createRoomMessage !== null && state.PgList.createRoomMessage != '') {
             dispatch({ type: 'HOSTELLIST' })
             console.log("useEffect");
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
@@ -211,7 +212,7 @@ return ()=>{
             Swal.fire({
                 icon: 'success',
                 title: "Room created successfully",
-            }).then((result) => {                   
+            }).then((result) => {
                 if (result.isConfirmed) {
                 }
             });
@@ -236,9 +237,9 @@ return ()=>{
 
     //     navigate('/Bed', { state: { val: val } });
     // }
-   const handleRoomDetails = (val) => {
+    const handleRoomDetails = (val) => {
         props.onRowVisibilityChange(false);
-        props.onRowBedVisibilityChange(true,val)
+        props.onRowBedVisibilityChange(true, val)
     }
 
 
@@ -288,7 +289,7 @@ return ()=>{
                                                         arr.length == 0 && arr.push(room.length)
                                                         // setRoomLength(room.length)
                                                         const formattedRoomId = getFormattedRoomId(val.Floor_Id, val.Room_Id);
-                                                       
+
                                                         return (
                                                             <>
 
@@ -300,7 +301,7 @@ return ()=>{
                                                                         </p>
                                                                     </div>
                                                                 </div>
-                                                              
+
                                                             </>
                                                         )
                                                     }
@@ -413,7 +414,7 @@ return ()=>{
                     </div>
                 </Offcanvas.Body>
             </Offcanvas> */}
-               <Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
+            <Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
                 <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create PG</Offcanvas.Title>
                 <Offcanvas.Body>
                     <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
@@ -530,4 +531,4 @@ return ()=>{
         </>)
 }
 
-export default React.memo(DashboardRoom) ;
+export default React.memo(DashboardRoom);
