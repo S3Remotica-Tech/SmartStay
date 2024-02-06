@@ -80,6 +80,8 @@ function UserList() {
   const [licence, setLicence] = useState('')
   const [bedError, setBedError] = useState('');
   const [Arrayset, setArrayset] = useState('')
+  const [Bednum,setBednum]=useState('')
+  console.log("Bednum",Bednum)
   console.log("Arrayset", Arrayset)
 
   const handleAadharNo = (e) => {
@@ -136,7 +138,7 @@ function UserList() {
   }, [Rooms])
 
   useEffect(() => {
-    dispatch({ type: 'BEDCOUNTINGLIST', payload: { hostel_Id: hostel_Id, floor_Id: Floor, room_Id: Rooms } })
+    // dispatch({ type: 'BEDCOUNTINGLIST', payload: { hostel_Id: hostel_Id, floor_Id: Floor, room_Id: Rooms } })
     console.log("state.userList?.bedCount", state.UsersList.beddetails);
     if (state.UsersList?.beddetails) {
       const BedCounting = state.UsersList.Users.filter((item) => {
@@ -168,17 +170,11 @@ function UserList() {
   }
 
 
-  // const handleRooms = (e) => {
-  //   dispatch({ type: 'CLEAR_ERROR' })
-  //   dispatch({ type: 'BEDDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: Floor, Room_Id: e.target.value } })
-  //   dispatch({ type: 'BEDCOUNTINGLIST', payload: { hostel_Id: hostel_Id, floor_Id: Floor, room_Id: e.target.value } })
-  //   setRooms(e.target.value);
-
-  // }
+  
 
   const handleRooms = (e) => {
     
-    // dispatch({ type: 'BEDCOUNTINGLIST', payload: { hostel_Id: hostel_Id, floor_Id: Floor, room_Id: e.target.value } })
+    
     dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: e.target.value } })
     console.log("e.target.value.........?", e.target.value)
     const temparry = state.UsersList.roomdetails.filter((item) => {
@@ -191,32 +187,73 @@ function UserList() {
     setArrayset(temparry)
   }
 
-  const handleBed = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
-    setBed(e.target.value)
-  }
-
-
-
-
 
   // useEffect(() => {
+  //   const Roomdetail = state.UsersList.Users.filter(item => {
+  //     return item.Hostel_Id === hostel_Id && item.Floor === Floor;
+  //   });
+  
+  //   console.log("Roomdetail", Roomdetail);
+  
+  //   if (Roomdetail.length > 0) {
+  //     const filteredRoomDetail = Roomdetail.filter(item => {
+  //       return (
+  //         item.Bed === state.UsersList.roomdetails[0].Number_Of_Beds &&
+  //         item.Floor === state.UsersList.roomdetails[0].Floor_Id &&
+  //         item.Rooms === state.UsersList.roomdetails[0].Room_Id
+  //       );
+  //     });
+  
+  //     console.log("Filtered Roomdetail", filteredRoomDetail);
+  //   }
+  // }, [state.UsersList.roomdetails, hostel_Id, Floor]);
+  
 
-  //   dispatch({ type: 'BEDCOUNTINGLIST', payload: { hostel_Id: hostel_Id, floor_Id: Floor, room_Id: Rooms } });
-  //   console.log('After dispatch - Bed:', Bed, 'Rooms:', Rooms);
-  // }, [Bed, Rooms,Floor]);
+  useEffect(()=>{
+   
+   const Roomdetail =state.UsersList.Users.filter((item)=>{
+    
 
+    return item.Hostel_Id === hostel_Id && item.Floor === Floor
+    
+   })
+   console.log("Roomdetail",Roomdetail)
+  if(Roomdetail.length> 0 ){
+    Roomdetail.filter((item)=>{
+return item.Bed===  state.UsersList.roomdetails[0].Number_Of_Beds && item.Floor ===  state.UsersList.roomdetails[0].Floor_Id && item.Rooms === state.UsersList.roomdetails[0].Room_Id
+    })    
+  }  
+  },[state.UsersList.roomdetails ]);
 
+const handleBed = (e) => {
+  console.log("hostel_Id:", hostel_Id);
+  console.log("Floor:", Floor);
+  console.log("Rooms:", Rooms);
+  console.log("e.target.value:", e.target.value);
 
+  const bedExists = state.UsersList.Users.filter((user) => {
+      return (
+          user.Hostel_Id == hostel_Id && 
+          user.Floor == Floor && 
+          user.Rooms == Rooms && 
+          user.Bed == e.target.value
+      );
+  });
 
+  console.log("Filtered users:", bedExists);
+  setBednum(bedExists)
 
-
-
-
-  const handleBalanceDue = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
-    setBalanceDue(e.target.value)
+  if (bedExists.length > 0) {
+    console.log("Bed already exists");
+      dispatch({ type: 'SET_ERROR', payload: 'Bed number already exists' });
+  } else {
+    console.log("Bed does not exist, setting bed");
+    dispatch({ type: 'SET_ERROR', payload: '' });
+      setBed(e.target.value);
   }
+};
+
+ 
   const handlePaymentType = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
     setPaymentType(e.target.value)
@@ -934,12 +971,54 @@ function UserList() {
                       id="form-selects"
                       onChange={(e) => handleBed(e)}
                     >
-                      <option>Selected Bed</option>
-                      {Arrayset && Array.from({ length: Arrayset[0].Number_Of_Beds }, (_, index) => index + 1).map((value) => (
+                      <option>Selected Bed</option>                     
+
+                      {Arrayset && Array.from({ length: Arrayset[0]?.Number_Of_Beds }, (_, index) => index + 1).map((value) => (
+                       
                         <option key={value}>{value}</option>
-                      ))}
+                    ))}
                     </Form.Select>
+                    {state.UsersList?.errormessage.length > 0 ? (
+                      <div>
+                        <label style={{ color: 'red', fontSize: 18 }}>{state.UsersList.errormessage}</label>
+
+                      </div>
+                    ) : null}
                   </div>
+
+{/* <div className='col-lg-6'>
+  <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>
+  <Form.Select
+    aria-label='Default select example'
+    style={bottomBorderStyle}
+    value={Bed}
+    id="form-selects"
+    onChange={(e) => handleBed(e)}
+  >
+    <option>Selected Bed</option>
+
+    {Arrayset && Array.from({ length: Arrayset[0].Number_Of_Beds }, (_, index) => index + 1).map((value) => {
+  //   const isBedSelected = state.UsersList.Users.some((user) => 
+  //   user.Floor === Arrayset[0].Floor_Id &&
+  //   user.Rooms === Arrayset[0].Room_Id &&
+  //   user.Bed === Arrayset[0].BedCount
+
+  // );
+      if (!isBedSelected) {
+        return <option key={value}>{value}</option>;
+      }
+
+      return null; 
+    })}
+  </Form.Select>
+</div> */}
+
+
+
+
+
+
+
 
                   {/* <div className='col-lg-6'>
                     <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>

@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,bedCount,bedCountinglist} from "../Action/UserListAction"
+import { userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck} from "../Action/UserListAction"
 
 
 function* handleuserlist() {
@@ -74,25 +74,7 @@ function* handleRoomsDetails(ID) {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
 }
-function* handlebedDetails(ID) {
-   const response = yield call(bedCount, ID.payload)
-   if (response.status === 200) {
-      yield put({ type: 'BED_DETAILS', payload: response.data })
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-}
-function* handlebedcountlist(ID) {
-   console.log("handlebedcountlist....ppp",ID)
-   const response = yield call(bedCountinglist, ID.payload)
-   if (response.status === 200) {
-      yield put({ type: 'BED_COUNTING_LIST', payload: response.data })
-   }
-   else if(response.status === 203){
-      yield put({ type: 'SETERROR', payload: response.data })
-   }
-}
+
 
 
 function* handleAddUser(datum) {
@@ -146,7 +128,7 @@ function* UserListSaga() {
    yield takeEvery('CREATEFLOOR',handleCreateFloor)
    yield takeEvery('ROOMDETAILS',handleRoomsDetails)
    yield takeEvery('ROOMFULL', handleRoomCheck)
-   yield takeEvery('BEDDETAILS',handlebedDetails)
-   yield takeEvery('BEDCOUNTINGLIST',handlebedcountlist)
+   
+  
 }
 export default UserListSaga;
