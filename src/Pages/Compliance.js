@@ -470,8 +470,8 @@ const Compliance = () => {
           multiline
           maxRows={4}
           variant="standard"
-          sx={{ m: 1, minWidth: 390 }}  
-          style={{ fontSize: '0.8rem', fontWeight: "bold" }}
+          sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }}
+          style={{ m: 1, minWidth: 390}}
           value={description} onChange={(e) => { setDescription(e.target.value) }} 
         />
              
