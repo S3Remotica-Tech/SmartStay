@@ -90,8 +90,9 @@ const [hostelIndex,setHostelIndex] = useState('')
     setShow(false);
   }
   const handleShow = () => setShow(true);
+
   const handleCancels = () => {
-    handleClose();
+    handlecloseHostelForm();
   };
   const [addhostelForm, setAddhostelForm] = useState(false)
   const handleshowHostelForm = () => {
@@ -268,7 +269,7 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
 
         <Offcanvas show={addhostelForm} onHide={handlecloseHostelForm} placement="end" style={{ width: "70vh" }}>
           <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="p-3 m-0 d-flex align-items-center">Create PG</Offcanvas.Title>
-          <Offcanvas.Body>
+          <Offcanvas.Body >
             <h6 style={{ color: "#0D6EFD" }}>PG Detail</h6>
             <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
             <div className="d-flex justify-content-center">
@@ -278,7 +279,7 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
               <Image src={Hostel} roundedCircle style={{ height: "50px", width: "50px" }} id="hostel-image" />
               <Image src={CreateButton} style={{ height: "20px", width: "20px", position: "absolute", bottom: 0 }} id="plus-image" />
             </div>
-            <form>
+          
               <div className="form-group mb-4">
                 <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>PG Name</label>
                 <input type="text"
@@ -348,8 +349,10 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
                   })}
                 </div>
               )}
+              
+                </Offcanvas.Body>
               <hr style={{ marginTop: "50px" }} />
-              <div className="d-flex justify-content-end" style={{ marginTop: "15px" }} >
+              <div className="d-flex justify-content-end m-3"  >
 
                 <Button variant="white" size="sm" style={{ width: "90px" }} onClick={handleCancels}>
                   Cancel
@@ -359,8 +362,7 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
                 </Button>
 
               </div>
-            </form>
-          </Offcanvas.Body>
+                 
         </Offcanvas>
       </div>
       <hr />

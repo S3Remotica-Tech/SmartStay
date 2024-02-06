@@ -6,9 +6,9 @@ function RoyalGrandHostel() {
   return (
    <>
    
-   <div>
+   {/* <div>
 <Topbar />
-  </div>
+  </div> */}
    <div>
 <Sidebar />
    </div>

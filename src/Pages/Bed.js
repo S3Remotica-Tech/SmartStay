@@ -52,7 +52,6 @@ function getFloorAbbreviation(floor_Id) {
 }
 
 
-
 function BedDetails(props) {
  
   const state = useSelector(state => state);
@@ -128,6 +127,8 @@ if(selectedHostel){
       title: "Number Of beds Updated Successfully",
   }).then((result) => {
       if (result.isConfirmed) {
+        dispatch({ type: 'ROOMCOUNT', payload:{ floor_Id: floorId, hostel_Id: Hostel_Id}})
+
       }
   });
   
