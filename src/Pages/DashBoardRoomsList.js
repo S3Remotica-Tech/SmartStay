@@ -109,19 +109,40 @@ console.log("props",props);
         setRoomCount(state.PgList.roomCount)
     }, [state.PgList.roomCount])
 
-    useEffect(() => {
+//     useEffect(() => {
         
-        console.log("RoomCount", props.hostel_Id);
-        dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-        const tempArray = state.PgList.roomCount.filter((item)=>{
-            console.log("item",item);
-            return item[0].Floor_Id == props.floorID && item[0].id == props.hostel_Id
-        })
-        console.log("tempArray.",tempArray);
-return ()=>{
-    console.log("RoomCount unmount");
-}
-    }, [props.hostel_Id])
+//         console.log("RoomCount", props.hostel_Id);
+//         dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+//         const tempArray = state.PgList?.roomCount.filter((item)=>{
+//             console.log("item",item);
+//             return item[0].Floor_Id == props.floorID && item[0].id == props.hostel_Id
+//         })
+//         console.log("tempArray.",tempArray);
+// return ()=>{
+//     console.log("RoomCount unmount");
+// }
+//     }, [props.hostel_Id])
+
+useEffect(() => {
+    console.log("RoomCount", props.hostel_Id);
+    dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } });
+    if (state.PgList?.roomCount) {
+        const tempArray = state.PgList.roomCount.filter((item) => {
+            if (item && Array.isArray(item) && item.length > 0) {
+                return item[0].Floor_Id == props.floorID && item[0].id == props.hostel_Id;
+            }
+            return false; 
+        });
+        console.log("tempArray.", tempArray);
+    }
+
+    return () => {
+        console.log("RoomCount unmount");
+    };
+}, [props.hostel_Id, props.floorID, state.PgList?.roomCount]);
+
+
+
 
     useEffect(() => {
         if (state.PgList.createRoomMessage !== null) {
@@ -268,7 +289,7 @@ return ()=>{
 
     if (state.PgList?.roomCount) {
         state.PgList.roomCount.forEach((floorRooms) => {
-            floorRooms.forEach((room) => {
+            floorRooms && floorRooms.forEach((room) => {
                 const roomDetail = {
                     Floor_Id: room.Floor_Id,
                     Hostel_Id: room.Hostel_Id,
@@ -281,8 +302,16 @@ return ()=>{
         });
     }
 
+   
+    
+
+
+
     console.log("roomDetailsFromState", roomDetailsFromState);
 
+
+
+    
 
     return (
         <>
