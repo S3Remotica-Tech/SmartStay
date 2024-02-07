@@ -11,8 +11,6 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import BedDetails from './Pages/Bed';
 import DashboardRoomList from './Pages/DashBoardRoomsList';
-import PgList from './Pages/PgList';
-
 function App() {
 
 
@@ -24,20 +22,18 @@ function App() {
     localStorage.setItem("login",true)
   } 
 },[state.login.isLoggedIn])
-
+console.log("state.login.isLoggedIn", state.login.isLoggedIn ? "1":"0");
 
   return (
     <div>
 {
-  login || state.login.isLoggedIn ?
-
-    
+  // login || 
+  state.login?.isLoggedIn ?
     <Router>
     <Routes>
-      <Route index path='/' element={<RoyalGrandHostel />}></Route>
+      <Route index path="/" element={<RoyalGrandHostel />}></Route>
         <Route path='/Bed' element={< BedDetails />} ></Route>
         <Route path='/roomList' element ={<DashboardRoomList/>}/>
-        {/* <Route path='/pgList' element ={<PgList/>}/> */}
       </Routes>  
     </Router>
     :

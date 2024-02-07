@@ -122,7 +122,7 @@ function DashboardRoom(props) {
                 console.log("RoomCount unmount");
             }
         }
-    }, [props.hostel_Id])
+    }, [props.hostel_Id,props.floorID])
 
     useEffect(() => {
         if (state.PgList.createRoomMessage !== null && state.PgList.createRoomMessage != '') {
@@ -135,6 +135,18 @@ function DashboardRoom(props) {
             }, 100)
         }
     }, [state.PgList.createRoomMessage])
+
+// useEffect(()=>{
+//     if (state.UsersList.createFloorMessage !== null) {
+//         dispatch({ type: 'HOSTELLIST' })
+//         dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+
+//         setTimeout(() => {
+//             dispatch({ type: 'UPDATE_MESSAGE_FLOOR', message: null })
+//         }, 100)
+//     }
+// },[state.UsersList.createFloorMessage])
+
 
     useEffect(() => {
         dispatch({ type: 'CHECKROOM' })
