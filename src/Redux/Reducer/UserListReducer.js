@@ -7,24 +7,36 @@ const initialState = {
     billPaymentHistory: [],
     number_of_floor: '',
     roomdetails: [],
-    message: '',
+    message: {},
     roomFullCheck: [],
     beddetails: [],
+
     bedCount: [],
-    createFloorMessage: ''
+    createFloorMessage: '',
+
+    errormessage:{}
 }
 
 const UserListReducer = (state = initialState, action) => {
+
+
+    console.log("action.......lll?",action)
     switch (action.type) {
         case 'CLEAR_ERROR_MESSAGE':
             return {
                 ...state,
                 errorMessage: '',
             };
+
         case 'BED_COUNTING_LIST':
             return { ...state, bedCount: action.payload }
         case 'BED_DETAILS':
             return { ...state, beddetails: action.payload }
+
+            case 'SET_ERROR':
+                return { ...state, errormessage: action.payload }
+           
+         
         case 'ROOM_DETAILS':
             return { ...state, roomdetails: action.payload }
         case 'CREATE_FLOOR':

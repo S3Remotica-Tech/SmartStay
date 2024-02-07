@@ -109,6 +109,7 @@ function DashboardRoom(props) {
         setRoomCount(state.PgList.roomCount)
     }, [state.PgList.roomCount])
 
+
     useEffect(() => {
         if (props.floorID && props.hostel_Id) {
             console.log("RoomCount", props.hostel_Id);
@@ -123,6 +124,7 @@ function DashboardRoom(props) {
             }
         }
     }, [props.hostel_Id,props.floorID])
+
 
     useEffect(() => {
         if (state.PgList.createRoomMessage !== null && state.PgList.createRoomMessage != '') {
@@ -172,6 +174,8 @@ function DashboardRoom(props) {
         handleCloses();
     };
 
+    const [currentRoomId, setCurrentRoomId] = useState("");
+
 
     const [roomDetailsError, setRoomDetailsError] = useState(false);
     const handleRoomIdChange = (roomId, index) => {
@@ -189,6 +193,7 @@ function DashboardRoom(props) {
         } else {
             setRoomDetailsError(false);
         }
+        setCurrentRoomId(roomId);
     };
 
     const handleNumberOfBedChange = (numberOfBeds, index) => {
@@ -198,9 +203,28 @@ function DashboardRoom(props) {
             return updatedRooms;
         });
     };
+    // const handleAddRoom = () => {
+    //     setRoomDetails([...roomDetails, { roomId: '', numberOfBeds: '' }]);
+    // };
+
     const handleAddRoom = () => {
         setRoomDetails([...roomDetails, { roomId: '', numberOfBeds: '' }]);
+               const isExistingRoom = roomDetailsFromState.some(existingRoom =>
+            existingRoom.Hostel_Id === props.hostel_Id &&
+            existingRoom.Floor_Id === props.floorID &&
+            String(existingRoom.Room_Id) === String(roomDetails[0].roomId)
+        );
+    
+        const isRoomDetailsValid = roomDetails.every(room => room.roomId && room.numberOfBeds);
+           
+        if (isExistingRoom && isRoomDetailsValid) {
+            setRoomDetailsError(true);
+        } else {
+            setRoomDetailsError(false);
+            }
     };
+    
+
 
     const handleCreateRoom = () => {
         const floorId = props.floorID.toString();
@@ -259,7 +283,7 @@ function DashboardRoom(props) {
 
     if (state.PgList?.roomCount) {
         state.PgList.roomCount.forEach((floorRooms) => {
-            floorRooms.forEach((room) => {
+            floorRooms && floorRooms.forEach((room) => {
                 const roomDetail = {
                     Floor_Id: room.Floor_Id,
                     Hostel_Id: room.Hostel_Id,
@@ -272,14 +296,22 @@ function DashboardRoom(props) {
         });
     }
 
+   
+    
+
+
+
     console.log("roomDetailsFromState", roomDetailsFromState);
 
+
+
+    
 
     return (
         <>
             <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
 
-                <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }}>
+                <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 ,height:"auto",minHeight:200}}>
 
                     <div className="card-header d-flex justify-content-between p-2" style={{ backgroundColor: "#f6f7fb" }}><strong style={{ fontSize: "13px" }}>{getFloorName(props.floorID)}</strong><FaAngleRight className="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
 
@@ -305,7 +337,7 @@ function DashboardRoom(props) {
                                                         return (
                                                             <>
 
-                                                                <div className="col-4" key={index} >
+                                                                <div className="col-3" key={index} >
                                                                     <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: val.Number_Of_Beds - val.bookedBedCount == 0 ? "#25D366" : "#e3e4e8" }} onClick={() => { handleRoomDetails(val) }}>
                                                                         <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "2px", filter: val.Number_Of_Beds - val.bookedBedCount == 0 ? "brightness(0) invert(1)" : "none" }} alt='Room' />
                                                                         <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600, color: val.Number_Of_Beds - val.bookedBedCount == 0 ? "white" : "gray" }}>
@@ -325,7 +357,7 @@ function DashboardRoom(props) {
 
                             }
 
-                            <div className="col-4">
+                            <div className="col-3">
                                 <div className="card  text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA", backgroundColor: "#cccccc11" }} onClick={() => { handleShows() }}>
                                     <img src={Plus} className="pt-2 mb-0" height="25" width="15" alt='Room' />
                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px", fontWeight: 600 }} className="mb-0" >Create Room</p>
@@ -335,95 +367,68 @@ function DashboardRoom(props) {
                     </div>
                 </div>
             </div>
-            {/* <Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
-                <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create PG</Offcanvas.Title>
-                <Offcanvas.Body>
-                    <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
-                    <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
+            
+              
+<Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
+    <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create PG</Offcanvas.Title>
+    <Offcanvas.Body>
+        <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
+        <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes. Be a part of SmartStay Circle, and invite-only, global community of social media influencers and affiliate networks.</p>
 
-
-                    <div className="row column-gap-3 g-3 d-flex align-items-center ">
-                        {roomDetails.map((room, index) => (
-                            <>
-                                {
-                                    updateRoom === 'Add' &&
-                                    roomDetailsFromState && roomDetailsFromState.some(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId)) && (
-                                        <div className="p-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
-                                            RoomId <strong>{room.roomId}</strong> is already exists &
-                                            available beds are <strong style={{ color: "white" }}>{roomDetailsFromState.find(existingRoom => existingRoom.hostel_Id === props.hostel_Id && existingRoom.floor_Id === props.floorID && String(existingRoom.roomId) === String(room.roomId))?.numberOfBeds}</strong>
-                                        </div>
-                                    )
-                                }
-                                {
-                                    updateRoom === 'Edit' ?
-                                        <>
-                                            <div key={index} className="col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
-                                                <div className="form-group mb-4 p-2 d-flex flex-column">
-                                                    <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}><b>Room Number : </b></label>
-                                                    <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>{room.roomId}</label>
-                                                </div>
-                                            </div>
-                                        </>
-                                        :
-                                        <>
-                                            <div key={index} className="col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
-                                                <div className="form-group mb-4 ps-1">
-                                                    <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
-                                                    <input
-                                                        type="text"
-                                                        value={room.roomId}
-                                                        onChange={(e) => handleRoomIdChange(e.target.value, index)}
-                                                        className="form-control custom-border-bottom p-0"
-                                                        id={`roomNumber${index}`}
-                                                        placeholder="Enter here"
-                                                        style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </>
-                                }
-
-
-
-                                <div key={`beds${index}`} className="col-lg-4 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
-                                    <div className="form-group mb-4 ps-1">
-                                        <label htmlFor={`bedsNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Number of Beds</label>
-                                        <div className="d-flex">
-                                            <input
-                                                type="text"
-                                                value={room.numberOfBeds}
-                                                onChange={(e) => handleNumberOfBedChange(e.target.value, index)}
-                                                className="form-control custom-border-bottom p-0"
-                                                id={`bedsNumber${index}`}
-                                                placeholder="Enter here"
-                                                style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {index > 0 &&
-                                    <div className="col-lg-1">
-                                        <TiDeleteOutline style={{ fontSize: 18, color: "red", cursor: "pointer" }} onClick={() => handleRemoveRoomDetails(index)} />
-                                    </div>
-                                }
-
-                            </>
-                        ))}
+        {/* {roomDetailsError && (
+            <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
+                {roomDetails.map((room, index) => (
+                    <div key={index}>
+                        RoomId {room.roomId} is already exists & available beds are {roomDetailsFromState.find(existingRoom =>
+                            existingRoom.Hostel_Id === props.hostel_Id &&
+                            existingRoom.Floor_Id === props.floorID &&
+                            String(existingRoom.Room_Id) === String(room.roomId)
+                        )?.Number_Of_Beds}
                     </div>
-                    <div onClick={handleAddRoom}>
-                        <AiOutlinePlusCircle style={{ height: "30px" }} /> <label style={{ color: "gray", fontSize: "14px" }}>Add Room</label>
-                    </div>
-                    <hr style={{ marginTop: "100px" }} />
+                ))}
+            </div>
+        )} */}
 
-                    <div className="d-flex justify-content-end" style={{ marginTop: "15px" }} >
-                        <Button variant="outline-secondary" className='ms-2 me-2' size="sm" style={{ width: "90px", borderRadius: 200 }} onClick={handleCancels}>
-                            Cancel
-                        </Button>
-                        <Button variant="outline-primary" className='ms-2 me-2' size="sm" style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
-                            {updateRoom == 'Add' ? "Save" : "Update"}
-                        </Button>
+{roomDetailsError && (
+            <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
+                {roomDetails.map((room, index) => {
+                    if (room.roomId === currentRoomId) {
+                        return (
+                            <div key={index}>
+                                RoomId {currentRoomId} is already exists & available beds are {roomDetailsFromState.find(existingRoom =>
+                                    existingRoom.Hostel_Id === props.hostel_Id &&
+                                    existingRoom.Floor_Id === props.floorID &&
+                                    String(existingRoom.Room_Id) === String(room.roomId)
+                                )?.Number_Of_Beds}
+                            </div>
+                        );
+                    }
+                    return null;
+                })}
+            </div>
+        )}
+
+
+
+        <div className="row column-gap-3 g-3 d-flex align-items-center ">
+            {roomDetails.map((room, index) => (
+                <>
+                    <div key={index} className="col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                        <div className="form-group mb-4 ps-1">
+                            <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
+                            <input
+                                type="text"
+                                value={room.roomId}
+                                onChange={(e) => handleRoomIdChange(e.target.value, index)}
+                                className="form-control custom-border-bottom p-0"
+                                id={`roomNumber${index}`}
+                                autoFocus
+                                placeholder="Enter here"
+                                style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
+                            />
+                        </div>
                     </div>
+
                 </Offcanvas.Body>
             </Offcanvas> */}
             <Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
@@ -514,30 +519,48 @@ function DashboardRoom(props) {
                                     </div>
                                 </div>
 
-                                {index > 0 &&
-                                    <div className="col-lg-1">
-                                        <TiDeleteOutline style={{ fontSize: 18, color: "red", cursor: "pointer" }} onClick={() => handleRemoveRoomDetails(index)} />
-                                    </div>
-                                }
 
-                            </>
-                        ))}
+                    <div key={`beds${index}`} className="col-lg-4 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                        <div className="form-group mb-4 ps-1">
+                            <label htmlFor={`bedsNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Number of Beds</label>
+                            <div className="d-flex">
+                                <input
+                                    type="text"
+                                    value={room.numberOfBeds}
+                                    onChange={(e) => handleNumberOfBedChange(e.target.value, index)}
+                                    className="form-control custom-border-bottom p-0"
+                                    id={`bedsNumber${index}`}
+                                    placeholder="Enter here"
+                                    style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div onClick={handleAddRoom}>
-                        <AiOutlinePlusCircle style={{ height: "30px" }} /> <label style={{ color: "gray", fontSize: "14px" }}>Add Room</label>
-                    </div>
-                    <hr style={{ marginTop: "100px" }} />
 
-                    <div className="d-flex justify-content-end" style={{ marginTop: "15px" }} >
-                        <Button variant="outline-secondary" className='ms-2 me-2' size="sm" style={{ width: "90px", borderRadius: 200 }} onClick={handleCancels}>
-                            Cancel
-                        </Button>
-                        <Button variant="outline-primary" className='ms-2 me-2' size="sm" style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
-                            {updateRoom == 'Add' ? "Save" : "Update"}
-                        </Button>
-                    </div>
-                </Offcanvas.Body>
-            </Offcanvas>
+                    {index > 0 &&
+                        <div className="col-lg-1">
+                            <TiDeleteOutline style={{ fontSize: 18, color: "red", cursor: "pointer" }} onClick={() => handleRemoveRoomDetails(index)} />
+                        </div>
+                    }
+                </>
+            ))}
+        </div>
+
+        <div onClick={handleAddRoom}>
+            <AiOutlinePlusCircle style={{ height: "30px" }} /> <label style={{ color: "gray", fontSize: "14px" }}>Add Room</label>
+        </div>
+        <hr style={{ marginTop: "100px" }} />
+
+        <div className="d-flex justify-content-end" style={{ marginTop: "15px" }}>
+            <Button variant="outline-secondary" className='ms-2 me-2' size="sm" style={{ width: "90px", borderRadius: 200 }} onClick={handleCancels}>
+                Cancel
+            </Button>
+            <Button variant="outline-primary" className='ms-2 me-2' size="sm" style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
+                {roomDetailsError ? "Update" : "Save"}
+            </Button>
+        </div>
+    </Offcanvas.Body>
+</Offcanvas>
 
 
         </>)
