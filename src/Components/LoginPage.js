@@ -38,6 +38,13 @@ const MyComponent = () => {
   const handleForgetPassword = () => {
     navigate('/forget-password')
   }
+  useEffect(()=>{
+    if(state.login?.message?.message){
+      navigate('/dashboard')
+    }
+   
+  
+  },[state.login?.message?.message])
 
 
   const handleEmailChange = (e) => {
