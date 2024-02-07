@@ -7,7 +7,7 @@ const initialState = {
    errorEmail: '',
    errorPassword: '',
    errorMessage: '',
-
+   statusCode: 0
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -16,7 +16,7 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
       case 'LOGIN-INFO':
-         return { ...state, email_Id: action.payload.email_Id, password: action.payload.password, isLoggedIn: true, errorEmail: '', errorPassword: '', errorMessage: '' }
+         return { ...state, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode }
       case 'ERROR_EMAIL':
          return { ...state, errorEmail: action.payload }
       case 'ERROR_PASSWORD':
@@ -25,7 +25,8 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, errorEmail: '' }
       case 'CLEAR_PASSWORD_ERROR':
          return { ...state, errorPassword: '' }
-
+      case 'LOGIN-SUCCESS':
+         return { ...state, isLoggedIn: true }
    }
 
    return state

@@ -31,6 +31,24 @@ function getFormattedRoomId(floor_Id, room_Id) {
   }
 }
 
+function getFloorAbbreviation(floor_Id) {
+
+  switch (floor_Id) {
+      case 5:
+          return 'F';
+      case 6:
+          return 'S';
+      case 8:
+          return 'E';
+      case 9:
+          return 'N';
+      case 10:
+          return 'T';
+
+      default:
+          return `${floor_Id}`;
+  }
+}
 
 function getFloorAbbreviation(floor_Id) {
 
@@ -60,7 +78,7 @@ function BedDetails(props) {
   const location = useLocation();
   
   console.log("props for bedDetails ",props)
-  const { bedDetailsSendThePage } = props;
+  const { bedDetailsSendThePage } = props; 
   const numberOfBeds = bedDetailsSendThePage.Number_Of_Beds;
   const roomId = bedDetailsSendThePage.Room_Id;
   console.log("numberOfBeds",numberOfBeds)
@@ -75,6 +93,8 @@ const floorId = bedDetailsSendThePage.Floor_Id;
 const RoomName = getFormattedRoomId(floorId, roomId)
 
 console.log("RoomName",RoomName)
+
+
 const [shows, setShows] = useState(false);
     const handleCloses = () => {
         // setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
@@ -104,7 +124,13 @@ const [shows, setShows] = useState(false);
 
 // }
 
-
+const [roomCount, setRoomCount] = useState([])
+   
+    
+    useEffect(() => {
+        setRoomCount(state.PgList.roomCount)
+        console.log("roomCount for ",roomCount)
+    }, [state.PgList.roomCount])
 
 const handleCreateBed = () => {
     if (Hostel_Id && floorId && roomId) {
@@ -126,13 +152,10 @@ if(selectedHostel){
       icon: 'success',
       title: "Number Of beds Updated Successfully",
   }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch({ type: 'ROOMCOUNT', payload:{ floor_Id: floorId, hostel_Id: Hostel_Id}})
-
-      }
+            if (result.isConfirmed) {
+            }
   });
-  
-  handleCloses();
+    handleCloses();
   }
   
 }else{
@@ -141,7 +164,18 @@ if(selectedHostel){
     title: 'No Data Found',
 });
 }
+setRoomCount(state.PgList.roomCount)
 };
+
+
+
+
+
+useEffect(() => {
+  if (state.PgList?.roomCreationSuccess === true) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorId, hostel_Id: Hostel_Id } });
+  }
+}, [state.PgList?.roomCreationSuccess, floorId, Hostel_Id]);
 
 
 
@@ -153,7 +187,8 @@ const handleNumberOfBedChange = (numberOfBeds) => {
 };
 
 
-
+console.log("state for bed",state.PgList?.roomCount)
+console.log("props ending",props)
 
   return (
 
@@ -282,3 +317,4 @@ const handleNumberOfBedChange = (numberOfBeds) => {
 }
 
 export default BedDetails;
+

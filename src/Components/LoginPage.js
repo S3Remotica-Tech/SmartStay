@@ -50,6 +50,13 @@ const MyComponent = () => {
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
     setpassword(e.target.value)
   }
+useEffect(()=>{
+if(state.login.statusCode === 200){
+  console.log("state.login.statusCode",state.login.statusCode);
+  navigate('/')
+  dispatch({type:'LOGIN-SUCCESS'})
+}
+},[state.login.statusCode])
 
   const handleLogin = () => {
     if (email_Id && password) {
