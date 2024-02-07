@@ -115,8 +115,7 @@ const [hostelIndex,setHostelIndex] = useState('')
     if (pgList.Name && pgList.phoneNumber && pgList.email_Id) {
       const floorDetailsArray = Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
         const floorNumber = index + 1;
-        const numberOfRooms = parseInt(pgList[`number_Of_Rooms_${floorNumber}`]) || 0;
-
+        const numberOfRooms = parseInt(pgList[`number_Of_Rooms_${floorNumber}`]) || 0;  
         return {
           floor: floorNumber,
           roomDetails: Array.from({ length: numberOfRooms }, (_, roomIndex) => {
