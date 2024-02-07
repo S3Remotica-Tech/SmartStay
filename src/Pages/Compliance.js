@@ -181,6 +181,7 @@ const Compliance = () => {
 
 
   const handleEdit = (item) => {
+    console.log("item",item)
     setEditbtn(true)
     setId(item.ID)
     setName(item.Name)
@@ -192,6 +193,7 @@ const Compliance = () => {
     setDate('')
     setStatus(item.Status)
     setHostel_Id(item.Hostel_id)
+    setHostelName(item.hostelname)
     setFloor(item.Floor_id)
     setRooms(item.Room)
     handleMenuClick();
