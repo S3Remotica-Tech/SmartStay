@@ -6,7 +6,7 @@ function* Login(args) {
   try {
     const response = yield call(login, args.payload);
     if (response.status === 200) {
-      yield put({ type: 'LOGIN-INFO', payload: response.data });
+      yield put({ type: 'LOGIN-INFO', payload:{ response:response.data,statusCode:response.status} });
       Swal.fire({
         icon: 'success',
         title: 'Login Successful',

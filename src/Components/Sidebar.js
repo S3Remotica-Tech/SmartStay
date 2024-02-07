@@ -41,12 +41,19 @@ import Smart from "../Assets/Images/Logo-Icon-White.png";
 import Notification from '../Assets/Images/Notification.png';
 import Settings from '../Assets/Images/Settings.png';
 import Men from '../Assets/Images/men.jpg';
+import Logout from '../Assets/Images/turn-off.png';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import { useNavigate } from "react-router-dom";
 
 
 import CreatePG from './CreatePG';
 
 function Sidebar() {
+  
+  let navigate = useNavigate();
 
+  const login = localStorage.getItem("login")
   const [activePage, setActivePage] = useState(true);
 
   // const [collapsed, setCollapsed] = useState(true);
@@ -180,6 +187,22 @@ function Sidebar() {
     };
   }, []);
 
+const handleLogout = () =>{
+  Swal.fire({
+    icon: 'warning',
+    title: 'Do you want LogOut?',
+    confirmButtonText: 'Ok',
+    showCancelButton: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.setItem("login",false)
+      navigate('/login-Page')
+  console.log("login",login);
+
+    }
+  })
+}
+
   return (
 <>
 
@@ -214,6 +237,7 @@ function Sidebar() {
           </div>
           <Form className="d-flex">
             <div class="justify-content-evenly">
+              <img src={Logout} class="me-3" style={{ height: "25px", width: "25px" }} onClick={handleLogout} alt='Logout'/>
               <img src={Notification} class="me-3" style={{ height: "25px", width: "25px" }} alt='Notification'/>
               <img src={Settings} class="me-3" style={{ height: "25px", width: "25px" }} alt='Settings'/>
             </div>

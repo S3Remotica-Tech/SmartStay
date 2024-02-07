@@ -28,7 +28,7 @@ function* handleNumberOfRooms(ID) {
    const response = yield call(roomsCount, ID.payload)
    if (response.status === 200) {
       yield put({ type: 'ROOM_COUNT', payload: response.data })
-      yield put({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: 'CREATED SUCCESSFULLT'})
+      yield put({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: 'CREATED SUCCESSFULLY'})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -59,6 +59,7 @@ function* handleCreateFloor(data) {
    const response = yield call(createFloor,data.payload);
    if (response.status === 200) {
       yield put({ type: 'CREATE_FLOOR', payload: response.data })
+      yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
