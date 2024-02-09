@@ -138,18 +138,6 @@ function DashboardRoom(props) {
         }
     }, [state.PgList.createRoomMessage])
 
-// useEffect(()=>{
-//     if (state.UsersList.createFloorMessage !== null) {
-//         dispatch({ type: 'HOSTELLIST' })
-//         dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-
-//         setTimeout(() => {
-//             dispatch({ type: 'UPDATE_MESSAGE_FLOOR', message: null })
-//         }, 100)
-//     }
-// },[state.UsersList.createFloorMessage])
-
-
     useEffect(() => {
         dispatch({ type: 'CHECKROOM' })
     }, [])
@@ -365,8 +353,9 @@ function DashboardRoom(props) {
                             </div>
                         </div >
                     </div>
+                    </div>
                 </div>
-            </div>
+            
             
               
 <Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
@@ -428,7 +417,10 @@ function DashboardRoom(props) {
                             />
                         </div>
                     </div>
-</>))}
+
+</>
+))}
+
 </div>
                 </Offcanvas.Body>
             </Offcanvas> 
@@ -564,7 +556,8 @@ function DashboardRoom(props) {
 </Offcanvas>
 
 
-        </>)
+        </>
+        )
 }
 
 export default React.memo(DashboardRoom);
