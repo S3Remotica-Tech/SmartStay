@@ -88,22 +88,9 @@ ul li {
 
 }
 
-.name::placeholder {
-  padding-left: 10px;
-}
 
-.phone::placeholder {
-  padding-left: 10px;
-}
 
-.email::placeholder {
-  padding-left: 10px;
-}
 
-.pwd::placeholder {
-  padding-left: 10px;
-
-}
 
 .secondrow {
   width: 64%;
