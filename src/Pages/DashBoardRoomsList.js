@@ -9,9 +9,6 @@ import { TiDeleteOutline } from "react-icons/ti";
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import BedDetails from './Bed';
-import { MdMeetingRoom } from "react-icons/md";
 
 function getFloorName(floor_Id) {
     if (floor_Id === 1) {
@@ -85,10 +82,6 @@ function getFloorAbbreviation(floor_Id) {
 
 
 function DashboardRoom(props) {
-    console.log("props", props);
-    const navigate = useNavigate();
-    const [roomLength, setRoomLength] = useState(0)
-    const noOfFloor = Number(props.floorID) + Number(props.floorID);
     const state = useSelector(state => state)
     const dispatch = useDispatch();
     const [updateRoom, setUpdateRoom] = useState(false)
@@ -152,7 +145,6 @@ function DashboardRoom(props) {
                 updatedRooms[0].numberOfBeds = val.Number_Of_Beds;
                 return updatedRooms;
             });
-            // setR
         }
         else {
             setUpdateRoom('Add')
@@ -163,7 +155,6 @@ function DashboardRoom(props) {
     };
 
     const [currentRoomId, setCurrentRoomId] = useState("");
-
 
     const [roomDetailsError, setRoomDetailsError] = useState(false);
     const handleRoomIdChange = (roomId, index) => {
@@ -231,19 +222,12 @@ function DashboardRoom(props) {
                     })),
                 },
             });
-            // dispatch({ type: 'HOSTELLIST' })
-            // if (state.PgList.createRoomMessage) {
             Swal.fire({
                 icon: 'success',
                 title: "Room created successfully",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                }
-            });
+            })
             setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
             handleCloses();
-            // }
-
         } else {
             Swal.fire({
                 icon: 'warning',
@@ -255,8 +239,8 @@ function DashboardRoom(props) {
     const handleRemoveRoomDetails = (indexToRemove) => {
         setRoomDetails((prevDetails) => prevDetails.filter((_, index) => index !== indexToRemove));
     };
-    const arr = [];
-    console.log("state", state);
+    // const arr = [];
+let arr =0
     // const handleRoomDetails = (val) => {
 
     //     navigate('/Bed', { state: { val: val } });
@@ -285,15 +269,6 @@ function DashboardRoom(props) {
     }
 
    
-    
-
-
-
-    console.log("roomDetailsFromState", roomDetailsFromState);
-
-
-
-    
 
     return (
         <>
@@ -312,14 +287,19 @@ function DashboardRoom(props) {
                             {
 
                                 roomCount.length > 0 && roomCount.map((room) => {
-
+                                    // arr =  room.length > 0 ? room.length : 0 
+                                    // arr.length == 0 && arr.push(room.length)
+                                    //  console.log("room count arr",room.length);
                                     return (
                                         <>
                                             {room.length > 0 &&
                                                 room.map((val, index) => {
                                                     if (val.Floor_Id == props.floorID) {
+                                                        // arr = room.length
+                                                        // arr =  room.length > 0 ? room.length : 0 
+                                                        // console.log("room count arr",arr);
+                                                        // room.length > 0 ? arr.push(room.length) :  arr = [] && arr.push(0)
                                                         arr.length == 0 && arr.push(room.length)
-                                                        // setRoomLength(room.length)
                                                         const formattedRoomId = getFormattedRoomId(val.Floor_Id, val.Room_Id);
 
                                                         return (
