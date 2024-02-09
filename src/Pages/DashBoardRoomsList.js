@@ -353,8 +353,9 @@ function DashboardRoom(props) {
                             </div>
                         </div >
                     </div>
+                    </div>
                 </div>
-            </div>
+            
             
               
 <Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
@@ -416,9 +417,11 @@ function DashboardRoom(props) {
                             />
                         </div>
                     </div>
-
+</>
+))}
+</div>
                 </Offcanvas.Body>
-            </Offcanvas> */}
+            </Offcanvas> 
             <Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
                 <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create PG</Offcanvas.Title>
                 <Offcanvas.Body>
@@ -551,7 +554,8 @@ function DashboardRoom(props) {
 </Offcanvas>
 
 
-        </>)
+        </>
+        )
 }
 
 export default React.memo(DashboardRoom);
