@@ -30,7 +30,24 @@ function getFormattedRoomId(floor_Id, room_Id) {
           return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
   }
 }
+function getFloorAbbreviation(floor_Id) {
 
+  switch (floor_Id) {
+      case 5:
+          return 'F';
+      case 6:
+          return 'S';
+      case 8:
+          return 'E';
+      case 9:
+          return 'N';
+      case 10:
+          return 'T';
+
+      default:
+          return `${floor_Id}`;
+  }
+}
 
 
 
