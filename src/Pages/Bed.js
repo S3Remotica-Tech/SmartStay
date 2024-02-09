@@ -52,7 +52,7 @@ function getFloorAbbreviation(floor_Id) {
 }
 
 
-const BedDetails = React.memo((props) => {
+function BedDetails (props)  {
 
   const state = useSelector(state => state);
   console.log(state, "state");
@@ -279,7 +279,7 @@ const BedDetails = React.memo((props) => {
     </>
 
   );
-})
+}
 
 export default BedDetails;
 
