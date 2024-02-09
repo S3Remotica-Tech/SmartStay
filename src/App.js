@@ -11,23 +11,26 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import BedDetails from './Pages/Bed';
 import DashboardRoomList from './Pages/DashBoardRoomsList';
-function App() {
 
 
-  const state = useSelector(state => state)
+
+   function App() {
+
+
+ const state = useSelector(state => state)
  const login = localStorage.getItem("login")
 
- useEffect (()=>{
-  if(state.login.isLoggedIn===true){
-    localStorage.setItem("login",true)
-  } 
-},[state.login.isLoggedIn])
+//  useEffect (()=>{
+//   if(state.login.isLoggedIn===true){
+//     localStorage.setItem("login",true)
+//   } 
+// },[state.login.isLoggedIn])
 console.log("state.login.isLoggedIn", state.login.isLoggedIn ? "1":"0");
 
   return (
     <div>
 {
-  // login || 
+  login || 
   state.login?.isLoggedIn ?
     <Router>
     <Routes>
