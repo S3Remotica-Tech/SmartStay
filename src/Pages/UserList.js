@@ -138,7 +138,7 @@ function UserList() {
   }, [Rooms])
 
   useEffect(() => {
-    // dispatch({ type: 'BEDCOUNTINGLIST', payload: { hostel_Id: hostel_Id, floor_Id: Floor, room_Id: Rooms } })
+   
     console.log("state.userList?.bedCount", state.UsersList.beddetails);
     if (state.UsersList?.beddetails) {
       const BedCounting = state.UsersList.Users.filter((item) => {
@@ -231,7 +231,7 @@ const handleBed = (e) => {
   console.log("Rooms:", Rooms);
   console.log("e.target.value:", e.target.value);
 
-  const bedExists = state.UsersList.Users.filter((user) => {
+  const bedExists = state.UsersList.Users.filter ((user) => {
       return (
           user.Hostel_Id == hostel_Id && 
           user.Floor == Floor && 
@@ -962,7 +962,7 @@ const handleBed = (e) => {
 
                     </Form.Select>
                   </div>
-                  <div className='col-lg-6'>
+                  <div className='col-lg-6 mt-2'>
                     <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>
                     <Form.Select
                       aria-label='Default select example'
@@ -976,6 +976,7 @@ const handleBed = (e) => {
                       {Arrayset && Array.from({ length: Arrayset[0]?.Number_Of_Beds }, (_, index) => index + 1).map((value) => (
                        
                         <option key={value}>{value}</option>
+                       
                     ))}
                     </Form.Select>
                     {state.UsersList?.errormessage.length > 0 ? (

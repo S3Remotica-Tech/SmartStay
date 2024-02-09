@@ -120,6 +120,7 @@ const [hostelIndex,setHostelIndex] = useState('')
 
   const handleSubmitPgList = () => {
     if (pgList.Name && pgList.phoneNumber && pgList.email_Id && pgList.location && pgList.number_Of_Floor) {
+
       dispatch({
         type: 'PGLIST',
         payload: {

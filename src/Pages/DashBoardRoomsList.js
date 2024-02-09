@@ -417,8 +417,10 @@ function DashboardRoom(props) {
                             />
                         </div>
                     </div>
+
 </>
 ))}
+
 </div>
                 </Offcanvas.Body>
             </Offcanvas> 
