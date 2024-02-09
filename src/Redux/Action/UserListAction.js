@@ -19,11 +19,7 @@ export async function roomsCount(floorAndHostelID){
     data:floorAndHostelID
   })
 }
-export async function bedCount(bedid){
-  return await AxiosConfig.post('/list/numberOf-Bed',bedid,{
-    data:bedid
-  })
-}
+
 export async function hosteliddetail(id) {
   return await AxiosConfig.post('/floor_list', id,{
     data:id
@@ -43,11 +39,5 @@ export async function roomFullCheck(roomCheck){
   console.log("roomCheck",roomCheck)
   return await AxiosConfig.post('/check/room-full',roomCheck,{
     data:roomCheck
-  })
-}
-export async function bedCountinglist(id) {
-  console.log("id.....bedid",id)
-  return await AxiosConfig.post('/list/bed-list', id,{
-    data:id
   })
 }
