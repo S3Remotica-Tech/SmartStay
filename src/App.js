@@ -30,8 +30,7 @@ function App() {
     <div>
 {
   login || state.login.isLoggedIn ?
-
-    
+   
     <Router>
     <Routes>
       <Route index path='/' element={<RoyalGrandHostel />}></Route>
