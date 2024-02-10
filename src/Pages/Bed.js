@@ -31,7 +31,6 @@ function getFormattedRoomId(floor_Id, room_Id) {
   }
 }
 
-
 function getFloorAbbreviation(floor_Id) {
 
   switch (floor_Id) {
