@@ -14,12 +14,20 @@ import DashboardRoomList from './Pages/DashBoardRoomsList';
 
 
 
+
+
    function App() {
 
 
  const state = useSelector(state => state)
  const login = localStorage.getItem("login")
 
+//  useEffect (()=>{
+//   if(state.login.isLoggedIn===true){
+//     localStorage.setItem("login",true)
+//   } 
+// },[state.login.isLoggedIn])
+console.log("state.login.isLoggedIn", state.login.isLoggedIn ? "1":"0");
 //  useEffect (()=>{
 //   if(state.login.isLoggedIn===true){
 //     localStorage.setItem("login",true)
@@ -34,7 +42,7 @@ console.log("state.login.isLoggedIn", state.login.isLoggedIn ? "1":"0");
    
     <Router>
     <Routes>
-      <Route index path="/" element={<RoyalGrandHostel />}></Route>
+           <Route index path="/" element={<RoyalGrandHostel />}></Route>
         <Route path='/Bed' element={< BedDetails />} ></Route>
         <Route path='/roomList' element ={<DashboardRoomList/>}/>
       </Routes>  

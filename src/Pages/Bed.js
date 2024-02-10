@@ -170,7 +170,7 @@ function BedDetails (props)  {
     <>
       <div style={{ width: "100%" }}>
 
-        <div className="row row-gap-3 row-column-gap-4 gap-3 g-2 justify-content-start p-5" style={{ backgroundColor: "" }}>
+        <div className="row row-gap-3 row-column-gap-4 gap-3 g-2 justify-content-start pt-2 ps-2 ps-5" style={{ backgroundColor: "" }}>
 
           <div className='col-lg-2 col-md-6 col-xs-12 col-sm-12'>
             <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)", width: "auto", maxWidth: 400 }}>
