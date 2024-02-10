@@ -38,6 +38,13 @@ const MyComponent = () => {
   const handleForgetPassword = () => {
     navigate('/forget-password')
   }
+  useEffect(()=>{
+    if(state.login?.message?.message){
+      navigate('/dashboard')
+    }
+   
+  
+  },[state.login?.message?.message])
 
 
   const handleEmailChange = (e) => {
@@ -50,6 +57,31 @@ const MyComponent = () => {
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
     setpassword(e.target.value)
   }
+
+  const login = localStorage.getItem("login")
+
+ useEffect (()=>{
+  if(state.login.isLoggedIn===true){
+    localStorage.setItem("login",true)
+  } 
+},[state.login.isLoggedIn])
+
+
+const [checked, setChecked] = useState(false);
+
+const handleCheckboxChange = () => { 
+  setChecked(!checked); 
+  localStorage.setItem("login", !checked);
+  // localStorage.getItem("login")
+}
+
+useEffect(()=>{
+if(state.login.statusCode === 200){
+  console.log("state.login.statusCode",state.login.statusCode);
+  navigate('/')
+  dispatch({type:'LOGIN-SUCCESS'})
+}
+},[state.login.statusCode])
 
   const handleLogin = () => {
     if (email_Id && password) {
@@ -133,7 +165,10 @@ const MyComponent = () => {
 
                 <div className="mb-3 d-flex justify-content-between" >
                   <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Remember me" style={{ fontSize: "11px", fontWeight: 700 }} />
+                    <Form.Check type="checkbox" label="Remember me" 
+                    checked={checked}
+                    onChange={handleCheckboxChange} 
+                    style={{ fontSize: "11px", fontWeight: 700 }} />
                   </Form.Group>
                   <Form.Label style={{ color: "#007FFF", fontSize: "11px", cursor: "pointer" }} onClick={() => handleForgetPassword()} ><b>Forgot Password?</b></Form.Label>
                 </div>

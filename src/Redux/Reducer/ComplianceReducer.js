@@ -6,7 +6,7 @@ const initialState = {
     }
     
     const ComplianceReducer = (state = initialState, action) => {
-        console.log("compliance Reducer", action.payload);
+       
         switch(action.type) {
             case 'COMPLIANCE_LIST':
                 return {...state, Compliance: action.payload}
