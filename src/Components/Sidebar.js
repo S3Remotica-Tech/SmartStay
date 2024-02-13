@@ -96,11 +96,11 @@ function Sidebar() {
     return () => clearTimeout(timeout);
   }, [pgList.number_Of_Rooms]);
 
-  const handleFloorList = (index, roomlist) => {
-    var tempArray = pgList.floorDetails
-    tempArray[index] = roomlist
-    setPgList({ ...pgList, floorDetails: tempArray })
-  }
+  // const handleFloorList = (index, roomlist) => {
+  //   var tempArray = pgList.floorDetails
+  //   tempArray[index] = roomlist
+  //   setPgList({ ...pgList, floorDetails: tempArray })
+  // }
   const dispatch = useDispatch()
   const state = useSelector(state => state)
 
@@ -111,57 +111,57 @@ function Sidebar() {
   };
 
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleCancels = () => {
-    handleClose();
-  };
+  // const [show, setShow] = useState(false);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+  // const handleCancels = () => {
+  //   handleClose();
+  // };
 
-  const handleSubmitPgList = () => {
-    if (pgList.Name && pgList.phoneNumber) {
-      const floorDetailsArray = Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
-        const floorNumber = index + 1;
-        const numberOfRooms = parseInt(pgList[`number_Of_Rooms_${floorNumber}`]) || 0;
+  // const handleSubmitPgList = () => {
+  //   if (pgList.Name && pgList.phoneNumber) {
+  //     const floorDetailsArray = Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
+  //       const floorNumber = index + 1;
+  //       const numberOfRooms = parseInt(pgList[`number_Of_Rooms_${floorNumber}`]) || 0;
 
-        return {
-          floor: floorNumber,
-          roomDetails: Array.from({ length: numberOfRooms }, (_, roomIndex) => {
-            return {
-              number_Of_Rooms: pgList[`number_Of_Rooms_${floorNumber}_${roomIndex}`] || 0,
-              number_Of_Bed: pgList[`number_Of_Bed_${floorNumber}_${roomIndex}`] || "",
-            };
-          }),
-        };
-      });
+  //       return {
+  //         floor: floorNumber,
+  //         roomDetails: Array.from({ length: numberOfRooms }, (_, roomIndex) => {
+  //           return {
+  //             number_Of_Rooms: pgList[`number_Of_Rooms_${floorNumber}_${roomIndex}`] || 0,
+  //             number_Of_Bed: pgList[`number_Of_Bed_${floorNumber}_${roomIndex}`] || "",
+  //           };
+  //         }),
+  //       };
+  //     });
 
-      dispatch({
-        type: 'PGLIST',
-        payload: {
-          name: pgList.Name,
-          phoneNo: pgList.phoneNumber,
-          email_Id: pgList.email_Id,
-          location: pgList.location,
-          number_of_floors: pgList.number_Of_Floor,
-          number_Of_Rooms: pgList.number_Of_Rooms,
-          floorDetails: pgList.floorDetails,
-          created_by: state.login.id
-        }
-      });
-    }
+  //     dispatch({
+  //       type: 'PGLIST',
+  //       payload: {
+  //         name: pgList.Name,
+  //         phoneNo: pgList.phoneNumber,
+  //         email_Id: pgList.email_Id,
+  //         location: pgList.location,
+  //         number_of_floors: pgList.number_Of_Floor,
+  //         number_Of_Rooms: pgList.number_Of_Rooms,
+  //         floorDetails: pgList.floorDetails,
+  //         created_by: state.login.id
+  //       }
+  //     });
+  //   }
 
 
-    setPgList({
-      Name: '',
-      phoneNumber: '',
-      email_Id: '',
-      location: '',
-      number_Of_Floor: '',
-      number_Of_Rooms: '',
-      floorDetails: []
-    });
-    handleClose();
-  }
+  //   setPgList({
+  //     Name: '',
+  //     phoneNumber: '',
+  //     email_Id: '',
+  //     location: '',
+  //     number_Of_Floor: '',
+  //     number_Of_Rooms: '',
+  //     floorDetails: []
+  //   });
+  //   handleClose();
+  // }
 
 
   const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);

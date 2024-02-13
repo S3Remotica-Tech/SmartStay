@@ -24,14 +24,15 @@ function* handleHostelList() {
 }
 
 function* handleNumberOfRooms(ID) {
-   console.log("payload", ID)
+   console.log("payload", ID.payload)
    const response = yield call(roomsCount, ID.payload)
    if (response.status === 200) {
       yield put({ type: 'ROOM_COUNT', payload: response.data })
       yield put({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: 'CREATED SUCCESSFULLY'})
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      console.log("response.dataForRoomCount",response.data);
+      yield put({ type: 'ERROR', payload: {response:response.data.message,floor_Id:ID.payload.floor_Id} })
    }
 }
 
