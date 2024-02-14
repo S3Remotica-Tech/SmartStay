@@ -112,7 +112,7 @@ function DashboardRoom(props) {
                 console.log("RoomCount unmount");
             }
         }
-    }, [props.hostel_Id,props.floorID])
+    }, [props.hostel_Id])
 
 
     useEffect(() => {
@@ -126,10 +126,6 @@ function DashboardRoom(props) {
             }, 100)
         }
     }, [state.PgList.createRoomMessage])
-
-    useEffect(() => {
-        dispatch({ type: 'CHECKROOM' })
-    }, [])
 
     const handleShows = (val, index) => {
         setShows(true);

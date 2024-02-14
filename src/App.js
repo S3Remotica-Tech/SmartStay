@@ -20,11 +20,11 @@ import DashboardRoomList from './Pages/DashBoardRoomsList';
  const state = useSelector(state => state)
  const login = localStorage.getItem("login")
 
-//  useEffect (()=>{
-//   if(state.login.isLoggedIn===true){
-//     localStorage.setItem("login",true)
-//   } 
-// },[state.login.isLoggedIn])
+ useEffect (()=>{
+  if(state.login.isLoggedIn===true){
+    localStorage.setItem("login",true)
+  } 
+},[state.login.isLoggedIn])
 console.log("state.login.isLoggedIn", state.login.isLoggedIn ? "1":"0");
 
   return (
