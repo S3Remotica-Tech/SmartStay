@@ -197,7 +197,7 @@ const handleLogout = () =>{
     if (result.isConfirmed) {
       localStorage.setItem("login",false)
       navigate('/login-Page')
-  console.log("login",login);
+      console.log("login",login);
 
     }
   })
