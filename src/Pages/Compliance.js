@@ -44,7 +44,7 @@ const Compliance = () => {
   const [Assign, setAssign] = useState('');
   const [showMessage, setShowMessage] = useState(false);
   const [Status, setStatus] = useState('')
-  const [date, setDate] = useState();
+  const [date, setDate] = useState('');
   const [editbtn, setEditbtn] = useState(false)
 
   const [hostel_Id, setHostel_Id] = useState('')
@@ -479,7 +479,10 @@ const Compliance = () => {
              
                   <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginBottom: '10px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
                   <TextField id="standard-basic" label="status" value={Status} onChange={(e) => { setStatus(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" type='date' value={date} onChange={(e) => { handleDatePicker(e) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '5px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField id="standard-basic" type='date'
+                   value={date}
+                    onChange={(e) => { handleDatePicker(e) }} 
+                    variant="standard" style={{ m: 1, width: '22ch', marginTop: '5px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
 
                 </Box>
                 {
@@ -518,7 +521,7 @@ const Compliance = () => {
         <tbody style={{ fontSize: "10px" }}>
           {currentItems.map((item) => (
             <tr key={item.id} >
-              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.date).format('DD/MM/YY')}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.date).format('DD-MM-YYYY')}</td>
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Requestid}</td>
               <td>
                 <div class="d-flex">

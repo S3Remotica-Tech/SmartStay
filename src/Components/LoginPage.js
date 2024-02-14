@@ -14,6 +14,8 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { useDispatch, useSelector } from 'react-redux';
 import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png';
 import HomeSideComponent from "./HomeSideContent";
+import CryptoJS from "crypto-js";
+
 
 const MyComponent = () => {
 
@@ -38,13 +40,13 @@ const MyComponent = () => {
   const handleForgetPassword = () => {
     navigate('/forget-password')
   }
-  useEffect(()=>{
-    if(state.login?.message?.message){
+  useEffect(() => {
+    if (state.login?.message?.message) {
       navigate('/dashboard')
     }
-   
-  
-  },[state.login?.message?.message])
+
+
+  }, [state.login?.message?.message])
 
 
   const handleEmailChange = (e) => {
@@ -58,35 +60,41 @@ const MyComponent = () => {
     setpassword(e.target.value)
   }
 
-  const login = localStorage.getItem("login")
 
- useEffect (()=>{
-  if(state.login.isLoggedIn===true){
-    localStorage.setItem("login",true)
-  } 
-},[state.login.isLoggedIn])
+  // const login = localStorage.getItem("login")
+
+  const [checked, setChecked] = useState(false)
+
+  const handleCheckboxChange = (e) => {
+    setChecked(e.target.checked); 
+  }
 
 
-const [checked, setChecked] = useState(false);
 
-const handleCheckboxChange = () => { 
-  setChecked(!checked); 
-  localStorage.setItem("login", !checked);
-  // localStorage.getItem("login")
-}
-
-useEffect(()=>{
-if(state.login.statusCode === 200){
-  console.log("state.login.statusCode",state.login.statusCode);
-  navigate('/')
-  dispatch({type:'LOGIN-SUCCESS'})
-}
-},[state.login.statusCode])
+  useEffect(() => {
+    if (state.login.statusCode === 200) {
+      console.log("state.login.statusCode", state.login.statusCode);
+      if(checked==true){
+          const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd')
+        console.log("encryptData", encryptData.toString());
+        localStorage.setItem("login", encryptData.toString())
+      }
+      else{
+        const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
+      console.log("encryptData", encryptData.toString());
+      localStorage.setItem("login", encryptData.toString())
+      }
+      dispatch({ type: 'LOGIN-SUCCESS' })
+      navigate('/')
+    }
+  }, [state.login.statusCode])
 
   const handleLogin = () => {
     if (email_Id && password) {
       dispatch({ type: 'LOGININFO', payload: { email_Id: email_Id, password: password } });
-    } else {
+    }
+  
+    else {
       Swal.fire({
         icon: 'warning',
         title: 'Error',
@@ -165,10 +173,10 @@ if(state.login.statusCode === 200){
 
                 <div className="mb-3 d-flex justify-content-between" >
                   <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Remember me" 
-                    checked={checked}
-                    onChange={handleCheckboxChange} 
-                    style={{ fontSize: "11px", fontWeight: 700 }} />
+                    <Form.Check type="checkbox" label="Remember me"
+                      value={checked}
+                      onChange={(e) => handleCheckboxChange(e)}
+                      style={{ fontSize: "11px", fontWeight: 700 }} />
                   </Form.Group>
                   <Form.Label style={{ color: "#007FFF", fontSize: "11px", cursor: "pointer" }} onClick={() => handleForgetPassword()} ><b>Forgot Password?</b></Form.Label>
                 </div>
