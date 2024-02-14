@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Plus from '../Assets/Images/Create-button.png';
-import Welcome from '../Assets/Images/dashboard-welcome.png';
 import Image from 'react-bootstrap/Image';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Hostel from '../Assets/Images/hostel.png';
@@ -35,8 +34,6 @@ function PgList() {
   })
 
 const [hostelIndex,setHostelIndex] = useState('')
-  // const [activePage, setActivePage] = useState(true)
-  const [floorID ,setFloorID] = useState('')
   const [roomDetails, setRoomDetails] = useState('')
   const [selectedHostel, setSelectedHostel] = useState(null);
   const [floorDetails, setFloorDetails] = useState([{ number_of_floor: '' }
@@ -122,20 +119,8 @@ const [hostelIndex,setHostelIndex] = useState('')
   }
 
   const handleSubmitPgList = () => {
-    if (pgList.Name && pgList.phoneNumber && pgList.email_Id) {
-      const floorDetailsArray = Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
-        const floorNumber = index + 1;
-        const numberOfRooms = parseInt(pgList[`number_Of_Rooms_${floorNumber}`]) || 0;  
-        return {
-          floor: floorNumber,
-          roomDetails: Array.from({ length: numberOfRooms }, (_, roomIndex) => {
-            return {
-              number_Of_Rooms: pgList[`number_Of_Rooms_${floorNumber}_${roomIndex}`] || 0,
-              number_Of_Bed: pgList[`number_Of_Bed_${floorNumber}_${roomIndex}`] || "",
-            };
-          }),
-        };
-      });
+    if (pgList.Name && pgList.phoneNumber && pgList.email_Id && pgList.location && pgList.number_Of_Floor) {
+
       dispatch({
         type: 'PGLIST',
         payload: {
@@ -173,10 +158,7 @@ const [hostelIndex,setHostelIndex] = useState('')
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Field',
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
+      })
     }
 
   }
@@ -205,11 +187,7 @@ const [hostelIndex,setHostelIndex] = useState('')
     Swal.fire({
       icon: 'success',
       title: 'Create Floor details saved Successfully',
-    }).then((result) => {
-      // dispatch({ type: 'HOSTELLIST' })
-      if (result.isConfirmed) {
-      }
-    });
+    })
     setFloorDetails([])
     handleClose();
   };
@@ -238,14 +216,13 @@ const [hostelIndex,setHostelIndex] = useState('')
       setHostelIndex(index)
      return  item.Name === hostelName
     });
-    console.log("selected",selected);
     setSelectedHostel(selected);
     handleRowVisibilityChange(true);
     handleBedVisibilityChange(false)
   };
   useEffect(()=>{
     const selected = state.UsersList.hostelList.find(item => item.Name === selectedHostel?.Name);
-    // setSelectedHostel(selected);
+    setSelectedHostel(selected);
   },[state.UsersList.hostelList[hostelIndex]?.number_Of_Floor])
 
   const [isRowVisible, setIsRowVisible] = useState(true);
@@ -483,7 +460,6 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
           {
             selectedHostel.id &&
             Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
-              // setFloorID(element + 1)
               return <DashboardRoomList onRowVisibilityChange={handleRowVisibilityChange} onRowBedVisibilityChange={handleBedVisibilityChange} floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
             })}
           <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
