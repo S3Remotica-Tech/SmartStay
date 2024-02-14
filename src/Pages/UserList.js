@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import "./UserList.css";
 import { IoIosSearch } from "react-icons/io";
@@ -21,9 +22,6 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import MapsUgcRoundedIcon from '@mui/icons-material/MapsUgcRounded';
 import Image from 'react-bootstrap/Image';
-import { Bed } from "@mui/icons-material";
-
-
 
 
 function UserList() {
@@ -42,7 +40,7 @@ function UserList() {
   console.log("state", state)
   useEffect(() => {
     dispatch({ type: 'USERLIST' })
-  }, [state.UsersList.Users.HostelName])
+  }, [])
   useEffect(() => {
     dispatch({ type: 'HOSTELLIST' })
   }, [])
@@ -78,34 +76,35 @@ function UserList() {
   const [AadharNo, setAadharNo] = useState('')
   const [PancardNo, setPancardNo] = useState('')
   const [licence, setLicence] = useState('')
-  const [bedError, setBedError] = useState('');
-  const [Arrayset, setArrayset] = useState('')
-  const [Bednum,setBednum]=useState('')
-  console.log("Bednum",Bednum)
+  const [bedArray, setBedArray] = useState('');
+  const [Arrayset, setArrayset] = useState([])
+  const [Bednum, setBednum] = useState('')
+  const [romnum, setRoomnum] = useState('')
+  const [EditObj, setEditObj] = useState('')
+
+  console.log("Bednum", Bednum)
   console.log("Arrayset", Arrayset)
+  console.log("romnum", romnum)
+  console.log("bedArray", bedArray)
+  console.log("EditObj",EditObj)
+  
 
   const handleAadharNo = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
     setAadharNo(e.target.value)
   }
   const handlePancardNo = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
     setPancardNo(e.target.value)
   }
   const handlelicence = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
     setLicence(e.target.value)
   }
   const handleFirstName = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
     setFirstname(e.target.value)
   }
   const handleLastName = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
     setLastname(e.target.value)
   }
   const handlePhone = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' });
     setPhone(e.target.value)
     const pattern = new RegExp(/^\d{1,10}$/);
     const isValidMobileNo = pattern.test(e.target.value)
@@ -119,49 +118,73 @@ function UserList() {
   useEffect(() => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
     console.log("Updated Floor:", Floor);
-  }, [Floor]);
+  }, [hostel_Id]);
+useEffect(()=>{
+  const temparry = state.UsersList.roomdetails.filter((item) => {
+    return item.
+      Room_Id == Rooms
+  })
+ 
+  console.log("temparry...?", temparry)
+  console.log("state.UsersList.roomdetails", state.UsersList.roomdetails)
+  setBedArray(temparry)
+  const temp2 = state.UsersList.Users.filter((item) => {
+    console.log(item.Rooms == Rooms)
+    console.log(item.Floor == Floor)
+    console.log(item.Hostel_Id == hostel_Id)
+    return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id
+  })
+
+  console.log("temp2", temp2)
+  const arrayToDisplay = []
+  for (let i = 0; i < temparry[0]?.Number_Of_Beds; i++) {
+    const filteredData = temp2.filter((item2) => {
+      return i == item2.Bed - 1
+    })
+
+    console.log("filteredData", filteredData)
+
+    if (filteredData.length == 0) {
+      arrayToDisplay.push(i + 1)
+    }
+  }
+  setBed('')
+
+  console.log("arrayToDisplay", arrayToDisplay)
+  setArrayset(arrayToDisplay)
+  
+},[Rooms, state.UsersList.roomdetails, state.UsersList.Users])
+
+
 
   const handleHostelId = (e) => {
     console.log("e.target.value", e.target.value)
     const selectedHostelId = e.target.value;
-    const selectedHostel = state.UsersList.hostelList.filter(item => item.id == e.target.value);
-    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } });
+    const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter(item => item.id == e.target.value);
+    // dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } });
     setHostel_Id(selectedHostelId);
     console.log("selectedHostelId", selectedHostel);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : '');
+    console.log("state.UsersList.hostelList",state.UsersList.hostelList)
+    setFloor("")
+    setRooms("")
+    setBed("")
   }
-
-
-
+  
   useEffect(() => {
-    dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: Floor } })
-  }, [Rooms])
-
-  useEffect(() => {
-   
-    console.log("state.userList?.bedCount", state.UsersList.beddetails);
-    if (state.UsersList?.beddetails) {
-      const BedCounting = state.UsersList.Users.filter((item) => {
-        return item.Hostel_Id == state.UsersList.beddetails
-          .Hostel_Id && item.Floor == state.UsersList.beddetails.Floor_Id && item.Rooms == state.UsersList.beddetails
-            .Room_Id
-      })
-      console.log("BedCounting", BedCounting);
+    if(hostel_Id && Floor){
+     
+      dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: Floor } })
     }
-  }, [Bed, Rooms]);
-
-
-
+  }, [Floor])
 
   const handleFloor = (e) => {
     console.log("Room_Id inside handleFloor:", Rooms);
-    dispatch({ type: 'CLEAR_ERROR' })
-    dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: e.target.value } })
+    // dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: e.target.value } })
     setFloor(e.target.value)
   }
 
   const handleRoomRent = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' });
     const roomRentValue = e.target.value;
     setRoomRent(roomRentValue);
     const newBalanceDue = AdvanceAmount - roomRentValue;
@@ -169,105 +192,68 @@ function UserList() {
     setBalanceDue(BalanceDuelength);
   }
 
-
-  
+ 
 
   const handleRooms = (e) => {
-    
-    
-    dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: e.target.value } })
     console.log("e.target.value.........?", e.target.value)
-    const temparry = state.UsersList.roomdetails.filter((item) => {
-      return item.
-        Room_Id == e.target.value
-    })
-    console.log("temparry...?", temparry)
-    console.log("state.UsersList.roomdetails", state.UsersList.roomdetails)
+    // const temparry = state.UsersList.roomdetails.filter((item) => {
+    //   return item.
+    //     Room_Id == e.target.value
+    // })
+    // console.log("temparry...?", temparry)
+    // console.log("state.UsersList.roomdetails", state.UsersList.roomdetails)
     setRooms(e.target.value);
-    setArrayset(temparry)
+    // setBedArray(temparry)
+
+    // const temp2 = state.UsersList.Users.filter((item) => {
+    //   console.log(item.Rooms == e.target.value)
+    //   console.log(item.Floor == Floor)
+    //   console.log(item.Hostel_Id == hostel_Id)
+    //   return item.Rooms == e.target.value && item.Floor == Floor && item.Hostel_Id == hostel_Id
+    // })
+
+    // console.log("temp2", temp2)
+    // const arrayToDisplay = []
+    // for (let i = 0; i < temparry[0].Number_Of_Beds; i++) {
+    //   const filteredData = temp2.filter((item2) => {
+    //     return i == item2.Bed - 1
+    //   })
+
+    //   console.log("filteredData", filteredData)
+
+    //   if (filteredData.length == 0) {
+    //     arrayToDisplay.push(i + 1)
+    //   }
+    // }
+    // setBed('')
+
+    // console.log("arrayToDisplay", arrayToDisplay)
+    // setArrayset(arrayToDisplay)
   }
+  useEffect(() => {
+    const Roomdetail = state.UsersList.Users.filter((item) => {
+      return item.Hostel_Id == hostel_Id && item.Floor == Floor
+    })
+    console.log("Roomdetails", Roomdetail)
+
+    setRoomnum(Roomdetail)
+  }, [state.UsersList.roomdetails]);
+
+  const handleBed = (e) => {
+    setBed(e.target.value);
+  };
 
 
-  // useEffect(() => {
-  //   const Roomdetail = state.UsersList.Users.filter(item => {
-  //     return item.Hostel_Id === hostel_Id && item.Floor === Floor;
-  //   });
-  
-  //   console.log("Roomdetail", Roomdetail);
-  
-  //   if (Roomdetail.length > 0) {
-  //     const filteredRoomDetail = Roomdetail.filter(item => {
-  //       return (
-  //         item.Bed === state.UsersList.roomdetails[0].Number_Of_Beds &&
-  //         item.Floor === state.UsersList.roomdetails[0].Floor_Id &&
-  //         item.Rooms === state.UsersList.roomdetails[0].Room_Id
-  //       );
-  //     });
-  
-  //     console.log("Filtered Roomdetail", filteredRoomDetail);
-  //   }
-  // }, [state.UsersList.roomdetails, hostel_Id, Floor]);
-  
-
-  useEffect(()=>{
-   
-   const Roomdetail =state.UsersList.Users.filter((item)=>{
-    
-
-    return item.Hostel_Id === hostel_Id && item.Floor === Floor
-    
-   })
-   console.log("Roomdetail",Roomdetail)
-  if(Roomdetail.length> 0 ){
-    Roomdetail.filter((item)=>{
-return item.Bed===  state.UsersList.roomdetails[0].Number_Of_Beds && item.Floor ===  state.UsersList.roomdetails[0].Floor_Id && item.Rooms === state.UsersList.roomdetails[0].Room_Id
-    })    
-  }  
-  },[state.UsersList.roomdetails ]);
-
-const handleBed = (e) => {
-  console.log("hostel_Id:", hostel_Id);
-  console.log("Floor:", Floor);
-  console.log("Rooms:", Rooms);
-  console.log("e.target.value:", e.target.value);
-
-  const bedExists = state.UsersList.Users.filter ((user) => {
-      return (
-          user.Hostel_Id == hostel_Id && 
-          user.Floor == Floor && 
-          user.Rooms == Rooms && 
-          user.Bed == e.target.value
-      );
-  });
-
-  console.log("Filtered users:", bedExists);
-  setBednum(bedExists)
-
-  if (bedExists.length > 0) {
-    console.log("Bed already exists");
-      dispatch({ type: 'SET_ERROR', payload: 'Bed number already exists' });
-  } else {
-    console.log("Bed does not exist, setting bed");
-    dispatch({ type: 'SET_ERROR', payload: '' });
-      setBed(e.target.value);
-  }
-};
-
- 
   const handlePaymentType = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
     setPaymentType(e.target.value)
   }
   const handleAdvanceAmount = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
     setAdvanceAmount(e.target.value)
   }
   const handleAddress = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
     setAddress(e.target.value)
   }
   const handleEmail = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
     setEmail(e.target.value)
     const email = e.target.value
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -310,6 +296,9 @@ const handleBed = (e) => {
     setShowMenu(false);
     setUserClicked(false);
     setShowForm(false);
+    // setEditObj('')
+
+
   };
   const handleImageChange = (event) => {
     const fileimgage = event.target.files[0];
@@ -323,9 +312,12 @@ const handleBed = (e) => {
   const handleShow = (u) => {
     handleMenuClick();
     setShowMenu(true);
+    localStorage.setItem('showMenu', 'true');
     if (u.ID) {
-      console.log("Hostel ID from 'u':", u);
+     
+      console.log("HostelIDfrom 'u':", u);
       console.log("Bed Value:", u.Bed);
+      setEditObj(u)
       let value = u.Name.split(" ");
       setEdit('Edit');
       setId(u.ID);
@@ -337,6 +329,7 @@ const handleBed = (e) => {
       setLicence(u.licence);
       setPhone(u.Phone);
       setEmail(u.Email);
+      setHostelName(u.HostelName);
       setHostel_Id(u.Hostel_Id);
       setFloor(u.Floor);
       setRooms(u.Rooms);
@@ -347,11 +340,9 @@ const handleBed = (e) => {
       setBalanceDue(u.BalanceDue);
     } else {
       setEdit('Add');
+
     }
-
   };
-
-
 
   useEffect(() => {
     setFilteredData(state.UsersList.Users);
@@ -419,8 +410,6 @@ const handleBed = (e) => {
       setFilteredData(filteredItems);
     }
   }
-
-
   const handleSaveUserlist = () => {
     if (
       firstname &&
@@ -501,10 +490,6 @@ const handleBed = (e) => {
     }
   };
 
-
-
-
-
   const [roomDetail, setRoomDetail] = useState(false)
   const [userList, setUserList] = useState(true)
   const [clickedUserData, setClickedUserData] = useState([]);
@@ -529,12 +514,9 @@ const handleBed = (e) => {
     setIsOpenTab(!isOpenTab)
   }
 
-
-
   useEffect(() => {
     dispatch({ type: 'BILLPAYMENTHISTORY' })
   }, [])
-
 
   const [filteredDatas, setFilteredDatas] = useState([]);
   const billPaymentHistory = state.UsersList.billPaymentHistory;
@@ -648,11 +630,6 @@ const handleBed = (e) => {
     const selectedStatus = e.target.value;
     setFilterByStatus(selectedStatus);
   };
-
-
-
-
-
   return (
     <div className='container p-2' >
 
@@ -673,8 +650,6 @@ const handleBed = (e) => {
                   placeholder='Search Here'
                   class="form-control ps-4 pe-1   searchinput"
                   style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
-
-
                 />
               </>
             }
@@ -696,7 +671,6 @@ const handleBed = (e) => {
             }
             <IoFilterOutline class=" me-4" onClick={handleFiltershow} style={{ fontSize: 20 }} />
             <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus" />Add User</button>
-
           </div>
         </div>
         <div class="table-responsive" style={{ width: "100%" }} >
@@ -736,18 +710,18 @@ const handleBed = (e) => {
                       </div>
                     </div></td>
                     <td style={{ color: "black", fontWeight: 500 }}>{u.Email}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.Address}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.AadharNo}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.PancardNo}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.licence}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.HostelName}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.Floor}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.Rooms}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.Bed}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.AdvanceAmount}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>₹ {u.RoomRent}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>₹ {u.BalanceDue}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.Address}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.AadharNo}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.PancardNo}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.licence}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.HostelName}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.Floor}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.Rooms}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.Bed}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.AdvanceAmount}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {u.RoomRent}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {u.BalanceDue}</td>
+                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
 
                     <td style={u.Status == "Success" ? { color: "green" } : { color: "red" }}>{u.Status}</td>
                     <td><img src={img1} className='img1' alt="img1" onClick={() => handleRoomDetailsPage(u)} />
@@ -809,14 +783,9 @@ const handleBed = (e) => {
             <div class="p-1 bd-highlight  user-menu">
               <ul className={showForm ? '' : 'active'}
                 onClick={() => setShowForm(false)}
-
               >KYC Details</ul>
-
             </div>
-
           </div>
-         
-
           {showForm ?
             <div>
               <p className="mb-1" style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
@@ -916,7 +885,7 @@ const handleBed = (e) => {
                           return (
                             <>
 
-                              <option value={item.id}>{item.Name}</option>
+                              <option key={item.id} value={item.id}>{item.Name}</option>
                             </>
                           )
                         })
@@ -933,17 +902,47 @@ const handleBed = (e) => {
                       id="form-selects"
                       value={Floor} onChange={(e) => handleFloor(e)}>
                       <option>Selected Floor</option>
+                       
 
-                      {state.UsersList?.hosteldetailslist
-                        ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
+                       {state.UsersList?.hosteldetailslist
+                        ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id == item.Floor_Id) == index)
                         .map((u) => (
                           <option key={u.Floor_Id} >
                             {u.Floor_Id}
                           </option>
-                        ))}
-                    </Form.Select>
+                          
+      //                     <option key={u.Floor_Id}  selected={EditObj.Floor == u.Floor_Id}>
+      //   {u.Floor_Id}
+      
+      // </option>
+                        ))} 
+                        </Form.Select>
+
+                      {/* {
+                        EditObj && EditObj.Floor ? (
+                          <option key={EditObj.Floor} selected>
+                            {EditObj.Floor}
+                          </option>
+                        ) :
+                          (
+                            state.UsersList?.hosteldetailslist &&
+                            state.UsersList?.hosteldetailslist?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index).map((item) => {
+                              console.log("item:", item);
+                              // console.log("index:", index);
+                              // console.log("arr:", array);
+                              return (
+                                <option key={item.Floor_Id} selected={EditObj.Floor == item.Floor_Id}>
+                                  {EditObj.Floor == item.Floor_Id ? EditObj.Floor : item.Floor_Id}
+                                </option>
+                              );
+
+                            }))
+                      } */}
+
+
+                    
                   </div>
-                  <div className='col-lg-6'>
+                  <div className='col-lg-6 mt-1'>
                     <Form.Label style={{ fontSize: '12px' }}>Select Room</Form.Label>
                     <Form.Select
                       aria-label='Default select example'
@@ -951,137 +950,47 @@ const handleBed = (e) => {
                       value={Rooms}
                       id="form-selects"
                       onChange={(e) => handleRooms(e)}
-
                     >
                       <option>Selected Room</option>
-                      {state.UsersList?.roomdetails
-                        ?.filter((item, index, self) => self.findIndex((i) => i.Room_Id === item.Room_Id) === index)
-                        .map((item) => (
-                          <option key={item.Room_Id}>{item.Room_Id}</option>
-                        ))}
-
-                    </Form.Select>
-                  </div>
-                  <div className='col-lg-6 mt-2'>
-                    <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>
-                    <Form.Select
-                      aria-label='Default select example'
-                      style={bottomBorderStyle}
-                      value={Bed}
-                      id="form-selects"
-                      onChange={(e) => handleBed(e)}
-                    >
-                      <option>Selected Bed</option>                     
-
-                      {Arrayset && Array.from({ length: Arrayset[0]?.Number_Of_Beds }, (_, index) => index + 1).map((value) => (
+                      
                        
-                        <option key={value}>{value}</option>
-                       
-                    ))}
-                    </Form.Select>
-                    {state.UsersList?.errormessage.length > 0 ? (
-                      <div>
-                        <label style={{ color: 'red', fontSize: 18 }}>{state.UsersList.errormessage}</label>
+                      {state.UsersList.roomdetails && state.UsersList?.roomdetails.map((item) => {
+                        return (
+                          <>
+                            <option key={item.Room_Id} >
+                              {item.Room_Id}</option>
+                          </>
+                        )
 
-                      </div>
-                    ) : null}
-                  </div>
-
-{/* <div className='col-lg-6'>
-  <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>
-  <Form.Select
-    aria-label='Default select example'
-    style={bottomBorderStyle}
-    value={Bed}
-    id="form-selects"
-    onChange={(e) => handleBed(e)}
-  >
-    <option>Selected Bed</option>
-
-    {Arrayset && Array.from({ length: Arrayset[0].Number_Of_Beds }, (_, index) => index + 1).map((value) => {
-  //   const isBedSelected = state.UsersList.Users.some((user) => 
-  //   user.Floor === Arrayset[0].Floor_Id &&
-  //   user.Rooms === Arrayset[0].Room_Id &&
-  //   user.Bed === Arrayset[0].BedCount
-
-  // );
-      if (!isBedSelected) {
-        return <option key={value}>{value}</option>;
-      }
-
-      return null; 
-    })}
-  </Form.Select>
-</div> */}
-
-
-
-
-
-
-
-
-                  {/* <div className='col-lg-6'>
-                    <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>
-                    <Form.Select
-                      aria-label='Default select example'
-                      style={bottomBorderStyle}
-                      value={Bed}
-                      id="form-selects"
-                      onChange={(e) => handleBed(e)}
+                      })
+                       } 
                      
-                    >
-                      <option>Selected Bed</option>
-                      { Arrayset && Arrayset.map((item) => (
-                        
-                          <option key={item.Number_Of_Beds
-                          }>{item.Number_Of_Beds
-                          }</option>
-                        ))}
-                       
-                    </Form.Select>
-                  </div> */}
-                  {/* <div className='col-lg-6'>
 
+                     
+                    </Form.Select>
+                  </div>
+                  <div className='col-lg-12 mt-3'>
                     <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>
                     <Form.Select
                       aria-label='Default select example'
                       style={bottomBorderStyle}
                       value={Bed}
                       id="form-selects"
+                     
                       onChange={(e) => handleBed(e)}
-                      disabled={state.UsersList?.bedCount?.errorMessage?.length > 0} // Disable if there is an error message
                     >
-                      <option>Select Bed</option>
-                      {state.UsersList?.beddetails &&
-                        Array.from({ length: state.UsersList.beddetails[0]?.Number_Of_Beds || 0 }, (_, index) => {
-
-                          const tempArray = state.UsersList.Users.filter((item) => {
-                            return item.Floor == state.UsersList.beddetails[0].Floor_Id && item.Hostel_Id == state.UsersList.beddetails[0].Hostel_Id && item.Rooms == state.UsersList.beddetails[0].Room_Id
-                          })
-                          return (
-                            tempArray.length > 0 ? null : <option key={index + 1}>{index + 1}</option>)
-
-                        })}
-                    </Form.Select>
-                    {state.UsersList?.bedCount?.errorMessage?.length > 0 ? (
-                      <div>
-                        <label style={{ color: 'red', fontSize: 18 }}>{state.UsersList.bedCount.errorMessage}</label>
-
-                      </div>
-                    ) : null}
-
-                  </div> */}
-
-
-
-
-
-
-
-
-
-
+                    
+                       <option>Selected Bed</option>
+               {edit == 'Edit' && EditObj && EditObj.Bed &&  (
+           <option value={EditObj.Bed} selected>{EditObj.Bed}</option>
+           )}
+  {Arrayset.map((item) => (
+    <option key={item} value={item}>{item}</option>
+  ))}   
+  
+  </Form.Select>
+             
+                  </div>
 
                 </div>
                 <div className='row'>
