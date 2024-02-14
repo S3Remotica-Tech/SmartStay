@@ -40,7 +40,7 @@ const MyComponent = () => {
   }
   useEffect(()=>{
     if(state.login?.message?.message){
-      navigate('/dashboard')
+            navigate('/dashboard')
     }
    
   
@@ -58,30 +58,16 @@ const MyComponent = () => {
     setpassword(e.target.value)
   }
 
-  const login = localStorage.getItem("login")
-
- useEffect (()=>{
-  if(state.login.isLoggedIn===true){
-    localStorage.setItem("login",true)
-  } 
-},[state.login.isLoggedIn])
-
-
-const [checked, setChecked] = useState(false);
-
-const handleCheckboxChange = () => { 
-  setChecked(!checked); 
-  localStorage.setItem("login", !checked);
-  // localStorage.getItem("login")
-}
+  
 
 useEffect(()=>{
 if(state.login.statusCode === 200){
   console.log("state.login.statusCode",state.login.statusCode);
-  navigate('/')
+  navigate('/dashboard')
   dispatch({type:'LOGIN-SUCCESS'})
 }
 },[state.login.statusCode])
+
 
   const handleLogin = () => {
     if (email_Id && password) {
@@ -95,7 +81,36 @@ if(state.login.statusCode === 200){
         showConfirmButton: false,
       });
     }
+    if (!checkboxTouched) {
+      localStorage.setItem("login", "false");
+    }
   };
+
+
+ 
+  useEffect(() => {
+       localStorage.setItem("login", "false");
+  }, []);
+
+  const [checked, setChecked] = useState('');
+  const [checkboxTouched, setCheckboxTouched] = useState(false);
+  
+  const handleCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+    console.log("isChecked",isChecked)
+    setChecked(isChecked);
+        if (isChecked === true) {
+      localStorage.setItem("login", "true"); 
+    } else {
+      localStorage.setItem("login","false"); 
+    }
+    setCheckboxTouched(true)
+    console.log("localStorage:", localStorage.getItem("login"));
+  };
+  
+   
+
+
 
   return (
     <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
@@ -194,3 +209,4 @@ if(state.login.statusCode === 200){
 };
 
 export default MyComponent;
+

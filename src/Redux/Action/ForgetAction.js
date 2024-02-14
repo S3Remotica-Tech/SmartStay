@@ -10,7 +10,7 @@ export async function forgetpage(datum) {
          data:datum
     })
   }
-  
+ 
 export async function registerStudent(params) {
     
      return await AxiosConfig.get('/register/get-list', {
@@ -18,4 +18,11 @@ export async function registerStudent(params) {
      })
  }
    
+ export async function otpSend(datum) {
+     console.log("datum for otp",datum)
+  return await AxiosConfig.post('/otp-send/send-mail', datum,{
+       data:datum
+  })
+}
+
  
