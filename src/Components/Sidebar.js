@@ -184,21 +184,19 @@ function Sidebar() {
     };
   }, []);
 
-const handleLogout = () =>{
-  Swal.fire({
-    icon: 'warning',
-    title: 'Do you want LogOut?',
-    confirmButtonText: 'Ok',
-    showCancelButton: true,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      localStorage.setItem("login",false)
-      navigate('/login-Page')
-      console.log("login",login);
-
-    }
-  })
-}
+  const handleLogout = () => {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Do you want LogOut?',
+      confirmButtonText: 'Ok',
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.setItem("login", false)
+        navigate('/login-Page')
+      }
+    })
+  }
 
   return (
     <>
