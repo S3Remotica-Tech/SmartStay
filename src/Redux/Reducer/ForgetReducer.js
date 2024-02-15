@@ -5,10 +5,15 @@ const initialState = {
     OTP: '',
     OtpError: '',
     emailError:'',
+    statusCode: 0,
+    status_Code: 0,
+    // otpVerify:[],
+    // statusCodeForOtp: 0 ,
 }
 
 const ForgetReducer = (state = initialState, action) => {
 
+    console.log("Forgot reducer",action)
     switch (action.type) {
 
 
@@ -18,16 +23,18 @@ const ForgetReducer = (state = initialState, action) => {
             return { ...state, errorPassword: action.payload }
 
         case 'NEWPASSWORD_LIST':
-            return { ...state, Pass: action.payload }
+            return { ...state, Pass: action.payload , status_Code:action.payload.statusCode}
         case 'CLEAR_ERROR':
             return { ...state, errorMessage: '' }
 
         case 'OTP_SEND':
-            return { ...state, OTP: action.payload }
+            return { ...state, OTP: action.payload, statusCode: action.payload.statusCode }
             case 'EMAIL_ERROR':
                 return {...state, emailError:action.payload }
         case 'OTP_ERROR':
             return { ...state, OtpError: action.payload }
+            // case 'OTP_VERIFY':
+            //     return {...state,otpVerify:action.payload,statusCodeForOtp: action.payload.statusCode }
     }
 
     return state;

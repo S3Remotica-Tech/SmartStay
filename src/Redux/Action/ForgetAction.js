@@ -25,4 +25,9 @@ export async function registerStudent(params) {
   })
 }
 
- 
+// export async function otpVerify(datum) {
+//   console.log("datum for otp",datum)
+// return await AxiosConfig.post('/otp-verify/otp', datum,{
+//     data:datum
+// })
+// }

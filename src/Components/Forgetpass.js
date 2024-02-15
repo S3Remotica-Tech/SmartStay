@@ -19,6 +19,7 @@ function ForgetPasswordPage() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
+  console.log("state for forgot",state)
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [showPassword, setShowpassword] = useState(false);
@@ -51,16 +52,36 @@ const [otpValue, setOtpValue] = useState('');
     }
   };
 
+console.log("state.NewPass.Pass.statusCode",state.NewPass.Pass.statusCode)
+console.log("state.NewPass.Pass.statusCode",state.NewPass.status_Code)
+
+useEffect(() => {
+  if (state.NewPass?.Pass.statusCode === 200) {
+    setEmail("");
+    setPassword("");
+    setOtpValue("");
+            if (inputRefs) {
+      inputRefs.forEach(ref => {
+             if (ref.current) {
+          ref.current.value = null;
+        }
+      });
+    }
+
+    setShowOtpVerification(false);
+    setNewPassword(false);
+  }
+}, [state.NewPass?.Pass]);
+
+
 
   const handlePasswordReset = () => {
     setShowOtpVerification(true)
     const isValidPassword = validatePassword();
     if (isValidPassword) {
       dispatch({ type: 'FORGETPAGE', payload: {  NewPassword: password, email: email, otp: otpValue  } });
-      setEmail("");
-      setPassword("");
-      setOtpValue("")
-      inputRefs.forEach(ref => {
+     
+      inputRefs && inputRefs.forEach(ref => {
         ref.current.value = null;
       });
 
@@ -85,27 +106,29 @@ const [otpValue, setOtpValue] = useState('');
   };
 
   const handleAccountVerification = () => {
-    setShowOtpVerification(true)
-    if (email ) {
+        if (email ) {
     dispatch({ type: 'OTPSEND', payload: { email: email } });
+    setTimeout(() => {
+      setShowOtpVerification(true);
+  }, 3000);
     }
-    // else{
-    //   let errorMessage = "";
-    //   if (email === '') {
-    //     errorMessage = "Please Enter Email";
-    //   } 
-    //    else {
-    //     errorMessage = "Please Enter Email and Valid Password";
-    //   }
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Please Enter All Fields',
-    //     text: errorMessage,
-    //   });
+    else{
+      let errorMessage = "";
+      if (email === '') {
+        errorMessage = "Please Enter Email";
+      } 
+       else {
+        errorMessage = "Please Enter Email and Valid Password";
+      }
+      Swal.fire({
+        icon: 'error',
+        title: 'Please Enter All Fields',
+        text: errorMessage,
+      });
 
-    //   dispatch({ type: 'ERROR', payload: errorMessage });
-    // }
-
+      dispatch({ type: 'ERROR', payload: errorMessage });
+    }
+   
      };
 
 
@@ -137,10 +160,40 @@ const [otpValue, setOtpValue] = useState('');
     setOtpValue(updatedOtpValue);
   };
 
-const handleOtpVerify = () =>{
-  setNewPassword(true)
+  const otpResponse = state.NewPass?.OTP?.response;
+  const otp = otpResponse?.otp
   
+  console.log("otp for get backend",otp)
+
+const handleOtpVerify = () =>{
+  dispatch({ type: 'OTPVERIFY', payload: {  email: email  } })
+
+
+  console.log("otp", otp );
+  console.log("otpValue:", otpValue);
+  console.log("otp === otpValue",otp == otpValue)
+
+  if (otp == otpValue) {
+    setNewPassword(true);
 }
+ else {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Error',
+        text: 'Enter Valid Otp',
+    });
+    inputRefs && inputRefs.forEach(ref => {
+      ref.current.value = null;
+    });
+}
+}
+
+useEffect(()=>{
+  
+},[email,state.NewPass?.otpVerify?.response])
+
+
+
 
   return (
     <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
