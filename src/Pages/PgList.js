@@ -262,6 +262,9 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
   setBedDetailsPage(BedDetails)
 }
 
+
+
+
   return (
     <>
       <div className="d-flex justify-content-between p-3">
@@ -498,7 +501,7 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
               </div>
               </div>
               <div className="col-4">
-                                <div className=" text-center align-items-center" style={{ height: "60px", width: "35px"}} >
+                                <div className="text-center align-items-center" style={{ height: "60px", width: "35px"}} >
                                   
                                 </div>
                             </div>

@@ -14,6 +14,7 @@ import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
 
 function getFormattedRoomId(floor_Id, room_Id) {
+
   const roomIdString = String(room_Id);
 
   switch (floor_Id) {
@@ -51,24 +52,28 @@ function getFloorAbbreviation(floor_Id) {
 }
 
 
-function BedDetails (props)  {
+function BedDetails(props) {
 
   const state = useSelector(state => state);
   console.log(state, "state");
+  const [bed, setBed] = useState();
+  const [bedName, setBedName] = useState([])
 
-  
 
-  console.log("props for bedDetails ", props)
+  // console.log("props for bedDetails ", props)
   const { bedDetailsSendThePage } = props;
 
   const roomId = bedDetailsSendThePage.Room_Id;
-  const initialNumberOfBeds = bedDetailsSendThePage.Number_Of_Beds || 0;
+  const initialNumberOfBeds = bedDetailsSendThePage.Number_Of_Beds;
+
+  // console.log("initialNumberOfBeds",bedDetailsSendThePage.Number_Of_Beds)
+
   const dispatch = useDispatch();
   const Hostel_Id = bedDetailsSendThePage.Hostel_Id
   const floorId = bedDetailsSendThePage.Floor_Id;
   const RoomName = getFormattedRoomId(floorId, roomId)
+  const [roomCount, setRoomCount] = useState([])
 
- 
 
 
   const [shows, setShows] = useState(false);
@@ -84,12 +89,6 @@ function BedDetails (props)  {
   const handleCancels = () => {
     handleCloses();
   };
-
-
-
-
-  const [roomCount, setRoomCount] = useState([])
-
 
   useEffect(() => {
     setRoomCount(state.PgList.roomCount)
@@ -117,6 +116,7 @@ function BedDetails (props)  {
           title: "Number Of beds Updated Successfully",
         }).then((result) => {
           if (result.isConfirmed) {
+            props.bedDetailsSendThePage.Number_Of_Beds = Number(bed);
           }
         });
         handleCloses();
@@ -131,38 +131,17 @@ function BedDetails (props)  {
   };
 
 
-  console.log("state.PgList?.roomCreationSuccess", state.PgList?.roomCreationSuccess)
-
-  useEffect(() => {
-    if (state.PgList?.roomCreationSuccess === true) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorId, hostel_Id: Hostel_Id } });
-    }
-  }, [state.PgList?.roomCreationSuccess]);
-
-
-
-
-  const [bed, setBed] = useState(initialNumberOfBeds);
-  const [bedName, setBedName] = useState([])
 
   useEffect(() => {
     const initialBedNames = [...Array(initialNumberOfBeds).keys()].map(index => `Bed ${index + 1}`);
     setBedName(initialBedNames);
-  }, [initialNumberOfBeds]);
+  }, [initialNumberOfBeds, props, bedName]);
 
   const handleNumberOfBedChange = (numberOfBeds) => {
     setBed(numberOfBeds);
-
-    const newBedNames = [...Array(Number(numberOfBeds)).keys()].map(index => `Bed ${index + 1}`);
-    setBedName(newBedNames);
   };
 
-
-  console.log("bedName", bedName)
-  console.log("state for bed", state.PgList?.roomCount)
-  console.log("props ending", props)
-
-  return (
+ return (
 
 
 
@@ -251,17 +230,8 @@ function BedDetails (props)  {
               </div>
             </div>
 
-            {/* {index > 0 &&
-                        <div className="col-lg-1">
-                            <TiDeleteOutline style={{ fontSize: 18, color: "red", cursor: "pointer" }} onClick={() => handleRemoveRoomDetails(index)} />
-                        </div>
-                    } */}
-
-
           </div>
-          {/* <div >
-            <AiOutlinePlusCircle style={{ height: "30px" }} /> <label style={{ color: "gray", fontSize: "14px" }}>Add Bed</label>
-        </div> */}
+
           <hr style={{ marginTop: "100px" }} />
 
           <div className="d-flex justify-content-end" style={{ marginTop: "15px" }} >
