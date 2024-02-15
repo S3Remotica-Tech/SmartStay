@@ -54,12 +54,12 @@ useEffect(() => {
 }, []);
 
 
- useEffect (()=>{
-  if(state.login.isLoggedIn===true){
-    localStorage.setItem("login",true)
-  } 
-},[state.login.isLoggedIn])
-console.log("state.login.isLoggedIn", state.login.isLoggedIn ? "1":"0");
+//  useEffect (()=>{
+//   if(state.login.isLoggedIn===true){
+//     localStorage.setItem("login",true)
+//   } 
+// },[state.login.isLoggedIn])
+// console.log("state.login.isLoggedIn", state.login.isLoggedIn ? "1":"0");
 
 
   
