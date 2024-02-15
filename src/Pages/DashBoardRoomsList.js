@@ -107,16 +107,12 @@ function DashboardRoom(props) {
         if (props.floorID && props.hostel_Id) {
             console.log("RoomCount", props.hostel_Id);
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-            const tempArray = state.PgList.roomCount.filter((item) => {
-                console.log("item", item);
-                return item[0].Floor_Id == props.floorID && item[0].id == props.hostel_Id
-            })
-            console.log("tempArray.", tempArray);
+            
             return () => {
                 console.log("RoomCount unmount");
             }
         }
-    }, [props.hostel_Id,props.floorID])
+    }, [props.hostel_Id])
 
 
     useEffect(() => {
@@ -130,10 +126,6 @@ function DashboardRoom(props) {
             }, 100)
         }
     }, [state.PgList.createRoomMessage])
-
-    useEffect(() => {
-        dispatch({ type: 'CHECKROOM' })
-    }, [])
 
     const handleShows = (val, index) => {
         setShows(true);
@@ -239,8 +231,8 @@ function DashboardRoom(props) {
     const handleRemoveRoomDetails = (indexToRemove) => {
         setRoomDetails((prevDetails) => prevDetails.filter((_, index) => index !== indexToRemove));
     };
-    // const arr = [];
-let arr =0
+    const arr = [];
+// let arr =0
     // const handleRoomDetails = (val) => {
 
     //     navigate('/Bed', { state: { val: val } });
