@@ -80,7 +80,7 @@ function UserList() {
   const [Arrayset, setArrayset] = useState([])
   const [Bednum, setBednum] = useState('')
   const [romnum, setRoomnum] = useState('')
-  const [EditObj, setEditObj] = useState('')
+  const [EditObj, setEditObj] = useState(null)
 
   console.log("Bednum", Bednum)
   console.log("Arrayset", Arrayset)
@@ -119,43 +119,28 @@ function UserList() {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
     console.log("Updated Floor:", Floor);
   }, [hostel_Id]);
-useEffect(()=>{
-  const temparry = state.UsersList.roomdetails.filter((item) => {
-    return item.
-      Room_Id == Rooms
-  })
- 
-  console.log("temparry...?", temparry)
-  console.log("state.UsersList.roomdetails", state.UsersList.roomdetails)
-  setBedArray(temparry)
+
+
+useEffect(() => {
+  const temparry = state.UsersList.roomdetails.filter((item) => item.Room_Id == Rooms);
+  setBedArray(temparry);
+
   const temp2 = state.UsersList.Users.filter((item) => {
-    console.log(item.Rooms == Rooms)
-    console.log(item.Floor == Floor)
-    console.log(item.Hostel_Id == hostel_Id)
-    return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id
-  })
+    return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id;
+  });
 
-  console.log("temp2", temp2)
-  const arrayToDisplay = []
+  const arrayToDisplay = [];
   for (let i = 0; i < temparry[0]?.Number_Of_Beds; i++) {
+   
     const filteredData = temp2.filter((item2) => {
-      return i == item2.Bed - 1
-    })
-
-    console.log("filteredData", filteredData)
-
+             return i == item2.Bed - 1
+           })
     if (filteredData.length == 0) {
-      arrayToDisplay.push(i + 1)
+      arrayToDisplay.push(i + 1);
     }
   }
-  setBed('')
-
-  console.log("arrayToDisplay", arrayToDisplay)
-  setArrayset(arrayToDisplay)
-  
-},[Rooms, state.UsersList.roomdetails, state.UsersList.Users])
-
-
+  setArrayset(arrayToDisplay);
+}, [Rooms,state.UsersList.roomdetails]);
 
   const handleHostelId = (e) => {
     console.log("e.target.value", e.target.value)
@@ -196,39 +181,7 @@ useEffect(()=>{
 
   const handleRooms = (e) => {
     console.log("e.target.value.........?", e.target.value)
-    // const temparry = state.UsersList.roomdetails.filter((item) => {
-    //   return item.
-    //     Room_Id == e.target.value
-    // })
-    // console.log("temparry...?", temparry)
-    // console.log("state.UsersList.roomdetails", state.UsersList.roomdetails)
-    setRooms(e.target.value);
-    // setBedArray(temparry)
-
-    // const temp2 = state.UsersList.Users.filter((item) => {
-    //   console.log(item.Rooms == e.target.value)
-    //   console.log(item.Floor == Floor)
-    //   console.log(item.Hostel_Id == hostel_Id)
-    //   return item.Rooms == e.target.value && item.Floor == Floor && item.Hostel_Id == hostel_Id
-    // })
-
-    // console.log("temp2", temp2)
-    // const arrayToDisplay = []
-    // for (let i = 0; i < temparry[0].Number_Of_Beds; i++) {
-    //   const filteredData = temp2.filter((item2) => {
-    //     return i == item2.Bed - 1
-    //   })
-
-    //   console.log("filteredData", filteredData)
-
-    //   if (filteredData.length == 0) {
-    //     arrayToDisplay.push(i + 1)
-    //   }
-    // }
-    // setBed('')
-
-    // console.log("arrayToDisplay", arrayToDisplay)
-    // setArrayset(arrayToDisplay)
+    setRooms(e.target.value); 
   }
   useEffect(() => {
     const Roomdetail = state.UsersList.Users.filter((item) => {
@@ -296,8 +249,7 @@ useEffect(()=>{
     setShowMenu(false);
     setUserClicked(false);
     setShowForm(false);
-    // setEditObj('')
-
+    
 
   };
   const handleImageChange = (event) => {
@@ -981,12 +933,17 @@ useEffect(()=>{
                     >
                     
                        <option>Selected Bed</option>
-               {edit == 'Edit' && EditObj && EditObj.Bed &&  (
+               {/* {edit == 'Edit' && EditObj && EditObj.Bed &&  (
            <option value={EditObj.Bed} selected>{EditObj.Bed}</option>
-           )}
+           )} */}
+           {edit === 'Edit' && EditObj && EditObj.Bed && (
+  <option value={EditObj.Bed} selected={EditObj.Bed}>{EditObj.Bed}</option>
+)}
   {Arrayset.map((item) => (
     <option key={item} value={item}>{item}</option>
   ))}   
+
+
   
   </Form.Select>
              
