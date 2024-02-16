@@ -12,14 +12,14 @@ function* Login(args) {
         title: 'Login Successful',
         text: 'You have been logged in successfully!',
         timer: 1000, 
-        showConfirmButton: false, // Hide the "OK" button
+        showConfirmButton: false, 
       });
     } else if (response.status === 201) {
       yield put({ type: 'ERROR_EMAIL', payload: response.data.message });
       Swal.fire({
         icon: 'warning',
         title: 'Error',
-        html: `<span style="color: red">${args.payload.email_Id}</span> is not exist in the database`,
+        html: `please select valied credentials`,
       });
 
     } else if (response.status === 203) {
