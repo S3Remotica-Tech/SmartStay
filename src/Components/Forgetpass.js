@@ -78,7 +78,7 @@ useEffect(() => {
   const handlePasswordReset = () => {
     setShowOtpVerification(true)
     const isValidPassword = validatePassword();
-    if (isValidPassword) {
+    if (isValidPassword && otpValue && password) {
       dispatch({ type: 'FORGETPAGE', payload: {  NewPassword: password, email: email, otp: otpValue  } });
      
       inputRefs && inputRefs.forEach(ref => {
@@ -86,6 +86,8 @@ useEffect(() => {
       });
 
     } else {
+
+      setShowOtpVerification(false);
       let errorMessage = "";
       if (email === '') {
         errorMessage = "Please Enter Email";
@@ -105,12 +107,29 @@ useEffect(() => {
     }
   };
 
+
+  console.log("state.NewPass?.OTP.statusCode",state.NewPass?.OTP.statusCode)
+
+
+
+
+  useEffect(()=>{
+
+    if(state.NewPass?.OTP.statusCode == 200){
+              setShowOtpVerification(true);
+         }else{
+      setShowOtpVerification(false);
+     }
+
+  },[state.NewPass?.OTP])
+
+
+
   const handleAccountVerification = () => {
-        if (email ) {
+        if (email) {
     dispatch({ type: 'OTPSEND', payload: { email: email } });
-    setTimeout(() => {
-      setShowOtpVerification(true);
-  }, 3000);
+
+   
     }
     else{
       let errorMessage = "";
@@ -222,6 +241,7 @@ useEffect(()=>{
                     aria-describedby="basic-addon2"
                     autoFocus
                     value={email} onChange={(e) => handleEmailid(e)}
+                    disabled={showOtpVerification}
                     style={{
                       fontSize: "12px",
                       fontWeight: "530",
@@ -237,8 +257,11 @@ useEffect(()=>{
                   </InputGroup.Text>
                 </InputGroup>
                 <div className="d-flex justify-content-end">
-                  <Button type="" className="btn" style={{ fontWeight: 600, width: "200px", fontSize: "12px", backgroundColor: "#34A853", color: "white",borderColor:"#34A853" }} onClick={handleAccountVerification}>
-                    Account Verification
+                  <Button type="" className="btn"
+
+                  disabled={showOtpVerification}
+                   style={{ fontWeight: 600, width: "150px", fontSize: "12px", backgroundColor: "#5290fa", color: "white",borderColor:"#2F74EB99" }} onClick={handleAccountVerification}>
+                    Send Otp
                   </Button>
 
                 </div>
@@ -268,9 +291,9 @@ useEffect(()=>{
                   </div>
                   <div class="d-flex justify-content-end w-100 gap-5 p-3">
             <div>
-              <Button  onClick={handleAccountVerification} className="button-hover " style={{fontSize:12,backgroundColor: "#2F74EB", color: "white",borderColor:"#34A853" }}>
+              <label  onClick={handleAccountVerification} className="button-hover " style={{fontSize:12,backgroundColor: "", color: "#5290fa",borderColor:"#34A853" }}>
                 Resend OTP
-              </Button>
+              </label>
             </div>
             <div class="d-flex">
               <div><Button  onClick={handleOtpVerify} className="button-hover" style={{fontSize:12,backgroundColor: "#34A853", color: "white",borderColor:"#34A853" }}>

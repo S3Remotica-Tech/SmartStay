@@ -7,9 +7,10 @@ const initialState = {
     emailError:'',
     statusCode: 0,
     status_Code: 0,
-    // otpVerify:[],
-    // statusCodeForOtp: 0 ,
-}
+    status_Emai_Error: 0,
+    sendEmailError:'',
+    sendEmailStatusCode:'',
+   }
 
 const ForgetReducer = (state = initialState, action) => {
 
@@ -30,9 +31,11 @@ const ForgetReducer = (state = initialState, action) => {
         case 'OTP_SEND':
             return { ...state, OTP: action.payload, statusCode: action.payload.statusCode }
             case 'EMAIL_ERROR':
-                return {...state, emailError:action.payload }
+                return {...state, emailError:action.payload, sendEmailError:action.payload.statusCode }
         case 'OTP_ERROR':
             return { ...state, OtpError: action.payload }
+            case 'SEND_EMAIL_ERROR':
+                return {...state, sendEmailError: action.payload, sendEmailStatusCode:action.payload.statusCode}
             // case 'OTP_VERIFY':
             //     return {...state,otpVerify:action.payload,statusCodeForOtp: action.payload.statusCode }
     }

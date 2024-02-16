@@ -65,7 +65,7 @@ function* handleSendOtp(action) {
             timer: 1000,
         });
     }else if(response.status === 201){
-        yield put({ type: 'EMAIL_ERROR', payload: response.data.message })
+        yield put({ type: 'EMAIL_ERROR', payload: { response:response.data.message,statusCode:response.status}})
         Swal.fire({
             icon: 'warning',
             title: 'Error',
@@ -73,8 +73,14 @@ function* handleSendOtp(action) {
                 
             });
     }
-    else {
-        yield put({ type: 'ERROR', payload: response.data.message })
+    else if(response.status === 203) {
+        yield put({ type: 'SEND_EMAIL_ERROR', payload: {response: response.data.message ,statusCode:response.status}})
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            text: response.data.message ,
+                timer:1000,
+            });
     }
 }
 

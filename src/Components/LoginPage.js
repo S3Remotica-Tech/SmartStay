@@ -122,21 +122,21 @@ if(state.login.statusCode === 200){
        localStorage.setItem("login", "false");
   }, []);
 
-  const [checked, setChecked] = useState('');
+  // const [checked, setChecked] = useState('');
   const [checkboxTouched, setCheckboxTouched] = useState(false);
   
-  const handleCheckboxChange = (e) => {
-    const isChecked = e.target.checked;
-    console.log("isChecked",isChecked)
-    setChecked(isChecked);
-        if (isChecked === true) {
-      localStorage.setItem("login", "true"); 
-    } else {
-      localStorage.setItem("login","false"); 
-    }
-    setCheckboxTouched(true)
-    console.log("localStorage:", localStorage.getItem("login"));
-  };
+  // const handleCheckboxChange = (e) => {
+  //   const isChecked = e.target.checked;
+  //   console.log("isChecked",isChecked)
+  //   setChecked(isChecked);
+  //       if (isChecked === true) {
+  //     localStorage.setItem("login", "true"); 
+  //   } else {
+  //     localStorage.setItem("login","false"); 
+  //   }
+  //   setCheckboxTouched(true)
+  //   console.log("localStorage:", localStorage.getItem("login"));
+  // };
   
    
 
