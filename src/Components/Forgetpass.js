@@ -260,7 +260,7 @@ useEffect(()=>{
                   <Button type="" className="btn"
 
                   disabled={showOtpVerification}
-                   style={{ fontWeight: 600, width: "150px", fontSize: "12px", backgroundColor: "#5290fa", color: "white",borderColor:"#2F74EB99" }} onClick={handleAccountVerification}>
+                   style={{ borderRadius:50,fontWeight: 700, width: "100px", fontSize: "12px", backgroundColor: "#5290fa", color: "white",borderColor:"#2F74EB99" }} onClick={handleAccountVerification}>
                     Send Otp
                   </Button>
 
