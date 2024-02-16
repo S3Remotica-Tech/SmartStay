@@ -40,6 +40,7 @@ const MyComponent = () => {
   const handleForgetPassword = () => {
     navigate('/forget-password')
   }
+  
   useEffect(() => {
     if (state.login?.message?.message) {
       navigate('/dashboard')
@@ -59,7 +60,14 @@ const MyComponent = () => {
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
     setpassword(e.target.value)
   }
-
+  
+useEffect(()=>{
+if(state.login.statusCode === 200){
+  console.log("state.login.statusCode",state.login.statusCode);
+  navigate('/dashboard')
+  dispatch({type:'LOGIN-SUCCESS'})
+}
+},[state.login.statusCode])
 
   // const login = localStorage.getItem("login")
 
@@ -103,7 +111,36 @@ const MyComponent = () => {
         showConfirmButton: false,
       });
     }
+    if (!checkboxTouched) {
+      localStorage.setItem("login", "false");
+    }
   };
+
+
+ 
+  useEffect(() => {
+       localStorage.setItem("login", "false");
+  }, []);
+
+  const [checked, setChecked] = useState('');
+  const [checkboxTouched, setCheckboxTouched] = useState(false);
+  
+  const handleCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+    console.log("isChecked",isChecked)
+    setChecked(isChecked);
+        if (isChecked === true) {
+      localStorage.setItem("login", "true"); 
+    } else {
+      localStorage.setItem("login","false"); 
+    }
+    setCheckboxTouched(true)
+    console.log("localStorage:", localStorage.getItem("login"));
+  };
+  
+   
+
+
 
   return (
     <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
@@ -202,3 +239,4 @@ const MyComponent = () => {
 };
 
 export default MyComponent;
+

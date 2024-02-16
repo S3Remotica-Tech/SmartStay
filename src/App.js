@@ -20,16 +20,6 @@ function App() {
   const state = useSelector(state => state)
   const [data,setData]= useState('');
 
-// useEffect(()=>{
-//   const login = localStorage.getItem("login")
-//   if(login){
-//     const decryptedData = CryptoJS.AES.decrypt(login, 'abcd')
-//     console.log("decryptedData",JSON.parse(decryptedData.toString(CryptoJS.enc.Utf8)));
-//     setData(JSON.parse(decryptedData.toString(CryptoJS.enc.Utf8)))
-//   }
-  
-// },[])
-
 const login = localStorage.getItem("login");
  
 
@@ -53,16 +43,6 @@ useEffect(() => {
   setIsLoading(false);
 }, []);
 
-
-//  useEffect (()=>{
-//   if(state.login.isLoggedIn===true){
-//     localStorage.setItem("login",true)
-//   } 
-// },[state.login.isLoggedIn])
-// console.log("state.login.isLoggedIn", state.login.isLoggedIn ? "1":"0");
-
-
-  
  console.log("data",data);
 
 
@@ -100,14 +80,8 @@ useEffect(() => {
           </Router>
 
       }
-
-
-
-
-
     </div>
   );
 }
 
 export default App;
-

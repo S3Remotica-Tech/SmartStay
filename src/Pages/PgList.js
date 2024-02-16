@@ -262,6 +262,11 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
   setBedDetailsPage(BedDetails)
 }
 
+const handleBackToFloors = () => {
+  setIsRowVisible(true)
+  setBedDetailShow(false)
+}
+
   return (
     <>
       <div className="d-flex justify-content-between p-3">
@@ -498,7 +503,7 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
               </div>
               </div>
               <div className="col-4">
-                                <div className=" text-center align-items-center" style={{ height: "60px", width: "35px"}} >
+                                <div className="text-center align-items-center" style={{ height: "60px", width: "35px"}} >
                                   
                                 </div>
                             </div>
@@ -508,7 +513,13 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
         </div>
         }
          {bedDetailShow && (
-  <BedDetail bedDetailsSendThePage={bedDetailsPage} />)
+<>
+<div className='d-flex justify-content-end me-5'>
+<button type="button" onClick={handleBackToFloors} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}>Back to Floor</button>
+</div>
+  <BedDetail bedDetailsSendThePage={bedDetailsPage} />
+ </> 
+  )
 }
       </>}
       {roomDetails === 'RoomDetailsPage' && <RoomDetails />}

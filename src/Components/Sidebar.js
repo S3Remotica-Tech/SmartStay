@@ -49,6 +49,14 @@ import { useNavigate } from "react-router-dom";
 function Sidebar() {
 
   let navigate = useNavigate();
+ 
+const RoyalLogin = localStorage.getItem('login')
+// console.log("RoyalLogin",RoyalLogin)
+
+const isLoggedInRoyal = useSelector(state => state.login.isLoggedIn);
+
+// console.log("isLoggedInRoyal",isLoggedInRoyal)
+
 
 
   const [activePage, setActivePage] = useState(true);
