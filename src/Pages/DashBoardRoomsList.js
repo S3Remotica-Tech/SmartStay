@@ -104,10 +104,20 @@ function DashboardRoom(props) {
 
 
     useEffect(() => {
+      
         if (props.floorID && props.hostel_Id) {
             console.log("RoomCount", props.hostel_Id);
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
             
+          if (state.PgList?.roomCount) {
+            const tempArray = state.PgList.roomCount.filter((item) => {
+                if (item && Array.isArray(item) && item.length > 0) {
+                    return item[0].Floor_Id == props.floorID && item[0].id == props.hostel_Id;
+                }
+                return false; 
+            });
+            console.log("tempArray.", tempArray);
+        }
             return () => {
                 console.log("RoomCount unmount");
             }
