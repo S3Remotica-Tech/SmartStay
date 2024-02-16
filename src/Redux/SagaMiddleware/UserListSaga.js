@@ -28,7 +28,6 @@ function* handleNumberOfRooms(ID) {
    const response = yield call(roomsCount, ID.payload)
    if (response.status === 200) {
       yield put({ type: 'ROOM_COUNT', payload: response.data })
-      yield put({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: 'CREATED SUCCESSFULLY'})
    }
    else {
       console.log("response.dataForRoomCount",response.data);

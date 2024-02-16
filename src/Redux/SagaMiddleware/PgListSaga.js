@@ -25,6 +25,7 @@ function* handlePgList(datum){
    console.log("response create room",response);
    if (response.status === 200) {
       yield put ({type:'CREATE_ROOM',payload:response.data})
+      yield put({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: 'CREATED SUCCESSFULLY'})
 
       // Swal.fire({
       //   icon: 'success',

@@ -77,7 +77,7 @@ const [hostelIndex,setHostelIndex] = useState('')
 
   useEffect(()=>{
     if (state.UsersList.createFloorMessage != null) {
-        dispatch({ type: 'HOSTELLIST' })
+        // dispatch({ type: 'HOSTELLIST' })
 
         setTimeout(() => {
             dispatch({ type: 'UPDATE_MESSAGE_FLOOR', message: null })
@@ -87,7 +87,7 @@ const [hostelIndex,setHostelIndex] = useState('')
 
 useEffect(()=>{
 if(state.PgList.message){
-  dispatch({ type: 'HOSTELLIST' })
+  // dispatch({ type: 'HOSTELLIST' })
   Swal.fire({
     icon: 'success',
     title: 'Hostel Details saved Successful',
