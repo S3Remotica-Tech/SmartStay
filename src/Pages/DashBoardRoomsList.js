@@ -120,7 +120,7 @@ function DashboardRoom(props) {
         if (state.PgList.createRoomMessage !== null && state.PgList.createRoomMessage != '') {
             // dispatch({ type: 'HOSTELLIST' })
             console.log("useEffect");
-            // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+            dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
 
             setTimeout(() => {
                 dispatch({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: null })

@@ -77,7 +77,7 @@ const [hostelIndex,setHostelIndex] = useState('')
 
   useEffect(()=>{
     if (state.UsersList.createFloorMessage != null) {
-        // dispatch({ type: 'HOSTELLIST' })
+        dispatch({ type: 'HOSTELLIST' })
 
         setTimeout(() => {
             dispatch({ type: 'UPDATE_MESSAGE_FLOOR', message: null })
