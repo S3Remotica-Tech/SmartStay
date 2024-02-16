@@ -8,6 +8,6 @@ export async function compliance() {
 
   export async function Compliancedetails (formDetails) {
     return await AxiosConfig.post('/compliance/add-details',formDetails,{
-      params:formDetails
+      data:formDetails
     })
   }

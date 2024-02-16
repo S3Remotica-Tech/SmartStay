@@ -85,6 +85,30 @@ const [hostelIndex,setHostelIndex] = useState('')
     }
 },[state.UsersList.createFloorMessage])
 
+useEffect(()=>{
+if(state.PgList.message){
+  dispatch({ type: 'HOSTELLIST' })
+  Swal.fire({
+    icon: 'success',
+    title: 'Hostel Details saved Successful',
+  }).then((result) => {
+    // dispatch({ type: 'HOSTELLIST' })
+    if (result.isConfirmed) {
+      setPgList({
+        Name: '',
+        phoneNumber: '',
+        email_Id: '',
+        location: '',
+        number_Of_Floor: '',
+        number_Of_Rooms: '',
+        floorDetails: []
+      });
+    }
+  });
+  handlecloseHostelForm();
+}
+},[state.PgList.message])
+
   const handleFloorList = (index, roomlist) => {
     var tempArray = pgList.floorDetails
     tempArray[index] = roomlist
@@ -135,24 +159,24 @@ const [hostelIndex,setHostelIndex] = useState('')
         }
       });
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Hostel Details saved Successful',
-      }).then((result) => {
-        dispatch({ type: 'HOSTELLIST' })
-        if (result.isConfirmed) {
-          setPgList({
-            Name: '',
-            phoneNumber: '',
-            email_Id: '',
-            location: '',
-            number_Of_Floor: '',
-            number_Of_Rooms: '',
-            floorDetails: []
-          });
-        }
-      });
-      handlecloseHostelForm();
+      // Swal.fire({
+      //   icon: 'success',
+      //   title: 'Hostel Details saved Successful',
+      // }).then((result) => {
+      //   // dispatch({ type: 'HOSTELLIST' })
+      //   if (result.isConfirmed) {
+      //     setPgList({
+      //       Name: '',
+      //       phoneNumber: '',
+      //       email_Id: '',
+      //       location: '',
+      //       number_Of_Floor: '',
+      //       number_Of_Rooms: '',
+      //       floorDetails: []
+      //     });
+      //   }
+      // });
+      // handlecloseHostelForm();
     }
     else {
       Swal.fire({
@@ -238,11 +262,11 @@ const handleBedVisibilityChange = (isVisible,BedDetails) => {
   setBedDetailsPage(BedDetails)
 }
 
-
 const handleBackToFloors = () => {
   setIsRowVisible(true)
   setBedDetailShow(false)
 }
+
   return (
     <>
       <div className="d-flex justify-content-between p-3">
@@ -479,7 +503,7 @@ const handleBackToFloors = () => {
               </div>
               </div>
               <div className="col-4">
-                                <div className=" text-center align-items-center" style={{ height: "60px", width: "35px"}} >
+                                <div className="text-center align-items-center" style={{ height: "60px", width: "35px"}} >
                                   
                                 </div>
                             </div>

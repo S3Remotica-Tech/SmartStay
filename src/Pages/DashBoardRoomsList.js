@@ -9,9 +9,6 @@ import { TiDeleteOutline } from "react-icons/ti";
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import BedDetails from './Bed';
-import { MdMeetingRoom } from "react-icons/md";
 
 function getFloorName(floor_Id) {
     if (floor_Id === 1) {
@@ -85,10 +82,6 @@ function getFloorAbbreviation(floor_Id) {
 
 
 function DashboardRoom(props) {
-    console.log("props", props);
-    const navigate = useNavigate();
-    const [roomLength, setRoomLength] = useState(0)
-    const noOfFloor = Number(props.floorID) + Number(props.floorID);
     const state = useSelector(state => state)
     const dispatch = useDispatch();
     const [updateRoom, setUpdateRoom] = useState(false)
@@ -111,9 +104,12 @@ function DashboardRoom(props) {
 
 
     useEffect(() => {
-        console.log("RoomCount", props.hostel_Id);
-        dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } });
-        if (state.PgList?.roomCount) {
+      
+        if (props.floorID && props.hostel_Id) {
+            console.log("RoomCount", props.hostel_Id);
+            dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+            
+          if (state.PgList?.roomCount) {
             const tempArray = state.PgList.roomCount.filter((item) => {
                 if (item && Array.isArray(item) && item.length > 0) {
                     return item[0].Floor_Id == props.floorID && item[0].id == props.hostel_Id;
@@ -122,11 +118,11 @@ function DashboardRoom(props) {
             });
             console.log("tempArray.", tempArray);
         }
-    
-        return () => {
-            console.log("RoomCount unmount");
-        };
-    }, [props.hostel_Id, props.floorID, state.PgList?.roomCount]);
+            return () => {
+                console.log("RoomCount unmount");
+            }
+        }
+    }, [props.hostel_Id])
 
 
     useEffect(() => {
@@ -141,10 +137,6 @@ function DashboardRoom(props) {
         }
     }, [state.PgList.createRoomMessage])
 
-    useEffect(() => {
-        dispatch({ type: 'CHECKROOM' })
-    }, [])
-
     const handleShows = (val, index) => {
         setShows(true);
         if (val) {
@@ -155,7 +147,6 @@ function DashboardRoom(props) {
                 updatedRooms[0].numberOfBeds = val.Number_Of_Beds;
                 return updatedRooms;
             });
-            // setR
         }
         else {
             setUpdateRoom('Add')
@@ -166,7 +157,6 @@ function DashboardRoom(props) {
     };
 
     const [currentRoomId, setCurrentRoomId] = useState("");
-
 
     const [roomDetailsError, setRoomDetailsError] = useState(false);
     const handleRoomIdChange = (roomId, index) => {
@@ -234,19 +224,12 @@ function DashboardRoom(props) {
                     })),
                 },
             });
-            // dispatch({ type: 'HOSTELLIST' })
-            // if (state.PgList.createRoomMessage) {
             Swal.fire({
                 icon: 'success',
                 title: "Room created successfully",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                }
-            });
+            })
             setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
             handleCloses();
-            // }
-
         } else {
             Swal.fire({
                 icon: 'warning',
@@ -259,7 +242,7 @@ function DashboardRoom(props) {
         setRoomDetails((prevDetails) => prevDetails.filter((_, index) => index !== indexToRemove));
     };
     const arr = [];
-    console.log("state", state);
+// let arr =0
     // const handleRoomDetails = (val) => {
 
     //     navigate('/Bed', { state: { val: val } });
@@ -288,15 +271,6 @@ function DashboardRoom(props) {
     }
 
    
-    
-
-
-
-    console.log("roomDetailsFromState", roomDetailsFromState);
-
-
-
-    
 
     return (
         <>
@@ -315,14 +289,19 @@ function DashboardRoom(props) {
                             {
 
                                 roomCount.length > 0 && roomCount.map((room) => {
-
+                                    // arr =  room.length > 0 ? room.length : 0 
+                                    // arr.length == 0 && arr.push(room.length)
+                                    //  console.log("room count arr",room.length);
                                     return (
                                         <>
                                             {room.length > 0 &&
                                                 room.map((val, index) => {
                                                     if (val.Floor_Id == props.floorID) {
+                                                        // arr = room.length
+                                                        // arr =  room.length > 0 ? room.length : 0 
+                                                        // console.log("room count arr",arr);
+                                                        // room.length > 0 ? arr.push(room.length) :  arr = [] && arr.push(0)
                                                         arr.length == 0 && arr.push(room.length)
-                                                        // setRoomLength(room.length)
                                                         const formattedRoomId = getFormattedRoomId(val.Floor_Id, val.Room_Id);
 
                                                         return (
