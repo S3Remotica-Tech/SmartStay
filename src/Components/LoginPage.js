@@ -21,7 +21,7 @@ const MyComponent = () => {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-
+console.log("state",state)
   let navigate = useNavigate();
 
   const [email_Id, setemail_Id] = useState('')

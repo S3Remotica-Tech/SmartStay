@@ -15,8 +15,7 @@ function UserlistForm(props) {
     fontWeight: 'bold',
     fontSize: "11px",
   };
-  console.log("props", props)
-  console.log("UserlistForm");
+ 
   const [id, setId] = useState('')
   const [file, setFile] = useState(null)
   const [firstname, setFirstname] = useState('')
@@ -41,12 +40,9 @@ function UserlistForm(props) {
   const [Arrayset, setArrayset] = useState([])
   const [Bednum, setBednum] = useState(null)
   const [romnum, setRoomnum] = useState('')
-  console.log("Bednum", Bednum)
-  console.log("Arrayset", Arrayset)
-  // const [EditObj, setEditObj] = useState(null)
   const state = useSelector(state => state)
   const dispatch = useDispatch();
-  console.log("state", state)
+ 
   useEffect(() => {
     dispatch({ type: 'USERLIST' })
     dispatch({ type: 'HOSTELLIST' })
@@ -54,7 +50,6 @@ function UserlistForm(props) {
 
   useEffect(() => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
-    console.log("Updated Floor:", Floor);
   }, [hostel_Id]);
   useEffect(() => {
     const temparry = state.UsersList.roomdetails.filter((item) => item.Room_Id == Rooms);
@@ -86,7 +81,7 @@ function UserlistForm(props) {
     const Roomdetail = state.UsersList.Users.filter((item) => {
       return item.Hostel_Id == hostel_Id && item.Floor == Floor
     })
-    console.log("Roomdetails", Roomdetail)
+   
 
     setRoomnum(Roomdetail)
   }, [state.UsersList.roomdetails]);
@@ -125,25 +120,20 @@ function UserlistForm(props) {
     setAddress(e.target.value)
   }
   const handleHostelId = (e) => {
-    console.log("e.target.value", e.target.value)
+   
     const selectedHostelId = e.target.value;
     const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter(item => item.id == e.target.value);
-
     setHostel_Id(selectedHostelId);
-    console.log("selectedHostelId", selectedHostel);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : '');
-    console.log("state.UsersList.hostelList", state.UsersList.hostelList)
+  
     setFloor("")
     setRooms("")
     setBed("")
   }
   const handleFloor = (e) => {
-    console.log("Room_Id inside handleFloor:", Rooms);
-    // dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: e.target.value } })
     setFloor(e.target.value)
   }
   const handleRooms = (e) => {
-    console.log("e.target.value.........?", e.target.value)
     setRooms(e.target.value);
   }
   const handleRoomRent = (e) => {
@@ -204,8 +194,6 @@ function UserlistForm(props) {
 
   };
   useEffect(() => {
-    console.log("props.showMenu", props.showMenu)
-
     if (props.EditObj && props.EditObj.ID) {
       props.setEdit('Edit')
       setBednum(props.EditObj)

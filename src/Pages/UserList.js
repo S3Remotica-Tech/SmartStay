@@ -61,14 +61,6 @@ function UserList() {
     setShowMenu(true);
     localStorage.setItem('showMenu', 'true');
     setEditObj(u)
-    if (u.ID) {
-      console.log("HostelIDfrom 'u':", u);
-      console.log("Bed Value:", u.Bed);
-    }
-    else {
-      setEdit('Add');
-
-    }
   };
 
   useEffect(() => {
