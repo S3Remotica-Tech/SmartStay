@@ -8,11 +8,25 @@ function getFloorName(floorID) {
         return 'Ground Floor';
     } else if (floorID === 2) {
         return '1st Floor';
-    } else if (floorID=== 3) {
+    } 
+    else if (floorID === 3) {
         return '2nd Floor';
-    } else if (floorID >= 11 && floorID <= 13) {
-        return `${floorID}th Floor`;
-    } else {
+    } 
+    else if (floorID === 4) {
+        return '3rd Floor';
+    } 
+    else if (floorID === 5) {
+        return '4th Floor';
+    }
+    
+    else if (floorID >= 6 && floorID <= 10) {
+        return `${floorID - 1}th Floor`;
+    }
+
+    else if (floorID >= 11 && floorID <= 13) {
+        return `${floorID-1}th Floor`;
+    } 
+    else {
         const lastDigit = floorID % 10;
         let suffix = 'th';
 
@@ -49,7 +63,7 @@ function SelectedHostelFloorList(props) {
 
 
 
-
+      console.log("props",props);
 
   return (
     <div className="col-lg-1 col-md-2 col-sm-2 col-xs-12 col-12 " style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
