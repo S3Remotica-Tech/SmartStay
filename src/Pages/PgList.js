@@ -88,29 +88,28 @@ function PgList() {
     }
   }, [state.UsersList.createFloorMessage])
 
-  useEffect(() => {
-    if (state.PgList.message) {
-      // dispatch({ type: 'HOSTELLIST' })
-      Swal.fire({
-        icon: 'success',
-        title: 'Hostel Details saved Successful',
-      }).then((result) => {
-        // dispatch({ type: 'HOSTELLIST' })
-        if (result.isConfirmed) {
-          setPgList({
-            Name: '',
-            phoneNumber: '',
-            email_Id: '',
-            location: '',
-            number_Of_Floor: '',
-            number_Of_Rooms: '',
-            floorDetails: []
-          });
-        }
+useEffect(()=>{
+if(state.PgList.message){
+  // dispatch({ type: 'HOSTELLIST' })
+  Swal.fire({
+    icon: 'success',
+    title: 'Hostel Details saved Successful',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      setPgList({
+        Name: '',
+        phoneNumber: '',
+        email_Id: '',
+        location: '',
+        number_Of_Floor: '',
+        number_Of_Rooms: '',
+        floorDetails: []
       });
-      handlecloseHostelForm();
     }
-  }, [state.PgList.message])
+  });
+  handlecloseHostelForm();
+}
+},[state.PgList.message])
 
   const handleFloorList = (index, roomlist) => {
     var tempArray = pgList.floorDetails

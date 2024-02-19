@@ -106,7 +106,6 @@ function DashboardRoom(props) {
     useEffect(() => {
       
         if (props.floorID && props.hostel_Id) {
-            console.log("RoomCount", props.hostel_Id);
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
             
           if (state.PgList?.roomCount) {
