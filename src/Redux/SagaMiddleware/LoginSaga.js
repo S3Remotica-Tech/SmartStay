@@ -19,7 +19,7 @@ function* Login(args) {
       Swal.fire({
         icon: 'warning',
         title: 'Error',
-        html: `please select valied credentials`,
+        html: `invalied credentials`,
       });
 
     } else if (response.status === 203) {
