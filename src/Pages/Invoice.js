@@ -237,7 +237,7 @@ const InvoicePage = () => {
     const invoiceNo = randomNumberInRange(invoiceList.hostel_Name,1, new Date())
     console.log("invoiceNo",invoiceNo);
     console.log("editOption == 'Add' && invoiceNo", editOption == 'Add' && invoiceNo);
-    if (invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue) {
+    if (invoiceList.firstName && invoiceList.lastName && invoiceList.phone  && invoiceList.amount && invoiceList.dueDate ) {
       dispatch({
         type: 'ADDINVOICEDETAILS',
         payload: {
