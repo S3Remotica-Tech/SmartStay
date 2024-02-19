@@ -87,7 +87,7 @@ const [hostelIndex,setHostelIndex] = useState('')
 
 useEffect(()=>{
 if(state.PgList.message){
-  dispatch({ type: 'HOSTELLIST' })
+  // dispatch({ type: 'HOSTELLIST' })
   Swal.fire({
     icon: 'success',
     title: 'Hostel Details saved Successful',
