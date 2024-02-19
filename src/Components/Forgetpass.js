@@ -80,9 +80,11 @@ function ForgetPasswordPage() {
     const isValidPassword = validatePassword();
     if (isValidPassword && otpValue && password) {
       dispatch({ type: 'FORGETPAGE', payload: { NewPassword: password, email: email, otp: otpValue } });
-
       inputRefs && inputRefs.forEach(ref => {
+        if(ref.current){
         ref.current.value = null;
+        }
+
       });
 
     } else {
@@ -178,8 +180,7 @@ function ForgetPasswordPage() {
   console.log("otp for get backend", otp)
 
   const handleOtpVerify = () => {
-    dispatch({ type: 'OTPVERIFY', payload: { email: email } })
-    console.log("otp", otp);
+       console.log("otp", otp);
     console.log("otpValue:", otpValue);
     console.log("otp === otpValue", otp == otpValue)
 
