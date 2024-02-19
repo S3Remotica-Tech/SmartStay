@@ -34,7 +34,6 @@ const PgListReducer = (state = initialState, action) => {
                 let index = state.roomCount.findIndex((item) => {
                     return item[0]?.Floor_Id === action.payload.floor_Id
                 })
-                console.log("index",index);
                 state.roomCount[index] = []
             }
             return { ...state, errMessage: action.payload.response}
