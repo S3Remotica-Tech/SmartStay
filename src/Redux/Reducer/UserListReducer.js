@@ -50,7 +50,6 @@ const UserListReducer = (state = initialState, action) => {
         case 'ERROR':
             return { ...state, errorMessage: action.payload }
         case 'HOSTEL_LIST':
-            console.log("hostelList...");
             return { ...state, hostelList: action.payload }
         case 'HOSTEL_DETAIL_LIST':
             return { ...state, hosteldetailslist: action.payload }

@@ -92,7 +92,6 @@ if(state.PgList.message){
     icon: 'success',
     title: 'Hostel Details saved Successful',
   }).then((result) => {
-    // dispatch({ type: 'HOSTELLIST' })
     if (result.isConfirmed) {
       setPgList({
         Name: '',
