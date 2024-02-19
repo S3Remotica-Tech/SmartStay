@@ -20,7 +20,6 @@ function* handlePgList(datum){
  }
 
  function* handleCreateRoom(datum){
-   console.log("datum",datum);
    const response = yield call (createRoom,datum.payload);
    console.log("response create room",response);
    if (response.status === 200) {
