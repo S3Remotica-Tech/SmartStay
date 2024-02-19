@@ -38,11 +38,9 @@ const Compliance = () => {
   const [id, setId] = useState('')
   const [Name, setName] = useState('');
   const [Phone, setPhone] = useState('');
-  const [Requestid, setRequestid] = useState('')
   const [Complainttype, setComplainttype] = useState('');
   const [description,setDescription] = useState('')
   const [Assign, setAssign] = useState('');
-  const [showMessage, setShowMessage] = useState(false);
   const [Status, setStatus] = useState('')
   const [date, setDate] = useState('');
   const [editbtn, setEditbtn] = useState(false)
@@ -123,7 +121,6 @@ const Compliance = () => {
     setId('')
     setName('')
     setPhone('')
-    setRequestid('')
     setComplainttype('')
     setAssign('')
     setDescription('')
@@ -146,7 +143,6 @@ const Compliance = () => {
     setId('')
     setName('')
     setPhone('')
-    setRequestid('')
     setComplainttype('')
     setAssign('')
     setDescription('')
@@ -168,14 +164,7 @@ const Compliance = () => {
 
   console.log("state",state);
 
-  useEffect(() => {
-    if (showMessage) {
-      setShowMessage(true)
-      setTimeout(() => {
-        setShowMessage(false)
-      }, 10000);
-    }
-  }, [showMessage])
+ 
 
 
   const handleEdit = (item) => {
@@ -184,7 +173,6 @@ const Compliance = () => {
     setId(item.ID)
     setName(item.Name)
     setPhone(item.Phone)
-    setRequestid(item.Requestid)
     setComplainttype(item.Complainttype)
     setAssign(item.Assign)
     setDescription(item.Description)
@@ -199,12 +187,11 @@ const Compliance = () => {
   }
 
   const handleSubmit = () => {
-    if (Name && Phone && Requestid && Complainttype && Assign && description && Status && date && hostel_Id && Floor && Rooms ) {
-      dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: Name, Phone: Phone, Requestid: Requestid, Complainttype: Complainttype, Assign: Assign, Description:description, Status: Status, date: date, id: editbtn ? id : '', Hostel_id: hostel_Id, Floor_id: Floor, Room: Rooms ,hostelname:hostelname } })
+    if (Name && Phone  && Complainttype && Assign && description && Status && date && hostel_Id && Floor && Rooms ) {
+      dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: Name, Phone: Phone, Complainttype: Complainttype, Assign: Assign, Description:description, Status: Status, date: date, id: editbtn ? id : '', Hostel_id: hostel_Id, Floor_id: Floor, Room: Rooms ,hostelname:hostelname } })
       setId('')
       setName('')
       setPhone('')
-      setRequestid('')
       setComplainttype('')
       setAssign('')
       setDescription('')
@@ -213,7 +200,6 @@ const Compliance = () => {
       setHostel_Id('')
       setFloor('')
       setRooms('')
-      setShowMessage(true)
       dispatch({ type: 'COMPLIANCE-LIST' })
       setShowMenu(false);
       Swal.fire({
@@ -371,9 +357,8 @@ const Compliance = () => {
                   }}
                 >
 
-                  <TextField id="standard-basic" label="Request Id" value={Requestid} onChange={(e) => { setRequestid(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '0px' }} sx={{ '& > :not(style)': { paddingTop: "5px", fontSize: "0.8rem", fontWeight: "bold" } }} />
                   <TextField id="standard-basic" label="Name" value={Name} onChange={(e) => { setName(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Phone Number" value={Phone} onChange={(e) => { handlePhone(e) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '8px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+                  <TextField id="standard-basic" label="Phone Number" value={Phone} onChange={(e) => { handlePhone(e) }} variant="standard" style={{ m: 1, width: '22ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
 
 
 
@@ -439,6 +424,12 @@ const Compliance = () => {
                     </Select>
                   </FormControl>
 
+                  <TextField id="standard-basic" type='date'
+                   value={date}
+                    onChange={(e) => { handleDatePicker(e) }} 
+                    variant="standard" style={{ m: 1, width: '22ch', marginTop: '24px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }}
+                     />
+
                   <FormControl variant="standard" sx={{ m: 1, minWidth: 390 }}>
                     <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Complainttype</InputLabel>
                     <Select
@@ -477,16 +468,10 @@ const Compliance = () => {
              
                   <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginBottom: '10px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
                   <TextField id="standard-basic" label="status" value={Status} onChange={(e) => { setStatus(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" type='date'
-                   value={date}
-                    onChange={(e) => { handleDatePicker(e) }} 
-                    variant="standard" style={{ m: 1, width: '22ch', marginTop: '5px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+                 
 
                 </Box>
-                {
-                  showMessage &&
-                  <div ><p>We have taken your request successfuly</p></div>
-                }
+               
                 <div class="d-flex justify-content-center" style={{ marginTop: '20px' }}>
                   <Button variant="dark" size="sm" onClick={handleFormclose} style={{ borderRadius: '20vh', width: '100px', marginRight: '15px' }}>
                     Cancel

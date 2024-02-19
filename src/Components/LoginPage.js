@@ -61,13 +61,13 @@ console.log("state",state)
     setpassword(e.target.value)
   }
   
-useEffect(()=>{
-if(state.login.statusCode === 200){
-  console.log("state.login.statusCode",state.login.statusCode);
-  navigate('/dashboard')
-  dispatch({type:'LOGIN-SUCCESS'})
-}
-},[state.login.statusCode])
+// useEffect(()=>{
+// if(state.login.statusCode === 200){
+//   console.log("state.login.statusCode",state.login.statusCode);
+//   navigate('/dashboard')
+//   dispatch({type:'LOGIN-SUCCESS'})
+// }
+// },[state.login.statusCode])
 
   // const login = localStorage.getItem("login")
 
