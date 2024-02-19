@@ -209,14 +209,14 @@ function DashboardRoom(props) {
 
     const handleCreateRoom = () => {
         const floorId = props.floorID.toString();
-        const phoneNumber = props.phoneNumber.toString();
-
+        const hostel_Id = props.hostel_Id.toString();
         const validRooms = roomDetails.filter(room => room.roomId && room.numberOfBeds);
-        if (validRooms) {
+        console.log("validRooms ", validRooms)
+        if (validRooms.length > 0) {
             dispatch({
                 type: 'CREATEROOM',
                 payload: {
-                    phoneNo: phoneNumber,
+                    id: hostel_Id,
                     floorDetails: validRooms.map(room => ({
                         floorId: floorId,
                         roomId: room.roomId,
