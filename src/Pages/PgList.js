@@ -432,13 +432,12 @@ const handleBackToFloors = () => {
                       onChange={(e) => handleFloorChange(e.target.value, index)}
                       value={floor.number_of_floor} className="form-control custom-border-bottom p-0" placeholder="Enter here" style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, width: "", borderRight: "none", borderBottom: "1px solid lightgray" }} />
                   </div>
-
                 </div>
+
                 <div className='col-lg-2 col-md-2 col-xs-12 col-sm-12 col-12 d-flex justify-content-between align-items-center' style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "0px" }}>
                   {index > 0 &&
                     <AiOutlineDelete style={{ color: "red" }} onClick={() => handleDeleteFloor(index)} />
                   }
-
 
                 </div>
 
