@@ -13,6 +13,7 @@ import Men from '../Assets/Images/men.jpg';
 
 
 function NavScrollExample() {
+  
   return (
     <Navbar bg="light" expand="lg" style={{ backgroundColor: "#FFFFFF", padding: "0px 0px", boxShadow: "1px 1px 2px lightgray" }} >
       <Container fluid style={{ backgroundColor: "#FFFFFF", padding: "0px" }}>

@@ -75,14 +75,12 @@ const Compliance = () => {
 
   useEffect(() => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
-    console.log("Updated Floor:", Floor);
-  }, [Floor]);
+  }, [hostel_Id]);
     const [hostelname,setHostelName] = useState('')
     const handleHostelId = (e) => {
     console.log("e.target.value", e.target.value);
     const selectedHostelId = e.target.value;
     const selectedHostel = state.UsersList?.hostelList?.find(item => item.id == selectedHostelId);
-    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: selectedHostelId } });
     setHostel_Id(selectedHostelId);
     console.log("selectedHostel", selectedHostel);
     setHostelName(selectedHostel ? selectedHostel.Name : '');
