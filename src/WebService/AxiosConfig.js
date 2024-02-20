@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const AxiosConfig = axios.create({
-    baseURL: "http://localhost:2000",
+    baseURL: "http://localhost:2001",
 headers: {
     'Access-Control-Allow-Origin' : '*'
 }
