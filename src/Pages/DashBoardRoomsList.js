@@ -84,6 +84,7 @@ function getFloorAbbreviation(floor_Id) {
 function DashboardRoom(props) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
+    console.log("state",state)
     const [updateRoom, setUpdateRoom] = useState(false)
     const [shows, setShows] = useState(false);
     const handleCloses = () => {
