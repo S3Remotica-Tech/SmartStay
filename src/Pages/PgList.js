@@ -20,6 +20,42 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { FaAngleRight } from "react-icons/fa6";
+
+
+function getFloorName(floor_Id) {
+  if (floor_Id === 1) {
+    return 'Ground Floor';
+  } else if (floor_Id === 2) {
+    return '1st Floor';
+  } else if (floor_Id === 3) {
+    return '2nd Floor';
+  } else if (floor_Id === 4) {
+    return '3rd Floor';
+  } else if (floor_Id >= 11 && floor_Id <= 13) {
+    const id = floor_Id - 1
+    console.log("id.....", id);
+    return `${floor_Id}th Floor`;
+  } else {
+    const lastDigit = floor_Id % 10;
+    let suffix = 'th';
+
+    switch (lastDigit) {
+      case 1:
+        suffix = 'st';
+        break;
+      case 2:
+        suffix = 'nd';
+        break;
+      case 3:
+        suffix = 'rd';
+        break;
+    }
+
+    return `${floor_Id - 1}${suffix} Floor`;
+  }
+}
+
 
 
 function PgList() {
@@ -88,28 +124,28 @@ function PgList() {
     }
   }, [state.UsersList.createFloorMessage])
 
-useEffect(()=>{
-if(state.PgList.message){
-  // dispatch({ type: 'HOSTELLIST' })
-  Swal.fire({
-    icon: 'success',
-    title: 'Hostel Details saved Successful',
-  }).then((result) => {
-    if (result.isConfirmed) {
-      setPgList({
-        Name: '',
-        phoneNumber: '',
-        email_Id: '',
-        location: '',
-        number_Of_Floor: '',
-        number_Of_Rooms: '',
-        floorDetails: []
+  useEffect(() => {
+    if (state.PgList.message) {
+      // dispatch({ type: 'HOSTELLIST' })
+      Swal.fire({
+        icon: 'success',
+        title: 'Hostel Details saved Successful',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setPgList({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            number_Of_Rooms: '',
+            floorDetails: []
+          });
+        }
       });
+      handlecloseHostelForm();
     }
-  });
-  handlecloseHostelForm();
-}
-},[state.PgList.message])
+  }, [state.PgList.message])
 
   const handleFloorList = (index, roomlist) => {
     var tempArray = pgList.floorDetails
@@ -267,9 +303,23 @@ if(state.PgList.message){
   const handleBackToFloors = () => {
     setIsRowVisible(true)
     setBedDetailShow(false)
+    setMouseEnter(false)
   }
 
-  
+
+  console.log("bedDetailsPage", bedDetailsPage)
+
+const [mouseEnter, setMouseEnter]= useState(false)
+
+
+const handleMouseEnter = () =>{
+  setMouseEnter(true)
+}
+
+
+const handleMouseLeave = () =>{
+  setMouseEnter(false)
+}
   return (
     <>
       <div className="d-flex justify-content-between p-3">
@@ -474,13 +524,19 @@ if(state.PgList.message){
         <div className="ms-5 me-5 d-flex justify-content-between p-2">
           <div className='d-flex justify-content-center  align-items-center gap-3'>
             {bedDetailShow && (<>
-              <span>
-                <MdOutlineKeyboardDoubleArrowLeft className="" onClick={handleBackToFloors} />
-
+              <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{backgroundColor:mouseEnter ? "#ebebeb":"transparent",borderRadius:mouseEnter ? 10: "none",padding:mouseEnter ? 5: "none"}}>
+                <MdOutlineKeyboardDoubleArrowLeft className="" style={{ fontSize: 23 }} onClick={handleBackToFloors} />
               </span>
 
             </>)}
             <h5 className='mb-0' style={{ fontSize: 18, color: "black", fontWeight: 600 }}>{selectedHostel.Name}</h5>
+            {bedDetailShow && <>
+              <span>
+                <FaAngleRight style={{ fontSize: 16 }} />
+              </span>
+              <div style={{ fontSize: 18, color: "gray", fontWeight: 600 }} >{getFloorName(bedDetailsPage.Floor_Id)}</div>
+            </>}
+
           </div>
 
           <div className="d-flex gap-5 ms-2">
