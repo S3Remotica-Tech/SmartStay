@@ -41,13 +41,13 @@ console.log("state",state)
     navigate('/forget-password')
   }
   
-  useEffect(() => {
-    if (state.login?.message?.message) {
-      navigate('/dashboard')
-    }
+  // useEffect(() => {
+  //   if (state.login?.message?.message) {
+  //     navigate('/dashboard')
+  //   }
 
 
-  }, [state.login?.message?.message])
+  // }, [state.login?.message?.message])
 
 
   const handleEmailChange = (e) => {
