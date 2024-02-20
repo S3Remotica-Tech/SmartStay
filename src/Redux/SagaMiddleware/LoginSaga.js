@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 function* Login(args) {
   try {
     const response = yield call(login, args.payload);
+    console.log("response",response)
     if (response.status === 200) {
       yield put({ type: 'LOGIN-INFO', payload:{ response:response.data,statusCode:response.status} });
       Swal.fire({

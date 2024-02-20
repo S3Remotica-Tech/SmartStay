@@ -144,6 +144,14 @@ if(state.PgList.message){
     setAddhostelForm(false)
   }
 
+
+  const LoginId = state.login.loginInformation[0].id;
+console.log("First LoginId", LoginId);
+
+
+
+  console.log("state.login.id",state)
+
   const handleSubmitPgList = () => {
     if (pgList.Name && pgList.phoneNumber && pgList.email_Id && pgList.location && pgList.number_Of_Floor) {
 
@@ -157,9 +165,9 @@ if(state.PgList.message){
           number_of_floors: pgList.number_Of_Floor,
           number_Of_Rooms: pgList.number_Of_Rooms,
           floorDetails: pgList.floorDetails,
-          created_by: state.login.id
+          created_by: LoginId
         }
-      });
+      }); 
 
       // Swal.fire({
       //   icon: 'success',
