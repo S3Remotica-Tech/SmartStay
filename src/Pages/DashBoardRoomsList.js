@@ -107,26 +107,12 @@ function DashboardRoom(props) {
       
         if (props.floorID && props.hostel_Id) {
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-            
-          if (state.PgList?.roomCount) {
-            const tempArray = state.PgList.roomCount.filter((item) => {
-                if (item && Array.isArray(item) && item.length > 0) {
-                    return item[0].Floor_Id == props.floorID && item[0].id == props.hostel_Id;
-                }
-                return false; 
-            });
-            console.log("tempArray.", tempArray);
-        }
-            return () => {
-                console.log("RoomCount unmount");
-            }
         }
     }, [props.hostel_Id])
 
 
     useEffect(() => {
-        console.log("state.PgList.createRoomMessage",state.PgList.createRoomMessage);
-        if (state.PgList.createRoomMessage !== null && state.PgList.createRoomMessage != '') {
+        if (state.PgList.createRoomMessage ) {
             // dispatch({ type: 'HOSTELLIST' })
             console.log("useEffect");
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
@@ -216,7 +202,7 @@ function DashboardRoom(props) {
             dispatch({
                 type: 'CREATEROOM',
                 payload: {
-                    phoneNo: phoneNumber,
+                    id: props.hostel_Id,
                     floorDetails: validRooms.map(room => ({
                         floorId: floorId,
                         roomId: room.roomId,

@@ -7,6 +7,7 @@ function* handlePgList(datum){
     const response = yield call (createPgList,datum.payload);
     if (response.status === 200) {
        yield put ({type:'PG_LIST',payload:response.data,roomCount:['']})
+       yield put ({type:'AFTER_CREATE_PG_MSG',message:'PG created succesfully'})
 
        Swal.fire({
          icon: 'success',
