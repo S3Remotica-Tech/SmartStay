@@ -119,7 +119,7 @@ const InvoicePage = () => {
     setCurrentPage((prevPage) => prevPage === 1 ? prevPage : prevPage - 1);
   };
 
-  //offcanvas function
+
   const handleMenuClick = () => {
     setShowForm(true);
     setUserClicked(true);
@@ -145,7 +145,7 @@ const InvoicePage = () => {
   };
 
   const handleShow = (item) => {
-    console.log("item",item);
+    console.log("item", item);
     if (item.id) {
       setEditOption('Edit')
       let value = item.Name.split(" ")
@@ -155,10 +155,10 @@ const InvoicePage = () => {
         lastName: value[1],
         phone: item.phoneNo,
         email: item.EmailID,
-        hostel_Name:item.Hostel_Name,
-        hostel_Id:item.Hostel_Id,
-        FloorNo:item.Floor_Id,
-        RoomNo:item.Room_No,
+        hostel_Name: item.Hostel_Name,
+        hostel_Id: item.Hostel_Id,
+        FloorNo: item.Floor_Id,
+        RoomNo: item.Room_No,
         amount: item.Amount,
         balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
         dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
@@ -167,12 +167,12 @@ const InvoicePage = () => {
     else {
       setEditOption('Add')
     }
-    // Call handleMenuClick when "Add User" button is clicked
+
     handleMenuClick();
     setShowMenu(true);
   };
 
-  // page range
+
   const generatePageNumbers = () => {
     const pageNumbers = [];
 
@@ -209,35 +209,38 @@ const InvoicePage = () => {
     setSearchicon(!searchicon)
     setFiltericon(false)
   }
+  useEffect(() => {
+    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: invoiceList.hostel_Id } });
+  }, [invoiceList.hostel_Id])
   const handleHostelId = (e) => {
-    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: e.target.value } });
     const hostelName = state.UsersList?.hostelList.filter((item) => {
       return item.id == e.target.value
     })
     const hosName = hostelName[0].Name
     console.log("hostelName", hosName)
-    setInvoiceList({ ...invoiceList, hostel_Name: hosName,hostel_Id: e.target.value })
-    // setInvoiceList({ ...invoiceList, hostel_Id: e.target.value })
+    setInvoiceList({ ...invoiceList, hostel_Name: hosName, hostel_Id: e.target.value, RoomNo: '', FloorNo: '' })
+
+
   }
 
   const handleFloor = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
-    dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: invoiceList.hostel_Id, floor_Id: e.target.value } })
     setInvoiceList({ ...invoiceList, FloorNo: e.target.value })
 
   }
+  useEffect(() => {
+    dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: invoiceList.hostel_Id, floor_Id: invoiceList.FloorNo } })
+  }, [invoiceList.FloorNo])
 
   const handleRooms = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
     setInvoiceList({ ...invoiceList, RoomNo: e.target.value })
 
   }
 
   const handleSaveInvoiceList = () => {
-    const invoiceNo = randomNumberInRange(invoiceList.hostel_Name,1, new Date())
-    console.log("invoiceNo",invoiceNo);
+    const invoiceNo = randomNumberInRange(invoiceList.hostel_Name, 1, new Date())
+    console.log("invoiceNo", invoiceNo);
     console.log("editOption == 'Add' && invoiceNo", editOption == 'Add' && invoiceNo);
-    if (invoiceList.firstName && invoiceList.lastName && invoiceList.phone  && invoiceList.amount && invoiceList.dueDate ) {
+    if (invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue) {
       dispatch({
         type: 'ADDINVOICEDETAILS',
         payload: {
@@ -318,8 +321,8 @@ const InvoicePage = () => {
     }
   }
 
-  const randomNumberInRange = (hostelName,min, max) => {
-    const prefix = hostelName.slice(0,4)
+  const randomNumberInRange = (hostelName, min, max) => {
+    const prefix = hostelName.slice(0, 4)
     const invoice = prefix + (Math.floor(Math.random()
       * (max - min + 1)) + min);
     return invoice
