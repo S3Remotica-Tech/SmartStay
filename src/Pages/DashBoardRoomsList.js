@@ -345,9 +345,6 @@ function DashboardRoom(props) {
     <Offcanvas.Body>
         <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
         <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes. Be a part of SmartStay Circle, and invite-only, global community of social media influencers and affiliate networks.</p>
-
-      
-
 {roomDetailsError && (
             <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
                 {roomDetails.map((room, index) => {
@@ -429,6 +426,7 @@ function DashboardRoom(props) {
         </div>
     </Offcanvas.Body>
 </Offcanvas>
+
 
 
         </>
