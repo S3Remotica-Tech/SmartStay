@@ -145,12 +145,10 @@ if(state.PgList.message){
   }
 
 
-  const LoginId = state.login?.loginInformation[0]?.id;
-console.log("First LoginId", LoginId);
+const Login_Id = localStorage.getItem("loginId");
 
+console.log("Login_Id",Login_Id)
 
-
-  console.log("state.login.id",state)
 
   const handleSubmitPgList = () => {
     if (pgList.Name && pgList.phoneNumber && pgList.email_Id && pgList.location && pgList.number_Of_Floor) {
@@ -165,7 +163,7 @@ console.log("First LoginId", LoginId);
           number_of_floors: pgList.number_Of_Floor,
           number_Of_Rooms: pgList.number_Of_Rooms,
           floorDetails: pgList.floorDetails,
-          created_by: LoginId
+           created_by: Login_Id 
         }
       }); 
 

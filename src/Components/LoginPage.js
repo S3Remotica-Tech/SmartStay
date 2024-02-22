@@ -77,32 +77,49 @@ console.log("state",state)
     setChecked(e.target.checked); 
   }
 
-
-
+  const LoginId = state.login?.loginInformation[0]?.id;
+ 
+  
   useEffect(() => {
     if (state.login.statusCode === 200) {
       console.log("state.login.statusCode", state.login.statusCode);
+
+       const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
+
+     console.log("encryptedLoginId",encryptedLoginId)
+
+    // localStorage.setItem("loginId",  LoginId);
+
+    // localStorage.setItem("loginId", LoginId);
+
       if(checked==true){
           const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd')
         console.log("encryptData", encryptData.toString());
         localStorage.setItem("login", encryptData.toString())
+         localStorage.setItem("loginId", LoginId);
+        // localStorage.setItem("loginId",encryptedLoginId)
+        //  console.log("localStorage.setItem",localStorage.getItem("loginId", LoginId))
       }
       else{
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
       console.log("encryptData", encryptData.toString());
       localStorage.setItem("login", encryptData.toString())
+      // localStorage.setItem("loginId",encryptedLoginId)
+       localStorage.setItem("loginId", LoginId);
+      //  console.log("localStorage.setItem",localStorage.getItem("loginId", LoginId))
       }
       dispatch({ type: 'LOGIN-SUCCESS' })
       navigate('/')
     }
   }, [state.login.statusCode])
 
+
+
   const handleLogin = () => {
     if (email_Id && password) {
       dispatch({ type: 'LOGININFO', payload: { email_Id: email_Id, password: password } });
     }
-  
-    else {
+      else {
       Swal.fire({
         icon: 'warning',
         title: 'Error',
