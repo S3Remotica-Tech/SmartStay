@@ -84,7 +84,6 @@ function getFloorAbbreviation(floor_Id) {
 function DashboardRoom(props) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
-    console.log("state",state)
     const [updateRoom, setUpdateRoom] = useState(false)
     const [shows, setShows] = useState(false);
     const handleCloses = () => {
@@ -225,6 +224,7 @@ function DashboardRoom(props) {
                     })),
                 },
             });
+            
             Swal.fire({
                 icon: 'success',
                 title: "Room created successfully",
@@ -249,7 +249,6 @@ function DashboardRoom(props) {
     //     navigate('/Bed', { state: { val: val } });
     // }
     const handleRoomDetails = (val) => {
-        console.log("val",val)
         props.onRowVisibilityChange(false);
         props.onRowBedVisibilityChange(true, val)
     }
@@ -347,6 +346,21 @@ function DashboardRoom(props) {
     <Offcanvas.Body>
         <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
         <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes. Be a part of SmartStay Circle, and invite-only, global community of social media influencers and affiliate networks.</p>
+
+        {/* {roomDetailsError && (
+            <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
+                {roomDetails.map((room, index) => (
+                    <div key={index}>
+                        RoomId {room.roomId} is already exists & available beds are {roomDetailsFromState.find(existingRoom =>
+                            existingRoom.Hostel_Id === props.hostel_Id &&
+                            existingRoom.Floor_Id === props.floorID &&
+                            String(existingRoom.Room_Id) === String(room.roomId)
+                        )?.Number_Of_Beds}
+                    </div>
+                ))}
+            </div>
+        )} */}
+
 {roomDetailsError && (
             <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
                 {roomDetails.map((room, index) => {
@@ -428,7 +442,6 @@ function DashboardRoom(props) {
         </div>
     </Offcanvas.Body>
 </Offcanvas>
-
 
 
         </>
