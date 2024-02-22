@@ -522,7 +522,7 @@ const handleMouseLeave = () =>{
 
       {selectedHostel && <>
         <div className="ms-5 me-5 d-flex justify-content-between p-2">
-          <div className='d-flex justify-content-center  align-items-center gap-3'>
+          <div className='d-flex justify-content-center  align-items-center gap-1'>
             {bedDetailShow && (<>
               <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{backgroundColor:mouseEnter ? "#ebebeb":"transparent",borderRadius:mouseEnter ? 10: "none",padding:mouseEnter ? 5: "none"}}>
                 <MdOutlineKeyboardDoubleArrowLeft className="" style={{ fontSize: 23 }} onClick={handleBackToFloors} />
