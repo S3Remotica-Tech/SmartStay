@@ -249,6 +249,7 @@ function DashboardRoom(props) {
     //     navigate('/Bed', { state: { val: val } });
     // }
     const handleRoomDetails = (val) => {
+        console.log("val",val)
         props.onRowVisibilityChange(false);
         props.onRowBedVisibilityChange(true, val)
     }
