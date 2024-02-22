@@ -145,7 +145,7 @@ if(state.PgList.message){
   }
 
 
-  const LoginId = state.login.loginInformation[0].id;
+  const LoginId = state.login?.loginInformation[0]?.id;
 console.log("First LoginId", LoginId);
 
 
