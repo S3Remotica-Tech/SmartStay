@@ -11,7 +11,7 @@
 }
 .mainNavbar {
   text-decoration: none;
-  color: gray;
+  color: gray !important;
   font-size: 13px !important;
   margin-left: 2%;
   display: inline;

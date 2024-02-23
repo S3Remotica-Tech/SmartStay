@@ -38,7 +38,9 @@ const UserListReducer = (state = initialState, action) => {
         case 'ROOM_DETAILS':
             return { ...state, roomdetails: action.payload }
         case 'CREATE_FLOOR':
-            return { ...state, createFloorMessage: action.payload.message, number_of_floor: action.payload.number_of_floors }
+            return { ...state, 
+                createFloorMessage: action.payload.message, 
+                number_of_floor: action.payload.number_of_floors }
         case 'UPDATE_MESSAGE_FLOOR':
             return { ...state, createFloorMessage: action.message }
         case 'BILL_PAYMENT_HISTORY':
@@ -50,7 +52,6 @@ const UserListReducer = (state = initialState, action) => {
         case 'ERROR':
             return { ...state, errorMessage: action.payload }
         case 'HOSTEL_LIST':
-            console.log("hostelList...");
             return { ...state, hostelList: action.payload }
         case 'HOSTEL_DETAIL_LIST':
             return { ...state, hosteldetailslist: action.payload }

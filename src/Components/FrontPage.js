@@ -64,7 +64,7 @@ function FrontPage() {
           </Navbar.Collapse>
         </Navbar>
 
-        <div class="join" style={{ position: "relative",height:"85vh",backgroundColor:"" }} >
+        <div class="join" style={{ position: "relative",height:"auto",backgroundColor:"" }} >
           <div class="paragraph" style={{ backgroundColor: "" }}>
             <h2 className="mb-3">Join. Promote. Earn.</h2>
             <p style={{ fontSize: "15px", color: "gray", textAlign: "justify", wordSpacing: -2 }} >
