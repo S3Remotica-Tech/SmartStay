@@ -23,6 +23,17 @@ function App() {
 const login = localStorage.getItem("login");
  
 
+
+ 
+
+const LoginIds = localStorage.getItem("loginId")
+
+console.log("LoginIds",LoginIds)
+
+
+
+
+
 useEffect(() => {
   const login = localStorage.getItem("login");
   if (login) {
@@ -40,12 +51,28 @@ useEffect(() => {
     }
     
   }
+
+  // const loginId = localStorage.getItem('loginId');
+  // if (loginId) {
+  //   try {
+  //     const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+  //     const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+  //     console.log('Decrypted Login Id:', decryptedIdString);
+     
+  //   } catch (error) {
+  //     console.error('Error decrypting loginId:', error);
+  //   }
+  // }
+
+
+
   setIsLoading(false);
 }, []);
 
  console.log("data",data);
 
 
+ 
  const [isLoading, setIsLoading] = useState(true);
 
 
