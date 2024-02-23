@@ -19,6 +19,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { format } from 'date-fns';
+
 
 
 const Compliance = () => {
@@ -42,7 +44,7 @@ const Compliance = () => {
   const [description,setDescription] = useState('')
   const [Assign, setAssign] = useState('');
   const [Status, setStatus] = useState('')
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date);
   const [editbtn, setEditbtn] = useState(false)
 
   const [hostel_Id, setHostel_Id] = useState('')
@@ -113,6 +115,7 @@ const Compliance = () => {
     setShowForm(true);
     setUserClicked(true);
   };
+  
 
   const handleClose = () => {
     setShowMenu(false);
@@ -165,7 +168,7 @@ const Compliance = () => {
   console.log("state",state);
 
  
-
+  
 
   const handleEdit = (item) => {
     console.log("item",item)
@@ -176,7 +179,7 @@ const Compliance = () => {
     setComplainttype(item.Complainttype)
     setAssign(item.Assign)
     setDescription(item.Description)
-    setDate('')
+    setDate(format(new Date(item.date), 'yyyy-MM-dd'))
     setStatus(item.Status)
     setHostel_Id(item.Hostel_id)
     setHostelName(item.hostelname)

@@ -55,7 +55,7 @@ function getFloorAbbreviation(floor_Id) {
 function BedDetails(props) {
 
   const state = useSelector(state => state);
-  console.log(state, "state");
+  // console.log(state, "state");
   const [bed, setBed] = useState();
   const [bedName, setBedName] = useState([])
 
