@@ -218,13 +218,7 @@ if(state.PgList.createPGMessage){
       });
       handlecloseHostelForm();
     }
-    else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Field',
-      })
-
-    }
+    
   }
   
   
