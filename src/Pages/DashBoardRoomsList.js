@@ -84,6 +84,7 @@ function getFloorAbbreviation(floor_Id) {
 function DashboardRoom(props) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
+    console.log("state",state)
     const [updateRoom, setUpdateRoom] = useState(false)
     const [shows, setShows] = useState(false);
     const handleCloses = () => {
@@ -104,15 +105,20 @@ function DashboardRoom(props) {
 
 
     useEffect(() => {
-      
+
         if (props.floorID && props.hostel_Id) {
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+
+
+          
         }
     }, [props.hostel_Id])
 
 
     useEffect(() => {
+
         if (state.PgList.createRoomMessage ) {
+
             // dispatch({ type: 'HOSTELLIST' })
             console.log("useEffect");
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
@@ -176,33 +182,34 @@ function DashboardRoom(props) {
 
     const handleAddRoom = () => {
         setRoomDetails([...roomDetails, { roomId: '', numberOfBeds: '' }]);
-               const isExistingRoom = roomDetailsFromState.some(existingRoom =>
+        const isExistingRoom = roomDetailsFromState.some(existingRoom =>
             existingRoom.Hostel_Id === props.hostel_Id &&
             existingRoom.Floor_Id === props.floorID &&
             String(existingRoom.Room_Id) === String(roomDetails[0].roomId)
         );
-    
+
         const isRoomDetailsValid = roomDetails.every(room => room.roomId && room.numberOfBeds);
-           
+
         if (isExistingRoom && isRoomDetailsValid) {
             setRoomDetailsError(true);
         } else {
             setRoomDetailsError(false);
-            }
+        }
     };
-    
+
 
 
     const handleCreateRoom = () => {
         const floorId = props.floorID.toString();
-        const phoneNumber = props.phoneNumber.toString();
-
+        const hostel_Id = props.hostel_Id.toString();
         const validRooms = roomDetails.filter(room => room.roomId && room.numberOfBeds);
-        if (validRooms) {
+        console.log("validRooms ", validRooms)
+        if (validRooms.length > 0) {
             dispatch({
                 type: 'CREATEROOM',
                 payload: {
                     id: props.hostel_Id,
+
                     floorDetails: validRooms.map(room => ({
                         floorId: floorId,
                         roomId: room.roomId,
@@ -228,12 +235,13 @@ function DashboardRoom(props) {
         setRoomDetails((prevDetails) => prevDetails.filter((_, index) => index !== indexToRemove));
     };
     const arr = [];
-// let arr =0
+    // let arr =0
     // const handleRoomDetails = (val) => {
 
     //     navigate('/Bed', { state: { val: val } });
     // }
     const handleRoomDetails = (val) => {
+        console.log("val",val)
         props.onRowVisibilityChange(false);
         props.onRowBedVisibilityChange(true, val)
     }
@@ -256,13 +264,13 @@ function DashboardRoom(props) {
         });
     }
 
-   
+
 
     return (
         <>
             <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
 
-                <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 ,height:"auto",minHeight:200}}>
+                <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400, height: "auto", minHeight: 200 }}>
 
                     <div className="card-header d-flex justify-content-between p-2" style={{ backgroundColor: "#f6f7fb" }}><strong style={{ fontSize: "13px" }}>{getFloorName(props.floorID)}</strong><FaAngleRight className="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
 
@@ -321,31 +329,16 @@ function DashboardRoom(props) {
                             </div>
                         </div >
                     </div>
-                    </div>
                 </div>
-            
-            
-              
-<Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
+            </div>
+
+
+
+            <Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
     <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create PG</Offcanvas.Title>
     <Offcanvas.Body>
         <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
         <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes. Be a part of SmartStay Circle, and invite-only, global community of social media influencers and affiliate networks.</p>
-
-        {/* {roomDetailsError && (
-            <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
-                {roomDetails.map((room, index) => (
-                    <div key={index}>
-                        RoomId {room.roomId} is already exists & available beds are {roomDetailsFromState.find(existingRoom =>
-                            existingRoom.Hostel_Id === props.hostel_Id &&
-                            existingRoom.Floor_Id === props.floorID &&
-                            String(existingRoom.Room_Id) === String(room.roomId)
-                        )?.Number_Of_Beds}
-                    </div>
-                ))}
-            </div>
-        )} */}
-
 {roomDetailsError && (
             <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
                 {roomDetails.map((room, index) => {
@@ -385,101 +378,6 @@ function DashboardRoom(props) {
                             />
                         </div>
                     </div>
-
-</>
-))}
-
-</div>
-                </Offcanvas.Body>
-            </Offcanvas> 
-            <Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
-                <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create PG</Offcanvas.Title>
-                <Offcanvas.Body>
-                    <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
-                    <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
-
-
-                    <div className="row column-gap-3 g-3 d-flex align-items-center ">
-                        {roomDetails.map((room, index) => (
-
-
-                            <>
-
-                                {/* {
-                                    roomCount.length > 0 && roomCount.map((roomArray,countIndex) => (
-                                        roomArray.length > 0 &&
-                                        roomArray.map((val, valIndex) => (
-                                            val.Floor_Id === props.floorID && (
-                                                <>
-                                                    {console.log("val.Floor_Id", val.Floor_Id)}
-                                                    {console.log("val.Room_Id", val.Room_Id)}
-                                                    {console.log("room.roomId*", room.roomId)}
-                                                   
-                                                        console.log("room.roomId", room.roomId);
-                                                        console.log("Condition:", val.Room_Id == room.roomId);
-                                                    {val.Room_Id === room.roomId && (
-                                                    <div key={index} className="p-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }} >
-                                                       
-                                                            <div style={{ color: "white" }}>
-                                                                RoomId <strong>{room.roomId}</strong> is already exists & available beds are <strong style={{ color: "white" }}>{val.Number_Of_Beds}</strong>
-                                                            </div>
-                                                        
-                                                    </div>)}
-
-
-                                                
-                                                </>
-                                            )
-                                        ))
-                                    ))
-                                } */}
-
-
-
-                                {roomDetailsError && (
-                                    <div className="p-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
-                                        RoomId {room.roomId} is  already exists & available beds are {roomDetailsFromState.find(existingRoom =>
-                                            existingRoom.Hostel_Id === props.hostel_Id &&
-                                            existingRoom.Floor_Id === props.floorID &&
-                                            String(existingRoom.Room_Id) === String(roomDetails[0].roomId)
-                                        )?.Number_Of_Beds}
-                                    </div>
-                                )}
-                                <div key={index} className="col-lg-6 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
-                                    <div className="form-group mb-4 ps-1">
-                                        <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
-                                        <input
-                                            type="text"
-                                            value={room.roomId}
-                                            onChange={(e) => handleRoomIdChange(e.target.value, index)}
-                                            className="form-control custom-border-bottom p-0"
-                                            id={`roomNumber${index}`}
-                                            autoFocus
-                                            placeholder="Enter here"
-                                            style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
-                                        />
-                                    </div>
-                                </div>
-
-
-
-                                <div key={`beds${index}`} className="col-lg-4 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
-                                    <div className="form-group mb-4 ps-1">
-                                        <label htmlFor={`bedsNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Number of Beds</label>
-                                        <div className="d-flex">
-                                            <input
-                                                type="text"
-                                                value={room.numberOfBeds}
-                                                onChange={(e) => handleNumberOfBedChange(e.target.value, index)}
-                                                className="form-control custom-border-bottom p-0"
-                                                id={`bedsNumber${index}`}
-                                                placeholder="Enter here"
-                                                style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
 
                     <div key={`beds${index}`} className="col-lg-4 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
                         <div className="form-group mb-4 ps-1">
@@ -524,8 +422,9 @@ function DashboardRoom(props) {
 </Offcanvas>
 
 
+
         </>
-        )
+    )
 }
 
 export default React.memo(DashboardRoom);

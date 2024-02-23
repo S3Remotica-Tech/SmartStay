@@ -15,7 +15,7 @@ function UserlistForm(props) {
     fontWeight: 'bold',
     fontSize: "11px",
   };
- 
+
   const [id, setId] = useState('')
   const [file, setFile] = useState(null)
   const [firstname, setFirstname] = useState('')
@@ -42,7 +42,7 @@ function UserlistForm(props) {
   const [romnum, setRoomnum] = useState('')
   const state = useSelector(state => state)
   const dispatch = useDispatch();
- 
+
   useEffect(() => {
     dispatch({ type: 'USERLIST' })
     dispatch({ type: 'HOSTELLIST' })
@@ -81,7 +81,7 @@ function UserlistForm(props) {
     const Roomdetail = state.UsersList.Users.filter((item) => {
       return item.Hostel_Id == hostel_Id && item.Floor == Floor
     })
-   
+
 
     setRoomnum(Roomdetail)
   }, [state.UsersList.roomdetails]);
@@ -120,12 +120,12 @@ function UserlistForm(props) {
     setAddress(e.target.value)
   }
   const handleHostelId = (e) => {
-   
+
     const selectedHostelId = e.target.value;
     const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter(item => item.id == e.target.value);
     setHostel_Id(selectedHostelId);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : '');
-  
+
     setFloor("")
     setRooms("")
     setBed("")
