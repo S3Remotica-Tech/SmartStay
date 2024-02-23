@@ -20,7 +20,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-
+import CryptoJS from "crypto-js";
 
 function PgList() {
 
@@ -145,9 +145,30 @@ if(state.PgList.message){
   }
 
 
-const Login_Id = localStorage.getItem("loginId");
 
-console.log("Login_Id",Login_Id)
+
+
+const loginId = localStorage.getItem('loginId');
+
+const[decrypt, setDecrypt] = useState('')
+
+console.log("decrypt",decrypt)
+
+ 
+
+  useEffect(() => {
+    if (loginId) {
+      try {
+        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+        console.log('Decrypted Login Id:', decryptedIdString);
+        setDecrypt(decryptedIdString);
+      } catch (error) {
+        console.error('Error decrypting loginId:', error);
+      }
+    }
+  }, []); 
+
 
 
   const handleSubmitPgList = () => {
@@ -163,28 +184,10 @@ console.log("Login_Id",Login_Id)
           number_of_floors: pgList.number_Of_Floor,
           number_Of_Rooms: pgList.number_Of_Rooms,
           floorDetails: pgList.floorDetails,
-           created_by: Login_Id 
+           created_by: decrypt
         }
       }); 
-
-      // Swal.fire({
-      //   icon: 'success',
-      //   title: 'Hostel Details saved Successful',
-      // }).then((result) => {
-      //   // dispatch({ type: 'HOSTELLIST' })
-      //   if (result.isConfirmed) {
-      //     setPgList({
-      //       Name: '',
-      //       phoneNumber: '',
-      //       email_Id: '',
-      //       location: '',
-      //       number_Of_Floor: '',
-      //       number_Of_Rooms: '',
-      //       floorDetails: []
-      //     });
-      //   }
-      // });
-      // handlecloseHostelForm();
+    
     }
     else {
       Swal.fire({
