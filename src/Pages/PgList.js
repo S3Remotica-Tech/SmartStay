@@ -20,7 +20,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { FaAngleRight } from "react-icons/fa6";
+import CryptoJS from "crypto-js";import { FaAngleRight } from "react-icons/fa6";
 
 
 function getFloorName(floor_Id) {
@@ -172,6 +172,31 @@ if(state.PgList.createPGMessage){
 
 
 
+
+
+const loginId = localStorage.getItem('loginId');
+
+const[decrypt, setDecrypt] = useState('')
+
+console.log("decrypt",decrypt)
+
+ 
+
+  useEffect(() => {
+    if (loginId) {
+      try {
+        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+        console.log('Decrypted Login Id:', decryptedIdString);
+        setDecrypt(decryptedIdString);
+      } catch (error) {
+        console.error('Error decrypting loginId:', error);
+      }
+    }
+  }, []); 
+
+
+
   const handleSubmitPgList = () => {
     if (!pgList.Name || !pgList.phoneNumber || !pgList.email_Id || !pgList.location || !pgList.number_Of_Floor) {
       Swal.fire({
@@ -195,36 +220,12 @@ if(state.PgList.createPGMessage){
           number_of_floors: pgList.number_Of_Floor,
           number_Of_Rooms: pgList.number_Of_Rooms,
           floorDetails: pgList.floorDetails,
-          created_by: state.login.id
+           created_by: decrypt
         }
-      });
-
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Hostel Details saved Successful',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          setPgList({
-            Name: '',
-            phoneNumber: '',
-            email_Id: '',
-            location: '',
-            number_Of_Floor: '',
-            number_Of_Rooms: '',
-            floorDetails: []
-          });
-        }
-      });
-      handlecloseHostelForm();
+      }); 
+    
     }
-    else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Field',
-      })
-
-    }
+   
   }
   
   

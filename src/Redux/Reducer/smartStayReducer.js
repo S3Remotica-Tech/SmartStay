@@ -7,7 +7,8 @@ const initialState = {
    errorEmail: '',
    errorPassword: '',
    errorMessage: '',
-   statusCode: 0
+   statusCode: 0,
+   loginInformation:[]
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -16,7 +17,7 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
       case 'LOGIN-INFO':
-         return { ...state, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode }
+         return { ...state,loginInformation:action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode }
       case 'ERROR_EMAIL':
          return { ...state, errorEmail: action.payload }
       case 'ERROR_PASSWORD':
