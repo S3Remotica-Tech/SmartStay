@@ -114,39 +114,29 @@ function PgList() {
     return () => clearTimeout(timeout);
   }, [pgList.number_Of_Rooms]);
 
-  useEffect(() => {
-    if (state.UsersList.createFloorMessage != null) {
-      dispatch({ type: 'HOSTELLIST' })
+
+  useEffect(()=>{
+    if (state.UsersList.createFloorMessage) {
+        dispatch({ type: 'HOSTELLIST' })
+
 
       setTimeout(() => {
         dispatch({ type: 'UPDATE_MESSAGE_FLOOR', message: null })
       }, 100)
     }
-  }, [state.UsersList.createFloorMessage])
 
-  useEffect(() => {
-    if (state.PgList.message) {
-      // dispatch({ type: 'HOSTELLIST' })
-      Swal.fire({
-        icon: 'success',
-        title: 'Hostel Details saved Successful',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          setPgList({
-            Name: '',
-            phoneNumber: '',
-            email_Id: '',
-            location: '',
-            number_Of_Floor: '',
-            number_Of_Rooms: '',
-            floorDetails: []
-          });
-        }
-      });
-      handlecloseHostelForm();
-    }
-  }, [state.PgList.message])
-  
+},[state.UsersList.createFloorMessage])
+
+useEffect(()=>{
+if(state.PgList.createPGMessage){
+  dispatch({ type: 'HOSTELLIST' })
+ setTimeout(() => {
+  dispatch({type:'AFTER_CREATE_PG_MSG',message:null})
+ }, 100);
+}
+},[state.PgList.createPGMessage])
+
+
   const handleFloorList = (index, roomlist) => {
     var tempArray = pgList.floorDetails
     tempArray[index] = roomlist
@@ -207,7 +197,32 @@ function PgList() {
           created_by: state.login.id
         }
       });
-     
+
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Hostel Details saved Successful',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setPgList({
+            Name: '',
+            phoneNumber: '',
+            email_Id: '',
+            location: '',
+            number_Of_Floor: '',
+            number_Of_Rooms: '',
+            floorDetails: []
+          });
+        }
+      });
+      handlecloseHostelForm();
+    }
+    else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter All Field',
+      })
+
     }
   }
   
