@@ -73,7 +73,7 @@ const PgListReducer = (state = initialState, action) => {
                 const temp = state.roomCount
                 temp.push(action.payload)
                 console.log("temp", temp);
-                return { ...state, roomCount: temp }
+                return { ...state, roomCount: temp ,errMessage:''}
             }
        
 

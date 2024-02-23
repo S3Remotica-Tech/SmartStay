@@ -275,9 +275,27 @@ function DashboardRoom(props) {
                     <div className="card-header d-flex justify-content-between p-2" style={{ backgroundColor: "#f6f7fb" }}><strong style={{ fontSize: "13px" }}>{getFloorName(props.floorID)}</strong><FaAngleRight className="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
 
                     <div className="card-body">
-                        <p className="card-title text-center" style={{ fontWeight: 600 }}>({arr}) Rooms</p>
-                        {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.PgList.roomCount[props.floorID - 1] && state.PgList.roomCount[props.floorID - 1].length > 0 ? state.PgList.roomCount[props.floorID - 1].length : 0}) Rooms</p> */}
-                        {/* <p className="card-title text-center" style={{ fontWeight: 600 }}>({state.PgList.roomCount[props.floorID - 1].length >0 ? state.PgList.roomCount[props.floorID - 1].length : 0}) Rooms</p> */}
+
+                    {roomCount.length > 0 && roomCount.map((room) => {
+    return (
+        <>
+            {room.length > 0 &&
+                room.map((val) => {
+                    if (val.Floor_Id == props.floorID) {
+                        arr.length == 0 && arr.push(room.length)
+                      
+                        return (
+                            <div></div>
+                        )
+                    }
+                })
+            }
+            </>
+)
+        }
+)}
+     <p className="card-title text-center" style={{ fontWeight: 600 }}>({ arr.length > 0? arr :0 }) Rooms</p>
+
 
                         <div className="row  row-gap-3  pe-3">
                             {
