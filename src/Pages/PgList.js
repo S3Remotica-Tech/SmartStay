@@ -181,7 +181,8 @@ if(state.PgList.createPGMessage){
     } else if (pgList.number_Of_Floor == 0) {
       Swal.fire({
         icon: 'warning',
-        title: ' Number of Floors is not 0',
+        title: "Number of Floors cannot be 0",
+        text:"Please provide a valid number"
       });
     } else {
       dispatch({
