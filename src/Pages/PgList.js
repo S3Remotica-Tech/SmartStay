@@ -223,7 +223,18 @@ console.log("decrypt",decrypt)
            created_by: decrypt
         }
       }); 
-    
+      setPgList({
+        Name: '',
+        phoneNumber: '',
+        email_Id: '',
+        location: '',
+        number_Of_Floor: '',
+        number_Of_Rooms: '',
+        floorDetails: []
+      });
+      handlecloseHostelForm()
+
+
     }
    
   }

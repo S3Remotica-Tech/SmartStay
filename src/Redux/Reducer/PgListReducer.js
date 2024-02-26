@@ -27,7 +27,7 @@ const PgListReducer = (state = initialState, action) => {
             return {...state, createPGMessage:action.message}
         case 'CREATE_ROOM':
             return { ...state,
-                 createRoomMessage: action.payload.message,
+                //  createRoomMessage: action.payload.message,
                   roomCreationSuccess: true }
         //  return { ...state, floor_Id: action.payload.floorId, room_Id: action.payload.roomId, number_Of_Bed: action.payload.number_of_beds,createRoomMessage: state.createRoomMessage !== '' ? '' : action.payload.message }
         case 'CHECK_ROOM':
@@ -39,6 +39,7 @@ const PgListReducer = (state = initialState, action) => {
                 })
                 state.roomCount[index] = []
             }
+            console.log("statePGReducer",state);
             return { ...state, errMessage: action.payload.response}
         case 'UPDATE_MESSAGE_AFTER_CREATION':
             return { ...state, createRoomMessage: action.message }
@@ -52,13 +53,15 @@ const PgListReducer = (state = initialState, action) => {
                         return item[0]?.Floor_Id === floor
                     })
                     if (index < 0) {
+                        console.log("index < 0",index);
                         const temp = state.roomCount
                         temp.push(action.payload)
                         return { ...state, roomCount: temp }
                     }
                     else {
+                        console.log("index > 0",action.payload);
                         state.roomCount[index] = action.payload
-                        return state
+                        return {...state}
                     }
 
 
