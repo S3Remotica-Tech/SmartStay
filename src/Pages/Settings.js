@@ -73,7 +73,7 @@ function Settings() {
           <p>Manage your account settings</p>
         </div>
 
-        <div className='justify-content-end  col-lg-4 col-md-4 col-sm-12 pt-3'>
+        <div className='justify-content-end  col-lg-3 col-md-4 col-sm-12 pt-3'>
           <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} >Save change</button>
           <button type="button" class="mb-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >Cancel</button>
 
