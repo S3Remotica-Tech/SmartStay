@@ -1,0 +1,162 @@
+/* .App {
+    display: flex;
+  } */
+  
+  
+  
+  .tab {
+    /* font-size: 15px; */
+    cursor: pointer;
+    padding: 10px;
+    width: 220px;
+    margin-left: 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tab:hover {
+    background-color: #e0e0e0;
+    /* padding-left: 20px; */
+  }
+  
+  .tab.active {
+    background-color: #E6ECF8;
+    color: #2E76E3;
+  }
+
+  .Page_Content{
+     background-color: #F8F9FA;
+     height: 85vh;
+     border-Radius: 8px;
+     margin-left: 30px;
+     margin-right: 20px;
+     padding-top: 30px;
+  }
+  
+ .sidebar {
+    font-size: 15px;
+ } 
+
+ .vl {
+    border-left: 1px solid ;
+    height: 500px;
+    opacity: 0.1;
+  }
+.ChangeBtn{
+    background-color: #2E75EA;
+    font-size: 12px;
+    font-weight: 700;
+    width: 100px;
+    border-radius: 5px;
+    padding: 2px;
+    border: 1px Solid #2E75EA;
+    height: 30px;
+    color: white;
+    margin-right: 15px;
+}
+.CancelBtn{
+    background-color: white;
+    font-size: 12px;
+    font-weight: 700;
+    width: 100px;
+    border-radius: 5px;
+    padding: 2px;
+    border: 1px Solid #2E75EA;
+    height: 30px;
+    color: #2E75EA;
+    
+}
+.ChangeBtn:hover{
+  background-color: white;
+    color: #2E76E3;
+    transition: all 0.3s;
+}
+
+.CancelBtn:hover{
+    background-color: #2E76E3;
+    color: white;
+    transition: all 0.3s;
+}
+  
+  .Input_field {
+    width: 50%;
+  }
+
+  .Email {
+ 
+    background-size: 15px;
+    padding-right: 10%;
+    background-position: 95% 10px, top right;
+    background-color: white;
+    border-radius: 2px;
+    color: lightgray;
+  
+  }
+
+  .Name {
+    
+    background-size: 15px;
+    padding-right: 10%;
+    background-position: 98% 10px, top right;
+    background-color: white;
+    border-radius: 2px;
+    color: lightgray;
+  
+  }
+
+  .Phone {
+  
+    background-size: 10px;
+    padding-right: 10%;
+    background-position: 95% 10px, top right;
+    background-color: white;
+    border-radius: 2px;
+    color: lightgray;
+  }
+  
+  .ChangePassword{
+    padding: 10px 8px;
+    background-color: #E6ECF8;
+    color: #2E76E3;
+    border:1px #E6ECF8 ;
+    border-radius: 5px;
+  }
+
+  .ChangePassword:hover{
+    background-color: #2E76E3;
+    color: #E6ECF8;
+  }
+
+  .form-select{
+    background-size: 10px;
+    padding-right: 10%;
+    background-position: 95% 10px, top right;
+    background-color: white;
+    border-radius: 2px;
+    color: lightgray;
+    box-shadow: none !important;
+    border-color: white !important;
+    
+    /* #ced4da */
+  }
+
+  @media (max-width:400px) {
+   .tab{
+    width: 180px;
+   }
+   .Page_Content{
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-top: 30px;
+   }
+  }
+
+  @media (max-width:600px) {
+    
+    .Page_Content{
+     margin-left: 0px;
+     margin-right: 0px;
+     padding-top: 30px;
+    }
+   }
