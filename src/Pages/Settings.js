@@ -67,13 +67,13 @@ function Settings() {
 
   return (
     <div className='container-fluid'>
-      <div className="d-flex row justify-content-between mt-2 ms-5 me-5 pt-3 col-lg-12">
-        <div className=' col-lg-8 col-md-6 col-sm-12'>
+      <div className="d-flex row justify-content-between mt-2 ms-4 me-4 pt-3">
+        <div className='col-lg-8 col-md-6 col-sm-12'>
           <h1 style={{ fontSize: "26px" }}>Settings</h1>
           <p>Manage your account settings</p>
         </div>
 
-        <div className='justify-content-end  col-lg-4 col-md-6 col-sm-12 pt-3'>
+        <div className='justify-content-end  col-lg-4 col-md-4 col-sm-12 pt-3'>
           <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} >Save change</button>
           <button type="button" class="mb-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >Cancel</button>
 
