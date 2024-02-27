@@ -292,9 +292,7 @@ console.log("createRoomMessage_useEffect",state.PgList.createRoomMessage);
         }
 )}
      <p className="card-title text-center" style={{ fontWeight: 600 }}>({ arr.length > 0? arr :0 }) Rooms</p>
-
-
-                        <div className="row  row-gap-3  pe-3">
+                        <div className="row  row-gap-3 d-flex  justify-content-start p-1">
                             {
 
 state.PgList.roomCount.length > 0 && state.PgList.roomCount.map((room) => {
@@ -319,8 +317,8 @@ state.PgList.roomCount.length > 0 && state.PgList.roomCount.map((room) => {
                                                         return (
                                                             <>
 
-                                                                <div className="col-3" key={index} >
-                                                                    <div className="card  text-center align-items-center" style={{ height: "60px", width: 35, borderRadius: "5px", backgroundColor: val.Number_Of_Beds - val.bookedBedCount == 0 ? "#25D366" : "#e3e4e8" }} onClick={() => { handleRoomDetails(val) }}>
+                                                                <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-4 d-flex justify-content-center" key={index} >
+                                                                    <div className="card  text-center align-items-center" style={{ height:60, width: 50, borderRadius: "5px", backgroundColor: val.Number_Of_Beds - val.bookedBedCount == 0 ? "#25D366" : "#e3e4e8" }} onClick={() => { handleRoomDetails(val) }}>
                                                                         <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "2px", filter: val.Number_Of_Beds - val.bookedBedCount == 0 ? "brightness(0) invert(1)" : "none" }} alt='Room' />
                                                                         <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600, color: val.Number_Of_Beds - val.bookedBedCount == 0 ? "white" : "gray" }}>
                                                                             {formattedRoomId}
@@ -339,8 +337,8 @@ state.PgList.roomCount.length > 0 && state.PgList.roomCount.map((room) => {
 
                             }
 
-                            <div className="col-3">
-                                <div className="card  text-center align-items-center" style={{ height: "60px", width: "35px", borderRadius: "5px", border: "1px solid #2E75EA", backgroundColor: "#cccccc11" }} onClick={() => { handleShows() }}>
+                            <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-4 d-flex justify-content-center">
+                                <div className="card  text-center align-items-center" style={{ height:60, width: 50, borderRadius: "5px", border: "1px solid #2E75EA", backgroundColor: "#cccccc11" }} onClick={() => { handleShows() }}>
                                     <img src={Plus} className="pt-2 mb-0" height="25" width="15" alt='Room' />
                                     <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px", fontWeight: 600 }} className="mb-0" >Create Room</p>
                                 </div>
