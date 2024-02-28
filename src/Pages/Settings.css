@@ -31,7 +31,6 @@
      border-Radius: 8px;
      margin-left: 30px;
      margin-right: 20px;
-     padding-top: 30px;
   }
   
  .sidebar {
@@ -39,6 +38,7 @@
  } 
 
  .vl {
+    margin-top: 30px;
     border-left: 1px solid ;
     height: 500px;
     opacity: 0.1;
