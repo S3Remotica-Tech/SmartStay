@@ -82,53 +82,58 @@ function Settings() {
 
       <div className='conatiner mt-0 '>
         <div className='d-flex flex-column flex-md-row Page_Content' >
-          <div className="sidebar col-12 col-md-4 col-lg-3">
+          <div className="sidebar col-12 col-md-4 col-lg-3 pt-5">
             <div
+              style={{fontSize:'13px'}}
               className={selectedTab === 'Personal' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('Personal')}
             >
-              <FaCircleExclamation />  Personal Information
+              <FaCircleExclamation style={{fontSize:'16px',marginRight:'8px'}} />  Personal Information
             </div>
             <div
+              style={{fontSize:'13px'}}
               className={selectedTab === 'Security' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('Security')}
             >
-              <SecurityIcon />  Security
+              <SecurityIcon  style={{fontSize:'16px' ,marginRight:'8px'}}/>  Security
             </div>
             <div
+              style={{fontSize:'13px'}}
               className={selectedTab === 'EB_Billings' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('EB_Billings')}
             >
-              <ReceiptIcon />  EB Billing
+              <ReceiptIcon  style={{fontSize:'16px' ,marginRight:'8px'}}/>  EB Billing
             </div>
             <div
+              style={{fontSize:'13px'}}
               className={selectedTab === 'Plans' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('Plans')}
             >
-              <EventNoteIcon />  Plans
+              <EventNoteIcon  style={{fontSize:'16px' ,marginRight:'8px'}}/>  Plans
             </div>
             <div
+              style={{fontSize:'13px'}}
               className={selectedTab === 'Invoice_Settings' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('Invoice_Settings')}
             >
-              <ShoppingBagIcon />  Invoice Settings
+              <ShoppingBagIcon style={{fontSize:'16px' ,marginRight:'8px'}}/>  Invoice Settings
             </div>
 
           </div>
           <hr class="vl" />
 
-          <div className="content col-12 col-md-8 col-lg-8" style={{ backgroundColor: '#F8F9FA', paddingLeft: '30px' }}>
+          <div className="content col-12 col-md-8 col-lg-8 pt-5" style={{ backgroundColor: '#F8F9FA', paddingLeft: '30px' }}>
             {selectedTab === 'Personal' &&
               <div>
-                <h2 style={{ fontSize: '24px', fontWeight: 700 }}>General Information</h2>
-                <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                <h2 style={{ fontSize: '22px', fontWeight: 600 }}>General Information</h2>
+                <p style={{fontSize: '16px', color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                 <hr style={{ opacity: 0.1 }} />
-                <h5 style={{ fontWeight: 700 }}>Profile Picture</h5>
+                <h5 style={{fontSize: '16px', fontWeight: 700 }}>Profile Picture</h5>
 
-                <div className='d-flex flex-column flex-md-row' style={{ display: 'flex', flexDirection: 'row' }}>
+                <div className='d-flex flex-column flex-md-row mt-1' style={{ display: 'flex', flexDirection: 'row' }}>
                   <div className='col-lg-3 col-md-3 col-sm-12' style={{ display: 'flex', flexDirection: 'row' }}>
                     <Image src={Men} roundedCircle style={{ height: "38px", width: "38px" }} />
-                    <h6 className='mt-2 ms-2' style={{ fontWeight: 700 }}>Rahul Sharma</h6>
+                    <h6 className='mt-2 ms-3' style={{fontSize: '14px', fontWeight: 700}}>Rahul Sharma</h6>
                   </div>
 
                   <div className='col-lg-6 col-md-7 col-sm-12 ms-5 mt-1'>
@@ -138,14 +143,14 @@ function Settings() {
                 </div>
 
                 <div class="mb-2 mt-3" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                  <label class="sr-only mb-0" style={{ fontSize: "12px", marginTop: "2%", fontWeight: "530" }}><b>Name or Business Name </b></label>
+                  <label class="sr-only mb-0" style={{ fontSize: "12px", marginTop: "2%",fontWeight:"350" }}><b>Name or Business Name </b></label>
                   <input class="Name form-control mt-1" style={{ width: "100%", padding: "1.3%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="name" id="name" placeholder="Royal Grand Hostel" name="name" />
                 </div>
 
                 <div style={{ display: 'flex', width: "100%" }} >
 
                   <div className="Input_field" style={{ display: "flex", flexDirection: "column", alignItems: 'start', marginRight: "4%" }}>
-                    <label class="sr-only" style={{ fontSize: "12px", fontWeight: "530" }}><b>Phone Number</b></label>
+                    <label class="sr-only" style={{ fontSize: "12px", fontWeight: "350" }}><b>Phone Number</b></label>
                     <input class="Phone form-control mt-1" maxLength={10} style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="phone" id="phone" placeholder="123-098-345-09" name="Phone" />
                     <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
                   </div>
@@ -201,16 +206,16 @@ function Settings() {
 
             {selectedTab === 'Security' &&
               <div>
-                <h2 style={{ fontSize: '24px', fontWeight: 700 }}>Security</h2>
+                <h2 style={{ fontSize: '24px', fontWeight: 650 }}>Security</h2>
                 <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
-                <hr />
+                <hr style={{opacity:0.1}} />
 
                 <div className='mt-4 mb-5'>
                   <h6 style={{ fontWeight: 700, textDecorationLine: 'underline' }}>Password Management</h6>
                 </div>
                 <div className='d-flex  justify-content-between mt-2'>
                   <div>
-                    <h6 style={{ fontWeight: 700 }}>Login Two-Step Verification</h6>
+                    <h6 style={{ fontWeight: 650 }}>Login Two-Step Verification</h6>
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
@@ -221,7 +226,7 @@ function Settings() {
 
                 <div className='d-flex  justify-content-between '>
                   <div>
-                    <h6 style={{ fontWeight: 700 }}>Email Setup</h6>
+                    <h6 style={{ fontWeight: 650 }}>Email Setup</h6>
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
@@ -232,7 +237,7 @@ function Settings() {
 
                 <div className='d-flex  justify-content-between '>
                   <div>
-                    <h6 style={{ fontWeight: 700 }}>SMS Setup</h6>
+                    <h6 style={{ fontWeight: 650 }}>SMS Setup</h6>
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
@@ -240,13 +245,13 @@ function Settings() {
                   </div>
                 </div>
 
-                <div className='mt-4 mb-5'>
-                  <h6 style={{ fontWeight: 700, textDecorationLine: 'underline' }}>Password Security</h6>
+                <div className='mt-4 mb-4'>
+                  <h6 style={{ fontWeight: 650, textDecorationLine: 'underline' }}>Password Security</h6>
                 </div>
 
                 <div className='d-flex  justify-content-between '>
                   <div>
-                    <h6 style={{ fontWeight: 700 }}>Password Change</h6>
+                    <h6 style={{ fontWeight: 650 }}>Password Change</h6>
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
