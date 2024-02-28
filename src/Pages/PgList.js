@@ -20,8 +20,9 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import CryptoJS from "crypto-js";import { FaAngleRight } from "react-icons/fa6";
-
+import UserBedDetails from '../Pages/UserBedDetails';
+import CryptoJS from "crypto-js";
+import { FaAngleRight } from "react-icons/fa6";
 
 function getFloorName(floor_Id) {
   if (floor_Id === 1) {
@@ -306,21 +307,55 @@ console.log("decrypt",decrypt)
   const [isRowVisible, setIsRowVisible] = useState(true);
   const [bedDetailShow, setBedDetailShow] = useState(false)
   const [bedDetailsPage, setBedDetailsPage] = useState('')
+const [hidePgList, setHidePgList] = useState(true)
+const [bedDetailsDisplay, setBedDetailsDisplay] = useState(false)
+const [ usersBed, setUsersBed] = useState('')
+
 
   const handleRowVisibilityChange = (isVisible) => {
     setIsRowVisible(isVisible);
   };
 
-  const handleBedVisibilityChange = (isVisible, BedDetails) => {
+  const handlehidePgList = (isVisible) => {
+    console.log("handlehidePgList",isVisible)
+    setHidePgList(isVisible);
+      };
+
+  
+
+  const handleDisplayBed = (isVisible,userBeds) =>{
+    console.log("room-details",isVisible)
+    setBedDetailsDisplay(isVisible)
+    setUsersBed(userBeds)
+   }
+
+   const handleBedVisibilityChange = (isVisible, BedDetails) => {
+    console.log("isVisible",isVisible)
     setBedDetailShow(isVisible)
     setBedDetailsPage(BedDetails)
+    setBedDetailsDisplay(false)
+    
   }
 
   const handleBackToFloors = () => {
     setIsRowVisible(true)
     setBedDetailShow(false)
     setMouseEnter(false)
+    setMouseEnter(false)
   }
+
+  const handlehidePgListForUser = (isVisible) =>{
+    console.log("handlehidePgListForUser",isVisible)
+    setHidePgList(isVisible);
+    setBedDetailShow(isVisible)
+  
+  }
+  
+  const handleDisplayBedDetails = (isVisible) =>{
+    setBedDetailsDisplay(isVisible)
+  }
+
+
 
 
   console.log("bedDetailsPage", bedDetailsPage)
@@ -338,6 +373,7 @@ const handleMouseLeave = () =>{
 }
   return (
     <>
+     {hidePgList && <> 
       <div className="d-flex justify-content-between p-3">
         <h4>Pg List</h4>
         <div className="d-flex justify-content-center align-items-center p-2">
@@ -596,13 +632,23 @@ const handleMouseLeave = () =>{
         }
         {bedDetailShow && (
           <>
-
-            <BedDetail bedDetailsSendThePage={bedDetailsPage} />
+             <BedDetail bedDetailsSendThePage={bedDetailsPage} hidePgList={handlehidePgList} showBedDetail={handleDisplayBed} />
           </>
         )
         }
       </>}
       {roomDetails === 'RoomDetailsPage' && <RoomDetails />}
+
+      </>}
+
+      {bedDetailsDisplay && <>
+<UserBedDetails 
+  // showCreateBed={showCreatedBed} 
+   userDetails={usersBed} hidePgList={handlehidePgList}  backToBed={handlehidePgListForUser} hideBed={handleDisplayBedDetails} /> 
+
+</>}
+
+
     </>
 
   );
