@@ -148,7 +148,7 @@ function BedDetails(props) {
     <>
       <div style={{ width: "100%" }}>
 
-        <div className="row row-gap-3 row-column-gap-4 gap-3 g-2 justify-content-start pt-2 ps-2 ps-5" style={{ backgroundColor: "" }}>
+        <div className="row row-gap-3 gx-5  justify-content-start pt-2 ps-2 ps-5" style={{ backgroundColor: "" }}>
 
           <div className='col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10'>
             <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)", width: "auto", maxWidth: 400 }}>
@@ -158,18 +158,18 @@ function BedDetails(props) {
               </div>
               <div className="card-body text-center" >
                 <p className="card-title text-center">({bedName.length || 0}) Beds</p>
-                <div className="row  row-gap-3 g-3 d-flex  justify-content-start p-1">
+                <div className="row  row-gap-3 gx-2  d-flex  justify-content-start p-1">
                   {bedName.map((item, index) => (
-                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-4 d-flex justify-content-center" >
-                      <div className="card  text-center align-items-center p-1" style={{ height: 60, width:60, borderRadius: "5px" }}>
+                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-6 d-flex justify-content-center" >
+                      <div className="card  text-center align-items-center p-1" style={{ height: 60, width:50, borderRadius: "5px" }}>
                         <img src={Bed} style={{ height: "100px", width: "35px", color: "gray" }} className="img-fluid mb-0" alt="Room" />
                         <p style={{ marginTop: "2px", fontSize: "10px",display:"flex",flexWrap:"nowrap" }}>{item}</p>
                       </div>
                     </div>
                   ))}
 
-                  <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-4 d-flex justify-content-center">
-                    <div className="card text-bg-light text-center align-items-center p-1" style={{ height: 60, width: 60, borderRadius: "5px", border: "1px solid #2E75EA" }} onClick={() => { handleShows({ RoomName, roomId }) }}>
+                  <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-6 d-flex justify-content-center" >
+                    <div className="card text-bg-light text-center align-items-center p-1" style={{ height: 60, width: 50, borderRadius: "5px", border: "1px solid #2E75EA" }} onClick={() => { handleShows({ RoomName, roomId }) }}>
                       <img src={Plus} className="pt-2 mb-0" height="25" width="15" alt="Room" />
                       <p style={{ color: "#1F75FE", paddingTop: "2px", fontSize: "10px" }} className="mb-0">Create Bed</p>
                     </div>
