@@ -45,6 +45,7 @@ import Logout from '../Assets/Images/turn-off.png';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useNavigate } from "react-router-dom";
+import InvoiceDetail from '../Pages/InvoiceDetails';
 
 function Sidebar() {
 
@@ -236,6 +237,7 @@ const isLoggedInRoyal = useSelector(state => state.login.isLoggedIn);
                 <Nav.Link href="#action2" style={{ color: "gray", fontSize: "14px", fontWeight: "600" }} onClick={() => handlePageClick('invoice')}>Invoice</Nav.Link>
                 <Nav.Link href="#action1" style={{ color: "gray", fontSize: "14px", fontWeight: "600" }} onClick={() => handlePageClick('compliance')}>Compliances</Nav.Link>
                 <Nav.Link href="#action2" style={{ color: "gray", fontSize: "14px", fontWeight: "600" }} onClick={() => handlePageClick('reports')}>Reports</Nav.Link>
+               
               </Nav>
             </div>
             <Form className="d-flex">
@@ -327,6 +329,7 @@ const isLoggedInRoyal = useSelector(state => state.login.isLoggedIn);
             {currentPage === 'reports' && < Report />}
             {currentPage === 'settings' && < Setting />}
             {currentPage === 'support' && < Supports />}
+            
           </Col>
         </Row>
       </Container>

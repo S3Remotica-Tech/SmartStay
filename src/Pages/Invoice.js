@@ -11,6 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import InvoiceDetail from './InvoiceDetails';
+
+
 
 
 const InvoicePage = () => {
@@ -31,6 +34,9 @@ const InvoicePage = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [isUserClicked, setUserClicked] = useState(true);
+  const [invoiceDetail,setInvoiceDetails]=useState(false)
+  const [invoiceValue,setInvoiceValue]=useState("")
+  console.log("invoiceValue",invoiceValue)
 
   const [file, setFile] = useState(null)
   const d = new Date();
@@ -48,6 +54,22 @@ const InvoicePage = () => {
     dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
   })
 
+  const [invoicePage, setInvoicePage] = useState('')
+
+
+  const handleInvoiceDetail = (invoiceData) => {
+    console.log("invoiceDetails",invoiceData);
+    setInvoiceDetails(true)
+    setInvoicePage(invoiceData)
+   
+   
+  }
+  const handleInvoiceback = (isVisible) => {
+    console.log("invoiceDetails");
+    setInvoiceDetails(isVisible)
+
+  }
+
   const state = useSelector(state => state)
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
@@ -60,6 +82,7 @@ const InvoicePage = () => {
     dispatch({ type: 'INVOICELIST' })
     setData(state.InvoiceList.Invoice)
   }, [])
+ 
   useEffect(() => {
     setData(state.InvoiceList.Invoice)
   }, [state.InvoiceList.Invoice])
@@ -143,11 +166,14 @@ const InvoicePage = () => {
     setUserClicked(false);
     setShowForm(false);
   };
+ 
 
   const handleShow = (item) => {
     console.log("item", item);
+    setInvoiceValue(item)
     if (item.id) {
       setEditOption('Edit')
+      
       let value = item.Name.split(" ")
       setInvoiceList({
         id: item.id,
@@ -163,6 +189,8 @@ const InvoicePage = () => {
         balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
         dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
       })
+     
+      
     }
     else {
       setEditOption('Add')
@@ -170,6 +198,7 @@ const InvoicePage = () => {
 
     handleMenuClick();
     setShowMenu(true);
+    
   };
 
 
@@ -329,7 +358,15 @@ const InvoicePage = () => {
   };
   console.log("state", state);
   return (
-    <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
+    <>
+  
+
+    {invoiceDetail ?
+          <>
+
+            <InvoiceDetail  sendInvoiceDetail={invoicePage} handleInvoiceback={handleInvoiceback} />
+          </>:<>
+          <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
 
       <div class="row g-0" style={{ width: "100%" }}>
         <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12" >
@@ -583,7 +620,9 @@ const InvoicePage = () => {
               <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
               <td style={item.BalanceDue == 0 ? { color: "green" } : { color: "red" }}>{item.BalanceDue == 0 ? "Success" : "Pending"}</td>
-              <td class="justify-content-between"><img src={List} height="20" width="20" alt='List' /><img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /></td>
+              <td class="justify-content-between">
+                <img src={List} height="20" width="20" alt='List' onClick={()=>handleInvoiceDetail(item)}/>
+                <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /></td>
             </tr>
           ))}
         </tbody>
@@ -620,6 +659,13 @@ const InvoicePage = () => {
         </div>
       </div>
     </div>
+
+          </>
+        
+        }
+      
+    
+    </>
   );
 };
 
