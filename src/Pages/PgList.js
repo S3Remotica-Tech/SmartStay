@@ -576,7 +576,7 @@ const handleMouseLeave = () =>{
         <div className="ms-5 me-5 d-flex justify-content-between p-2">
           <div className='d-flex justify-content-center  align-items-center gap-1'>
             {bedDetailShow && (<>
-              <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{backgroundColor:mouseEnter ? "#ebebeb":"transparent",borderRadius:mouseEnter ? 10: "none",padding:mouseEnter ? 5: "none"}}>
+              <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{backgroundColor:mouseEnter ? "#ebebeb":"transparent",borderRadius:mouseEnter ? 10: "none",padding:5 }}>
                 <MdOutlineKeyboardDoubleArrowLeft className="" style={{ fontSize: 23 }} onClick={handleBackToFloors} />
               </span>
 
@@ -593,10 +593,10 @@ const handleMouseLeave = () =>{
 
           <div className="d-flex gap-5 ms-2">
             <div className="d-flex gap-1">
-              <FaSquare style={{ color: "gray", height: "20px" }} />   <h6 className="ps-2" style={{ color: "gray", fontSize: "" }}>Room Empty</h6>
+              <FaSquare style={{ color: "gray", height: "20px" }} />   <h6 className="ps-2" style={{ color: "gray", fontSize: "" }}>{bedDetailShow ? "Bed Available" : "Room Available"}</h6>
             </div>
             <div className="d-flex gap-1">
-              <FaSquare style={{ color: "#25D366", height: "20px" }} />   <h6 className="ps-2" style={{ color: "#25D366" }}>Room Full</h6>
+              <FaSquare style={{ color: "#25D366", height: "20px" }} />   <h6 className="ps-2" style={{ color: "#25D366" }}>{bedDetailShow ? "Bed Full" : "Room Full"}</h6>
             </div>
           </div>
         </div>
