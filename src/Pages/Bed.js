@@ -13,6 +13,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
 
+
 function getFormattedRoomId(floor_Id, room_Id) {
 
   const roomIdString = String(room_Id);
@@ -31,6 +32,7 @@ function getFormattedRoomId(floor_Id, room_Id) {
       return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
   }
 }
+
 
 function getFloorAbbreviation(floor_Id) {
 
@@ -135,16 +137,44 @@ function BedDetails(props) {
   useEffect(() => {
     const initialBedNames = [...Array(initialNumberOfBeds).keys()].map(index => `Bed ${index + 1}`);
     setBedName(initialBedNames);
-  }, [initialNumberOfBeds, props, bedName]);
+  }, [initialNumberOfBeds, bedName]);
 
   const handleNumberOfBedChange = (numberOfBeds) => {
     setBed(numberOfBeds);
   };
 
+
+
+  const [loading, setLoading] = useState(false);
+
+  const handleDisplayBedDetailUser =  (bedId) => {
+    console.log("executed")
+    console.log("bedId", bedId)
+    if (bedId) {
+      setLoading(true);
+      dispatch({ type: 'BEDDETAILS', payload: { hostel_Id: Hostel_Id, floor_Id: floorId, room_Id: roomId, bed_Id: bedId } })
+       
+    }
+  }
+
+  
+  useEffect(() => {
+       if (state.PgList?.statusCode === 200) {
+        const UserBed = state.PgList?.bedDetailsForUser?.response?.data;
+        console.log("userbed", UserBed);
+        props.hidePgList(false);
+        props.showBedDetail(true, UserBed);
+        dispatch({ type: 'CLEAR_STATUS_CODE_BED' });
+      } else if (state.PgList?.errorStatusCode === 201) {
+        setLoading(false);
+        console.log("executed");
+        props.hidePgList(true);
+        props.showBedDetail(false);
+        dispatch({ type: 'CLEAR_STATUS_CODE' });
+      }
+     }, [state.PgList?.statusCode, state.PgList?.errorStatusCode]);
+ 
  return (
-
-
-
     <>
       <div style={{ width: "100%" }}>
 
@@ -161,7 +191,7 @@ function BedDetails(props) {
                 <div className="row  row-gap-3 gx-2  d-flex  justify-content-start p-1">
                   {bedName.map((item, index) => (
                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-6 d-flex justify-content-center" >
-                      <div className="card  text-center align-items-center p-1" style={{ height: 60, width:50, borderRadius: "5px" }}>
+                      <div className="card  text-center align-items-center p-1" style={{ height: 60, width:50, borderRadius: "5px" }} onClick={() => handleDisplayBedDetailUser(index + 1)}>
                         <img src={Bed} style={{ height: "100px", width: "35px", color: "gray" }} className="img-fluid mb-0" alt="Room" />
                         <p style={{ marginTop: "2px", fontSize: "10px",display:"flex",flexWrap:"nowrap" }}>{item}</p>
                       </div>
@@ -244,7 +274,7 @@ function BedDetails(props) {
           </div>
         </Offcanvas.Body>
       </Offcanvas>
-
+      {/* {loading &&  <Spinner animation="border" variant="primary" />} */}
     </>
 
   );

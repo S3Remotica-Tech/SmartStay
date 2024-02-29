@@ -15,7 +15,11 @@ const initialState = {
     errMessage: "",
     roomCount: [],
     roomCreationSuccess: false,
-    createPGMessage:''
+    createPGMessage: '',
+    bedDetailsForUser: [],
+    statusCode: '',
+    errorForBed: "",
+    errorStatusCode: 0,
 }
 const PgListReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -24,28 +28,41 @@ const PgListReducer = (state = initialState, action) => {
             return { message: action.payload.message, roomCount: action.roomCount }
         // return {...state ,Name:action.payload.name,phoneNumber:action.payload.phoneNo,email_Id:action.payload.email_Id,location:action.payload.location,number_Of_Floor:action.payload.number_of_floors,room_Id:action.payload.room,number_Of_Bed:action.payload.bed}
         case 'AFTER_CREATE_PG_MSG':
-            return {...state, createPGMessage:action.message}
+            return { ...state, createPGMessage: action.message }
         case 'CREATE_ROOM':
-            return { ...state,
+            return {
+                ...state,
                 //  createRoomMessage: action.payload.message,
-                  roomCreationSuccess: true }
+                roomCreationSuccess: true
+            }
         //  return { ...state, floor_Id: action.payload.floorId, room_Id: action.payload.roomId, number_Of_Bed: action.payload.number_of_beds,createRoomMessage: state.createRoomMessage !== '' ? '' : action.payload.message }
         case 'CHECK_ROOM':
             return { ...state, checkRoomList: action.payload }
         case 'ERROR':
-            if(state.roomCount.length>0){
+            if (state.roomCount.length > 0) {
                 let index = state.roomCount.findIndex((item) => {
                     return item[0]?.Floor_Id === action.payload.floor_Id
                 })
                 state.roomCount[index] = []
             }
-            console.log("statePGReducer",state);
-            return { ...state, errMessage: action.payload.response}
+            console.log("statePGReducer", state);
+            return { ...state, errMessage: action.payload.response }
         case 'UPDATE_MESSAGE_AFTER_CREATION':
             return { ...state, createRoomMessage: action.message }
+
+        case 'BED_DETAILS':
+            return { ...state, bedDetailsForUser: action.payload, statusCode: action.payload.statusCode }
+
+        case 'NO_USER_BED':
+            return { ...state, errorForBed: action.payload, errorStatusCode: action.payload.statusCode }
+
+        case 'CLEAR_STATUS_CODE':
+            return { ...state, errorStatusCode: ' ' }
+        case 'CLEAR_STATUS_CODE_BED':
+            return { ...state, statusCode: ' ' }
         case 'ROOM_COUNT':
-            console.log("stateForROOM_COUNT",action.payload);
-         
+            console.log("stateForROOM_COUNT", action.payload);
+
             if (state.roomCount.length > 0) {
                 if (action.payload.length > 0) {
                     let floor = action.payload[0].Floor_Id
@@ -53,15 +70,15 @@ const PgListReducer = (state = initialState, action) => {
                         return item[0]?.Floor_Id === floor
                     })
                     if (index < 0) {
-                        console.log("index < 0",index);
+                        console.log("index < 0", index);
                         const temp = state.roomCount
                         temp.push(action.payload)
                         return { ...state, roomCount: temp }
                     }
                     else {
-                        console.log("index > 0",action.payload);
+                        console.log("index > 0", action.payload);
                         state.roomCount[index] = action.payload
-                        return {...state}
+                        return { ...state }
                     }
 
 
@@ -76,9 +93,9 @@ const PgListReducer = (state = initialState, action) => {
                 const temp = state.roomCount
                 temp.push(action.payload)
                 console.log("temp", temp);
-                return { ...state, roomCount: temp ,errMessage:''}
+                return { ...state, roomCount: temp, errMessage: '' }
             }
-       
+
 
 
 
