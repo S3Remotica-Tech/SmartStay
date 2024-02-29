@@ -80,7 +80,7 @@ function InvoiceDetail(props) {
                         <div className="card-header bg-primary text-white">
                             <div className="row  m-0" style={{ backgroundColor: "#2E75EA", padding: 3, color: "white" }}>
                                 <div className="col-lg-6 d-flex align-items-center justify-content-center">
-                                    <h4 class="mb-0" style={{ fontSize: 25, color: "white", fontWeight: 400 }} ><img src={Logo} style={{marginRight:10}}/>RENT INVOICE</h4>
+                                    <h4 class="mb-0" style={{ fontSize: 25, color: "white", fontWeight: 400 }} ><img src={Logo} style={{marginRight:10}}/> INVOICE</h4>
                                 </div>
                                 <div className="col-lg-6 d-flex align-items-center justify-content-center">
                                     <div>
