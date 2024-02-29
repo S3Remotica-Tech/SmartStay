@@ -95,8 +95,6 @@ useEffect(() => {
               <Route path='/Bed' element={< BedDetails />} ></Route>
               <Route path='/roomList' element={<DashboardRoomList />} />
               <Route path="/login-Page" element={<LoginPage />} />
-              <Route path="/invoicedetail" element={<InvoiceDetail />} />
-
             </Routes>
           </Router>
           :
@@ -106,7 +104,6 @@ useEffect(() => {
               <Route path="/login-Page" element={<LoginPage />} />
               <Route path="/create-account" element={<CreateAccount />} />
               <Route path="/forget-password" element={< ForgetPassword />} />
-              <Route path="/invoicedetail" element={<InvoiceDetail />} />
             </Routes>
           </Router>
 
