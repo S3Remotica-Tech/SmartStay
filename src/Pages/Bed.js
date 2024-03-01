@@ -393,8 +393,25 @@ function BedDetails(props) {
                 <div className="row  row-gap-3 gx-2  d-flex  justify-content-start p-1">
                   {bedName.map((item, index) => (
                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-6 d-flex justify-content-center" >
-                      <div className="card  text-center align-items-center p-1" style={{ borderColor: state.UsersList.Users.some(user => user.Bed === index + 1) ? "#25D366" : "#e3e4e8", backgroundColor: state.UsersList.Users.some(user => user.Bed === index + 1) ? "#25D366" : "#e3e4e8", color: state.UsersList.Users.some(user => user.Bed === index + 1) ? "white" : "gray", height: 60, width: 50, borderRadius: "5px" }} onClick={() => handleDisplayBedDetailUser(index + 1)}>
-                        <img src={Bed} style={{ height: "100px", width: "35px", color: "gray", filter: state.UsersList.Users.some(user => user.Bed === index + 1) ? "brightness(0) invert(1)" : "none" }} className="img-fluid mb-0" alt="Room" />
+                      <div className="card  text-center align-items-center p-1" 
+                      style={{
+                        borderColor: state.UsersList.Users.some(user => 
+                          user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
+                        ) ? "#25D366" : "#e3e4e8",
+                        backgroundColor: state.UsersList.Users.some(user => 
+                          user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
+                        ) ? "#25D366" : "#e3e4e8",
+                        color: state.UsersList.Users.some(user => 
+                          user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
+                        ) ? "white" : "gray",
+                        height: 60,
+                        width: 50,
+                        borderRadius: "5px"
+                      }}
+                      onClick={() => handleDisplayBedDetailUser(index + 1)}>
+                        <img src={Bed} style={{ height: "100px", width: "35px", color: "gray", filter: state.UsersList.Users.some(user => 
+                          user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
+                        ) ? "brightness(0) invert(1)" : "none"}} className="img-fluid mb-0" alt="Room" />
                         <p style={{ marginTop: "2px", fontSize: "10px", display: "flex", flexWrap: "nowrap" }}>{item}</p>
                       </div>
                     </div>
