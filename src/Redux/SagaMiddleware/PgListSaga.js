@@ -61,10 +61,7 @@ function* handleCheckBedDetails(action){
    }
    else if(response.status === 201) {
       yield put ({type:'NO_USER_BED', payload: { response:response.data.message,statusCode:response.status}})
-      Swal.fire({
-         icon: 'warning',
-         title: 'No User available in the bed',
-                });
+
    }
 }
 
