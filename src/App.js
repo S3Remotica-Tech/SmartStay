@@ -1,6 +1,6 @@
 import React, { useEffect ,useState} from 'react';
 import './App.css'
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import FrontPage from "./Components/FrontPage"
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
@@ -96,7 +96,7 @@ useEffect(() => {
               <Route path='/roomList' element={<DashboardRoomList />} />
               <Route path="/login-Page" element={<LoginPage />} />
               <Route path="/invoicedetail" element={<InvoiceDetail />} />
-
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Router>
           :
@@ -107,6 +107,7 @@ useEffect(() => {
               <Route path="/create-account" element={<CreateAccount />} />
               <Route path="/forget-password" element={< ForgetPassword />} />
               <Route path="/invoicedetail" element={<InvoiceDetail />} />
+              <Route path="*" element={<Navigate to="/login-page" replace />} />
             </Routes>
           </Router>
 
