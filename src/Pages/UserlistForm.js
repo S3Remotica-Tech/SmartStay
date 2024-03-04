@@ -151,6 +151,7 @@ function UserlistForm(props) {
   }
   const handleAdvanceAmount = (e) => {
     setAdvanceAmount(e.target.value)
+    setBalanceDue(RoomRent ? e.target.value - RoomRent : e.target.value);
   }
   const handleAadharNo = (e) => {
     setAadharNo(e.target.value)

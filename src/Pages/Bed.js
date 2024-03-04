@@ -190,6 +190,7 @@ function BedDetails(props) {
   }
   const handleAdvanceAmount = (e) => {
     setAdvanceAmount(e.target.value)
+    setBalanceDue(RoomRent ? e.target.value - RoomRent : e.target.value);
   }
   const handleAddress = (e) => {
     setAddress(e.target.value)
@@ -308,10 +309,6 @@ function BedDetails(props) {
       AadharNo &&
       PancardNo &&
       licence &&
-      // hostel_Id &&
-      // Floor &&
-      // Rooms &&
-
       AdvanceAmount &&
       RoomRent &&
       PaymentType
@@ -365,8 +362,7 @@ function BedDetails(props) {
         }
 
       });
-
-
+      handleClose()
     } else {
       Swal.fire({
         icon: 'warning',
