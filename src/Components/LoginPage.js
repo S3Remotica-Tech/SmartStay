@@ -41,36 +41,16 @@ console.log("state",state)
     navigate('/forget-password')
   }
   
-  // useEffect(() => {
-  //   if (state.login?.message?.message) {
-  //     navigate('/dashboard')
-  //   }
-
-
-  // }, [state.login?.message?.message])
-
-
   const handleEmailChange = (e) => {
     dispatch({ type: 'CLEAR_EMAIL_ERROR' });
     setemail_Id(e.target.value)
   }
-
 
   const handlePasswordChange = (e) => {
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
     setpassword(e.target.value)
   }
   
-// useEffect(()=>{
-// if(state.login.statusCode === 200){
-//   console.log("state.login.statusCode",state.login.statusCode);
-//   navigate('/dashboard')
-//   dispatch({type:'LOGIN-SUCCESS'})
-// }
-// },[state.login.statusCode])
-
-  // const login = localStorage.getItem("login")
-
   const [checked, setChecked] = useState(false)
 
   const handleCheckboxChange = (e) => {
@@ -78,6 +58,9 @@ console.log("state",state)
   }
 
   const LoginId = state.login?.loginInformation[0]?.id;
+  const NameId = state.login?.loginInformation[0]?.Name
+  const phoneId = state.login?.loginInformation[0]?.mobileNo
+  const emilidd = state.login?.loginInformation[0]?.email_Id
  
   
   useEffect(() => {
@@ -85,28 +68,27 @@ console.log("state",state)
       console.log("state.login.statusCode", state.login.statusCode);
 
        const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
+       const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
+       const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
+       const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
 
      console.log("encryptedLoginId",encryptedLoginId)
-
-    // localStorage.setItem("loginId",  LoginId);
-
-    // localStorage.setItem("loginId", LoginId);
 
       if(checked==true){
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd')
         console.log("encryptData", encryptData.toString());
         localStorage.setItem("login", encryptData.toString())
-        //  localStorage.setItem("loginId", LoginId);
         localStorage.setItem("loginId",encryptedLoginId)
-        //  console.log("localStorage.setItem",localStorage.getItem("loginId", LoginId))
+        localStorage.setItem("NameId",encryptedname)
+        localStorage.setItem("phoneId",encryptedphone)
+        localStorage.setItem("emilidd",encryptedemail)
       }
       else{
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
       console.log("encryptData", encryptData.toString());
       localStorage.setItem("login", encryptData.toString())
       localStorage.setItem("loginId",encryptedLoginId)
-      //  localStorage.setItem("loginId", LoginId);
-      //  console.log("localStorage.setItem",localStorage.getItem("loginId", LoginId))
+      
       }
       dispatch({ type: 'LOGIN-SUCCESS' })
       navigate('/')
