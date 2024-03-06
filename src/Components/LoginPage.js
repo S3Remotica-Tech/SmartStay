@@ -77,6 +77,7 @@ console.log("state",state)
       if(checked==true){
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd')
         console.log("encryptData", encryptData.toString());
+        
         localStorage.setItem("login", encryptData.toString())
         localStorage.setItem("loginId",encryptedLoginId)
         localStorage.setItem("NameId",encryptedname)
@@ -85,9 +86,14 @@ console.log("state",state)
       }
       else{
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
-      console.log("encryptData", encryptData.toString());
+      console.log("encryptData.....jjjjjjjj", encryptData.toString());
       localStorage.setItem("login", encryptData.toString())
-      localStorage.setItem("loginId",encryptedLoginId)
+      localStorage.setItem("loginId",encryptedLoginId.toString())
+      localStorage.setItem("NameId",encryptedname.toString())
+      localStorage.setItem("phoneId",encryptedphone.toString())
+      localStorage.setItem("emilidd",encryptedemail.toString())
+
+      
       
       }
       dispatch({ type: 'LOGIN-SUCCESS' })
@@ -114,10 +120,7 @@ console.log("state",state)
 
 
  
-  useEffect(() => {
-       localStorage.setItem("login", "false");
-  }, []);
-
+  
 
   return (
     <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
