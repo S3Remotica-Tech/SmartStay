@@ -309,8 +309,10 @@ console.log("decrypt",decrypt)
   const [bedDetailsPage, setBedDetailsPage] = useState('')
 const [hidePgList, setHidePgList] = useState(true)
 const [bedDetailsDisplay, setBedDetailsDisplay] = useState(false)
-const [ usersBed, setUsersBed] = useState('')
-
+const [usersBed, setUsersBed] = useState('')
+  const [hosteID, setHosteID] = useState('')
+  const [floorID, setFloorID] = useState('')
+  const [roomID, setRoomID] = useState('')
 
   const handleRowVisibilityChange = (isVisible) => {
     setIsRowVisible(isVisible);
@@ -326,8 +328,27 @@ const [ usersBed, setUsersBed] = useState('')
   const handleDisplayBed = (isVisible,userBeds) =>{
     console.log("room-details",isVisible)
     setBedDetailsDisplay(isVisible)
-    setUsersBed(userBeds)
+    
    }
+
+   const userBedId = (bedId) => {
+    console.log("userBedId", bedId)
+    setUsersBed(bedId)
+  }
+
+  const Hostel_Id = (Hostel_Id) => {
+    setHosteID(Hostel_Id)
+  }
+
+  const floorId = (floorId) => {
+    setFloorID(floorId)
+  }
+
+  const roomId = (roomId) => {
+    setRoomID(roomId)
+  }
+
+
 
    const handleBedVisibilityChange = (isVisible, BedDetails) => {
     console.log("isVisible",isVisible)
@@ -632,7 +653,13 @@ const handleMouseLeave = () =>{
         }
         {bedDetailShow && (
           <>
-             <BedDetail bedDetailsSendThePage={bedDetailsPage} hidePgList={handlehidePgList} showBedDetail={handleDisplayBed} />
+            <BedDetail bedDetailsSendThePage={bedDetailsPage}
+                hidePgList={handlehidePgList}
+                showBedDetail={handleDisplayBed}
+                userBedId={userBedId}
+                Hostel_Id={Hostel_Id}
+                floorId={floorId}
+                roomId={roomId} /> 
           </>
         )
         }
@@ -642,9 +669,15 @@ const handleMouseLeave = () =>{
       </>}
 
       {bedDetailsDisplay && <>
-<UserBedDetails 
-  // showCreateBed={showCreatedBed} 
-   userDetails={usersBed} hidePgList={handlehidePgList}  backToBed={handlehidePgListForUser} hideBed={handleDisplayBedDetails} /> 
+        <UserBedDetails
+          // showCreateBed={showCreatedBed} 
+          userBed_Id={usersBed}
+          Hostel_Id={hosteID}
+          Floor_Id={floorID}
+          Room_Id={roomID}
+          hidePgList={handlehidePgList}
+          backToBed={handlehidePgListForUser}
+          hideBed={handleDisplayBedDetails} /> 
 
 </>}
 

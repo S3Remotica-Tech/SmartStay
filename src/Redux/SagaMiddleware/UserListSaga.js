@@ -7,7 +7,7 @@ import { userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymen
 function* handleuserlist() {
    const response = yield call(userlist);
    if (response.status === 200) {
-      yield put({ type: 'USER_LIST', payload: response.data })
+      yield put({ type: 'USER_LIST', payload:{response: response.data, statusCode:response.status} })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -81,7 +81,7 @@ function* handleRoomsDetails(ID) {
 function* handleAddUser(datum) {
       const response = yield call(addUser, datum.payload);
       if (response.status === 200) {
-         yield put({ type: 'ADD_USER', payload: response.data })
+         yield put({ type: 'ADD_USER',payload:{response: response.data, statusCode:response.status}})
       }
       else if(response.status === 202) {
          Swal.fire({
