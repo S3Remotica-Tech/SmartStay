@@ -10,15 +10,22 @@ import { useNavigate } from "react-router-dom";
 import Lock from "../Assets/Images/Lock.png";
 import Heart from '../Assets/Images/heart.png';
 import { BiCopyright } from "react-icons/bi";
+import { useDispatch, useSelector } from 'react-redux';
+import CryptoJS from "crypto-js";
 
 function FrontPage() {
 
+  const dispatch = useDispatch()
+  const state = useSelector(state => state)
+  console.log("state",state)
+
   let navigate = useNavigate();
+  console.log("state",state)
 
-
-  const handleSignIn = () => {
+  const handleSignIn = () => { 
     navigate('/login-Page')
   }
+ 
   const handleSignUp = () => {
     navigate('/create-account')
   }

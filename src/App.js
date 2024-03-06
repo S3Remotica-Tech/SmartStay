@@ -42,7 +42,6 @@ useEffect(() => {
       const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
       const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
       const parsedData = JSON.parse(decryptedString);
-      console.log("decryptedData.........kkkkkkkk", parsedData);
       setData(parsedData);
     
     } 
@@ -52,19 +51,6 @@ useEffect(() => {
     }
     
   }
-
-  // const loginId = localStorage.getItem('loginId');
-  // if (loginId) {
-  //   try {
-  //     const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-  //     const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-  //     console.log('Decrypted Login Id:', decryptedIdString);
-     
-  //   } catch (error) {
-  //     console.error('Error decrypting loginId:', error);
-  //   }
-  // }
-
 
 
   setIsLoading(false);

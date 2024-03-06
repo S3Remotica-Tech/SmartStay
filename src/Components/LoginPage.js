@@ -57,14 +57,15 @@ console.log("state",state)
     setChecked(e.target.checked); 
   }
 
-  const LoginId = state.login?.loginInformation[0]?.id;
-  const NameId = state.login?.loginInformation[0]?.Name
-  const phoneId = state.login?.loginInformation[0]?.mobileNo
-  const emilidd = state.login?.loginInformation[0]?.email_Id
+
  
   
   useEffect(() => {
     if (state.login.statusCode === 200) {
+      const LoginId = state.login?.loginInformation[0]?.id;
+      const NameId = state.login?.loginInformation[0]?.Name
+      const phoneId = state.login?.loginInformation[0]?.mobileNo
+      const emilidd = state.login?.loginInformation[0]?.email_Id
       console.log("state.login.statusCode", state.login.statusCode);
 
        const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
@@ -88,16 +89,19 @@ console.log("state",state)
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
       console.log("encryptData.....jjjjjjjj", encryptData.toString());
       localStorage.setItem("login", encryptData.toString())
-      localStorage.setItem("loginId",encryptedLoginId.toString())
-      localStorage.setItem("NameId",encryptedname.toString())
-      localStorage.setItem("phoneId",encryptedphone.toString())
-      localStorage.setItem("emilidd",encryptedemail.toString())
+      localStorage.setItem("loginId",'')
+      localStorage.setItem("NameId",'')
+      localStorage.setItem("phoneId",'')
+      localStorage.setItem("emilidd",'')
 
       
       
       }
+
       dispatch({ type: 'LOGIN-SUCCESS' })
-      navigate('/')
+      setTimeout(() => {
+        dispatch({type:'CLEAR_STATUSCODE'})
+      }, 100);
     }
   }, [state.login.statusCode])
 

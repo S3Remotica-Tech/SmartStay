@@ -46,6 +46,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
+import { StaticDateTimePicker } from '@mui/x-date-pickers';
 
 
 function Sidebar() {
@@ -113,6 +114,7 @@ function Sidebar() {
   // }
   const dispatch = useDispatch()
   const state = useSelector(state => state)
+  console.log("state",state)
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
@@ -207,8 +209,10 @@ function Sidebar() {
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd').toString()
         console.log("encryptData", encryptData.toString());
         localStorage.setItem("login", encryptData.toString()) 
-       
-       
+        localStorage.setItem("loginId",'')
+        localStorage.setItem("NameId",'')
+        localStorage.setItem("phoneId",'')
+        localStorage.setItem("emilidd",'')   
       }
     })
   }
