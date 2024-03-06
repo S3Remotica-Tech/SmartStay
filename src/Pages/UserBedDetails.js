@@ -17,6 +17,7 @@ import Room from '../Assets/Images/Room.png'
 import Nav from 'react-bootstrap/Nav';
 import '../Pages/RoomDetails.css'
 import Plus from '../Assets/Images/Create-button.png';
+import UserBedDetailsEdit from '../Pages/UserBedDetailEdit';
 
 function UserBedDetails(props) {
   const dispatch = useDispatch();
@@ -130,6 +131,9 @@ function UserBedDetails(props) {
 
 
   let BillPayementHistoryForUser = []
+  let filteredDataForUser = []
+
+
 
   const [isOpenTab, setIsOpenTab] = useState(true)
 
@@ -137,39 +141,118 @@ function UserBedDetails(props) {
     setIsOpenTab(true)
   }
 
+  useEffect(() => {
+    dispatch({ type: 'INVOICELIST' })
+    // setData(state.InvoiceList.Invoice)
+  }, [])
 
 
   const [filteredDatas, setFilteredDatas] = useState([]);
 
 
   useEffect(() => {
-    if (state.UsersList?.billPaymentHistory && BillPayementHistoryForUser.length > 0) {
-      console.log("BillPayementHistoryForUser.length", BillPayementHistoryForUser.length);
-
-      let filteredData = [...BillPayementHistoryForUser];
+    if (state.InvoiceList?.Invoice && filteredDataForUser.length > 0) {
+      let filteredData = [...filteredDataForUser];
 
 
       if (filterByStatus !== 'ALL') {
-        filteredData = filteredData.filter((item) => item.invStatus === filterByStatus);
+        filteredData = filteredData.filter((item) => item.Status === filterByStatus);
       }
 
       if (filterByInvoice) {
-        filteredData = filteredData.filter((item) => item.InvoiceNo.toLowerCase().includes(filterByInvoice.toLowerCase()));
+        filteredData = filteredData.filter((item) => item.Invoices.toLowerCase().includes(filterByInvoice.toLowerCase()));
       }
 
       setFilteredDatas(filteredData);
       console.log("filteredDatas", filteredDatas);
     }
-  }, [filterByStatus, filterByInvoice, state.UsersList?.billPaymentHistory]);
+  }, [filterByStatus, filterByInvoice,state.InvoiceList?.Invoice]);
 
   const handleCreateBedDetails = () => {
     props.showCreateBed(true)
   }
 
+  const handleMenuClick = () => {
+    setShowForm(true);
+    setUserClicked(true);
+  };
+
+  const [EditObj, setEditObj] = useState('')
+  const [edit, setEdit] = useState('')
+
+
+  const handleShow = (u) => {
+    console.log("click", u);
+    handleMenuClick();
+    setShowMenu(true);
+    localStorage.setItem('showMenu', 'true');
+    setEditObj(u)
+
+  };
+  const [showMenu, setShowMenu] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [isUserClicked, setUserClicked] = useState(true);
+  const [file, setFile] = useState(null)
+
+  const [hostel, setHostel] = useState('')
+  const [floor, setFloor] = useState('')
+  const [beds, setBeds] = useState('')
+  const [rooms, setRooms] = useState('')
+
+
+  const AfterEditHostel = (hostel_id) => {
+    setHostel(hostel_id)
+    console.log("hostel_id", hostel_id)
+  }
+
+
+  const AfterEditFloor = (Floor_ID) => {
+    setFloor(Floor_ID)
+  }
+
+  const AfterEditRooms = (room) => {
+    setRooms(room)
+  }
+
+  const AfterEditBed = (bedsId) => {
+    setBeds(bedsId)
+  }
+
+
+
+
+  const Hostel_Id = state.UsersList?.statusCodeForAddUser === 200 ? hostel : props.Hostel_Id;
+  const Bed_Id = state.UsersList?.statusCodeForAddUser === 200 ? beds : props.userBed_Id;
+  const Floor_Id = state.UsersList?.statusCodeForAddUser === 200 ? floor : props.Floor_Id;
+  const Rooms_Id = state.UsersList?.statusCodeForAddUser === 200 ? rooms : props.Room_Id;
+
+  console.log(state.UsersList?.statusCodeForAddUser === 200, "state.UsersList?.statusCodeForAddUser === 200")
+  console.log("bedDetailsForUser.Hostel_Id", Hostel_Id)
+  console.log("bedDetailsForUser.Bed_Id", Bed_Id)
+  console.log("bedDetailsForUser.Floor_Id ", Floor_Id)
+  console.log("bedDetailsForUser.Rooms_Id", Rooms_Id)
+
+  const [userDetailForUser, setUserDetailsForUser] = useState([])
+
+  useEffect(() => {
+    const ParticularUserDetails = state.UsersList?.Users?.filter(item =>
+      item.Bed == Bed_Id &&
+      item.Hostel_Id == Hostel_Id &&
+      item.Floor == Floor_Id &&
+      item.Rooms == Number(Rooms_Id)
+    );
+    setUserDetailsForUser(ParticularUserDetails)
+  }, [state.UsersList?.Users, Hostel_Id, Bed_Id, Floor_Id, Rooms_Id])
+
+
+  useEffect(() => {
+    dispatch({ type: 'USERLIST' })
+  }, [state.UsersList?.Users, Hostel_Id, Bed_Id, Floor_Id, Rooms_Id])
+
 
   return (
     <div className='' style={{ width: "100%" }}>
-      {props.userDetails && props.userDetails.map((item, index) => (<>
+      {userDetailForUser && userDetailForUser?.map((item, index) => (<>
         <div class="row g-0 w-100 p-2">
           <div class="col-lg-5 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
             <div class="d-flex justify-content-start">
@@ -183,12 +266,6 @@ function UserBedDetails(props) {
               <div class="d-block ms-2 me-1">
                 <p class="ms-1" style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>{getFloorName(item.Floor)}</p>
                 <label style={{ fontSize: "13px", marginBottom: "0px", color: "black", fontWeight: 700 }}>Room No -{getFormattedRoomId(item.Floor, item.Rooms)}  </label>
-                {/* <select class="ms-1" aria-label="Default select example" style={{ border: "none", fontSize: "12px", fontWeight: "700" }}>
-                  <option selected style={{ fontSize: "10px", fontWeight: "700" }}>Room No - F001</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select> */}
               </div>
 
               <div className="vertical-rule ms-3"></div>
@@ -206,8 +283,8 @@ function UserBedDetails(props) {
           </div>
           <div class="col-lg-3 offset-lg-4 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
             <div class="d-flex">
-              <button type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button>
-              <button type="button" class="ms-2" style={{ fontSize: "12px", fontWeight: "700", backgroundColor: "white", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleCreateBedDetails}><img src={Plus} height="12" width="12" alt='Plus' /> Create Bed</button>
+              <button type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={() => { handleShow(item) }} ><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button>
+              {/* <button type="button" class="ms-2" style={{ fontSize: "12px", fontWeight: "700", backgroundColor: "white", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleCreateBedDetails}><img src={Plus} height="12" width="12" alt='Plus' /> Create Bed</button> */}
             </div>
           </div>
 
@@ -277,8 +354,6 @@ function UserBedDetails(props) {
                     <p style={{ fontSize: "12px", color: "gray", fontWeight: 700 }}>Licence</p>
 
                   </div>
-
-
                 </div>
                 <div class="col-lg-4 d-flex justify-content-center">
                   <div>
@@ -286,8 +361,6 @@ function UserBedDetails(props) {
                     <p style={{ fontSize: "12px", fontWeight: 700 }}>{item.PancardNo}</p>
                     <p style={{ fontSize: "12px", fontWeight: 700, color: "black" }}>{item.licence}</p>
                   </div>
-
-
                 </div>
                 <div class="col-lg-4 d-flex justify-content-center">
                   <div>
@@ -302,8 +375,6 @@ function UserBedDetails(props) {
 
             </div>
             <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 p-3">
-
-
               <div class="d-flex justify-content-between " style={{ backgroundColor: "", width: "100%" }}>
                 <div class="p-2" style={{ backgroundColor: "" }}>
                   <h6 style={{ fontSize: "16px", fontWeight: 700 }}>Bill Payment</h6>
@@ -327,18 +398,11 @@ function UserBedDetails(props) {
                       </select>
                     </>
                   }
-
-
                   <IoFilterOutline class="me-2" style={{ fontSize: 20 }} onClick={handleFliterByStatus} />
-
                 </div>
 
               </div>
-
-              {/* {console.log("Filtered Data:", state.UsersList?.billPaymentHistory)}
-                    {console.log("Item Phone:", item.Phone)} */}
-              {console.log("BillPayementHistoryForUser", BillPayementHistoryForUser = state.UsersList?.billPaymentHistory?.filter(details => details.Phone === item.Phone))}
-
+              {console.log("filteredDataForUser", filteredDataForUser = state.InvoiceList?.Invoice.filter(view => view.phoneNo == item.Phone))}
               <Table responsive>
                 <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
                   <tr className="" style={{ height: "30px" }}>
@@ -353,11 +417,11 @@ function UserBedDetails(props) {
                 <tbody style={{ height: "50px", fontSize: "11px" }}>
                   {filteredDatas && filteredDatas.map((view) => (
                     <tr key={view.Invoices}>
-                      <td>{new Date(view.invDate).toLocaleDateString('en-GB')}</td>
-                      <td>{view.InvoiceNo}</td>
-                      <td>₹{view.invAmount}</td>
-                      <td>₹{view.invBalance}</td>
-                      <td style={view.invStatus === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.invStatus}</td>
+                      <td>{new Date(view.Date).toLocaleDateString('en-GB')}</td>
+                      <td>{view.Invoices}</td>
+                      <td>₹{view.Amount}</td>
+                      <td>₹{view.BalanceDue}</td>
+                      <td style={view.Status === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.Status}</td>
                       <td
                         className="justify-content-between"
                       >
@@ -373,25 +437,14 @@ function UserBedDetails(props) {
                       <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
                     </tr>
                   )}
-
                 </tbody>
               </Table>
-
-
-
-
-
-
               <div class="d-flex justify-content-between mb-3">
                 <p style={{ fontWeight: 700 }}>Comments</p>
                 <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline", fontWeight: 700 }}>+ Add Comment</p>
               </div>
 
-
-
-
               <div class="" style={{ marginTop: 30 }}>
-
                 <div class="d-flex justify-content-start align-items-center" style={{ backgroundColor: "", marginLeft: 100, marginTop: 50 }}>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: '', height: "" }}>
                     <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "", }}>
@@ -414,19 +467,15 @@ function UserBedDetails(props) {
                             <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
                           </div>
                         </div>
-
                       </Step>
                       <Step sx={{ color: "#2F74EB" }}>
                       </Step>
                       <Step sx={{ color: "#2F74EB", }}>
                       </Step>
                       <Step sx={{ color: "#2F74EB" }}>
-
                       </Step>
                       <Step sx={{ color: "#2F74EB" }}>
-
                       </Step>
-
                       <div>
                         <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }}>
                           <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
@@ -446,27 +495,27 @@ function UserBedDetails(props) {
                               <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
                             </div>
                           </div>
-
-
-
                         </Step>
                       </div>
-
                     </Stepper>
                   </div>
                 </div>
               </div>
-
-
-
             </div>
           </div>
         </>}
       </>))}
 
+      {
+        showMenu == true ? <UserBedDetailsEdit
+          AfterEditHostel={AfterEditHostel}
+          AfterEditFloor={AfterEditFloor}
+          AfterEditRooms={AfterEditRooms}
+          AfterEditBed={AfterEditBed}
+          showMenu={showMenu} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked}
 
-
-
+        /> : null
+      }
     </div>
   )
 }

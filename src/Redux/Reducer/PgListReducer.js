@@ -31,10 +31,10 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, createPGMessage: action.message }
         case 'CREATE_ROOM':
             return {
-                ...state,
-                //  createRoomMessage: action.payload.message,
-                roomCreationSuccess: true
+                ...state, roomCreationSuccess: true, floor_Id: action.payload.floorId, room_Id: action.payload.roomId, number_Of_Bed: action.payload.number_of_beds
             }
+        //  createRoomMessage: action.payload.message,
+
         //  return { ...state, floor_Id: action.payload.floorId, room_Id: action.payload.roomId, number_Of_Bed: action.payload.number_of_beds,createRoomMessage: state.createRoomMessage !== '' ? '' : action.payload.message }
         case 'CHECK_ROOM':
             return { ...state, checkRoomList: action.payload }
