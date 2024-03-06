@@ -45,16 +45,18 @@ import Logout from '../Assets/Images/turn-off.png';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useNavigate } from "react-router-dom";
-import InvoiceDetail from '../Pages/InvoiceDetails';
+import CryptoJS from "crypto-js";
+import { StaticDateTimePicker } from '@mui/x-date-pickers';
+
 
 function Sidebar() {
 
   let navigate = useNavigate();
  
-const RoyalLogin = localStorage.getItem('login')
+// const RoyalLogin = localStorage.getItem('login')
 // console.log("RoyalLogin",RoyalLogin)
 
-const isLoggedInRoyal = useSelector(state => state.login.isLoggedIn);
+// const isLoggedInRoyal = useSelector(state => state.login.isLoggedIn);
 
 // console.log("isLoggedInRoyal",isLoggedInRoyal)
 
@@ -112,6 +114,7 @@ const isLoggedInRoyal = useSelector(state => state.login.isLoggedIn);
   // }
   const dispatch = useDispatch()
   const state = useSelector(state => state)
+  console.log("state",state)
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
@@ -192,7 +195,8 @@ const isLoggedInRoyal = useSelector(state => state.login.isLoggedIn);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
+  
+  
   const handleLogout = () => {
     Swal.fire({
       icon: 'warning',
@@ -201,8 +205,14 @@ const isLoggedInRoyal = useSelector(state => state.login.isLoggedIn);
       showCancelButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.setItem("login", false)
-        navigate('/login-Page')
+        dispatch({type:'LOGOUT'})
+        const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd').toString()
+        console.log("encryptData", encryptData.toString());
+        localStorage.setItem("login", encryptData.toString()) 
+        localStorage.setItem("loginId",'')
+        localStorage.setItem("NameId",'')
+        localStorage.setItem("phoneId",'')
+        localStorage.setItem("emilidd",'')   
       }
     })
   }

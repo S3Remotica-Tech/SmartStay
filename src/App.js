@@ -21,7 +21,7 @@ function App() {
   const state = useSelector(state => state)
   const [data,setData]= useState('');
 
-const login = localStorage.getItem("login");
+// const login = localStorage.getItem("login");
  
 
 
@@ -42,7 +42,6 @@ useEffect(() => {
       const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
       const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
       const parsedData = JSON.parse(decryptedString);
-      console.log("decryptedData", parsedData);
       setData(parsedData);
     
     } 
@@ -52,19 +51,6 @@ useEffect(() => {
     }
     
   }
-
-  // const loginId = localStorage.getItem('loginId');
-  // if (loginId) {
-  //   try {
-  //     const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-  //     const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-  //     console.log('Decrypted Login Id:', decryptedIdString);
-     
-  //   } catch (error) {
-  //     console.error('Error decrypting loginId:', error);
-  //   }
-  // }
-
 
 
   setIsLoading(false);
@@ -87,15 +73,14 @@ useEffect(() => {
       
       {
         data ||
-          state.login?.isLoggedIn ? 
+          state.login?.isLoggedIn ?
           <Router>
             <Routes>
             
               <Route index path="/" element={<RoyalGrandHostel />}></Route>
               <Route path='/Bed' element={< BedDetails />} ></Route>
               <Route path='/roomList' element={<DashboardRoomList />} />
-              <Route path="/login-Page" element={<LoginPage />} />
-              <Route path="/invoicedetail" element={<InvoiceDetail />} />
+              {/* <Route path="/login-Page" element={<LoginPage />} /> */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Router>
@@ -106,7 +91,6 @@ useEffect(() => {
               <Route path="/login-Page" element={<LoginPage />} />
               <Route path="/create-account" element={<CreateAccount />} />
               <Route path="/forget-password" element={< ForgetPassword />} />
-              <Route path="/invoicedetail" element={<InvoiceDetail />} />
               <Route path="*" element={<Navigate to="/login-page" replace />} />
             </Routes>
           </Router>

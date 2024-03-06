@@ -57,14 +57,15 @@ console.log("state",state)
     setChecked(e.target.checked); 
   }
 
-  const LoginId = state.login?.loginInformation[0]?.id;
-  const NameId = state.login?.loginInformation[0]?.Name
-  const phoneId = state.login?.loginInformation[0]?.mobileNo
-  const emilidd = state.login?.loginInformation[0]?.email_Id
+
  
   
   useEffect(() => {
     if (state.login.statusCode === 200) {
+      const LoginId = state.login?.loginInformation[0]?.id;
+      const NameId = state.login?.loginInformation[0]?.Name
+      const phoneId = state.login?.loginInformation[0]?.mobileNo
+      const emilidd = state.login?.loginInformation[0]?.email_Id
       console.log("state.login.statusCode", state.login.statusCode);
 
        const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
@@ -77,6 +78,7 @@ console.log("state",state)
       if(checked==true){
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd')
         console.log("encryptData", encryptData.toString());
+        
         localStorage.setItem("login", encryptData.toString())
         localStorage.setItem("loginId",encryptedLoginId)
         localStorage.setItem("NameId",encryptedname)
@@ -85,13 +87,21 @@ console.log("state",state)
       }
       else{
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
-      console.log("encryptData", encryptData.toString());
+      console.log("encryptData.....jjjjjjjj", encryptData.toString());
       localStorage.setItem("login", encryptData.toString())
-      localStorage.setItem("loginId",encryptedLoginId)
+      localStorage.setItem("loginId",'')
+      localStorage.setItem("NameId",'')
+      localStorage.setItem("phoneId",'')
+      localStorage.setItem("emilidd",'')
+
+      
       
       }
+
       dispatch({ type: 'LOGIN-SUCCESS' })
-      navigate('/')
+      setTimeout(() => {
+        dispatch({type:'CLEAR_STATUSCODE'})
+      }, 100);
     }
   }, [state.login.statusCode])
 
@@ -114,10 +124,7 @@ console.log("state",state)
 
 
  
-  useEffect(() => {
-       localStorage.setItem("login", "false");
-  }, []);
-
+  
 
   return (
     <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >

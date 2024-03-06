@@ -8,10 +8,11 @@ const initialState = {
    errorPassword: '',
    errorMessage: '',
    statusCode: 0,
-   loginInformation:[]
+   loginInformation:[]                                            
 
 }
 const SmartStayReducer = (state = initialState, action) => {
+   console.log("loginpage",action)
 
    switch (action.type) {
       case 'ERROR':
@@ -28,6 +29,10 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, errorPassword: '' }
       case 'LOGIN-SUCCESS':
          return { ...state, isLoggedIn: true }
+         case 'LOGOUT':
+         return { ...state, isLoggedIn: false }
+      case 'CLEAR_STATUSCODE':
+         return {...state , statusCode:0}
    }
 
    return state

@@ -59,7 +59,6 @@ function UserList() {
     console.log("click");
     handleMenuClick();
     setShowMenu(true);
-    localStorage.setItem('showMenu', 'true');
     setEditObj(u)
   };
 
