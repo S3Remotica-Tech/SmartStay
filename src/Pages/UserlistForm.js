@@ -275,6 +275,10 @@ function UserlistForm(props) {
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch({ type: 'USERLIST' });
+          props.AfterEditHostels(hostel_Id)
+          props.AfterEditFloors(Floor)
+          props.AfterEditRoomses(Rooms)
+          props.AfterEditBeds(Bed)
           setFirstname('');
           setLastname('');
           setAddress('');
@@ -291,6 +295,7 @@ function UserlistForm(props) {
           setRoomRent('');
           setPaymentType('');
           setBalanceDue('');
+          handleClose()
         }
       });
 
@@ -576,14 +581,14 @@ function UserlistForm(props) {
                 <div className='row'>
                   <div className='col lg-12'>
                     <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Author Card Number</Form.Label>
+                      <Form.Label style={{ fontSize: "12px" }}>Aadhaar Card Number</Form.Label>
                       <FormControl
                         type="text"
                         value={AadharNo}
                         onChange={(e) => handleAadharNo(e)}
                         style={bottomBorderStyle}
                         maxLength={12}
-                        id="form-controls"
+                        disabled={props.edit !== 'Add'}
                         pattern="\d*"
                       />
                     </Form.Group>
@@ -596,7 +601,7 @@ function UserlistForm(props) {
                       <Form.Label style={{ fontSize: "12px" }}>Pan Card Number</Form.Label>
                       <FormControl
                         type="text"
-                        id="form-controls"
+                        disabled={props.edit !== 'Add'}
                         value={PancardNo} onChange={(e) => handlePancardNo(e)}
                         style={bottomBorderStyle}
                       />
@@ -610,7 +615,7 @@ function UserlistForm(props) {
                       <Form.Label style={{ fontSize: "12px" }}>Licence</Form.Label>
                       <FormControl
                         type="text"
-                        id="form-controls"
+                        disabled={props.edit !== 'Add'}
                         value={licence} onChange={(e) => handlelicence(e)}
                         style={bottomBorderStyle}
                       />

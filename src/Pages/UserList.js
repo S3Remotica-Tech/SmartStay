@@ -138,12 +138,73 @@ function UserList() {
   const [filterByStatus, setFilterByStatus] = useState('ALL')
 
 
-  const handleRoomDetailsPage = (userData) => {
-    const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
-    setRoomDetail(true)
-    setUserList(false)
-    setClickedUserData(clickedUserDataArray);
-  }
+  const [hostel, sethostel] = useState('')
+const [floors_Id, setFloors_Id] = useState('')
+const [rooms_id, setRoomsId] = useState('')
+const [beds_id, setBed_Id] = useState('')
+
+const handleRoomDetailsPage = (userData,bed,room,floor,hostel_id) => {
+  console.log("hostel_id:", hostel_id);
+  console.log("bed:", bed);
+  console.log("room:", room);
+  console.log("floor:", floor);
+  const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
+  sethostel(hostel_id)
+  setFloors_Id(floor)
+  setRoomsId(room)
+  setBed_Id(bed)
+  setRoomDetail(true)
+  setUserList(false)
+  setClickedUserData(clickedUserDataArray);
+}
+
+const [propsHostel, setPropsHostel] = useState('')
+const [propsFloor, setPropsFloor] = useState('')
+const [propsRooms, setPropsRooms] = useState('')
+const [propsBeds, setPropsBeds] = useState('')
+
+const AfterEditHostel = (hostel_id) => {
+  setPropsHostel(hostel_id)
+  console.log("propsHostel", hostel_id)
+}
+
+const AfterEditFloor = (Floor_ID) => {
+  setPropsFloor(Floor_ID)
+}
+
+const AfterEditRooms = (room) => {
+  setPropsRooms(room)
+}
+
+const AfterEditBed = (bedsId) => {
+  setPropsBeds(bedsId)
+}
+
+
+const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel : hostel;
+  const Bed_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsBeds : beds_id;
+  const Floor_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsFloor: floors_Id;
+  const Rooms_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsRooms : rooms_id;
+
+
+
+  const [userDetails, setUserDetails] = useState([])
+
+  useEffect(() => {
+    const ParticularUserDetails = state.UsersList?.Users?.filter(item =>
+      item.Bed == Bed_Ids &&
+      item.Hostel_Id == Hostel_Ids &&
+      item.Floor == Floor_Ids &&
+      item.Rooms == Number(Rooms_Ids)
+    );
+    setUserDetails(ParticularUserDetails)
+  }, [state.UsersList?.Users,Hostel_Ids,Bed_Ids,Floor_Ids,Rooms_Ids])
+
+
+console.log("userDetailForUser",userDetails)
+
+let filteredDataForUser = []
+
 
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -161,94 +222,113 @@ function UserList() {
   const [filteredDatas, setFilteredDatas] = useState([]);
   const billPaymentHistory = state.UsersList.billPaymentHistory;
   const invoicePhones = billPaymentHistory.map((item) => item.invoicePhone);
+  const [filterByInvoice, setFilterByInvoice] = useState('');
 
 
-  useEffect(() => {
-    if (clickedUserData.length > 0 && clickedUserData[0].Phone) {
-      const userPhone = clickedUserData[0].Phone;
-
-      const filteredDataForStatus = filterByStatus === 'ALL'
-        ? billPaymentHistory
-        : billPaymentHistory.filter((item) => item.invStatus === filterByStatus);
-
-
-      const filteredDataForPhone = filteredDataForStatus.filter((item) => item.invoicePhone === userPhone);
-
-      const filteredDataForDate = filterByDate
-        ? filteredDataForPhone.filter((item) => {
-          const formattedSearchDate = new Date(filterByDate).toLocaleDateString('en-GB');
-          const formattedInvoiceDate = new Date(item.invDate).toLocaleDateString('en-GB');
-          return formattedInvoiceDate === filterByDate;
-        })
-        : filteredDataForPhone;
-
-      setFilteredDatas(filteredDataForDate);
-    }
-  }, [clickedUserData, billPaymentHistory, filterByStatus, filterByDate]);
-  const getFloorName = (Floor) => {
-    if (Floor === "1") {
-      return 'Ground Floor';
-    } else if (Floor === "2") {
-      return '1st Floor';
-    } else if (Floor === "3") {
-      return '2nd Floor';
-    } else {
-
-      const adjustedFloor = Floor - 1;
-      const lastDigit = adjustedFloor % 10;
-      let suffix = 'th';
-
-      switch (lastDigit) {
-        case 1:
-          suffix = 'st';
-          break;
-        case 2:
-          suffix = 'nd';
-          break;
-        case 3:
-          suffix = 'rd';
-          break;
-      }
-
-      return `${adjustedFloor}${suffix} Floor`;
-    }
+  const handleFilterByInvoice = (e) => {
+    const searchInvoice = e.target.value;
+    setFilterByInvoice(searchInvoice);
   }
 
-  const getFormattedRoomId = (Floor, Rooms) => {
+  useEffect(()=>{
+    dispatch({ type: 'INVOICELIST' })
+   },[])
 
-    const floor = parseInt(Floor)
-    const roomIdString = String(Rooms);
-    switch (floor) {
+
+  
+
+useEffect(() => {
+   setFilteredDatas(filteredDataForUser);
+}, [filteredDataForUser]);
+
+useEffect(() => {
+  if (state.InvoiceList?.Invoice && filteredDataForUser.length > 0) {
+    let filteredData = [...filteredDataForUser];
+
+    if (filterByStatus !== 'ALL') {
+      filteredData = filteredData.filter((item) => item.Status === filterByStatus);
+    }
+
+    if (filterByInvoice) {
+      filteredData = filteredData.filter((item) => item.Invoices.toLowerCase().includes(filterByInvoice.toLowerCase()));
+    }
+
+        setFilteredDatas(filteredData);
+  }
+}, [filterByStatus, filterByInvoice, filteredDataForUser, state.InvoiceList?.Invoice]);
+
+
+
+
+
+
+const getFloorName = (Floor) => {
+  if (Floor === 1) {
+    return 'Ground Floor';
+  } else if (Floor === 2) {
+    return '1st Floor';
+  } else if (Floor === 3) {
+    return '2nd Floor';
+  } else {
+
+    const adjustedFloor = Floor - 1;
+    const lastDigit = adjustedFloor % 10;
+    let suffix = 'th';
+
+    switch (lastDigit) {
       case 1:
-        return `G${roomIdString.padStart(3, '0')}`;
+        suffix = 'st';
+        break;
       case 2:
-        return `F${roomIdString.padStart(3, '0')}`;
+        suffix = 'nd';
+        break;
       case 3:
-        return `S${roomIdString.padStart(3, '0')}`;
-      case 4:
-        return `T${roomIdString.padStart(3, '0')}`;
-      default:
-        const floorAbbreviation = getFloorAbbreviation(floor);
-        return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
+        suffix = 'rd';
+        break;
     }
-  };
 
-  const getFloorAbbreviation = (floor) => {
-    switch (floor) {
-      case 5:
-        return 'F';
-      case 6:
-        return 'S';
-      case 8:
-        return 'E';
-      case 9:
-        return 'N';
-      case 10:
-        return 'T';
-      default:
-        return `${floor}`;
-    }
-  };
+    return `${adjustedFloor}${suffix} Floor`;
+  }
+}
+
+const getFormattedRoomId = (Floor, Rooms) => {
+
+  const floor = parseInt(Floor)
+  const roomIdString = String(Rooms);
+  switch (floor) {
+    case 1:
+      return `G${roomIdString.padStart(3, '0')}`;
+    case 2:
+      return `F${roomIdString.padStart(3, '0')}`;
+    case 3:
+      return `S${roomIdString.padStart(3, '0')}`;
+    case 4:
+      return `T${roomIdString.padStart(3, '0')}`;
+    default:
+      const floorAbbreviation = getFloorAbbreviation(floor);
+      return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
+  }
+};
+
+const getFloorAbbreviation = (floor) => {
+  switch (floor) {
+    case 5:
+      return 'F';
+    case 6:
+      return 'S';
+    case 8:
+      return 'E';
+    case 9:
+      return 'N';
+    case 10:
+      return 'T';
+    default:
+      return `${floor}`;
+  }
+};
+
+
+
   const handleBack = () => {
     setUserList(true)
     setRoomDetail(false)
@@ -364,7 +444,7 @@ function UserList() {
                     <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
 
                     <td style={u.Status == "Success" ? { color: "green" } : { color: "red" }}>{u.Status}</td>
-                    <td><img src={img1} className='img1' alt="img1" onClick={() => handleRoomDetailsPage(u)} />
+                    <td><img src={img1} className='img1' alt="img1" onClick={() => handleRoomDetailsPage(u,u.Bed,u.Rooms,u.Floor,u.Hostel_Id)}/>
                       <img src={img2} className='img1 ms-1' alt="img1" onClick={() => { handleShow(u) }} /></td>
 
                   </tr>
@@ -413,7 +493,7 @@ function UserList() {
       {
         roomDetail && (
           <>
-            {clickedUserData && clickedUserData.map((item, index) => (
+            {userDetails && userDetails.map((item, index) => (
 
               <div class="row d-flex g-0">
                 <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12 p-2" style={{ borderRight: "1px solid lightgray" }}>
@@ -460,7 +540,7 @@ function UserList() {
                   </div>
                   <div class="d-flex justify-content-between">
                     <p style={{ fontSize: "12px", fontWeight: '500', color: "gray" }}>Room & Bed</p>
-                    <p style={{ fontSize: "12px", fontWeight: 700, textTransform: 'capitalize' }}>{getFormattedRoomId(item.Floor, item.Rooms)}</p>
+                    <p style={{ fontSize: "12px", fontWeight: 700, textTransform: 'capitalize' }}>{getFormattedRoomId(item.Floor, item.Rooms)} & Bed {item.Bed}</p>
                   </div>
                   <div class="d-flex justify-content-between">
                     <p style={{ fontSize: "12px", fontWeight: '500', color: "gray" }}>Advance Amount</p>
@@ -478,31 +558,38 @@ function UserList() {
 
                   </div>
 
-                  <div class="d-flex">
-                    <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline" }}> + Add Additional Address</p>
-                  </div>
-                  <div class="d-flex justify-content-between">
+                 
+                  <div class="d-flex justify-content-between mt-5">
                     <p style={{ fontSize: "12px", fontWeight: '700' }} >KYC DETAIL</p>
 
                   </div>
                   <hr class="m-0 mb-2" />
 
-                  <div class="d-flex justify-content-between">
-                    <p style={{ fontSize: "12px" }}>Aadhar Card  No</p>
-                    <p style={{ fontSize: "12px" }}>{item.AadharNo}</p>
+                  <div className='row g-1 mt-2'>
+                <div class="col-lg-4 d-flex justify-content-start">
+                  <div>
+                    <p style={{ fontSize: "12px", color: "gray", fontWeight: 700 }}>Aadhar Card  No</p>
+                    <p style={{ fontSize: "12px", color: "gray", fontWeight: 700 }}>Pan Card  No</p>
+                    <p style={{ fontSize: "12px", color: "gray", fontWeight: 700 }}>Licence</p>
+
+                  </div>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                  <div>
+                    <p style={{ fontSize: "12px", fontWeight: 700 }}>{item.AadharNo}</p>
+                    <p style={{ fontSize: "12px", fontWeight: 700 }}>{item.PancardNo}</p>
+                    <p style={{ fontSize: "12px", fontWeight: 700, color: "black" }}>{item.licence}</p>
+                  </div>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                  <div>
+                    <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
+                    <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
                     <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
                   </div>
 
-                  <div class="d-flex justify-content-between">
-                    <p style={{ fontSize: "12px" }}>Pan Card  No</p>
-                    <p style={{ fontSize: "12px" }}>{item.PancardNo}</p>
-                    <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-3">
-                    <p style={{ fontSize: "12px" }}>licence</p>
-                    <p style={{ fontSize: "12px" }}>{item.license}</p>
-                    <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
-                  </div>
+                </div>
+              </div>
                 </div>
                 <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 p-2">
 
@@ -514,7 +601,7 @@ function UserList() {
                     <div class="d-flex justify-content-between align-items-center" style={{ backgroundColor: "" }} >
 
                       {search && <>
-                        <input type="text" value={filterByDate} onChange={(e) => handleFilterByDate(e)} className='form-control form-control-sm me-2' placeholder='Search Here' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }} /></>
+                        <input type="text" value={filterByInvoice} onChange={(e) => handleFilterByInvoice(e)} className='form-control form-control-sm me-2' placeholder='Search by Invoice' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }} /></>
                       }
                       <BsSearch class="me-2" style={{ fontSize: 20 }} onClick={handleSearch} />
 
@@ -533,12 +620,15 @@ function UserList() {
 
 
                       <IoFilterOutline class="me-2" style={{ fontSize: 20 }} onClick={handleFliterByStatus} />
-                      <button className="btn btn-primary  w-auto d-flex justify-content-center align-items-center" onClick={handleBack}><p className="m-0">Back</p></button>
+                      <button className="btn btn-primary  w-75 d-flex justify-content-center align-items-center" onClick={handleBack}><p className="m-0">Back</p></button>
                     </div>
 
                   </div>
 
+                  {console.log("filteredDataForUser", filteredDataForUser = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.phoneNo == item.Phone))}
+                   { console.log("filteredDataForUserPhone", filteredDataForUser.map(user => user.phoneNo))}
 
+                  {console.log("filteredDatas", filteredDatas)}
 
                   <Table responsive>
                     <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
@@ -553,23 +643,23 @@ function UserList() {
                     </thead>
                     <tbody style={{ height: "50px", fontSize: "11px" }}>
                       {filteredDatas.map((view) => (
-                        <tr key={view.Invoices}>
-                          <td>{new Date(view.invDate).toLocaleDateString('en-GB')}</td>
-                          <td>{view.Invoices}</td>
-                          <td>₹{view.invAmount}</td>
-                          <td>₹{view.invBalance}</td>
-                          <td style={view.invStatus === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.invStatus}</td>
-                          <td
-                            className="justify-content-between"
-                          >
-                            <img src={List} height={20} width={20} alt='List' />
-                            <img
-                              className="ms-1"
-                              src={Edits} height={20} width={20} alt='Edits' />
-                          </td>
-                        </tr>
+                         <tr key={view.Invoices}>
+                         <td>{new Date(view.Date).toLocaleDateString('en-GB')}</td>
+                         <td>{view.Invoices}</td>
+                         <td>₹{view.Amount}</td>
+                         <td>₹{view.BalanceDue}</td>
+                         <td style={view.Status === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.Status}</td>
+                         <td
+                           className="justify-content-between"
+                         >
+                           <img src={List} height={20} width={20} alt='List' />
+                           <img
+                             className="ms-1"
+                             src={Edits} height={20} width={20} alt='Edits' />
+                         </td>
+                       </tr>
                       ))}
-                      {filteredDatas.length === 0 && (
+                      {filteredDataForUser.length === 0 && (
                         <tr>
                           <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
                         </tr>
@@ -675,7 +765,12 @@ function UserList() {
         )
       }
       {
-        showMenu == true ? <UserlistForm showMenu={showMenu} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} /> : null
+        showMenu == true ? <UserlistForm 
+        AfterEditHostels={AfterEditHostel}
+        AfterEditFloors={AfterEditFloor}
+        AfterEditRoomses={AfterEditRooms}
+        AfterEditBeds={AfterEditBed}
+         showMenu={showMenu} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} /> : null
       }
 
     </div>
