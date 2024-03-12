@@ -63,9 +63,10 @@ const InvoicePage = () => {
     hostel_Id: '',
     FloorNo: '',
     RoomNo: '',
+    date: '',
     amount: '',
     balanceDue: '',
-    dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
+    dueDate: ''
   })
 
   const [invoicePage, setInvoicePage] = useState('')
@@ -162,6 +163,8 @@ const InvoicePage = () => {
     setUserClicked(true);
   };
 
+
+
   const handleClose = () => {
     setInvoiceList({
       firstName: '',
@@ -174,7 +177,7 @@ const InvoicePage = () => {
       RoomNo: '',
       amount: '',
       balanceDue: '',
-      dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
+      dueDate:''
     })
     setShowMenu(false);
     setUserClicked(false);
@@ -182,43 +185,127 @@ const InvoicePage = () => {
   };
 
 
+  // const handleShow = (item) => {
+  //   console.log("item", item)
+  //   console.log("item.Date", item.Date);
+  //   setInvoiceValue(item)
+  //   if (item.id !== undefined) {
+  //     setEditOption('Edit')
+  //     const dateObject = new Date(item.Date);
+  //     const year = dateObject.getFullYear();
+  //     const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+  //     const day = String(dateObject.getDate()).padStart(2, '0');
+
+  //     const lastDayOfMonth = new Date(year, dateObject.getMonth() + 1, 0);
+  //     const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+
+
+
+  //     const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
+  //     console.log("EditCheck", EditCheck);
+
+  //     console.log("item.BalanceDue === 0 && EditCheck && EditCheck.BalanceDue === 0", EditCheck && EditCheck.BalanceDue === 0 || item.BalanceDue === 0)
+  //     if (item.BalanceDue === 0 || EditCheck && EditCheck.BalanceDue === 0) {
+  //       setUserClicked(false);
+  //       setShowMenu(false);
+  //       setShowForm(false)
+  //       setDisplayText(true)
+  //     }
+  //     else {
+  //       setUserClicked(true);
+  //       setShowMenu(true);
+  //       setShowForm(true)
+  //       let value = item.Name.split(" ")
+  //       setSelectedUserId(item.User_Id)
+  //       const formattedDate = `${year}-${month}-${day}`;
+  //       console.log("Formatted Date:", formattedDate);
+  //       setInvoiceList({
+  //         id: item.id,
+  //         firstName: value[0],
+  //         lastName: value[1],
+  //         phone: item.phoneNo,
+  //         email: item.EmailID,
+  //         hostel_Name: item.Hostel_Name,
+  //         hostel_Id: item.Hostel_Id,
+  //         FloorNo: item.Floor_Id,
+  //         RoomNo: item.Room_No,
+  //         date: formattedDate,
+  //         amount: item.Amount,
+  //         balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
+  //         dueDate: formattedDueDate
+  //       })
+  //     }
+  //   }
+  //   else {
+  //     setEditOption('Add')
+  //     setSelectedUserId('')
+  //     setShowForm(true)
+  //     setUserClicked(true);
+  //     setShowMenu(true);
+  //   }
+
+
+  // };
+
+
+
   const handleShow = (item) => {
-    console.log("item", item)
+    console.log("item", item);
     console.log("item.Date", item.Date);
-    setInvoiceValue(item)
+    setInvoiceValue(item);
     if (item.id !== undefined) {
-      setEditOption('Edit')
-      let value = item.Name.split(" ")
-      setSelectedUserId(item.User_Id)
-      // const [day, month, year] = item.Date.split('/').map(part => parseInt(part));
-      // const formattedDate = `${year}-${month}-${day < 10 ? '0' + day : day}`; // Ensure leading zero for single-digit days
-      setInvoiceList({
-        id: item.id,
-        firstName: value[0],
-        lastName: value[1],
-        phone: item.phoneNo,
-        email: item.EmailID,
-        hostel_Name: item.Hostel_Name,
-        hostel_Id: item.Hostel_Id,
-        FloorNo: item.Floor_Id,
-        RoomNo: item.Room_No,
-        date: item.Date,
-        amount: item.Amount,
-        balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
-        dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
-      })
+        setEditOption('Edit');
+        const dateObject = new Date(item.Date);
+        const year = dateObject.getFullYear();
+        const month = dateObject.getMonth() + 1; 
+        const day = dateObject.getDate();
 
+        const lastDayOfMonth = new Date(year, month, 0);
+        const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+      
+      console.log("formattedDueDate",formattedDueDate)
+        const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
+        console.log("EditCheck", EditCheck);
 
+        console.log("item.BalanceDue === 0 && EditCheck && EditCheck.BalanceDue === 0", EditCheck && EditCheck.BalanceDue === 0 || item.BalanceDue === 0);
+        
+        if (item.BalanceDue === 0 || (EditCheck && EditCheck.BalanceDue === 0)) {
+            setUserClicked(false);
+            setShowMenu(false);
+            setShowForm(false);
+            setDisplayText(true);
+        } else {
+            setUserClicked(true);
+            setShowMenu(true);
+            setShowForm(true);
+            let value = item.Name.split(" ");
+            setSelectedUserId(item.User_Id);
+            const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            console.log("Formatted Date:", formattedDate);
+            setInvoiceList({
+                id: item.id,
+                firstName: value[0],
+                lastName: value[1],
+                phone: item.phoneNo,
+                email: item.EmailID,
+                hostel_Name: item.Hostel_Name,
+                hostel_Id: item.Hostel_Id,
+                FloorNo: item.Floor_Id,
+                RoomNo: item.Room_No,
+                date: formattedDate,
+                amount: item.Amount,
+                balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
+                dueDate: formattedDueDate,
+            });
+        }
+    } else {
+        setEditOption('Add');
+        setSelectedUserId('');
+        setShowForm(true);
+        setUserClicked(true);
+        setShowMenu(true);
     }
-    else {
-      setEditOption('Add')
-    }
-    setSelectedUserId('')
-    handleMenuClick();
-    setShowMenu(true);
-
-  };
-
+};
 
 
   const generatePageNumbers = () => {
@@ -325,7 +412,7 @@ const InvoicePage = () => {
         RoomNo: '',
         amount: '',
         balanceDue: '',
-        dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
+        dueDate: ''
       })
       Swal.fire({
         icon: "success",
@@ -345,7 +432,7 @@ const InvoicePage = () => {
             RoomNo: '',
             amount: '',
             balanceDue: '',
-            dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
+            dueDate: '',
           })
           handleClose()
 
@@ -416,7 +503,7 @@ const InvoicePage = () => {
   };
 
 
-  
+
 
   useEffect(() => {
     if (selectedUserId) {
@@ -433,7 +520,7 @@ const InvoicePage = () => {
           hostel_Id: filteredDetails.Hostel_Id || '',
           FloorNo: filteredDetails.Floor || '',
           RoomNo: filteredDetails.Rooms || '',
-          dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
+          // dueDate: new Date(d.getFullYear(), d.getMonth() + 1, 0)
         });
       } else {
         setFilteredUserDetails([]);
@@ -443,9 +530,9 @@ const InvoicePage = () => {
     }
   }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
-  console.log("filteredUserDetails", filteredUserDetails)
+  // console.log("filteredUserDetails", filteredUserDetails)
   const [displayText, setDisplayText] = useState(false)
-
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false)
 
   // useEffect(() => {
   //   if (selectedUserId) {
@@ -493,29 +580,41 @@ const InvoicePage = () => {
   // }, [selectedUserId, state.InvoiceList?.Invoice, filteredUserDetails]);
 
 
- const  handleDateChange = (e) => {
-   const selectedDate = new Date(e.target.value);;
-  const selectedMonth = selectedDate.getMonth();
-  const roomRent = filteredUserDetails[0]?.RoomRent;
-  const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => {
-    const itemDate = new Date(item.Date);
-    const itemMonth = itemDate.getMonth();
-    return itemMonth === selectedMonth && item.User_Id === selectedUserId;
-  });
 
-  let totalPaidAmount = 0;
-  AlreadyPaidRoomRent.forEach(item => {
-    const paidAmount = parseFloat(item.Amount) || 0;
-    totalPaidAmount += paidAmount;
-  });
 
-  setDisplayText(roomRent === totalPaidAmount);
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value);
 
-  setInvoiceList(prevState => ({
-    ...prevState,
-    date: e.target.value,
-      }));
- }
+    console.log("selectedDate",selectedDate)
+    const year = selectedDate.getFullYear();
+    const month = selectedDate.getMonth() + 1;
+    const lastDayOfMonth = new Date(year, month, 0);
+    const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+ console.log("formattedDueDate",formattedDueDate)
+    const selectedMonth = selectedDate.getMonth();
+    const roomRent = filteredUserDetails[0]?.RoomRent;
+    const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => {
+      const itemDate = new Date(item.Date);
+      const itemMonth = itemDate.getMonth();
+      return itemMonth === selectedMonth && item.User_Id === selectedUserId;
+    });
+
+    let totalPaidAmount = 0;
+    AlreadyPaidRoomRent.forEach(item => {
+      const paidAmount = parseFloat(item.Amount) || 0;
+      totalPaidAmount += paidAmount;
+    });
+
+    const isRoomRentPaid = roomRent === totalPaidAmount;
+    setDisplayText(isRoomRentPaid);
+    setIsSaveDisabled(isRoomRentPaid);
+
+    setInvoiceList(prevState => ({
+      ...prevState,
+      date: e.target.value,
+      dueDate: formattedDueDate,
+    }));
+  }
 
 
 
@@ -536,17 +635,13 @@ const InvoicePage = () => {
       const paidAmount = parseFloat(item.Amount) || 0;
       totalPaidAmount += paidAmount;
     });
-
-   
-
-
     console.log("AmountValue", AmountValue);
     console.log("AlreadyPaidRoomRent", AlreadyPaidRoomRent);
     console.log("Total Paid Amount", totalPaidAmount);
     console.log("roomRent", roomRent);
 
     if (!isNaN(AmountValue) && !isNaN(roomRent)) {
-      const balanceDueCalc = roomRent - (AmountValue + totalPaidAmount);
+      const balanceDueCalc = editOption == 'Edit' ? roomRent - AmountValue : roomRent - (AmountValue + totalPaidAmount);
       const balanceDueLength = balanceDueCalc === 0 ? '00' : balanceDueCalc;
 
       // setDisplayText(roomRent === totalPaidAmount);
@@ -557,7 +652,7 @@ const InvoicePage = () => {
         balanceDue: balanceDueLength,
       }));
     }
-   
+
   };
 
 
@@ -589,7 +684,7 @@ const InvoicePage = () => {
 
 
 
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
 
 
   const toggleModal = () => {
@@ -600,6 +695,8 @@ const InvoicePage = () => {
   const toggleDisplayText = () => {
     setDisplayText(!displayText);
   };
+
+
   return (
     <>
 
@@ -627,7 +724,7 @@ const InvoicePage = () => {
                         type="text"
                         value={searchItem}
                         onChange={(e) => handleInputChange(e)}
-                        placeholder='Type to search'
+                        placeholder='Search By Name'
                         class="form-control ps-4 pe-1   searchinput"
                         style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
 
@@ -854,7 +951,7 @@ const InvoicePage = () => {
                               <FormControl
                                 type="date"
                                 value={invoiceList.date}
-                                onChange={(e)=>{handleDateChange(e)}}
+                                onChange={(e) => { handleDateChange(e) }}
                                 style={bottomBorderStyle}
                               // disabled={displayText}
                               />
@@ -867,7 +964,7 @@ const InvoicePage = () => {
                                   value={invoiceList.amount}
                                   onChange={(e) => { handleAmount(e) }}
                                   style={bottomBorderStyle}
-                                //  disabled={displayText}
+                                  disabled={displayText}
                                 />
                               </Form.Group>
                             </div>
@@ -889,9 +986,9 @@ const InvoicePage = () => {
                       <Button variant="white" size="sm" onClick={handleClose}>
                         Cancel
                       </Button>
-                      <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
+                      <Button variant={isSaveDisabled ? "outline-secondary" : "outline-primary"} size="sm" style={{ backgroundColor: isSaveDisabled && "gray", color: isSaveDisabled && "white", borderRadius: "20vh", width: "80px" }}
                         onClick={handleSaveInvoiceList}
-                      disabled={displayText}
+                        disabled={isSaveDisabled}
                       >
                         {editOption === 'Add' ? "Save" : "Update"}
                       </Button>
@@ -942,7 +1039,7 @@ const InvoicePage = () => {
                     <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
-                    <td style={item.BalanceDue == 0 ? { color: "green" } : { color: "red" }}>{item.BalanceDue == 0 ? "Success" : "Pending"}</td>
+                    <td style={item.BalanceDue == 0 ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{item.BalanceDue == 0 ? "Success" : "Pending"}</td>
                     <td class="justify-content-between">
                       <img src={List} height="20" width="20" alt='List' onClick={() => handleInvoiceDetail(item)} />
                       <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /></td>
