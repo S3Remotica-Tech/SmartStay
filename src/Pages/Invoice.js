@@ -264,7 +264,16 @@ const InvoicePage = () => {
         const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
       
       console.log("formattedDueDate",formattedDueDate)
-        const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
+        // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
+        const EditCheck = state.InvoiceList.Invoice.find(view => {
+          const viewDate = new Date(view.Date);
+          return (
+              view.User_Id === item.User_Id && 
+              view.BalanceDue === 0 && 
+              viewDate.getFullYear() === year && 
+              viewDate.getMonth() === month - 1 
+          );
+      });
         console.log("EditCheck", EditCheck);
 
         console.log("item.BalanceDue === 0 && EditCheck && EditCheck.BalanceDue === 0", EditCheck && EditCheck.BalanceDue === 0 || item.BalanceDue === 0);
@@ -318,8 +327,9 @@ const InvoicePage = () => {
     return pageNumbers;
   };
 
-  const handlePageSelect = (event) => {
-    const selectedPage = parseInt(event.target.value, 10);
+  const handlePageSelect = (eventKey) => {
+    console.log("eventKey", eventKey);
+    const selectedPage = parseInt(eventKey, 10);
     setCurrentPage(selectedPage);
   };
 
@@ -1052,7 +1062,7 @@ const InvoicePage = () => {
                 <div>
                   <p style={{ fontSize: 13, marginTop: "5px" }}>Results:</p>
                 </div>
-                <Dropdown onSelect={(eventKey) => handlePageSelect(parseInt(eventKey))} >
+                <Dropdown onSelect={(eventKey) => handlePageSelect(eventKey)}>
                   <Dropdown.Toggle variant="secondary" style={{ backgroundColor: "#F6F7FB", color: "black", border: "none", fontSize: "10px", marginLeft: "10px" }}>
                     {currentPage} - {currentPage}
                   </Dropdown.Toggle>
