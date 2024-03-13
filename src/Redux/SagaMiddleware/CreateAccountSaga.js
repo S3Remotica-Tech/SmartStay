@@ -18,7 +18,7 @@ function* CreateAccountPage(args) {
         },});
         Swal.fire({
           icon: 'success',
-          text: 'Account Created Successfully!',
+          text: response.data.message,
           confirmButtonText: 'Ok'
         }).then((result) => {
           if (result.isConfirmed) {

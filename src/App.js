@@ -1,6 +1,6 @@
 import React, { useEffect ,useState} from 'react';
 import './App.css'
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import FrontPage from "./Components/FrontPage"
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux/es/hooks/useSelector';
 import BedDetails from './Pages/Bed';
 import DashboardRoomList from './Pages/DashBoardRoomsList';
 import CryptoJS from "crypto-js";
+import InvoiceDetail from './Pages/InvoiceDetails';
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
   const state = useSelector(state => state)
   const [data,setData]= useState('');
 
-const login = localStorage.getItem("login");
+// const login = localStorage.getItem("login");
  
 
 
@@ -41,7 +42,6 @@ useEffect(() => {
       const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
       const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
       const parsedData = JSON.parse(decryptedString);
-      console.log("decryptedData", parsedData);
       setData(parsedData);
     
     } 
@@ -51,19 +51,6 @@ useEffect(() => {
     }
     
   }
-
-  // const loginId = localStorage.getItem('loginId');
-  // if (loginId) {
-  //   try {
-  //     const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-  //     const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-  //     console.log('Decrypted Login Id:', decryptedIdString);
-     
-  //   } catch (error) {
-  //     console.error('Error decrypting loginId:', error);
-  //   }
-  // }
-
 
 
   setIsLoading(false);
@@ -86,14 +73,15 @@ useEffect(() => {
       
       {
         data ||
-          state.login?.isLoggedIn ? 
+          state.login?.isLoggedIn ?
           <Router>
             <Routes>
             
               <Route index path="/" element={<RoyalGrandHostel />}></Route>
               <Route path='/Bed' element={< BedDetails />} ></Route>
               <Route path='/roomList' element={<DashboardRoomList />} />
-              <Route path="/login-Page" element={<LoginPage />} />
+              {/* <Route path="/login-Page" element={<LoginPage />} /> */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Router>
           :
@@ -103,6 +91,7 @@ useEffect(() => {
               <Route path="/login-Page" element={<LoginPage />} />
               <Route path="/create-account" element={<CreateAccount />} />
               <Route path="/forget-password" element={< ForgetPassword />} />
+              <Route path="*" element={<Navigate to="/login-page" replace />} />
             </Routes>
           </Router>
 

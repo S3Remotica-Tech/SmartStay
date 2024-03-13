@@ -19,3 +19,11 @@ export async function createPgList(datum){
     return await AxiosConfig.get('/room-id/check-room-id',{
     })
   }
+
+
+  export async function CheckBedDetails(datum){
+    console.log("datum",datum);
+    return await AxiosConfig.post('/bed/bed-details',datum,{
+      data:datum
+    })
+  }

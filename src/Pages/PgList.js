@@ -20,8 +20,9 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import CryptoJS from "crypto-js";import { FaAngleRight } from "react-icons/fa6";
-
+import UserBedDetails from '../Pages/UserBedDetails';
+import CryptoJS from "crypto-js";
+import { FaAngleRight } from "react-icons/fa6";
 
 function getFloorName(floor_Id) {
   if (floor_Id === 1) {
@@ -306,21 +307,76 @@ console.log("decrypt",decrypt)
   const [isRowVisible, setIsRowVisible] = useState(true);
   const [bedDetailShow, setBedDetailShow] = useState(false)
   const [bedDetailsPage, setBedDetailsPage] = useState('')
+const [hidePgList, setHidePgList] = useState(true)
+const [bedDetailsDisplay, setBedDetailsDisplay] = useState(false)
+const [usersBed, setUsersBed] = useState('')
+  const [hosteID, setHosteID] = useState('')
+  const [floorID, setFloorID] = useState('')
+  const [roomID, setRoomID] = useState('')
 
   const handleRowVisibilityChange = (isVisible) => {
     setIsRowVisible(isVisible);
   };
 
-  const handleBedVisibilityChange = (isVisible, BedDetails) => {
+  const handlehidePgList = (isVisible) => {
+    console.log("handlehidePgList",isVisible)
+    setHidePgList(isVisible);
+      };
+
+  
+
+  const handleDisplayBed = (isVisible,userBeds) =>{
+    console.log("room-details",isVisible)
+    setBedDetailsDisplay(isVisible)
+    
+   }
+
+   const userBedId = (bedId) => {
+    console.log("userBedId", bedId)
+    setUsersBed(bedId)
+  }
+
+  const Hostel_Id = (Hostel_Id) => {
+    setHosteID(Hostel_Id)
+  }
+
+  const floorId = (floorId) => {
+    setFloorID(floorId)
+  }
+
+  const roomId = (roomId) => {
+    setRoomID(roomId)
+  }
+
+
+
+   const handleBedVisibilityChange = (isVisible, BedDetails) => {
+    console.log("isVisible",isVisible)
     setBedDetailShow(isVisible)
     setBedDetailsPage(BedDetails)
+    setBedDetailsDisplay(false)
+    
   }
 
   const handleBackToFloors = () => {
     setIsRowVisible(true)
     setBedDetailShow(false)
     setMouseEnter(false)
+    setMouseEnter(false)
   }
+
+  const handlehidePgListForUser = (isVisible) =>{
+    console.log("handlehidePgListForUser",isVisible)
+    setHidePgList(isVisible);
+    setBedDetailShow(isVisible)
+  
+  }
+  
+  const handleDisplayBedDetails = (isVisible) =>{
+    setBedDetailsDisplay(isVisible)
+  }
+
+
 
 
   console.log("bedDetailsPage", bedDetailsPage)
@@ -338,6 +394,7 @@ const handleMouseLeave = () =>{
 }
   return (
     <>
+     {hidePgList && <> 
       <div className="d-flex justify-content-between p-3">
         <h4>Pg List</h4>
         <div className="d-flex justify-content-center align-items-center p-2">
@@ -540,7 +597,7 @@ const handleMouseLeave = () =>{
         <div className="ms-5 me-5 d-flex justify-content-between p-2">
           <div className='d-flex justify-content-center  align-items-center gap-1'>
             {bedDetailShow && (<>
-              <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{backgroundColor:mouseEnter ? "#ebebeb":"transparent",borderRadius:mouseEnter ? 10: "none",padding:mouseEnter ? 5: "none"}}>
+              <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{backgroundColor:mouseEnter ? "#ebebeb":"transparent",borderRadius:mouseEnter ? 10: "none",padding:5 }}>
                 <MdOutlineKeyboardDoubleArrowLeft className="" style={{ fontSize: 23 }} onClick={handleBackToFloors} />
               </span>
 
@@ -557,10 +614,10 @@ const handleMouseLeave = () =>{
 
           <div className="d-flex gap-5 ms-2">
             <div className="d-flex gap-1">
-              <FaSquare style={{ color: "gray", height: "20px" }} />   <h6 className="ps-2" style={{ color: "gray", fontSize: "" }}>Room Empty</h6>
+              <FaSquare style={{ color: "gray", height: "20px" }} />   <h6 className="ps-2" style={{ color: "gray", fontSize: "" }}>{bedDetailShow ? "Bed Available" : "Room Available"}</h6>
             </div>
             <div className="d-flex gap-1">
-              <FaSquare style={{ color: "#25D366", height: "20px" }} />   <h6 className="ps-2" style={{ color: "#25D366" }}>Room Full</h6>
+              <FaSquare style={{ color: "#25D366", height: "20px" }} />   <h6 className="ps-2" style={{ color: "#25D366" }}>{bedDetailShow ? "Bed Full" : "Room Full"}</h6>
             </div>
           </div>
         </div>
@@ -596,13 +653,35 @@ const handleMouseLeave = () =>{
         }
         {bedDetailShow && (
           <>
-
-            <BedDetail bedDetailsSendThePage={bedDetailsPage} />
+            <BedDetail bedDetailsSendThePage={bedDetailsPage}
+                hidePgList={handlehidePgList}
+                showBedDetail={handleDisplayBed}
+                userBedId={userBedId}
+                Hostel_Id={Hostel_Id}
+                floorId={floorId}
+                roomId={roomId} /> 
           </>
         )
         }
       </>}
       {roomDetails === 'RoomDetailsPage' && <RoomDetails />}
+
+      </>}
+
+      {bedDetailsDisplay && <>
+        <UserBedDetails
+          // showCreateBed={showCreatedBed} 
+          userBed_Id={usersBed}
+          Hostel_Id={hosteID}
+          Floor_Id={floorID}
+          Room_Id={roomID}
+          hidePgList={handlehidePgList}
+          backToBed={handlehidePgListForUser}
+          hideBed={handleDisplayBedDetails} /> 
+
+</>}
+
+
     </>
 
   );

@@ -13,7 +13,7 @@ const initialState = {
 
     bedCount: [],
     createFloorMessage: '',
-
+    statusCodeForAddUser: '',
     errormessage:{}
 }
 
@@ -46,10 +46,12 @@ const UserListReducer = (state = initialState, action) => {
         case 'BILL_PAYMENT_HISTORY':
             return { ...state, billPaymentHistory: action.payload }
         case 'USER_LIST':
-            return { ...state, Users: action.payload }
+            return {...state, Users: action.payload.response }
         case 'ADD_USER':
-            return { ...state, addUser: action.payload }
-        case 'ERROR':
+            return { ...state, addUser: action.payload.response, statusCodeForAddUser:action.payload.statusCode }
+            case 'CLEAR_STATUS_CODES':
+                return {...state, statusCodeForAddUser: '' }
+            case 'ERROR':
             return { ...state, errorMessage: action.payload }
         case 'HOSTEL_LIST':
             return { ...state, hostelList: action.payload }

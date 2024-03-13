@@ -14,7 +14,7 @@ const initialState = {
 
 const ForgetReducer = (state = initialState, action) => {
 
-    console.log("Forgot reducer",action)
+   
     switch (action.type) {
 
 

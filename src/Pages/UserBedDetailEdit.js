@@ -6,7 +6,8 @@ import Profile from '../Assets/Images/Profile.jpg';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 
-function UserlistForm(props) {
+function UserBedDetailsEdit(props) {
+
   const bottomBorderStyle = {
     border: 'none',
     borderBottom: '1px solid #ced4da',
@@ -43,14 +44,29 @@ function UserlistForm(props) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
+
+
   useEffect(() => {
-    dispatch({ type: 'USERLIST' })
     dispatch({ type: 'HOSTELLIST' })
   }, [])
+
+
+
+
+
+
+
+
+
+  console.log("props for edit", props)
+  console.log("state for UserBedDetailsEdit", state);
+
 
   useEffect(() => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
   }, [hostel_Id]);
+
+
   useEffect(() => {
     const temparry = state.UsersList.roomdetails.filter((item) => item.Room_Id == Rooms);
     setBedArray(temparry);
@@ -71,12 +87,14 @@ function UserlistForm(props) {
     }
     setArrayset(arrayToDisplay);
   }, [Rooms, state.UsersList.roomdetails]);
+
   useEffect(() => {
     if (hostel_Id && Floor) {
 
       dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: hostel_Id, floor_Id: Floor } })
     }
   }, [Floor])
+
   useEffect(() => {
     const Roomdetail = state.UsersList.Users.filter((item) => {
       return item.Hostel_Id == hostel_Id && item.Floor == Floor
@@ -151,8 +169,8 @@ function UserlistForm(props) {
   }
   const handleAdvanceAmount = (e) => {
     setAdvanceAmount(e.target.value)
-    setBalanceDue(RoomRent ? e.target.value - RoomRent : e.target.value);
   }
+  
   const handleAadharNo = (e) => {
     setAadharNo(e.target.value)
   }
@@ -194,6 +212,7 @@ function UserlistForm(props) {
 
 
   };
+
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {
       props.setEdit('Edit')
@@ -223,6 +242,7 @@ function UserlistForm(props) {
     }
 
   }, [])
+
   const handleSaveUserlist = () => {
     if (
       firstname &&
@@ -264,9 +284,6 @@ function UserlistForm(props) {
           ID: props.edit === 'Edit' ? id : '',
         },
       });
-
-
-
       Swal.fire({
         icon: 'success',
         title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
@@ -274,11 +291,11 @@ function UserlistForm(props) {
         confirmButtonText: 'Ok',
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch({ type: 'USERLIST' });
-          props.AfterEditHostels(hostel_Id)
-          props.AfterEditFloors(Floor)
-          props.AfterEditRoomses(Rooms)
-          props.AfterEditBeds(Bed)
+          dispatch({ type: 'USERLIST' })
+          props.AfterEditHostel(hostel_Id)
+          props.AfterEditFloor(Floor)
+          props.AfterEditRooms(Rooms)
+          props.AfterEditBed(Bed)
           setFirstname('');
           setLastname('');
           setAddress('');
@@ -309,10 +326,11 @@ function UserlistForm(props) {
   };
 
 
+
+
   return (
     <div>
       <Offcanvas placement="end" show={props.showMenu} onHide={handleClose} style={{ width: "69vh" }}>
-
         <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >
           {props.edit && props.edit === 'Add' ? "Add User" : "EditUser"}
         </Offcanvas.Title>
@@ -407,10 +425,12 @@ function UserlistForm(props) {
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px" }}>Address</Form.Label>
                       <FormControl
-                        type="text"
+                        type="sr-only"
+
                         id="form-controls"
                         value={Address} onChange={(e) => handleAddress(e)}
                         style={bottomBorderStyle}
+                        readOnly
                       />
                     </Form.Group>
                   </div>
@@ -588,7 +608,9 @@ function UserlistForm(props) {
                         onChange={(e) => handleAadharNo(e)}
                         style={bottomBorderStyle}
                         maxLength={12}
-                        disabled={props.edit !== 'Add'}
+                        readOnly
+                        disabled
+                        className=''
                         pattern="\d*"
                       />
                     </Form.Group>
@@ -601,7 +623,8 @@ function UserlistForm(props) {
                       <Form.Label style={{ fontSize: "12px" }}>Pan Card Number</Form.Label>
                       <FormControl
                         type="text"
-                        disabled={props.edit !== 'Add'}
+                        readOnly
+                        disabled
                         value={PancardNo} onChange={(e) => handlePancardNo(e)}
                         style={bottomBorderStyle}
                       />
@@ -615,7 +638,8 @@ function UserlistForm(props) {
                       <Form.Label style={{ fontSize: "12px" }}>Licence</Form.Label>
                       <FormControl
                         type="text"
-                        disabled={props.edit !== 'Add'}
+                        readOnly
+                        disabled
                         value={licence} onChange={(e) => handlelicence(e)}
                         style={bottomBorderStyle}
                       />
@@ -637,7 +661,10 @@ function UserlistForm(props) {
           }
         </Offcanvas.Body>
       </Offcanvas>
+
+
     </div>
   )
 }
-export default UserlistForm;
+
+export default UserBedDetailsEdit
