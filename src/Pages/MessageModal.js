@@ -5,7 +5,7 @@ const MessageModal = ({ show, handleClose }) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Room Rent</Modal.Title>
+        <Modal.Title>Room Rent Notification</Modal.Title>
       </Modal.Header>
       <Modal.Body>
                 <p>This user has already paid the Room Rent for this month</p>
