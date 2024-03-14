@@ -68,6 +68,10 @@ function BedDetails(props) {
   };
 
   const state = useSelector(state => state);
+
+  // console.log("state for Bed", state)
+
+
   const [bed, setBed] = useState();
   const [bedName, setBedName] = useState([])
   const [showMenu, setShowMenu] = useState(false);
@@ -108,7 +112,9 @@ function BedDetails(props) {
   const { bedDetailsSendThePage } = props;
 
   const roomId = bedDetailsSendThePage.Room_Id;
-  const initialNumberOfBeds = bedDetailsSendThePage.Number_Of_Beds;
+
+
+
   const dispatch = useDispatch();
   const Hostel_Id = bedDetailsSendThePage.Hostel_Id
   const floorId = bedDetailsSendThePage.Floor_Id;
@@ -209,8 +215,8 @@ function BedDetails(props) {
   }
 
   useEffect(() => {
-    setRoomCount(state.PgList.roomCount)
-  }, [state.PgList.roomCount])
+    setRoomCount(state.PgList?.roomCount)
+  }, [state.PgList?.roomCount])
 
   const handleCreateBed = () => {
     if (Hostel_Id && floorId && roomId) {
@@ -244,7 +250,26 @@ function BedDetails(props) {
         title: 'No Data Found',
       });
     }
+
   };
+
+
+  useEffect(() => {
+
+    if (state.PgList.createRoomMessage != null && state.PgList.createRoomMessage != "") {
+      console.log("createRoomMessage_useEffect", state.PgList.createRoomMessage);
+
+      console.log("useEffect");
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorId, hostel_Id: Hostel_Id } })
+
+      setTimeout(() => {
+        dispatch({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: null })
+      }, 100)
+    }
+  }, [state.PgList.createRoomMessage])
+
+
+
 
   useEffect(() => {
     const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter((item) => item.id == props.bedDetailsSendThePage.Hostel_Id);
@@ -252,11 +277,38 @@ function BedDetails(props) {
 
   })
 
+  const [filteredDataForBed, setFilteredDataForBed] = useState('')
+
+
+  useEffect(() => {
+    const filteredData = state.PgList?.roomCount && state.PgList?.roomCount
+      .flatMap(array => array)
+      .filter(item => {
+        console.log("item.Hostel_Id:", item.Hostel_Id);
+        console.log("Hostel_Id:", Hostel_Id);
+        console.log("item.Floor_Id:", item.Floor_Id);
+        console.log("floorId:", floorId);
+
+        return item.Hostel_Id === Hostel_Id && item.Floor_Id === floorId && item.Room_Id == roomId;
+      });
+
+    setFilteredDataForBed(filteredData)
+  }, [state.PgList?.roomCount])
+
+
+
+
+
+  const initialNumberOfBeds = filteredDataForBed[0]?.Number_Of_Beds;
+
+  // console.log(" initialNumberOfBeds", initialNumberOfBeds)
+
+
   useEffect(() => {
     const initialBedNames = [...Array(initialNumberOfBeds).keys()].map(index => `Bed ${index + 1}`);
 
     setBedName(initialBedNames);
-  }, [initialNumberOfBeds, bedName]);
+  }, [initialNumberOfBeds, state.PgList?.roomCount]);
 
   const handleNumberOfBedChange = (numberOfBeds) => {
     setBed(numberOfBeds);
@@ -264,25 +316,25 @@ function BedDetails(props) {
 
   let ParticularUserId = " "
 
- 
+
   const handleDisplayBedDetailUser = (bedId) => {
     dispatch({ type: 'CLEAR_STATUS_CODES' })
     setBednum(bedId)
     console.log("bedId", bedId)
 
     if (state.UsersList && state.UsersList.Users) {
-      ParticularUserId = state.UsersList.Users.filter(item => 
-          item.Bed == bedId && 
-          item.Hostel_Id == Hostel_Id && 
-          item.Floor == floorId && 
-          item.Rooms == roomId
+      ParticularUserId = state.UsersList.Users.filter(item =>
+        item.Bed == bedId &&
+        item.Hostel_Id == Hostel_Id &&
+        item.Floor == floorId &&
+        item.Rooms == roomId
       );
-  } else {
+    } else {
       console.error("state.UsersList.Users is undefined or null.");
-  }
+    }
 
-        // ParticularUserId = state.UsersList?.Users.filter((item => item.Bed == bedId && item.Hostel_Id == Hostel_Id && item.Floor == floorId && item.Rooms == roomId))
-      if (ParticularUserId.length > 0) {
+    // ParticularUserId = state.UsersList?.Users.filter((item => item.Bed == bedId && item.Hostel_Id == Hostel_Id && item.Floor == floorId && item.Rooms == roomId))
+    if (ParticularUserId.length > 0) {
       props.hidePgList(false);
       props.showBedDetail(true);
       props.userBedId(bedId);
@@ -309,7 +361,7 @@ function BedDetails(props) {
 
 
 
- 
+
 
 
   const handleSaveUserlist = () => {
@@ -385,6 +437,15 @@ function BedDetails(props) {
     }
   };
 
+
+
+
+
+
+
+
+
+
   return (
     <>
       <div style={{ width: "100%" }}>
@@ -401,27 +462,28 @@ function BedDetails(props) {
                 <p className="card-title text-center">({bedName.length || 0}) Beds</p>
                 <div className="row  row-gap-3 gx-2  d-flex  justify-content-start p-1">
                   {bedName.map((item, index) => (
-                    <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-6 d-flex justify-content-center" >
-                      <div className="card  text-center align-items-center p-1" 
-                      style={{
-                        borderColor: state.UsersList?.Users && state.UsersList?.Users.some(user =>
-                          user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
-                        ) ? "#25D366" : "#e3e4e8",
-                        backgroundColor: state.UsersList?.Users && state.UsersList?.Users.some(user =>
-                          user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
-                        ) ? "#25D366" : "#e3e4e8",
-                        color: state.UsersList?.Users && state.UsersList?.Users.some(user =>
-                          user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
-                        ) ? "white" : "gray",
-                        height: 60,
-                        width: 50,
-                        borderRadius: "5px"
-                      }}
-                      onClick={() => handleDisplayBedDetailUser(index + 1)}>
-                        <img src={Bed} style={{ height: "100px", width: "35px", color: "gray", 
-                       filter: state.UsersList?.Users && state.UsersList?.Users.some(user =>
-                        user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
-                      ) ? "brightness(0) invert(1)" : "none"
+                    <div key={index} className="col-lg-3 col-md-3 col-sm-4 col-xs-4 col-6 d-flex justify-content-center" >
+                      <div className="card  text-center align-items-center p-1"
+                        style={{
+                          borderColor: state.UsersList?.Users && state.UsersList?.Users.some(user =>
+                            user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
+                          ) ? "#25D366" : "#e3e4e8",
+                          backgroundColor: state.UsersList?.Users && state.UsersList?.Users.some(user =>
+                            user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
+                          ) ? "#25D366" : "#e3e4e8",
+                          color: state.UsersList?.Users && state.UsersList?.Users.some(user =>
+                            user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
+                          ) ? "white" : "gray",
+                          height: 60,
+                          width: 50,
+                          borderRadius: "5px"
+                        }}
+                        onClick={() => handleDisplayBedDetailUser(index + 1)}>
+                        <img src={Bed} style={{
+                          height: "100px", width: "35px", color: "gray",
+                          filter: state.UsersList?.Users && state.UsersList?.Users.some(user =>
+                            user.Floor == floorId && user.Hostel_Id == Hostel_Id && user.Rooms == roomId && user.Bed === index + 1
+                          ) ? "brightness(0) invert(1)" : "none"
                         }} className="img-fluid mb-0" alt="Room" />
                         <p style={{ marginTop: "2px", fontSize: "10px", display: "flex", flexWrap: "nowrap" }}>{item}</p>
                       </div>

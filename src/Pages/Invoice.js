@@ -543,6 +543,8 @@ const InvoicePage = () => {
   // console.log("filteredUserDetails", filteredUserDetails)
   const [displayText, setDisplayText] = useState(false)
   const [isSaveDisabled, setIsSaveDisabled] = useState(false)
+const [totalPaidAmount, setTotalPaidAmount] = useState('')
+
 
   // useEffect(() => {
   //   if (selectedUserId) {
@@ -626,8 +628,6 @@ const InvoicePage = () => {
     }));
   }
 
-
-
   const handleAmount = (e) => {
     const AmountValue = e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
     const selectedDate = new Date(invoiceList.date);
@@ -649,6 +649,8 @@ const InvoicePage = () => {
     console.log("AlreadyPaidRoomRent", AlreadyPaidRoomRent);
     console.log("Total Paid Amount", totalPaidAmount);
     console.log("roomRent", roomRent);
+
+setTotalPaidAmount(totalPaidAmount)
 
     if (!isNaN(AmountValue) && !isNaN(roomRent)) {
       const balanceDueCalc = editOption == 'Edit' ? roomRent - AmountValue : roomRent - (AmountValue + totalPaidAmount);
@@ -705,6 +707,17 @@ const InvoicePage = () => {
   const toggleDisplayText = () => {
     setDisplayText(!displayText);
   };
+
+
+  useEffect(() => {
+    if (displayText) {
+      const timer = setTimeout(() => {
+        setDisplayText(false);
+      }, 2000); 
+          
+      return () => clearTimeout(timer);
+    }
+  }, [displayText]);
 
 
   return (
@@ -977,6 +990,9 @@ const InvoicePage = () => {
                                   disabled={displayText}
                                 />
                               </Form.Group>
+
+                           {/* <label>{editOption == 'Add' ? <span>{totalPaidAmount}</span>: ''}</label> */}
+
                             </div>
                             <div className='col-lg-6'>
                               <Form.Group className="mb-3">

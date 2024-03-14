@@ -8,13 +8,7 @@ function* Login(args) {
     console.log("response",response)
     if (response.status === 200) {
       yield put({ type: 'LOGIN-INFO', payload:{ response:response.data,statusCode:response.status} });
-      Swal.fire({
-        icon: 'success',
-        title: 'Login Successful',
-        text: 'You have been logged in successfully!',
-        timer: 1000, 
-        showConfirmButton: false, 
-      });
+      
     } else if (response.status === 201) {
       yield put({ type: 'ERROR_EMAIL', payload: response.data.message });
       Swal.fire({

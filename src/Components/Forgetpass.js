@@ -197,6 +197,7 @@ function ForgetPasswordPage() {
         ref.current.value = null;
       });
     }
+    dispatch({type:'CLEAR_OTP_STATUS_CODE'})
   }
 
   useEffect(() => {

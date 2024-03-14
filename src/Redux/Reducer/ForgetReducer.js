@@ -27,10 +27,11 @@ const ForgetReducer = (state = initialState, action) => {
             return { ...state, Pass: action.payload , status_Code:action.payload.statusCode}
         case 'CLEAR_ERROR':
             return { ...state, errorMessage: '' }
-
         case 'OTP_SEND':
             return { ...state, OTP: action.payload, statusCode: action.payload.statusCode }
-            case 'EMAIL_ERROR':
+        case 'CLEAR_OTP_STATUS_CODE':
+            return { ...state, statusCode :0}
+                    case 'EMAIL_ERROR':
                 return {...state, emailError:action.payload, sendEmailError:action.payload.statusCode }
         case 'OTP_ERROR':
             return { ...state, OtpError: action.payload }

@@ -8,7 +8,8 @@ const initialState = {
    errorPassword: '',
    errorMessage: '',
    statusCode: 0,
-   loginInformation:[]                                            
+   loginInformation:[],
+                                             
 
 }
 const SmartStayReducer = (state = initialState, action) => {
