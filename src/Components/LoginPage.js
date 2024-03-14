@@ -70,7 +70,9 @@ const MyComponent = () => {
       console.log("IsEnable", IsEnable)
       if (IsEnable === 1) {
         dispatch({ type: 'OTPSEND', payload: { email: email_Id } });
+        setTimeout(() => {
         setShowOtpVerification(true)
+        },1000)
       }
       else {
         Swal.fire({
@@ -116,9 +118,6 @@ const MyComponent = () => {
         localStorage.setItem("NameId", '')
         localStorage.setItem("phoneId", '')
         localStorage.setItem("emilidd", '')
-
-
-
       }
 
 
