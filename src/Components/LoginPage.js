@@ -114,10 +114,10 @@ const MyComponent = () => {
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
         console.log("encryptData.....jjjjjjjj", encryptData.toString());
         localStorage.setItem("login", encryptData.toString())
-        localStorage.setItem("loginId", '')
-        localStorage.setItem("NameId", '')
-        localStorage.setItem("phoneId", '')
-        localStorage.setItem("emilidd", '')
+        localStorage.setItem("loginId", encryptedLoginId)
+        localStorage.setItem("NameId", encryptedname)
+        localStorage.setItem("phoneId", encryptedphone)
+        localStorage.setItem("emilidd", encryptedemail)
       }
 
 

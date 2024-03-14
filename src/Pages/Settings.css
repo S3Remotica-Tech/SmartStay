@@ -27,7 +27,7 @@
 
   .Page_Content{
      background-color: #F8F9FA;
-     height: 85vh;
+     height: auto !important;
      border-Radius: 8px;
      margin-left: 30px;
      margin-right: 20px;

@@ -20,9 +20,9 @@ function Settings() {
 
 
   const [selectedTab, setSelectedTab] = useState('Personal');
-  const [Name, setName] = useState()
-  const [phone, setPhone] = useState()
-  const [email, setEmail] = useState()
+  const [Name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
   const [Address, setAddress] = useState("")
   const [Country, setCountry] = useState("")
   const [City, setCity] = useState("")
@@ -38,6 +38,8 @@ function Settings() {
   const Loginname = localStorage.getItem("NameId")
   const Loginemail = localStorage.getItem("emilidd")
   const Loginphone = localStorage.getItem("phoneId")
+
+  console.log("Loginemail",Loginemail)
 
   useEffect(() => {
     const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
@@ -57,8 +59,8 @@ function Settings() {
 
     const decryptedDataemail = CryptoJS.AES.decrypt(Loginemail, 'abcd');
     const decryptedStringemail = decryptedDataemail.toString(CryptoJS.enc.Utf8);
-    const parsedDatemail = decryptedStringemail;
-    setEmail(parsedDatemail)
+       setEmail(decryptedStringemail)
+       console.log("decryptedStringemail",decryptedStringemail)
 
   }, [])
 
@@ -159,6 +161,24 @@ function Settings() {
     setStatee("");
   }
 
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleChange = (event) => {
+    console.log("eventChecked",event.target.checked)
+    setIsChecked(event.target.checked);
+  };
+
+
+  console.log("email for Login User",email)
+  const handleTwoStepVerify = () => {
+    console.log("executed")
+dispatch({ type : 'TWOSTEPVERIFY', payload : { emailId : email, isEnable : isChecked}})
+dispatch({type:'CLEAR_ERROR'})
+  }
+
+
+
+
   return (
     <div className='container-fluid'>
       <div className="d-flex row justify-content-between mt-2 ms-4 me-4 pt-3">
@@ -167,14 +187,10 @@ function Settings() {
           <p>Manage your account settings</p>
         </div>
 
-        <div className='justify-content-end  col-lg-3 col-md-4 col-sm-12 pt-3'>
-          <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleSaveUpdate} >Save change</button>
-          <button type="button" class="mb-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >Cancel</button>
 
-        </div>
       </div>
 
-      <div className='conatiner mt-0 '>
+      <div className='conatiner mt-0 ' style={{}}>
         <div className='d-flex flex-column flex-md-row Page_Content' >
           <div className="sidebar col-12 col-md-4 col-lg-3 pt-5">
             <div
@@ -216,11 +232,23 @@ function Settings() {
           </div>
           <hr class="vl" />
 
-          <div className="content col-12 col-md-8 col-lg-8 pt-5" style={{ backgroundColor: '#F8F9FA', paddingLeft: '30px' }}>
+          <div className="col-12 col-md-8 col-lg-8 pt-5" style={{ backgroundColor: '#F8F9FA', paddingLeft: '30px' }}>
             {selectedTab === 'Personal' &&
               <div>
-                <h2 style={{ fontSize: '22px', fontWeight: 600 }}>General Information</h2>
-                <p style={{ fontSize: '16px', color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+
+                <div className='d-flex justify-content-between'>
+                  <div>
+                    <h2 style={{ fontSize: '22px', fontWeight: 600 }}>General Information</h2>
+                    <p style={{ fontSize: '16px', color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                  </div>
+                  <div className='justify-content-end'>
+                    <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleSaveUpdate} >Save change</button>
+                    <button type="button" class="mb-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >Cancel</button>
+
+                  </div>
+
+                </div>
+
                 <hr style={{ opacity: 0.1 }} />
                 <h5 style={{ fontSize: '16px', fontWeight: 700 }}>Profile Picture</h5>
 
@@ -261,7 +289,7 @@ function Settings() {
 
                   <div className="Input_field" style={{ display: "flex", flexDirection: "column", alignItems: 'start', marginRight: "4%" }}>
                     <label class="sr-only" style={{ fontSize: "12px", fontWeight: "530" }}><b>Address</b></label>
-                    <input class="Phone form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="address" id="address" placeholder="XYZ" name="address" value={Address} onChange={handleAddress} />
+                    <input class="Phone form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="address" id="address" placeholder="Enter Address" name="address" value={Address} onChange={handleAddress} />
 
                   </div>
 
@@ -281,13 +309,13 @@ function Settings() {
 
                   <div className="Input_field" style={{ display: "flex", flexDirection: "column", alignItems: 'start', marginRight: "4%" }}>
                     <label class="sr-only" style={{ fontSize: "12px", fontWeight: "530" }}><b>City</b></label>
-                    <input class="Phone form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="city" id="city" placeholder="dfg" name="city" value={City} onChange={handleCity} />
+                    <input class="Phone form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="city" id="city" placeholder="Enter City" name="city" value={City} onChange={handleCity} />
 
                   </div>
 
                   <div className="Input_field" style={{ display: "flex", flexDirection: "column", alignItems: 'start' }}>
                     <label class="sr-only" style={{ fontSize: "12px", fontWeight: "530" }}><b>State</b></label>
-                    <input class="Email form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="state" id="state" placeholder="Kjgf" name="state" value={statee} onChange={handleState} />
+                    <input class="Email form-control mt-1" style={{ width: "100%", padding: "3.4%", border: "none", fontSize: 12, marginTop: "2%", boxShadow: "none" }} type="state" id="state" placeholder="Enter State" name="state" value={statee} onChange={handleState} />
 
                   </div>
 
@@ -300,8 +328,15 @@ function Settings() {
 
             {selectedTab === 'Security' &&
               <div>
+<div className='d-flex  justify-content-between'>
+                <div>
                 <h2 style={{ fontSize: '24px', fontWeight: 650 }}>Security</h2>
                 <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                  </div>
+                  <div className='justify-content-end'>
+                    <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleTwoStepVerify} >Save change</button>
+                  </div>
+               </div>
                 <hr style={{ opacity: 0.1 }} />
 
                 <div className='mt-4 mb-5'>
@@ -313,7 +348,9 @@ function Settings() {
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
-                    <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
+                    <AntSwitch 
+                    checked={isChecked}
+      onChange={handleChange} inputProps={{ 'aria-label': 'ant design' }} />
                   </div>
                 </div>
 
