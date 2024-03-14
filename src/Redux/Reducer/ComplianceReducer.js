@@ -14,6 +14,8 @@ const initialState = {
                return {...state, message:action.payload, messageShow:true}
                case 'ERROR':
                 return {...state,errorMessage:action.payload}
+                case 'CLEAR_ERROR':
+                    return { ...state, errorMessage: ''}
         }
         return state;
     } 
