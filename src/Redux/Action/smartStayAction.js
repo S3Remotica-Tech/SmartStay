@@ -13,3 +13,8 @@ export async function CreateAccountAction(userList) {
   })
 } 
   
+export async function TwoStepVerification(datum) {
+  return await AxiosConfig.post('/create/isEnable',datum, {
+    data: datum
+  })
+} 
