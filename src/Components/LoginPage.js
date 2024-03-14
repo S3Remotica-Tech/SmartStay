@@ -91,12 +91,17 @@ const MyComponent = () => {
       const NameId = state.login?.loginInformation[0]?.Name
       const phoneId = state.login?.loginInformation[0]?.mobileNo
       const emilidd = state.login?.loginInformation[0]?.email_Id
-      console.log("state.login.statusCode", state.login.statusCode);
+      const Is_Enable= state.login?.loginInformation[0]?.isEnable
+
+
+      console.log("Is_Enable", Is_Enable);
 
       const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
       const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
       const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
       const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
+      const encryptIsEnable =  CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
+
 
       console.log("encryptedLoginId", encryptedLoginId)
 
@@ -109,6 +114,7 @@ const MyComponent = () => {
         localStorage.setItem("NameId", encryptedname)
         localStorage.setItem("phoneId", encryptedphone)
         localStorage.setItem("emilidd", encryptedemail)
+        localStorage.setItem("IsEnable", encryptIsEnable)
       }
       else {
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
@@ -118,6 +124,7 @@ const MyComponent = () => {
         localStorage.setItem("NameId", encryptedname)
         localStorage.setItem("phoneId", encryptedphone)
         localStorage.setItem("emilidd", encryptedemail)
+        localStorage.setItem("IsEnable", encryptIsEnable)
       }
 
 

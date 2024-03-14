@@ -38,10 +38,20 @@ function Settings() {
   const Loginname = localStorage.getItem("NameId")
   const Loginemail = localStorage.getItem("emilidd")
   const Loginphone = localStorage.getItem("phoneId")
+  const LoginIsEnable = localStorage.getItem("IsEnable")
 
-  console.log("Loginemail",Loginemail)
+  console.log("Loginemail", Loginemail)
+
+  const [email_IdForLoginUser, setEmail_IdForLoginUser] = useState('')
+  const [isEnableCheck, setIsEnableCheck] = useState('')
+
+console.log("LoginIsEnable", LoginIsEnable)
+console.log("isEnableCheck",isEnableCheck)
+
 
   useEffect(() => {
+    if(LoginId){
+  try{
     const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
     const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
     const parsedData = decryptedString;
@@ -59,18 +69,31 @@ function Settings() {
 
     const decryptedDataemail = CryptoJS.AES.decrypt(Loginemail, 'abcd');
     const decryptedStringemail = decryptedDataemail.toString(CryptoJS.enc.Utf8);
-       setEmail(decryptedStringemail)
-       console.log("decryptedStringemail",decryptedStringemail)
+    setEmail(decryptedStringemail)
+    setEmail_IdForLoginUser(decryptedStringemail)
+    console.log("decryptedStringemail", decryptedStringemail)
 
-  }, [])
+
+    const decryptedDataIsEnable = CryptoJS.AES.decrypt(LoginIsEnable, 'abcd');
+    const decryptedStringIsEnable = decryptedDataIsEnable.toString(CryptoJS.enc.Utf8);
+    setIsEnableCheck(decryptedStringIsEnable)
+
+console.log("decryptedStringIsEnable",decryptedStringIsEnable)
+
+  }catch (error) {
+      console.error('Error decrypting LoginId:', error);
+    }
+   }
+
+  }, [LoginId])
 
 
-  useEffect(() => {
-    dispatch({
-      type: 'LOGININFO'
-    });
-    setUpdateval(state.login.loginInformation)
-  })
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'LOGININFO'
+  //   });
+  //   setUpdateval(state.login.loginInformation)
+  // })
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -160,21 +183,25 @@ function Settings() {
     setCity("");
     setStatee("");
   }
-
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState('');
 
   const handleChange = (event) => {
-    console.log("eventChecked",event.target.checked)
+    console.log("eventChecked", event.target.checked)
     setIsChecked(event.target.checked);
   };
 
 
-  console.log("email for Login User",email)
+  console.log("email for Login User", email)
   const handleTwoStepVerify = () => {
     console.log("executed")
-dispatch({ type : 'TWOSTEPVERIFY', payload : { emailId : email, isEnable : isChecked}})
-dispatch({type:'CLEAR_ERROR'})
+    dispatch({ type: 'TWOSTEPVERIFY', payload: { emailId: email_IdForLoginUser, isEnable: isChecked } })
+    dispatch({ type: 'CLEAR_ERROR' })
+       
   }
+
+  useEffect(() => {
+    setIsChecked(isEnableCheck === '1');
+  }, [isEnableCheck]);
 
 
 
@@ -328,15 +355,15 @@ dispatch({type:'CLEAR_ERROR'})
 
             {selectedTab === 'Security' &&
               <div>
-<div className='d-flex  justify-content-between'>
-                <div>
-                <h2 style={{ fontSize: '24px', fontWeight: 650 }}>Security</h2>
-                <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                <div className='d-flex  justify-content-between'>
+                  <div>
+                    <h2 style={{ fontSize: '24px', fontWeight: 650 }}>Security</h2>
+                    <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div className='justify-content-end'>
                     <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleTwoStepVerify} >Save change</button>
                   </div>
-               </div>
+                </div>
                 <hr style={{ opacity: 0.1 }} />
 
                 <div className='mt-4 mb-5'>
@@ -348,9 +375,9 @@ dispatch({type:'CLEAR_ERROR'})
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
-                    <AntSwitch 
-                    checked={isChecked}
-      onChange={handleChange} inputProps={{ 'aria-label': 'ant design' }} />
+                    <AntSwitch
+                      checked={isChecked}
+                      onChange={handleChange} inputProps={{ 'aria-label': 'ant design' }} />
                   </div>
                 </div>
 
