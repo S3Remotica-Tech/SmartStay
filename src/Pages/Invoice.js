@@ -264,7 +264,16 @@ const InvoicePage = () => {
         const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
       
       console.log("formattedDueDate",formattedDueDate)
-        const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
+        // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
+        const EditCheck = state.InvoiceList.Invoice.find(view => {
+          const viewDate = new Date(view.Date);
+          return (
+              view.User_Id === item.User_Id && 
+              view.BalanceDue === 0 && 
+              viewDate.getFullYear() === year && 
+              viewDate.getMonth() === month - 1 
+          );
+      });
         console.log("EditCheck", EditCheck);
 
         console.log("item.BalanceDue === 0 && EditCheck && EditCheck.BalanceDue === 0", EditCheck && EditCheck.BalanceDue === 0 || item.BalanceDue === 0);
@@ -318,8 +327,9 @@ const InvoicePage = () => {
     return pageNumbers;
   };
 
-  const handlePageSelect = (event) => {
-    const selectedPage = parseInt(event.target.value, 10);
+  const handlePageSelect = (eventKey) => {
+    console.log("eventKey", eventKey);
+    const selectedPage = parseInt(eventKey, 10);
     setCurrentPage(selectedPage);
   };
 
@@ -533,6 +543,8 @@ const InvoicePage = () => {
   // console.log("filteredUserDetails", filteredUserDetails)
   const [displayText, setDisplayText] = useState(false)
   const [isSaveDisabled, setIsSaveDisabled] = useState(false)
+const [totalPaidAmount, setTotalPaidAmount] = useState('')
+
 
   // useEffect(() => {
   //   if (selectedUserId) {
@@ -616,8 +628,6 @@ const InvoicePage = () => {
     }));
   }
 
-
-
   const handleAmount = (e) => {
     const AmountValue = e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
     const selectedDate = new Date(invoiceList.date);
@@ -639,6 +649,8 @@ const InvoicePage = () => {
     console.log("AlreadyPaidRoomRent", AlreadyPaidRoomRent);
     console.log("Total Paid Amount", totalPaidAmount);
     console.log("roomRent", roomRent);
+
+setTotalPaidAmount(totalPaidAmount)
 
     if (!isNaN(AmountValue) && !isNaN(roomRent)) {
       const balanceDueCalc = editOption == 'Edit' ? roomRent - AmountValue : roomRent - (AmountValue + totalPaidAmount);
@@ -695,6 +707,17 @@ const InvoicePage = () => {
   const toggleDisplayText = () => {
     setDisplayText(!displayText);
   };
+
+
+  useEffect(() => {
+    if (displayText) {
+      const timer = setTimeout(() => {
+        setDisplayText(false);
+      }, 2000); 
+          
+      return () => clearTimeout(timer);
+    }
+  }, [displayText]);
 
 
   return (
@@ -967,6 +990,9 @@ const InvoicePage = () => {
                                   disabled={displayText}
                                 />
                               </Form.Group>
+
+                           {/* <label>{editOption == 'Add' ? <span>{totalPaidAmount}</span>: ''}</label> */}
+
                             </div>
                             <div className='col-lg-6'>
                               <Form.Group className="mb-3">
@@ -1052,7 +1078,7 @@ const InvoicePage = () => {
                 <div>
                   <p style={{ fontSize: 13, marginTop: "5px" }}>Results:</p>
                 </div>
-                <Dropdown onSelect={(eventKey) => handlePageSelect(parseInt(eventKey))} >
+                <Dropdown onSelect={(eventKey) => handlePageSelect(eventKey)}>
                   <Dropdown.Toggle variant="secondary" style={{ backgroundColor: "#F6F7FB", color: "black", border: "none", fontSize: "10px", marginLeft: "10px" }}>
                     {currentPage} - {currentPage}
                   </Dropdown.Toggle>

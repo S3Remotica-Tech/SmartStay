@@ -265,8 +265,9 @@ const Compliance = () => {
     return pageNumbers;
   };
 
-  const handlePageSelect = (event) => {
-    const selectedPage = parseInt(event.target.value, 10);
+  const handlePageSelect = (eventKey) => {
+    console.log("eventKey", eventKey);
+    const selectedPage = parseInt(eventKey, 10);
     setCurrentPage(selectedPage);
   };
   const handleDatePicker = (e) => {
@@ -538,18 +539,18 @@ const Compliance = () => {
           <div>
             <p style={{ fontSize: 13, marginTop: "5px" }}>Results:</p>
           </div>
-          <Dropdown onSelect={(eventKey) => handlePageSelect(parseInt(eventKey))} >
-            <Dropdown.Toggle variant="secondary" style={{ backgroundColor: "#F6F7FB", color: "black", border: "none", fontSize: "10px", marginLeft: "10px" }}>
-              {currentPage} - {currentPage}
-            </Dropdown.Toggle>
-            <Dropdown.Menu >
-              {generatePageNumbers().map((page) => (
-                <Dropdown.Item key={page} eventKey={page} style={{ width: "10%" }} >
-                  {currentPage} - {page}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
+          <Dropdown onSelect={(eventKey) => handlePageSelect(eventKey)}>
+                  <Dropdown.Toggle variant="secondary" style={{ backgroundColor: "#F6F7FB", color: "black", border: "none", fontSize: "10px", marginLeft: "10px" }}>
+                    {currentPage} - {currentPage}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    {generatePageNumbers().map((page) => (
+                      <Dropdown.Item key={page} eventKey={page}>
+                        {currentPage} - {page}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
           <div style={{ fontSize: "10px", marginTop: "7px", marginLeft: "10px" }}>
             of <label>{currentPage}</label>
           </div>
