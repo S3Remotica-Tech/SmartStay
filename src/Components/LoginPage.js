@@ -84,6 +84,11 @@ const MyComponent = () => {
         });
         dispatch({ type: 'LOGIN-SUCCESS' })
         setShowOtpVerification(false)
+
+
+
+
+        
       }
 
 
@@ -92,15 +97,16 @@ const MyComponent = () => {
       const phoneId = state.login?.loginInformation[0]?.mobileNo
       const emilidd = state.login?.loginInformation[0]?.email_Id
       const Is_Enable= state.login?.loginInformation[0]?.isEnable
+      const Pass_word = state.login?.loginInformation[0]?.password
 
-
-      console.log("Is_Enable", Is_Enable);
+      console.log("Pass_word", Pass_word);
 
       const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
       const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
       const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
       const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
       const encryptIsEnable =  CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
+      const encryptPassword =  CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
 
 
       console.log("encryptedLoginId", encryptedLoginId)
@@ -115,6 +121,8 @@ const MyComponent = () => {
         localStorage.setItem("phoneId", encryptedphone)
         localStorage.setItem("emilidd", encryptedemail)
         localStorage.setItem("IsEnable", encryptIsEnable)
+        localStorage.setItem("Password", encryptPassword)
+
       }
       else {
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
@@ -125,6 +133,7 @@ const MyComponent = () => {
         localStorage.setItem("phoneId", encryptedphone)
         localStorage.setItem("emilidd", encryptedemail)
         localStorage.setItem("IsEnable", encryptIsEnable)
+        localStorage.setItem("Password", encryptPassword)
       }
 
 
