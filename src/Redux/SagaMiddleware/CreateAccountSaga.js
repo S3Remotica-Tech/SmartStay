@@ -51,11 +51,11 @@ function* CreateAccountPage(args) {
         console.log("error",error);
     }
   }
-  
+ 
   function* HandleTwoStepVerification(action){
     const response = yield call (TwoStepVerification,action.payload)
     if (response.status === 200) {
-       yield put({ type: 'TWO_STEP_VERIFY', payload: response.data })
+       yield put({ type: 'TWO_STEP_VERIFY', payload:{response: response.data ,statusCode:response.status}})
        Swal.fire({
         icon: 'success',
         text:  'Updated successfully',

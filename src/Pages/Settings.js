@@ -29,6 +29,7 @@ function Settings() {
   const [statee, setStatee] = useState("")
   const [id, setId] = useState("")
   const [updateval, setUpdateval] = useState("")
+  const [login_Password, setLogin_Password] = useState("")
 
 
   const handleTabClick = (tabName) => {
@@ -39,61 +40,63 @@ function Settings() {
   const Loginemail = localStorage.getItem("emilidd")
   const Loginphone = localStorage.getItem("phoneId")
   const LoginIsEnable = localStorage.getItem("IsEnable")
+  const LoginPassword = localStorage.getItem("Password")
 
-  console.log("Loginemail", Loginemail)
 
   const [email_IdForLoginUser, setEmail_IdForLoginUser] = useState('')
   const [isEnableCheck, setIsEnableCheck] = useState('')
 
-console.log("LoginIsEnable", LoginIsEnable)
-console.log("isEnableCheck",isEnableCheck)
-
+  console.log("LoginIsEnable", LoginIsEnable)
+  console.log("isEnableCheck", isEnableCheck)
+  console.log("LoginPassword",LoginPassword)
 
   useEffect(() => {
-    if(LoginId){
-  try{
-    const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-    const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-    const parsedData = decryptedString;
-    setId(parsedData)
+    if (LoginId) {
+      try {
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = decryptedString;
+        setId(parsedData)
 
-    const decryptedDataname = CryptoJS.AES.decrypt(Loginname, 'abcd');
-    const decryptedStringname = decryptedDataname.toString(CryptoJS.enc.Utf8);
-    const parsedDataname = decryptedStringname;
-    setName(parsedDataname)
+        const decryptedDataname = CryptoJS.AES.decrypt(Loginname, 'abcd');
+        const decryptedStringname = decryptedDataname.toString(CryptoJS.enc.Utf8);
+        const parsedDataname = decryptedStringname;
+        setName(parsedDataname)
 
-    const decryptedDataphone = CryptoJS.AES.decrypt(Loginphone, 'abcd');
-    const decryptedStringphone = decryptedDataphone.toString(CryptoJS.enc.Utf8);
-    const parsedDatphone = decryptedStringphone;
-    setPhone(parsedDatphone)
+        const decryptedDataphone = CryptoJS.AES.decrypt(Loginphone, 'abcd');
+        const decryptedStringphone = decryptedDataphone.toString(CryptoJS.enc.Utf8);
+        const parsedDatphone = decryptedStringphone;
+        setPhone(parsedDatphone)
 
-    const decryptedDataemail = CryptoJS.AES.decrypt(Loginemail, 'abcd');
-    const decryptedStringemail = decryptedDataemail.toString(CryptoJS.enc.Utf8);
-    setEmail(decryptedStringemail)
-    setEmail_IdForLoginUser(decryptedStringemail)
-    console.log("decryptedStringemail", decryptedStringemail)
+        const decryptedDataemail = CryptoJS.AES.decrypt(Loginemail, 'abcd');
+        const decryptedStringemail = decryptedDataemail.toString(CryptoJS.enc.Utf8);
+        setEmail(decryptedStringemail)
+        setEmail_IdForLoginUser(decryptedStringemail)
+        console.log("decryptedStringemail", decryptedStringemail)
 
 
-    const decryptedDataIsEnable = CryptoJS.AES.decrypt(LoginIsEnable, 'abcd');
-    const decryptedStringIsEnable = decryptedDataIsEnable.toString(CryptoJS.enc.Utf8);
-    setIsEnableCheck(decryptedStringIsEnable)
+        const decryptedDataIsEnable = CryptoJS.AES.decrypt(LoginIsEnable, 'abcd');
+        const decryptedStringIsEnable = decryptedDataIsEnable.toString(CryptoJS.enc.Utf8);
+        setIsEnableCheck(decryptedStringIsEnable)
 
-console.log("decryptedStringIsEnable",decryptedStringIsEnable)
+        const decryptedDataPassword = CryptoJS.AES.decrypt(LoginPassword, 'abcd');
+        const decryptedStringPassword = decryptedDataPassword.toString(CryptoJS.enc.Utf8);
+        console.log("decryptedStringPassword",decryptedStringPassword)
+        setLogin_Password(decryptedStringPassword)
 
-  }catch (error) {
-      console.error('Error decrypting LoginId:', error);
+console.log("login_Password",login_Password)
+
+        console.log("decryptedStringIsEnable", decryptedStringIsEnable)
+
+      } catch (error) {
+        console.error('Error decrypting LoginId:', error);
+      }
     }
-   }
 
   }, [LoginId])
 
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'LOGININFO'
-  //   });
-  //   setUpdateval(state.login.loginInformation)
-  // })
+
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -137,6 +140,8 @@ console.log("decryptedStringIsEnable",decryptedStringIsEnable)
       boxSizing: 'border-box',
     },
   }));
+
+  
   const handleName = (e) => {
     setName(e.target.value)
   }
@@ -192,18 +197,41 @@ console.log("decryptedStringIsEnable",decryptedStringIsEnable)
 
 
   console.log("email for Login User", email)
+
+
   const handleTwoStepVerify = () => {
     console.log("executed")
     dispatch({ type: 'TWOSTEPVERIFY', payload: { emailId: email_IdForLoginUser, isEnable: isChecked } })
     dispatch({ type: 'CLEAR_ERROR' })
-       
+    
   }
 
+ 
   useEffect(() => {
-    setIsChecked(isEnableCheck === '1');
-  }, [isEnableCheck]);
+    if (state.createAccount.statusCodeTwo === 200) {
+      dispatch({ type: 'LOGININFO', payload: { email_Id: email, password: login_Password } });
+      
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODE_TWO_STEP' })
+        
+      }, 100)
+    }
+    if(state.login.loginInformation[0]?.isEnable === 1){
+      setIsChecked(true)
+    }else{
+      setIsChecked(false)
+    }
+    
+  }, [state.createAccount.statusCodeTwo])
 
 
+useEffect(()=>{
+  if(state.login.statusCode === 200){
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_STATUSCODE' })
+    }, 100);
+  }
+  },[state.login.statusCode === 200])
 
 
   return (
@@ -369,7 +397,7 @@ console.log("decryptedStringIsEnable",decryptedStringIsEnable)
                 <div className='mt-4 mb-5'>
                   <h6 style={{ fontWeight: 700, textDecorationLine: 'underline' }}>Password Management</h6>
                 </div>
-                <div className='d-flex  justify-content-between mt-2'>
+                <div className='d-flex  justify-content-between mt-2 me-2'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Login Two-Step Verification</h6>
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
@@ -382,7 +410,7 @@ console.log("decryptedStringIsEnable",decryptedStringIsEnable)
                 </div>
 
 
-                <div className='d-flex  justify-content-between '>
+                <div className='d-flex  justify-content-between me-2'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Email Setup</h6>
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
@@ -393,7 +421,7 @@ console.log("decryptedStringIsEnable",decryptedStringIsEnable)
                 </div>
 
 
-                <div className='d-flex  justify-content-between '>
+                <div className='d-flex  justify-content-between me-2'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>SMS Setup</h6>
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
