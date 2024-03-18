@@ -24,6 +24,12 @@ padding:1px 2px;
   background-color: #FFFFFF;
 }
 
+.form-select {
+     border-radius: unset !important;
+  padding: 5px;
+  border:unset !important;
+}
+
 .custom-border-bottom {
   border-top: none;
   border-left: none;
@@ -78,3 +84,5 @@ padding:1px 2px;
     flex: 0 0 33.33% !important;
   }
 }
+
+

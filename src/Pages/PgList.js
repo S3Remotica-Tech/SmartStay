@@ -505,7 +505,7 @@ const handleMouseLeave = () =>{
         </Offcanvas>
       </div>
       <hr />
-      <div className="row g-0 d-flex justify-content-start align-items-center p-2" >
+      {/* <div className="row g-0 d-flex justify-content-start align-items-center p-2" >
         <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12 col-12 d-flex justify-content-between align-items-center p-0" style={{ backgroundColor: "" }} >
           <div className="d-flex justify-content-between align-items-center">
             <Image src={Hostel} roundedCircle style={{ height: "30px", width: "30px" }} />
@@ -540,8 +540,44 @@ const handleMouseLeave = () =>{
             </div>
           </div>
         </>}
-      </div>
+      </div> */}
 
+      <div className="row g-0 p-2" >
+        <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 col-12 d-flex justify-content-start align-items-center p-0" style={{ backgroundColor: "" }} >
+          <div className="d-flex justify-content-start align-items-center w-100">
+            <Image src={Hostel} roundedCircle style={{ height: "30px", width: "30px" }} />
+            <div className="d-block ps-2 w-100">
+              <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray", fontWeight: 600 }}>PG Detail</p>
+
+              <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding:8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
+                <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
+                {state.UsersList.hostelList.map((obj) => {
+                  return (<>
+                    <option style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
+                  </>)
+                })}
+
+              </select>
+
+            </div>
+            <div style={{ borderLeft: "1px solid #cccccc99", height: "45px" }} className="vertical-line ms-1 me-2"></div>
+          </div>
+        </div>
+        {selectedHostel && <>
+          {
+            Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
+              return <SelectedHostelFloorList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
+            })}
+
+          <div className="col-lg-6  col-md-3 col-sm-4 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div>
+              <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleShow}>
+                <span style={{ padding: "20px 20px" }}>
+                  <img src={Plus} height="12" width="12" alt='Plus' /> Create Floor  </span></button>
+            </div>
+          </div>
+        </>}
+      </div>
 
       <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>
         <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-4">Create Floor</Offcanvas.Title>
@@ -602,7 +638,7 @@ const handleMouseLeave = () =>{
               </span>
 
             </>)}
-            <h5 className='mb-0' style={{ fontSize: 18, color: "black", fontWeight: 600 }}>{selectedHostel.Name}</h5>
+            <h5 className='mb-0' style={{ fontSize: 18, color: "black", fontWeight: 600,textTransform:"capitalize" }}>{selectedHostel.Name}</h5>
             {bedDetailShow && <>
               <span>
                 <FaAngleRight style={{ fontSize: 16 }} />
