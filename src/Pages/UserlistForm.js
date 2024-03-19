@@ -23,9 +23,7 @@ function UserlistForm(props) {
     boxShadow: 'none',
     fontWeight: 'bold',
     fontSize: "11px",
-    backgroundColor: "#f8f9fa",
-    padding:"3px 5px"
-  };
+    };
 
 
 
@@ -268,9 +266,8 @@ console.log("setIsActive",isActive)
       Bed &&
       AdvanceAmount &&
       RoomRent &&
-      PaymentType &&
-      isActive
-    ) {
+      PaymentType
+         ) {
       dispatch({
         type: 'ADDUSER',
         payload: {
@@ -587,6 +584,7 @@ console.log("setIsActive",isActive)
                     </Form.Group>
                   </div>
                   <div className='col-lg-6'>
+                  {props.edit === 'Edit' ? <>
                     <Form.Label style={{ fontSize: '12px' }}>Active</Form.Label>
                     <Form.Select
                       aria-label='Default select example'
@@ -598,6 +596,8 @@ console.log("setIsActive",isActive)
                       <option value="1">CheckIn</option>
                       <option value="0">CheckOut</option>
                     </Form.Select>
+                    </> :
+                    null}
 
                   </div>
                 </div>
