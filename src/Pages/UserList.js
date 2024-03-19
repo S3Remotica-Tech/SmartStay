@@ -7,13 +7,12 @@ import { MdExpandMore } from "react-icons/md";
 import img1 from '../Assets/Images/list-report.png';
 import img2 from '../Assets/Images/edit.png';
 import Profile from '../Assets/Images/Profile.jpg';
-import { Dropdown } from 'react-bootstrap';
+import { Dropdown, Table } from 'react-bootstrap';
 import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Plus from '../Assets/Images/Create-button.png';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { Table } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import List from '../Assets/Images/list-report.png';
 import Edits from '../Assets/Images/edit.png';
@@ -390,11 +389,15 @@ const getFloorAbbreviation = (floor) => {
               </>
             }
             <IoFilterOutline class=" me-4" onClick={handleFiltershow} style={{ fontSize: 20 }} />
-            <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus" />Add User</button>
+            <button type="button" class="me-2" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus" />Add User</button>
+       
+            {/* <button type="button" class="me-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >CheckOut User</button> */}
+
+       
           </div>
         </div>
-        <div class="table-responsive" style={{ width: "100%" }} >
-          <table className='table'>
+        <div class="table-responsive" style={{ width: "" }} >
+        <Table responsive >
             <thead style={{ backgroundColor: "#F6F7FB", fontSize: 10, color: "#91969E" }}>
               <tr >
                 <th style={{ color: "#91969E" }} >Name & Phone</th>
@@ -451,7 +454,8 @@ const getFloorAbbreviation = (floor) => {
                 );
               })}
             </tbody>
-          </table>
+            </Table>
+
 
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
 
@@ -487,6 +491,9 @@ const getFloorAbbreviation = (floor) => {
             </div>
           </div>
         </div>
+
+
+
       </>}
 
 
