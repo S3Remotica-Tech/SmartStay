@@ -14,7 +14,22 @@ function UserlistForm(props) {
     boxShadow: 'none',
     fontWeight: 'bold',
     fontSize: "11px",
+      };
+
+  const bottomBorderStyles = {
+    border: 'none',
+    borderBottom: '1px solid #ced4da',
+    borderRadius: '0',
+    boxShadow: 'none',
+    fontWeight: 'bold',
+    fontSize: "11px",
+    backgroundColor: "#f8f9fa",
+    padding:"3px 5px"
   };
+
+
+
+
 
   const [id, setId] = useState('')
   const [file, setFile] = useState(null)
@@ -32,7 +47,7 @@ function UserlistForm(props) {
   const [AdvanceAmount, setAdvanceAmount] = useState('')
   const [Address, setAddress] = useState('')
   const [Email, setEmail] = useState('')
-
+const [isActive, setIsActive] = useState('')
   const [AadharNo, setAadharNo] = useState('')
   const [PancardNo, setPancardNo] = useState('')
   const [licence, setLicence] = useState('')
@@ -40,6 +55,11 @@ function UserlistForm(props) {
   const [Arrayset, setArrayset] = useState([])
   const [Bednum, setBednum] = useState(null)
   const [romnum, setRoomnum] = useState('')
+
+
+
+
+
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
@@ -119,6 +139,14 @@ function UserlistForm(props) {
   const handleAddress = (e) => {
     setAddress(e.target.value)
   }
+
+const handleIsActiveUser = (e) =>{
+  setIsActive(e.target.value)
+ }
+console.log("setIsActive",isActive)
+
+
+
   const handleHostelId = (e) => {
 
     const selectedHostelId = e.target.value;
@@ -217,6 +245,7 @@ function UserlistForm(props) {
       setRoomRent(props.EditObj.RoomRent);
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
+      setIsActive(props.EditObj.isActive)
     }
     else {
       props.setEdit('Add')
@@ -239,7 +268,8 @@ function UserlistForm(props) {
       Bed &&
       AdvanceAmount &&
       RoomRent &&
-      PaymentType
+      PaymentType &&
+      isActive
     ) {
       dispatch({
         type: 'ADDUSER',
@@ -261,12 +291,10 @@ function UserlistForm(props) {
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
           PaymentType: PaymentType,
+          isActive:isActive,
           ID: props.edit === 'Edit' ? id : '',
         },
       });
-
-
-
       Swal.fire({
         icon: 'success',
         title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
@@ -419,7 +447,7 @@ function UserlistForm(props) {
                   <div className='col-lg-12'>
                     <Form.Label style={{ fontSize: "12px" }}>Select PG</Form.Label>
                     <Form.Select aria-label="Default select example"
-                      style={bottomBorderStyle}
+                      style={bottomBorderStyles}
                       id="form-selects"
                       value={hostel_Id} onChange={(e) => handleHostelId(e)}>
                       <option>Select hostel</option>
@@ -441,7 +469,7 @@ function UserlistForm(props) {
                   <div className='col-lg-6'>
                     <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
                     <Form.Select aria-label="Default select example"
-                      style={bottomBorderStyle}
+                      style={bottomBorderStyles}
                       id="form-selects"
                       value={Floor} onChange={(e) => handleFloor(e)}>
                       <option>Selected Floor</option>
@@ -460,7 +488,7 @@ function UserlistForm(props) {
                     <Form.Label style={{ fontSize: '12px' }}>Select Room</Form.Label>
                     <Form.Select
                       aria-label='Default select example'
-                      style={bottomBorderStyle}
+                      style={bottomBorderStyles}
                       value={Rooms}
                       id="form-selects"
                       onChange={(e) => handleRooms(e)}
@@ -487,7 +515,7 @@ function UserlistForm(props) {
                     <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>
                     <Form.Select
                       aria-label='Default select example'
-                      style={bottomBorderStyle}
+                      style={bottomBorderStyles}
                       value={Bed}
                       id="form-selects"
 
@@ -539,7 +567,7 @@ function UserlistForm(props) {
                     <Form.Select
                       id="form-selects"
                       aria-label='Default select example'
-                      style={bottomBorderStyle}
+                      style={bottomBorderStyles}
                       value={PaymentType}
                       onChange={(e) => handlePaymentType(e)}
                     >
@@ -550,13 +578,27 @@ function UserlistForm(props) {
 
                   </div>
 
-                  <div className='col lg-6'>
+                  <div className='col-lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px" }}>BalanceDue:</Form.Label>
                       <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 8 }}>{BalanceDue}</h1>
 
 
                     </Form.Group>
+                  </div>
+                  <div className='col-lg-6'>
+                    <Form.Label style={{ fontSize: '12px' }}>Active</Form.Label>
+                    <Form.Select
+                      aria-label='Default select example'
+                      style={bottomBorderStyles}
+                      value={isActive}
+                      onChange={(e) => handleIsActiveUser(e)}
+                    >
+                      <option>Selected Type</option>
+                      <option value="1">CheckIn</option>
+                      <option value="0">CheckOut</option>
+                    </Form.Select>
+
                   </div>
                 </div>
 
