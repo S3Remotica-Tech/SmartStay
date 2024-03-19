@@ -18,3 +18,8 @@ export async function TwoStepVerification(datum) {
     data: datum
   })
 } 
+
+export async function AccountDetails() {
+  return await AxiosConfig.get('/get/userAccount',{
+  })
+}

@@ -13,6 +13,8 @@ import Switch from '@mui/material/Switch';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import CryptoJS from "crypto-js";
+import Form from 'react-bootstrap/Form';
+
 
 function Settings() {
   const state = useSelector(state => state)
@@ -84,7 +86,7 @@ function Settings() {
         console.log("decryptedStringPassword",decryptedStringPassword)
         setLogin_Password(decryptedStringPassword)
 
-console.log("login_Password",login_Password)
+        console.log("login_Password",login_Password)
 
         console.log("decryptedStringIsEnable", decryptedStringIsEnable)
 
@@ -188,7 +190,19 @@ console.log("login_Password",login_Password)
     setCity("");
     setStatee("");
   }
-  const [isChecked, setIsChecked] = useState('');
+
+
+// useEffect(()=>{
+//   setIsChecked(isEnableCheck === '1');
+// },[])
+
+
+  const [isChecked, setIsChecked] = useState(null);
+
+
+console.log("isChecked",isChecked)
+
+console.log("isEnableCheck",isEnableCheck === '1')
 
   const handleChange = (event) => {
     console.log("eventChecked", event.target.checked)
@@ -200,7 +214,6 @@ console.log("login_Password",login_Password)
 
 
   const handleTwoStepVerify = () => {
-    console.log("executed")
     dispatch({ type: 'TWOSTEPVERIFY', payload: { emailId: email_IdForLoginUser, isEnable: isChecked } })
     dispatch({ type: 'CLEAR_ERROR' })
     
@@ -210,30 +223,43 @@ console.log("login_Password",login_Password)
   useEffect(() => {
     if (state.createAccount.statusCodeTwo === 200) {
       dispatch({ type: 'LOGININFO', payload: { email_Id: email, password: login_Password } });
-      
-      setTimeout(() => {
+            setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_TWO_STEP' })
-        
-      }, 100)
+              }, 100)
+              setTimeout(() => {
+                      dispatch({ type: 'CLEAR_STATUSCODE' });
+                    }, 200);
     }
-    if(state.login.loginInformation[0]?.isEnable === 1){
-      setIsChecked(true)
-    }else{
-      setIsChecked(false)
-    }
+    
     
   }, [state.createAccount.statusCodeTwo])
 
 
 useEffect(()=>{
-  if(state.login.statusCode === 200){
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_STATUSCODE' })
-    }, 100);
-  }
-  },[state.login.statusCode === 200])
+  const UserIsEnable = state.createAccount.accountList.filter(item=> item.email_Id == email)
+  console.log("UserIsEnable",UserIsEnable)
+ const IsEnableOn = UserIsEnable[0]?.isEnable
+
+ console.log("IsEnableOn === 1",IsEnableOn === 1)
+
+if(IsEnableOn === 1){
+  setIsChecked(true);
+}else{
+  setIsChecked(false);
+}
+},[state.createAccount.accountList])
 
 
+
+
+  
+ console.log("state for settings",state)
+
+useEffect(()=>{
+    dispatch({ type: 'ACCOUNTDETAILS' })
+   },[])
+
+  
   return (
     <div className='container-fluid'>
       <div className="d-flex row justify-content-between mt-2 ms-4 me-4 pt-3">
@@ -403,9 +429,16 @@ useEffect(()=>{
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
-                    <AntSwitch
+                  <Form.Check // prettier-ignore
+        type="switch"
+        id="custom-switch"
+        checked={isChecked}
+        onChange={handleChange}
+        // label="Check this switch"
+      />
+                    {/* <AntSwitch
                       checked={isChecked}
-                      onChange={handleChange} inputProps={{ 'aria-label': 'ant design' }} />
+                      onChange={handleChange} inputProps={{ 'aria-label': 'ant design' }} /> */}
                   </div>
                 </div>
 
@@ -416,7 +449,9 @@ useEffect(()=>{
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
-                    <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
+                    {/* <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} /> */}
+                    <Form.Check type="switch" id="custom-switch" />
+                 
                   </div>
                 </div>
 
@@ -427,7 +462,8 @@ useEffect(()=>{
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
-                    <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
+                    {/* <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} /> */}
+                    <Form.Check type="switch" id="custom-switch" />
                   </div>
                 </div>
 

@@ -569,7 +569,7 @@ function UserBedDetailsEdit(props) {
                     </Form.Select>
 
                   </div>
-
+                 
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px" }}>BalanceDue:</Form.Label>
