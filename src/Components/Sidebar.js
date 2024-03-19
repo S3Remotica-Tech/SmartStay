@@ -139,7 +139,7 @@ function Sidebar() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch({type:'LOGOUT'})
-        const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd').toString()
+        const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
         console.log("encryptData", encryptData.toString());
         localStorage.setItem("login", encryptData.toString()) 
         localStorage.setItem("loginId",'')
@@ -150,6 +150,14 @@ function Sidebar() {
     })
   }
 
+
+ const DataFor =  localStorage.getItem("login")
+
+
+
+
+
+console.log("DataFor",DataFor)
   return (
     <>
 
