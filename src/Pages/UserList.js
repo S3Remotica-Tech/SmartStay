@@ -201,7 +201,7 @@ const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel :
   }, [state.UsersList?.Users,Hostel_Ids,Bed_Ids,Floor_Ids,Rooms_Ids])
 
 
-console.log("userDetailForUser",userDetails)
+
 
 let filteredDataForUser = []
 
@@ -237,9 +237,9 @@ let filteredDataForUser = []
 
   
 
-useEffect(() => {
-   setFilteredDatas(filteredDataForUser);
-}, [filteredDataForUser]);
+// useEffect(() => {
+//    setFilteredDatas(filteredDataForUser);
+// }, [filteredDataForUser]);
 
 useEffect(() => {
   if (state.InvoiceList?.Invoice && filteredDataForUser.length > 0) {

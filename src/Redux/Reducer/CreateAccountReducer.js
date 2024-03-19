@@ -8,7 +8,7 @@ const initialState = {
    errorMessage: '',
    accountMgs: {},
    IsEnable: '',
-   
+   accountList:[]
 
 }
 const CreateAccountReducer = (state = initialState, action) => {
@@ -22,6 +22,8 @@ const CreateAccountReducer = (state = initialState, action) => {
          return { ...state, EmailId:action.payload.emailId, IsEnable:action.payload.isEnable, statusCodeTwo:action.payload.statusCode }
 case 'CLEAR_STATUS_CODE_TWO_STEP':
    return { ...state,statusCodeTwo:0 }
+   case 'ACCOUNT_DETAILS':
+      return{...state, accountList:action.payload}
 
 
    }

@@ -301,8 +301,8 @@ function UserBedDetails(props) {
                 <div className='col-lg-5 col-md-12 col-sm-12 col-xs-12 d-flex align-items-center '>
                   <div class="d-block ps-1">
                     <p style={{ fontWeight: "700", textTransform: 'capitalize' }} class="mb-0">{item.Name}</p>
-                    <button type="button" class="btn btn-light p-1" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>Edit</button>
-                    <button type="button" class="btn btn-light p-1 ms-2" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>Delete</button>
+                    {/* <button type="button" class="btn btn-light p-1" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>IsActive</button> */}
+                    {/* <button type="button" class="btn btn-light p-1 ms-2" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>Delete</button> */}
 
                   </div>
                 </div>
@@ -337,9 +337,9 @@ function UserBedDetails(props) {
 
               </div>
 
-              <div class="d-flex">
+              {/* <div class="d-flex">
                 <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline", fontWeight: 700 }}> + Add Additional Address</p>
-              </div>
+              </div> */}
               <div class="d-flex justify-content-between mt-3">
                 <p class="mb-1" style={{ fontSize: "12px", fontWeight: '700' }} >KYC DETAIL</p>
 
@@ -439,10 +439,10 @@ function UserBedDetails(props) {
                   )}
                 </tbody>
               </Table>
-              <div class="d-flex justify-content-between mb-3">
+              {/* <div class="d-flex justify-content-between mb-3">
                 <p style={{ fontWeight: 700 }}>Comments</p>
                 <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline", fontWeight: 700 }}>+ Add Comment</p>
-              </div>
+              </div> */}
 
               <div class="" style={{ marginTop: 30 }}>
                 <div class="d-flex justify-content-start align-items-center" style={{ backgroundColor: "", marginLeft: 100, marginTop: 50 }}>
