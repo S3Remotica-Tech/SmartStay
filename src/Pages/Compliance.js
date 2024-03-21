@@ -20,10 +20,25 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { format } from 'date-fns';
-
+import '../Pages/Compliance.css'
 
 
 const Compliance = () => {
+
+
+  const bottomBorderStyles = {
+    border: 'none',
+    borderBottom: '1px solid #ced4da',
+    borderRadius: '0',
+    boxShadow: 'none',
+    fontWeight: 'bold',
+    fontSize: "11px",
+    marginTop: "",
+    paddingLeft: "2px",
+    backgroundColor:"#E6ECF8"
+  };
+
+
 
   useEffect(() => {
     dispatch({ type: 'COMPLIANCE-LIST' })
@@ -41,7 +56,7 @@ const Compliance = () => {
   const [Name, setName] = useState('');
   const [Phone, setPhone] = useState('');
   const [Complainttype, setComplainttype] = useState('');
-  const [description,setDescription] = useState('')
+  const [description, setDescription] = useState('')
   const [Assign, setAssign] = useState('');
   const [Status, setStatus] = useState('')
   const [date, setDate] = useState(new Date);
@@ -70,14 +85,14 @@ const Compliance = () => {
 
 
   useEffect(() => {
-     dispatch({ type: 'HOSTELLIST' })
+    dispatch({ type: 'HOSTELLIST' })
   }, [])
 
   useEffect(() => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
   }, [hostel_Id]);
-    const [hostelname,setHostelName] = useState('')
-    const handleHostelId = (e) => {
+  const [hostelname, setHostelName] = useState('')
+  const handleHostelId = (e) => {
     console.log("e.target.value", e.target.value);
     const selectedHostelId = e.target.value;
     const selectedHostel = state.UsersList?.hostelList?.find(item => item.id == selectedHostelId);
@@ -85,7 +100,7 @@ const Compliance = () => {
     console.log("selectedHostel", selectedHostel);
     setHostelName(selectedHostel ? selectedHostel.Name : '');
   };
-  
+
   const handleImageChange = (event) => {
     const fileimgage = event.target.files[0];
     if (fileimgage) {
@@ -115,7 +130,7 @@ const Compliance = () => {
     setShowForm(true);
     setUserClicked(true);
   };
-  
+
 
   const handleClose = () => {
     setShowMenu(false);
@@ -138,6 +153,7 @@ const Compliance = () => {
     handleMenuClick();
     setShowMenu(true);
     setEditbtn(false)
+    setSelectedUserId('');
   };
 
   const handleFormclose = () => {
@@ -165,14 +181,15 @@ const Compliance = () => {
 
   }
 
-  console.log("state",state);
+  console.log("state", state);
 
- 
-  
+
+
 
   const handleEdit = (item) => {
-    console.log("item",item)
+    console.log("item", item)
     setEditbtn(true)
+    setSelectedUserId(item.User_id);
     setId(item.ID)
     setName(item.Name)
     setPhone(item.Phone)
@@ -190,8 +207,8 @@ const Compliance = () => {
   }
 
   const handleSubmit = () => {
-    if (Name && Phone  && Complainttype && Assign && description && Status && date && hostel_Id && Floor && Rooms ) {
-      dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: Name, Phone: Phone, Complainttype: Complainttype, Assign: Assign, Description:description, Status: Status, date: date, id: editbtn ? id : '', Hostel_id: hostel_Id, Floor_id: Floor, Room: Rooms ,hostelname:hostelname } })
+    if (Name && Phone && Complainttype && Assign && description && Status && date && hostel_Id && Floor && Rooms) {
+      dispatch({ type: 'COMPLIANCE-ADD', payload: { User_id:selectedUserId,Name: Name, Phone: Phone, Complainttype: Complainttype, Assign: Assign, Description: description, Status: Status, date: date, id: editbtn ? id : '', Hostel_id: hostel_Id, Floor_id: Floor, Room: Rooms, hostelname: hostelname } })
       setId('')
       setName('')
       setPhone('')
@@ -274,6 +291,47 @@ const Compliance = () => {
     setDate(e.target.value)
   }
 
+
+  useEffect(() => {
+    dispatch({ type: 'USERLIST' })
+  }, [])
+
+
+  const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
+
+
+  const [selectedUserId, setSelectedUserId] = useState('')
+  const [filteredUserDetails, setFilteredUserDetails] = useState([]);
+  const handleUserIdChange = (e) => {
+    setSelectedUserId(e.target.value);
+
+  };
+
+  useEffect(() => {
+    if (selectedUserId) {
+      const filteredDetails = state.UsersList?.Users.find(item => item.User_Id === selectedUserId);
+
+      console.log("filteredDetails",filteredDetails)
+
+      if (filteredDetails) {
+        setFilteredUserDetails([filteredDetails]);
+        setName(filteredDetails.Name || '')
+        setPhone(filteredDetails.Phone || '')
+        setHostel_Id(filteredDetails.Hostel_Id || '')
+        setHostelName(filteredDetails.HostelName || '')
+        setFloor(filteredDetails.Floor || '')
+        setRooms(filteredDetails.Rooms || '')
+      } else {
+        setFilteredUserDetails([]);
+      }
+    } else {
+      setFilteredUserDetails([]);
+    }
+  }, [selectedUserId, state.UsersList?.Users]);
+
+
+
+
   return (
     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
       <div class="row g-0" style={{ width: "100%" }}>
@@ -319,8 +377,8 @@ const Compliance = () => {
 
         </div>
         <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: '69vh' }}>
-          <Offcanvas.Title style={{ background: '#2F74EB', color: 'white', paddingLeft: '20px', height: '40px' }}>
-            Add Compliance
+          <Offcanvas.Title className="d-flex align-items-center" style={{ background: '#2F74EB', color: 'white', padding: '5px 20px', height: '40px',fontSize:15 }}>
+          {editbtn ? "Edit Compliance" : "Add Compliance"} 
           </Offcanvas.Title>
           <Offcanvas.Body>
             <div class="d-flex flex-row bd-highlight mb-3 item" style={{ marginTop: '-20px' }}>
@@ -334,8 +392,8 @@ const Compliance = () => {
 
             {showForm && (
               <Form>
-                <p style={{ textAlign: 'center', marginTop: '-20px' }}>Upload Profile</p>
-                <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
+                <p style={{ textAlign: 'center', marginTop: '-20px',marginBottom:2 }}>Upload Profile</p>
+                <div className="d-flex justify-content-center mt-0" style={{ position: 'relative' }}>
                   {file ? <>
                     <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
                   </> :
@@ -361,129 +419,182 @@ const Compliance = () => {
                   }}
                 >
 
-                  <TextField id="standard-basic" label="Name" value={Name} onChange={(e) => { setName(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="Phone Number" value={Phone} onChange={(e) => { handlePhone(e) }} variant="standard" style={{ m: 1, width: '22ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
+
+                  <div className='row d-flex justify-content-between w-100 g-1 row-gap-1' style={{ backgroundColor: "" }}>
+                   
+                  <div className='col-12 mb-3'>
+                  <Form.Label style={{ fontSize: "10px" ,marginBottom:5,fontWeight:600 }}>Select User ID</Form.Label>
+                          <Form.Select aria-label="Default select example" style={bottomBorderStyles}
+                            value={selectedUserId}
+                            disabled={editbtn}
+                            onChange={handleUserIdChange} >
+                            <option>Select User Id</option>
+                            {
+                              userIds && userIds.map((item) => {
+                                return (
+                                  <>
+                                    <option value={item.id}>{item.User_Id}</option>
+                                  </>
+                                )
+                              })
+                            }
+                          </Form.Select>
+                   
+                     </div>            
+                   
+                   
+                    <div className='col-6'>
+                      <TextField id="standard-basic" label="Name" value={Name} InputProps={{ readOnly: true }}  onChange={(e) => { setName(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': {fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE" } }} />
+
+                    </div>
+                    <div className='col-6'>
+                      <TextField id="standard-basic" label="Phone Number" value={Phone} InputProps={{ readOnly: true }}  onChange={(e) => { handlePhone(e) }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE" } }} />
+
+                    </div>
 
 
 
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 100 }}>
-                    <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select PG</InputLabel>
-                    <Select
-                      id="standard-basic"
-                      variant="standard"
 
-                      value={hostel_Id}
-                      onChange={(e) => handleHostelId(e)}
-                      label="Select PG"
-                    >
 
-                      {state.UsersList?.hostelList?.map((item) => (
-                        <MenuItem key={item.Name} value={item.id}>
-                          {item.Name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                    <div className='col-6'>
+                      <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
+                        <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select PG</InputLabel>
+                        <Select
+                          id="standard-basic"
+                          variant="standard"
+style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
+                          value={hostel_Id}
+                          onChange={(e) => handleHostelId(e)}
+                          label="Select PG"
+                          readOnly
+                        >
 
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                    <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select Floor</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
-                      label="Select Floor"
-                      value={Floor}
-                      onChange={(e) => setFloor(e.target.value)}
-                    >
-                      <MenuItem value="none">                      
-                      </MenuItem>
-                      {state.UsersList?.hosteldetailslist
-                        ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
-                        .map((u) => (
-                          <MenuItem key={u.Floor_Id} value={u.Floor_Id}>
-                            {u.Floor_Id}
+                          {state.UsersList?.hostelList?.map((item) => (
+                            <MenuItem key={item.Name} value={item.id}>
+                              {item.Name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
+                    <div className='col-6'>
+                      <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
+                        <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select Floor</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          label="Select Floor"
+                          value={Floor}
+                          readOnly
+                          onChange={(e) => setFloor(e.target.value)}
+                          style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
+                        >
+                          <MenuItem value="none">
                           </MenuItem>
-                        ))}
-                    </Select>
-                  </FormControl>
+                          {state.UsersList?.hosteldetailslist
+                            ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
+                            .map((u) => (
+                              <MenuItem key={u.Floor_Id} value={u.Floor_Id}>
+                                {u.Floor_Id}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    </div>
+                    <div className='col-6'>
+                      <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
+                        <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select Room No</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          label="Select Room No"
+                          value={Rooms}
+                          readOnly
+                          onChange={(e) => setRooms(e.target.value)}
+                          style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
+                        >
+                          <MenuItem value="none">
 
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                    <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select Room No</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
-                      label="Select Room No"
-                      value={Rooms}
-                      onChange={(e) => setRooms(e.target.value)}
-                    >
-                      <MenuItem value="none">
-                        
-                      </MenuItem>
-                      {state.UsersList?.hosteldetailslist
-                        ?.filter(item => item.Floor_Id === Floor)
-                        .map((item) => (
-                          <MenuItem key={item.Room_Id} value={item.Room_Id}>
-                            {item.Room_Id}
                           </MenuItem>
-                        ))}
-                    </Select>
-                  </FormControl>
+                          {state.UsersList?.hosteldetailslist
+                            ?.filter(item => item.Floor_Id === Floor)
+                            .map((item) => (
+                              <MenuItem key={item.Room_Id} value={item.Room_Id}>
+                                {item.Room_Id}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    </div>
+                    <div className='col-6'>
+                      <TextField id="standard-basic" type='date'
+                        value={date}
+                        disabled={editbtn}
+                        onChange={(e) => { handleDatePicker(e) }}
+                        variant="standard" style={{ m: 1, width: '20ch', marginTop: "18px" }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }}
+                      />
+                    </div>
+                    <div className='col-6'>
+                      <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
+                        <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Complaint Type</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          label="Select Room No"
+                          value={Complainttype}
+                          onChange={(e) => { setComplainttype(e.target.value) }}
+                          style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
+                        >
+                          <MenuItem value="none">
+                            <em>None</em>
+                          </MenuItem>
 
-                  <TextField id="standard-basic" type='date'
-                   value={date}
-                    onChange={(e) => { handleDatePicker(e) }} 
-                    variant="standard" style={{ m: 1, width: '22ch', marginTop: '24px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }}
-                     />
-
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 390 }}>
-                    <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Complainttype</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
-                      label="Select Room No"
-                      value={Complainttype}
-                      onChange={(e) => { setComplainttype(e.target.value) }}
-                    >
-                      <MenuItem value="none">
-                        <em>None</em>
-                      </MenuItem>
-                      
                           <MenuItem value="Invoice">
                             Invoice
-                          
+
                           </MenuItem>
                           <MenuItem value="Others">
                             Others
-                          
+
                           </MenuItem>
-                       
-                    </Select>
-                  </FormControl>
 
-                  <TextField
-          id="standard-multiline-flexible"
-          label="Description"
-          multiline
-          maxRows={4}
-          variant="standard"
-          sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }}
-          style={{ m: 1, minWidth: 390}}
-          value={description} onChange={(e) => { setDescription(e.target.value) }} 
-        />
-             
-                  <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginBottom: '10px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                  <TextField id="standard-basic" label="status" value={Status} onChange={(e) => { setStatus(e.target.value) }} variant="standard" style={{ m: 1, width: '22ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }} />
-                 
+                        </Select>
+                      </FormControl>
+                    </div>
+                    <div className='col-6'>
+                      <TextField
+                        id="standard-multiline-flexible"
+                        label="Description"
+                        multiline
+                        maxRows={4}
+                        variant="standard"
+                        sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"} }}
+                        style={{ m: 1, width: "20ch", marginTop: '4px' }}
+                        value={description} onChange={(e) => { setDescription(e.target.value) }}
+                      />
+                    </div>
+                    <div className='col-6'>
+                      <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE" } }} />
 
+                    </div>
+                    <div className='col-6'>
+                      <TextField id="standard-basic" label="status" value={Status} onChange={(e) => { setStatus(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE" } }} />
+                    </div>
+
+                  </div>
                 </Box>
-               
-                <div class="d-flex justify-content-center" style={{ marginTop: '20px' }}>
-                  <Button variant="dark" size="sm" onClick={handleFormclose} style={{ borderRadius: '20vh', width: '100px', marginRight: '15px' }}>
+
+                <div class="d-flex justify-content-end" style={{ marginTop: '20px' }}>
+                  <Button variant="outline-secondary" size="sm" onClick={handleFormclose} style={{ borderRadius: '20vh', width: '100px', marginRight: '15px' }}>
                     Cancel
                   </Button>
                   <Button variant="outline-primary" size="sm" style={{ borderRadius: '20vh', width: '100px' }} onClick={handleSubmit}>
                     {editbtn ? "Update" : "Save"}
                   </Button>
                 </div>
+
+
+
               </Form>
             )}
           </Offcanvas.Body>
@@ -521,7 +632,7 @@ const Compliance = () => {
               </td>
 
               <th style={{ color: "#91969E" }}>{item.hostelname}</th>
-              
+
               <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_id}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Room}</td>
               <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
@@ -540,17 +651,17 @@ const Compliance = () => {
             <p style={{ fontSize: 13, marginTop: "5px" }}>Results:</p>
           </div>
           <Dropdown onSelect={(eventKey) => handlePageSelect(eventKey)}>
-                  <Dropdown.Toggle variant="secondary" style={{ backgroundColor: "#F6F7FB", color: "black", border: "none", fontSize: "10px", marginLeft: "10px" }}>
-                    {currentPage} - {currentPage}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {generatePageNumbers().map((page) => (
-                      <Dropdown.Item key={page} eventKey={page}>
-                        {currentPage} - {page}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
+            <Dropdown.Toggle variant="secondary" style={{ backgroundColor: "#F6F7FB", color: "black", border: "none", fontSize: "10px", marginLeft: "10px" }}>
+              {currentPage} - {currentPage}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {generatePageNumbers().map((page) => (
+                <Dropdown.Item key={page} eventKey={page}>
+                  {currentPage} - {page}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
           <div style={{ fontSize: "10px", marginTop: "7px", marginLeft: "10px" }}>
             of <label>{currentPage}</label>
           </div>
