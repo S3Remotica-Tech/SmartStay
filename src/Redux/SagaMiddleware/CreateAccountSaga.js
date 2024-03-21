@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { CreateAccountAction ,TwoStepVerification} from '../Action/smartStayAction';
+import { CreateAccountAction ,TwoStepVerification,AccountDetails} from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
 
 
@@ -51,11 +51,11 @@ function* CreateAccountPage(args) {
         console.log("error",error);
     }
   }
-  
+ 
   function* HandleTwoStepVerification(action){
     const response = yield call (TwoStepVerification,action.payload)
     if (response.status === 200) {
-       yield put({ type: 'TWO_STEP_VERIFY', payload: response.data })
+       yield put({ type: 'TWO_STEP_VERIFY', payload:{response: response.data ,statusCode:response.status}})
        Swal.fire({
         icon: 'success',
         text:  'Updated successfully',
@@ -70,12 +70,21 @@ function* CreateAccountPage(args) {
     }
  } 
 
-
+ function* handleAccountDetails() {
+  const response = yield call(AccountDetails)
+  if (response.status === 200) {
+     yield put({ type: 'ACCOUNT_DETAILS', payload: response.data })
+  }
+  else {
+     yield put({ type: 'ERROR', payload: response.data.message })
+  }
+}
 
 
 
   function* CreateAccountSaga() {
     yield takeEvery('CREATE_ACCOUNT', CreateAccountPage)
     yield takeEvery('TWOSTEPVERIFY', HandleTwoStepVerification)
+    yield  takeEvery('ACCOUNTDETAILS', handleAccountDetails)
   }
   export default CreateAccountSaga;

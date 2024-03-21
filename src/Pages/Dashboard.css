@@ -1,3 +1,6 @@
+
+
+
 .searchinput:focus {
   box-shadow: none !important;
   border-color: #ced4da !important;
@@ -22,6 +25,12 @@ padding:1px 2px;
 .content {
   width: 100%;
   background-color: #FFFFFF;
+}
+
+.form-select {
+     border-radius: unset !important;
+  padding: 5px;
+  border:unset !important;
 }
 
 .custom-border-bottom {
@@ -78,3 +87,5 @@ padding:1px 2px;
     flex: 0 0 33.33% !important;
   }
 }
+
+

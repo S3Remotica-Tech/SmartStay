@@ -13,6 +13,8 @@ import Switch from '@mui/material/Switch';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import CryptoJS from "crypto-js";
+import Form from 'react-bootstrap/Form';
+
 
 function Settings() {
   const state = useSelector(state => state)
@@ -29,6 +31,7 @@ function Settings() {
   const [statee, setStatee] = useState("")
   const [id, setId] = useState("")
   const [updateval, setUpdateval] = useState("")
+  const [login_Password, setLogin_Password] = useState("")
 
 
   const handleTabClick = (tabName) => {
@@ -38,40 +41,65 @@ function Settings() {
   const Loginname = localStorage.getItem("NameId")
   const Loginemail = localStorage.getItem("emilidd")
   const Loginphone = localStorage.getItem("phoneId")
-
-  console.log("Loginemail",Loginemail)
-
-  useEffect(() => {
-    const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-    const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-    const parsedData = decryptedString;
-    setId(parsedData)
-
-    const decryptedDataname = CryptoJS.AES.decrypt(Loginname, 'abcd');
-    const decryptedStringname = decryptedDataname.toString(CryptoJS.enc.Utf8);
-    const parsedDataname = decryptedStringname;
-    setName(parsedDataname)
-
-    const decryptedDataphone = CryptoJS.AES.decrypt(Loginphone, 'abcd');
-    const decryptedStringphone = decryptedDataphone.toString(CryptoJS.enc.Utf8);
-    const parsedDatphone = decryptedStringphone;
-    setPhone(parsedDatphone)
-
-    const decryptedDataemail = CryptoJS.AES.decrypt(Loginemail, 'abcd');
-    const decryptedStringemail = decryptedDataemail.toString(CryptoJS.enc.Utf8);
-       setEmail(decryptedStringemail)
-       console.log("decryptedStringemail",decryptedStringemail)
+  const LoginIsEnable = localStorage.getItem("IsEnable")
+  const LoginPassword = localStorage.getItem("Password")
 
 
-  }, [])
+  const [email_IdForLoginUser, setEmail_IdForLoginUser] = useState('')
+  const [isEnableCheck, setIsEnableCheck] = useState('')
 
+  console.log("LoginIsEnable", LoginIsEnable)
+  console.log("isEnableCheck", isEnableCheck)
+  console.log("LoginPassword",LoginPassword)
 
   useEffect(() => {
-    dispatch({
-      type: 'LOGININFO'
-    });
-    setUpdateval(state.login.loginInformation)
-  })
+    if (LoginId) {
+      try {
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = decryptedString;
+        setId(parsedData)
+
+        const decryptedDataname = CryptoJS.AES.decrypt(Loginname, 'abcd');
+        const decryptedStringname = decryptedDataname.toString(CryptoJS.enc.Utf8);
+        const parsedDataname = decryptedStringname;
+        setName(parsedDataname)
+
+        const decryptedDataphone = CryptoJS.AES.decrypt(Loginphone, 'abcd');
+        const decryptedStringphone = decryptedDataphone.toString(CryptoJS.enc.Utf8);
+        const parsedDatphone = decryptedStringphone;
+        setPhone(parsedDatphone)
+
+        const decryptedDataemail = CryptoJS.AES.decrypt(Loginemail, 'abcd');
+        const decryptedStringemail = decryptedDataemail.toString(CryptoJS.enc.Utf8);
+        setEmail(decryptedStringemail)
+        setEmail_IdForLoginUser(decryptedStringemail)
+        console.log("decryptedStringemail", decryptedStringemail)
+
+
+        const decryptedDataIsEnable = CryptoJS.AES.decrypt(LoginIsEnable, 'abcd');
+        const decryptedStringIsEnable = decryptedDataIsEnable.toString(CryptoJS.enc.Utf8);
+        setIsEnableCheck(decryptedStringIsEnable)
+
+        const decryptedDataPassword = CryptoJS.AES.decrypt(LoginPassword, 'abcd');
+        const decryptedStringPassword = decryptedDataPassword.toString(CryptoJS.enc.Utf8);
+        console.log("decryptedStringPassword",decryptedStringPassword)
+        setLogin_Password(decryptedStringPassword)
+
+        console.log("login_Password",login_Password)
+
+        console.log("decryptedStringIsEnable", decryptedStringIsEnable)
+
+      } catch (error) {
+        console.error('Error decrypting LoginId:', error);
+      }
+    }
+
+  }, [LoginId])
+
+
+
+
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
@@ -115,6 +143,8 @@ function Settings() {
       boxSizing: 'border-box',
     },
   }));
+
+  
   const handleName = (e) => {
     setName(e.target.value)
   }
@@ -162,24 +192,75 @@ function Settings() {
     setStatee("");
   }
 
-  const [isChecked, setIsChecked] = useState(false);
+
+// useEffect(()=>{
+//   setIsChecked(isEnableCheck === '1');
+// },[])
+
+
+  const [isChecked, setIsChecked] = useState(null);
+
+
+console.log("isChecked",isChecked)
+
+console.log("isEnableCheck",isEnableCheck === '1')
 
   const handleChange = (event) => {
-    console.log("eventChecked",event.target.checked)
+    console.log("eventChecked", event.target.checked)
     setIsChecked(event.target.checked);
   };
 
 
-  console.log("email for Login User",email)
+  console.log("email for Login User", email)
+
+
   const handleTwoStepVerify = () => {
-    console.log("executed")
-dispatch({ type : 'TWOSTEPVERIFY', payload : { emailId : email, isEnable : isChecked}})
-dispatch({type:'CLEAR_ERROR'})
+    dispatch({ type: 'TWOSTEPVERIFY', payload: { emailId: email_IdForLoginUser, isEnable: isChecked } })
+    dispatch({ type: 'CLEAR_ERROR' })
+    
   }
 
+ 
+  useEffect(() => {
+    if (state.createAccount.statusCodeTwo === 200) {
+      dispatch({ type: 'LOGININFO', payload: { email_Id: email, password: login_Password } });
+            setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODE_TWO_STEP' })
+              }, 100)
+              setTimeout(() => {
+                      dispatch({ type: 'CLEAR_STATUSCODE' });
+                    }, 200);
+    }
+    
+    
+  }, [state.createAccount.statusCodeTwo])
+
+
+useEffect(()=>{
+  const UserIsEnable = state.createAccount.accountList.filter(item=> item.email_Id == email)
+  console.log("UserIsEnable",UserIsEnable)
+ const IsEnableOn = UserIsEnable[0]?.isEnable
+
+ console.log("IsEnableOn === 1",IsEnableOn === 1)
+
+if(IsEnableOn === 1){
+  setIsChecked(true);
+}else{
+  setIsChecked(false);
+}
+},[state.createAccount.accountList])
 
 
 
+
+  
+ console.log("state for settings",state)
+
+useEffect(()=>{
+    dispatch({ type: 'ACCOUNTDETAILS' })
+   },[])
+
+  
   return (
     <div className='container-fluid'>
       <div className="d-flex row justify-content-between mt-2 ms-4 me-4 pt-3">
@@ -329,51 +410,61 @@ dispatch({type:'CLEAR_ERROR'})
 
             {selectedTab === 'Security' &&
               <div>
-<div className='d-flex  justify-content-between'>
-                <div>
-                <h2 style={{ fontSize: '24px', fontWeight: 650 }}>Security</h2>
-                <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                <div className='d-flex  justify-content-between'>
+                  <div>
+                    <h2 style={{ fontSize: '24px', fontWeight: 650 }}>Security</h2>
+                    <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div className='justify-content-end'>
                     <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleTwoStepVerify} >Save change</button>
                   </div>
-               </div>
+                </div>
                 <hr style={{ opacity: 0.1 }} />
 
                 <div className='mt-4 mb-5'>
                   <h6 style={{ fontWeight: 700, textDecorationLine: 'underline' }}>Password Management</h6>
                 </div>
-                <div className='d-flex  justify-content-between mt-2'>
+                <div className='d-flex  justify-content-between mt-2 me-2'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Login Two-Step Verification</h6>
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
-                    <AntSwitch 
-                    checked={isChecked}
-      onChange={handleChange} inputProps={{ 'aria-label': 'ant design' }} />
+                  <Form.Check // prettier-ignore
+        type="switch"
+        id="custom-switch"
+        checked={isChecked}
+        onChange={handleChange}
+        // label="Check this switch"
+      />
+                    {/* <AntSwitch
+                      checked={isChecked}
+                      onChange={handleChange} inputProps={{ 'aria-label': 'ant design' }} /> */}
                   </div>
                 </div>
 
 
-                <div className='d-flex  justify-content-between '>
+                <div className='d-flex  justify-content-between me-2'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Email Setup</h6>
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
-                    <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
+                    {/* <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} /> */}
+                    <Form.Check type="switch" id="custom-switch" />
+                 
                   </div>
                 </div>
 
 
-                <div className='d-flex  justify-content-between '>
+                <div className='d-flex  justify-content-between me-2'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>SMS Setup</h6>
                     <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
                   </div>
                   <div>
-                    <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
+                    {/* <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} /> */}
+                    <Form.Check type="switch" id="custom-switch" />
                   </div>
                 </div>
 

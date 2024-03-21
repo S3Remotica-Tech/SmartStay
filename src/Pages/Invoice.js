@@ -768,7 +768,7 @@ setTotalPaidAmount(totalPaidAmount)
                     </>
                   }
                   <IoFilterOutline class=" me-4" onClick={handleFiltershow} />
-                  <button type="button" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" /> Add Invoice</button>
+                  {/* <button type="button" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" /> Add Invoice</button> */}
                 </div>
               </div>
               <div>
@@ -1068,7 +1068,8 @@ setTotalPaidAmount(totalPaidAmount)
                     <td style={item.BalanceDue == 0 ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{item.BalanceDue == 0 ? "Success" : "Pending"}</td>
                     <td class="justify-content-between">
                       <img src={List} height="20" width="20" alt='List' onClick={() => handleInvoiceDetail(item)} />
-                      <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /></td>
+                      {/* <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /> */}
+                      </td>
                   </tr>
                 ))}
               </tbody>

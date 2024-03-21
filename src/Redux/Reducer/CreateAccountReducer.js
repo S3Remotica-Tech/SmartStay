@@ -1,5 +1,6 @@
 const initialState = {
    id: 0,
+   statusCodeTwo:0,
    EmailId: '',
    Password: '',
    MobileNo: '',
@@ -7,6 +8,7 @@ const initialState = {
    errorMessage: '',
    accountMgs: {},
    IsEnable: '',
+   accountList:[]
 
 }
 const CreateAccountReducer = (state = initialState, action) => {
@@ -17,7 +19,13 @@ const CreateAccountReducer = (state = initialState, action) => {
          return { ...state, MobileNo: action.payload.mobileNo, EmailId: action.payload.emailId, Password: action.payload.password, Name: action.payload.name, accountMgs: action.payload }
 
       case 'TWO_STEP_VERIFY':
-         return { ...state, EmailId:action.payload.emailId, IsEnable:action.payload.isEnable }
+         return { ...state, EmailId:action.payload.emailId, IsEnable:action.payload.isEnable, statusCodeTwo:action.payload.statusCode }
+case 'CLEAR_STATUS_CODE_TWO_STEP':
+   return { ...state,statusCodeTwo:0 }
+   case 'ACCOUNT_DETAILS':
+      return{...state, accountList:action.payload}
+
+
    }
 
    return state

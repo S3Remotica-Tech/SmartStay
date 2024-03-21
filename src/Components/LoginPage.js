@@ -84,6 +84,11 @@ const MyComponent = () => {
         });
         dispatch({ type: 'LOGIN-SUCCESS' })
         setShowOtpVerification(false)
+
+
+
+
+        
       }
 
 
@@ -91,12 +96,18 @@ const MyComponent = () => {
       const NameId = state.login?.loginInformation[0]?.Name
       const phoneId = state.login?.loginInformation[0]?.mobileNo
       const emilidd = state.login?.loginInformation[0]?.email_Id
-      console.log("state.login.statusCode", state.login.statusCode);
+      const Is_Enable= state.login?.loginInformation[0]?.isEnable
+      const Pass_word = state.login?.loginInformation[0]?.password
+
+      console.log("Pass_word", Pass_word);
 
       const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
       const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
       const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
       const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
+      const encryptIsEnable =  CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
+      const encryptPassword =  CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
+
 
       console.log("encryptedLoginId", encryptedLoginId)
 
@@ -109,6 +120,9 @@ const MyComponent = () => {
         localStorage.setItem("NameId", encryptedname)
         localStorage.setItem("phoneId", encryptedphone)
         localStorage.setItem("emilidd", encryptedemail)
+        localStorage.setItem("IsEnable", encryptIsEnable)
+        localStorage.setItem("Password", encryptPassword)
+
       }
       else {
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
@@ -118,6 +132,8 @@ const MyComponent = () => {
         localStorage.setItem("NameId", encryptedname)
         localStorage.setItem("phoneId", encryptedphone)
         localStorage.setItem("emilidd", encryptedemail)
+        localStorage.setItem("IsEnable", encryptIsEnable)
+        localStorage.setItem("Password", encryptPassword)
       }
 
 
@@ -164,7 +180,7 @@ const MyComponent = () => {
           <div className="d-flex justify-content-center pt-1"><p style={{ fontSize: "13px", color: "gray" }}>We need a few basic details to consider your profile</p></div>
           <div className="row d-flex justify-content-center">
             <div className="col-md-7 col-sm-7 col-xs-7 right-side-form">
-              <div>{state.login.errorMessage?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.login.errorMessage}</label> : null}</div>
+              {/* <div>{state.login.errorMessage?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.login.errorMessage}</label> : null}</div> */}
               <Form className="Form">
                 <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>Email</b></Form.Label>
                 <InputGroup className="mb-3" size="lg" style={{ color: "#D9D9D9" }} >
