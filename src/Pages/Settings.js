@@ -62,6 +62,7 @@ function Settings() {
        setEmail(decryptedStringemail)
        console.log("decryptedStringemail",decryptedStringemail)
 
+
   }, [])
 
 
@@ -212,7 +213,7 @@ dispatch({type:'CLEAR_ERROR'})
               className={selectedTab === 'EB_Billings' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('EB_Billings')}
             >
-              <ReceiptIcon style={{ fontSize: '16px', marginRight: '8px' }} />  EB Billing
+              <ReceiptIcon style={{ fontSize: '16px', marginRight: '8px' }} /> EB Billing
             </div>
             <div
               style={{ fontSize: '13px' }}
