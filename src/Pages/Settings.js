@@ -100,6 +100,7 @@ function Settings() {
 
 
 
+
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
     height: 16,
@@ -293,7 +294,7 @@ useEffect(()=>{
               className={selectedTab === 'EB_Billings' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('EB_Billings')}
             >
-              <ReceiptIcon style={{ fontSize: '16px', marginRight: '8px' }} />  EB Billing
+              <ReceiptIcon style={{ fontSize: '16px', marginRight: '8px' }} /> EB Billing
             </div>
             <div
               style={{ fontSize: '13px' }}
