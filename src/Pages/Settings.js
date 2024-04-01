@@ -15,6 +15,8 @@ import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import CryptoJS from "crypto-js";
 import Form from 'react-bootstrap/Form';
+import InvoiceSettings from './InvoiceSettings';
+import Amenities from './Amenities';
 
 
 function Settings() {
@@ -297,19 +299,20 @@ useEffect(()=>{
             >
               <ReceiptIcon style={{ fontSize: '16px', marginRight: '8px' }} /> EB Billing
             </div>
-            <div
-              style={{ fontSize: '13px' }}
-              className={selectedTab === 'Plans' ? 'tab active' : 'tab'}
-              onClick={() => handleTabClick('Plans')}
-            >
-              <EventNoteIcon style={{ fontSize: '16px', marginRight: '8px' }} />  Plans
-            </div>
+           
             <div
               style={{ fontSize: '13px' }}
               className={selectedTab === 'Invoice_Settings' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('Invoice_Settings')}
             >
               <ShoppingBagIcon style={{ fontSize: '16px', marginRight: '8px' }} />  Invoice Settings
+            </div>
+            <div
+              style={{ fontSize: '13px' }}
+              className={selectedTab === 'Amenities' ? 'tab active' : 'tab'}
+              onClick={() => handleTabClick('Amenities')}
+            >
+              <EventNoteIcon style={{ fontSize: '16px', marginRight: '8px' }} />  Amenities
             </div>
 
           </div>
@@ -536,8 +539,8 @@ useEffect(()=>{
       </Table>
             </div>
             }
-            {selectedTab === 'Plans' && <h2>Plans</h2>}
-            {selectedTab === 'Invoice_Settings' && <h2>Invoice Settings</h2>}
+            {selectedTab === 'Amenities' && <Amenities />}
+            {selectedTab === 'Invoice_Settings' && <InvoiceSettings />}
           </div>
         </div>
       </div>
