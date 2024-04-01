@@ -2,7 +2,10 @@
     display: flex;
   } */
   
-  
+  .upload-button:hover{
+    background-color: white !important;
+    color:#2E75EA !important;
+  }
   
   .tab {
     /* font-size: 15px; */
