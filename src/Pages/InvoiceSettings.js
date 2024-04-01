@@ -42,16 +42,16 @@ function InvoiceSettings() {
             <hr></hr>
             <h4 style={{ fontSize: 16, fontWeight: 600, }}>Upload Logo</h4>
             <div className='d-flex justify-content-start gap-3 align-items-center mt-3'>
-                {/* <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 10 }}> */}
+                <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5 }}>
                 <Image src={selectedImage ? URL.createObjectURL(selectedImage) : Logo} roundedCircle
                     style={{
                         height: 50,
                         width: 50,
                         borderRadius: '50%',
-                        border: "1px solid lightgray"
+                       
                     }} />
 
-                {/* </div> */}
+                </div>
                 <button type="button" className="mb-2 upload-button" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={() => document.getElementById('upload-photo').click()}>Change Photo</button>
                 <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
                 <button type="button" class="mb-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >Delete</button>
