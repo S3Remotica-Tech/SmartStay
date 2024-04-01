@@ -4,6 +4,8 @@ import '../Components/Sidebar.css'
 import Dashboards from '../Pages/Dashboard';
 import PgLists from '../Pages/PgList';
 import UserLists from '../Pages/UserList';
+import EbHostel from '../Pages/EB_Hostel';
+import Checkout from '../Pages/Checkout';
 import Invoices from '../Pages/Invoice';
 import Compliances from '../Pages/Compliance';
 import Payments from '../Pages/Payment';
@@ -34,6 +36,7 @@ import { BiBarChartAlt } from "react-icons/bi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { FaCirclePlus } from "react-icons/fa6";
+import { CiViewList } from "react-icons/ci";
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -48,6 +51,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import { StaticDateTimePicker } from '@mui/x-date-pickers';
+import { BsClipboard2Check } from "react-icons/bs";
 
 
 function Sidebar() {
@@ -250,6 +254,8 @@ console.log("DataFor",DataFor)
               <li className={`p-2 align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><TbFileInvoice style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Compliance</span></li>
               <li className={`p-2 align-items-center list-Item ${currentPage === 'payment' ? 'active' : ''}`} onClick={() => handlePageClick('payment')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><MdPayment style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Payment gateway</span></li>
               <li className={`p-2 align-items-center list-Item ${currentPage === 'user-access' ? 'active' : ''}`} onClick={() => handlePageClick('user-access')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaUsersRectangle style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>User and access</span></li>
+              <li className={`p-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><CiViewList  style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>EB</span></li>
+              <li className={`p-2 align-items-center list-Item ${currentPage === 'checkout' ? 'active' : ''}`} onClick={() => handlePageClick('checkout')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BsClipboard2Check  style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Checkout</span></li>
               <li className={`p-2 align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BiBarChartAlt style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Reports</span></li>
             </ul>
 
@@ -282,6 +288,9 @@ console.log("DataFor",DataFor)
             {currentPage === 'reports' && < Report />}
             {currentPage === 'settings' && < Setting />}
             {currentPage === 'support' && < Supports />}
+            {currentPage === 'eb' && <  EbHostel/>}
+            {currentPage === 'checkout' && <Checkout/>}
+           
             
           </Col>
         </Row>
