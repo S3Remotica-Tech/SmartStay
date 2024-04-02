@@ -10,7 +10,8 @@ const timeOut = setTimeout(() => {
     for ( let i = 0; i<number_Of_Rooms; i++){
         let obj= {
             roomName:'',
-            number_Of_Bed:''
+            number_Of_Bed:'',
+            price:''
         }
         tempArray.push(obj)
     } 
@@ -28,9 +29,17 @@ if(isnumberOfBed===true){
     setRoomList(roomListTemp)
 }
 else{
-    var roomListTemp = roomList
-    roomListTemp[index].roomName = value
-    setRoomList(roomListTemp)
+    if(isnumberOfBed == "price"){
+        var roomListTemp = roomList
+        roomListTemp[index].price = value
+        setRoomList(roomListTemp)
+    }
+    else{
+        var roomListTemp = roomList
+        roomListTemp[index].roomName = value
+        setRoomList(roomListTemp)
+    }
+   
 }
 props.handleFloorList(props.index,roomList)
 }
