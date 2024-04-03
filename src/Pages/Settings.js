@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import Men from '../Assets/Images/men.jpg';
 import { FaCircleExclamation } from "react-icons/fa6";
@@ -17,7 +16,7 @@ import CryptoJS from "crypto-js";
 import Form from 'react-bootstrap/Form';
 import InvoiceSettings from './InvoiceSettings';
 import Amenities from './Amenities';
-
+import Billings from './Billing';
 
 function Settings() {
   const state = useSelector(state => state)
@@ -490,54 +489,7 @@ useEffect(()=>{
 
             }
             {selectedTab === 'EB_Billings' && 
-            <div>
-                     <div className='d-flex  justify-content-between'>
-                  <div>
-                    <h2 style={{ fontSize: '24px', fontWeight: 650 }}>EB Billing</h2>
-                    <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
-                  </div>
-                 
-                </div>
-                <hr style={{ opacity: 0.1 }} />
-
-
-                <Table responsive>
-        <thead style={{ backgroundColor: "#E6EDF5",color:'black' }}>
-          <tr >
-            <th >Hostel Name</th>
-            <th  className="text-center">Hostel Based<i class="bi bi-info-circle-fill ms-1"></i></th>
-            <th  className="text-center">Room Based <i class="bi bi-info-circle-fill"></i></th>
-           
-         
-          </tr>
-        </thead>
-        <tbody style={{backgroundColor:"#FFFFFF" }}>
-        
-           
-          
-            <tr>
-            <td style={{ color: "black",fontSize:'14px', fontWeight: 600 }}>Royal Grand Hostel</td>
-              <td  className="text-center"><input type='checkbox'/></td>
-              <td  className="text-center"><input type='checkbox'/></td>
-            </tr>
-           
-         
-            <tr>
-            <td style={{ color: "black",fontSize:'14px', fontWeight: 600 }}>Sky Hostel</td>
-            <td  className="text-center"><input type='checkbox'/></td>
-            <td  className="text-center"><input type='checkbox'/></td>
-            </tr>
-
-            
-            <tr>
-            <td style={{ color: "black",fontSize:'14px', fontWeight: 600 }}>Sai Sri Boys Hostel</td>
-            <td  className="text-center"><input type='checkbox'/></td>
-            <td  className="text-center"><input type='checkbox'/></td>
-            </tr>
-        
-        </tbody>
-      </Table>
-            </div>
+            <Billings/>
             }
             {selectedTab === 'Amenities' && <Amenities />}
             {selectedTab === 'Invoice_Settings' && <InvoiceSettings />}
