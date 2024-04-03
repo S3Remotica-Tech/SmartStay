@@ -17,9 +17,10 @@ function EB_Hostel() {
   }, [])
 
 
+
   return (
   <div style={{width:"100%"}}>
-<div className='row mt-4 ms-4'>
+<div className='row mt-4 ms-4 me-4'>
   <h4 style={{fontSize:16,fontWeight:600}}>EB Plan</h4>
   <p style={{fontSize:13}}>Manage your account settings</p>
 
@@ -52,6 +53,7 @@ function EB_Hostel() {
   </div>
    ))}
   </div>
+
 
 
 
