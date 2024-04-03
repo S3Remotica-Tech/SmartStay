@@ -1,0 +1,57 @@
+/* .form-select {
+    background-size: 10px;
+    padding-right: 10%;
+    background-position: 95% 10px, top right;
+    background-color: white;
+    border-radius: 2px;
+    color: lightgray;
+    border: 1px solid lightgray !important;
+} */
+
+.RoomSelectBox{
+    border: 1px solid lightgray !important;
+    border-radius: 5px !important;
+    padding: 4px !important;
+}
+.input-field{
+    height: 30px;
+    /* padding: 0.5rem 1rem; */
+    padding-left: 10px;
+    /* font-size: 1.25rem; */
+    line-height: 1.5;
+    border-radius: 0.3rem;
+    display: block;
+    /* width: 40%; */
+    font-weight: 400;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid lightgray;
+
+}
+.input-field::placeholder {
+    margin-left: 20px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color:lightgray ;
+    opacity: 1;
+    display: block;
+    background-repeat:  no-repeat;
+    width: 15px;
+    height: 15px;
+    border-width: thin
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    /* left: 5%; */
+}
+input::-webkit-datetime-edit-fields-wrapper {
+    position: relative;
+    /* left: 10%; */
+}
+input::-webkit-datetime-edit {
+    /* color:lightgray ; */
+    position: relative;
+    left: 17%;
+}
