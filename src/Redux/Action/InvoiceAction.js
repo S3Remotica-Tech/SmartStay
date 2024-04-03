@@ -16,3 +16,55 @@ export async function addInvoice(datum) {
     data:datum
   })
 }
+
+
+
+  export async function InvoicePDf() {
+    return await AxiosConfig.get('/invoice/invoice-list-pdf',{
+    })
+  }
+
+
+
+// export async function InvoiceSettings(datum) {
+//   return await AxiosConfig.post('/invoice/settings',datum,{
+//     data:datum
+//   })
+// }
+
+
+export async function InvoiceSettings(params) {
+
+  console.log("params", params);
+   const formData = new FormData();
+  formData.append("profile", params.profile);
+  formData.append("hostel_Id", params.hostel_Id);
+  formData.append("prefix", params.prefix);
+  formData.append("suffix", params.suffix);
+  
+    
+  try {
+    const response = await AxiosConfig.post('/invoice/settings',formData, {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+      timeout: 100000000,
+      // params: {
+      //   hostel_Id: params.hostel_Id,
+      //   prefix: params.prefix,
+      //   suffix: params.suffix,
+       
+      // },
+      onUploadProgress: (event) => {
+        console.log("event", event)
+              }
+    });
+    console.log("response for Api", response);
+    return response.data;
+  } catch (error) {
+    console.error("Axios Error", error);
+         }
+}
+
+
+
