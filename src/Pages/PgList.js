@@ -71,8 +71,7 @@ function PgList() {
     number_Of_Floor: '',
     number_Of_Rooms: '',
     floorDetails: [],
-    prefix:'',
-    suffix:''
+   
   })
 
   const [hostelIndex, setHostelIndex] = useState('')
@@ -105,7 +104,8 @@ function PgList() {
       for (let i = 0; i < pgList.number_Of_Rooms; i++) {
         let newRoom = {
           roomNumber: i + 1,
-          number_Of_Bed: ''
+          number_Of_Bed: '',
+          price:''
         };
         tempArray.push(newRoom);
       }
@@ -169,8 +169,7 @@ if(state.PgList.createPGMessage){
       number_Of_Floor: '',
       number_Of_Rooms: '',
       floorDetails: [],
-      prefix:'',
-      suffix:''
+     
     });
     setAddhostelForm(false)
   }
@@ -203,7 +202,7 @@ console.log("decrypt",decrypt)
 
 
   const handleSubmitPgList = () => {
-    if (!pgList.Name || !pgList.phoneNumber || !pgList.email_Id || !pgList.location || !pgList.number_Of_Floor || !pgList.prefix || !pgList.suffix) {
+    if (!pgList.Name || !pgList.phoneNumber || !pgList.email_Id || !pgList.location || !pgList.number_Of_Floor ) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
@@ -225,8 +224,6 @@ console.log("decrypt",decrypt)
           number_of_floors: pgList.number_Of_Floor,
           number_Of_Rooms: pgList.number_Of_Rooms,
           floorDetails: pgList.floorDetails,
-          prefix: pgList.prefix,
-          suffix: pgList.suffix,
            created_by: decrypt
         }
       }); 
@@ -238,8 +235,7 @@ console.log("decrypt",decrypt)
         number_Of_Floor: '',
         number_Of_Rooms: '',
         floorDetails: [],
-        prefix:'',
-        suffix:''
+      
       });
       handlecloseHostelForm()
 
@@ -453,25 +449,7 @@ const handleMouseLeave = () =>{
                 </div>
               </div>
             </div>
-            <div className="form-group mb-4">
-              <div className="row">
-                <div className="col">
-                  <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Prefix</label>
-                  <input type="text"
-                    maxLength={10}
-                    value={pgList.prefix}
-                    onChange={(e) => { setPgList({ ...pgList, prefix: e.target.value }) }}
-                    className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter suffix" style={{ fontSize: "11px" }} />
-                </div>
-                <div className="col">
-                  <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Suffix</label>
-                  <input type="email"
-                    value={pgList.suffix}
-                    onChange={(e) => { setPgList({ ...pgList, suffix: e.target.value }) }}
-                    className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter prefix" style={{ fontSize: "11px" }} />
-                </div>
-              </div>
-            </div>
+         
             <div className="form-group mb-4">
               <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>PG Location</label>
               <input type="text"

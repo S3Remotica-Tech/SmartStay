@@ -72,13 +72,28 @@ const InvoicePage = () => {
   const [invoicePage, setInvoicePage] = useState('')
 
 
-  const handleInvoiceDetail = (invoiceData) => {
-    console.log("invoiceDetails", invoiceData);
-    setInvoiceDetails(true)
-    setInvoicePage(invoiceData)
+  // const handleInvoiceDetail = (invoiceData) => {
+  //   console.log("invoiceDetails", invoiceData);
+  //   setInvoiceDetails(true)
+  //   setInvoicePage(invoiceData)
 
 
-  }
+  // }
+
+useEffect(()=>{
+  dispatch({type: 'INVOICEPDF'})
+},[])
+
+  const handleInvoiceDetail = (item) => {
+    // dispatch({ type: 'INVOICEPDF' }); 
+    if (item.invoicePDF) {
+      window.open(item.invoicePDF, '_blank');
+    } else {
+      console.log('Invoice PDF not available');
+    }
+  };
+
+
   const handleInvoiceback = (isVisible) => {
     console.log("invoiceDetails");
     setInvoiceDetails(isVisible)
@@ -1039,9 +1054,9 @@ setTotalPaidAmount(totalPaidAmount)
                   <th style={{ color: "#91969E" }} >Invoices#</th>
                   <th style={{ color: "#91969E" }} >Name & Phone</th>
                   <th style={{ color: "#91969E" }} >Amount</th>
-                  <th style={{ color: "#91969E" }} >Balance Due</th>
+                  {/* <th style={{ color: "#91969E" }} >Balance Due</th> */}
                   <th style={{ color: "#91969E" }} >Due Date</th>
-                  <th style={{ color: "#91969E" }} >Status</th>
+                  {/* <th style={{ color: "#91969E" }} >Status</th> */}
                   <th style={{ color: "#91969E" }} >Action</th>
                 </tr>
               </thead>
@@ -1063,9 +1078,9 @@ setTotalPaidAmount(totalPaidAmount)
                       </div>
                     </td>
                     <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
+                    {/* <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td> */}
                     <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
-                    <td style={item.BalanceDue == 0 ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{item.BalanceDue == 0 ? "Success" : "Pending"}</td>
+                    {/* <td style={item.BalanceDue == 0 ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{item.BalanceDue == 0 ? "Success" : "Pending"}</td> */}
                     <td class="justify-content-between">
                       <img src={List} height="20" width="20" alt='List' onClick={() => handleInvoiceDetail(item)} />
                       {/* <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /> */}

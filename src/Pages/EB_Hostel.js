@@ -20,14 +20,18 @@ function EB_Hostel() {
   const [isvisible ,setISVisible] = useState(false);
   const [backbtn,setBackbtn] = useState(true)
 
+
   const handleEbbill = ()=> {
     setISVisible(true)
   }
+
+
 
   const handleback = (isShow) => {
     setBackbtn(isShow)
     setISVisible(false)
   }
+
 
 
   return (
@@ -83,6 +87,10 @@ function EB_Hostel() {
                        </div>
                        
   
+
+
+    </div>
+
   )
 }
 
