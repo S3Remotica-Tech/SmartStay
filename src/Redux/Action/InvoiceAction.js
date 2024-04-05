@@ -24,13 +24,17 @@ export async function addInvoice(datum) {
     })
   }
 
+  export async function GetAmenities() {
+    return await AxiosConfig.get('/list/amenities-list',{
+    })
+  }
 
 
-// export async function InvoiceSettings(datum) {
-//   return await AxiosConfig.post('/invoice/settings',datum,{
-//     data:datum
-//   })
-// }
+export async function AmenitiesSettings(datum) {
+  return await AxiosConfig.post('/amenities/setting',datum,{
+    data:datum
+  })
+}
 
 
 export async function InvoiceSettings(params) {

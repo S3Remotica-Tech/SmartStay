@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
-import Logo from '../Assets/Images/menu.jpeg'
+import Logo from '../Assets/Images/Logo-Icon.png'
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import Roombased from './EB_RoomBased'
@@ -54,7 +54,7 @@ function EB_Hostel() {
             <Card.Body>
               <div className='row d-flex align-items-center justify-content-center' >
               <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 col-12" style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width:55, height:55, borderRadius: 100, padding:20 }}>
-                      <Image src={Logo} roundedCircle
+                      <Image src={hostel.profile === null ?Logo : hostel.profile} roundedCircle
                           style={{
                               height: 50,
                               width: 50,

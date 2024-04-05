@@ -1,6 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {invoicelist, invoiceList,addInvoice ,InvoiceSettings,InvoicePDf} from "../Action/InvoiceAction"
-
+import {invoicelist, invoiceList,addInvoice ,InvoiceSettings,InvoicePDf,GetAmenities,AmenitiesSettings} from "../Action/InvoiceAction"
+import Swal from 'sweetalert2'
 
  function* handleinvoicelist (){
     const response = yield call (invoicelist);
@@ -33,14 +33,26 @@ function* handleAddInvoiceDetails (param){
    }
 }
 
-function* handleInvoiveSettings(param){
-   const response = yield call (InvoiceSettings,param.payload)
-   if (response.status === 200) {
-      yield put({ type: 'INVOICE_SETTINGS', payload: response.data })
+function* handleInvoiceSettings(param){
+   try{
+      const response = yield call (InvoiceSettings,param.payload)
+      if (response.status === 200) {
+         yield put({ type: 'INVOICE_SETTINGS',  payload:response.data })
+         Swal.fire({
+            title: "Good job!",
+            text: "Invoice Settings updated successfully!",
+            icon: "success",
+            timer: 1000,
+        });
+   
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response?.data?.message })
+      }
+   }catch(error){
+      console.error('Error in invoiceSettings:', error);
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
+  
 }
 
 
@@ -54,14 +66,43 @@ function* handleInvoicePdf() {
    }
 }
 
+function* handleAmenitiesSettings(action){
+   const response = yield call (AmenitiesSettings,action.payload)
+   if (response.status === 200) {
+      yield put({ type: 'AMENITIES_SETTINGS', payload: {response:response.data ,statusCode:response.status}})
+      Swal.fire({
+         title: "Good job!",
+         text: "Amenities Insert successfully",
+         icon: "success",
+         timer: 1000,
+     });
+
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+}
+
+function* handleGetAmenities() {
+   const response = yield call(GetAmenities)
+   if (response.status === 200) {
+      yield put({ type: 'AMENITIES_LIST', payload: response.data })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+}
+
 
 
 function* InvoiceSaga() {
     yield takeEvery('INVOICEITEM', handleinvoicelist)
     yield takeEvery('INVOICELIST', handleInvoiceList)
     yield takeEvery('ADDINVOICEDETAILS',handleAddInvoiceDetails)
-    yield takeEvery('INVOICESETTINGS',handleInvoiveSettings)
+    yield takeEvery('INVOICESETTINGS',handleInvoiceSettings)
     yield takeEvery('INVOICEPDF',handleInvoicePdf)
+    yield takeEvery('AMENITIESSETTINGS',handleAmenitiesSettings)
+    yield takeEvery('AMENITIESLIST',handleGetAmenities)
 
 }
 export default InvoiceSaga;
