@@ -8,6 +8,13 @@ export async function createPgList(datum){
       data:datum
     })
   }
+  export async function Checkeblist(datum){
+    console.log("ebdata",datum);
+    return await AxiosConfig.post('/EB/Hostel_Room_based',datum,{
+      data:datum
+    })
+  }
+
   export async function createRoom(datum){
     console.log("datum",datum);
     return await AxiosConfig.post('/room/create-room',datum,{

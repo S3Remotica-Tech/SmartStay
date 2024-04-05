@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {createPgList,createRoom,CheckRoomId,CheckBedDetails} from "../Action/PgListAction"
+import {createPgList,createRoom,CheckRoomId,CheckBedDetails,Checkeblist} from "../Action/PgListAction"
 import Swal from 'sweetalert2';
 
 
@@ -50,6 +50,17 @@ function* handleCheckRoom(){
 }
 
 
+function* handleCheckEB(ebdata){
+   const response = yield call(Checkeblist,ebdata.payload);
+   if (response.status === 200) {
+      yield put ({type:'CHECK_EB',payload:response.data})
+         }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+}
+
+
 function* handleCheckBedDetails(action){
    const response = yield call (CheckBedDetails,action.payload);
 
@@ -70,5 +81,6 @@ function* handleCheckBedDetails(action){
     yield takeEvery('CREATEROOM',handleCreateRoom)
     yield takeEvery('CHECKROOM',handleCheckRoom)
     yield takeEvery('BEDDETAILS',handleCheckBedDetails)
+    yield takeEvery('CHECKEB',handleCheckEB)
 }
 export default PgListSaga;
