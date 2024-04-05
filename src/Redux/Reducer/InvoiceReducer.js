@@ -6,6 +6,9 @@ const initialState = {
     prefix:'',
     suffix: '',
     profile:'',
+    AmenitiesSettings:[],
+    AmenitiesList:[],
+    statusCode:0,
     }
     
     const InvoiceReducer = (state = initialState, action) => {
@@ -16,8 +19,14 @@ const initialState = {
                 return {...state, message:action.payload.message}
                 case 'INVOICE_SETTINGS':
                     return{ ...state, prefix:action.payload.prefix, suffix:action.payload.suffix, profile:action.payload.profile}
+                    case 'CLEAR_AMENITIES_SETTINS_STATUSCODE':
+                        return{ ...state,statusCode:0 }
                     case 'INVOICE_PDF':
                         return { ...state,invoicePDF:action.payload}
+                        case 'AMENITIES_SETTINGS':
+                            return { ...state, AmenitiesSettings:action.payload.response, statusCode:action.payload.statusCode}
+                            case 'AMENITIES_LIST':
+                                return {...state, AmenitiesList:action.payload}
         }
         return state;
     } 
