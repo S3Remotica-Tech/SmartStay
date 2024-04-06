@@ -156,14 +156,12 @@ function Sidebar() {
     })
   }
 
+useEffect(()=>{
+  
+},[])
+ 
 
- const DataFor =  localStorage.getItem("login")
 
-
-
-
-
-console.log("DataFor",DataFor)
   return (
     <>
 
