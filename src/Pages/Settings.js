@@ -274,29 +274,29 @@ useEffect(()=>{
 
       </div>
 
-      <div className='conatiner mt-0 ' style={{}}>
-        <div className='d-flex flex-column flex-md-row Page_Content' >
-          <div className="sidebar col-12 col-md-4 col-lg-3 pt-5">
+      <div className='mt-0 ' style={{}}>
+        <div className='d-flex flex-column flex-md-row Page_Content g-0' >
+          <div className="col-12 col-md-4 col-lg-3 pt-5 sidebar ">
             <div
               style={{ fontSize: '13px' }}
               className={selectedTab === 'Personal' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('Personal')}
             >
-              <FaCircleExclamation style={{ fontSize: '16px', marginRight: '8px' }} />  Personal Information
+              <FaCircleExclamation style={{ fontSize: '16px', marginRight: '8px' ,color:"gray"}} />  Personal Information
             </div>
             <div
               style={{ fontSize: '13px' }}
               className={selectedTab === 'Security' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('Security')}
             >
-              <SecurityIcon style={{ fontSize: '16px', marginRight: '8px' }} />  Security
+              <SecurityIcon style={{ fontSize: '16px', marginRight: '8px' ,color:"gray"}} />  Security
             </div>
             <div
               style={{ fontSize: '13px' }}
               className={selectedTab === 'EB_Billings' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('EB_Billings')}
             >
-              <ReceiptIcon style={{ fontSize: '16px', marginRight: '8px' }} /> EB Billing
+              <ReceiptIcon style={{ fontSize: '16px', marginRight: '8px'  ,color:"gray"}} /> EB Billing
             </div>
            
             <div
@@ -304,20 +304,20 @@ useEffect(()=>{
               className={selectedTab === 'Invoice_Settings' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('Invoice_Settings')}
             >
-              <ShoppingBagIcon style={{ fontSize: '16px', marginRight: '8px' }} />  Invoice Settings
+              <ShoppingBagIcon style={{ fontSize: '16px', marginRight: '8px',color:"gray" }} />  Invoice Settings
             </div>
             <div
               style={{ fontSize: '13px' }}
               className={selectedTab === 'Amenities' ? 'tab active' : 'tab'}
               onClick={() => handleTabClick('Amenities')}
             >
-              <EventNoteIcon style={{ fontSize: '16px', marginRight: '8px' }} />  Amenities
+              <EventNoteIcon style={{ fontSize: '16px', marginRight: '8px',color:"gray" }} />  Amenities
             </div>
 
           </div>
           <hr class="vl" />
 
-          <div className="col-12 col-md-8 col-lg-8 pt-5" style={{ backgroundColor: '#F8F9FA', paddingLeft: '30px' }}>
+          <div className="col-12 col-md-8 col-lg-9 pt-5 pe-3" style={{ width:"", backgroundColor: '#F8F9FA', paddingLeft: '30px' }}>
             {selectedTab === 'Personal' &&
               <div>
 

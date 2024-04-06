@@ -27,7 +27,7 @@ function Amenities() {
     const [showModal, setShowModal] = useState(false);
     const [amenitiesName, setAmenitiesName] = useState('')
     const [amount, setAmount] = useState('')
-    const [active, setActive] = useState('')
+    const [active, setActive] = useState(false)
     const [edit, setEdit] = useState('')
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
     const [status, setStatus] = useState('')
@@ -73,7 +73,7 @@ function Amenities() {
     const handleAmenitiesSetting = () => {
         dispatch({ type: 'AMENITIESSETTINGS', payload: { AmenitiesName: amenitiesName, Amount: amount, setAsDefault: active, Hostel_Id: selectedHostel.id, Status: status } })
         setAmenitiesName('')
-        setAmount()
+        setAmount('')
         handleCloseModal()
     }
 

@@ -156,9 +156,9 @@ function InvoiceSettings() {
                         <tbody >
                             <tr>
                                 <td className='text-center' style={{ fontSize: 14 }} >{selectedHostel.name}</td>
-                                <td ><div className='d-flex justify-content-center align-items-center'>
+                                <td style={{ width: "20%" }}><div className='d-flex justify-content-center align-items-center'>
                                     <Form.Control
-                                        placeholder="RG-"
+                                        placeholder="Ex:RG"
                                         aria-label="Recipient's username"
                                         className='custom-input'
                                         aria-describedby="basic-addon2"
@@ -177,9 +177,9 @@ function InvoiceSettings() {
 
                                     />
                                 </div></td>
-                                <td ><div className='d-flex justify-content-center align-items-center'>
+                                <td style={{ width: "20%" }}><div className='d-flex justify-content-center align-items-center'>
                                     <Form.Control
-                                        placeholder="0001"
+                                        placeholder="Ex:0001"
                                         aria-label="Recipient's username"
                                         className='border custom-input'
                                         aria-describedby="basic-addon2"
