@@ -37,12 +37,11 @@ function EB_Hostel() {
   return (
    
     <div style={{width:"100%"}}>
-  
-    
+     
     {
       isvisible ?
        <Roombased visibility={handleback}/> :
-       <div className='row mt-4 ms-4'>
+       <div className='row mt-4 ms-4 me-4'>
         <h4 style={{fontSize:16,fontWeight:600}}>EB Plan</h4>
         <p style={{fontSize:13}}>Manage your account settings</p>
       
@@ -54,7 +53,7 @@ function EB_Hostel() {
             <Card.Body>
               <div className='row d-flex align-items-center justify-content-center' >
               <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 col-12" style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width:55, height:55, borderRadius: 100, padding:20 }}>
-                      <Image src={hostel.profile === null ?Logo : hostel.profile} roundedCircle
+                      <Image src={hostel.profile == null ? Logo : hostel.profile} roundedCircle
                           style={{
                               height: 50,
                               width: 50,
