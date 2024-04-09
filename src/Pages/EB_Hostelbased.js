@@ -12,7 +12,7 @@ const EBROOM = () => {
         <div className="container">
             <div className="d-flex row justify-content-between mt-2 me-4 pt-3">
                 <div className='col-lg-8 col-md-6 col-sm-12'>
-                    <h1 style={{ fontSize: "26px" }}>Equally divided by room based</h1>
+                    <h1 style={{ fontSize: "26px" }}>Equally divided by hostal based</h1>
                     <p>Manage your account settings</p>
                 </div>
 
@@ -35,25 +35,7 @@ const EBROOM = () => {
                     <h6 className="ms-4 mt-3">Sky Boys Hostel</h6>
                 </div>
 
-                {/* <div style={{display:'flex',flexDirection:'row'}}>
-                    <div className="col-4 mt-3 mb-2 me-4">
-                        <label style={{fontSize:'13px',fontWeight:700}}>Select floor</label>
-                    <select class="form-select roomSelectBox" aria-label="Default select example">
-  <option selected>select floor</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select></div>
-
-                       <div className="col-4 mt-3 mb-2">
-                       <label style={{fontSize:'13px',fontWeight:700}}>Select Room</label>
-                       <select class="form-select roomSelectBox" aria-label="Default select example">
-  <option selected>select room</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select></div>
-                </div> */}
+                
                 <div style={{display:'flex',flexDirection:'row'}}>
                     <div className="col-4 mt-3 mb-2 me-4">
                     <label style={{fontSize:'13px',fontWeight:700}}>Start Meter Reading</label>
@@ -135,8 +117,9 @@ const EBROOM = () => {
                                 <td className='text-center' style={{ fontSize: 14 }} >245</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >300</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >
+                                    <span></span>
                                     <span><i class="bi bi-eye-fill me-2"></i></span>
-                                    <span><i class="bi bi-trash"></i></span>
+                                    
                                 </td>
                             </tr>
                         </tbody>
