@@ -5,19 +5,21 @@ import Form from 'react-bootstrap/Form';
 import '../Pages/Settings.css'
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-
+import imageCompression from 'browser-image-compression';
 
 function InvoiceSettings() {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    console.log("state for EB", state)
+    console.log("state for invoice", state)
+
+
+
+    const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
+    const [showTable, setShowTable] = useState(false)
 
     useEffect(() => {
         dispatch({ type: 'HOSTELLIST' })
     }, [])
-
-    const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
-    const [showTable, setShowTable] = useState(false)
 
 
     const handleHostelChange = (e) => {
@@ -34,9 +36,24 @@ function InvoiceSettings() {
 
 
     const [selectedImage, setSelectedImage] = useState(null);
-    const handleImageChange = (event) => {
+
+
+    console.log("selectedImage size", selectedImage)
+
+    const handleImageChange = async (event) => {
         const file = event.target.files[0];
-        setSelectedImage(file);
+
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 800,
+            useWebWorker: true
+        };
+        try {
+            const compressedFile = await imageCompression(file, options);
+            setSelectedImage(compressedFile);
+        } catch (error) {
+            console.error('Image compression error:', error);
+        }
     };
 
     const [prefix, setPrefix] = useState("")
@@ -75,20 +92,36 @@ function InvoiceSettings() {
     //         }, 200);
     //     }
     // }, [state.InvoiceList?.statusCode]);
-    
+
+    useEffect(() => {
+        if (selectedHostel) {
+            dispatch({ type: 'HOSTELLIST' });
+               
+        }
+    }, [selectedHostel]);
 
 
 
     const [logo, setLogo] = useState('')
-    useEffect(() => {
-        const filteredImage = state.UsersList?.hostelList?.filter((item) => (
-            item.id == selectedHostel.id
-        ))
-        console.log("filteredImage", filteredImage)
-        const Logo = filteredImage[0]?.profile
 
-        setLogo(Logo)
-    }, [selectedHostel])
+    useEffect(() => {
+        const filteredHostels = state.UsersList?.hostelList?.filter((item) => (
+            item.id === Number(selectedHostel.id)
+        ));
+       
+        if (filteredHostels.length > 0) {
+            const profileURL = filteredHostels[0]?.profile;
+            console.log("profileURL", profileURL)
+           
+            setLogo(profileURL);
+        } else {
+
+            setLogo(Logo);
+        }
+    }, [selectedHostel, state.UsersList?.hostelList]);
+
+
+    console.log("logo state", logo)
 
 
 
@@ -109,31 +142,38 @@ function InvoiceSettings() {
             </div>
 
             <hr></hr>
-            <Form.Group className="mb-3">
-                <Form.Label style={{ fontSize: 14, fontWeight: 600, }}>Select Hostel</Form.Label>
-                <Form.Select aria-label="Default select example" value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, fontWeight: 600, }}>
+            <div className='row'>
+                <div className='col-lg-6 col-12'>
+                    <Form.Group className="mb-3">
+                        <Form.Label style={{ fontSize: 14, fontWeight: 600, }}>Select Hostel</Form.Label>
+                        <Form.Select aria-label="Default select example" value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, fontWeight: 600, backgroundColor: "#E6EDF5" }}>
 
-                    <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
-                    {state.UsersList.hostelList.map((item) => (
-                        <>
-                            <option key={item.id} value={item.id} >{item.Name}</option></>
-                    ))}
+                            <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
+                            {state.UsersList.hostelList.map((item) => (
+                                <>
+                                    <option key={item.id} value={item.id} >{item.Name}</option></>
+                            ))}
 
-                </Form.Select>
-            </Form.Group>
+                        </Form.Select>
+                    </Form.Group>
+                </div>
+            </div>
+
             {showTable && <>
                 <h4 style={{ fontSize: 16, fontWeight: 600, }}>Upload Logo</h4>
                 <div className='d-flex justify-content-start gap-3 align-items-center mt-3'>
                     <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5 }}>
 
-                        <Image src={selectedImage ? URL.createObjectURL(selectedImage) : logo === null ? Logo : logo} roundedCircle
+
+                       <Image
+                            src={selectedImage ? URL.createObjectURL(selectedImage) : logo == null ? Logo : logo}
+                            roundedCircle
                             style={{
                                 height: 50,
                                 width: 50,
                                 borderRadius: '50%',
-
-                            }} />
-
+                            }} 
+                        />
 
 
 
