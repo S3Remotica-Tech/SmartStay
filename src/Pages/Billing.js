@@ -10,21 +10,35 @@ const Billings = () => {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
+  const [hostelcheckedvalues,setHostelCheckedvalues]= useState([])
 
+   console.log("hostelcheckedvalues check",hostelcheckedvalues);
+
+   const handleCheckboxChange = (hostelId, Ischecked) => {
+    setHostelCheckedvalues(prevState => {
+
+        const index = prevState.findIndex(item => item.id === hostelId);
+
+        if (index !== -1) {
+            prevState.splice(index, 1);
+        }
+        return [
+            ...prevState,
+            { id: hostelId, isHostelBased: Ischecked }
+        ];
+    });
+};
+
+
+    useEffect(()=>{
+      console.log("hostelcheckedvalues",hostelcheckedvalues);
+
+    },[hostelcheckedvalues])
    
 
-    const handleSave = (tempArray) => {
-      console.log("temparray",tempArray);
-     
-        dispatch({ type: 'CHECKEB', payload: {
-          EBDETAILS:
-          {tempArray
-          // Id:hostelId
-         }
-        } })
-      
+    const handleSave = () => {
+        dispatch({ type: 'CHECKEB', payload: {hostelcheckedvalues}})
     }
-
     console.log("state for EB",state )
     
 
@@ -53,14 +67,14 @@ const Billings = () => {
         <div style={{ backgroundColor: "#E6EDF5",color:'black',padding:'5px' }}>
           <div style={{display:'flex',flexDirection:'row'}}>
             <div style={{fontWeight:600,flex:1}}>Hostel Name</div>
-            <div className="text-center" style={{flex:1,fontWeight:600}}>Room Based<i class="bi bi-info-circle-fill ms-1"></i></div>           
+            <div className="text-center" style={{flex:1,fontWeight:600}}>Hostel Based<i class="bi bi-info-circle-fill ms-1"></i></div>           
 
           </div>
         </div>
      
          <div></div>
         {state.UsersList.hostelList.map((item) => (
-          <EB_Billings Item={item} handleSave={handleSave}/>
+          <EB_Billings Item={item} handleSave={handleSave} onBoxchange={handleCheckboxChange}/>
 
          ))}</div>
                    

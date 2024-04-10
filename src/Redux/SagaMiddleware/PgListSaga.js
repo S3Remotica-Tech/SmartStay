@@ -50,8 +50,9 @@ function* handleCheckRoom(){
 }
 
 
-function* handleCheckEB(ebdata){
-   const response = yield call(Checkeblist,ebdata.payload);
+function* handleCheckEB(action){
+   console.log("action.payload",action.payload);
+   const response = yield call(Checkeblist,action.payload.hostelcheckedvalues);
    if (response.status === 200) {
       yield put ({type:'CHECK_EB',payload:response.data})
          }

@@ -22,25 +22,21 @@ const EB_Billings = (props) => {
   console.log("ischecked",isChecked);
 
   const handleChange = (event,hostelId) => {
-
       console.log("eventChecked", event.target.checked)
       setIsChecked(event.target.checked)
+      props.onBoxchange(hostelId,event.target.checked)
       // setIsChecked([...isChecked,{isChecked,hostelId}]);
-      setCheckedvalue([...checkedvalue,{isChecked:event.target.checked,hostelId}]);
-      
+      // setCheckedvalue([...checkedvalue,{isChecked:event.target.checked,hostelId}]);  
   };
 
-  useEffect(()=>{ 
-    props.handleSave(checkedvalue)
-    
- },[checkedvalue])
+ 
 
 
   useEffect(()=>{
 
     const UserIsEnable = state.UsersList.hostelList.filter(item=> item.id == props.Item.id)
     console.log("UserIsEnable",UserIsEnable)
-   const IsEnableOn = UserIsEnable[0]?.isRoomBased
+   const IsEnableOn = UserIsEnable[0]?.isHostelBased
   
    console.log("IsEnableOn === 1",IsEnableOn === 1)
   
@@ -70,11 +66,7 @@ const EB_Billings = (props) => {
           </div>
         </div>
 
-        {/* <div>
-                <button type="button" class="mb-2"
-                style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "600", width: "60px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }}
-                onClick={()=>{handleSave(props.Item.id)}} >Save</button>
-              </div> */}
+    
 
       </div>
 
