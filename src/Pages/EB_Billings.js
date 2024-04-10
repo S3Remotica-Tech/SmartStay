@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const EB_Billings = (props) => {
@@ -11,12 +11,9 @@ const EB_Billings = (props) => {
   const [checkedvalue,setCheckedvalue]= useState([])
 
   const state = useSelector(state => state)
-  const dispatch = useDispatch();
   console.log("state for EB billing",state )
 
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
+
 
   console.log("checkedvalue",checkedvalue);
   console.log("ischecked",isChecked);
@@ -25,8 +22,7 @@ const EB_Billings = (props) => {
       console.log("eventChecked", event.target.checked)
       setIsChecked(event.target.checked)
       props.onBoxchange(hostelId,event.target.checked)
-      // setIsChecked([...isChecked,{isChecked,hostelId}]);
-      // setCheckedvalue([...checkedvalue,{isChecked:event.target.checked,hostelId}]);  
+     
   };
 
  
