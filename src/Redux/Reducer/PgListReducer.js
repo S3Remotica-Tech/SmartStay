@@ -11,6 +11,7 @@ const initialState = {
     room_Id: '',
     number_Of_Bed: '',
     checkRoomList: [],
+    checkEBList:[],
     createRoomMessage: '',
     errMessage: "",
     roomCount: [],
@@ -22,6 +23,7 @@ const initialState = {
     errorStatusCode: 0,
 }
 const PgListReducer = (state = initialState, action) => {
+    console.log("action",action.payload);
     switch (action.type) {
         case 'PG_LIST':
             console.log("createPG", action);
@@ -38,6 +40,8 @@ const PgListReducer = (state = initialState, action) => {
         //  return { ...state, floor_Id: action.payload.floorId, room_Id: action.payload.roomId, number_Of_Bed: action.payload.number_of_beds,createRoomMessage: state.createRoomMessage !== '' ? '' : action.payload.message }
         case 'CHECK_ROOM':
             return { ...state, checkRoomList: action.payload }
+        case 'CHECK_EB':
+            return { ...state, checkEBList: action.payload }
         case 'ERROR':
             if (state.roomCount.length > 0) {
                 let index = state.roomCount.findIndex((item) => {
