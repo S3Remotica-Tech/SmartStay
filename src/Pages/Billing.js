@@ -1,8 +1,6 @@
 import React,{useState,useEffect} from "react";
-import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import EB_Billings from "./EB_Billings";
-import { logDOM } from "@testing-library/react";
 
 
 const Billings = () => {
