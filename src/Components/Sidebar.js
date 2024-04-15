@@ -57,6 +57,57 @@ import { BsClipboard2Check } from "react-icons/bs";
 function Sidebar() {
 
   let navigate = useNavigate();
+  const dispatch = useDispatch()
+  const state = useSelector(state => state)
+  console.log("state",state)
+
+  const LoginId = localStorage.getItem("loginId")
+
+  const [filterhostellist,setFilterhostellist] = useState([]);
+
+  useEffect(() => {
+    if (LoginId) {
+      try{
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = decryptedString;
+        const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
+          console.log("parsedData",parsedData);
+          console.log("created_By",view.created_By);
+          console.log("view.created_By == parsedData",view.created_By == parsedData);
+        return view.created_By == parsedData;
+      
+        
+        });
+        console.log("topbar_filteredlist",filteredList);
+         setFilterhostellist(filteredList)
+      }
+      
+        catch(error){
+       console.log("Error decrypting loginid",error);
+        }
+
+  
+    }
+
+  }, [LoginId])
+
+  const [selectedHostel, setSelectedHostel] = useState(null);
+  console.log("selectedHostel for sidebar",selectedHostel);
+
+  const handleHostelSelect = (hostelName) => {
+    console.log("hostelName",hostelName);
+    const selected = state.UsersList.hostelList.find((item) => {
+      return item.Name === hostelName
+    });
+    setSelectedHostel(selected);
+   
+  };
+
+  useEffect(() => {
+    dispatch({ type: 'HOSTELLIST' })
+  }, [])
+
    const [activePage, setActivePage] = useState(true);
   const [currentPage, setCurrentPage] = useState('');
 
@@ -101,9 +152,7 @@ function Sidebar() {
   }, [pgList.number_Of_Rooms]);
 
   
-  const dispatch = useDispatch()
-  const state = useSelector(state => state)
-  console.log("state",state)
+  
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
@@ -171,19 +220,37 @@ useEffect(()=>{
             <Navbar.Brand href="#" style={{ padding: "5px 8px", backgroundColor: "#2E75EA", height: "100%", width: "auto" }}><img class="img-fluid" src={Smart} style={{ height: "30px", width: "30px" }} alt='Smart' /></Navbar.Brand>
           </div>
 
-
-          <Image roundedCircle class="ms-1" src={Hostel} style={{ borderRadius: "50px", height: "30px", width: "30px" }} />
-          <div class="d-block ms-2">
+    
+          <div style={{display:'flex',flexDirection:'column',width:'14%',marginLeft:'0px'}}>
             <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>PG Detail</p>
-            <p style={{ fontSize: "11px", marginBottom: "0px", marginRight: "0px", fontWeight: "800" }}>Royal Grand Hostel</p>
-          </div>
-          <Form.Select class="me-5" aria-label="Default select example" style={{ border: "none", height: "10px", width: "40px" }} >
-            <option>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </Form.Select>
-          <div style={{ borderLeft: "1px solid #cccccc99", height: "30px" }} className="vertical-line"></div>
+            <div style={{display:'flex',flexDirection:'row'}}>
+            <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center",  borderRadius: 100, padding: 5,marginRight:5 }}>
+             <Image  src={selectedHostel && selectedHostel.profile == null ? Hostel :selectedHostel && selectedHostel.profile} roundedCircle style={{ height: 15, width: 15,borderRadius:'50%' }} />
+             </div>
+          <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{padding:7, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
+                <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
+                {filterhostellist.length > 0 && filterhostellist.map((obj) => {
+                  return (<>
+                    <option style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
+                  </>)
+                })}
+
+              </select>
+              </div>
+              </div>
+
+          {/* <Form.Select class="me-5" aria-label="Default select example" style={{ border: "none", height: "10px", width: "40px" }} >
+            <option>select Hostel</option>
+            {filterhostellist.length > 0 && filterhostellist.map((obj) => {
+                  return (<>
+                    <option style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
+                  </>)
+                })}
+          
+          </Form.Select> */}
+          <div style={{ borderLeft: "1px solid #cccccc99", height: "30px" }} className="vertical-line ms-2"></div>
+
+
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <div style={{ margin: "0px auto" }}>
