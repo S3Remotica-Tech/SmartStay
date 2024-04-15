@@ -15,7 +15,7 @@ function* CreateAccountPage(args) {
          payload: {
           data: response.data,
           status: response.status, 
-        },});
+        }});
         Swal.fire({
           icon: 'success',
           text: response.data.message,
