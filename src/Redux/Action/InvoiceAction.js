@@ -19,10 +19,18 @@ export async function addInvoice(datum) {
 
 
 
-  export async function InvoicePDf() {
-    return await AxiosConfig.get('/invoice/invoice-list-pdf',{
+  // export async function InvoicePDf() {
+  //   return await AxiosConfig.get('/invoice/invoice-list-pdf',{
+  //   })
+  // }
+
+  export async function InvoicePDf(datum) {
+    return await AxiosConfig.post('/invoice/invoice-list-pdf',datum, {
+      data:datum
     })
   }
+
+
 
   export async function GetAmenities() {
     return await AxiosConfig.get('/list/amenities-list',{

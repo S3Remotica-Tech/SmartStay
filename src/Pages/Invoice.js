@@ -13,12 +13,14 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import InvoiceDetail from './InvoiceDetails';
 import MessageModal from './MessageModal';
-
+import LoaderComponent from './LoaderComponent';
 
 
 
 const InvoicePage = () => {
-
+  const state = useSelector(state => state)
+  const [editOption, setEditOption] = useState('')
+  const dispatch = useDispatch()
   //offcanvas style
   const bottomBorderStyle = {
     border: 'none',
@@ -80,18 +82,144 @@ const InvoicePage = () => {
 
   // }
 
-useEffect(()=>{
-  dispatch({type: 'INVOICEPDF'})
-},[])
+  const [showLoader, setShowLoader] = useState(false)
+  const [trigger, setTrigger] = useState(false)
 
-  const handleInvoiceDetail = (item) => {
-    // dispatch({ type: 'INVOICEPDF' }); 
-    if (item.invoicePDF) {
-      window.open(item.invoicePDF, '_blank');
-    } else {
-      console.log('Invoice PDF not available');
-    }
-  };
+  // useEffect(() => {
+  //   dispatch({ type: 'INVOICEPDF' })
+  // }, [])
+
+
+  
+
+
+//   const handleInvoiceDetail = (item) => {
+//     console.log("item", item);
+
+//     let pdfWindow;
+//     if (item && item.invoicePDF) {
+//         setShowLoader(true);
+//         pdfWindow = window.open(item.invoicePDF, '_blank');
+//         if (!pdfWindow || pdfWindow.closed || isUserStillPage()) {
+//             setShowLoader(false);
+//         }
+//     } else {
+//         console.log("Invoice PDF is null");
+//         setShowLoader(true);
+               
+//         const InvoicePDf = Array.isArray(state.InvoiceList?.Invoice)
+//             ? state.InvoiceList.Invoice.filter(view => view.User_Id == item.User_Id && view.id == item.id)
+//             : [];
+
+//         console.log("InvoicePDf ***", InvoicePDf[0]?.invoicePDF);
+        
+//         if(InvoicePDf[0]?.invoicePDF) {
+//             pdfWindow = window.open(InvoicePDf[0].invoicePDF, '_blank');
+//             setShowLoader(false);
+//         } else {
+//             console.log('Invoice PDF not available');
+//             setShowLoader(true); 
+//         }
+//     }
+// };
+
+
+const [selectedItems, setSelectedItems ] = useState('')
+
+const handleInvoiceDetail = (item) => {
+  console.log("item", item);
+
+  setSelectedItems(item)
+if (item.User_Id) {
+
+  const originalDate = new Date(item.Date);
+  
+
+  originalDate.setDate(originalDate.getDate() );
+  
+  
+  const year = originalDate.getFullYear();
+  const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
+  const day = originalDate.getDate().toString().padStart(2, '0');
+  
+  
+  const newDate = `${year}-${month}-${day}`;
+
+  dispatch({ type: 'INVOICEPDF', payload: { Date: newDate, User_Id: item.User_Id } });
+  setShowLoader(true);
+}
+
+
+
+
+};
+
+
+useEffect(() => {
+  console.log("state.InvoiceList.statusCodeForPDf === 200", state.InvoiceList?.statusCodeForPDf === 200);
+  
+  if (state.InvoiceList.statusCodeForPDf === 200) {
+    
+    
+
+    console.log("selectedItems", selectedItems);
+    dispatch({ type: 'INVOICELIST' });
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_INVOICE_LIST' });
+                }, 1000);
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' });
+          }, 200);
+   
+          
+   
+        
+  }
+}, [state.InvoiceList?.statusCodeForPDf]);
+
+
+useEffect(()=>{
+  const toTriggerPDF = state.InvoiceList?.toTriggerPDF; 
+    
+  if (toTriggerPDF) {
+    // Code to execute if toTriggerPDF is true
+    console.log("toTriggerPDF is true");
+} else {
+    // Code to execute if toTriggerPDF is false
+    console.log("toTriggerPDF is false bvksbbldnb");
+}
+  if (toTriggerPDF) { 
+    console.log("executed") 
+    let pdfWindow;
+    const InvoicePDf = state.InvoiceList?.Invoice &&
+      state.InvoiceList.Invoice.filter(view => view.User_Id === selectedItems.User_Id && view.id === selectedItems.id);
+    console.log("InvoicePDf array", InvoicePDf);
+      console.log("InvoicePDf[0]?.invoicePDF",InvoicePDf[0]?.invoicePDF)
+      console.log("executed");
+      if(InvoicePDf[0]?.invoicePDF !== undefined){
+        pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
+        setShowLoader(false);
+        
+                 }else{
+                  pdfWindow = window.open(selectedItems.invoicePDF, '_blank');
+                  
+        setShowLoader(false);
+                 }
+   
+      
+                }
+},[state.InvoiceList?.toTriggerPDF])
+
+
+
+  // const isUserStillPage = () => {
+  //   return true;
+  // }
+
+
+
+
+
 
 
   const handleInvoiceback = (isVisible) => {
@@ -100,9 +228,7 @@ useEffect(()=>{
 
   }
 
-  const state = useSelector(state => state)
-  const [editOption, setEditOption] = useState('')
-  const dispatch = useDispatch()
+
 
   useEffect(() => {
     dispatch({ type: 'HOSTELLIST' })
@@ -110,7 +236,8 @@ useEffect(()=>{
 
   useEffect(() => {
     dispatch({ type: 'INVOICELIST' })
-    setData(state.InvoiceList.Invoice)
+    setData(state.InvoiceList.Invoice.response)
+   
   }, [])
 
   useEffect(() => {
@@ -154,10 +281,10 @@ useEffect(()=>{
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
     if (!emailPattern.test(emailID)) {
-      setInvoiceList({ ...invoiceList, email: emailID }); // Corrected this line
+      setInvoiceList({ ...invoiceList, email: emailID }); 
       emailError.textContent = "Invalid email format";
     } else {
-      setInvoiceList({ ...invoiceList, email: emailID }); // Set email even when valid (optional, depends on your use case)
+      setInvoiceList({ ...invoiceList, email: emailID }); 
       emailError.textContent = "";
     }
 
@@ -192,7 +319,7 @@ useEffect(()=>{
       RoomNo: '',
       amount: '',
       balanceDue: '',
-      dueDate:''
+      dueDate: ''
     })
     setShowMenu(false);
     setUserClicked(false);
@@ -269,67 +396,67 @@ useEffect(()=>{
     console.log("item.Date", item.Date);
     setInvoiceValue(item);
     if (item.id !== undefined) {
-        setEditOption('Edit');
-        const dateObject = new Date(item.Date);
-        const year = dateObject.getFullYear();
-        const month = dateObject.getMonth() + 1; 
-        const day = dateObject.getDate();
+      setEditOption('Edit');
+      const dateObject = new Date(item.Date);
+      const year = dateObject.getFullYear();
+      const month = dateObject.getMonth() + 1;
+      const day = dateObject.getDate();
 
-        const lastDayOfMonth = new Date(year, month, 0);
-        const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
-      
-      console.log("formattedDueDate",formattedDueDate)
-        // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
-        const EditCheck = state.InvoiceList.Invoice.find(view => {
-          const viewDate = new Date(view.Date);
-          return (
-              view.User_Id === item.User_Id && 
-              view.BalanceDue === 0 && 
-              viewDate.getFullYear() === year && 
-              viewDate.getMonth() === month - 1 
-          );
+      const lastDayOfMonth = new Date(year, month, 0);
+      const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+
+      console.log("formattedDueDate", formattedDueDate)
+      // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
+      const EditCheck = state.InvoiceList.Invoice.find(view => {
+        const viewDate = new Date(view.Date);
+        return (
+          view.User_Id === item.User_Id &&
+          view.BalanceDue === 0 &&
+          viewDate.getFullYear() === year &&
+          viewDate.getMonth() === month - 1
+        );
       });
-        console.log("EditCheck", EditCheck);
+      console.log("EditCheck", EditCheck);
 
-        console.log("item.BalanceDue === 0 && EditCheck && EditCheck.BalanceDue === 0", EditCheck && EditCheck.BalanceDue === 0 || item.BalanceDue === 0);
-        
-        if (item.BalanceDue === 0 || (EditCheck && EditCheck.BalanceDue === 0)) {
-            setUserClicked(false);
-            setShowMenu(false);
-            setShowForm(false);
-            setDisplayText(true);
-        } else {
-            setUserClicked(true);
-            setShowMenu(true);
-            setShowForm(true);
-            let value = item.Name.split(" ");
-            setSelectedUserId(item.User_Id);
-            const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            console.log("Formatted Date:", formattedDate);
-            setInvoiceList({
-                id: item.id,
-                firstName: value[0],
-                lastName: value[1],
-                phone: item.phoneNo,
-                email: item.EmailID,
-                hostel_Name: item.Hostel_Name,
-                hostel_Id: item.Hostel_Id,
-                FloorNo: item.Floor_Id,
-                RoomNo: item.Room_No,
-                date: formattedDate,
-                amount: item.Amount,
-                balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
-                dueDate: formattedDueDate,
-            });
-        }
-    } else {
-        setEditOption('Add');
-        setSelectedUserId('');
-        setShowForm(true);
+      console.log("item.BalanceDue === 0 && EditCheck && EditCheck.BalanceDue === 0", EditCheck && EditCheck.BalanceDue === 0 || item.BalanceDue === 0);
+
+      if (item.BalanceDue === 0 || (EditCheck && EditCheck.BalanceDue === 0)) {
+        setUserClicked(false);
+        setShowMenu(false);
+        setShowForm(false);
+        setDisplayText(true);
+      } else {
         setUserClicked(true);
         setShowMenu(true);
+        setShowForm(true);
+        let value = item.Name.split(" ");
+        setSelectedUserId(item.User_Id);
+        const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        console.log("Formatted Date:", formattedDate);
+        setInvoiceList({
+          id: item.id,
+          firstName: value[0],
+          lastName: value[1],
+          phone: item.phoneNo,
+          email: item.EmailID,
+          hostel_Name: item.Hostel_Name,
+          hostel_Id: item.Hostel_Id,
+          FloorNo: item.Floor_Id,
+          RoomNo: item.Room_No,
+          date: formattedDate,
+          amount: item.Amount,
+          balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
+          dueDate: formattedDueDate,
+        });
+      }
+    } else {
+      setEditOption('Add');
+      setSelectedUserId('');
+      setShowForm(true);
+      setUserClicked(true);
+      setShowMenu(true);
     }
-};
+  };
 
 
   const generatePageNumbers = () => {
@@ -558,7 +685,7 @@ useEffect(()=>{
   // console.log("filteredUserDetails", filteredUserDetails)
   const [displayText, setDisplayText] = useState(false)
   const [isSaveDisabled, setIsSaveDisabled] = useState(false)
-const [totalPaidAmount, setTotalPaidAmount] = useState('')
+  const [totalPaidAmount, setTotalPaidAmount] = useState('')
 
 
   // useEffect(() => {
@@ -612,12 +739,12 @@ const [totalPaidAmount, setTotalPaidAmount] = useState('')
   const handleDateChange = (e) => {
     const selectedDate = new Date(e.target.value);
 
-    console.log("selectedDate",selectedDate)
+    console.log("selectedDate", selectedDate)
     const year = selectedDate.getFullYear();
     const month = selectedDate.getMonth() + 1;
     const lastDayOfMonth = new Date(year, month, 0);
     const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
- console.log("formattedDueDate",formattedDueDate)
+    console.log("formattedDueDate", formattedDueDate)
     const selectedMonth = selectedDate.getMonth();
     const roomRent = filteredUserDetails[0]?.RoomRent;
     const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => {
@@ -665,7 +792,7 @@ const [totalPaidAmount, setTotalPaidAmount] = useState('')
     console.log("Total Paid Amount", totalPaidAmount);
     console.log("roomRent", roomRent);
 
-setTotalPaidAmount(totalPaidAmount)
+    setTotalPaidAmount(totalPaidAmount)
 
     if (!isNaN(AmountValue) && !isNaN(roomRent)) {
       const balanceDueCalc = editOption == 'Edit' ? roomRent - AmountValue : roomRent - (AmountValue + totalPaidAmount);
@@ -728,8 +855,8 @@ setTotalPaidAmount(totalPaidAmount)
     if (displayText) {
       const timer = setTimeout(() => {
         setDisplayText(false);
-      }, 2000); 
-          
+      }, 2000);
+
       return () => clearTimeout(timer);
     }
   }, [displayText]);
@@ -1006,7 +1133,7 @@ setTotalPaidAmount(totalPaidAmount)
                                 />
                               </Form.Group>
 
-                           {/* <label>{editOption == 'Add' ? <span>{totalPaidAmount}</span>: ''}</label> */}
+                              {/* <label>{editOption == 'Add' ? <span>{totalPaidAmount}</span>: ''}</label> */}
 
                             </div>
                             <div className='col-lg-6'>
@@ -1084,7 +1211,7 @@ setTotalPaidAmount(totalPaidAmount)
                     <td class="justify-content-between">
                       <img src={List} height="20" width="20" alt='List' onClick={() => handleInvoiceDetail(item)} />
                       {/* <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /> */}
-                      </td>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -1125,6 +1252,10 @@ setTotalPaidAmount(totalPaidAmount)
         </>
 
       }
+
+
+      {showLoader && <LoaderComponent />}
+
 
 
     </>

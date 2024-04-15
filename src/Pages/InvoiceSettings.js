@@ -6,6 +6,7 @@ import '../Pages/Settings.css'
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
+import CryptoJS from "crypto-js";
 
 function InvoiceSettings() {
     const dispatch = useDispatch();
@@ -124,6 +125,37 @@ function InvoiceSettings() {
     console.log("logo state", logo)
 
 
+    const LoginId = localStorage.getItem("loginId")
+    console.log("LoginId",LoginId)
+
+
+    const [filteredHostelList, setFilteredHostelList] = useState([]);
+
+useEffect(() => {
+    if (LoginId) {
+        try {
+            const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+            const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+            const parsedData = decryptedString;
+            console.log("parsedData", parsedData);
+
+            const filteredList = state.UsersList?.hostelList?.filter((view) => {
+                console.log("created_By:", view.created_By); 
+                console.log("parsedData:", parsedData); 
+                return view.created_By == parsedData;
+            });
+            console.log("filteredDataforLoginID", filteredList);
+            setFilteredHostelList(filteredList);
+
+        } catch (error) {
+            console.error('Error decrypting LoginId:', error);
+        }
+    }
+}, [LoginId,state.UsersList?.hostelList ]);
+    
+console.log("UsersList:", state.UsersList?.hostelList);
+
+
 
     return (
         <div>
@@ -149,7 +181,7 @@ function InvoiceSettings() {
                         <Form.Select aria-label="Default select example" value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, fontWeight: 600, backgroundColor: "#E6EDF5" }}>
 
                             <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
-                            {state.UsersList.hostelList.map((item) => (
+                            { filteredHostelList && filteredHostelList.map((item) => (
                                 <>
                                     <option key={item.id} value={item.id} >{item.Name}</option></>
                             ))}
