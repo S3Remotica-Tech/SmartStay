@@ -63,7 +63,12 @@ function Sidebar() {
 
   const LoginId = localStorage.getItem("loginId")
 
-  const [filterhostellist,setFilterhostellist] = useState([]);
+const [filterhostellist,setFilterhostellist] = useState([]);
+const [loginCustomerid,setLoginCustomerId] = useState('')
+const[ profiles, setProfiles] = useState('')
+const [profileArray, setProfileArray] = useState('')
+
+
 
   useEffect(() => {
     if (LoginId) {
@@ -71,6 +76,7 @@ function Sidebar() {
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = decryptedString;
+       
         const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
           console.log("parsedData",parsedData);
           console.log("created_By",view.created_By);
@@ -81,6 +87,22 @@ function Sidebar() {
         });
         console.log("topbar_filteredlist",filteredList);
          setFilterhostellist(filteredList)
+         const FilteredProfile = state.createAccount.accountList.filter((item => item.id == parsedData))
+
+         console.log("FIlteredProfile",FilteredProfile)
+       
+       const profilePictures = FilteredProfile[0]?.profile
+
+const profileName = FilteredProfile[0]?.Name
+
+
+       setProfiles(profilePictures)
+      
+       setProfileArray(profileName)
+
+
+
+
       }
       
         catch(error){
@@ -107,6 +129,11 @@ function Sidebar() {
   useEffect(() => {
     dispatch({ type: 'HOSTELLIST' })
   }, [])
+
+
+  useEffect(()=>{
+    dispatch({ type: 'ACCOUNTDETAILS' })
+   },[])
 
    const [activePage, setActivePage] = useState(true);
   const [currentPage, setCurrentPage] = useState('');
@@ -205,9 +232,9 @@ function Sidebar() {
     })
   }
 
-useEffect(()=>{
-  
-},[])
+
+
+
  
 
 
@@ -225,7 +252,7 @@ useEffect(()=>{
             <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>PG Detail</p>
             <div style={{display:'flex',flexDirection:'row'}}>
             <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center",  borderRadius: 100, padding: 5,marginRight:5 }}>
-             <Image  src={selectedHostel && selectedHostel.profile == null ? Hostel :selectedHostel && selectedHostel.profile} roundedCircle style={{ height: 15, width: 15,borderRadius:'50%' }} />
+             <Image  src={selectedHostel && selectedHostel.profile == null ? Hostel : selectedHostel && selectedHostel.profile} roundedCircle style={{ height: 15, width: 15,borderRadius:'50%' }} />
              </div>
           <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{padding:7, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
                 <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
@@ -268,9 +295,9 @@ useEffect(()=>{
                 <img src={Notification} class="me-3" style={{ height: "25px", width: "25px" }} alt='Notification' />
                 <img src={Settings} class="me-3" style={{ height: "25px", width: "25px" }} alt='Settings'  onClick={() => handlePageClick('settings')} />
               </div>
-              <Image src={Men} roundedCircle style={{ height: "30px", width: "30px" }} />
+              <Image src={profiles} roundedCircle style={{ height: "30px", width: "30px" }} />
               <div class="d-block ms-2">
-                <p style={{ fontSize: "12px", marginBottom: "0px", fontWeight: "800" }}>Rahul Sharma</p>
+                <p style={{ fontSize: "12px", marginBottom: "0px", fontWeight: "800" }}>{profileArray}</p>
                 <p style={{ fontSize: "10px", marginBottom: "0px", marginRight: "0px", color: "gray" }}>Edit profile</p>
               </div>
 

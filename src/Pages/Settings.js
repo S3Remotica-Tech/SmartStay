@@ -17,6 +17,8 @@ import Form from 'react-bootstrap/Form';
 import InvoiceSettings from './InvoiceSettings';
 import Amenities from './Amenities';
 import Billings from './Billing';
+import imageCompression from 'browser-image-compression';
+
 
 function Settings() {
   const state = useSelector(state => state)
@@ -65,16 +67,16 @@ function Settings() {
         const decryptedDataname = CryptoJS.AES.decrypt(Loginname, 'abcd');
         const decryptedStringname = decryptedDataname.toString(CryptoJS.enc.Utf8);
         const parsedDataname = decryptedStringname;
-        setName(parsedDataname)
+        // setName(parsedDataname)
 
         const decryptedDataphone = CryptoJS.AES.decrypt(Loginphone, 'abcd');
         const decryptedStringphone = decryptedDataphone.toString(CryptoJS.enc.Utf8);
         const parsedDatphone = decryptedStringphone;
-        setPhone(parsedDatphone)
+        // setPhone(parsedDatphone)
 
         const decryptedDataemail = CryptoJS.AES.decrypt(Loginemail, 'abcd');
         const decryptedStringemail = decryptedDataemail.toString(CryptoJS.enc.Utf8);
-        setEmail(decryptedStringemail)
+        // setEmail(decryptedStringemail)
         setEmail_IdForLoginUser(decryptedStringemail)
         console.log("decryptedStringemail", decryptedStringemail)
 
@@ -103,48 +105,7 @@ function Settings() {
 
 
 
-  const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 28,
-    height: 16,
-    marginTop: 15,
-    padding: 0,
-    display: 'flex',
-    '&:active': {
-      '& .MuiSwitch-thumb': {
-        width: 15,
-      },
-      '& .MuiSwitch-switchBase.Mui-checked': {
-        transform: 'translateX(9px)',
-      },
-    },
-    '& .MuiSwitch-switchBase': {
-      padding: 2,
-      '&.Mui-checked': {
-        transform: 'translateX(12px)',
-        color: '#fff',
-        '& + .MuiSwitch-track': {
-          opacity: 1,
-          backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',
-        },
-      },
-    },
-    '& .MuiSwitch-thumb': {
-      boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
-      width: 12,
-      height: 12,
-      borderRadius: 6,
-      transition: theme.transitions.create(['width'], {
-        duration: 200,
-      }),
-    },
-    '& .MuiSwitch-track': {
-      borderRadius: 16 / 2,
-      opacity: 1,
-      backgroundColor:
-        theme.palette.mode === 'dark' ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.25)',
-      boxSizing: 'border-box',
-    },
-  }));
+  
 
   
   const handleName = (e) => {
@@ -169,22 +130,18 @@ function Settings() {
     setStatee(e.target.value)
   }
   const handleSaveUpdate = () => {
-    if (!Name || !phone || !email || !Address || !Country || !City || !statee) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Fields',
-        confirmButtonText: 'Ok'
-      }).then((result) => {
-        if (result.isConfirmed) {
-
-        }
+   if(selectedImage){
+      dispatch({
+        type: 'CREATE_ACCOUNT',
+        payload: { name: Name, mobileNo: phone, emailId: email, Address: Address, Country: Country, City: City, State: statee, id : id, profile:selectedImage }
       });
-      return;
+    }else{
+      dispatch({
+        type: 'CREATE_ACCOUNT',
+        payload: { name: Name, mobileNo: phone, emailId: email, Address: Address, Country: Country, City: City, State: statee, id: id }
+      });
     }
-    dispatch({
-      type: 'CREATE_ACCOUNT',
-      payload: { name: Name, mobileNo: phone, emailId: email, Address: Address, Country: Country, City: City, State: statee, id: id }
-    });
+    
     setName('');
     setPhone('');
     setEmail('');
@@ -264,6 +221,56 @@ useEffect(()=>{
    },[])
 
   
+   const [selectedImage, setSelectedImage] = useState(null);
+const [profilePicture, setProfilePicture] = useState('');
+
+
+   const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+
+    const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true
+    };
+    try {
+        const compressedFile = await imageCompression(file, options);
+        setSelectedImage(compressedFile);
+    } catch (error) {
+        console.error('Image compression error:', error);
+    }
+};
+
+useEffect(()=>{
+
+  const FIlteredProfile = state.createAccount.accountList.filter((item => item.id == id))
+
+  console.log("FIlteredProfile",FIlteredProfile)
+if(FIlteredProfile.length > 0 ){
+
+const ProfileImage = FIlteredProfile[0].profile
+const CustomerName = FIlteredProfile[0].Name
+const PhoneNUmber = FIlteredProfile[0].mobileNo
+const UserEmail = FIlteredProfile[0].email_Id
+
+
+
+setName(CustomerName)
+setPhone(PhoneNUmber)
+setEmail(UserEmail)
+
+
+
+setProfilePicture(ProfileImage)
+
+}else{
+  setProfilePicture(Men)
+}
+},[state.createAccount.accountList])
+
+
+
+
   return (
     <div className='container-fluid'>
       <div className="d-flex row justify-content-between mt-2 ms-4 me-4 pt-3">
@@ -338,16 +345,29 @@ useEffect(()=>{
                 <hr style={{ opacity: 0.1 }} />
                 <h5 style={{ fontSize: '16px', fontWeight: 700 }}>Profile Picture</h5>
 
-                <div className='d-flex flex-column flex-md-row mt-1' style={{ display: 'flex', flexDirection: 'row' }}>
-                  <div className='col-lg-3 col-md-3 col-sm-12' style={{ display: 'flex', flexDirection: 'row' }}>
-                    <Image src={Men} roundedCircle style={{ height: "38px", width: "38px" }} />
-                    <h6 className='mt-2 ms-3' style={{ fontSize: '14px', fontWeight: 700 }}>Rahul Sharma</h6>
-                  </div>
+               
 
-                  <div className='col-lg-6 col-md-7 col-sm-12 ms-5 mt-1'>
-                    <button type="button" class="ChangeBtn mb-3"  >Change Photo</button>
-                    <button type="button" class="CancelBtn"  >Delete</button>
-                  </div>
+<div className='d-flex justify-content-start gap-3 align-items-center mt-3'>
+                    <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5 }}>
+
+
+                       <Image
+                            src={selectedImage ? URL.createObjectURL(selectedImage): profilePicture == null ? Men : profilePicture
+                            }
+                            roundedCircle
+                            style={{
+                                height: 50,
+                                width: 50,
+                                borderRadius: '50%',
+                            }} 
+                        />
+
+                    </div>
+                    <label style={{fontSize:16, fontWeight:600}}>{Name} </label>
+                    <button type="button" className="mb-2 upload-button" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={() => document.getElementById('upload-photo').click()}>Change Photo</button>
+                    <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
+                    <button type="button" class="mb-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >Delete</button>
+
                 </div>
 
                 <div class="mb-2 mt-3" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
