@@ -77,10 +77,64 @@ function PgList() {
   const [hostelIndex, setHostelIndex] = useState('')
   const [roomDetails, setRoomDetails] = useState('')
   const [selectedHostel, setSelectedHostel] = useState(null);
+  console.log("selectedHostel",selectedHostel);
   const [floorDetails, setFloorDetails] = useState([{ number_of_floor: '' }
     // , { number_of_floor: '' }, { number_of_floor: '' }
   ]);
 
+
+  const LoginId = localStorage.getItem("loginId")
+
+  const [filterhostellist,setFilterhostellist] = useState([]);
+  const [filterlogo,setFilterlogo] = useState([]);
+
+
+  useEffect(() => {
+    if (LoginId) {
+      try{
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = decryptedString;
+        const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
+          console.log("parsedData",parsedData);
+          console.log("created_By",view.created_By);
+          console.log("view.created_By == parsedData",view.created_By == parsedData);
+        return view.created_By == parsedData;
+      
+        
+        });
+        console.log("topbar_filteredlist",filteredList);
+         setFilterhostellist(filteredList)
+      }
+      
+        catch(error){
+       console.log("Error decrypting loginid",error);
+        }
+
+  
+    }
+
+  }, [LoginId])
+
+//  useEffect(() => {
+//   console.log("filterhostellist", filterhostellist);
+//   const filteredLogos = [];
+
+//   for (let i = 0; i < filterhostellist.length; i++) {
+//     const hostel = filterhostellist[i];
+//     if (hostel === selectedHostel) {
+//       const filteredHostels = state.UsersList?.hostelList?.filter((view) => {
+//         return view.created_By === hostel.created_By;
+//       });
+
+//       filteredLogos.push(...filteredHostels);
+//     }
+//   }
+
+//   console.log("filteredLogos", filteredLogos);
+//   setFilterlogo(filteredLogos);
+// }, [filterhostellist, state.UsersList, selectedHostel]);
+  
 
   useEffect(() => {
     dispatch({ type: 'HOSTELLIST' })
@@ -550,19 +604,26 @@ const handleMouseLeave = () =>{
       <div className="row g-0 p-2" >
         <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 col-12 d-flex justify-content-start align-items-center p-0" style={{ backgroundColor: "" }} >
           <div className="d-flex justify-content-start align-items-center w-100">
-            <Image src={Hostel} roundedCircle style={{ height: "30px", width: "30px" }} />
-            <div className="d-block ps-2 w-100">
-              <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray", fontWeight: 600 }}>PG Detail</p>
+          
+   
 
+            {/* Hostel */}
+            <div className="d-block ps-2 w-100">
+              <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray", fontWeight: 600,marginLeft:'25%'}}>PG Detail</p>
+              <div style={{display:'flex',flexDirection:'row'}}>
+              <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5,marginRight:5 }}>
+              <Image  src={selectedHostel && selectedHostel.profile == null ? Hostel : selectedHostel && selectedHostel.profile} roundedCircle style={{ height: 30, width: 30,borderRadius: '50%' }} />
+              </div>
               <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding:8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
                 <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
-                {state.UsersList.hostelList.map((obj) => {
+                {filterhostellist.length > 0 && filterhostellist.map((obj) => {
                   return (<>
                     <option style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
                   </>)
                 })}
 
               </select>
+              </div>
 
             </div>
             <div style={{ borderLeft: "1px solid #cccccc99", height: "45px" }} className="vertical-line ms-1 me-2"></div>

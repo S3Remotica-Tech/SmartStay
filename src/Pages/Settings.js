@@ -210,6 +210,7 @@ console.log("isEnableCheck",isEnableCheck === '1')
   const handleChange = (event) => {
     console.log("eventChecked", event.target.checked)
     setIsChecked(event.target.checked);
+    
   };
 
 

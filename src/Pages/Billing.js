@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import CryptoJS from "crypto-js";
 import EB_Billings from "./EB_Billings";
 
 
@@ -44,6 +45,40 @@ const Billings = () => {
       dispatch({ type: 'HOSTELLIST' })
     }, [])
 
+   
+    const LoginId = localStorage.getItem("loginId")
+
+    const [filterhostellist,setFilterhostellist] = useState([]);
+
+    useEffect(() => {
+      if (LoginId) {
+        try{
+          const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+          const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+          const parsedData = decryptedString;
+          const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
+            console.log("parsedData",parsedData);
+            console.log("created_By",view.created_By);
+            console.log("view.created_By == parsedData",view.created_By == parsedData);
+          return view.created_By == parsedData;
+        
+          
+          });
+          console.log("filteredlist",filteredList);
+           setFilterhostellist(filteredList)
+        }
+        
+          catch(error){
+         console.log("Error decrypting loginid",error);
+          }
+
+    
+      }
+  
+    }, [LoginId])
+
+    console.log("Useridfilter",state?.UsersList?.hostelList);
+
     return (
         <div>
 <div>
@@ -71,10 +106,16 @@ const Billings = () => {
         </div>
      
          <div></div>
-        {state.UsersList.hostelList.map((item) => (
+        { filterhostellist.length>0 && filterhostellist.map((item) => (
           <EB_Billings Item={item} handleSave={handleSave} onBoxchange={handleCheckboxChange}/>
 
-         ))}</div>
+         ))}
+          {filterhostellist.length === 0 && (
+                        <div>
+                          <div  style={{ textAlign: "center", color: "red",marginTop:'10px' }}>No data found</div>
+                        </div>
+                      )}
+         </div>
                    
             </div>
         </div>
