@@ -90,136 +90,92 @@ const InvoicePage = () => {
   // }, [])
 
 
-  
-
-
-//   const handleInvoiceDetail = (item) => {
-//     console.log("item", item);
-
-//     let pdfWindow;
-//     if (item && item.invoicePDF) {
-//         setShowLoader(true);
-//         pdfWindow = window.open(item.invoicePDF, '_blank');
-//         if (!pdfWindow || pdfWindow.closed || isUserStillPage()) {
-//             setShowLoader(false);
-//         }
-//     } else {
-//         console.log("Invoice PDF is null");
-//         setShowLoader(true);
-               
-//         const InvoicePDf = Array.isArray(state.InvoiceList?.Invoice)
-//             ? state.InvoiceList.Invoice.filter(view => view.User_Id == item.User_Id && view.id == item.id)
-//             : [];
-
-//         console.log("InvoicePDf ***", InvoicePDf[0]?.invoicePDF);
-        
-//         if(InvoicePDf[0]?.invoicePDF) {
-//             pdfWindow = window.open(InvoicePDf[0].invoicePDF, '_blank');
-//             setShowLoader(false);
-//         } else {
-//             console.log('Invoice PDF not available');
-//             setShowLoader(true); 
-//         }
-//     }
-// };
-
-
-const [selectedItems, setSelectedItems ] = useState('')
-
-const handleInvoiceDetail = (item) => {
-  console.log("item", item);
-
-  setSelectedItems(item)
-if (item.User_Id) {
-
-  const originalDate = new Date(item.Date);
-  
-
-  originalDate.setDate(originalDate.getDate() );
-  
-  
-  const year = originalDate.getFullYear();
-  const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
-  const day = originalDate.getDate().toString().padStart(2, '0');
-  
-  
-  const newDate = `${year}-${month}-${day}`;
-
-  dispatch({ type: 'INVOICEPDF', payload: { Date: newDate, User_Id: item.User_Id } });
-  setShowLoader(true);
-}
 
 
 
+  //   const handleInvoiceDetail = (item) => {
+  //     console.log("item", item);
 
-};
+  //     let pdfWindow;
+  //     if (item && item.invoicePDF) {
+  //         setShowLoader(true);
+  //         pdfWindow = window.open(item.invoicePDF, '_blank');
+  //         if (!pdfWindow || pdfWindow.closed || isUserStillPage()) {
+  //             setShowLoader(false);
+  //         }
+  //     } else {
+  //         console.log("Invoice PDF is null");
+  //         setShowLoader(true);
+
+  //         const InvoicePDf = Array.isArray(state.InvoiceList?.Invoice)
+  //             ? state.InvoiceList.Invoice.filter(view => view.User_Id == item.User_Id && view.id == item.id)
+  //             : [];
+
+  //         console.log("InvoicePDf ***", InvoicePDf[0]?.invoicePDF);
+
+  //         if(InvoicePDf[0]?.invoicePDF) {
+  //             pdfWindow = window.open(InvoicePDf[0].invoicePDF, '_blank');
+  //             setShowLoader(false);
+  //         } else {
+  //             console.log('Invoice PDF not available');
+  //             setShowLoader(true); 
+  //         }
+  //     }
+  // };
 
 
-useEffect(() => {
-  console.log("state.InvoiceList.statusCodeForPDf === 200", state.InvoiceList?.statusCodeForPDf === 200);
-  
-  if (state.InvoiceList.statusCodeForPDf === 200) {
-    
-    
+  const [selectedItems, setSelectedItems] = useState('')
 
-    console.log("selectedItems", selectedItems);
-    dispatch({ type: 'INVOICELIST' });
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_INVOICE_LIST' });
-                }, 1000);
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' });
-          }, 200);
-   
-          
-   
-        
-  }
-}, [state.InvoiceList?.statusCodeForPDf]);
+  const handleInvoiceDetail = (item) => {
+    console.log("item", item);
+    setSelectedItems(item)
+    if (item.User_Id) {
+      const originalDate = new Date(item.Date);
+      originalDate.setDate(originalDate.getDate());
+      const year = originalDate.getFullYear();
+      const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = originalDate.getDate().toString().padStart(2, '0');
+      const newDate = `${year}-${month}-${day}`;
+      dispatch({ type: 'INVOICEPDF', payload: { Date: newDate, User_Id: item.User_Id } });
+      setShowLoader(true);
+    }
+  };
 
 
-useEffect(()=>{
-  const toTriggerPDF = state.InvoiceList?.toTriggerPDF; 
-    
-  if (toTriggerPDF) {
-    // Code to execute if toTriggerPDF is true
-    console.log("toTriggerPDF is true");
-} else {
-    // Code to execute if toTriggerPDF is false
-    console.log("toTriggerPDF is false bvksbbldnb");
-}
-  if (toTriggerPDF) { 
-    console.log("executed") 
-    let pdfWindow;
-    const InvoicePDf = state.InvoiceList?.Invoice &&
-      state.InvoiceList.Invoice.filter(view => view.User_Id === selectedItems.User_Id && view.id === selectedItems.id);
-    console.log("InvoicePDf array", InvoicePDf);
-      console.log("InvoicePDf[0]?.invoicePDF",InvoicePDf[0]?.invoicePDF)
+  useEffect(() => {
+    console.log("state.InvoiceList.statusCodeForPDf === 200", state.InvoiceList?.statusCodeForPDf === 200);
+    if (state.InvoiceList.statusCodeForPDf === 200) {
+      console.log("selectedItems", selectedItems);
+      dispatch({ type: 'INVOICELIST' });
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_INVOICE_LIST' });
+      }, 1000);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' });
+      }, 200);
+    }
+  }, [state.InvoiceList?.statusCodeForPDf]);
+
+
+  useEffect(() => {
+    const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
+    if (toTriggerPDF) {
+      console.log("executed")
+      let pdfWindow;
+      const InvoicePDf = state.InvoiceList?.Invoice &&
+        state.InvoiceList.Invoice.filter(view => view.User_Id === selectedItems.User_Id && view.id === selectedItems.id);
+      console.log("InvoicePDf array", InvoicePDf);
+      console.log("InvoicePDf[0]?.invoicePDF", InvoicePDf[0]?.invoicePDF)
       console.log("executed");
-      if(InvoicePDf[0]?.invoicePDF !== undefined){
+      if (InvoicePDf[0]?.invoicePDF !== undefined) {
         pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
         setShowLoader(false);
-        
-                 }else{
-                  pdfWindow = window.open(selectedItems.invoicePDF, '_blank');
-                  
+      } else {
+        pdfWindow = window.open(selectedItems.invoicePDF, '_blank');
         setShowLoader(false);
-                 }
-   
-      
-                }
-},[state.InvoiceList?.toTriggerPDF])
-
-
-
-  // const isUserStillPage = () => {
-  //   return true;
-  // }
-
-
-
-
-
+      }
+    }
+  }, [state.InvoiceList?.toTriggerPDF])
 
 
   const handleInvoiceback = (isVisible) => {
@@ -237,7 +193,7 @@ useEffect(()=>{
   useEffect(() => {
     dispatch({ type: 'INVOICELIST' })
     setData(state.InvoiceList.Invoice.response)
-   
+
   }, [])
 
   useEffect(() => {
@@ -281,10 +237,10 @@ useEffect(()=>{
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
     if (!emailPattern.test(emailID)) {
-      setInvoiceList({ ...invoiceList, email: emailID }); 
+      setInvoiceList({ ...invoiceList, email: emailID });
       emailError.textContent = "Invalid email format";
     } else {
-      setInvoiceList({ ...invoiceList, email: emailID }); 
+      setInvoiceList({ ...invoiceList, email: emailID });
       emailError.textContent = "";
     }
 
@@ -871,7 +827,7 @@ useEffect(()=>{
 
           <InvoiceDetail sendInvoiceDetail={invoicePage} handleInvoiceback={handleInvoiceback} />
         </> : <>
-          <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
+          <div class=' ps-3 pe-3' style={{ marginTop: "20px", position: "relative" }} >
 
             <div class="row g-0" style={{ width: "100%" }}>
               <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12" >
@@ -882,6 +838,7 @@ useEffect(()=>{
               <div class="col-lg-6  offset-lg-4 col-md-6 col-sm-12 col-xs-12">
                 <div class="p-1 d-flex justify-content-end align-items-center"  >
 
+                  {showLoader && <LoaderComponent />}
                   {
                     searchicon &&
                     <>
@@ -1247,6 +1204,10 @@ useEffect(()=>{
                 </div>
               </div>
             </div>
+
+
+
+
           </div>
 
         </>
@@ -1254,7 +1215,6 @@ useEffect(()=>{
       }
 
 
-      {showLoader && <LoaderComponent />}
 
 
 
