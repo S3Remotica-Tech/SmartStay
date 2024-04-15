@@ -16,7 +16,7 @@ import Swal from 'sweetalert2'
 function* handleInvoiceList() {
    const response = yield call(invoiceList)
    if (response.status === 200) {
-      yield put({ type: 'INVOICE_LIST', payload: response.data })
+      yield put({ type: 'INVOICE_LIST', payload: {response:response.data,statusCode:response.status} })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -56,10 +56,10 @@ function* handleInvoiceSettings(param){
 }
 
 
-function* handleInvoicePdf() {
-   const response = yield call(InvoicePDf)
+function* handleInvoicePdf(action) {
+   const response = yield call(InvoicePDf, action.payload)
    if (response.status === 200) {
-      yield put({ type: 'INVOICE_PDF', payload: response.data })
+      yield put({ type: 'INVOICE_PDF', payload: {response:response.data,statusCode:response.status}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
