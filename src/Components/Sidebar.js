@@ -61,17 +61,35 @@ function Sidebar() {
   const state = useSelector(state => state)
   console.log("state",state)
 
-  const LoginId = localStorage.getItem("loginId")
+
+  useEffect(() => {
+    dispatch({ type: 'HOSTELLIST' })
+  }, [])
+
+
+  let LoginId = localStorage.getItem("loginId")
+
+
+
+  useEffect(()=>{
+    dispatch({ type: 'ACCOUNTDETAILS' })
+   },[])
+
+
+ 
 
 const [filterhostellist,setFilterhostellist] = useState([]);
 const [loginCustomerid,setLoginCustomerId] = useState('')
 const[ profiles, setProfiles] = useState('')
 const [profileArray, setProfileArray] = useState('')
 
-
+console.log(LoginId, " LoginId *********")
+console.log("profiles",profiles)
 
   useEffect(() => {
-    if (LoginId) {
+   if (LoginId && state.createAccount.accountList) {
+
+      console.log("executed **********S")
       try{
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
@@ -87,32 +105,31 @@ const [profileArray, setProfileArray] = useState('')
         });
         console.log("topbar_filteredlist",filteredList);
          setFilterhostellist(filteredList)
-         const FilteredProfile = state.createAccount.accountList.filter((item => item.id == parsedData))
+
+
+         const FilteredProfile = state.createAccount.accountList.filter((item => item.id == parsedData ) );
+
 
          console.log("FIlteredProfile",FilteredProfile)
        
-       const profilePictures = FilteredProfile[0]?.profile
-
-const profileName = FilteredProfile[0]?.Name
-
-
-       setProfiles(profilePictures)
+         if(FilteredProfile.length > 0 ){
+          const profilePictures = FilteredProfile[0]?.profile;
+          const profileName = FilteredProfile[0]?.Name;
+          setProfiles(profilePictures);
+          setProfileArray(profileName);
+         }else{
+          console.log("No data filtered")
+         }
       
-       setProfileArray(profileName)
-
-
-
-
       }
       
         catch(error){
        console.log("Error decrypting loginid",error);
         }
-
-  
+ 
     }
 
-  }, [LoginId])
+  },[state.createAccount.accountList,state.UsersList?.hostelList, LoginId ])
 
   const [selectedHostel, setSelectedHostel] = useState(null);
   console.log("selectedHostel for sidebar",selectedHostel);
@@ -126,14 +143,7 @@ const profileName = FilteredProfile[0]?.Name
    
   };
 
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
-
-
-  useEffect(()=>{
-    dispatch({ type: 'ACCOUNTDETAILS' })
-   },[])
+ 
 
    const [activePage, setActivePage] = useState(true);
   const [currentPage, setCurrentPage] = useState('');

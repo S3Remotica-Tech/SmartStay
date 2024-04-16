@@ -5,10 +5,13 @@ import Logo from '../Assets/Images/Logo-Icon.png'
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import Roombased from './EB_RoomBased'
-
+import CryptoJS from "crypto-js";
 
 
 function EB_Hostel() {
+
+
+
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   console.log("state for EB",state )
@@ -16,6 +19,46 @@ function EB_Hostel() {
   useEffect(() => {
     dispatch({ type: 'HOSTELLIST' })
   }, [])
+
+
+
+  let LoginId = localStorage.getItem("loginId")
+
+  const [filterhostellist,setFilterhostellist] = useState([]);
+
+  useEffect(() => {
+    if (LoginId) {
+ 
+       console.log("executed **********S")
+       try{
+         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+         const parsedData = decryptedString;
+        
+         const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
+           console.log("parsedData",parsedData);
+           console.log("created_By",view.created_By);
+           console.log("view.created_By == parsedData",view.created_By == parsedData);
+         return view.created_By == parsedData;
+       
+         
+         });
+         console.log("topbar_filteredlist",filteredList);
+          setFilterhostellist(filteredList)
+ 
+ 
+          
+       
+       }
+       
+         catch(error){
+        console.log("Error decrypting loginid",error);
+         }
+  
+     }
+ 
+   },[state.UsersList?.hostelList, LoginId ])
+
 
   const [isvisible ,setISVisible] = useState(false);
   const [backbtn,setBackbtn] = useState(true)
@@ -45,7 +88,7 @@ function EB_Hostel() {
         <h4 style={{fontSize:16,fontWeight:600}}>EB Plan</h4>
         <p style={{fontSize:13}}>Manage your account settings</p>
       
-        {state.UsersList.hostelList.map((hostel) => (
+        {filterhostellist && filterhostellist.map((hostel) => (
       
         <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12  mt-3'>
        
