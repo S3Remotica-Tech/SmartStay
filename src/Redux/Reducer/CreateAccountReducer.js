@@ -10,6 +10,7 @@ const initialState = {
    IsEnable: '',
    accountList: [],
    statusCodeForAccount: 0,
+   toTriggerProfile:false,
 }
 const CreateAccountReducer = (state = initialState, action) => {
    console.log("action.payload",action.type)
@@ -17,9 +18,9 @@ const CreateAccountReducer = (state = initialState, action) => {
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
       case 'CREATEACCOUNT':
-         return { ...state, MobileNo: action.payload.mobileNo, EmailId: action.payload.emailId, Password: action.payload.password, Name: action.payload.name, accountMgs: action.payload, statusCodeForAccount: action.payload.status }
+         return { ...state, MobileNo: action.payload.mobileNo, EmailId: action.payload.emailId, Password: action.payload.password, Name: action.payload.name, accountMgs: action.payload.response, statusCodeForAccount:action.payload.statusCode }
       case 'CLEAR_STATUS_CODE_ACCOUNT':
-         return { ...state, statusCodeForAccount: 0, }
+         return { ...state, statusCodeForAccount: 0, toTriggerProfile:true }
       case 'TWO_STEP_VERIFY':
          return { ...state, EmailId: action.payload.emailId, IsEnable: action.payload.isEnable, statusCodeTwo: action.payload.statusCode }
       case 'CLEAR_STATUS_CODE_TWO_STEP':

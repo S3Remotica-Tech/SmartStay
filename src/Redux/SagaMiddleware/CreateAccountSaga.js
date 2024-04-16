@@ -10,12 +10,9 @@ function* CreateAccountPage(args) {
       const response = yield call(CreateAccountAction, args.payload);
       console.log(" args.payload", args.payload)
       console.log("response for createAccount Api",response)
-      if (response.status === 200) {
+      if (response.statusCode === 200) {
         yield put({ type: 'CREATEACCOUNT',
-         payload: {
-          data: response.data,
-          status: response.status, 
-        }});
+         payload: {response: response.data, statusCode: response.statusCode}});
         Swal.fire({
           icon: 'success',
           text: response.data.message,
