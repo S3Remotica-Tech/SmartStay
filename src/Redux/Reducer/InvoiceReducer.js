@@ -29,7 +29,7 @@ const initialState = {
                     case 'CLEAR_AMENITIES_SETTINS_STATUSCODE':
                         return{ ...state,statusCode:0 }
                     case 'INVOICE_PDF':
-                        return { ...state,invoicePDF:action.payload,statusCodeForPDf:action.payload.statusCode,toTriggerPDF: false  }
+                        return { ...state,invoicePDF:action.payload,statusCodeForPDf:action.payload.statusCode ,toTriggerPDF:false }
                       case 'CLEAR_INVOICE_PDF_STATUS_CODE':
                         return{...state,statusCodeForPDf:0}
                     case 'AMENITIES_SETTINGS':

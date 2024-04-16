@@ -72,59 +72,8 @@ const InvoicePage = () => {
   })
 
   const [invoicePage, setInvoicePage] = useState('')
-
-
-  // const handleInvoiceDetail = (invoiceData) => {
-  //   console.log("invoiceDetails", invoiceData);
-  //   setInvoiceDetails(true)
-  //   setInvoicePage(invoiceData)
-
-
-  // }
-
-  const [showLoader, setShowLoader] = useState(false)
-  const [trigger, setTrigger] = useState(false)
-
-  // useEffect(() => {
-  //   dispatch({ type: 'INVOICEPDF' })
-  // }, [])
-
-
-
-
-
-  //   const handleInvoiceDetail = (item) => {
-  //     console.log("item", item);
-
-  //     let pdfWindow;
-  //     if (item && item.invoicePDF) {
-  //         setShowLoader(true);
-  //         pdfWindow = window.open(item.invoicePDF, '_blank');
-  //         if (!pdfWindow || pdfWindow.closed || isUserStillPage()) {
-  //             setShowLoader(false);
-  //         }
-  //     } else {
-  //         console.log("Invoice PDF is null");
-  //         setShowLoader(true);
-
-  //         const InvoicePDf = Array.isArray(state.InvoiceList?.Invoice)
-  //             ? state.InvoiceList.Invoice.filter(view => view.User_Id == item.User_Id && view.id == item.id)
-  //             : [];
-
-  //         console.log("InvoicePDf ***", InvoicePDf[0]?.invoicePDF);
-
-  //         if(InvoicePDf[0]?.invoicePDF) {
-  //             pdfWindow = window.open(InvoicePDf[0].invoicePDF, '_blank');
-  //             setShowLoader(false);
-  //         } else {
-  //             console.log('Invoice PDF not available');
-  //             setShowLoader(true); 
-  //         }
-  //     }
-  // };
-
-
-  const [selectedItems, setSelectedItems] = useState('')
+   const [showLoader, setShowLoader] = useState(false)
+    const [selectedItems, setSelectedItems] = useState('')
 
   const handleInvoiceDetail = (item) => {
     console.log("item", item);
@@ -149,7 +98,7 @@ const InvoicePage = () => {
       dispatch({ type: 'INVOICELIST' });
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
-      }, 1000);
+      }, 100);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' });
       }, 200);
@@ -157,25 +106,53 @@ const InvoicePage = () => {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
 
+  // useEffect(() => {
+  //   const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
+  //   console.log("toTriggerPDF", toTriggerPDF)
+  //   if (toTriggerPDF) {
+  //     console.log("executed")
+  //     let pdfWindow;
+  //     const InvoicePDf = state.InvoiceList?.Invoice &&
+  //       state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
+  //     console.log("InvoicePDf array", InvoicePDf);
+  //     console.log("InvoicePDf[0]?.invoicePDF", InvoicePDf[0]?.invoicePDF)
+  //     if (InvoicePDf[0]?.invoicePDF) {
+  //       pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
+  //       setShowLoader(false);
+  //     } else {
+  //       setShowLoader(true);
+  //     }
+  //   }else{
+  //     console.log("to trigger pdf is false so pdf not working")
+  //   }
+  // }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF ])
+
+
   useEffect(() => {
     const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
+    console.log("toTriggerPDF", toTriggerPDF);
+    
     if (toTriggerPDF) {
-      console.log("executed")
-      let pdfWindow;
-      const InvoicePDf = state.InvoiceList?.Invoice &&
-        state.InvoiceList.Invoice.filter(view => view.User_Id === selectedItems.User_Id && view.id === selectedItems.id);
-      console.log("InvoicePDf array", InvoicePDf);
-      console.log("InvoicePDf[0]?.invoicePDF", InvoicePDf[0]?.invoicePDF)
       console.log("executed");
-      if (InvoicePDf[0]?.invoicePDF !== undefined) {
-        pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
-        setShowLoader(false);
-      } else {
-        pdfWindow = window.open(selectedItems.invoicePDF, '_blank');
-        setShowLoader(false);
-      }
+       setTimeout(() => {
+        let pdfWindow;
+        const InvoicePDf = state.InvoiceList?.Invoice &&
+          state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
+        console.log("InvoicePDf array", InvoicePDf);
+        console.log("InvoicePDf[0]?.invoicePDF", InvoicePDf[0]?.invoicePDF);
+        if (InvoicePDf[0]?.invoicePDF) {
+          pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
+          setShowLoader(false);
+        } else {
+          setShowLoader(true);
+        }
+      }, 0);
+    } else {
+      console.log("to trigger pdf is false so pdf not working");
     }
-  }, [state.InvoiceList?.toTriggerPDF])
+  }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
+  
+
 
 
   const handleInvoiceback = (isVisible) => {
