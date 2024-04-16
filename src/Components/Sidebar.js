@@ -258,7 +258,7 @@ console.log("profiles",profiles)
           </div>
 
     
-          <div style={{display:'flex',alignItems:"center",width:'20%',marginLeft:'0px', backgroundColor:"", gap:25}}>
+          <div style={{display:'flex',alignItems:"center",width:'20%',marginLeft:'0px', backgroundColor:"", gap:5}}>
    <div >
    {selectedHostel && selectedHostel.profile !== null ? (
         <Image src={selectedHostel.profile} roundedCircle style={{ height:25, width: 25,borderRadius:'50%' }} />
