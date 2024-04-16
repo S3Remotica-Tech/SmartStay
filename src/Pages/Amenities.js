@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import CryptoJS from "crypto-js";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FaPlus } from "react-icons/fa6";
@@ -19,9 +20,30 @@ function Amenities() {
     useEffect(() => {
         dispatch({ type: 'HOSTELLIST' })
         dispatch({ type: 'AMENITIESLIST' })
+        dispatch({ type: 'AMENITIESNAME' })
     }, [])
 
     console.log("state for Amenities", state)
+
+    const LoginId = localStorage.getItem("loginId")
+
+    const [Loginid,setLoginid] = useState('');
+     console.log("loginid",Loginid); 
+
+    useEffect(() => {
+      if (LoginId) {
+        try{
+          const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+          const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+          const parsedData = decryptedString;
+          setLoginid(parsedData)
+        }
+          catch(error){
+         console.log("Error decrypting loginid",error);
+          }
+      }
+  
+    }, [LoginId])
 
 
     const [showModal, setShowModal] = useState(false);
@@ -71,7 +93,7 @@ function Amenities() {
 
 
     const handleAmenitiesSetting = () => {
-        dispatch({ type: 'AMENITIESSETTINGS', payload: { AmenitiesName: amenitiesName, Amount: amount, setAsDefault: active, Hostel_Id: selectedHostel.id, Status: status } })
+        dispatch({ type: 'AMENITIESSETTINGS', payload: { AmenitiesName: amenitiesName, Amount: amount, setAsDefault: active, Hostel_Id: selectedHostel.id, Status: status ,createdBy:Loginid} })
         setAmenitiesName('')
         setAmount('')
         handleCloseModal()
@@ -176,23 +198,15 @@ console.log("TurnOn",TurnOn)
                     </div>
                     <div className='mb-3 ps-2  pe-2'>
                         <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amenities Name</label>
-                        <Form.Control
-                            placeholder="Amenities Name"
-                            aria-label="Recipient's username"
-                            className='border custom-input'
-                            aria-describedby="basic-addon2"
-                            value={amenitiesName}
-                            onChange={(e) => handleAmenitiesChange(e)}
-                            style={{
-                                fontSize: 12,
-                                fontWeight: "530",
-                                opacity: 1,
-                                borderRadius: "4px",
-                                color: "gray",
-                                '::placeholder': { color: "gray", fontSize: 12 }
-                            }}
 
-                        />
+                        <Form.Select aria-label="Default select example" value={amenitiesName} onChange={(e) => handleAmenitiesChange(e)} style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa" }}>
+                        <option style={{ fontSize: 14, fontWeight: 600, }} >Select Amenities Name</option>
+                         {state.InvoiceList.AmenitiesName.map((item) => (
+                                <>
+                              <option key={item.id} value={item.id} >{item.Amnities_Name}</option></>
+                               ))}
+
+                          </Form.Select>
 
                     </div>
                     <div className='mb-3 ps-2 pe-2'>
