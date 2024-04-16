@@ -102,9 +102,6 @@ function Settings() {
   }, [LoginId])
 
 
-
-
-
   
 
   
@@ -221,8 +218,10 @@ useEffect(()=>{
    },[])
 
   
-   const [selectedImage, setSelectedImage] = useState(null);
+const [selectedImage, setSelectedImage] = useState(null);
 const [profilePicture, setProfilePicture] = useState('');
+
+console.log("profilePicture",profilePicture)
 
 
    const handleImageChange = async (event) => {
@@ -241,33 +240,46 @@ const [profilePicture, setProfilePicture] = useState('');
     }
 };
 
+
+
 useEffect(()=>{
+  if(id){
+    const FIlteredProfile = state.createAccount?.accountList.filter(item => item.id == id)
+       if(FIlteredProfile.length > 0 ){
+        const ProfileImage = FIlteredProfile[0]?.profile
+    const CustomerName = FIlteredProfile[0]?.Name
+    const PhoneNUmber = FIlteredProfile[0]?.mobileNo
+    const UserEmail = FIlteredProfile[0]?.email_Id
+    console.log("FIlteredProfile",FIlteredProfile)
+    console.log("ProfileImage",ProfileImage)
+    
+    setName(CustomerName)
+    setPhone(PhoneNUmber)
+    setEmail(UserEmail)
+    
+    setProfilePicture(ProfileImage)
+    }else{
+      setProfilePicture(Men)
+    }
+  }
+ 
+},[state.createAccount?.accountList])
 
-  const FIlteredProfile = state.createAccount.accountList.filter((item => item.id == id))
 
-  console.log("FIlteredProfile",FIlteredProfile)
-if(FIlteredProfile.length > 0 ){
-
-const ProfileImage = FIlteredProfile[0].profile
-const CustomerName = FIlteredProfile[0].Name
-const PhoneNUmber = FIlteredProfile[0].mobileNo
-const UserEmail = FIlteredProfile[0].email_Id
+console.log("state.createAccount.statusCodeForAccount === 200",state.createAccount.statusCodeForAccount == 200)
 
 
 
-setName(CustomerName)
-setPhone(PhoneNUmber)
-setEmail(UserEmail)
-
-
-
-setProfilePicture(ProfileImage)
-
+useEffect(()=>{
+if(state.createAccount.statusCodeForAccount == 200){
+  dispatch({ type: 'ACCOUNTDETAILS' })
+setTimeout(()=>{
+dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
+},100)
 }else{
-  setProfilePicture(Men)
+  console.log("create account not working")
 }
-},[state.createAccount.accountList])
-
+},[state.createAccount?.statusCodeForAccount])
 
 
 

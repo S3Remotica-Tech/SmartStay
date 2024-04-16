@@ -52,7 +52,7 @@ import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import { StaticDateTimePicker } from '@mui/x-date-pickers';
 import { BsClipboard2Check } from "react-icons/bs";
-
+import SmartLogo from '../Assets/Images/Logo-Icon.png'
 
 function Sidebar() {
 
@@ -110,7 +110,7 @@ console.log("profiles",profiles)
          const FilteredProfile = state.createAccount.accountList.filter((item => item.id == parsedData ) );
 
 
-         console.log("FIlteredProfile",FilteredProfile)
+         console.log("sidebar profile",FilteredProfile)
        
          if(FilteredProfile.length > 0 ){
           const profilePictures = FilteredProfile[0]?.profile;
@@ -129,7 +129,7 @@ console.log("profiles",profiles)
  
     }
 
-  },[state.createAccount.accountList,state.UsersList?.hostelList, LoginId ])
+  },[state.createAccount.accountList,state.UsersList?.hostelList, LoginId, state.createAccount.statusCodeForAccount])
 
   const [selectedHostel, setSelectedHostel] = useState(null);
   console.log("selectedHostel for sidebar",selectedHostel);
@@ -258,12 +258,22 @@ console.log("profiles",profiles)
           </div>
 
     
-          <div style={{display:'flex',flexDirection:'column',width:'14%',marginLeft:'0px'}}>
-            <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>PG Detail</p>
-            <div style={{display:'flex',flexDirection:'row'}}>
-            <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center",  borderRadius: 100, padding: 5,marginRight:5 }}>
-             <Image  src={selectedHostel && selectedHostel.profile == null ? Hostel : selectedHostel && selectedHostel.profile} roundedCircle style={{ height: 15, width: 15,borderRadius:'50%' }} />
-             </div>
+          <div style={{display:'flex',alignItems:"center",width:'20%',marginLeft:'0px', backgroundColor:"", gap:5}}>
+   <div >
+   {selectedHostel && selectedHostel.profile !== null ? (
+        <Image src={selectedHostel.profile} roundedCircle style={{ height:25, width: 25,borderRadius:'50%' }} />
+    ) : (
+        <Image src={SmartLogo} alt="Default Logo" style={{ height: 25, width: 25,borderRadius:'50%' }} />
+    )}
+    </div> 
+
+           
+            <div style={{alignItems:"center", display:"block", width:"100%"}}>
+                 <div style={{paddingLeft:7, paddingTop:2, paddingBottom:0}}>
+                 <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>PG Detail</p>
+                  </div>    
+           
+
           <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{padding:7, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
                 <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
                 {filterhostellist.length > 0 && filterhostellist.map((obj) => {

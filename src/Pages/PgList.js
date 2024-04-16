@@ -23,6 +23,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import UserBedDetails from '../Pages/UserBedDetails';
 import CryptoJS from "crypto-js";
 import { FaAngleRight } from "react-icons/fa6";
+import SmartLogo from '../Assets/Images/Logo-Icon.png'
 
 function getFloorName(floor_Id) {
   if (floor_Id === 1) {
@@ -612,7 +613,13 @@ const handleMouseLeave = () =>{
               <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray", fontWeight: 600,marginLeft:'25%'}}>PG Detail</p>
               <div style={{display:'flex',flexDirection:'row'}}>
               <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5,marginRight:5 }}>
-              <Image  src={selectedHostel && selectedHostel.profile == null ? Hostel : selectedHostel && selectedHostel.profile} roundedCircle style={{ height: 30, width: 30,borderRadius: '50%' }} />
+              {/* <Image  src={selectedHostel && selectedHostel.profile == null ? Hostel : selectedHostel && selectedHostel.profile} roundedCircle style={{ height: 30, width: 30,borderRadius: '50%' }} /> */}
+              {selectedHostel && selectedHostel.profile !== null ? (
+        <Image src={selectedHostel.profile} roundedCircle style={{ height: 15, width: 15,borderRadius:'50%' }} />
+    ) : (
+        <Image src={SmartLogo} alt="Default Logo" style={{ height: 15, width: 15,borderRadius:'50%' }} />
+    )}
+             
               </div>
               <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding:8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
                 <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
