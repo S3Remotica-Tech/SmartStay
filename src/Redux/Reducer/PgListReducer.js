@@ -12,6 +12,7 @@ const initialState = {
     number_Of_Bed: '',
     checkRoomList: [],
     checkEBList:[],
+    createEBList:[],
     createRoomMessage: '',
     errMessage: "",
     roomCount: [],
@@ -42,6 +43,8 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, checkRoomList: action.payload }
         case 'CHECK_EB':
             return { ...state, checkEBList: action.payload }
+            case 'CREATE_EB':
+            return { ...state, createEBList: action.payload }
         case 'ERROR':
             if (state.roomCount.length > 0) {
                 let index = state.roomCount.findIndex((item) => {

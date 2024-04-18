@@ -4,7 +4,8 @@ import Image from 'react-bootstrap/Image';
 import Logo from '../Assets/Images/Logo-Icon.png'
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
-import Roombased from './EB_RoomBased'
+import Roombased from './EB_RoomBased';
+import Hostelbased from "./EB_Hostelbased";
 import CryptoJS from "crypto-js";
 
 
@@ -62,10 +63,12 @@ function EB_Hostel() {
 
   const [isvisible ,setISVisible] = useState(false);
   const [backbtn,setBackbtn] = useState(true)
+  const [hosteldetails,setHosteldetails]= useState('')
 
-
-  const handleEbbill = ()=> {
+  const handleEbbill = (hostel)=> {
     setISVisible(true)
+    console.log("hostel",hostel);
+    setHosteldetails(hostel)
   }
 
 
@@ -83,7 +86,7 @@ function EB_Hostel() {
      
     {
       isvisible ?
-       <Roombased visibility={handleback}/> :
+       <Roombased visibility={handleback} hosteldetails = {hosteldetails}/> :
        <div className='row mt-4 ms-4 me-4'>
         <h4 style={{fontSize:16,fontWeight:600}}>EB Plan</h4>
         <p style={{fontSize:13}}>Manage your account settings</p>
@@ -92,7 +95,7 @@ function EB_Hostel() {
       
         <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12  mt-3'>
        
-        <Card style={{height:"auto",backgroundColor:"#F6F7FB"}} onClick={handleEbbill}>
+        <Card style={{height:"auto",backgroundColor:"#F6F7FB"}} onClick={()=>{handleEbbill(hostel)}}>
             <Card.Body>
               <div className='row d-flex align-items-center justify-content-center' >
               <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 col-12" style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width:55, height:55, borderRadius: 100, padding:20 }}>

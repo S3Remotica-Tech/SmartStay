@@ -15,6 +15,13 @@ export async function createPgList(datum){
     })
   }
 
+  export async function CreateEbbill(datum){
+    console.log("ebbill",datum);
+    return await AxiosConfig.post('/ebamount/setting',datum,{
+      data:datum
+    })
+  }
+
   export async function createRoom(datum){
     console.log("datum",datum);
     return await AxiosConfig.post('/room/create-room',datum,{

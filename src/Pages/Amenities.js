@@ -53,14 +53,21 @@ function Amenities() {
     const [edit, setEdit] = useState('')
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
     const [status, setStatus] = useState('')
+    const [showTable, setShowTable] = useState(false)
+    const [filteredamenities,setFilteredAmenities]= useState([])
 
     const handleHostelChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
+        setShowTable(true)
         console.log("selectedIndex", selectedIndex)
         setSelectedHostel({
             id: e.target.value,
             name: e.target.options[selectedIndex].text
         });
+        const filteredamenities = state.InvoiceList.AmenitiesList.filter(item => item.Hostel_Id == e.target.value);
+        console.log('filteredamenities',filteredamenities);
+        setFilteredAmenities(filteredamenities);
+
     };
     const handleAmenitiesChange = (e) => {
         setAmenitiesName(e.target.value)
@@ -130,6 +137,36 @@ const TurnOn = state.InvoiceList?.Amenities?.map((item)=>{
     return item
 })
 
+
+
+const [filteredHostelList, setFilteredHostelList] = useState([]);
+console.log("filteredHostelList",filteredHostelList);
+
+useEffect(() => {
+if (LoginId) {
+    try {
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = decryptedString;
+        console.log("parsedData", parsedData);
+
+        const filteredList = state.UsersList?.hostelList?.filter((view) => {
+            console.log("created_By:", view.created_By); 
+            console.log("parsedData:", parsedData); 
+            return view.created_By == parsedData;
+        });
+        console.log("filteredDataforLoginID", filteredList);
+        setFilteredHostelList(filteredList);
+
+    } catch (error) {
+        console.error('Error decrypting LoginId:', error);
+    }
+}
+}, [LoginId,state.UsersList?.hostelList ]);
+
+console.log("UsersList:", state.UsersList?.hostelList);
+
+
 console.log("TurnOn",TurnOn)
 
     return (
@@ -146,12 +183,24 @@ console.log("TurnOn",TurnOn)
                 </div>
 
             </div>
-            {state.InvoiceList.AmenitiesList.length === 0 ? (
-                <div className='d-flex justify-content-center'>
-                    <label>Create a Amenities</label>
-                </div>
+            <div className='row'>
+                <div className='col-lg-6 col-12'>
+                    <Form.Group className="mb-3">
+                        <Form.Label style={{ fontSize: 14, fontWeight: 600, }}>Select Hostel</Form.Label>
+                        <Form.Select aria-label="Default select example" value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, fontWeight: 600, backgroundColor: "#E6EDF5" }}>
 
-            ) : (
+                            <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
+                            { filteredHostelList && filteredHostelList.map((item) => (
+                                <>
+                                    <option key={item.id} value={item.id} >{item.Name}</option></>
+                            ))}
+
+                        </Form.Select>
+                    </Form.Group>
+                </div>
+            </div> 
+
+            {showTable && <>
                 <div class="table-responsive mt-4" style={{ width: "100%" }}>
 
                     <table class="table text-center" >
@@ -166,16 +215,17 @@ console.log("TurnOn",TurnOn)
                         </thead>
                         <tbody style={{ fontSize: 13 }}>
 
-                            {state.InvoiceList.AmenitiesList.map((item, index) => (
+                            {filteredamenities.length > 0 && filteredamenities.map((item, index) => (
                                                             <AmenitiesView item={item} modalEditAmenities={handleEdit} selectedHostel={selectedHostel} />
                             ))}
 
                         </tbody>
                     </table>
                 </div>
+                </>}
 
 
-            )}
+            
 
 
 
@@ -189,7 +239,7 @@ console.log("TurnOn",TurnOn)
                         <Form.Select aria-label="Default select example" value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa" }}>
 
                             <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
-                            {state.UsersList.hostelList.map((item) => (
+                            {filteredHostelList && filteredHostelList.map((item) => (
                                 <>
                                     <option key={item.id} value={item.id} >{item.Name}</option></>
                             ))}
