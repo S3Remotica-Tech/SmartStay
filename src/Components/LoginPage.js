@@ -62,86 +62,107 @@ const MyComponent = () => {
 
   const [showOtpVerification, setShowOtpVerification] = useState(false)
 
+// console.log("state.login?.otpSuccessStatusCode == 203",state.login?.otpSuccessStatusCode == 203)
+
+
+useEffect(()=>{
+if(state.login?.otpSuccessStatusCode == 203){
+  setShowOtpVerification(true)
+
+  console.log("showOtpVerification",showOtpVerification)
+}
+setTimeout(()=>{
+dispatch({ type: 'CLEAR_OTP_STATUSCODE'})
+},100)
+
+}, [state.login.otpSuccessStatusCode])
+
+
+
+
+  
+
+
 
 
   useEffect(() => {
     if (state.login.statusCode === 200) {
-      const IsEnable = state.login?.loginInformation[0]?.isEnable
-      console.log("IsEnable", IsEnable)
-      if (IsEnable === 1) {
-        dispatch({ type: 'OTPSEND', payload: { email: email_Id } });
-        setTimeout(() => {
-        setShowOtpVerification(true)
-        },1000)
-      }
-      else {
-        Swal.fire({
+      Swal.fire({
           icon: 'success',
           title: 'Login Successful',
           text: 'You have been logged in successfully!',
           timer: 1000,
           showConfirmButton: false,
-        });
-        dispatch({ type: 'LOGIN-SUCCESS' })
-        setShowOtpVerification(false)
+      });
+      dispatch({ type: 'LOGIN-SUCCESS' });
+      
+  
+
+      const loginInfo = state.login && state.login.loginInformation ? state.login.loginInformation[0] : undefined;
 
 
-
-
+        console.log("loginInfo",loginInfo)
         
+        if (loginInfo) {
+            const LoginId = loginInfo.id;
+            const NameId = loginInfo.Name;
+            const phoneId = loginInfo.mobileNo;
+            const emilidd = loginInfo.email_Id;
+            const Is_Enable = loginInfo.isEnable;
+            const Pass_word = loginInfo.password;
+
+            console.log("Pass_word", Pass_word);
+
+            const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
+            const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
+            const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
+            const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
+            const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
+            const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
+
+            console.log("encryptedLoginId", encryptedLoginId);
+
+            if (checked) {
+                const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
+                console.log("encryptData", encryptData.toString());
+
+                localStorage.setItem("login", encryptData.toString());
+                localStorage.setItem("loginId", encryptedLoginId);
+                localStorage.setItem("NameId", encryptedname);
+                localStorage.setItem("phoneId", encryptedphone);
+                localStorage.setItem("emilidd", encryptedemail);
+                localStorage.setItem("IsEnable", encryptIsEnable);
+                localStorage.setItem("Password", encryptPassword);
+            } else {
+                const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
+                console.log("encryptData", encryptData.toString());
+                localStorage.setItem("login", encryptData.toString());
+                localStorage.setItem("loginId", encryptedLoginId);
+                localStorage.setItem("NameId", encryptedname);
+                localStorage.setItem("phoneId", encryptedphone);
+                localStorage.setItem("emilidd", encryptedemail);
+                localStorage.setItem("IsEnable", encryptIsEnable);
+                localStorage.setItem("Password", encryptPassword);
+            }
+        } else {
+            console.error("Login information not available.");
+        }
+
+        setTimeout(() => {
+            dispatch({ type: 'CLEAR_STATUSCODE' });
+        }, 100);
+    
       }
+   
+},[state.login.statusCode]);
 
 
-      const LoginId = state.login?.loginInformation[0]?.id;
-      const NameId = state.login?.loginInformation[0]?.Name
-      const phoneId = state.login?.loginInformation[0]?.mobileNo
-      const emilidd = state.login?.loginInformation[0]?.email_Id
-      const Is_Enable= state.login?.loginInformation[0]?.isEnable
-      const Pass_word = state.login?.loginInformation[0]?.password
-
-      console.log("Pass_word", Pass_word);
-
-      const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
-      const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
-      const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
-      const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
-      const encryptIsEnable =  CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
-      const encryptPassword =  CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
 
 
-      console.log("encryptedLoginId", encryptedLoginId)
-
-      if (checked == true) {
-        const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd')
-        console.log("encryptData", encryptData.toString());
-
-        localStorage.setItem("login", encryptData.toString())
-        localStorage.setItem("loginId", encryptedLoginId)
-        localStorage.setItem("NameId", encryptedname)
-        localStorage.setItem("phoneId", encryptedphone)
-        localStorage.setItem("emilidd", encryptedemail)
-        localStorage.setItem("IsEnable", encryptIsEnable)
-        localStorage.setItem("Password", encryptPassword)
-
-      }
-      else {
-        const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
-        console.log("encryptData.....jjjjjjjj", encryptData.toString());
-        localStorage.setItem("login", encryptData.toString())
-        localStorage.setItem("loginId", encryptedLoginId)
-        localStorage.setItem("NameId", encryptedname)
-        localStorage.setItem("phoneId", encryptedphone)
-        localStorage.setItem("emilidd", encryptedemail)
-        localStorage.setItem("IsEnable", encryptIsEnable)
-        localStorage.setItem("Password", encryptPassword)
-      }
 
 
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUSCODE' })
-      }, 100);
-    }
-  }, [state.login.statusCode])
+
+
 
 
   const handleCloseModal = () => {
@@ -301,7 +322,7 @@ const MyComponent = () => {
                   </div>
                           </>}
          */}
-          <OtpVerificationModal show={showOtpVerification} handleClose={handleCloseModal} />
+          <OtpVerificationModal show={showOtpVerification} handleClose={handleCloseModal} Email_Id={email_Id} checked={checked} />
 
         </div>
       </div>

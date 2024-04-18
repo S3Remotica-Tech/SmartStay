@@ -12,6 +12,7 @@ import Key from "../Assets/Images/new icon/key.png";
 import Eye from "../Assets/Images/new icon/eye.png";
 import HomeSideComponent from "./HomeSideContent";
 import Swal from 'sweetalert2'
+import Spinner from 'react-bootstrap/Spinner';
 
 
 function ForgetPasswordPage() {
@@ -26,6 +27,7 @@ function ForgetPasswordPage() {
   const [showOtpVerification, setShowOtpVerification] = useState(false);
   const [newPassword, setNewPassword] = useState(false)
   const [otpValue, setOtpValue] = useState('');
+  const [showLoader, setShowLoader] = useState('')
 
   let navigate = useNavigate();
 
@@ -52,11 +54,11 @@ function ForgetPasswordPage() {
     }
   };
 
-  console.log("state.NewPass.Pass.statusCode", state.NewPass.Pass.statusCode)
-  console.log("state.NewPass.Pass.statusCode", state.NewPass.status_Code)
+  // console.log("state.NewPass.Pass.statusCode", state.NewPass.Pass.statusCode)
+  // console.log("state.NewPass.OTP.statusCode", state.NewPass.OTP.statusCode)
 
   useEffect(() => {
-    if (state.NewPass?.Pass.statusCode === 200) {
+    if (state.NewPass?.status_codes === 200) {
       setEmail("");
       setPassword("");
       setOtpValue("");
@@ -67,7 +69,10 @@ function ForgetPasswordPage() {
           }
         });
       }
-
+      dispatch({ type: 'CLEAR_OTP_VERIFIED'})
+      setTimeout(()=>{
+        dispatch({ type: 'CLEAR_OTP_STATUS_CODE'})
+      },100)
       setShowOtpVerification(false);
       setNewPassword(false);
     }
@@ -110,26 +115,43 @@ function ForgetPasswordPage() {
   };
 
 
-  console.log("state.NewPass?.OTP.statusCode", state.NewPass?.OTP.statusCode)
 
 
 
 
   useEffect(() => {
-
-    if (state.NewPass?.OTP.statusCode == 200) {
+    if (state.NewPass?.statusCode == 200) {
+      setShowLoader(false)
       setShowOtpVerification(true);
-    } else {
+     
+    } else{
+      setShowLoader(false)
       setShowOtpVerification(false);
     }
 
-  }, [state.NewPass?.OTP])
+  }, [state.NewPass?.statusCode])
+
+console.log("state.NewPass?.sendEmailStatusCode == 203",state.NewPass?.sendEmailStatusCode == 203)
+
+
+useEffect(()=>{
+  if(state.NewPass?.sendEmailStatusCode == 203 || state.NewPass?.EmailErrorStatusCode == 201){
+    setShowLoader(false)
+
+setTimeout(()=>{
+dispatch({ type: 'CLEAR_EMAIL_ERROR'})
+dispatch({ type: 'CLEAR_SEND_EMAIL_ERROR'})
+},1000)
+  }
+
+},[state.NewPass?.sendEmailStatusCode,state.NewPass?.EmailErrorStatusCode])
+
+
 
   const handleAccountVerification = () => {
     if (email) {
       dispatch({ type: 'OTPSEND', payload: { email: email } });
-
-
+      setShowLoader(true)
     }
     else {
       let errorMessage = "";
@@ -156,8 +178,10 @@ function ForgetPasswordPage() {
   }
 
   const handleLogin = () => {
-    navigate('/login-Page')
-  }
+    setTimeout(()=>{
+      navigate('/login-Page')
+    },1000)
+     }
   const inputRefs = [
     useRef(null),
     useRef(null),
@@ -174,36 +198,32 @@ function ForgetPasswordPage() {
     setOtpValue(updatedOtpValue);
   };
 
-  const otpResponse = state.NewPass?.OTP?.response;
-  const otp = otpResponse?.otp
+  // const otpResponse = state.NewPass?.OTP?.response;
+  // const otp = otpResponse?.otp
 
-  console.log("otp for get backend", otp)
+  // console.log("otp for get backend", otp)
 
   const handleOtpVerify = () => {
-       console.log("otp", otp);
-    console.log("otpValue:", otpValue);
-    console.log("otp === otpValue", otp == otpValue)
-
-    if (otp == otpValue) {
-      setNewPassword(true);
+    if(otpValue){
+      dispatch({ type: 'OTPVERIFY', payload: {Email_Id: email, OTP: otpValue} })
     }
-    else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Error',
-        text: 'Enter Valid Otp',
-      });
-      inputRefs && inputRefs.forEach(ref => {
-        ref.current.value = null;
-      });
-    }
-    dispatch({type:'CLEAR_OTP_STATUS_CODE'})
+    
   }
 
-  useEffect(() => {
-
-  }, [email, state.NewPass?.otpVerify?.response])
-
+  useEffect(()=>{
+    if(state.login.OtpVerifyStatusCode == 200){
+      setNewPassword(true)
+        }else{
+      setNewPassword(false)
+      if (inputRefs) {
+        inputRefs.forEach(ref => {
+          if (ref.current) {
+            ref.current.value = null;
+          }
+        });
+    }
+  }
+    },[state.login.OtpVerifyStatusCode])
 
 
 
@@ -251,12 +271,14 @@ function ForgetPasswordPage() {
                 </InputGroup>
                 <div className="d-flex justify-content-end">
                   <Button type="" className="btn"
-
+ variant="outline-primary"
                     disabled={showOtpVerification}
-                    style={{ borderRadius: 50, fontWeight: 700, width: "100px", fontSize: "12px", backgroundColor: "#5290fa", color: "white", borderColor: "#2F74EB99" }} onClick={handleAccountVerification}>
+                    style={{ borderRadius: 50, fontWeight: 700, width: "100px", fontSize: "12px",  }} 
+                    onClick={handleAccountVerification}>
                     Send Otp
                   </Button>
-
+                  {showLoader &&
+                  <Spinner animation="border" variant="primary"  className="ms-3"/> }
                 </div>
 
                 {showOtpVerification && <>

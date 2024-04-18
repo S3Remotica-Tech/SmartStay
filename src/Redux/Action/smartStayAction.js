@@ -48,3 +48,10 @@ export async function AccountDetails() {
   return await AxiosConfig.get('/get/userAccount',{
   })
 }
+
+
+export async function OTPverification(datum) {
+  return await AxiosConfig.post('/otp-send/response',datum, {
+    data: datum
+  })
+} 

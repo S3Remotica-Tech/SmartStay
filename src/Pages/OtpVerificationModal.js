@@ -1,9 +1,12 @@
-import React, { useState, useRef } from 'react';
+import { Email } from '@material-ui/icons';
+import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import CryptoJS from "crypto-js";
 
-const OtpVerificationModal = ({ show, handleClose }) => {
+
+const OtpVerificationModal = ({ show, handleClose , Email_Id, checked}) => {
   
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -30,7 +33,71 @@ const OtpVerificationModal = ({ show, handleClose }) => {
 
 
 
+useEffect(()=>{
+  if(state.login.OtpVerifyStatusCode == 200){
+    dispatch({ type: 'LOGIN-SUCCESS' })
 
+
+
+
+const LoginDetails = state.login && state.login.sendOtpValue ? state.login.sendOtpValue[0] : undefined;
+
+if (LoginDetails) {
+  const LoginId = LoginDetails.id;
+  const NameId = LoginDetails.Name;
+  const phoneId = LoginDetails.mobileNo;
+  const emilidd = LoginDetails.email_Id;
+  const Is_Enable = LoginDetails.isEnable;
+  const Pass_word = LoginDetails.password;
+
+  console.log("Pass_word", Pass_word);
+
+  const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
+  const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
+  const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
+  const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
+  const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
+  const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
+
+  console.log("encryptedLoginId", encryptedLoginId);
+
+  if (checked) {
+      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
+      console.log("encryptData", encryptData.toString());
+
+      localStorage.setItem("login", encryptData.toString());
+      localStorage.setItem("loginId", encryptedLoginId);
+      localStorage.setItem("NameId", encryptedname);
+      localStorage.setItem("phoneId", encryptedphone);
+      localStorage.setItem("emilidd", encryptedemail);
+      localStorage.setItem("IsEnable", encryptIsEnable);
+      localStorage.setItem("Password", encryptPassword);
+  } else {
+      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
+      console.log("encryptData", encryptData.toString());
+      localStorage.setItem("login", encryptData.toString());
+      localStorage.setItem("loginId", encryptedLoginId);
+      localStorage.setItem("NameId", encryptedname);
+      localStorage.setItem("phoneId", encryptedphone);
+      localStorage.setItem("emilidd", encryptedemail);
+      localStorage.setItem("IsEnable", encryptIsEnable);
+      localStorage.setItem("Password", encryptPassword);
+  }
+} else {
+  console.error("Login information not available.");
+}
+
+
+
+
+
+  }
+setTimeout(()=>{
+dispatch({ type: 'CLEAR_OTP_VERIFIED'})
+},100)
+
+
+},[state.login.OtpVerifyStatusCode])
 
   const otpResponse = state.NewPass?.OTP?.response;
   const otp = otpResponse?.otp
@@ -40,21 +107,25 @@ const OtpVerificationModal = ({ show, handleClose }) => {
 
   const handleOtpVerify = () => {
 
-    if (otp == otpValue) {
-        dispatch({ type: 'LOGIN-SUCCESS' })
-      }
-      else {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Error',
-          text: 'Enter Valid Otp',
-        });
-        inputRefs && inputRefs.forEach(ref => {
-          ref.current.value = null;
-        });
-      }
+    if(otpValue){
+      dispatch({ type: 'OTPVERIFY', payload: {Email_Id:  Email_Id, OTP: otpValue} })
+    }
+    inputRefs && inputRefs.forEach(ref => {
+      ref.current.value = null;
+    });
+    // if (otp == otpValue) {
+    //     dispatch({ type: 'LOGIN-SUCCESS' })
+    //   }
+    //   else {
+        // Swal.fire({
+        //   icon: 'warning',
+        //   title: 'Error',
+        //   text: 'Enter Valid Otp',
+        // });
+      
+      // }
 
-   dispatch({type:'CLEAR_OTP_STATUS_CODE'})
+  //  dispatch({type:'CLEAR_OTP_STATUS_CODE'})
   };
 
   return (
