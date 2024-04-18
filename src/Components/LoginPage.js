@@ -111,6 +111,8 @@ dispatch({ type: 'CLEAR_OTP_STATUSCODE'})
             const Is_Enable = loginInfo.isEnable;
             const Pass_word = loginInfo.password;
 
+console.log("Is_Enable",Is_Enable)
+
             console.log("Pass_word", Pass_word);
 
             const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
@@ -120,12 +122,11 @@ dispatch({ type: 'CLEAR_OTP_STATUSCODE'})
             const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
             const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
 
-            console.log("encryptedLoginId", encryptedLoginId);
+            console.log("checked",!checked);
 
-            if (checked) {
+            if (Is_Enable == 0) {
                 const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
                 console.log("encryptData", encryptData.toString());
-
                 localStorage.setItem("login", encryptData.toString());
                 localStorage.setItem("loginId", encryptedLoginId);
                 localStorage.setItem("NameId", encryptedname);
@@ -133,7 +134,7 @@ dispatch({ type: 'CLEAR_OTP_STATUSCODE'})
                 localStorage.setItem("emilidd", encryptedemail);
                 localStorage.setItem("IsEnable", encryptIsEnable);
                 localStorage.setItem("Password", encryptPassword);
-            } else {
+            } else if(Is_Enable == 1) {
                 const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
                 console.log("encryptData", encryptData.toString());
                 localStorage.setItem("login", encryptData.toString());

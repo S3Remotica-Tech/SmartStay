@@ -70,18 +70,12 @@ function Sidebar() {
   let LoginId = localStorage.getItem("loginId")
 
 
-// useEffect(()=>{
+//  useEffect(()=>{
  
-//     const LoginIsEnable = localStorage.getItem("IsEnable")
+//     const LoginIsEnableCheck =state.login.sendOtpValue ? state.login.sendOtpValue[0]?.isEnable : state.login.loginInformation[0]?.isEnable 
+    
 
-//     console.log("LoginIsEnable",LoginIsEnable)
-    
-//     const decryptedDataIsEnable = CryptoJS.AES.decrypt(LoginIsEnable, 'abcd');
-//             const decryptedStringIsEnable = decryptedDataIsEnable.toString(CryptoJS.enc.Utf8);
-    
-//     console.log("decryptedStringIsEnable",decryptedStringIsEnable)
-    
-//     if(decryptedStringIsEnable == 1){
+//     if(LoginIsEnableCheck == 1){
 //       dispatch({type: 'LOG_OUT' })
 //             const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
 //             console.log("encryptData Logout", encryptData.toString());
@@ -119,9 +113,9 @@ console.log("profiles",profiles)
         const parsedData = decryptedString;
        
         const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
-          console.log("parsedData",parsedData);
-          console.log("created_By",view.created_By);
-          console.log("view.created_By == parsedData",view.created_By == parsedData);
+          // console.log("parsedData",parsedData);
+          // console.log("created_By",view.created_By);
+          // console.log("view.created_By == parsedData",view.created_By == parsedData);
         return view.created_By == parsedData;
       
         
