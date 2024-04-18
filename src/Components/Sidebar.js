@@ -59,7 +59,7 @@ function Sidebar() {
   let navigate = useNavigate();
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  console.log("state",state)
+  console.log("state for sidebar",state)
 
 
   useEffect(() => {
@@ -69,6 +69,29 @@ function Sidebar() {
 
   let LoginId = localStorage.getItem("loginId")
 
+
+// useEffect(()=>{
+ 
+//     const LoginIsEnable = localStorage.getItem("IsEnable")
+
+//     console.log("LoginIsEnable",LoginIsEnable)
+    
+//     const decryptedDataIsEnable = CryptoJS.AES.decrypt(LoginIsEnable, 'abcd');
+//             const decryptedStringIsEnable = decryptedDataIsEnable.toString(CryptoJS.enc.Utf8);
+    
+//     console.log("decryptedStringIsEnable",decryptedStringIsEnable)
+    
+//     if(decryptedStringIsEnable == 1){
+//       dispatch({type: 'LOG_OUT' })
+//             const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
+//             console.log("encryptData Logout", encryptData.toString());
+//             localStorage.setItem("login", encryptData.toString()) 
+//     }
+
+
+// },[])
+
+ 
 
 
   useEffect(()=>{
@@ -89,7 +112,7 @@ console.log("profiles",profiles)
   useEffect(() => {
    if (LoginId && state.createAccount.accountList) {
 
-      console.log("executed **********S")
+      
       try{
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
@@ -229,10 +252,11 @@ console.log("profiles",profiles)
       confirmButtonText: 'Ok',
       showCancelButton: true,
     }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch({type:'LOGOUT'})
+      console.log("isConfirmed:", result.isConfirmed);
+           if (result.isConfirmed) {
+            dispatch({type: 'LOG_OUT' })
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
-        console.log("encryptData", encryptData.toString());
+        console.log("encryptData Logout", encryptData.toString());
         localStorage.setItem("login", encryptData.toString()) 
         localStorage.setItem("loginId",'')
         localStorage.setItem("NameId",'')
@@ -243,7 +267,7 @@ console.log("profiles",profiles)
   }
 
 
-
+console.log("state.login.isLoggedIn",state.login.isLoggedIn )
 
  
 
@@ -315,7 +339,7 @@ console.log("profiles",profiles)
                 <img src={Notification} class="me-3" style={{ height: "25px", width: "25px" }} alt='Notification' />
                 <img src={Settings} class="me-3" style={{ height: "25px", width: "25px" }} alt='Settings'  onClick={() => handlePageClick('settings')} />
               </div>
-              <Image src={profiles} roundedCircle style={{ height: "30px", width: "30px" }} />
+              <Image src={profiles == null ? Men : profiles} roundedCircle style={{ height: "30px", width: "30px" }} />
               <div class="d-block ms-2">
                 <p style={{ fontSize: "12px", marginBottom: "0px", fontWeight: "800" }}>{profileArray}</p>
                 <p style={{ fontSize: "10px", marginBottom: "0px", marginRight: "0px", color: "gray" }}>Edit profile</p>

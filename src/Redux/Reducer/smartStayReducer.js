@@ -9,8 +9,10 @@ const initialState = {
    errorMessage: '',
    statusCode: 0,
    loginInformation: [],
-
-
+   otpSuccessStatusCode: 0,
+   sendOtpValue: [],
+   OtpVerifyStatusCode: 0,
+   
 }
 const SmartStayReducer = (state = initialState, action) => {
    console.log("loginpage", action)
@@ -30,10 +32,18 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, errorPassword: '' }
       case 'LOGIN-SUCCESS':
          return { ...state, isLoggedIn: true }
-      case 'LOGOUT':
+      case 'LOG_OUT':
          return { ...state, isLoggedIn: false }
       case 'CLEAR_STATUSCODE':
          return { ...state, statusCode: 0 }
+      case 'OTP_SUCCESS':
+         return { ...state, loginInformation: action.payload.response.Data, otpSuccessStatusCode: action.payload.statusCode }
+      case 'CLEAR_OTP_STATUSCODE':
+         return { ...state, otpSuccessStatusCode: 0 }
+      case 'OTP_VERIFY':
+         return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode}
+      case 'CLEAR_OTP_VERIFIED':
+         return { ...state, OtpVerifyStatusCode: 0 }
    }
 
    return state

@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { login } from '../Action/smartStayAction';
+import { login, OTPverification } from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
 
 function* Login(args) {
@@ -18,11 +18,12 @@ function* Login(args) {
       });
 
     } else if (response.status === 203) {
-      yield put({ type: 'ERROR_PASSWORD', payload: response.data.message });
+      yield put({ type: 'OTP_SUCCESS', payload: {response: response.data, statusCode:response.status} });
       Swal.fire({
-        icon: 'warning',
-        title: 'Error',
-        text: 'Password not exist in the  database',
+        icon: 'success',
+        text: 'OTP Send your Email id',
+        timer: 1000,
+        showConfirmButton: false,
       });
     }
   } catch (error) {
@@ -31,7 +32,31 @@ function* Login(args) {
 }
 
 
+function* handleOTPVerified(args) {
+  try {
+    const response = yield call(OTPverification, args.payload);
+    console.log("response",response)
+    if (response.status === 200) {
+      yield put({ type: 'OTP_VERIFY', payload:{ response:response.data,statusCode:response.status} });
+      
+    } else if (response.status === 201) {
+      yield put({ type: 'ERROR_OTP_CODE', payload: response.data.message });
+      Swal.fire({
+        icon: 'warning',
+        title: 'Error',
+        html: `Enter Valid Otp`,
+      });
+
+    } 
+  } catch (error) {
+     }
+}
+
+
+
+
 function* LoginSaga() {
   yield takeEvery('LOGININFO', Login)
+  yield takeEvery('OTPVERIFY', handleOTPVerified)
 }
 export default LoginSaga;
