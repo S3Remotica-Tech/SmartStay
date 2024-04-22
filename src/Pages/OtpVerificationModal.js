@@ -31,7 +31,9 @@ const OtpVerificationModal = ({ show, handleClose , Email_Id, checked}) => {
      setOtpValue(updatedOtpValue);
   };
 
-
+  useEffect(()=>{
+    dispatch({ type: 'ACCOUNTDETAILS' });
+  },[])
 
 useEffect(()=>{
   if(state.login.OtpVerifyStatusCode == 200){
@@ -50,7 +52,16 @@ if (LoginDetails) {
   const Is_Enable = LoginDetails.isEnable;
   const Pass_word = LoginDetails.password;
 
-  console.log("Pass_word", Pass_word);
+//   console.log("Pass_word", Pass_word);
+
+  const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == LoginId ))
+
+console.log("IsEnableCheckState",IsEnableCheckState)
+
+let is_Enable = IsEnableCheckState[0].isEnable
+
+
+console.log("is_Enable",is_Enable)
 
   const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
   const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
@@ -61,7 +72,7 @@ if (LoginDetails) {
 
   console.log("encryptedLoginId", encryptedLoginId);
 
-  if (checked) {
+  if (is_Enable === 0) {
       const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
       console.log("encryptData", encryptData.toString());
 
@@ -80,7 +91,7 @@ if (LoginDetails) {
       localStorage.setItem("NameId", encryptedname);
       localStorage.setItem("phoneId", encryptedphone);
       localStorage.setItem("emilidd", encryptedemail);
-      localStorage.setItem("IsEnable", encryptIsEnable);
+      // localStorage.setItem("IsEnable", encryptIsEnable);
       localStorage.setItem("Password", encryptPassword);
   }
 } else {
@@ -102,7 +113,7 @@ dispatch({ type: 'CLEAR_OTP_VERIFIED'})
   const otpResponse = state.NewPass?.OTP?.response;
   const otp = otpResponse?.otp
 
-  console.log("otp for get backend", otp)
+  // console.log("otp for get backend", otp)
 
 
   const handleOtpVerify = () => {

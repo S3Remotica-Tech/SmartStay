@@ -180,15 +180,14 @@ console.log("isEnableCheck",isEnableCheck === '1')
  
   useEffect(() => {
     if (state.createAccount.statusCodeTwo === 200) {
-      dispatch({ type: 'LOGININFO', payload: { email_Id: email, password: login_Password } });
+      dispatch({ type: 'ACCOUNTDETAILS' });
             setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_TWO_STEP' })
               }, 100)
               setTimeout(() => {
                       dispatch({ type: 'CLEAR_STATUSCODE' });
                     }, 200);
-    }
-    
+    }   
     
   }, [state.createAccount.statusCodeTwo])
 
@@ -202,6 +201,10 @@ useEffect(()=>{
 
 if(IsEnableOn === 1){
   setIsChecked(true);
+
+ localStorage.setItem("IsEnable", '');
+
+
 }else{
   setIsChecked(false);
 }
