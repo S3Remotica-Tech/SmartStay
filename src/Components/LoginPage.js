@@ -78,9 +78,9 @@ dispatch({ type: 'CLEAR_OTP_STATUSCODE'})
 }, [state.login.otpSuccessStatusCode])
 
 
-
-
-  
+useEffect(()=>{
+  dispatch({ type: 'ACCOUNTDETAILS' });
+},[])
 
 
 
@@ -111,9 +111,16 @@ dispatch({ type: 'CLEAR_OTP_STATUSCODE'})
             const Is_Enable = loginInfo.isEnable;
             const Pass_word = loginInfo.password;
 
-console.log("Is_Enable",Is_Enable)
+// console.log("Is_Enable",Is_Enable)
 
-            console.log("Pass_word", Pass_word);
+const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == LoginId ))
+
+console.log("IsEnableCheckState",IsEnableCheckState)
+
+let is_Enable = IsEnableCheckState[0].isEnable
+
+
+console.log("is_Enable",is_Enable)
 
             const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
             const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
@@ -124,7 +131,7 @@ console.log("Is_Enable",Is_Enable)
 
             console.log("checked",!checked);
 
-            if (Is_Enable == 0) {
+            if (is_Enable == 0 ) {
                 const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
                 console.log("encryptData", encryptData.toString());
                 localStorage.setItem("login", encryptData.toString());
@@ -134,7 +141,7 @@ console.log("Is_Enable",Is_Enable)
                 localStorage.setItem("emilidd", encryptedemail);
                 localStorage.setItem("IsEnable", encryptIsEnable);
                 localStorage.setItem("Password", encryptPassword);
-            } else if(Is_Enable == 1) {
+            } else if(is_Enable == 1) {
                 const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
                 console.log("encryptData", encryptData.toString());
                 localStorage.setItem("login", encryptData.toString());
@@ -142,7 +149,7 @@ console.log("Is_Enable",Is_Enable)
                 localStorage.setItem("NameId", encryptedname);
                 localStorage.setItem("phoneId", encryptedphone);
                 localStorage.setItem("emilidd", encryptedemail);
-                localStorage.setItem("IsEnable", encryptIsEnable);
+                // localStorage.setItem("IsEnable", encryptIsEnable);
                 localStorage.setItem("Password", encryptPassword);
             }
         } else {
