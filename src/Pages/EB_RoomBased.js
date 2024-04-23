@@ -20,6 +20,7 @@ const EBROOM = (props) => {
 
     useEffect(() => {
         dispatch({ type: 'HOSTELLIST' })
+        dispatch({ type: 'EBLIST' })
         dispatch({ type: 'HOSTELDETAILLIST',payload:{hostel_Id:props.hosteldetails.id}})
 }, [])
 
@@ -30,7 +31,7 @@ const EBROOM = (props) => {
 
     const [floorId,setFloorId]= useState('');
     const [RoomId,setRoomID] = useState('');
-    const [startmeter,setStartmeter] = useState('');
+    const [startmeter,setStartmeter] = useState(0);
     const [endmeter,setEndmeter] = useState('');
     const [amount,setAmount] = useState('');
     const [roomsByFloor, setRoomsByFloor] = useState([]);
@@ -178,6 +179,7 @@ const handleFloorChange = (e) => {
                         className='custom-input'
                         aria-describedby="basic-addon2"
                         autoFocus
+                        disabled 
                         value={startmeter}
                      onChange={(e)=>handlestartmeter(e)}
                         style={{
@@ -191,7 +193,8 @@ const handleFloorChange = (e) => {
                             '::placeholder': { color: "gray", fontSize: 12 }
                         }}
 
-                    /></div>
+                    />
+                    </div>
                      
                      <div className="col-4 mt-2 mb-2">
                      <label style={{fontSize:'13px',fontWeight:700}}>End Meter Reading</label>
@@ -275,17 +278,19 @@ const handleFloorChange = (e) => {
                             </tr>
                         </thead>
                         <tbody >
+                        {state.PgList.EB_Customerlist.map((item) => (
                             <tr>
-                                <td className='text-center' style={{ fontSize: 14 }} >John Bushmill</td>
-                                <td className='text-center' style={{ fontSize: 14 }} >G005-B02</td>
-                                <td className='text-center' style={{ fontSize: 14 }} >245</td>
-                                <td className='text-center' style={{ fontSize: 14 }} >300</td>
+                                <td className='text-center' style={{ fontSize: 14 }} >{item.Name}</td>
+                                <td className='text-center' style={{ fontSize: 14 }} >{item.Room_No}</td>
+                                <td className='text-center' style={{ fontSize: 14 }} >{item.Eb_Unit}</td>
+                                <td className='text-center' style={{ fontSize: 14 }} >{item.Hostel_Based == 0 ? item.Room_Based : item.Hostel_Based}</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >
                                     <span><i class="bi bi-pencil-fill me-2"></i></span> 
                                     <span><i class="bi bi-trash3"></i></span>
                                     
                                 </td>
                             </tr>
+                             ))}
                         </tbody>
                     </table>
                 </div>
