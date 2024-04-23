@@ -59,7 +59,7 @@ function Sidebar() {
   let navigate = useNavigate();
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  console.log("state for sidebar",state)
+  console.log("state for sidebar", state)
 
 
   useEffect(() => {
@@ -67,117 +67,119 @@ function Sidebar() {
     dispatch({ type: 'ACCOUNTDETAILS' })
   }, [])
 
-  
+
   let LoginId = localStorage.getItem("loginId")
+  let checkedValue = localStorage.getItem("checked")
 
-
- useEffect(()=>{
-
-  const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-  const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-  const parsedData = decryptedString;
-
-
-  const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == parsedData))
-
-  console.log("IsEnableCheckState",IsEnableCheckState)
-  
-  const is_Enable = IsEnableCheckState[0]?.isEnable
-
-console.log("is_Enable sidebar",is_Enable)
-
-  if(is_Enable == 1){
-    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
-    console.log("encryptData", encryptData.toString());
-    localStorage.setItem("login", encryptData.toString());
-  }else{
-    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
-    console.log("encryptData", encryptData.toString());
-    localStorage.setItem("login", encryptData.toString());
-  }
-   
-
-
-},[state.createAccount.accountList])
-
- 
-
-
-  
-
-
- 
-
-const [filterhostellist,setFilterhostellist] = useState([]);
-const [loginCustomerid,setLoginCustomerId] = useState('')
-const[ profiles, setProfiles] = useState('')
-const [profileArray, setProfileArray] = useState('')
-
-console.log(LoginId, " LoginId *********")
-console.log("profiles",profiles)
 
   useEffect(() => {
-   if (LoginId && state.createAccount.accountList) {
 
-      
-      try{
-   
+    console.log("executed")
+    const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+    const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+    const parsedData = decryptedString;
+
+
+    const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == parsedData))
+
+    console.log("IsEnableCheckState", IsEnableCheckState)
+
+    const is_Enable = IsEnableCheckState[0]?.isEnable
+
+    console.log("is_Enable sidebar", is_Enable)
+
+    if (is_Enable == 1) {
+      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
+      console.log("encryptData", encryptData.toString());
+      localStorage.setItem("login", encryptData.toString());
+    } else {
+      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
+      console.log("encryptData", encryptData.toString());
+      localStorage.setItem("login", encryptData.toString());
+
+    }
+
+
+  }, [state.createAccount.accountList, LoginId])
+
+
+
+
+
+
+
+
+
+  const [filterhostellist, setFilterhostellist] = useState([]);
+  const [loginCustomerid, setLoginCustomerId] = useState('')
+  const [profiles, setProfiles] = useState('')
+  const [profileArray, setProfileArray] = useState('')
+
+  console.log(LoginId, " LoginId *********")
+  console.log("profiles", profiles)
+
+  useEffect(() => {
+    if (LoginId && state.createAccount.accountList) {
+
+
+      try {
+
 
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = decryptedString;
-       
-        const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
+
+        const filteredList = state.UsersList?.hostelList?.filter((view) => {
           // console.log("parsedData",parsedData);
           // console.log("created_By",view.created_By);
           // console.log("view.created_By == parsedData",view.created_By == parsedData);
-        return view.created_By == parsedData;
-      
-        
+          return view.created_By == parsedData;
+
+
         });
-        console.log("topbar_filteredlist",filteredList);
-         setFilterhostellist(filteredList)
+        console.log("topbar_filteredlist", filteredList);
+        setFilterhostellist(filteredList)
 
 
-         const FilteredProfile = state.createAccount.accountList.filter((item => item.id == parsedData ) );
+        const FilteredProfile = state.createAccount.accountList.filter((item => item.id == parsedData));
 
 
-         console.log("sidebar profile",FilteredProfile)
-       
-         if(FilteredProfile.length > 0 ){
+        console.log("sidebar profile", FilteredProfile)
+
+        if (FilteredProfile.length > 0) {
           const profilePictures = FilteredProfile[0]?.profile;
           const profileName = FilteredProfile[0]?.Name;
           setProfiles(profilePictures);
           setProfileArray(profileName);
-         }else{
+        } else {
           console.log("No data filtered")
-         }
-      
-      }
-      
-        catch(error){
-       console.log("Error decrypting loginid",error);
         }
- 
+
+      }
+
+      catch (error) {
+        console.log("Error decrypting loginid", error);
+      }
+
     }
 
-  },[state.createAccount.accountList,state.UsersList?.hostelList, LoginId, state.createAccount.statusCodeForAccount])
+  }, [state.createAccount.accountList, state.UsersList?.hostelList, LoginId, state.createAccount.statusCodeForAccount])
 
   const [selectedHostel, setSelectedHostel] = useState(null);
-  console.log("selectedHostel for sidebar",selectedHostel);
+  console.log("selectedHostel for sidebar", selectedHostel);
 
   const handleHostelSelect = (hostelName) => {
-    console.log("hostelName",hostelName);
+    console.log("hostelName", hostelName);
     const selected = state.UsersList.hostelList.find((item) => {
       return item.Name === hostelName
     });
     setSelectedHostel(selected);
-   
+
   };
 
- 
 
-   const [activePage, setActivePage] = useState(true);
+
+  const [activePage, setActivePage] = useState(true);
   const [currentPage, setCurrentPage] = useState('');
 
   const [pgList, setPgList] = useState({
@@ -220,17 +222,17 @@ console.log("profiles",profiles)
     return () => clearTimeout(timeout);
   }, [pgList.number_Of_Rooms]);
 
-  
-  
+
+
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
-    console.log("page",page)
+    console.log("page", page)
     setActivePage(false);
-     };
+  };
 
 
- 
+
 
 
   const [isSidebarMaximized, setIsSidebarMaximized] = useState(true);
@@ -252,8 +254,8 @@ console.log("profiles",profiles)
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  
-  
+
+
   const handleLogout = () => {
     Swal.fire({
       icon: 'warning',
@@ -262,23 +264,23 @@ console.log("profiles",profiles)
       showCancelButton: true,
     }).then((result) => {
       console.log("isConfirmed:", result.isConfirmed);
-           if (result.isConfirmed) {
-            dispatch({type: 'LOG_OUT' })
+      if (result.isConfirmed) {
+        dispatch({ type: 'LOG_OUT' })
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
         console.log("encryptData Logout", encryptData.toString());
-        localStorage.setItem("login", encryptData.toString()) 
-        localStorage.setItem("loginId",'')
-        localStorage.setItem("NameId",'')
-        localStorage.setItem("phoneId",'')
-        localStorage.setItem("emilidd",'')   
+        localStorage.setItem("login", encryptData.toString())
+        localStorage.setItem("loginId", '')
+        localStorage.setItem("NameId", '')
+        localStorage.setItem("phoneId", '')
+        localStorage.setItem("emilidd", '')
       }
     })
   }
 
 
-console.log("state.login.isLoggedIn",state.login.isLoggedIn )
+  console.log("state.login.isLoggedIn", state.login.isLoggedIn)
 
- 
+
 
 
   return (
@@ -290,34 +292,34 @@ console.log("state.login.isLoggedIn",state.login.isLoggedIn )
             <Navbar.Brand href="#" style={{ padding: "5px 8px", backgroundColor: "#2E75EA", height: "100%", width: "auto" }}><img class="img-fluid" src={Smart} style={{ height: "30px", width: "30px" }} alt='Smart' /></Navbar.Brand>
           </div>
 
-    
-          <div style={{display:'flex',alignItems:"center",width:'20%',marginLeft:'0px', backgroundColor:"", gap:5}}>
-   <div >
-   {selectedHostel && selectedHostel.profile !== null ? (
-        <Image src={selectedHostel.profile} roundedCircle style={{ height:25, width: 25,borderRadius:'50%' }} />
-    ) : (
-        <Image src={SmartLogo} alt="Default Logo" style={{ height: 25, width: 25,borderRadius:'50%' }} />
-    )}
-    </div> 
 
-           
-            <div style={{alignItems:"center", display:"block", width:"100%"}}>
-                 <div style={{paddingLeft:7, paddingTop:2, paddingBottom:0}}>
-                 <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>PG Detail</p>
-                  </div>    
-           
+          <div style={{ display: 'flex', alignItems: "center", width: '20%', marginLeft: '0px', backgroundColor: "", gap: 5 }}>
+            <div >
+              {selectedHostel && selectedHostel.profile !== null ? (
+                <Image src={selectedHostel.profile} roundedCircle style={{ height: 25, width: 25, borderRadius: '50%' }} />
+              ) : (
+                <Image src={SmartLogo} alt="Default Logo" style={{ height: 25, width: 25, borderRadius: '50%' }} />
+              )}
+            </div>
 
-          <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{padding:7, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
-                <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
+
+            <div style={{ alignItems: "center", display: "block", width: "100%" }}>
+              <div style={{ paddingLeft: 7, paddingTop: 2, paddingBottom: 0 }}>
+                <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>PG Detail</p>
+              </div>
+
+
+              <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ padding: 7, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700, textTransform: "capitalize", borderRadius: "none" }}>
+                <option disabled selected className='p-3' style={{ fontSize: 15, textTransform: "capitalize" }}>Select Hostel</option>
                 {filterhostellist.length > 0 && filterhostellist.map((obj) => {
                   return (<>
-                    <option style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
+                    <option style={{ fontSize: 15, textTransform: "capitalize" }}>{obj.Name}</option>
                   </>)
                 })}
 
               </select>
-              </div>
-              </div>
+            </div>
+          </div>
 
           {/* <Form.Select class="me-5" aria-label="Default select example" style={{ border: "none", height: "10px", width: "40px" }} >
             <option>select Hostel</option>
@@ -339,14 +341,14 @@ console.log("state.login.isLoggedIn",state.login.isLoggedIn )
                 <Nav.Link href="#action2" style={{ color: "gray", fontSize: "14px", fontWeight: "600" }} onClick={() => handlePageClick('invoice')}>Invoice</Nav.Link>
                 <Nav.Link href="#action1" style={{ color: "gray", fontSize: "14px", fontWeight: "600" }} onClick={() => handlePageClick('compliance')}>Compliances</Nav.Link>
                 <Nav.Link href="#action2" style={{ color: "gray", fontSize: "14px", fontWeight: "600" }} onClick={() => handlePageClick('reports')}>Reports</Nav.Link>
-               
+
               </Nav>
             </div>
             <Form className="d-flex">
               <div class="justify-content-evenly">
                 <img src={Logout} class="me-3" style={{ height: "25px", width: "25px" }} onClick={handleLogout} alt='Logout' />
                 <img src={Notification} class="me-3" style={{ height: "25px", width: "25px" }} alt='Notification' />
-                <img src={Settings} class="me-3" style={{ height: "25px", width: "25px" }} alt='Settings'  onClick={() => handlePageClick('settings')} />
+                <img src={Settings} class="me-3" style={{ height: "25px", width: "25px" }} alt='Settings' onClick={() => handlePageClick('settings')} />
               </div>
               <Image src={profiles == null ? Men : profiles} roundedCircle style={{ height: "30px", width: "30px" }} />
               <div class="d-block ms-2">
@@ -379,7 +381,7 @@ console.log("state.login.isLoggedIn",state.login.isLoggedIn )
 
               <li className={`p-2 align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}>
                 <div className='d-flex  align-items-center justify-content-between'>
-                 <RiDashboard3Line style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} />
+                  <RiDashboard3Line style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} />
                   <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Dashboard</span>
                 </div>
               </li>
@@ -399,8 +401,8 @@ console.log("state.login.isLoggedIn",state.login.isLoggedIn )
               <li className={`p-2 align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><TbFileInvoice style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Compliance</span></li>
               <li className={`p-2 align-items-center list-Item ${currentPage === 'payment' ? 'active' : ''}`} onClick={() => handlePageClick('payment')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><MdPayment style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Payment gateway</span></li>
               <li className={`p-2 align-items-center list-Item ${currentPage === 'user-access' ? 'active' : ''}`} onClick={() => handlePageClick('user-access')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaUsersRectangle style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>User and access</span></li>
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><CiViewList  style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>EB</span></li>
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'checkout' ? 'active' : ''}`} onClick={() => handlePageClick('checkout')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BsClipboard2Check  style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Checkout</span></li>
+              <li className={`p-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><CiViewList style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>EB</span></li>
+              <li className={`p-2 align-items-center list-Item ${currentPage === 'checkout' ? 'active' : ''}`} onClick={() => handlePageClick('checkout')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BsClipboard2Check style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Checkout</span></li>
               <li className={`p-2 align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BiBarChartAlt style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Reports</span></li>
             </ul>
 
@@ -433,10 +435,10 @@ console.log("state.login.isLoggedIn",state.login.isLoggedIn )
             {currentPage === 'reports' && < Report />}
             {currentPage === 'settings' && < Setting />}
             {currentPage === 'support' && < Supports />}
-            {currentPage === 'eb' && <  EbHostel/>}
-            {currentPage === 'checkout' && <Checkout/>}
-           
-            
+            {currentPage === 'eb' && <  EbHostel />}
+            {currentPage === 'checkout' && <Checkout />}
+
+
           </Col>
         </Row>
       </Container>

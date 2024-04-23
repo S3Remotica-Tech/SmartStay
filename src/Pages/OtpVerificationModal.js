@@ -75,8 +75,7 @@ console.log("is_Enable",is_Enable)
   if (is_Enable === 0) {
       const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
       console.log("encryptData", encryptData.toString());
-
-      localStorage.setItem("login", encryptData.toString());
+            localStorage.setItem("login", encryptData.toString());
       localStorage.setItem("loginId", encryptedLoginId);
       localStorage.setItem("NameId", encryptedname);
       localStorage.setItem("phoneId", encryptedphone);
