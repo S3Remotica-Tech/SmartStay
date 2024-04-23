@@ -54,7 +54,7 @@ const MyComponent = () => {
 
   const [checked, setChecked] = useState(false)
 
-
+console.log("checkedd",checked)
   const handleCheckboxChange = (e) => {
     setChecked(e.target.checked);
   }
@@ -129,9 +129,9 @@ console.log("is_Enable",is_Enable)
             const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
             const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
 
-            console.log("checked",!checked);
+            console.log("checked",checked);
 
-            if (is_Enable == 0 ) {
+            if (is_Enable == 0) {
                 const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
                 console.log("encryptData", encryptData.toString());
                 localStorage.setItem("login", encryptData.toString());
@@ -141,6 +141,7 @@ console.log("is_Enable",is_Enable)
                 localStorage.setItem("emilidd", encryptedemail);
                 localStorage.setItem("IsEnable", encryptIsEnable);
                 localStorage.setItem("Password", encryptPassword);
+                localStorage.setItem("checked", checked);
             } else if(is_Enable == 1) {
                 const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
                 console.log("encryptData", encryptData.toString());
