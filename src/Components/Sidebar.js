@@ -64,33 +64,46 @@ function Sidebar() {
 
   useEffect(() => {
     dispatch({ type: 'HOSTELLIST' })
+    dispatch({ type: 'ACCOUNTDETAILS' })
   }, [])
 
-
+  
   let LoginId = localStorage.getItem("loginId")
 
 
-//  useEffect(()=>{
+ useEffect(()=>{
+
+  const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+  const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+  const parsedData = decryptedString;
+
+
+  const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == parsedData))
+
+  console.log("IsEnableCheckState",IsEnableCheckState)
+  
+  const is_Enable = IsEnableCheckState[0]?.isEnable
+
+console.log("is_Enable sidebar",is_Enable)
+
+  if(is_Enable == 1){
+    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
+    console.log("encryptData", encryptData.toString());
+    localStorage.setItem("login", encryptData.toString());
+  }else{
+    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
+    console.log("encryptData", encryptData.toString());
+    localStorage.setItem("login", encryptData.toString());
+  }
+   
+
+
+},[state.createAccount.accountList])
+
  
-//     const LoginIsEnableCheck =state.login.sendOtpValue ? state.login.sendOtpValue[0]?.isEnable : state.login.loginInformation[0]?.isEnable 
-    
-
-//     if(LoginIsEnableCheck == 1){
-//       dispatch({type: 'LOG_OUT' })
-//             const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
-//             console.log("encryptData Logout", encryptData.toString());
-//             localStorage.setItem("login", encryptData.toString()) 
-//     }
 
 
-// },[])
-
- 
-
-
-  useEffect(()=>{
-    dispatch({ type: 'ACCOUNTDETAILS' })
-   },[])
+  
 
 
  
@@ -108,6 +121,8 @@ console.log("profiles",profiles)
 
       
       try{
+   
+
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = decryptedString;
