@@ -85,7 +85,7 @@ const InvoicePage = () => {
       const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
       const day = originalDate.getDate().toString().padStart(2, '0');
       const newDate = `${year}-${month}-${day}`;
-      dispatch({ type: 'INVOICEPDF', payload: { Date: newDate, User_Id: item.User_Id } });
+      dispatch({ type: 'INVOICEPDF', payload: { Date: newDate, User_Id: item.User_Id , id: item.id} });
       setShowLoader(true);
     }
   };
