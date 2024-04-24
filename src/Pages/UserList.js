@@ -513,7 +513,9 @@ const getFloorAbbreviation = (floor) => {
                         <p style={{ fontWeight: "700", textTransform: 'capitalize' }} class="mb-0">{item.Name}</p>
                         <p style={{ fontSize: "10px", padding: "1px", fontWeight: 700 }}>Joining Date:{new Date(item.createdAt).toLocaleDateString('en-GB')}</p>
                       </div>
+ 
 
+ 
                     </div>
                     <div class="col-lg-4 offset-lg-1">
                       <button type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={() => { handleShow(item) }} ><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button>

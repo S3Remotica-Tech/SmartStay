@@ -577,8 +577,28 @@ style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
                       <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE" } }} />
 
                     </div>
-                    <div className='col-6'>
+                    {/* <div className='col-6'>
                       <TextField id="standard-basic" label="status" value={Status} onChange={(e) => { setStatus(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE" } }} />
+                    </div> */}
+                    <div className='col-6'>
+                      <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
+                        <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Status</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          label="Status"
+                          value={Status}
+                          onChange={(e) => { setStatus(e.target.value) }}
+                          style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
+                        >
+                          <MenuItem value="none">
+
+                          </MenuItem>
+                              <MenuItem value="Pending">Pending</MenuItem>
+                              <MenuItem value="Success">Success</MenuItem>
+                          
+                        </Select>
+                      </FormControl>
                     </div>
 
                   </div>

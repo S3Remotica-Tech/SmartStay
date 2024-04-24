@@ -6,11 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 function AmenitiesView(props) {
 
     const state = useSelector(state => state)
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch({ type: 'HOSTELLIST' })
-    }, [])
+   
 
 
     const handleEditAmenities = (item) => {

@@ -90,6 +90,20 @@ const handleFloorChange = (e) => {
           }
       
     }
+    const [filtervalue, setFilteredvalue] = useState([]);
+
+    useEffect(() => {
+        // Filter the array based on the condition
+        const filteredArray = state.PgList.EB_Customerlist.filter(item => item.Hostel_Id === props.hosteldetails.id);
+        setFilteredvalue(filteredArray);
+    }, [props.hosteldetails.id, state.PgList.EB_Customerlist]); 
+    
+    console.log("Filtered array:", filtervalue);
+    
+    // Rest of your component code
+    
+    
+    
 
 
     return (
@@ -278,12 +292,12 @@ const handleFloorChange = (e) => {
                             </tr>
                         </thead>
                         <tbody >
-                        {state.PgList.EB_Customerlist.map((item) => (
+                        {filtervalue.length > 0 && filtervalue.map((item) => (
                             <tr>
                                 <td className='text-center' style={{ fontSize: 14 }} >{item.Name}</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >{item.Room_No}</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >{item.Eb_Unit}</td>
-                                <td className='text-center' style={{ fontSize: 14 }} >{item.Hostel_Based == 0 ? item.Room_Based : item.Hostel_Based}</td>
+                                <td className='text-center' style={{ fontSize: 14 }} >{item.Room_Based}</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >
                                     <span><i class="bi bi-pencil-fill me-2"></i></span> 
                                     <span><i class="bi bi-trash3"></i></span>

@@ -18,9 +18,9 @@ function InvoiceSettings() {
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
     const [showTable, setShowTable] = useState(false)
 
-    useEffect(() => {
-        dispatch({ type: 'HOSTELLIST' })
-    }, [])
+    // useEffect(() => {
+    //     dispatch({ type: 'HOSTELLIST' })
+    // }, [])
 
 
     const handleHostelChange = (e) => {
