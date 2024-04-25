@@ -7,8 +7,18 @@ import Modal from 'react-bootstrap/Modal';
 import { BsExclamationOctagonFill } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import AmenitiesView from '../Pages/AmenitiesView'
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+// import Button from '@mui/material/Button';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Swal from 'sweetalert2';
 import img2 from '../Assets/Images/edit.png';
+import "./Amenities.css";
+
 
 function Amenities() {
 
@@ -18,7 +28,7 @@ function Amenities() {
 
 
     useEffect(() => {
-        dispatch({ type: 'HOSTELLIST' })
+        // dispatch({ type: 'HOSTELLIST' })
         dispatch({ type: 'AMENITIESLIST' })
         dispatch({ type: 'AMENITIESNAME' })
     }, [])
@@ -48,6 +58,7 @@ function Amenities() {
 
     const [showModal, setShowModal] = useState(false);
     const [amenitiesName, setAmenitiesName] = useState('')
+    console.log("amenitiesName",amenitiesName);
     const [amount, setAmount] = useState('')
     const [active, setActive] = useState(false)
     const [edit, setEdit] = useState('')
@@ -69,9 +80,15 @@ function Amenities() {
         setFilteredAmenities(filteredamenities);
 
     };
-    const handleAmenitiesChange = (e) => {
-        setAmenitiesName(e.target.value)
-    }
+    const handleAmenitiesChange = (event, newValue) => {
+        if (newValue) {
+            setAmenitiesName(newValue);
+        } 
+        else {
+            setAmenitiesName(event.target.value);
+        }
+    };
+    
 
 
     const handleAmountChange = (e) => {
@@ -169,13 +186,39 @@ console.log("UsersList:", state.UsersList?.hostelList);
 
 console.log("TurnOn",TurnOn)
 
+
+// const filter = createFilterOptions();
+// const [value, setValue] = React.useState(null);
+// const [open, toggleOpen] = React.useState(false);
+// console.log("value",value);
+
+// const handleClose = () => {
+//     setDialogValue({
+//       title: ''
+//     });
+//     toggleOpen(false);
+//   };
+
+//   const [dialogValue, setDialogValue] = React.useState({
+//     title: ''  
+//   });
+//   console.log("dialogValue",dialogValue);
+
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     setValue({
+//       title: dialogValue.title
+//     });
+//     handleClose();
+//   };
+
     return (
         <div className='Amenities'>
             <div className='d-flex justify-content-between'>
 
                 <div>
                     <h4 style={{ fontSize: 20, fontWeight: 600 }}>Amenities Settings</h4>
-                    <p style={{ color: '#67686C' }}>Lorem ipsum dolor sit amet consectetur.</p>
+                    {/* <p style={{ color: '#67686C' }}>Lorem ipsum dolor sit amet consectetur.</p> */}
                 </div>
 
                 <div class="" >
@@ -206,7 +249,7 @@ console.log("TurnOn",TurnOn)
                     <table class="table text-center" >
                         <thead style={{ backgroundColor: "#E6EDF5", color: "#91969E", fontSize: "10px" }}>
                             <tr >
-                                <th scope="col">Hostel Name</th>
+                                <th scope="col" style={{textAlign:'left'}}>Hostel Name</th>
                                 <th scope="col">Amenities Name</th>
                                 <th scope="col">Amount <BsExclamationOctagonFill className='ms-1' /></th>
                                 <th scope="col">Set as Default <BsExclamationOctagonFill className='ms-1' /></th>
@@ -246,7 +289,7 @@ console.log("TurnOn",TurnOn)
 
                         </Form.Select>
                     </div>
-                    <div className='mb-3 ps-2  pe-2'>
+                    {/* <div className='mb-3 ps-2  pe-2'>
                         <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amenities Name</label>
 
                         <Form.Select aria-label="Default select example" value={amenitiesName} onChange={(e) => handleAmenitiesChange(e)} style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa" }}>
@@ -258,7 +301,25 @@ console.log("TurnOn",TurnOn)
 
                           </Form.Select>
 
-                    </div>
+                    </div> */}
+
+                    <React.Fragment>
+      <Autocomplete
+    value={amenitiesName}
+    onChange={handleAmenitiesChange}
+        id="free-solo-dialog-demo"
+        options={state?.InvoiceList?.AmenitiesName.map((item) => item.Amnities_Name)}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        renderOption={(props, option) => <li {...props}>{option}</li>}
+        style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa",width:'97%',marginLeft:'1%' }}
+        sx={{ width: 300 }}
+        freeSolo
+        renderInput={(params) => <TextField {...params} label="Amenities Name" />}
+      />
+    </React.Fragment>
+
                     <div className='mb-3 ps-2 pe-2'>
                         <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amount</label>
                         <Form.Control

@@ -347,7 +347,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
                 <div className='d-flex justify-content-between'>
                   <div>
                     <h2 style={{ fontSize: '22px', fontWeight: 600 }}>General Information</h2>
-                    <p style={{ fontSize: '16px', color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                    {/* <p style={{ fontSize: '16px', color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div className='justify-content-end'>
                     <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleSaveUpdate} >Save change</button>
@@ -452,7 +452,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
                 <div className='d-flex  justify-content-between'>
                   <div>
                     <h2 style={{ fontSize: '24px', fontWeight: 650 }}>Security</h2>
-                    <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                    {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div className='justify-content-end'>
                     <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleTwoStepVerify} >Save change</button>
@@ -466,7 +466,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
                 <div className='d-flex  justify-content-between mt-2 me-2'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Login Two-Step Verification</h6>
-                    <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                    {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div>
                   <Form.Check // prettier-ignore
@@ -486,7 +486,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
                 <div className='d-flex  justify-content-between me-2'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Email Setup</h6>
-                    <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                    {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div>
                     {/* <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} /> */}
@@ -499,7 +499,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
                 <div className='d-flex  justify-content-between me-2'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>SMS Setup</h6>
-                    <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                    {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div>
                     {/* <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} /> */}
@@ -514,7 +514,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
                 <div className='d-flex  justify-content-between '>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Password Change</h6>
-                    <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p>
+                    {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div>
                     <button className='ChangePassword'>Change Password</button>

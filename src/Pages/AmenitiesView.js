@@ -6,11 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 function AmenitiesView(props) {
 
     const state = useSelector(state => state)
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch({ type: 'HOSTELLIST' })
-    }, [])
+   
 
 
     const handleEditAmenities = (item) => {
@@ -22,7 +20,7 @@ function AmenitiesView(props) {
     return (
         <>
             <tr style={{ fontSize: 13 }}>
-                <td>
+                <td style={{textAlign:'left'}}>
                     {state.UsersList.hostelList.some((view) => view.id == props.item.Hostel_Id) ? state.UsersList.hostelList.find((view) => view.id == props.item.Hostel_Id).Name : null}
                 </td>
                 <td className='text-center' >{props.item.AmenitiesName}</td>
