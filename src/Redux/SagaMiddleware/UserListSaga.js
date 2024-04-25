@@ -4,8 +4,8 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck} from "../Action/UserListAction"
 
 
-function* handleuserlist() {
-   const response = yield call(userlist);
+function* handleuserlist(user) {
+   const response = yield call(userlist,user.payload);
    if (response.status === 200) {
       yield put({ type: 'USER_LIST', payload:{response: response.data, statusCode:response.status} })
    }
@@ -13,8 +13,8 @@ function* handleuserlist() {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
 }
-function* handleHostelList() {
-   const response = yield call(hostelList)
+function* handleHostelList(hostel) {
+   const response = yield call(hostelList,hostel.payload)
    if (response.status === 200) {
       yield put({ type: 'HOSTEL_LIST', payload: response.data })
    }

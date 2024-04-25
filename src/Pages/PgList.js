@@ -86,8 +86,8 @@ function PgList() {
 
   const LoginId = localStorage.getItem("loginId")
 
-  const [filterhostellist,setFilterhostellist] = useState([]);
-  const [filterlogo,setFilterlogo] = useState([]);
+  // const [filterhostellist,setFilterhostellist] = useState([]);
+  // const [filterlogo,setFilterlogo] = useState([]);
 
 
   useEffect(() => {
@@ -96,16 +96,8 @@ function PgList() {
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = decryptedString;
-        const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
-          console.log("parsedData",parsedData);
-          console.log("created_By",view.created_By);
-          console.log("view.created_By == parsedData",view.created_By == parsedData);
-        return view.created_By == parsedData;
+        dispatch({ type: 'HOSTELLIST', payload:{loginId:parsedData} })
       
-        
-        });
-        console.log("topbar_filteredlist",filteredList);
-         setFilterhostellist(filteredList)
       }
       
         catch(error){
@@ -137,9 +129,9 @@ function PgList() {
 // }, [filterhostellist, state.UsersList, selectedHostel]);
   
 
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'HOSTELLIST' })
+  // }, [])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -623,7 +615,7 @@ const handleMouseLeave = () =>{
               </div>
               <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding:8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
                 <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
-                {filterhostellist.length > 0 && filterhostellist.map((obj) => {
+                {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((obj) => {
                   return (<>
                     <option style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
                   </>)
