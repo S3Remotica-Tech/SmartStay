@@ -28,7 +28,7 @@ function Amenities() {
 
 
     useEffect(() => {
-        dispatch({ type: 'HOSTELLIST' })
+        // dispatch({ type: 'HOSTELLIST' })
         dispatch({ type: 'AMENITIESLIST' })
         dispatch({ type: 'AMENITIESNAME' })
     }, [])
@@ -218,7 +218,7 @@ console.log("TurnOn",TurnOn)
 
                 <div>
                     <h4 style={{ fontSize: 20, fontWeight: 600 }}>Amenities Settings</h4>
-                    <p style={{ color: '#67686C' }}>Lorem ipsum dolor sit amet consectetur.</p>
+                    {/* <p style={{ color: '#67686C' }}>Lorem ipsum dolor sit amet consectetur.</p> */}
                 </div>
 
                 <div class="" >
@@ -249,7 +249,7 @@ console.log("TurnOn",TurnOn)
                     <table class="table text-center" >
                         <thead style={{ backgroundColor: "#E6EDF5", color: "#91969E", fontSize: "10px" }}>
                             <tr >
-                                <th scope="col">Hostel Name</th>
+                                <th scope="col" style={{textAlign:'left'}}>Hostel Name</th>
                                 <th scope="col">Amenities Name</th>
                                 <th scope="col">Amount <BsExclamationOctagonFill className='ms-1' /></th>
                                 <th scope="col">Set as Default <BsExclamationOctagonFill className='ms-1' /></th>

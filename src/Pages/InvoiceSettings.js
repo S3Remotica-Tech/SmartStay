@@ -94,12 +94,12 @@ function InvoiceSettings() {
     //     }
     // }, [state.InvoiceList?.statusCode]);
 
-    useEffect(() => {
-        if (selectedHostel) {
-            dispatch({ type: 'HOSTELLIST' });
+    // useEffect(() => {
+    //     if (selectedHostel) {
+    //         dispatch({ type: 'HOSTELLIST' });
                
-        }
-    }, [selectedHostel]);
+    //     }
+    // }, [selectedHostel]);
 
 
 
@@ -163,7 +163,7 @@ console.log("UsersList:", state.UsersList?.hostelList);
 
                 <div>
                     <h4 style={{ fontSize: 20, fontWeight: 600, }}>Invoice Settings</h4>
-                    <p className='mb-1'>Lorem Ipsum dolor sit amet consectetur</p>
+                    {/* <p className='mb-1'>Lorem Ipsum dolor sit amet consectetur</p> */}
                 </div>
                 <div className='justify-content-end'>
                     <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleInvoiceSettings}  >Save change</button>
@@ -219,15 +219,15 @@ console.log("UsersList:", state.UsersList?.hostelList);
                     <table class="table text-center" >
                         <thead style={{ backgroundColor: "#E6EDF5", color: "#91969E", fontSize: "10px" }}>
                             <tr >
-                                <th scope="col">Hostel Name</th>
-                                <th scope="col">Prefix</th>
-                                <th scope="col">Suffix</th>
-                                <th scope="col">Preview</th>
+                                <th scope="col" style={{textAlign:'left'}}>Hostel Name</th>
+                                <th scope="col" style={{textAlign:'left'}}>Prefix</th>
+                                <th scope="col" style={{textAlign:'left'}}>Suffix</th>
+                                <th scope="col" style={{textAlign:'left'}}>Preview</th>
                             </tr>
                         </thead>
                         <tbody >
                             <tr>
-                                <td className='text-center' style={{ fontSize: 14 }} >{selectedHostel.name}</td>
+                                <td  style={{ fontSize: 14,textAlign:'left' }} >{selectedHostel.name}</td>
                                 <td style={{ width: "20%" }}><div className='d-flex justify-content-center align-items-center'>
                                     <Form.Control
                                         placeholder="Ex:RG"
