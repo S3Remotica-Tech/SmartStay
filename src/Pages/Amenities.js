@@ -8,15 +8,7 @@ import { BsExclamationOctagonFill } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import AmenitiesView from '../Pages/AmenitiesView'
 import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
-// import Button from '@mui/material/Button';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import Swal from 'sweetalert2';
-import img2 from '../Assets/Images/edit.png';
 import "./Amenities.css";
 
 
@@ -35,26 +27,25 @@ function Amenities() {
 
     console.log("state for Amenities", state)
 
-    const LoginId = localStorage.getItem("loginId")
-
-    const [Loginid,setLoginid] = useState('');
-     console.log("loginid",Loginid); 
+   
+    const loginId = localStorage.getItem('loginId');
+    const[createdby,setCreatedby]= useState('')
 
     useEffect(() => {
-      if (LoginId) {
-        try{
-          const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-          const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-          const parsedData = decryptedString;
-          setLoginid(parsedData)
+      if (loginId) {
+        try {
+          const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+          const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+          console.log('Decrypted Login Id:', decryptedIdString);
+          const parsedData = Number(decryptedIdString);
+          setCreatedby(parsedData)
+          dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+          
+        } catch (error) {
+          console.error('Error decrypting loginId:', error);
         }
-          catch(error){
-         console.log("Error decrypting loginid",error);
-          }
       }
-  
-    }, [LoginId])
-
+    }, []);
 
     const [showModal, setShowModal] = useState(false);
     const [amenitiesName, setAmenitiesName] = useState('')
@@ -117,7 +108,7 @@ function Amenities() {
 
 
     const handleAmenitiesSetting = () => {
-        dispatch({ type: 'AMENITIESSETTINGS', payload: { AmenitiesName: amenitiesName, Amount: amount, setAsDefault: active, Hostel_Id: selectedHostel.id, Status: status ,createdBy:Loginid} })
+        dispatch({ type: 'AMENITIESSETTINGS', payload: { AmenitiesName: amenitiesName, Amount: amount, setAsDefault: active, Hostel_Id: selectedHostel.id, Status: status ,createdBy:createdby} })
         setAmenitiesName('')
         setAmount('')
         handleCloseModal()
@@ -153,64 +144,10 @@ dispatch({type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE'})
 const TurnOn = state.InvoiceList?.Amenities?.map((item)=>{
     return item
 })
+console.log("TurnOn",TurnOn);
 
 
 
-const [filteredHostelList, setFilteredHostelList] = useState([]);
-console.log("filteredHostelList",filteredHostelList);
-
-useEffect(() => {
-if (LoginId) {
-    try {
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = decryptedString;
-        console.log("parsedData", parsedData);
-
-        const filteredList = state.UsersList?.hostelList?.filter((view) => {
-            console.log("created_By:", view.created_By); 
-            console.log("parsedData:", parsedData); 
-            return view.created_By == parsedData;
-        });
-        console.log("filteredDataforLoginID", filteredList);
-        setFilteredHostelList(filteredList);
-
-    } catch (error) {
-        console.error('Error decrypting LoginId:', error);
-    }
-}
-}, [LoginId,state.UsersList?.hostelList ]);
-
-console.log("UsersList:", state.UsersList?.hostelList);
-
-
-console.log("TurnOn",TurnOn)
-
-
-// const filter = createFilterOptions();
-// const [value, setValue] = React.useState(null);
-// const [open, toggleOpen] = React.useState(false);
-// console.log("value",value);
-
-// const handleClose = () => {
-//     setDialogValue({
-//       title: ''
-//     });
-//     toggleOpen(false);
-//   };
-
-//   const [dialogValue, setDialogValue] = React.useState({
-//     title: ''  
-//   });
-//   console.log("dialogValue",dialogValue);
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     setValue({
-//       title: dialogValue.title
-//     });
-//     handleClose();
-//   };
 
     return (
         <div className='Amenities'>
@@ -233,7 +170,7 @@ console.log("TurnOn",TurnOn)
                         <Form.Select aria-label="Default select example" value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, fontWeight: 600, backgroundColor: "#E6EDF5" }}>
 
                             <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
-                            { filteredHostelList && filteredHostelList.map((item) => (
+                            { state.UsersList.hostelList.length > 0  && state.UsersList.hostelList.map((item) => (
                                 <>
                                     <option key={item.id} value={item.id} >{item.Name}</option></>
                             ))}
@@ -282,7 +219,7 @@ console.log("TurnOn",TurnOn)
                         <Form.Select aria-label="Default select example" value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa" }}>
 
                             <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
-                            {filteredHostelList && filteredHostelList.map((item) => (
+                            {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((item) => (
                                 <>
                                     <option key={item.id} value={item.id} >{item.Name}</option></>
                             ))}

@@ -22,14 +22,35 @@ import Step from '@mui/material/Step';
 import MapsUgcRoundedIcon from '@mui/icons-material/MapsUgcRounded';
 import Image from 'react-bootstrap/Image';
 import UserlistForm from "./UserlistForm";
+import CryptoJS from "crypto-js";
+
 
 
 function UserList() {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
+
+  const LoginId = localStorage.getItem("loginId")
+
   useEffect(() => {
-    dispatch({ type: 'USERLIST' })
+    if (LoginId) {
+      try{
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = Number(decryptedIdString);
+        dispatch({ type: 'USERLIST', payload:{loginId:parsedData} })
+      
+      }
+      
+        catch(error){
+       console.log("Error decrypting loginid",error);
+        }
+    }
+
+  }, [LoginId])
+  useEffect(() => {
+    // dispatch({ type: 'USERLIST' })
     dispatch({ type: 'HOSTELLIST' })
   }, [])
 
@@ -419,40 +440,44 @@ const getFloorAbbreviation = (floor) => {
               </tr>
             </thead>
             <tbody className='tablebody'>
-              {currentItems.map((u) => {
-                return (
-                  <tr style={{ fontWeight: "700" }} >
+            {currentItems.map((u) => (
+                 u.map((user) => (
+    <tr style={{ fontWeight: "700" }}>
+      <td>
+        <div style={{ display: 'flex', flexDirection: "row" }}>
+          <div>
+            <span className="i-circle">
+              <p style={{ fontSize: 12, color: "black" }}>{user.Circle}</p>
+            </span>
+          </div>
+          <div style={{ marginLeft: "10px" }}>
+            <label style={{ color: "#0D99FF", fontWeight: 600 }}>{user.Name}</label><br />
+            <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {user.Phone}</label>
+          </div>
+        </div>
+      </td>
+      <td style={{ color: "black", fontWeight: 500 }}>{user.Email}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.Address}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.AadharNo}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.PancardNo}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.licence}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.HostelName}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.Floor}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.Rooms}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.Bed}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.AdvanceAmount}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {user.RoomRent}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {user.BalanceDue}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
+      <td style={user.Status === "Success" ? { color: "green" } : { color: "red" }}>{user.Status}</td>
+      <td>
+        <img src={img1} className='img1' alt="img1" onClick={() => handleRoomDetailsPage(user,user.Bed,user.Rooms,user.Floor,user.Hostel_Id)}/>
+        <img src={img2} className='img1 ms-1' alt="img1" onClick={() => { handleShow(user) }} />
+      </td>
+    </tr>
+  ))
+))}
 
-                    <td><div style={{ display: 'flex', flexDirection: "row" }}>
-                      <div>
-                        <span class="i-circle"><p style={{ fontSize: 12, color: "black" }}>{u.Circle}</p></span>
-                      </div>
-                      <div style={{ marginLeft: "10px" }}>
-                        <label style={{ color: "#0D99FF", fontWeight: 600 }}>{u.Name}</label><br />
-                        <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {u.Phone}</label>
-                      </div>
-                    </div></td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{u.Email}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.Address}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.AadharNo}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.PancardNo}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.licence}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.HostelName}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.Floor}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.Rooms}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.Bed}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.AdvanceAmount}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {u.RoomRent}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {u.BalanceDue}</td>
-                    <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{u.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
-
-                    <td style={u.Status == "Success" ? { color: "green" } : { color: "red" }}>{u.Status}</td>
-                    <td><img src={img1} className='img1' alt="img1" onClick={() => handleRoomDetailsPage(u,u.Bed,u.Rooms,u.Floor,u.Hostel_Id)}/>
-                      <img src={img2} className='img1 ms-1' alt="img1" onClick={() => { handleShow(u) }} /></td>
-
-                  </tr>
-                );
-              })}
             </tbody>
             </Table>
 

@@ -1,8 +1,9 @@
 import AxiosConfig from "../../WebService/AxiosConfig"
 
 
-export async function userlist() {
-    return await AxiosConfig.get('/users/user-list',{
+export async function userlist(users) {
+    return await AxiosConfig.post('/users/user-list',users,{
+      data:users
     })
   }
 export async function addUser (datum) {
@@ -10,10 +11,12 @@ export async function addUser (datum) {
     data:datum
   })
 }
-export async function hostelList() {
-  return await AxiosConfig.get('/list/hostel-list',{
+export async function hostelList(hosteldetails) {
+  return await AxiosConfig.post('/list/hostel-list',hosteldetails,{
+    data:hosteldetails
   })
 }
+
 export async function roomsCount(floorAndHostelID){
   return await AxiosConfig.post('/list/numberOf-Rooms',floorAndHostelID,{
     data:floorAndHostelID

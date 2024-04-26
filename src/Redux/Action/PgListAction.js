@@ -27,6 +27,11 @@ export async function createPgList(datum){
     })
   }
 
+  export async function EB_startmeterlist() {
+    return await AxiosConfig.get('/list/Ebstartmeter',{
+    })
+  }
+
   export async function createRoom(datum){
     console.log("datum",datum);
     return await AxiosConfig.post('/room/create-room',datum,{

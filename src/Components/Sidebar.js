@@ -63,13 +63,31 @@ function Sidebar() {
 
 
   useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
+    // dispatch({ type: 'HOSTELLIST' })
     dispatch({ type: 'ACCOUNTDETAILS' })
   }, [])
 
 
   let LoginId = localStorage.getItem("loginId")
   let checkedValue = localStorage.getItem("checked")
+
+
+  const loginId = localStorage.getItem('loginId');
+  useEffect(() => {
+    if (loginId) {
+      try {
+        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+        console.log('Decrypted Login Id:', decryptedIdString);
+        const parsedData = Number(decryptedIdString);
+
+        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+        
+      } catch (error) {
+        console.error('Error decrypting loginId:', error);
+      }
+    }
+  }, []);
 
 
   useEffect(() => {
@@ -110,8 +128,8 @@ function Sidebar() {
 
 
 
-  const [filterhostellist, setFilterhostellist] = useState([]);
-  const [loginCustomerid, setLoginCustomerId] = useState('')
+  // const [filterhostellist, setFilterhostellist] = useState([]);
+  // const [loginCustomerid, setLoginCustomerId] = useState('')
   const [profiles, setProfiles] = useState('')
   const [profileArray, setProfileArray] = useState('')
 
@@ -129,16 +147,16 @@ function Sidebar() {
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = decryptedString;
 
-        const filteredList = state.UsersList?.hostelList?.filter((view) => {
+        // const filteredList = state.UsersList?.hostelList?.filter((view) => {
           // console.log("parsedData",parsedData);
           // console.log("created_By",view.created_By);
           // console.log("view.created_By == parsedData",view.created_By == parsedData);
-          return view.created_By == parsedData;
+        //   return view.created_By == parsedData;
 
 
-        });
-        console.log("topbar_filteredlist", filteredList);
-        setFilterhostellist(filteredList)
+        // });
+        // console.log("topbar_filteredlist", filteredList);
+        // setFilterhostellist(filteredList)
 
 
         const FilteredProfile = state.createAccount.accountList.filter((item => item.id == parsedData));
@@ -311,7 +329,7 @@ function Sidebar() {
 
               <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ padding: 7, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700, textTransform: "capitalize", borderRadius: "none" }}>
                 <option disabled selected className='p-3' style={{ fontSize: 15, textTransform: "capitalize" }}>Select Hostel</option>
-                {filterhostellist.length > 0 && filterhostellist.map((obj) => {
+                {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((obj) => {
                   return (<>
                     <option style={{ fontSize: 15, textTransform: "capitalize" }}>{obj.Name}</option>
                   </>)

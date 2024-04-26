@@ -84,38 +84,28 @@ function PgList() {
   ]);
 
 
-  const LoginId = localStorage.getItem("loginId")
+  // const LoginId = localStorage.getItem("loginId")
 
-  const [filterhostellist,setFilterhostellist] = useState([]);
-  const [filterlogo,setFilterlogo] = useState([]);
+  // const [filterhostellist,setFilterhostellist] = useState([]);
+  // const [filterlogo,setFilterlogo] = useState([]);
 
 
-  useEffect(() => {
-    if (LoginId) {
-      try{
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = decryptedString;
-        const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
-          console.log("parsedData",parsedData);
-          console.log("created_By",view.created_By);
-          console.log("view.created_By == parsedData",view.created_By == parsedData);
-        return view.created_By == parsedData;
+  // useEffect(() => {
+  //   if (LoginId) {
+  //     try{
+  //       const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+  //       const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+  //       const parsedData = decryptedString;
+  //       dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
       
-        
-        });
-        console.log("topbar_filteredlist",filteredList);
-         setFilterhostellist(filteredList)
-      }
+  //     }
       
-        catch(error){
-       console.log("Error decrypting loginid",error);
-        }
+  //       catch(error){
+  //      console.log("Error decrypting loginid",error);
+  //       }
+  //   }
 
-  
-    }
-
-  }, [LoginId])
+  // }, [LoginId])
 
 //  useEffect(() => {
 //   console.log("filterhostellist", filterhostellist);
@@ -137,9 +127,9 @@ function PgList() {
 // }, [filterhostellist, state.UsersList, selectedHostel]);
   
 
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'HOSTELLIST' })
+  // }, [])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -152,6 +142,7 @@ function PgList() {
     }, 1000);
     return () => clearTimeout(timeout)
   }, [pgList.number_Of_Floor])
+
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -233,20 +224,23 @@ if(state.PgList.createPGMessage){
 
 
 
-const loginId = localStorage.getItem('loginId');
+
 
 const[decrypt, setDecrypt] = useState('')
 
 console.log("decrypt",decrypt)
 
  
-
+const loginId = localStorage.getItem('loginId');
   useEffect(() => {
     if (loginId) {
       try {
         const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
         const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
         console.log('Decrypted Login Id:', decryptedIdString);
+        const parsedData = Number(decryptedIdString);
+
+        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
         setDecrypt(decryptedIdString);
       } catch (error) {
         console.error('Error decrypting loginId:', error);
@@ -623,7 +617,7 @@ const handleMouseLeave = () =>{
               </div>
               <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding:8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
                 <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
-                {filterhostellist.length > 0 && filterhostellist.map((obj) => {
+                {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((obj) => {
                   return (<>
                     <option style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
                   </>)

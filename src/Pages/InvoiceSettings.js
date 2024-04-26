@@ -125,35 +125,23 @@ function InvoiceSettings() {
     console.log("logo state", logo)
 
 
-    const LoginId = localStorage.getItem("loginId")
-    console.log("LoginId",LoginId)
+    const loginId = localStorage.getItem('loginId');
 
-
-    const [filteredHostelList, setFilteredHostelList] = useState([]);
-
-useEffect(() => {
-    if (LoginId) {
+    useEffect(() => {
+      if (loginId) {
         try {
-            const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-            const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-            const parsedData = decryptedString;
-            console.log("parsedData", parsedData);
-
-            const filteredList = state.UsersList?.hostelList?.filter((view) => {
-                console.log("created_By:", view.created_By); 
-                console.log("parsedData:", parsedData); 
-                return view.created_By == parsedData;
-            });
-            console.log("filteredDataforLoginID", filteredList);
-            setFilteredHostelList(filteredList);
-
+          const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+          const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+          console.log('Decrypted Login Id:', decryptedIdString);
+          const parsedData = Number(decryptedIdString);
+  
+          dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+          
         } catch (error) {
-            console.error('Error decrypting LoginId:', error);
+          console.error('Error decrypting loginId:', error);
         }
-    }
-}, [LoginId,state.UsersList?.hostelList ]);
-    
-console.log("UsersList:", state.UsersList?.hostelList);
+      }
+    }, []);
 
 
 
@@ -181,7 +169,7 @@ console.log("UsersList:", state.UsersList?.hostelList);
                         <Form.Select aria-label="Default select example" value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, fontWeight: 600, backgroundColor: "#E6EDF5" }}>
 
                             <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
-                            { filteredHostelList && filteredHostelList.map((item) => (
+                            { state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
                                 <>
                                     <option key={item.id} value={item.id} >{item.Name}</option></>
                             ))}
