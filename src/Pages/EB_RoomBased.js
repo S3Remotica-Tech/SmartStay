@@ -19,9 +19,13 @@ const EBROOM = (props) => {
     }
 
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch({ type: 'EBLIST' })
+        // dispatch({ type: 'EB_STARTMETER_LIST' })
     }, [])
+   
+
     useEffect(() => {
         // dispatch({ type: 'HOSTELLIST' })
         if (props.hosteldetails.id) {

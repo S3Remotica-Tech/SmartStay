@@ -5,7 +5,6 @@ import Logo from '../Assets/Images/Logo-Icon.png'
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import Roombased from './EB_RoomBased';
-import Hostelbased from "./EB_Hostelbased";
 import CryptoJS from "crypto-js";
 
 
@@ -13,7 +12,7 @@ function EB_Hostel() {
 
 
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const state = useSelector((state) => state);
   console.log("state for EB",state )
 
@@ -22,43 +21,60 @@ function EB_Hostel() {
   // }, [])
 
 
-
-  let LoginId = localStorage.getItem("loginId")
-
-  const [filterhostellist,setFilterhostellist] = useState([]);
-
+  const loginId = localStorage.getItem('loginId');
   useEffect(() => {
-    if (LoginId) {
- 
-       console.log("executed **********S")
-       try{
-         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-         const parsedData = decryptedString;
+    if (loginId) {
+      try {
+        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+        console.log('Decrypted Login Id:', decryptedIdString);
+        const parsedData = Number(decryptedIdString);
+
+        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
         
-         const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
-           console.log("parsedData",parsedData);
-           console.log("created_By",view.created_By);
-           console.log("view.created_By == parsedData",view.created_By == parsedData);
-         return view.created_By == parsedData;
+      } catch (error) {
+        console.error('Error decrypting loginId:', error);
+      }
+    }
+  }, []);
+
+
+  // let LoginId = localStorage.getItem("loginId")
+
+  // const [filterhostellist,setFilterhostellist] = useState([]);
+
+  // useEffect(() => {
+  //   if (LoginId) {
+ 
+  //      console.log("executed **********S")
+  //      try{
+  //        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+  //        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+  //        const parsedData = decryptedString;
+        
+  //        const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
+  //          console.log("parsedData",parsedData);
+  //          console.log("created_By",view.created_By);
+  //          console.log("view.created_By == parsedData",view.created_By == parsedData);
+  //        return view.created_By == parsedData;
        
          
-         });
-         console.log("topbar_filteredlist",filteredList);
-          setFilterhostellist(filteredList)
+  //        });
+  //        console.log("topbar_filteredlist",filteredList);
+  //         setFilterhostellist(filteredList)
  
  
           
        
-       }
+  //      }
        
-         catch(error){
-        console.log("Error decrypting loginid",error);
-         }
+  //        catch(error){
+  //       console.log("Error decrypting loginid",error);
+  //        }
   
-     }
+  //    }
  
-   },[state.UsersList?.hostelList, LoginId ])
+  //  },[state.UsersList?.hostelList, LoginId ])
 
 
   const [isvisible ,setISVisible] = useState(false);
@@ -91,7 +107,7 @@ function EB_Hostel() {
         <h4 style={{fontSize:16,fontWeight:600}}>EB Plan</h4>
         <p style={{fontSize:13}}>Manage your account settings</p>
       
-        {filterhostellist && filterhostellist.map((hostel) => (
+        {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((hostel) => (
       
         <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12  mt-3'>
        

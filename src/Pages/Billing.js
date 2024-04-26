@@ -9,6 +9,25 @@ const Billings = () => {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
+
+  const loginId = localStorage.getItem('loginId');
+
+  useEffect(() => {
+    if (loginId) {
+      try {
+        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+        console.log('Decrypted Login Id:', decryptedIdString);
+        const parsedData = Number(decryptedIdString);
+
+        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+        
+      } catch (error) {
+        console.error('Error decrypting loginId:', error);
+      }
+    }
+  }, []);
+
   const [hostelcheckedvalues,setHostelCheckedvalues]= useState([])
 
    console.log("hostelcheckedvalues check",hostelcheckedvalues);
@@ -41,43 +60,14 @@ const Billings = () => {
     console.log("state for EB",state )
     
 
-    useEffect(() => {
-      dispatch({ type: 'HOSTELLIST' })
-    }, [])
+    // useEffect(() => {
+    //   dispatch({ type: 'HOSTELLIST' })
+    // }, [])
 
    
-    const LoginId = localStorage.getItem("loginId")
-
-    const [filterhostellist,setFilterhostellist] = useState([]);
-
-    useEffect(() => {
-      if (LoginId) {
-        try{
-          const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-          const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-          const parsedData = decryptedString;
-          const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
-            console.log("parsedData",parsedData);
-            console.log("created_By",view.created_By);
-            console.log("view.created_By == parsedData",view.created_By == parsedData);
-          return view.created_By == parsedData;
-        
-          
-          });
-          console.log("filteredlist",filteredList);
-           setFilterhostellist(filteredList)
-        }
-        
-          catch(error){
-         console.log("Error decrypting loginid",error);
-          }
-
-    
-      }
   
-    }, [LoginId])
 
-    console.log("Useridfilter",state?.UsersList?.hostelList);
+    console.log("Useridfilter",state.UsersList.hostelList);
 
     return (
         <div>
@@ -106,11 +96,11 @@ const Billings = () => {
         </div>
      
          <div></div>
-        { filterhostellist.length>0 && filterhostellist.map((item) => (
+        { state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((item) => (
           <EB_Billings Item={item} handleSave={handleSave} onBoxchange={handleCheckboxChange}/>
 
          ))}
-          {filterhostellist.length === 0 && (
+          {state.UsersList.hostelList.length === 0 && (
                         <div>
                           <div  style={{ textAlign: "center", color: "red",marginTop:'10px' }}>No data found</div>
                         </div>
