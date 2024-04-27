@@ -232,6 +232,10 @@ console.log("decrypt",decrypt)
 
  
 const loginId = localStorage.getItem('loginId');
+
+console.log("loginId",loginId)
+
+
   useEffect(() => {
     if (loginId) {
       try {
@@ -239,6 +243,7 @@ const loginId = localStorage.getItem('loginId');
         const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
         console.log('Decrypted Login Id:', decryptedIdString);
         const parsedData = Number(decryptedIdString);
+        console.log("parsedData",parsedData)
 
         dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
         setDecrypt(decryptedIdString);
@@ -246,7 +251,7 @@ const loginId = localStorage.getItem('loginId');
         console.error('Error decrypting loginId:', error);
       }
     }
-  }, []); 
+  },[]); 
 
 
 

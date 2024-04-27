@@ -21,10 +21,12 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { format } from 'date-fns';
 import '../Pages/Compliance.css'
-
+import CryptoJS from "crypto-js";
 
 const Compliance = () => {
-
+  const state = useSelector(state => state)
+  const dispatch = useDispatch()
+  const [data, setData] = useState(state.ComplianceList.Compliance);
 
   const bottomBorderStyles = {
     border: 'none',
@@ -35,18 +37,47 @@ const Compliance = () => {
     fontSize: "11px",
     marginTop: "",
     paddingLeft: "2px",
-    backgroundColor:"#E6ECF8"
+    backgroundColor: "#E6ECF8"
   };
 
 
+  const LoginId = localStorage.getItem("loginId")
+
+  const [login_Id, setLogin_Id] = useState('')
 
   useEffect(() => {
-    dispatch({ type: 'COMPLIANCE-LIST' })
+    if (LoginId) {
+      try {
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = Number(decryptedIdString);
+        setLogin_Id(parsedData)
+        dispatch({ type: 'COMPLIANCE-LIST', payload: { loginId: parsedData } })
+        dispatch({ type: 'USERLIST', payload: { loginId: parsedData } });
+             }
+
+      catch (error) {
+        console.log("Error decrypting loginid", error);
+      }
+    }
   }, [])
 
-  const state = useSelector(state => state)
-  const dispatch = useDispatch()
-  const [data, setData] = useState(state.ComplianceList.Compliance);
+  useEffect(() => {
+    if (state.ComplianceList.statusCodeForAddCompliance === 200) {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { loginId:login_Id } })
+
+setTimeout(()=>{
+dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
+},200)
+
+    }
+  }, [state.ComplianceList.statusCodeForAddCompliance]);
+
+
+
+
+ 
+ 
 
   useEffect(() => {
     setData(state.ComplianceList.Compliance)
@@ -68,10 +99,75 @@ const Compliance = () => {
 
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  
+
+  
+
+    const totalInnerArrayLength = data.reduce((total, innerArray) => {
+      console.log("total *", total);
+      console.log("INNer", innerArray);
+      return total + innerArray.length;
+    }, 0); 
+    
+    const totalPages = Math.ceil(totalInnerArrayLength  / itemsPerPage)
+      console.log("totalPages",totalPages)
+    console.log("Total length of all inner arrays:", totalInnerArrayLength);
+
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    console.log("indexOfLastItem",indexOfLastItem)
+    const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
+    console.log("indexOfFirstItem",indexOfFirstItem )
+
+
+
+    // const currentItems = data.map(innerArray =>
+    //   innerArray.slice(indexOfFirstItem, indexOfLastItem)
+    // );
+
+
+
+
+const currentItems = [];
+let remainingItems = itemsPerPage; // Initialize remaining items to itemsPerPage
+let startIndex = (currentPage - 1) * itemsPerPage; // Calculate the start index for the current page
+
+
+
+// Iterate over each inner array
+for (const innerArray of data) {
+  // If there are no remaining items needed, break the loop
+  if (remainingItems <= 0) break;
+
+  // Slice the inner array to get items for the current page
+  let slicedArray;
+  if (startIndex < innerArray.length) {
+    slicedArray = innerArray.slice(startIndex, startIndex + remainingItems);
+  } else {
+    // If the startIndex is beyond the length of the inner array, move to the next inner array
+    startIndex -= innerArray.length;
+    continue;
+  }
+
+  // Concatenate the sliced array to the current items
+  currentItems.push(...slicedArray);
+
+  // Update the remaining items
+  remainingItems -= slicedArray.length;
+  startIndex = 0; // Reset the start index for subsequent inner arrays
+}
+
+
+console.log("Current Items:", currentItems);
+
+
+
+
+
+    
+    
+
+console.log("data compliance",data)
 
   const [searchItem, setSearchItem] = useState('');
   const [searchicon, setSearchicon] = useState(false);
@@ -84,22 +180,25 @@ const Compliance = () => {
 
 
 
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
 
-  useEffect(() => {
-    dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
-  }, [hostel_Id]);
+
+
+  //  command line
+  // useEffect(() => {
+  //   dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
+  // }, [hostel_Id]);
+
+
+
   const [hostelname, setHostelName] = useState('')
-  const handleHostelId = (e) => {
-    console.log("e.target.value", e.target.value);
-    const selectedHostelId = e.target.value;
-    const selectedHostel = state.UsersList?.hostelList?.find(item => item.id == selectedHostelId);
-    setHostel_Id(selectedHostelId);
-    console.log("selectedHostel", selectedHostel);
-    setHostelName(selectedHostel ? selectedHostel.Name : '');
-  };
+  // const handleHostelId = (e) => {
+  //   console.log("e.target.value", e.target.value);
+  //   const selectedHostelId = e.target.value;
+  //   const selectedHostel = state.UsersList?.hostelList?.find(item => item.id == selectedHostelId);
+  //   setHostel_Id(selectedHostelId);
+  //   console.log("selectedHostel", selectedHostel);
+  //   setHostelName(selectedHostel ? selectedHostel.Name : '');
+  // };
 
   const handleImageChange = (event) => {
     const fileimgage = event.target.files[0];
@@ -119,8 +218,12 @@ const Compliance = () => {
       setData(state.ComplianceList.Compliance)
     }
     else {
-      const filteredItems = state.ComplianceList.Compliance.filter((user) =>
-        user.Status.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredItems = state.ComplianceList.Compliance.map((user) =>{
+        return user.filter((status)=>{
+          return status.Status.toLowerCase().includes(searchTerm.toLowerCase())
+        })
+      }
+        
       );
       setData(filteredItems);
     }
@@ -188,27 +291,30 @@ const Compliance = () => {
 
   const handleEdit = (item) => {
     console.log("item", item)
-    setEditbtn(true)
-    setSelectedUserId(item.User_id);
-    setId(item.ID)
-    setName(item.Name)
-    setPhone(item.Phone)
-    setComplainttype(item.Complainttype)
-    setAssign(item.Assign)
-    setDescription(item.Description)
-    setDate(format(new Date(item.date), 'yyyy-MM-dd'))
-    setStatus(item.Status)
-    setHostel_Id(item.Hostel_id)
-    setHostelName(item.hostelname)
-    setFloor(item.Floor_id)
-    setRooms(item.Room)
-    handleMenuClick();
-    setShowMenu(true);
+    if(item){
+      setEditbtn(true)
+      // setSelectedUserId(item.User_id);
+      setId(item.ID)
+      setName(item.Name)
+      setPhone(item.Phone)
+      setComplainttype(item.Complainttype)
+      setAssign(item.Assign)
+      setDescription(item.Description)
+      setDate(format(new Date(item.date), 'yyyy-MM-dd'))
+      setStatus(item.Status)
+      setHostel_Id(item.Hostel_id)
+      setHostelName(item.hostelname)
+      setFloor(item.Floor_id)
+      setRooms(item.Room)
+      handleMenuClick();
+      setShowMenu(true);
+    }
+    
   }
 
   const handleSubmit = () => {
     if (Name && Phone && Complainttype && Assign && description && Status && date && hostel_Id && Floor && Rooms) {
-      dispatch({ type: 'COMPLIANCE-ADD', payload: { User_id:selectedUserId,Name: Name, Phone: Phone, Complainttype: Complainttype, Assign: Assign, Description: description, Status: Status, date: date, id: editbtn ? id : '', Hostel_id: hostel_Id, Floor_id: Floor, Room: Rooms, hostelname: hostelname } })
+      dispatch({ type: 'COMPLIANCE-ADD', payload: { User_id: selectedUserId, Name: Name, Phone: Phone, Complainttype: Complainttype, Assign: Assign, Description: description, Status: Status, date: date, id: editbtn ? id : '', Hostel_id: hostel_Id, Floor_id: Floor, Room: Rooms, hostelname: hostelname } })
       setId('')
       setName('')
       setPhone('')
@@ -220,14 +326,14 @@ const Compliance = () => {
       setHostel_Id('')
       setFloor('')
       setRooms('')
-      dispatch({ type: 'COMPLIANCE-LIST' })
+     
       setShowMenu(false);
       Swal.fire({
         icon: "success",
         title: editbtn ? 'Complaince Updated successfully' : 'Complaince Added successfully',
         confirmButtonText: "ok"
       }).then((result) => {
-        dispatch({ type: 'COMPLIANCE-LIST' })
+       
         if (result.isConfirmed) {
         }
       });
@@ -248,8 +354,12 @@ const Compliance = () => {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
     if (searchTerm != '') {
-      const filteredItems = state.ComplianceList.Compliance.filter((user) =>
-        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredItems = state.ComplianceList.Compliance.map((user) =>{
+        return user.filter((view)=>{
+          return view.Name.toLowerCase().includes(searchTerm.toLowerCase())
+        })
+      }
+        
       );
 
       setData(filteredItems);
@@ -265,6 +375,7 @@ const Compliance = () => {
   }
 
   const handleNextClick = () => {
+
     setCurrentPage((prevPage) => prevPage === totalPages ? prevPage : prevPage + 1);
   };
 
@@ -292,12 +403,30 @@ const Compliance = () => {
   }
 
 
+  const [usersId, setUsersId] = useState('')
+
+
+
   useEffect(() => {
-    dispatch({ type: 'USERLIST' })
-  }, [])
+    if (state.UsersList?.UserListStatusCode == 200) {
+      const userIds = state.UsersList?.Users?.map(item => {
+        return item && item.filter(view => {
+          return view.User_Id !== '';
+        });
+      });
+
+      console.log("userIds", userIds);
+      setUsersId(userIds);
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_STATUS_CODE_USER' })
+      }, 1000)
+    }
+
+  }, [state.UsersList.UserListStatusCode])
 
 
-  const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
+
+
 
 
   const [selectedUserId, setSelectedUserId] = useState('')
@@ -309,28 +438,43 @@ const Compliance = () => {
 
   useEffect(() => {
     if (selectedUserId) {
-      const filteredDetails = state.UsersList?.Users.find(item => item.User_Id === selectedUserId);
+      const filteredDetails = state.UsersList?.Users.map(item =>
+        item.find(view => view.User_Id === selectedUserId)
+      ).filter(detail => detail !== undefined);
 
-      console.log("filteredDetails",filteredDetails)
+      console.log("filteredDetails", filteredDetails);
 
-      if (filteredDetails) {
-        setFilteredUserDetails([filteredDetails]);
-        setName(filteredDetails.Name || '')
-        setPhone(filteredDetails.Phone || '')
-        setHostel_Id(filteredDetails.Hostel_Id || '')
-        setHostelName(filteredDetails.HostelName || '')
-        setFloor(filteredDetails.Floor || '')
-        setRooms(filteredDetails.Rooms || '')
+      if (filteredDetails.length > 0) {
+        setFilteredUserDetails(filteredDetails);
+        const firstFilteredDetail = filteredDetails[0];
+        setName(firstFilteredDetail.Name || '');
+        setPhone(firstFilteredDetail.Phone || '');
+        setHostel_Id(firstFilteredDetail.Hostel_Id || '');
+        setHostelName(firstFilteredDetail.HostelName || '');
+        setFloor(firstFilteredDetail.Floor || '');
+        setRooms(firstFilteredDetail.Rooms || '');
       } else {
         setFilteredUserDetails([]);
+        setName('');
+        setPhone('');
+        setHostel_Id('');
+        setHostelName('');
+        setFloor('');
+        setRooms('');
       }
     } else {
       setFilteredUserDetails([]);
+      setName('');
+      setPhone('');
+      setHostel_Id('');
+      setHostelName('');
+      setFloor('');
+      setRooms('');
     }
   }, [selectedUserId, state.UsersList?.Users]);
 
-
-
+  
+  
 
   return (
     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
@@ -377,8 +521,8 @@ const Compliance = () => {
 
         </div>
         <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: '69vh' }}>
-          <Offcanvas.Title className="d-flex align-items-center" style={{ background: '#2F74EB', color: 'white', padding: '5px 20px', height: '40px',fontSize:15 }}>
-          {editbtn ? "Edit Compliance" : "Add Compliance"} 
+          <Offcanvas.Title className="d-flex align-items-center" style={{ background: '#2F74EB', color: 'white', padding: '5px 20px', height: '40px', fontSize: 15 }}>
+            {editbtn ? "Edit Compliance" : "Add Compliance"}
           </Offcanvas.Title>
           <Offcanvas.Body>
             <div class="d-flex flex-row bd-highlight mb-3 item" style={{ marginTop: '-20px' }}>
@@ -392,7 +536,7 @@ const Compliance = () => {
 
             {showForm && (
               <Form>
-                <p style={{ textAlign: 'center', marginTop: '-20px',marginBottom:2 }}>Upload Profile</p>
+                <p style={{ textAlign: 'center', marginTop: '-20px', marginBottom: 2 }}>Upload Profile</p>
                 <div className="d-flex justify-content-center mt-0" style={{ position: 'relative' }}>
                   {file ? <>
                     <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
@@ -421,34 +565,39 @@ const Compliance = () => {
 
 
                   <div className='row d-flex justify-content-between w-100 g-1 row-gap-1' style={{ backgroundColor: "" }}>
-                   
-                  <div className='col-12 mb-3'>
-                  <Form.Label style={{ fontSize: "10px" ,marginBottom:5,fontWeight:600 }}>Select User ID</Form.Label>
-                          <Form.Select aria-label="Default select example" style={bottomBorderStyles}
-                            value={selectedUserId}
-                            disabled={editbtn}
-                            onChange={handleUserIdChange} >
-                            <option>Select User Id</option>
-                            {
-                              userIds && userIds.map((item) => {
-                                return (
-                                  <>
-                                    <option value={item.id}>{item.User_Id}</option>
-                                  </>
-                                )
-                              })
-                            }
-                          </Form.Select>
-                   
-                     </div>            
-                   
-                   
+{editbtn ? '' : 
+                    <div className='col-12 mb-3'>
+                      <Form.Label style={{ fontSize: "10px", marginBottom: 5, fontWeight: 600 }}>Select User ID</Form.Label>
+                      <Form.Select
+                        aria-label="Default select example"
+                        style={bottomBorderStyles}
+                        value={selectedUserId}
+                        disabled={editbtn}
+                        onChange={handleUserIdChange}
+                      >
+                        <option>Select User Id</option>
+                        {usersId &&
+                          usersId.map((subArray, index) => (
+                            <React.Fragment key={index}>
+                              {subArray.map((user, subIndex) => (
+                                <option key={subIndex} value={user.id}>
+                                  {user.User_Id}
+                                </option>
+                              ))}
+                            </React.Fragment>
+                          ))}
+                      </Form.Select>
+
+
+                    </div>
+                  }
+
                     <div className='col-6'>
-                      <TextField id="standard-basic" label="Name" value={Name} InputProps={{ readOnly: true }}  onChange={(e) => { setName(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': {fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE" } }} />
+                      <TextField id="standard-basic" label="Name" value={Name} InputProps={{ readOnly: true }} onChange={(e) => { setName(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
 
                     </div>
                     <div className='col-6'>
-                      <TextField id="standard-basic" label="Phone Number" value={Phone} InputProps={{ readOnly: true }}  onChange={(e) => { handlePhone(e) }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE" } }} />
+                      <TextField id="standard-basic" label="Phone Number" value={Phone} InputProps={{ readOnly: true }} onChange={(e) => { handlePhone(e) }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
 
                     </div>
 
@@ -457,12 +606,11 @@ const Compliance = () => {
 
 
                     <div className='col-6'>
-                      <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
-                        <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select PG</InputLabel>
-                        <Select
+
+                      {/* <Select
                           id="standard-basic"
                           variant="standard"
-style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
+                          style={{ fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" }}
                           value={hostel_Id}
                           onChange={(e) => handleHostelId(e)}
                           label="Select PG"
@@ -474,11 +622,13 @@ style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
                               {item.Name}
                             </MenuItem>
                           ))}
-                        </Select>
-                      </FormControl>
+                        </Select> */}
+                      <TextField id="standard-basic" label="Hostel Name" value={hostelname} InputProps={{ readOnly: true }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
+
+
                     </div>
                     <div className='col-6'>
-                      <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
+                      {/* <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
                         <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select Floor</InputLabel>
                         <Select
                           labelId="demo-simple-select-standard-label"
@@ -487,7 +637,7 @@ style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
                           value={Floor}
                           readOnly
                           onChange={(e) => setFloor(e.target.value)}
-                          style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
+                          style={{ fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" }}
                         >
                           <MenuItem value="none">
                           </MenuItem>
@@ -499,10 +649,12 @@ style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
                               </MenuItem>
                             ))}
                         </Select>
-                      </FormControl>
+                      </FormControl> */}
+                      <TextField id="standard-basic" label="Floor" value={Floor} InputProps={{ readOnly: true }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
+
                     </div>
                     <div className='col-6'>
-                      <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
+                      {/* <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
                         <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Select Room No</InputLabel>
                         <Select
                           labelId="demo-simple-select-standard-label"
@@ -511,7 +663,7 @@ style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
                           value={Rooms}
                           readOnly
                           onChange={(e) => setRooms(e.target.value)}
-                          style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
+                          style={{ fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" }}
                         >
                           <MenuItem value="none">
 
@@ -524,14 +676,16 @@ style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
                               </MenuItem>
                             ))}
                         </Select>
-                      </FormControl>
+                      </FormControl> */}
+                      <TextField id="standard-basic" label="Room" value={Rooms} InputProps={{ readOnly: true }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
+
                     </div>
                     <div className='col-6'>
                       <TextField id="standard-basic" type='date'
                         value={date}
                         disabled={editbtn}
                         onChange={(e) => { handleDatePicker(e) }}
-                        variant="standard" style={{ m: 1, width: '20ch', marginTop: "18px" }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }}
+                        variant="standard" style={{ width: '20ch', marginTop: "18px" }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }}
                       />
                     </div>
                     <div className='col-6'>
@@ -543,7 +697,7 @@ style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
                           label="Select Room No"
                           value={Complainttype}
                           onChange={(e) => { setComplainttype(e.target.value) }}
-                          style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
+                          style={{ fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" }}
                         >
                           <MenuItem value="none">
                             <em>None</em>
@@ -568,20 +722,20 @@ style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
                         multiline
                         maxRows={4}
                         variant="standard"
-                        sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"} }}
+                        sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }}
                         style={{ m: 1, width: "20ch", marginTop: '4px' }}
                         value={description} onChange={(e) => { setDescription(e.target.value) }}
                       />
                     </div>
                     <div className='col-6'>
-                      <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE" } }} />
+                      <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
 
                     </div>
                     {/* <div className='col-6'>
                       <TextField id="standard-basic" label="status" value={Status} onChange={(e) => { setStatus(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE" } }} />
                     </div> */}
                     <div className='col-6'>
-                      <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
+                      <FormControl variant="standard" sx={{ width: "20ch" }}>
                         <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Status</InputLabel>
                         <Select
                           labelId="demo-simple-select-standard-label"
@@ -589,14 +743,14 @@ style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
                           label="Status"
                           value={Status}
                           onChange={(e) => { setStatus(e.target.value) }}
-                          style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
+                          style={{ fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" }}
                         >
                           <MenuItem value="none">
 
                           </MenuItem>
-                              <MenuItem value="Pending">Pending</MenuItem>
-                              <MenuItem value="Success">Success</MenuItem>
-                          
+                          <MenuItem value="Pending">Pending</MenuItem>
+                          <MenuItem value="Success">Success</MenuItem>
+
                         </Select>
                       </FormControl>
                     </div>
@@ -637,31 +791,69 @@ style={{fontSize: "0.8rem", fontWeight: "bold" ,color:"#000000DE"}}
           </tr>
         </thead>
         <tbody style={{ fontSize: "10px" }}>
-          {currentItems.map((item) => (
-            <tr key={item.id} >
-              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.date).format('DD-MM-YYYY')}</td>
-              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Requestid}</td>
-              <td>
-                <div class="d-flex">
-                  <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.match(/(^\S\S?|\s\S)?/g).map(v => v.trim()).join("").match(/(^\S|\S$)?/g).join("").toLocaleUpperCase()}</p></span>
-                  <div class="ms-2">
-                    <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
-                    <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.Phone}</label>
+          {/* {currentItems.map((view) => (
+            // view.map((item) => (
+              <tr key={item.id} >
+                <td style={{ color: "black", fontWeight: 500 }}>{moment(item.date).format('DD-MM-YYYY')}</td>
+                <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Requestid}</td>
+                <td>
+                  <div class="d-flex">
+                    {item.Name && (
+                      <span class="i-circle">
+                        <p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.match(/(^\S\S?|\s\S)?/g).map(v => v.trim()).join("").match(/(^\S|\S$)?/g).join("").toLocaleUpperCase()}</p>
+                      </span>
+
+                    )}
+                    <div class="ms-2">
+                      <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
+                      <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.Phone}</label>
+                    </div>
                   </div>
-                </div>
-              </td>
+                </td>
 
-              <th style={{ color: "#91969E" }}>{item.hostelname}</th>
+                <th style={{ color: "#91969E" }}>{item.hostelname}</th>
 
-              <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_id}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.Room}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.Description}</td>
-              <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
-              <td style={item.Status.toUpperCase() == "SUCCESS" ? { color: "green" } : { color: "red" }}>{item.Status}</td>
-              <td class=""><img src={List} height="20" width="20" /><img class="ms-1" src={Edit} height="20" width="20" onClick={() => handleEdit(item)} style={{ cursor: 'pointer' }} /></td>
-            </tr>
-          ))}
+                <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_id}</td>
+                <td style={{ color: "black", fontWeight: 500 }}>{item.Room}</td>
+                <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
+                <td style={{ color: "black", fontWeight: 500 }}>{item.Description}</td>
+                <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
+                <td style={(item.Status && item.Status.toUpperCase() === "SUCCESS") ? { color: "green" } : { color: "red" }}>{item.Status}</td>             
+                 <td class=""><img src={List} height="20" width="20" />
+                 <img class="ms-1" src={Edit} height="20" width="20" onClick={() => handleEdit(item)} style={{ cursor: 'pointer' }} /></td>
+              </tr>
+            // )
+            )))} */}
+            {currentItems.map((item) => (
+  <tr key={item.ID}>
+    <td style={{ color: "black", fontWeight: 500 }}>{moment(item.date).format('DD-MM-YYYY')}</td>
+    <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Requestid}</td>
+    <td>
+      <div className="d-flex">
+        {item.Name && (
+          <span className="i-circle">
+            <p className="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.match(/(^\S\S?|\s\S)?/g).map(v => v.trim()).join("").match(/(^\S|\S$)?/g).join("").toLocaleUpperCase()}</p>
+          </span>
+        )}
+        <div className="ms-2">
+          <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
+          <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.Phone}</label>
+        </div>
+      </div>
+    </td>
+    <td style={{ color: "#91969E" }}>{item.hostelname}</td>
+    <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_id}</td>
+    <td style={{ color: "black", fontWeight: 500 }}>{item.Room}</td>
+    <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
+    <td style={{ color: "black", fontWeight: 500 }}>{item.Description}</td>
+    <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
+    <td style={(item.Status && item.Status.toUpperCase() === "SUCCESS") ? { color: "green" } : { color: "red" }}>{item.Status}</td>             
+    <td className=""><img src={List} height="20" width="20" />
+    <img className="ms-1" src={Edit} height="20" width="20" onClick={() => handleEdit(item)} style={{ cursor: 'pointer' }} /></td>
+  </tr>
+))}
+
+            
         </tbody>
       </Table>
       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
