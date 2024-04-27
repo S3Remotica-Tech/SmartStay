@@ -12,6 +12,7 @@ export async function addUser (datum) {
   })
 }
 export async function hostelList(hosteldetails) {
+  console.log("hosteldetails",hosteldetails)
   return await AxiosConfig.post('/list/hostel-list',hosteldetails,{
     data:hosteldetails
   })

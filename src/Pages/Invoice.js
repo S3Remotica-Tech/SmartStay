@@ -86,7 +86,7 @@ const InvoicePage = () => {
       const day = originalDate.getDate().toString().padStart(2, '0');
       const newDate = `${year}-${month}-${day}`;
       dispatch({ type: 'INVOICEPDF', payload: { Date: newDate, User_Id: item.User_Id , id: item.id} });
-      setShowLoader(true);
+      setShowLoader(true); 
     }
   };
 
@@ -133,6 +133,7 @@ const InvoicePage = () => {
     console.log("toTriggerPDF", toTriggerPDF);
     
     if (toTriggerPDF) {
+     
       console.log("executed");
        setTimeout(() => {
         let pdfWindow;
@@ -142,7 +143,11 @@ const InvoicePage = () => {
         console.log("InvoicePDf[0]?.invoicePDF", InvoicePDf[0]?.invoicePDF);
         if (InvoicePDf[0]?.invoicePDF) {
           pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
-          setShowLoader(false);
+if(pdfWindow){
+  setShowLoader(false);
+}
+          
+         
         } else {
           setShowLoader(true);
         }

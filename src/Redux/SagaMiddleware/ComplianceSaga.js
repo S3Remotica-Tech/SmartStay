@@ -2,8 +2,8 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import {compliance,Compliancedetails} from "../Action/ComplianceAction"
 
 
- function* handlecompliancelist (){
-    const response = yield call (compliance);
+ function* handlecompliancelist (action){
+    const response = yield call (compliance, action.payload);
     if (response.status === 200){
        yield put ({type : 'COMPLIANCE_LIST' , payload:response.data})
     }
@@ -15,7 +15,7 @@ import {compliance,Compliancedetails} from "../Action/ComplianceAction"
 function* handleComplianceadd (params) {
    const response = yield call (Compliancedetails,params.payload);
    if (response.status === 200){
-      yield put ({type : 'COMPLIANCE_ADD' , payload:{response:response.data}})
+      yield put ({type : 'COMPLIANCE_ADD' , payload:{response:response.data, statusCode:response.status}})
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
