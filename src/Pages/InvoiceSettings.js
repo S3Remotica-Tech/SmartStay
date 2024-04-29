@@ -11,7 +11,7 @@ import CryptoJS from "crypto-js";
 function InvoiceSettings() {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    console.log("state for invoice", state)
+    console.log("state for invoice settings", state)
 
 
 
@@ -81,7 +81,7 @@ function InvoiceSettings() {
         })
         setPrefix('')
         setStartNumber('')
-        // dispatch({ type: 'HOSTELLIST' });
+
 
     }
 

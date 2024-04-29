@@ -1,8 +1,9 @@
 import AxiosConfig from "../../WebService/AxiosConfig"
 
 
-export async function compliance() {
-    return await AxiosConfig.get('/compliance/compliance-list',{
+export async function compliance(compliance) {
+    return await AxiosConfig.post('/compliance/compliance-list',compliance,{
+      data:compliance
     })
   }
 
