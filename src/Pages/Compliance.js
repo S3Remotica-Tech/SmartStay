@@ -129,32 +129,22 @@ dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
 
 
 const currentItems = [];
-let remainingItems = itemsPerPage; // Initialize remaining items to itemsPerPage
-let startIndex = (currentPage - 1) * itemsPerPage; // Calculate the start index for the current page
-
-
-
-// Iterate over each inner array
+let remainingItems = itemsPerPage; 
+let startIndex = (currentPage - 1) * itemsPerPage; 
 for (const innerArray of data) {
-  // If there are no remaining items needed, break the loop
-  if (remainingItems <= 0) break;
-
-  // Slice the inner array to get items for the current page
+   if (remainingItems <= 0) break;
   let slicedArray;
   if (startIndex < innerArray.length) {
     slicedArray = innerArray.slice(startIndex, startIndex + remainingItems);
   } else {
-    // If the startIndex is beyond the length of the inner array, move to the next inner array
-    startIndex -= innerArray.length;
+        startIndex -= innerArray.length;
     continue;
   }
+ currentItems.push(...slicedArray);
 
-  // Concatenate the sliced array to the current items
-  currentItems.push(...slicedArray);
-
-  // Update the remaining items
+ 
   remainingItems -= slicedArray.length;
-  startIndex = 0; // Reset the start index for subsequent inner arrays
+  startIndex = 0; 
 }
 
 
@@ -167,7 +157,6 @@ console.log("Current Items:", currentItems);
     
     
 
-console.log("data compliance",data)
 
   const [searchItem, setSearchItem] = useState('');
   const [searchicon, setSearchicon] = useState(false);

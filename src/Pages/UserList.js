@@ -66,11 +66,59 @@ function UserList() {
   const [filtericon, setFiltericon] = useState(false)
   const [statusfilter, setStatusfilter] = useState('')
   const [EditObj, setEditObj] = useState('')
+
+
   const itemsPerPage = 7;
+
+
+
+  // const indexOfLastItem = currentPage * itemsPerPage;
+
+
+
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  const totalInnerArrayLength = filteredData.reduce((total, innerArray) => {
+    console.log("total *", total);
+    console.log("INNer", innerArray);
+    return total + innerArray.length;
+  }, 0); 
+  
+  const totalPages = Math.ceil(totalInnerArrayLength  / itemsPerPage)
+    console.log("totalPages",totalPages)
+  console.log("Total length of all inner arrays:", totalInnerArrayLength);
+
+
   const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  console.log("indexOfLastItem",indexOfLastItem)
+  const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
+  console.log("indexOfFirstItem",indexOfFirstItem )
+
+
+  const currentItems = [];
+  let remainingItems = itemsPerPage; 
+  let startIndex = (currentPage - 1) * itemsPerPage; 
+  for (const innerArray of filteredData) {
+     if (remainingItems <= 0) break;
+    let slicedArray;
+    if (startIndex < innerArray.length) {
+      slicedArray = innerArray.slice(startIndex, startIndex + remainingItems);
+    } else {
+          startIndex -= innerArray.length;
+      continue;
+    }
+   currentItems.push(...slicedArray);
+  
+   
+    remainingItems -= slicedArray.length;
+    startIndex = 0; 
+  }
+  
+  
+  console.log("Current Items:", currentItems);
+  
   const handleMenuClick = () => {
     setShowForm(true);
     setUserClicked(true);
@@ -116,8 +164,12 @@ function UserList() {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
     if (searchItem != '') {
-      const filteredItems = state.UsersList.Users.filter((user) =>
-        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredItems = state.UsersList.Users.map((user) =>{
+        return user.filter((item)=>{
+          return item.Name.toLowerCase().includes(searchTerm.toLowerCase())
+        })
+      }
+        
       );
 
       setFilteredData(filteredItems);
@@ -142,8 +194,12 @@ function UserList() {
       setFilteredData(state.UsersList.Users)
     }
     else {
-      const filteredItems = state.UsersList.Users.filter((user) =>
-        user.Status.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredItems = state.UsersList.Users.map((user) =>{
+        return user.filter((item)=>{
+          return  item.Status.toLowerCase().includes(searchTerm.toLowerCase())
+        })
+      }
+       
       );
       setFilteredData(filteredItems);
     }
@@ -211,15 +267,32 @@ const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel :
   const [userDetails, setUserDetails] = useState([])
 
   useEffect(() => {
-    const ParticularUserDetails = state.UsersList?.Users?.filter(item =>
-      item.Bed == Bed_Ids &&
-      item.Hostel_Id == Hostel_Ids &&
-      item.Floor == Floor_Ids &&
-      item.Rooms == Number(Rooms_Ids)
-    );
-    setUserDetails(ParticularUserDetails)
-  }, [state.UsersList?.Users,Hostel_Ids,Bed_Ids,Floor_Ids,Rooms_Ids])
+    const ParticularUserDetails = state.UsersList?.Users?.map(item => {
+        return item.filter(view => {
+            return (
+                view.Bed === Bed_Ids &&
+                view.Hostel_Id === Hostel_Ids &&
+                view.Floor === Floor_Ids &&
+                view.Rooms === Number(Rooms_Ids)
+            );
+        });
+    });
 
+    const filteredUserDetails = ParticularUserDetails.filter(details => details.length !== 0);
+
+    setUserDetails(filteredUserDetails);
+    console.log("Filtered ParticularUserDetails:", filteredUserDetails);
+
+    let phone = null;
+    if (filteredUserDetails.length > 0 && filteredUserDetails[0].length > 0) {
+        phone = filteredUserDetails[0][0]?.Phone;
+    }
+    console.log("Phone:", phone);
+
+    if (phone) {
+        filteredDataForUser = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.phoneNo == phone);
+    }
+}, [state.UsersList?.Users, Hostel_Ids, Bed_Ids, Floor_Ids, Rooms_Ids]);
 
 
 
@@ -417,7 +490,9 @@ const getFloorAbbreviation = (floor) => {
        
           </div>
         </div>
-        <div class="table-responsive" style={{ width: "" }} >
+       
+
+        <div style={{ overflowX: "auto",maxWidth: "100%" }}>
         <Table responsive >
             <thead style={{ backgroundColor: "#F6F7FB", fontSize: 10, color: "#91969E" }}>
               <tr >
@@ -440,8 +515,8 @@ const getFloorAbbreviation = (floor) => {
               </tr>
             </thead>
             <tbody className='tablebody'>
-            {currentItems.map((u) => (
-                 u.map((user) => (
+            {currentItems.map((user) => (
+               
     <tr style={{ fontWeight: "700" }}>
       <td>
         <div style={{ display: 'flex', flexDirection: "row" }}>
@@ -475,11 +550,13 @@ const getFloorAbbreviation = (floor) => {
         <img src={img2} className='img1 ms-1' alt="img1" onClick={() => { handleShow(user) }} />
       </td>
     </tr>
-  ))
+  
 ))}
 
             </tbody>
             </Table>
+
+            </div>
 
 
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
@@ -515,7 +592,7 @@ const getFloorAbbreviation = (floor) => {
               </div>
             </div>
           </div>
-        </div>
+       
 
 
 
@@ -525,7 +602,10 @@ const getFloorAbbreviation = (floor) => {
       {
         roomDetail && (
           <>
-            {userDetails && userDetails.map((item, index) => (
+            {userDetails && userDetails.map((view, index) => (
+              view.map((item)=> (
+
+            
 
               <div class="row d-flex g-0">
                 <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12 p-2" style={{ borderRight: "1px solid lightgray" }}>
@@ -659,10 +739,7 @@ const getFloorAbbreviation = (floor) => {
 
                   </div>
 
-                  {console.log("filteredDataForUser", filteredDataForUser = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.phoneNo == item.Phone))}
-                   { console.log("filteredDataForUserPhone", filteredDataForUser.map(user => user.phoneNo))}
-
-                  {console.log("filteredDatas", filteredDatas)}
+                 
 
                   <Table responsive>
                     <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
@@ -670,7 +747,7 @@ const getFloorAbbreviation = (floor) => {
                         <th>Date</th>
                         <th>Invoices#</th>
                         <th>Amount</th>
-                        <th>Balance Due</th>
+                        {/* <th>Balance Due</th> */}
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
@@ -681,7 +758,7 @@ const getFloorAbbreviation = (floor) => {
                          <td>{new Date(view.Date).toLocaleDateString('en-GB')}</td>
                          <td>{view.Invoices}</td>
                          <td>₹{view.Amount}</td>
-                         <td>₹{view.BalanceDue}</td>
+                         {/* <td>₹{view.BalanceDue}</td> */}
                          <td style={view.Status === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.Status}</td>
                          <td
                            className="justify-content-between"
@@ -693,7 +770,7 @@ const getFloorAbbreviation = (floor) => {
                          </td>
                        </tr>
                       ))}
-                      {filteredDataForUser.length === 0 && (
+                      {filteredDatas.length === 0 && (
                         <tr>
                           <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
                         </tr>
@@ -786,7 +863,7 @@ const getFloorAbbreviation = (floor) => {
 
                 </div>
               </div>
-
+  ))
             ))}
 
 
