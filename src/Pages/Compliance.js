@@ -99,25 +99,23 @@ dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
 
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
-  
-
-  
+    
 
     const totalInnerArrayLength = data.reduce((total, innerArray) => {
-      console.log("total *", total);
-      console.log("INNer", innerArray);
+      // console.log("total *", total);
+      // console.log("INNer", innerArray);
       return total + innerArray.length;
     }, 0); 
     
     const totalPages = Math.ceil(totalInnerArrayLength  / itemsPerPage)
-      console.log("totalPages",totalPages)
-    console.log("Total length of all inner arrays:", totalInnerArrayLength);
+    //   console.log("totalPages",totalPages)
+    // console.log("Total length of all inner arrays:", totalInnerArrayLength);
 
 
     const indexOfLastItem = currentPage * itemsPerPage;
-    console.log("indexOfLastItem",indexOfLastItem)
+    // console.log("indexOfLastItem",indexOfLastItem)
     const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
-    console.log("indexOfFirstItem",indexOfFirstItem )
+    // console.log("indexOfFirstItem",indexOfFirstItem )
 
 
 
@@ -142,13 +140,12 @@ for (const innerArray of data) {
   }
  currentItems.push(...slicedArray);
 
- 
   remainingItems -= slicedArray.length;
   startIndex = 0; 
 }
 
 
-console.log("Current Items:", currentItems);
+
 
 
 

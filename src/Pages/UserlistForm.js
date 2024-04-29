@@ -162,13 +162,31 @@ console.log("setIsActive",isActive)
   const handleRooms = (e) => {
     setRooms(e.target.value);
   }
-  const handleRoomRent = (e) => {
+
+  
+const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     setRoomRent(roomRentValue);
-    const newBalanceDue = AdvanceAmount - roomRentValue;
-    const BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-    setBalanceDue(BalanceDuelength);
+    let newBalanceDue =0 ; 
+    let BalanceDuelength = 0 ;
+
+
+    if(AdvanceAmount <= roomRentValue){
+      newBalanceDue = roomRentValue - AdvanceAmount  ;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(BalanceDuelength);
+         }else if(AdvanceAmount >= roomRentValue) {
+      newBalanceDue = AdvanceAmount - roomRentValue;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(-BalanceDuelength);
+      // - sign
+    }
+      
   }
+
+
+
+
 
 
   const handleBed = (e) => {
@@ -179,8 +197,21 @@ console.log("setIsActive",isActive)
   }
 
   const handleAdvanceAmount = (e) => {
-    setAdvanceAmount(e.target.value)
-    setBalanceDue(RoomRent ? e.target.value - RoomRent : e.target.value);
+    const advanceAmount = e.target.value;
+    setAdvanceAmount(advanceAmount)
+    let newBalanceDue =0 ; 
+    let BalanceDuelength = 0 ;
+ 
+    if(advanceAmount <= RoomRent){
+      newBalanceDue = RoomRent - advanceAmount  ;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(BalanceDuelength);
+         }else if(advanceAmount >= RoomRent) {
+      newBalanceDue = advanceAmount - RoomRent;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(-BalanceDuelength);
+      // - sign
+    }
   }
 
 

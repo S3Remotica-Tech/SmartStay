@@ -56,12 +56,12 @@ if (LoginDetails) {
 
   const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == LoginId ))
 
-console.log("IsEnableCheckState",IsEnableCheckState)
+// console.log("IsEnableCheckState",IsEnableCheckState)
 
 let is_Enable = IsEnableCheckState[0].isEnable
 
 
-console.log("is_Enable",is_Enable)
+// console.log("is_Enable",is_Enable)
 
   const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
   const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();

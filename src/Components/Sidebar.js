@@ -90,35 +90,35 @@ function Sidebar() {
   }, []);
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    console.log("executed")
-    const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-    const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-    const parsedData = decryptedString;
-
-
-    const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == parsedData))
-
-    console.log("IsEnableCheckState", IsEnableCheckState)
-
-    const is_Enable = IsEnableCheckState[0]?.isEnable
-
-    console.log("is_Enable sidebar", is_Enable)
-
-    if (is_Enable == 1) {
-      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
-      console.log("encryptData", encryptData.toString());
-      localStorage.setItem("login", encryptData.toString());
-    } else {
-      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
-      console.log("encryptData", encryptData.toString());
-      localStorage.setItem("login", encryptData.toString());
-
-    }
+  //   console.log("executed")
+  //   const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+  //   const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+  //   const parsedData = decryptedString;
 
 
-  }, [state.createAccount.accountList, LoginId])
+  //   const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == parsedData))
+
+  //   console.log("IsEnableCheckState", IsEnableCheckState)
+
+  //   const is_Enable = IsEnableCheckState[0]?.isEnable
+
+  //   console.log("is_Enable sidebar", is_Enable)
+
+  //   if (is_Enable == 1) {
+  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
+  //     console.log("encryptData", encryptData.toString());
+  //     localStorage.setItem("login", encryptData.toString());
+  //   } else {
+  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
+  //     console.log("encryptData", encryptData.toString());
+  //     localStorage.setItem("login", encryptData.toString());
+
+  //   }
+
+
+  // }, [state.createAccount.accountList, LoginId])
 
 
 
