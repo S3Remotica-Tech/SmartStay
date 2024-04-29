@@ -69,17 +69,7 @@ function UserList() {
 
 
   const itemsPerPage = 7;
-
-
-
-  // const indexOfLastItem = currentPage * itemsPerPage;
-
-
-
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
+ 
   const totalInnerArrayLength = filteredData.reduce((total, innerArray) => {
     console.log("total *", total);
     console.log("INNer", innerArray);
@@ -87,14 +77,14 @@ function UserList() {
   }, 0); 
   
   const totalPages = Math.ceil(totalInnerArrayLength  / itemsPerPage)
-    console.log("totalPages",totalPages)
-  console.log("Total length of all inner arrays:", totalInnerArrayLength);
+  //   console.log("totalPages",totalPages)
+  // console.log("Total length of all inner arrays:", totalInnerArrayLength);
 
 
   const indexOfLastItem = currentPage * itemsPerPage;
-  console.log("indexOfLastItem",indexOfLastItem)
+  // console.log("indexOfLastItem",indexOfLastItem)
   const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
-  console.log("indexOfFirstItem",indexOfFirstItem )
+  // console.log("indexOfFirstItem",indexOfFirstItem )
 
 
   const currentItems = [];
@@ -117,7 +107,7 @@ function UserList() {
   }
   
   
-  console.log("Current Items:", currentItems);
+  // console.log("Current Items:", currentItems);
   
   const handleMenuClick = () => {
     setShowForm(true);
@@ -281,7 +271,7 @@ const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel :
     const filteredUserDetails = ParticularUserDetails.filter(details => details.length !== 0);
 
     setUserDetails(filteredUserDetails);
-    console.log("Filtered ParticularUserDetails:", filteredUserDetails);
+    // console.log("Filtered ParticularUserDetails:", filteredUserDetails);
 
     let phone = null;
     if (filteredUserDetails.length > 0 && filteredUserDetails[0].length > 0) {
