@@ -5,7 +5,7 @@ import Logo from '../Assets/Images/Logo-Icon.png'
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import Roombased from './EB_RoomBased';
-import CryptoJS from "crypto-js";
+// import CryptoJS from "crypto-js";
 
 
 function EB_Hostel() {
@@ -21,22 +21,22 @@ function EB_Hostel() {
   // }, [])
 
 
-  const loginId = localStorage.getItem('loginId');
-  useEffect(() => {
-    if (loginId) {
-      try {
-        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-        console.log('Decrypted Login Id:', decryptedIdString);
-        const parsedData = Number(decryptedIdString);
+  // const loginId = localStorage.getItem('loginId');
+  // useEffect(() => {
+  //   if (loginId) {
+  //     try {
+  //       const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+  //       const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+  //       console.log('Decrypted Login Id:', decryptedIdString);
+  //       const parsedData = Number(decryptedIdString);
 
-        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+  //       dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
         
-      } catch (error) {
-        console.error('Error decrypting loginId:', error);
-      }
-    }
-  }, []);
+  //     } catch (error) {
+  //       console.error('Error decrypting loginId:', error);
+  //     }
+  //   }
+  // }, []);
 
 
   // let LoginId = localStorage.getItem("loginId")

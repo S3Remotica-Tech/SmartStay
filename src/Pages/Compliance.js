@@ -183,6 +183,8 @@ console.log("data compliance",data)
 
 
 
+
+
   //  command line
   // useEffect(() => {
   //   dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })

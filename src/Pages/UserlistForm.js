@@ -61,10 +61,10 @@ const [isActive, setIsActive] = useState('')
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch({ type: 'USERLIST' })
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'USERLIST' })
+  //   dispatch({ type: 'HOSTELLIST' })
+  // }, [])
 
   useEffect(() => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
@@ -169,16 +169,22 @@ console.log("setIsActive",isActive)
     const BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
     setBalanceDue(BalanceDuelength);
   }
+
+
   const handleBed = (e) => {
     setBed(e.target.value);
   };
   const handlePaymentType = (e) => {
     setPaymentType(e.target.value)
   }
+
   const handleAdvanceAmount = (e) => {
     setAdvanceAmount(e.target.value)
     setBalanceDue(RoomRent ? e.target.value - RoomRent : e.target.value);
   }
+
+
+
   const handleAadharNo = (e) => {
     setAadharNo(e.target.value)
   }

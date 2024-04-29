@@ -49,10 +49,10 @@ function UserList() {
     }
 
   }, [LoginId])
-  useEffect(() => {
-    // dispatch({ type: 'USERLIST' })
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
+  // useEffect(() => {
+  //   // dispatch({ type: 'USERLIST' })
+  //   dispatch({ type: 'HOSTELLIST' })
+  // }, [])
 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);

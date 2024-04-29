@@ -82,9 +82,9 @@ function BedDetails(props) {
   useEffect(() => {
     dispatch({ type: 'USERLIST' })
   }, [])
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'HOSTELLIST' })
+  // }, [])
   const handleMenuClick = () => {
     setShowForm(true);
     setUserClicked(true);

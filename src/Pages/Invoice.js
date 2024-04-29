@@ -168,9 +168,9 @@ if(pdfWindow){
 
 
 
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'HOSTELLIST' })
+  // }, [])
 
   useEffect(() => {
     dispatch({ type: 'INVOICELIST' })
