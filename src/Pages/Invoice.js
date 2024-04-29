@@ -163,9 +163,9 @@ const InvoicePage = () => {
 
 
 
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'HOSTELLIST' })
+  // }, [])
 
   useEffect(() => {
     dispatch({ type: 'INVOICELIST' })

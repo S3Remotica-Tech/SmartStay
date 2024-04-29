@@ -63,7 +63,7 @@ function InvoiceDetail(props) {
         dispatch({ type: 'BILLPAYMENTHISTORY' })
     }, [])
     useEffect(() => {
-        dispatch({ type: 'HOSTELLIST' })
+        // dispatch({ type: 'HOSTELLIST' })
         const selectedHostelName =  state.UsersList.hostelList.filter((item) => { 
             return item.Name === props.sendInvoiceDetail.Hostel_Name});
             setHostetName(selectedHostelName)

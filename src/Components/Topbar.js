@@ -17,9 +17,9 @@ import Men from '../Assets/Images/men.jpg';
 function NavScrollExample() {
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch({ type: 'HOSTELLIST' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'HOSTELLIST' })
+  // }, [])
   const state = useSelector((state) => state);
   console.log("state for topbar",state);
   const LoginId = localStorage.getItem("loginId")

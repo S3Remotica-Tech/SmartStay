@@ -84,7 +84,7 @@ function PgList() {
   ]);
 
 
-  // const LoginId = localStorage.getItem("loginId")
+  const LoginId = localStorage.getItem("loginId")
 
   // const [filterhostellist,setFilterhostellist] = useState([]);
   // const [filterlogo,setFilterlogo] = useState([]);
@@ -166,7 +166,12 @@ function PgList() {
 
   useEffect(()=>{
     if (state.UsersList.createFloorMessage) {
-        dispatch({ type: 'HOSTELLIST' })
+
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = Number(decryptedString);
+        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+        // dispatch({ type: 'HOSTELLIST' })
 
 
       setTimeout(() => {
@@ -178,7 +183,10 @@ function PgList() {
 
 useEffect(()=>{
 if(state.PgList.createPGMessage){
-  dispatch({ type: 'HOSTELLIST' })
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = Number(decryptedString);
+        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
  setTimeout(() => {
   dispatch({type:'AFTER_CREATE_PG_MSG',message:null})
  }, 100);
@@ -231,22 +239,22 @@ const[decrypt, setDecrypt] = useState('')
 console.log("decrypt",decrypt)
 
  
-const loginId = localStorage.getItem('loginId');
-  useEffect(() => {
-    if (loginId) {
-      try {
-        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-        console.log('Decrypted Login Id:', decryptedIdString);
-        const parsedData = Number(decryptedIdString);
+// const loginId = localStorage.getItem('loginId');
+//   useEffect(() => {
+//     if (loginId) {
+//       try {
+//         const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+//         const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+//         console.log('Decrypted Login Id:', decryptedIdString);
+//         const parsedData = Number(decryptedIdString);
 
-        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
-        setDecrypt(decryptedIdString);
-      } catch (error) {
-        console.error('Error decrypting loginId:', error);
-      }
-    }
-  }, []); 
+//         dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+//         setDecrypt(decryptedIdString);
+//       } catch (error) {
+//         console.error('Error decrypting loginId:', error);
+//       }
+//     }
+//   }, []); 
 
 
 
