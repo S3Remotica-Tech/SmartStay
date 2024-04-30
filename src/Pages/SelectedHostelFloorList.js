@@ -63,7 +63,7 @@ function SelectedHostelFloorList(props) {
 
 
 
-      console.log("props",props);
+
 
   return (
     <div className="col-lg-1 col-md-2 col-sm-2 col-xs-12 col-12 " style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >

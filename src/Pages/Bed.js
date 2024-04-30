@@ -12,7 +12,7 @@ import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import Swal from 'sweetalert2';
 import Profile from '../Assets/Images/Profile.jpg';
-
+import CryptoJS from "crypto-js";
 
 
 
@@ -69,7 +69,7 @@ function BedDetails(props) {
 
   const state = useSelector(state => state);
 
-  // console.log("state for Bed", state)
+  console.log("state for Bed", state)
 
 
   const [bed, setBed] = useState();
@@ -79,12 +79,8 @@ function BedDetails(props) {
   const [isUserClicked, setUserClicked] = useState(true);
   const [file, setFile] = useState(null)
 
-  useEffect(() => {
-    dispatch({ type: 'USERLIST' })
-  }, [])
-  // useEffect(() => {
-  //   dispatch({ type: 'HOSTELLIST' })
-  // }, [])
+  
+  
   const handleMenuClick = () => {
     setShowForm(true);
     setUserClicked(true);
@@ -284,10 +280,10 @@ function BedDetails(props) {
     const filteredData = state.PgList?.roomCount && state.PgList?.roomCount
       .flatMap(array => array)
       .filter(item => {
-        console.log("item.Hostel_Id:", item.Hostel_Id);
-        console.log("Hostel_Id:", Hostel_Id);
-        console.log("item.Floor_Id:", item.Floor_Id);
-        console.log("floorId:", floorId);
+        // console.log("item.Hostel_Id:", item.Hostel_Id);
+        // console.log("Hostel_Id:", Hostel_Id);
+        // console.log("item.Floor_Id:", item.Floor_Id);
+        // console.log("floorId:", floorId);
 
         return item.Hostel_Id === Hostel_Id && item.Floor_Id === floorId && item.Room_Id == roomId;
       });
@@ -353,11 +349,24 @@ function BedDetails(props) {
 
   }
 
+
+  const LoginId = localStorage.getItem("loginId")
+
   useEffect(() => {
-    dispatch({ type: 'USERLIST' })
+    if (LoginId) {
+      try{
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = Number(decryptedIdString);
+              dispatch({ type: 'USERLIST', payload:{loginId:parsedData} })
+            }
+      
+        catch(error){
+       console.log("Error decrypting loginid",error);
+        }
+    }
+
   }, [])
-
-
 
 
 
@@ -411,7 +420,7 @@ function BedDetails(props) {
         confirmButtonText: 'Ok',
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch({ type: 'USERLIST' });
+         
           setFirstname('');
           setLastname('');
           setAddress('');
@@ -436,15 +445,6 @@ function BedDetails(props) {
       });
     }
   };
-
-
-
-
-
-
-
-
-
 
   return (
     <>

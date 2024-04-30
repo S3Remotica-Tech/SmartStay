@@ -18,6 +18,7 @@ import Nav from 'react-bootstrap/Nav';
 import '../Pages/RoomDetails.css'
 import Plus from '../Assets/Images/Create-button.png';
 import UserBedDetailsEdit from '../Pages/UserBedDetailEdit';
+import CryptoJS from "crypto-js";
 
 function UserBedDetails(props) {
   const dispatch = useDispatch();
@@ -131,7 +132,7 @@ function UserBedDetails(props) {
 
 
   let BillPayementHistoryForUser = []
-  let filteredDataForUser = []
+
 
 
 
@@ -166,7 +167,7 @@ function UserBedDetails(props) {
       setFilteredDatas(filteredData);
       console.log("filteredDatas", filteredDatas);
     }
-  }, [filterByStatus, filterByInvoice,state.InvoiceList?.Invoice]);
+  }, [filterByStatus, filterByInvoice, state.InvoiceList?.Invoice]);
 
   const handleCreateBedDetails = () => {
     props.showCreateBed(true)
@@ -233,6 +234,9 @@ function UserBedDetails(props) {
   console.log("bedDetailsForUser.Rooms_Id", Rooms_Id)
 
   const [userDetailForUser, setUserDetailsForUser] = useState([])
+  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
+
+  console.log("userDetailForUse", userDetailForUser)
 
   useEffect(() => {
     const ParticularUserDetails = state.UsersList?.Users?.filter(item =>
@@ -241,13 +245,52 @@ function UserBedDetails(props) {
       item.Floor == Floor_Id &&
       item.Rooms == Number(Rooms_Id)
     );
-    setUserDetailsForUser(ParticularUserDetails)
-  }, [state.UsersList?.Users, Hostel_Id, Bed_Id, Floor_Id, Rooms_Id])
 
+console.log("ParticularUserDetails ",ParticularUserDetails )
+
+    setUserDetailsForUser(ParticularUserDetails)
+
+    let User_Id = null;
+    if (ParticularUserDetails.length > 0) {
+      User_Id = ParticularUserDetails[0]?.User_Id;
+    }
+    console.log("User_Id", User_Id);
+
+    if (User_Id) {
+      const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.User_Id == User_Id);
+      setFilteredDataForUser(filteredData);
+
+    }
+
+    setTimeout(()=>{
+dispatch({ type: 'REMOVE_STATUS_CODE_USER'})
+    },200)
+
+  }, [state.UsersList?.Users,Hostel_Id,Bed_Id,Floor_Id,Rooms_Id,state.UsersList?.statusCodeForAddUser])
+
+
+
+  const LoginId = localStorage.getItem("loginId")
 
   useEffect(() => {
-    dispatch({ type: 'USERLIST' })
-  }, [state.UsersList?.Users, Hostel_Id, Bed_Id, Floor_Id, Rooms_Id])
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      try {
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = Number(decryptedIdString);
+        dispatch({ type: 'USERLIST', payload: { loginId: parsedData } })
+      }
+      catch (error) {
+        console.log("Error decrypting loginid", error);
+      }
+      // setTimeout(() => {
+      //   dispatch({ type: 'CLEAR_STATUS_CODES' })
+      // }, 200)
+    }
+
+  }, [state.UsersList?.statusCodeForAddUser])
+
+
 
 
   return (
@@ -402,14 +445,13 @@ function UserBedDetails(props) {
                 </div>
 
               </div>
-              {console.log("filteredDataForUser", filteredDataForUser = state.InvoiceList?.Invoice.filter(view => view.phoneNo == item.Phone))}
               <Table responsive>
                 <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
                   <tr className="" style={{ height: "30px" }}>
                     <th style={{ color: "gray" }}>Date</th>
                     <th style={{ color: "gray" }}>Invoices#</th>
                     <th style={{ color: "gray" }}>Amount</th>
-                    <th style={{ color: "gray" }}>Balance Due</th>
+                    {/* <th style={{ color: "gray" }}>Balance Due</th> */}
                     <th style={{ color: "gray" }}>Status</th>
                     <th style={{ color: "gray" }}>Action</th>
                   </tr>
@@ -420,7 +462,7 @@ function UserBedDetails(props) {
                       <td>{new Date(view.Date).toLocaleDateString('en-GB')}</td>
                       <td>{view.Invoices}</td>
                       <td>₹{view.Amount}</td>
-                      <td>₹{view.BalanceDue}</td>
+                      {/* <td>₹{view.BalanceDue}</td> */}
                       <td style={view.Status === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.Status}</td>
                       <td
                         className="justify-content-between"

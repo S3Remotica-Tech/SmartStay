@@ -336,7 +336,7 @@ const handleRoomRent = (e) => {
         confirmButtonText: 'Ok',
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch({ type: 'USERLIST' });
+        
           props.AfterEditHostels(hostel_Id)
           props.AfterEditFloors(Floor)
           props.AfterEditRoomses(Rooms)

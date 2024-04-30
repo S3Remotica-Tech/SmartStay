@@ -99,61 +99,10 @@ dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
 
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
-    
-
-    const totalInnerArrayLength = data.reduce((total, innerArray) => {
-      // console.log("total *", total);
-      // console.log("INNer", innerArray);
-      return total + innerArray.length;
-    }, 0); 
-    
-    const totalPages = Math.ceil(totalInnerArrayLength  / itemsPerPage)
-    //   console.log("totalPages",totalPages)
-    // console.log("Total length of all inner arrays:", totalInnerArrayLength);
-
-
-    const indexOfLastItem = currentPage * itemsPerPage;
-    // console.log("indexOfLastItem",indexOfLastItem)
-    const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
-    // console.log("indexOfFirstItem",indexOfFirstItem )
-
-
-
-    // const currentItems = data.map(innerArray =>
-    //   innerArray.slice(indexOfFirstItem, indexOfLastItem)
-    // );
-
-
-
-
-const currentItems = [];
-let remainingItems = itemsPerPage; 
-let startIndex = (currentPage - 1) * itemsPerPage; 
-for (const innerArray of data) {
-   if (remainingItems <= 0) break;
-  let slicedArray;
-  if (startIndex < innerArray.length) {
-    slicedArray = innerArray.slice(startIndex, startIndex + remainingItems);
-  } else {
-        startIndex -= innerArray.length;
-    continue;
-  }
- currentItems.push(...slicedArray);
-
-  remainingItems -= slicedArray.length;
-  startIndex = 0; 
-}
-
-
-
-
-
-
-
-
-    
-    
-
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const [searchItem, setSearchItem] = useState('');
   const [searchicon, setSearchicon] = useState(false);
@@ -206,12 +155,8 @@ for (const innerArray of data) {
       setData(state.ComplianceList.Compliance)
     }
     else {
-      const filteredItems = state.ComplianceList.Compliance.map((user) =>{
-        return user.filter((status)=>{
-          return status.Status.toLowerCase().includes(searchTerm.toLowerCase())
-        })
-      }
-        
+      const filteredItems = state.ComplianceList.Compliance.filter((user) =>
+        user.Status.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setData(filteredItems);
     }
@@ -342,12 +287,8 @@ for (const innerArray of data) {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
     if (searchTerm != '') {
-      const filteredItems = state.ComplianceList.Compliance.map((user) =>{
-        return user.filter((view)=>{
-          return view.Name.toLowerCase().includes(searchTerm.toLowerCase())
-        })
-      }
-        
+      const filteredItems = state.ComplianceList.Compliance.filter((user) =>
+        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
       setData(filteredItems);
@@ -356,6 +297,12 @@ for (const innerArray of data) {
       setData(state.ComplianceList.Compliance)
     }
   }
+
+
+
+
+
+
 
   const handleiconshow = () => {
     setSearchicon(!searchicon)
@@ -397,11 +344,7 @@ for (const innerArray of data) {
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
-      const userIds = state.UsersList?.Users?.map(item => {
-        return item && item.filter(view => {
-          return view.User_Id !== '';
-        });
-      });
+      const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
 
       console.log("userIds", userIds);
       setUsersId(userIds);
@@ -426,9 +369,15 @@ for (const innerArray of data) {
 
   useEffect(() => {
     if (selectedUserId) {
-      const filteredDetails = state.UsersList?.Users.map(item =>
-        item.find(view => view.User_Id === selectedUserId)
-      ).filter(detail => detail !== undefined);
+       const filteredDetails = state.UsersList?.Users.filter(item => 
+        {
+console.log("item.User_Id",item.User_Id)
+console.log("selectedUserId",selectedUserId)
+return  item.User_Id == selectedUserId
+        }
+      )
+
+       
 
       console.log("filteredDetails", filteredDetails);
 
@@ -556,25 +505,21 @@ for (const innerArray of data) {
 {editbtn ? '' : 
                     <div className='col-12 mb-3'>
                       <Form.Label style={{ fontSize: "10px", marginBottom: 5, fontWeight: 600 }}>Select User ID</Form.Label>
-                      <Form.Select
-                        aria-label="Default select example"
-                        style={bottomBorderStyles}
-                        value={selectedUserId}
-                        disabled={editbtn}
-                        onChange={handleUserIdChange}
-                      >
-                        <option>Select User Id</option>
-                        {usersId &&
-                          usersId.map((subArray, index) => (
-                            <React.Fragment key={index}>
-                              {subArray.map((user, subIndex) => (
-                                <option key={subIndex} value={user.id}>
-                                  {user.User_Id}
-                                </option>
-                              ))}
-                            </React.Fragment>
-                          ))}
-                      </Form.Select>
+                      <Form.Select aria-label="Default select example" style={bottomBorderStyles}
+                            value={selectedUserId}
+                            disabled={editbtn}
+                            onChange={handleUserIdChange} >
+                            <option>Select User Id</option>
+                            {
+                             usersId && usersId.map((item) => {
+                                return (
+                                  <>
+                                    <option value={item.User_Id}>{item.User_Id}</option>
+                                  </>
+                                )
+                              })
+                            }
+                          </Form.Select>
 
 
                     </div>
