@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import "./UserList.css";
 import { IoIosSearch } from "react-icons/io";
@@ -33,12 +32,16 @@ function UserList() {
 
   const LoginId = localStorage.getItem("loginId")
 
+  const [loginID, setLoginID] = useState('')
+
+
   useEffect(() => {
     if (LoginId) {
       try{
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedIdString);
+        setLoginID(parsedData)
         dispatch({ type: 'USERLIST', payload:{loginId:parsedData} })
       
       }
@@ -49,10 +52,21 @@ function UserList() {
     }
 
   }, [LoginId])
-  // useEffect(() => {
-  //   // dispatch({ type: 'USERLIST' })
-  //   dispatch({ type: 'HOSTELLIST' })
-  // }, [])
+
+
+
+  useEffect(() => {
+
+    if(state.UsersList.statusCodeForAddUser == 200){
+      dispatch({ type: 'USERLIST', payload:{loginId:loginID } })
+
+      setTimeout(()=>{
+        dispatch({ type: 'CLEAR_STATUS_CODES'})
+        },200)
+    }
+   
+    
+  }, [state.UsersList.statusCodeForAddUser])
 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -69,42 +83,48 @@ function UserList() {
 
 
   const itemsPerPage = 7;
- 
-  const totalInnerArrayLength = filteredData.reduce((total, innerArray) => {
-    console.log("total *", total);
-    console.log("INNer", innerArray);
-    return total + innerArray.length;
-  }, 0); 
-  
-  const totalPages = Math.ceil(totalInnerArrayLength  / itemsPerPage)
-  //   console.log("totalPages",totalPages)
-  // console.log("Total length of all inner arrays:", totalInnerArrayLength);
-
-
   const indexOfLastItem = currentPage * itemsPerPage;
-  // console.log("indexOfLastItem",indexOfLastItem)
-  const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
-  // console.log("indexOfFirstItem",indexOfFirstItem )
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  console.log("currentItems",currentItems)
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+ 
+  // const totalInnerArrayLength = filteredData.reduce((total, innerArray) => {
+  //   console.log("total *", total);
+  //   console.log("INNer", innerArray);
+  //   return total + innerArray.length;
+  // }, 0); 
+  
+  // const totalPages = Math.ceil(totalInnerArrayLength  / itemsPerPage)
+  // //   console.log("totalPages",totalPages)
+  // // console.log("Total length of all inner arrays:", totalInnerArrayLength);
 
 
-  const currentItems = [];
-  let remainingItems = itemsPerPage; 
-  let startIndex = (currentPage - 1) * itemsPerPage; 
-  for (const innerArray of filteredData) {
-     if (remainingItems <= 0) break;
-    let slicedArray;
-    if (startIndex < innerArray.length) {
-      slicedArray = innerArray.slice(startIndex, startIndex + remainingItems);
-    } else {
-          startIndex -= innerArray.length;
-      continue;
-    }
-   currentItems.push(...slicedArray);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // // console.log("indexOfLastItem",indexOfLastItem)
+  // const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
+  // // console.log("indexOfFirstItem",indexOfFirstItem )
+
+
+  // const currentItems = [];
+  // let remainingItems = itemsPerPage; 
+  // let startIndex = (currentPage - 1) * itemsPerPage; 
+  // for (const innerArray of filteredData) {
+  //    if (remainingItems <= 0) break;
+  //   let slicedArray;
+  //   if (startIndex < innerArray.length) {
+  //     slicedArray = innerArray.slice(startIndex, startIndex + remainingItems);
+  //   } else {
+  //         startIndex -= innerArray.length;
+  //     continue;
+  //   }
+  //  currentItems.push(...slicedArray);
   
    
-    remainingItems -= slicedArray.length;
-    startIndex = 0; 
-  }
+  //   remainingItems -= slicedArray.length;
+  //   startIndex = 0; 
+  // }
   
   
   // console.log("Current Items:", currentItems);
@@ -154,12 +174,8 @@ function UserList() {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm)
     if (searchItem != '') {
-      const filteredItems = state.UsersList.Users.map((user) =>{
-        return user.filter((item)=>{
-          return item.Name.toLowerCase().includes(searchTerm.toLowerCase())
-        })
-      }
-        
+      const filteredItems = state.UsersList.Users.filter((user) =>
+        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
       setFilteredData(filteredItems);
@@ -184,12 +200,8 @@ function UserList() {
       setFilteredData(state.UsersList.Users)
     }
     else {
-      const filteredItems = state.UsersList.Users.map((user) =>{
-        return user.filter((item)=>{
-          return  item.Status.toLowerCase().includes(searchTerm.toLowerCase())
-        })
-      }
-       
+      const filteredItems = state.UsersList.Users.filter((user) =>
+        user.Status.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredData(filteredItems);
     }
@@ -253,40 +265,38 @@ const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel :
   const Rooms_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsRooms : rooms_id;
 
 
-
-  const [userDetails, setUserDetails] = useState([])
+  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
+ const [userDetails, setUserDetails] = useState([])
 
   useEffect(() => {
-    const ParticularUserDetails = state.UsersList?.Users?.map(item => {
-        return item.filter(view => {
-            return (
-                view.Bed === Bed_Ids &&
-                view.Hostel_Id === Hostel_Ids &&
-                view.Floor === Floor_Ids &&
-                view.Rooms === Number(Rooms_Ids)
-            );
-        });
-    });
+    const ParticularUserDetails = state.UsersList?.Users?.filter(item =>
+      item.Bed == Bed_Ids &&
+      item.Hostel_Id == Hostel_Ids &&
+      item.Floor == Floor_Ids &&
+      item.Rooms == Number(Rooms_Ids)
+    );
 
-    const filteredUserDetails = ParticularUserDetails.filter(details => details.length !== 0);
+    // const filteredUserDetails = ParticularUserDetails.filter(details => details.length !== 0);
 
-    setUserDetails(filteredUserDetails);
-    // console.log("Filtered ParticularUserDetails:", filteredUserDetails);
+    setUserDetails(ParticularUserDetails);
+    console.log("ParticularUserDetails:", ParticularUserDetails);
 
-    let phone = null;
-    if (filteredUserDetails.length > 0 && filteredUserDetails[0].length > 0) {
-        phone = filteredUserDetails[0][0]?.Phone;
+    let User_Id = null;
+    if (ParticularUserDetails.length > 0) {
+      User_Id = ParticularUserDetails[0]?.User_Id;
     }
-    console.log("Phone:", phone);
+    console.log("User_Id",User_Id);
 
-    if (phone) {
-        filteredDataForUser = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.phoneNo == phone);
-    }
-}, [state.UsersList?.Users, Hostel_Ids, Bed_Ids, Floor_Ids, Rooms_Ids]);
+    if (User_Id) {
+      const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.User_Id == User_Id);
+        setFilteredDataForUser(filteredData);
+    
+      }
+}, [state.UsersList?.Users, Hostel_Ids, Bed_Ids, Floor_Ids, Rooms_Ids,state.InvoiceList?.Invoice]);
 
 
 
-let filteredDataForUser = []
+
 
 
 
@@ -318,7 +328,7 @@ let filteredDataForUser = []
    },[])
 
 
-  
+  console.log("filteredDatas",filteredDatas)
 
 // useEffect(() => {
 //    setFilteredDatas(filteredDataForUser);
@@ -482,7 +492,7 @@ const getFloorAbbreviation = (floor) => {
         </div>
        
 
-        <div style={{ overflowX: "auto",maxWidth: "100%" }}>
+        
         <Table responsive >
             <thead style={{ backgroundColor: "#F6F7FB", fontSize: 10, color: "#91969E" }}>
               <tr >
@@ -546,7 +556,7 @@ const getFloorAbbreviation = (floor) => {
             </tbody>
             </Table>
 
-            </div>
+          
 
 
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
@@ -592,12 +602,8 @@ const getFloorAbbreviation = (floor) => {
       {
         roomDetail && (
           <>
-            {userDetails && userDetails.map((view, index) => (
-              view.map((item)=> (
-
-            
-
-              <div class="row d-flex g-0">
+            {userDetails && userDetails.map((item, index) => (
+                <div class="row d-flex g-0">
                 <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12 p-2" style={{ borderRight: "1px solid lightgray" }}>
                   <div class="row g-0 p-1">
                     <div className='col-lg-2 col-md-12 col-sm-12 col-xs-12'>
@@ -853,7 +859,7 @@ const getFloorAbbreviation = (floor) => {
 
                 </div>
               </div>
-  ))
+  
             ))}
 
 

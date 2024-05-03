@@ -18,6 +18,10 @@ import Nav from 'react-bootstrap/Nav';
 import '../Pages/RoomDetails.css'
 import Plus from '../Assets/Images/Create-button.png';
 import UserBedDetailsEdit from '../Pages/UserBedDetailEdit';
+import CryptoJS from "crypto-js";
+import LoaderComponent from './LoaderComponent';
+
+
 
 function UserBedDetails(props) {
   const dispatch = useDispatch();
@@ -95,9 +99,9 @@ function UserBedDetails(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [search, setSearch] = useState(false)
 
-  useEffect(() => {
-    dispatch({ type: 'BILLPAYMENTHISTORY' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'BILLPAYMENTHISTORY' })
+  // }, [])
 
   const handleFilterByInvoice = (e) => {
     const searchInvoice = e.target.value;
@@ -131,7 +135,7 @@ function UserBedDetails(props) {
 
 
   let BillPayementHistoryForUser = []
-  let filteredDataForUser = []
+
 
 
 
@@ -166,7 +170,7 @@ function UserBedDetails(props) {
       setFilteredDatas(filteredData);
       console.log("filteredDatas", filteredDatas);
     }
-  }, [filterByStatus, filterByInvoice,state.InvoiceList?.Invoice]);
+  }, [filterByStatus, filterByInvoice, state.InvoiceList?.Invoice]);
 
   const handleCreateBedDetails = () => {
     props.showCreateBed(true)
@@ -208,46 +212,133 @@ function UserBedDetails(props) {
 
   const AfterEditFloor = (Floor_ID) => {
     setFloor(Floor_ID)
+    console.log("floor", Floor_ID)
   }
 
   const AfterEditRooms = (room) => {
     setRooms(room)
+    console.log("room", room)
   }
 
   const AfterEditBed = (bedsId) => {
     setBeds(bedsId)
+    console.log("bedsId", bedsId)
   }
 
 
 
+  // console.log(state.UsersList?.statusCodeForAddUser === 200, "state.UsersList?.statusCodeForAddUser === 200")
 
-  const Hostel_Id = state.UsersList?.statusCodeForAddUser === 200 ? hostel : props.Hostel_Id;
-  const Bed_Id = state.UsersList?.statusCodeForAddUser === 200 ? beds : props.userBed_Id;
-  const Floor_Id = state.UsersList?.statusCodeForAddUser === 200 ? floor : props.Floor_Id;
-  const Rooms_Id = state.UsersList?.statusCodeForAddUser === 200 ? rooms : props.Room_Id;
-
-  console.log(state.UsersList?.statusCodeForAddUser === 200, "state.UsersList?.statusCodeForAddUser === 200")
-  console.log("bedDetailsForUser.Hostel_Id", Hostel_Id)
-  console.log("bedDetailsForUser.Bed_Id", Bed_Id)
-  console.log("bedDetailsForUser.Floor_Id ", Floor_Id)
-  console.log("bedDetailsForUser.Rooms_Id", Rooms_Id)
 
   const [userDetailForUser, setUserDetailsForUser] = useState([])
+  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
+
+
+  const [hostelId, setHostelId] = useState(props.Hostel_Id);
+  const [bedId, setBedId] = useState(props.userBed_Id);
+  const [floorId, setFloorId] = useState(props.Floor_Id);
+  const [roomsId, setRoomsId] = useState(props.Room_Id);
+
+
+
+
+  // const Hostel_Id = state.UsersList?.statusCodeForAddUser === 200 ? hostel : props.Hostel_Id;
+  // const Bed_Id = state.UsersList?.statusCodeForAddUser === 200 ? beds : props.userBed_Id;
+  // const Floor_Id = state.UsersList?.statusCodeForAddUser === 200 ? floor : props.Floor_Id;
+  // const Rooms_Id = state.UsersList?.statusCodeForAddUser === 200 ? rooms : props.Room_Id;
+
+  console.log("Selected bed User", hostelId, floorId, roomsId, bedId)
+
+  const [showLoader, setShowLoader] = useState(false)
+
+
 
   useEffect(() => {
-    const ParticularUserDetails = state.UsersList?.Users?.filter(item =>
-      item.Bed == Bed_Id &&
-      item.Hostel_Id == Hostel_Id &&
-      item.Floor == Floor_Id &&
-      item.Rooms == Number(Rooms_Id)
+
+    const ParticularUserDetails = state.UsersList?.Users?.filter(item => {
+
+      console.log("item.Bed == bedId", bedId)
+      console.log("item.Hostel_Id == hostelId &&", hostelId)
+      console.log("item.Floor == floorId", floorId)
+      console.log("item.Rooms == Number(roomsId)", roomsId)
+
+      return item.Bed == bedId &&
+        item.Hostel_Id == hostelId &&
+        item.Floor == floorId &&
+        item.Rooms == Number(roomsId)
+    }
+
     );
-    setUserDetailsForUser(ParticularUserDetails)
-  }, [state.UsersList?.Users, Hostel_Id, Bed_Id, Floor_Id, Rooms_Id])
 
+    console.log("ParticularUserDetails ", ParticularUserDetails)
+
+    setUserDetailsForUser(ParticularUserDetails)
+
+    setShowLoader(true); 
+
+
+    let User_Id = null;
+    if (ParticularUserDetails.length > 0) {
+      User_Id = ParticularUserDetails[0]?.User_Id;
+      setShowLoader(false); 
+
+    }
+    console.log("User_Id", User_Id);
+
+    if (User_Id) {
+      const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.User_Id == User_Id);
+      setFilteredDataForUser(filteredData);
+
+    }
+
+    // setTimeout(()=>{
+    // dispatch({ type: 'REMOVE_STATUS_CODE_USER'})
+    // },2000)
+
+
+  }, [state.UsersList?.Users,hostelId, floorId, roomsId, bedId])
+
+
+
+  const LoginId = localStorage.getItem("loginId")
 
   useEffect(() => {
-    dispatch({ type: 'USERLIST' })
-  }, [state.UsersList?.Users, Hostel_Id, Bed_Id, Floor_Id, Rooms_Id])
+    if (state.UsersList?.statusCodeForAddUser == 200) {
+      try {
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = Number(decryptedIdString);
+        dispatch({ type: 'USERLIST', payload: { loginId: parsedData } })
+      }
+      catch (error) {
+        console.log("Error decrypting loginid", error);
+      }
+      // setHostelId(hostel);
+      // setBedId(beds)
+      // setFloorId(floor)
+      // setRoomsId(rooms)
+    }
+
+  }, [state.UsersList?.statusCodeForAddUser])
+
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      setHostelId(hostel);
+      setBedId(beds);
+      setFloorId(floor);
+      setRoomsId(rooms);
+
+      console.log("h", hostelId)
+      console.log("f", floorId)
+      console.log("r", roomsId)
+      console.log("b", bedId)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODES' })
+      }, 2000)
+    }
+  }, [state.UsersList?.statusCodeForAddUser, hostel, beds, floor, rooms]);
+
+
 
 
   return (
@@ -300,7 +391,7 @@ function UserBedDetails(props) {
                 </div>
                 <div className='col-lg-5 col-md-12 col-sm-12 col-xs-12 d-flex align-items-center '>
                   <div class="d-block ps-1">
-                    <p style={{ fontWeight: "700", textTransform: 'capitalize' }} class="mb-0">{item.Name}</p>
+                    <p style={{ fontWeight: "700", textTransform: '' }} class="mb-0">{item.Name}</p>
                     {/* <button type="button" class="btn btn-light p-1" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>IsActive</button> */}
                     {/* <button type="button" class="btn btn-light p-1 ms-2" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>Delete</button> */}
 
@@ -402,14 +493,13 @@ function UserBedDetails(props) {
                 </div>
 
               </div>
-              {console.log("filteredDataForUser", filteredDataForUser = state.InvoiceList?.Invoice.filter(view => view.phoneNo == item.Phone))}
               <Table responsive>
                 <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
                   <tr className="" style={{ height: "30px" }}>
                     <th style={{ color: "gray" }}>Date</th>
                     <th style={{ color: "gray" }}>Invoices#</th>
                     <th style={{ color: "gray" }}>Amount</th>
-                    <th style={{ color: "gray" }}>Balance Due</th>
+                    {/* <th style={{ color: "gray" }}>Balance Due</th> */}
                     <th style={{ color: "gray" }}>Status</th>
                     <th style={{ color: "gray" }}>Action</th>
                   </tr>
@@ -420,7 +510,7 @@ function UserBedDetails(props) {
                       <td>{new Date(view.Date).toLocaleDateString('en-GB')}</td>
                       <td>{view.Invoices}</td>
                       <td>₹{view.Amount}</td>
-                      <td>₹{view.BalanceDue}</td>
+                      {/* <td>₹{view.BalanceDue}</td> */}
                       <td style={view.Status === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.Status}</td>
                       <td
                         className="justify-content-between"
@@ -516,6 +606,9 @@ function UserBedDetails(props) {
 
         /> : null
       }
+
+
+{showLoader && <LoaderComponent />}
     </div>
   )
 }

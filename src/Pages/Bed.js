@@ -12,7 +12,7 @@ import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import Swal from 'sweetalert2';
 import Profile from '../Assets/Images/Profile.jpg';
-
+import CryptoJS from "crypto-js";
 
 
 
@@ -79,12 +79,8 @@ function BedDetails(props) {
   const [isUserClicked, setUserClicked] = useState(true);
   const [file, setFile] = useState(null)
 
-  useEffect(() => {
-    dispatch({ type: 'USERLIST' })
-  }, [])
-  // useEffect(() => {
-  //   dispatch({ type: 'HOSTELLIST' })
-  // }, [])
+  
+  
   const handleMenuClick = () => {
     setShowForm(true);
     setUserClicked(true);
@@ -185,18 +181,45 @@ function BedDetails(props) {
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     setRoomRent(roomRentValue);
-    const newBalanceDue = AdvanceAmount - roomRentValue;
-    const BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-    setBalanceDue(BalanceDuelength);
+    let newBalanceDue =0 ; 
+    let BalanceDuelength = 0 ;
+
+
+    if(AdvanceAmount <= roomRentValue){
+      newBalanceDue = roomRentValue - AdvanceAmount  ;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(BalanceDuelength);
+         }else if(AdvanceAmount >= roomRentValue) {
+      newBalanceDue = AdvanceAmount - roomRentValue;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(-BalanceDuelength);
+      // - sign
+    }
+      
   }
 
 
   const handlePaymentType = (e) => {
     setPaymentType(e.target.value)
   }
+
+
   const handleAdvanceAmount = (e) => {
-    setAdvanceAmount(e.target.value)
-    setBalanceDue(RoomRent ? e.target.value - RoomRent : e.target.value);
+    const advanceAmount = e.target.value;
+    setAdvanceAmount(advanceAmount)
+    let newBalanceDue =0 ; 
+    let BalanceDuelength = 0 ;
+ 
+    if(advanceAmount <= RoomRent){
+      newBalanceDue = RoomRent - advanceAmount  ;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(BalanceDuelength);
+         }else if(advanceAmount >= RoomRent) {
+      newBalanceDue = advanceAmount - RoomRent;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(-BalanceDuelength);
+      // - sign
+    }
   }
   const handleAddress = (e) => {
     setAddress(e.target.value)
@@ -222,6 +245,8 @@ function BedDetails(props) {
     if (Hostel_Id && floorId && roomId) {
       const selectedHostel = state.UsersList?.hostelList.find(hostel => hostel.id === Hostel_Id);
 
+      console.log("selectedHostel",selectedHostel)
+
       if (selectedHostel) {
         const payload = {
           id: Hostel_Id,
@@ -238,7 +263,7 @@ function BedDetails(props) {
           title: "Number Of beds Updated Successfully",
         }).then((result) => {
           if (result.isConfirmed) {
-            props.bedDetailsSendThePage.Number_Of_Beds = Number(bed);
+            // props.bedDetailsSendThePage.Number_Of_Beds = Number(bed);
           }
         });
         handleCloses();
@@ -278,37 +303,38 @@ function BedDetails(props) {
   })
 
   const [filteredDataForBed, setFilteredDataForBed] = useState('')
+const [NumberOfbeds, setNumberOfBeds] = useState('')
 
+//   console.log("NumberOfbedss",NumberOfbeds)
+
+// console.log("state.PgList.statusCodeCreateRoom === 200",state.PgList.statusCodeCreateRoom === 200)
 
   useEffect(() => {
     const filteredData = state.PgList?.roomCount && state.PgList?.roomCount
       .flatMap(array => array)
       .filter(item => {
-        console.log("item.Hostel_Id:", item.Hostel_Id);
-        console.log("Hostel_Id:", Hostel_Id);
-        console.log("item.Floor_Id:", item.Floor_Id);
-        console.log("floorId:", floorId);
-
-        return item.Hostel_Id === Hostel_Id && item.Floor_Id === floorId && item.Room_Id == roomId;
+        return item.Hostel_Id === Hostel_Id && item.Floor_Id === floorId && item.Room_Id === roomId;
       });
 
-    setFilteredDataForBed(filteredData)
-  }, [state.PgList?.roomCount])
+      //  console.log("filteredData",filteredData)
 
+    if (filteredData.length > 0) {
+      const AfterCreateNumberOfBeds = filteredData[0].Number_Of_Beds;
+      console.log("AfterCreateNumberOfBeds",AfterCreateNumberOfBeds)
+      setNumberOfBeds(AfterCreateNumberOfBeds);
+    }
 
-
-
-
-  const initialNumberOfBeds = filteredDataForBed[0]?.Number_Of_Beds;
-
-  // console.log(" initialNumberOfBeds", initialNumberOfBeds)
-
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' });
+    }, 3000);
+  // }
+}, [state.PgList.statusCodeCreateRoom,state.PgList?.roomCount]);
 
   useEffect(() => {
-    const initialBedNames = [...Array(initialNumberOfBeds).keys()].map(index => `Bed ${index + 1}`);
-
+    const initialBedNames = [...Array(NumberOfbeds).keys()].map(index => `Bed ${index + 1}`);
+console.log("executed")
     setBedName(initialBedNames);
-  }, [initialNumberOfBeds, state.PgList?.roomCount]);
+  }, [NumberOfbeds]);
 
   const handleNumberOfBedChange = (numberOfBeds) => {
     setBed(numberOfBeds);
@@ -353,11 +379,28 @@ function BedDetails(props) {
 
   }
 
+
+  const LoginId = localStorage.getItem("loginId")
+
+const [loginID, setLoginID] = useState('')
+
+
   useEffect(() => {
-    dispatch({ type: 'USERLIST' })
+    if (LoginId) {
+      try{
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = Number(decryptedIdString);
+        setLoginID(parsedData)
+              dispatch({ type: 'USERLIST', payload:{loginId:parsedData} })
+            }
+      
+        catch(error){
+       console.log("Error decrypting loginid",error);
+        }
+    }
+
   }, [])
-
-
 
 
 
@@ -411,7 +454,7 @@ function BedDetails(props) {
         confirmButtonText: 'Ok',
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch({ type: 'USERLIST' });
+         
           setFirstname('');
           setLastname('');
           setAddress('');
@@ -438,14 +481,17 @@ function BedDetails(props) {
   };
 
 
+  useEffect(() => {
 
+    if(state.UsersList.statusCodeForAddUser == 200){
+      dispatch({ type: 'USERLIST', payload:{loginId:loginID } })
 
-
-
-
-
-
-
+      setTimeout(()=>{
+        dispatch({ type: 'CLEAR_STATUS_CODES'})
+        },200)
+    }
+      
+  }, [state.UsersList.statusCodeForAddUser])
   return (
     <>
       <div style={{ width: "100%" }}>

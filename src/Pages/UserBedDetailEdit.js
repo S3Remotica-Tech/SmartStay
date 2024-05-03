@@ -6,6 +6,10 @@ import Profile from '../Assets/Images/Profile.jpg';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 
+
+
+
+
 function UserBedDetailsEdit(props) {
 
   const bottomBorderStyle = {
@@ -16,6 +20,17 @@ function UserBedDetailsEdit(props) {
     fontWeight: 'bold',
     fontSize: "11px",
   };
+
+  const bottomBorderStyles = {
+    border: 'none',
+    borderBottom: '1px solid #ced4da',
+    borderRadius: '0',
+    boxShadow: 'none',
+    fontWeight: 'bold',
+    fontSize: "11px",
+    };
+
+
 
   const [id, setId] = useState('')
   const [file, setFile] = useState(null)
@@ -33,7 +48,7 @@ function UserBedDetailsEdit(props) {
   const [AdvanceAmount, setAdvanceAmount] = useState('')
   const [Address, setAddress] = useState('')
   const [Email, setEmail] = useState('')
-
+  const [isActive, setIsActive] = useState('')
   const [AadharNo, setAadharNo] = useState('')
   const [PancardNo, setPancardNo] = useState('')
   const [licence, setLicence] = useState('')
@@ -110,7 +125,9 @@ function UserBedDetailsEdit(props) {
     setLastname(e.target.value)
   }
 
-
+  const handleIsActiveUser = (e) =>{
+    setIsActive(e.target.value)
+   }
   const handlePhone = (e) => {
     setPhone(e.target.value)
     const pattern = new RegExp(/^\d{1,10}$/);
@@ -157,10 +174,23 @@ function UserBedDetailsEdit(props) {
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     setRoomRent(roomRentValue);
-    const newBalanceDue = AdvanceAmount - roomRentValue;
-    const BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-    setBalanceDue(BalanceDuelength);
+    let newBalanceDue =0 ; 
+    let BalanceDuelength = 0 ;
+
+
+    if(AdvanceAmount <= roomRentValue){
+      newBalanceDue = roomRentValue - AdvanceAmount  ;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(BalanceDuelength);
+         }else if(AdvanceAmount >= roomRentValue) {
+      newBalanceDue = AdvanceAmount - roomRentValue;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(-BalanceDuelength);
+      // - sign
+    }
+      
   }
+
   const handleBed = (e) => {
     setBed(e.target.value);
   };
@@ -168,7 +198,21 @@ function UserBedDetailsEdit(props) {
     setPaymentType(e.target.value)
   }
   const handleAdvanceAmount = (e) => {
-    setAdvanceAmount(e.target.value)
+    const advanceAmount = e.target.value;
+    setAdvanceAmount(advanceAmount)
+    let newBalanceDue =0 ; 
+    let BalanceDuelength = 0 ;
+ 
+    if(advanceAmount <= RoomRent){
+      newBalanceDue = RoomRent - advanceAmount  ;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(BalanceDuelength);
+         }else if(advanceAmount >= RoomRent) {
+      newBalanceDue = advanceAmount - RoomRent;
+      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+      setBalanceDue(-BalanceDuelength);
+      // - sign
+    }
   }
   
   const handleAadharNo = (e) => {
@@ -236,6 +280,7 @@ function UserBedDetailsEdit(props) {
       setRoomRent(props.EditObj.RoomRent);
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
+      setIsActive(props.EditObj.isActive)
     }
     else {
       props.setEdit('Add')
@@ -281,6 +326,7 @@ function UserBedDetailsEdit(props) {
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
           PaymentType: PaymentType,
+          isActive:isActive,
           ID: props.edit === 'Edit' ? id : '',
         },
       });
@@ -291,7 +337,7 @@ function UserBedDetailsEdit(props) {
         confirmButtonText: 'Ok',
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch({ type: 'USERLIST' })
+          
           props.AfterEditHostel(hostel_Id)
           props.AfterEditFloor(Floor)
           props.AfterEditRooms(Rooms)
@@ -325,344 +371,355 @@ function UserBedDetailsEdit(props) {
     }
   };
 
-
-
+  
 
   return (
     <div>
-      <Offcanvas placement="end" show={props.showMenu} onHide={handleClose} style={{ width: "69vh" }}>
-        <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >
-          {props.edit && props.edit === 'Add' ? "Add User" : "EditUser"}
-        </Offcanvas.Title>
-        <Offcanvas.Body>
-          <div class="d-flex flex-row bd-highlight mb-4  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
-            <div class="p-1 bd-highlight user-menu">
-              <ul className={props.showForm ? 'active' : ''} onClick={props.handleMenuClick}  >
-                User Details
-              </ul>
-            </div>
-            <div class="p-1 bd-highlight  user-menu">
-              <ul className={props.showForm ? '' : 'active'}
-                onClick={() => props.setShowForm(false)}
-              >KYC Details</ul>
-            </div>
+     
+
+<Offcanvas placement="end" show={props.showMenu} onHide={handleClose} style={{ width: "69vh" }}>
+
+<Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >
+  {props.edit && props.edit === 'Add' ? "Add User" : "EditUser"}
+</Offcanvas.Title>
+<Offcanvas.Body>
+  <div class="d-flex flex-row bd-highlight mb-4  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
+    <div class="p-1 bd-highlight user-menu">
+      <ul className={props.showForm ? 'active' : ''} onClick={props.handleMenuClick}  >
+        User Details
+      </ul>
+    </div>
+    <div class="p-1 bd-highlight  user-menu">
+      <ul className={props.showForm ? '' : 'active'}
+        onClick={() => props.setShowForm(false)}
+      >KYC Details</ul>
+    </div>
+  </div>
+  {props.showForm ?
+    <div>
+      <p className="mb-1" style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
+      <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
+        {file ? <>
+          <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
+        </> :
+          <img src={Profile} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
+        }
+        <label htmlFor="imageInput" className=''>
+          <img src={Plus} style={{ color: 'blue', position: 'absolute', bottom: '-5px', left: '48%', height: 20, width: 20 }} />
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          className="sr-only"
+          id="imageInput"
+          onChange={handleImageChange}
+          style={{ display: "none" }} />
+      </div>
+      <div className='container' style={{ marginTop: "30px" }}>
+        <div className='row' >
+          <div className='col lg-6'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px" }}>First Name</Form.Label>
+              <FormControl
+                id="form-controls"
+                type="text"
+                value={firstname} onChange={(e) => handleFirstName(e)}
+                style={bottomBorderStyle}
+              />
+            </Form.Group>
           </div>
-          {props.showForm ?
-            <div>
-              <p className="mb-1" style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
-              <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
-                {file ? <>
-                  <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
-                </> :
-                  <img src={Profile} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
-                }
-                <label htmlFor="imageInput" className=''>
-                  <img src={Plus} style={{ color: 'blue', position: 'absolute', bottom: '-5px', left: '48%', height: 20, width: 20 }} />
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  className="sr-only"
-                  id="imageInput"
-                  onChange={handleImageChange}
-                  style={{ display: "none" }} />
-              </div>
-              <div className='container' style={{ marginTop: "30px" }}>
-                <div className='row' >
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>First Name</Form.Label>
-                      <FormControl
-                        id="form-controls"
-                        type="text"
-                        value={firstname} onChange={(e) => handleFirstName(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Last Name</Form.Label>
-                      <FormControl
-                        type="text"
-                        id="form-controls"
-                        value={lastname} onChange={(e) => handleLastName(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-                <div className='row'>
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
-                      <FormControl
-                        type="phone"
-                        id="form-controls"
-                        maxLength={10}
-                        value={Phone} onChange={(e) => handlePhone(e)}
-                        style={bottomBorderStyle}
-                      />
-                      <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                    </Form.Group>
-                  </div>
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Email Id</Form.Label>
-                      <FormControl
-                        type="text"
-                        id="form-controls"
-                        value={Email} onChange={(e) => handleEmail(e)}
-                        style={bottomBorderStyle}
-                      />
-                      <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                    </Form.Group>
-                  </div>
-                </div>
-                <div className='row'>
-                  <div className='col lg-12'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Address</Form.Label>
-                      <FormControl
-                        type="sr-only"
+          <div className='col lg-6'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px" }}>Last Name</Form.Label>
+              <FormControl
+                type="text"
+                id="form-controls"
+                value={lastname} onChange={(e) => handleLastName(e)}
+                style={bottomBorderStyle}
+              />
+            </Form.Group>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col lg-6'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
+              <FormControl
+                type="phone"
+                id="form-controls"
+                maxLength={10}
+                value={Phone} onChange={(e) => handlePhone(e)}
+                style={bottomBorderStyle}
+              />
+              <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+            </Form.Group>
+          </div>
+          <div className='col lg-6'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px" }}>Email Id</Form.Label>
+              <FormControl
+                type="text"
+                id="form-controls"
+                value={Email} onChange={(e) => handleEmail(e)}
+                style={bottomBorderStyle}
+              />
+              <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+            </Form.Group>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col lg-12'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px" }}>Address</Form.Label>
+              <FormControl
+                type="text"
+                id="form-controls"
+                value={Address} onChange={(e) => handleAddress(e)}
+                style={bottomBorderStyle}
+              />
+            </Form.Group>
+          </div>
+        </div>
+        <div className='row mb-3'>
+          <div className='col-lg-12'>
+            <Form.Label style={{ fontSize: "12px" }}>Select PG</Form.Label>
+            <Form.Select aria-label="Default select example"
+              style={bottomBorderStyles}
+              id="form-selects"
+              value={hostel_Id} onChange={(e) => handleHostelId(e)}>
+              <option>Select hostel</option>
+              {
+                state.UsersList?.hostelList?.map((item) => {
+                  return (
+                    <>
 
-                        id="form-controls"
-                        value={Address} onChange={(e) => handleAddress(e)}
-                        style={bottomBorderStyle}
-                        readOnly
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-                <div className='row mb-3'>
-                  <div className='col-lg-12'>
-                    <Form.Label style={{ fontSize: "12px" }}>Select PG</Form.Label>
-                    <Form.Select aria-label="Default select example"
-                      style={bottomBorderStyle}
-                      id="form-selects"
-                      value={hostel_Id} onChange={(e) => handleHostelId(e)}>
-                      <option>Select hostel</option>
-                      {
-                        state.UsersList?.hostelList?.map((item) => {
-                          return (
-                            <>
+                      <option key={item.id} value={item.id}>{item.Name}</option>
+                    </>
+                  )
+                })
+              }
 
-                              <option key={item.id} value={item.id}>{item.Name}</option>
-                            </>
-                          )
-                        })
-                      }
-
-                    </Form.Select>
-                  </div>
-                </div>
-                <div className='row mb-3'>
-                  <div className='col-lg-6'>
-                    <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
-                    <Form.Select aria-label="Default select example"
-                      style={bottomBorderStyle}
-                      id="form-selects"
-                      value={Floor} onChange={(e) => handleFloor(e)}>
-                      <option>Selected Floor</option>
+            </Form.Select>
+          </div>
+        </div>
+        <div className='row mb-3'>
+          <div className='col-lg-6'>
+            <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
+            <Form.Select aria-label="Default select example"
+              style={bottomBorderStyles}
+              id="form-selects"
+              value={Floor} onChange={(e) => handleFloor(e)}>
+              <option>Selected Floor</option>
 
 
-                      {state.UsersList?.hosteldetailslist
-                        ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id == item.Floor_Id) == index)
-                        .map((u) => (
-                          <option key={u.Floor_Id} >
-                            {u.Floor_Id}
-                          </option>
-                        ))}
-                    </Form.Select>
-                  </div>
-                  <div className='col-lg-6 mt-1'>
-                    <Form.Label style={{ fontSize: '12px' }}>Select Room</Form.Label>
-                    <Form.Select
-                      aria-label='Default select example'
-                      style={bottomBorderStyle}
-                      value={Rooms}
-                      id="form-selects"
-                      onChange={(e) => handleRooms(e)}
-                    >
-                      <option>Selected Room</option>
+              {state.UsersList?.hosteldetailslist
+                ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id == item.Floor_Id) == index)
+                .map((u) => (
+                  <option key={u.Floor_Id} >
+                    {u.Floor_Id}
+                  </option>
+                ))}
+            </Form.Select>
+          </div>
+          <div className='col-lg-6 mt-1'>
+            <Form.Label style={{ fontSize: '12px' }}>Select Room</Form.Label>
+            <Form.Select
+              aria-label='Default select example'
+              style={bottomBorderStyles}
+              value={Rooms}
+              id="form-selects"
+              onChange={(e) => handleRooms(e)}
+            >
+              <option>Selected Room</option>
 
 
-                      {state.UsersList.roomdetails && state.UsersList?.roomdetails.map((item) => {
-                        return (
-                          <>
-                            <option key={item.Room_Id} >
-                              {item.Room_Id}</option>
-                          </>
-                        )
+              {state.UsersList.roomdetails && state.UsersList?.roomdetails.map((item) => {
+                return (
+                  <>
+                    <option key={item.Room_Id} >
+                      {item.Room_Id}</option>
+                  </>
+                )
 
-                      })
-                      }
+              })
+              }
 
 
 
-                    </Form.Select>
-                  </div>
-                  <div className='col-lg-12 mt-3'>
-                    <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>
-                    <Form.Select
-                      aria-label='Default select example'
-                      style={bottomBorderStyle}
-                      value={Bed}
-                      id="form-selects"
+            </Form.Select>
+          </div>
+          <div className='col-lg-12 mt-3'>
+            <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>
+            <Form.Select
+              aria-label='Default select example'
+              style={bottomBorderStyles}
+              value={Bed}
+              id="form-selects"
 
-                      onChange={(e) => handleBed(e)}
-                    >
+              onChange={(e) => handleBed(e)}
+            >
 
-                      <option>Selected Bed</option>
-                      {props.edit === 'Edit' && Bednum && Bednum.Bed && (
-                        <option value={Bednum.Bed} selected>{Bednum.Bed}</option>
-                      )}
-                      {Arrayset.map((item) => (
-                        <option key={item} value={item} >{item}</option>
-                      ))}
-
-
-
-                    </Form.Select>
-
-                  </div>
-
-                </div>
-                <div className='row'>
-                  <div className='col-lg-6'>
-                    <Form.Group className="">
-                      <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Advance Amount</Form.Label>
-                      <FormControl
-                        type="text"
-                        id="form-controls"
-                        value={AdvanceAmount} onChange={(e) => handleAdvanceAmount(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Room Rent (Monthly)</Form.Label>
-                      <FormControl
-                        type="text"
-                        id="form-controls"
-                        value={RoomRent} onChange={(e) => handleRoomRent(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-                <div className='row'>
-                  <div className='col lg-6'>
-                    <Form.Label style={{ fontSize: '12px' }}>PaymentType</Form.Label>
-                    <Form.Select
-                      id="form-selects"
-                      aria-label='Default select example'
-                      style={bottomBorderStyle}
-                      value={PaymentType}
-                      onChange={(e) => handlePaymentType(e)}
-                    >
-                      <option>Selected PaymentType</option>
-                      <option value="Cash">Cash</option>
-                      <option value="Online">Online</option>
-                    </Form.Select>
-
-                  </div>
-                 
-                  <div className='col lg-6'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>BalanceDue:</Form.Label>
-                      <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 8 }}>{BalanceDue}</h1>
+              <option>Selected Bed</option>
+              {props.edit === 'Edit' && Bednum && Bednum.Bed && (
+                <option value={Bednum.Bed} selected>{Bednum.Bed}</option>
+              )}
+              {Arrayset.map((item) => (
+                <option key={item} value={item} >{item}</option>
+              ))}
 
 
-                    </Form.Group>
-                  </div>
-                </div>
 
-              </div>
+            </Form.Select>
 
+          </div>
 
-              <hr />
-              <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
+        </div>
+        <div className='row'>
+          <div className='col-lg-6'>
+            <Form.Group className="">
+              <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Advance Amount</Form.Label>
+              <FormControl
+                type="text"
+                id="form-controls"
+                value={AdvanceAmount} onChange={(e) => handleAdvanceAmount(e)}
+                style={bottomBorderStyle}
+              />
+            </Form.Group>
+          </div>
+          <div className='col lg-6'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Room Rent (Monthly)</Form.Label>
+              <FormControl
+                type="text"
+                id="form-controls"
+                value={RoomRent} onChange={(e) => handleRoomRent(e)}
+                style={bottomBorderStyle}
+              />
+            </Form.Group>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col lg-6'>
+            <Form.Label style={{ fontSize: '12px' }}>PaymentType</Form.Label>
+            <Form.Select
+              id="form-selects"
+              aria-label='Default select example'
+              style={bottomBorderStyles}
+              value={PaymentType}
+              onChange={(e) => handlePaymentType(e)}
+            >
+              <option>Selected PaymentType</option>
+              <option value="Cash">Cash</option>
+              <option value="Online">Online</option>
+            </Form.Select>
 
-                <Button variant="white" size="sm" onClick={handleClose}>
-                  Cancel
-                </Button>
-                <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
-                  onClick={() => props.setShowForm(false)}>
-                  Next
-                </Button>
-              </div>
-            </div>
-            :
-            <div>
-              <div className='container' style={{ marginTop: "30px" }}>
-                <div className='row'>
-                  <div className='col lg-12'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Aadhaar Card Number</Form.Label>
-                      <FormControl
-                        type="text"
-                        value={AadharNo}
-                        onChange={(e) => handleAadharNo(e)}
-                        style={bottomBorderStyle}
-                        maxLength={12}
-                        readOnly
-                        disabled
-                        className=''
-                        pattern="\d*"
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
+          </div>
 
-                <div className='row'>
-                  <div className='col lg-12'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Pan Card Number</Form.Label>
-                      <FormControl
-                        type="text"
-                        readOnly
-                        disabled
-                        value={PancardNo} onChange={(e) => handlePancardNo(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-
-                <div className='row'>
-                  <div className='col lg-12'>
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: "12px" }}>Licence</Form.Label>
-                      <FormControl
-                        type="text"
-                        readOnly
-                        disabled
-                        value={licence} onChange={(e) => handlelicence(e)}
-                        style={bottomBorderStyle}
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-              </div>
-              <hr />
-              <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
-
-                <Button variant="white" size="sm" onClick={handleClose}>
-                  Cancel
-                </Button>
-                <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
-                  {props.edit === 'Add' ? "Save" : "Update"}
-                </Button>
-              </div>
-            </div>
-          }
-        </Offcanvas.Body>
-      </Offcanvas>
+          <div className='col-lg-6'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px" }}>BalanceDue:</Form.Label>
+              <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 8 }}>{BalanceDue}</h1>
 
 
+            </Form.Group>
+          </div>
+          <div className='col-lg-6'>
+          {props.edit === 'Edit' ? <>
+            <Form.Label style={{ fontSize: '12px' }}>Active</Form.Label>
+            <Form.Select
+              aria-label='Default select example'
+              style={bottomBorderStyles}
+              value={isActive}
+              onChange={(e) => handleIsActiveUser(e)}
+            >
+              <option>Selected Type</option>
+              <option value="1">CheckIn</option>
+              <option value="0">CheckOut</option>
+            </Form.Select>
+            </> :
+            null}
+
+          </div>
+        </div>
+
+      </div>
+
+
+      <hr />
+      <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
+
+        <Button variant="white" size="sm" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
+          onClick={() => props.setShowForm(false)}>
+          Next
+        </Button>
+      </div>
+    </div>
+    :
+    <div>
+      <div className='container' style={{ marginTop: "30px" }}>
+        <div className='row'>
+          <div className='col lg-12'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px" }}>Aadhaar Card Number</Form.Label>
+              <FormControl
+                type="text"
+                value={AadharNo}
+                onChange={(e) => handleAadharNo(e)}
+                style={bottomBorderStyle}
+                maxLength={12}
+                disabled={props.edit !== 'Add'}
+                pattern="\d*"
+              />
+            </Form.Group>
+          </div>
+        </div>
+
+        <div className='row'>
+          <div className='col lg-12'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px" }}>Pan Card Number</Form.Label>
+              <FormControl
+                type="text"
+                disabled={props.edit !== 'Add'}
+                value={PancardNo} onChange={(e) => handlePancardNo(e)}
+                style={bottomBorderStyle}
+              />
+            </Form.Group>
+          </div>
+        </div>
+
+        <div className='row'>
+          <div className='col lg-12'>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontSize: "12px" }}>Licence</Form.Label>
+              <FormControl
+                type="text"
+                disabled={props.edit !== 'Add'}
+                value={licence} onChange={(e) => handlelicence(e)}
+                style={bottomBorderStyle}
+              />
+            </Form.Group>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
+
+        <Button variant="white" size="sm" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
+          {props.edit === 'Add' ? "Save" : "Update"}
+        </Button>
+      </div>
+    </div>
+  }
+</Offcanvas.Body>
+</Offcanvas>
     </div>
   )
 }
