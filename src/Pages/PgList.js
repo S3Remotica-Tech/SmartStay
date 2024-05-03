@@ -236,7 +236,7 @@ if(state.PgList.createPGMessage){
 
 const[decrypt, setDecrypt] = useState('')
 
-console.log("decrypt",decrypt)
+
 
  
 
@@ -442,7 +442,7 @@ const [usersBed, setUsersBed] = useState('')
 
 
 
-  console.log("bedDetailsPage", bedDetailsPage)
+ 
 
 const [mouseEnter, setMouseEnter]= useState(false)
 

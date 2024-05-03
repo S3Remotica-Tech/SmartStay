@@ -19,6 +19,9 @@ import '../Pages/RoomDetails.css'
 import Plus from '../Assets/Images/Create-button.png';
 import UserBedDetailsEdit from '../Pages/UserBedDetailEdit';
 import CryptoJS from "crypto-js";
+import LoaderComponent from './LoaderComponent';
+
+
 
 function UserBedDetails(props) {
   const dispatch = useDispatch();
@@ -96,9 +99,9 @@ function UserBedDetails(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [search, setSearch] = useState(false)
 
-  useEffect(() => {
-    dispatch({ type: 'BILLPAYMENTHISTORY' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'BILLPAYMENTHISTORY' })
+  // }, [])
 
   const handleFilterByInvoice = (e) => {
     const searchInvoice = e.target.value;
@@ -209,50 +212,76 @@ function UserBedDetails(props) {
 
   const AfterEditFloor = (Floor_ID) => {
     setFloor(Floor_ID)
+    console.log("floor", Floor_ID)
   }
 
   const AfterEditRooms = (room) => {
     setRooms(room)
+    console.log("room", room)
   }
 
   const AfterEditBed = (bedsId) => {
     setBeds(bedsId)
+    console.log("bedsId", bedsId)
   }
 
 
 
+  // console.log(state.UsersList?.statusCodeForAddUser === 200, "state.UsersList?.statusCodeForAddUser === 200")
 
-  const Hostel_Id = state.UsersList?.statusCodeForAddUser === 200 ? hostel : props.Hostel_Id;
-  const Bed_Id = state.UsersList?.statusCodeForAddUser === 200 ? beds : props.userBed_Id;
-  const Floor_Id = state.UsersList?.statusCodeForAddUser === 200 ? floor : props.Floor_Id;
-  const Rooms_Id = state.UsersList?.statusCodeForAddUser === 200 ? rooms : props.Room_Id;
-
-  console.log(state.UsersList?.statusCodeForAddUser === 200, "state.UsersList?.statusCodeForAddUser === 200")
-  console.log("bedDetailsForUser.Hostel_Id", Hostel_Id)
-  console.log("bedDetailsForUser.Bed_Id", Bed_Id)
-  console.log("bedDetailsForUser.Floor_Id ", Floor_Id)
-  console.log("bedDetailsForUser.Rooms_Id", Rooms_Id)
 
   const [userDetailForUser, setUserDetailsForUser] = useState([])
   const [filteredDataForUser, setFilteredDataForUser] = useState([]);
 
-  console.log("userDetailForUse", userDetailForUser)
+
+  const [hostelId, setHostelId] = useState(props.Hostel_Id);
+  const [bedId, setBedId] = useState(props.userBed_Id);
+  const [floorId, setFloorId] = useState(props.Floor_Id);
+  const [roomsId, setRoomsId] = useState(props.Room_Id);
+
+
+
+
+  // const Hostel_Id = state.UsersList?.statusCodeForAddUser === 200 ? hostel : props.Hostel_Id;
+  // const Bed_Id = state.UsersList?.statusCodeForAddUser === 200 ? beds : props.userBed_Id;
+  // const Floor_Id = state.UsersList?.statusCodeForAddUser === 200 ? floor : props.Floor_Id;
+  // const Rooms_Id = state.UsersList?.statusCodeForAddUser === 200 ? rooms : props.Room_Id;
+
+  console.log("Selected bed User", hostelId, floorId, roomsId, bedId)
+
+  const [showLoader, setShowLoader] = useState(false)
+
+
 
   useEffect(() => {
-    const ParticularUserDetails = state.UsersList?.Users?.filter(item =>
-      item.Bed == Bed_Id &&
-      item.Hostel_Id == Hostel_Id &&
-      item.Floor == Floor_Id &&
-      item.Rooms == Number(Rooms_Id)
+
+    const ParticularUserDetails = state.UsersList?.Users?.filter(item => {
+
+      console.log("item.Bed == bedId", bedId)
+      console.log("item.Hostel_Id == hostelId &&", hostelId)
+      console.log("item.Floor == floorId", floorId)
+      console.log("item.Rooms == Number(roomsId)", roomsId)
+
+      return item.Bed == bedId &&
+        item.Hostel_Id == hostelId &&
+        item.Floor == floorId &&
+        item.Rooms == Number(roomsId)
+    }
+
     );
 
-console.log("ParticularUserDetails ",ParticularUserDetails )
+    console.log("ParticularUserDetails ", ParticularUserDetails)
 
     setUserDetailsForUser(ParticularUserDetails)
+
+    setShowLoader(true); 
+
 
     let User_Id = null;
     if (ParticularUserDetails.length > 0) {
       User_Id = ParticularUserDetails[0]?.User_Id;
+      setShowLoader(false); 
+
     }
     console.log("User_Id", User_Id);
 
@@ -262,18 +291,19 @@ console.log("ParticularUserDetails ",ParticularUserDetails )
 
     }
 
-    setTimeout(()=>{
-dispatch({ type: 'REMOVE_STATUS_CODE_USER'})
-    },200)
+    // setTimeout(()=>{
+    // dispatch({ type: 'REMOVE_STATUS_CODE_USER'})
+    // },2000)
 
-  }, [state.UsersList?.Users,Hostel_Id,Bed_Id,Floor_Id,Rooms_Id,state.UsersList?.statusCodeForAddUser])
+
+  }, [state.UsersList?.Users,hostelId, floorId, roomsId, bedId])
 
 
 
   const LoginId = localStorage.getItem("loginId")
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 200) {
+    if (state.UsersList?.statusCodeForAddUser == 200) {
       try {
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
@@ -283,12 +313,30 @@ dispatch({ type: 'REMOVE_STATUS_CODE_USER'})
       catch (error) {
         console.log("Error decrypting loginid", error);
       }
-      // setTimeout(() => {
-      //   dispatch({ type: 'CLEAR_STATUS_CODES' })
-      // }, 200)
+      // setHostelId(hostel);
+      // setBedId(beds)
+      // setFloorId(floor)
+      // setRoomsId(rooms)
     }
 
   }, [state.UsersList?.statusCodeForAddUser])
+
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      setHostelId(hostel);
+      setBedId(beds);
+      setFloorId(floor);
+      setRoomsId(rooms);
+
+      console.log("h", hostelId)
+      console.log("f", floorId)
+      console.log("r", roomsId)
+      console.log("b", bedId)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODES' })
+      }, 2000)
+    }
+  }, [state.UsersList?.statusCodeForAddUser, hostel, beds, floor, rooms]);
 
 
 
@@ -343,7 +391,7 @@ dispatch({ type: 'REMOVE_STATUS_CODE_USER'})
                 </div>
                 <div className='col-lg-5 col-md-12 col-sm-12 col-xs-12 d-flex align-items-center '>
                   <div class="d-block ps-1">
-                    <p style={{ fontWeight: "700", textTransform: 'capitalize' }} class="mb-0">{item.Name}</p>
+                    <p style={{ fontWeight: "700", textTransform: '' }} class="mb-0">{item.Name}</p>
                     {/* <button type="button" class="btn btn-light p-1" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>IsActive</button> */}
                     {/* <button type="button" class="btn btn-light p-1 ms-2" style={{ color: "#0D99FF", height: "4vh", fontSize: "12px" }}>Delete</button> */}
 
@@ -558,6 +606,9 @@ dispatch({ type: 'REMOVE_STATUS_CODE_USER'})
 
         /> : null
       }
+
+
+{showLoader && <LoaderComponent />}
     </div>
   )
 }
