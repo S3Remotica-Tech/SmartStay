@@ -463,7 +463,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
                 <div className='mt-4 mb-5'>
                   <h6 style={{ fontWeight: 700, textDecorationLine: 'underline' }}>Password Management</h6>
                 </div>
-                <div className='d-flex  justify-content-between mt-2 me-2'>
+                <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Login Two-Step Verification</h6>
                     {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
@@ -483,7 +483,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
                 </div>
 
 
-                <div className='d-flex  justify-content-between me-2'>
+                <div className='d-flex  justify-content-between me-2 mb-3 '>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Email Setup</h6>
                     {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}

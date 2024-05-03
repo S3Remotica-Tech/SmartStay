@@ -25,7 +25,7 @@ const initialState = {
     errorForBed: "",
     errorStatusCode: 0,
     statusCodeCreateRoom:0,
-}
+  }
 const PgListReducer = (state = initialState, action) => {
     console.log("action",action.payload);
     switch (action.type) {

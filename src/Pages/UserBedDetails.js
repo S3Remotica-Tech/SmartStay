@@ -257,10 +257,10 @@ function UserBedDetails(props) {
 
     const ParticularUserDetails = state.UsersList?.Users?.filter(item => {
 
-      console.log("item.Bed == bedId", bedId)
-      console.log("item.Hostel_Id == hostelId &&", hostelId)
-      console.log("item.Floor == floorId", floorId)
-      console.log("item.Rooms == Number(roomsId)", roomsId)
+      // console.log("item.Bed == bedId", bedId)
+      // console.log("item.Hostel_Id == hostelId &&", hostelId)
+      // console.log("item.Floor == floorId", floorId)
+      // console.log("item.Rooms == Number(roomsId)", roomsId)
 
       return item.Bed == bedId &&
         item.Hostel_Id == hostelId &&
@@ -513,12 +513,12 @@ function UserBedDetails(props) {
                       {/* <td>₹{view.BalanceDue}</td> */}
                       <td style={view.Status === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.Status}</td>
                       <td
-                        className="justify-content-between"
+                        className="justify-content-center"
                       >
                         <img src={List} height={20} width={20} alt='List' />
-                        <img
+                        {/* <img
                           className="ms-1"
-                          src={Edits} height={20} width={20} alt='Edits' />
+                          src={Edits} height={20} width={20} alt='Edits' /> */}
                       </td>
                     </tr>
                   ))}
