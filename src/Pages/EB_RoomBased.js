@@ -22,12 +22,12 @@ const EBROOM = (props) => {
 
     useEffect(() => {
         dispatch({ type: 'EBLIST' })
-        // dispatch({ type: 'EB_STARTMETER_LIST' })
+        dispatch({ type: 'EBSTARTMETERLIST' })
     }, [])
+
    
 
     useEffect(() => {
-        // dispatch({ type: 'HOSTELLIST' })
         if (props.hosteldetails.id) {
             dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: props.hosteldetails.id } })
         }
@@ -46,7 +46,7 @@ const EBROOM = (props) => {
     const [amount, setAmount] = useState('');
     const [roomsByFloor, setRoomsByFloor] = useState([]);
     console.log("roomsByFloor", roomsByFloor);
-
+       console.log("RoomId",RoomId);
 
 
 
@@ -76,11 +76,11 @@ const EBROOM = (props) => {
     }
 
     const handleSaveEbBill = () => {
-        if (props.hosteldetails.id && startmeter && endmeter && amount) {
-            dispatch({ type: 'CREATEEB', payload: { Hostel_Id: props.hosteldetails.id, Floor: floorId, Room: RoomId, start_Meter_Reading: startmeter, end_Meter_Reading: endmeter, EbAmount: amount } })
+        if (props.hosteldetails.id  && endmeter && amount) {
+            dispatch({ type: 'CREATEEB', payload: { Hostel_Id: props.hosteldetails.id, Floor: floorId, Room: RoomId,  end_Meter_Reading: endmeter, EbAmount: amount } })
             Swal.fire({
                 icon: "success",
-                title: 'EB Added successfully',
+                title: 'EB Added successfully', 
                 confirmButtonText: "ok"
             }).then((result) => {
                 dispatch({ type: 'CREATEEB' })
@@ -110,8 +110,22 @@ const EBROOM = (props) => {
 
     console.log("Filtered array:", filtervalue);
 
-    // Rest of your component code
 
+
+
+    const [startmeterdata,setStartmeterData]= useState([])
+    console.log("startmeterdata",startmeterdata);
+    // useEffect(() => {
+    //     const filteredstartmeter = state.PgList.EB_startmeterlist.filter(item => item.hostel_Id === props.hosteldetails.id || item.Room == roomsByFloor.Room_Id);
+    //     setStartmeterData(filteredstartmeter);
+    // }, [props.hosteldetails.id, state.PgList.EB_startmeterlist]);
+   
+    useEffect(() => {
+        const filteredstartmeter = state.PgList.EB_startmeterlist.filter(item => item.hostel_Id === props.hosteldetails.id || item.Floor == floorId  && item.Room == RoomId);
+        const lastItem = filteredstartmeter[filteredstartmeter.length - 1]; 
+        setStartmeterData(lastItem);
+    }, [props.hosteldetails.id, state.PgList.EB_startmeterlist,floorId ,RoomId]);
+    
 
 
 
@@ -195,30 +209,33 @@ const EBROOM = (props) => {
 
 
             <div style={{ display: 'flex', flexDirection: 'row' }}>
+            
                 <div className="col-4 mt-2 mb-2 me-4">
                     <label style={{ fontSize: '13px', fontWeight: 700 }}>Start Meter Reading</label>
+                   
                     <Form.Control
-                        placeholder="123-098"
-                        aria-label="Recipient's username"
-                        className='custom-input'
-                        aria-describedby="basic-addon2"
-                        autoFocus
-                        disabled
-                        value={startmeter}
-                        onChange={(e) => handlestartmeter(e)}
-                        style={{
-                            border: "1px solid lightgray",
-                            fontSize: 12,
-                            fontWeight: "530",
-                            opacity: 1,
-                            marginTop: '9px',
-                            borderRadius: "4px",
-                            color: "gray",
-                            '::placeholder': { color: "gray", fontSize: 12 }
-                        }}
-
+                placeholder="123-098"
+                aria-label='Start Meter Reading'
+                className='custom-input'
+                aria-describedby="basic-addon2"
+                autoFocus
+                disabled
+                value={startmeterdata ? startmeterdata.start_Meter_Reading : 0}
+                onChange={(e) => handlestartmeter(e)}
+                style={{
+                    border: "1px solid lightgray",
+                    fontSize: 12,
+                    fontWeight: "530",
+                    opacity: 1,
+                    marginTop: '9px',
+                    borderRadius: "4px",
+                    color: "gray",
+                    '::placeholder': { color: "gray", fontSize: 12 }
+                }}
                     />
+                
                 </div>
+                
 
                 <div className="col-4 mt-2 mb-2">
                     <label style={{ fontSize: '13px', fontWeight: 700 }}>End Meter Reading</label>

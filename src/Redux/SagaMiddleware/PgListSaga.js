@@ -117,7 +117,7 @@ function* handleCheckBedDetails(action){
     yield takeEvery('CHECKEB',handleCheckEB)
     yield takeEvery('CREATEEB',handleCreateEB)
     yield takeEvery('EBLIST',handleCheckEblist)
-    yield takeEvery('EB_STARTMETER_LIST',handleCheckEbStartmeterlist)
+    yield takeEvery('EBSTARTMETERLIST',handleCheckEbStartmeterlist)
     
 }
 export default PgListSaga;
