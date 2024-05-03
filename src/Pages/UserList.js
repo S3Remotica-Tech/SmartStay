@@ -55,18 +55,17 @@ function UserList() {
 
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if(state.UsersList.statusCodeForAddUser == 200){
-      dispatch({ type: 'USERLIST', payload:{loginId:loginID } })
-
-      setTimeout(()=>{
-        dispatch({ type: 'CLEAR_STATUS_CODES'})
-        },200)
-    }
+  //   if(state.UsersList.statusCodeForAddUser == 200){
+     
+  //     // setTimeout(()=>{
+  //     //   dispatch({ type: 'CLEAR_STATUS_CODES'})
+  //     //   },200)
+  //   }
    
     
-  }, [state.UsersList.statusCodeForAddUser])
+  // }, [state.UsersList.statusCodeForAddUser])
 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -86,49 +85,10 @@ function UserList() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  console.log("currentItems",currentItems)
+  
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
  
-  // const totalInnerArrayLength = filteredData.reduce((total, innerArray) => {
-  //   console.log("total *", total);
-  //   console.log("INNer", innerArray);
-  //   return total + innerArray.length;
-  // }, 0); 
-  
-  // const totalPages = Math.ceil(totalInnerArrayLength  / itemsPerPage)
-  // //   console.log("totalPages",totalPages)
-  // // console.log("Total length of all inner arrays:", totalInnerArrayLength);
-
-
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // // console.log("indexOfLastItem",indexOfLastItem)
-  // const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
-  // // console.log("indexOfFirstItem",indexOfFirstItem )
-
-
-  // const currentItems = [];
-  // let remainingItems = itemsPerPage; 
-  // let startIndex = (currentPage - 1) * itemsPerPage; 
-  // for (const innerArray of filteredData) {
-  //    if (remainingItems <= 0) break;
-  //   let slicedArray;
-  //   if (startIndex < innerArray.length) {
-  //     slicedArray = innerArray.slice(startIndex, startIndex + remainingItems);
-  //   } else {
-  //         startIndex -= innerArray.length;
-  //     continue;
-  //   }
-  //  currentItems.push(...slicedArray);
-  
-   
-  //   remainingItems -= slicedArray.length;
-  //   startIndex = 0; 
-  // }
-  
-  
-  // console.log("Current Items:", currentItems);
-  
   const handleMenuClick = () => {
     setShowForm(true);
     setUserClicked(true);
@@ -227,13 +187,18 @@ const handleRoomDetailsPage = (userData,bed,room,floor,hostel_id) => {
   console.log("room:", room);
   console.log("floor:", floor);
   const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
-  sethostel(hostel_id)
-  setFloors_Id(floor)
-  setRoomsId(room)
-  setBed_Id(bed)
+  // sethostel(hostel_id)
+  // setFloors_Id(floor)
+  // setRoomsId(room)
+  // setBed_Id(bed)
+  setHostelIds(hostel_id)
+  setBedIds(bed)
+  setFloorIds(floor)
+  setRoomsIds(room)
   setRoomDetail(true)
   setUserList(false)
   setClickedUserData(clickedUserDataArray);
+  
 }
 
 const [propsHostel, setPropsHostel] = useState('')
@@ -259,21 +224,39 @@ const AfterEditBed = (bedsId) => {
 }
 
 
-const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel : hostel;
-  const Bed_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsBeds : beds_id;
-  const Floor_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsFloor: floors_Id;
-  const Rooms_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsRooms : rooms_id;
+  // const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel : hostel;
+  // const Bed_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsBeds : beds_id;
+  // const Floor_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsFloor: floors_Id;
+  // const Rooms_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsRooms : rooms_id;
 
+
+const [hostelIds, setHostelIds] = useState(hostel);
+const [bedIds, setBedIds] = useState(beds_id);
+const [floorIds, setFloorIds] = useState( floors_Id);
+const [roomsIds, setRoomsIds] = useState(rooms_id);
+
+
+console.log("setHostelIds",hostelIds)
+console.log(" setBedIds",bedIds)
+console.log(" setFloorIds",floorIds)
+console.log("setRoomsIds",roomsIds)
 
   const [filteredDataForUser, setFilteredDataForUser] = useState([]);
  const [userDetails, setUserDetails] = useState([])
 
   useEffect(() => {
-    const ParticularUserDetails = state.UsersList?.Users?.filter(item =>
-      item.Bed == Bed_Ids &&
-      item.Hostel_Id == Hostel_Ids &&
-      item.Floor == Floor_Ids &&
-      item.Rooms == Number(Rooms_Ids)
+    const ParticularUserDetails = state.UsersList?.Users?.filter(item =>{
+
+      console.log("bedId filter", bedIds)
+      console.log(" hostelId", hostelIds)
+      console.log("floorId", floorIds)
+      console.log("Number(roomsId)", roomsIds)
+      return item.Bed == bedIds &&
+      item.Hostel_Id == hostelIds &&
+      item.Floor == floorIds &&
+      item.Rooms == Number(roomsIds)
+    }
+      
     );
 
     // const filteredUserDetails = ParticularUserDetails.filter(details => details.length !== 0);
@@ -292,9 +275,21 @@ const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel :
         setFilteredDataForUser(filteredData);
     
       }
-}, [state.UsersList?.Users, Hostel_Ids, Bed_Ids, Floor_Ids, Rooms_Ids,state.InvoiceList?.Invoice]);
+}, [roomDetail,state.UsersList?.Users,hostelIds,bedIds,floorIds,roomsIds]);
 
 
+useEffect(() => {
+  if (state.UsersList?.statusCodeForAddUser === 200) {
+    dispatch({ type: 'USERLIST', payload:{loginId:loginID } })
+    setHostelIds(propsHostel);
+    setBedIds(propsBeds);
+    setFloorIds(propsFloor);
+    setRoomsIds(propsRooms);
+       setTimeout(() => {
+      dispatch({ type: 'CLEAR_STATUS_CODES' })
+    }, 2000)
+  }
+}, [state.UsersList?.statusCodeForAddUser,propsHostel,propsBeds,propsFloor,propsRooms]);
 
 
 
@@ -308,9 +303,9 @@ const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel :
     setIsOpenTab(!isOpenTab)
   }
 
-  useEffect(() => {
-    dispatch({ type: 'BILLPAYMENTHISTORY' })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: 'BILLPAYMENTHISTORY' })
+  // }, [])
 
   const [filteredDatas, setFilteredDatas] = useState([]);
   const billPaymentHistory = state.UsersList.billPaymentHistory;
@@ -328,7 +323,7 @@ const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel :
    },[])
 
 
-  console.log("filteredDatas",filteredDatas)
+  // console.log("filteredDatas",filteredDatas)
 
 // useEffect(() => {
 //    setFilteredDatas(filteredDataForUser);
@@ -611,7 +606,7 @@ const getFloorAbbreviation = (floor) => {
                     </div>
                     <div className='col-lg-5 col-md-12 col-sm-12 col-xs-12'>
                       <div class="d-block ps-1">
-                        <p style={{ fontWeight: "700", textTransform: 'capitalize' }} class="mb-0">{item.Name}</p>
+                        <p style={{ fontWeight: "700", textTransform: '' }} class="mb-0">{item.Name}</p>
                         <p style={{ fontSize: "10px", padding: "1px", fontWeight: 700 }}>Joining Date:{new Date(item.createdAt).toLocaleDateString('en-GB')}</p>
                       </div>
  
@@ -757,12 +752,12 @@ const getFloorAbbreviation = (floor) => {
                          {/* <td>₹{view.BalanceDue}</td> */}
                          <td style={view.Status === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.Status}</td>
                          <td
-                           className="justify-content-between"
+                           className="justify-content-center"
                          >
                            <img src={List} height={20} width={20} alt='List' />
-                           <img
+                           {/* <img
                              className="ms-1"
-                             src={Edits} height={20} width={20} alt='Edits' />
+                             src={Edits} height={20} width={20} alt='Edits' /> */}
                          </td>
                        </tr>
                       ))}
