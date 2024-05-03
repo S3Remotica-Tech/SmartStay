@@ -20,7 +20,7 @@ function Amenities() {
 
 
     useEffect(() => {
-        // dispatch({ type: 'HOSTELLIST' })
+        
         dispatch({ type: 'AMENITIESLIST' })
         dispatch({ type: 'AMENITIESNAME' })
     }, [])
@@ -48,6 +48,7 @@ function Amenities() {
     }, []);
 
     const [showModal, setShowModal] = useState(false);
+    const [id,setID]= useState('')
     const [amenitiesName, setAmenitiesName] = useState('')
     console.log("amenitiesName",amenitiesName);
     const [amount, setAmount] = useState('')
@@ -108,10 +109,13 @@ function Amenities() {
 
 
     const handleAmenitiesSetting = () => {
-        dispatch({ type: 'AMENITIESSETTINGS', payload: { AmenitiesName: amenitiesName, Amount: amount, setAsDefault: active, Hostel_Id: selectedHostel.id, Status: status ,createdBy:createdby} })
+        dispatch({ type: 'AMENITIESSETTINGS', payload: {id:id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: active, Hostel_Id: selectedHostel.id, Status: status ,createdBy:createdby} })
         setAmenitiesName('')
         setAmount('')
+        setActive('')
+        setStatus('')
         handleCloseModal()
+        
     }
 
     const handleEdit = (item) => {
@@ -120,6 +124,7 @@ function Amenities() {
         setShowModal(true)
         setEdit('EDIT')
         console.log("edit", edit)
+        setID(item.id)
         setAmenitiesName(item.AmenitiesName)
         setAmount(item.Amount)
         setActive(item.setAsDefault)
@@ -134,10 +139,11 @@ function Amenities() {
 useEffect(()=>{
 if(state.InvoiceList?.statusCode === 200){
     dispatch({ type: 'AMENITIESLIST' })
+    setTimeout(()=>{
+        dispatch({type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE'})
+        },100)
    }
-setTimeout(()=>{
-dispatch({type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE'})
-},300)
+
 },[state.InvoiceList?.statusCode])
 
 

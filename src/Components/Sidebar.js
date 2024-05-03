@@ -58,7 +58,8 @@ function Sidebar() {
 
   let navigate = useNavigate();
   const dispatch = useDispatch()
-  const state = useSelector(state => state)
+  const state = useSelector(state => state.UsersList)
+  const stateData = useSelector(state => state.createAccount)
   console.log("state for sidebar", state)
 
 
@@ -72,22 +73,22 @@ function Sidebar() {
   let checkedValue = localStorage.getItem("checked")
 
 
-  const loginId = localStorage.getItem('loginId');
-  useEffect(() => {
-    if (loginId) {
-      try {
-        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-        console.log('Decrypted Login Id:', decryptedIdString);
-        const parsedData = Number(decryptedIdString);
+  // const loginId = localStorage.getItem('loginId');
+  // useEffect(() => {
+  //   if (loginId) {
+  //     try {
+  //       const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+  //       const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+  //       console.log('Decrypted Login Id:', decryptedIdString);
+  //       const parsedData = Number(decryptedIdString);
 
-        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+  //       dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
         
-      } catch (error) {
-        console.error('Error decrypting loginId:', error);
-      }
-    }
-  }, []);
+  //     } catch (error) {
+  //       console.error('Error decrypting loginId:', error);
+  //     }
+  //   }
+  // }, []);
 
 
   // useEffect(() => {
@@ -133,11 +134,11 @@ function Sidebar() {
   const [profiles, setProfiles] = useState('')
   const [profileArray, setProfileArray] = useState('')
 
-  console.log(LoginId, " LoginId *********")
+  console.log(LoginId, " LoginId ***")
   console.log("profiles", profiles)
 
   useEffect(() => {
-    if (LoginId && state.createAccount.accountList) {
+    if (LoginId && stateData.accountList) {
 
 
       try {
@@ -159,7 +160,7 @@ function Sidebar() {
         // setFilterhostellist(filteredList)
 
 
-        const FilteredProfile = state.createAccount.accountList.filter((item => item.id == parsedData));
+        const FilteredProfile = stateData.accountList.filter((item => item.id == parsedData));
 
 
         console.log("sidebar profile", FilteredProfile)
@@ -181,14 +182,14 @@ function Sidebar() {
 
     }
 
-  }, [state.createAccount.accountList, state.UsersList?.hostelList, LoginId, state.createAccount.statusCodeForAccount])
+  }, [stateData.accountList, state.hostelList, LoginId, stateData.statusCodeForAccount])
 
   const [selectedHostel, setSelectedHostel] = useState(null);
   console.log("selectedHostel for sidebar", selectedHostel);
 
   const handleHostelSelect = (hostelName) => {
     console.log("hostelName", hostelName);
-    const selected = state.UsersList.hostelList.find((item) => {
+    const selected = state.hostelList.find((item) => {
       return item.Name === hostelName
     });
     setSelectedHostel(selected);
@@ -209,36 +210,36 @@ function Sidebar() {
     number_Of_Rooms: '',
     floorDetails: []
   })
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      let tempArry = [];
-      for (let i = 0; i < pgList.number_Of_Floor; i++) {
-        var a = {}
-        tempArry.push(a)
-      }
-      setPgList({ ...pgList, floorDetails: tempArry })
-    }, 1000);
-    return () => clearTimeout(timeout)
-  }, [pgList.number_Of_Floor])
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     let tempArry = [];
+  //     for (let i = 0; i < pgList.number_Of_Floor; i++) {
+  //       var a = {}
+  //       tempArry.push(a)
+  //     }
+  //     setPgList({ ...pgList, floorDetails: tempArry })
+  //   }, 1000);
+  //   return () => clearTimeout(timeout)
+  // }, [pgList.number_Of_Floor])
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      let tempArray = [];
-      for (let i = 0; i < pgList.number_Of_Rooms; i++) {
-        let newRoom = {
-          roomNumber: i + 1,
-          number_Of_Bed: ''
-        };
-        tempArray.push(newRoom);
-      }
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     let tempArray = [];
+  //     for (let i = 0; i < pgList.number_Of_Rooms; i++) {
+  //       let newRoom = {
+  //         roomNumber: i + 1,
+  //         number_Of_Bed: ''
+  //       };
+  //       tempArray.push(newRoom);
+  //     }
 
-      setPgList((prevPgList) => ({
-        ...prevPgList,
-        floorDetails: [tempArray],
-      }));
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, [pgList.number_Of_Rooms]);
+  //     setPgList((prevPgList) => ({
+  //       ...prevPgList,
+  //       floorDetails: [tempArray],
+  //     }));
+  //   }, 1000);
+  //   return () => clearTimeout(timeout);
+  // }, [pgList.number_Of_Rooms]);
 
 
 
@@ -296,7 +297,7 @@ function Sidebar() {
   }
 
 
-  console.log("state.login.isLoggedIn", state.login.isLoggedIn)
+  // console.log("state.login.isLoggedIn", stateData.login.isLoggedIn)
 
 
 
@@ -329,7 +330,7 @@ function Sidebar() {
 
               <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ padding: 7, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700, textTransform: "capitalize", borderRadius: "none" }}>
                 <option disabled selected className='p-3' style={{ fontSize: 15, textTransform: "capitalize" }}>Select Hostel</option>
-                {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((obj) => {
+                {state.hostelList.length > 0 && state.hostelList.map((obj) => {
                   return (<>
                     <option style={{ fontSize: 15, textTransform: "capitalize" }}>{obj.Name}</option>
                   </>)

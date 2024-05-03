@@ -5,7 +5,7 @@ import Logo from '../Assets/Images/Logo-Icon.png'
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import Roombased from './EB_RoomBased';
-// import CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js";
 
 
 function EB_Hostel() {
@@ -13,30 +13,30 @@ function EB_Hostel() {
 
 
   const dispatch = useDispatch();
-  const state = useSelector((state) => state);
+  const state = useSelector((state) => state.UsersList);
   console.log("state for EB",state )
 
   // useEffect(() => {
   //   dispatch({ type: 'HOSTELLIST' })
   // }, [])
 
-
-  // const loginId = localStorage.getItem('loginId');
-  // useEffect(() => {
-  //   if (loginId) {
-  //     try {
-  //       const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-  //       const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-  //       console.log('Decrypted Login Id:', decryptedIdString);
-  //       const parsedData = Number(decryptedIdString);
-
-  //       dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+  const [loginid,setLoginid]= useState();
+  const loginId = localStorage.getItem('loginId');
+  useEffect(() => {
+    if (loginId) {
+      try {
+        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+        console.log('Decrypted Login Id:', decryptedIdString);
+        const parsedData = Number(decryptedIdString);
+        setLoginid(parsedData);
+        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
         
-  //     } catch (error) {
-  //       console.error('Error decrypting loginId:', error);
-  //     }
-  //   }
-  // }, []);
+      } catch (error) {
+        console.error('Error decrypting loginId:', error);
+      }
+    }
+  }, []);
 
 
   // let LoginId = localStorage.getItem("loginId")
@@ -107,7 +107,7 @@ function EB_Hostel() {
         <h4 style={{fontSize:16,fontWeight:600}}>EB Plan</h4>
         <p style={{fontSize:13}}>Manage your account settings</p>
       
-        {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((hostel) => (
+        {state.hostelList.length > 0 && state.hostelList.map((hostel) => (
       
         <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12  mt-3'>
        
