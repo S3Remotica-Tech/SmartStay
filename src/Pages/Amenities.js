@@ -122,15 +122,16 @@ function Amenities() {
 
 
     const handleAmenitiesSetting = () => {
+        const setAsDefault = active || false; 
         if (edit === 'EDIT') {
-            dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: active, Status: status, Hostel_Id: selectedHostel.id } })
+            dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: selectedHostel.id } })
             setAmenitiesName('')
             setAmount('')
             setActive('')
             setStatus('')
             handleCloseModal()
         } else {
-            dispatch({ type: 'AMENITIESSETTINGS', payload: { id: id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: active, Hostel_Id: selectedHostel.id, Status: status, createdBy: createdby } })
+            dispatch({ type: 'AMENITIESSETTINGS', payload: { id: id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedHostel.id, Status: status, createdBy: createdby } })
             setAmenitiesName('')
             setAmount('')
             setActive('')
