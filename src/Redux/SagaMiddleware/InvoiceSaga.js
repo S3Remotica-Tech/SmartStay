@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {invoicelist, invoiceList,addInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, GetAmenitiesName,AmenitiesSettings} from "../Action/InvoiceAction"
+import {invoicelist, invoiceList,addInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 
  function* handleinvoicelist (){
@@ -75,7 +75,14 @@ function* handleAmenitiesSettings(action){
      });
 
    }
-   else {
+   else if(response.status === 203){
+      Swal.fire({
+         title: "Amenity already exists for this Hostel",
+         icon: "warning",
+         // timer: 1000,
+     });
+     
+   }else{
       yield put({ type: 'ERROR', payload: response.data.message })
    }
 }
@@ -83,17 +90,24 @@ function* handleAmenitiesSettings(action){
 function* handleGetAmenities() {
    const response = yield call(GetAmenities)
    if (response.status === 200) {
-      yield put({ type: 'AMENITIES_LIST', payload: response.data })
+      yield put({ type: 'AMENITIES_LIST', payload:{response: response.data, statusCode:response.status}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
 }
 
-function* handleGetAmenitiesName() {
-   const response = yield call(GetAmenitiesName)
+function* handleUpdateAmenities(action) {
+   const response = yield call(UpdateAmenities, action.payload)
    if (response.status === 200) {
-      yield put({ type: 'AMENITIES_NAME', payload: response.data })
+      yield put({ type: 'AMENITIES_UPDATE',  payload:{response: response.data, statusCode:response.status} })
+      Swal.fire({
+         title: "Good job!",
+         text: "Amenities Update successfully",
+         icon: "success",
+         timer: 1000,
+     });
+
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -110,6 +124,6 @@ function* InvoiceSaga() {
     yield takeEvery('INVOICEPDF',handleInvoicePdf)
     yield takeEvery('AMENITIESSETTINGS',handleAmenitiesSettings)
     yield takeEvery('AMENITIESLIST',handleGetAmenities)
-    yield takeEvery('AMENITIESNAME',handleGetAmenitiesName)
+    yield takeEvery('AMENITIESUPDATE',handleUpdateAmenities)
 }
 export default InvoiceSaga;

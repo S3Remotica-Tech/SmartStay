@@ -20,10 +20,10 @@ function AmenitiesView(props) {
     return (
         <>
             <tr style={{ fontSize: 13 }}>
-                <td style={{textAlign:'left'}}>
+                {/* <td style={{textAlign:'left'}}>
                     {state.UsersList.hostelList.some((view) => view.id == props.item.Hostel_Id) ? state.UsersList.hostelList.find((view) => view.id == props.item.Hostel_Id).Name : null}
-                </td>
-                <td className='text-center' >{props.item.AmenitiesName}</td>
+                </td> */}
+                <td className='text-center' >{props.item.Amnities_Name}</td>
                 <td >{props.item.Amount}</td>
                 <td ><div className='d-flex justify-content-center align-items-center'>
                     <Form.Check type="switch" id="custom-switch" readOnly checked={props.item.setAsDefault === 1 ? true : false} />

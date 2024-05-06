@@ -20,44 +20,41 @@ function Amenities() {
 
 
     useEffect(() => {
-        
         dispatch({ type: 'AMENITIESLIST' })
-        dispatch({ type: 'AMENITIESNAME' })
     }, [])
 
     console.log("state for Amenities", state)
 
-   
+
     const loginId = localStorage.getItem('loginId');
-    const[createdby,setCreatedby]= useState('')
+    const [createdby, setCreatedby] = useState('')
 
     useEffect(() => {
-      if (loginId) {
-        try {
-          const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-          const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-          console.log('Decrypted Login Id:', decryptedIdString);
-          const parsedData = Number(decryptedIdString);
-          setCreatedby(parsedData)
-          dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
-          
-        } catch (error) {
-          console.error('Error decrypting loginId:', error);
+        if (loginId) {
+            try {
+                const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+                const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+                console.log('Decrypted Login Id:', decryptedIdString);
+                const parsedData = Number(decryptedIdString);
+                setCreatedby(parsedData)
+                dispatch({ type: 'HOSTELLIST', payload: { loginId: parsedData } })
+
+            } catch (error) {
+                console.error('Error decrypting loginId:', error);
+            }
         }
-      }
     }, []);
 
     const [showModal, setShowModal] = useState(false);
-    const [id,setID]= useState('')
+    const [id, setID] = useState('')
     const [amenitiesName, setAmenitiesName] = useState('')
-    console.log("amenitiesName",amenitiesName);
-    const [amount, setAmount] = useState('')
+      const [amount, setAmount] = useState('')
     const [active, setActive] = useState(false)
     const [edit, setEdit] = useState('')
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
     const [status, setStatus] = useState('')
     const [showTable, setShowTable] = useState(false)
-    const [filteredamenities,setFilteredAmenities]= useState([])
+    const [filteredamenities, setFilteredAmenities] = useState([])
 
     const handleHostelChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
@@ -67,20 +64,36 @@ function Amenities() {
             id: e.target.value,
             name: e.target.options[selectedIndex].text
         });
-        const filteredamenities = state.InvoiceList.AmenitiesList.filter(item => item.Hostel_Id == e.target.value);
-        console.log('filteredamenities',filteredamenities);
-        setFilteredAmenities(filteredamenities);
+        // const filteredamenities = state.InvoiceList.AmenitiesList.filter(item => item.Hostel_Id == e.target.value);
+        // console.log('filteredamenities', filteredamenities);
+        // setFilteredAmenities(filteredamenities);
+    };
 
-    };
+
+    useEffect(() => {
+        // if (state.InvoiceList.StatusCodeAmenitiesGet == 200) {
+            const filteredamenities = state.InvoiceList.AmenitiesList.filter(item => item.Hostel_Id == selectedHostel.id);
+            setFilteredAmenities(filteredamenities);
+
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
+            }, 1000)
+
+        // }
+
+    }, [state.InvoiceList.StatusCodeAmenitiesGet,selectedHostel])
+
+
+
     const handleAmenitiesChange = (event, newValue) => {
-        if (newValue) {
-            setAmenitiesName(newValue);
-        } 
-        else {
-            setAmenitiesName(event.target.value);
-        }
+        setAmenitiesName(newValue);
     };
-    
+
+    const handleInputChange = (event, newInputValue) => {
+        setAmenitiesName(newInputValue);
+    };
+
+
 
 
     const handleAmountChange = (e) => {
@@ -109,23 +122,32 @@ function Amenities() {
 
 
     const handleAmenitiesSetting = () => {
-        dispatch({ type: 'AMENITIESSETTINGS', payload: {id:id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: active, Hostel_Id: selectedHostel.id, Status: status ,createdBy:createdby} })
-        setAmenitiesName('')
-        setAmount('')
-        setActive('')
-        setStatus('')
-        handleCloseModal()
-        
+        if (edit === 'EDIT') {
+            dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: active, Status: status, Hostel_Id: selectedHostel.id } })
+            setAmenitiesName('')
+            setAmount('')
+            setActive('')
+            setStatus('')
+            handleCloseModal()
+        } else {
+            dispatch({ type: 'AMENITIESSETTINGS', payload: { id: id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: active, Hostel_Id: selectedHostel.id, Status: status, createdBy: createdby } })
+            setAmenitiesName('')
+            setAmount('')
+            setActive('')
+            setStatus('')
+            handleCloseModal()
+        }
+
+
     }
 
     const handleEdit = (item) => {
         console.log("amenities edit", item)
-
         setShowModal(true)
         setEdit('EDIT')
         console.log("edit", edit)
         setID(item.id)
-        setAmenitiesName(item.AmenitiesName)
+        setAmenitiesName(item.Amnities_Name)
         setAmount(item.Amount)
         setActive(item.setAsDefault)
         setStatus(item.Status)
@@ -136,32 +158,41 @@ function Amenities() {
     }
 
 
-useEffect(()=>{
-if(state.InvoiceList?.statusCode === 200){
-    dispatch({ type: 'AMENITIESLIST' })
-    setTimeout(()=>{
-        dispatch({type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE'})
-        },100)
-   }
+    useEffect(() => {
+        if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode == 200) {
+            dispatch({ type: 'AMENITIESLIST' })
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
+            }, 100)
 
-},[state.InvoiceList?.statusCode])
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_STATUS_CODE_AMENITIES_UPDATE' })
+            }, 100)
+        }
 
-
-const TurnOn = state.InvoiceList?.Amenities?.map((item)=>{
-    return item
-})
-console.log("TurnOn",TurnOn);
+    }, [state.InvoiceList?.statusCode, state.InvoiceList?.AmenitiesUpdateStatusCode])
 
 
+    const TurnOn = state.InvoiceList?.Amenities?.map((item) => {
+        return item
+    })
+    // console.log("TurnOn", TurnOn);
 
 
+    const amenitiesList = Array.isArray(state?.InvoiceList?.AmenitiesList) ? state?.InvoiceList?.AmenitiesList : [];
+
+    // console.log("amenitiesList",amenitiesList)
+
+    const uniqueOptions = Array.from(new Set(state?.InvoiceList?.AmenitiesList.map((item) => item.Amnities_Name)));
+
+
+    // console.log("uniqueOptions",uniqueOptions)
     return (
         <div className='Amenities'>
             <div className='d-flex justify-content-between'>
 
                 <div>
                     <h4 style={{ fontSize: 20, fontWeight: 600 }}>Amenities Settings</h4>
-                    {/* <p style={{ color: '#67686C' }}>Lorem ipsum dolor sit amet consectetur.</p> */}
                 </div>
 
                 <div class="" >
@@ -176,7 +207,7 @@ console.log("TurnOn",TurnOn);
                         <Form.Select aria-label="Default select example" value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, fontWeight: 600, backgroundColor: "#E6EDF5" }}>
 
                             <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
-                            { state.UsersList.hostelList.length > 0  && state.UsersList.hostelList.map((item) => (
+                            {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((item) => (
                                 <>
                                     <option key={item.id} value={item.id} >{item.Name}</option></>
                             ))}
@@ -184,7 +215,7 @@ console.log("TurnOn",TurnOn);
                         </Form.Select>
                     </Form.Group>
                 </div>
-            </div> 
+            </div>
 
             {showTable && <>
                 <div class="table-responsive mt-4" style={{ width: "100%" }}>
@@ -192,7 +223,7 @@ console.log("TurnOn",TurnOn);
                     <table class="table text-center" >
                         <thead style={{ backgroundColor: "#E6EDF5", color: "#91969E", fontSize: "10px" }}>
                             <tr >
-                                <th scope="col" style={{textAlign:'left'}}>Hostel Name</th>
+                                {/* <th scope="col" style={{ textAlign: 'left' }}>Hostel Name</th> */}
                                 <th scope="col">Amenities Name</th>
                                 <th scope="col">Amount <BsExclamationOctagonFill className='ms-1' /></th>
                                 <th scope="col">Set as Default <BsExclamationOctagonFill className='ms-1' /></th>
@@ -202,16 +233,16 @@ console.log("TurnOn",TurnOn);
                         <tbody style={{ fontSize: 13 }}>
 
                             {filteredamenities.length > 0 && filteredamenities.map((item, index) => (
-                                                            <AmenitiesView item={item} modalEditAmenities={handleEdit} selectedHostel={selectedHostel} />
+                                <AmenitiesView item={item} modalEditAmenities={handleEdit} selectedHostel={selectedHostel} />
                             ))}
 
                         </tbody>
                     </table>
                 </div>
-                </>}
+            </>}
 
 
-            
+
 
 
 
@@ -232,36 +263,48 @@ console.log("TurnOn",TurnOn);
 
                         </Form.Select>
                     </div>
-                    {/* <div className='mb-3 ps-2  pe-2'>
+
+
+                    {/* <React.Fragment>
+                        <Autocomplete
+                            value={amenitiesName}
+                            onChange={handleAmenitiesChange}
+                            id="free-solo-dialog-demo"
+                            options={state?.InvoiceList?.AmenitiesName.map((item) => item.Amnities_Name)}
+                            selectOnFocus
+                            clearOnBlur
+                            handleHomeEndKeys
+                            renderOption={(props, option) => <li {...props}>{option}</li>}
+                            style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa", width: '97%', marginLeft: '1%' }}
+                            sx={{ width: 300 }}
+                            freeSolo
+                            renderInput={(params) => <TextField {...params} label="Amenities Name" />}
+                        />
+                    </React.Fragment> */}
+                    <div className='mb-3 '>
                         <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amenities Name</label>
+                        <Autocomplete
+                            value={amenitiesName}
+                            onChange={handleAmenitiesChange}
+                            onInputChange={handleInputChange}
+                            label='Amenities'
+                            id="free-solo-dialog-demo"
+                            options={uniqueOptions}
+                            selectOnFocus
+                            clearOnBlur
+                            handleHomeEndKeys
+                            renderOption={(props, option) => (
+                                <li {...props}>
+                                    {option}
+                                </li>
+                            )}
 
-                        <Form.Select aria-label="Default select example" value={amenitiesName} onChange={(e) => handleAmenitiesChange(e)} style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa" }}>
-                        <option style={{ fontSize: 14, fontWeight: 600, }} >Select Amenities Name</option>
-                         {state.InvoiceList.AmenitiesName.map((item) => (
-                                <>
-                              <option key={item.id} value={item.id} >{item.Amnities_Name}</option></>
-                               ))}
+                            style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa", width: '97%', marginLeft: '1%' }}
+                            sx={{ width: 300 }}
 
-                          </Form.Select>
-
-                    </div> */}
-
-                    <React.Fragment>
-      <Autocomplete
-    value={amenitiesName}
-    onChange={handleAmenitiesChange}
-        id="free-solo-dialog-demo"
-        options={state?.InvoiceList?.AmenitiesName.map((item) => item.Amnities_Name)}
-        selectOnFocus
-        clearOnBlur
-        handleHomeEndKeys
-        renderOption={(props, option) => <li {...props}>{option}</li>}
-        style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa",width:'97%',marginLeft:'1%' }}
-        sx={{ width: 300 }}
-        freeSolo
-        renderInput={(params) => <TextField {...params} label="Amenities Name" />}
-      />
-    </React.Fragment>
+                            renderInput={(params) => <TextField {...params} label="" InputProps={{ ...params.InputProps, placeholder: 'Amenities Name' }} />}
+                        />
+                    </div>
 
                     <div className='mb-3 ps-2 pe-2'>
                         <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amount</label>
@@ -308,7 +351,7 @@ console.log("TurnOn",TurnOn);
                         Cancel
                     </Button>
                     <Button variant="primary" size="sm" style={{ borderRadius: 8, width: '100px' }} onClick={handleAmenitiesSetting} >
-                    {edit === 'EDIT' ? 'Update' : 'Create'} 
+                        {edit === 'EDIT' ? 'Update' : 'Create'}
                     </Button>
 
                 </Modal.Footer>

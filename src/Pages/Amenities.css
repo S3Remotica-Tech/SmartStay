@@ -7,9 +7,16 @@
 
 #free-solo-dialog-demo{
     /* padding: 1px; */
-    height: 5px;
+    height: 3px !important;
     /* padding-bottom: 4px; */
     font-size: 13px;
     border: none;
     border-color:#F8F9FA ;
+    background-color: white;
+}
+
+.css-1wuilmg-MuiAutocomplete-root .MuiOutlinedInput-root {
+    padding: 6px 3px !important;
+    background-color: white;
+    
 }
