@@ -37,8 +37,9 @@ export async function addInvoice(datum) {
     })
   }
 
-  export async function GetAmenitiesName() {
-    return await AxiosConfig.get('/list/amenities-Name',{
+  export async function UpdateAmenities(datum) {
+    return await AxiosConfig.post('/amenities/amnityUpdate',datum,{
+      data:datum
     })
   }
 
