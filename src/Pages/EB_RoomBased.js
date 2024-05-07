@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import Image from 'react-bootstrap/Image';
@@ -101,12 +102,48 @@ const EBROOM = (props) => {
 
     }
     const [filtervalue, setFilteredvalue] = useState([]);
+    console.log("filtervalue",filtervalue);
 
-    useEffect(() => {
+   useEffect(() => {
+    const currentDate = new Date();
+    const month = moment(new Date()).month() + 1;
+    console.log("current month", month);
+    const year = moment(new Date()).year();
+    
+    const latestNames = {};
 
-        const filteredArray = state.PgList.EB_Customerlist.filter(item => item.Hostel_Id === props.hosteldetails.id);
-        setFilteredvalue(filteredArray);
-    }, [props.hosteldetails.id, state.PgList.EB_Customerlist]);
+    const filteredArray = state.PgList.EB_Customerlist.filter(item => {
+        const userMonth = moment(item.createAt).month() + 1;
+        const userYear = moment(item.createAt).year();
+        const userName = item.Name;
+
+        console.log("userMonth", userMonth);
+        console.log("userYear", userYear);
+        if (userMonth === month && userYear === year && item.Hostel_Id === props.hosteldetails.id) {
+
+            if (!latestNames[`${userYear}-${userMonth}`]) {
+              
+                latestNames[`${userYear}-${userMonth}`] = userName;
+                return true;
+            } else {
+            
+                if (moment(userName).isAfter(latestNames[`${userYear}-${userMonth}`])) {
+                    latestNames[`${userYear}-${userMonth}`] = userName;
+                    return true;
+                }
+            }
+        }
+        return false;
+    });
+
+    console.log("filteredArray", filteredArray);
+    setFilteredvalue(filteredArray);
+}, [props.hosteldetails.id, state.PgList.EB_Customerlist]);
+
+    
+    
+    
+    
 
     console.log("Filtered array:", filtervalue);
 
