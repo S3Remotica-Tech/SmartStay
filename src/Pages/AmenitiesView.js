@@ -12,6 +12,7 @@ function AmenitiesView(props) {
 
 
     const handleEditAmenities = (item) => {
+        console.log("item ",item)
         props.modalEditAmenities(item)
     }
 

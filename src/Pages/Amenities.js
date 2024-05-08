@@ -147,7 +147,8 @@ function Amenities() {
         setShowModal(true)
         setEdit('EDIT')
         console.log("edit", edit)
-        setID(item.id)
+        console.log("")
+        setID(item.Amnities_Id)
         setAmenitiesName(item.Amnities_Name)
         setAmount(item.Amount)
         setActive(item.setAsDefault)
@@ -164,11 +165,11 @@ function Amenities() {
             dispatch({ type: 'AMENITIESLIST' })
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
-            }, 100)
+            }, 1000)
 
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_STATUS_CODE_AMENITIES_UPDATE' })
-            }, 100)
+            }, 1000)
         }
 
     }, [state.InvoiceList?.statusCode, state.InvoiceList?.AmenitiesUpdateStatusCode])
@@ -180,7 +181,7 @@ function Amenities() {
     // console.log("TurnOn", TurnOn);
 
 
-    const amenitiesList = Array.isArray(state?.InvoiceList?.AmenitiesList) ? state?.InvoiceList?.AmenitiesList : [];
+    // const amenitiesList = Array.isArray(state?.InvoiceList?.AmenitiesList) ? state?.InvoiceList?.AmenitiesList : [];
 
     // console.log("amenitiesList",amenitiesList)
 
