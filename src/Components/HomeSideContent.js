@@ -33,7 +33,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             <div style={{ paddingTop: "20px" }}>
               <div className="d-flex justify-content-start ps-5"  ><img src={Support} className="img-fluid" style={{ height: "50px", width: "50px" }} alt='Support'/></div>
               <p className="d-flex justify-content-start ps-5 mb-0" style={{ fontSize: "13px" }} >Total Support</p>
-              <p className="d-flex justify-content-start ps-5  pe-5 text-justify pt-2 mb-5" style={{ fontSize: "11px" }} >A dedicated team to help resolve any issues yoiu may face while using our products or promoting our hotels.</p>
+              <p className="d-flex justify-content-start ps-5  pe-5 text-justify pt-2 mb-5" style={{ fontSize: "11px" }} >A dedicated team to help resolve any issues you may face while using our products or promoting our hotels.</p>
             </div>
           </div>
            

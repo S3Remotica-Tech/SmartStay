@@ -19,12 +19,12 @@ function* Login(args) {
 
     } else if (response.status === 203) {
       yield put({ type: 'OTP_SUCCESS', payload: {response: response.data, statusCode:response.status} });
-      Swal.fire({
-        icon: 'success',
-        text: 'OTP Send your Email id',
-        timer: 1000,
-        showConfirmButton: false,
-      });
+      // Swal.fire({
+      //   icon: 'success',
+      //   text: 'OTP Send your Email id',
+      //   timer: 1000,
+      //   showConfirmButton: false,
+      // });
     }
   } catch (error) {
     // yield put({ type: 'ERROR', payload: 'An error occurred.' });

@@ -293,6 +293,7 @@ function Amenities() {
                             options={uniqueOptions}
                             selectOnFocus
                             clearOnBlur
+                            disabled={edit === 'EDIT'}
                             handleHomeEndKeys
                             renderOption={(props, option) => (
                                 <li {...props}>

@@ -1,4 +1,4 @@
-import React, { useEffect ,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import FrontPage from "./Components/FrontPage"
@@ -19,114 +19,116 @@ function App() {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  const [data,setData]= useState('');
-
-// const login = localStorage.getItem("login");
- 
-console.log("state app.js",state)
-
- 
-console.log("data", data)
-
-
-
-useEffect(() => {
-    dispatch({ type: 'ACCOUNTDETAILS' })
-    console.log("executed account details")
-}, [])
-
-
-const loginId = localStorage.getItem("loginId")
-
-
-
-useEffect(() => {
-  // console.log("LoginIds",loginId)
+  const [data, setData] = useState('');
 
   // const login = localStorage.getItem("login");
- 
-     try {
+
+  console.log("state app.js", state)
+
+
+  console.log("data", data)
+
+
+
+  useEffect(() => {
+    dispatch({ type: 'ACCOUNTDETAILS' })
+    console.log("executed account details")
+  }, [])
+
+
+  const loginId = localStorage.getItem("loginId")
+
+  const login = localStorage.getItem("login");
+
+
+  useEffect(() => {
+    // console.log("LoginIds",loginId)
+
+    
+    try {
 
       const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
       const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
       console.log('Decrypted Login Id:', decryptedIdString);
       const parsedData = Number(decryptedIdString);
 
-      console.log("parsedData",parsedData )
+      console.log("parsedData", parsedData)
 
 
       const IsEnableCheckState = state.createAccount?.accountList.filter((view => view.id == parsedData))
       const is_Enable = IsEnableCheckState[0]?.isEnable
-console.log("IsEnableCheck",IsEnableCheckState)
-console.log("is_Enable",is_Enable)
+      console.log("IsEnableCheck", IsEnableCheckState)
+      console.log("is_Enable", is_Enable)
 
-  if (is_Enable == 1) {
-    setData(false);
-  } else {
-       setData(true);
-  }
-      // const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
-      // const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-      // const parsedData = JSON.parse(decryptedString);
-    // setData(parsedData);
-      
-    } 
+      const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
+      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+      const parseData = JSON.parse(decryptedString);
+      console.log("parseData", parseData)
+
+      if (is_Enable == 1 || parseData == false) {
+        setData(false);
+      } else {
+        setData(true);
+      }
+
+
+    }
     catch (error) {
       console.error("Error parsing decrypted data:", error);
-      
+
     }
-      
-  setIsLoading(false);
-}, [state.createAccount.accountList]);
+
+    setIsLoading(false);
+  }, [state.createAccount.accountList,login ]);
 
 
 
-//  useEffect(() => {
+  //  useEffect(() => {
 
-//   console.log("executed")
-//   const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-//   const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-//   const parsedData = decryptedString;
-
-
-  
-//   console.log("IsEnableCheckState", IsEnableCheckState)
-
-//   const is_Enable = IsEnableCheckState[0]?.isEnable
-
-//   console.log("is_Enable sidebar", is_Enable)
-
-//   if (is_Enable == 1) {
-//     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
-//     console.log("encryptData", encryptData.toString());
-//     localStorage.setItem("login", encryptData.toString());
-//   } else {
-//     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
-//     console.log("encryptData", encryptData.toString());
-//     localStorage.setItem("login", encryptData.toString());
-
-//   }
+  //   console.log("executed")
+  //   const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+  //   const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+  //   const parsedData = decryptedString;
 
 
-// }, [state.createAccount.accountList, LoginId])
- 
- const [isLoading, setIsLoading] = useState(true);
+
+  //   console.log("IsEnableCheckState", IsEnableCheckState)
+
+  //   const is_Enable = IsEnableCheckState[0]?.isEnable
+
+  //   console.log("is_Enable sidebar", is_Enable)
+
+  //   if (is_Enable == 1) {
+  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
+  //     console.log("encryptData", encryptData.toString());
+  //     localStorage.setItem("login", encryptData.toString());
+  //   } else {
+  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
+  //     console.log("encryptData", encryptData.toString());
+  //     localStorage.setItem("login", encryptData.toString());
+
+  //   }
 
 
- if (isLoading) {
-  return <div style={{display:'flex',justifyContent:'center'}}>Loading...</div>
-}
+  // }, [state.createAccount.accountList, LoginId])
+
+  const [isLoading, setIsLoading] = useState(true);
+
+
+  if (isLoading) {
+    return <div style={{ display: 'flex', justifyContent: 'center' }}>Loading...</div>
+  }
 
 
   return (
     <div>
-      
+
       {
         data ||
           state.login?.isLoggedIn ?
           <Router>
             <Routes>
-            
+
               <Route index path="/" element={<RoyalGrandHostel />}></Route>
               <Route path='/Bed' element={< BedDetails />} ></Route>
               <Route path='/roomList' element={<DashboardRoomList />} />
@@ -137,7 +139,7 @@ console.log("is_Enable",is_Enable)
           :
           <Router>
             <Routes>
-              <Route index  element={<FrontPage />} />
+              <Route index element={<FrontPage />} />
               <Route path="/login-Page" element={<LoginPage />} />
               <Route path="/create-account" element={<CreateAccount />} />
               <Route path="/forget-password" element={< ForgetPassword />} />
