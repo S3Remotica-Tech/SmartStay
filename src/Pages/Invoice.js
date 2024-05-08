@@ -149,7 +149,7 @@ if(pdfWindow){
           
          
         } else {
-          setShowLoader(true);
+          // setShowLoader(true);
         }
       }, 0);
     } else {

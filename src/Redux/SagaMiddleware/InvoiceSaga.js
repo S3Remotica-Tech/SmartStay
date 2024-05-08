@@ -77,7 +77,7 @@ function* handleAmenitiesSettings(action){
    }
    else if(response.status === 203){
       Swal.fire({
-         title: "Amenity already exists for this Hostel",
+         title: "Amenities already exists for this Hostel",
          icon: "warning",
          // timer: 1000,
      });

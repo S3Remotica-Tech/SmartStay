@@ -73,22 +73,22 @@ function Sidebar() {
   let checkedValue = localStorage.getItem("checked")
 
 
-  // const loginId = localStorage.getItem('loginId');
-  // useEffect(() => {
-  //   if (loginId) {
-  //     try {
-  //       const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-  //       const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-  //       console.log('Decrypted Login Id:', decryptedIdString);
-  //       const parsedData = Number(decryptedIdString);
+  const loginId = localStorage.getItem('loginId');
+  useEffect(() => {
+    if (loginId) {
+      try {
+        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+        console.log('Decrypted Login Id:', decryptedIdString);
+        const parsedData = Number(decryptedIdString);
 
-  //       dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
         
-  //     } catch (error) {
-  //       console.error('Error decrypting loginId:', error);
-  //     }
-  //   }
-  // }, []);
+      } catch (error) {
+        console.error('Error decrypting loginId:', error);
+      }
+    }
+  }, []);
 
 
   // useEffect(() => {
@@ -288,7 +288,7 @@ function Sidebar() {
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
         console.log("encryptData Logout", encryptData.toString());
         localStorage.setItem("login", encryptData.toString())
-        localStorage.setItem("loginId", '')
+        // localStorage.setItem("loginId", '')
         localStorage.setItem("NameId", '')
         localStorage.setItem("phoneId", '')
         localStorage.setItem("emilidd", '')
