@@ -487,6 +487,10 @@
         dispatch({ type: 'USERLIST', payload:{loginId:loginID } })
 
         setTimeout(()=>{
+          dispatch({ type: 'MANUALINVOICE' })
+        },3000)
+
+        setTimeout(()=>{
           dispatch({ type: 'CLEAR_STATUS_CODES'})
           },200)
       }
@@ -839,7 +843,7 @@
                   <div className='row'>
                     <div className='col lg-12'>
                       <Form.Group className="mb-3">
-                        <Form.Label style={{ fontSize: "12px" }}>Author Card Number</Form.Label>
+                        <Form.Label style={{ fontSize: "12px" }}>Aadhaar Card Number</Form.Label>
                         <FormControl
                           type="text"
                           value={AadharNo}

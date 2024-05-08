@@ -281,6 +281,11 @@ console.log("setRoomsIds",roomsIds)
 useEffect(() => {
   if (state.UsersList?.statusCodeForAddUser === 200) {
     dispatch({ type: 'USERLIST', payload:{loginId:loginID } })
+  
+    setTimeout(()=>{
+      dispatch({ type: 'MANUALINVOICE' })
+    },3000)
+
     setHostelIds(propsHostel);
     setBedIds(propsBeds);
     setFloorIds(propsFloor);
@@ -294,7 +299,6 @@ useEffect(() => {
 
 
 
-
   const [activeStep, setActiveStep] = React.useState(0);
   const [search, setSearch] = useState(false)
   const [isOpenTab, setIsOpenTab] = useState(true)
@@ -303,9 +307,7 @@ useEffect(() => {
     setIsOpenTab(!isOpenTab)
   }
 
-  // useEffect(() => {
-  //   dispatch({ type: 'BILLPAYMENTHISTORY' })
-  // }, [])
+  
 
   const [filteredDatas, setFilteredDatas] = useState([]);
   const billPaymentHistory = state.UsersList.billPaymentHistory;
@@ -323,11 +325,7 @@ useEffect(() => {
    },[])
 
 
-  // console.log("filteredDatas",filteredDatas)
-
-// useEffect(() => {
-//    setFilteredDatas(filteredDataForUser);
-// }, [filteredDataForUser]);
+  
 
 useEffect(() => {
   if (state.InvoiceList?.Invoice && filteredDataForUser.length > 0) {

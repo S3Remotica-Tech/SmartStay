@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {invoicelist, invoiceList,addInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings} from "../Action/InvoiceAction"
+import {invoicelist, invoiceList,addInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 
  function* handleinvoicelist (){
@@ -116,6 +116,17 @@ function* handleUpdateAmenities(action) {
 
 
 
+function* handleManualInvoice() {
+   const response = yield call(ManualInvoice)
+   if (response.status === 200) {
+      yield put({ type: 'MANUAL_INVOICE',  payload:{response: response.data, statusCode:response.status} })
+        }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+}
+
+
 function* InvoiceSaga() {
     yield takeEvery('INVOICEITEM', handleinvoicelist)
     yield takeEvery('INVOICELIST', handleInvoiceList)
@@ -125,5 +136,6 @@ function* InvoiceSaga() {
     yield takeEvery('AMENITIESSETTINGS',handleAmenitiesSettings)
     yield takeEvery('AMENITIESLIST',handleGetAmenities)
     yield takeEvery('AMENITIESUPDATE',handleUpdateAmenities)
+   yield takeEvery('MANUALINVOICE',handleManualInvoice)
 }
 export default InvoiceSaga;

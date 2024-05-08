@@ -72,8 +72,8 @@ const InvoicePage = () => {
   })
 
   const [invoicePage, setInvoicePage] = useState('')
-   const [showLoader, setShowLoader] = useState(false)
-    const [selectedItems, setSelectedItems] = useState('')
+  const [showLoader, setShowLoader] = useState(false)
+  const [selectedItems, setSelectedItems] = useState('')
 
   const handleInvoiceDetail = (item) => {
     console.log("item", item);
@@ -85,8 +85,8 @@ const InvoicePage = () => {
       const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
       const day = originalDate.getDate().toString().padStart(2, '0');
       const newDate = `${year}-${month}-${day}`;
-      dispatch({ type: 'INVOICEPDF', payload: { Date: newDate, User_Id: item.User_Id , id: item.id} });
-      setShowLoader(true); 
+      dispatch({ type: 'INVOICEPDF', payload: { Date: newDate, User_Id: item.User_Id, id: item.id } });
+      setShowLoader(true);
     }
   };
 
@@ -106,36 +106,19 @@ const InvoicePage = () => {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
 
-  // useEffect(() => {
-  //   const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
-  //   console.log("toTriggerPDF", toTriggerPDF)
-  //   if (toTriggerPDF) {
-  //     console.log("executed")
-  //     let pdfWindow;
-  //     const InvoicePDf = state.InvoiceList?.Invoice &&
-  //       state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
-  //     console.log("InvoicePDf array", InvoicePDf);
-  //     console.log("InvoicePDf[0]?.invoicePDF", InvoicePDf[0]?.invoicePDF)
-  //     if (InvoicePDf[0]?.invoicePDF) {
-  //       pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
-  //       setShowLoader(false);
-  //     } else {
-  //       setShowLoader(true);
-  //     }
-  //   }else{
-  //     console.log("to trigger pdf is false so pdf not working")
-  //   }
-  // }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF ])
+ 
 
+
+  
 
   useEffect(() => {
     const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
     console.log("toTriggerPDF", toTriggerPDF);
-    
+
     if (toTriggerPDF) {
-     
+
       console.log("executed");
-       setTimeout(() => {
+      setTimeout(() => {
         let pdfWindow;
         const InvoicePDf = state.InvoiceList?.Invoice &&
           state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
@@ -143,11 +126,11 @@ const InvoicePage = () => {
         console.log("InvoicePDf[0]?.invoicePDF", InvoicePDf[0]?.invoicePDF);
         if (InvoicePDf[0]?.invoicePDF) {
           pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
-if(pdfWindow){
-  setShowLoader(false);
-}
-          
-         
+          if (pdfWindow) {
+            setShowLoader(false);
+          }
+
+
         } else {
           // setShowLoader(true);
         }
@@ -156,7 +139,7 @@ if(pdfWindow){
       console.log("to trigger pdf is false so pdf not working");
     }
   }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
-  
+
 
 
 
@@ -575,9 +558,7 @@ if(pdfWindow){
   console.log("state", state);
 
 
-  useEffect(() => {
-    dispatch({ type: 'USERLIST' })
-  }, [])
+ 
 
 
   const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
@@ -620,58 +601,12 @@ if(pdfWindow){
     }
   }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
-  // console.log("filteredUserDetails", filteredUserDetails)
   const [displayText, setDisplayText] = useState(false)
   const [isSaveDisabled, setIsSaveDisabled] = useState(false)
   const [totalPaidAmount, setTotalPaidAmount] = useState('')
 
 
-  // useEffect(() => {
-  //   if (selectedUserId) {
-  //     const AlreadyPaidRoomRents = state.InvoiceList?.Invoice.filter(item => item.User_Id === selectedUserId);
-  //     const roomRents = filteredUserDetails[0]?.RoomRent;
-  //     let totalPaidAmounts = 0;
-
-  //     AlreadyPaidRoomRents.forEach(item => {
-  //       const paidAmounts = parseFloat(item.Amount) || 0;
-  //       totalPaidAmounts += paidAmounts;
-  //     });
-
-  //     setDisplayText(roomRents === totalPaidAmounts); 
-
-  //     console.log("roomRents == totalPaidAmounts", roomRents === totalPaidAmounts);
-  //   } else {
-  //     setDisplayText(false); 
-  //   }
-  // }, [selectedUserId, state.InvoiceList?.Invoice, filteredUserDetails]);
-
-
-
-  // useEffect(() => {
-  //   if (selectedUserId) {
-  //     const currentDate = new Date();
-  //     console.log("currentDate", currentDate)
-  //     const currentMonth = currentDate.getMonth();
-  //     const AlreadyPaidRoomRents = state.InvoiceList?.Invoice.filter(item => {
-  //       const itemDate = new Date(item.Date);
-  //       const itemMonth = itemDate.getMonth();
-  //       return itemMonth === currentMonth && item.User_Id === selectedUserId;
-  //     });
-  //     const roomRents = filteredUserDetails[0]?.RoomRent;
-  //     let totalPaidAmounts = 0;
-  //     AlreadyPaidRoomRents.forEach(item => {
-  //       const paidAmounts = parseFloat(item.Amount) || 0;
-  //       totalPaidAmounts += paidAmounts;
-  //     });
-
-  //     setDisplayText(roomRents === totalPaidAmounts);
-  //     console.log("roomRents == totalPaidAmounts", roomRents === totalPaidAmounts);
-  //   } else {
-  //     setDisplayText(false);
-  //   }
-  // }, [selectedUserId, state.InvoiceList?.Invoice, filteredUserDetails]);
-
-
+  
 
 
   const handleDateChange = (e) => {

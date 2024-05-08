@@ -1,3 +1,5 @@
+import { ManualInvoice } from "../Action/InvoiceAction";
+
 const initialState = {
     Invoice: [],
     message: '',
@@ -16,6 +18,9 @@ const initialState = {
     invoiceSettingsStatusCode: 0,
     StatusCodeAmenitiesGet: 0,
     AmenitiesUpdateStatusCode: 0,
+    ManualInvoice: [],
+    manualInvoiceStatusCode:0,
+
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -45,6 +50,8 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, AmenitiesUpdate: action.payload, AmenitiesUpdateStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_AMENITIES_UPDATE':
             return { ...state, AmenitiesUpdateStatusCode: 0 }
+            case 'MANUAL_INVOICE':
+                return {...state, ManualInvoice:action.payload, manualInvoiceStatusCode:action.payload.statusCode}
     }
     return state;
 }
