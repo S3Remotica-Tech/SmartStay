@@ -42,7 +42,7 @@ const EBROOM = (props) => {
 
     const [floorId, setFloorId] = useState('');
     const [RoomId, setRoomID] = useState('');
-    const [startmeter, setStartmeter] = useState(0);
+    const [startmeter, setStartmeter] = useState();
     const [endmeter, setEndmeter] = useState('');
     const [amount, setAmount] = useState('');
     const [roomsByFloor, setRoomsByFloor] = useState([]);
@@ -77,30 +77,45 @@ const EBROOM = (props) => {
     }
 
     const handleSaveEbBill = () => {
-        if (props.hosteldetails.id  && endmeter && amount) {
-            dispatch({ type: 'CREATEEB', payload: { Hostel_Id: props.hosteldetails.id, Floor: floorId, Room: RoomId,  end_Meter_Reading: endmeter, EbAmount: amount } })
+        if (props.hosteldetails.id && floorId && RoomId && endmeter && amount) {
+            dispatch({ type: 'CREATEEB', payload: { Hostel_Id: props.hosteldetails.id, Floor: floorId, Room: RoomId, end_Meter_Reading: endmeter, EbAmount: amount } });
+            setFloorId('')
+            setRoomID('')
+            setEndmeter('')
+            setAmount('')
             Swal.fire({
                 icon: "success",
                 title: 'EB Added successfully', 
                 confirmButtonText: "ok"
             }).then((result) => {
-                dispatch({ type: 'CREATEEB' })
                 if (result.isConfirmed) {
                 }
             });
-        }
-        else {
+        } 
+        else if (props.hosteldetails.id && endmeter && amount) {
+            dispatch({ type: 'CREATEEB', payload: { Hostel_Id: props.hosteldetails.id, end_Meter_Reading: endmeter, EbAmount: amount } });
+            setEndmeter('')
+            setAmount('')
             Swal.fire({
-                icon: "warning",
-                title: 'Please Enter All Field',
+                icon: "success",
+                title: 'EB Added successfully', 
                 confirmButtonText: "ok"
             }).then((result) => {
                 if (result.isConfirmed) {
                 }
             });
         }
-
+         else {
+            Swal.fire({
+                icon: "warning",
+                title: 'Please Enter All Fields',
+                confirmButtonText: "ok"
+            }).then((result) => {
+                // Handle confirmation if needed
+            });
+        }
     }
+    
     const [filtervalue, setFilteredvalue] = useState([]);
     console.log("filtervalue",filtervalue);
 
@@ -121,10 +136,9 @@ const EBROOM = (props) => {
         console.log("userYear", userYear);
         if (userMonth === month && userYear === year && item.Hostel_Id === props.hosteldetails.id) {
 
-            if (!latestNames[`${userYear}-${userMonth}`]) {
-              
+            if (!latestNames[`${userYear}-${userMonth}`]) {           
                 latestNames[`${userYear}-${userMonth}`] = userName;
-                return true;
+                return true;     
             } else {
             
                 if (moment(userName).isAfter(latestNames[`${userYear}-${userMonth}`])) {
