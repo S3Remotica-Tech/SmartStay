@@ -184,13 +184,18 @@ const EBROOM = (props) => {
     return (
         <div className="container ms-2 me-2">
             <div className="d-flex row justify-content-between mt-2 me-4 pt-3">
-                <div className='col-lg-8 col-md-6 col-sm-12'>
-                    <h1 style={{ fontSize: "20px" }}>{props.hosteldetails.isHostelBased == 0 ? "Equally divided by Room based" : "Equally divided by Hostel based"}</h1>
+                          <div className='col-lg-8 col-md-6 col-sm-12 d-flex '>
+                            <div className="me-2 d-flex justify-content-center align-items-center" title="Back" onClick={handlebackbtn} style={{height:40, width:40, backgroundColor:"#E6EDF5",borderRadius:50 }}>
+
+                            <MdOutlineKeyboardDoubleArrowLeft   style={{ fontSize: '22px' }}  />
+
+                            </div>
+                   <div>
+                   <h1 style={{ fontSize: "20px" }}>{props.hosteldetails.isHostelBased == 0 ? "Equally divided by Room based" : "Equally divided by Hostel based"}</h1>
                     <p>Manage your account settings</p>
+                    </div> 
                 </div>
-                <div className='col-lg-2 col-md-6 col-sm-12'>
-                    <MdOutlineKeyboardDoubleArrowLeft style={{ fontSize: '22px' }} onClick={handlebackbtn} />
-                </div>
+                
 
             </div>
 
