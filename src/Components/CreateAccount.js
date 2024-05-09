@@ -104,7 +104,7 @@ function CreateAccountPage() {
     }
   
    dispatch({
-      type: 'CREATE_ACCOUNT',
+      type: 'CREATE_ACCOUNT_PAGE',
       payload: { name: userName, mobileNo: phoneNumber, emailId: emailID, password: password }
     });
     setUserName('');
