@@ -37,6 +37,11 @@ export async function CreateAccountAction(params) {
          }
 
 } 
+export async function Addaccount (datum) {
+  return await AxiosConfig.post('/newaccount/create-account',datum,{
+    data:datum
+  })
+}
   
 export async function TwoStepVerification(datum) {
   return await AxiosConfig.post('/create/isEnable',datum, {
