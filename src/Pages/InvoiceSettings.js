@@ -72,8 +72,20 @@ function InvoiceSettings() {
     const handleInvoiceSettings = () => {
         if (selectedImage) {
             dispatch({ type: 'INVOICESETTINGS', payload: { hostel_Id: selectedHostel.id, prefix: prefix, suffix: startNumber, profile: selectedImage } })
+       
+            Swal.fire({
+                text: "Invoice Update successfully",
+                icon: "success",
+                timer: 1000,
+            });
+       
         } else {
             dispatch({ type: 'INVOICESETTINGS', payload: { hostel_Id: selectedHostel.id, prefix: prefix, suffix: startNumber } })
+            Swal.fire({
+                text: "Invoice Update successfully",
+                icon: "success",
+                timer: 1000,
+            });
         }
         setShowTable(false)
         setSelectedHostel({
@@ -85,28 +97,33 @@ function InvoiceSettings() {
 
     }
 
-    // useEffect(() => {
-    //     if (state.InvoiceList?.statusCode === 200) {
-    //         dispatch({ type: 'HOSTELLIST' });
-    //             setTimeout(() => {
-    //             dispatch({ type: 'CLEAR_INVOICE_SETTINS_STATUSCODE' });
-    //         }, 200);
-    //     }
-    // }, [state.InvoiceList?.statusCode]);
+    const loginId = localStorage.getItem('loginId');
 
-    // useEffect(() => {
-    //     if (selectedHostel) {
-    //         dispatch({ type: 'HOSTELLIST' });
-               
-    //     }
-    // }, [selectedHostel]);
+
+    useEffect(() => {
+        if (state.InvoiceList?.statusCode === 200) {
+                   const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+          const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+          console.log('Decrypted Login Id:', decryptedIdString);
+          const parsedData = Number(decryptedIdString);
+  
+          dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+          
+                setTimeout(() => {
+                dispatch({ type: 'CLEAR_INVOICE_SETTINS_STATUSCODE' });
+            }, 2000);
+        }
+    }, [state.InvoiceList?.statusCode]);
+
+   
 
 
 
     const [logo, setLogo] = useState('')
 
     useEffect(() => {
-        const filteredHostels = state.UsersList?.hostelList?.filter((item) => (
+
+                const filteredHostels = state.UsersList?.hostelList?.filter((item) => (
             item.id === Number(selectedHostel.id)
         ));
        

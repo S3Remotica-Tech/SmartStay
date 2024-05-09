@@ -8,8 +8,8 @@ import Swal from 'sweetalert2';
 function* CreateNewAccount(args) {
   try {
     const response = yield call(Addaccount, args.payload);
-    console.log("args.payload", args.payload);
-    console.log("response for createAccount Api", response);
+    // console.log("args.payload", args.payload);
+    // console.log("response for createAccount Api", response);
 
     if (response.status === 200) {
       yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status } });
@@ -47,47 +47,26 @@ function* CreateNewAccount(args) {
 }
 
 
-// function* CreateAccountPage(args) {
-//   try {
-//     const response = yield call(CreateAccountAction, args.payload);
-//     console.log(" args.payload", args.payload)
-//     console.log("response for createAccount Api", response)
-//     if (response.statusCode === 200) {
-//       yield put({
-//         type: 'CREATEACCOUNT',
-//         payload: { response: response.data, statusCode: response.statusCode }
-//       });
-//       Swal.fire({
-//         icon: 'success',
-//         text: response.data.message,
-//         confirmButtonText: 'Ok'
-//       })
-
-//     }
-
-//   } catch (error) {
-//     console.log("error", error);
-//   }
-// }
 function* CreateAccountPage(args) {
   try {
     const response = yield call(CreateAccountAction, args.payload);
-    console.log("args.payload:", args.payload);
-    console.log("Response for createAccount API:", response);
-
-    if (response.status === 200) {
-      yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status } });
-
-      yield Swal.fire({
-        icon: 'success',
-        text: response.data.message,
-        confirmButtonText: 'Ok'
+    console.log(" args.payload", args.payload)
+    console.log("response for createAccount Api", response)
+    if (response.statusCode === 200) {
+      yield put({
+        type: 'CREATEACCOUNT',
+        payload: { response: response.data, statusCode: response.statusCode }
       });
-    } else {
-      console.log("Unexpected status code:", response.status);
+      // Swal.fire({
+      //   icon: 'success',
+      //   text: response.data.message,
+      //   confirmButtonText: 'Ok'
+      // })
+
     }
+
   } catch (error) {
-    console.log("Error:", error);
+    console.log("error", error);
   }
 }
 

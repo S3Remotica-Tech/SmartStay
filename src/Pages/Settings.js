@@ -132,11 +132,21 @@ function Settings() {
         type: 'CREATE_ACCOUNT',
         payload: { name: Name, mobileNo: phone, emailId: email, Address: Address, Country: Country, City: City, State: statee, id : id, profile:selectedImage }
       });
+      Swal.fire({
+        text: "Update successfully",
+        icon: "success",
+        timer: 1000,
+    });
     }else{
       dispatch({
         type: 'CREATE_ACCOUNT',
         payload: { name: Name, mobileNo: phone, emailId: email, Address: Address, Country: Country, City: City, State: statee, id: id }
       });
+      Swal.fire({
+        text: "Update successfully",
+        icon: "success",
+        timer: 1000,
+    });
     }
     
     setName('');

@@ -18,7 +18,7 @@ const CreateAccountReducer = (state = initialState, action) => {
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
          case 'CREATEACCOUNTPAGE':
-         return { ...state, MobileNo: action.payload.mobileNo, EmailId: action.payload.emailId, Password: action.payload.password, Name: action.payload.name, accountMgs: action.payload.response, statusCodeForAccount:action.payload.statusCode }
+         return { ...state, MobileNo: action.payload.mobileNo, EmailId: action.payload.emailId, Password: action.payload.password, Name: action.payload.name, accountMgs: action.payload.response }
          
       case 'CREATEACCOUNT':
          return { ...state, MobileNo: action.payload.mobileNo, EmailId: action.payload.emailId, Password: action.payload.password, Name: action.payload.name, accountMgs: action.payload.response, statusCodeForAccount:action.payload.statusCode }
