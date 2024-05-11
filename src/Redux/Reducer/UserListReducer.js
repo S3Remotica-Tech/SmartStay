@@ -16,6 +16,7 @@ const initialState = {
     statusCodeForAddUser: '',
     errormessage: {},
     CheckOut: [],
+    checkOutStatusCode:0,
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -59,8 +60,11 @@ const UserListReducer = (state = initialState, action) => {
         case 'HOSTEL_DETAIL_LIST':
             return { ...state, hosteldetailslist: action.payload }
         case 'CHECKOUT_USER':
-            return { ...state, CheckOut: action.payload }
-        case 'ROOM_FULL':
+            return { ...state, CheckOut: action.payload.response, checkOutStatusCode:action.payload.statusCode }
+      case 'CLEAR_STATUS_CODE_CHECK_OUT':
+        return { ...state,  checkOutStatusCode:0}
+           
+            case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {
                 return { ...state, roomFullCheck: [...state.roomFullCheck, action.payload] };
             } else {

@@ -122,10 +122,11 @@ function* handleAddUser(datum) {
    function* handleCheckOut(action) {
       const response = yield call(checkOutUser, action.payload)
       if (response.status === 200) {
-         yield put({ type: 'CHECKOUT_USER', payload: response.data })
+         yield put({ type: 'CHECKOUT_USER', payload:{response: response.data, statusCode:response.status} })
           Swal.fire({
+            icon: 'success',
          text: 'User Check Out Successfully',
-        timer: 1000,
+        timer: 2000,
         showConfirmButton: false,
       });
 

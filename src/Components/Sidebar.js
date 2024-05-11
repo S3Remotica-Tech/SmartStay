@@ -52,7 +52,7 @@ import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import { StaticDateTimePicker } from '@mui/x-date-pickers';
 import { BsClipboard2Check } from "react-icons/bs";
-import SmartLogo from '../Assets/Images/Logo-Icon.png'
+import SmartLogo from '../Assets/Images/hostel.png'
 
 function Sidebar() {
 
