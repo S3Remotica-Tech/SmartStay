@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck} from "../Action/UserListAction"
+import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck} from "../Action/UserListAction"
 
 
 function* handleuserlist(user) {
@@ -119,6 +119,26 @@ function* handleAddUser(datum) {
       }
    }
 
+   function* handleCheckOut(action) {
+      const response = yield call(checkOutUser, action.payload)
+      if (response.status === 200) {
+         yield put({ type: 'CHECKOUT_USER', payload:{response: response.data, statusCode:response.status} })
+          Swal.fire({
+            icon: 'success',
+         text: 'User Check Out Successfully',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+   }
+
+
+
+
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
@@ -129,7 +149,7 @@ function* UserListSaga() {
    yield takeEvery('CREATEFLOOR',handleCreateFloor)
    yield takeEvery('ROOMDETAILS',handleRoomsDetails)
    yield takeEvery('ROOMFULL', handleRoomCheck)
-   
-  
+   yield takeEvery('CHECKOUTUSER',handleCheckOut)
+    
 }
 export default UserListSaga;

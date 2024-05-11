@@ -45,3 +45,10 @@ export async function roomFullCheck(roomCheck){
     data:roomCheck
   })
 }
+
+
+export async function checkOutUser(check) {
+  return await AxiosConfig.post('/checkout/checkout-user', check,{
+    data:check
+  })
+}

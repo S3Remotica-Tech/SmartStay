@@ -90,12 +90,12 @@ const Billings = () => {
         <div style={{ backgroundColor: "#E6EDF5",color:'black',padding:'5px' }}>
           <div style={{display:'flex',flexDirection:'row'}}>
             <div style={{fontWeight:600,flex:1}}>Hostel Name</div>
-            <div className="text-center" style={{flex:1,fontWeight:600}}>Hostel Based<i class="bi bi-info-circle-fill ms-1"></i></div>           
-
+            <div className="text-center" style={{flex:0.5,fontWeight:600}}>Settings<i class="bi bi-info-circle-fill ms-1"></i></div>           
+               <div style={{fontWeight:600,flex:0.5}}>Description</div>
           </div>
         </div>
      
-         <div></div>
+       
         { state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((item) => (
           <EB_Billings Item={item} handleSave={handleSave} onBoxchange={handleCheckboxChange}/>
 

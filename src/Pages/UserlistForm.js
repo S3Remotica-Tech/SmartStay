@@ -141,7 +141,7 @@ const [isActive, setIsActive] = useState('')
 const handleIsActiveUser = (e) =>{
   setIsActive(e.target.value)
  }
-console.log("setIsActive",isActive)
+
 
 
 
@@ -280,7 +280,7 @@ const handleRoomRent = (e) => {
       setRoomRent(props.EditObj.RoomRent);
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
-      setIsActive(props.EditObj.isActive)
+      // setIsActive(props.EditObj.isActive)
     }
     else {
       props.setEdit('Add')
@@ -325,7 +325,7 @@ const handleRoomRent = (e) => {
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
           PaymentType: PaymentType,
-          isActive:isActive,
+          // isActive:isActive,
           ID: props.edit === 'Edit' ? id : '',
         },
       });
@@ -620,7 +620,7 @@ const handleRoomRent = (e) => {
 
                     </Form.Group>
                   </div>
-                  <div className='col-lg-6'>
+                  {/* <div className='col-lg-6'>
                   {props.edit === 'Edit' ? <>
                     <Form.Label style={{ fontSize: '12px' }}>Active</Form.Label>
                     <Form.Select
@@ -636,7 +636,7 @@ const handleRoomRent = (e) => {
                     </> :
                     null}
 
-                  </div>
+                  </div> */}
                 </div>
 
               </div>

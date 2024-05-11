@@ -22,6 +22,7 @@ import Select from '@mui/material/Select';
 import { format } from 'date-fns';
 import '../Pages/Compliance.css'
 import CryptoJS from "crypto-js";
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 
 const Compliance = () => {
   const state = useSelector(state => state)
@@ -54,7 +55,7 @@ const Compliance = () => {
         setLogin_Id(parsedData)
         dispatch({ type: 'COMPLIANCE-LIST', payload: { loginId: parsedData } })
         dispatch({ type: 'USERLIST', payload: { loginId: parsedData } });
-             }
+      }
 
       catch (error) {
         console.log("Error decrypting loginid", error);
@@ -64,11 +65,11 @@ const Compliance = () => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { loginId:login_Id } })
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { loginId: login_Id } })
 
-setTimeout(()=>{
-dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
-},200)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' })
+      }, 200)
 
     }
   }, [state.ComplianceList.statusCodeForAddCompliance]);
@@ -76,8 +77,8 @@ dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
 
 
 
- 
- 
+
+
 
   useEffect(() => {
     setData(state.ComplianceList.Compliance)
@@ -224,7 +225,7 @@ dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
 
   const handleEdit = (item) => {
     console.log("item", item)
-    if(item){
+    if (item) {
       setEditbtn(true)
       // setSelectedUserId(item.User_id);
       setId(item.ID)
@@ -242,7 +243,7 @@ dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
       handleMenuClick();
       setShowMenu(true);
     }
-    
+
   }
 
   const handleSubmit = () => {
@@ -259,14 +260,14 @@ dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
       setHostel_Id('')
       setFloor('')
       setRooms('')
-     
+
       setShowMenu(false);
       Swal.fire({
         icon: "success",
         title: editbtn ? 'Complaince Updated successfully' : 'Complaince Added successfully',
         confirmButtonText: "ok"
       }).then((result) => {
-       
+
         if (result.isConfirmed) {
         }
       });
@@ -344,10 +345,11 @@ dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
-      const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
+      const uniqueOptions = Array.from(new Set(state.UsersList?.Users.map((item) => item.User_Id)));
 
-      console.log("userIds", userIds);
-      setUsersId(userIds);
+
+      // console.log("userIds", userIds);
+      setUsersId(uniqueOptions);
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_USER' })
       }, 1000)
@@ -369,15 +371,14 @@ dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE'})
 
   useEffect(() => {
     if (selectedUserId) {
-       const filteredDetails = state.UsersList?.Users.filter(item => 
-        {
-console.log("item.User_Id",item.User_Id)
-console.log("selectedUserId",selectedUserId)
-return  item.User_Id == selectedUserId
-        }
+      const filteredDetails = state.UsersList?.Users.filter(item => {
+        console.log("item.User_Id", item.User_Id)
+        console.log("selectedUserId", selectedUserId)
+        return item.User_Id == selectedUserId
+      }
       )
 
-       
+
 
       console.log("filteredDetails", filteredDetails);
 
@@ -410,8 +411,10 @@ return  item.User_Id == selectedUserId
     }
   }, [selectedUserId, state.UsersList?.Users]);
 
-  
-  
+  const handleCheckoutChange = (event, newValue) => {
+    setSelectedUserId(newValue);
+  };
+
 
   return (
     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
@@ -502,28 +505,33 @@ return  item.User_Id == selectedUserId
 
 
                   <div className='row d-flex justify-content-between w-100 g-1 row-gap-1' style={{ backgroundColor: "" }}>
-{editbtn ? '' : 
-                    <div className='col-12 mb-3'>
-                      <Form.Label style={{ fontSize: "10px", marginBottom: 5, fontWeight: 600 }}>Select User ID</Form.Label>
-                      <Form.Select aria-label="Default select example" style={bottomBorderStyles}
-                            value={selectedUserId}
-                            disabled={editbtn}
-                            onChange={handleUserIdChange} >
-                            <option>Select User Id</option>
-                            {
-                             usersId && usersId.map((item) => {
-                                return (
-                                  <>
-                                    <option value={item.User_Id}>{item.User_Id}</option>
-                                  </>
-                                )
-                              })
-                            }
-                          </Form.Select>
+                    {editbtn ? '' :
+                      <div className='col-12 mb-3'>
 
+                        <Form.Label style={{ fontSize: "14px", marginBottom: 5, fontWeight: 600 }}>Select User ID</Form.Label>
+                        <Autocomplete
+                          value={selectedUserId}
+                          onChange={handleCheckoutChange}
+                          label='Amenities'
+                          id="free-solo-dialog-demo"
+                          options={usersId}
+                          selectOnFocus
+                          clearOnBlur
+                          disabled={editbtn}
+                          handleHomeEndKeys
+                          renderOption={(props, option) => (
+                            <li {...props}>
+                              {option}
+                            </li>
+                          )}
 
-                    </div>
-                  }
+                          style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa", width: '97%', marginLeft: '1%' }}
+                          sx={{ width: 300 }}
+
+                          renderInput={(params) => <TextField {...params} label="" InputProps={{ ...params.InputProps, placeholder: 'Enter or Select UserId' }} />}
+                        />
+                      </div>
+                    }
 
                     <div className='col-6'>
                       <TextField id="standard-basic" label="Name" value={Name} InputProps={{ readOnly: true }} onChange={(e) => { setName(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
@@ -757,36 +765,36 @@ return  item.User_Id == selectedUserId
               </tr>
             // )
             )))} */}
-            {currentItems.map((item) => (
-  <tr key={item.ID}>
-    <td style={{ color: "black", fontWeight: 500 }}>{moment(item.date).format('DD-MM-YYYY')}</td>
-    <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Requestid}</td>
-    <td>
-      <div className="d-flex">
-        {item.Name && (
-          <span className="i-circle">
-            <p className="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.match(/(^\S\S?|\s\S)?/g).map(v => v.trim()).join("").match(/(^\S|\S$)?/g).join("").toLocaleUpperCase()}</p>
-          </span>
-        )}
-        <div className="ms-2">
-          <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
-          <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.Phone}</label>
-        </div>
-      </div>
-    </td>
-    <td style={{ color: "#91969E" }}>{item.hostelname}</td>
-    <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_id}</td>
-    <td style={{ color: "black", fontWeight: 500 }}>{item.Room}</td>
-    <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
-    <td style={{ color: "black", fontWeight: 500 }}>{item.Description}</td>
-    <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
-    <td style={(item.Status && item.Status.toUpperCase() === "SUCCESS") ? { color: "green" } : { color: "red" }}>{item.Status}</td>             
-    <td className=""><img src={List} height="20" width="20" />
-    <img className="ms-1" src={Edit} height="20" width="20" onClick={() => handleEdit(item)} style={{ cursor: 'pointer' }} /></td>
-  </tr>
-))}
+          {currentItems.map((item) => (
+            <tr key={item.ID}>
+              <td style={{ color: "black", fontWeight: 500 }}>{moment(item.date).format('DD-MM-YYYY')}</td>
+              <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Requestid}</td>
+              <td>
+                <div className="d-flex">
+                  {item.Name && (
+                    <span className="i-circle">
+                      <p className="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.match(/(^\S\S?|\s\S)?/g).map(v => v.trim()).join("").match(/(^\S|\S$)?/g).join("").toLocaleUpperCase()}</p>
+                    </span>
+                  )}
+                  <div className="ms-2">
+                    <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
+                    <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.Phone}</label>
+                  </div>
+                </div>
+              </td>
+              <td style={{ color: "#91969E" }}>{item.hostelname}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_id}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Room}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Description}</td>
+              <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
+              <td style={(item.Status && item.Status.toUpperCase() === "SUCCESS") ? { color: "green" } : { color: "red" }}>{item.Status}</td>
+              <td className=""><img src={List} height="20" width="20" />
+                <img className="ms-1" src={Edit} height="20" width="20" onClick={() => handleEdit(item)} style={{ cursor: 'pointer' }} /></td>
+            </tr>
+          ))}
 
-            
+
         </tbody>
       </Table>
       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
