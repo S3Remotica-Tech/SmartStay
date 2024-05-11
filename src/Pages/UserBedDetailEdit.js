@@ -60,21 +60,8 @@ function UserBedDetailsEdit(props) {
   const dispatch = useDispatch();
 
 
-
-  // useEffect(() => {
-  //   dispatch({ type: 'HOSTELLIST' })
-  // }, [])
-
-
-
-
-
-
-
-
-
-  console.log("props for edit", props)
-  console.log("state for UserBedDetailsEdit", state);
+  // console.log("props for edit", props)
+  // console.log("state for UserBedDetailsEdit", state);
 
 
   useEffect(() => {
@@ -280,7 +267,7 @@ function UserBedDetailsEdit(props) {
       setRoomRent(props.EditObj.RoomRent);
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
-      setIsActive(props.EditObj.isActive)
+      // setIsActive(props.EditObj.isActive)
     }
     else {
       props.setEdit('Add')
@@ -326,7 +313,7 @@ function UserBedDetailsEdit(props) {
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
           PaymentType: PaymentType,
-          isActive:isActive,
+          // isActive:isActive,
           ID: props.edit === 'Edit' ? id : '',
         },
       });
@@ -624,7 +611,7 @@ function UserBedDetailsEdit(props) {
 
             </Form.Group>
           </div>
-          <div className='col-lg-6'>
+          {/* <div className='col-lg-6'>
           {props.edit === 'Edit' ? <>
             <Form.Label style={{ fontSize: '12px' }}>Active</Form.Label>
             <Form.Select
@@ -640,7 +627,7 @@ function UserBedDetailsEdit(props) {
             </> :
             null}
 
-          </div>
+          </div> */}
         </div>
 
       </div>

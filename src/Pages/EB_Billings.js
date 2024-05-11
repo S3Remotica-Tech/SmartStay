@@ -55,10 +55,13 @@ const EB_Billings = (props) => {
 
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div style={{ color: "black", fontSize: '14px', fontWeight: 600, flex: 1 }}>{props.Item.Name}</div>
-          <div className="text-center" style={{ flex: 1 }}>
+          <div className="text-center" style={{ flex: 0.5 }}>
             <Form.Check type="switch" id="custom-switch"
               checked={isChecked}
               onChange={(e)=>{handleChange(e,props.Item.id)}} />
+          </div>
+          <div style={{ color: "black", fontSize: '14px', fontWeight: 600, flex: 0.5 }}>
+            {isChecked == true ? ' Hostel_based': ' Room_based'}
           </div>
         </div>
 
