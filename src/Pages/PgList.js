@@ -75,13 +75,19 @@ function PgList() {
    
   })
 
-  const [hostelIndex, setHostelIndex] = useState('')
+  const [hostelIndex, setHostelIndex] = useState(0)
   const [roomDetails, setRoomDetails] = useState('')
-  const [selectedHostel, setSelectedHostel] = useState(null);
+  const [selectedHostel, setSelectedHostel] = useState(state.UsersList.hostelList[0]);
   console.log("selectedHostel",selectedHostel);
+
+
+
   const [floorDetails, setFloorDetails] = useState([{ number_of_floor: '' }
     // , { number_of_floor: '' }, { number_of_floor: '' }
   ]);
+
+
+  
 
 
   const LoginId = localStorage.getItem("loginId")
@@ -354,14 +360,27 @@ const loginId = localStorage.getItem('loginId');
 
 
   const handleHostelSelect = (hostelName) => {
-    const selected = state.UsersList.hostelList.find((item, index) => {
+    console.log("hostelName",hostelName)
+    const selected = state.UsersList.hostelList?.find((item, index) => {
       setHostelIndex(index)
-      return item.Name === hostelName
+      console.log("id",item.id)
+      return item.id == hostelName
     });
+    console.log("selected",selected)
     setSelectedHostel(selected);
     handleRowVisibilityChange(true);
     handleBedVisibilityChange(false)
   };
+
+
+
+ 
+
+
+
+
+ 
+
   useEffect(() => {
     const selected = state.UsersList.hostelList.find(item => item.Name === selectedHostel?.Name);
     setSelectedHostel(selected);
@@ -625,11 +644,11 @@ const handleMouseLeave = () =>{
     )}
              
               </div>
-              <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding:8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
+              <select  value={selectedHostel.id}  onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding:8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
                 <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
                 {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((obj) => {
                   return (<>
-                    <option style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
+                    <option key={obj.id} value={obj.id} style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
                   </>)
                 })}
 

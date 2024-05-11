@@ -204,14 +204,14 @@ useEffect(()=>{
                       <div className="mb-3">
                         <span style={{ fontSize: 14 }} className="mb-2">Booking Date:</span>
                         <Badge bg="light" text="dark" className="ms-3 p-2">
-                          <span style={{ fontSize: 14, padding: 5 }}>{moment(view.createdAt).format('DD/MM/YYYY')}</span>
+                          <span style={{ fontSize: 13, padding: 5 }}>{moment(view.createdAt).format('DD/MM/YYYY')}</span>
                         </Badge>
                       </div>
 
                       <div className="mb-3" >
                         <label style={{ fontSize: 14 }}>Price:</label>
                         <Badge bg="light" text="dark" className="ms-3 p-2">
-                          <span style={{ fontSize: 14, padding: 5 }}>{view.RoomRent}</span>
+                          <span style={{ fontSize: 13, padding: 5 }}>{view.RoomRent}</span>
                         </Badge>
                       </div>
 
@@ -221,7 +221,7 @@ useEffect(()=>{
                             <label style={{ fontSize: 14 }} className="mb-2">Checkout Date:</label>
                           </div>
                           <div>
-                            <Form.Control type="date" placeholder="Select check date" style={{ fontWeight: 700 }} value={CheckOutDate} onChange={handleDateChange} className="w-100 ms-3" />
+                            <Form.Control type="date" placeholder="Select check date" style={{ fontWeight: 700,fontSize:13 }} value={CheckOutDate} onChange={handleDateChange} className="w-100 ms-3" />
                           </div>
                         </div>
 
@@ -232,7 +232,7 @@ useEffect(()=>{
                             <label style={{ fontSize: 14 }} className="mb-2">Status:</label>
                           </div>
                           <div>
-                            <Form.Select aria-label="Default select example" style={{ fontSize: 14, fontWeight: 700 }} value={isActive} onChange={handleStatusChange}>
+                            <Form.Select aria-label="Default select example" style={{ fontSize: 13, fontWeight: 700 }} value={isActive} onChange={handleStatusChange}>
                               <option>Selected Type</option>
                               <option value="1">CheckIn</option>
                               <option value="0">CheckOut</option>
