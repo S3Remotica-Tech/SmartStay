@@ -489,17 +489,13 @@ const getFloorAbbreviation = (floor) => {
         <Table responsive >
             <thead style={{ backgroundColor: "#F6F7FB", fontSize: 10, color: "#91969E" }}>
               <tr >
-                <th style={{ color: "#91969E" }} >Name & Phone</th>
-                <th style={{ color: "#91969E" }} >EmailId</th>
-                <th style={{ color: "#91969E" }} >Address</th>
-                <th style={{ color: "#91969E" }} >AadharNo</th>
-                <th style={{ color: "#91969E" }} >PanCardNo</th>
-                <th style={{ color: "#91969E" }} >Licence</th>
+              <th style={{ color: "#91969E" }} ></th>
+                <th style={{ color: "#91969E" }} >Name</th>
+                <th style={{ color: "#91969E" }} >Phone</th>
                 <th style={{ color: "#91969E" }} >HostelName</th>
                 <th style={{ color: "#91969E" }}>Floor</th>
                 <th style={{ color: "#91969E" }} >Room</th>
                 <th style={{ color: "#91969E" }} >Bed</th>
-                <th style={{ color: "#91969E" }} >AdvanceAmount</th>
                 <th style={{ color: "#91969E" }} >Room Rent</th>
                 <th style={{ color: "#91969E" }} >Balance Due</th>
                 <th style={{ color: "#91969E" }} >Payment Type</th>
@@ -518,22 +514,14 @@ const getFloorAbbreviation = (floor) => {
               <p style={{ fontSize: 12, color: "black" }}>{user.Circle}</p>
             </span>
           </div>
-          <div style={{ marginLeft: "10px" }}>
-            <label style={{ color: "#0D99FF", fontWeight: 600 }}>{user.Name}</label><br />
-            <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {user.Phone}</label>
-          </div>
         </div>
       </td>
-      <td style={{ color: "black", fontWeight: 500 }}>{user.Email}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.Address}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.AadharNo}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.PancardNo}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.licence}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.HostelName}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.Floor}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.Rooms}</td>
+      <td style={{ color: "black", fontWeight: 500 }} onClick={() => handleRoomDetailsPage(user,user.Bed,user.Rooms,user.Floor,user.Hostel_Id)}>{user.Name}</td>
+      <td style={{ color: "black", fontWeight: 500 }}>+91 {user.Phone}</td>
+      <td style={{ color: "black", fontWeight: 500 }}>{user.HostelName}</td>
+      <td style={{ color: "black", fontWeight: 500 , textAlign: 'center' }}>{user.Floor}</td>
+      <td style={{ color: "black", fontWeight: 500 , textAlign: 'center' }}>{user.Rooms}</td>
       <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.Bed}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.AdvanceAmount}</td>
       <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {user.RoomRent}</td>
       <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {user.BalanceDue}</td>
       <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
