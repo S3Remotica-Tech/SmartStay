@@ -171,6 +171,10 @@ const InvoicePage = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  console.log("currentItems invoice",currentItems)
+
+
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   const [filtericon, setFiltericon] = useState(false)
@@ -1054,6 +1058,10 @@ const InvoicePage = () => {
                   <th style={{ color: "#91969E" }} >Date</th>
                   <th style={{ color: "#91969E" }} >Invoices#</th>
                   <th style={{ color: "#91969E" }} >Name & Phone</th>
+                  <th style={{ color: "#91969E" }} >HostelName</th>
+                  <th style={{ color: "#91969E" }} >Floor</th>
+                  <th style={{ color: "#91969E" }} >Room</th>
+                  <th style={{ color: "#91969E" }} >Bed</th>
                   <th style={{ color: "#91969E" }} >Amount</th>
                   {/* <th style={{ color: "#91969E" }} >Balance Due</th> */}
                   <th style={{ color: "#91969E" }} >Due Date</th>
@@ -1078,6 +1086,10 @@ const InvoicePage = () => {
                         </div>
                       </div>
                     </td>
+                    <td style={{ color: "black", fontWeight: 500 }}>{item.Hostel_Name}</td>
+                    <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_Id}</td>
+                    <td style={{ color: "black", fontWeight: 500 }}>{item.Room_No}</td>
+                    <td style={{ color: "black", fontWeight: 500 }}>{item.Bed}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
                     {/* <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td> */}
                     <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
