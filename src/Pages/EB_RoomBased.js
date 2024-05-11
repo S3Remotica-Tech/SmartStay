@@ -9,6 +9,8 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
+import SmartLogo from '../Assets/Images/Logo-Icon.png'
+
 
 import "./EB_Roombased.css"
 
@@ -201,7 +203,7 @@ const EBROOM = (props) => {
 
             <div style={{ display: 'flex', flexDirection: 'row', backgroundColor: "#F6F7FB", borderRadius: '10px', padding: '10px' }} className="col-3 ">
                 <div style={{ backgroundColor: 'white', height: '60px', width: '60px', borderRadius: '50%' }}>
-                    <Image src={props.hosteldetails.profile} roundedCircle
+                    <Image src={props.hosteldetails.profile || SmartLogo} roundedCircle
                         style={{
                             height: 35,
                             width: 35,
