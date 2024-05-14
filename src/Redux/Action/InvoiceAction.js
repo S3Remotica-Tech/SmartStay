@@ -6,8 +6,9 @@ export async function invoicelist() {
     })
   }
  
-export async function invoiceList() {
-  return await AxiosConfig.get('/list/invoice-list',{
+export async function invoiceList(invoice) {
+  return await AxiosConfig.post('/list/invoice-list',invoice,{
+    data:invoice
   })
 }
 
