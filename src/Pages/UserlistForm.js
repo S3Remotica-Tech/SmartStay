@@ -146,7 +146,7 @@ const handleIsActiveUser = (e) =>{
 
 
   const handleHostelId = (e) => {
-
+console.log("state.UsersList.hostelList",state.UsersList.hostelList);
     const selectedHostelId = e.target.value;
     const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter(item => item.id == e.target.value);
     setHostel_Id(selectedHostelId);
@@ -258,6 +258,7 @@ const handleRoomRent = (e) => {
 
   };
   useEffect(() => {
+    console.log("EditObj",props.EditObj);
     if (props.EditObj && props.EditObj.ID) {
       props.setEdit('Edit')
       setBednum(props.EditObj)
@@ -586,12 +587,13 @@ const handleRoomRent = (e) => {
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Room Rent (Monthly)</Form.Label>
-                      <FormControl
+                      <h1></h1>
+                      {/* <FormControl
                         type="text"
                         id="form-controls"
                         value={RoomRent} onChange={(e) => handleRoomRent(e)}
                         style={bottomBorderStyle}
-                      />
+                      /> */}
                     </Form.Group>
                   </div>
                 </div>
