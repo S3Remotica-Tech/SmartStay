@@ -14,10 +14,13 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import InvoiceDetail from './InvoiceDetails';
 import MessageModal from './MessageModal';
 import LoaderComponent from './LoaderComponent';
+import CryptoJS from "crypto-js";
 
 
 
 const InvoicePage = () => {
+
+
   const state = useSelector(state => state)
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
@@ -95,7 +98,7 @@ const InvoicePage = () => {
     console.log("state.InvoiceList.statusCodeForPDf === 200", state.InvoiceList?.statusCodeForPDf === 200);
     if (state.InvoiceList.statusCodeForPDf === 200) {
       console.log("selectedItems", selectedItems);
-      dispatch({ type: 'INVOICELIST' });
+      dispatch({ type: 'INVOICELIST', payload:{loginId:loginID} })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
       }, 100);
@@ -155,11 +158,37 @@ const InvoicePage = () => {
   //   dispatch({ type: 'HOSTELLIST' })
   // }, [])
 
-  useEffect(() => {
-    dispatch({ type: 'INVOICELIST' })
-    setData(state.InvoiceList.Invoice.response)
 
-  }, [])
+  const LoginId = localStorage.getItem("loginId")
+
+  const [loginID, setLoginID] = useState('')
+
+
+  useEffect(() => {
+    if (LoginId) {
+      try{
+        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parsedData = Number(decryptedIdString);
+        setLoginID(parsedData)
+        dispatch({ type: 'INVOICELIST', payload:{loginId:parsedData} })
+      
+      }
+      
+        catch(error){
+       console.log("Error decrypting loginid",error);
+        }
+    }
+
+  }, [LoginId])
+
+
+
+  // useEffect(() => {
+  //   dispatch({ type: 'INVOICELIST' })
+  //   setData(state.InvoiceList.Invoice)
+
+  // }, [])
 
   useEffect(() => {
     setData(state.InvoiceList.Invoice)

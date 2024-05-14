@@ -35,15 +35,22 @@ function UserList() {
   const [loginID, setLoginID] = useState('')
 
 
+
+console.log("state for userList",state)
+
+  console.log("loginID",loginID)
+
+
   useEffect(() => {
     if (LoginId) {
       try{
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedIdString);
-        setLoginID(parsedData)
+        console.log("Mathu",parsedData)
+     
         dispatch({ type: 'USERLIST', payload:{loginId:parsedData} })
-      
+        dispatch({ type: 'INVOICELIST', payload:{loginId:parsedData} })
       }
       
         catch(error){
@@ -55,18 +62,7 @@ function UserList() {
 
 
 
-  // useEffect(() => {
-
-  //   if(state.UsersList.statusCodeForAddUser == 200){
-     
-  //     // setTimeout(()=>{
-  //     //   dispatch({ type: 'CLEAR_STATUS_CODES'})
-  //     //   },200)
-  //   }
-   
-    
-  // }, [state.UsersList.statusCodeForAddUser])
-
+ 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [activePage, setActivePage] = useState(1);
@@ -224,12 +220,6 @@ const AfterEditBed = (bedsId) => {
 }
 
 
-  // const Hostel_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsHostel : hostel;
-  // const Bed_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsBeds : beds_id;
-  // const Floor_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsFloor: floors_Id;
-  // const Rooms_Ids = state.UsersList?.statusCodeForAddUser === 200 ? propsRooms : rooms_id;
-
-
 const [hostelIds, setHostelIds] = useState(hostel);
 const [bedIds, setBedIds] = useState(beds_id);
 const [floorIds, setFloorIds] = useState( floors_Id);
@@ -267,14 +257,21 @@ console.log("setRoomsIds",roomsIds)
     let User_Id = null;
     if (ParticularUserDetails.length > 0) {
       User_Id = ParticularUserDetails[0]?.User_Id;
+      const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice?.filter(user => user.User_Id == User_Id);
+      
+      console.log("filteredDataForuserlist",filteredData)
+      setFilteredDataForUser(filteredData);
+
     }
     console.log("User_Id",User_Id);
 
-    if (User_Id) {
-      const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.User_Id == User_Id);
-        setFilteredDataForUser(filteredData);
+    // if (User_Id) {
+    //   const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.User_Id == User_Id);
+      
+    //   console.log("filteredDataForuserlist",filteredData)
+    //   setFilteredDataForUser(filteredData);
     
-      }
+    //   }
 }, [roomDetail,state.UsersList?.Users,hostelIds,bedIds,floorIds,roomsIds]);
 
 
@@ -320,9 +317,7 @@ useEffect(() => {
     setFilterByInvoice(searchInvoice);
   }
 
-  useEffect(()=>{
-    dispatch({ type: 'INVOICELIST' })
-   },[])
+ 
 
 
   
@@ -344,7 +339,7 @@ useEffect(() => {
 }, [filterByStatus, filterByInvoice, filteredDataForUser, state.InvoiceList?.Invoice]);
 
 
-
+console.log("filteredDatas",filteredDatas)
 
 
 
@@ -436,6 +431,10 @@ const getFloorAbbreviation = (floor) => {
     const selectedStatus = e.target.value;
     setFilterByStatus(selectedStatus);
   };
+
+
+
+
   return (
     <div className='container p-2' >
 

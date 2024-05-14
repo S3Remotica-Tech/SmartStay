@@ -13,8 +13,8 @@ import Swal from 'sweetalert2'
 }
 
 
-function* handleInvoiceList() {
-   const response = yield call(invoiceList)
+function* handleInvoiceList(action) {
+   const response = yield call(invoiceList, action.payload)
    if (response.status === 200) {
       yield put({ type: 'INVOICE_LIST', payload: {response:response.data,statusCode:response.status} })
    }

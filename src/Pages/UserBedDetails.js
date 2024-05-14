@@ -99,6 +99,13 @@ function UserBedDetails(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [search, setSearch] = useState(false)
 
+  const LoginId = localStorage.getItem("loginId")
+
+  const [loginID, setLoginID] = useState('')
+
+
+
+
   // useEffect(() => {
   //   dispatch({ type: 'BILLPAYMENTHISTORY' })
   // }, [])
@@ -146,9 +153,15 @@ function UserBedDetails(props) {
   }
 
   useEffect(() => {
-    dispatch({ type: 'INVOICELIST' })
-    // setData(state.InvoiceList.Invoice)
-  }, [])
+    if(LoginId){
+      const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+      const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
+      const parsedData = Number(decryptedIdString);
+  dispatch({ type: 'INVOICELIST', payload:{loginId:parsedData} })
+    }
+     
+   
+  }, [LoginId])
 
 
   const [filteredDatas, setFilteredDatas] = useState([]);
@@ -242,11 +255,6 @@ function UserBedDetails(props) {
 
 
 
-  // const Hostel_Id = state.UsersList?.statusCodeForAddUser === 200 ? hostel : props.Hostel_Id;
-  // const Bed_Id = state.UsersList?.statusCodeForAddUser === 200 ? beds : props.userBed_Id;
-  // const Floor_Id = state.UsersList?.statusCodeForAddUser === 200 ? floor : props.Floor_Id;
-  // const Rooms_Id = state.UsersList?.statusCodeForAddUser === 200 ? rooms : props.Room_Id;
-
   console.log("Selected bed User", hostelId, floorId, roomsId, bedId)
 
   const [showLoader, setShowLoader] = useState(false)
@@ -281,26 +289,19 @@ function UserBedDetails(props) {
     if (ParticularUserDetails.length > 0) {
       User_Id = ParticularUserDetails[0]?.User_Id;
       setShowLoader(false); 
-
-    }
-    console.log("User_Id", User_Id);
-
-    if (User_Id) {
       const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.User_Id == User_Id);
+      
+      console.log("mathubala",filteredData)
+
       setFilteredDataForUser(filteredData);
-
     }
+    
 
-    // setTimeout(()=>{
-    // dispatch({ type: 'REMOVE_STATUS_CODE_USER'})
-    // },2000)
-
-
-  }, [state.UsersList?.Users,hostelId, floorId, roomsId, bedId])
+  }, [state.UsersList?.Users,hostelId, floorId, roomsId, bedId,state.InvoiceList?.Invoice])
 
 
 
-  const LoginId = localStorage.getItem("loginId")
+  
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser == 200) {
@@ -308,6 +309,7 @@ function UserBedDetails(props) {
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedIdString);
+        setLoginID(parsedData)
         dispatch({ type: 'USERLIST', payload: { loginId: parsedData } })
       }
       catch (error) {
