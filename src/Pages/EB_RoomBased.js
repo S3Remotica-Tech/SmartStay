@@ -121,40 +121,42 @@ const EBROOM = (props) => {
     const [filtervalue, setFilteredvalue] = useState([]);
     console.log("filtervalue",filtervalue);
 
-   useEffect(() => {
-    const currentDate = new Date();
-    const month = moment(new Date()).month() + 1;
-    console.log("current month", month);
-    const year = moment(new Date()).year();
+    useEffect(() => {
+        const currentDate = new Date();
+        const month = moment(currentDate).month() + 1;
+        console.log("current month", month);
+        const year = moment(currentDate).year();
+        
+        const uniqueCustomers = new Map();
+        
+        const filteredArray = state.PgList.EB_Customerlist.filter(item => {
+            const userMonth = moment(item.createAt).month() + 1;
+            const userYear = moment(item.createAt).year();
+            const userName = item.Name; 
+            const hostelId = props.hosteldetails.id; 
     
-    const latestNames = {};
-
-    const filteredArray = state.PgList.EB_Customerlist.filter(item => {
-        const userMonth = moment(item.createAt).month() + 1;
-        const userYear = moment(item.createAt).year();
-        const userName = item.Name;
-
-        console.log("userMonth", userMonth);
-        console.log("userYear", userYear);
-        if (userMonth === month && userYear === year && item.Hostel_Id === props.hosteldetails.id) {
-
-            if (!latestNames[`${userYear}-${userMonth}`]) {           
-                latestNames[`${userYear}-${userMonth}`] = userName;
-                return true;     
-            } else {
-            
-                if (moment(userName).isAfter(latestNames[`${userYear}-${userMonth}`])) {
-                    latestNames[`${userYear}-${userMonth}`] = userName;
-                    return true;
+            console.log("userMonth", userMonth);
+            console.log("userYear", userYear);
+    
+            if (userMonth === month && userYear === year && item.Hostel_Id === hostelId) {
+                if (uniqueCustomers.has(userName)) {
+                    const existingEntry = uniqueCustomers.get(userName);
+                    if (moment(item.createAt).isAfter(existingEntry.createAt)) {
+                        uniqueCustomers.set(userName, item);
+                    }
+                } else {
+                    uniqueCustomers.set(userName, item);
                 }
             }
-        }
-        return false;
-    });
+        });
+    
+        const finalFilteredArray = Array.from(uniqueCustomers.values());
+    
+        console.log("filteredArray", finalFilteredArray);
+        setFilteredvalue(finalFilteredArray);
+    }, [props.hosteldetails.id, state.PgList.EB_Customerlist]);
 
-    console.log("filteredArray", filteredArray);
-    setFilteredvalue(filteredArray);
-}, [props.hosteldetails.id, state.PgList.EB_Customerlist]);
+
 
     
     
@@ -168,10 +170,6 @@ const EBROOM = (props) => {
 
     const [startmeterdata,setStartmeterData]= useState([])
     console.log("startmeterdata",startmeterdata);
-    // useEffect(() => {
-    //     const filteredstartmeter = state.PgList.EB_startmeterlist.filter(item => item.hostel_Id === props.hosteldetails.id || item.Room == roomsByFloor.Room_Id);
-    //     setStartmeterData(filteredstartmeter);
-    // }, [props.hosteldetails.id, state.PgList.EB_startmeterlist]);
    
     useEffect(() => {
         const filteredstartmeter = state.PgList.EB_startmeterlist.filter(item => item.hostel_Id === props.hosteldetails.id || item.Floor == floorId  && item.Room == RoomId);
@@ -382,7 +380,7 @@ const EBROOM = (props) => {
                                 <td className='text-center' style={{ fontSize: 14 }} >{item.Name}</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >{item.Room_No}</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >{item.Eb_Unit}</td>
-                                <td className='text-center' style={{ fontSize: 14 }} >{item.Room_Based}</td>
+                                <td className='text-center' style={{ fontSize: 14 }} >{props.hosteldetails.isHostelBased == 0 ? item.Room_Based : item.Hostel_Based}</td>
                                 <td className='text-center' style={{ fontSize: 14 }} >
                                     <span><i class="bi bi-pencil-fill me-2"></i></span>
                                     <span><i class="bi bi-trash3"></i></span>
