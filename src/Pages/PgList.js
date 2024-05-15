@@ -430,7 +430,7 @@ const [usersBed, setUsersBed] = useState('')
     setRoomID(roomId)
   }
 
-
+console.log("floorID",floorID);
 
    const handleBedVisibilityChange = (isVisible, BedDetails) => {
     console.log("isVisible",isVisible)
@@ -474,6 +474,7 @@ const handleMouseEnter = () =>{
 const handleMouseLeave = () =>{
   setMouseEnter(false)
 }
+console.log("selectedHostel",selectedHostel);
   return (
     <>
      {hidePgList && <> 
@@ -791,6 +792,8 @@ const handleMouseLeave = () =>{
                 userBedId={userBedId}
                 Hostel_Id={Hostel_Id}
                 floorId={floorId}
+                floorID={bedDetailsPage.Floor_Id}
+                hostel_Id={selectedHostel.id}
                 roomId={roomId} /> 
           </>
         )

@@ -4,6 +4,7 @@
   import Plus from '../Assets/Images/Create-button.png';
   import 'bootstrap/dist/css/bootstrap.min.css';
   import { useDispatch, useSelector } from 'react-redux';
+  import { TiDeleteOutline } from "react-icons/ti";
   import { useLocation } from 'react-router-dom';
   import Topbar from '../Components/Topbar';
   import Sidebar from '../Components/Sidebar';
@@ -132,6 +133,7 @@
     const [licence, setLicence] = useState('')
     const [Bednum, setBednum] = useState('')
     const [shows, setShows] = useState(false);
+    const [roomDetailsError, setRoomDetailsError] = useState(false);
     const handleCloses = () => {
       setShows(false)
     };
@@ -178,6 +180,109 @@
       }
     }
 
+    //create Room 
+    const roomDetailsFromState = [];
+    const [currentRoomId, setCurrentRoomId] = useState("");
+    const [showsCreateRoom,setshowsCreateRoom] = useState(false);
+    const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '' ,roomRent: ''}
+        // , { roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }
+    ]);
+const handleCreateRoomShows =() => {
+  setshowsCreateRoom(true)
+}
+const handleNumberOfBedChangeForCreateRoom = (numberOfBeds, index) => {
+  setRoomDetails(prevState => {
+      const updatedRooms = [...prevState];
+      updatedRooms[index].numberOfBeds = numberOfBeds;
+      return updatedRooms;
+  });
+};
+    const handleAddRoom = () => {
+      setRoomDetails([...roomDetails, { roomId: '', numberOfBeds: '' }]);
+      const isExistingRoom = roomDetailsFromState.some(existingRoom =>
+          existingRoom.Hostel_Id === props.hostel_Id &&
+          existingRoom.Floor_Id === props.floorID &&
+          String(existingRoom.Room_Id) === String(roomDetails[0].roomId)
+      );
+
+      const isRoomDetailsValid = roomDetails.every(room => room.roomId && room.numberOfBeds);
+
+      if (isExistingRoom && isRoomDetailsValid) {
+          setRoomDetailsError(true);
+      } else {
+          setRoomDetailsError(false);
+      }
+  };
+  const handleRemoveRoomDetails = (indexToRemove) => {
+    setRoomDetails((prevDetails) => prevDetails.filter((_, index) => index !== indexToRemove));
+};
+
+const handleCreateRoom = () => {
+  console.log("props",props);
+  const floorId = props.floorID.toString()
+  // const hostel_Id = props.hostel_Id.toString();
+  const validRooms = roomDetails.filter(room => room.roomId && room.numberOfBeds);
+  console.log("validRooms ", validRooms)
+  if (validRooms.length > 0) {
+      dispatch({
+          type: 'CREATEROOM',
+          payload: {
+              id: props.hostel_Id,
+
+              floorDetails: validRooms.map(room => ({
+                  floorId: floorId,
+                  roomId: room.roomId,
+                  number_of_beds: room.numberOfBeds,
+                  roomRent: room.roomRent
+              })),
+          },
+      });
+
+      Swal.fire({
+          icon: 'success',
+          title: "Room created successfully",
+      })
+      setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
+      handleCreateRoomCloses();
+  } else {
+      Swal.fire({
+          icon: 'warning',
+          title: 'Please enter at least one valid room.',
+      });
+  }
+  // setRoomCount(state.PgList.roomCount)
+};
+
+const handleCreateRoomCloses = () => {
+  setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
+  setshowsCreateRoom(false)
+};
+
+  const handleRoomRentChange = (roomRent, index) =>{
+    setRoomDetails(prevState => {
+        const updatedRoomRent = [...prevState];
+        updatedRoomRent[index].roomRent = roomRent;
+        return updatedRoomRent;
+    });
+}
+
+  const handleRoomIdChange = (roomId, index) => {
+    setRoomDetails(prevState => {
+        const updatedRooms = [...prevState];
+        updatedRooms[index].roomId = roomId;
+        return updatedRooms;
+    });
+    if (roomId !== '' && roomDetailsFromState.some(existingRoom =>
+        existingRoom.Hostel_Id === props.hostel_Id &&
+        existingRoom.Floor_Id === props.floorID &&
+        String(existingRoom.Room_Id) === String(roomId)
+    )) {
+        setRoomDetailsError(true);
+    } else {
+        setRoomDetailsError(false);
+    }
+    setCurrentRoomId(roomId);
+};
 
     const handleRoomRent = (e) => {
       const roomRentValue = e.target.value;
@@ -550,7 +655,7 @@
               </div>
             </div>
             <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10">
-              <div className="card h-100 d-flex justify-content-center align-items-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover">
+              <div className="card h-100 d-flex justify-content-center align-items-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover" onClick={()=>{handleCreateRoomShows()}}>
                 <div className="">
                   <img src={Plus} height="18" width="16" alt='Plus' />
                 </div>
@@ -898,6 +1003,127 @@
             }
           </Offcanvas.Body>
         </Offcanvas>
+
+
+
+{/* create Room */}
+<Offcanvas show={showsCreateRoom} onHide={handleCreateRoomCloses} placement="end" style={{ width: "70vh" }}>
+                <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create PG</Offcanvas.Title>
+                <Offcanvas.Body>
+                    <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
+                    <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes. Be a part of SmartStay Circle, and invite-only, global community of social media influencers and affiliate networks.</p>
+
+                    {/* {roomDetailsError && (
+            <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
+                {roomDetails.map((room, index) => (
+                    <div key={index}>
+                        RoomId {room.roomId} is already exists & available beds are {roomDetailsFromState.find(existingRoom =>
+                            existingRoom.Hostel_Id === props.hostel_Id &&
+                            existingRoom.Floor_Id === props.floorID &&
+                            String(existingRoom.Room_Id) === String(room.roomId)
+                        )?.Number_Of_Beds}
+                    </div>
+                ))}
+            </div>
+        )} */}
+
+                    {roomDetailsError && (
+                        <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
+                            {roomDetails.map((room, index) => {
+                                if (room.roomId === currentRoomId) {
+                                    return (
+                                        <div key={index}>
+                                            RoomId {currentRoomId} is already exists & available beds are {roomDetailsFromState.find(existingRoom =>
+                                                existingRoom.Hostel_Id === props.hostel_Id &&
+                                                existingRoom.Floor_Id === props.floorID &&
+                                                String(existingRoom.Room_Id) === String(room.roomId)
+                                            )?.Number_Of_Beds}
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+                    )}
+
+
+
+                    <div className="row column-gap-4 g-3 d-flex align-items-center ">
+                        {roomDetails.map((room, index) => (
+                            <>
+                                <div key={index} className="col-lg-3 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                                    <div className="form-group mb-4 ps-1">
+                                        <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
+                                        <input
+                                            type="text"
+                                            value={room.roomId}
+                                            onChange={(e) => handleRoomIdChange(e.target.value, index)}
+                                            className="form-control custom-border-bottom p-0"
+                                            id={`roomNumber${index}`}
+                                            autoFocus
+                                            placeholder="Enter here"
+                                            style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div key={`beds${index}`} className="col-lg-3 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                                    <div className="form-group mb-4 ps-1">
+                                        <label htmlFor={`bedsNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Number of Beds</label>
+                                        <div className="d-flex">
+                                            <input
+                                                type="text"
+                                                value={room.numberOfBeds}
+                                                onChange={(e) => handleNumberOfBedChangeForCreateRoom(e.target.value, index)}
+                                                className="form-control custom-border-bottom p-0"
+                                                id={`bedsNumber${index}`}
+                                                placeholder="Enter here"
+                                                style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div key={`RoomRent${index}`} className="col-lg-3 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                                    <div className="form-group mb-4 ps-1">
+                                        <label htmlFor={`RoomRent${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Rent</label>
+                                        <div className="d-flex">
+                                            <input
+                                                type="text"
+                                                value={room.roomRent}
+                                                onChange={(e) => handleRoomRentChange(e.target.value, index)}
+                                                className="form-control custom-border-bottom p-0"
+                                                id={`RoomRent${index}`}
+                                                placeholder="Enter here"
+                                                style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {index > 0 &&
+                                    <div className="col-lg-1">
+                                        <TiDeleteOutline style={{ fontSize: 18, color: "red", cursor: "pointer" }} onClick={() => handleRemoveRoomDetails(index)} />
+                                    </div>
+                                }
+                            </>
+                        ))}
+                    </div>
+
+                    <div onClick={handleAddRoom}>
+                        <AiOutlinePlusCircle style={{ height: "30px" }} /> <label style={{ color: "gray", fontSize: "14px" }}>Add Room</label>
+                    </div>
+                    <hr style={{ marginTop: "100px" }} />
+
+                    <div className="d-flex justify-content-end" style={{ marginTop: "15px" }}>
+                        <Button variant="outline-secondary" className='ms-2 me-2' size="sm" style={{ width: "90px", borderRadius: 200 }} onClick={handleCancels}>
+                            Cancel
+                        </Button>
+                        <Button variant="outline-primary" className='ms-2 me-2' size="sm" style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
+                            {roomDetailsError ? "Update" : "Save"}
+                        </Button>
+                    </div>
+                </Offcanvas.Body>
+            </Offcanvas>
 
 
       </>
