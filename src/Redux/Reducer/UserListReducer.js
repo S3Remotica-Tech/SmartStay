@@ -17,6 +17,7 @@ const initialState = {
     errormessage: {},
     CheckOut: [],
     checkOutStatusCode:0,
+    hosteListStatusCode:0,
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -56,8 +57,11 @@ const UserListReducer = (state = initialState, action) => {
         case 'ERROR':
             return { ...state, errorMessage: action.payload }
         case 'HOSTEL_LIST':
-            return { ...state, hostelList: action.payload }
-        case 'HOSTEL_DETAIL_LIST':
+            return { ...state, hostelList: action.payload.response, hosteListStatusCode:action.payload.statusCode }
+       case 'CLEAR_HOSTELLIST_STATUS_CODE':
+        return {...state, hosteListStatusCode:0}
+       
+            case 'HOSTEL_DETAIL_LIST':
             return { ...state, hosteldetailslist: action.payload }
         case 'CHECKOUT_USER':
             return { ...state, CheckOut: action.payload.response, checkOutStatusCode:action.payload.statusCode }

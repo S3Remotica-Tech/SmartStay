@@ -77,9 +77,34 @@ function PgList() {
 
   const [hostelIndex, setHostelIndex] = useState(0)
   const [roomDetails, setRoomDetails] = useState('')
-  const [selectedHostel, setSelectedHostel] = useState(state.UsersList.hostelList[0]);
-  console.log("selectedHostel",selectedHostel);
+  
 
+  const [selectedHostel, setSelectedHostel] = useState(state.UsersList.hostelList.length > 0 ? state.UsersList.hostelList[0] : {});
+  console.log("selectedHostel",selectedHostel);
+  
+  const handleHostelSelect = (hostelName) => {
+    console.log("hostelName",hostelName)
+    const selected = state.UsersList.hostelList?.find((item, index) => {
+      setHostelIndex(index)
+      console.log("id",item.id)
+      return item.id == hostelName
+    });
+    console.log("indexSelected",selected)
+    setSelectedHostel(selected);
+    handleRowVisibilityChange(true);
+    handleBedVisibilityChange(false)
+  };
+
+
+  useEffect(()=>{
+    if(state.UsersList?.hosteListStatusCode == 200){
+      setSelectedHostel(state.UsersList.hostelList.length > 0 ? state.UsersList.hostelList[0] : {})
+      setTimeout(()=>{
+        dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE'})
+      },1000)
+    }
+  
+  },[state.UsersList?.hosteListStatusCode])
 
 
   const [floorDetails, setFloorDetails] = useState([{ number_of_floor: '' }
@@ -193,11 +218,18 @@ if(state.PgList.createPGMessage){
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedString);
         dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+  
+       
+
  setTimeout(() => {
   dispatch({type:'AFTER_CREATE_PG_MSG',message:null})
  }, 100);
 }
 },[state.PgList.createPGMessage])
+
+
+
+
 
 
   const handleFloorList = (index, roomlist) => {
@@ -359,18 +391,7 @@ const loginId = localStorage.getItem('loginId');
   };
 
 
-  const handleHostelSelect = (hostelName) => {
-    console.log("hostelName",hostelName)
-    const selected = state.UsersList.hostelList?.find((item, index) => {
-      setHostelIndex(index)
-      console.log("id",item.id)
-      return item.id == hostelName
-    });
-    console.log("selected",selected)
-    setSelectedHostel(selected);
-    handleRowVisibilityChange(true);
-    handleBedVisibilityChange(false)
-  };
+ 
 
 
 
@@ -645,7 +666,8 @@ console.log("selectedHostel",selectedHostel);
     )}
              
               </div>
-              <select  value={selectedHostel.id}  onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding:8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
+              
+              <select   value={selectedHostel ? selectedHostel.id || "" : ""} onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding:8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
                 <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
                 {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((obj) => {
                   return (<>
