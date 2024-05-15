@@ -10,6 +10,7 @@ const initialState = {
    IsEnable: '',
    accountList: [],
    statusCodeForAccount: 0,
+   statusCodeCreateAccount:0,
    toTriggerProfile:false,
 }
 const CreateAccountReducer = (state = initialState, action) => {
@@ -18,7 +19,7 @@ const CreateAccountReducer = (state = initialState, action) => {
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
          case 'CREATEACCOUNTPAGE':
-         return { ...state, MobileNo: action.payload.mobileNo, EmailId: action.payload.emailId, Password: action.payload.password, Name: action.payload.name, accountMgs: action.payload.response }
+         return { ...state, MobileNo: action.payload.mobileNo, EmailId: action.payload.emailId, Password: action.payload.password, Name: action.payload.name, accountMgs: action.payload.response ,statusCodeCreateAccount:action.payload.statusCode}
          
       case 'CREATEACCOUNT':
          return { ...state, MobileNo: action.payload.mobileNo, EmailId: action.payload.emailId, Password: action.payload.password, Name: action.payload.name, accountMgs: action.payload.response, statusCodeForAccount:action.payload.statusCode }
