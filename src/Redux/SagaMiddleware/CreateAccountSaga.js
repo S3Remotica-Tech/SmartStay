@@ -8,9 +8,6 @@ import Swal from 'sweetalert2';
 function* CreateNewAccount(args) {
   try {
     const response = yield call(Addaccount, args.payload);
-    // console.log("args.payload", args.payload);
-    // console.log("response for createAccount Api", response);
-
     if (response.status === 200) {
       yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status } });
 
@@ -57,12 +54,7 @@ function* CreateAccountPage(args) {
         type: 'CREATEACCOUNT',
         payload: { response: response.data, statusCode: response.statusCode }
       });
-      // Swal.fire({
-      //   icon: 'success',
-      //   text: response.data.message,
-      //   confirmButtonText: 'Ok'
-      // })
-
+     
     }
 
   } catch (error) {
