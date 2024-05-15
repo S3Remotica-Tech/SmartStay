@@ -17,7 +17,7 @@ function* handleHostelList(hostel) {
    const response = yield call(hostelList,hostel.payload)
    console.log("response for hostelList",response)
    if (response.status === 200) {
-      yield put({ type: 'HOSTEL_LIST', payload: response.data })
+      yield put({ type: 'HOSTEL_LIST', payload:{ response: response.data, statusCode: response.status} })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
