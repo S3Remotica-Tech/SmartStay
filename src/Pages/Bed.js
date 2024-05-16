@@ -591,9 +591,9 @@ const handleCreateRoomCloses = () => {
 
       if(state.UsersList.statusCodeForAddUser == 200){
         dispatch({ type: 'USERLIST', payload:{loginId:loginID } })
-        setTimeout(()=>{
-          dispatch({ type: 'MANUALINVOICE' })
-        },3000)
+        // setTimeout(()=>{
+        //   dispatch({ type: 'MANUALINVOICE' })
+        // },3000)
         setTimeout(()=>{
           dispatch({ type: 'CLEAR_STATUS_CODES'})
           },200)

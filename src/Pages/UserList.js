@@ -279,9 +279,9 @@ useEffect(() => {
   if (state.UsersList?.statusCodeForAddUser === 200) {
     dispatch({ type: 'USERLIST', payload:{loginId:loginID } })
   
-    setTimeout(()=>{
-      dispatch({ type: 'MANUALINVOICE' })
-    },3000)
+    // setTimeout(()=>{
+    //   dispatch({ type: 'MANUALINVOICE' })
+    // },3000)
 
     setHostelIds(propsHostel);
     setBedIds(propsBeds);
