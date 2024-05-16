@@ -303,7 +303,7 @@ const handleRoomRent = (e) => {
       Rooms &&
       Bed &&
       AdvanceAmount &&
-      RoomRent &&
+      // RoomRent &&
       PaymentType
          ) {
       dispatch({
