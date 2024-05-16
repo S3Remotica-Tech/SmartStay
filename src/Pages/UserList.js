@@ -526,8 +526,8 @@ const getFloorAbbreviation = (floor) => {
       <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
       <td style={user.Status === "Success" ? { color: "green" } : { color: "red" }}>{user.Status}</td>
       <td>
-        <img src={img1} className='img1' alt="img1" onClick={() => handleRoomDetailsPage(user,user.Bed,user.Rooms,user.Floor,user.Hostel_Id)}/>
-        <img src={img2} className='img1 ms-1' alt="img1" onClick={() => { handleShow(user) }} />
+        <img src={img1} className='img1' height={25} width={20} alt="img1" onClick={() => handleRoomDetailsPage(user,user.Bed,user.Rooms,user.Floor,user.Hostel_Id)}/>
+        <img src={img2} className='img1 ms-1' height={25} width={20} alt="img1" onClick={() => { handleShow(user) }} />
       </td>
     </tr>
   

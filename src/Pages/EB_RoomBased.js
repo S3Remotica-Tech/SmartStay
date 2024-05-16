@@ -122,57 +122,18 @@ const EBROOM = (props) => {
     console.log("filtervalue",filtervalue);
 
     useEffect(() => {
-        const currentDate = new Date();
-        const month = moment(currentDate).month() + 1;
-        console.log("current month", month);
-        const year = moment(currentDate).year();
-        
-        const uniqueCustomers = new Map();
-        
-        const filteredArray = state.PgList.EB_Customerlist.filter(item => {
-            const userMonth = moment(item.createAt).month() + 1;
-            const userYear = moment(item.createAt).year();
-            const userName = item.Name; 
-            const hostelId = props.hosteldetails.id; 
-    
-            console.log("userMonth", userMonth);
-            console.log("userYear", userYear);
-    
-            if (userMonth === month && userYear === year && item.Hostel_Id === hostelId) {
-                if (uniqueCustomers.has(userName)) {
-                    const existingEntry = uniqueCustomers.get(userName);
-                    if (moment(item.createAt).isAfter(existingEntry.createAt)) {
-                        uniqueCustomers.set(userName, item);
-                    }
-                } else {
-                    uniqueCustomers.set(userName, item);
-                }
-            }
-        });
-    
-        const finalFilteredArray = Array.from(uniqueCustomers.values());
-    
-        console.log("filteredArray", finalFilteredArray);
-        setFilteredvalue(finalFilteredArray);
+        const filteredArray = state.PgList.EB_Customerlist.filter(item => item.Hostel_Id == props.hosteldetails.id);
+        console.log("filteredArray",filteredArray);
+        setFilteredvalue(filteredArray);
     }, [props.hosteldetails.id, state.PgList.EB_Customerlist]);
-
-
-
     
-    
-    
-    
-
-    console.log("Filtered array:", filtervalue);
-
-
-
 
     const [startmeterdata,setStartmeterData]= useState([])
     console.log("startmeterdata",startmeterdata);
    
     useEffect(() => {
-        const filteredstartmeter = state.PgList.EB_startmeterlist.filter(item => item.hostel_Id === props.hosteldetails.id || item.Floor == floorId  && item.Room == RoomId);
+        const filteredstartmeter = state.PgList.EB_startmeterlist.filter(item =>  item.Floor ==0 && item.Room ==0 ? item?.hostel_Id == props?.hosteldetails.id : item?.hostel_Id == props?.hosteldetails.id && item.Floor == floorId  && item.Room == RoomId);
+        console.log("filteredstartmeter",filteredstartmeter);
         const lastItem = filteredstartmeter[filteredstartmeter.length - 1]; 
         setStartmeterData(lastItem);
     }, [props.hosteldetails.id, state.PgList.EB_startmeterlist,floorId ,RoomId]);
@@ -276,7 +237,7 @@ const EBROOM = (props) => {
                 aria-describedby="basic-addon2"
                 autoFocus
                 disabled
-                value={startmeterdata ? startmeterdata.start_Meter_Reading : 0}
+                value={startmeterdata ? startmeterdata.end_Meter_Reading : 0}
                 onChange={(e) => handlestartmeter(e)}
                 style={{
                     border: "1px solid lightgray",
