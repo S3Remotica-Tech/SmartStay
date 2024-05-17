@@ -146,7 +146,6 @@ const handleIsActiveUser = (e) =>{
 
 
   const handleHostelId = (e) => {
-console.log("state.UsersList.hostelList",state.UsersList.hostelList);
     const selectedHostelId = e.target.value;
     const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter(item => item.id == e.target.value);
     setHostel_Id(selectedHostelId);
@@ -258,7 +257,6 @@ const handleRoomRent = (e) => {
 
   };
   useEffect(() => {
-    console.log("EditObj",props.EditObj);
     if (props.EditObj && props.EditObj.ID) {
       props.setEdit('Edit')
       setBednum(props.EditObj)

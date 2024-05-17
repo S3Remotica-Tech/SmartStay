@@ -21,8 +21,6 @@ function Checkout() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  console.log("state for checkout", state)
-
   const [selectedUserId, setSelectedUserId] = useState('')
 const [loginAdmin, setLoginAdmin] = useState('')
 
@@ -50,8 +48,6 @@ const [loginAdmin, setLoginAdmin] = useState('')
 
 
 
-  console.log("usersId *&*", usersId)
-
   const handleDateChange = (e) => {
     setCheckOutDate(e.target.value)
   }
@@ -64,7 +60,6 @@ const [loginAdmin, setLoginAdmin] = useState('')
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
       const uniqueOptions = Array.from(new Set(state.UsersList?.Users.map((item) => item.User_Id)));
-      console.log("uniqueOptions", uniqueOptions)
       setUsersId(uniqueOptions);
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_USER' })
@@ -79,13 +74,10 @@ const [loginAdmin, setLoginAdmin] = useState('')
   useEffect(() => {
     if (selectedUserId) {
       const filteredDetails = state.UsersList?.Users.filter(item => {
-        console.log("item.User_Id", item.User_Id)
-        console.log("selectedUserId", selectedUserId)
         return item.User_Id == selectedUserId
       }
       )
       setUserDetails(filteredDetails)
-      console.log("fill", filteredDetails);
     }
   }, [selectedUserId])
 

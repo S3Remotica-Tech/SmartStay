@@ -20,7 +20,6 @@ function ForgetPasswordPage() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  console.log("state for forgot", state)
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [showPassword, setShowpassword] = useState(false);
@@ -54,8 +53,6 @@ function ForgetPasswordPage() {
     }
   };
 
-  // console.log("state.NewPass.Pass.statusCode", state.NewPass.Pass.statusCode)
-  // console.log("state.NewPass.OTP.statusCode", state.NewPass.OTP.statusCode)
 
   useEffect(() => {
     if (state.NewPass?.status_codes === 200) {
@@ -131,7 +128,7 @@ function ForgetPasswordPage() {
 
   }, [state.NewPass?.statusCode])
 
-console.log("state.NewPass?.sendEmailStatusCode == 203",state.NewPass?.sendEmailStatusCode == 203)
+// console.log("state.NewPass?.sendEmailStatusCode == 203",state.NewPass?.sendEmailStatusCode == 203)
 
 
 useEffect(()=>{

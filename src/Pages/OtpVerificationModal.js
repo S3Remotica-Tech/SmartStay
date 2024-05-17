@@ -52,16 +52,11 @@ if (LoginDetails) {
   const Is_Enable = LoginDetails.isEnable;
   const Pass_word = LoginDetails.password;
 
-//   console.log("Pass_word", Pass_word);
 
   const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == LoginId ))
 
-// console.log("IsEnableCheckState",IsEnableCheckState)
 
 let is_Enable = IsEnableCheckState[0].isEnable
-
-
-// console.log("is_Enable",is_Enable)
 
   const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
   const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
@@ -70,12 +65,10 @@ let is_Enable = IsEnableCheckState[0].isEnable
   const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
   const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
 
-  console.log("encryptedLoginId", encryptedLoginId);
 
   if (is_Enable === 0) {
       const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
-      console.log("encryptData", encryptData.toString());
-            localStorage.setItem("login", encryptData.toString());
+      localStorage.setItem("login", encryptData.toString());
       localStorage.setItem("loginId", encryptedLoginId);
       localStorage.setItem("NameId", encryptedname);
       localStorage.setItem("phoneId", encryptedphone);
@@ -84,7 +77,6 @@ let is_Enable = IsEnableCheckState[0].isEnable
       localStorage.setItem("Password", encryptPassword);
   } else {
       const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
-      console.log("encryptData", encryptData.toString());
       localStorage.setItem("login", encryptData.toString());
       localStorage.setItem("loginId", encryptedLoginId);
       localStorage.setItem("NameId", encryptedname);
@@ -112,7 +104,6 @@ dispatch({ type: 'CLEAR_OTP_VERIFIED'})
   const otpResponse = state.NewPass?.OTP?.response;
   const otp = otpResponse?.otp
 
-  // console.log("otp for get backend", otp)
 
 
   const handleOtpVerify = () => {

@@ -11,7 +11,6 @@ import CryptoJS from "crypto-js";
 function InvoiceSettings() {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    console.log("state for invoice settings", state)
 
 
 
@@ -25,7 +24,6 @@ function InvoiceSettings() {
 
     const handleHostelChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
-        console.log("selectedIndex", selectedIndex)
         setShowTable(true)
         setSelectedHostel({
             id: e.target.value,
@@ -33,13 +31,10 @@ function InvoiceSettings() {
         });
     };
 
-    console.log("selectedHostel", selectedHostel)
 
 
     const [selectedImage, setSelectedImage] = useState(null);
 
-
-    console.log("selectedImage size", selectedImage)
 
     const handleImageChange = async (event) => {
         const file = event.target.files[0];
@@ -61,7 +56,6 @@ function InvoiceSettings() {
     const [startNumber, setStartNumber] = useState('')
 
     const handlePrefix = (e) => {
-        console.log("e.target.value", e.target.value)
         setPrefix(e.target.value)
     }
 
@@ -104,7 +98,6 @@ function InvoiceSettings() {
         if (state.InvoiceList?.statusCode === 200) {
                    const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
           const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-          console.log('Decrypted Login Id:', decryptedIdString);
           const parsedData = Number(decryptedIdString);
   
           dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
@@ -128,9 +121,7 @@ function InvoiceSettings() {
         ));
        
         if (filteredHostels.length > 0) {
-            const profileURL = filteredHostels[0]?.profile;
-            console.log("profileURL", profileURL)
-           
+            const profileURL = filteredHostels[0]?.profile;           
             setLogo(profileURL);
         } else {
 
@@ -139,7 +130,6 @@ function InvoiceSettings() {
     }, [selectedHostel, state.UsersList?.hostelList]);
 
 
-    console.log("logo state", logo)
 
 
     // const loginId = localStorage.getItem('loginId');

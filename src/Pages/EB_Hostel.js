@@ -14,11 +14,7 @@ function EB_Hostel() {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state.UsersList);
-  console.log("state for EB",state )
 
-  // useEffect(() => {
-  //   dispatch({ type: 'HOSTELLIST' })
-  // }, [])
 
   const [loginid,setLoginid]= useState();
   const loginId = localStorage.getItem('loginId');
@@ -27,7 +23,6 @@ function EB_Hostel() {
       try {
         const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
         const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-        console.log('Decrypted Login Id:', decryptedIdString);
         const parsedData = Number(decryptedIdString);
         setLoginid(parsedData);
         dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
@@ -46,7 +41,6 @@ function EB_Hostel() {
   // useEffect(() => {
   //   if (LoginId) {
  
-  //      console.log("executed **********S")
   //      try{
   //        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
   //        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
@@ -83,7 +77,6 @@ function EB_Hostel() {
 
   const handleEbbill = (hostel)=> {
     setISVisible(true)
-    console.log("hostel",hostel);
     setHosteldetails(hostel)
   }
 

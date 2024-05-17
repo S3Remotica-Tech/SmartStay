@@ -36,7 +36,6 @@ function getFloorName(floor_Id) {
     return '3rd Floor';
   } else if (floor_Id >= 11 && floor_Id <= 13) {
     const id = floor_Id - 1
-    console.log("id.....", id);
     return `${floor_Id}th Floor`;
   } else {
     const lastDigit = floor_Id % 10;
@@ -80,16 +79,12 @@ function PgList() {
   
 
   const [selectedHostel, setSelectedHostel] = useState(state.UsersList.hostelList.length > 0 ? state.UsersList.hostelList[0] : {});
-  console.log("selectedHostel",selectedHostel);
   
   const handleHostelSelect = (hostelName) => {
-    console.log("hostelName",hostelName)
     const selected = state.UsersList.hostelList?.find((item, index) => {
       setHostelIndex(index)
-      console.log("id",item.id)
       return item.id == hostelName
     });
-    console.log("indexSelected",selected)
     setSelectedHostel(selected);
     handleRowVisibilityChange(true);
     handleBedVisibilityChange(false)
@@ -284,7 +279,6 @@ const loginId = localStorage.getItem('loginId');
       try {
         const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
         const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-        console.log('Decrypted Login Id:', decryptedIdString);
         const parsedData = Number(decryptedIdString);
 
         dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
@@ -422,20 +416,17 @@ const [usersBed, setUsersBed] = useState('')
   };
 
   const handlehidePgList = (isVisible) => {
-    console.log("handlehidePgList",isVisible)
     setHidePgList(isVisible);
       };
 
   
 
   const handleDisplayBed = (isVisible,userBeds) =>{
-    console.log("room-details",isVisible)
     setBedDetailsDisplay(isVisible)
     
    }
 
    const userBedId = (bedId) => {
-    console.log("userBedId", bedId)
     setUsersBed(bedId)
   }
 
@@ -451,10 +442,8 @@ const [usersBed, setUsersBed] = useState('')
     setRoomID(roomId)
   }
 
-console.log("floorID",floorID);
 
    const handleBedVisibilityChange = (isVisible, BedDetails) => {
-    console.log("isVisible",isVisible)
     setBedDetailShow(isVisible)
     setBedDetailsPage(BedDetails)
     setBedDetailsDisplay(false)
@@ -469,7 +458,6 @@ console.log("floorID",floorID);
   }
 
   const handlehidePgListForUser = (isVisible) =>{
-    console.log("handlehidePgListForUser",isVisible)
     setHidePgList(isVisible);
     setBedDetailShow(isVisible)
   
@@ -495,7 +483,6 @@ const handleMouseEnter = () =>{
 const handleMouseLeave = () =>{
   setMouseEnter(false)
 }
-console.log("selectedHostel",selectedHostel);
   return (
     <>
      {hidePgList && <> 

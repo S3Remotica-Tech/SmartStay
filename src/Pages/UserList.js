@@ -35,20 +35,12 @@ function UserList() {
   const [loginID, setLoginID] = useState('')
 
 
-
-console.log("state for userList",state)
-
-  console.log("loginID",loginID)
-
-
   useEffect(() => {
     if (LoginId) {
       try{
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-        console.log("Mathu",parsedData)
-     
+        const parsedData = Number(decryptedIdString);     
         dispatch({ type: 'USERLIST', payload:{loginId:parsedData} })
         dispatch({ type: 'INVOICELIST', payload:{loginId:parsedData} })
       }
@@ -89,8 +81,8 @@ console.log("state for userList",state)
     setShowForm(true);
     setUserClicked(true);
   };
+
   const handleShow = (u) => {
-    console.log("click");
     handleMenuClick();
     setShowMenu(true);
     setEditObj(u)
@@ -178,10 +170,6 @@ const [rooms_id, setRoomsId] = useState('')
 const [beds_id, setBed_Id] = useState('')
 
 const handleRoomDetailsPage = (userData,bed,room,floor,hostel_id) => {
-  console.log("hostel_id:", hostel_id);
-  console.log("bed:", bed);
-  console.log("room:", room);
-  console.log("floor:", floor);
   const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
   // sethostel(hostel_id)
   // setFloors_Id(floor)
@@ -204,7 +192,6 @@ const [propsBeds, setPropsBeds] = useState('')
 
 const AfterEditHostel = (hostel_id) => {
   setPropsHostel(hostel_id)
-  console.log("propsHostel", hostel_id)
 }
 
 const AfterEditFloor = (Floor_ID) => {
@@ -226,21 +213,12 @@ const [floorIds, setFloorIds] = useState( floors_Id);
 const [roomsIds, setRoomsIds] = useState(rooms_id);
 
 
-console.log("setHostelIds",hostelIds)
-console.log(" setBedIds",bedIds)
-console.log(" setFloorIds",floorIds)
-console.log("setRoomsIds",roomsIds)
-
   const [filteredDataForUser, setFilteredDataForUser] = useState([]);
  const [userDetails, setUserDetails] = useState([])
 
   useEffect(() => {
     const ParticularUserDetails = state.UsersList?.Users?.filter(item =>{
 
-      console.log("bedId filter", bedIds)
-      console.log(" hostelId", hostelIds)
-      console.log("floorId", floorIds)
-      console.log("Number(roomsId)", roomsIds)
       return item.Bed == bedIds &&
       item.Hostel_Id == hostelIds &&
       item.Floor == floorIds &&
@@ -252,23 +230,19 @@ console.log("setRoomsIds",roomsIds)
     // const filteredUserDetails = ParticularUserDetails.filter(details => details.length !== 0);
 
     setUserDetails(ParticularUserDetails);
-    console.log("ParticularUserDetails:", ParticularUserDetails);
 
     let User_Id = null;
     if (ParticularUserDetails.length > 0) {
       User_Id = ParticularUserDetails[0]?.User_Id;
       const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice?.filter(user => user.User_Id == User_Id);
       
-      console.log("filteredDataForuserlist",filteredData)
       setFilteredDataForUser(filteredData);
 
     }
-    console.log("User_Id",User_Id);
 
     // if (User_Id) {
     //   const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.User_Id == User_Id);
       
-    //   console.log("filteredDataForuserlist",filteredData)
     //   setFilteredDataForUser(filteredData);
     
     //   }
@@ -339,7 +313,6 @@ useEffect(() => {
 }, [filterByStatus, filterByInvoice, filteredDataForUser, state.InvoiceList?.Invoice]);
 
 
-console.log("filteredDatas",filteredDatas)
 
 
 

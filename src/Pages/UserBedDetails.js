@@ -25,9 +25,7 @@ import LoaderComponent from './LoaderComponent';
 
 function UserBedDetails(props) {
   const dispatch = useDispatch();
-  console.log(" props", props)
   const state = useSelector(state => state);
-  console.log(state, "state for UserBedDetails***");
   const getFloorName = (Floor) => {
     if (Floor === 1) {
       return 'Ground Floor';
@@ -135,7 +133,6 @@ function UserBedDetails(props) {
   const handleBack = () => {
     props.backToBed(true)
     props.hideBed(false)
-    console.log("handleBack Bed")
     dispatch({ type: 'CLEAR_STATUS_CODE_BED' })
   }
 
@@ -181,7 +178,6 @@ function UserBedDetails(props) {
       }
 
       setFilteredDatas(filteredData);
-      console.log("filteredDatas", filteredDatas);
     }
   }, [filterByStatus, filterByInvoice, state.InvoiceList?.Invoice]);
 
@@ -199,7 +195,6 @@ function UserBedDetails(props) {
 
 
   const handleShow = (u) => {
-    console.log("click", u);
     handleMenuClick();
     setShowMenu(true);
     localStorage.setItem('showMenu', 'true');
@@ -219,28 +214,23 @@ function UserBedDetails(props) {
 
   const AfterEditHostel = (hostel_id) => {
     setHostel(hostel_id)
-    console.log("hostel_id", hostel_id)
   }
 
 
   const AfterEditFloor = (Floor_ID) => {
     setFloor(Floor_ID)
-    console.log("floor", Floor_ID)
   }
 
   const AfterEditRooms = (room) => {
     setRooms(room)
-    console.log("room", room)
   }
 
   const AfterEditBed = (bedsId) => {
     setBeds(bedsId)
-    console.log("bedsId", bedsId)
   }
 
 
 
-  // console.log(state.UsersList?.statusCodeForAddUser === 200, "state.UsersList?.statusCodeForAddUser === 200")
 
 
   const [userDetailForUser, setUserDetailsForUser] = useState([])
@@ -252,11 +242,6 @@ function UserBedDetails(props) {
   const [floorId, setFloorId] = useState(props.Floor_Id);
   const [roomsId, setRoomsId] = useState(props.Room_Id);
 
-
-
-
-  console.log("Selected bed User", hostelId, floorId, roomsId, bedId)
-
   const [showLoader, setShowLoader] = useState(false)
 
 
@@ -264,11 +249,6 @@ function UserBedDetails(props) {
   useEffect(() => {
 
     const ParticularUserDetails = state.UsersList?.Users?.filter(item => {
-
-      // console.log("item.Bed == bedId", bedId)
-      // console.log("item.Hostel_Id == hostelId &&", hostelId)
-      // console.log("item.Floor == floorId", floorId)
-      // console.log("item.Rooms == Number(roomsId)", roomsId)
 
       return item.Bed == bedId &&
         item.Hostel_Id == hostelId &&
@@ -278,7 +258,6 @@ function UserBedDetails(props) {
 
     );
 
-    console.log("ParticularUserDetails ", ParticularUserDetails)
 
     setUserDetailsForUser(ParticularUserDetails)
 
@@ -291,8 +270,6 @@ function UserBedDetails(props) {
       setShowLoader(false); 
       const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.User_Id == User_Id);
       
-      console.log("mathubala",filteredData)
-
       setFilteredDataForUser(filteredData);
     }
     
@@ -330,10 +307,6 @@ function UserBedDetails(props) {
       setFloorId(floor);
       setRoomsId(rooms);
 
-      console.log("h", hostelId)
-      console.log("f", floorId)
-      console.log("r", roomsId)
-      console.log("b", bedId)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
       }, 2000)

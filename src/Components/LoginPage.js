@@ -22,7 +22,6 @@ const MyComponent = () => {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  console.log("state", state)
   let navigate = useNavigate();
 
   const [email_Id, setemail_Id] = useState('')
@@ -54,7 +53,6 @@ const MyComponent = () => {
 
   const [checked, setChecked] = useState(false)
 
-console.log("checkedd",checked)
   const handleCheckboxChange = (e) => {
     setChecked(e.target.checked);
   }
@@ -62,14 +60,11 @@ console.log("checkedd",checked)
 
   const [showOtpVerification, setShowOtpVerification] = useState(false)
 
-// console.log("state.login?.otpSuccessStatusCode == 203",state.login?.otpSuccessStatusCode == 203)
 
 
 useEffect(()=>{
 if(state.login?.otpSuccessStatusCode == 203){
   setShowOtpVerification(true)
-
-  console.log("showOtpVerification",showOtpVerification)
 }
 setTimeout(()=>{
 dispatch({ type: 'CLEAR_OTP_STATUSCODE'})
@@ -100,8 +95,6 @@ useEffect(()=>{
 
       const loginInfo = state.login && state.login.loginInformation ? state.login.loginInformation[0] : undefined;
 
-
-        console.log("loginInfo",loginInfo)
         
         if (loginInfo) {
             const LoginId = loginInfo.id;
@@ -111,16 +104,12 @@ useEffect(()=>{
             const Is_Enable = loginInfo.isEnable;
             const Pass_word = loginInfo.password;
 
-// console.log("Is_Enable",Is_Enable)
 
 const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == LoginId ))
 
-console.log("IsEnableCheckState",IsEnableCheckState)
 
 let is_Enable = IsEnableCheckState[0].isEnable
 
-
-console.log("is_Enable",is_Enable)
 
             const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
             const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
@@ -129,11 +118,9 @@ console.log("is_Enable",is_Enable)
             const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
             const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
 
-            console.log("checked",checked);
 
             if (is_Enable == 0) {
                 const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
-                console.log("encryptData", encryptData.toString());
                 localStorage.setItem("login", encryptData.toString());
                 localStorage.setItem("loginId", encryptedLoginId);
                 localStorage.setItem("NameId", encryptedname);
@@ -144,7 +131,6 @@ console.log("is_Enable",is_Enable)
                 localStorage.setItem("checked", checked);
             } else if(is_Enable == 1) {
                 const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
-                console.log("encryptData", encryptData.toString());
                 localStorage.setItem("login", encryptData.toString());
                 localStorage.setItem("loginId", encryptedLoginId);
                 localStorage.setItem("NameId", encryptedname);
@@ -154,7 +140,7 @@ console.log("is_Enable",is_Enable)
                 localStorage.setItem("Password", encryptPassword);
             }
         } else {
-            console.error("Login information not available.");
+
         }
 
         setTimeout(() => {

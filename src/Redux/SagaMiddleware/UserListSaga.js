@@ -15,7 +15,6 @@ function* handleuserlist(user) {
 }
 function* handleHostelList(hostel) {
    const response = yield call(hostelList,hostel.payload)
-   console.log("response for hostelList",response)
    if (response.status === 200) {
       yield put({ type: 'HOSTEL_LIST', payload:{ response: response.data, statusCode: response.status} })
    }
@@ -25,13 +24,11 @@ function* handleHostelList(hostel) {
 }
 
 function* handleNumberOfRooms(ID) {
-   console.log("payload", ID.payload)
    const response = yield call(roomsCount, ID.payload)
    if (response.status === 200) {
       yield put({ type: 'ROOM_COUNT', payload: response.data })
    }
    else {
-      console.log("response.dataForRoomCount",response.data);
       yield put({ type: 'ERROR', payload: {response:response.data.message,floor_Id:ID.payload.floor_Id} })
    }
 }
@@ -106,13 +103,9 @@ function* handleAddUser(datum) {
 
 
    function* handleRoomCheck(action) {
-      console.log("action",action)
-      console.log('ROOM_FULL saga triggered. Payload:', action.payload);
       const response = yield call(roomFullCheck, action.payload)
-        console.log("response",response)
       if (response.status === 200 && response.data.length > 0) {
          yield put({ type: 'ROOM_FULL', payload: response.data })
-         console.log("response.data",response.data)
             }
       else {
          yield put({ type: 'ERROR', payload: response.data.message })

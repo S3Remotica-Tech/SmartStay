@@ -22,7 +22,6 @@ function* handlePgList(datum){
 
  function* handleCreateRoom(datum){
    const response = yield call (createRoom,datum.payload);
-   console.log("response create room",response);
    if (response.status === 200) {
       yield put ({type:'CREATE_ROOM',payload:{response: response.data , statusCode: response.status}})
       yield put({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: 'CREATED SUCCESSFULLY'})
@@ -72,7 +71,6 @@ function* handleCheckEbStartmeterlist(){
 
 
 function* handleCheckEB(action){
-   console.log("action.payload",action.payload);
    const response = yield call(Checkeblist,action.payload.hostelcheckedvalues);
    if (response.status === 200) {
       yield put ({type:'CHECK_EB',payload:response.data})
@@ -84,7 +82,6 @@ function* handleCheckEB(action){
 
 
 function* handleCreateEB(action){
-   console.log("action.payload",action.payload);
    const response = yield call(CreateEbbill,action.payload);
    if (response.status === 200) {
       yield put ({type:'CREATE_EB',payload:response.data})
@@ -97,8 +94,6 @@ function* handleCreateEB(action){
 function* handleCheckBedDetails(action){
    const response = yield call (CheckBedDetails,action.payload);
 
-   console.log("action.payload",action.payload)
-   console.log("responseBed", response.status)
 
    if (response.status === 200) {
       yield put ({type:'BED_DETAILS',payload:{ response:response.data,statusCode:response.status}})

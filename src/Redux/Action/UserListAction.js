@@ -12,7 +12,6 @@ export async function addUser (datum) {
   })
 }
 export async function hostelList(hosteldetails) {
-  console.log("hosteldetails",hosteldetails)
   return await AxiosConfig.post('/list/hostel-list',hosteldetails,{
     data:hosteldetails
   })
@@ -40,7 +39,6 @@ export async function createFloor(id) {
 }
 
 export async function roomFullCheck(roomCheck){
-  console.log("roomCheck",roomCheck)
   return await AxiosConfig.post('/check/room-full',roomCheck,{
     data:roomCheck
   })

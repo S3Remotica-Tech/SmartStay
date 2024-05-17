@@ -60,7 +60,6 @@ function Sidebar() {
   const dispatch = useDispatch()
   const state = useSelector(state => state.UsersList)
   const stateData = useSelector(state => state.createAccount)
-  console.log("state for sidebar", state)
 
 
   useEffect(() => {
@@ -79,13 +78,11 @@ function Sidebar() {
       try {
         const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
         const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-        console.log('Decrypted Login Id:', decryptedIdString);
         const parsedData = Number(decryptedIdString);
 
         dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
         
       } catch (error) {
-        console.error('Error decrypting loginId:', error);
       }
     }
   }, []);
@@ -134,8 +131,7 @@ function Sidebar() {
   const [profiles, setProfiles] = useState('')
   const [profileArray, setProfileArray] = useState('')
 
-  console.log(LoginId, " LoginId ***")
-  console.log("profiles", profiles)
+ 
 
   useEffect(() => {
     if (LoginId && stateData.accountList) {
@@ -163,7 +159,6 @@ function Sidebar() {
         const FilteredProfile = stateData.accountList.filter((item => item.id == parsedData));
 
 
-        console.log("sidebar profile", FilteredProfile)
 
         if (FilteredProfile.length > 0) {
           const profilePictures = FilteredProfile[0]?.profile;
@@ -171,7 +166,6 @@ function Sidebar() {
           setProfiles(profilePictures);
           setProfileArray(profileName);
         } else {
-          console.log("No data filtered")
         }
 
       }
@@ -185,10 +179,8 @@ function Sidebar() {
   }, [stateData.accountList, state.hostelList, LoginId, stateData.statusCodeForAccount])
 
   const [selectedHostel, setSelectedHostel] = useState(null);
-  console.log("selectedHostel for sidebar", selectedHostel);
 
   const handleHostelSelect = (hostelName) => {
-    console.log("hostelName", hostelName);
     const selected = state.hostelList.find((item) => {
       return item.Name === hostelName
     });
@@ -246,7 +238,6 @@ function Sidebar() {
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
-    console.log("page", page)
     setActivePage(false);
   };
 
@@ -282,11 +273,9 @@ function Sidebar() {
       confirmButtonText: 'Ok',
       showCancelButton: true,
     }).then((result) => {
-      console.log("isConfirmed:", result.isConfirmed);
       if (result.isConfirmed) {
         dispatch({ type: 'LOG_OUT' })
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
-        console.log("encryptData Logout", encryptData.toString());
         localStorage.setItem("login", encryptData.toString())
         // localStorage.setItem("loginId", '')
         localStorage.setItem("NameId", '')
@@ -297,7 +286,6 @@ function Sidebar() {
   }
 
 
-  // console.log("state.login.isLoggedIn", stateData.login.isLoggedIn)
 
 
 
@@ -340,15 +328,7 @@ function Sidebar() {
             </div>
           </div>
 
-          {/* <Form.Select class="me-5" aria-label="Default select example" style={{ border: "none", height: "10px", width: "40px" }} >
-            <option>select Hostel</option>
-            {filterhostellist.length > 0 && filterhostellist.map((obj) => {
-                  return (<>
-                    <option style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
-                  </>)
-                })}
-          
-          </Form.Select> */}
+         
           <div style={{ borderLeft: "1px solid #cccccc99", height: "30px" }} className="vertical-line ms-2"></div>
 
 

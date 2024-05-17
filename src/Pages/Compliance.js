@@ -218,13 +218,8 @@ const Compliance = () => {
 
   }
 
-  console.log("state", state);
-
-
-
 
   const handleEdit = (item) => {
-    console.log("item", item)
     if (item) {
       setEditbtn(true)
       // setSelectedUserId(item.User_id);
@@ -330,7 +325,6 @@ const Compliance = () => {
   };
 
   const handlePageSelect = (eventKey) => {
-    console.log("eventKey", eventKey);
     const selectedPage = parseInt(eventKey, 10);
     setCurrentPage(selectedPage);
   };
@@ -348,7 +342,6 @@ const Compliance = () => {
       const uniqueOptions = Array.from(new Set(state.UsersList?.Users.map((item) => item.User_Id)));
 
 
-      // console.log("userIds", userIds);
       setUsersId(uniqueOptions);
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_USER' })
@@ -372,15 +365,9 @@ const Compliance = () => {
   useEffect(() => {
     if (selectedUserId) {
       const filteredDetails = state.UsersList?.Users.filter(item => {
-        console.log("item.User_Id", item.User_Id)
-        console.log("selectedUserId", selectedUserId)
         return item.User_Id == selectedUserId
       }
       )
-
-
-
-      console.log("filteredDetails", filteredDetails);
 
       if (filteredDetails.length > 0) {
         setFilteredUserDetails(filteredDetails);
