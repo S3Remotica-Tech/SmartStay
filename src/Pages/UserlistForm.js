@@ -14,7 +14,7 @@ function UserlistForm(props) {
     boxShadow: 'none',
     fontWeight: 'bold',
     fontSize: "11px",
-      };
+  };
 
   const bottomBorderStyles = {
     border: 'none',
@@ -23,7 +23,7 @@ function UserlistForm(props) {
     boxShadow: 'none',
     fontWeight: 'bold',
     fontSize: "11px",
-    };
+  };
 
 
 
@@ -45,7 +45,7 @@ function UserlistForm(props) {
   const [AdvanceAmount, setAdvanceAmount] = useState('')
   const [Address, setAddress] = useState('')
   const [Email, setEmail] = useState('')
-const [isActive, setIsActive] = useState('')
+  const [isActive, setIsActive] = useState('')
   const [AadharNo, setAadharNo] = useState('')
   const [PancardNo, setPancardNo] = useState('')
   const [licence, setLicence] = useState('')
@@ -138,15 +138,15 @@ const [isActive, setIsActive] = useState('')
     setAddress(e.target.value)
   }
 
-const handleIsActiveUser = (e) =>{
-  setIsActive(e.target.value)
- }
+  const handleIsActiveUser = (e) => {
+    setIsActive(e.target.value)
+  }
 
 
 
 
   const handleHostelId = (e) => {
-console.log("state.UsersList.hostelList",state.UsersList.hostelList);
+    console.log("state.UsersList.hostelList", state.UsersList.hostelList);
     const selectedHostelId = e.target.value;
     const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter(item => item.id == e.target.value);
     setHostel_Id(selectedHostelId);
@@ -163,25 +163,25 @@ console.log("state.UsersList.hostelList",state.UsersList.hostelList);
     setRooms(e.target.value);
   }
 
-  
-const handleRoomRent = (e) => {
+
+  const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     setRoomRent(roomRentValue);
-    let newBalanceDue =0 ; 
-    let BalanceDuelength = 0 ;
+    let newBalanceDue = 0;
+    let BalanceDuelength = 0;
 
 
-    if(AdvanceAmount <= roomRentValue){
-      newBalanceDue = roomRentValue - AdvanceAmount  ;
+    if (AdvanceAmount <= roomRentValue) {
+      newBalanceDue = roomRentValue - AdvanceAmount;
       BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
       setBalanceDue(BalanceDuelength);
-         }else if(AdvanceAmount >= roomRentValue) {
+    } else if (AdvanceAmount >= roomRentValue) {
       newBalanceDue = AdvanceAmount - roomRentValue;
       BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
       setBalanceDue(-BalanceDuelength);
       // - sign
     }
-      
+
   }
 
 
@@ -191,6 +191,14 @@ const handleRoomRent = (e) => {
 
   const handleBed = (e) => {
     setBed(e.target.value);
+    let tempArray = state.UsersList.roomdetails.filter((item) => {
+      return item.Hostel_Id == hostel_Id && item.Floor_Id == Floor && item.Room_Id == Rooms
+    })
+    console.log("tempArray", tempArray);
+    if (tempArray.length > 0) {
+      let roomRent = tempArray[0].Room_Rent
+      setRoomRent(roomRent)
+    }
   };
   const handlePaymentType = (e) => {
     setPaymentType(e.target.value)
@@ -199,14 +207,14 @@ const handleRoomRent = (e) => {
   const handleAdvanceAmount = (e) => {
     const advanceAmount = e.target.value;
     setAdvanceAmount(advanceAmount)
-    let newBalanceDue =0 ; 
-    let BalanceDuelength = 0 ;
- 
-    if(advanceAmount <= RoomRent){
-      newBalanceDue = RoomRent - advanceAmount  ;
+    let newBalanceDue = 0;
+    let BalanceDuelength = 0;
+
+    if (advanceAmount <= RoomRent) {
+      newBalanceDue = RoomRent - advanceAmount;
       BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
       setBalanceDue(BalanceDuelength);
-         }else if(advanceAmount >= RoomRent) {
+    } else if (advanceAmount >= RoomRent) {
       newBalanceDue = advanceAmount - RoomRent;
       BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
       setBalanceDue(-BalanceDuelength);
@@ -258,7 +266,7 @@ const handleRoomRent = (e) => {
 
   };
   useEffect(() => {
-    console.log("EditObj",props.EditObj);
+    console.log("EditObj", props.EditObj);
     if (props.EditObj && props.EditObj.ID) {
       props.setEdit('Edit')
       setBednum(props.EditObj)
@@ -305,7 +313,7 @@ const handleRoomRent = (e) => {
       AdvanceAmount &&
       // RoomRent &&
       PaymentType
-         ) {
+    ) {
       dispatch({
         type: 'ADDUSER',
         payload: {
@@ -337,7 +345,7 @@ const handleRoomRent = (e) => {
         confirmButtonText: 'Ok',
       }).then((result) => {
         if (result.isConfirmed) {
-        
+
           props.AfterEditHostels(hostel_Id)
           props.AfterEditFloors(Floor)
           props.AfterEditRoomses(Rooms)
@@ -587,7 +595,7 @@ const handleRoomRent = (e) => {
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Room Rent (Monthly)</Form.Label>
-                      <h1></h1>
+                      <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 8 }}>{RoomRent}</h1>
                       {/* <FormControl
                         type="text"
                         id="form-controls"
