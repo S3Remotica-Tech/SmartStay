@@ -40,7 +40,8 @@ function UserList() {
       try{
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);     
+        const parsedData = Number(decryptedIdString); 
+        setLoginID(parsedData)    
         dispatch({ type: 'USERLIST', payload:{loginId:parsedData} })
         dispatch({ type: 'INVOICELIST', payload:{loginId:parsedData} })
       }
