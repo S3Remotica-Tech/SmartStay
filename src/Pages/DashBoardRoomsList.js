@@ -85,8 +85,9 @@ function DashboardRoom(props) {
     const dispatch = useDispatch();
     const [updateRoom, setUpdateRoom] = useState(false)
     const [shows, setShows] = useState(false);
+    const [roomRentError,setRoomRentError] = useState(false)
     const handleCloses = () => {
-        setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
+        setRoomDetails([{ roomId: '', numberOfBeds: '' ,roomRent: '' }]);
         setShows(false)
     };
     const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '' ,roomRent: ''}
@@ -175,6 +176,13 @@ const handleRoomRentChange = (roomRent, index) =>{
         updatedRoomRent[index].roomRent = roomRent;
         return updatedRoomRent;
     });
+   if (roomRent == 0) {
+    setRoomRentError(true)
+   }
+   else{
+    setRoomRentError(false)
+   }
+   
 }
 
 
@@ -200,8 +208,17 @@ const handleRoomRentChange = (roomRent, index) =>{
     const handleCreateRoom = () => {
         const floorId = props.floorID.toString();
         const hostel_Id = props.hostel_Id.toString();
-        const validRooms = roomDetails.filter(room => room.roomId && room.numberOfBeds);
+
+        const validRooms = roomDetails.filter(room => room.roomId && room.numberOfBeds && room.roomRent);
+
         if (validRooms.length > 0) {
+            if (roomRentError) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please enter valid room rent.',
+                });
+            }
+            else{
             dispatch({
                 type: 'CREATEROOM',
                 payload: {
@@ -222,6 +239,7 @@ const handleRoomRentChange = (roomRent, index) =>{
             })
             setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
             handleCloses();
+        }
         } else {
             Swal.fire({
                 icon: 'warning',
@@ -435,7 +453,7 @@ const handleRoomRentChange = (roomRent, index) =>{
                                                 style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
                                             />
                                         </div>
-                                    </div>
+                                        </div>
                                 </div>
 
                                 {index > 0 &&
