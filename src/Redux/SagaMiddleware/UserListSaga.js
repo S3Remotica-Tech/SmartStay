@@ -111,6 +111,7 @@ function* handleAddUser(datum) {
          yield put({ type: 'ERROR', payload: response.data.message })
       }
    }
+   
 
    function* handleCheckOut(action) {
       const response = yield call(checkOutUser, action.payload)
