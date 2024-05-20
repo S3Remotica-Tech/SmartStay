@@ -15,7 +15,6 @@ const initialState = {
    
 }
 const SmartStayReducer = (state = initialState, action) => {
-   console.log("loginpage", action)
 
    switch (action.type) {
       case 'ERROR':

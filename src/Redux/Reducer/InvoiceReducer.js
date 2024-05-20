@@ -24,7 +24,6 @@ const initialState = {
 }
 
 const InvoiceReducer = (state = initialState, action) => {
-    console.log("action", action);
     switch (action.type) {
         case 'INVOICE_LIST':
             return { ...state, Invoice: action.payload.response, InvoiceListStatusCode: action.payload.statusCode }

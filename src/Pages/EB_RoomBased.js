@@ -16,7 +16,6 @@ import "./EB_Roombased.css"
 
 const EBROOM = (props) => {
 
-    console.log("props", props.hosteldetails)
     const handlebackbtn = () => {
         props.visibility(true)
     }
@@ -39,8 +38,6 @@ const EBROOM = (props) => {
 
 
     const state = useSelector((state) => state);
-    console.log("state for EB based", state)
-    console.log("room", state.UsersList.roomdetails);
 
     const [floorId, setFloorId] = useState('');
     const [RoomId, setRoomID] = useState('');
@@ -48,17 +45,13 @@ const EBROOM = (props) => {
     const [endmeter, setEndmeter] = useState('');
     const [amount, setAmount] = useState('');
     const [roomsByFloor, setRoomsByFloor] = useState([]);
-    console.log("roomsByFloor", roomsByFloor);
-       console.log("RoomId",RoomId);
 
 
 
     const handleFloorChange = (e) => {
         const selectedFloorId = e.target.value;
-        console.log("e.target.value", e.target.value);
         setFloorId(e.target.value);
         const filteredRooms = state.UsersList.hosteldetailslist.filter(room => room.Floor_Id == selectedFloorId);
-        console.log('filteredRooms', filteredRooms);
         setRoomsByFloor(filteredRooms);
     }
 
@@ -119,21 +112,17 @@ const EBROOM = (props) => {
     }
     
     const [filtervalue, setFilteredvalue] = useState([]);
-    console.log("filtervalue",filtervalue);
 
     useEffect(() => {
         const filteredArray = state.PgList.EB_Customerlist.filter(item => item.Hostel_Id == props.hosteldetails.id);
-        console.log("filteredArray",filteredArray);
         setFilteredvalue(filteredArray);
     }, [props.hosteldetails.id, state.PgList.EB_Customerlist]);
     
 
     const [startmeterdata,setStartmeterData]= useState([])
-    console.log("startmeterdata",startmeterdata);
    
     useEffect(() => {
         const filteredstartmeter = state.PgList.EB_startmeterlist.filter(item =>  item.Floor ==0 && item.Room ==0 ? item?.hostel_Id == props?.hosteldetails.id : item?.hostel_Id == props?.hosteldetails.id && item.Floor == floorId  && item.Room == RoomId);
-        console.log("filteredstartmeter",filteredstartmeter);
         const lastItem = filteredstartmeter[filteredstartmeter.length - 1]; 
         setStartmeterData(lastItem);
     }, [props.hosteldetails.id, state.PgList.EB_startmeterlist,floorId ,RoomId]);

@@ -10,8 +10,6 @@ function OTPSend() {
   const dispatch = useDispatch();
 
 
-  console.log("state for otp",state)
-
   const [email, setEmail] = useState('');
   const [otpSent, setOTPSent] = useState(false);
 

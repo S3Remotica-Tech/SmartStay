@@ -60,8 +60,6 @@ function UserBedDetailsEdit(props) {
   const dispatch = useDispatch();
 
 
-  // console.log("props for edit", props)
-  // console.log("state for UserBedDetailsEdit", state);
 
 
   useEffect(() => {

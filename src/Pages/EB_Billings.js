@@ -5,21 +5,14 @@ import { useSelector } from 'react-redux';
 
 const EB_Billings = (props) => {
 
-  console.log("props", props);
 
   const [isChecked, setIsChecked] = useState(null);
   const [checkedvalue,setCheckedvalue]= useState([])
 
   const state = useSelector(state => state)
-  console.log("state for EB billing",state )
 
-
-
-  console.log("checkedvalue",checkedvalue);
-  console.log("ischecked",isChecked);
 
   const handleChange = (event,hostelId) => {
-      console.log("eventChecked", event.target.checked)
       setIsChecked(event.target.checked)
       props.onBoxchange(hostelId,event.target.checked)
      
@@ -31,11 +24,8 @@ const EB_Billings = (props) => {
   useEffect(()=>{
 
     const UserIsEnable = state.UsersList.hostelList.filter(item=> item.id == props.Item.id)
-    console.log("UserIsEnable",UserIsEnable)
    const IsEnableOn = UserIsEnable[0]?.isHostelBased
-  
-   console.log("IsEnableOn === 1",IsEnableOn === 1)
-  
+    
   if(IsEnableOn === 1){
     setIsChecked(true);
   }else{

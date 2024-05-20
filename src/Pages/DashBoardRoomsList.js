@@ -21,7 +21,6 @@ function getFloorName(floor_Id) {
         return '3rd Floor';
     } else if (floor_Id >= 11 && floor_Id <= 13) {
         const id = floor_Id - 1
-        console.log("id.....", id);
         return `${floor_Id}th Floor`;
     } else {
         const lastDigit = floor_Id % 10;
@@ -91,7 +90,6 @@ function DashboardRoom(props) {
         setRoomDetails([{ roomId: '', numberOfBeds: '' ,roomRent: '' }]);
         setShows(false)
     };
-    console.log("state", state);
     const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '' ,roomRent: ''}
         // , { roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }
     ]);
@@ -100,7 +98,6 @@ function DashboardRoom(props) {
 
 
     // useEffect(() => {
-    //     console.log("state.PgList.roomCount",state.PgList.roomCount);
     //     setRoomCount(state.PgList.roomCount)
     // }, [state.PgList.roomCount])
 
@@ -116,9 +113,6 @@ function DashboardRoom(props) {
     useEffect(() => {
 
         if (state.PgList.createRoomMessage != null && state.PgList.createRoomMessage != "") {
-            console.log("createRoomMessage_useEffect", state.PgList.createRoomMessage);
-            // dispatch({ type: 'HOSTELLIST' })
-            console.log("useEffect");
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
 
             setTimeout(() => {
@@ -214,8 +208,9 @@ const handleRoomRentChange = (roomRent, index) =>{
     const handleCreateRoom = () => {
         const floorId = props.floorID.toString();
         const hostel_Id = props.hostel_Id.toString();
+
         const validRooms = roomDetails.filter(room => room.roomId && room.numberOfBeds && room.roomRent);
-        console.log("validRooms ", validRooms)
+
         if (validRooms.length > 0) {
             if (roomRentError) {
                 Swal.fire({
@@ -286,7 +281,6 @@ const handleRoomRentChange = (roomRent, index) =>{
     }
 
 
-    console.log("state.UsersList.roomFullCheck *", state.PgList.roomCount.length);
     return (
         <>
             <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
@@ -320,20 +314,15 @@ const handleRoomRentChange = (roomRent, index) =>{
                             {
 
                                 state.PgList.roomCount.length > 0 && state.PgList.roomCount.map((room) => {
-                                    console.log("room", room);
                                     // arr =  room.length > 0 ? room.length : 0 
                                     // arr.length == 0 && arr.push(room.length)
-                                    //  console.log("room count arr",room.length);
                                     return (
                                         <>
                                             {room.length > 0 &&
                                                 room.map((val, index) => {
-                                                    console.log("val", val);
-                                                    console.log("val.Floor_Id == props.floorID", val.Floor_Id == props.floorID);
                                                     if (val.Floor_Id == props.floorID) {
                                                         // arr = room.length
                                                         // arr =  room.length > 0 ? room.length : 0 
-                                                        // console.log("room count arr",arr);
                                                         // room.length > 0 ? arr.push(room.length) :  arr = [] && arr.push(0)
                                                         arr.length == 0 && arr.push(room.length)
                                                         const formattedRoomId = getFormattedRoomId(val.Floor_Id, val.Room_Id);

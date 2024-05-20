@@ -6,13 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 function AmenitiesView(props) {
 
     const state = useSelector(state => state)
-    // const dispatch = useDispatch();
-
-   
-
 
     const handleEditAmenities = (item) => {
-        console.log("item ",item)
         props.modalEditAmenities(item)
     }
 

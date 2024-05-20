@@ -21,7 +21,6 @@ const initialState = {
 }
 
 const UserListReducer = (state = initialState, action) => {
-    console.log("action", action.type)
     switch (action.type) {
         case 'CLEAR_ERROR_MESSAGE':
             return {

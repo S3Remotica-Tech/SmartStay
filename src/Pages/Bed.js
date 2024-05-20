@@ -71,8 +71,6 @@
 
     const state = useSelector(state => state);
 
-    console.log("state for Bed", state)
-
 
     const [bed, setBed] = useState();
     const [bedName, setBedName] = useState([])
@@ -218,11 +216,9 @@ const handleNumberOfBedChangeForCreateRoom = (numberOfBeds, index) => {
 };
 
 const handleCreateRoom = () => {
-  console.log("props",props);
   const floorId = props.floorID.toString()
   // const hostel_Id = props.hostel_Id.toString();
   const validRooms = roomDetails.filter(room => room.roomId && room.numberOfBeds);
-  console.log("validRooms ", validRooms)
   if (validRooms.length > 0) {
       dispatch({
           type: 'CREATEROOM',
@@ -351,8 +347,6 @@ const handleCreateRoomCloses = () => {
       if (Hostel_Id && floorId && roomId) {
         const selectedHostel = state.UsersList?.hostelList.find(hostel => hostel.id === Hostel_Id);
 
-        console.log("selectedHostel",selectedHostel)
-
         if (selectedHostel) {
           const payload = {
             id: Hostel_Id,
@@ -410,8 +404,6 @@ const handleCreateRoomCloses = () => {
 
   const [NumberOfbeds, setNumberOfBeds] = useState(props.bedDetailsSendThePage.Number_Of_Beds)
 
-    console.log("NumberOfbedss",NumberOfbeds)
-
 
     useEffect(() => {
       if(state.PgList.statusCodeCreateRoom == 0){
@@ -423,11 +415,8 @@ const handleCreateRoomCloses = () => {
           return item.Hostel_Id === Hostel_Id && item.Floor_Id === floorId && item.Room_Id === roomId;
         });
 
-         console.log("filteredData",filteredData)
-
       if (filteredData.length > 0) {
         const AfterCreateNumberOfBeds = filteredData[0].Number_Of_Beds;
-        console.log("AfterCreateNumberOfBeds",AfterCreateNumberOfBeds)
         setNumberOfBeds(AfterCreateNumberOfBeds);
       }
    
@@ -438,7 +427,6 @@ const handleCreateRoomCloses = () => {
 
     useEffect(() => {
       const initialBedNames = [...Array(NumberOfbeds).keys()].map(index => `Bed ${index + 1}`);
-  console.log("initialBedNames",initialBedNames)
       setBedName(initialBedNames);
     }, [NumberOfbeds]);
 
@@ -452,7 +440,6 @@ const handleCreateRoomCloses = () => {
     const handleDisplayBedDetailUser = (bedId) => {
       dispatch({ type: 'CLEAR_STATUS_CODES' })
       setBednum(bedId)
-      console.log("bedId", bedId)
 
       if (state.UsersList && state.UsersList.Users) {
         ParticularUserId = state.UsersList.Users.filter(item =>

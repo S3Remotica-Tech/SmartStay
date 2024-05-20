@@ -14,7 +14,6 @@ function CreateAccountPage() {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  console.log("state for create Account",state.createAccount)
   let navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [phoneNo, setPhoneNo] = useState('');

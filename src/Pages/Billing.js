@@ -30,7 +30,6 @@ const Billings = () => {
 
   const [hostelcheckedvalues,setHostelCheckedvalues]= useState([])
 
-   console.log("hostelcheckedvalues check",hostelcheckedvalues);
 
    const handleCheckboxChange = (hostelId, Ischecked) => {
     setHostelCheckedvalues(prevState => {
@@ -49,25 +48,13 @@ const Billings = () => {
 
 
     useEffect(()=>{
-      console.log("hostelcheckedvalues",hostelcheckedvalues);
-
     },[hostelcheckedvalues])
    
 
     const handleSave = () => {
         dispatch({ type: 'CHECKEB', payload: {hostelcheckedvalues}})
     }
-    console.log("state for EB",state )
     
-
-    // useEffect(() => {
-    //   dispatch({ type: 'HOSTELLIST' })
-    // }, [])
-
-   
-  
-
-    console.log("Useridfilter",state.UsersList.hostelList);
 
     return (
         <div>

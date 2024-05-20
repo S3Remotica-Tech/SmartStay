@@ -55,7 +55,6 @@ const InvoicePage = () => {
   const [isUserClicked, setUserClicked] = useState(true);
   const [invoiceDetail, setInvoiceDetails] = useState(false)
   const [invoiceValue, setInvoiceValue] = useState("")
-  console.log("invoiceValue", invoiceValue)
 
   const [file, setFile] = useState(null)
   const d = new Date();
@@ -79,7 +78,6 @@ const InvoicePage = () => {
   const [selectedItems, setSelectedItems] = useState('')
 
   const handleInvoiceDetail = (item) => {
-    console.log("item", item);
     setSelectedItems(item)
     if (item.User_Id) {
       const originalDate = new Date(item.Date);
@@ -95,9 +93,7 @@ const InvoicePage = () => {
 
 
   useEffect(() => {
-    console.log("state.InvoiceList.statusCodeForPDf === 200", state.InvoiceList?.statusCodeForPDf === 200);
     if (state.InvoiceList.statusCodeForPDf === 200) {
-      console.log("selectedItems", selectedItems);
       dispatch({ type: 'INVOICELIST', payload:{loginId:loginID} })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
@@ -116,17 +112,12 @@ const InvoicePage = () => {
 
   useEffect(() => {
     const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
-    console.log("toTriggerPDF", toTriggerPDF);
-
     if (toTriggerPDF) {
 
-      console.log("executed");
       setTimeout(() => {
         let pdfWindow;
         const InvoicePDf = state.InvoiceList?.Invoice &&
           state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
-        console.log("InvoicePDf array", InvoicePDf);
-        console.log("InvoicePDf[0]?.invoicePDF", InvoicePDf[0]?.invoicePDF);
         if (InvoicePDf[0]?.invoicePDF) {
           pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
           if (pdfWindow) {
@@ -147,9 +138,7 @@ const InvoicePage = () => {
 
 
   const handleInvoiceback = (isVisible) => {
-    console.log("invoiceDetails");
     setInvoiceDetails(isVisible)
-
   }
 
 
@@ -200,8 +189,6 @@ const InvoicePage = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-  console.log("currentItems invoice",currentItems)
 
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -346,8 +333,6 @@ const InvoicePage = () => {
 
 
   const handleShow = (item) => {
-    console.log("item", item);
-    console.log("item.Date", item.Date);
     setInvoiceValue(item);
     if (item.id !== undefined) {
       setEditOption('Edit');
@@ -359,7 +344,6 @@ const InvoicePage = () => {
       const lastDayOfMonth = new Date(year, month, 0);
       const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
 
-      console.log("formattedDueDate", formattedDueDate)
       // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
       const EditCheck = state.InvoiceList.Invoice.find(view => {
         const viewDate = new Date(view.Date);
@@ -370,9 +354,7 @@ const InvoicePage = () => {
           viewDate.getMonth() === month - 1
         );
       });
-      console.log("EditCheck", EditCheck);
 
-      console.log("item.BalanceDue === 0 && EditCheck && EditCheck.BalanceDue === 0", EditCheck && EditCheck.BalanceDue === 0 || item.BalanceDue === 0);
 
       if (item.BalanceDue === 0 || (EditCheck && EditCheck.BalanceDue === 0)) {
         setUserClicked(false);
@@ -386,7 +368,6 @@ const InvoicePage = () => {
         let value = item.Name.split(" ");
         setSelectedUserId(item.User_Id);
         const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        console.log("Formatted Date:", formattedDate);
         setInvoiceList({
           id: item.id,
           firstName: value[0],
@@ -424,7 +405,6 @@ const InvoicePage = () => {
   };
 
   const handlePageSelect = (eventKey) => {
-    console.log("eventKey", eventKey);
     const selectedPage = parseInt(eventKey, 10);
     setCurrentPage(selectedPage);
   };
@@ -458,7 +438,6 @@ const InvoicePage = () => {
       return item.id == e.target.value
     })
     const hosName = hostelName[0].Name
-    console.log("hostelName", hosName)
     setInvoiceList({ ...invoiceList, hostel_Name: hosName, hostel_Id: e.target.value, RoomNo: '', FloorNo: '' })
 
 
@@ -479,15 +458,10 @@ const InvoicePage = () => {
 
   const handleSaveInvoiceList = () => {
     const invoiceNo = randomNumberInRange(invoiceList.hostel_Name, 1, new Date())
-    console.log("invoiceNo", invoiceNo);
-    console.log("editOption == 'Add' && invoiceNo", editOption == 'Add' && invoiceNo);
-
     const CheckInvoiceNo = state.InvoiceList?.Invoice.some(item =>
       item.User_Id === selectedUserId && item.Invoices !== undefined
     );
 
-
-    console.log("CheckInvoiceNo", CheckInvoiceNo)
 
     if (selectedUserId && invoiceList.date && invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue) {
       dispatch({
@@ -588,7 +562,6 @@ const InvoicePage = () => {
       * (max - min + 1)) + min);
     return invoice
   };
-  console.log("state", state);
 
 
  
@@ -645,12 +618,10 @@ const InvoicePage = () => {
   const handleDateChange = (e) => {
     const selectedDate = new Date(e.target.value);
 
-    console.log("selectedDate", selectedDate)
     const year = selectedDate.getFullYear();
     const month = selectedDate.getMonth() + 1;
     const lastDayOfMonth = new Date(year, month, 0);
     const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
-    console.log("formattedDueDate", formattedDueDate)
     const selectedMonth = selectedDate.getMonth();
     const roomRent = filteredUserDetails[0]?.RoomRent;
     const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => {
@@ -693,10 +664,7 @@ const InvoicePage = () => {
       const paidAmount = parseFloat(item.Amount) || 0;
       totalPaidAmount += paidAmount;
     });
-    console.log("AmountValue", AmountValue);
-    console.log("AlreadyPaidRoomRent", AlreadyPaidRoomRent);
-    console.log("Total Paid Amount", totalPaidAmount);
-    console.log("roomRent", roomRent);
+   
 
     setTotalPaidAmount(totalPaidAmount)
 

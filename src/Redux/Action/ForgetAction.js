@@ -19,7 +19,6 @@ export async function registerStudent(params) {
  }
    
  export async function otpSend(datum) {
-     console.log("datum for otp",datum)
   return await AxiosConfig.post('/otp-send/send-mail', datum,{
        data:datum
   })

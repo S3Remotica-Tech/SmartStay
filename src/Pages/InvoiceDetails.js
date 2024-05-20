@@ -18,9 +18,7 @@ function InvoiceDetail(props) {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
-    console.log("state......??????",state)
     const [hostelName,setHostetName] =useState("")
-    console.log("hostelName",hostelName)
     const [submit,setSubmit] =useState(false)
 
     const handleSubmit = () => {
@@ -49,7 +47,6 @@ function InvoiceDetail(props) {
 
     const { sendInvoiceDetail } = props;
 
-    console.log("props.invoiceValue", props)
 
     const contentToPrint = useRef(null);
   const handlePrint = useReactToPrint({
@@ -67,20 +64,15 @@ function InvoiceDetail(props) {
         const selectedHostelName =  state.UsersList.hostelList.filter((item) => { 
             return item.Name === props.sendInvoiceDetail.Hostel_Name});
             setHostetName(selectedHostelName)
-        console.log("selectedHostelName",selectedHostelName)
-
     }, [])
 
 
-    console.log("state for Invoice", state)
 
 
-    console.log("sendInvoiceDetail.Phone", sendInvoiceDetail.phoneNo)
     const filteredDataForUserInvoice = state.UsersList.billPaymentHistory.filter(item => {
         const invoiceDate = new Date(item.invDate);
         return invoiceDate >= startDate && invoiceDate <= endDate && item.InvoiceNo === sendInvoiceDetail.Invoices;
     });
-    console.log("filteredDataForUserInvoice", filteredDataForUserInvoice)
 
     // const filteredDataForUserInvoice = state.UsersList.billPaymentHistory.filter(item => item.Phone === sendInvoiceDetail.phoneNo);
     // // const filteredDataForUserInvoice = state.UsersList.billPaymentHistory.filter((item => item.Phone === sendInvoiceDetail.phoneNo))

@@ -16,12 +16,9 @@ import Men from '../Assets/Images/men.jpg';
 
 function NavScrollExample() {
 
-  const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch({ type: 'HOSTELLIST' })
-  // }, [])
+  // const dispatch = useDispatch();
+ 
   const state = useSelector((state) => state);
-  console.log("state for topbar",state);
   const LoginId = localStorage.getItem("loginId")
 
   const [filterhostellist,setFilterhostellist] = useState([]);
@@ -33,14 +30,11 @@ function NavScrollExample() {
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = decryptedString;
         const filteredList = state.UsersList?.hostelList?.filter((view) =>{ 
-          console.log("parsedData",parsedData);
-          console.log("created_By",view.created_By);
-          console.log("view.created_By == parsedData",view.created_By == parsedData);
+         
         return view.created_By == parsedData;
       
         
         });
-        console.log("topbar_filteredlist",filteredList);
          setFilterhostellist(filteredList)
       }
       

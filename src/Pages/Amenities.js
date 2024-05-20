@@ -23,8 +23,6 @@ function Amenities() {
         dispatch({ type: 'AMENITIESLIST' })
     }, [])
 
-    console.log("state for Amenities", state)
-
 
     const loginId = localStorage.getItem('loginId');
     const [createdby, setCreatedby] = useState('')
@@ -34,7 +32,6 @@ function Amenities() {
             try {
                 const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
                 const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-                console.log('Decrypted Login Id:', decryptedIdString);
                 const parsedData = Number(decryptedIdString);
                 setCreatedby(parsedData)
                 dispatch({ type: 'HOSTELLIST', payload: { loginId: parsedData } })
@@ -59,7 +56,6 @@ function Amenities() {
     const handleHostelChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
         setShowTable(true)
-        console.log("selectedIndex", selectedIndex)
         setSelectedHostel({
             id: e.target.value,
             name: e.target.options[selectedIndex].text
@@ -101,7 +97,6 @@ function Amenities() {
     }
 
     const handleSetAsDefault = (e) => {
-        console.log("Switch", e.target.checked)
         setActive(e.target.checked);
     }
 
@@ -143,11 +138,8 @@ function Amenities() {
     }
 
     const handleEdit = (item) => {
-        console.log("amenities edit", item)
         setShowModal(true)
         setEdit('EDIT')
-        console.log("edit", edit)
-        console.log("")
         setID(item.Amnities_Id)
         setAmenitiesName(item.Amnities_Name)
         setAmount(item.Amount)
@@ -178,7 +170,6 @@ function Amenities() {
     const TurnOn = state.InvoiceList?.Amenities?.map((item) => {
         return item
     })
-    // console.log("TurnOn", TurnOn);
 
 
     // const amenitiesList = Array.isArray(state?.InvoiceList?.AmenitiesList) ? state?.InvoiceList?.AmenitiesList : [];
@@ -267,22 +258,6 @@ function Amenities() {
                     </div>
 
 
-                    {/* <React.Fragment>
-                        <Autocomplete
-                            value={amenitiesName}
-                            onChange={handleAmenitiesChange}
-                            id="free-solo-dialog-demo"
-                            options={state?.InvoiceList?.AmenitiesName.map((item) => item.Amnities_Name)}
-                            selectOnFocus
-                            clearOnBlur
-                            handleHomeEndKeys
-                            renderOption={(props, option) => <li {...props}>{option}</li>}
-                            style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa", width: '97%', marginLeft: '1%' }}
-                            sx={{ width: 300 }}
-                            freeSolo
-                            renderInput={(params) => <TextField {...params} label="Amenities Name" />}
-                        />
-                    </React.Fragment> */}
                     <div className='mb-3 '>
                         <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amenities Name</label>
                         <Autocomplete

@@ -6,7 +6,6 @@ import Swal from 'sweetalert2'
 function* handleforgetpage(rpsd) {
     try {
         const response = yield call(forgetpage, rpsd.payload)
-        console.log("response", response)
         if (response.status === 200) {
             yield put({ type: 'NEWPASSWORD_LIST', payload:{ response:response.data,statusCode:response.status} })
             Swal.fire({
@@ -51,10 +50,7 @@ function* handleforgetpage(rpsd) {
 
 
 function* handleSendOtp(action) {
-    console.log("action",action)
-    console.log("action.payload",action.payload)
     const response = yield call(otpSend, action.payload);
-        console.log("response for send otp",response)
 
     if (response.status === 200) {
         yield put({ type: 'OTP_SEND', payload:{ response:response.data,statusCode:response.status}})

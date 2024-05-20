@@ -47,8 +47,6 @@ function* CreateNewAccount(args) {
 function* CreateAccountPage(args) {
   try {
     const response = yield call(CreateAccountAction, args.payload);
-    console.log(" args.payload", args.payload)
-    console.log("response for createAccount Api", response)
     if (response.statusCode === 200) {
       yield put({
         type: 'CREATEACCOUNT',

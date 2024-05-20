@@ -52,9 +52,6 @@ function Settings() {
   const [email_IdForLoginUser, setEmail_IdForLoginUser] = useState('')
   const [isEnableCheck, setIsEnableCheck] = useState('')
 
-  console.log("LoginIsEnable", LoginIsEnable)
-  console.log("isEnableCheck", isEnableCheck)
-  console.log("LoginPassword",LoginPassword)
 
   useEffect(() => {
     if (LoginId) {
@@ -78,7 +75,6 @@ function Settings() {
         const decryptedStringemail = decryptedDataemail.toString(CryptoJS.enc.Utf8);
         // setEmail(decryptedStringemail)
         setEmail_IdForLoginUser(decryptedStringemail)
-        console.log("decryptedStringemail", decryptedStringemail)
 
 
         const decryptedDataIsEnable = CryptoJS.AES.decrypt(LoginIsEnable, 'abcd');
@@ -87,12 +83,7 @@ function Settings() {
 
         const decryptedDataPassword = CryptoJS.AES.decrypt(LoginPassword, 'abcd');
         const decryptedStringPassword = decryptedDataPassword.toString(CryptoJS.enc.Utf8);
-        console.log("decryptedStringPassword",decryptedStringPassword)
         setLogin_Password(decryptedStringPassword)
-
-        console.log("login_Password",login_Password)
-
-        console.log("decryptedStringIsEnable", decryptedStringIsEnable)
 
       } catch (error) {
         console.error('Error decrypting LoginId:', error);
@@ -167,18 +158,14 @@ function Settings() {
   const [isChecked, setIsChecked] = useState(null);
 
 
-console.log("isChecked",isChecked)
 
-console.log("isEnableCheck",isEnableCheck === '1')
 
   const handleChange = (event) => {
-    console.log("eventChecked", event.target.checked)
     setIsChecked(event.target.checked);
     
   };
 
 
-  console.log("email for Login User", email)
 
 
   const handleTwoStepVerify = () => {
@@ -204,10 +191,7 @@ console.log("isEnableCheck",isEnableCheck === '1')
 
 useEffect(()=>{
   const UserIsEnable = state.createAccount.accountList.filter(item=> item.email_Id == email)
-  console.log("UserIsEnable",UserIsEnable)
  const IsEnableOn = UserIsEnable[0]?.isEnable
-
- console.log("IsEnableOn === 1",IsEnableOn === 1)
 
 if(IsEnableOn === 1){
   setIsChecked(true);
@@ -222,10 +206,6 @@ if(IsEnableOn === 1){
 
 
 
-
-  
- console.log("state for settings",state)
-
 useEffect(()=>{
     dispatch({ type: 'ACCOUNTDETAILS' })
    },[])
@@ -234,7 +214,6 @@ useEffect(()=>{
 const [selectedImage, setSelectedImage] = useState(null);
 const [profilePicture, setProfilePicture] = useState('');
 
-console.log("profilePicture",profilePicture)
 
 
    const handleImageChange = async (event) => {
@@ -263,8 +242,6 @@ useEffect(()=>{
     const CustomerName = FIlteredProfile[0]?.Name
     const PhoneNUmber = FIlteredProfile[0]?.mobileNo
     const UserEmail = FIlteredProfile[0]?.email_Id
-    console.log("FIlteredProfile",FIlteredProfile)
-    console.log("ProfileImage",ProfileImage)
     
     setName(CustomerName)
     setPhone(PhoneNUmber)
@@ -279,7 +256,6 @@ useEffect(()=>{
 },[state.createAccount?.accountList])
 
 
-console.log("state.createAccount.statusCodeForAccount === 200",state.createAccount.statusCodeForAccount == 200)
 
 
 

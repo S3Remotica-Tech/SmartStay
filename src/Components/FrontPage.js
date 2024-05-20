@@ -17,10 +17,8 @@ function FrontPage() {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
-  console.log("state",state)
-
+  
   let navigate = useNavigate();
-  console.log("state",state)
 
   const handleSignIn = () => { 
     navigate('/login-Page')

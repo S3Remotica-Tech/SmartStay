@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 function* Login(args) {
   try {
     const response = yield call(login, args.payload);
-    console.log("response",response)
     if (response.status === 200) {
       yield put({ type: 'LOGIN-INFO', payload:{ response:response.data,statusCode:response.status} });
       
@@ -35,7 +34,6 @@ function* Login(args) {
 function* handleOTPVerified(args) {
   try {
     const response = yield call(OTPverification, args.payload);
-    console.log("response",response)
     if (response.status === 200) {
       yield put({ type: 'OTP_VERIFY', payload:{ response:response.data,statusCode:response.status} });
       

@@ -54,7 +54,6 @@ export async function AmenitiesSettings(datum) {
 
 export async function InvoiceSettings(params) {
 
-  console.log("params", params);
    const formData = new FormData();
   formData.append("profile", params.profile);
   formData.append("hostel_Id", params.hostel_Id);
