@@ -368,21 +368,6 @@ const handleRoomRentChange = (roomRent, index) =>{
                 <Offcanvas.Body>
                     <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
                     <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes. Be a part of SmartStay Circle, and invite-only, global community of social media influencers and affiliate networks.</p>
-
-                    {/* {roomDetailsError && (
-            <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
-                {roomDetails.map((room, index) => (
-                    <div key={index}>
-                        RoomId {room.roomId} is already exists & available beds are {roomDetailsFromState.find(existingRoom =>
-                            existingRoom.Hostel_Id === props.hostel_Id &&
-                            existingRoom.Floor_Id === props.floorID &&
-                            String(existingRoom.Room_Id) === String(room.roomId)
-                        )?.Number_Of_Beds}
-                    </div>
-                ))}
-            </div>
-        )} */}
-
                     {roomDetailsError && (
                         <div className="p-2 mb-2" style={{ borderRadius: 2, color: 'white', backgroundColor: "#f71b2e", fontSize: '13px' }}>
                             {roomDetails.map((room, index) => {
@@ -404,10 +389,10 @@ const handleRoomRentChange = (roomRent, index) =>{
 
 
 
-                    <div className="row column-gap-4 g-3 d-flex align-items-center ">
+                    <div className="row column-gap-3 d-flex g-3 align-items-center">
                         {roomDetails.map((room, index) => (
                             <>
-                                <div key={index} className="col-lg-3 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                                <div key={index} className="col-lg-3 col-md-3 col-xs-3 col-sm-3 col-3 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
                                     <div className="form-group mb-4 ps-1">
                                         <label htmlFor={`roomNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Number</label>
                                         <input
@@ -423,7 +408,7 @@ const handleRoomRentChange = (roomRent, index) =>{
                                     </div>
                                 </div>
 
-                                <div key={`beds${index}`} className="col-lg-3 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                                <div key={`beds${index}`} className="col-lg-3 col-md-3 col-xs-3 col-sm-3 col-3 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
                                     <div className="form-group mb-4 ps-1">
                                         <label htmlFor={`bedsNumber${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Number of Beds</label>
                                         <div className="d-flex">
@@ -439,7 +424,7 @@ const handleRoomRentChange = (roomRent, index) =>{
                                         </div>
                                     </div>
                                 </div>
-                                <div key={`RoomRent${index}`} className="col-lg-3 col-md-12 col-xs-12 col-sm-12 col-12 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px" }}>
+                                <div key={`RoomRent${index}`} className="col-lg-3 col-md-3 col-xs-3 col-sm-3 col-3 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px",position:"relative" }}>
                                     <div className="form-group mb-4 ps-1">
                                         <label htmlFor={`RoomRent${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Rent</label>
                                         <div className="d-flex">
@@ -454,13 +439,16 @@ const handleRoomRentChange = (roomRent, index) =>{
                                             />
                                         </div>
                                         </div>
-                                </div>
 
+                                        
+
+                                </div>
                                 {index > 0 &&
-                                    <div className="col-lg-1">
+                                    <div className="col-lg-1 col-1 col-md-1 col-xs-1 col-sm-1 d-flex justify-content-center align-items-center" >
                                         <TiDeleteOutline style={{ fontSize: 18, color: "red", cursor: "pointer" }} onClick={() => handleRemoveRoomDetails(index)} />
                                     </div>
                                 }
+                               
                             </>
                         ))}
                     </div>
