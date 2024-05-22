@@ -191,7 +191,7 @@ function Sidebar() {
 
 
   const [activePage, setActivePage] = useState(true);
-  const [currentPage, setCurrentPage] = useState('');
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
   const [pgList, setPgList] = useState({
     Name: '',
@@ -416,14 +416,14 @@ function Sidebar() {
           </Col>
           <Col lg={isSidebarMaximized ? 10 : 11} md={isSidebarMaximized ? 10 : 11} sm={isSidebarMaximized ? 10 : 11} xs={isSidebarMaximized ? 10 : 11} className="bg-white">
 
-            {activePage ?
+            {/* {activePage ?
               <>
                 <h4 className="p-3">Dashboard</h4>
                 <p className="ps-3">Hi,Rahul! Welcome to Business Dashboard</p>
               </>
               :
               ""
-            }
+            } */}
             {currentPage === 'dashboard' && <Dashboards />}
             {currentPage === 'pg-list' && < PgLists />}
             {currentPage === 'user-list' && < UserLists />}
