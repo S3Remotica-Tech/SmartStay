@@ -63,55 +63,7 @@ console.log("state for invoice settings",state)
         setStartNumber(e.target.value)
     }
 
-//     const handleInvoiceSettings = () => {
-//         const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== '';
-//         const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== '';
-//         const isSelectedImageValid = selectedImage !== undefined && selectedImage !== null;
 
-// console.log("isPrefixValid",isPrefixValid)
-// console.log("isStartNumberValid",isStartNumberValid)
-// console.log("isSelectedImageValid",isSelectedImageValid)
-
-//         if(isPrefixValid && isStartNumberValid && isSelectedImageValid) {
-//             dispatch({ type: 'INVOICESETTINGS', payload: { hostel_Id: selectedHostel.id, prefix: prefix, suffix: startNumber, profile: selectedImage } })
-//             Swal.fire({
-//                 text: "Prefix, Suffix, Profile Update successfully",
-//                 icon: "success",
-//                 timer: 1000,
-//             });
-//         }
-//         else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid) {
-//             dispatch({ type: 'INVOICESETTINGS', payload: { hostel_Id: selectedHostel.id, profile: selectedImage } })
-//                    Swal.fire({
-//                 text: "Profile Update successfully",
-//                 icon: "success",
-//                 timer: 1000,
-//             });
-       
-//         }  
-//         else if(isPrefixValid && isStartNumberValid && !isSelectedImageValid){
-//             dispatch({ type: 'INVOICESETTINGS', payload: { hostel_Id: selectedHostel.id, prefix: prefix, suffix: startNumber } })
-//             Swal.fire({
-//                 text: "Prefix, Suffix Update successfully",
-//                 icon: "success",
-//                 timer: 1000,
-//             });
-//         }else{
-//             Swal.fire({
-//                 text: "Please provide the necessary information.",
-//                 icon: "warning",
-//                 timer: 2000,
-//             });
-//         }
-//         setShowTable(false)
-//         setSelectedHostel({
-//             id: '', name: ''
-//         })
-//         setPrefix('')
-//         setStartNumber('')
-
-
-//     }
 
 
 const handleInvoiceSettings = () => {
@@ -177,6 +129,7 @@ const handleInvoiceSettings = () => {
     setSelectedHostel({ id: '', name: '' });
     setPrefix('');
     setStartNumber('');
+    setSelectedImage('')
 };
 
 
@@ -198,9 +151,9 @@ const handleInvoiceSettings = () => {
   
           dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
           
-            //     setTimeout(() => {
-            //     dispatch({ type: 'CLEAR_INVOICE_SETTINS_STATUSCODE' });
-            // }, 2000);
+                setTimeout(() => {
+                dispatch({ type: 'CLEAR_INVOICE_SETTINS_STATUSCODE' });
+            }, 2000);
         }
     }, [state.InvoiceList?.invoiceSettingsStatusCode]);
 
@@ -210,12 +163,17 @@ const handleInvoiceSettings = () => {
 
     const [logo, setLogo] = useState('')
 
+
+    console.log("logo for",logo)
+
     useEffect(() => {
 
                 const filteredHostels = state.UsersList?.hostelList?.filter((item) => (
             item.id === Number(selectedHostel.id)
         ));
        
+console.log("filteredHostels",filteredHostels)
+
         if (filteredHostels.length > 0) {
             const profileURL = filteredHostels[0]?.profile;           
             setLogo(profileURL);
@@ -223,7 +181,7 @@ const handleInvoiceSettings = () => {
 
             setLogo(Logo);
         }
-    }, [selectedHostel, state.UsersList?.hostelList]);
+    }, [selectedHostel]);
 
 
 
