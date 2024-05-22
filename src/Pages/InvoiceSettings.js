@@ -12,7 +12,7 @@ function InvoiceSettings() {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
 
-
+console.log("state for invoice settings",state)
 
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
     const [showTable, setShowTable] = useState(false)
@@ -63,50 +63,146 @@ function InvoiceSettings() {
         setStartNumber(e.target.value)
     }
 
-    const handleInvoiceSettings = () => {
-        if (selectedImage) {
-            dispatch({ type: 'INVOICESETTINGS', payload: { hostel_Id: selectedHostel.id, prefix: prefix, suffix: startNumber, profile: selectedImage } })
+//     const handleInvoiceSettings = () => {
+//         const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== '';
+//         const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== '';
+//         const isSelectedImageValid = selectedImage !== undefined && selectedImage !== null;
+
+// console.log("isPrefixValid",isPrefixValid)
+// console.log("isStartNumberValid",isStartNumberValid)
+// console.log("isSelectedImageValid",isSelectedImageValid)
+
+//         if(isPrefixValid && isStartNumberValid && isSelectedImageValid) {
+//             dispatch({ type: 'INVOICESETTINGS', payload: { hostel_Id: selectedHostel.id, prefix: prefix, suffix: startNumber, profile: selectedImage } })
+//             Swal.fire({
+//                 text: "Prefix, Suffix, Profile Update successfully",
+//                 icon: "success",
+//                 timer: 1000,
+//             });
+//         }
+//         else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid) {
+//             dispatch({ type: 'INVOICESETTINGS', payload: { hostel_Id: selectedHostel.id, profile: selectedImage } })
+//                    Swal.fire({
+//                 text: "Profile Update successfully",
+//                 icon: "success",
+//                 timer: 1000,
+//             });
        
-            Swal.fire({
-                text: "Invoice Update successfully",
-                icon: "success",
-                timer: 1000,
-            });
-       
-        } else {
-            dispatch({ type: 'INVOICESETTINGS', payload: { hostel_Id: selectedHostel.id, prefix: prefix, suffix: startNumber } })
-            Swal.fire({
-                text: "Invoice Update successfully",
-                icon: "success",
-                timer: 1000,
-            });
-        }
-        setShowTable(false)
-        setSelectedHostel({
-            id: '', name: ''
-        })
-        setPrefix('')
-        setStartNumber('')
+//         }  
+//         else if(isPrefixValid && isStartNumberValid && !isSelectedImageValid){
+//             dispatch({ type: 'INVOICESETTINGS', payload: { hostel_Id: selectedHostel.id, prefix: prefix, suffix: startNumber } })
+//             Swal.fire({
+//                 text: "Prefix, Suffix Update successfully",
+//                 icon: "success",
+//                 timer: 1000,
+//             });
+//         }else{
+//             Swal.fire({
+//                 text: "Please provide the necessary information.",
+//                 icon: "warning",
+//                 timer: 2000,
+//             });
+//         }
+//         setShowTable(false)
+//         setSelectedHostel({
+//             id: '', name: ''
+//         })
+//         setPrefix('')
+//         setStartNumber('')
 
 
+//     }
+
+
+const handleInvoiceSettings = () => {
+    const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== '';
+    const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== '';
+    const isSelectedImageValid = selectedImage !== undefined && selectedImage !== null;
+
+    console.log("isPrefixValid:", isPrefixValid);
+    console.log("isStartNumberValid:", isStartNumberValid);
+    console.log("isSelectedImageValid:", isSelectedImageValid);
+
+    if (isPrefixValid && isStartNumberValid && isSelectedImageValid) {
+        dispatch({
+            type: 'INVOICESETTINGS',
+            payload: {
+                hostel_Id: selectedHostel.id,
+                prefix: prefix,
+                suffix: startNumber,
+                profile: selectedImage
+            }
+        });
+        Swal.fire({
+            text: "Prefix, Suffix, Profile Update successfully",
+            icon: "success",
+            timer: 1000,
+        });
+    } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid) {
+        dispatch({
+            type: 'INVOICESETTINGS',
+            payload: {
+                hostel_Id: selectedHostel.id,
+                profile: selectedImage
+            }
+        });
+        Swal.fire({
+            text: "Profile Update successfully",
+            icon: "success",
+            timer: 1000,
+        });
+    } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid) {
+        dispatch({
+            type: 'INVOICESETTINGS',
+            payload: {
+                hostel_Id: selectedHostel.id,
+                prefix: prefix,
+                suffix: startNumber
+            }
+        });
+        Swal.fire({
+            text: "Prefix, Suffix Update successfully",
+            icon: "success",
+            timer: 1000,
+        });
+    } else {
+        Swal.fire({
+            text: "Please provide the necessary information.",
+            icon: "warning",
+            timer: 2000,
+        });
     }
+
+    setShowTable(false);
+    setSelectedHostel({ id: '', name: '' });
+    setPrefix('');
+    setStartNumber('');
+};
+
+
+
+
+
+
+
+
 
     const loginId = localStorage.getItem('loginId');
 
 
     useEffect(() => {
-        if (state.InvoiceList?.statusCode === 200) {
+        if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
                    const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
           const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
           const parsedData = Number(decryptedIdString);
   
           dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
           
-                setTimeout(() => {
-                dispatch({ type: 'CLEAR_INVOICE_SETTINS_STATUSCODE' });
-            }, 2000);
+            //     setTimeout(() => {
+            //     dispatch({ type: 'CLEAR_INVOICE_SETTINS_STATUSCODE' });
+            // }, 2000);
         }
-    }, [state.InvoiceList?.statusCode]);
+    }, [state.InvoiceList?.invoiceSettingsStatusCode]);
 
    
 

@@ -19,7 +19,7 @@ const initialState = {
     StatusCodeAmenitiesGet: 0,
     AmenitiesUpdateStatusCode: 0,
     ManualInvoice: [],
-    manualInvoiceStatusCode:0,
+    manualInvoiceStatusCode: 0,
 
 }
 
@@ -33,6 +33,8 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, message: action.payload.message }
         case 'INVOICE_SETTINGS':
             return { ...state, prefix: action.payload.prefix, suffix: action.payload.suffix, profile: action.payload.profile, invoiceSettingsStatusCode: action.payload.statusCode }
+        case 'CLEAR_INVOICE_SETTINS_STATUSCODE':
+            return { ...state, invoiceSettingsStatusCode: 0 }
         case 'CLEAR_AMENITIES_SETTINS_STATUSCODE':
             return { ...state, statusCode: 0 }
         case 'INVOICE_PDF':
@@ -49,8 +51,8 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, AmenitiesUpdate: action.payload, AmenitiesUpdateStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_AMENITIES_UPDATE':
             return { ...state, AmenitiesUpdateStatusCode: 0 }
-            case 'MANUAL_INVOICE':
-                return {...state, ManualInvoice:action.payload, manualInvoiceStatusCode:action.payload.statusCode}
+        case 'MANUAL_INVOICE':
+            return { ...state, ManualInvoice: action.payload, manualInvoiceStatusCode: action.payload.statusCode }
     }
     return state;
 }

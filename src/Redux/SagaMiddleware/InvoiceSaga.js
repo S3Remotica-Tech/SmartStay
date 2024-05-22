@@ -35,14 +35,15 @@ function* handleAddInvoiceDetails (param){
 
 function* handleInvoiceSettings(param){
        const response = yield call (InvoiceSettings,param.payload)
-      if (response.status === 200) {
-         yield put({ type: 'INVOICE_SETTINGS',  payload:{response:response.data, statusCode: response.status} })
-         Swal.fire({
-            title: "Good job!",
-            text: "Invoice Settings updated successfully!",
-            icon: "success",
-            timer: 1000,
-        });
+     
+      if (response.statusCode === 200) {
+         yield put({ type: 'INVOICE_SETTINGS',  payload:{response:response.data, statusCode: response.statusCode} })
+      //    Swal.fire({
+      //       title: "Good job!",
+      //       text: "Invoice Settings updated successfully!",
+      //       icon: "success",
+      //       timer: 1000,
+      //   });
    
       }
       else {
