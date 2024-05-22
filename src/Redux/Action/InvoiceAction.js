@@ -54,11 +54,17 @@ export async function AmenitiesSettings(datum) {
 
 export async function InvoiceSettings(params) {
 
-   const formData = new FormData();
-  formData.append("profile", params.profile);
+  //  const formData = new FormData();
+  // formData.append("profile", params.profile);
+  // formData.append("hostel_Id", params.hostel_Id);
+  // formData.append("prefix", params.prefix);
+  // formData.append("suffix", params.suffix);
+
+  const formData = new FormData();
+  if (params.profile) formData.append("profile", params.profile);
   formData.append("hostel_Id", params.hostel_Id);
-  formData.append("prefix", params.prefix);
-  formData.append("suffix", params.suffix);
+  if (params.prefix) formData.append("prefix", params.prefix);
+  if (params.suffix) formData.append("suffix", params.suffix);
   
     
   try {
