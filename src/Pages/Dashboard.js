@@ -14,6 +14,7 @@ import UpArrowblue from "../Assets/Images/UP_BLUE.png"
 import UpArrowred from "../Assets/Images/UP_RED.png"
 import { useDispatch, useSelector } from 'react-redux';
 import CryptoJS from "crypto-js";
+import DashboardChart from './DashboardChart';
 
 function Dashboard() {
 
@@ -50,7 +51,7 @@ function Dashboard() {
         <div>
            
 
-               
+            {dashboardList &&   
                    <div className="container ms-4 mt-5">
   <div className='row' style={{ gap: '15px' }}>
     <div className="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
@@ -106,7 +107,7 @@ function Dashboard() {
         <Card.Body>
           <div style={{ display: "flex", flexDirection: 'row' }}>
             <div className='row d-flex align-items-center justify-content-center'>
-              <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+              <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 10 }}>
                 <h6>Free Bed</h6>
                 <TbClockCheck style={{ marginLeft: 25, marginTop: 6, color: 'green' }} />
               </div>
@@ -116,7 +117,7 @@ function Dashboard() {
             </div>
 
             <div className='row d-flex align-items-center justify-content-center'>
-              <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+              <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 10 }}>
                 <h6>Occupied Bed</h6>
                 <TbClockCancel style={{ marginLeft: 25, marginTop: 6, color: 'red' }} />
               </div>
@@ -144,7 +145,7 @@ function Dashboard() {
             <div style={{ display: 'flex', justifyContent: 'center',height:'200px' }}>
             <CircularProgressbar
         value={percentage}
-        text= {"₹" + dashboardList[0].Revenue}
+        text= {"₹ " + dashboardList[0].Revenue}
         circleRatio={0.5}
         styles={buildStyles({
           rotation: 0.75,
@@ -189,13 +190,16 @@ function Dashboard() {
             <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
               <p>Revenue and Booking</p>
             </div>
+            <div>
+              <DashboardChart/>
+            </div>
           </div>
         </Card.Body>
       </Card>
     </div>
   </div>
 </div>
-
+}
 
 
 </div>
