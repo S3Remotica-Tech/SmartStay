@@ -1,26 +1,56 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import SemiCircleProgressBar from "react-progressbar-semicircle";
 import { TbClockCheck } from "react-icons/tb";
 import { TbClockCancel } from "react-icons/tb";
 import { ImClock2 } from "react-icons/im";
 import '../Pages/Dashboard.css';
 import Card from 'react-bootstrap/Card';
-import File from "../Assets/task_24dp_FILL0_wght400_GRAD0_opsz24.png"
+import File from "../Assets/check-file (1).png"
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 // import { Flex, Box } from "rebass";
 import "react-circular-progressbar/dist/styles.css";
 import { borderRadius } from '@mui/system';
+import UpArrowblue from "../Assets/Images/UP_BLUE.png"
+import UpArrowred from "../Assets/Images/UP_RED.png"
+import { useDispatch, useSelector } from 'react-redux';
+import CryptoJS from "crypto-js";
 
 function Dashboard() {
 
+     const state = useSelector(state => state)
+     console.log("state",state)
+    const dispatch = useDispatch();
+    const [dashboardList,setDashboardList]=useState(state.PgList.dashboardDetails.dashboardList)
+    const LoginId = localStorage.getItem("loginId")
+    const [login_Id, setLogin_Id] = useState('')
+      useEffect(() => {
+        if (LoginId) {
+          try{
+            const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+            const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
+            const parsedData = Number(decryptedIdString);
+            setLogin_Id(parsedData)
+                  dispatch({ type: 'PGDASHBOARD', payload:{created_by:parsedData} })
+                }
+          
+            catch(error){
+          console.log("Error decrypting loginid",error);
+            }
+        }
+  
+      }, [])
+      useEffect(()=>{
+        setDashboardList(state.PgList.dashboardDetails.dashboardList)
+      },[state.PgList.dashboardDetails.dashboardList])
     const percentage = 70;
-    const [activePage, setActivePage] = useState(true)
+    // const [activePage, setActivePage] = useState(true)
 
+    console.log("dashboardList",dashboardList)
     return (
-        <>
-            {activePage &&
+        <div>
+           
 
-                <>
+               
                    <div className="container ms-4 mt-5">
   <div className='row' style={{ gap: '15px' }}>
     <div className="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
@@ -32,7 +62,7 @@ function Dashboard() {
               <img src={File} height={18} width={18} style={{ marginLeft: 25, marginTop: 6, color: 'violet' }} />
             </div>
             <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
-              <h3>157</h3>
+              <h3>{dashboardList[0].hostelCount}</h3>
             </div>
           </div>
         </Card.Body>
@@ -48,7 +78,7 @@ function Dashboard() {
               <ImClock2 style={{ marginLeft: 25, marginTop: 6, color: 'orangered' }} />
             </div>
             <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
-              <h3>1920</h3>
+              <h3>{dashboardList[0].roomCount}</h3>
             </div>
           </div>
         </Card.Body>
@@ -64,7 +94,7 @@ function Dashboard() {
               <TbClockCheck style={{ marginLeft: 25, marginTop: 6, color: 'green' }} />
             </div>
             <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
-              <h3>4412</h3>
+              <h3>{dashboardList[0].TotalBed}</h3>
             </div>
           </div>
         </Card.Body>
@@ -81,7 +111,7 @@ function Dashboard() {
                 <TbClockCheck style={{ marginLeft: 25, marginTop: 6, color: 'green' }} />
               </div>
               <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
-                <h3>2412</h3>
+                <h3>{dashboardList[0].availableBed}</h3>
               </div>
             </div>
 
@@ -91,7 +121,7 @@ function Dashboard() {
                 <TbClockCancel style={{ marginLeft: 25, marginTop: 6, color: 'red' }} />
               </div>
               <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
-                <h3>2000</h3>
+                <h3>{dashboardList[0].occupied_Bed}</h3>
               </div>
             </div>
           </div>
@@ -111,10 +141,10 @@ function Dashboard() {
             <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
               <p>Revenue Target</p>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center',height:'150px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center',height:'200px' }}>
             <CircularProgressbar
         value={percentage}
-        text={"₹ 25,568"}
+        text= {"₹" + dashboardList[0].Revenue}
         circleRatio={0.5}
         styles={buildStyles({
           rotation: 0.75,
@@ -135,13 +165,13 @@ function Dashboard() {
          
             </div>
             <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
-            <div className='me-2'>
-             <p>current</p>
-             <h5>₹ 24,018</h5>
+            <div >
+             <p style={{marginLeft:10}}>current</p>
+             <h5 style={{marginRight:50}}>₹ {dashboardList[0].current} <img src={UpArrowblue} /></h5>
             </div>
             <div>
-            <p style={{color:'#E72222'}}>overdue</p>
-             <h5>₹ 1540</h5>
+            <p style={{color:'#E72222',marginLeft:10}}>overdue</p>
+             <h5 style={{marginRight:50}}>₹ {dashboardList[0].overdue} <img src={UpArrowred} /></h5>
             </div>
           </div>
           </div>
@@ -168,12 +198,12 @@ function Dashboard() {
 
 
 
-                </>
+</div>
 
-            }
+          
 
 
-        </>
+       
     )
 }
 

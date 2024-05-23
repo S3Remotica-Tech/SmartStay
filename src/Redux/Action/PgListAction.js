@@ -47,3 +47,9 @@ export async function createPgList(datum){
       data:datum
     })
   }
+
+  export async function createAllPGDetails(datum){
+    return await AxiosConfig.post('/list/dashboard',datum,{
+      data:datum
+    })
+  }
