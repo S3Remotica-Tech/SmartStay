@@ -595,13 +595,13 @@ function UserlistForm(props) {
                   <div className='col lg-6'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Room Rent (Monthly)</Form.Label>
-                      <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 8 }}>{RoomRent}</h1>
-                      {/* <FormControl
+                      {/* <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 8 }}>{RoomRent}</h1> */}
+                      <FormControl
                         type="text"
                         id="form-controls"
                         value={RoomRent} onChange={(e) => handleRoomRent(e)}
                         style={bottomBorderStyle}
-                      /> */}
+                      />
                     </Form.Group>
                   </div>
                 </div>
