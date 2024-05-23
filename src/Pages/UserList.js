@@ -413,7 +413,7 @@ const getFloorAbbreviation = (floor) => {
     <div className='container p-2' >
 
       {userList && <>
-        <div className="user" >
+        <div className="user ps-3 pe-3" >
 
           <div className="user1" >
             <h6>User List</h6>
@@ -428,12 +428,12 @@ const getFloorAbbreviation = (floor) => {
                   onChange={(e) => handleInputChange(e)}
                   placeholder='Search Here'
                   class="form-control ps-4 pe-1   searchinput"
-                  style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
+                  style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "250px", borderRadius: "5px", padding: "2px", border: "1px Solid lightgray", height: "30px", color: "#2E75EA" }}
                 />
               </>
             }
 
-            <IoIosSearch className='io' style={{ fontSize: 20 }}
+            <IoIosSearch className='me-3' style={{ fontSize: 20 }}
               onClick={handleiconshow}
             />
             {
@@ -448,7 +448,7 @@ const getFloorAbbreviation = (floor) => {
                 </select>
               </>
             }
-            <IoFilterOutline class=" me-4" onClick={handleFiltershow} style={{ fontSize: 20 }} />
+            {/* <IoFilterOutline class=" me-4" onClick={handleFiltershow} style={{ fontSize: 20 }} /> */}
             <button type="button" class="me-2" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} class="me-1" height="12" width="12" alt="Plus" />Add User</button>
        
             {/* <button type="button" class="me-2" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} >CheckOut User</button> */}
@@ -458,29 +458,31 @@ const getFloorAbbreviation = (floor) => {
         </div>
        
 
-        
-        <Table responsive >
+        <div className="p-2">
+
+       
+        <Table responsive  >
             <thead style={{ backgroundColor: "#F6F7FB", fontSize: 10, color: "#91969E" }}>
               <tr >
-              <th style={{ color: "#91969E" }} ></th>
-                <th style={{ color: "#91969E" }} >Name</th>
-                <th style={{ color: "#91969E" }} >Phone</th>
-                <th style={{ color: "#91969E" }} >HostelName</th>
-                <th style={{ color: "#91969E" }}>Floor</th>
-                <th style={{ color: "#91969E" }} >Room</th>
-                <th style={{ color: "#91969E" }} >Bed</th>
-                <th style={{ color: "#91969E" }} >Room Rent</th>
-                <th style={{ color: "#91969E" }} >Balance Due</th>
-                <th style={{ color: "#91969E" }} >Payment Type</th>
+              {/* <th style={{ color: "#91969E" }} ></th> */}
+                <th style={{ color: "#91969E", textAlign:"center"}} >Name</th>
+                <th style={{ color: "#91969E" , textAlign:"center"}} >Phone</th>
+                <th style={{ color: "#91969E" ,textAlign:"center"}} >HostelName</th>
+                <th style={{ color: "#91969E",textAlign:"center" }}>Floor</th>
+                <th style={{ color: "#91969E",textAlign:"center" }} >Room</th>
+                <th style={{ color: "#91969E" ,textAlign:"center"}} >Bed</th>
+                {/* <th style={{ color: "#91969E" }} >Room Rent</th> */}
+                <th style={{ color: "#91969E",textAlign:"center" }} >Receivable</th>
+                {/* <th style={{ color: "#91969E" }} >Payment Type</th>
                 <th style={{ color: "#91969E" }} >Status</th>
-                <th style={{ color: "#91969E" }} >Action</th>
+                <th style={{ color: "#91969E" }} >Action</th> */}
               </tr>
             </thead>
             <tbody className='tablebody'>
             {currentItems.map((user) => (
                
     <tr style={{ fontWeight: "700" }}>
-      <td>
+      {/* <td>
         <div style={{ display: 'flex', flexDirection: "row" }}>
           <div>
             <span className="i-circle">
@@ -488,32 +490,32 @@ const getFloorAbbreviation = (floor) => {
             </span>
           </div>
         </div>
-      </td>
-      <td style={{ color: "black", fontWeight: 500 }} onClick={() => handleRoomDetailsPage(user,user.Bed,user.Rooms,user.Floor,user.Hostel_Id)}>{user.Name}</td>
-      <td style={{ color: "black", fontWeight: 500 }}>+91 {user.Phone}</td>
-      <td style={{ color: "black", fontWeight: 500 }}>{user.HostelName}</td>
-      <td style={{ color: "black", fontWeight: 500 , textAlign: 'center' }}>{user.Floor}</td>
-      <td style={{ color: "black", fontWeight: 500 , textAlign: 'center' }}>{user.Rooms}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.Bed}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {user.RoomRent}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {user.BalanceDue}</td>
-      <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
-      <td style={user.Status === "Success" ? { color: "green" } : { color: "red" }}>{user.Status}</td>
-      <td>
+      </td> */}
+      <td style={{ color: "#0D99FF", fontWeight: 500, textAlign:"center", textDecoration:'underline', cursor:'pointer' }} onClick={() => handleRoomDetailsPage(user,user.Bed,user.Rooms,user.Floor,user.Hostel_Id)}>{user.Name}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign:"center" }}>+91 {user.Phone}</td>
+      <td style={{ color: "black", fontWeight: 500 ,textAlign:"center"}}>{user.HostelName}</td>
+      <td style={{ color: "black", fontWeight: 500 , textAlign:"center" }}>{user.Floor}</td>
+      <td style={{ color: "black", fontWeight: 500 , textAlign:"center" }}>{user.Rooms}</td>
+      <td style={{ color: "black", fontWeight: 500, textAlign:"center"}}>{user.Bed}</td>
+      {/* <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {user.RoomRent}</td> */}
+      <td style={{ color: "black", fontWeight: 500, textAlign:"center" }}>₹ {user.BalanceDue}</td>
+      {/* <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
+      <td style={user.Status === "Success" ? { color: "green" } : { color: "red" }}>{user.Status}</td> */}
+      {/* <td>
         <img src={img1} className='img1' height={25} width={20} alt="img1" onClick={() => handleRoomDetailsPage(user,user.Bed,user.Rooms,user.Floor,user.Hostel_Id)}/>
         <img src={img2} className='img1 ms-1' height={25} width={20} alt="img1" onClick={() => { handleShow(user) }} />
-      </td>
+      </td> */}
     </tr>
   
 ))}
 
             </tbody>
             </Table>
-
+            </div>
           
 
 
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+          <div className="p-3" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
 
             <div style={{ display: "flex", flexDirection: "row" }}>
               <div>
@@ -561,7 +563,7 @@ const getFloorAbbreviation = (floor) => {
                 <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12 p-2" style={{ borderRight: "1px solid lightgray" }}>
                   <div class="row g-0 p-1">
                     <div className='col-lg-2 col-md-12 col-sm-12 col-xs-12'>
-                      <Image src={Login} roundedCircle style={{ height: "45px", width: "45px", backgroundColor: "#F6F7FB" }} />
+                      <Image src={Login} roundedCircle style={{ height: "50px", width: "50px", backgroundColor: "#F6F7FB" }} />
                     </div>
                     <div className='col-lg-5 col-md-12 col-sm-12 col-xs-12'>
                       <div class="d-block ps-1">
@@ -573,7 +575,7 @@ const getFloorAbbreviation = (floor) => {
  
                     </div>
                     <div class="col-lg-4 offset-lg-1">
-                      <button type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={() => { handleShow(item) }} ><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button>
+                      {/* <button type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={() => { handleShow(item) }} ><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button> */}
 
                     </div>
                   </div>
@@ -684,7 +686,14 @@ const getFloorAbbreviation = (floor) => {
 
 
                       <IoFilterOutline class="me-2" style={{ fontSize: 20 }} onClick={handleFliterByStatus} />
-                      <button className="btn btn-primary  w-75 d-flex justify-content-center align-items-center" onClick={handleBack}><p className="m-0">Back</p></button>
+                     
+                      {/* <button   type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}  >Back</button> */}
+                      <button type="button" class="ms-2" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={() => { handleShow(item) }} ><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button>
+                      <Button className="ms-2" variant="outline-secondary" onClick={handleBack} size="sm"  style={{ borderRadius: '20vh', width: '100px', marginRight: '15px' }}>
+                    Back
+                  </Button>
+
+
                     </div>
 
                   </div>
@@ -736,7 +745,7 @@ const getFloorAbbreviation = (floor) => {
 
                   <div class="d-flex justify-content-between mb-3">
                     <p style={{ fontWeight: 700 }}>Comments</p>
-                    <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline" }}>+ Add Comment</p>
+                    {/* <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline" }}>+ Add Comment</p> */}
                   </div>
 
 
