@@ -43,10 +43,26 @@ function Dashboard() {
       useEffect(()=>{
         setDashboardList(state.PgList.dashboardDetails.dashboardList)
       },[state.PgList.dashboardDetails.dashboardList])
-    const percentage = 70;
+    // const percentage = 70;
     // const [activePage, setActivePage] = useState(true)
 
     console.log("dashboardList",dashboardList)
+    if (!dashboardList || dashboardList.length === 0) {
+      return null; 
+    }
+  
+    const {
+      hostelCount ,
+      roomCount ,
+      TotalBed ,
+      availableBed ,
+      occupied_Bed ,
+      Revenue ,
+      current,
+      overdue ,
+    } = dashboardList[0];
+  
+    const percentage = (Revenue / 100000) * 100;
     return (
 <div>
            
