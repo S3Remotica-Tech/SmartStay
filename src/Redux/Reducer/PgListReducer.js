@@ -25,6 +25,7 @@ const initialState = {
     errorForBed: "",
     errorStatusCode: 0,
     statusCodeCreateRoom:0,
+    dashboardDetails:''
   }
 const PgListReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -71,6 +72,10 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, errorStatusCode: ' ' }
         case 'CLEAR_STATUS_CODE_BED':
             return { ...state, statusCode: ' ' }
+            case 'CREATE_PG_DASHBOARD':
+                return { ...state, dashboardDetails: action.payload }
+
+
         case 'ROOM_COUNT':
 
             if (state.roomCount.length > 0) {
