@@ -48,8 +48,9 @@ function Dashboard() {
 
     console.log("dashboardList",dashboardList)
     return (
-        <div>
+      <div>
            
+
 
             {dashboardList &&   
                    <div className="container ms-4 mt-5">
@@ -65,22 +66,27 @@ function Dashboard() {
             <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
               <h3>{dashboardList[0].hostelCount}</h3>
             </div>
-          </div>
-        </Card.Body>
-      </Card>
-    </div>
 
-    <div className="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
-      <Card style={{ height: "auto", backgroundColor: "#F6F7FB" }}>
-        <Card.Body>
-          <div className='row d-flex align-items-center justify-content-center'>
-            <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
-              <h6>Total Room</h6>
-              <ImClock2 style={{ marginLeft: 25, marginTop: 6, color: 'orangered' }} />
-            </div>
-            <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
-              <h3>{dashboardList[0].roomCount}</h3>
-            </div>
+     
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+      
+          <div className="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <Card style={{ height: "auto", backgroundColor: "#F6F7FB" }}>
+              <Card.Body>
+                <div className='row d-flex align-items-center justify-content-center'>
+                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+                    <h6>Total Room</h6>
+                    <ImClock2 style={{ marginLeft: 25, marginTop: 6, color: 'orangered' }} />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+                    <h3>{dashboardList[0].roomCount}</h3>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
           </div>
         </Card.Body>
       </Card>
@@ -174,11 +180,58 @@ function Dashboard() {
             <p style={{color:'#E72222',marginLeft:10}}>overdue</p>
              <h5 style={{marginRight:50}}>₹ {dashboardList[0].overdue} <img src={UpArrowred} /></h5>
             </div>
+
           </div>
+        </div>
+      
+        <div className='row' style={{ gap: '30px', marginTop: 50 }}>
+          <div className="col-lg-4 col-md-6 col-sm-12 col-12">
+            <Card style={{ backgroundColor: "#F6F7FB" }}>
+              <Card.Body>
+                <div className='row d-flex align-items-center justify-content-center'>
+                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+                    <h6>Total Receivables</h6>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+                    <p>Revenue Target</p>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center',height:'200px' }}>
+                  <CircularProgressbar
+              value={percentage}
+              text= {"₹" + dashboardList[0].Revenue}
+              circleRatio={0.5}
+              styles={buildStyles({
+                rotation: 0.75,
+                textSize: '15px', // Reducing the font size
+                pathColor: '#22CBAE',
+                trailColor: 'red',
+              //   backgroundColor: 'grey',
+                root: {
+                  transform: 'rotate(0.75turn)',
+                },
+                text: {
+                  fill: '#22CBAE',
+                  transform: 'rotate(90deg)', // Rotate text to vertical
+                  transformOrigin: 'center center', // Ensure it rotates around its center
+                },
+              })}
+            />
+               
+                  </div>
+                  <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
+                  <div >
+                   <p style={{marginLeft:10}}>current</p>
+                   <h5 style={{marginRight:50}}>₹ {dashboardList[0].current} <img src={UpArrowblue} /></h5>
+                  </div>
+                  <div>
+                  <p style={{color:'#E72222',marginLeft:10}}>overdue</p>
+                   <h5 style={{marginRight:50}}>₹ {dashboardList[0].overdue} <img src={UpArrowred} /></h5>
+                  </div>
+                </div>
+                </div>
+              </Card.Body>
+            </Card>
           </div>
-        </Card.Body>
-      </Card>
-    </div>
 
     <div className="col-lg-7 col-md-6 col-sm-12 col-12 mb-3">
       <Card style={{ height: "auto", backgroundColor: "#F6F7FB" }}>
@@ -203,6 +256,7 @@ function Dashboard() {
 
 
 </div>
+
 
           
 
