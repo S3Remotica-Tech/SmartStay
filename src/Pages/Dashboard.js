@@ -12,6 +12,9 @@ import "react-circular-progressbar/dist/styles.css";
 import { borderRadius } from '@mui/system';
 import UpArrowblue from "../Assets/Images/UP_BLUE.png"
 import UpArrowred from "../Assets/Images/UP_RED.png"
+import clock from "../Assets/Images/time-management.png"
+import Onclock from "../Assets/Images/on-time.png"
+import Delete from "../Assets/Images/delete.png";
 import { useDispatch, useSelector } from 'react-redux';
 import CryptoJS from "crypto-js";
 import DashboardChart from './DashboardChart';
@@ -79,7 +82,7 @@ function Dashboard() {
                 <div className='row d-flex align-items-center justify-content-center'>
                   <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 10 }}>
                     <h6>Total Hostel</h6>
-                    <img src={File} height={18} width={18} style={{ marginLeft: 25, marginTop: 6 }} />
+                    <img src={File} height={25} width={25} style={{ marginLeft: 25, marginTop: 6,backgroundColor:"#F4ECFB",padding:6 }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
                     <h3>{hostelCount.toLocaleString()}</h3>
@@ -93,9 +96,10 @@ function Dashboard() {
             <Card style={{ height: "auto", backgroundColor: "#F6F7FB" }}>
               <Card.Body>
                 <div className='row d-flex align-items-center justify-content-center'>
-                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+                  <div style={{ display: "flex", flexDirection: 'row' }}>
                     <h6>Total Room</h6>
-                    <ImClock2 style={{ marginLeft: 25, marginTop: 6, color: 'orangered' }} />
+                    {/* <ImClock2 style={{ marginLeft: 25, marginTop: 6, color: 'orangered',backgroundColor:"#FFECEE" }} /> */}
+                    <img src={clock} height={18} width={18} style={{ marginLeft: 25, marginTop: 6,backgroundColor:"#FFECEE"}}/>
                   </div>
                   <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
                     <h3>{roomCount.toLocaleString()}</h3>
@@ -111,7 +115,8 @@ function Dashboard() {
                 <div className='row d-flex align-items-center justify-content-center'>
                   <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
                     <h6>Total Bed</h6>
-                    <TbClockCheck style={{ marginLeft: 25, marginTop: 6, color: 'green' }} />
+                    {/* <TbClockCheck style={{ marginLeft: 25, marginTop: 6, color: 'green',backgroundColor:"#EAFAF7",fontSize:15,padding:10 }} /> */}
+                    <img src={Onclock} height={28} width={28} style={{ marginLeft: 25, marginTop: 6,backgroundColor:"#EAFAF7",padding:6 }}/>
                   </div>
                   <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
                     <h3>{TotalBed.toLocaleString()}</h3>
@@ -128,7 +133,8 @@ function Dashboard() {
                   <div className='row d-flex align-items-center justify-content-center'>
                     <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
                       <h6>Free Bed</h6>
-                      <TbClockCheck style={{ marginLeft: 25, marginTop: 6, color: 'green' }} />
+                      {/* <TbClockCheck style={{ marginLeft: 25, marginTop: 6, color: 'green',backgroundColor:"#EAFAF7" }} /> */}
+                      <img src={Onclock} height={28} width={28} style={{ marginLeft: 25, marginTop: 6,backgroundColor:"#EAFAF7",padding:6 }}/>
                     </div>
                     <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
                       <h3>{availableBed.toLocaleString()}</h3>
@@ -138,7 +144,8 @@ function Dashboard() {
                   <div className='row d-flex align-items-center justify-content-center'>
                     <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
                       <h6>Occupied Bed</h6>
-                      <TbClockCancel style={{ marginLeft: 25, marginTop: 6, color: 'red' }} />
+                      {/* <TbClockCancel style={{ marginLeft: 25, marginTop: 6, color: 'red',backgroundColor:"#FFECEE" }} /> */}
+                      <img src={Delete} height={28} width={28} style={{ marginLeft: 25, marginTop: 6,backgroundColor:"#FFECEE",padding:6 }}/>
                     </div>
                     <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
                       <h3>{occupied_Bed.toLocaleString()}</h3>
