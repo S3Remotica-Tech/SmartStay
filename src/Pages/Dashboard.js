@@ -212,6 +212,9 @@ function Dashboard() {
                   <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
                     <p>Revenue and Booking</p>
                   </div>
+                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+                    <DashboardChart/>
+                  </div>
                 </div>
               </Card.Body>
             </Card>

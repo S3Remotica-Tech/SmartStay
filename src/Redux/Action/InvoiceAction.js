@@ -12,8 +12,8 @@ export async function invoiceList(invoice) {
   })
 }
 
-export async function addInvoice(datum) {
-  return await AxiosConfig.post('/add/invoice-add',datum,{
+export async function UpdateInvoice(datum) {
+  return await AxiosConfig.post('/invoice/invoiceUpdate',datum,{
     data:datum
   })
 }

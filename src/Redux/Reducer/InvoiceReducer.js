@@ -29,7 +29,7 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, Invoice: action.payload.response, InvoiceListStatusCode: action.payload.statusCode }
         case 'CLEAR_INVOICE_LIST':
             return { ...state, InvoiceListStatusCode: 0, toTriggerPDF: true }
-        case 'ADDINVOICE_DETAILS':
+        case 'UPDATEINVOICE_DETAILS':
             return { ...state, message: action.payload.message }
         case 'INVOICE_SETTINGS':
             return { ...state, prefix: action.payload.prefix, suffix: action.payload.suffix, profile: action.payload.profile, invoiceSettingsStatusCode: action.payload.statusCode }
