@@ -68,7 +68,9 @@ const InvoicePage = () => {
     FloorNo: '',
     RoomNo: '',
     date: '',
-    amount: '',
+    total_amount: '',
+    paymentType:'',
+    amount:'',
     balanceDue: '',
     dueDate: ''
   })
@@ -94,7 +96,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.statusCodeForPDf === 200) {
-      dispatch({ type: 'INVOICELIST', payload:{loginId:loginID} })
+      dispatch({ type: 'INVOICELIST', payload: { loginId: loginID } })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
       }, 100);
@@ -105,10 +107,10 @@ const InvoicePage = () => {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
 
- 
 
 
-  
+
+
 
   useEffect(() => {
     const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
@@ -155,18 +157,18 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (LoginId) {
-      try{
+      try {
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedIdString);
         setLoginID(parsedData)
-        dispatch({ type: 'INVOICELIST', payload:{loginId:parsedData} })
-      
+        dispatch({ type: 'INVOICELIST', payload: { loginId: parsedData } })
+
       }
-      
-        catch(error){
-       console.log("Error decrypting loginid",error);
-        }
+
+      catch (error) {
+        console.log("Error decrypting loginid", error);
+      }
     }
 
   }, [LoginId])
@@ -260,7 +262,9 @@ const InvoicePage = () => {
       RoomNo: '',
       amount: '',
       balanceDue: '',
-      dueDate: ''
+      dueDate: '',
+      total_amount:'',
+      paymentType:''
     })
     setShowMenu(false);
     setUserClicked(false);
@@ -379,7 +383,9 @@ const InvoicePage = () => {
           FloorNo: item.Floor_Id,
           RoomNo: item.Room_No,
           date: formattedDate,
-          amount: item.Amount,
+          total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
+          // amount: item.Amount,
+          amount:"",
           balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
           dueDate: formattedDueDate,
         });
@@ -462,63 +468,76 @@ const InvoicePage = () => {
       item.User_Id === selectedUserId && item.Invoices !== undefined
     );
 
+    // UPDATEINVOICEDETAILS
 
-    if (selectedUserId && invoiceList.date && invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue) {
-      dispatch({
+    // if (selectedUserId && invoiceList.date && invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue) {
+    //   dispatch({
+    //     type: 'ADDINVOICEDETAILS',
+    //     payload: {
+    //       User_Id: selectedUserId,
+    //       Date: invoiceList.date,
+    //       Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue,
+    //       DueDate: invoiceList.dueDate,
+    //       invoiceNo:
+    //         CheckInvoiceNo == true ? state.InvoiceList?.Invoice.find(item =>
+    //           item.User_Id == selectedUserId && item.Invoices !== undefined).Invoices + `${selectedUserId}` : invoiceNo,
+    //       hostel_Name: invoiceList.hostel_Name,
+    //       hostel_Id: invoiceList.hostel_Id, Floor_Id: invoiceList.FloorNo, RoomNo: invoiceList.RoomNo,
+    //       Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '',
+
+    //     }
+    //   })
+    //   setData(state.InvoiceList?.Invoice.slice(indexOfFirstItem, indexOfLastItem))
+    //   setInvoiceList({
+    //     firstName: '',
+    //     lastName: '',
+    //     phone: '',
+    //     email: '',
+    //     hostel_Name: '',
+    //     hostel_Id: '',
+    //     FloorNo: '',
+    //     RoomNo: '',
+    //     amount: '',
+    //     balanceDue: '',
+    //     dueDate: ''
+    //   })
+    //   Swal.fire({
+    //     icon: "success",
+    //     title: editOption == 'Add' ? 'Details Saved Successfully' : 'Details Updated Successfully',
+    //     confirmButtonText: "ok"
+    //   }).then((result) => {
+    //     if (result.isConfirmed) {
+    //       dispatch({ type: 'INVOICELIST' })
+    //       setInvoiceList({
+    //         firstName: '',
+    //         lastName: '',
+    //         phone: '',
+    //         email: '',
+    //         hostel_Name: '',
+    //         hostel_Id: '',
+    //         FloorNo: '',
+    //         RoomNo: '',
+    //         amount: '',
+    //         balanceDue: '',
+    //         dueDate: '',
+    //       })
+    //       handleClose()
+
+    //     }
+    //   });
+    // }
+
+if(invoiceList.balanceDue && invoiceList.total_amount){
+  dispatch({
         type: 'ADDINVOICEDETAILS',
         payload: {
-          User_Id: selectedUserId,
-          Date: invoiceList.date,
-          Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue,
-          DueDate: invoiceList.dueDate,
-          invoiceNo:
-            CheckInvoiceNo == true ? state.InvoiceList?.Invoice.find(item =>
-              item.User_Id == selectedUserId && item.Invoices !== undefined).Invoices + `${selectedUserId}` : invoiceNo,
-          hostel_Name: invoiceList.hostel_Name,
-          hostel_Id: invoiceList.hostel_Id, Floor_Id: invoiceList.FloorNo, RoomNo: invoiceList.RoomNo,
-          Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '',
+         BalanceDue :invoiceList.balanceDue,
+         id :invoiceList.id,
 
         }
       })
-      setData(state.InvoiceList?.Invoice.slice(indexOfFirstItem, indexOfLastItem))
-      setInvoiceList({
-        firstName: '',
-        lastName: '',
-        phone: '',
-        email: '',
-        hostel_Name: '',
-        hostel_Id: '',
-        FloorNo: '',
-        RoomNo: '',
-        amount: '',
-        balanceDue: '',
-        dueDate: ''
-      })
-      Swal.fire({
-        icon: "success",
-        title: editOption == 'Add' ? 'Details Saved Successfully' : 'Details Updated Successfully',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch({ type: 'INVOICELIST' })
-          setInvoiceList({
-            firstName: '',
-            lastName: '',
-            phone: '',
-            email: '',
-            hostel_Name: '',
-            hostel_Id: '',
-            FloorNo: '',
-            RoomNo: '',
-            amount: '',
-            balanceDue: '',
-            dueDate: '',
-          })
-          handleClose()
+}
 
-        }
-      });
-    }
     else {
       Swal.fire({
         icon: "warning",
@@ -564,7 +583,7 @@ const InvoicePage = () => {
   };
 
 
- 
+
 
 
   const userIds = state.UsersList?.Users?.filter(item => item.User_Id !== '');
@@ -612,7 +631,7 @@ const InvoicePage = () => {
   const [totalPaidAmount, setTotalPaidAmount] = useState('')
 
 
-  
+
 
 
   const handleDateChange = (e) => {
@@ -664,7 +683,7 @@ const InvoicePage = () => {
       const paidAmount = parseFloat(item.Amount) || 0;
       totalPaidAmount += paidAmount;
     });
-   
+
 
     setTotalPaidAmount(totalPaidAmount)
 
@@ -837,9 +856,13 @@ const InvoicePage = () => {
 
                       <div className="row mb-3">
                         <div className='col-lg-12 col-12 col-md-12'>
-                          <Form.Label style={{ fontSize: "12px" }}>Select User ID</Form.Label>
-                          <Form.Select aria-label="Default select example" style={bottomBorderStyles}
-                            value={selectedUserId}
+                          <Form.Label style={{ fontSize: "12px", marginRight: 10 }}>User ID:</Form.Label>
+                          <Form.Label
+                            disabled={editOption == 'edit'}
+                          >{invoiceValue.User_Id}</Form.Label>
+                          {/* <Form.Select aria-label="Default select example" style={bottomBorderStyles}
+                            // value={selectedUserId}
+                            value={invoiceValue.User_Id}
                             disabled={editOption == 'edit'}
                             onChange={handleUserIdChange} >
                             <option>Select User Id</option>
@@ -852,175 +875,212 @@ const InvoicePage = () => {
                                 )
                               })
                             }
-                          </Form.Select>
+                          </Form.Select> */}
 
                         </div>
                       </div>
 
-                      {selectedUserId && filteredUserDetails.length > 0 && filteredUserDetails.map((item) => (
-                        <>
-                          <div className='row'>
+                      {/* {filteredUserDetails.length > 0 && filteredUserDetails.map((item) => ( */}
+                      <>
+                        <div className='row'>
 
-                            <div className='col-lg-6'>
-                              <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: "12px" }}>First Name</Form.Label>
-                                <FormControl
-                                  type="text"
-                                  value={editOption == 'Add' ? item.Name.split(' ')[0] : invoiceList.firstName}
-                                  onChange={(e) => { setInvoiceList({ ...invoiceList, firstName: e.target.value }) }}
-                                  style={bottomBorderStyle}
-                                  disabled
-                                />
-                              </Form.Group>
-                            </div>
-                            <div className='col-lg-6'>
-                              <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: "12px" }}>Last Name</Form.Label>
-                                <FormControl
-                                  type="text"
-                                  disabled
-                                  value={editOption == 'Add' ? item.Name.split(' ')[1] : invoiceList.lastName}
-                                  onChange={(e) => { setInvoiceList({ ...invoiceList, lastName: e.target.value }) }}
-                                  style={bottomBorderStyle}
-                                />
-                              </Form.Group>
-                            </div>
-
-                            <div className='col-lg-6'>
-                              <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
-                                <FormControl
-                                  type="text"
-                                  disabled
-                                  value={editOption == 'Add' ? item.Phone : invoiceList.phone}
-                                  onChange={(e) => { handlePhoneNo(e) }}
-                                  style={bottomBorderStyle}
-                                />
-                              </Form.Group>
-                              <p id='phoneError' style={{ color: 'red', fontSize: 14 }}></p>
-                            </div>
-                            <div className='col-lg-6'>
-                              <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: "12px" }}>Email ID</Form.Label>
-                                <FormControl
-                                  type="email"
-                                  disabled
-                                  value={editOption == 'Add' ? item.Email : invoiceList.email}
-                                  onChange={(e) => { handleEmailID(e) }}
-                                  style={bottomBorderStyle}
-                                />
-                              </Form.Group>
-                              <p id='emailError' style={{ color: 'red', fontSize: 14 }}></p>
-                            </div>
-
-                          </div>
-                          <div className='row mb-3'>
-                            <div className='col-lg-12'>
-                              <Form.Label style={{ fontSize: "12px" }}>User PG</Form.Label>
-                              <Form.Select aria-label="Default select example"
-                                style={bottomBorderStyles}
-                                disabled
-                                value={editOption == 'Add' ? item.HostelName : invoiceList.hostel_Id} onChange={(e) => handleHostelId(e)} >
-                                <option>Select hostel</option>
-                                {editOption == 'Add' ?
-
-                                  <option selected>{item.HostelName}</option>
-
-                                  :
-                                  state.UsersList?.hostelList?.map((item) => {
-                                    return (
-                                      <>
-                                        <option value={item.id}>{item.Name}</option>
-                                      </>
-                                    )
-                                  })
-
-                                }
-
-                              </Form.Select>
-
-                            </div>
-                          </div>
-                          <div className='row mb-3'>
-                            <div className='col-lg-6'>
-                              <Form.Label style={{ fontSize: "12px" }}>User Floor</Form.Label>
-                              <Form.Select aria-label="Default select example"
-                                style={bottomBorderStyles}
-                                disabled
-                                value={editOption == 'Add' ? item.Floor : invoiceList.FloorNo} onChange={(e) => handleFloor(e)}>
-                                <option>Selected Floor</option>
-                                {editOption == 'Add' ?
-
-                                  <option selected>{item.Floor}</option>
-                                  :
-                                  state.UsersList?.hosteldetailslist
-                                    ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
-                                    .map((u) => (
-                                      <option key={u.Floor_Id}>{u.Floor_Id}</option>
-                                    ))
-                                }
-                              </Form.Select>
-
-                            </div>
-                            <div className='col-lg-6'>
-                              <Form.Label style={{ fontSize: '12px' }}>User Room</Form.Label>
-                              <Form.Select
-                                aria-label='Default select example'
-                                style={bottomBorderStyles}
-                                disabled
-                                value={editOption == 'Add' ? item.Rooms : invoiceList.RoomNo}
-                                onChange={(e) => handleRooms(e)}
-                              >
-                                <option>Selected Room</option>
-                                {editOption == 'Add' ?
-
-                                  <option selected>{item.Rooms}</option>
-                                  :
-                                  state.UsersList?.roomdetails
-                                    ?.filter((item, index, self) => self.findIndex((i) => i.Room_Id === item.Room_Id) === index)
-                                    .map((item) => (
-                                      <option key={item.Room_Id}>{item.Room_Id}</option>
-                                    ))}
-                              </Form.Select>
-
-                            </div>
-                          </div>
-                          <div className='row'>
-                            <div className='col-lg-6 col-12 col-md-12'>
-                              <Form.Label style={{ fontSize: "12px" }}>Select Date</Form.Label>
+                          <div className='col-lg-6'>
+                            <Form.Group className="mb-3">
+                              <Form.Label style={{ fontSize: "12px" }}>First Name</Form.Label>
                               <FormControl
-                                type="date"
-                                value={invoiceList.date}
-                                onChange={(e) => { handleDateChange(e) }}
+                                type="text"
+                                value={invoiceList.firstName}
+                                // value={editOption == 'Add' ? item.Name.split(' ')[0] : invoiceList.firstName}
+                                onChange={(e) => { setInvoiceList({ ...invoiceList, firstName: e.target.value }) }}
                                 style={bottomBorderStyle}
-                              // disabled={displayText}
+                                disabled
                               />
-                            </div>
-                            <div className='col-lg-6'>
-                              <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: "12px" }}>Amount</Form.Label>
-                                <FormControl
-                                  type="text"
-                                  value={invoiceList.amount}
-                                  onChange={(e) => { handleAmount(e) }}
-                                  style={bottomBorderStyle}
-                                  disabled={displayText}
-                                />
-                              </Form.Group>
-
-                              {/* <label>{editOption == 'Add' ? <span>{totalPaidAmount}</span>: ''}</label> */}
-
-                            </div>
-                            <div className='col-lg-6'>
-                              <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: "12px" }}>Balance Due</Form.Label>
-                                <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 15 }}>{invoiceList.balanceDue}</h1>
-                              </Form.Group>
-                            </div>
+                            </Form.Group>
+                          </div>
+                          <div className='col-lg-6'>
+                            <Form.Group className="mb-3">
+                              <Form.Label style={{ fontSize: "12px" }}>Last Name</Form.Label>
+                              <FormControl
+                                type="text"
+                                disabled
+                                value={invoiceList.lastName}
+                                // value={editOption == 'Add' ? item.Name.split(' ')[1] : invoiceList.lastName}
+                                onChange={(e) => { setInvoiceList({ ...invoiceList, lastName: e.target.value }) }}
+                                style={bottomBorderStyle}
+                              />
+                            </Form.Group>
                           </div>
 
+                          <div className='col-lg-6'>
+                            <Form.Group className="mb-3">
+                              <Form.Label style={{ fontSize: "12px" }}>Phone Number</Form.Label>
+                              <FormControl
+                                type="text"
+                                disabled
+                                value={invoiceList.phone}
+                                // value={editOption == 'Add' ? item.Phone : invoiceList.phone}
+                                onChange={(e) => { handlePhoneNo(e) }}
+                                style={bottomBorderStyle}
+                              />
+                            </Form.Group>
+                            <p id='phoneError' style={{ color: 'red', fontSize: 14 }}></p>
+                          </div>
+                          <div className='col-lg-6'>
+                            <Form.Group className="mb-3">
+                              <Form.Label style={{ fontSize: "12px" }}>Email ID</Form.Label>
+                              <FormControl
+                                type="email"
+                                disabled
+                                value={invoiceList.email}
+                                // value={editOption == 'Add' ? item.Email : invoiceList.email}
+                                onChange={(e) => { handleEmailID(e) }}
+                                style={bottomBorderStyle}
+                              />
+                            </Form.Group>
+                            <p id='emailError' style={{ color: 'red', fontSize: 14 }}></p>
+                          </div>
 
-                        </>))}
+                        </div>
+                        <div className='row mb-3'>
+                          <div className='col-lg-12'>
+                            <Form.Label style={{ fontSize: "12px" }}>User PG</Form.Label>
+                            <Form.Select aria-label="Default select example"
+                              style={bottomBorderStyles}
+                              disabled
+                              value = {invoiceList.hostel_Id}
+                              // value={editOption == 'Add' ? item.HostelName : invoiceList.hostel_Id} onChange={(e) => handleHostelId(e)} 
+                              >
+                              <option>Select hostel</option>
+                              <option selected>{invoiceList.hostel_Id}</option>
+                              
+                              {/* {editOption == 'Add' ?
+
+                                <option selected>{item.HostelName}</option>
+
+                                :
+                                state.UsersList?.hostelList?.map((item) => {
+                                  return (
+                                    <>
+                                      <option value={item.id}>{item.Name}</option>
+                                    </>
+                                  )
+                                })
+
+                              } */}
+
+                            </Form.Select>
+
+                          </div>
+                        </div>
+                        <div className='row mb-3'>
+                          <div className='col-lg-6'>
+                            <Form.Label style={{ fontSize: "12px" }}>User Floor</Form.Label>
+                            <Form.Select aria-label="Default select example"
+                              style={bottomBorderStyles}
+                              disabled
+                              value={invoiceList.FloorNo}
+                              // value={editOption == 'Add' ? item.Floor : invoiceList.FloorNo} onChange={(e) => handleFloor(e)}
+                              >
+                              <option>Selected Floor</option>
+                              <option selected>{invoiceList.FloorNo}</option>
+                              {/* {editOption == 'Add' ?
+
+                                <option selected>{item.Floor}</option>
+                                :
+                                state.UsersList?.hosteldetailslist
+                                  ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
+                                  .map((u) => (
+                                    <option key={u.Floor_Id}>{u.Floor_Id}</option>
+                                  ))
+                              } */}
+                            </Form.Select>
+
+                          </div>
+                          <div className='col-lg-6'>
+                            <Form.Label style={{ fontSize: '12px' }}>User Room</Form.Label>
+                            <Form.Select
+                              aria-label='Default select example'
+                              style={bottomBorderStyles}
+                              disabled
+                              value={invoiceList.RoomNo}
+                              // value={editOption == 'Add' ? item.Rooms : invoiceList.RoomNo}
+                              onChange={(e) => handleRooms(e)}
+                            >
+                              <option>Selected Room</option>
+                              <option selected>{invoiceList.RoomNo}</option>
+                              {/* {editOption == 'Add' ?
+
+                                <option selected>{item.Rooms}</option>
+                                :
+                                state.UsersList?.roomdetails
+                                  ?.filter((item, index, self) => self.findIndex((i) => i.Room_Id === item.Room_Id) === index)
+                                  .map((item) => (
+                                    <option key={item.Room_Id}>{item.Room_Id}</option>
+                                  ))} */}
+                            </Form.Select>
+
+                          </div>
+                        </div>
+                        <div className='row'>
+                          <div className='col-lg-6 col-12 col-md-12'>
+                            <Form.Label style={{ fontSize: "12px" }}>Select Date</Form.Label>
+                            <FormControl
+                              type="date"
+                              value={invoiceList.date}
+                              onChange={(e) => { handleDateChange(e) }}
+                              style={bottomBorderStyle}
+                            // disabled={displayText}
+                            />
+                          </div>
+                          <div className='col-lg-6'>
+                            <Form.Group className="mb-3">
+                              <Form.Label style={{ fontSize: "12px" }}>Total Amount</Form.Label>
+                              <FormControl
+                                type="text"
+                                value={invoiceList.total_amount}
+                                // onChange={(e) => { handleAmount(e) }}
+                                style={bottomBorderStyle}
+                                disabled={displayText}
+                              />
+                            </Form.Group>
+
+                            {/* <label>{editOption == 'Add' ? <span>{totalPaidAmount}</span>: ''}</label> */}
+
+                          </div>
+                          <div className='col-lg-6'>
+                            <Form.Group className="mb-3">
+                              <Form.Label style={{ fontSize: "12px" }}>Amount</Form.Label>
+                              <FormControl
+                                type="text"
+                                value={invoiceList.amount}
+                                onChange={(e) => { handleAmount(e) }}
+                                style={bottomBorderStyle}
+                                disabled={displayText}
+                              />
+                            </Form.Group>
+
+                            {/* <label>{editOption == 'Add' ? <span>{totalPaidAmount}</span>: ''}</label> */}
+
+                          </div>
+                          <div className='col-lg-6'>
+                            <Form.Group className="mb-3">
+                              <Form.Label style={{ fontSize: "12px" }}>Balance Due</Form.Label>
+                              <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 15 }}>{invoiceList.balanceDue}</h1>
+
+                              {/* <FormControl
+                                type="text"
+                                value={invoiceList.balanceDue}
+                                onChange={(e) => { handleAmount(e) }}
+                                style={bottomBorderStyle}
+                                disabled={displayText}
+                              /> */}
+                            </Form.Group>
+                          </div>
+                        </div>
+
+
+                      </>
+                      {/* ))} */}
 
                     </div>
 
@@ -1060,10 +1120,10 @@ const InvoicePage = () => {
                   <th style={{ color: "#91969E" }} >Room</th>
                   <th style={{ color: "#91969E" }} >Bed</th>
                   <th style={{ color: "#91969E" }} >Amount</th>
-                  {/* <th style={{ color: "#91969E" }} >Balance Due</th> */}
+                  <th style={{ color: "#91969E" }} >Due Amount</th>
                   <th style={{ color: "#91969E" }} >Due Date</th>
-                  {/* <th style={{ color: "#91969E" }} >Status</th> */}
-                  <th style={{ color: "#91969E" }} >Action</th>
+                  <th style={{ color: "#91969E" }} >Record Payment</th>
+                  {/* <th style={{ color: "#91969E" }} >Action</th> */}
                 </tr>
               </thead>
               <tbody style={{ fontSize: "10px" }}>
@@ -1071,7 +1131,7 @@ const InvoicePage = () => {
                   <tr key={item.id}>
                     <td style={{ color: "black", fontWeight: 500 }} >{item.id}</td>
                     <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
-                    <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</td>
+                    <td style={{ color: "#0D99FF", fontWeight: 600, textDecoration: 'underline', cursor: 'pointer' }} onClick={() => handleInvoiceDetail(item)}>{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</td>
                     <td style={{ color: "#0D99FF", fontWeight: 600 }}>
                       <div class="d-flex">
                         {/* <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name && item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1, 0)}</p></span> */}
@@ -1088,13 +1148,13 @@ const InvoicePage = () => {
                     <td style={{ color: "black", fontWeight: 500 }}>{item.Room_No}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{item.Bed}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
-                    {/* <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td> */}
+                    <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
                     <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
-                    {/* <td style={item.BalanceDue == 0 ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{item.BalanceDue == 0 ? "Success" : "Pending"}</td> */}
-                    <td class="justify-content-between">
-                      <img src={List} height="20" width="20" alt='List' onClick={() => handleInvoiceDetail(item)} />
-                      {/* <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /> */}
-                    </td>
+                    <td style={item.BalanceDue == 0 ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{item.BalanceDue == 0 ? "Paid" : <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} />}</td>
+                    {/* <td class="justify-content-between">
+                      <img src={List} height="20" width="20" alt='List' onClick={() => handleInvoiceDetail(item)} /> */}
+                    {/* <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /> */}
+                    {/* </td> */}
                   </tr>
                 ))}
               </tbody>
