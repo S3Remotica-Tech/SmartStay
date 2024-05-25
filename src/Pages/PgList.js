@@ -347,21 +347,49 @@ const loginId = localStorage.getItem('loginId');
 
 
   const handleCreateFloor = () => {
-    const floors = floorDetails.map((floor) => (
-      { number_of_floors: parseInt(floor.number_of_floor) }));
-    const phoneNumber = selectedHostel.hostel_PhoneNo.toString()
-    dispatch({
-      type: 'CREATEFLOOR',
-      payload: {
-        phoneNo: phoneNumber,
-        hostelDetails: floors,
-      },
-    });
 
     Swal.fire({
-      icon: 'success',
-      title: 'Create Floor details saved Successfully',
-    })
+      icon: 'warning',
+      title: 'Do you want create one floor ?',
+      confirmButtonText: 'Yes',
+      cancelButtonText :'No',
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const floors = floorDetails.map((floor) => (
+          { number_of_floors: 1 }));
+        const phoneNumber = selectedHostel.hostel_PhoneNo.toString()
+        dispatch({
+          type: 'CREATEFLOOR',
+          payload: {
+            phoneNo: phoneNumber,
+            hostelDetails: floors,
+          },
+        });
+        Swal.fire({
+          icon: 'success',
+          title: 'Create Floor details saved Successfully',
+        })
+      }
+    });
+
+    
+
+    // const floors = floorDetails.map((floor) => (
+    //   { number_of_floors: parseInt(floor.number_of_floor) }));
+    // const phoneNumber = selectedHostel.hostel_PhoneNo.toString()
+    // dispatch({
+    //   type: 'CREATEFLOOR',
+    //   payload: {
+    //     phoneNo: phoneNumber,
+    //     hostelDetails: floors,
+    //   },
+    // });
+
+    // Swal.fire({
+    //   icon: 'success',
+    //   title: 'Create Floor details saved Successfully',
+    // })
     setFloorDetails([])
     handleClose();
   };
@@ -677,7 +705,7 @@ const handleMouseLeave = () =>{
 
           <div className="col-lg-6  col-md-3 col-sm-4 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <div>
-              <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleShow}>
+              <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleCreateFloor}>
                 <span style={{ padding: "20px 20px" }}>
                   <img src={Plus} height="12" width="12" alt='Plus' /> Create Floor  </span></button>
             </div>
@@ -685,7 +713,7 @@ const handleMouseLeave = () =>{
         </>}
       </div>
 
-      <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>
+      {/* <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>
         <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-4">Create Floor</Offcanvas.Title>
         <Offcanvas.Body>
           <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
@@ -731,7 +759,7 @@ const handleMouseLeave = () =>{
 
           </div>
         </Offcanvas.Body>
-      </Offcanvas>
+      </Offcanvas> */}
 
       <hr />
 
@@ -773,7 +801,7 @@ const handleMouseLeave = () =>{
                 return <DashboardRoomList onRowVisibilityChange={handleRowVisibilityChange} onRowBedVisibilityChange={handleBedVisibilityChange} floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
               })}
             <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
-              <div className="card h-100 d-flex justify-content-center align-items-center text-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover" onClick={handleShow}>
+              <div className="card h-100 d-flex justify-content-center align-items-center text-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover" onClick={handleCreateFloor}>
                 <div className=" d-flex justify-content-between p-2" style={{ height: '50px' }}></div>
                 <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: "center" }} >
                   <div className="d-flex justify-content-center align-items-center" >
