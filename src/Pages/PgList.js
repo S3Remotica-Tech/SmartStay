@@ -68,9 +68,9 @@ function PgList() {
     phoneNumber: '',
     email_Id: '',
     location: '',
-    number_Of_Floor: '',
-    number_Of_Rooms: '',
-    floorDetails: [],
+    // number_Of_Floor: '',
+    // number_Of_Rooms: '',
+    // floorDetails: [],
    
   })
 
@@ -227,11 +227,11 @@ if(state.PgList.createPGMessage){
 
 
 
-  const handleFloorList = (index, roomlist) => {
-    var tempArray = pgList.floorDetails
-    tempArray[index] = roomlist
-    setPgList({ ...pgList, floorDetails: tempArray })
-  }
+  // const handleFloorList = (index, roomlist) => {
+  //   var tempArray = pgList.floorDetails
+  //   tempArray[index] = roomlist
+  //   setPgList({ ...pgList, floorDetails: tempArray })
+  // }
 
   const [show, setShow] = useState(false);
   const handleClose = () => {
@@ -253,9 +253,9 @@ if(state.PgList.createPGMessage){
       phoneNumber: '',
       email_Id: '',
       location: '',
-      number_Of_Floor: '',
-      number_Of_Rooms: '',
-      floorDetails: [],
+      // number_Of_Floor: '',
+      // number_Of_Rooms: '',
+      // floorDetails: [],
      
     });
     setAddhostelForm(false)
@@ -293,18 +293,23 @@ const loginId = localStorage.getItem('loginId');
 
 
   const handleSubmitPgList = () => {
-    if (!pgList.Name || !pgList.phoneNumber || !pgList.email_Id || !pgList.location || !pgList.number_Of_Floor ) {
+    if (!pgList.Name || !pgList.phoneNumber || !pgList.email_Id || !pgList.location 
+      // || !pgList.number_Of_Floor 
+    ) 
+    {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
       });
-    } else if (pgList.number_Of_Floor == 0) {
-      Swal.fire({
-        icon: 'warning',
-        title: "Number of Floors cannot be 0",
-        text:"Please provide a valid number"
-      });
-    } else {
+    } 
+    // else if (pgList.number_Of_Floor == 0) {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: "Number of Floors cannot be 0",
+    //     text:"Please provide a valid number"
+    //   });
+    // } 
+    else {
       dispatch({
         type: 'PGLIST',
         payload: {
@@ -312,9 +317,9 @@ const loginId = localStorage.getItem('loginId');
           phoneNo: pgList.phoneNumber,
           email_Id: pgList.email_Id,
           location: pgList.location,
-          number_of_floors: pgList.number_Of_Floor,
-          number_Of_Rooms: pgList.number_Of_Rooms,
-          floorDetails: pgList.floorDetails,
+          // number_of_floors: pgList.number_Of_Floor,
+          // number_Of_Rooms: pgList.number_Of_Rooms,
+          // floorDetails: pgList.floorDetails,
            created_by: decrypt
         }
       }); 
@@ -323,9 +328,9 @@ const loginId = localStorage.getItem('loginId');
         phoneNumber: '',
         email_Id: '',
         location: '',
-        number_Of_Floor: '',
-        number_Of_Rooms: '',
-        floorDetails: [],
+        // number_Of_Floor: '',
+        // number_Of_Rooms: '',
+        // floorDetails: [],
       
       });
       handlecloseHostelForm()
@@ -575,7 +580,7 @@ const handleMouseLeave = () =>{
             </div>
 
 
-            <div className="form-group mb-3">
+            {/* <div className="form-group mb-3">
               <label htmlFor="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Number Of Floor</label>
               <input
                 type="text"
@@ -586,10 +591,10 @@ const handleMouseLeave = () =>{
                 placeholder="Enter Number of Floors"
                 style={{ fontSize: "11px" }}
               />
-            </div>
+            </div> */}
 
 
-            {pgList.number_Of_Floor && (
+            {/* {pgList.number_Of_Floor && (
               <div>
                 {Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
                   const floorNumber = index + 1;
@@ -598,7 +603,6 @@ const handleMouseLeave = () =>{
                   return (
                     <div key={index} className="form-group mb-3">
                       <label htmlFor="exampleInput" className="form-label mb-1" style={{ fontWeight: 700, fontSize: "11px" }}>
-                        {/* {`${pgList.number_Of_Floor === 1 ? 'Ground' : `${pgList.number_Of_Floor}`} Floor `} */}
                         {`${floorLabel} Floor:`}
                       </label>
                       <CreatePG index={index} pgList={pgList} setPgList={setPgList} handleFloorList={handleFloorList}></CreatePG>
@@ -607,7 +611,7 @@ const handleMouseLeave = () =>{
                   );
                 })}
               </div>
-            )}
+            )} */}
 
           </div>
             <hr style={{ marginTop: "50px" }} />
