@@ -91,6 +91,77 @@ function UserBedDetails(props) {
     }
   };
 
+//  to display invoice pdf 
+
+
+
+const [showLoaders, setShowLoaders] = useState(false)
+const [selectedItems, setSelectedItems] = useState('')
+
+const handleInvoiceDetail = (item) => {
+  console.log("item invoice", item)
+  setSelectedItems(item)
+  if (item.User_Id) {
+    const originalDate = new Date(item.Date);
+    originalDate.setDate(originalDate.getDate());
+    const year = originalDate.getFullYear();
+    const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = originalDate.getDate().toString().padStart(2, '0');
+    const newDate = `${year}-${month}-${day}`;
+    dispatch({ type: 'INVOICEPDF', payload: { Date: newDate, User_Id: item.User_Id, id: item.id } });
+    setShowLoaders(true);
+  }
+};
+
+
+useEffect(() => {
+  if (state.InvoiceList.statusCodeForPDf === 200) {
+    dispatch({ type: 'INVOICELIST', payload:{loginId:loginID} })
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_INVOICE_LIST' });
+    }, 100);
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' });
+    }, 200);
+  }
+}, [state.InvoiceList?.statusCodeForPDf]);
+
+
+
+
+
+
+
+useEffect(() => {
+  const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
+  if (toTriggerPDF) {
+
+    setTimeout(() => {
+      let pdfWindow;
+      const InvoicePDf = state.InvoiceList?.Invoice &&
+        state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
+      if (InvoicePDf[0]?.invoicePDF) {
+        pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
+        if (pdfWindow) {
+          setShowLoaders(false);
+        }
+
+
+      } else {
+        // setShowLoader(true);
+      }
+    }, 0);
+  } else {
+    console.log("to trigger pdf is false so pdf not working");
+  }
+}, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
+
+
+
+
+
+
+
   const [filterByInvoice, setFilterByInvoice] = useState('');
   const [filterStatus, setFilterStatus] = useState(false)
   const [filterByStatus, setFilterByStatus] = useState('ALL')
@@ -490,7 +561,7 @@ function UserBedDetails(props) {
                       <td
                         className="justify-content-center"
                       >
-                        <img src={List} height={20} width={20} alt='List' />
+                        <img src={List} height={20} width={20} alt='List' onClick = { () => {handleInvoiceDetail(view)}} />
                         {/* <img
                           className="ms-1"
                           src={Edits} height={20} width={20} alt='Edits' /> */}

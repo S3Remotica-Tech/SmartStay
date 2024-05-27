@@ -507,12 +507,9 @@ const handleCreateRoomCloses = () => {
         Phone &&
         Email &&
         Address &&
-        AadharNo &&
-        PancardNo &&
-        licence &&
-        AdvanceAmount &&
-        RoomRent &&
-        PaymentType
+              AdvanceAmount &&
+        RoomRent 
+       
       ) {
         dispatch({
           type: 'ADDUSER',
@@ -722,13 +719,13 @@ const handleCreateRoomCloses = () => {
                   User Details
                 </ul>
               </div>
-              <div class="p-1 bd-highlight  user-menu">
+              {/* <div class="p-1 bd-highlight  user-menu">
                 <ul className={showForm ? '' : 'active'}
                   onClick={() => setShowForm(false)}
                 >KYC Details</ul>
-              </div>
+              </div> */}
             </div>
-            {showForm ?
+            {showForm &&
               <div>
                 <p className="mb-1" style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
                 <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
@@ -886,7 +883,7 @@ const handleCreateRoomCloses = () => {
                       </Form.Group>
                     </div>
                   </div>
-                  <div className='row'>
+                  {/* <div className='row'>
                     <div className='col lg-6'>
                       <Form.Label style={{ fontSize: '12px' }}>PaymentType</Form.Label>
                       <Form.Select
@@ -911,71 +908,11 @@ const handleCreateRoomCloses = () => {
 
                       </Form.Group>
                     </div>
-                  </div>
+                  </div> */}
 
                 </div>
 
 
-                <hr />
-                <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
-
-                  <Button variant="white" size="sm" onClick={handleClose}>
-                    Cancel
-                  </Button>
-                  <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
-                    onClick={() => setShowForm(false)}>
-                    Next
-                  </Button>
-                </div>
-              </div>
-              :
-              <div>
-                <div className='container' style={{ marginTop: "30px" }}>
-                  <div className='row'>
-                    <div className='col lg-12'>
-                      <Form.Group className="mb-3">
-                        <Form.Label style={{ fontSize: "12px" }}>Author Card Number</Form.Label>
-                        <FormControl
-                          type="text"
-                          value={AadharNo}
-                          onChange={(e) => handleAadharNo(e)}
-                          style={bottomBorderStyle}
-                          maxLength={12}
-                          id="form-controls"
-                          pattern="\d*"
-                        />
-                      </Form.Group>
-                    </div>
-                  </div>
-
-                  <div className='row'>
-                    <div className='col lg-12'>
-                      <Form.Group className="mb-3">
-                        <Form.Label style={{ fontSize: "12px" }}>Pan Card Number</Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          value={PancardNo} onChange={(e) => handlePancardNo(e)}
-                          style={bottomBorderStyle}
-                        />
-                      </Form.Group>
-                    </div>
-                  </div>
-
-                  <div className='row'>
-                    <div className='col lg-12'>
-                      <Form.Group className="mb-3">
-                        <Form.Label style={{ fontSize: "12px" }}>Licence</Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          value={licence} onChange={(e) => handlelicence(e)}
-                          style={bottomBorderStyle}
-                        />
-                      </Form.Group>
-                    </div>
-                  </div>
-                </div>
                 <hr />
                 <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
 
@@ -985,8 +922,71 @@ const handleCreateRoomCloses = () => {
                   <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
                     Save
                   </Button>
+                  {/* <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
+                    onClick={() => setShowForm(false)}>
+                    Next
+                  </Button> */}
                 </div>
               </div>
+              // :
+              // <div>
+              //   <div className='container' style={{ marginTop: "30px" }}>
+              //     <div className='row'>
+              //       <div className='col lg-12'>
+              //         <Form.Group className="mb-3">
+              //           <Form.Label style={{ fontSize: "12px" }}>Author Card Number</Form.Label>
+              //           <FormControl
+              //             type="text"
+              //             value={AadharNo}
+              //             onChange={(e) => handleAadharNo(e)}
+              //             style={bottomBorderStyle}
+              //             maxLength={12}
+              //             id="form-controls"
+              //             pattern="\d*"
+              //           />
+              //         </Form.Group>
+              //       </div>
+              //     </div>
+
+              //     <div className='row'>
+              //       <div className='col lg-12'>
+              //         <Form.Group className="mb-3">
+              //           <Form.Label style={{ fontSize: "12px" }}>Pan Card Number</Form.Label>
+              //           <FormControl
+              //             type="text"
+              //             id="form-controls"
+              //             value={PancardNo} onChange={(e) => handlePancardNo(e)}
+              //             style={bottomBorderStyle}
+              //           />
+              //         </Form.Group>
+              //       </div>
+              //     </div>
+
+              //     <div className='row'>
+              //       <div className='col lg-12'>
+              //         <Form.Group className="mb-3">
+              //           <Form.Label style={{ fontSize: "12px" }}>Licence</Form.Label>
+              //           <FormControl
+              //             type="text"
+              //             id="form-controls"
+              //             value={licence} onChange={(e) => handlelicence(e)}
+              //             style={bottomBorderStyle}
+              //           />
+              //         </Form.Group>
+              //       </div>
+              //     </div>
+              //   </div>
+              //   <hr />
+              //   <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
+
+              //     <Button variant="white" size="sm" onClick={handleClose}>
+              //       Cancel
+              //     </Button>
+              //     <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
+              //       Save
+              //     </Button>
+              //   </div>
+              // </div>
             }
           </Offcanvas.Body>
         </Offcanvas>
@@ -995,7 +995,7 @@ const handleCreateRoomCloses = () => {
 
 {/* create Room */}
 <Offcanvas show={showsCreateRoom} onHide={handleCreateRoomCloses} placement="end" style={{ width: "70vh" }}>
-                <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create PG</Offcanvas.Title>
+                <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create Room</Offcanvas.Title>
                 <Offcanvas.Body>
                     <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
                     <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes. Be a part of SmartStay Circle, and invite-only, global community of social media influencers and affiliate networks.</p>
