@@ -225,6 +225,7 @@ useEffect(() => {
       const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
       const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
       const parsedData = Number(decryptedIdString);
+      setLoginID(parsedData)
   dispatch({ type: 'INVOICELIST', payload:{loginId:parsedData} })
     }
      
@@ -387,6 +388,32 @@ useEffect(() => {
 
 
 
+ 
+
+  const [currentPages, setCurrentPages] = useState(1);
+  const itemsPerPages = 7;
+  const totalPagesFor = Math.ceil(filteredDatas.length / itemsPerPages);
+
+  // console.log("totalPagesFor", totalPagesFor)
+  const indexOfLastItems = currentPages * itemsPerPages;
+  const indexOfFirstItems = indexOfLastItems - itemsPerPages;
+  const currentItemsForInvoice = filteredDatas.slice(indexOfFirstItems, indexOfLastItems);
+
+  // console.log("currentItemsForInvoice", currentItemsForInvoice)
+
+
+  const handleNextInvoice = () => {
+    if (currentPages < totalPagesFor) {
+      setCurrentPages((prevPage) => prevPage === totalPagesFor ? prevPage : prevPage + 1);
+    }
+  };
+
+  const handlePreviousInvoice = () => {
+    if (currentPages > 1) {
+      setCurrentPages((prevPage) => prevPage === 1 ? prevPage : prevPage - 1);
+    }
+
+  }
   return (
     <div className='' style={{ width: "100%" }}>
       {userDetailForUser && userDetailForUser?.map((item, index) => (<>
@@ -418,8 +445,8 @@ useEffect(() => {
 
             </div>
           </div>
-          <div class="col-lg-3 offset-lg-4 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
-            <div class="d-flex">
+          <div class="col-lg-2 offset-lg-5 col-md-12 col-xs-12 col-sm-12" style={{ backgroundColor: "" }}>
+            <div class="d-flex justify-content-end align-items-center">
               <button type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={() => { handleShow(item) }} ><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button>
               {/* <button type="button" class="ms-2" style={{ fontSize: "12px", fontWeight: "700", backgroundColor: "white", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleCreateBedDetails}><img src={Plus} height="12" width="12" alt='Plus' /> Create Bed</button> */}
             </div>
@@ -477,7 +504,7 @@ useEffect(() => {
               {/* <div class="d-flex">
                 <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline", fontWeight: 700 }}> + Add Additional Address</p>
               </div> */}
-              <div class="d-flex justify-content-between mt-3">
+              {/* <div class="d-flex justify-content-between mt-3">
                 <p class="mb-1" style={{ fontSize: "12px", fontWeight: '700' }} >KYC DETAIL</p>
 
               </div>
@@ -507,7 +534,7 @@ useEffect(() => {
                   </div>
 
                 </div>
-              </div>
+              </div> */}
 
 
             </div>
@@ -517,7 +544,7 @@ useEffect(() => {
                   <h6 style={{ fontSize: "16px", fontWeight: 700 }}>Bill Payment</h6>
                 </div>
                 <div class="d-flex justify-content-between align-items-center gap-3" style={{ backgroundColor: "" }} >
-
+                {showLoader && <LoaderComponent />}
                   {search && <>
                     <input type="text" value={filterByInvoice} onChange={(e) => handleFilterByInvoice(e)} className='form-control form-control-sm me-2' placeholder='Search here....' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }} /></>
                   }
@@ -551,8 +578,8 @@ useEffect(() => {
                   </tr>
                 </thead>
                 <tbody style={{ height: "50px", fontSize: "11px" }}>
-                  {filteredDatas && filteredDatas.map((view) => (
-                    <tr key={view.Invoices}>
+                  {currentItemsForInvoice && currentItemsForInvoice.map((view) => (
+                    <tr key={view.id}>
                       <td>{new Date(view.Date).toLocaleDateString('en-GB')}</td>
                       <td>{view.Invoices}</td>
                       <td>₹{view.Amount}</td>
@@ -568,20 +595,40 @@ useEffect(() => {
                       </td>
                     </tr>
                   ))}
-                  {filteredDatas.length === 0 && (
+                  {currentItemsForInvoice.length === 0 && (
                     <tr>
                       <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
                     </tr>
                   )}
                 </tbody>
               </Table>
-              {/* <div class="d-flex justify-content-between mb-3">
-                <p style={{ fontWeight: 700 }}>Comments</p>
-                <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline", fontWeight: 700 }}>+ Add Comment</p>
-              </div> */}
 
-              <div class="" style={{ marginTop: 30 }}>
-                <div class="d-flex justify-content-start align-items-center" style={{ backgroundColor: "", marginLeft: 100, marginTop: 50 }}>
+              <div style={{ display: "flex", flexDirection: "row", justifyContent:"end" }}>
+
+<div onClick={handlePreviousInvoice} disabled={currentPages === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
+  Prev
+</div>
+<span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPages} </span>
+<div onClick={handleNextInvoice} disabled={currentPages === totalPagesFor} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
+  Next
+</div>
+</div>
+
+             
+            
+            
+            
+            </div>
+          </div>
+<hr className='m-0'/>
+<div className='row ps-5 pt-3'>
+<div class="d-flex justify-content-between mb-3">
+                <p style={{ fontWeight: 700 }}>Comments</p>
+                {/* <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline", fontWeight: 700 }}>+ Add Comment</p> */}
+              </div>
+
+              <div class="" style={{ marginTop: 10 }}>
+                <div class="d-flex justify-content-start align-items-center" style={{ backgroundColor: "", marginLeft: 100, marginTop: 10 }}>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: '', height: "" }}>
                     <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "", }}>
                       <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }} >
@@ -637,8 +684,13 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+</div>
+
+
+
+
+
+
         </>}
       </>))}
 

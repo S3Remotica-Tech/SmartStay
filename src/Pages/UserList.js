@@ -22,7 +22,7 @@ import MapsUgcRoundedIcon from '@mui/icons-material/MapsUgcRounded';
 import Image from 'react-bootstrap/Image';
 import UserlistForm from "./UserlistForm";
 import CryptoJS from "crypto-js";
-
+import LoaderComponent from './LoaderComponent';
 
 
 function UserList() {
@@ -79,7 +79,7 @@ function UserList() {
 
   useEffect(() => {
     if (state.InvoiceList.statusCodeForPDf === 200) {
-      dispatch({ type: 'INVOICELIST', payload:{loginId:loginID} })
+      dispatch({ type: 'INVOICELIST', payload: { loginId: loginID } })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
       }, 100);
@@ -90,10 +90,10 @@ function UserList() {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
 
- 
 
 
-  
+
+
 
   useEffect(() => {
     const toTriggerPDF = state.InvoiceList?.toTriggerPDF;
@@ -134,7 +134,7 @@ function UserList() {
   const [EditObj, setEditObj] = useState('')
   const [addBasicDetail, setAddBasicDetail] = useState('')
   const [filteredDatas, setFilteredDatas] = useState([]);
- 
+
 
 
 
@@ -145,14 +145,18 @@ function UserList() {
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
+  // console.log("filteredDatas", filteredDatas)
 
   const [currentPages, setCurrentPages] = useState(1);
-  const itemsPerPages = 3; 
+  const itemsPerPages = 7;
   const totalPagesFor = Math.ceil(filteredDatas.length / itemsPerPages);
+
+  // console.log("totalPagesFor", totalPagesFor)
   const indexOfLastItems = currentPages * itemsPerPages;
   const indexOfFirstItems = indexOfLastItems - itemsPerPages;
   const currentItemsForInvoice = filteredDatas.slice(indexOfFirstItems, indexOfLastItems);
 
+  // console.log("currentItemsForInvoice", currentItemsForInvoice)
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -171,7 +175,7 @@ function UserList() {
 
   const handleShowAddBed = (u) => {
     console.log("u for assign bed", u)
-        handleMenuClick();
+    handleMenuClick();
     setShowMenu(true);
     setAddBasicDetail(false)
     setEditObj(u)
@@ -180,7 +184,7 @@ function UserList() {
 
 
 
-
+  console.log("state", state)
 
 
   useEffect(() => {
@@ -188,7 +192,7 @@ function UserList() {
   }, [state.UsersList.Users])
 
   const handleNext = () => {
-    if (currentPage < 10) {
+    if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage === totalPages ? prevPage : prevPage + 1);
     }
   };
@@ -201,7 +205,7 @@ function UserList() {
   }
 
   const handleNextInvoice = () => {
-    if (currentPages < 10) {
+    if (currentPages < totalPagesFor) {
       setCurrentPages((prevPage) => prevPage === totalPagesFor ? prevPage : prevPage + 1);
     }
   };
@@ -600,7 +604,7 @@ function UserList() {
             <tbody className='tablebody'>
               {currentItems.map((user) => (
 
-                <tr style={{ fontWeight: "700" }}>
+                <tr  style={{ fontWeight: "700" }}>
                   {/* <td>
         <div style={{ display: 'flex', flexDirection: "row" }}>
           <div>
@@ -624,7 +628,7 @@ function UserList() {
                     {/* <img src={img1} className='img1' height={25} width={20} alt="img1" onClick={() => handleRoomDetailsPage(user,user.Bed,user.Rooms,user.Floor,user.Hostel_Id)}/>
         <img src={img2} className='img1 ms-1' height={25} width={20} alt="img1" onClick={() => { handleShow(user) }} /> */}
 
-                    <Button variant={user.Bed ? "outline-success" : "outline-primary"}  style={{border: user.Bed && "none"}} disabled ={user.Bed}  size="sm" onClick={() => { handleShowAddBed(user) }} >{user.Bed ? "Bed Assigned" : "Assign"}</Button>
+                    <Button variant={user.Bed ? "outline-success" : "outline-primary"} style={{ border: user.Bed && "none" }} disabled={user.Bed} size="sm" onClick={() => { handleShowAddBed(user) }} >{user.Bed ? "Bed Assigned" : "Assign"}</Button>
                   </td>
                 </tr>
 
@@ -660,11 +664,11 @@ function UserList() {
           </div>
           <div style={{ display: "flex", flexDirection: "row" }}>
 
-            <div onClick={handlePrevious} disabled={currentPages === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
+            <div onClick={handlePrevious} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
               Prev
             </div>
-            <span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPages} </span>
-            <div onClick={handleNext} disabled={currentPages === 10} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
+            <span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPage} </span>
+            <div onClick={handleNext} disabled={currentPage === totalPages} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
               Next
             </div>
           </div>
@@ -702,11 +706,11 @@ function UserList() {
                   </div>
                   <div class="d-flex justify-content-between mb-0">
                     <div>
-                    <p style={{ fontSize: "12px", fontWeight: '700' }} class="mb-2">USER DETAIL</p>
+                      <p style={{ fontSize: "12px", fontWeight: '700' }} class="mb-2">USER DETAIL</p>
                     </div>
-<div className="mb-2 me-2" onClick={() => { handleShow(item) }}>
-  <img src={img2} style={{width:20, height:20}}/>
-</div>
+                    <div className="mb-2 me-2" onClick={() => { handleShow(item) }}>
+                      <img src={img2} style={{ width: 20, height: 20 }} />
+                    </div>
                   </div>
                   <hr class="m-0 mb-2" />
                   <div class="d-flex justify-content-between">
@@ -723,8 +727,8 @@ function UserList() {
                   <div class="d-flex justify-content-between pt-1 mb-0">
                     <p style={{ fontSize: "12px", fontWeight: '700' }} class="mb-2">ROOM DETAIL</p>
                     <div className="mb-2 me-2" onClick={() => { handleShowAddBed(item) }}>
-  <img src={img2} style={{width:20, height:20}}/>
-</div>
+                      <img src={img2} style={{ width: 20, height: 20 }} />
+                    </div>
                   </div>
                   <hr class="m-0 mb-2" />
                   <div class="d-flex justify-content-between">
@@ -792,7 +796,7 @@ function UserList() {
                       <h6 style={{ fontSize: "16px" }}>Bill Payment</h6>
                     </div>
                     <div class="d-flex justify-content-between align-items-center" style={{ backgroundColor: "" }} >
-
+                    {showLoader && <LoaderComponent />}
                       {search && <>
                         <input type="text" value={filterByInvoice} onChange={(e) => handleFilterByInvoice(e)} className='form-control form-control-sm me-2' placeholder='Search by Invoice' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }} /></>
                       }
@@ -827,55 +831,57 @@ function UserList() {
 
 
 
-                    <Table responsive>
-                      <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
-                        <tr className="" style={{ height: "30px" }}>
-                          <th>Date</th>
-                          <th>Invoices#</th>
-                          <th>Amount</th>
-                          {/* <th>Balance Due</th> */}
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody style={{ height: "50px", fontSize: "11px" }}>
-                        {currentItemsForInvoice.map((view) => (
-                          <tr key={view.Invoices}>
-                            <td>{new Date(view.Date).toLocaleDateString('en-GB')}</td>
-                            <td>{view.Invoices}</td>
-                            <td>₹{view.Amount}</td>
-                            {/* <td>₹{view.BalanceDue}</td> */}
-                            <td style={view.Status === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.Status}</td>
-                            <td
-                              className="justify-content-center"
-                            >
-                              <img src={List} height={20} width={20} alt='List' onClick={()=> {handleInvoiceDetail(view)}} />
-                              {/* <img
+                  <Table responsive>
+                    <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
+                      <tr className="" style={{ height: "30px" }}>
+                        {/* <th>Id</th> */}
+                        <th>Date</th>
+                        <th>Invoices#</th>
+                        <th>Amount</th>
+                        {/* <th>Balance Due</th> */}
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody style={{ height: "50px", fontSize: "11px" }}>
+                      {currentItemsForInvoice.map((view) => (
+                        <tr key={view.id}>
+                          {/* <td>{view.id}</td> */}
+                          <td>{new Date(view.Date).toLocaleDateString('en-GB')}</td>
+                          <td>{view.Invoices}</td>
+                          <td>₹{view.Amount}</td>
+                          {/* <td>₹{view.BalanceDue}</td> */}
+                          <td style={view.Status === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.Status}</td>
+                          <td
+                            className="justify-content-center"
+                          >
+                            <img src={List} height={20} width={20} alt='List' onClick={() => { handleInvoiceDetail(view) }} />
+                            {/* <img
                               className="ms-1"
                               src={Edits} height={20} width={20} alt='Edits' /> */}
-                            </td>
-                          </tr>
-                        ))}
-                        {currentItemsForInvoice.length === 0 && (
-                          <tr>
-                            <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
-                          </tr>
-                        )}
+                          </td>
+                        </tr>
+                      ))}
+                      {currentItemsForInvoice.length === 0 && (
+                        <tr>
+                          <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
+                        </tr>
+                      )}
 
-                      </tbody>
-                    </Table>
+                    </tbody>
+                  </Table>
 
 
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent:"end" }}>
+                  <div style={{ display: "flex", flexDirection: "row", justifyContent: "end" }}>
 
-<div onClick={handlePreviousInvoice} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
-  Prev
-</div>
-<span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPage} </span>
-<div onClick={handleNextInvoice} disabled={currentPage === 10} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
-  Next
-</div>
-</div>
+                    <div onClick={handlePreviousInvoice} disabled={currentPages === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
+                      Prev
+                    </div>
+                    <span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPages} </span>
+                    <div onClick={handleNextInvoice} disabled={currentPages === totalPagesFor} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
+                      Next
+                    </div>
+                  </div>
 
 
 
