@@ -364,7 +364,7 @@ const handleRoomRentChange = (roomRent, index) =>{
 
 
             <Offcanvas show={shows} onHide={handleCloses} placement="end" style={{ width: "70vh" }}>
-                <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create PG</Offcanvas.Title>
+                <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-3">Create Room</Offcanvas.Title>
                 <Offcanvas.Body>
                     <h4 style={{ fontSize: 14, fontWeight: 600 }}>Create Room</h4>
                     <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes. Be a part of SmartStay Circle, and invite-only, global community of social media influencers and affiliate networks.</p>

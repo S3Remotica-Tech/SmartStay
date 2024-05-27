@@ -280,16 +280,13 @@ function UserBedDetailsEdit(props) {
       Phone &&
       Email &&
       Address &&
-      AadharNo &&
-      PancardNo &&
-      licence &&
       hostel_Id &&
       Floor &&
       Rooms &&
       Bed &&
       AdvanceAmount &&
-      RoomRent &&
-      PaymentType
+      RoomRent 
+    
     ) {
       dispatch({
         type: 'ADDUSER',
@@ -374,13 +371,13 @@ function UserBedDetailsEdit(props) {
         User Details
       </ul>
     </div>
-    <div class="p-1 bd-highlight  user-menu">
+    {/* <div class="p-1 bd-highlight  user-menu">
       <ul className={props.showForm ? '' : 'active'}
         onClick={() => props.setShowForm(false)}
       >KYC Details</ul>
-    </div>
+    </div> */}
   </div>
-  {props.showForm ?
+  {props.showForm &&
     <div>
       <p className="mb-1" style={{ textAlign: "center", fontSize: "15px", marginTop: "-30px" }}>Upload Profile</p>
       <div className="d-flex justify-content-center" style={{ position: 'relative' }}>
@@ -585,7 +582,7 @@ function UserBedDetailsEdit(props) {
           </div>
         </div>
         <div className='row'>
-          <div className='col lg-6'>
+          {/* <div className='col lg-6'>
             <Form.Label style={{ fontSize: '12px' }}>PaymentType</Form.Label>
             <Form.Select
               id="form-selects"
@@ -599,16 +596,16 @@ function UserBedDetailsEdit(props) {
               <option value="Online">Online</option>
             </Form.Select>
 
-          </div>
+          </div> */}
 
-          <div className='col-lg-6'>
+          {/* <div className='col-lg-6'>
             <Form.Group className="mb-3">
               <Form.Label style={{ fontSize: "12px" }}>BalanceDue:</Form.Label>
               <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 8 }}>{BalanceDue}</h1>
 
 
             </Form.Group>
-          </div>
+          </div> */}
           {/* <div className='col-lg-6'>
           {props.edit === 'Edit' ? <>
             <Form.Label style={{ fontSize: '12px' }}>Active</Form.Label>
@@ -637,71 +634,74 @@ function UserBedDetailsEdit(props) {
         <Button variant="white" size="sm" onClick={handleClose}>
           Cancel
         </Button>
-        <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
-          onClick={() => props.setShowForm(false)}>
-          Next
-        </Button>
-      </div>
-    </div>
-    :
-    <div>
-      <div className='container' style={{ marginTop: "30px" }}>
-        <div className='row'>
-          <div className='col lg-12'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Aadhaar Card Number</Form.Label>
-              <FormControl
-                type="text"
-                value={AadharNo}
-                onChange={(e) => handleAadharNo(e)}
-                style={bottomBorderStyle}
-                maxLength={12}
-                disabled={props.edit !== 'Add'}
-                pattern="\d*"
-              />
-            </Form.Group>
-          </div>
-        </div>
-
-        <div className='row'>
-          <div className='col lg-12'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Pan Card Number</Form.Label>
-              <FormControl
-                type="text"
-                disabled={props.edit !== 'Add'}
-                value={PancardNo} onChange={(e) => handlePancardNo(e)}
-                style={bottomBorderStyle}
-              />
-            </Form.Group>
-          </div>
-        </div>
-
-        <div className='row'>
-          <div className='col lg-12'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Licence</Form.Label>
-              <FormControl
-                type="text"
-                disabled={props.edit !== 'Add'}
-                value={licence} onChange={(e) => handlelicence(e)}
-                style={bottomBorderStyle}
-              />
-            </Form.Group>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
-
-        <Button variant="white" size="sm" onClick={handleClose}>
-          Cancel
-        </Button>
         <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
           {props.edit === 'Add' ? "Save" : "Update"}
         </Button>
+        {/* <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
+          onClick={() => props.setShowForm(false)}>
+          Next
+        </Button> */}
       </div>
     </div>
+    // :
+    // <div>
+    //   <div className='container' style={{ marginTop: "30px" }}>
+    //     <div className='row'>
+    //       <div className='col lg-12'>
+    //         <Form.Group className="mb-3">
+    //           <Form.Label style={{ fontSize: "12px" }}>Aadhaar Card Number</Form.Label>
+    //           <FormControl
+    //             type="text"
+    //             value={AadharNo}
+    //             onChange={(e) => handleAadharNo(e)}
+    //             style={bottomBorderStyle}
+    //             maxLength={12}
+    //             disabled={props.edit !== 'Add'}
+    //             pattern="\d*"
+    //           />
+    //         </Form.Group>
+    //       </div>
+    //     </div>
+
+    //     <div className='row'>
+    //       <div className='col lg-12'>
+    //         <Form.Group className="mb-3">
+    //           <Form.Label style={{ fontSize: "12px" }}>Pan Card Number</Form.Label>
+    //           <FormControl
+    //             type="text"
+    //             disabled={props.edit !== 'Add'}
+    //             value={PancardNo} onChange={(e) => handlePancardNo(e)}
+    //             style={bottomBorderStyle}
+    //           />
+    //         </Form.Group>
+    //       </div>
+    //     </div>
+
+    //     <div className='row'>
+    //       <div className='col lg-12'>
+    //         <Form.Group className="mb-3">
+    //           <Form.Label style={{ fontSize: "12px" }}>Licence</Form.Label>
+    //           <FormControl
+    //             type="text"
+    //             disabled={props.edit !== 'Add'}
+    //             value={licence} onChange={(e) => handlelicence(e)}
+    //             style={bottomBorderStyle}
+    //           />
+    //         </Form.Group>
+    //       </div>
+    //     </div>
+    //   </div>
+    //   <hr />
+    //   <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
+
+    //     <Button variant="white" size="sm" onClick={handleClose}>
+    //       Cancel
+    //     </Button>
+    //     <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSaveUserlist}>
+    //       {props.edit === 'Add' ? "Save" : "Update"}
+    //     </Button>
+    //   </div>
+    // </div>
   }
 </Offcanvas.Body>
 </Offcanvas>
