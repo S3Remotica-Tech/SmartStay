@@ -80,9 +80,9 @@ function Dashboard() {
             <Card style={{ height: "auto", backgroundColor: "#F6F7FB" }}>
               <Card.Body>
                 <div className='row d-flex align-items-center justify-content-center'>
-                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 10 }}>
+                  <div style={{ display: "flex", flexDirection: 'row' }}>
                     <h6>Total Hostel</h6>
-                    <img src={File} height={25} width={25} style={{ marginLeft: 25, marginTop: 6,backgroundColor:"#F4ECFB",padding:6 }} />
+                    <img src={File} height={25} width={25} style={{ marginLeft: 15,backgroundColor:"#F4ECFB",padding:6 }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
                     <h3>{hostelCount.toLocaleString()}</h3>
@@ -126,8 +126,8 @@ function Dashboard() {
             </Card>
           </div>
   
-          <div className="col-lg-5 col-md-4 col-sm-12 col-12 mb-3">
-            <Card style={{ height: "auto", backgroundColor: "#F6F7FB" }}>
+          <div className="col-lg-5 col-md-4 col-sm-12 col-12 ">
+            <Card style={{ height: "auto", backgroundColor: "#F6F7FB",width:"90%" }}>
               <Card.Body>
                 <div style={{ display: "flex", flexDirection: 'row' }}>
                   <div className='row d-flex align-items-center justify-content-center'>
@@ -142,7 +142,7 @@ function Dashboard() {
                   </div>
   
                   <div className='row d-flex align-items-center justify-content-center'>
-                    <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+                    <div style={{ display: "flex", flexDirection: 'row' }}>
                       <h6>Occupied Bed</h6>
                       {/* <TbClockCancel style={{ marginLeft: 25, marginTop: 6, color: 'red',backgroundColor:"#FFECEE" }} /> */}
                       <img src={Delete} height={28} width={28} style={{ marginLeft: 25, marginTop: 6,backgroundColor:"#FFECEE",padding:6 }}/>
@@ -202,17 +202,17 @@ function Dashboard() {
             </Card>
           </div>
   
-          <div className="col-lg-7 col-md-6 col-sm-12 col-12 mb-3">
-            <Card style={{ height: "auto", backgroundColor: "#F6F7FB" }}>
+          <div className="col-lg-7 col-md-6 col-sm-12 col-12 " >
+            <Card style={{ height: "auto", backgroundColor: "#F6F7FB",width:"auto" }}>
               <Card.Body>
-                <div className='row d-flex align-items-center justify-content-center'>
-                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+                <div className='row d-flex align-items-center justify-content-center 'style={{paddingLeft:40}}>
+                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 10 }}>
                     <h6>Statistics</h6>
                   </div>
-                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 10 }}>
                     <p>Revenue and Booking</p>
                   </div>
-                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 20 }}>
+                  <div style={{ display: "flex", flexDirection: 'row', paddingLeft: 10 }}>
                     <DashboardChart/>
                   </div>
                 </div>

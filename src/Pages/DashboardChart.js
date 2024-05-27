@@ -1,96 +1,72 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react'
 // import CanvasJSReact from '@canvasjs/react-charts';
 //var CanvasJSReact = require('@canvasjs/react-charts');
-import {CanvasJSChart} from 'canvasjs-react-charts'
+// import {CanvasJSChart} from 'canvasjs-react-charts'
+import CanvasJSReact from '@canvasjs/react-charts';
+import { useDispatch, useSelector } from 'react-redux';
+import CryptoJS from "crypto-js";
+import { Label } from '@material-ui/icons';
+import '../Pages/Dashboard.css';
 
-// const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 
 const DashboardChart = () => {
-  const options = {
-    animationEnabled: true,
-    title: {
-      text: "Number of New Customers"
-    },
-    axisY: {
-      title: "Number of Customers"
-    },
-    toolTip: {
-      shared: true
-    },
-    data: [
-      {
-        type: "spline",
-        name: "2016",
-        showInLegend: true,
-        dataPoints: [
-          // { y: 155, label: "Jan" },
-          // { y: 150, label: "Feb" },
-          // { y: 152, label: "Mar" },
-          // { y: 148, label: "Apr" },
-          // { y: 142, label: "May" },
-          // { y: 150, label: "Jun" },
-          // { y: 146, label: "Jul" },
-          // { y: 149, label: "Aug" },
-          // { y: 153, label: "Sept" },
-          // { y: 158, label: "Oct" },
-          // { y: 154, label: "Nov" },
-          // { y: 150, label: "Dec" }
+  var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+  const state = useSelector(state => state)
+     console.log("state",state)
+    const dispatch = useDispatch();
+    const [dashboardChart, setDashboardChart] = useState(state.PgList.dashboardDetails.Revenue_reports || []);
+    const LoginId = localStorage.getItem("loginId")
+    const [login_Id, setLogin_Id] = useState('')
+      useEffect(() => {
+        if (LoginId) {
+          try{
+            const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+            const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
+            const parsedData = Number(decryptedIdString);
+            setLogin_Id(parsedData)
+                  dispatch({ type: 'PGDASHBOARD', payload:{created_by:parsedData} })
+                }
+          
+            catch(error){
+          console.log("Error decrypting loginid",error);
+            }
+        }
+  
+      }, [])
+      useEffect(() => {
+        setDashboardChart(state.PgList.dashboardDetails.Revenue_reports || []);
+      }, [state.PgList.dashboardDetails.Revenue_reports]);
 
-          { x: new Date(2017, 0, 1), y: 120 },
-					{ x: new Date(2017, 1, 1), y: 135 },
-					{ x: new Date(2017, 2, 1), y: 144 },
-					{ x: new Date(2017, 3, 1), y: 103 },
-					{ x: new Date(2017, 4, 1), y: 93 },
-					{ x: new Date(2017, 5, 1), y: 129 },
-					{ x: new Date(2017, 6, 1), y: 143 },
-					{ x: new Date(2017, 7, 1), y: 156 },
-					{ x: new Date(2017, 8, 1), y: 122 },
-					{ x: new Date(2017, 9, 1), y: 106 },
-					{ x: new Date(2017, 10, 1), y: 137 },
-					{ x: new Date(2017, 11, 1), y: 142 }
-        ]
-      },
-      {
-        type: "spline",
-        name: "2017",
-        showInLegend: true,
-        dataPoints: [
-          // { y: 172, label: "Jan" },
-          // { y: 173, label: "Feb" },
-          // { y: 175, label: "Mar" },
-          // { y: 172, label: "Apr" },
-          // { y: 162, label: "May" },
-          // { y: 165, label: "Jun" },
-          // { y: 172, label: "Jul" },
-          // { y: 168, label: "Aug" },
-          // { y: 175, label: "Sept" },
-          // { y: 170, label: "Oct" },
-          // { y: 165, label: "Nov" },
-          // { y: 169, label: "Dec" }
-
-
-          { x: new Date(2017, 0, 1), y: 123 },
-					{ x: new Date(2017, 1, 1), y: 140 },
-					{ x: new Date(2017, 2, 1), y: 150 },
-					{ x: new Date(2017, 3, 1), y: 110 },
-					{ x: new Date(2017, 4, 1), y: 100 },
-					{ x: new Date(2017, 5, 1), y: 135 },
-					{ x: new Date(2017, 6, 1), y: 150 },
-					{ x: new Date(2017, 7, 1), y: 160 },
-					{ x: new Date(2017, 8, 1), y: 130 },
-					{ x: new Date(2017, 9, 1), y: 110 },
-					{ x: new Date(2017, 10, 1), y: 140 },
-					{ x: new Date(2017, 11, 1), y: 150 }
-        ]
-      }
-    ]
-  };
-
+     
+      
+      const options = {
+				animationEnabled: true,	
+				title:{
+					text: "Revenue",
+          fontSize: 20
+				},
+				axisY : {
+					title: "Revenue"
+				},
+				toolTip: {
+					shared: true
+				},
+				data: [{
+					type: "spline",
+					name: "Revenue",
+					showInLegend: true,
+          dataPoints: dashboardChart.map(data => ({ x: new Date(data.month), y: data.revenue }))
+          
+				},
+				
+      ]
+		}
   return (
     <div>
       <CanvasJSChart options={options} />
-      {/* <CanvasJSChart options={options} /> */}
-      {/* You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods */}
+     
     </div>
   );
 };
