@@ -999,9 +999,10 @@ const InvoicePage = () => {
                           </div>
                         </div>
                         <div className='row'>
-                          <div className='col-lg-6 col-12 col-md-12' style={{ position: 'static' }}>
+                          <div  className='col-lg-6 col-12 col-md-12' >
                             <Form.Label style={{ fontSize: "12px" }}>Select Date</Form.Label>
-                            <FormControl
+                            <FormControl 
+                              className='position-sticky'
                               type="date"
                               value={invoiceList.date}
                               onChange={(e) => { handleDateChange(e) }}
