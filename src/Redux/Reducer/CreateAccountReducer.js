@@ -8,13 +8,15 @@ const initialState = {
    errorMessage: '',
    accountMgs: {},
    IsEnable: '',
-   accountList: [],
+   accountList:[],
    statusCodeForAccount: 0,
    statusCodeCreateAccount:0,
    toTriggerProfile:false,
+   statusCodeForAccountList:0,
+
 }
 const CreateAccountReducer = (state = initialState, action) => {
-   switch (action.type) {
+     switch (action.type) {
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
          case 'CREATEACCOUNTPAGE':
@@ -29,10 +31,11 @@ const CreateAccountReducer = (state = initialState, action) => {
       case 'CLEAR_STATUS_CODE_TWO_STEP':
          return { ...state, statusCodeTwo: 0 }
       case 'ACCOUNT_DETAILS':
-         return { ...state, accountList: action.payload }
-
-
-   }
+                return { ...state, accountList:[ action.payload.response ], statusCodeForAccountList:action.payload.statusCode}
+  
+  case 'CLEAR_ACCOUNT_STATUS_CODE':
+   return {...state, statusCodeForAccountList:0}
+               }
 
    return state
 }

@@ -16,7 +16,7 @@ import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png';
 import HomeSideComponent from "./HomeSideContent";
 import CryptoJS from "crypto-js";
 import OtpVerificationModal from '../Pages/OtpVerificationModal';
-
+import Cookies from 'universal-cookie';
 
 const MyComponent = () => {
 
@@ -73,10 +73,11 @@ dispatch({ type: 'CLEAR_OTP_STATUSCODE'})
 }, [state.login.otpSuccessStatusCode])
 
 
-useEffect(()=>{
-  dispatch({ type: 'ACCOUNTDETAILS' });
-},[])
 
+
+
+
+console.log("state for login",state)
 
 
 
@@ -91,58 +92,8 @@ useEffect(()=>{
       });
       dispatch({ type: 'LOGIN-SUCCESS' });
       
-  
-
-      const loginInfo = state.login && state.login.loginInformation ? state.login.loginInformation[0] : undefined;
-
-        
-        if (loginInfo) {
-            const LoginId = loginInfo.id;
-            const NameId = loginInfo.Name;
-            const phoneId = loginInfo.mobileNo;
-            const emilidd = loginInfo.email_Id;
-            const Is_Enable = loginInfo.isEnable;
-            const Pass_word = loginInfo.password;
-
-
-const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == LoginId ))
-
-
-let is_Enable = IsEnableCheckState[0].isEnable
-
-
-            const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
-            const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
-            const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
-            const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
-            const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
-            const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
-
-
-            if (is_Enable == 0) {
-                const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
-                localStorage.setItem("login", encryptData.toString());
-                localStorage.setItem("loginId", encryptedLoginId);
-                localStorage.setItem("NameId", encryptedname);
-                localStorage.setItem("phoneId", encryptedphone);
-                localStorage.setItem("emilidd", encryptedemail);
-                localStorage.setItem("IsEnable", encryptIsEnable);
-                localStorage.setItem("Password", encryptPassword);
-                localStorage.setItem("checked", checked);
-            } else if(is_Enable == 1) {
-                const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
-                localStorage.setItem("login", encryptData.toString());
-                localStorage.setItem("loginId", encryptedLoginId);
-                localStorage.setItem("NameId", encryptedname);
-                localStorage.setItem("phoneId", encryptedphone);
-                localStorage.setItem("emilidd", encryptedemail);
-                // localStorage.setItem("IsEnable", encryptIsEnable);
-                localStorage.setItem("Password", encryptPassword);
-            }
-        } else {
-
-        }
-
+     
+   
         setTimeout(() => {
             dispatch({ type: 'CLEAR_STATUSCODE' });
         }, 100);

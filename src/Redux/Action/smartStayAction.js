@@ -1,8 +1,11 @@
 import AxiosConfig from "../../WebService/AxiosConfig";
 
+import axios from 'axios'
+
+
 
 export async function login(EmailId, Password) {
-  return await AxiosConfig.get('/login/login', {
+  return await axios.get('http://localhost:2001/login/login', {
     params: EmailId, Password
   })
 }
@@ -49,11 +52,22 @@ export async function TwoStepVerification(datum) {
   })
 } 
 
-export async function AccountDetails() {
-  return await AxiosConfig.get('/get/userAccount',{
+// export async function AccountDetails() {
+//   return await AxiosConfig.get('/get/userAccount',{
+//   })
+// }
+
+
+
+
+
+export async function AccountDetails(user) {
+  // console.log("user",user)
+   return await AxiosConfig.post('/get_user_details',user,{
+    data:user
+   
   })
 }
-
 
 export async function OTPverification(datum) {
   return await AxiosConfig.post('/otp-send/response',datum, {

@@ -82,14 +82,20 @@ function* HandleTwoStepVerification(action) {
   }
 }
 
-function* handleAccountDetails() {
-  const response = yield call(AccountDetails)
+function* handleAccountDetails(args) {
+  try {
+   const response = yield call(AccountDetails,args.payload)
+console.log("Response for account",response)
   if (response.status === 200) {
-    yield put({ type: 'ACCOUNT_DETAILS', payload: response.data })
-  }
+    yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response.status }})
+     }
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
   }
+} catch (error) {
+  console.error("Error in handleAccountDetails:", error);
+    yield put({ type: 'ERROR', payload: 'Failed to fetch account details' });
+}
 }
 
 

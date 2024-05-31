@@ -31,9 +31,12 @@ const OtpVerificationModal = ({ show, handleClose , Email_Id, checked}) => {
      setOtpValue(updatedOtpValue);
   };
 
-  useEffect(()=>{
-    dispatch({ type: 'ACCOUNTDETAILS' });
-  },[])
+// i am command this line step :1
+
+
+  // useEffect(()=>{
+  //   dispatch({ type: 'ACCOUNTDETAILS' });
+  // },[])
 
 useEffect(()=>{
   if(state.login.OtpVerifyStatusCode == 200){
@@ -53,10 +56,10 @@ if (LoginDetails) {
   const Pass_word = LoginDetails.password;
 
 
-  const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == LoginId ))
+//   const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == LoginId ))
 
 
-let is_Enable = IsEnableCheckState[0].isEnable
+// let is_Enable = IsEnableCheckState[0].isEnable
 
   const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
   const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
@@ -64,34 +67,35 @@ let is_Enable = IsEnableCheckState[0].isEnable
   const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
   const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
   const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
-
-
-  if (is_Enable === 0) {
-      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
-      localStorage.setItem("login", encryptData.toString());
-      localStorage.setItem("loginId", encryptedLoginId);
+  localStorage.setItem("loginId", encryptedLoginId);
       localStorage.setItem("NameId", encryptedname);
       localStorage.setItem("phoneId", encryptedphone);
       localStorage.setItem("emilidd", encryptedemail);
       localStorage.setItem("IsEnable", encryptIsEnable);
       localStorage.setItem("Password", encryptPassword);
-  } else {
-      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
-      localStorage.setItem("login", encryptData.toString());
-      localStorage.setItem("loginId", encryptedLoginId);
-      localStorage.setItem("NameId", encryptedname);
-      localStorage.setItem("phoneId", encryptedphone);
-      localStorage.setItem("emilidd", encryptedemail);
+
+  // if (is_Enable === 0) {
+  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
+  //     localStorage.setItem("login", encryptData.toString());
+      // localStorage.setItem("loginId", encryptedLoginId);
+      // localStorage.setItem("NameId", encryptedname);
+      // localStorage.setItem("phoneId", encryptedphone);
+      // localStorage.setItem("emilidd", encryptedemail);
       // localStorage.setItem("IsEnable", encryptIsEnable);
-      localStorage.setItem("Password", encryptPassword);
-  }
+      // localStorage.setItem("Password", encryptPassword);
+  // } else {
+      // const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
+      // localStorage.setItem("login", encryptData.toString());
+      // localStorage.setItem("loginId", encryptedLoginId);
+      // localStorage.setItem("NameId", encryptedname);
+      // localStorage.setItem("phoneId", encryptedphone);
+      // localStorage.setItem("emilidd", encryptedemail);
+      // localStorage.setItem("IsEnable", encryptIsEnable);
+      // localStorage.setItem("Password", encryptPassword);
+  // }
 } else {
   console.error("Login information not available.");
 }
-
-
-
-
 
   }
 setTimeout(()=>{

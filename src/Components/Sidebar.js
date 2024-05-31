@@ -53,6 +53,9 @@ import CryptoJS from "crypto-js";
 import { StaticDateTimePicker } from '@mui/x-date-pickers';
 import { BsClipboard2Check } from "react-icons/bs";
 import SmartLogo from '../Assets/Images/hostel.png'
+import Cookies from 'universal-cookie';
+
+
 
 function Sidebar() {
 
@@ -60,12 +63,26 @@ function Sidebar() {
   const dispatch = useDispatch()
   const state = useSelector(state => state.UsersList)
   const stateData = useSelector(state => state.createAccount)
+  const stateLogin = useSelector(state => state.login)
 
 
-  useEffect(() => {
-    // dispatch({ type: 'HOSTELLIST' })
-    dispatch({ type: 'ACCOUNTDETAILS' })
-  }, [])
+  console.log("state for side bar",stateData)
+
+  const token = stateLogin.JWTtoken
+  console.log("stateLogin.JWTtoken", token)
+  const cookies = new Cookies()
+  cookies.set('token', token, { path: '/' });
+  const tokenCookies = cookies.get('token');
+  console.log("tokenCookies", tokenCookies)
+
+
+  // useEffect(() => {
+  //   if(tokenCookies){
+  //     dispatch({ type: 'ACCOUNTDETAILS', payload: { user_details: tokenCookies } })
+  //     console.log("executed account details")
+  //   }
+  //    }, [])
+
 
 
   let LoginId = localStorage.getItem("loginId")
@@ -73,6 +90,8 @@ function Sidebar() {
 
 
   const loginId = localStorage.getItem('loginId');
+
+
   useEffect(() => {
     if (loginId) {
       try {
@@ -80,12 +99,57 @@ function Sidebar() {
         const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedIdString);
 
-        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
-        
+        dispatch({ type: 'HOSTELLIST' })
+
       } catch (error) {
       }
     }
   }, []);
+
+
+
+
+useEffect(()=>{
+if(stateData.statusCodeForAccountList == 200){
+
+  const loginInfo = stateData.accountList[0].user_details
+       
+  console.log("loginInfo",loginInfo)
+  if (loginInfo) {
+      const LoginId = loginInfo.id;
+      const NameId = loginInfo.Name;
+      const phoneId = loginInfo.mobileNo;
+      const emilidd = loginInfo.email_Id;
+      const Is_Enable = loginInfo.isEnable;
+      const Pass_word = loginInfo.password;
+
+      const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
+      const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
+      const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
+      const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
+      const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
+      const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
+
+      localStorage.setItem("loginId", encryptedLoginId);
+      localStorage.setItem("NameId", encryptedname);
+      localStorage.setItem("phoneId", encryptedphone);
+      localStorage.setItem("emilidd", encryptedemail);
+      localStorage.setItem("IsEnable", encryptIsEnable);
+      localStorage.setItem("Password", encryptPassword);
+    
+
+      } else {
+console.log("No data found")
+  }
+  setTimeout(()=>{
+    dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
+    },100)
+  }
+
+},[stateData.statusCodeForAccountList])
+
+
+  //  command but we need
 
 
   // useEffect(() => {
@@ -96,7 +160,7 @@ function Sidebar() {
   //   const parsedData = decryptedString;
 
 
-  //   const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == parsedData))
+  //   const IsEnableCheckState = stateData.accountList && stateData.accountList.filter((view => view.id == parsedData))
 
   //   console.log("IsEnableCheckState", IsEnableCheckState)
 
@@ -116,7 +180,7 @@ function Sidebar() {
   //   }
 
 
-  // }, [state.createAccount.accountList, LoginId])
+  // }, [stateData.accountList, LoginId])
 
 
 
@@ -131,12 +195,10 @@ function Sidebar() {
   const [profiles, setProfiles] = useState('')
   const [profileArray, setProfileArray] = useState('')
 
- 
+
 
   useEffect(() => {
     if (LoginId && stateData.accountList) {
-
-
       try {
 
 
@@ -145,9 +207,9 @@ function Sidebar() {
         const parsedData = decryptedString;
 
         // const filteredList = state.UsersList?.hostelList?.filter((view) => {
-          // console.log("parsedData",parsedData);
-          // console.log("created_By",view.created_By);
-          // console.log("view.created_By == parsedData",view.created_By == parsedData);
+        // console.log("parsedData",parsedData);
+        // console.log("created_By",view.created_By);
+        // console.log("view.created_By == parsedData",view.created_By == parsedData);
         //   return view.created_By == parsedData;
 
 
@@ -156,19 +218,13 @@ function Sidebar() {
         // setFilterhostellist(filteredList)
 
 
-        const FilteredProfile = stateData.accountList.filter((item => item.id == parsedData));
-
-
-
-        if (FilteredProfile.length > 0) {
-          const profilePictures = FilteredProfile[0]?.profile;
-          const profileName = FilteredProfile[0]?.Name;
+        const FilteredProfile = stateData.accountList[0].user_details
+       
+          const profilePictures = FilteredProfile.profile;
+          const profileName = FilteredProfile.Name;
           setProfiles(profilePictures);
           setProfileArray(profileName);
-        } else {
-        }
-
-      }
+              }
 
       catch (error) {
         console.log("Error decrypting loginid", error);
@@ -202,38 +258,7 @@ function Sidebar() {
     number_Of_Rooms: '',
     floorDetails: []
   })
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     let tempArry = [];
-  //     for (let i = 0; i < pgList.number_Of_Floor; i++) {
-  //       var a = {}
-  //       tempArry.push(a)
-  //     }
-  //     setPgList({ ...pgList, floorDetails: tempArry })
-  //   }, 1000);
-  //   return () => clearTimeout(timeout)
-  // }, [pgList.number_Of_Floor])
-
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     let tempArray = [];
-  //     for (let i = 0; i < pgList.number_Of_Rooms; i++) {
-  //       let newRoom = {
-  //         roomNumber: i + 1,
-  //         number_Of_Bed: ''
-  //       };
-  //       tempArray.push(newRoom);
-  //     }
-
-  //     setPgList((prevPgList) => ({
-  //       ...prevPgList,
-  //       floorDetails: [tempArray],
-  //     }));
-  //   }, 1000);
-  //   return () => clearTimeout(timeout);
-  // }, [pgList.number_Of_Rooms]);
-
-
+ 
 
 
   const handlePageClick = (page) => {
@@ -328,7 +353,7 @@ function Sidebar() {
             </div>
           </div>
 
-         
+
           <div style={{ borderLeft: "1px solid #cccccc99", height: "30px" }} className="vertical-line ms-2"></div>
 
 

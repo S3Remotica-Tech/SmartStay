@@ -18,12 +18,12 @@ import InvoiceSettings from './InvoiceSettings';
 import Amenities from './Amenities';
 import Billings from './Billing';
 import imageCompression from 'browser-image-compression';
-
+import Cookies from 'universal-cookie';
 
 function Settings() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
-
+  const cookies = new Cookies()
 
   const [selectedTab, setSelectedTab] = useState('Personal');
   const [Name, setName] = useState('')
@@ -236,12 +236,12 @@ const [profilePicture, setProfilePicture] = useState('');
 
 useEffect(()=>{
   if(id){
-    const FIlteredProfile = state.createAccount?.accountList.filter(item => item.id == id)
-       if(FIlteredProfile.length > 0 ){
-        const ProfileImage = FIlteredProfile[0]?.profile
-    const CustomerName = FIlteredProfile[0]?.Name
-    const PhoneNUmber = FIlteredProfile[0]?.mobileNo
-    const UserEmail = FIlteredProfile[0]?.email_Id
+    const FIlteredProfile = state.createAccount?.accountList[0].user_details
+       if(FIlteredProfile.profile){
+        const ProfileImage = FIlteredProfile.profile
+    const CustomerName = FIlteredProfile.Name
+    const PhoneNUmber = FIlteredProfile.mobileNo
+    const UserEmail = FIlteredProfile.email_Id
     
     setName(CustomerName)
     setPhone(PhoneNUmber)
@@ -257,7 +257,7 @@ useEffect(()=>{
 
 
 
-
+const tokenCookies = cookies.get('token');
 
 useEffect(()=>{
 if(state.createAccount.statusCodeForAccount == 200){
@@ -265,6 +265,11 @@ if(state.createAccount.statusCodeForAccount == 200){
 setTimeout(()=>{
 dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
 },100)
+
+setTimeout(()=>{
+  dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
+  },100)
+
 }else{
   console.log("create account not working")
 }

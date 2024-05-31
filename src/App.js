@@ -14,6 +14,10 @@ import DashboardRoomList from './Pages/DashBoardRoomsList';
 import CryptoJS from "crypto-js";
 import InvoiceDetail from './Pages/InvoiceDetails';
 import { useDispatch, useSelector } from 'react-redux';
+import { Token } from '@mui/icons-material';
+import Cookies from 'universal-cookie';
+
+
 
 function App() {
 
@@ -21,32 +25,37 @@ function App() {
   const state = useSelector(state => state)
   const [data, setData] = useState('');
 
-  // const login = localStorage.getItem("login");
-
-  console.log("state app.js", state)
-
-
-  console.log("data", data)
-
-
-
-  useEffect(() => {
-    dispatch({ type: 'ACCOUNTDETAILS' })
-    console.log("executed account details")
-  }, [])
-
 
   const loginId = localStorage.getItem("loginId")
 
   const login = localStorage.getItem("login");
 
 
+// console.log("state for app.js",state)
+
+  const token = state.login.JWTtoken
+  // console.log("stateLogin.JWTtoken", token)
+  const cookies = new Cookies()
+  cookies.set('token', token, { path: '/' });
+  const tokenCookies = cookies.get('token');
+  // console.log("tokenCookies", tokenCookies)
+
+
+
   useEffect(() => {
-    // console.log("LoginIds",loginId)
+    if(state.login.statusCode == 200){
+      dispatch({ type: 'ACCOUNTDETAILS'})
+      console.log("executed account details")
+      setTimeout(()=>{
+        dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
+        },2000)
+     
+    }
+     }, [state.login.statusCode])
 
-    
+  useEffect(() => {
+   
     try {
-
       const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
       const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
       console.log('Decrypted Login Id:', decryptedIdString);
@@ -55,9 +64,10 @@ function App() {
       console.log("parsedData", parsedData)
 
 
-      const IsEnableCheckState = state.createAccount?.accountList.filter((view => view.id == parsedData))
-      const is_Enable = IsEnableCheckState[0]?.isEnable
-      console.log("IsEnableCheck", IsEnableCheckState)
+      // const IsEnableCheckState = state.createAccount?.accountList.filter((view => view.id == parsedData))
+
+      const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable
+      
       console.log("is_Enable", is_Enable)
 
       const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
@@ -67,7 +77,7 @@ function App() {
 
       if (is_Enable == 1 || parseData == false) {
         setData(false);
-      } else {
+      } else {  
         setData(true);
       }
 
@@ -80,6 +90,14 @@ function App() {
 
     setIsLoading(false);
   }, [state.createAccount.accountList,login ]);
+
+
+
+  
+
+
+
+
 
 
 
@@ -118,6 +136,12 @@ function App() {
   if (isLoading) {
     return <div style={{ display: 'flex', justifyContent: 'center' }}>Loading...</div>
   }
+
+
+
+
+
+
 
 
   return (

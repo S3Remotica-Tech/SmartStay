@@ -149,7 +149,7 @@ const handleInvoiceSettings = () => {
           const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
           const parsedData = Number(decryptedIdString);
   
-          dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+          dispatch({ type: 'HOSTELLIST' })
           
                 setTimeout(() => {
                 dispatch({ type: 'CLEAR_INVOICE_SETTINS_STATUSCODE' });
