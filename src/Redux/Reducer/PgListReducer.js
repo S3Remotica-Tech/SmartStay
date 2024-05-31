@@ -25,10 +25,24 @@ const initialState = {
     errorForBed: "",
     errorStatusCode: 0,
     statusCodeCreateRoom:0,
-    dashboardDetails:''
+    dashboardDetails:'',
+    deleteFloor:'',
+    deleteRoom:'',
+    deleteBed:''
   }
 const PgListReducer = (state = initialState, action) => {
+    console.log("action.payload",action.payload);
     switch (action.type) {
+        case 'DELETE_FLOOR':
+            return {...state,deleteFloor:action.payload.message}
+        case 'CLEAR_DELETE_FLOOR':
+            return {...state,deleteFloor:action.message}
+        case 'DELETE_ROOM':
+            return {...state,deleteRoom:action.payload}
+        case 'CLEAR_DELETE_ROOM':
+            return {...state,deleteRoom:action.payload}
+        case 'DELETE_BED':
+            return {...state,deleteBed:action.payload}
         case 'PG_LIST':
             return { message: action.payload.message, roomCount: action.roomCount }
         // return {...state ,Name:action.payload.name,phoneNumber:action.payload.phoneNo,email_Id:action.payload.email_Id,location:action.payload.location,number_Of_Floor:action.payload.number_of_floors,room_Id:action.payload.room,number_Of_Bed:action.payload.bed}

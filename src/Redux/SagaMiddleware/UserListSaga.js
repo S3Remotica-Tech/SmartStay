@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck} from "../Action/UserListAction"
+import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed} from "../Action/UserListAction"
 
 
 function* handleuserlist(user) {
@@ -130,8 +130,36 @@ function* handleAddUser(datum) {
       }
    }
 
+   function* handleDeleteFloor(hosteID){
+      const response = yield call(deleteFloor,hosteID.payload)
+      console.log("response",response);
+      if(response.status === 200){
+         yield put({ type: 'DELETE_FLOOR', payload:{message: response.data.message, statusCode:response.status} })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+   }
 
+function* handleDeleteRoom(roomDetails){
+   const response = yield call(deleteRoom,roomDetails.payload)
+   if(response.status === 200){
+      yield put({ type: 'DELETE_ROOM', payload:{message: response.data.message, statusCode:response.status} })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+}
 
+function* handleDeleteBed(bedDetails){
+   const response = yield call(deleteBed,bedDetails.payload)
+   if(response.status === 200){
+      yield put({ type: 'DELETE_BED', payload:{message: response.data.message, statusCode:response.status} })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+}
 
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
@@ -144,6 +172,8 @@ function* UserListSaga() {
    yield takeEvery('ROOMDETAILS',handleRoomsDetails)
    yield takeEvery('ROOMFULL', handleRoomCheck)
    yield takeEvery('CHECKOUTUSER',handleCheckOut)
-    
+   yield takeEvery('DELETEFLOOR',handleDeleteFloor)
+   yield takeEvery('DELETEROOM',handleDeleteRoom)
+   yield takeEvery('DELETEBED',handleDeleteBed)    
 }
 export default UserListSaga;
