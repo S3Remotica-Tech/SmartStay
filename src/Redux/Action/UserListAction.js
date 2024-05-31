@@ -50,3 +50,21 @@ export async function checkOutUser(check) {
     data:check
   })
 }
+
+export async function deleteFloor(hosteID){
+return await AxiosConfig.post('/delete/delete-floor',hosteID,{
+  data:hosteID
+})
+}
+
+export async function deleteRoom(roomDetails){
+  return await AxiosConfig.post('/delete/delete-room',roomDetails,{
+    data:roomDetails
+  })
+}
+
+export async function deleteBed(bedDetails){
+  return await AxiosConfig.post('/delete/delete-bed',bedDetails,{
+    data:bedDetails
+  })
+}
