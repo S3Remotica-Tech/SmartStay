@@ -62,76 +62,87 @@ console.log("state for invoice settings",state)
     const handleStartingNumber = (e) => {
         setStartNumber(e.target.value)
     }
-
-
-
-
-const handleInvoiceSettings = () => {
-    const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== '';
-    const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== '';
-    const isSelectedImageValid = selectedImage !== undefined && selectedImage !== null;
-
-    console.log("isPrefixValid:", isPrefixValid);
-    console.log("isStartNumberValid:", isStartNumberValid);
-    console.log("isSelectedImageValid:", isSelectedImageValid);
-
-    if (isPrefixValid && isStartNumberValid && isSelectedImageValid) {
-        dispatch({
-            type: 'INVOICESETTINGS',
-            payload: {
-                hostel_Id: selectedHostel.id,
-                prefix: prefix,
-                suffix: startNumber,
-                profile: selectedImage
-            }
-        });
-        Swal.fire({
-            text: "Prefix, Suffix, Profile Update successfully",
-            icon: "success",
-            timer: 1000,
-        });
-    } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid) {
-        dispatch({
-            type: 'INVOICESETTINGS',
-            payload: {
-                hostel_Id: selectedHostel.id,
-                profile: selectedImage
-            }
-        });
-        Swal.fire({
-            text: "Profile Update successfully",
-            icon: "success",
-            timer: 1000,
-        });
-    } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid) {
-        dispatch({
-            type: 'INVOICESETTINGS',
-            payload: {
-                hostel_Id: selectedHostel.id,
-                prefix: prefix,
-                suffix: startNumber
-            }
-        });
-        Swal.fire({
-            text: "Prefix, Suffix Update successfully",
-            icon: "success",
-            timer: 1000,
-        });
-    } else {
-        Swal.fire({
-            text: "Please provide the necessary information.",
-            icon: "warning",
-            timer: 2000,
-        });
-    }
-
-    setShowTable(false);
-    setSelectedHostel({ id: '', name: '' });
-    setPrefix('');
-    setStartNumber('');
-    setSelectedImage('')
-};
-
+   
+    
+    const handleInvoiceSettings = () => {
+        const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== '';
+        const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== '';
+        const isSelectedImageValid = selectedImage !== undefined && selectedImage !== null;
+    
+        console.log("isPrefixValid:", isPrefixValid);
+        console.log("isStartNumberValid:", isStartNumberValid);
+        console.log("isSelectedImageValid:", isSelectedImageValid);
+    
+        if (isPrefixValid && isStartNumberValid && isSelectedImageValid) {
+            dispatch({
+                type: 'INVOICESETTINGS',
+                payload: {
+                    hostel_Id: selectedHostel.id,
+                    prefix: prefix,
+                    suffix: startNumber,
+                    profile: selectedImage
+                }
+            });
+            Swal.fire({
+                text: "Prefix, Suffix, Profile Update successfully",
+                icon: "success",
+                timer: 1000,
+            }).then(() => {
+                setShowTable(false);
+                setSelectedHostel({ id: '', name: '' });
+                setPrefix('');
+                setStartNumber('');
+                setSelectedImage('');
+            });
+        } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid) {
+            dispatch({
+                type: 'INVOICESETTINGS',
+                payload: {
+                    hostel_Id: selectedHostel.id,
+                    profile: selectedImage
+                }
+            });
+            Swal.fire({
+                text: "Profile Update successfully",
+                icon: "success",
+                timer: 1000,
+            }).then(() => {
+                setShowTable(false);
+                setSelectedHostel({ id: '', name: '' });
+                setPrefix('');
+                setStartNumber('');
+                setSelectedImage('');
+            });
+        } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid) {
+            dispatch({
+                type: 'INVOICESETTINGS',
+                payload: {
+                    hostel_Id: selectedHostel.id,
+                    prefix: prefix,
+                    suffix: startNumber
+                }
+            });
+            Swal.fire({
+                text: "Prefix, Suffix Update successfully",
+                icon: "success",
+                timer: 1000,
+            }).then(() => {
+                setShowTable(false);
+                setSelectedHostel({ id: '', name: '' });
+                setPrefix('');
+                setStartNumber('');
+                setSelectedImage('');
+            });
+        } else {
+            Swal.fire({
+                text: "Please Enter All field.",
+                icon: "warning",
+                timer: 2000,
+            });
+        }
+    };
+    
+    
 
 
 
