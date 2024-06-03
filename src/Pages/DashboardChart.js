@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-// import CanvasJSReact from '@canvasjs/react-charts';
+import CanvasJSReact from '@canvasjs/react-charts';
 //var CanvasJSReact = require('@canvasjs/react-charts');
 // import {CanvasJSChart} from 'canvasjs-react-charts'
 // import CanvasJSReact from '@canvasjs/react-charts';
@@ -11,8 +11,8 @@ import '../Pages/Dashboard.css';
 
 
 const DashboardChart = () => {
-  // var CanvasJS = CanvasJSReact.CanvasJS;
-// var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+  var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
   const state = useSelector(state => state)
      console.log("state",state)
     const dispatch = useDispatch();
@@ -65,7 +65,7 @@ const DashboardChart = () => {
 		}
   return (
     <div>
-      {/* <CanvasJSChart options={options} /> */}
+       <CanvasJSChart options={options} /> 
      
     </div>
   );
