@@ -73,7 +73,8 @@ const InvoicePage = () => {
     amount: '',
     balanceDue: '',
     dueDate: '',
-    payableAmount: ''
+    payableAmount: '',
+    InvoiceId:''
   })
 
   console.log("invoiceList", invoiceList);
@@ -188,8 +189,15 @@ const InvoicePage = () => {
   // }, [])
 
   useEffect(() => {
-    setData(state.InvoiceList.Invoice)
+      dispatch({ type: 'INVOICELIST', payload: { loginId:loginID } })
+      setData(state.InvoiceList.Invoice)
+      console.log("useffect invoice list",state.InvoiceList.Invoice);
   }, [state.InvoiceList.Invoice])
+
+  console.log("invoice list",state.InvoiceList.Invoice);
+
+
+  
 
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
@@ -394,6 +402,7 @@ const InvoicePage = () => {
         paidAmount: item.PaidAmount,
         balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
         dueDate: formattedDueDate,
+        InvoiceId:item.Invoices
       });
       // }
     } else {
@@ -468,6 +477,15 @@ const InvoicePage = () => {
 
   }
 
+    
+  const [updatemessage, setUpdatemessage] = useState('')
+
+  useEffect(()=>{
+    setUpdatemessage(state.InvoiceList.message)
+  },[state.InvoiceList.message])
+
+
+
   const handleSaveInvoiceList = () => {
     const invoiceNo = randomNumberInRange(invoiceList.hostel_Name, 1, new Date())
     const CheckInvoiceNo = state.InvoiceList?.Invoice.some(item =>
@@ -533,17 +551,32 @@ const InvoicePage = () => {
     //   });
     // }
 
-    if (invoiceList.balanceDue && invoiceList.payableAmount) {
-      dispatch({
-        type: 'ADDINVOICEDETAILS',
-        payload: {
-          paidAmount: invoiceList.payableAmount,
-          BalanceDue: invoiceList.balanceDue,
-          id: invoiceList.id,
-
-        }
-      })
+    if (invoiceList.InvoiceId && invoiceList.payableAmount && loginID) {
+      // if (invoiceList.id) {
+        // Update invoice details
+        dispatch({
+          type: 'UPDATEINVOICEDETAILS',
+          payload: {
+            id: invoiceList.id,
+            invoice_id: invoiceList.InvoiceId,
+            amount: invoiceList.payableAmount,
+            created_by: loginID,
+            balance_due: invoiceList.balanceDue
+            
+          }
+        });
+        
+        setTimeout(() => {
+          Swal.fire({
+            icon: "success",
+            title: state.InvoiceList.message,
+            confirmButtonText: "ok"
+          });
+        }, 400);
+        setShowMenu(false);
+        setShowForm(false);
     }
+    
 
     else {
       Swal.fire({

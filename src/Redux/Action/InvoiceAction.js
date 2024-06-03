@@ -13,7 +13,7 @@ export async function invoiceList(invoice) {
 }
 
 export async function UpdateInvoice(datum) {
-  return await AxiosConfig.post('/invoice/invoiceUpdate',datum,{
+  return await AxiosConfig.post('/transaction/list',datum,{
     data:datum
   })
 }
