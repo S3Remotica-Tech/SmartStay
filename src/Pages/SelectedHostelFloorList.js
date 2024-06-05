@@ -66,7 +66,7 @@ function SelectedHostelFloorList(props) {
 
 
   return (
-    <div className="col-lg-1 col-md-2 col-sm-2 col-xs-12 col-12 " style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
+    <div className="col-lg-2 col-md-2 col-sm-3 col-xs-12 col-12 m-1" style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
 
 <div style={{ fontSize: "11px", color: "gray", fontWeight: "700" }}>{getFloorName(props.floorID)}</div>
 

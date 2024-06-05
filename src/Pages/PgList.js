@@ -700,20 +700,26 @@ function PgList() {
               <div style={{ borderLeft: "1px solid #cccccc99", height: "45px" }} className="vertical-line ms-1 me-2"></div>
             </div>
           </div>
+          <div className="col-lg-9  col-md-12 col-sm-12 col-xs-12 col-12 d-flex row" >
+            <div>
           {selectedHostel && <>
+            <div className="col-lg-12  col-md-12 col-sm-12 col-xs-12 col-12 d-flex row w-100"
+            >
             {
               Array.from(new Array(selectedHostel.number_Of_Floor < 0 ? (selectedHostel.number_Of_Floor * -1) : selectedHostel.number_Of_Floor), (index, element) => {
                 return <SelectedHostelFloorList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
               })}
-
-            <div className="col-lg-6  col-md-3 col-sm-4 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <div>
+         </div>
+          
+              <div className='d-flex d-sm-block justify-content-center'>
                 <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleCreateFloor}>
                   <span style={{ padding: "20px 20px" }}>
                     <img src={Plus} height="12" width="12" alt='Plus' /> Create Floor  </span></button>
               </div>
-            </div>
+          
           </>}
+          </div>
+          </div>
         </div>
 
         {/* <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>

@@ -91,6 +91,7 @@ function DashboardRoom(props) {
     const handleCloses = () => {
         setRoomDetails([{ roomId: '', numberOfBeds: '', roomRent: '' }]);
         setShows(false)
+        setRoomDetailsError(false);
     };
     const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '', roomRent: '' }
         // , { roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }
@@ -153,6 +154,7 @@ function DashboardRoom(props) {
     }
     const handleCancels = () => {
         handleCloses();
+        setRoomDetailsError(false);
     };
 
     const [currentRoomId, setCurrentRoomId] = useState("");
@@ -254,6 +256,7 @@ function DashboardRoom(props) {
                 })
                 setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
                 handleCloses();
+                setRoomDetailsError(false);
             }
         } else {
             Swal.fire({
@@ -541,7 +544,7 @@ function DashboardRoom(props) {
                         <Button variant="outline-secondary" className='ms-2 me-2' size="sm" style={{ width: "90px", borderRadius: 200 }} onClick={handleCancels}>
                             Cancel
                         </Button>
-                        <Button variant="outline-primary" className='ms-2 me-2' size="sm" style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
+                        <Button variant="outline-primary" className='ms-2 me-2' size="sm" disabled={roomDetailsError} style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
                             {roomDetailsError ? "Update" : "Save"}
                         </Button>
                     </div>
