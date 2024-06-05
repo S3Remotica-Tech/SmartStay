@@ -58,7 +58,7 @@ import Cookies from 'universal-cookie';
 
 
 function Sidebar() {
-
+  const cookies = new Cookies()
   let navigate = useNavigate();
   const dispatch = useDispatch()
   const state = useSelector(state => state.UsersList)
@@ -68,20 +68,6 @@ function Sidebar() {
 
   console.log("state for side bar",stateData)
 
-  const token = stateLogin.JWTtoken
-  console.log("stateLogin.JWTtoken", token)
-  const cookies = new Cookies()
-  cookies.set('token', token, { path: '/' });
-  const tokenCookies = cookies.get('token');
-  console.log("tokenCookies", tokenCookies)
-
-
-  // useEffect(() => {
-  //   if(tokenCookies){
-  //     dispatch({ type: 'ACCOUNTDETAILS', payload: { user_details: tokenCookies } })
-  //     console.log("executed account details")
-  //   }
-  //    }, [])
 
 
 
@@ -93,18 +79,9 @@ function Sidebar() {
 
 
   useEffect(() => {
-    if (loginId) {
-      try {
-        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-
-        dispatch({ type: 'HOSTELLIST' })
-
-      } catch (error) {
-      }
-    }
-  }, []);
+           dispatch({ type: 'HOSTELLIST' })
+           dispatch({ type: 'ACCOUNTDETAILS'})
+         }, []);
 
 
 
@@ -137,7 +114,15 @@ if(stateData.statusCodeForAccountList == 200){
       localStorage.setItem("IsEnable", encryptIsEnable);
       localStorage.setItem("Password", encryptPassword);
     
+console.log("Is_Enable *****",Is_Enable)
 
+if(Is_Enable == 0){
+  const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
+      localStorage.setItem("login", encryptData.toString());
+}else{
+  const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
+      localStorage.setItem("login", encryptData.toString());
+}
       } else {
 console.log("No data found")
   }
@@ -198,13 +183,13 @@ console.log("No data found")
 
 
   useEffect(() => {
-    if (LoginId && stateData.accountList) {
+    if (stateData.accountList.length > 0) {
       try {
 
 
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = decryptedString;
+        // const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+        // const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        // const parsedData = decryptedString;
 
         // const filteredList = state.UsersList?.hostelList?.filter((view) => {
         // console.log("parsedData",parsedData);
@@ -218,7 +203,7 @@ console.log("No data found")
         // setFilterhostellist(filteredList)
 
 
-        const FilteredProfile = stateData.accountList[0].user_details
+        const FilteredProfile = stateData.accountList[0]?.user_details
        
           const profilePictures = FilteredProfile.profile;
           const profileName = FilteredProfile.Name;
@@ -232,7 +217,7 @@ console.log("No data found")
 
     }
 
-  }, [stateData.accountList, state.hostelList, LoginId, stateData.statusCodeForAccount])
+  }, [stateData.accountList, state.hostelList, stateData.statusCodeForAccount])
 
   const [selectedHostel, setSelectedHostel] = useState(null);
 
@@ -291,6 +276,8 @@ console.log("No data found")
   }, []);
 
 
+  
+
   const handleLogout = () => {
     Swal.fire({
       icon: 'warning',
@@ -300,9 +287,10 @@ console.log("No data found")
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch({ type: 'LOG_OUT' })
+      
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
         localStorage.setItem("login", encryptData.toString())
-        // localStorage.setItem("loginId", '')
+        localStorage.setItem("loginId", '')
         localStorage.setItem("NameId", '')
         localStorage.setItem("phoneId", '')
         localStorage.setItem("emilidd", '')

@@ -20,7 +20,7 @@ import Cookies from 'universal-cookie';
 
 
 function App() {
-
+  const cookies = new Cookies()
   const dispatch = useDispatch()
   const state = useSelector(state => state)
   const [data, setData] = useState('');
@@ -33,26 +33,42 @@ function App() {
 
 // console.log("state for app.js",state)
 
-  const token = state.login.JWTtoken
+  
   // console.log("stateLogin.JWTtoken", token)
-  const cookies = new Cookies()
-  cookies.set('token', token, { path: '/' });
-  const tokenCookies = cookies.get('token');
+ 
+  // const tokenCookies = cookies.get('token');
   // console.log("tokenCookies", tokenCookies)
 
 
 
-  useEffect(() => {
-    if(state.login.statusCode == 200){
-      dispatch({ type: 'ACCOUNTDETAILS'})
-      console.log("executed account details")
-      setTimeout(()=>{
-        dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
-        },2000)
-     
-    }
-     }, [state.login.statusCode])
+  // useEffect(() => {
+  //   if(state.login.statusCode == 200){
+  //         dispatch({ type: 'ACCOUNTDETAILS'})
+  //     console.log("executed account details")
+  //     setTimeout(()=>{
+  //       dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
+  //       },2000)
+  //        }
+  //    }, [state.login.statusCode])
 
+
+     const tokenAccessDenied = cookies.get('access-denied')
+     console.log("tokenAccessDenied", tokenAccessDenied)
+     
+   
+   useEffect(()=>{
+     if(tokenAccessDenied === 206){
+       setTimeout(()=>{
+         dispatch({ type: 'LOG_OUT' })
+       setData(false)
+          cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
+       },100)
+     
+     }
+   
+   },[tokenAccessDenied])
+   
+     
   useEffect(() => {
    
     try {
@@ -81,7 +97,6 @@ function App() {
         setData(true);
       }
 
-
     }
     catch (error) {
       console.error("Error parsing decrypted data:", error);
@@ -89,7 +104,7 @@ function App() {
     }
 
     setIsLoading(false);
-  }, [state.createAccount.accountList,login ]);
+  }, [state.createAccount.accountList,loginId ]);
 
 
 
@@ -138,8 +153,7 @@ function App() {
   }
 
 
-
-
+console.log("data app js ",data)
 
 
 

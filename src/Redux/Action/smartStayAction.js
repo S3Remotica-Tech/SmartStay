@@ -70,7 +70,7 @@ export async function AccountDetails(user) {
 }
 
 export async function OTPverification(datum) {
-  return await AxiosConfig.post('/otp-send/response',datum, {
+  return await axios.post('http://localhost:2001/otp-send/response',datum, {
     data: datum
   })
 } 

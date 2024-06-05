@@ -41,7 +41,7 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'CLEAR_OTP_STATUSCODE':
          return { ...state, otpSuccessStatusCode: 0 }
       case 'OTP_VERIFY':
-         return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode}
+         return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode, JWTtoken:action.payload.response.token }
       case 'CLEAR_OTP_VERIFIED':
          return { ...state, OtpVerifyStatusCode: 0 }
    }

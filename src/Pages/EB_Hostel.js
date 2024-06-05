@@ -19,19 +19,8 @@ function EB_Hostel() {
   const [loginid,setLoginid]= useState();
   const loginId = localStorage.getItem('loginId');
   useEffect(() => {
-    if (loginId) {
-      try {
-        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-        setLoginid(parsedData);
-        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
-        
-      } catch (error) {
-        console.error('Error decrypting loginId:', error);
-      }
-    }
-  }, []);
+         dispatch({ type: 'HOSTELLIST' })
+       }, []);
 
 
   // let LoginId = localStorage.getItem("loginId")

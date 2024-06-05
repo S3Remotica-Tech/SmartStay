@@ -47,25 +47,13 @@ const Compliance = () => {
   const [login_Id, setLogin_Id] = useState('')
 
   useEffect(() => {
-    if (LoginId) {
-      try {
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-        setLogin_Id(parsedData)
-        dispatch({ type: 'COMPLIANCE-LIST', payload: { loginId: parsedData } })
-        dispatch({ type: 'USERLIST', payload: { loginId: parsedData } });
-      }
-
-      catch (error) {
-        console.log("Error decrypting loginid", error);
-      }
-    }
+    dispatch({ type: 'COMPLIANCE-LIST' })
+    dispatch({ type: 'USERLIST' });
   }, [])
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { loginId: login_Id } })
+      dispatch({ type: 'COMPLIANCE-LIST' })
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' })

@@ -92,8 +92,18 @@ console.log("state for login",state)
       });
       dispatch({ type: 'LOGIN-SUCCESS' });
       
-     
+     const token =  state.login.JWTtoken
+    console.log("stateLogin.JWTtoken login page", token)
+  const cookies = new Cookies()
+  cookies.set('token', token, { path: '/' });
+  const tokenCookies = cookies.get('token');
+  
+   console.log("tokenCookies",tokenCookies)
+
+   dispatch({ type: 'ACCOUNTDETAILS'})
+
    
+  
         setTimeout(() => {
             dispatch({ type: 'CLEAR_STATUSCODE' });
         }, 100);

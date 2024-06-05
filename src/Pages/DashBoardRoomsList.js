@@ -462,7 +462,7 @@ const handleRoomRentChange = (roomRent, index) =>{
                         <Button variant="outline-secondary" className='ms-2 me-2' size="sm" style={{ width: "90px", borderRadius: 200 }} onClick={handleCancels}>
                             Cancel
                         </Button>
-                        <Button variant="outline-primary" className='ms-2 me-2' size="sm" style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
+                        <Button variant="outline-primary" className='ms-2 me-2' size="sm"  style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
                             {roomDetailsError ? "Update" : "Save"}
                         </Button>
                     </div>

@@ -27,25 +27,31 @@ function Amenities() {
     const loginId = localStorage.getItem('loginId');
     const [createdby, setCreatedby] = useState('')
 
-    useEffect(() => {
-        if (loginId) {
-            try {
-                const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-                const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-                const parsedData = Number(decryptedIdString);
-                setCreatedby(parsedData)
-                dispatch({ type: 'HOSTELLIST', payload: { loginId: parsedData } })
 
-            } catch (error) {
-                console.error('Error decrypting loginId:', error);
-            }
-        }
+    useEffect(() => {
+        dispatch({ type: 'HOSTELLIST' })
     }, []);
+
+
+    // useEffect(() => {
+    //     if (loginId) {
+    //         try {
+    //             const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+    //             const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+    //             const parsedData = Number(decryptedIdString);
+    //             setCreatedby(parsedData)
+    //             dispatch({ type: 'HOSTELLIST' })
+
+    //         } catch (error) {
+    //             console.error('Error decrypting loginId:', error);
+    //         }
+    //     }
+    // }, []);
 
     const [showModal, setShowModal] = useState(false);
     const [id, setID] = useState('')
     const [amenitiesName, setAmenitiesName] = useState('')
-      const [amount, setAmount] = useState('')
+    const [amount, setAmount] = useState('')
     const [active, setActive] = useState(false)
     const [edit, setEdit] = useState('')
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
@@ -67,17 +73,14 @@ function Amenities() {
 
 
     useEffect(() => {
-        // if (state.InvoiceList.StatusCodeAmenitiesGet == 200) {
-            const filteredamenities = state.InvoiceList.AmenitiesList.filter(item => item.Hostel_Id == selectedHostel.id);
-            setFilteredAmenities(filteredamenities);
+              const filteredamenities = state.InvoiceList.AmenitiesList.filter(item => item.Hostel_Id == selectedHostel.id);
+        setFilteredAmenities(filteredamenities);
 
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
-            }, 1000)
-
-        // }
-
-    }, [state.InvoiceList.StatusCodeAmenitiesGet,selectedHostel])
+        setTimeout(() => {
+            dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
+        }, 1000)
+        
+    }, [state.InvoiceList.StatusCodeAmenitiesGet, selectedHostel])
 
 
 
@@ -117,7 +120,7 @@ function Amenities() {
 
 
     const handleAmenitiesSetting = () => {
-        const setAsDefault = active || false; 
+        const setAsDefault = active || false;
         if (edit === 'EDIT') {
             dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: selectedHostel.id } })
             setAmenitiesName('')
@@ -172,14 +175,9 @@ function Amenities() {
     })
 
 
-    // const amenitiesList = Array.isArray(state?.InvoiceList?.AmenitiesList) ? state?.InvoiceList?.AmenitiesList : [];
-
-    // console.log("amenitiesList",amenitiesList)
-
     const uniqueOptions = Array.from(new Set(state?.InvoiceList?.AmenitiesList.map((item) => item.Amnities_Name)));
 
 
-    // console.log("uniqueOptions",uniqueOptions)
     return (
         <div className='Amenities'>
             <div className='d-flex justify-content-between'>

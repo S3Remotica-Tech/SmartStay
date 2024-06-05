@@ -5,12 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import CryptoJS from "crypto-js";
 
+import Cookies from 'universal-cookie';
+
 
 const OtpVerificationModal = ({ show, handleClose , Email_Id, checked}) => {
   
     const state = useSelector(state => state)
     const dispatch = useDispatch();
     const [otpValue, setOtpValue] = useState('');
+
+
+console.log("state for opt verification",state)
 
 
   const inputRefs = [
@@ -40,70 +45,30 @@ const OtpVerificationModal = ({ show, handleClose , Email_Id, checked}) => {
 
 useEffect(()=>{
   if(state.login.OtpVerifyStatusCode == 200){
+    console.log("executed mathu")
     dispatch({ type: 'LOGIN-SUCCESS' })
 
+    const token = state.login.JWTtoken
+    const cookies = new Cookies()
+    cookies.set('token', token, { path: '/' });
+
+    console.log("tokenverification",token)
+
+    dispatch({ type: 'ACCOUNTDETAILS'})
+      console.log("executed account details")
+      setTimeout(()=>{
+        dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
+        },2000)
 
 
+        setTimeout(()=>{
+          dispatch({ type: 'CLEAR_OTP_VERIFIED'})
+          },1000)
 
-const LoginDetails = state.login && state.login.sendOtpValue ? state.login.sendOtpValue[0] : undefined;
-
-if (LoginDetails) {
-  const LoginId = LoginDetails.id;
-  const NameId = LoginDetails.Name;
-  const phoneId = LoginDetails.mobileNo;
-  const emilidd = LoginDetails.email_Id;
-  const Is_Enable = LoginDetails.isEnable;
-  const Pass_word = LoginDetails.password;
-
-
-//   const IsEnableCheckState = state.createAccount.accountList.filter((view => view.id == LoginId ))
-
-
-// let is_Enable = IsEnableCheckState[0].isEnable
-
-  const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
-  const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
-  const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
-  const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
-  const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
-  const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
-  localStorage.setItem("loginId", encryptedLoginId);
-      localStorage.setItem("NameId", encryptedname);
-      localStorage.setItem("phoneId", encryptedphone);
-      localStorage.setItem("emilidd", encryptedemail);
-      localStorage.setItem("IsEnable", encryptIsEnable);
-      localStorage.setItem("Password", encryptPassword);
-
-  // if (is_Enable === 0) {
-  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
-  //     localStorage.setItem("login", encryptData.toString());
-      // localStorage.setItem("loginId", encryptedLoginId);
-      // localStorage.setItem("NameId", encryptedname);
-      // localStorage.setItem("phoneId", encryptedphone);
-      // localStorage.setItem("emilidd", encryptedemail);
-      // localStorage.setItem("IsEnable", encryptIsEnable);
-      // localStorage.setItem("Password", encryptPassword);
-  // } else {
-      // const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
-      // localStorage.setItem("login", encryptData.toString());
-      // localStorage.setItem("loginId", encryptedLoginId);
-      // localStorage.setItem("NameId", encryptedname);
-      // localStorage.setItem("phoneId", encryptedphone);
-      // localStorage.setItem("emilidd", encryptedemail);
-      // localStorage.setItem("IsEnable", encryptIsEnable);
-      // localStorage.setItem("Password", encryptPassword);
-  // }
-} else {
+      } else {
   console.error("Login information not available.");
 }
-
-  }
-setTimeout(()=>{
-dispatch({ type: 'CLEAR_OTP_VERIFIED'})
-},100)
-
-
-},[state.login.OtpVerifyStatusCode])
+ },[state.login.OtpVerifyStatusCode])
 
   const otpResponse = state.NewPass?.OTP?.response;
   const otp = otpResponse?.otp

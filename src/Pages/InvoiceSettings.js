@@ -125,6 +125,7 @@ const handleInvoiceSettings = () => {
         });
     }
 
+    
     setShowTable(false);
     setSelectedHostel({ id: '', name: '' });
     setPrefix('');

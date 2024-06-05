@@ -190,10 +190,10 @@ function Settings() {
 
 
 useEffect(()=>{
-  const UserIsEnable = state.createAccount.accountList.filter(item=> item.email_Id == email)
- const IsEnableOn = UserIsEnable[0]?.isEnable
+  const UserIsEnable = state.createAccount.accountList[0].user_details.isEnable
+ 
 
-if(IsEnableOn === 1){
+if(UserIsEnable === 1){
   setIsChecked(true);
 
  localStorage.setItem("IsEnable", '');
@@ -259,23 +259,27 @@ useEffect(()=>{
 
 const tokenCookies = cookies.get('token');
 
+
+console.log("state.createAccount.statusCodeForAccount == 200",state.createAccount.statusCodeForAccount == 200)
+
+
 useEffect(()=>{
 if(state.createAccount.statusCodeForAccount == 200){
   dispatch({ type: 'ACCOUNTDETAILS' })
 setTimeout(()=>{
 dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
-},100)
+},2000)
 
 setTimeout(()=>{
   dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
-  },100)
+  },1000)
 
 }else{
   console.log("create account not working")
 }
 },[state.createAccount?.statusCodeForAccount])
 
-
+console.log("state for settings",state)
 
   return (
     <div className='container-fluid'>

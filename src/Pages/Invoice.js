@@ -69,8 +69,8 @@ const InvoicePage = () => {
     RoomNo: '',
     date: '',
     total_amount: '',
-    paymentType:'',
-    amount:'',
+    paymentType: '',
+    amount: '',
     balanceDue: '',
     dueDate: ''
   })
@@ -81,7 +81,7 @@ const InvoicePage = () => {
 
 
 
-  
+
   const handleInvoiceDetail = (item) => {
     setSelectedItems(item)
     if (item.User_Id) {
@@ -99,7 +99,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.statusCodeForPDf === 200) {
-      dispatch({ type: 'INVOICELIST', payload: { loginId: loginID } })
+      dispatch({ type: 'INVOICELIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
       }, 100);
@@ -159,30 +159,9 @@ const InvoicePage = () => {
 
 
   useEffect(() => {
-    if (LoginId) {
-      try {
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-        setLoginID(parsedData)
-        dispatch({ type: 'INVOICELIST', payload: { loginId: parsedData } })
+    dispatch({ type: 'INVOICELIST' })
+  }, [])
 
-      }
-
-      catch (error) {
-        console.log("Error decrypting loginid", error);
-      }
-    }
-
-  }, [LoginId])
-
-
-
-  // useEffect(() => {
-  //   dispatch({ type: 'INVOICELIST' })
-  //   setData(state.InvoiceList.Invoice)
-
-  // }, [])
 
   useEffect(() => {
     setData(state.InvoiceList.Invoice)
@@ -266,8 +245,8 @@ const InvoicePage = () => {
       amount: '',
       balanceDue: '',
       dueDate: '',
-      total_amount:'',
-      paymentType:''
+      total_amount: '',
+      paymentType: ''
     })
     setShowMenu(false);
     setUserClicked(false);
@@ -386,9 +365,9 @@ const InvoicePage = () => {
           FloorNo: item.Floor_Id,
           RoomNo: item.Room_No,
           date: formattedDate,
-          total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
+          total_amount: Number(item.Amount) + Number(item.AmnitiesAmount) + Number(item.EbAmount),
           // amount: item.Amount,
-          amount:"",
+          amount: "",
           balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
           dueDate: formattedDueDate,
         });
@@ -530,16 +509,16 @@ const InvoicePage = () => {
     //   });
     // }
 
-if(invoiceList.balanceDue && invoiceList.total_amount){
-  dispatch({
+    if (invoiceList.balanceDue && invoiceList.total_amount) {
+      dispatch({
         type: 'ADDINVOICEDETAILS',
         payload: {
-         BalanceDue :invoiceList.balanceDue,
-         id :invoiceList.id,
+          BalanceDue: invoiceList.balanceDue,
+          id: invoiceList.id,
 
         }
       })
-}
+    }
 
     else {
       Swal.fire({
@@ -950,12 +929,12 @@ if(invoiceList.balanceDue && invoiceList.total_amount){
                             <Form.Select aria-label="Default select example"
                               style={bottomBorderStyles}
                               disabled
-                              value = {invoiceList.hostel_Id}
-                              // value={editOption == 'Add' ? item.HostelName : invoiceList.hostel_Id} onChange={(e) => handleHostelId(e)} 
-                              >
+                              value={invoiceList.hostel_Id}
+                            // value={editOption == 'Add' ? item.HostelName : invoiceList.hostel_Id} onChange={(e) => handleHostelId(e)} 
+                            >
                               <option>Select hostel</option>
                               <option selected>{invoiceList.hostel_Id}</option>
-                              
+
                               {/* {editOption == 'Add' ?
 
                                 <option selected>{item.HostelName}</option>
@@ -982,8 +961,8 @@ if(invoiceList.balanceDue && invoiceList.total_amount){
                               style={bottomBorderStyles}
                               disabled
                               value={invoiceList.FloorNo}
-                              // value={editOption == 'Add' ? item.Floor : invoiceList.FloorNo} onChange={(e) => handleFloor(e)}
-                              >
+                            // value={editOption == 'Add' ? item.Floor : invoiceList.FloorNo} onChange={(e) => handleFloor(e)}
+                            >
                               <option>Selected Floor</option>
                               <option selected>{invoiceList.FloorNo}</option>
                               {/* {editOption == 'Add' ?

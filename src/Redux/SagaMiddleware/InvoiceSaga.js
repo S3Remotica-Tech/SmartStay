@@ -1,36 +1,45 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
+import Cookies from 'universal-cookie';
+
 
  function* handleinvoicelist (){
     const response = yield call (invoicelist);
+    
     if (response.status === 200){
        yield put ({type : 'INVOICE-ITEM' , payload:response.data})
     }
     else {
        yield put ({type:'ERROR', payload:response.data.message})
     }
+    refreshToken(response)
 }
 
 
 function* handleInvoiceList(action) {
    const response = yield call(invoiceList, action.payload)
+   console.log("response for invoice list",response)
+  
    if (response.status === 200) {
-      yield put({ type: 'INVOICE_LIST', payload: {response:response.data,statusCode:response.status} })
+      yield put({ type: 'INVOICE_LIST', payload: {response:response.data.data,statusCode:response.status} })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
+   refreshToken(response)
 }
 
 function* handleAddInvoiceDetails (param){
    const response = yield call (UpdateInvoice,param.payload)
+   
    if (response.status === 200) {
       yield put({ type: 'UPDATEINVOICE_DETAILS', payload: response.data })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
+   refreshToken(response)
 }
 
 function* handleInvoiceSettings(param){
@@ -49,23 +58,26 @@ function* handleInvoiceSettings(param){
       else {
          yield put({ type: 'ERROR', payload: response?.data?.message })
       }
-   
+      refreshToken(response)
   
 }
 
 
 function* handleInvoicePdf(action) {
    const response = yield call(InvoicePDf, action.payload)
+  
    if (response.status === 200) {
       yield put({ type: 'INVOICE_PDF', payload: {response:response.data,statusCode:response.status}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
+   refreshToken(response)
 }
 
 function* handleAmenitiesSettings(action){
    const response = yield call (AmenitiesSettings,action.payload)
+  
    if (response.status === 200) {
       yield put({ type: 'AMENITIES_SETTINGS', payload: {response:response.data ,statusCode:response.status}})
       Swal.fire({
@@ -86,20 +98,24 @@ function* handleAmenitiesSettings(action){
    }else{
       yield put({ type: 'ERROR', payload: response.data.message })
    }
+   refreshToken(response)
 }
 
 function* handleGetAmenities() {
    const response = yield call(GetAmenities)
+   
    if (response.status === 200) {
-      yield put({ type: 'AMENITIES_LIST', payload:{response: response.data, statusCode:response.status}})
+      yield put({ type: 'AMENITIES_LIST', payload:{response: response.data.data, statusCode:response.status}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
+   refreshToken(response)
 }
 
 function* handleUpdateAmenities(action) {
    const response = yield call(UpdateAmenities, action.payload)
+  
    if (response.status === 200) {
       yield put({ type: 'AMENITIES_UPDATE',  payload:{response: response.data, statusCode:response.status} })
       Swal.fire({
@@ -113,19 +129,37 @@ function* handleUpdateAmenities(action) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
+   refreshToken(response)
 }
 
 
 
 function* handleManualInvoice() {
    const response = yield call(ManualInvoice)
+  
    if (response.status === 200) {
       yield put({ type: 'MANUAL_INVOICE',  payload:{response: response.data, statusCode:response.status} })
         }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
+   refreshToken(response)
 }
+
+function refreshToken(response){
+   if(response.data.refresh_token){
+      const refreshTokenGet = response.data.refresh_token
+      console.log("refreshTokenGet",refreshTokenGet)
+      const cookies = new Cookies()
+      cookies.set('token', refreshTokenGet, { path: '/' });
+   }else if (response.status === 206) {
+      const message = response.status
+      const cookies = new Cookies()
+      cookies.set('access-denied', message, { path: '/' });
+    
+   }
+   
+   }
 
 
 function* InvoiceSaga() {

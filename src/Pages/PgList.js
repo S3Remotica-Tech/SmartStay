@@ -196,7 +196,7 @@ function PgList() {
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedString);
-        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+        dispatch({ type: 'HOSTELLIST'})
         // dispatch({ type: 'HOSTELLIST' })
 
 
@@ -212,7 +212,7 @@ if(state.PgList.createPGMessage){
         const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedString);
-        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+        dispatch({ type: 'HOSTELLIST' })
   
        
 
@@ -281,7 +281,7 @@ const loginId = localStorage.getItem('loginId');
         const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedIdString);
 
-        dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
+        dispatch({ type: 'HOSTELLIST' })
         setDecrypt(decryptedIdString);
       } catch (error) {
         console.error('Error decrypting loginId:', error);

@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { forgetpage, otpSend ,otpVerify} from "../Action/ForgetAction";
 import Swal from 'sweetalert2'
-
+import Cookies from 'universal-cookie';
 
 function* handleforgetpage(rpsd) {
     try {
@@ -94,6 +94,23 @@ function* handleSendOtp(action) {
 //         yield put({ type: 'ERROR', payload: response.data.message })
 //     }
 // }
+
+function refreshToken(response){
+    if(response.data.refresh_token){
+       const refreshTokenGet = response.data.refresh_token
+       console.log("refreshTokenGet",refreshTokenGet)
+       const cookies = new Cookies()
+       cookies.set('token', refreshTokenGet, { path: '/' });
+    }else if (response.status === 206) {
+        const message = response.status
+        const cookies = new Cookies()
+        cookies.set('access-denied', message, { path: '/' });
+      
+     }
+    
+    }
+
+
 
 function* ForgetSaga() {
     yield takeEvery('FORGETPAGE', handleforgetpage)
