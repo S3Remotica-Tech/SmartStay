@@ -36,7 +36,7 @@ function getFloorName(floor_Id) {
     return '3rd Floor';
   } else if (floor_Id >= 11 && floor_Id <= 13) {
     const id = floor_Id - 1
-    return `${floor_Id}th Floor`;
+    return `${id}th Floor`;
   } else {
     const lastDigit = floor_Id % 10;
     let suffix = 'th';

@@ -24,6 +24,8 @@ function getFloorName(floorID) {
     }
 
     else if (floorID >= 11 && floorID <= 13) {
+        console.log("FloorName",floorID);
+        const id = floorID - 1
         return `${floorID-1}th Floor`;
     } 
     else {
@@ -42,7 +44,7 @@ function getFloorName(floorID) {
                 break;
         }
 
-        return `${floorID}${suffix} Floor`;
+        return `${floorID-1}${suffix} Floor`;
     }
 }
 
