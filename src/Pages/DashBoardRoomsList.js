@@ -22,8 +22,8 @@ function getFloorName(floor_Id) {
     } else if (floor_Id === 4) {
         return '3rd Floor';
     } else if (floor_Id >= 11 && floor_Id <= 13) {
-        const id = floor_Id - 1
-        return `${floor_Id}th Floor`;
+        const id =  floor_Id - 1
+        return `${id}th Floor`;
     } else {
         const lastDigit = floor_Id % 10;
         let suffix = 'th';
@@ -46,19 +46,22 @@ function getFloorName(floor_Id) {
 
 function getFormattedRoomId(floor_Id, room_Id) {
     const roomIdString = String(room_Id);
-
     switch (floor_Id) {
         case 1:
-            return `G${roomIdString.padStart(3, '0')}`;
-        case 2:
-            return `F${roomIdString.padStart(3, '0')}`;
-        case 3:
-            return `S${roomIdString.padStart(3, '0')}`;
-        case 4:
-            return `T${roomIdString.padStart(3, '0')}`;
+            return `${roomIdString.padStart(3, '0')}`;
+        // case 1:
+        //     return `G${roomIdString.padStart(3, '0')}`;
+        // case 2:
+        //     return `F${roomIdString.padStart(3, '0')}`;
+        // case 3:
+        //     return `S${roomIdString.padStart(3, '0')}`;
+        // case 4:
+        //     return `T${roomIdString.padStart(3, '0')}`;
         default:
-            const floorAbbreviation = getFloorAbbreviation(floor_Id);
-            return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
+            const floorAbbreviation = getFloorAbbreviation(floor_Id-1);
+            console.log("floorAbbreviation",floorAbbreviation,floor_Id );
+            // return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
+            return `${roomIdString.padStart(3, '0')}`;
     }
 }
 
