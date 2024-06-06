@@ -44,16 +44,10 @@ function* handleAddInvoiceDetails (param){
 
 function* handleInvoiceSettings(param){
        const response = yield call (InvoiceSettings,param.payload)
-     
+   //   console.log("invoice response",response.statusCode === 200)
       if (response.statusCode === 200) {
          yield put({ type: 'INVOICE_SETTINGS',  payload:{response:response.data, statusCode: response.statusCode} })
-      //    Swal.fire({
-      //       title: "Good job!",
-      //       text: "Invoice Settings updated successfully!",
-      //       icon: "success",
-      //       timer: 1000,
-      //   });
-   
+          
       }
       else {
          yield put({ type: 'ERROR', payload: response?.data?.message })
@@ -65,8 +59,7 @@ function* handleInvoiceSettings(param){
 
 function* handleInvoicePdf(action) {
    const response = yield call(InvoicePDf, action.payload)
-  
-   if (response.status === 200) {
+     if (response.status === 200) {
       yield put({ type: 'INVOICE_PDF', payload: {response:response.data,statusCode:response.status}})
    }
    else {
@@ -147,7 +140,7 @@ function* handleManualInvoice() {
 }
 
 function refreshToken(response){
-   if(response.data.refresh_token){
+   if(response.data && response.data.refresh_token){
       const refreshTokenGet = response.data.refresh_token
       console.log("refreshTokenGet",refreshTokenGet)
       const cookies = new Cookies()

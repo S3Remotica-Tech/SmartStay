@@ -71,15 +71,15 @@ function PgList() {
     // number_Of_Floor: '',
     // number_Of_Rooms: '',
     // floorDetails: [],
-   
+
   })
 
   const [hostelIndex, setHostelIndex] = useState(0)
   const [roomDetails, setRoomDetails] = useState('')
-  
+
 
   const [selectedHostel, setSelectedHostel] = useState(state.UsersList.hostelList.length > 0 ? state.UsersList.hostelList[0] : {});
-  
+
   const handleHostelSelect = (hostelName) => {
     const selected = state.UsersList.hostelList?.find((item, index) => {
       setHostelIndex(index)
@@ -91,15 +91,15 @@ function PgList() {
   };
 
 
-  useEffect(()=>{
-    if(state.UsersList?.hosteListStatusCode == 200){
+  useEffect(() => {
+    if (state.UsersList?.hosteListStatusCode == 200) {
       setSelectedHostel(state.UsersList.hostelList.length > 0 ? state.UsersList.hostelList[0] : {})
-      setTimeout(()=>{
-        dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE'})
-      },1000)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
+      }, 1000)
     }
-  
-  },[state.UsersList?.hosteListStatusCode])
+
+  }, [state.UsersList?.hosteListStatusCode])
 
 
   const [floorDetails, setFloorDetails] = useState([{ number_of_floor: '' }
@@ -107,7 +107,7 @@ function PgList() {
   ]);
 
 
-  
+
 
 
   const LoginId = localStorage.getItem("loginId")
@@ -123,9 +123,9 @@ function PgList() {
   //       const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
   //       const parsedData = decryptedString;
   //       dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
-      
+
   //     }
-      
+
   //       catch(error){
   //      console.log("Error decrypting loginid",error);
   //       }
@@ -133,25 +133,25 @@ function PgList() {
 
   // }, [LoginId])
 
-//  useEffect(() => {
-//   console.log("filterhostellist", filterhostellist);
-//   const filteredLogos = [];
+  //  useEffect(() => {
+  //   console.log("filterhostellist", filterhostellist);
+  //   const filteredLogos = [];
 
-//   for (let i = 0; i < filterhostellist.length; i++) {
-//     const hostel = filterhostellist[i];
-//     if (hostel === selectedHostel) {
-//       const filteredHostels = state.UsersList?.hostelList?.filter((view) => {
-//         return view.created_By === hostel.created_By;
-//       });
+  //   for (let i = 0; i < filterhostellist.length; i++) {
+  //     const hostel = filterhostellist[i];
+  //     if (hostel === selectedHostel) {
+  //       const filteredHostels = state.UsersList?.hostelList?.filter((view) => {
+  //         return view.created_By === hostel.created_By;
+  //       });
 
-//       filteredLogos.push(...filteredHostels);
-//     }
-//   }
+  //       filteredLogos.push(...filteredHostels);
+  //     }
+  //   }
 
-//   console.log("filteredLogos", filteredLogos);
-//   setFilterlogo(filteredLogos);
-// }, [filterhostellist, state.UsersList, selectedHostel]);
-  
+  //   console.log("filteredLogos", filteredLogos);
+  //   setFilterlogo(filteredLogos);
+  // }, [filterhostellist, state.UsersList, selectedHostel]);
+
 
   // useEffect(() => {
   //   dispatch({ type: 'HOSTELLIST' })
@@ -177,7 +177,7 @@ function PgList() {
         let newRoom = {
           roomNumber: i + 1,
           number_Of_Bed: '',
-          price:''
+          price: ''
         };
         tempArray.push(newRoom);
       }
@@ -190,14 +190,14 @@ function PgList() {
   }, [pgList.number_Of_Rooms]);
 
 
-  useEffect(()=>{
+  useEffect(() => {
     if (state.UsersList.createFloorMessage) {
 
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedString);
-        dispatch({ type: 'HOSTELLIST'})
-        // dispatch({ type: 'HOSTELLIST' })
+      const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+      const parsedData = Number(decryptedString);
+      dispatch({ type: 'HOSTELLIST' })
+      // dispatch({ type: 'HOSTELLIST' })
 
 
       setTimeout(() => {
@@ -205,22 +205,22 @@ function PgList() {
       }, 100)
     }
 
-},[state.UsersList.createFloorMessage])
+  }, [state.UsersList.createFloorMessage])
 
-useEffect(()=>{
-if(state.PgList.createPGMessage){
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedString);
-        dispatch({ type: 'HOSTELLIST' })
-  
-       
+  useEffect(() => {
+    if (state.PgList.createPGMessage) {
+      const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+      const parsedData = Number(decryptedString);
+      dispatch({ type: 'HOSTELLIST' })
 
- setTimeout(() => {
-  dispatch({type:'AFTER_CREATE_PG_MSG',message:null})
- }, 100);
-}
-},[state.PgList.createPGMessage])
+
+
+      setTimeout(() => {
+        dispatch({ type: 'AFTER_CREATE_PG_MSG', message: null })
+      }, 100);
+    }
+  }, [state.PgList.createPGMessage])
 
 
 
@@ -256,7 +256,7 @@ if(state.PgList.createPGMessage){
       // number_Of_Floor: '',
       // number_Of_Rooms: '',
       // floorDetails: [],
-     
+
     });
     setAddhostelForm(false)
   }
@@ -267,41 +267,29 @@ if(state.PgList.createPGMessage){
 
 
 
-const[decrypt, setDecrypt] = useState('')
+  const [decrypt, setDecrypt] = useState('')
 
 
 
- 
 
-const loginId = localStorage.getItem('loginId');
+
+  const loginId = localStorage.getItem('loginId');
   useEffect(() => {
-    if (loginId) {
-      try {
-        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-
-        dispatch({ type: 'HOSTELLIST' })
-        setDecrypt(decryptedIdString);
-      } catch (error) {
-        console.error('Error decrypting loginId:', error);
-      }
-    }
-  }, []); 
+    dispatch({ type: 'HOSTELLIST' })
+  }, []);
 
 
 
 
   const handleSubmitPgList = () => {
-    if (!pgList.Name || !pgList.phoneNumber || !pgList.email_Id || !pgList.location 
+    if (!pgList.Name || !pgList.phoneNumber || !pgList.email_Id || !pgList.location
       // || !pgList.number_Of_Floor 
-    ) 
-    {
+    ) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
       });
-    } 
+    }
     // else if (pgList.number_Of_Floor == 0) {
     //   Swal.fire({
     //     icon: 'warning',
@@ -320,9 +308,9 @@ const loginId = localStorage.getItem('loginId');
           // number_of_floors: pgList.number_Of_Floor,
           // number_Of_Rooms: pgList.number_Of_Rooms,
           // floorDetails: pgList.floorDetails,
-           created_by: decrypt
+          //  created_by: decrypt
         }
-      }); 
+      });
       setPgList({
         Name: '',
         phoneNumber: '',
@@ -331,16 +319,16 @@ const loginId = localStorage.getItem('loginId');
         // number_Of_Floor: '',
         // number_Of_Rooms: '',
         // floorDetails: [],
-      
+
       });
       handlecloseHostelForm()
 
 
     }
-   
+
   }
-  
-  
+
+
 
   const handleFloorChange = (value, index) => {
     setFloorDetails((prevDetails) => {
@@ -357,7 +345,7 @@ const loginId = localStorage.getItem('loginId');
       icon: 'warning',
       title: 'Do you want create one floor ?',
       confirmButtonText: 'Yes',
-      cancelButtonText :'No',
+      cancelButtonText: 'No',
       showCancelButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
@@ -378,7 +366,7 @@ const loginId = localStorage.getItem('loginId');
       }
     });
 
-    
+
 
     // const floors = floorDetails.map((floor) => (
     //   { number_of_floors: parseInt(floor.number_of_floor) }));
@@ -418,16 +406,16 @@ const loginId = localStorage.getItem('loginId');
   };
 
 
- 
-
-
-
- 
 
 
 
 
- 
+
+
+
+
+
+
 
   useEffect(() => {
     const selected = state.UsersList.hostelList.find(item => item.Name === selectedHostel?.Name);
@@ -437,9 +425,9 @@ const loginId = localStorage.getItem('loginId');
   const [isRowVisible, setIsRowVisible] = useState(true);
   const [bedDetailShow, setBedDetailShow] = useState(false)
   const [bedDetailsPage, setBedDetailsPage] = useState('')
-const [hidePgList, setHidePgList] = useState(true)
-const [bedDetailsDisplay, setBedDetailsDisplay] = useState(false)
-const [usersBed, setUsersBed] = useState('')
+  const [hidePgList, setHidePgList] = useState(true)
+  const [bedDetailsDisplay, setBedDetailsDisplay] = useState(false)
+  const [usersBed, setUsersBed] = useState('')
   const [hosteID, setHosteID] = useState('')
   const [floorID, setFloorID] = useState('')
   const [roomID, setRoomID] = useState('')
@@ -450,16 +438,16 @@ const [usersBed, setUsersBed] = useState('')
 
   const handlehidePgList = (isVisible) => {
     setHidePgList(isVisible);
-      };
+  };
 
-  
 
-  const handleDisplayBed = (isVisible,userBeds) =>{
+
+  const handleDisplayBed = (isVisible, userBeds) => {
     setBedDetailsDisplay(isVisible)
-    
-   }
 
-   const userBedId = (bedId) => {
+  }
+
+  const userBedId = (bedId) => {
     setUsersBed(bedId)
   }
 
@@ -476,11 +464,11 @@ const [usersBed, setUsersBed] = useState('')
   }
 
 
-   const handleBedVisibilityChange = (isVisible, BedDetails) => {
+  const handleBedVisibilityChange = (isVisible, BedDetails) => {
     setBedDetailShow(isVisible)
     setBedDetailsPage(BedDetails)
     setBedDetailsDisplay(false)
-    
+
   }
 
   const handleBackToFloors = () => {
@@ -490,97 +478,97 @@ const [usersBed, setUsersBed] = useState('')
     setMouseEnter(false)
   }
 
-  const handlehidePgListForUser = (isVisible) =>{
+  const handlehidePgListForUser = (isVisible) => {
     setHidePgList(isVisible);
     setBedDetailShow(isVisible)
-  
+
   }
-  
-  const handleDisplayBedDetails = (isVisible) =>{
+
+  const handleDisplayBedDetails = (isVisible) => {
     setBedDetailsDisplay(isVisible)
   }
 
 
 
 
- 
-
-const [mouseEnter, setMouseEnter]= useState(false)
 
 
-const handleMouseEnter = () =>{
-  setMouseEnter(true)
-}
+  const [mouseEnter, setMouseEnter] = useState(false)
 
 
-const handleMouseLeave = () =>{
-  setMouseEnter(false)
-}
+  const handleMouseEnter = () => {
+    setMouseEnter(true)
+  }
+
+
+  const handleMouseLeave = () => {
+    setMouseEnter(false)
+  }
   return (
     <>
-     {hidePgList && <> 
-      <div className="d-flex justify-content-between p-3">
-        <h4>Pg List</h4>
-        <div className="d-flex justify-content-center align-items-center p-2">
-          <div><p className='mb-0 me-2' style={{ fontSize: 16, fontWeight: 700 }}>Create a new PG</p></div>
-          <div><button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleshowHostelForm}><img src={Plus} height="12" width="12" alt='Plus' /> Create PG</button></div>
-        </div>
-        {/* <div className="d-flex">
+      {hidePgList && <>
+        <div className="d-flex justify-content-between p-3">
+          <h4>Pg List</h4>
+          <div className="d-flex justify-content-center align-items-center p-2">
+            <div><p className='mb-0 me-2' style={{ fontSize: 16, fontWeight: 700 }}>Create a new PG</p></div>
+            <div><button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleshowHostelForm}><img src={Plus} height="12" width="12" alt='Plus' /> Create PG</button></div>
+          </div>
+          {/* <div className="d-flex">
                   <p className='p-1 mr-1'>Create a new PG</p>
                   <button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleshowHostelForm}><img src={Plus} height="12" width="12" alt='Plus' /> Create PG</button>
                 </div> */}
 
-        <Offcanvas show={addhostelForm} onHide={handlecloseHostelForm} placement="end" style={{ width: "70vh" }}>
-          <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="p-3 m-0 d-flex align-items-center">Create PG</Offcanvas.Title>
-          <Offcanvas.Body className='p-0'>   <div className='ps-3 pt-2 pe-3 pb-2'>
-            <h6 style={{ color: "#0D6EFD" }}>PG Detail</h6>
-            <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
-            <div className="d-flex justify-content-center">
-              <p style={{ fontSize: "11px", fontWeight: "500" }}>Upload PG Photo</p>
-            </div>
-            <div className="d-flex justify-content-center" style={{ position: "relative" }}>
-              <Image src={Hostel} roundedCircle style={{ height: "50px", width: "50px" }} id="hostel-image" />
-              <Image src={CreateButton} style={{ height: "20px", width: "20px", position: "absolute", bottom: 0 }} id="plus-image" />
-            </div>
+          <Offcanvas show={addhostelForm} onHide={handlecloseHostelForm} placement="end" style={{ width: "70vh" }}>
+            <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="p-3 m-0 d-flex align-items-center">Create PG</Offcanvas.Title>
+            <Offcanvas.Body className='p-0'>   <div className='ps-3 pt-2 pe-3 pb-2'>
+              <h6 style={{ color: "#0D6EFD" }}>PG Detail</h6>
+              <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
+              <div className="d-flex justify-content-center">
+                <p style={{ fontSize: "11px", fontWeight: "500" }}>Upload PG Photo</p>
+              </div>
+              <div className="d-flex justify-content-center" style={{ position: "relative" }}>
+                <Image src={Hostel} roundedCircle style={{ height: "50px", width: "50px" }} id="hostel-image" />
+                <Image src={CreateButton} style={{ height: "20px", width: "20px", position: "absolute", bottom: 0 }} id="plus-image" />
+              </div>
 
-            <div className="form-group mb-4">
-              <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>PG Name</label>
-              <input type="text"
-                value={pgList.Name}
-                onChange={(e) => { setPgList({ ...pgList, Name: e.target.value }) }}
-                className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter PG Name" style={{ fontSize: "11px" }} />
-            </div>
-            <div className="form-group mb-4">
-              <div className="row">
-                <div className="col">
-                  <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Phone Number</label>
-                  <input type="text"
-                    maxLength={10}
-                    value={pgList.phoneNumber}
-                    onChange={(e) => { setPgList({ ...pgList, phoneNumber: e.target.value }) }}
-                    className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter Phone Number" style={{ fontSize: "11px" }} />
-                </div>
-                <div className="col">
-                  <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Email Id</label>
-                  <input type="email"
-                    value={pgList.email_Id}
-                    onChange={(e) => { setPgList({ ...pgList, email_Id: e.target.value }) }}
-                    className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter Email Id" style={{ fontSize: "11px" }} />
+              <div className="form-group mb-4">
+                <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>PG Name</label>
+                <input type="text"
+                  value={pgList.Name}
+                  onChange={(e) => { setPgList({ ...pgList, Name: e.target.value }) }}
+                  className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter PG Name" style={{ fontSize: "11px" }} />
+              </div>
+              <div className="form-group mb-4">
+                <div className="row">
+                  <div className="col">
+                    <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Phone Number</label>
+                    <input type="text"
+                      maxLength={10}
+                      value={pgList.phoneNumber}
+                      onChange={(e) => { setPgList({ ...pgList, phoneNumber: e.target.value }) }}
+                      className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter Phone Number" style={{ fontSize: "11px" }} />
+                  </div>
+                  <div className="col">
+                    <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Email Id</label>
+                    <input type="email"
+                      value={pgList.email_Id}
+                      onChange={(e) => { setPgList({ ...pgList, email_Id: e.target.value }) }}
+                      className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter Email Id" style={{ fontSize: "11px" }} />
+                  </div>
                 </div>
               </div>
-            </div>
-         
-            <div className="form-group mb-4">
-              <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>PG Location</label>
-              <input type="text"
-                value={pgList.location}
-                onChange={(e) => { setPgList({ ...pgList, location: e.target.value }) }}
 
-                className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter PG Location" style={{ fontSize: "11px" }} />
-            </div>
+              <div className="form-group mb-4">
+                <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>PG Location</label>
+                <input type="text"
+                  value={pgList.location}
+                  onChange={(e) => { setPgList({ ...pgList, location: e.target.value }) }}
+
+                  className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter PG Location" style={{ fontSize: "11px" }} />
+              </div>
 
 
-            {/* <div className="form-group mb-3">
+              {/* <div className="form-group mb-3">
               <label htmlFor="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Number Of Floor</label>
               <input
                 type="text"
@@ -594,7 +582,7 @@ const handleMouseLeave = () =>{
             </div> */}
 
 
-            {/* {pgList.number_Of_Floor && (
+              {/* {pgList.number_Of_Floor && (
               <div>
                 {Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
                   const floorNumber = index + 1;
@@ -613,23 +601,23 @@ const handleMouseLeave = () =>{
               </div>
             )} */}
 
-          </div>
-            <hr style={{ marginTop: "50px" }} />
-            <div className="d-flex justify-content-end m-3"  >
-
-              <Button variant="white" size="sm" style={{ width: "90px" }} onClick={handleCancels}>
-                Cancel
-              </Button>
-              <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSubmitPgList}>
-                Save
-              </Button>
-
             </div>
-          </Offcanvas.Body>
-        </Offcanvas>
-      </div>
-      <hr />
-      {/* <div className="row g-0 d-flex justify-content-start align-items-center p-2" >
+              <hr style={{ marginTop: "50px" }} />
+              <div className="d-flex justify-content-end m-3"  >
+
+                <Button variant="white" size="sm" style={{ width: "90px" }} onClick={handleCancels}>
+                  Cancel
+                </Button>
+                <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSubmitPgList}>
+                  Save
+                </Button>
+
+              </div>
+            </Offcanvas.Body>
+          </Offcanvas>
+        </div>
+        <hr />
+        {/* <div className="row g-0 d-flex justify-content-start align-items-center p-2" >
         <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12 col-12 d-flex justify-content-between align-items-center p-0" style={{ backgroundColor: "" }} >
           <div className="d-flex justify-content-between align-items-center">
             <Image src={Hostel} roundedCircle style={{ height: "30px", width: "30px" }} />
@@ -666,58 +654,58 @@ const handleMouseLeave = () =>{
         </>}
       </div> */}
 
-      <div className="row g-0 p-2" >
-        <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 col-12 d-flex justify-content-start align-items-center p-0" style={{ backgroundColor: "" }} >
-          <div className="d-flex justify-content-start align-items-center w-100">
-          
-   
+        <div className="row g-0 p-2" >
+          <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 col-12 d-flex justify-content-start align-items-center p-0" style={{ backgroundColor: "" }} >
+            <div className="d-flex justify-content-start align-items-center w-100">
 
-            {/* Hostel */}
-            <div className="d-block ps-2 w-100">
-              <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray", fontWeight: 600,marginLeft:'25%'}}>PG Detail</p>
-              <div style={{display:'flex',flexDirection:'row'}}>
-              <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5,marginRight:5 }}>
-              {/* <Image  src={selectedHostel && selectedHostel.profile == null ? Hostel : selectedHostel && selectedHostel.profile} roundedCircle style={{ height: 30, width: 30,borderRadius: '50%' }} /> */}
-              {selectedHostel && selectedHostel.profile !== null ? (
-        <Image src={selectedHostel.profile} roundedCircle style={{ height: 15, width: 15,borderRadius:'50%' }} />
-    ) : (
-        <Image src={SmartLogo} alt="Default Logo" style={{ height: 15, width: 15,borderRadius:'50%' }} />
-    )}
-             
+
+
+              {/* Hostel */}
+              <div className="d-block ps-2 w-100">
+                <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray", fontWeight: 600, marginLeft: '25%' }}>PG Detail</p>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5, marginRight: 5 }}>
+                    {/* <Image  src={selectedHostel && selectedHostel.profile == null ? Hostel : selectedHostel && selectedHostel.profile} roundedCircle style={{ height: 30, width: 30,borderRadius: '50%' }} /> */}
+                    {selectedHostel && selectedHostel.profile !== null ? (
+                      <Image src={selectedHostel.profile} roundedCircle style={{ height: 15, width: 15, borderRadius: '50%' }} />
+                    ) : (
+                      <Image src={SmartLogo} alt="Default Logo" style={{ height: 15, width: 15, borderRadius: '50%' }} />
+                    )}
+
+                  </div>
+
+                  <select value={selectedHostel ? selectedHostel.id || "" : ""} onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding: 8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700, textTransform: "capitalize", borderRadius: "none" }}>
+                    <option disabled selected className='p-3' style={{ fontSize: 15, textTransform: "capitalize" }}>Select Hostel</option>
+                    {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((obj) => {
+                      return (<>
+                        <option key={obj.id} value={obj.id} style={{ fontSize: 15, textTransform: "capitalize" }}>{obj.Name}</option>
+                      </>)
+                    })}
+
+                  </select>
+                </div>
+
               </div>
-              
-              <select   value={selectedHostel ? selectedHostel.id || "" : ""} onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding:8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}>
-                <option disabled selected className='p-3' style={{ fontSize: 15,textTransform:"capitalize" }}>Select Hostel</option>
-                {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((obj) => {
-                  return (<>
-                    <option key={obj.id} value={obj.id} style={{ fontSize: 15,textTransform:"capitalize" }}>{obj.Name}</option>
-                  </>)
-                })}
-
-              </select>
-              </div>
-
+              <div style={{ borderLeft: "1px solid #cccccc99", height: "45px" }} className="vertical-line ms-1 me-2"></div>
             </div>
-            <div style={{ borderLeft: "1px solid #cccccc99", height: "45px" }} className="vertical-line ms-1 me-2"></div>
           </div>
+          {selectedHostel && <>
+            {
+              Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
+                return <SelectedHostelFloorList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
+              })}
+
+            <div className="col-lg-6  col-md-3 col-sm-4 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <div>
+                <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleCreateFloor}>
+                  <span style={{ padding: "20px 20px" }}>
+                    <img src={Plus} height="12" width="12" alt='Plus' /> Create Floor  </span></button>
+              </div>
+            </div>
+          </>}
         </div>
-        {selectedHostel && <>
-          {
-            Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
-              return <SelectedHostelFloorList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
-            })}
 
-          <div className="col-lg-6  col-md-3 col-sm-4 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <div>
-              <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleCreateFloor}>
-                <span style={{ padding: "20px 20px" }}>
-                  <img src={Plus} height="12" width="12" alt='Plus' /> Create Floor  </span></button>
-            </div>
-          </div>
-        </>}
-      </div>
-
-      {/* <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>
+        {/* <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>
         <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-4">Create Floor</Offcanvas.Title>
         <Offcanvas.Body>
           <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
@@ -765,69 +753,69 @@ const handleMouseLeave = () =>{
         </Offcanvas.Body>
       </Offcanvas> */}
 
-      <hr />
+        <hr />
 
-      {selectedHostel && <>
-        <div className="ms-5 me-5 d-flex justify-content-between p-2">
-          <div className='d-flex justify-content-center  align-items-center gap-1'>
-            {bedDetailShow && (<>
-              <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{backgroundColor:mouseEnter ? "#ebebeb":"transparent",borderRadius:mouseEnter ? 10: "none",padding:5 }}>
-                <MdOutlineKeyboardDoubleArrowLeft className="" style={{ fontSize: 23 }} onClick={handleBackToFloors} />
-              </span>
+        {selectedHostel && <>
+          <div className="ms-5 me-5 d-flex justify-content-between p-2">
+            <div className='d-flex justify-content-center  align-items-center gap-1'>
+              {bedDetailShow && (<>
+                <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ backgroundColor: mouseEnter ? "#ebebeb" : "transparent", borderRadius: mouseEnter ? 10 : "none", padding: 5 }}>
+                  <MdOutlineKeyboardDoubleArrowLeft className="" style={{ fontSize: 23 }} onClick={handleBackToFloors} />
+                </span>
 
-            </>)}
-            <h5 className='mb-0' style={{ fontSize: 18, color: "black", fontWeight: 600,textTransform:"capitalize" }}>{selectedHostel.Name}</h5>
-            {bedDetailShow && <>
-              <span>
-                <FaAngleRight style={{ fontSize: 16 }} />
-              </span>
-              <div style={{ fontSize: 18, color: "gray", fontWeight: 600 }} >{getFloorName(bedDetailsPage.Floor_Id)}</div>
-            </>}
+              </>)}
+              <h5 className='mb-0' style={{ fontSize: 18, color: "black", fontWeight: 600, textTransform: "capitalize" }}>{selectedHostel.Name}</h5>
+              {bedDetailShow && <>
+                <span>
+                  <FaAngleRight style={{ fontSize: 16 }} />
+                </span>
+                <div style={{ fontSize: 18, color: "gray", fontWeight: 600 }} >{getFloorName(bedDetailsPage.Floor_Id)}</div>
+              </>}
 
-          </div>
-
-          <div className="d-flex gap-5 ms-2">
-            <div className="d-flex gap-1">
-              <FaSquare style={{ color: "gray", height: "20px" }} />   <h6 className="ps-2" style={{ color: "gray", fontSize: "" }}>{bedDetailShow ? "Bed Available" : "Room Available"}</h6>
             </div>
-            <div className="d-flex gap-1">
-              <FaSquare style={{ color: "#25D366", height: "20px" }} />   <h6 className="ps-2" style={{ color: "#25D366" }}>{bedDetailShow ? "Bed Full" : "Room Full"}</h6>
+
+            <div className="d-flex gap-5 ms-2">
+              <div className="d-flex gap-1">
+                <FaSquare style={{ color: "gray", height: "20px" }} />   <h6 className="ps-2" style={{ color: "gray", fontSize: "" }}>{bedDetailShow ? "Bed Available" : "Room Available"}</h6>
+              </div>
+              <div className="d-flex gap-1">
+                <FaSquare style={{ color: "#25D366", height: "20px" }} />   <h6 className="ps-2" style={{ color: "#25D366" }}>{bedDetailShow ? "Bed Full" : "Room Full"}</h6>
+              </div>
             </div>
           </div>
-        </div>
-        {
-          isRowVisible &&
+          {
+            isRowVisible &&
 
-          <div className="row row-cols-1 row-gap-3 row-cols-md-6 g-1 pt-2" >
-            {
-              selectedHostel.id &&
-              Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
-                return <DashboardRoomList onRowVisibilityChange={handleRowVisibilityChange} onRowBedVisibilityChange={handleBedVisibilityChange} floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
-              })}
-            <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
-              <div className="card h-100 d-flex justify-content-center align-items-center text-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover" onClick={handleCreateFloor}>
-                <div className=" d-flex justify-content-between p-2" style={{ height: '50px' }}></div>
-                <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: "center" }} >
-                  <div className="d-flex justify-content-center align-items-center" >
-                    <img src={Plus} height="18" width="16" alt='Plus' />
+            <div className="row row-cols-1 row-gap-3 row-cols-md-6 g-1 pt-2" >
+              {
+                selectedHostel.id &&
+                Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
+                  return <DashboardRoomList onRowVisibilityChange={handleRowVisibilityChange} onRowBedVisibilityChange={handleBedVisibilityChange} floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
+                })}
+              <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
+                <div className="card h-100 d-flex justify-content-center align-items-center text-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover" onClick={handleCreateFloor}>
+                  <div className=" d-flex justify-content-between p-2" style={{ height: '50px' }}></div>
+                  <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: "center" }} >
+                    <div className="d-flex justify-content-center align-items-center" >
+                      <img src={Plus} height="18" width="16" alt='Plus' />
+                    </div>
+                    <div>
+                      <p style={{ color: "#1F75FE", fontSize: "15px", fontWeight: 600 }}>Create Floor</p>
+                    </div>
                   </div>
-                  <div>
-                    <p style={{ color: "#1F75FE", fontSize: "15px", fontWeight: 600 }}>Create Floor</p>
-                  </div>
-                </div>
-                <div className="col-4">
-                  <div className="text-center align-items-center" style={{ height: "60px", width: "35px" }} >
+                  <div className="col-4">
+                    <div className="text-center align-items-center" style={{ height: "60px", width: "35px" }} >
 
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-          </div>
-        }
-        {bedDetailShow && (
-          <>
-            <BedDetail bedDetailsSendThePage={bedDetailsPage}
+            </div>
+          }
+          {bedDetailShow && (
+            <>
+              <BedDetail bedDetailsSendThePage={bedDetailsPage}
                 hidePgList={handlehidePgList}
                 showBedDetail={handleDisplayBed}
                 userBedId={userBedId}
@@ -835,12 +823,12 @@ const handleMouseLeave = () =>{
                 floorId={floorId}
                 floorID={bedDetailsPage.Floor_Id}
                 hostel_Id={selectedHostel.id}
-                roomId={roomId} /> 
-          </>
-        )
-        }
-      </>}
-      {roomDetails === 'RoomDetailsPage' && <RoomDetails />}
+                roomId={roomId} />
+            </>
+          )
+          }
+        </>}
+        {roomDetails === 'RoomDetailsPage' && <RoomDetails />}
 
       </>}
 
@@ -853,9 +841,9 @@ const handleMouseLeave = () =>{
           Room_Id={roomID}
           hidePgList={handlehidePgList}
           backToBed={handlehidePgListForUser}
-          hideBed={handleDisplayBedDetails} /> 
+          hideBed={handleDisplayBedDetails} />
 
-</>}
+      </>}
 
 
     </>

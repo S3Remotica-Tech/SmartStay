@@ -8,7 +8,6 @@ import ForgetPassword from "./Components/Forgetpass";
 import RoyalGrandHostel from './Components/RoyalGrandHostel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
-// import { useSelector } from 'react-redux/es/hooks/useSelector';
 import BedDetails from './Pages/Bed';
 import DashboardRoomList from './Pages/DashBoardRoomsList';
 import CryptoJS from "crypto-js";
@@ -104,7 +103,8 @@ function App() {
     }
 
     setIsLoading(false);
-  }, [state.createAccount.accountList,loginId ]);
+    
+  }, []);
 
 
 

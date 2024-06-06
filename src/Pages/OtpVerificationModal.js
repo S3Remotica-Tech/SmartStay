@@ -54,11 +54,11 @@ useEffect(()=>{
 
     console.log("tokenverification",token)
 
-    dispatch({ type: 'ACCOUNTDETAILS'})
-      console.log("executed account details")
-      setTimeout(()=>{
-        dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
-        },2000)
+    // dispatch({ type: 'ACCOUNTDETAILS'})
+    //   console.log("executed account details")
+    //   setTimeout(()=>{
+    //     dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
+    //     },2000)
 
 
         setTimeout(()=>{

@@ -10,7 +10,7 @@ import AmenitiesView from '../Pages/AmenitiesView'
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import "./Amenities.css";
-
+import Swal from 'sweetalert2';
 
 function Amenities() {
 
@@ -97,6 +97,7 @@ function Amenities() {
 
     const handleAmountChange = (e) => {
         setAmount(e.target.value)
+
     }
 
     const handleSetAsDefault = (e) => {
@@ -116,29 +117,87 @@ function Amenities() {
         setStatus(e.target.value)
     }
 
+    
 
+
+
+    // const handleAmenitiesSetting = () => {
+    //     const setAsDefault = active || false;
+    //     if (edit === 'EDIT') {
+    //         dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: selectedHostel.id } })
+    //         setAmenitiesName('')
+    //         setAmount('')
+    //         setActive('')
+    //         setStatus('')
+    //         handleCloseModal()
+    //     } else {
+    //         dispatch({ type: 'AMENITIESSETTINGS', payload: { id: id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedHostel.id, Status: status} })
+    //         setAmenitiesName('')
+    //         setAmount('')
+    //         setActive('')
+    //         setStatus('')
+    //         handleCloseModal()
+    //     }
+
+
+    // }
 
 
     const handleAmenitiesSetting = () => {
         const setAsDefault = active || false;
-        if (edit === 'EDIT') {
-            dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: selectedHostel.id } })
-            setAmenitiesName('')
-            setAmount('')
-            setActive('')
-            setStatus('')
-            handleCloseModal()
-        } else {
-            dispatch({ type: 'AMENITIESSETTINGS', payload: { id: id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedHostel.id, Status: status, createdBy: createdby } })
-            setAmenitiesName('')
-            setAmount('')
-            setActive('')
-            setStatus('')
-            handleCloseModal()
+    
+        console.log("amount", amount);
+        console.log("status", status);
+        console.log("edit", edit);
+        console.log("amenitiesName", amenitiesName);
+        console.log("selectedHostel.id", selectedHostel.id);
+        console.log("setAsDefault ",setAsDefault )
+    
+        // Validation check
+        if (edit === 'ADD') {
+            if (!amenitiesName || !amount  || !selectedHostel.id ) {
+                console.log("Validation failed for ADD mode");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Error',
+                    text: 'Please Enter All Fields',
+                    timer: 3000,
+                    showConfirmButton: false,
+                });
+                return; // Exit function if validation fails
+            }
+        } else if (edit === 'EDIT') {
+            if (!amount  || !status || !selectedHostel.id) {
+                console.log("Validation failed for EDIT mode");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Error',
+                    text: 'Please Enter All Fields',
+                    timer: 3000,
+                    showConfirmButton: false,
+                });
+                return; // Exit function if validation fails
+            }
         }
-
-
+    
+        // If validation passes, proceed with dispatching action and resetting fields
+        if (edit === 'EDIT') {
+            dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: selectedHostel.id } });
+        } else if (edit === 'ADD') {
+            dispatch({ type: 'AMENITIESSETTINGS', payload: { id: id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedHostel.id, Status: status} });
+        }
+    
+        // Reset form fields and close modal
+        setAmenitiesName('');
+        setAmount('');
+        setActive('');
+        setStatus('');
+        handleCloseModal();
     }
+      
+    
+
+
 
     const handleEdit = (item) => {
         setShowModal(true)

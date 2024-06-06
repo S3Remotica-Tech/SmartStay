@@ -206,9 +206,9 @@ if(UserIsEnable === 1){
 
 
 
-useEffect(()=>{
-    dispatch({ type: 'ACCOUNTDETAILS' })
-   },[])
+// useEffect(()=>{
+//     dispatch({ type: 'ACCOUNTDETAILS' })
+//    },[])
 
   
 const [selectedImage, setSelectedImage] = useState(null);
@@ -235,8 +235,7 @@ const [profilePicture, setProfilePicture] = useState('');
 
 
 useEffect(()=>{
-  if(id){
-    const FIlteredProfile = state.createAccount?.accountList[0].user_details
+     const FIlteredProfile = state.createAccount?.accountList[0].user_details
        if(FIlteredProfile.profile){
         const ProfileImage = FIlteredProfile.profile
     const CustomerName = FIlteredProfile.Name
@@ -251,8 +250,7 @@ useEffect(()=>{
     }else{
       setProfilePicture(Men)
     }
-  }
- 
+  
 },[state.createAccount?.accountList])
 
 
@@ -260,7 +258,7 @@ useEffect(()=>{
 const tokenCookies = cookies.get('token');
 
 
-console.log("state.createAccount.statusCodeForAccount == 200",state.createAccount.statusCodeForAccount == 200)
+// console.log("state.createAccount.statusCodeForAccount == 200",state.createAccount.statusCodeForAccount == 200)
 
 
 useEffect(()=>{

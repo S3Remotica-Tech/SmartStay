@@ -32,7 +32,7 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'UPDATEINVOICE_DETAILS':
             return { ...state, message: action.payload.message }
         case 'INVOICE_SETTINGS':
-            return { ...state, prefix: action.payload.prefix, suffix: action.payload.suffix, profile: action.payload.profile, invoiceSettingsStatusCode: action.payload.statusCode }
+            return { ...state, prefix: action.payload.prefix, suffix: action.payload.suffix, profile:action.payload.profile, invoiceSettingsStatusCode:action.payload.statusCode }
         case 'CLEAR_INVOICE_SETTINS_STATUSCODE':
             return { ...state, invoiceSettingsStatusCode: 0 }
         case 'CLEAR_AMENITIES_SETTINS_STATUSCODE':
@@ -44,7 +44,7 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'AMENITIES_SETTINGS':
             return { ...state, AmenitiesSettings: action.payload.response, statusCode: action.payload.statusCode }
         case 'AMENITIES_LIST':
-            return { ...state, AmenitiesList: action.payload.response, StatusCodeAmenitiesGet: action.payload.statusCode }
+            return { ...state, AmenitiesList: action.payload.response, StatusCodeAmenitiesGet:action.payload.statusCode }
         case 'CLEAR_AMENITIES_STATUS_CODE':
             return { ...state, StatusCodeAmenitiesGet: 0 }
         case 'AMENITIES_UPDATE':
