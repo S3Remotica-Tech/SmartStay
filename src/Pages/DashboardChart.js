@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-// import CanvasJSReact from '@canvasjs/react-charts';
+import React, { useState,useEffect } from 'react'
+import CanvasJSReact from '@canvasjs/react-charts';
 //var CanvasJSReact = require('@canvasjs/react-charts');
 // import {CanvasJSChart} from 'canvasjs-react-charts'
-import CanvasJSReact from '@canvasjs/react-charts';
+// import CanvasJSReact from '@canvasjs/react-charts';
 import { useDispatch, useSelector } from 'react-redux';
 import CryptoJS from "crypto-js";
 import { Label } from '@material-ui/icons';
@@ -58,8 +58,8 @@ const DashboardChart = () => {
   }
   return (
     <div>
-      <CanvasJSChart options={options} />
-
+       <CanvasJSChart options={options} /> 
+     
     </div>
   );
 };

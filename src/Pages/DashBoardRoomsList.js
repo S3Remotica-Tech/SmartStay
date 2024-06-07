@@ -9,6 +9,8 @@ import { TiDeleteOutline } from "react-icons/ti";
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import recycle from '../Assets/bin.png';
+import CryptoJS from "crypto-js";
 
 function getFloorName(floor_Id) {
     if (floor_Id === 1) {
@@ -20,8 +22,8 @@ function getFloorName(floor_Id) {
     } else if (floor_Id === 4) {
         return '3rd Floor';
     } else if (floor_Id >= 11 && floor_Id <= 13) {
-        const id = floor_Id - 1
-        return `${floor_Id}th Floor`;
+        const id =  floor_Id - 1
+        return `${id}th Floor`;
     } else {
         const lastDigit = floor_Id % 10;
         let suffix = 'th';
@@ -44,19 +46,22 @@ function getFloorName(floor_Id) {
 
 function getFormattedRoomId(floor_Id, room_Id) {
     const roomIdString = String(room_Id);
-
     switch (floor_Id) {
         case 1:
-            return `G${roomIdString.padStart(3, '0')}`;
-        case 2:
-            return `F${roomIdString.padStart(3, '0')}`;
-        case 3:
-            return `S${roomIdString.padStart(3, '0')}`;
-        case 4:
-            return `T${roomIdString.padStart(3, '0')}`;
+            return `${roomIdString.padStart(3, '0')}`;
+        // case 1:
+        //     return `G${roomIdString.padStart(3, '0')}`;
+        // case 2:
+        //     return `F${roomIdString.padStart(3, '0')}`;
+        // case 3:
+        //     return `S${roomIdString.padStart(3, '0')}`;
+        // case 4:
+        //     return `T${roomIdString.padStart(3, '0')}`;
         default:
-            const floorAbbreviation = getFloorAbbreviation(floor_Id);
-            return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
+            const floorAbbreviation = getFloorAbbreviation(floor_Id-1);
+            console.log("floorAbbreviation",floorAbbreviation,floor_Id );
+            // return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
+            return `${roomIdString.padStart(3, '0')}`;
     }
 }
 
@@ -85,12 +90,13 @@ function DashboardRoom(props) {
     const dispatch = useDispatch();
     const [updateRoom, setUpdateRoom] = useState(false)
     const [shows, setShows] = useState(false);
-    const [roomRentError,setRoomRentError] = useState(false)
+    const [roomRentError, setRoomRentError] = useState(false)
     const handleCloses = () => {
-        setRoomDetails([{ roomId: '', numberOfBeds: '' ,roomRent: '' }]);
+        setRoomDetails([{ roomId: '', numberOfBeds: '', roomRent: '' }]);
         setShows(false)
+        setRoomDetailsError(false);
     };
-    const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '' ,roomRent: ''}
+    const [roomDetails, setRoomDetails] = useState([{ roomId: '', numberOfBeds: '', roomRent: '' }
         // , { roomId: '', numberOfBeds: '' }, { roomId: '', numberOfBeds: '' }
     ]);
 
@@ -107,7 +113,7 @@ function DashboardRoom(props) {
         if (props.floorID && props.hostel_Id) {
             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
         }
-    }, [props.hostel_Id])
+    }, [props.hostel_Id, props.floorID])
 
 
     useEffect(() => {
@@ -120,6 +126,19 @@ function DashboardRoom(props) {
             }, 100)
         }
     }, [state.PgList.createRoomMessage])
+
+    useEffect(() => {
+        if (state.PgList.deleteFloor != null && state.PgList.deleteFloor != "") {
+            const LoginId = localStorage.getItem("loginId")
+            const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
+            const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+            const parsedData = Number(decryptedString);
+            dispatch({ type: 'HOSTELLIST', payload: { loginId: parsedData } })
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_DELETE_FLOOR', message: null })
+            }, 100);
+        }
+    }, [state.PgList.deleteFloor])
 
     const handleShows = (val, index) => {
         setShows(true);
@@ -138,6 +157,7 @@ function DashboardRoom(props) {
     }
     const handleCancels = () => {
         handleCloses();
+        setRoomDetailsError(false);
     };
 
     const [currentRoomId, setCurrentRoomId] = useState("");
@@ -168,22 +188,22 @@ function DashboardRoom(props) {
             return updatedRooms;
         });
     };
-   
 
-const handleRoomRentChange = (roomRent, index) =>{
-    setRoomDetails(prevState => {
-        const updatedRoomRent = [...prevState];
-        updatedRoomRent[index].roomRent = roomRent;
-        return updatedRoomRent;
-    });
-   if (roomRent == 0) {
-    setRoomRentError(true)
-   }
-   else{
-    setRoomRentError(false)
-   }
-   
-}
+
+    const handleRoomRentChange = (roomRent, index) => {
+        setRoomDetails(prevState => {
+            const updatedRoomRent = [...prevState];
+            updatedRoomRent[index].roomRent = roomRent;
+            return updatedRoomRent;
+        });
+        if (roomRent == 0) {
+            setRoomRentError(true)
+        }
+        else {
+            setRoomRentError(false)
+        }
+
+    }
 
 
     const handleAddRoom = () => {
@@ -218,28 +238,29 @@ const handleRoomRentChange = (roomRent, index) =>{
                     title: 'Please enter valid room rent.',
                 });
             }
-            else{
-            dispatch({
-                type: 'CREATEROOM',
-                payload: {
-                    id: props.hostel_Id,
+            else {
+                dispatch({
+                    type: 'CREATEROOM',
+                    payload: {
+                        id: props.hostel_Id,
 
-                    floorDetails: validRooms.map(room => ({
-                        floorId: floorId,
-                        roomId: room.roomId,
-                        number_of_beds: room.numberOfBeds,
-                        roomRent: room.roomRent
-                    })),
-                },
-            });
+                        floorDetails: validRooms.map(room => ({
+                            floorId: floorId,
+                            roomId: room.roomId,
+                            number_of_beds: room.numberOfBeds,
+                            roomRent: room.roomRent
+                        })),
+                    },
+                });
 
-            Swal.fire({
-                icon: 'success',
-                title: "Room created successfully",
-            })
-            setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
-            handleCloses();
-        }
+                Swal.fire({
+                    icon: 'success',
+                    title: "Room created successfully",
+                })
+                setRoomDetails([{ roomId: '', numberOfBeds: '' }]);
+                handleCloses();
+                setRoomDetailsError(false);
+            }
         } else {
             Swal.fire({
                 icon: 'warning',
@@ -280,6 +301,60 @@ const handleRoomRentChange = (roomRent, index) =>{
         });
     }
 
+    const handleDeleteFloor = () => {
+        let id = props.hostel_Id
+        let floor_Id = props.floorID
+
+        let floor_Details = state.PgList.roomCount
+        let mergeArray = []
+        for (let i = 0; i < floor_Details.length; i++) {
+            var tempArray
+            if (floor_Details[i].length > 0) {
+                tempArray = floor_Details[i].filter((item) => {
+                    return item.Floor_Id == props.floorID && item.Hostel_Id == props.hostel_Id
+                })
+            }
+            console.log("tempArray", tempArray);
+            if (tempArray.length > 0) {
+                mergeArray = [...mergeArray, ...tempArray]
+            }
+        }
+        console.log("mergeArray", mergeArray);
+        if (mergeArray.length > 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Please delete the room before deleting the floor.',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                }
+            });
+        }
+
+        else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Do you want to delete the floor ?',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    dispatch({
+                        type: 'DELETEFLOOR',
+                        payload: {
+                            id: id
+                        },
+                    });
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Floor deleted Successfully',
+                    })
+                }
+            });
+        }
+
+    }
 
     return (
         <>
@@ -287,7 +362,16 @@ const handleRoomRentChange = (roomRent, index) =>{
 
                 <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400, height: "auto", minHeight: 200 }}>
 
-                    <div className="card-header d-flex justify-content-between p-2" style={{ backgroundColor: "#f6f7fb" }}><strong style={{ fontSize: "13px" }}>{getFloorName(props.floorID)}</strong><FaAngleRight className="" style={{ height: "15px", width: "15px", color: "grey" }} /></div>
+                    <div className="card-header d-flex justify-content-between p-2 flex-row" style={{ backgroundColor: "#f6f7fb" }}>
+                        <strong style={{ fontSize: "13px" }}>{getFloorName(props.floorID)}</strong>
+                        <div>
+                            {
+                                <img src={recycle} style={{ height: 13, width: 13, marginRight: 2 }} onClick={handleDeleteFloor} />
+
+                            }
+                            <FaAngleRight className="" style={{ height: "15px", width: "15px", color: "grey" }} />
+                        </div>
+                    </div>
 
                     <div className="card-body">
 
@@ -331,11 +415,12 @@ const handleRoomRentChange = (roomRent, index) =>{
                                                             <>
 
                                                                 <div className="col-lg-3 col-md-4 col-sm-4 col-xs-4 col-3 d-flex justify-content-center" key={index} style={{ backgroundColor: "" }} >
-                                                                    <div className="card  text-center align-items-center" style={{ height: 60, width: 60, borderRadius: "5px", backgroundColor: val.Number_Of_Beds - val.bookedBedCount == 0 ? "#25D366" : "#e3e4e8" }} onClick={() => { handleRoomDetails(val) }}>
-                                                                        <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "2px", filter: val.Number_Of_Beds - val.bookedBedCount == 0 ? "brightness(0) invert(1)" : "none" }} alt='Room' />
-                                                                        <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600, color: val.Number_Of_Beds - val.bookedBedCount == 0 ? "white" : "gray" }}>
+                                                                    <div className="card  text-center align-items-center" style={{ height: 60, width: 60, borderRadius: "5px", backgroundColor:   val.Number_Of_Beds > 0 && val.Number_Of_Beds - val.bookedBedCount == 0  ? "#25D366" : "#e3e4e8" }} onClick={() => { handleRoomDetails(val) }}>
+                                                                        <img src={Room} style={{ height: "100px", width: "35px", paddingTop: "2px", filter: val.Number_Of_Beds > 0 && val.Number_Of_Beds - val.bookedBedCount == 0 ? "brightness(0) invert(1)" : "none" }} alt='Room' />
+                                                                        <p style={{ marginTop: "2px", fontSize: "10px", fontWeight: 600, color:val.Number_Of_Beds > 0 && val.Number_Of_Beds - val.bookedBedCount == 0 ? "white" : "gray" }}>
                                                                             {formattedRoomId}
                                                                         </p>
+                                                                        {/* <img src={recycle} style={{ height: 15, width: 15, marginRight: 0 }} onClick={handleDeleteRoom} /> */}
                                                                     </div>
                                                                 </div>
 
@@ -424,7 +509,7 @@ const handleRoomRentChange = (roomRent, index) =>{
                                         </div>
                                     </div>
                                 </div>
-                                <div key={`RoomRent${index}`} className="col-lg-3 col-md-3 col-xs-3 col-sm-3 col-3 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px",position:"relative" }}>
+                                <div key={`RoomRent${index}`} className="col-lg-3 col-md-3 col-xs-3 col-sm-3 col-3 mb-4" style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "5px", position: "relative" }}>
                                     <div className="form-group mb-4 ps-1">
                                         <label htmlFor={`RoomRent${index}`} className="form-label mb-1" style={{ fontSize: "11px" }}>Room Rent</label>
                                         <div className="d-flex">
@@ -438,9 +523,9 @@ const handleRoomRentChange = (roomRent, index) =>{
                                                 style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, borderRight: "none", borderBottom: "1px solid lightgray" }}
                                             />
                                         </div>
-                                        </div>
+                                    </div>
 
-                                        
+
 
                                 </div>
                                 {index > 0 &&
@@ -448,7 +533,7 @@ const handleRoomRentChange = (roomRent, index) =>{
                                         <TiDeleteOutline style={{ fontSize: 18, color: "red", cursor: "pointer" }} onClick={() => handleRemoveRoomDetails(index)} />
                                     </div>
                                 }
-                               
+
                             </>
                         ))}
                     </div>
@@ -462,7 +547,7 @@ const handleRoomRentChange = (roomRent, index) =>{
                         <Button variant="outline-secondary" className='ms-2 me-2' size="sm" style={{ width: "90px", borderRadius: 200 }} onClick={handleCancels}>
                             Cancel
                         </Button>
-                        <Button variant="outline-primary" className='ms-2 me-2' size="sm"  style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
+                        <Button variant="outline-primary" className='ms-2 me-2' size="sm" disabled={roomDetailsError} style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateRoom}>
                             {roomDetailsError ? "Update" : "Save"}
                         </Button>
                     </div>

@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck} from "../Action/UserListAction"
+import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 
 function* handleuserlist(user) {
@@ -97,6 +97,13 @@ function* handleAddUser(datum) {
      
       if (response.status === 200) {
          yield put({ type: 'ADD_USER',payload:{response: response.data, statusCode:response.status}})
+
+         Swal.fire({
+            icon: 'success',
+            title: 'Detail Updated Successfully',
+            confirmButtonText: 'Ok',
+            timer:1000,
+          })
       }
       else if(response.status === 202) {
          Swal.fire({
@@ -152,8 +159,41 @@ function* handleAddUser(datum) {
       refreshToken(response)
    }
 
+   function* handleDeleteFloor(hosteID){
+      const response = yield call(deleteFloor,hosteID.payload)
+      console.log("response",response);
+      if(response.status === 200){
+         yield put({ type: 'DELETE_FLOOR', payload:{message: response.data.message, statusCode:response.status} })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      refreshToken(response)
+   }
 
-   function refreshToken(response){
+function* handleDeleteRoom(roomDetails){
+   const response = yield call(deleteRoom,roomDetails.payload)
+   if(response.status === 200){
+      yield put({ type: 'DELETE_ROOM', payload:{message: response.data.message, statusCode:response.status} })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   refreshToken(response)
+}
+
+function* handleDeleteBed(bedDetails){
+   const response = yield call(deleteBed,bedDetails.payload)
+   if(response.status === 200){
+      yield put({ type: 'DELETE_BED', payload:{message: response.data.message, statusCode:response.status} })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   refreshToken(response)
+   
+}  
+ function refreshToken(response){
       if(response.data.refresh_token){
          const refreshTokenGet = response.data.refresh_token
          console.log("refreshTokenGet",refreshTokenGet)
@@ -179,6 +219,8 @@ function* UserListSaga() {
    yield takeEvery('ROOMDETAILS',handleRoomsDetails)
    yield takeEvery('ROOMFULL', handleRoomCheck)
    yield takeEvery('CHECKOUTUSER',handleCheckOut)
-    
+   yield takeEvery('DELETEFLOOR',handleDeleteFloor)
+   yield takeEvery('DELETEROOM',handleDeleteRoom)
+   yield takeEvery('DELETEBED',handleDeleteBed)    
 }
 export default UserListSaga;

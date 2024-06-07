@@ -68,12 +68,16 @@ const InvoicePage = () => {
     FloorNo: '',
     RoomNo: '',
     date: '',
-    total_amount: '',
+    // total_amount: '',
     paymentType: '',
     amount: '',
     balanceDue: '',
-    dueDate: ''
+    dueDate: '',
+    payableAmount: '',
+    InvoiceId:''
   })
+
+  console.log("invoiceList", invoiceList);
 
   const [invoicePage, setInvoicePage] = useState('')
   const [showLoader, setShowLoader] = useState(false)
@@ -163,9 +167,23 @@ const InvoicePage = () => {
   }, [])
 
 
+
+  // useEffect(() => {
+  //   dispatch({ type: 'INVOICELIST' })
+  //   setData(state.InvoiceList.Invoice)
+
+  // }, [])
+
   useEffect(() => {
-    setData(state.InvoiceList.Invoice)
+      dispatch({ type: 'INVOICELIST', payload: { loginId:loginID } })
+      setData(state.InvoiceList.Invoice)
+      console.log("useffect invoice list",state.InvoiceList.Invoice);
   }, [state.InvoiceList.Invoice])
+
+  console.log("invoice list",state.InvoiceList.Invoice);
+
+
+  
 
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
@@ -245,7 +263,7 @@ const InvoicePage = () => {
       amount: '',
       balanceDue: '',
       dueDate: '',
-      total_amount: '',
+      // total_amount:'',
       paymentType: ''
     })
     setShowMenu(false);
@@ -342,36 +360,37 @@ const InvoicePage = () => {
       });
 
 
-      if (item.BalanceDue === 0 || (EditCheck && EditCheck.BalanceDue === 0)) {
-        setUserClicked(false);
-        setShowMenu(false);
-        setShowForm(false);
-        setDisplayText(true);
-      } else {
-        setUserClicked(true);
-        setShowMenu(true);
-        setShowForm(true);
-        let value = item.Name.split(" ");
-        setSelectedUserId(item.User_Id);
-        const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        setInvoiceList({
-          id: item.id,
-          firstName: value[0],
-          lastName: value[1],
-          phone: item.phoneNo,
-          email: item.EmailID,
-          hostel_Name: item.Hostel_Name,
-          hostel_Id: item.Hostel_Id,
-          FloorNo: item.Floor_Id,
-          RoomNo: item.Room_No,
-          date: formattedDate,
-          total_amount: Number(item.Amount) + Number(item.AmnitiesAmount) + Number(item.EbAmount),
-          // amount: item.Amount,
-          amount: "",
-          balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
-          dueDate: formattedDueDate,
-        });
-      }
+      // if (item.BalanceDue === 0 || (EditCheck && EditCheck.BalanceDue === 0)) {
+      //   setUserClicked(false);
+      //   setShowMenu(true);
+      //   setShowForm(false);
+      //   // setDisplayText(true);
+      // } else {
+      // setUserClicked(true);
+      setShowMenu(true);
+      setShowForm(true);
+      let value = item.Name.split(" ");
+      setSelectedUserId(item.User_Id);
+      const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      setInvoiceList({
+        id: item.id,
+        firstName: value[0],
+        lastName: value[1],
+        phone: item.phoneNo,
+        email: item.EmailID,
+        hostel_Name: item.Hostel_Name,
+        hostel_Id: item.Hostel_Id,
+        FloorNo: item.Floor_Id,
+        RoomNo: item.Room_No,
+        date: formattedDate,
+        // total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
+        amount: item.Amount,
+        paidAmount: item.PaidAmount,
+        balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
+        dueDate: formattedDueDate,
+        InvoiceId:item.Invoices
+      });
+      // }
     } else {
       setEditOption('Add');
       setSelectedUserId('');
@@ -444,6 +463,15 @@ const InvoicePage = () => {
 
   }
 
+    
+  const [updatemessage, setUpdatemessage] = useState('')
+
+  useEffect(()=>{
+    setUpdatemessage(state.InvoiceList.message)
+  },[state.InvoiceList.message])
+
+
+
   const handleSaveInvoiceList = () => {
     const invoiceNo = randomNumberInRange(invoiceList.hostel_Name, 1, new Date())
     const CheckInvoiceNo = state.InvoiceList?.Invoice.some(item =>
@@ -509,16 +537,32 @@ const InvoicePage = () => {
     //   });
     // }
 
-    if (invoiceList.balanceDue && invoiceList.total_amount) {
-      dispatch({
-        type: 'ADDINVOICEDETAILS',
-        payload: {
-          BalanceDue: invoiceList.balanceDue,
-          id: invoiceList.id,
-
-        }
-      })
+    if (invoiceList.InvoiceId && invoiceList.payableAmount && loginID) {
+      // if (invoiceList.id) {
+        // Update invoice details
+        dispatch({
+          type: 'UPDATEINVOICEDETAILS',
+          payload: {
+            id: invoiceList.id,
+            invoice_id: invoiceList.InvoiceId,
+            amount: invoiceList.payableAmount,
+            created_by: loginID,
+            balance_due: invoiceList.balanceDue
+            
+          }
+        });
+        
+        setTimeout(() => {
+          Swal.fire({
+            icon: "success",
+            title: state.InvoiceList.message,
+            confirmButtonText: "ok"
+          });
+        }, 400);
+        setShowMenu(false);
+        setShowForm(false);
     }
+    
 
     else {
       Swal.fire({
@@ -608,7 +652,7 @@ const InvoicePage = () => {
     }
   }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
-  const [displayText, setDisplayText] = useState(false)
+  // const [displayText, setDisplayText] = useState(false)
   const [isSaveDisabled, setIsSaveDisabled] = useState(false)
   const [totalPaidAmount, setTotalPaidAmount] = useState('')
 
@@ -638,7 +682,7 @@ const InvoicePage = () => {
     });
 
     const isRoomRentPaid = roomRent === totalPaidAmount;
-    setDisplayText(isRoomRentPaid);
+    // setDisplayText(isRoomRentPaid);
     setIsSaveDisabled(isRoomRentPaid);
 
     setInvoiceList(prevState => ({
@@ -650,15 +694,19 @@ const InvoicePage = () => {
 
   const handleAmount = (e) => {
     const AmountValue = e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
+    console.log("AmountValue", AmountValue);
     const selectedDate = new Date(invoiceList.date);
     const selectedMonth = selectedDate.getMonth();
     const roomRent = filteredUserDetails[0]?.RoomRent;
+    console.log("roomRent", roomRent);
 
     const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => {
       const itemDate = new Date(item.Date);
       const itemMonth = itemDate.getMonth();
       return itemMonth === selectedMonth && item.User_Id === selectedUserId;
     });
+
+
 
     let totalPaidAmount = 0;
     AlreadyPaidRoomRent.forEach(item => {
@@ -669,49 +717,31 @@ const InvoicePage = () => {
 
     setTotalPaidAmount(totalPaidAmount)
 
-    if (!isNaN(AmountValue) && !isNaN(roomRent)) {
-      const balanceDueCalc = editOption == 'Edit' ? roomRent - AmountValue : roomRent - (AmountValue + totalPaidAmount);
-      const balanceDueLength = balanceDueCalc === 0 ? '00' : balanceDueCalc;
-
-      // setDisplayText(roomRent === totalPaidAmount);
-
-      setInvoiceList(prevState => ({
-        ...prevState,
-        amount: AmountValue,
-        balanceDue: balanceDueLength,
-      }));
+    if (!isNaN(AmountValue) && !isNaN(invoiceList.amount) && !isNaN(invoiceList.paidAmount) && !isNaN(invoiceList.balanceDue)) {
+      
+      var total_amount = invoiceList.amount; // Total Amount values
+      var paid_amount = invoiceList.paidAmount; // Already Paid Amount
+      var payablAmount = AmountValue; // New Amount
+      var balance_due = invoiceList.balanceDue; // Balance Amount
+    
+      // Calculate the new total paid amount
+      var cal1 = paid_amount + payablAmount;
+    
+      // Calculate the new balance due
+      var new_balance_due = total_amount - cal1;
+      // Validate the new amount to ensure it does not exceed the remaining balance
+      if (total_amount < cal1) {
+        console.log("This is Not crt value");
+      } else {
+        // Update the invoice list with the new payable amount and balance due
+        setInvoiceList(prevState => ({
+          ...prevState,
+          payableAmount: payablAmount,
+          balanceDue: new_balance_due,
+        }));
+      }
     }
-
   };
-
-
-
-
-  // const handleAmount = (e) => {
-  //   const AmountValue = e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
-  //   const roomRent = filteredUserDetails[0]?.RoomRent;
-  //   const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => item.User_Id == selectedUserId);
-  //   let totalPaidAmount = 0;
-  //   AlreadyPaidRoomRent.forEach(item => {
-  //     const paidAmount = parseFloat(item.Amount) || 0;
-  //     totalPaidAmount += paidAmount;
-  //   });
-  //   console.log("AmountValue", AmountValue);
-  //   console.log("AlreadyPaidRoomRent", AlreadyPaidRoomRent);
-  //   console.log("Total Paid Amount", totalPaidAmount);
-  //   console.log("roomRent", roomRent);
-  //   if (!isNaN(AmountValue) && !isNaN(roomRent)) {
-  //     const balanceDueCalc = roomRent - (AmountValue + totalPaidAmount);
-  //     const balanceDueLength = balanceDueCalc === 0 ? '00' : balanceDueCalc;
-  //     setInvoiceList(prevState => ({
-  //       ...prevState,
-  //       amount: AmountValue,
-  //       balanceDue: balanceDueLength,
-  //     }));
-  //   }
-  // }
-
-
 
   const [showModal, setShowModal] = useState(false);
 
@@ -719,22 +749,6 @@ const InvoicePage = () => {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
-
-
-  const toggleDisplayText = () => {
-    setDisplayText(!displayText);
-  };
-
-
-  useEffect(() => {
-    if (displayText) {
-      const timer = setTimeout(() => {
-        setDisplayText(false);
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [displayText]);
 
 
   return (
@@ -828,13 +842,13 @@ const InvoicePage = () => {
                         style={{ display: "none" }} />
                     </div>
                     <div className='container' style={{ marginTop: "30px" }}>
-                      {displayText && (
+                      {/* {displayText && (
                         <div className="row mb-3">
                           <div className="col-lg-12">
                             <label style={{ color: "red", fontSize: "14px", fontWeight: 700 }}>This user has already paid the room rent.</label>
                           </div>
                         </div>
-                      )}
+                      )} */}
 
                       <div className="row mb-3">
                         <div className='col-lg-12 col-12 col-md-12'>
@@ -1004,9 +1018,10 @@ const InvoicePage = () => {
                           </div>
                         </div>
                         <div className='row'>
-                          <div className='col-lg-6 col-12 col-md-12'>
+                          <div  className='col-lg-6 col-12 col-md-12' >
                             <Form.Label style={{ fontSize: "12px" }}>Select Date</Form.Label>
-                            <FormControl
+                            <FormControl 
+                              className='position-sticky'
                               type="date"
                               value={invoiceList.date}
                               onChange={(e) => { handleDateChange(e) }}
@@ -1014,48 +1029,37 @@ const InvoicePage = () => {
                             // disabled={displayText}
                             />
                           </div>
-                          <div className='col-lg-6'>
-                            <Form.Group className="mb-3">
-                              <Form.Label style={{ fontSize: "12px" }}>Total Amount</Form.Label>
-                              <FormControl
-                                type="text"
-                                value={invoiceList.total_amount}
-                                // onChange={(e) => { handleAmount(e) }}
-                                style={bottomBorderStyle}
-                                disabled={displayText}
-                              />
-                            </Form.Group>
 
-                            {/* <label>{editOption == 'Add' ? <span>{totalPaidAmount}</span>: ''}</label> */}
-
-                          </div>
                           <div className='col-lg-6'>
                             <Form.Group className="mb-3">
                               <Form.Label style={{ fontSize: "12px" }}>Amount</Form.Label>
                               <FormControl
                                 type="text"
                                 value={invoiceList.amount}
-                                onChange={(e) => { handleAmount(e) }}
                                 style={bottomBorderStyle}
-                                disabled={displayText}
                               />
                             </Form.Group>
 
-                            {/* <label>{editOption == 'Add' ? <span>{totalPaidAmount}</span>: ''}</label> */}
+
+                          </div>
+
+                          <div className='col-lg-6'>
+                            <Form.Group className="mb-3">
+                              <Form.Label style={{ fontSize: "12px" }}> Payable Amount</Form.Label>
+                              <p style={{ fontSize: "10px" }}>Already you have paid <b>RS.{invoiceList.paidAmount == 0 ? '0' : invoiceList.paidAmount}</b></p>
+                              <FormControl
+                                type="text"
+                                value={invoiceList.payableAmount}
+                                onChange={(e) => { handleAmount(e) }}
+                                style={bottomBorderStyle}
+                              />
+                            </Form.Group>
 
                           </div>
                           <div className='col-lg-6'>
                             <Form.Group className="mb-3">
                               <Form.Label style={{ fontSize: "12px" }}>Balance Due</Form.Label>
                               <h1 style={{ fontSize: "12px", backgroundColor: "#F6F7FB", padding: 15 }}>{invoiceList.balanceDue}</h1>
-
-                              {/* <FormControl
-                                type="text"
-                                value={invoiceList.balanceDue}
-                                onChange={(e) => { handleAmount(e) }}
-                                style={bottomBorderStyle}
-                                disabled={displayText}
-                              /> */}
                             </Form.Group>
                           </div>
                         </div>
@@ -1085,7 +1089,7 @@ const InvoicePage = () => {
 
 
 
-            <MessageModal show={displayText} handleClose={toggleDisplayText} />
+            {/* <MessageModal show={displayText} handleClose={toggleDisplayText} /> */}
 
 
 

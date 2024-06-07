@@ -14,6 +14,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import Swal from 'sweetalert2';
 import Profile from '../Assets/Images/Profile.jpg';
 import CryptoJS from "crypto-js";
+import recycle from '../Assets/bin.png';
 
 
 
@@ -478,11 +479,28 @@ function BedDetails(props) {
   const [loginID, setLoginID] = useState('')
 
 
+ 
   useEffect(() => {
     dispatch({ type: 'USERLIST' })
   }, [])
 
-
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      setFirstname('');
+      setLastname('');
+      setAddress('');
+      setAadharNo('');
+      setPancardNo('');
+      setLicence('');
+      setPhone('');
+      setEmail('');
+      setAdvanceAmount('');
+      setRoomRent('');
+      setPaymentType('');
+      setBalanceDue('');
+      handleClose()
+    }
+  },[state.UsersList?.statusCodeForAddUser])
 
 
 
@@ -521,29 +539,21 @@ function BedDetails(props) {
 
         },
       });
-      Swal.fire({
-        icon: 'success',
-        title: 'Detail Send Successfully',
-        text: 'You have been Created successfully!',
-        confirmButtonText: 'Ok',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          setFirstname('');
-          setLastname('');
-          setAddress('');
-          setAadharNo('');
-          setPancardNo('');
-          setLicence('');
-          setPhone('');
-          setEmail('');
-          setAdvanceAmount('');
-          setRoomRent('');
-          setPaymentType('');
-          setBalanceDue('');
-        }
 
-      });
-      handleClose()
+      // setFirstname('');
+      // setLastname('');
+      // setAddress('');
+      // setAadharNo('');
+      // setPancardNo('');
+      // setLicence('');
+      // setPhone('');
+      // setEmail('');
+      // setAdvanceAmount('');
+      // setRoomRent('');
+      // setPaymentType('');
+      // setBalanceDue('');
+      // handleClose()
+          
     } else {
       Swal.fire({
         icon: 'warning',
@@ -566,6 +576,62 @@ function BedDetails(props) {
     }
 
   }, [state.UsersList.statusCodeForAddUser])
+
+  useEffect(() => {
+    if (state.PgList.deleteRoom != null && state.PgList.deleteRoom != "") {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorId, hostel_Id: Hostel_Id } })
+      props.handleBackToFloors()
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_ROOM', message: null })
+      }, 100);
+    }
+  }, [state.PgList.deleteRoom])
+
+  const handleDeleteRoom = () => {
+
+    console.log("bedDetailsSendThePage", bedDetailsSendThePage);
+    if (bedDetailsSendThePage.Number_Of_Beds > 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please delete the bed before deleting the room.',
+        confirmButtonText: 'Ok'
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
+    }
+    else {
+      console.log("dleteRoom", RoomName);
+      // let roomID = RoomName.replace(/\D/g, "")
+      let roomID = bedDetailsSendThePage.Room_Id
+      console.log("roomID", roomID);
+      Swal.fire({
+        icon: 'warning',
+        title: 'Do you want to delete the Room ?',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        showCancelButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch({
+            type: 'DELETEROOM',
+            payload: {
+              hostelId: props.hostel_Id,
+              floorId: props.floorID,
+              roomNo: roomID
+            },
+          });
+          Swal.fire({
+            icon: 'success',
+            title: 'Room deleted Successfully',
+          })
+        }
+      });
+    }
+
+    // dispatch({type:'DELETEROOM'})
+  }
+
   return (
     <>
       <div style={{ width: "100%" }}>
@@ -574,9 +640,12 @@ function BedDetails(props) {
 
           <div className='col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10'>
             <div className="card h-100" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)", width: "auto", maxWidth: 400 }}>
-              <div className="card-header d-flex justify-content-between p-2">
+              <div className="card-header d-flex justify-content-between p-2 flex-row">
                 <strong style={{ fontSize: "13px" }}>ROOM-{RoomName}</strong>
-                <FaAngleRight style={{ height: "15px", width: "15px", color: "grey" }} />
+                <div>
+                  <img src={recycle} style={{ height: 13, width: 13, marginRight: 2 }} onClick={handleDeleteRoom} />
+                  <FaAngleRight style={{ height: "15px", width: "15px", color: "grey" }} />
+                </div>
               </div>
               <div className="card-body text-center" >
                 <p className="card-title text-center">({bedName.length || 0}) Beds</p>

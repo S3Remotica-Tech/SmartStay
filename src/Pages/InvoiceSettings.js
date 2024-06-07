@@ -62,19 +62,17 @@ function InvoiceSettings() {
     const handleStartingNumber = (e) => {
         setStartNumber(e.target.value)
     }
-
-
-
-
+   
+    
     const handleInvoiceSettings = () => {
         const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== '';
         const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== '';
         const isSelectedImageValid = selectedImage !== undefined && selectedImage !== null;
-
+    
         console.log("isPrefixValid:", isPrefixValid);
         console.log("isStartNumberValid:", isStartNumberValid);
         console.log("isSelectedImageValid:", isSelectedImageValid);
-
+    
         if (isPrefixValid && isStartNumberValid && isSelectedImageValid) {
             dispatch({
                 type: 'INVOICESETTINGS',
@@ -89,6 +87,12 @@ function InvoiceSettings() {
                 text: "Prefix, Suffix, Profile Update successfully",
                 icon: "success",
                 timer: 1000,
+            }).then(() => {
+                setShowTable(false);
+                setSelectedHostel({ id: '', name: '' });
+                setPrefix('');
+                setStartNumber('');
+                setSelectedImage('');
             });
         } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid) {
             dispatch({
@@ -102,6 +106,12 @@ function InvoiceSettings() {
                 text: "Profile Update successfully",
                 icon: "success",
                 timer: 1000,
+            }).then(() => {
+                setShowTable(false);
+                setSelectedHostel({ id: '', name: '' });
+                setPrefix('');
+                setStartNumber('');
+                setSelectedImage('');
             });
         } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid) {
             dispatch({
@@ -116,23 +126,23 @@ function InvoiceSettings() {
                 text: "Prefix, Suffix Update successfully",
                 icon: "success",
                 timer: 1000,
+            }).then(() => {
+                setShowTable(false);
+                setSelectedHostel({ id: '', name: '' });
+                setPrefix('');
+                setStartNumber('');
+                setSelectedImage('');
             });
         } else {
             Swal.fire({
-                text: "Please provide the necessary information.",
+                text: "Please Enter All field.",
                 icon: "warning",
                 timer: 2000,
             });
         }
-
-
-        setShowTable(false);
-        setSelectedHostel({ id: '', name: '' });
-        setPrefix('');
-        setStartNumber('');
-        setSelectedImage('')
     };
-
+    
+    
 
 
 

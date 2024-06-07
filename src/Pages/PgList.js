@@ -36,7 +36,7 @@ function getFloorName(floor_Id) {
     return '3rd Floor';
   } else if (floor_Id >= 11 && floor_Id <= 13) {
     const id = floor_Id - 1
-    return `${floor_Id}th Floor`;
+    return `${id}th Floor`;
   } else {
     const lastDigit = floor_Id % 10;
     let suffix = 'th';
@@ -206,7 +206,6 @@ function PgList() {
     }
 
   }, [state.UsersList.createFloorMessage])
-
   useEffect(() => {
     if (state.PgList.createPGMessage) {
       const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
@@ -274,6 +273,7 @@ function PgList() {
 
 
   const loginId = localStorage.getItem('loginId');
+
   useEffect(() => {
     dispatch({ type: 'HOSTELLIST' })
   }, []);
@@ -308,7 +308,7 @@ function PgList() {
           // number_of_floors: pgList.number_Of_Floor,
           // number_Of_Rooms: pgList.number_Of_Rooms,
           // floorDetails: pgList.floorDetails,
-          //  created_by: decrypt
+          // created_by: decrypt
         }
       });
       setPgList({
@@ -689,20 +689,26 @@ function PgList() {
               <div style={{ borderLeft: "1px solid #cccccc99", height: "45px" }} className="vertical-line ms-1 me-2"></div>
             </div>
           </div>
+          <div className="col-lg-9  col-md-12 col-sm-12 col-xs-12 col-12 d-flex row" >
+            <div>
           {selectedHostel && <>
+            <div className="col-lg-12  col-md-12 col-sm-12 col-xs-12 col-12 d-flex row w-100"
+            >
             {
-              Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
+              Array.from(new Array(selectedHostel.number_Of_Floor < 0 ? (selectedHostel.number_Of_Floor * -1) : selectedHostel.number_Of_Floor), (index, element) => {
                 return <SelectedHostelFloorList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
               })}
-
-            <div className="col-lg-6  col-md-3 col-sm-4 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <div>
+         </div>
+          
+              <div className='d-flex d-sm-block justify-content-center'>
                 <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleCreateFloor}>
                   <span style={{ padding: "20px 20px" }}>
                     <img src={Plus} height="12" width="12" alt='Plus' /> Create Floor  </span></button>
               </div>
-            </div>
+          
           </>}
+          </div>
+          </div>
         </div>
 
         {/* <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>
@@ -789,7 +795,7 @@ function PgList() {
             <div className="row row-cols-1 row-gap-3 row-cols-md-6 g-1 pt-2" >
               {
                 selectedHostel.id &&
-                Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
+                Array.from(Array(selectedHostel.number_Of_Floor < 0 ? (selectedHostel.number_Of_Floor * -1) : selectedHostel.number_Of_Floor), (index, element) => {
                   return <DashboardRoomList onRowVisibilityChange={handleRowVisibilityChange} onRowBedVisibilityChange={handleBedVisibilityChange} floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
                 })}
               <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
@@ -823,7 +829,9 @@ function PgList() {
                 floorId={floorId}
                 floorID={bedDetailsPage.Floor_Id}
                 hostel_Id={selectedHostel.id}
-                roomId={roomId} />
+                roomId={roomId} 
+                handleBackToFloors={handleBackToFloors}
+                />
             </>
           )
           }
@@ -841,7 +849,8 @@ function PgList() {
           Room_Id={roomID}
           hidePgList={handlehidePgList}
           backToBed={handlehidePgListForUser}
-          hideBed={handleDisplayBedDetails} />
+          hideBed={handleDisplayBedDetails} 
+          />
 
       </>}
 
