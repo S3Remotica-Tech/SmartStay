@@ -80,6 +80,13 @@ function* handleAddUser(datum) {
       const response = yield call(addUser, datum.payload);
       if (response.status === 200) {
          yield put({ type: 'ADD_USER',payload:{response: response.data, statusCode:response.status}})
+
+         Swal.fire({
+            icon: 'success',
+            title: 'Detail Updated Successfully',
+            confirmButtonText: 'Ok',
+            timer:1000,
+          })
       }
       else if(response.status === 202) {
          Swal.fire({

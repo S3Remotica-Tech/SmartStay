@@ -433,42 +433,65 @@ function UserlistForm(props) {
                   ID: props.edit === 'Edit' ? id : '',
         },
       });
-      Swal.fire({
-        icon: 'success',
-        title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
-        text: 'You have been Created successfully!',
-        confirmButtonText: 'Ok',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          props.AfterEditHostels(hostel_Id)
-          props.AfterEditFloors(Floor)
-          props.AfterEditRoomses(Rooms)
-          props.AfterEditBeds(Bed)
-          setFirstname('');
-          setLastname('');
-          setAddress('');
-          setAadharNo('');
-          setPancardNo('');
-          setLicence('');
-          setPhone('');
-          setEmail('');
-          setHostel_Id('');
-          setFloor('');
-          setRooms('');
-          setBed('');
-          setAdvanceAmount('');
-          setRoomRent('');
-          setPaymentType('');
-          setBalanceDue('');
-          handleClose()
-        }
-      });
+      props.AfterEditHostels(hostel_Id)
+      props.AfterEditFloors(Floor)
+      props.AfterEditRoomses(Rooms)
+      props.AfterEditBeds(Bed)
+      
+      // setFirstname('');
+      // setLastname('');
+      // setAddress('');
+      // setAadharNo('');
+      // setPancardNo('');
+      // setLicence('');
+      // setPhone('');
+      // setEmail('');
+      // setHostel_Id('');
+      // setFloor('');
+      // setRooms('');
+      // setBed('');
+      // setAdvanceAmount('');
+      // setRoomRent('');
+      // setPaymentType('');
+      // setBalanceDue('');
+      // handleClose()
+      // Swal.fire({
+      //   icon: 'success',
+      //   title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
+      //   confirmButtonText: 'Ok',
+      //   timer:1000,
+      // }).then((result) => {
+      //   if (result.isConfirmed) {
+      //     props.AfterEditHostels(hostel_Id)
+      //     props.AfterEditFloors(Floor)
+      //     props.AfterEditRoomses(Rooms)
+      //     props.AfterEditBeds(Bed)
+      //     setFirstname('');
+      //     setLastname('');
+      //     setAddress('');
+      //     setAadharNo('');
+      //     setPancardNo('');
+      //     setLicence('');
+      //     setPhone('');
+      //     setEmail('');
+      //     setHostel_Id('');
+      //     setFloor('');
+      //     setRooms('');
+      //     setBed('');
+      //     setAdvanceAmount('');
+      //     setRoomRent('');
+      //     setPaymentType('');
+      //     setBalanceDue('');
+      //     handleClose()
+      //   }
+      // });
 
     } else {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
         confirmButtonText: 'Ok',
+        timer:1000
       });
     }
   };
@@ -500,51 +523,57 @@ function UserlistForm(props) {
          ID: props.edit === 'Edit' ? id : '',
        },
      });
-     Swal.fire({
-       icon: 'success',
-       title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
-       text: 'You have been Created successfully!',
-       confirmButtonText: 'Ok',
-     }).then((result) => {
-       if (result.isConfirmed) {
-         props.AfterEditHostels(hostel_Id)
-         props.AfterEditFloors(Floor)
-         props.AfterEditRoomses(Rooms)
-         props.AfterEditBeds(Bed)
-         setFirstname('');
-         setLastname('');
-         setAddress('');
-         setAadharNo('');
-         setPancardNo('');
-         setLicence('');
-         setPhone('');
-         setEmail('');
-         setHostel_Id('');
-         setFloor('');
-         setRooms('');
-         setBed('');
-         setAdvanceAmount('');
-         setRoomRent('');
-         setPaymentType('');
-         setBalanceDue('');
-         handleClose()
-       }
-     });
+     props.AfterEditHostels(hostel_Id)
+     props.AfterEditFloors(Floor)
+     props.AfterEditRoomses(Rooms)
+     props.AfterEditBeds(Bed)
+    
+   
+    //  Swal.fire({
+    //    icon: 'success',
+    //    title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
+    //    text: 'You have been Created successfully!',
+    //    confirmButtonText: 'Ok',
+    //    timer:1000,
+    //         }).then((result) => {
+    //    if (result.isConfirmed) {
+      
+    //    }
+    //  });
 
    } else {
      Swal.fire({
        icon: 'warning',
        title: 'Please Enter All Fields',
        confirmButtonText: 'Ok',
+       timer:1000
      });
    }
 
   }
 
 
-
-
-
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      handleClose()
+      setFirstname('');
+      setLastname('');
+      setAddress('');
+      setAadharNo('');
+      setPancardNo('');
+      setLicence('');
+      setPhone('');
+      setEmail('');
+      setHostel_Id('');
+      setFloor('');
+      setRooms('');
+      setBed('');
+      setAdvanceAmount('');
+      setRoomRent('');
+      setPaymentType('');
+      setBalanceDue('');
+    }
+  },[state.UsersList?.statusCodeForAddUser])
 
 
 
