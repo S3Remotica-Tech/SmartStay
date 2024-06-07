@@ -10,7 +10,7 @@ import AmenitiesView from '../Pages/AmenitiesView'
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import "./Amenities.css";
-
+import Swal from 'sweetalert2';
 
 function Amenities() {
 
@@ -27,25 +27,31 @@ function Amenities() {
     const loginId = localStorage.getItem('loginId');
     const [createdby, setCreatedby] = useState('')
 
-    useEffect(() => {
-        if (loginId) {
-            try {
-                const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-                const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-                const parsedData = Number(decryptedIdString);
-                setCreatedby(parsedData)
-                dispatch({ type: 'HOSTELLIST', payload: { loginId: parsedData } })
 
-            } catch (error) {
-                console.error('Error decrypting loginId:', error);
-            }
-        }
+    useEffect(() => {
+        dispatch({ type: 'HOSTELLIST' })
     }, []);
+
+
+    // useEffect(() => {
+    //     if (loginId) {
+    //         try {
+    //             const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
+    //             const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
+    //             const parsedData = Number(decryptedIdString);
+    //             setCreatedby(parsedData)
+    //             dispatch({ type: 'HOSTELLIST' })
+
+    //         } catch (error) {
+    //             console.error('Error decrypting loginId:', error);
+    //         }
+    //     }
+    // }, []);
 
     const [showModal, setShowModal] = useState(false);
     const [id, setID] = useState('')
     const [amenitiesName, setAmenitiesName] = useState('')
-      const [amount, setAmount] = useState('')
+    const [amount, setAmount] = useState('')
     const [active, setActive] = useState(false)
     const [edit, setEdit] = useState('')
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
@@ -67,17 +73,14 @@ function Amenities() {
 
 
     useEffect(() => {
-        // if (state.InvoiceList.StatusCodeAmenitiesGet == 200) {
-            const filteredamenities = state.InvoiceList.AmenitiesList.filter(item => item.Hostel_Id == selectedHostel.id);
-            setFilteredAmenities(filteredamenities);
+              const filteredamenities = state.InvoiceList.AmenitiesList.filter(item => item.Hostel_Id == selectedHostel.id);
+        setFilteredAmenities(filteredamenities);
 
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
-            }, 1000)
-
-        // }
-
-    }, [state.InvoiceList.StatusCodeAmenitiesGet,selectedHostel])
+        setTimeout(() => {
+            dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
+        }, 1000)
+        
+    }, [state.InvoiceList.StatusCodeAmenitiesGet, selectedHostel])
 
 
 
@@ -94,6 +97,7 @@ function Amenities() {
 
     const handleAmountChange = (e) => {
         setAmount(e.target.value)
+
     }
 
     const handleSetAsDefault = (e) => {
@@ -113,29 +117,87 @@ function Amenities() {
         setStatus(e.target.value)
     }
 
+    
 
+
+
+    // const handleAmenitiesSetting = () => {
+    //     const setAsDefault = active || false;
+    //     if (edit === 'EDIT') {
+    //         dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: selectedHostel.id } })
+    //         setAmenitiesName('')
+    //         setAmount('')
+    //         setActive('')
+    //         setStatus('')
+    //         handleCloseModal()
+    //     } else {
+    //         dispatch({ type: 'AMENITIESSETTINGS', payload: { id: id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedHostel.id, Status: status} })
+    //         setAmenitiesName('')
+    //         setAmount('')
+    //         setActive('')
+    //         setStatus('')
+    //         handleCloseModal()
+    //     }
+
+
+    // }
 
 
     const handleAmenitiesSetting = () => {
-        const setAsDefault = active || false; 
-        if (edit === 'EDIT') {
-            dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: selectedHostel.id } })
-            setAmenitiesName('')
-            setAmount('')
-            setActive('')
-            setStatus('')
-            handleCloseModal()
-        } else {
-            dispatch({ type: 'AMENITIESSETTINGS', payload: { id: id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedHostel.id, Status: status, createdBy: createdby } })
-            setAmenitiesName('')
-            setAmount('')
-            setActive('')
-            setStatus('')
-            handleCloseModal()
+        const setAsDefault = active || false;
+    
+        console.log("amount", amount);
+        console.log("status", status);
+        console.log("edit", edit);
+        console.log("amenitiesName", amenitiesName);
+        console.log("selectedHostel.id", selectedHostel.id);
+        console.log("setAsDefault ",setAsDefault )
+    
+        // Validation check
+        if (edit === 'ADD') {
+            if (!amenitiesName || !amount  || !selectedHostel.id ) {
+                console.log("Validation failed for ADD mode");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Error',
+                    text: 'Please Enter All Fields',
+                    timer: 3000,
+                    showConfirmButton: false,
+                });
+                return; // Exit function if validation fails
+            }
+        } else if (edit === 'EDIT') {
+            if (!amount  || !status || !selectedHostel.id) {
+                console.log("Validation failed for EDIT mode");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Error',
+                    text: 'Please Enter All Fields',
+                    timer: 3000,
+                    showConfirmButton: false,
+                });
+                return; // Exit function if validation fails
+            }
         }
-
-
+    
+        // If validation passes, proceed with dispatching action and resetting fields
+        if (edit === 'EDIT') {
+            dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: selectedHostel.id } });
+        } else if (edit === 'ADD') {
+            dispatch({ type: 'AMENITIESSETTINGS', payload: { id: id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedHostel.id, Status: status} });
+        }
+    
+        // Reset form fields and close modal
+        setAmenitiesName('');
+        setAmount('');
+        setActive('');
+        setStatus('');
+        handleCloseModal();
     }
+      
+    
+
+
 
     const handleEdit = (item) => {
         setShowModal(true)
@@ -172,14 +234,9 @@ function Amenities() {
     })
 
 
-    // const amenitiesList = Array.isArray(state?.InvoiceList?.AmenitiesList) ? state?.InvoiceList?.AmenitiesList : [];
-
-    // console.log("amenitiesList",amenitiesList)
-
     const uniqueOptions = Array.from(new Set(state?.InvoiceList?.AmenitiesList.map((item) => item.Amnities_Name)));
 
 
-    // console.log("uniqueOptions",uniqueOptions)
     return (
         <div className='Amenities'>
             <div className='d-flex justify-content-between'>

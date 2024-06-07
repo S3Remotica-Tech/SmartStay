@@ -8,32 +8,21 @@ import ForgetPassword from "./Components/Forgetpass";
 import RoyalGrandHostel from './Components/RoyalGrandHostel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
-// import { useSelector } from 'react-redux/es/hooks/useSelector';
 import BedDetails from './Pages/Bed';
 import DashboardRoomList from './Pages/DashBoardRoomsList';
 import CryptoJS from "crypto-js";
 import InvoiceDetail from './Pages/InvoiceDetails';
 import { useDispatch, useSelector } from 'react-redux';
+import { Token } from '@mui/icons-material';
+import Cookies from 'universal-cookie';
+
+
 
 function App() {
-
+  const cookies = new Cookies()
   const dispatch = useDispatch()
   const state = useSelector(state => state)
   const [data, setData] = useState('');
-
-  // const login = localStorage.getItem("login");
-
-  console.log("state app.js", state)
-
-
-  console.log("data", data)
-
-
-
-  useEffect(() => {
-    dispatch({ type: 'ACCOUNTDETAILS' })
-    console.log("executed account details")
-  }, [])
 
 
   const loginId = localStorage.getItem("loginId")
@@ -41,12 +30,47 @@ function App() {
   const login = localStorage.getItem("login");
 
 
+// console.log("state for app.js",state)
+
+  
+  // console.log("stateLogin.JWTtoken", token)
+ 
+  // const tokenCookies = cookies.get('token');
+  // console.log("tokenCookies", tokenCookies)
+
+
+
+  // useEffect(() => {
+  //   if(state.login.statusCode == 200){
+  //         dispatch({ type: 'ACCOUNTDETAILS'})
+  //     console.log("executed account details")
+  //     setTimeout(()=>{
+  //       dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
+  //       },2000)
+  //        }
+  //    }, [state.login.statusCode])
+
+
+     const tokenAccessDenied = cookies.get('access-denied')
+     console.log("tokenAccessDenied", tokenAccessDenied)
+     
+   
+   useEffect(()=>{
+     if(tokenAccessDenied === 206){
+       setTimeout(()=>{
+         dispatch({ type: 'LOG_OUT' })
+       setData(false)
+          cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
+       },100)
+     
+     }
+   
+   },[tokenAccessDenied])
+   
+     
   useEffect(() => {
-    // console.log("LoginIds",loginId)
-
-    
+   
     try {
-
       const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
       const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
       console.log('Decrypted Login Id:', decryptedIdString);
@@ -55,9 +79,10 @@ function App() {
       console.log("parsedData", parsedData)
 
 
-      const IsEnableCheckState = state.createAccount?.accountList.filter((view => view.id == parsedData))
-      const is_Enable = IsEnableCheckState[0]?.isEnable
-      console.log("IsEnableCheck", IsEnableCheckState)
+      // const IsEnableCheckState = state.createAccount?.accountList.filter((view => view.id == parsedData))
+
+      const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable
+      
       console.log("is_Enable", is_Enable)
 
       const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
@@ -67,10 +92,9 @@ function App() {
 
       if (is_Enable == 1 || parseData == false) {
         setData(false);
-      } else {
+      } else {  
         setData(true);
       }
-
 
     }
     catch (error) {
@@ -79,7 +103,16 @@ function App() {
     }
 
     setIsLoading(false);
-  }, [state.createAccount.accountList,login ]);
+    
+  }, []);
+
+
+
+  
+
+
+
+
 
 
 
@@ -118,6 +151,11 @@ function App() {
   if (isLoading) {
     return <div style={{ display: 'flex', justifyContent: 'center' }}>Loading...</div>
   }
+
+
+console.log("data app js ",data)
+
+
 
 
   return (

@@ -12,7 +12,7 @@ function InvoiceSettings() {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
 
-console.log("state for invoice settings",state)
+    console.log("state for invoice settings", state)
 
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
     const [showTable, setShowTable] = useState(false)
@@ -154,39 +154,39 @@ console.log("state for invoice settings",state)
     const loginId = localStorage.getItem('loginId');
 
 
+    // console.log("state.InvoiceList?.invoiceSettingsStatusCode == 200", state.InvoiceList?.invoiceSettingsStatusCode === 200)
+
     useEffect(() => {
         if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
-                   const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-          const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-          const parsedData = Number(decryptedIdString);
-  
-          dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
-          
-                setTimeout(() => {
+            console.log("executed hostel list")
+            
+            dispatch({ type: 'HOSTELLIST' })
+
+            setTimeout(() => {
                 dispatch({ type: 'CLEAR_INVOICE_SETTINS_STATUSCODE' });
             }, 2000);
         }
     }, [state.InvoiceList?.invoiceSettingsStatusCode]);
 
-   
+
 
 
 
     const [logo, setLogo] = useState('')
 
 
-    console.log("logo for",logo)
+    console.log("logo for", logo)
 
     useEffect(() => {
 
-                const filteredHostels = state.UsersList?.hostelList?.filter((item) => (
+        const filteredHostels = state.UsersList?.hostelList?.filter((item) => (
             item.id === Number(selectedHostel.id)
         ));
-       
-console.log("filteredHostels",filteredHostels)
+
+        console.log("filteredHostels", filteredHostels)
 
         if (filteredHostels.length > 0) {
-            const profileURL = filteredHostels[0]?.profile;           
+            const profileURL = filteredHostels[0]?.profile;
             setLogo(profileURL);
         } else {
 
@@ -206,9 +206,9 @@ console.log("filteredHostels",filteredHostels)
     //       const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
     //       console.log('Decrypted Login Id:', decryptedIdString);
     //       const parsedData = Number(decryptedIdString);
-  
+
     //       dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
-          
+
     //     } catch (error) {
     //       console.error('Error decrypting loginId:', error);
     //     }
@@ -241,7 +241,7 @@ console.log("filteredHostels",filteredHostels)
                         <Form.Select aria-label="Default select example" value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, fontWeight: 600, backgroundColor: "#E6EDF5" }}>
 
                             <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
-                            { state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
+                            {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
                                 <>
                                     <option key={item.id} value={item.id} >{item.Name}</option></>
                             ))}
@@ -257,14 +257,14 @@ console.log("filteredHostels",filteredHostels)
                     <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5 }}>
 
 
-                       <Image
+                        <Image
                             src={selectedImage ? URL.createObjectURL(selectedImage) : logo == null ? Logo : logo}
                             roundedCircle
                             style={{
                                 height: 50,
                                 width: 50,
                                 borderRadius: '50%',
-                            }} 
+                            }}
                         />
 
 
@@ -279,15 +279,15 @@ console.log("filteredHostels",filteredHostels)
                     <table class="table text-center" >
                         <thead style={{ backgroundColor: "#E6EDF5", color: "#91969E", fontSize: "10px" }}>
                             <tr >
-                                <th scope="col" style={{textAlign:'left'}}>Hostel Name</th>
-                                <th scope="col" style={{textAlign:'left'}}>Prefix</th>
-                                <th scope="col" style={{textAlign:'left'}}>Suffix</th>
-                                <th scope="col" style={{textAlign:'left'}}>Preview</th>
+                                <th scope="col" style={{ textAlign: 'left' }}>Hostel Name</th>
+                                <th scope="col" style={{ textAlign: 'left' }}>Prefix</th>
+                                <th scope="col" style={{ textAlign: 'left' }}>Suffix</th>
+                                <th scope="col" style={{ textAlign: 'left' }}>Preview</th>
                             </tr>
                         </thead>
                         <tbody >
                             <tr>
-                                <td  style={{ fontSize: 14,textAlign:'left' }} >{selectedHostel.name}</td>
+                                <td style={{ fontSize: 14, textAlign: 'left' }} >{selectedHostel.name}</td>
                                 <td style={{ width: "20%" }}><div className='d-flex justify-content-center align-items-center'>
                                     <Form.Control
                                         placeholder="Ex:RG"

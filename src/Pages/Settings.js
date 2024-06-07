@@ -18,12 +18,12 @@ import InvoiceSettings from './InvoiceSettings';
 import Amenities from './Amenities';
 import Billings from './Billing';
 import imageCompression from 'browser-image-compression';
-
+import Cookies from 'universal-cookie';
 
 function Settings() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
-
+  const cookies = new Cookies()
 
   const [selectedTab, setSelectedTab] = useState('Personal');
   const [Name, setName] = useState('')
@@ -190,10 +190,10 @@ function Settings() {
 
 
 useEffect(()=>{
-  const UserIsEnable = state.createAccount.accountList.filter(item=> item.email_Id == email)
- const IsEnableOn = UserIsEnable[0]?.isEnable
+  const UserIsEnable = state.createAccount.accountList[0].user_details.isEnable
+ 
 
-if(IsEnableOn === 1){
+if(UserIsEnable === 1){
   setIsChecked(true);
 
  localStorage.setItem("IsEnable", '');
@@ -206,9 +206,9 @@ if(IsEnableOn === 1){
 
 
 
-useEffect(()=>{
-    dispatch({ type: 'ACCOUNTDETAILS' })
-   },[])
+// useEffect(()=>{
+//     dispatch({ type: 'ACCOUNTDETAILS' })
+//    },[])
 
   
 const [selectedImage, setSelectedImage] = useState(null);
@@ -235,13 +235,12 @@ const [profilePicture, setProfilePicture] = useState('');
 
 
 useEffect(()=>{
-  if(id){
-    const FIlteredProfile = state.createAccount?.accountList.filter(item => item.id == id)
-       if(FIlteredProfile.length > 0 ){
-        const ProfileImage = FIlteredProfile[0]?.profile
-    const CustomerName = FIlteredProfile[0]?.Name
-    const PhoneNUmber = FIlteredProfile[0]?.mobileNo
-    const UserEmail = FIlteredProfile[0]?.email_Id
+     const FIlteredProfile = state.createAccount?.accountList[0].user_details
+       if(FIlteredProfile.profile){
+        const ProfileImage = FIlteredProfile.profile
+    const CustomerName = FIlteredProfile.Name
+    const PhoneNUmber = FIlteredProfile.mobileNo
+    const UserEmail = FIlteredProfile.email_Id
     
     setName(CustomerName)
     setPhone(PhoneNUmber)
@@ -251,12 +250,15 @@ useEffect(()=>{
     }else{
       setProfilePicture(Men)
     }
-  }
- 
+  
 },[state.createAccount?.accountList])
 
 
 
+const tokenCookies = cookies.get('token');
+
+
+// console.log("state.createAccount.statusCodeForAccount == 200",state.createAccount.statusCodeForAccount == 200)
 
 
 useEffect(()=>{
@@ -264,13 +266,18 @@ if(state.createAccount.statusCodeForAccount == 200){
   dispatch({ type: 'ACCOUNTDETAILS' })
 setTimeout(()=>{
 dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
-},100)
+},2000)
+
+setTimeout(()=>{
+  dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
+  },1000)
+
 }else{
   console.log("create account not working")
 }
 },[state.createAccount?.statusCodeForAccount])
 
-
+console.log("state for settings",state)
 
   return (
     <div className='container-fluid'>

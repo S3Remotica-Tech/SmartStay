@@ -12,6 +12,7 @@ const initialState = {
    otpSuccessStatusCode: 0,
    sendOtpValue: [],
    OtpVerifyStatusCode: 0,
+   JWTtoken:'',
    
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -20,7 +21,7 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
       case 'LOGIN-INFO':
-         return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode }
+         return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode, JWTtoken:action.payload.response.token }
       case 'ERROR_EMAIL':
          return { ...state, errorEmail: action.payload }
       case 'ERROR_PASSWORD':
@@ -40,7 +41,7 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'CLEAR_OTP_STATUSCODE':
          return { ...state, otpSuccessStatusCode: 0 }
       case 'OTP_VERIFY':
-         return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode}
+         return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode, JWTtoken:action.payload.response.token }
       case 'CLEAR_OTP_VERIFIED':
          return { ...state, OtpVerifyStatusCode: 0 }
    }

@@ -479,21 +479,9 @@ function BedDetails(props) {
   const [loginID, setLoginID] = useState('')
 
 
+ 
   useEffect(() => {
-    if (LoginId) {
-      try {
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-        setLoginID(parsedData)
-        dispatch({ type: 'USERLIST', payload: { loginId: parsedData } })
-      }
-
-      catch (error) {
-        console.log("Error decrypting loginid", error);
-      }
-    }
-
+    dispatch({ type: 'USERLIST' })
   }, [])
 
   useEffect(() => {
@@ -577,9 +565,8 @@ function BedDetails(props) {
 
 
   useEffect(() => {
-
     if (state.UsersList.statusCodeForAddUser == 200) {
-      dispatch({ type: 'USERLIST', payload: { loginId: loginID } })
+      dispatch({ type: 'USERLIST' })
       // setTimeout(()=>{
       //   dispatch({ type: 'MANUALINVOICE' })
       // },3000)

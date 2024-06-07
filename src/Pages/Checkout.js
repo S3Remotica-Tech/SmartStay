@@ -22,22 +22,10 @@ function Checkout() {
   const dispatch = useDispatch();
 
   const [selectedUserId, setSelectedUserId] = useState('')
-const [loginAdmin, setLoginAdmin] = useState('')
+  const [loginAdmin, setLoginAdmin] = useState('')
 
   useEffect(() => {
-    const LoginId = localStorage.getItem("loginId")
-    if (LoginId) {
-      try {
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-        setLoginAdmin(parsedData)
-        dispatch({ type: 'USERLIST', payload: { loginId: parsedData } })
-      }
-      catch (error) {
-        console.log("Error decrypting loginid", error);
-      }
-    }
+    dispatch({ type: 'USERLIST' })
 
   }, [])
 
@@ -105,14 +93,14 @@ const [loginAdmin, setLoginAdmin] = useState('')
     }
   }
 
-useEffect(()=>{
-  if (state.UsersList?.checkOutStatusCode == 200) {
-    dispatch({ type: 'USERLIST', payload: { loginId: loginAdmin } })
-    setTimeout(()=>{
-      dispatch({ type: 'CLEAR_STATUS_CODE_CHECK_OUT'})
-    },1000)
-  }
-},[state.UsersList?.checkOutStatusCode == 200])
+  useEffect(() => {
+    if (state.UsersList?.checkOutStatusCode == 200) {
+      dispatch({ type: 'USERLIST' })
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODE_CHECK_OUT' })
+      }, 1000)
+    }
+  }, [state.UsersList?.checkOutStatusCode == 200])
 
 
 
@@ -213,7 +201,7 @@ useEffect(()=>{
                             <label style={{ fontSize: 14 }} className="mb-2">Checkout Date:</label>
                           </div>
                           <div>
-                            <Form.Control type="date" placeholder="Select check date" style={{ fontWeight: 700,fontSize:13 }} value={CheckOutDate} onChange={handleDateChange} className="w-100 ms-3" />
+                            <Form.Control type="date" placeholder="Select check date" style={{ fontWeight: 700, fontSize: 13 }} value={CheckOutDate} onChange={handleDateChange} className="w-100 ms-3" />
                           </div>
                         </div>
 

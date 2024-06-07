@@ -1,60 +1,65 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount } from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
-
+import Cookies from 'universal-cookie';
 
 
 
 function* CreateNewAccount(args) {
   try {
     const response = yield call(Addaccount, args.payload);
-    if (response.status === 200) {
+      if (response.status === 200) {
       yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status } });
 
-      yield Swal.fire({
+      Swal.fire({
         icon: 'success',
         text: response.data.message,
         confirmButtonText: 'Ok'
       });
     } else if (response.status === 201) {
-      yield Swal.fire({
+       Swal.fire({
         icon: 'warning',
         title: 'Error',
         html: `<span style="color: red">${args.payload.emailId}</span> This ${response.data.message}`,
         confirmButtonText: 'Ok'
       });
     } else if (response.status === 202) {
-      yield Swal.fire({
+     Swal.fire({
         icon: 'warning',
         title: 'Error',
         html: `<span style="color: red">${args.payload.mobileNo}</span> This ${response.data.message}`,
         confirmButtonText: 'Ok'
       });
     } else if (response.status === 203) {
-      yield Swal.fire({
+     Swal.fire({
         icon: 'warning',
         title: 'Error',
         html: `<span style="color: red">${args.payload.mobileNo} & ${args.payload.emailId}</span> This ${response.data.message}`,
         confirmButtonText: 'Ok'
       });
     }
+    refreshToken(response)
   } catch (error) {
     console.log("error", error);
   }
 }
 
 
-function* CreateAccountPage(args) {
+function* CreateAccountPage(action) {
+  console.log("action create account",action)
   try {
-    const response = yield call(CreateAccountAction, args.payload);
+    const response = yield call(CreateAccountAction, action.payload);
+    console.log("response for ca",response.statusCode)
+       
     if (response.statusCode === 200) {
       yield put({
         type: 'CREATEACCOUNT',
         payload: { response: response.data, statusCode: response.statusCode }
       });
+
      
     }
-
+    refreshToken(response)
   } catch (error) {
     console.log("error", error);
   }
@@ -66,6 +71,7 @@ function* CreateAccountPage(args) {
 
 function* HandleTwoStepVerification(action) {
   const response = yield call(TwoStepVerification, action.payload)
+ 
   if (response.status === 200) {
     yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response.status } })
     Swal.fire({
@@ -80,19 +86,41 @@ function* HandleTwoStepVerification(action) {
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
   }
+  refreshToken(response)
 }
 
-function* handleAccountDetails() {
-  const response = yield call(AccountDetails)
+function* handleAccountDetails(args) {
+  try {
+   const response = yield call(AccountDetails,args.payload)
+// console.log("Response for account",response)
+
   if (response.status === 200) {
-    yield put({ type: 'ACCOUNT_DETAILS', payload: response.data })
-  }
+    yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response.status }})
+     }
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
   }
+  refreshToken(response)
+} catch (error) {
+  console.error("Error in handleAccountDetails:", error);
+    yield put({ type: 'ERROR', payload: 'Failed to fetch account details' });
+}
 }
 
-
+function refreshToken(response){
+  if(response.data.refresh_token){
+     const refreshTokenGet = response.data.refresh_token
+     console.log("refreshTokenGet",refreshTokenGet)
+     const cookies = new Cookies()
+     cookies.set('token', refreshTokenGet, { path: '/' });
+  }else if (response.status === 206) {
+    const message = response.status
+    const cookies = new Cookies()
+    cookies.set('access-denied', message, { path: '/' });
+  
+ }
+  
+  }
 
 function* CreateAccountSaga() {
   yield takeEvery('CREATE_ACCOUNT', CreateAccountPage)

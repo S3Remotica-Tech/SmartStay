@@ -196,7 +196,7 @@ function PgList() {
       const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
       const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
       const parsedData = Number(decryptedString);
-      dispatch({ type: 'HOSTELLIST', payload: { loginId: parsedData } })
+      dispatch({ type: 'HOSTELLIST' })
       // dispatch({ type: 'HOSTELLIST' })
 
 
@@ -206,13 +206,12 @@ function PgList() {
     }
 
   }, [state.UsersList.createFloorMessage])
-
   useEffect(() => {
     if (state.PgList.createPGMessage) {
       const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
       const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
       const parsedData = Number(decryptedString);
-      dispatch({ type: 'HOSTELLIST', payload: { loginId: parsedData } })
+      dispatch({ type: 'HOSTELLIST' })
 
 
 
@@ -274,19 +273,9 @@ function PgList() {
 
 
   const loginId = localStorage.getItem('loginId');
-  useEffect(() => {
-    if (loginId) {
-      try {
-        const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-        const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
 
-        dispatch({ type: 'HOSTELLIST', payload: { loginId: parsedData } })
-        setDecrypt(decryptedIdString);
-      } catch (error) {
-        console.error('Error decrypting loginId:', error);
-      }
-    }
+  useEffect(() => {
+    dispatch({ type: 'HOSTELLIST' })
   }, []);
 
 
@@ -319,7 +308,7 @@ function PgList() {
           // number_of_floors: pgList.number_Of_Floor,
           // number_Of_Rooms: pgList.number_Of_Rooms,
           // floorDetails: pgList.floorDetails,
-          created_by: decrypt
+          // created_by: decrypt
         }
       });
       setPgList({

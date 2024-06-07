@@ -42,8 +42,8 @@ function UserList() {
         const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parsedData = Number(decryptedIdString);
         setLoginID(parsedData)
-        dispatch({ type: 'USERLIST', payload: { loginId: parsedData } })
-        dispatch({ type: 'INVOICELIST', payload: { loginId: parsedData } })
+        dispatch({ type: 'USERLIST' })
+        dispatch({ type: 'INVOICELIST' })
       }
 
       catch (error) {
@@ -79,7 +79,7 @@ function UserList() {
 
   useEffect(() => {
     if (state.InvoiceList.statusCodeForPDf === 200) {
-      dispatch({ type: 'INVOICELIST', payload: { loginId: loginID } })
+      dispatch({ type: 'INVOICELIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
       }, 100);
@@ -375,7 +375,7 @@ function UserList() {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: 'USERLIST', payload: { loginId: loginID } })
+      dispatch({ type: 'USERLIST' })
 
       // setTimeout(()=>{
       //   dispatch({ type: 'MANUALINVOICE' })

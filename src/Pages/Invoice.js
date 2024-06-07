@@ -103,7 +103,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.statusCodeForPDf === 200) {
-      dispatch({ type: 'INVOICELIST', payload: { loginId: loginID } })
+      dispatch({ type: 'INVOICELIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
       }, 100);
@@ -163,22 +163,8 @@ const InvoicePage = () => {
 
 
   useEffect(() => {
-    if (LoginId) {
-      try {
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-        setLoginID(parsedData)
-        dispatch({ type: 'INVOICELIST', payload: { loginId: parsedData } })
-
-      }
-
-      catch (error) {
-        console.log("Error decrypting loginid", error);
-      }
-    }
-
-  }, [LoginId])
+    dispatch({ type: 'INVOICELIST' })
+  }, [])
 
 
 

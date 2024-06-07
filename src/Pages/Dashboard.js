@@ -19,7 +19,7 @@ import Delete from "../Assets/Images/delete.png";
 import { useDispatch, useSelector } from 'react-redux';
 import CryptoJS from "crypto-js";
 import DashboardChart from './DashboardChart';
-
+import dots from "../Assets/Images/dots.png"
 function Dashboard() {
 
   const state = useSelector(state => state)
@@ -29,21 +29,9 @@ function Dashboard() {
   const LoginId = localStorage.getItem("loginId")
   const [login_Id, setLogin_Id] = useState('')
   useEffect(() => {
-    if (LoginId) {
-      try {
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-        setLogin_Id(parsedData)
-        dispatch({ type: 'PGDASHBOARD', payload: { created_by: parsedData } })
-      }
-
-      catch (error) {
-        console.log("Error decrypting loginid", error);
-      }
-    }
-
+    dispatch({ type: 'PGDASHBOARD' })
   }, [])
+  
   useEffect(() => {
     setDashboardList(state.PgList.dashboardDetails.dashboardList)
   }, [state.PgList.dashboardDetails.dashboardList])
