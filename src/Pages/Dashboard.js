@@ -19,7 +19,7 @@ import Delete from "../Assets/Images/delete.png";
 import { useDispatch, useSelector } from 'react-redux';
 import CryptoJS from "crypto-js";
 import DashboardChart from './DashboardChart';
-import dots from "../Assets/Images/dots.png"
+
 function Dashboard() {
 
   const state = useSelector(state => state)
