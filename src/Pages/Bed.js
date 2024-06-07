@@ -496,7 +496,23 @@ function BedDetails(props) {
 
   }, [])
 
-
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      setFirstname('');
+      setLastname('');
+      setAddress('');
+      setAadharNo('');
+      setPancardNo('');
+      setLicence('');
+      setPhone('');
+      setEmail('');
+      setAdvanceAmount('');
+      setRoomRent('');
+      setPaymentType('');
+      setBalanceDue('');
+      handleClose()
+    }
+  },[state.UsersList?.statusCodeForAddUser])
 
 
 
@@ -536,32 +552,20 @@ function BedDetails(props) {
         },
       });
 
-
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Detail Send Successfully',
-        text: 'You have been Created successfully!',
-        confirmButtonText: 'Ok',
-      }).then((result) => {
-        if (result.isConfirmed) {
-
-          setFirstname('');
-          setLastname('');
-          setAddress('');
-          setAadharNo('');
-          setPancardNo('');
-          setLicence('');
-          setPhone('');
-          setEmail('');
-          setAdvanceAmount('');
-          setRoomRent('');
-          setPaymentType('');
-          setBalanceDue('');
-        }
-
-      });
-      handleClose()
+      // setFirstname('');
+      // setLastname('');
+      // setAddress('');
+      // setAadharNo('');
+      // setPancardNo('');
+      // setLicence('');
+      // setPhone('');
+      // setEmail('');
+      // setAdvanceAmount('');
+      // setRoomRent('');
+      // setPaymentType('');
+      // setBalanceDue('');
+      // handleClose()
+          
     } else {
       Swal.fire({
         icon: 'warning',

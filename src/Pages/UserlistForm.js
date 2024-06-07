@@ -437,23 +437,24 @@ function UserlistForm(props) {
       props.AfterEditFloors(Floor)
       props.AfterEditRoomses(Rooms)
       props.AfterEditBeds(Bed)
-      setFirstname('');
-      setLastname('');
-      setAddress('');
-      setAadharNo('');
-      setPancardNo('');
-      setLicence('');
-      setPhone('');
-      setEmail('');
-      setHostel_Id('');
-      setFloor('');
-      setRooms('');
-      setBed('');
-      setAdvanceAmount('');
-      setRoomRent('');
-      setPaymentType('');
-      setBalanceDue('');
-      handleClose()
+      
+      // setFirstname('');
+      // setLastname('');
+      // setAddress('');
+      // setAadharNo('');
+      // setPancardNo('');
+      // setLicence('');
+      // setPhone('');
+      // setEmail('');
+      // setHostel_Id('');
+      // setFloor('');
+      // setRooms('');
+      // setBed('');
+      // setAdvanceAmount('');
+      // setRoomRent('');
+      // setPaymentType('');
+      // setBalanceDue('');
+      // handleClose()
       // Swal.fire({
       //   icon: 'success',
       //   title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
@@ -522,29 +523,12 @@ function UserlistForm(props) {
          ID: props.edit === 'Edit' ? id : '',
        },
      });
-
-
      props.AfterEditHostels(hostel_Id)
      props.AfterEditFloors(Floor)
      props.AfterEditRoomses(Rooms)
      props.AfterEditBeds(Bed)
-     setFirstname('');
-     setLastname('');
-     setAddress('');
-     setAadharNo('');
-     setPancardNo('');
-     setLicence('');
-     setPhone('');
-     setEmail('');
-     setHostel_Id('');
-     setFloor('');
-     setRooms('');
-     setBed('');
-     setAdvanceAmount('');
-     setRoomRent('');
-     setPaymentType('');
-     setBalanceDue('');
-     handleClose()
+    
+   
     //  Swal.fire({
     //    icon: 'success',
     //    title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
@@ -569,9 +553,27 @@ function UserlistForm(props) {
   }
 
 
-
-
-
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      handleClose()
+      setFirstname('');
+      setLastname('');
+      setAddress('');
+      setAadharNo('');
+      setPancardNo('');
+      setLicence('');
+      setPhone('');
+      setEmail('');
+      setHostel_Id('');
+      setFloor('');
+      setRooms('');
+      setBed('');
+      setAdvanceAmount('');
+      setRoomRent('');
+      setPaymentType('');
+      setBalanceDue('');
+    }
+  },[state.UsersList?.statusCodeForAddUser])
 
 
 
