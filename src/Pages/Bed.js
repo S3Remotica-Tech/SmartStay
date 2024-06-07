@@ -521,9 +521,6 @@ function BedDetails(props) {
 
         },
       });
-
-
-
       Swal.fire({
         icon: 'success',
         title: 'Detail Send Successfully',
@@ -531,7 +528,6 @@ function BedDetails(props) {
         confirmButtonText: 'Ok',
       }).then((result) => {
         if (result.isConfirmed) {
-
           setFirstname('');
           setLastname('');
           setAddress('');
