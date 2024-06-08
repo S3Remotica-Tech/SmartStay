@@ -21,6 +21,7 @@ function Amenities() {
 
     useEffect(() => {
         dispatch({ type: 'AMENITIESLIST' })
+        dispatch({ type: 'HOSTELLIST' })
     }, [])
 
 
@@ -28,10 +29,7 @@ function Amenities() {
     const [createdby, setCreatedby] = useState('')
 
 
-    useEffect(() => {
-        dispatch({ type: 'HOSTELLIST' })
-    }, []);
-
+   
 
     // useEffect(() => {
     //     if (loginId) {
@@ -146,14 +144,14 @@ function Amenities() {
     const handleAmenitiesSetting = () => {
         const setAsDefault = active || false;
     
-        console.log("amount", amount);
-        console.log("status", status);
-        console.log("edit", edit);
-        console.log("amenitiesName", amenitiesName);
-        console.log("selectedHostel.id", selectedHostel.id);
-        console.log("setAsDefault ",setAsDefault )
+        // console.log("amount", amount);
+        // console.log("status", status);
+        // console.log("edit", edit);
+        // console.log("amenitiesName", amenitiesName);
+        // console.log("selectedHostel.id", selectedHostel.id);
+        // console.log("setAsDefault ",setAsDefault )
     
-        // Validation check
+        
         if (edit === 'ADD') {
             if (!amenitiesName || !amount  || !selectedHostel.id ) {
                 console.log("Validation failed for ADD mode");
@@ -164,7 +162,7 @@ function Amenities() {
                     timer: 3000,
                     showConfirmButton: false,
                 });
-                return; // Exit function if validation fails
+                return; 
             }
         } else if (edit === 'EDIT') {
             if (!amount  || !status || !selectedHostel.id) {
@@ -176,18 +174,18 @@ function Amenities() {
                     timer: 3000,
                     showConfirmButton: false,
                 });
-                return; // Exit function if validation fails
+                return; 
             }
         }
     
-        // If validation passes, proceed with dispatching action and resetting fields
+      
         if (edit === 'EDIT') {
             dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: selectedHostel.id } });
         } else if (edit === 'ADD') {
             dispatch({ type: 'AMENITIESSETTINGS', payload: { id: id, AmenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedHostel.id, Status: status} });
         }
     
-        // Reset form fields and close modal
+       
         setAmenitiesName('');
         setAmount('');
         setActive('');
