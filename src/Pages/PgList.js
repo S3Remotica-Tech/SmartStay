@@ -193,14 +193,8 @@ function PgList() {
   useEffect(() => {
     if (state.UsersList.createFloorMessage) {
 
-      const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-      const parsedData = Number(decryptedString);
-      dispatch({ type: 'HOSTELLIST' })
-      // dispatch({ type: 'HOSTELLIST' })
-
-
-      setTimeout(() => {
+           dispatch({ type: 'HOSTELLIST' })
+       setTimeout(() => {
         dispatch({ type: 'UPDATE_MESSAGE_FLOOR', message: null })
       }, 100)
     }
@@ -208,13 +202,7 @@ function PgList() {
   }, [state.UsersList.createFloorMessage])
   useEffect(() => {
     if (state.PgList.createPGMessage) {
-      const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-      const parsedData = Number(decryptedString);
-      dispatch({ type: 'HOSTELLIST' })
-
-
-
+           dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
         dispatch({ type: 'AFTER_CREATE_PG_MSG', message: null })
       }, 100);

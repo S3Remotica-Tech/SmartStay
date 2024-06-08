@@ -164,9 +164,13 @@ const InvoicePage = () => {
 
   useEffect(() => {
     dispatch({ type: 'INVOICELIST' })
+    setTimeout(()=>{
+      setData(state.InvoiceList.Invoice)
+    },0)
+     
   }, [])
 
-
+console.log("data",data)
 
   // useEffect(() => {
   //   dispatch({ type: 'INVOICELIST' })
@@ -174,13 +178,12 @@ const InvoicePage = () => {
 
   // }, [])
 
-  useEffect(() => {
-      dispatch({ type: 'INVOICELIST', payload: { loginId:loginID } })
-      setData(state.InvoiceList.Invoice)
-      console.log("useffect invoice list",state.InvoiceList.Invoice);
-  }, [state.InvoiceList.Invoice])
+  // useEffect(() => {
+  //     dispatch({ type: 'INVOICELIST' })
+  //     setData(state.InvoiceList.Invoice)
+  //       }, [state.InvoiceList.Invoice])
 
-  console.log("invoice list",state.InvoiceList.Invoice);
+  console.log("invoice list",state);
 
 
   
