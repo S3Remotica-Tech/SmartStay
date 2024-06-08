@@ -1,5 +1,5 @@
 import AxiosConfig from "../../WebService/AxiosConfig"
-
+import axios from 'axios'
 
 
 
@@ -30,3 +30,10 @@ export async function registerStudent(params) {
 //     data:datum
 // })
 // }
+
+
+export async function OTPverificationForForgotPassword(datum) {
+     return await axios.post('http://localhost:2001/forgot_otp_response',datum, {
+       data: datum
+     })
+   } 

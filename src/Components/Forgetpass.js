@@ -66,12 +66,18 @@ function ForgetPasswordPage() {
           }
         });
       }
-      dispatch({ type: 'CLEAR_OTP_VERIFIED'})
+      setTimeout(()=>{
+        dispatch({ type: 'REMOVE_OTPVERIFY_FORGOT_PASSWORD_STATUSCODE'})
+      },1000)
+
       setTimeout(()=>{
         dispatch({ type: 'CLEAR_OTP_STATUS_CODE'})
       },100)
       setShowOtpVerification(false);
       setNewPassword(false);
+      setTimeout(()=>{
+        dispatch({ type: 'CLEAR_NEW_PASSWORD_STATUS_CODE'})
+      },2000)
     }
   }, [state.NewPass?.Pass]);
 
@@ -202,13 +208,13 @@ dispatch({ type: 'CLEAR_SEND_EMAIL_ERROR'})
 
   const handleOtpVerify = () => {
     if(otpValue){
-      dispatch({ type: 'OTPVERIFY', payload: {Email_Id: email, OTP: otpValue} })
+      dispatch({ type: 'OTPVERIFYFORGOTPASSWORD', payload: {Email_Id: email, OTP: otpValue} })
     }
     
   }
 
   useEffect(()=>{
-    if(state.login.OtpVerifyStatusCode == 200){
+    if(state.NewPass.statusCodeForgotOtp == 200){
       setNewPassword(true)
         }else{
       setNewPassword(false)
@@ -219,8 +225,11 @@ dispatch({ type: 'CLEAR_SEND_EMAIL_ERROR'})
           }
         });
     }
+   
+
+
   }
-    },[state.login.OtpVerifyStatusCode])
+    },[state.NewPass.statusCodeForgotOtp])
 
 
 

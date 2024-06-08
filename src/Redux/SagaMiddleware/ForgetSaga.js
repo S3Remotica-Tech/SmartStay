@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { forgetpage, otpSend ,otpVerify} from "../Action/ForgetAction";
+import { forgetpage, otpSend ,otpVerify,OTPverificationForForgotPassword} from "../Action/ForgetAction";
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 
@@ -80,20 +80,22 @@ function* handleSendOtp(action) {
     }
 }
 
-// function* handleOtpVerify(action) {
-//     console.log("action",action)
-//     console.log("action.payload",action.payload)
-//     const response = yield call(otpVerify, action.payload);
-//         console.log("response for  otp VERIFY",response)
-//     if (response.status === 200) {
-//         yield put({ type: 'OTP_VERIFY', payload:{ response:response.data,statusCode:response.status}})
-//     }else if(response.status === 201){
-       
-//     }
-//     else {
-//         yield put({ type: 'ERROR', payload: response.data.message })
-//     }
-// }
+function* handleOtpVerifyforForgotPassword(action) {
+     const response = yield call(OTPverificationForForgotPassword, action.payload);
+        console.log("response for  otp VERIFY",response)
+    if (response.status === 200) {
+        yield put({ type: 'OTPVERIFY_FORGOT_PASSWORD', payload:{ response:response.data,statusCode:response.status}})
+    }else if(response.status === 201){
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            html: `Enter Valid Otp`,
+          });
+    }
+    else {
+        yield put({ type: 'ERROR', payload: response.data.message })
+    }
+}
 
 function refreshToken(response){
     if(response.data.refresh_token){
@@ -115,7 +117,7 @@ function refreshToken(response){
 function* ForgetSaga() {
     yield takeEvery('FORGETPAGE', handleforgetpage)
     yield takeEvery('OTPSEND', handleSendOtp)
-    // yield takeEvery('OTPVERIFY', handleOtpVerify)
+    yield takeEvery('OTPVERIFYFORGOTPASSWORD', handleOtpVerifyforForgotPassword)
 
 }
 export default ForgetSaga;
