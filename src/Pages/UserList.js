@@ -621,7 +621,7 @@ function UserList() {
                   <td style={{ color: "black", fontWeight: 500, textAlign: "center" }}>{user.Rooms}</td>
                   <td style={{ color: "black", fontWeight: 500, textAlign: "center" }}>{user.Bed}</td>
                   {/* <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {user.RoomRent}</td> */}
-                  <td style={{ color: "black", fontWeight: 500, textAlign: "center" }}>₹ {user.BalanceDue}</td>
+                  <td style={{ color: "black", fontWeight: 500, textAlign: "center" }}>₹ {user.AdvanceAmount + user.RoomRent}</td>
                   {/* <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
       <td style={user.Status === "Success" ? { color: "green" } : { color: "red" }}>{user.Status}</td> */}
                   <td style={{ fontWeight: 500, textAlign: "center" }} >

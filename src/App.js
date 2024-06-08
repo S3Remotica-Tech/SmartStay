@@ -15,7 +15,7 @@ import InvoiceDetail from './Pages/InvoiceDetails';
 import { useDispatch, useSelector } from 'react-redux';
 import { Token } from '@mui/icons-material';
 import Cookies from 'universal-cookie';
-
+import Spinner from 'react-bootstrap/Spinner';
 
 
 function App() {
@@ -107,8 +107,17 @@ function App() {
   }, []);
 
 
-
-  
+useEffect(()=>{
+  if(!state.login?.isLoggedIn){
+    const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
+    const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+    const parseData = JSON.parse(decryptedString);
+    console.log("parseData", parseData)
+    if(parseData == false){
+      setData(false);
+    }
+  }
+  },[state.login?.isLoggedIn])
 
 
 
@@ -149,7 +158,7 @@ function App() {
 
 
   if (isLoading) {
-    return <div style={{ display: 'flex', justifyContent: 'center' }}>Loading...</div>
+    return <div style={{ display: 'flex', justifyContent: 'center' }}> <Spinner animation="border" variant="primary" /></div>
   }
 
 
