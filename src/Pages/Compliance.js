@@ -210,7 +210,7 @@ const Compliance = () => {
   const handleEdit = (item) => {
     if (item) {
       setEditbtn(true)
-      // setSelectedUserId(item.User_id);
+      setSelectedUserId(item.User_id);
       setId(item.ID)
       setName(item.Name)
       setPhone(item.Phone)
@@ -480,7 +480,7 @@ const Compliance = () => {
 
 
                   <div className='row d-flex justify-content-between w-100 g-1 row-gap-1' style={{ backgroundColor: "" }}>
-                    {editbtn ? '' :
+                    {/* {editbtn ? '' : */}
                       <div className='col-12 mb-3'>
 
                         <Form.Label style={{ fontSize: "14px", marginBottom: 5, fontWeight: 600 }}>Select User ID</Form.Label>
@@ -506,7 +506,7 @@ const Compliance = () => {
                           renderInput={(params) => <TextField {...params} label="" InputProps={{ ...params.InputProps, placeholder: 'Enter or Select UserId' }} />}
                         />
                       </div>
-                    }
+                    {/* } */}
 
                     <div className='col-6'>
                       <TextField id="standard-basic" label="Name" value={Name} InputProps={{ readOnly: true }} onChange={(e) => { setName(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
