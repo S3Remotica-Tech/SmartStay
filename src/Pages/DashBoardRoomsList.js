@@ -129,11 +129,8 @@ function DashboardRoom(props) {
 
     useEffect(() => {
         if (state.PgList.deleteFloor != null && state.PgList.deleteFloor != "") {
-            const LoginId = localStorage.getItem("loginId")
-            const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-            const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-            const parsedData = Number(decryptedString);
-            dispatch({ type: 'HOSTELLIST', payload: { loginId: parsedData } })
+            
+            dispatch({ type: 'HOSTELLIST' })
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_DELETE_FLOOR', message: null })
             }, 100);
