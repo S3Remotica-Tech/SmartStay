@@ -80,6 +80,9 @@ function PgList() {
 
   const [selectedHostel, setSelectedHostel] = useState(state.UsersList.hostelList.length > 0 ? state.UsersList.hostelList[0] : {});
 
+console.log("selectedHostel",selectedHostel)
+
+
   const handleHostelSelect = (hostelName) => {
     const selected = state.UsersList.hostelList?.find((item, index) => {
       setHostelIndex(index)
@@ -339,11 +342,11 @@ function PgList() {
       if (result.isConfirmed) {
         const floors = floorDetails.map((floor) => (
           { number_of_floors: 1 }));
-        const phoneNumber = selectedHostel.hostel_PhoneNo.toString()
+        const hostel_Id = selectedHostel.id.toString()
         dispatch({
           type: 'CREATEFLOOR',
           payload: {
-            phoneNo: phoneNumber,
+            hostel_Id : hostel_Id,
             hostelDetails: floors,
           },
         });
