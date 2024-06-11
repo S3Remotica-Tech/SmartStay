@@ -74,7 +74,8 @@ const InvoicePage = () => {
     balanceDue: '',
     dueDate: '',
     payableAmount: '',
-    InvoiceId:''
+    InvoiceId: '',
+    invoice_type: ''
   })
 
   console.log("invoiceList", invoiceList);
@@ -114,9 +115,26 @@ const InvoicePage = () => {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
 
+  useEffect(() => {
+    dispatch({ type: 'INVOICELIST' })
+    setData(state.InvoiceList.Invoice)
+  }, [])
 
 
+console.log("InvoiceList",state.InvoiceList);
 
+  useEffect(() => {
+    console.log("statuscode", state.InvoiceList.message);
+    if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
+      console.log("statuscode", state.InvoiceList.UpdateInvoiceStatusCode);
+      dispatch({ type: 'INVOICELIST' })
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
+      }, 100);
+      setData(state.InvoiceList.Invoice)
+
+    }
+  }, [state.InvoiceList])
 
 
   useEffect(() => {
@@ -162,31 +180,21 @@ const InvoicePage = () => {
   const [loginID, setLoginID] = useState('')
 
 
-  useEffect(() => {
-    dispatch({ type: 'INVOICELIST' })
-    setTimeout(()=>{
-      setData(state.InvoiceList.Invoice)
-    },0)
-     
-  }, [])
 
-console.log("data",data)
 
-  // useEffect(() => {
-  //   dispatch({ type: 'INVOICELIST' })
-  //   setData(state.InvoiceList.Invoice)
+  console.log("data", data)
 
-  // }, [])
+
 
   // useEffect(() => {
   //     dispatch({ type: 'INVOICELIST' })
   //     setData(state.InvoiceList.Invoice)
   //       }, [state.InvoiceList.Invoice])
 
-  console.log("invoice list",state);
+  console.log("invoice list", state);
 
 
-  
+
 
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
@@ -275,68 +283,6 @@ console.log("data",data)
   };
 
 
-  // const handleShow = (item) => {
-  //   console.log("item", item)
-  //   console.log("item.Date", item.Date);
-  //   setInvoiceValue(item)
-  //   if (item.id !== undefined) {
-  //     setEditOption('Edit')
-  //     const dateObject = new Date(item.Date);
-  //     const year = dateObject.getFullYear();
-  //     const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-  //     const day = String(dateObject.getDate()).padStart(2, '0');
-
-  //     const lastDayOfMonth = new Date(year, dateObject.getMonth() + 1, 0);
-  //     const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
-
-
-
-  //     const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
-  //     console.log("EditCheck", EditCheck);
-
-  //     console.log("item.BalanceDue === 0 && EditCheck && EditCheck.BalanceDue === 0", EditCheck && EditCheck.BalanceDue === 0 || item.BalanceDue === 0)
-  //     if (item.BalanceDue === 0 || EditCheck && EditCheck.BalanceDue === 0) {
-  //       setUserClicked(false);
-  //       setShowMenu(false);
-  //       setShowForm(false)
-  //       setDisplayText(true)
-  //     }
-  //     else {
-  //       setUserClicked(true);
-  //       setShowMenu(true);
-  //       setShowForm(true)
-  //       let value = item.Name.split(" ")
-  //       setSelectedUserId(item.User_Id)
-  //       const formattedDate = `${year}-${month}-${day}`;
-  //       console.log("Formatted Date:", formattedDate);
-  //       setInvoiceList({
-  //         id: item.id,
-  //         firstName: value[0],
-  //         lastName: value[1],
-  //         phone: item.phoneNo,
-  //         email: item.EmailID,
-  //         hostel_Name: item.Hostel_Name,
-  //         hostel_Id: item.Hostel_Id,
-  //         FloorNo: item.Floor_Id,
-  //         RoomNo: item.Room_No,
-  //         date: formattedDate,
-  //         amount: item.Amount,
-  //         balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
-  //         dueDate: formattedDueDate
-  //       })
-  //     }
-  //   }
-  //   else {
-  //     setEditOption('Add')
-  //     setSelectedUserId('')
-  //     setShowForm(true)
-  //     setUserClicked(true);
-  //     setShowMenu(true);
-  //   }
-
-
-  // };
-
 
 
   const handleShow = (item) => {
@@ -363,13 +309,6 @@ console.log("data",data)
       });
 
 
-      // if (item.BalanceDue === 0 || (EditCheck && EditCheck.BalanceDue === 0)) {
-      //   setUserClicked(false);
-      //   setShowMenu(true);
-      //   setShowForm(false);
-      //   // setDisplayText(true);
-      // } else {
-      // setUserClicked(true);
       setShowMenu(true);
       setShowForm(true);
       let value = item.Name.split(" ");
@@ -391,7 +330,8 @@ console.log("data",data)
         paidAmount: item.PaidAmount,
         balanceDue: item.BalanceDue == 0 ? '00' : item.BalanceDue,
         dueDate: formattedDueDate,
-        InvoiceId:item.Invoices
+        InvoiceId: item.Invoices,
+        invoice_type: item.invoice_type
       });
       // }
     } else {
@@ -466,12 +406,12 @@ console.log("data",data)
 
   }
 
-    
+
   const [updatemessage, setUpdatemessage] = useState('')
 
-  useEffect(()=>{
+  useEffect(() => {
     setUpdatemessage(state.InvoiceList.message)
-  },[state.InvoiceList.message])
+  }, [state.InvoiceList.message])
 
 
 
@@ -481,91 +421,31 @@ console.log("data",data)
       item.User_Id === selectedUserId && item.Invoices !== undefined
     );
 
-    // UPDATEINVOICEDETAILS
 
-    // if (selectedUserId && invoiceList.date && invoiceList.firstName && invoiceList.lastName && invoiceList.phone && invoiceList.email && invoiceList.amount && invoiceList.balanceDue && invoiceList.dueDate && invoiceList.balanceDue) {
-    //   dispatch({
-    //     type: 'ADDINVOICEDETAILS',
-    //     payload: {
-    //       User_Id: selectedUserId,
-    //       Date: invoiceList.date,
-    //       Name: invoiceList.firstName + ' ' + invoiceList.lastName, Phone: invoiceList.phone, Email: invoiceList.email, Amount: invoiceList.amount, BalanceDue: invoiceList.balanceDue,
-    //       DueDate: invoiceList.dueDate,
-    //       invoiceNo:
-    //         CheckInvoiceNo == true ? state.InvoiceList?.Invoice.find(item =>
-    //           item.User_Id == selectedUserId && item.Invoices !== undefined).Invoices + `${selectedUserId}` : invoiceNo,
-    //       hostel_Name: invoiceList.hostel_Name,
-    //       hostel_Id: invoiceList.hostel_Id, Floor_Id: invoiceList.FloorNo, RoomNo: invoiceList.RoomNo,
-    //       Status: invoiceList.balanceDue == 0 ? "Success" : "Pending", id: editOption === 'Edit' ? invoiceList.id : '',
 
-    //     }
-    //   })
-    //   setData(state.InvoiceList?.Invoice.slice(indexOfFirstItem, indexOfLastItem))
-    //   setInvoiceList({
-    //     firstName: '',
-    //     lastName: '',
-    //     phone: '',
-    //     email: '',
-    //     hostel_Name: '',
-    //     hostel_Id: '',
-    //     FloorNo: '',
-    //     RoomNo: '',
-    //     amount: '',
-    //     balanceDue: '',
-    //     dueDate: ''
-    //   })
-    //   Swal.fire({
-    //     icon: "success",
-    //     title: editOption == 'Add' ? 'Details Saved Successfully' : 'Details Updated Successfully',
-    //     confirmButtonText: "ok"
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       dispatch({ type: 'INVOICELIST' })
-    //       setInvoiceList({
-    //         firstName: '',
-    //         lastName: '',
-    //         phone: '',
-    //         email: '',
-    //         hostel_Name: '',
-    //         hostel_Id: '',
-    //         FloorNo: '',
-    //         RoomNo: '',
-    //         amount: '',
-    //         balanceDue: '',
-    //         dueDate: '',
-    //       })
-    //       handleClose()
+    if (invoiceList.InvoiceId && invoiceList.payableAmount) {
+      dispatch({
+        type: 'UPDATEINVOICEDETAILS',
+        payload: {
+          id: invoiceList.id,
+          invoice_id: invoiceList.InvoiceId,
+          invoice_type: invoiceList.invoice_type,
+          amount: invoiceList.payableAmount,
+          balance_due: invoiceList.balanceDue
+        }
+      });
 
-    //     }
-    //   });
-    // }
-
-    if (invoiceList.InvoiceId && invoiceList.payableAmount && loginID) {
-      // if (invoiceList.id) {
-        // Update invoice details
-        dispatch({
-          type: 'UPDATEINVOICEDETAILS',
-          payload: {
-            id: invoiceList.id,
-            invoice_id: invoiceList.InvoiceId,
-            amount: invoiceList.payableAmount,
-            created_by: loginID,
-            balance_due: invoiceList.balanceDue
-            
-          }
+      setTimeout(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Update Successfully",
+          confirmButtonText: "ok"
         });
-        
-        setTimeout(() => {
-          Swal.fire({
-            icon: "success",
-            title: state.InvoiceList.message,
-            confirmButtonText: "ok"
-          });
-        }, 400);
-        setShowMenu(false);
-        setShowForm(false);
+      }, 300);
+      setShowMenu(false);
+      setShowForm(false);
     }
-    
+
 
     else {
       Swal.fire({
@@ -580,6 +460,8 @@ console.log("data",data)
 
 
   }
+
+
 
 
 
@@ -721,15 +603,15 @@ console.log("data",data)
     setTotalPaidAmount(totalPaidAmount)
 
     if (!isNaN(AmountValue) && !isNaN(invoiceList.amount) && !isNaN(invoiceList.paidAmount) && !isNaN(invoiceList.balanceDue)) {
-      
+
       var total_amount = invoiceList.amount; // Total Amount values
       var paid_amount = invoiceList.paidAmount; // Already Paid Amount
       var payablAmount = AmountValue; // New Amount
       var balance_due = invoiceList.balanceDue; // Balance Amount
-    
+
       // Calculate the new total paid amount
       var cal1 = paid_amount + payablAmount;
-    
+
       // Calculate the new balance due
       var new_balance_due = total_amount - cal1;
       // Validate the new amount to ensure it does not exceed the remaining balance
@@ -1021,9 +903,9 @@ console.log("data",data)
                           </div>
                         </div>
                         <div className='row'>
-                          <div  className='col-lg-6 col-12 col-md-12' >
+                          <div className='col-lg-6 col-12 col-md-12' >
                             <Form.Label style={{ fontSize: "12px" }}>Select Date</Form.Label>
-                            <FormControl 
+                            <FormControl
                               className='position-sticky'
                               type="date"
                               value={invoiceList.date}

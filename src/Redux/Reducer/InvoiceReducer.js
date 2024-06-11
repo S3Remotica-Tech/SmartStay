@@ -1,5 +1,3 @@
-import { ManualInvoice } from "../Action/InvoiceAction";
-
 const initialState = {
     Invoice: [],
     message: '',
@@ -20,17 +18,20 @@ const initialState = {
     AmenitiesUpdateStatusCode: 0,
     ManualInvoice: [],
     manualInvoiceStatusCode: 0,
-
+    UpdateInvoiceStatusCode:0
 }
 
 const InvoiceReducer = (state = initialState, action) => {
+    console.log("action",action.payload);
     switch (action.type) {
         case 'INVOICE_LIST':
             return { ...state, Invoice: action.payload.response, InvoiceListStatusCode: action.payload.statusCode }
         case 'CLEAR_INVOICE_LIST':
             return { ...state, InvoiceListStatusCode: 0, toTriggerPDF: true }
         case 'UPDATEINVOICE_DETAILS':
-            return { ...state, message: action.payload.message }
+            return { ...state, message: action.payload.data.message, UpdateInvoiceStatusCode:action.payload.status }
+            case 'CLEAR_INVOICE_UPDATE_LIST':
+                return { ...state, UpdateInvoiceStatusCode: 0,message:null }
         case 'INVOICE_SETTINGS':
             return { ...state, prefix: action.payload.prefix, suffix: action.payload.suffix, profile:action.payload.profile, invoiceSettingsStatusCode:action.payload.statusCode }
         case 'CLEAR_INVOICE_SETTINS_STATUSCODE':

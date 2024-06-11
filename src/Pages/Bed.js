@@ -102,7 +102,8 @@ function BedDetails(props) {
     setBalanceDue('');
     setShowMenu(false);
     setShowForm(false);
-
+    setPaidAdvance('');
+    setPaidrent('');
 
   };
 
@@ -125,6 +126,8 @@ function BedDetails(props) {
   const [BalanceDue, setBalanceDue] = useState('')
   const [PaymentType, setPaymentType] = useState('')
   const [AdvanceAmount, setAdvanceAmount] = useState('')
+  const [paid_advance, setPaidAdvance] = useState('')
+  const [paid_rent, setPaidrent] = useState('')
   const [Address, setAddress] = useState('')
   const [Email, setEmail] = useState('')
   const [AadharNo, setAadharNo] = useState('')
@@ -151,6 +154,15 @@ function BedDetails(props) {
       setFile(fileimgage);
     }
   };
+
+
+  const handlePaidadvance = (e) => {
+    setPaidAdvance(e.target.value)
+  }
+
+  const handlePaidrent = (e) => {
+    setPaidrent(e.target.value)
+  }
 
   const handleAadharNo = (e) => {
     setAadharNo(e.target.value)
@@ -496,6 +508,8 @@ function BedDetails(props) {
       setEmail('');
       setAdvanceAmount('');
       setRoomRent('');
+      setPaidAdvance('');
+      setPaidrent('');
       setPaymentType('');
       setBalanceDue('');
       handleClose()
@@ -513,8 +527,9 @@ function BedDetails(props) {
       Email &&
       Address &&
       AdvanceAmount &&
-      RoomRent
-
+      RoomRent&&
+      paid_advance &&
+      paid_rent
     ) {
       dispatch({
         type: 'ADDUSER',
@@ -535,6 +550,8 @@ function BedDetails(props) {
           AdvanceAmount: AdvanceAmount,
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
+          paid_advance:paid_advance,
+          paid_rent:paid_rent,
           PaymentType: PaymentType,
 
         },
@@ -933,6 +950,33 @@ function BedDetails(props) {
                       />
                     </Form.Group>
                   </div>
+                </div>
+
+
+                <div className='row'>
+                <div className='col-lg-6'>
+                  <Form.Group className="">
+                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Paid Advance</Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      value={paid_advance} onChange={(e) => handlePaidadvance(e)}
+                      style={bottomBorderStyle}
+                    />
+                  </Form.Group>
+                </div>
+
+                <div className='col-lg-6'>
+                  <Form.Group className="">
+                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Paid Rent</Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      value={paid_rent} onChange={(e) => handlePaidrent(e)}
+                      style={bottomBorderStyle}
+                    />
+                  </Form.Group>
+                </div>
                 </div>
                 {/* <div className='row'>
                     <div className='col lg-6'>

@@ -50,6 +50,8 @@ function UserlistForm(props) {
   const [BalanceDue, setBalanceDue] = useState('')
   const [PaymentType, setPaymentType] = useState('')
   const [AdvanceAmount, setAdvanceAmount] = useState('')
+  const [paid_advance, setPaidAdvance] = useState('')
+  const [paid_rent, setPaidrent] = useState('')
   const [Address, setAddress] = useState('')
   const [Email, setEmail] = useState('')
   const [isActive, setIsActive] = useState('')
@@ -87,7 +89,7 @@ function UserlistForm(props) {
     const temparry = state.UsersList.roomdetails.filter((item) => item.Room_Id == Rooms);
     setBedArray(temparry);
 
-    const temp2 = state.UsersList.Users.filter((item) => {
+    const temp2 = state.UsersList.Users.filter((item) => {  
       return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id;
     });
 
@@ -128,6 +130,14 @@ function UserlistForm(props) {
     setLastname(e.target.value)
   }
 
+
+  const handlePaidadvance = (e) => {
+    setPaidAdvance(e.target.value)
+  }
+
+  const handlePaidrent = (e) => {
+    setPaidrent(e.target.value)
+  }
 
   const handlePhone = (e) => {
     setPhone(e.target.value)
@@ -277,6 +287,8 @@ function UserlistForm(props) {
     setRoomRent('');
     setPaymentType('');
     setBalanceDue('');
+    setPaidAdvance('');
+    setPaidrent('');
     props.setShowMenu(false);
     props.setUserClicked(false);
     props.setShowForm(false);
@@ -307,6 +319,8 @@ function UserlistForm(props) {
       setRoomRent(props.EditObj.RoomRent);
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
+      setPaidAdvance(props.EditObj.paid_advance)
+      setPaidrent(props.EditObj.paid_rent)
       // setIsActive(props.EditObj.isActive)
     }
     else {
@@ -519,6 +533,8 @@ function UserlistForm(props) {
          RoomRent: RoomRent,
          BalanceDue: BalanceDue,
          PaymentType: PaymentType,
+         paid_advance:paid_advance,
+         paid_rent:paid_rent,
          // isActive:isActive,
          ID: props.edit === 'Edit' ? id : '',
        },
@@ -572,6 +588,8 @@ function UserlistForm(props) {
       setRoomRent('');
       setPaymentType('');
       setBalanceDue('');
+      setPaidAdvance('');
+      setPaidrent('')
     }
   },[state.UsersList?.statusCodeForAddUser])
 
@@ -844,11 +862,35 @@ function UserlistForm(props) {
              
                 <div className='col-lg-6'>
                   <Form.Group className="">
-                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Advance Amount</Form.Label>
+                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Total Advance Amount</Form.Label>
                     <FormControl
                       type="text"
                       id="form-controls"
                       value={AdvanceAmount} onChange={(e) => handleAdvanceAmount(e)}
+                      style={bottomBorderStyle}
+                    />
+                  </Form.Group>
+                </div>
+
+                <div className='col-lg-6'>
+                  <Form.Group className="">
+                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Paid Advance</Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      value={paid_advance} onChange={(e) => handlePaidadvance(e)}
+                      style={bottomBorderStyle}
+                    />
+                  </Form.Group>
+                </div>
+
+                <div className='col-lg-6'>
+                  <Form.Group className="">
+                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Paid Rent</Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      value={paid_rent} onChange={(e) => handlePaidrent(e)}
                       style={bottomBorderStyle}
                     />
                   </Form.Group>
