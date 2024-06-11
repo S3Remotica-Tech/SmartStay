@@ -46,6 +46,8 @@ function UserBedDetailsEdit(props) {
   const [BalanceDue, setBalanceDue] = useState('')
   const [PaymentType, setPaymentType] = useState('')
   const [AdvanceAmount, setAdvanceAmount] = useState('')
+  const [paid_advance, setPaidAdvance] = useState('')
+  const [paid_rent, setPaidrent] = useState('')
   const [Address, setAddress] = useState('')
   const [Email, setEmail] = useState('')
   const [isActive, setIsActive] = useState('')
@@ -108,6 +110,15 @@ function UserBedDetailsEdit(props) {
   }
   const handleLastName = (e) => {
     setLastname(e.target.value)
+  }
+
+
+  const handlePaidadvance = (e) => {
+    setPaidAdvance(e.target.value)
+  }
+
+  const handlePaidrent = (e) => {
+    setPaidrent(e.target.value)
   }
 
   const handleIsActiveUser = (e) =>{
@@ -235,12 +246,16 @@ function UserBedDetailsEdit(props) {
     setRoomRent('');
     setPaymentType('');
     setBalanceDue('');
+    setPaidAdvance('');
+    setPaidrent('');
     props.setShowMenu(false);
     props.setUserClicked(false);
     props.setShowForm(false);
 
 
   };
+
+  console.log("props",props);
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {
@@ -265,6 +280,8 @@ function UserBedDetailsEdit(props) {
       setRoomRent(props.EditObj.RoomRent);
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
+      setPaidAdvance(props.EditObj.paid_advance)
+      setPaidrent(props.EditObj.pending_advance)
       // setIsActive(props.EditObj.isActive)
     }
     else {
@@ -285,7 +302,9 @@ function UserBedDetailsEdit(props) {
       Rooms &&
       Bed &&
       AdvanceAmount &&
-      RoomRent 
+      RoomRent  &&
+      paid_advance&&
+      paid_rent
     
     ) {
       dispatch({
@@ -307,6 +326,8 @@ function UserBedDetailsEdit(props) {
           AdvanceAmount: AdvanceAmount,
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
+          paid_advance:paid_advance,
+          paid_rent:paid_rent,
           PaymentType: PaymentType,
           // isActive:isActive,
           ID: props.edit === 'Edit' ? id : '',
@@ -374,6 +395,8 @@ function UserBedDetailsEdit(props) {
       setRoomRent('');
       setPaymentType('');
       setBalanceDue('');
+      setPaidAdvance('');
+      setPaidrent('');
     }
   },[state.UsersList?.statusCodeForAddUser])
 
@@ -605,6 +628,32 @@ function UserBedDetailsEdit(props) {
             </Form.Group>
           </div>
         </div>
+
+        <div className='row'>
+                <div className='col-lg-6'>
+                  <Form.Group className="">
+                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Paid Advance</Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      value={paid_advance} onChange={(e) => handlePaidadvance(e)}
+                      style={bottomBorderStyle}
+                    />
+                  </Form.Group>
+                </div>
+
+                <div className='col-lg-6'>
+                  <Form.Group className="">
+                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Paid Rent</Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      value={paid_rent} onChange={(e) => handlePaidrent(e)}
+                      style={bottomBorderStyle}
+                    />
+                  </Form.Group>
+                </div>
+                </div>
         <div className='row'>
           {/* <div className='col lg-6'>
             <Form.Label style={{ fontSize: '12px' }}>PaymentType</Form.Label>

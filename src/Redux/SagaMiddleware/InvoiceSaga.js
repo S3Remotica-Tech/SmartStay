@@ -32,9 +32,10 @@ function* handleInvoiceList(action) {
 
 function* handleAddInvoiceDetails (param){
    const response = yield call (UpdateInvoice,param.payload)
+   console.log("response.....>",response);
    
    if (response.status === 200) {
-      yield put({ type: 'UPDATEINVOICE_DETAILS', payload: response.data })
+      yield put({ type: 'UPDATEINVOICE_DETAILS', payload: response })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
