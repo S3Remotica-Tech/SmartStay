@@ -126,12 +126,13 @@ console.log("InvoiceList",state.InvoiceList);
   useEffect(() => {
     console.log("statuscode", state.InvoiceList.message);
     if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
-      console.log("statuscode", state.InvoiceList.UpdateInvoiceStatusCode);
+      console.log("statuscode_number", state.InvoiceList.UpdateInvoiceStatusCode);
       dispatch({ type: 'INVOICELIST' })
+      setData(state.InvoiceList.Invoice)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
       }, 100);
-      setData(state.InvoiceList.Invoice)
+      
 
     }
   }, [state.InvoiceList])
@@ -407,11 +408,11 @@ console.log("InvoiceList",state.InvoiceList);
   }
 
 
-  const [updatemessage, setUpdatemessage] = useState('')
+  // const [updatemessage, setUpdatemessage] = useState('')
 
-  useEffect(() => {
-    setUpdatemessage(state.InvoiceList.message)
-  }, [state.InvoiceList.message])
+  // useEffect(() => {
+  //   setUpdatemessage(state.InvoiceList.message)
+  // }, [state.InvoiceList.message])
 
 
 
