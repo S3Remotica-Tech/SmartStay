@@ -2,7 +2,8 @@ import React,{useState,useEffect} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 // import CryptoJS from "crypto-js";
 import EB_Billings from "./EB_Billings";
-
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 const Billings = () => {
 
@@ -11,7 +12,6 @@ const Billings = () => {
 
 
   // const loginId = localStorage.getItem('loginId');
-
   // useEffect(() => {
   //   if (loginId) {
   //     try {
@@ -53,6 +53,13 @@ const Billings = () => {
 
     const handleSave = () => {
         dispatch({ type: 'CHECKEB', payload: {hostelcheckedvalues}})
+        setTimeout(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Update Successfully",
+            confirmButtonText: "ok"
+          });
+        }, 200);
     }
     
 

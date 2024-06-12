@@ -104,6 +104,7 @@ function BedDetails(props) {
     setShowForm(false);
     setPaidAdvance('');
     setPaidrent('');
+    setshowsCreateRoom(false)
 
   };
 
@@ -146,6 +147,8 @@ function BedDetails(props) {
 
   const handleCancels = () => {
     handleCloses();
+    setshowsCreateRoom(false)
+
   };
   const handleImageChange = (event) => {
     const fileimgage = event.target.files[0];
