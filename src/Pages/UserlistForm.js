@@ -289,6 +289,7 @@ function UserlistForm(props) {
     setBalanceDue('');
     setPaidAdvance('');
     setPaidrent('');
+
     props.setShowMenu(false);
     props.setUserClicked(false);
     props.setShowForm(false);
@@ -298,6 +299,7 @@ function UserlistForm(props) {
   useEffect(() => {
 
     if (props.EditObj && props.EditObj.ID) {
+      console.log("props.EditObj",props.EditObj)
       props.setEdit('Edit')
       setBednum(props.EditObj)
       setId(props.EditObj.ID);
@@ -320,6 +322,7 @@ function UserlistForm(props) {
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
       setPaidAdvance(props.EditObj.paid_advance)
+      console.log("props.EditObj.paid_advance",props.EditObj.paid_advance)
       setPaidrent(props.EditObj.paid_rent)
       // setIsActive(props.EditObj.isActive)
     }
@@ -444,7 +447,10 @@ function UserlistForm(props) {
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
           PaymentType: PaymentType,
+          paid_rent:paid_rent,
+          paid_advance:paid_advance,
                   ID: props.edit === 'Edit' ? id : '',
+
         },
       });
       props.AfterEditHostels(hostel_Id)
