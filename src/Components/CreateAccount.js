@@ -90,7 +90,21 @@ function CreateAccountPage() {
       return;
     }
 
-    
+    const phoneNumber = parseInt(phoneNo, 10);
+  const phonePattern = new RegExp(/^\d{10}$/);
+  const isValidMobileNo = phonePattern.test(phoneNo);
+  
+  if (!isValidMobileNo) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Invalid mobile number. Please Enter a valid 10-digit mobile number.',
+      confirmButtonText: 'Ok'
+    });
+    return;
+  }
+
+
+
     if (!userName || !phoneNo || !emailID || !password) {
       Swal.fire({
         icon: 'warning',
@@ -104,7 +118,7 @@ function CreateAccountPage() {
       return;
     } 
 
-    const phoneNumber = parseInt(phoneNo, 10);
+   
 
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/;
     const isValidPassword = pattern.test(password);  
