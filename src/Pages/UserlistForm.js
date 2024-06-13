@@ -147,7 +147,7 @@ function UserlistForm(props) {
       document.getElementById('MobileNumberError').innerHTML = ''
     }
     else {
-      document.getElementById('MobileNumberError').innerHTML = 'invalid mobile number *'
+      document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
     }
   }
   const handleEmail = (e) => {
@@ -429,6 +429,20 @@ function UserlistForm(props) {
       return;
     }
 
+    const phoneNumberError = document.getElementById('MobileNumberError')
+    const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+
+
+
+    if (mobileError === 'Invalid mobile number *') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter a valid 10-digit phone number',
+        confirmButtonText: 'Ok',
+        timer: 1000
+      });
+      return;
+    }
     if (
       firstname &&
       lastname &&
