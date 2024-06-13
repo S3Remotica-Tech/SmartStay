@@ -697,7 +697,7 @@ console.log("selectedHostel",selectedHostel)
           </>}
         
           <div className='col-lg-2  col-md-2 col-sm-12 col-xs-12 col-12 align-items-center d-flex justify-content-center'>
-          <div><button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleCreateFloor}> <span className='me-2'><img src={Plus} height="12" width="12" alt='Plus' /></span>Create Floor</button></div>
+          <div className='ms-5'><button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleCreateFloor}> <span className='me-2'><img src={Plus} height="12" width="12" alt='Plus' /></span>Create Floor</button></div>
 
                 {/* <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "5px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleCreateFloor}>
                   <span >
