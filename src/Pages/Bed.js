@@ -351,7 +351,7 @@ function BedDetails(props) {
       document.getElementById('emailIDError').innerHTML = ''
     }
     else {
-      document.getElementById('emailIDError').innerHTML = 'invalid Email Id *'
+      document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *'
     }
   }
 
@@ -523,6 +523,19 @@ function BedDetails(props) {
 
 
   const handleSaveUserlist = () => {
+    const emailElement = document.getElementById('emailIDError');
+    const emailError = emailElement ? emailElement.innerHTML : '';
+    
+    if (emailError === 'Invalid Email Id *') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter a valid email address',
+        confirmButtonText: 'Ok',
+        timer: 1000
+      });
+      return;
+    }
+
     if (
       firstname &&
       lastname &&
