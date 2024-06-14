@@ -147,7 +147,7 @@ function UserlistForm(props) {
       document.getElementById('MobileNumberError').innerHTML = ''
     }
     else {
-      document.getElementById('MobileNumberError').innerHTML = 'invalid mobile number *'
+      document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
     }
   }
   const handleEmail = (e) => {
@@ -159,7 +159,7 @@ function UserlistForm(props) {
       document.getElementById('emailIDError').innerHTML = ''
     }
     else {
-      document.getElementById('emailIDError').innerHTML = 'invalid Email Id *'
+      document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *'
     }
   }
   const handleAddress = (e) => {
@@ -419,6 +419,33 @@ function UserlistForm(props) {
 
 
   const handleSaveUserlist = () => {
+    const emailElement = document.getElementById('emailIDError');
+    const emailError = emailElement ? emailElement.innerHTML : '';
+    
+    if (emailError === 'Invalid Email Id *') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter a valid email address',
+        confirmButtonText: 'Ok',
+        timer: 1000
+      });
+      return;
+    }
+
+    const phoneNumberError = document.getElementById('MobileNumberError')
+    const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+
+
+
+    if (mobileError === 'Invalid mobile number *') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter a valid 10-digit phone number',
+        confirmButtonText: 'Ok',
+        timer: 1000
+      });
+      return;
+    }
     if (
       firstname &&
       lastname &&

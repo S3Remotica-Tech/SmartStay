@@ -55,7 +55,7 @@ function CreateAccountPage() {
       document.getElementById('emailIDError').innerHTML = ''
     }
     else {
-      document.getElementById('emailIDError').innerHTML = 'invalid Email Id *'
+      document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *'
     }
   }
 
@@ -76,6 +76,35 @@ function CreateAccountPage() {
   }
 
   const handleRoyal = async () => {
+
+    const emailElement = document.getElementById('emailIDError');
+    const emailError = emailElement ? emailElement.innerHTML : '';
+    
+    if (emailError === 'Invalid Email Id *') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter a valid email address',
+        confirmButtonText: 'Ok',
+        timer: 1000
+      });
+      return;
+    }
+
+    const phoneNumber = parseInt(phoneNo, 10);
+  const phonePattern = new RegExp(/^\d{10}$/);
+  const isValidMobileNo = phonePattern.test(phoneNo);
+  
+  if (!isValidMobileNo) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Invalid mobile number. Please Enter a valid 10-digit mobile number.',
+      confirmButtonText: 'Ok'
+    });
+    return;
+  }
+
+
+
     if (!userName || !phoneNo || !emailID || !password) {
       Swal.fire({
         icon: 'warning',
@@ -89,7 +118,7 @@ function CreateAccountPage() {
       return;
     } 
 
-    const phoneNumber = parseInt(phoneNo, 10);
+   
 
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/;
     const isValidPassword = pattern.test(password);  
