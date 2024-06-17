@@ -473,6 +473,8 @@ function UserlistForm(props) {
           AdvanceAmount: AdvanceAmount,
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
+          paid_advance:paid_advance,
+          paid_rent:paid_rent,
           PaymentType: PaymentType,
           paid_rent:paid_rent,
           paid_advance:paid_advance,
@@ -538,7 +540,7 @@ function UserlistForm(props) {
         icon: 'warning',
         title: 'Please Enter All Fields',
         confirmButtonText: 'Ok',
-        timer:1000
+        timer:300
       });
     }
   };
@@ -595,7 +597,7 @@ function UserlistForm(props) {
        icon: 'warning',
        title: 'Please Enter All Fields',
        confirmButtonText: 'Ok',
-       timer:1000
+       timer:300
      });
    }
 
@@ -913,6 +915,7 @@ function UserlistForm(props) {
                       id="form-controls"
                       value={paid_advance} onChange={(e) => handlePaidadvance(e)}
                       style={bottomBorderStyle}
+                      disabled={props.EditObj.paid_advance > 0}
                     />
                   </Form.Group>
                 </div>
@@ -925,6 +928,7 @@ function UserlistForm(props) {
                       id="form-controls"
                       value={paid_rent} onChange={(e) => handlePaidrent(e)}
                       style={bottomBorderStyle}
+                      disabled={props.EditObj.paid_rent > 0}
                     />
                   </Form.Group>
                 </div>
