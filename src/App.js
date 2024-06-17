@@ -30,7 +30,7 @@ function App() {
   const login = localStorage.getItem("login");
 
 
-// console.log("state for app.js",state)
+console.log("state for app.js",state)
 
   
   // console.log("stateLogin.JWTtoken", token)

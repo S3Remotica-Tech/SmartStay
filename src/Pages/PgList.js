@@ -243,11 +243,13 @@ console.log("selectedHostel",selectedHostel)
       phoneNumber: '',
       email_Id: '',
       location: '',
+    
       // number_Of_Floor: '',
       // number_Of_Rooms: '',
       // floorDetails: [],
 
     });
+    setEmailError('')
     setAddhostelForm(false)
   }
 
@@ -280,14 +282,18 @@ console.log("selectedHostel",selectedHostel)
         icon: 'warning',
         title: 'Please Enter All Fields',
       });
+    }else if (pgList.phoneNumber.length !== 10) {
+      Swal.fire({
+        icon: 'warning',
+        text: 'Please Enter a valid 10-digit Phone Number',
+      });
     }
-    // else if (pgList.number_Of_Floor == 0) {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: "Number of Floors cannot be 0",
-    //     text:"Please provide a valid number"
-    //   });
-    // } 
+    else if (!validateEmail(pgList.email_Id)) {
+      Swal.fire({
+        icon: 'warning',
+               text:"Please Enter a valid Email_id"
+      });
+    } 
     else {
       dispatch({
         type: 'PGLIST',
@@ -495,6 +501,36 @@ console.log("selectedHostel",selectedHostel)
   const handleMouseLeave = () => {
     setMouseEnter(false)
   }
+
+  const [emailError, setEmailError] = useState('');
+
+  const validateEmail = (email) => {
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (pattern.test(email)) {
+      setEmailError('');
+      return true;
+    } else {
+      setEmailError('Please Enter a Valid Email');
+      return false;
+    }
+  };
+
+
+  const handleChangeEmail = (e) => {
+    const { value } = e.target;
+    setPgList({ ...pgList, email_Id: value });
+    validateEmail(value);
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target.value;
+     const validValue = value.replace(/[^0-9]/g, '');
+     console.log("validValue",validValue)
+    setPgList({ ...pgList, phoneNumber: validValue });
+  };
+
+
+
   return (
     <>
       {hidePgList && <>
@@ -536,16 +572,19 @@ console.log("selectedHostel",selectedHostel)
                     <input type="text"
                       maxLength={10}
                       value={pgList.phoneNumber}
-                      onChange={(e) => { setPgList({ ...pgList, phoneNumber: e.target.value }) }}
+                      onChange={handlePhoneNumberChange}
                       className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter Phone Number" style={{ fontSize: "11px" }} />
                   </div>
                   <div className="col">
                     <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Email Id</label>
                     <input type="email"
                       value={pgList.email_Id}
-                      onChange={(e) => { setPgList({ ...pgList, email_Id: e.target.value }) }}
+                      // onChange={(e) => { setPgList({ ...pgList, email_Id: e.target.value }) }}
+                      onChange={handleChangeEmail}
                       className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter Email Id" style={{ fontSize: "11px" }} />
+                 {emailError && <div style={{ color: 'red', fontSize: '11px' }}>{emailError}</div>}
                   </div>
+                  
                 </div>
               </div>
 
@@ -697,7 +736,7 @@ console.log("selectedHostel",selectedHostel)
           </>}
         
           <div className='col-lg-2  col-md-2 col-sm-12 col-xs-12 col-12 align-items-center d-flex justify-content-center'>
-          <div><button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleCreateFloor}> <span className='me-2'><img src={Plus} height="12" width="12" alt='Plus' /></span>Create Floor</button></div>
+          <div className='ms-5'><button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleCreateFloor}> <span className='me-2'><img src={Plus} height="12" width="12" alt='Plus' /></span>Create Floor</button></div>
 
                 {/* <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "5px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleCreateFloor}>
                   <span >

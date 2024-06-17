@@ -86,22 +86,51 @@ const InvoicePage = () => {
   const [showLoader, setShowLoader] = useState(false)
   const [selectedItems, setSelectedItems] = useState('')
 
-  
 
 
   const handleInvoiceDetail = (item) => {
-    setSelectedItems(item)
+    setSelectedItems(item);
+    
     if (item.User_Id) {
-      const originalDate = new Date(item.Date);
-      originalDate.setDate(originalDate.getDate());
-      const year = originalDate.getFullYear();
-      const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
-      const day = originalDate.getDate().toString().padStart(2, '0');
-      const newDate = `${year}-${month}-${day}`;
-      dispatch({ type: 'INVOICEPDF', payload: { Date: newDate, User_Id: item.User_Id, id: item.id } });
-      setShowLoader(true);
+        // Parse the date and format it as 'YYYY-MM-DD'
+        const originalDate = new Date(item.Date);
+        const year = originalDate.getFullYear();
+        const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
+        const day = originalDate.getDate().toString().padStart(2, '0');
+        const newDate = `${year}-${month}-${day}`;
+        
+       
+        const payload = item.invoice_type === 2 
+            ? { User_Id: item.User_Id, id: item.id, hostel_Id: item.Hostel_Id, invoice_type: item.invoice_type }
+            : { Date: newDate, User_Id: item.User_Id, id: item.id };  
+        dispatch({ type: 'INVOICEPDF', payload });
+        
+       
+        setShowLoader(true);
     }
-  };
+};
+
+
+  // const handleInvoiceDetail = (item) => {
+  //   setSelectedItems(item)
+  //   if (item.User_Id) {
+  //     const originalDate = new Date(item.Date);
+  //     originalDate.setDate(originalDate.getDate());
+  //     const year = originalDate.getFullYear();
+  //     const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
+  //     const day = originalDate.getDate().toString().padStart(2, '0');
+  //     const newDate = `${year}-${month}-${day}`;
+  //     if(item.invoice_type === 2){
+  //       dispatch({ type: 'INVOICEPDF', payload: {  User_Id: item.User_Id, id: item.id,hostel_Id:item.Hostel_Id,invoice_type:item.invoice_type } });
+  //     }
+  //     else{
+  //       dispatch({ type: 'INVOICEPDF', payload: { Date:newDate, User_Id: item.User_Id, id: item.id} });
+
+  //     }
+  //     // dispatch({ type: 'INVOICEPDF', payload: {  User_Id: item.User_Id, id: item.id,hostel_Id:item.Hostel_Id,invoice_type:item.invoice_type } });
+  //     // setShowLoader(true);
+  //   }
+  // };
 
 
   useEffect(() => {

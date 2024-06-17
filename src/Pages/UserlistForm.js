@@ -147,7 +147,7 @@ function UserlistForm(props) {
       document.getElementById('MobileNumberError').innerHTML = ''
     }
     else {
-      document.getElementById('MobileNumberError').innerHTML = 'invalid mobile number *'
+      document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
     }
   }
   const handleEmail = (e) => {
@@ -159,7 +159,7 @@ function UserlistForm(props) {
       document.getElementById('emailIDError').innerHTML = ''
     }
     else {
-      document.getElementById('emailIDError').innerHTML = 'invalid Email Id *'
+      document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *'
     }
   }
   const handleAddress = (e) => {
@@ -289,6 +289,7 @@ function UserlistForm(props) {
     setBalanceDue('');
     setPaidAdvance('');
     setPaidrent('');
+
     props.setShowMenu(false);
     props.setUserClicked(false);
     props.setShowForm(false);
@@ -298,6 +299,7 @@ function UserlistForm(props) {
   useEffect(() => {
 
     if (props.EditObj && props.EditObj.ID) {
+      console.log("props.EditObj",props.EditObj)
       props.setEdit('Edit')
       setBednum(props.EditObj)
       setId(props.EditObj.ID);
@@ -320,6 +322,7 @@ function UserlistForm(props) {
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
       setPaidAdvance(props.EditObj.paid_advance)
+      console.log("props.EditObj.paid_advance",props.EditObj.paid_advance)
       setPaidrent(props.EditObj.paid_rent)
       // setIsActive(props.EditObj.isActive)
     }
@@ -416,6 +419,33 @@ function UserlistForm(props) {
 
 
   const handleSaveUserlist = () => {
+    const emailElement = document.getElementById('emailIDError');
+    const emailError = emailElement ? emailElement.innerHTML : '';
+    
+    if (emailError === 'Invalid Email Id *') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter a valid email address',
+        confirmButtonText: 'Ok',
+        timer: 1000
+      });
+      return;
+    }
+
+    const phoneNumberError = document.getElementById('MobileNumberError')
+    const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+
+
+
+    if (mobileError === 'Invalid mobile number *') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter a valid 10-digit phone number',
+        confirmButtonText: 'Ok',
+        timer: 1000
+      });
+      return;
+    }
     if (
       firstname &&
       lastname &&
@@ -446,7 +476,10 @@ function UserlistForm(props) {
           paid_advance:paid_advance,
           paid_rent:paid_rent,
           PaymentType: PaymentType,
+          paid_rent:paid_rent,
+          paid_advance:paid_advance,
                   ID: props.edit === 'Edit' ? id : '',
+
         },
       });
       props.AfterEditHostels(hostel_Id)
