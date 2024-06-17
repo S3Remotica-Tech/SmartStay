@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { Table, Dropdown } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
@@ -69,8 +71,20 @@ const Compliance = () => {
 
 
   useEffect(() => {
-    setData(state.ComplianceList.Compliance)
-  }, [state.ComplianceList.Compliance])
+
+    //  setTimeout(() => {
+        setLoading(true);
+      // }, 5000);
+
+    if (state?.ComplianceList?.Compliance) {
+      setTimeout(() => {
+        setData(state.ComplianceList.Compliance);
+        setLoading(false);
+      }, 800);
+    } else {
+        setLoading(true);
+    }
+  }, [state?.ComplianceList?.Compliance]);
 
   const [id, setId] = useState('')
   const [Name, setName] = useState('');
@@ -85,6 +99,8 @@ const Compliance = () => {
   const [hostel_Id, setHostel_Id] = useState('')
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
+  const [loading, setLoading] = useState(true);
+
 
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
@@ -707,40 +723,35 @@ const Compliance = () => {
           </tr>
         </thead>
         <tbody style={{ fontSize: "10px" }}>
-          {/* {currentItems.map((view) => (
-            // view.map((item) => (
-              <tr key={item.id} >
-                <td style={{ color: "black", fontWeight: 500 }}>{moment(item.date).format('DD-MM-YYYY')}</td>
-                <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Requestid}</td>
-                <td>
-                  <div class="d-flex">
-                    {item.Name && (
-                      <span class="i-circle">
-                        <p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.match(/(^\S\S?|\s\S)?/g).map(v => v.trim()).join("").match(/(^\S|\S$)?/g).join("").toLocaleUpperCase()}</p>
-                      </span>
-
-                    )}
-                    <div class="ms-2">
-                      <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
-                      <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.Phone}</label>
-                    </div>
+        {loading ? (
+          // Render skeletons
+          Array.from({ length: state?.ComplianceList?.Compliance.length || 5 }).map((_, index) => (
+            <tr key={index}>
+              <td><Skeleton width={80} /></td>
+              <td><Skeleton width={120} /></td>
+              <td>
+                <div className="d-flex">
+                  <span className="i-circle">
+                    <Skeleton circle width={24} height={24} />
+                  </span>
+                  <div className="ms-2">
+                    <Skeleton width={80} /><br />
+                    <Skeleton width={100} />
                   </div>
-                </td>
-
-                <th style={{ color: "#91969E" }}>{item.hostelname}</th>
-
-                <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_id}</td>
-                <td style={{ color: "black", fontWeight: 500 }}>{item.Room}</td>
-                <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
-                <td style={{ color: "black", fontWeight: 500 }}>{item.Description}</td>
-                <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
-                <td style={(item.Status && item.Status.toUpperCase() === "SUCCESS") ? { color: "green" } : { color: "red" }}>{item.Status}</td>             
-                 <td class=""><img src={List} height="20" width="20" />
-                 <img class="ms-1" src={Edit} height="20" width="20" onClick={() => handleEdit(item)} style={{ cursor: 'pointer' }} /></td>
-              </tr>
-            // )
-            )))} */}
-          {currentItems.map((item) => (
+                </div>
+              </td>
+              <td><Skeleton width={120} /></td>
+              <td><Skeleton width={50} /></td>
+              <td><Skeleton width={50} /></td>
+              <td><Skeleton width={100} /></td>
+              <td><Skeleton width={150} /></td>
+              <td><Skeleton width={100} /></td>
+              <td><Skeleton width={60} /></td>
+              <td><Skeleton width={40} /></td>
+            </tr>
+          ))
+        ) : (
+          currentItems.map((item) => (
             <tr key={item.ID}>
               <td style={{ color: "black", fontWeight: 500 }}>{moment(item.date).format('DD-MM-YYYY')}</td>
               <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Requestid}</td>
@@ -767,7 +778,8 @@ const Compliance = () => {
               <td className=""><img src={List} height="20" width="20" />
                 <img className="ms-1" src={Edit} height="20" width="20" onClick={() => handleEdit(item)} style={{ cursor: 'pointer' }} /></td>
             </tr>
-          ))}
+          ))
+)}
 
 
         </tbody>

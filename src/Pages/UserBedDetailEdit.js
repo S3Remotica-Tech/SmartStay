@@ -281,7 +281,7 @@ function UserBedDetailsEdit(props) {
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
       setPaidAdvance(props.EditObj.paid_advance)
-      setPaidrent(props.EditObj.pending_advance)
+      setPaidrent(props.EditObj.paid_rent)
       // setIsActive(props.EditObj.isActive)
     }
     else {
@@ -638,6 +638,7 @@ function UserBedDetailsEdit(props) {
                       id="form-controls"
                       value={paid_advance} onChange={(e) => handlePaidadvance(e)}
                       style={bottomBorderStyle}
+                      disabled
                     />
                   </Form.Group>
                 </div>
@@ -650,6 +651,7 @@ function UserBedDetailsEdit(props) {
                       id="form-controls"
                       value={paid_rent} onChange={(e) => handlePaidrent(e)}
                       style={bottomBorderStyle}
+                      disabled
                     />
                   </Form.Group>
                 </div>

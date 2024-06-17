@@ -117,13 +117,15 @@ function BedDetails(props) {
   const dispatch = useDispatch();
   const Hostel_Id = bedDetailsSendThePage.Hostel_Id
   const floorId = bedDetailsSendThePage.Floor_Id;
+  // const RoomRent = bedDetailsSendThePage.Room_Rent
+  const [RoomRent, setRoomRent] = useState('')
   const RoomName = getFormattedRoomId(floorId, roomId)
   const [roomCount, setRoomCount] = useState([])
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
   const [Phone, setPhone] = useState('')
   const [HostelName, setHostelName] = useState('')
-  const [RoomRent, setRoomRent] = useState('')
+  
   const [BalanceDue, setBalanceDue] = useState('')
   const [PaymentType, setPaymentType] = useState('')
   const [AdvanceAmount, setAdvanceAmount] = useState('')
@@ -452,6 +454,7 @@ function BedDetails(props) {
 
   let ParticularUserId = " "
 
+console.log("props",props);
 
   const handleDisplayBedDetailUser = (bedId) => {
     dispatch({ type: 'CLEAR_STATUS_CODES' })
@@ -462,7 +465,8 @@ function BedDetails(props) {
         item.Bed == bedId &&
         item.Hostel_Id == Hostel_Id &&
         item.Floor == floorId &&
-        item.Rooms == roomId
+        item.Rooms == roomId 
+        // item.Room_Rent == room_Rent
       );
     } else {
       console.error("state.UsersList.Users is undefined or null.");
@@ -476,6 +480,7 @@ function BedDetails(props) {
       props.Hostel_Id(Hostel_Id);
       props.floorId(floorId);
       props.roomId(roomId);
+      // props.room_Rent(room_Rent)
     }
     else {
       setShowForm(true);
@@ -974,7 +979,7 @@ function BedDetails(props) {
                       <FormControl
                         type="text"
                         id="form-controls"
-                        value={RoomRent} onChange={(e) => handleRoomRent(e)}
+                        value={props.bedDetailsSendThePage.Room_Rent} onChange={(e) => handleRoomRent(e)}
                         style={bottomBorderStyle}
                       />
                     </Form.Group>
