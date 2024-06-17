@@ -72,9 +72,9 @@ const Compliance = () => {
 
   useEffect(() => {
 
-     setTimeout(() => {
+    //  setTimeout(() => {
         setLoading(true);
-      }, 5000);
+      // }, 5000);
 
     if (state?.ComplianceList?.Compliance) {
       setTimeout(() => {
@@ -82,7 +82,6 @@ const Compliance = () => {
         setLoading(false);
       }, 800);
     } else {
-      // If there is no data, keep the loading state true
         setLoading(true);
     }
   }, [state?.ComplianceList?.Compliance]);

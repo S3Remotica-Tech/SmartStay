@@ -142,18 +142,18 @@ function Dashboard() {
         </div> */}
 
 
-<div className="col-lg-5 col-md-4 col-sm-12 col-12 mb-3">
+<div className="col-lg-5 col-md-6 col-sm-12 col-12 mb-3 ">
   <Card className="h-100" style={{ backgroundColor: "#F6F7FB" }}>
     <Card.Body>
-      <div className='d-flex  justify-content-between'>
-        <div className='d-flex flex-column  m-2'>
+      <div className='d-flex  justify-content-evenly'>
+        <div className='d-flex flex-column'>
           <div className='d-flex align-items-center'>
             <h6 >Free Bed</h6>
             <img src={Onclock} height={28} width={28} style={{ marginLeft: 10, backgroundColor: "#EAFAF7", padding: 6 }} />
           </div>
           <h3>{availableBed.toLocaleString()}</h3>
         </div>
-        <div className='d-flex flex-column  m-2'>
+        <div className='d-flex flex-column'>
           <div className='d-flex align-items-center'>
             <h6>Occupied Bed</h6>
             <img src={Delete} height={28} width={28} style={{ marginLeft: 10, backgroundColor: "#FFECEE", padding: 6 }} />

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { Table } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
@@ -84,7 +86,7 @@ const InvoicePage = () => {
   const [showLoader, setShowLoader] = useState(false)
   const [selectedItems, setSelectedItems] = useState('')
 
-
+  
 
 
   const handleInvoiceDetail = (item) => {
@@ -115,9 +117,21 @@ const InvoicePage = () => {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
 
+  const [loading,setLoading] = useState(false)
+
   useEffect(() => {
-    dispatch({ type: 'INVOICELIST' })
-    setData(state.InvoiceList.Invoice)
+    setLoading(true)
+    if(state?.InvoiceList?.Invoice){
+      setTimeout(() => {
+      dispatch({ type: 'INVOICELIST' })
+      setData(state.InvoiceList.Invoice)
+      setLoading(false);
+    }, 800);
+    }
+    else{
+      setLoading(true)
+    }
+   
   }, [])
 
 
@@ -999,7 +1013,36 @@ console.log("InvoiceList",state.InvoiceList);
                 </tr>
               </thead>
               <tbody style={{ fontSize: "10px" }}>
-                {currentItems.map((item) => (
+
+              {loading ? (
+          // Render skeletons
+          Array.from({ length: state?.ComplianceList?.Compliance.length || 5 }).map((_, index) => (
+            <tr key={index}>
+              <td><Skeleton width={80} /></td>
+              <td><Skeleton width={120} /></td>
+              <td>
+                <div className="d-flex">
+                  <span className="i-circle">
+                    <Skeleton circle width={24} height={24} />
+                  </span>
+                  <div className="ms-2">
+                    <Skeleton width={80} /><br />
+                    <Skeleton width={100} />
+                  </div>
+                </div>
+              </td>
+              <td><Skeleton width={120} /></td>
+              <td><Skeleton width={50} /></td>
+              <td><Skeleton width={50} /></td>
+              <td><Skeleton width={100} /></td>
+              <td><Skeleton width={150} /></td>
+              <td><Skeleton width={100} /></td>
+              <td><Skeleton width={60} /></td>
+              <td><Skeleton width={40} /></td>
+            </tr>
+          ))
+        ) : (
+                currentItems.map((item) => (
                   <tr key={item.id}>
                     <td style={{ color: "black", fontWeight: 500 }} >{item.id}</td>
                     <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
@@ -1028,7 +1071,8 @@ console.log("InvoiceList",state.InvoiceList);
                     {/* <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /> */}
                     {/* </td> */}
                   </tr>
-                ))}
+                          ))
+                        )}
               </tbody>
             </Table>
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
