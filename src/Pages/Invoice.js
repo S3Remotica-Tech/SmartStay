@@ -99,16 +99,51 @@ const InvoicePage = () => {
         const day = originalDate.getDate().toString().padStart(2, '0');
         const newDate = `${year}-${month}-${day}`;
         
-       
-        const payload = item.invoice_type === 2 
-            ? { User_Id: item.User_Id, id: item.id, hostel_Id: item.Hostel_Id, invoice_type: item.invoice_type }
-            : { Date: newDate, User_Id: item.User_Id, id: item.id };  
-        dispatch({ type: 'INVOICEPDF', payload });
+        if ((item.EbAmount === 0 || item.EbAmount === undefined) && item.invoice_type === 1) {
+          dispatch({
+            type: 'INVOICEPDF',
+            payload: {
+              Date: newDate,
+              User_Id: item.User_Id,
+              id: item.id,
+              hostel_Id: item.Hostel_Id,
+              invoice_type: item.invoice_type
+            }
+          });
+        } else if (item.invoice_type === 2) {
+          dispatch({
+            type: 'INVOICEPDF',
+            payload: {
+              User_Id: item.User_Id,
+              id: item.id,
+              hostel_Id: item.Hostel_Id,
+              invoice_type: item.invoice_type
+            }
+          });
+        } else {
+          dispatch({
+            type: 'INVOICEPDF',
+            payload: {
+              Date: newDate,
+              User_Id: item.User_Id,
+              id: item.id
+            }
+          });
+        }
+        
+      
+      }
+    }
+    
+        // const payload = item.invoice_type === 2 
+        //     ? { User_Id: item.User_Id, id: item.id, hostel_Id: item.Hostel_Id, invoice_type: item.invoice_type }
+        //     : { Date: newDate, User_Id: item.User_Id, id: item.id };  
+        // dispatch({ type: 'INVOICEPDF', payload });
         
        
-        setShowLoader(true);
-    }
-};
+        // setShowLoader(true);
+   
+
 
 
   // const handleInvoiceDetail = (item) => {
