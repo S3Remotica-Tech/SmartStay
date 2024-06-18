@@ -1,4 +1,5 @@
 import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
+import moment from 'moment';
 import React, { useState, useEffect } from "react";
 import "../Pages/UserList.css";
 import Plus from '../Assets/Images/Create-button.png';
@@ -26,7 +27,7 @@ function UserlistForm(props) {
     boxShadow: 'none',
     fontWeight: 'bold',
     fontSize: "12px",
-    padding:"3px",
+    padding: "3px",
 
   };
 
@@ -62,8 +63,8 @@ function UserlistForm(props) {
   const [Arrayset, setArrayset] = useState([])
   const [Bednum, setBednum] = useState(null)
   const [romnum, setRoomnum] = useState('')
-
-
+  const [createdat, setCreatedAt] = useState('')
+  const [payableamount, setPayableamount] = useState('');
 
 
 
@@ -71,7 +72,7 @@ function UserlistForm(props) {
   const dispatch = useDispatch();
 
 
-  console.log("state for userList form",state)
+  console.log("state for userList form", state)
 
 
 
@@ -82,14 +83,14 @@ function UserlistForm(props) {
 
   useEffect(() => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
-  }, [hostel_Id, ]);
+  }, [hostel_Id,]);
 
 
   useEffect(() => {
     const temparry = state.UsersList.roomdetails.filter((item) => item.Room_Id == Rooms);
     setBedArray(temparry);
 
-    const temp2 = state.UsersList.Users.filter((item) => {  
+    const temp2 = state.UsersList.Users.filter((item) => {
       return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id;
     });
 
@@ -135,8 +136,53 @@ function UserlistForm(props) {
     setPaidAdvance(e.target.value)
   }
 
+
+
+  useEffect(() => {
+    const currentDate = moment().format('YYYY-MM-DD');
+    const joinDate = moment(currentDate).format('YYYY-MM-DD');
+    console.log("joindate", joinDate);
+    const currentMonth = moment(currentDate).month() + 1;
+    const currentYear = moment(currentDate).year();
+    const createdAtMonth = moment(joinDate).month() + 1;
+    const createdAtYear = moment(joinDate).year();
+
+    if (currentMonth === createdAtMonth && currentYear === createdAtYear) {
+      var dueDate = moment(joinDate).endOf('month').format('YYYY-MM-DD');
+      var invoiceDate = moment(joinDate).format('YYYY-MM-DD');
+
+    } else {
+      var dueDate = moment(currentDate).endOf('month').format('YYYY-MM-DD');
+      var invoiceDate = moment(currentDate).startOf('month').format('YYYY-MM-DD');
+    }
+    console.log("due_date", dueDate);
+    console.log("invoiceDate", invoiceDate);
+
+    const formattedJoinDate = moment(invoiceDate).format('YYYY-MM-DD');
+    const formattedDueDate = moment(dueDate).format('YYYY-MM-DD');
+    const numberOfDays = moment(formattedDueDate).diff(moment(formattedJoinDate), 'days') + 1;
+    console.log("numberOfDays", numberOfDays);
+
+    const totalDaysInCurrentMonth = moment(currentDate).daysInMonth();
+    console.log("Total days in current month:", totalDaysInCurrentMonth);
+
+    const oneday_amount = RoomRent / totalDaysInCurrentMonth
+    console.log("oneday_amount", oneday_amount);
+
+    const payableamount = oneday_amount * numberOfDays
+    const This_month_payableamount = Math.round(payableamount);
+    setPayableamount(This_month_payableamount)
+
+    console.log("This_month_payableamount", This_month_payableamount);
+
+  }, [RoomRent])
+
+
   const handlePaidrent = (e) => {
-    setPaidrent(e.target.value)
+    const value = e.target.value
+    if (value <= payableamount) {
+      setPaidrent(e.target.value)
+    }
   }
 
   const handlePhone = (e) => {
@@ -289,7 +335,7 @@ function UserlistForm(props) {
     setBalanceDue('');
     setPaidAdvance('');
     setPaidrent('');
-
+    setPayableamount('')
     props.setShowMenu(false);
     props.setUserClicked(false);
     props.setShowForm(false);
@@ -299,7 +345,7 @@ function UserlistForm(props) {
   useEffect(() => {
 
     if (props.EditObj && props.EditObj.ID) {
-      console.log("props.EditObj",props.EditObj)
+      console.log("props.EditObj", props.EditObj)
       props.setEdit('Edit')
       setBednum(props.EditObj)
       setId(props.EditObj.ID);
@@ -322,8 +368,9 @@ function UserlistForm(props) {
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
       setPaidAdvance(props.EditObj.paid_advance)
-      console.log("props.EditObj.paid_advance",props.EditObj.paid_advance)
+      console.log("props.EditObj.paid_advance", props.EditObj.paid_advance)
       setPaidrent(props.EditObj.paid_rent)
+      // setCreatedAt(props.EditObj.createdAt)
       // setIsActive(props.EditObj.isActive)
     }
     else {
@@ -421,7 +468,7 @@ function UserlistForm(props) {
   const handleSaveUserlist = () => {
     const emailElement = document.getElementById('emailIDError');
     const emailError = emailElement ? emailElement.innerHTML : '';
-    
+
     if (emailError === 'Invalid Email Id *') {
       Swal.fire({
         icon: 'warning',
@@ -452,8 +499,8 @@ function UserlistForm(props) {
       Phone &&
       Email &&
       Address &&
-           hostel_Id
-       ) {
+      hostel_Id
+    ) {
       dispatch({
         type: 'ADDUSER',
         payload: {
@@ -473,12 +520,12 @@ function UserlistForm(props) {
           AdvanceAmount: AdvanceAmount,
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
-          paid_advance:paid_advance,
-          paid_rent:paid_rent,
+          paid_advance: paid_advance,
+          paid_rent: paid_rent,
           PaymentType: PaymentType,
-          paid_rent:paid_rent,
-          paid_advance:paid_advance,
-                  ID: props.edit === 'Edit' ? id : '',
+          paid_advance: paid_advance,
+          payable_rent: payableamount,
+          ID: props.edit === 'Edit' ? id : '',
 
         },
       });
@@ -486,7 +533,7 @@ function UserlistForm(props) {
       props.AfterEditFloors(Floor)
       props.AfterEditRoomses(Rooms)
       props.AfterEditBeds(Bed)
-      
+
       // setFirstname('');
       // setLastname('');
       // setAddress('');
@@ -540,66 +587,66 @@ function UserlistForm(props) {
         icon: 'warning',
         title: 'Please Enter All Fields',
         confirmButtonText: 'Ok',
-        timer:300
+        timer: 300
       });
     }
   };
 
   const handleSaveUserlistAddUser = () => {
-    if ( Floor && Rooms &&  Bed) 
-      {
-     dispatch({
-       type: 'ADDUSER',
-       payload: {
-         firstname: firstname,
-         lastname: lastname,
-         Phone: Phone,
-         Email: Email,
-         Address: Address,
-         AadharNo: AadharNo,
-         PancardNo: PancardNo,
-         licence: licence,
-         HostelName: HostelName,
-         hostel_Id: hostel_Id,
-         Floor: Floor,
-         Rooms: Rooms,
-         Bed: Bed,
-         AdvanceAmount: AdvanceAmount,
-         RoomRent: RoomRent,
-         BalanceDue: BalanceDue,
-         PaymentType: PaymentType,
-         paid_advance:paid_advance,
-         paid_rent:paid_rent,
-         // isActive:isActive,
-         ID: props.edit === 'Edit' ? id : '',
-       },
-     });
-     props.AfterEditHostels(hostel_Id)
-     props.AfterEditFloors(Floor)
-     props.AfterEditRoomses(Rooms)
-     props.AfterEditBeds(Bed)
-    
-   
-    //  Swal.fire({
-    //    icon: 'success',
-    //    title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
-    //    text: 'You have been Created successfully!',
-    //    confirmButtonText: 'Ok',
-    //    timer:1000,
-    //         }).then((result) => {
-    //    if (result.isConfirmed) {
-      
-    //    }
-    //  });
+    if (Floor && Rooms && Bed) {
+      dispatch({
+        type: 'ADDUSER',
+        payload: {
+          firstname: firstname,
+          lastname: lastname,
+          Phone: Phone,
+          Email: Email,
+          Address: Address,
+          AadharNo: AadharNo,
+          PancardNo: PancardNo,
+          licence: licence,
+          HostelName: HostelName,
+          hostel_Id: hostel_Id,
+          Floor: Floor,
+          Rooms: Rooms,
+          Bed: Bed,
+          AdvanceAmount: AdvanceAmount,
+          RoomRent: RoomRent,
+          BalanceDue: BalanceDue,
+          PaymentType: PaymentType,
+          paid_advance: paid_advance,
+          paid_rent: paid_rent,
+          payable_rent: payableamount,
+          // isActive:isActive,
+          ID: props.edit === 'Edit' ? id : '',
+        },
+      });
+      props.AfterEditHostels(hostel_Id)
+      props.AfterEditFloors(Floor)
+      props.AfterEditRoomses(Rooms)
+      props.AfterEditBeds(Bed)
 
-   } else {
-     Swal.fire({
-       icon: 'warning',
-       title: 'Please Enter All Fields',
-       confirmButtonText: 'Ok',
-       timer:300
-     });
-   }
+
+      //  Swal.fire({
+      //    icon: 'success',
+      //    title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
+      //    text: 'You have been Created successfully!',
+      //    confirmButtonText: 'Ok',
+      //    timer:1000,
+      //         }).then((result) => {
+      //    if (result.isConfirmed) {
+
+      //    }
+      //  });
+
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter All Fields',
+        confirmButtonText: 'Ok',
+        timer: 300
+      });
+    }
 
   }
 
@@ -624,9 +671,10 @@ function UserlistForm(props) {
       setPaymentType('');
       setBalanceDue('');
       setPaidAdvance('');
-      setPaidrent('')
+      setPaidrent('');
+      setPayableamount('')
     }
-  },[state.UsersList?.statusCodeForAddUser])
+  }, [state.UsersList?.statusCodeForAddUser])
 
 
 
@@ -642,8 +690,8 @@ function UserlistForm(props) {
         <Offcanvas.Body>
           <div class="d-flex flex-row bd-highlight mb-4  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
             <div class="p-1 bd-highlight user-menu">
-              <ul 
-              className = {props.displayDetail ? 'active' : 'active'} 
+              <ul
+                className={props.displayDetail ? 'active' : 'active'}
 
               // onClick={props.handleMenuClick} 
               >
@@ -754,34 +802,34 @@ function UserlistForm(props) {
                       />
                     </Form.Group>
                   </div>
-                     <div className='col-lg-12'>
-                  <Form.Label style={{ fontSize: "12px" }}>Select PG</Form.Label>
-                  <Form.Select aria-label="Default select example"
-                    // style={bottomBorderStyles}
-                    // id="form-selects"
-                    style={{ backgroundColor: "#f8f9fa", padding:10, border: "none", boxShadow: "none", width: "100%", fontSize: 12, fontWeight: 700,textTransform:"capitalize",borderRadius:"none" }}
-                    value={hostel_Id} onChange={(e) => handleHostelId(e)}>
-                    <option>Select hostel</option>
-                    {
-                      state.UsersList?.hostelList?.map((item) => {
-                        return (
-                          <>
+                  <div className='col-lg-12'>
+                    <Form.Label style={{ fontSize: "12px" }}>Select PG</Form.Label>
+                    <Form.Select aria-label="Default select example"
+                      // style={bottomBorderStyles}
+                      // id="form-selects"
+                      style={{ backgroundColor: "#f8f9fa", padding: 10, border: "none", boxShadow: "none", width: "100%", fontSize: 12, fontWeight: 700, textTransform: "capitalize", borderRadius: "none" }}
+                      value={hostel_Id} onChange={(e) => handleHostelId(e)}>
+                      <option>Select hostel</option>
+                      {
+                        state.UsersList?.hostelList?.map((item) => {
+                          return (
+                            <>
 
-                            <option key={item.id} value={item.id}>{item.Name}</option>
-                          </>
-                        )
-                      })
-                    }
+                              <option key={item.id} value={item.id}>{item.Name}</option>
+                            </>
+                          )
+                        })
+                      }
 
-                  </Form.Select>
-                </div>
+                    </Form.Select>
+                  </div>
                 </div>
               </div>
             </div>
 
-        
 
-:
+
+            :
 
 
 
@@ -879,7 +927,7 @@ function UserlistForm(props) {
                   </Form.Select>
 
                 </div>
-               
+
                 <div className='col-lg-6'>
                   <Form.Group className="mb-3">
                     <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Room Rent (Monthly)</Form.Label>
@@ -892,9 +940,9 @@ function UserlistForm(props) {
                   </Form.Group>
                 </div>
 
-             
-             
-             
+
+
+
                 <div className='col-lg-6'>
                   <Form.Group className="">
                     <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Total Advance Amount</Form.Label>
@@ -930,10 +978,29 @@ function UserlistForm(props) {
                       style={bottomBorderStyle}
                       disabled={props.EditObj.paid_rent > 0}
                     />
+
+                    {props.EditObj.paid_rent == 0 && (
+                      <p style={{ fontSize: '11px', color: 'red' }}>
+                        * This month payable amount <b style={{ color: 'black' }}>{payableamount}</b>
+                      </p>
+                    )}
                   </Form.Group>
                 </div>
-               
-                </div>
+                {props.EditObj.paid_rent == 0 && (
+                <div className='col-lg-6'>
+                  <Form.Group className="">
+                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Payable Rent Amount</Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      value={payableamount}
+                      style={bottomBorderStyle}
+                      disabled
+                    />
+                  </Form.Group>
+                </div>)}
+
+              </div>
               <hr />
               <div className='row'>
                 {/* <div className='col lg-6'>
@@ -980,17 +1047,17 @@ function UserlistForm(props) {
               </div>
 
             </div>
-          
+
           }
-          
+
           <div class="d-flex justify-content-end" style={{ marginTop: "30px" }} >
 
             <Button variant="outline-secondary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleClose}>
               Cancel
             </Button>
-            <Button className='ms-2' variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} 
-            
-            onClick={props.displayDetail  ? handleSaveUserlist : handleSaveUserlistAddUser}
+            <Button className='ms-2' variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }}
+
+              onClick={props.displayDetail ? handleSaveUserlist : handleSaveUserlistAddUser}
             >
               {props.edit === 'Add' ? "Save" : "Update"}
             </Button>
