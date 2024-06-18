@@ -1045,7 +1045,7 @@ console.log("InvoiceList",state.InvoiceList);
 
               {loading ? (
           // Render skeletons
-          Array.from({ length: state?.ComplianceList?.Compliance.length || 5 }).map((_, index) => (
+          Array.from({ length: state?.InvoiceList?.Invoice.length || 5 }).map((_, index) => (
             <tr key={index}>
               <td><Skeleton width={80} /></td>
               <td><Skeleton width={120} /></td>

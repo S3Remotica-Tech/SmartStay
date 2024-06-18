@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import moment from 'moment';
 import { FaAngleRight } from 'react-icons/fa';
 import Bed from '../Assets/Images/bed.png';
 import Plus from '../Assets/Images/Create-button.png';
@@ -125,7 +126,8 @@ function BedDetails(props) {
   const [lastname, setLastname] = useState('')
   const [Phone, setPhone] = useState('')
   const [HostelName, setHostelName] = useState('')
-  
+  const [payableamount ,setPayableamount]= useState('');
+
   const [BalanceDue, setBalanceDue] = useState('')
   const [PaymentType, setPaymentType] = useState('')
   const [AdvanceAmount, setAdvanceAmount] = useState('')
@@ -166,8 +168,52 @@ function BedDetails(props) {
   }
 
   const handlePaidrent = (e) => {
-    setPaidrent(e.target.value)
+    const value = e.target.value
+    if (value <= payableamount){
+      setPaidrent(e.target.value)
+    } 
   }
+
+
+  useEffect(()=> {
+    const currentDate = moment().format('YYYY-MM-DD');
+    const joinDate = moment(currentDate).format('YYYY-MM-DD');
+    console.log("joindate",joinDate);
+    const currentMonth = moment(currentDate).month() + 1;
+    const currentYear = moment(currentDate).year();
+    const createdAtMonth = moment(joinDate).month() + 1;
+    const createdAtYear = moment(joinDate).year();
+
+    if (currentMonth === createdAtMonth && currentYear === createdAtYear) {
+      var dueDate = moment(joinDate).endOf('month').format('YYYY-MM-DD');
+      var invoiceDate = moment(joinDate).format('YYYY-MM-DD');
+     
+   } else {
+      var dueDate = moment(currentDate).endOf('month').format('YYYY-MM-DD');
+      var invoiceDate = moment(currentDate).startOf('month').format('YYYY-MM-DD');
+   }
+       console.log("due_date",dueDate);
+       console.log("invoiceDate",invoiceDate);
+ 
+   const formattedJoinDate = moment(invoiceDate).format('YYYY-MM-DD');
+   const formattedDueDate = moment(dueDate).format('YYYY-MM-DD');
+   const numberOfDays = moment(formattedDueDate).diff(moment(formattedJoinDate), 'days') + 1;
+   console.log("numberOfDays",numberOfDays);
+
+   const totalDaysInCurrentMonth = moment(currentDate).daysInMonth();
+   console.log("Total days in current month:", totalDaysInCurrentMonth);
+
+   const oneday_amount = props.bedDetailsSendThePage.Room_Rent /totalDaysInCurrentMonth
+   console.log("oneday_amount",oneday_amount);
+
+   const payableamount = oneday_amount * numberOfDays
+   const This_month_payableamount = Math.round(payableamount);
+   setPayableamount(This_month_payableamount)
+
+   console.log("This_month_payableamount",This_month_payableamount);
+
+  },[props.bedDetailsSendThePage.Room_Rent])
+
 
   const handleAadharNo = (e) => {
     setAadharNo(e.target.value)
@@ -520,6 +566,7 @@ console.log("props",props);
       setPaidrent('');
       setPaymentType('');
       setBalanceDue('');
+      setPayableamount('')
       handleClose()
     }
   },[state.UsersList?.statusCodeForAddUser])
@@ -563,7 +610,8 @@ console.log("props",props);
       AdvanceAmount &&
       RoomRent&&
       paid_advance &&
-      paid_rent
+      paid_rent &&
+      payableamount
     ) {
       dispatch({
         type: 'ADDUSER',
@@ -587,7 +635,7 @@ console.log("props",props);
           paid_advance:paid_advance,
           paid_rent:paid_rent,
           PaymentType: PaymentType,
-
+          payable_rent:payableamount,
         },
       });
 
@@ -694,6 +742,7 @@ console.log("props",props);
               <div className="card-header d-flex justify-content-between p-2 flex-row">
                 <strong style={{ fontSize: "13px" }}>ROOM-{RoomName}</strong>
                 <div>
+                  {/* <h6 onClick={() => { handleCreateRoomShows(bedDetailsSendThePage) }}>edit</h6> */}
                   <img src={recycle} style={{ height: 13, width: 13, marginRight: 2 }} onClick={handleDeleteRoom} />
                   <FaAngleRight style={{ height: "15px", width: "15px", color: "grey" }} />
                 </div>
@@ -1009,8 +1058,23 @@ console.log("props",props);
                       value={paid_rent} onChange={(e) => handlePaidrent(e)}
                       style={bottomBorderStyle}
                     />
+      <p style={{fontSize:'11px',color:'red'}}>* This month payable amount <b style={{color:'black'}}>{payableamount}</b> </p>
+
                   </Form.Group>
                 </div>
+                </div>
+
+                <div className='col-lg-6'>
+                  <Form.Group className="">
+                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Payable Rent Amount</Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      value={payableamount} 
+                      style={bottomBorderStyle}
+                      disabled
+                    />
+                  </Form.Group>
                 </div>
                 {/* <div className='row'>
                     <div className='col lg-6'>

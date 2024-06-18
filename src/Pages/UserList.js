@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import "./UserList.css";
 import { IoIosSearch } from "react-icons/io";
 import { IoFilterOutline } from "react-icons/io5";
@@ -30,28 +32,27 @@ function UserList() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  const LoginId = localStorage.getItem("loginId")
 
-  const [loginID, setLoginID] = useState('')
+  const [loading,setLoading] = useState(false)
 
 
   useEffect(() => {
-    if (LoginId) {
-      try {
-        const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        const decryptedIdString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parsedData = Number(decryptedIdString);
-        setLoginID(parsedData)
-        dispatch({ type: 'USERLIST' })
-        dispatch({ type: 'INVOICELIST' })
-      }
 
-      catch (error) {
-        console.log("Error decrypting loginid", error);
-      }
+    setLoading(true)
+
+    if(state?.UsersList?.Users){
+      setTimeout(() => {
+      dispatch({ type: 'USERLIST' })
+      dispatch({ type: 'INVOICELIST' })
+      setLoading(false);
+    }, 800);
     }
+    else{
+      setLoading(true)
+    }
+     
 
-  }, [LoginId])
+  }, [])
 
 
 
@@ -594,45 +595,45 @@ function UserList() {
                 <th style={{ color: "#91969E", textAlign: "center" }}>Floor</th>
                 <th style={{ color: "#91969E", textAlign: "center" }} >Room</th>
                 <th style={{ color: "#91969E", textAlign: "center" }} >Bed</th>
-                {/* <th style={{ color: "#91969E" }} >Room Rent</th> */}
                 <th style={{ color: "#91969E", textAlign: "center" }} >Receivable</th>
-                {/* <th style={{ color: "#91969E" }} >Payment Type</th>
-                <th style={{ color: "#91969E" }} >Status</th> */}
                 <th style={{ color: "#91969E", textAlign: "center" }} >Action</th>
               </tr>
             </thead>
             <tbody className='tablebody'>
-              {currentItems.map((user) => (
+
+            {loading ? (
+          // Render skeletons
+          Array.from({ length: state?.UsersList?.Users.length || 5 }).map((_, index) => (
+            <tr key={index}>
+            <td><Skeleton width={80} /></td>
+            <td><Skeleton width={120} /></td>
+            <td><Skeleton width={120} /></td>
+            <td><Skeleton width={50} /></td>
+            <td><Skeleton width={50} /></td>
+            <td><Skeleton width={50} /></td>
+            <td><Skeleton width={100} /></td>
+            <td><Skeleton width={150} /></td>
+          </tr>
+          ))
+        ) : (
+              currentItems.map((user) => (
 
                 <tr  style={{ fontWeight: "700" }}>
-                  {/* <td>
-        <div style={{ display: 'flex', flexDirection: "row" }}>
-          <div>
-            <span className="i-circle">
-              <p style={{ fontSize: 12, color: "black" }}>{user.Circle}</p>
-            </span>
-          </div>
-        </div>
-      </td> */}
+    
                   <td style={{ color: "#0D99FF", fontWeight: 500, textAlign: "center", textDecoration: 'underline', cursor: 'pointer' }} onClick={() => handleRoomDetailsPage(user, user.Bed, user.Rooms, user.Floor, user.Hostel_Id)}>{user.Name}</td>
                   <td style={{ color: "black", fontWeight: 500, textAlign: "center" }}>+91 {user.Phone}</td>
                   <td style={{ color: "black", fontWeight: 500, textAlign: "center" }}>{user.HostelName}</td>
                   <td style={{ color: "black", fontWeight: 500, textAlign: "center" }}>{user.Floor}</td>
                   <td style={{ color: "black", fontWeight: 500, textAlign: "center" }}>{user.Rooms}</td>
                   <td style={{ color: "black", fontWeight: 500, textAlign: "center" }}>{user.Bed}</td>
-                  {/* <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>₹ {user.RoomRent}</td> */}
                   <td style={{ color: "black", fontWeight: 500, textAlign: "center" }}>₹ {user.paid_advance + user.paid_rent}</td>
-                  {/* <td style={{ color: "black", fontWeight: 500, textAlign: 'center' }}>{user.PaymentType}<MdExpandMore style={{ fontSize: 15 }} /></td>
-      <td style={user.Status === "Success" ? { color: "green" } : { color: "red" }}>{user.Status}</td> */}
                   <td style={{ fontWeight: 500, textAlign: "center" }} >
-                    {/* <img src={img1} className='img1' height={25} width={20} alt="img1" onClick={() => handleRoomDetailsPage(user,user.Bed,user.Rooms,user.Floor,user.Hostel_Id)}/>
-        <img src={img2} className='img1 ms-1' height={25} width={20} alt="img1" onClick={() => { handleShow(user) }} /> */}
-
                     <Button variant={user.Bed ? "outline-success" : "outline-primary"} style={{ border: user.Bed && "none" }} disabled={user.Bed} size="sm" onClick={() => { handleShowAddBed(user) }} >{user.Bed ? "Bed Assigned" : "Assign"}</Button>
                   </td>
                 </tr>
 
-              ))}
+))
+)}
 
             </tbody>
           </Table>
