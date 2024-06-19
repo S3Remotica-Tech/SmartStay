@@ -30,11 +30,11 @@ function App() {
   const login = localStorage.getItem("login");
 
 
-console.log("state for app.js",state)
+  console.log("login data", login)
 
-  
+
   // console.log("stateLogin.JWTtoken", token)
- 
+
   // const tokenCookies = cookies.get('token');
   // console.log("tokenCookies", tokenCookies)
 
@@ -51,73 +51,63 @@ console.log("state for app.js",state)
   //    }, [state.login.statusCode])
 
 
-     const tokenAccessDenied = cookies.get('access-denied')
-     console.log("tokenAccessDenied", tokenAccessDenied)
-     
-   
-   useEffect(()=>{
-     if(tokenAccessDenied === 206){
-       setTimeout(()=>{
-         dispatch({ type: 'LOG_OUT' })
-       setData(false)
-          cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
-       },100)
-     
-     }
-   
-   },[tokenAccessDenied])
-   
-     
+  const tokenAccessDenied = cookies.get('access-denied')
+  console.log("tokenAccessDenied", tokenAccessDenied)
+
+
   useEffect(() => {
-   
+    if (tokenAccessDenied === 206) {
+      setTimeout(() => {
+        dispatch({ type: 'LOG_OUT' })
+        setData(false)
+        cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
+      }, 100)
+
+    }
+
+  }, [tokenAccessDenied])
+
+
+  useEffect(() => {
+if(login){
     try {
-      const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-      const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-      console.log('Decrypted Login Id:', decryptedIdString);
-      const parsedData = Number(decryptedIdString);
+      if (state.createAccount?.accountList?.length > 0) {
+        const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable
+        console.log("is_Enable", is_Enable)
 
-      console.log("parsedData", parsedData)
+        const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
+        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parseData = JSON.parse(decryptedString);
+        console.log("parseData", parseData)
 
-
-      // const IsEnableCheckState = state.createAccount?.accountList.filter((view => view.id == parsedData))
-
-      const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable
-      
-      console.log("is_Enable", is_Enable)
-
-      const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
-      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-      const parseData = JSON.parse(decryptedString);
-      console.log("parseData", parseData)
-
-      if (is_Enable == 1 || parseData == false) {
-        setData(false);
-      } else {  
-        setData(true);
+        if (is_Enable == 1 || parseData == false) {
+          setData(false);
+        } else {
+          setData(true);
+        }
       }
-
     }
     catch (error) {
       console.error("Error parsing decrypted data:", error);
 
     }
-
-    setIsLoading(false);
-    
-  }, []);
-
-
-useEffect(()=>{
-  if(!state.login?.isLoggedIn){
-    const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
-    const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-    const parseData = JSON.parse(decryptedString);
-    console.log("parseData", parseData)
-    if(parseData == false){
-      setData(false);
-    }
+    setIsLoading(false)
+   
   }
-  },[state.login?.isLoggedIn])
+  }, [login]);
+
+
+  useEffect(() => {
+    if (!state.login?.isLoggedIn && login){
+      const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
+      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+      const parseData = JSON.parse(decryptedString);
+      console.log("parseData", parseData)
+      if (parseData == false) {
+        setData(false);
+      }
+    }
+  }, [state.login?.isLoggedIn])
 
 
 
@@ -154,7 +144,7 @@ useEffect(()=>{
 
   // }, [state.createAccount.accountList, LoginId])
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   if (isLoading) {
@@ -162,7 +152,7 @@ useEffect(()=>{
   }
 
 
-console.log("data app js ",data)
+  console.log("data app js ", data)
 
 
 
