@@ -99,7 +99,7 @@ const InvoicePage = () => {
         const day = originalDate.getDate().toString().padStart(2, '0');
         const newDate = `${year}-${month}-${day}`;
         
-        if ((item.EbAmount === 0 || item.EbAmount === undefined) && item.invoice_type === 1) {
+        if ((item.EbAmount == 0 || item.EbAmount == undefined) && item.invoice_type == 1 && item.AmnitiesAmount == 0 ) {
           dispatch({
             type: 'INVOICEPDF',
             payload: {
