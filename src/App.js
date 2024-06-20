@@ -30,7 +30,7 @@ function App() {
   const login = localStorage.getItem("login");
 
 
-  console.log("login data", login)
+  console.log("login data", data)
 
 
   // console.log("stateLogin.JWTtoken", token)
@@ -69,32 +69,30 @@ function App() {
 
 
   useEffect(() => {
-if(login){
+    let parseData;
     try {
-      if (state.createAccount?.accountList?.length > 0) {
         const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable
         console.log("is_Enable", is_Enable)
-
+        if(login){
         const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-        const parseData = JSON.parse(decryptedString);
+        parseData = JSON.parse(decryptedString);
         console.log("parseData", parseData)
-
+        setIsLoading(false)
+        }
         if (is_Enable == 1 || parseData == false) {
           setData(false);
+          console.log("execute data true case enable is 1")
         } else {
           setData(true);
+          console.log("execute data true case enable is 0")
         }
-      }
-    }
+       }
     catch (error) {
       console.error("Error parsing decrypted data:", error);
-
     }
-    setIsLoading(false)
-   
-  }
-  }, [login]);
+        
+  }, []);
 
 
   useEffect(() => {
@@ -152,7 +150,7 @@ if(login){
   }
 
 
-  console.log("data app js ", data)
+
 
 
 
