@@ -131,7 +131,7 @@ const InvoicePage = () => {
           });
         }
         
-      
+        setShowLoader(true);
       }
     }
     
@@ -185,21 +185,30 @@ const InvoicePage = () => {
 
   useEffect(() => {
     setLoading(true)
-    if(state?.InvoiceList?.Invoice){
-      setTimeout(() => {
-      dispatch({ type: 'INVOICELIST' })
-      setData(state.InvoiceList.Invoice)
-      setLoading(false);
-    }, 800);
-    }
-    else{
-      setLoading(true)
-    }
-   
+    dispatch({ type: 'INVOICELIST' })
   }, [])
 
 
+     useEffect(()=>{
+      if(state.InvoiceList?.InvoiceListStatusCode == 200){
+        setData(state.InvoiceList.Invoice)
+        setLoading(false);
+        setTimeout(() => {
+          dispatch({ type: 'CLEAR_INVOICE_LIST' });
+        }, 1000);
+
+      }
+
+     },[state.InvoiceList?.InvoiceListStatusCode])
+
+
+
+
+
+
+
 console.log("InvoiceList",state.InvoiceList);
+console.log("DATA",data)
 
   useEffect(() => {
     console.log("statuscode", state.InvoiceList.message);
@@ -224,13 +233,13 @@ console.log("InvoiceList",state.InvoiceList);
         let pdfWindow;
         const InvoicePDf = state.InvoiceList?.Invoice &&
           state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
-        if (InvoicePDf[0]?.invoicePDF) {
-          pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
+       console.log("InvoicePDf[0]?.invoicePDF",InvoicePDf[0])
+       console.log("////////////////////////////////////////")
+          if (InvoicePDf[0]?.invoicePDF) {
+                    pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
           if (pdfWindow) {
             setShowLoader(false);
           }
-
-
         } else {
           // setShowLoader(true);
         }
@@ -261,7 +270,7 @@ console.log("InvoiceList",state.InvoiceList);
 
 
 
-  console.log("data", data)
+ 
 
 
 
