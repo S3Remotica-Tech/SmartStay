@@ -92,15 +92,19 @@ function App() {
       console.error("Error parsing decrypted data:", error);
     }
         
-  }, []);
+  }, [login]);
 
 
   useEffect(() => {
     if (!state.login?.isLoggedIn && login){
+      let parseData;
+      setTimeout(()=>{
       const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
       const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-      const parseData = JSON.parse(decryptedString);
+       parseData = JSON.parse(decryptedString);
       console.log("parseData", parseData)
+      },2000)
+   
       if (parseData == false) {
         setData(false);
       }
@@ -142,16 +146,12 @@ function App() {
 
   // }, [state.createAccount.accountList, LoginId])
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
 
   if (isLoading) {
     return <div style={{ display: 'flex', justifyContent: 'center' }}> <Spinner animation="border" variant="primary" /></div>
   }
-
-
-
-
 
 
 
