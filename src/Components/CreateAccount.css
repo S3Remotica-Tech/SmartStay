@@ -25,6 +25,11 @@ body {
 
 }
 
+.Tick {
+  color: green;
+  margin-right: 5px;
+}
+
 
 .hoverList li {
   padding: 8px;

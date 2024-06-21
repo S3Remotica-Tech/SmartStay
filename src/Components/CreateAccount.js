@@ -59,10 +59,25 @@ function CreateAccountPage() {
     }
   }
 
+
+  const [validations, setValidations] = useState({
+    upperCase: false,
+    specialChar: false,
+    minLength: false,
+    number: false
+});
+
   const handlePassword = (e) => {
     setPassword(e.target.value);
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/;
     const isValidpasswordNo = pattern.test(e.target.value);
+
+    setValidations({
+      upperCase: /[A-Z]/.test(e.target.value),
+      specialChar: /[@$!%*?&]/.test(e.target.value),
+      minLength: e.target.value.length >= 8,
+      number: /\d/.test(e.target.value)
+  });
   
     if (isValidpasswordNo) {
       document.getElementById('passwordError').innerHTML = '';
@@ -208,15 +223,22 @@ function CreateAccountPage() {
                   <p id="passwordError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
                 </div>
                 <div className="lists d-flex mt-1" style={{ justifyContent: "space-between", textAlign: "left", width: "64%", fontSize: "13px", marginLeft: "19%" }}>
-                  <ul className="hoverList">
-                    <li className="lists1">One Upper Case Character</li>
-                    <li className="pt-1">One Special Character</li>
-                  </ul>
-
-                  <ul className="hoverList">
-                    <li className="mb-0">8 Characters Minimum</li>
-                    <li className="mt-0 pt-1">One number</li>
-                  </ul>
+                <ul className="hoverList">
+                    <li className="lists1">
+                        {validations.upperCase && <span className="Tick">✔</span>} One Upper Case Character
+                    </li>
+                    <li className="pt-1">
+                        {validations.specialChar && <span className="Tick">✔</span>} One Special Character
+                    </li>
+                </ul>
+                <ul className="hoverList">
+                    <li className="mb-0" >
+                        {validations.minLength && <span className="Tick">✔</span>} 8 Characters Minimum
+                    </li>
+                    <li className="mt-0 pt-1">
+                        {validations.number && <span className="Tick">✔</span>} One number
+                    </li>
+                </ul>
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>

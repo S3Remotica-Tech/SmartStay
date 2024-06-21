@@ -601,6 +601,16 @@ console.log("props",props);
       });
       return;
     }
+
+    console.log('firstname:', firstname);
+    console.log('lastname:', lastname);
+    console.log('Phone:', Phone);
+    console.log('Email:', Email);
+    console.log('Address:', Address);
+    console.log('AdvanceAmount:', AdvanceAmount);
+    console.log('RoomRent:', props.bedDetailsSendThePage.Room_Rent);
+    console.log('paid_advance:', paid_advance);
+    console.log('paid_rent:', paid_rent);
     if (
       firstname &&
       lastname &&
@@ -608,10 +618,12 @@ console.log("props",props);
       Email &&
       Address &&
       AdvanceAmount &&
-      RoomRent&&
-      paid_advance &&
-      paid_rent &&
-      payableamount
+      props.bedDetailsSendThePage.Room_Rent 
+      // paid_advance &&
+      // paid_rent 
+      // payableamount,
+
+    
     ) {
       dispatch({
         type: 'ADDUSER',
@@ -630,7 +642,7 @@ console.log("props",props);
           Rooms: props.bedDetailsSendThePage.Room_Id,
           Bed: Bednum,
           AdvanceAmount: AdvanceAmount,
-          RoomRent: RoomRent,
+          RoomRent: props.bedDetailsSendThePage.Room_Rent,
           BalanceDue: BalanceDue,
           paid_advance:paid_advance,
           paid_rent:paid_rent,
