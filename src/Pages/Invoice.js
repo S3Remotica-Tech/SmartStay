@@ -1148,6 +1148,12 @@ console.log("DATA",data)
                         )}
               </tbody>
             </Table>
+
+            <div className="d-flex justify-content-center" style={{width:"100%"}}>
+{currentItems.length === 0 && !loading && <h5 style={{fontSize: 12, color: "red"}}>No Data Found</h5>}
+</div>
+
+
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div>

@@ -599,7 +599,7 @@ function UserList() {
                 <th style={{ color: "#91969E", textAlign: "center" }} >Action</th>
               </tr>
             </thead>
-            <tbody className='tablebody'>
+            <tbody className='tablebody' >
 
             {loading ? (
           // Render skeletons
@@ -633,10 +633,15 @@ function UserList() {
                 </tr>
 
 ))
+
 )}
+
 
             </tbody>
           </Table>
+          <div className="d-flex justify-content-center" style={{width:"100%"}}>
+{currentItems.length === 0 && !loading && <h5 style={{fontSize: 12, color: "red"}}>No Data Found</h5>}
+</div>
         </div>
 
 
