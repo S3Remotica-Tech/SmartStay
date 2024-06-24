@@ -13,15 +13,7 @@ import UserAccesss from '../Pages/UserAccess';
 import Report from '../Pages/Reports';
 import Setting from '../Pages/Settings';
 import Supports from '../Pages/Support';
-import Hostels from '../Assets/Images/hostel.png';
-import Plus from '../Assets/Images/Create-button.png';
-import Welcome from '../Assets/Images/dashboard-welcome.png';
-import Image from 'react-bootstrap/Image';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import Hostel from '../Assets/Images/hostel.png';
-import CreateButton from '../Assets/Images/Create-button.png';
-import Button from 'react-bootstrap/Button';
-import Dashboard from '../Assets/Images/Side Menu/Dashboard.png'
+import VendorComponent from '../Pages/Vendor';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
@@ -54,7 +46,32 @@ import { StaticDateTimePicker } from '@mui/x-date-pickers';
 import { BsClipboard2Check } from "react-icons/bs";
 import SmartLogo from '../Assets/Images/hostel.png'
 import Cookies from 'universal-cookie';
-
+import Smartstay from '../Assets/Images/GroupsmartIcon.png';
+import Smarts from '../Assets/Images/Smartstaysm1.png';
+import Dash from '../Assets/Images/New_images/category.png';
+import Paying from '../Assets/Images/New_images/house.png';
+import Custom from '../Assets/Images/New_images/customers.png';
+import Vendor from '../Assets/Images/New_images/vendor.png';
+import Invo from '../Assets/Images/New_images/invoice.png';
+import Asset from '../Assets/Images/New_images/Asset.png';
+import Eb from '../Assets/Images/New_images/electricity.png';
+import Compl from '../Assets/Images/New_images/messages-3.png';
+import Expense from '../Assets/Images/New_images/expenses.png';
+import Repo from '../Assets/Images/New_images/reports.png';
+import Sett from '../Assets/Images/New_images/settings.png';
+import Assets from '../Pages/Asset'
+import Expenses from '../Pages/Expense'
+import Dash2 from '../Assets/Images/New_images/category-active.png';
+import Paying2 from '../Assets/Images/New_images/housepay.png';
+import Custom2 from '../Assets/Images/New_images/profile-2user.png';
+import Invoice2 from '../Assets/Images/New_images/clipboard-text.png';
+import  Vendor2 from '../Assets/Images/New_images/shop.png'
+import Asset2 from '../Assets/Images/New_images/Money.png';
+import Eb2 from '../Assets/Images/New_images/ele-active.png';
+import Compl2 from '../Assets/Images/New_images/messages-active.png';
+import  Expense2 from '../Assets/Images/New_images/coin.png';
+import Repo2 from '../Assets/Images/New_images/clipboard-text.png';
+import Sett2 from '../Assets/Images/New_images/setting-2.png';
 
 
 function Sidebar() {
@@ -66,7 +83,7 @@ function Sidebar() {
   const stateLogin = useSelector(state => state.login)
 
 
-  console.log("state for side bar",stateData)
+  console.log("state for side bar", stateData)
 
 
 
@@ -79,59 +96,59 @@ function Sidebar() {
 
 
   useEffect(() => {
-           dispatch({ type: 'HOSTELLIST' })
-           dispatch({ type: 'ACCOUNTDETAILS'})
-         }, []);
+    dispatch({ type: 'HOSTELLIST' })
+    dispatch({ type: 'ACCOUNTDETAILS' })
+  }, []);
 
 
 
 
-useEffect(()=>{
-if(stateData.statusCodeForAccountList == 200){
+  useEffect(() => {
+    if (stateData.statusCodeForAccountList == 200) {
 
-  const loginInfo = stateData.accountList[0].user_details
-       
-  console.log("loginInfo",loginInfo)
-  if (loginInfo) {
-      const LoginId = loginInfo.id;
-      const NameId = loginInfo.Name;
-      const phoneId = loginInfo.mobileNo;
-      const emilidd = loginInfo.email_Id;
-      const Is_Enable = loginInfo.isEnable;
-      const Pass_word = loginInfo.password;
+      const loginInfo = stateData.accountList[0].user_details
 
-      const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
-      const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
-      const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
-      const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
-      const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
-      const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
+      console.log("loginInfo", loginInfo)
+      if (loginInfo) {
+        const LoginId = loginInfo.id;
+        const NameId = loginInfo.Name;
+        const phoneId = loginInfo.mobileNo;
+        const emilidd = loginInfo.email_Id;
+        const Is_Enable = loginInfo.isEnable;
+        const Pass_word = loginInfo.password;
 
-      localStorage.setItem("loginId", encryptedLoginId);
-      localStorage.setItem("NameId", encryptedname);
-      localStorage.setItem("phoneId", encryptedphone);
-      localStorage.setItem("emilidd", encryptedemail);
-      localStorage.setItem("IsEnable", encryptIsEnable);
-      localStorage.setItem("Password", encryptPassword);
-    
-console.log("Is_Enable *****",Is_Enable)
+        const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
+        const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
+        const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
+        const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
+        const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
+        const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
 
-if(Is_Enable == 0){
-  const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
-      localStorage.setItem("login", encryptData.toString());
-}else{
-  const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
-      localStorage.setItem("login", encryptData.toString());
-}
+        localStorage.setItem("loginId", encryptedLoginId);
+        localStorage.setItem("NameId", encryptedname);
+        localStorage.setItem("phoneId", encryptedphone);
+        localStorage.setItem("emilidd", encryptedemail);
+        localStorage.setItem("IsEnable", encryptIsEnable);
+        localStorage.setItem("Password", encryptPassword);
+
+        console.log("Is_Enable *****", Is_Enable)
+
+        if (Is_Enable == 0) {
+          const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
+          localStorage.setItem("login", encryptData.toString());
+        } else {
+          const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
+          localStorage.setItem("login", encryptData.toString());
+        }
       } else {
-console.log("No data found")
-  }
-  setTimeout(()=>{
-    dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
-    },100)
-  }
+        console.log("No data found")
+      }
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE' })
+      }, 100)
+    }
 
-},[stateData.statusCodeForAccountList])
+  }, [stateData.statusCodeForAccountList])
 
 
   //  command but we need
@@ -204,12 +221,12 @@ console.log("No data found")
 
 
         const FilteredProfile = stateData.accountList[0]?.user_details
-       
-          const profilePictures = FilteredProfile.profile;
-          const profileName = FilteredProfile.Name;
-          setProfiles(profilePictures);
-          setProfileArray(profileName);
-              }
+
+        const profilePictures = FilteredProfile.profile;
+        const profileName = FilteredProfile.Name;
+        setProfiles(profilePictures);
+        setProfileArray(profileName);
+      }
 
       catch (error) {
         console.log("Error decrypting loginid", error);
@@ -243,7 +260,7 @@ console.log("No data found")
     number_Of_Rooms: '',
     floorDetails: []
   })
- 
+
 
 
   const handlePageClick = (page) => {
@@ -264,17 +281,11 @@ console.log("No data found")
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+    const handleResize = () => setWindowWidth(window.innerWidth);
 
     window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
-
 
   
 
@@ -287,7 +298,7 @@ console.log("No data found")
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch({ type: 'LOG_OUT' })
-      
+
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
         localStorage.setItem("login", encryptData.toString())
         localStorage.setItem("loginId", '')
@@ -299,14 +310,11 @@ console.log("No data found")
   }
 
 
-
-
-
-
+  
   return (
     <>
 
-      <Navbar bg="light" expand="lg" style={{ backgroundColor: "#FFFFFF", padding: "0px 0px", boxShadow: "1px 1px 2px lightgray" }} >
+      {/* <Navbar bg="light" expand="lg" style={{ backgroundColor: "#FFFFFF", padding: "0px 0px", boxShadow: "1px 1px 2px lightgray" }} >
         <Container fluid style={{ backgroundColor: "#FFFFFF", padding: "0px" }}>
           <div class="d-flex justify-content-start" style={{ marginLeft: "0px" }} >
             <Navbar.Brand href="#" style={{ padding: "5px 8px", backgroundColor: "#2E75EA", height: "100%", width: "auto" }}><img class="img-fluid" src={Smart} style={{ height: "30px", width: "30px" }} alt='Smart' /></Navbar.Brand>
@@ -378,78 +386,115 @@ console.log("No data found")
 
           </Navbar.Collapse>
         </Container>
-      </Navbar>
+      </Navbar> */}
 
       <Container fluid className='p-0'>
 
-        <Row className='g-0 m-0 vh-100'>
-          <Col lg={isSidebarMaximized ? 2 : 1} md={isSidebarMaximized ? 2 : 1} sm={isSidebarMaximized ? 2 : 1} xs={isSidebarMaximized ? 2 : 1} className="d-sm-block bg-light" style={{ cursor: "pointer" }} >
-            <div className="d-flex align-items-center m-3" style={{ justifyContent: isSidebarMaximized ? "end" : "center" }}>
+        <Row className='g-0 m-0 vh-100'  >
+          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block " style={{ cursor: "pointer",backgroundColor: '#E0ECFF' }} >
+            {/* <div className="d-flex align-items-center m-3" style={{ justifyContent: isSidebarMaximized ? "end" : "center" }}>
               <div onClick={toggleSidebar} className="d-flex align-items-center justify-content-center  toggleButton" style={{ borderRadius: 10, width: "auto", padding: 5, backgroundColor: "#FFFFFF", boxShadow: "lightgray", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
                 {isSidebarMaximized ? <label className="mb-0" style={{ fontSize: 11, color: "gray" }}><IoIosArrowBack style={{ fontSize: 11, color: "gray", fontFamily: "sans-serif" }} />Hide</label> : <label className="mb-0" style={{ fontSize: 11, color: "gray" }}><IoIosArrowForward style={{ fontSize: 11, color: "gray" }} />Show</label>}
               </div>
+            </div> */}
+            <div className="d-flex align-items-center m-3 gap-1 justify-content-center">
+              
+              <img src={Smartstay} style={{ fontSize:'15px' }} />
+              <img src={Smarts} className='Title' style={{ fontSize: '15px' }} />
             </div>
-            <ul className="m-0 mt-3 p-0">
 
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}>
+            <ul className="p-3">
+              <li className={`p-2 mb-2  align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
                 <div className='d-flex  align-items-center justify-content-between'>
-                  <RiDashboard3Line style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} />
-                  <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Dashboard</span>
+                  <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ fontSize: '13px' }} />
+                  <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" }}>Dashboard</span>
                 </div>
               </li>
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", position: "", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}>
-                <div className='d-flex  align-items-center justify-content-between'>
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", position: "", display: "flex" }}>
+
+                <img src={currentPage === 'pg-list' ? Paying2 : Paying} style={{ fontSize: '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block" }}>Paying Guest</span>
+
+                {/* <div className='d-flex  align-items-center justify-content-between'>
+
                   <FaBuilding style={{ fontSize: isSidebarMaximized ? '16px' : '13px' }} />
-                  <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>PG list</span>
                   <FaCirclePlus style={{ fontSize: isSidebarMaximized ? '16px' : '13px', marginLeft: isSidebarMaximized ? 15 : 5, display: "inline-block" }} alt='Menu' />
-                </div>
+                </div> */}
               </li>
 
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'user-list' ? 'active' : ''}`} onClick={() => handlePageClick('user-list')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><LuUserCog style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>User list</span></li>
-            </ul>
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'user-list' ? 'active' : ''}`} onClick={() => handlePageClick('user-list')} style={{ listStyleType: "none", display: "flex" }}>
+                {/* <LuUserCog style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
+                <img src={currentPage === 'user-list' ? Custom2 : Custom} style={{ fontSize: '13px' }} />
+                {/* <img src={Custom} style={{ fontSize: isSidebarMaximized ? '16px' : '13px' }} /> */}
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" }}>Customers</span></li>
+              {/* </ul> */}
 
-            <ul className="m-0 mt-3 p-0">
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'invoice' ? 'active' : ''}`} onClick={() => handlePageClick('invoice')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><GrCompliance style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Invoice</span></li>
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><TbFileInvoice style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Compliance</span></li>
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'payment' ? 'active' : ''}`} onClick={() => handlePageClick('payment')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><MdPayment style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Payment gateway</span></li>
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'user-access' ? 'active' : ''}`} onClick={() => handlePageClick('user-access')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaUsersRectangle style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>User and access</span></li>
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><CiViewList style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>EB</span></li>
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'checkout' ? 'active' : ''}`} onClick={() => handlePageClick('checkout')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BsClipboard2Check style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Checkout</span></li>
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BiBarChartAlt style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Reports</span></li>
-            </ul>
+              {/* <ul className="m-0 mt-3 p-0"> */}
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'vendor' ? 'active' : ''}`} onClick={() => handlePageClick('vendor')} style={{ listStyleType: "none", display: "flex" }}>
+                {/* <GrCompliance style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
+                <img src={currentPage === 'vendor' ? Vendor2 : Vendor} style={{ fontSize: '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" }}>Vendor</span></li>
 
-            <ul className="m-0 mt-3 p-0">
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><IoSettingsOutline style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Settings</span></li>
-              <li className={`p-2 align-items-center list-Item ${currentPage === 'support' ? 'active' : ''}`} onClick={() => handlePageClick('support')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaCircleExclamation style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Support</span></li>
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'invoice' ? 'active' : ''}`} onClick={() => handlePageClick('invoice')} style={{ listStyleType: "none", display: "flex" }}>
+               
+              <img src={currentPage === 'invoice' ? Invoice2 : Invo} style={{ fontSize: '13px' }} />
 
-            </ul>
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block" }}>Invoice</span></li>
 
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" }}>
+                {/* <MdPayment style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
+                {/* <img src={Asset} style={{ fontSize: isSidebarMaximized ? '16px' : '13px' }} /> */}
 
+                <img src={currentPage === 'asset' ? Asset2 : Asset} style={{ fontSize: '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block"  }}>Assets</span></li>
 
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex"}}>
+                {/* <CiViewList style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
+                <img src={currentPage === 'eb' ? Eb2 : Eb} style={{ fontSize: '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" }}>Electricity Bill</span></li>
+
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex" }}>
+                              <img src={currentPage === 'compliance' ? Compl2 : Compl} style={{ fontSize: '13px' }} />
+                  <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  }}>Compliants</span></li>
+              <li className={`p-2  mb-2 align-items-center list-Item ${currentPage === 'expenses' ? 'active' : ''}`} onClick={() => handlePageClick('expenses')} style={{ listStyleType: "none", display: "flex" }}>
+                          
+                <img src={currentPage === 'expenses' ? Expense2 : Expense} style={{ fontSize: '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  }}>Expenses</span></li>
+
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex" }}>
+              
+               <img src={currentPage === 'reports' ? Repo2 : Repo} style={{ fontSize: '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block" }}>Reports</span></li>
+
+              {/* <li className={`p-2 align-items-center list-Item ${currentPage === 'checkout' ? 'active' : ''}`} onClick={() => handlePageClick('checkout')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BsClipboard2Check style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Checkout</span></li> */}
+              {/* </ul> */}
+
+              {/* <ul className="m-0 mt-3 p-0"> */}
+              {/* <li className={`p-2 align-items-center list-Item ${currentPage === 'support' ? 'active' : ''}`} onClick={() => handlePageClick('support')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaCircleExclamation style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Support</span></li> */}
+
+              {/* </ul> */}
+              </ul>
+            <ul className="p-3">
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
+                {/* <IoSettingsOutline style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} />  */}
+                <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  }}>Settings</span></li>
+                </ul>
           </Col>
-          <Col lg={isSidebarMaximized ? 10 : 11} md={isSidebarMaximized ? 10 : 11} sm={isSidebarMaximized ? 10 : 11} xs={isSidebarMaximized ? 10 : 11} className="bg-white">
+          <Col lg={10} md={10} sm={10} xs={10} className="bg-white">
 
-            {/* {activePage ?
-              <>
-                <h4 className="p-3">Dashboard</h4>
-                <p className="ps-3">Hi,Rahul! Welcome to Business Dashboard</p>
-              </>
-              :
-              ""
-            } */}
             {currentPage === 'dashboard' && <Dashboards />}
             {currentPage === 'pg-list' && < PgLists />}
             {currentPage === 'user-list' && < UserLists />}
             {currentPage === 'invoice' && < Invoices />}
+            {currentPage === 'vendor' && < VendorComponent />}
             {currentPage === 'compliance' && < Compliances />}
-            {currentPage === 'payment' && < Payments />}
-            {currentPage === 'user-access' && < UserAccesss />}
+            {currentPage === 'asset' && < Assets />}
             {currentPage === 'reports' && < Report />}
             {currentPage === 'settings' && < Setting />}
-            {currentPage === 'support' && < Supports />}
             {currentPage === 'eb' && <  EbHostel />}
             {currentPage === 'checkout' && <Checkout />}
-
+            {currentPage === 'expenses' && <Expenses />}
 
           </Col>
         </Row>
