@@ -38,7 +38,9 @@ function* CreateNewAccount(args) {
         confirmButtonText: 'Ok'
       });
     }
-    refreshToken(response)
+    if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
   } catch (error) {
     console.log("error", error);
   }
@@ -59,7 +61,9 @@ function* CreateAccountPage(action) {
 
      
     }
-    refreshToken(response)
+    if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
   } catch (error) {
     console.log("error", error);
   }
@@ -86,7 +90,9 @@ function* HandleTwoStepVerification(action) {
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
   }
-  refreshToken(response)
+  if(response.data && response.data.refresh_token){
+    refreshToken(response)
+ }
 }
 
 function* handleAccountDetails(args) {
@@ -100,7 +106,9 @@ function* handleAccountDetails(args) {
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
   }
-  refreshToken(response)
+  if(response.data && response.data.refresh_token){
+    refreshToken(response)
+ }
 } catch (error) {
   console.error("Error in handleAccountDetails:", error);
     yield put({ type: 'ERROR', payload: 'Failed to fetch account details' });

@@ -482,6 +482,7 @@ function Sidebar() {
                 </ul>
           </Col>
           <Col lg={10} md={10} sm={10} xs={10} className="bg-white">
+          <img src={Logout} class="me-3" style={{ height: "25px", width: "25px" }} onClick={handleLogout} alt='Logout' />
 
             {currentPage === 'dashboard' && <Dashboards />}
             {currentPage === 'pg-list' && < PgLists />}

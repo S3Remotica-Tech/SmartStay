@@ -13,7 +13,9 @@ import Cookies from 'universal-cookie';
     else {
        yield put ({type:'ERROR', payload:response.data.message})
     }
-    refreshToken(response)
+    if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 
@@ -27,7 +29,9 @@ function* handleInvoiceList(action) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handleAddInvoiceDetails (param){
@@ -40,7 +44,9 @@ function* handleAddInvoiceDetails (param){
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handleInvoiceSettings(param){
@@ -53,7 +59,9 @@ function* handleInvoiceSettings(param){
       else {
          yield put({ type: 'ERROR', payload: response?.data?.message })
       }
-      refreshToken(response)
+      if(response.data && response.data.refresh_token){
+         refreshToken(response)
+      }
   
 }
 
@@ -66,7 +74,9 @@ function* handleInvoicePdf(action) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handleAmenitiesSettings(action){
@@ -92,7 +102,9 @@ function* handleAmenitiesSettings(action){
    }else{
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handleGetAmenities() {
@@ -104,7 +116,9 @@ function* handleGetAmenities() {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handleUpdateAmenities(action) {
@@ -123,7 +137,9 @@ function* handleUpdateAmenities(action) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 
@@ -137,7 +153,9 @@ function* handleManualInvoice() {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function refreshToken(response){

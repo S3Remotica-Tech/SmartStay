@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {compliance,Compliancedetails} from "../Action/ComplianceAction"
+import {compliance,Compliancedetails, VendorList,addVendor} from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 
@@ -20,7 +20,9 @@ import Swal from 'sweetalert2';
     else {
        yield put ({type:'ERROR', payload:response.data.message})
     }
-    refreshToken(response)
+    if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handleComplianceadd (params) {
@@ -32,8 +34,47 @@ function* handleComplianceadd (params) {
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
+
+
+function* handleVendorGet(action) {
+   const response = yield call (VendorList,action.payload);
+ 
+   if (response.status === 200){
+      yield put ({type : 'VENDOR_LIST' , payload:{response:response.data.VendorList, statusCode:response.status}})
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
+}
+
+
+function* handleAddVendor(action) {
+   const response = yield call (addVendor,action.payload);
+ console.log(" response", response)
+   if (response.statusCode === 200){
+      yield put ({type : 'ADD_VENDOR' , payload:{response:response.data, statusCode:response.statusCode}})
+      Swal.fire({
+         text: "To Create a Vendor is Successfully!",
+         icon: "success",
+         timer: 1000,
+     });
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
+  
+}
+
 
 function refreshToken(response){
 
@@ -58,6 +99,8 @@ if(response.data.refresh_token){
 function* ComplianceSaga() {
     yield takeEvery('COMPLIANCE-LIST', handlecompliancelist)
     yield takeEvery('COMPLIANCE-ADD', handleComplianceadd) 
+    yield takeEvery('VENDORLIST',handleVendorGet)
+    yield takeEvery('ADDVENDOR',handleAddVendor)
 
 }
 export default ComplianceSaga;
