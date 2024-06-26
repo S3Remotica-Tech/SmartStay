@@ -1,4 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Table } from 'react-bootstrap';
@@ -9,6 +11,8 @@ import Edit from '../Assets/Images/edit.png';
 import { Button, Offcanvas, Form, Dropdown, FormControl } from 'react-bootstrap';
 import Plus from '../Assets/Images/Create-button.png';
 import Profile from '../Assets/Images/Profile.jpg';
+import Dots from '../Assets/Images/more.png';
+import User from '../Assets/Images/Ellipse 1.png';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -16,8 +20,10 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import InvoiceDetail from './InvoiceDetails';
 import MessageModal from './MessageModal';
 import LoaderComponent from './LoaderComponent';
+import Sort from "../Assets/Images/sort.png"
 import CryptoJS from "crypto-js";
-
+import "../Pages/Invoices.css"
+import { fontSize, fontWeight } from '@mui/system';
 
 
 const InvoicePage = () => {
@@ -26,6 +32,33 @@ const InvoicePage = () => {
   const state = useSelector(state => state)
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
+
+
+  const customStyle = {
+    fontFamily: 'Gilroy, sans-serif',
+    color: "#939393",
+    fontSize: "14px",
+    fontWeight:500
+  };
+
+  const Tablebodystyle = {
+    fontFamily: 'Gilroy, sans-serif',
+    color: "#222",
+    fontSize: "14px",
+    fontWeight:540
+  }
+
+
+  const customCheckboxStyle = {
+    appearance: 'none',
+    width: '20px',
+    height: '20px',
+    backgroundColor: '#fff',
+    border: '2px solid #DCDCDC',
+    borderRadius: '4px',
+    display: 'inline-block',
+    position: 'relative',
+  };
   //offcanvas style
   const bottomBorderStyle = {
     border: 'none',
@@ -733,19 +766,19 @@ console.log("DATA",data)
 
           <InvoiceDetail sendInvoiceDetail={invoicePage} handleInvoiceback={handleInvoiceback} />
         </> : <>
-          <div class=' ps-3 pe-3' style={{ marginTop: "20px", position: "relative" }} >
+          <div class=' ps-5 pe-5' style={{ marginTop: "20px", position: "relative" }} >
 
-            <div class="row g-0" style={{ width: "100%" }}>
-              <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12" >
-                <div class="pt-1 ps-0" >
-                  <h6 style={{ fontSize: "16px" }}>Invoices</h6>
-                </div>
-              </div>
-              <div class="col-lg-6  offset-lg-4 col-md-6 col-sm-12 col-xs-12">
-                <div class="p-1 d-flex justify-content-end align-items-center"  >
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+             
+                
+                  <p style={{ fontSize: "23px",fontFamily:'Gilroy, sans-serif',fontWeight:600 ,color:'#222' }}>Invoice</p>
+               
+             
+              <div >
+                
 
                   {showLoader && <LoaderComponent />}
-                  {
+                  {/* {
                     searchicon &&
                     <>
                       <input
@@ -759,7 +792,8 @@ console.log("DATA",data)
                       />
                     </>
                   }
-                  <BsSearch class=" me-4" onClick={handleiconshow} />
+                  <BsSearch class=" me-4" onClick={handleiconshow} /> */}
+                  <div style={{display:'flex',flexDirection:'row'}}>
                   {
                     filtericon &&
                     <>
@@ -772,11 +806,8 @@ console.log("DATA",data)
                       </select>
                     </>
                   }
-                  <IoFilterOutline class=" me-4" onClick={handleFiltershow} />
-                  {/* <button type="button" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" /> Add Invoice</button> */}
-                </div>
-              </div>
-              <div>
+                  <img class=" me-4" onClick={handleFiltershow}   src={Sort}/> 
+                  </div>
               </div>
             </div>
 
@@ -1067,29 +1098,25 @@ console.log("DATA",data)
 
 
 
-            <Table responsive >
-              <thead class='pt-0' style={{ backgroundColor: "#F6F7FB", color: "#91969E", fontSize: "10px" }}>
-                <tr style={{}}>
-                  <th style={{ color: "#91969E" }} >ID</th>
-                  <th style={{ color: "#91969E" }} >Date</th>
-                  <th style={{ color: "#91969E" }} >Invoices#</th>
-                  <th style={{ color: "#91969E" }} >Name & Phone</th>
-                  <th style={{ color: "#91969E" }} >HostelName</th>
-                  <th style={{ color: "#91969E" }} >Floor</th>
-                  <th style={{ color: "#91969E" }} >Room</th>
-                  <th style={{ color: "#91969E" }} >Bed</th>
-                  <th style={{ color: "#91969E" }} >Amount</th>
-                  <th style={{ color: "#91969E" }} >Due Amount</th>
-                  <th style={{ color: "#91969E" }} >Due Date</th>
-                  <th style={{ color: "#91969E" }} >Record Payment</th>
-                  {/* <th style={{ color: "#91969E" }} >Action</th> */}
-                </tr>
-              </thead>
-              <tbody style={{ fontSize: "10px" }}>
-
-              {loading ? (
-          // Render skeletons
-          Array.from({ length: state?.InvoiceList?.Invoice.length || 5 }).map((_, index) => (
+            <Table className="custom-table">
+      <thead className='Table-header'>
+        <tr >
+          <th>
+            <input type='checkbox' className="custom-checkbox mx-2 mb-n5" style={customCheckboxStyle}/>
+          </th>
+          <th style={customStyle}>Name</th>
+          <th style={customStyle}>Invoice number</th>
+          <th style={customStyle}>Created</th>
+          <th style={customStyle}>Due Date</th>
+          <th style={customStyle}>Amount</th>
+          <th style={customStyle}>Due</th>
+          <th style={customStyle}>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody style={{ fontSize: "10px" }}>
+        {loading ? (
+          Array.from({ length: 5 }).map((_, index) => (
             <tr key={index}>
               <td><Skeleton width={80} /></td>
               <td><Skeleton width={120} /></td>
@@ -1115,39 +1142,34 @@ console.log("DATA",data)
             </tr>
           ))
         ) : (
-                currentItems.map((item) => (
-                  <tr key={item.id}>
-                    <td style={{ color: "black", fontWeight: 500 }} >{item.id}</td>
-                    <td style={{ color: "black", fontWeight: 500 }} >{moment(item.Date).format('DD/MM/YY')}</td>
-                    <td style={{ color: "#0D99FF", fontWeight: 600, textDecoration: 'underline', cursor: 'pointer' }} onClick={() => handleInvoiceDetail(item)}>{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</td>
-                    <td style={{ color: "#0D99FF", fontWeight: 600 }}>
-                      <div class="d-flex">
-                        {/* <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name && item.Name.split(" ")[0].slice(0, 1, 0)}{item.Name.split(" ")[1].slice(0, 1, 0)}</p></span> */}
-                        <span class="i-circle"><p class="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name && item.Name.split(" ")[0].slice(0, 1, 0).toUpperCase()}{item.Name.split(" ")[1] && item.Name.split(" ")[1].slice(0, 1).toUpperCase()}</p></span>
-
-                        <div class="ms-2">
-                          <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
-                          <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.phoneNo}</label>
-                        </div>
-                      </div>
-                    </td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{item.Hostel_Name}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_Id}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{item.Room_No}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{item.Bed}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{item.Amount}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{item.BalanceDue}</td>
-                    <td style={{ color: "black", fontWeight: 500 }}>{moment(item.DueDate).format('DD/MM/YY')}</td>
-                    <td style={item.BalanceDue == 0 ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{item.BalanceDue == 0 ? "Paid" : <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} />}</td>
-                    {/* <td class="justify-content-between">
-                      <img src={List} height="20" width="20" alt='List' onClick={() => handleInvoiceDetail(item)} /> */}
-                    {/* <img class="ms-1" src={Edit} height="20" width="20" alt='Edit' onClick={() => { handleShow(item) }} /> */}
-                    {/* </td> */}
-                  </tr>
-                          ))
-                        )}
-              </tbody>
-            </Table>
+          currentItems.map((item) => (
+            <tr key={item.id} 
+            style={{color: "#000", fontFamily: "Gilroy",fontSize: "14px",fontStyle: "normal",fontWeight: 400,
+              lineHeight: "normal"}}>
+              <td style={{ color: "black", fontWeight: 500 }}>
+                <input type='checkbox' className="custom-checkbox  mx-2 " style={customCheckboxStyle}/>
+              </td>
+              <td style={{ fontFamily:'Gilroy, sans-serif'}}>
+                <div className="d-flex row align-items-center">
+                  <div style={{display:'flex'}}>
+                     <span ><img src={User} style={{height:35,width:35,marginTop:'-7px'}}/></span>
+                    <div className='fw-bolder' style={{ fontFamily:'Gilroy, sans-serif',fontSize:'14px',wordWrap:'break-word' ,marginLeft:'8px',color: "#222222",fontWeight:350}}>{item.Name}</div><br />
+                  </div>
+                </div>
+              </td>
+              <td style={{ cursor: 'pointer',fontFamily:'Gilroy, sans-serif' }} onClick={() => handleInvoiceDetail(item)} className='fw-bolder'>#{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</td>
+              <td style={Tablebodystyle}><span style={{backgroundColor:'#EBEBEB',padding:'8px 12px',color:'#000000',borderRadius:'14px'}} className='fw-bolder'>{moment(item.Date).format('DD MMM YYYY').toUpperCase()}</span></td>
+              <td style={Tablebodystyle}><span style={{backgroundColor:'#EBEBEB',padding:'8px 12px',color:'#222222',borderRadius:'14px'}} className='fw-bolder'>{moment(item.DueDate).format('DD MMM YYYY').toUpperCase()}</span></td>
+              <td style={Tablebodystyle} className='fw-bolder'> ₹{item.Amount.toLocaleString('en-IN')}</td>
+              <td style={Tablebodystyle} className='fw-bolder'>₹{item.BalanceDue.toLocaleString('en-IN')}</td>
+              <td className='fw-bolder' style={item.BalanceDue === 0 ? { color: "green", fontWeight: 500 } : { color: "red", fontWeight: 500 }}>
+              {item.BalanceDue === 0 ? <span style={{backgroundColor:'#D9FFD9',padding:'8px 12px',color:'#000000',borderRadius:'14px',fontFamily:'Gilroy, sans-serif'}}>Paid</span> : <span onClick={() => handleShow(item)} style={{ cursor: 'pointer',backgroundColor:'#FFD9D9',fontFamily:'Gilroy, sans-serif',padding:'8px 12px',color:'#000000',borderRadius:'14px' }}>Unpaid</span>}</td>
+            <td style={{}}><span style={{width:'38px',height:'25px',border:'0.3px solid #DCDCDC',borderRadius:'50%',padding:'5px 8px'}} ><img src={Dots}/></span></td>
+            </tr>
+          ))
+        )}
+      </tbody>
+    </Table>
 
             <div className="d-flex justify-content-center" style={{width:"100%"}}>
 {currentItems.length === 0 && !loading && <h5 style={{fontSize: 12, color: "red"}}>No Data Found</h5>}
@@ -1155,7 +1177,7 @@ console.log("DATA",data)
 
 
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-              <div style={{ display: "flex", flexDirection: "row" }}>
+              {/* <div style={{ display: "flex", flexDirection: "row" }}>
                 <div>
                   <p style={{ fontSize: 13, marginTop: "5px" }}>Results:</p>
                 </div>
@@ -1174,7 +1196,8 @@ console.log("DATA",data)
                 <div style={{ fontSize: "10px", marginTop: "7px", marginLeft: "10px" }}>
                   of <label>{currentPage}</label>
                 </div>
-              </div>
+              </div> */}
+              <div></div>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div onClick={handlePreviousClick} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
                   Prev
