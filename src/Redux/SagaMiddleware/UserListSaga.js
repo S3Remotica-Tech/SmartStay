@@ -14,7 +14,9 @@ function* handleuserlist(user) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 function* handleHostelList(hostel) {
    const response = yield call(hostelList,hostel.payload)
@@ -26,7 +28,9 @@ function* handleHostelList(hostel) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handleNumberOfRooms(ID) {
@@ -38,7 +42,9 @@ function* handleNumberOfRooms(ID) {
    else {
       yield put({ type: 'ERROR', payload: {response:response.data.message,floor_Id:ID.payload.floor_Id} })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handlehosteliddetail(data) {
@@ -51,7 +57,9 @@ function* handlehosteliddetail(data) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 function* handleUserBillPaymentHistory(){
    const response = yield call(userBillPaymentHistory)
@@ -62,7 +70,9 @@ function* handleUserBillPaymentHistory(){
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handleCreateFloor(data) {
@@ -75,7 +85,9 @@ function* handleCreateFloor(data) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handleRoomsDetails(ID) {
@@ -87,7 +99,9 @@ function* handleRoomsDetails(ID) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 
@@ -123,7 +137,9 @@ function* handleAddUser(datum) {
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
       }
-      refreshToken(response)
+      if(response.data && response.data.refresh_token){
+         refreshToken(response)
+      }
    }
 
 
@@ -136,7 +152,9 @@ function* handleAddUser(datum) {
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
       }
-      refreshToken(response)
+      if(response.data && response.data.refresh_token){
+         refreshToken(response)
+      }
    }
    
 
@@ -156,7 +174,9 @@ function* handleAddUser(datum) {
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
       }
-      refreshToken(response)
+      if(response.data && response.data.refresh_token){
+         refreshToken(response)
+      }
    }
 
    function* handleDeleteFloor(hosteID){
@@ -168,7 +188,9 @@ function* handleAddUser(datum) {
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
       }
-      refreshToken(response)
+      if(response.data && response.data.refresh_token){
+         refreshToken(response)
+      }
    }
 
 function* handleDeleteRoom(roomDetails){
@@ -179,7 +201,9 @@ function* handleDeleteRoom(roomDetails){
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
 }
 
 function* handleDeleteBed(bedDetails){
@@ -190,7 +214,9 @@ function* handleDeleteBed(bedDetails){
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   refreshToken(response)
+   if(response.data && response.data.refresh_token){
+      refreshToken(response)
+   }
    
 }  
  function refreshToken(response){
