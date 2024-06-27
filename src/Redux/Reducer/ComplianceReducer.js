@@ -6,6 +6,7 @@ const initialState = {
     errorMessage:'',
     VendorList:[],
     addVendorSuccessStatusCode:0,
+    getVendorStatusCode:0,
     }
     
     const ComplianceReducer = (state = initialState, action) => {
@@ -22,7 +23,9 @@ const initialState = {
                 case 'CLEAR_ERROR':
                     return { ...state, errorMessage: ''}
             case 'VENDOR_LIST':
-                return {...state, VendorList:action.payload.response}
+                return {...state, VendorList:action.payload.response, getVendorStatusCode: action.payload.statusCode}
+               case 'CLEAR_GET_VENDOR_STATUS_CODE':
+                return { ...state, getVendorStatusCode:0}
                 case 'ADD_VENDOR' : 
                  return { ...state, addVendorSuccessStatusCode:action.payload.statusCode}
                  case 'CLEAR_ADD_VENDOR_STATUS_CODE':

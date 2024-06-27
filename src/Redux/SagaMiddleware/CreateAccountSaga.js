@@ -38,7 +38,7 @@ function* CreateNewAccount(args) {
         confirmButtonText: 'Ok'
       });
     }
-    if(response.data && response.data.refresh_token){
+    if(response){
       refreshToken(response)
    }
   } catch (error) {
@@ -61,7 +61,7 @@ function* CreateAccountPage(action) {
 
      
     }
-    if(response.data && response.data.refresh_token){
+    if(response){
       refreshToken(response)
    }
   } catch (error) {
@@ -90,7 +90,7 @@ function* HandleTwoStepVerification(action) {
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
   }
-  if(response.data && response.data.refresh_token){
+  if(response){
     refreshToken(response)
  }
 }
@@ -106,7 +106,7 @@ function* handleAccountDetails(args) {
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
   }
-  if(response.data && response.data.refresh_token){
+  if(response){
     refreshToken(response)
  }
 } catch (error) {
@@ -116,7 +116,7 @@ function* handleAccountDetails(args) {
 }
 
 function refreshToken(response){
-  if(response.data.refresh_token){
+  if(response.data && response.data.refresh_token){
      const refreshTokenGet = response.data.refresh_token
      console.log("refreshTokenGet",refreshTokenGet)
      const cookies = new Cookies()

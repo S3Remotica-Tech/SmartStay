@@ -30,6 +30,10 @@ export async function addVendor(params) {
   if (params.Vendor_Email) formData.append("Vendor_Email", params.Vendor_Email)
   if (params.Vendor_Mobile) formData.append("Vendor_Mobile", params.Vendor_Mobile)
   if (params.Vendor_Address) formData.append("Vendor_Address", params.Vendor_Address)
+    if (params.Business_Name) formData.append("Business_Name", params.Business_Name)
+      if(params.Vendor_Id) formData.append("Vendor_Id" ,params.Vendor_Id)
+        if(params.id) formData.append("id", params.id)
+
 
   try {
     const response = await AxiosConfig.post('/add/update_vendor', formData, {

@@ -19,7 +19,7 @@ function* handlePgList(datum) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -37,7 +37,7 @@ function* handleCreateRoom(datum) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -50,7 +50,7 @@ function* handleCheckRoom() {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -65,7 +65,7 @@ function* handleCheckEblist() {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -78,7 +78,7 @@ function* handleCheckEbStartmeterlist() {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -92,7 +92,7 @@ function* handleCheckEB(action) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -107,7 +107,7 @@ function* handleCreateEB(action) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -123,7 +123,7 @@ function* handleCreatePGDashboard(action) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -136,13 +136,13 @@ function* handleCheckBedDetails(action) {
    else if (response.status === 201) {
       yield put({ type: 'NO_USER_BED', payload: { response: response.data.message, statusCode: response.status } })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
 
 function refreshToken(response) {
-   if (response.data.refresh_token) {
+   if (response.data && response.data.refresh_token) {
       const refreshTokenGet = response.data.refresh_token
       console.log("refreshTokenGet", refreshTokenGet)
       const cookies = new Cookies()

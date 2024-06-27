@@ -13,7 +13,7 @@ import Cookies from 'universal-cookie';
     else {
        yield put ({type:'ERROR', payload:response.data.message})
     }
-    if(response.data && response.data.refresh_token){
+    if(response){
       refreshToken(response)
    }
 }
@@ -29,7 +29,7 @@ function* handleInvoiceList(action) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -44,7 +44,7 @@ function* handleAddInvoiceDetails (param){
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -59,7 +59,7 @@ function* handleInvoiceSettings(param){
       else {
          yield put({ type: 'ERROR', payload: response?.data?.message })
       }
-      if(response.data && response.data.refresh_token){
+      if(response){
          refreshToken(response)
       }
   
@@ -74,7 +74,7 @@ function* handleInvoicePdf(action) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -102,7 +102,7 @@ function* handleAmenitiesSettings(action){
    }else{
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -116,7 +116,7 @@ function* handleGetAmenities() {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -137,7 +137,7 @@ function* handleUpdateAmenities(action) {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -153,7 +153,7 @@ function* handleManualInvoice() {
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
