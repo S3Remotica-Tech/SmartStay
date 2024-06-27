@@ -13,6 +13,7 @@ import arrow from "../Assets/Images/Arrow 2.png"
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import vector from "../Assets/Images/Vector.png"
+import leftarrow from "../Assets/Images/Arrow 1.png"
 import key from "../Assets/Images/key.png"
 import car from "../Assets/Images/profile-2user (1).png"
 import clock from "../Assets/Images/profile-2user.png"
@@ -79,7 +80,10 @@ function Dashboard() {
     { name: 'May 2024', Revenue: 500, Expenses: 350 },
     { name: 'Jun 2024', Revenue: 350, Expenses: 300 },
   ];
-  const formatYAxis = (tickItem) => `$${tickItem}`;
+  
+  const formatYAxis = (tickItem) => {
+    return `$${tickItem}`;
+  }
 
   const state = useSelector(state => state)
   console.log("state", state)
@@ -165,31 +169,29 @@ function Dashboard() {
       return <div>Loading...</div>;
     }
    
-    const renderCustomAxisTick = (props) => {
-      const { x, y, payload } = props;
+    
+    const CustomLegend = ({ payload }) => {
       return (
-        <g transform={`translate(${x},${y})`}>
-          <text x={-10} y={0} dy={16} textAnchor="end" fill="#666">
-            {payload.value}
-          </text>
-          <foreignObject x="-30" y="-10" width="20" height="20">
-            <img src={arrow} alt="arrow" style={{ width: '20px', height: '20px', transform: 'rotate(0deg)' }} />
-          </foreignObject>
-        </g>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          {payload.map((entry, index) => (
+            <div key={`item-${index}`} style={{ display: 'flex', alignItems: 'center', marginRight: 10,marginTop:25 }}>
+              <div style={{
+                width: 10,
+                height: 10,
+                borderRadius: '50%',
+                backgroundColor: entry.color,
+                marginRight: 5
+              }} />
+              <span>{entry.value}</span>
+            </div>
+          ))}
+        </div>
       );
     };
 
 
 
-
-    const CustomLabel = ({ x, y, value, fill }) => {
-      return (
-        <g>
-          <circle cx={x} cy={y - 10} r={12} fill={fill} />
-          <text x={x} y={y - 6} textAnchor="middle" fill="#fff" fontSize={10}>{value}</text>
-        </g>
-      );
-    };
+   
 
   return (
 
@@ -237,8 +239,8 @@ function Dashboard() {
           <h6 style={{paddingTop:15}}>Total Hostel</h6>
         
         </div>
-        <div >
-          <h3>{hostelCount.toLocaleString()}</h3>
+        <div  style={{fontSize:32,fontWeight:600,font:"Gilroy"}}>
+          {hostelCount.toLocaleString()}
         </div>
       </div>
     </Card.Body>
@@ -260,8 +262,8 @@ function Dashboard() {
           <h6 style={{paddingTop:15}}>Available Beds</h6>
         
         </div> 
-        <div >
-          <h3>{hostelCount.toLocaleString()}</h3>
+        <div style={{fontSize:32,fontWeight:600,font:"Gilroy"}}>
+          {hostelCount.toLocaleString()}
         </div>
       </div>
     </Card.Body>
@@ -282,8 +284,8 @@ function Dashboard() {
           <h6 style={{paddingTop:15}}>Total Rooms</h6>
         
         </div>
-        <div >
-          <h3>{hostelCount.toLocaleString()}</h3>
+        <div style={{fontSize:32,fontWeight:600,font:"Gilroy"}}>
+          {hostelCount.toLocaleString()}
         </div>
       </div>
     </Card.Body>
@@ -304,8 +306,8 @@ function Dashboard() {
           <h6 style={{paddingTop:15}}>Occupied Beds</h6>
         
         </div>
-        <div >
-          <h3>{hostelCount.toLocaleString()}</h3>
+        <div style={{fontSize:32,fontWeight:600,font:"Gilroy"}}>
+          {hostelCount.toLocaleString()}
         </div>
       </div>
     </Card.Body>
@@ -324,12 +326,12 @@ function Dashboard() {
 <div className='w-full' style={{flex:1}}>
 
 
-<div className='crddesg w-full' style={{ padding: '20px', border: '1px solid #e0e0e0', borderRadius: '8px', backgroundColor: '#fff', height: '420px', maxWidth: '520px' }}>
-  <div className='dropp' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 20px' }}>
+<div className='crddesg w-full' style={{ padding: '0px',paddingTop:"20px", border: '1px solid #e0e0e0', borderRadius: '8px', backgroundColor: '#fff', maxWidth: '520px', }}>
+  <div className='dropp' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10 20px' }}>
     <div style={{ display: 'flex', textAlign: 'start',fontSize:18,fontWeight:600 }}>
       Revenus vs Expenses
     </div>
-    <div className="d-flex align-items-end mb-3 justify-content-end">
+    <div className="d-flex align-items-end mb-3 justify-content-end" style={{marginTop:10}}>
       <div className="dropdown">
         <button className="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ color: 'black', borderColor: 'grey' }}>
           2024 - 2025
@@ -342,7 +344,7 @@ function Dashboard() {
       </div>
     </div>
   </div>
-<ResponsiveContainer width="100%" height={300}>
+{/* <ResponsiveContainer width="100%" height={300}>
   <BarChart
     data={data}
     margin={{ top: 10, left: 10, bottom: 40, right: 10 }}
@@ -366,14 +368,180 @@ function Dashboard() {
     </Bar>
     <Legend verticalAlign="bottom" height={36} />
   </BarChart>
-</ResponsiveContainer>
+</ResponsiveContainer> */}
 
 
 
+{/* <ResponsiveContainer width="100%" height={300}>
+      <BarChart
+        data={data}
+        margin={{ top: 10, left: 10, bottom: 40, right: 10 }}
+        barGap={0}
+        barCategoryGap="10%"
+      >
+        <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
+        <XAxis dataKey="month" style={{marginTop:"20px"}}>
+          <Label value="Month" position="insideBottom" offset={-5} />
+        </XAxis>
+        <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={15}>
+          <Label value="Amount" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} dx={20} />
+        </YAxis>
+        <Tooltip formatter={(value) => `$${value}`} />
+        <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
+          <LabelList dataKey="RevenueLabel" position="top" style={{ fill: '#1E45E1' }} />
+        </Bar>
+        <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
+          <LabelList dataKey="ExpensesLabel" position="top" style={{ fill: '#00C2FF' }} />
+        </Bar>
+        <Legend verticalAlign="bottom" height={36} />
+      </BarChart>
+    </ResponsiveContainer> */}
+
+
+{/* <ResponsiveContainer width="100%" height={300}>
+      <BarChart
+        data={data}
+        margin={{ top: 10, left: 10, bottom: 40, right: 10 }}
+        barGap={0}
+        barCategoryGap="10%"
+      >
+        <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
+        <XAxis dataKey="month" style={{marginTop:"20px"}}>
+          <Label value="Month" position="insideBottom" offset={-5} />
+        </XAxis>
+        <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={15}>
+          <Label value="Amount" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} dx={20} />
+        </YAxis>
+        <Tooltip formatter={(value) => `$${value}`} />
+        <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
+          <LabelList dataKey="RevenueLabel" position="top" style={{ fill: '#1E45E1' }} />
+        </Bar>
+        <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
+          <LabelList dataKey="ExpensesLabel" position="top" style={{ fill: '#00C2FF' }} />
+        </Bar>
+        <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
+      </BarChart>
+    </ResponsiveContainer> */}
+
+
+
+
+{/* <div style={{ position: 'relative', width: '100%', height: 300 }}>
+      <img src={arrow} alt="Arrow" style={{
+        position: 'absolute',
+        top: '10px',  // Adjust the position as needed
+        left: '10px', // Adjust the position as needed
+        width: '30px', // Adjust the size as needed
+        height: '30px' // Adjust the size as needed
+      }} />
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={data}
+          margin={{ top: 10, left: 10, bottom: 40, right: 10 }}
+          barGap={0}
+          barCategoryGap="10%"
+        >
+          <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
+          <XAxis dataKey="month" style={{ marginTop: "20px" }}>
+            <Label value="Month" position="insideBottom" offset={-5} />
+          </XAxis>
+          <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={15}>
+            <Label value="Amount" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} dx={20} />
+          </YAxis>
+          <Tooltip formatter={(value) => `$${value}`} />
+          <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
+            <LabelList dataKey="RevenueLabel" position="top" style={{ fill: '#1E45E1' }} />
+          </Bar>
+          <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
+            <LabelList dataKey="ExpensesLabel" position="top" style={{ fill: '#00C2FF' }} />
+          </Bar>
+          <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div> */}
+
+
+
+
+
+
+{/* <div style={{ position: 'relative', width: '100%', height: 350 }}>
+
+      <div style={{ position: 'absolute', top: '10px', left: '20px', display: 'flex', alignItems: 'center' }}>
+        <img src={arrow} alt="Arrow" style={{
+          width: '10px', 
+          height: '30px', 
+          marginLeft: '10px'
+        }} />
+        <div style={{ transform: 'rotate(-90deg)', transformOrigin: 'left center', marginTop: '180px', color: '#000' }}>Amount</div>
+      </div>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={data}
+          margin={{ top: 10, left: 50, bottom: 40, right: 10 }}
+          barGap={0}
+          barCategoryGap="10%"
+        >
+          <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
+          <XAxis dataKey="name" style={{ marginTop: "20px" }}>
+            <Label value="Month" position="insideBottom" offset={-15} />
+          </XAxis>
+          <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={-10} />
+          <Tooltip formatter={(value) => `$${value}`} />
+          <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
+            <LabelList dataKey="RevenueLabel" position="top" style={{ fill: '#1E45E1' }} />
+          </Bar>
+          <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
+            <LabelList dataKey="ExpensesLabel" position="top" style={{ fill: '#00C2FF' }} />
+          </Bar>
+          <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div> */}
+
+
+<div style={{ position: 'relative', width: '100%', height: 350 }}>
+    <div style={{ position: 'absolute', top: '10px', left: '20px', display: 'flex', alignItems: 'center' }}>
+      <img src={arrow} alt="Arrow" style={{ width: '10px', height: '30px', marginLeft: '10px' }} />
+      <div style={{ transform: 'rotate(-90deg)', transformOrigin: 'left center', marginTop: '180px', color: '#000' }}>
+        Amount
+      </div>
+    </div>
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart
+        data={data}
+        margin={{ top: 10, left: 50, bottom: 40, right: 10 }}
+        barGap={0}
+        barCategoryGap="10%"
+      >
+        <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
+        <XAxis dataKey="name" style={{ marginTop: "20px" }}>
+          {/* <Label value="Month" position="insideBottom" offset={-15} /> */}
+        </XAxis>
+        <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={-10} />
+        <Tooltip formatter={(value) => `$${value}`} />
+        <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
+          <LabelList dataKey="RevenueLabel" position="top" style={{ fill: '#1E45E1' }} />
+        </Bar>
+        <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
+          <LabelList dataKey="ExpensesLabel" position="top" style={{ fill: '#00C2FF' }} />
+        </Bar>
+        <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
+      </BarChart>
+    </ResponsiveContainer>
+    {/* <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center',flexDirection:"row" }}>
+      <Label value="Month" position="insideBottom" offset={-15} />
+      <img src={leftarrow} alt="Arrow" style={{ width: '30px', height: '10px' }} />
+    </div> */}
+    <div style={{ position: 'absolute', bottom: '50px', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
+      <span style={{ marginRight: '5px' }}>Month</span>
+      <img src={leftarrow} alt="Arrow" style={{ width: '30px', height: '10px' }} />
+    </div>
+  </div>
  
 </div>
 
-<Card  style={{ marginTop:15,height:"30%",width:"94%"}}>
+<Card  style={{ marginTop:15,height:"28%",width:"94%"}}>
   <Card.Body className="d-flex flex-column align-items-start">
     <div  style={{fontSize:"18px",fontWeight:600,font:"Montserrat"}}>Revenue Target</div>
     <div className='circulardesone' >
