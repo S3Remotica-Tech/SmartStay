@@ -20,7 +20,7 @@ import Swal from 'sweetalert2';
     else {
        yield put ({type:'ERROR', payload:response.data.message})
     }
-    if(response.data && response.data.refresh_token){
+    if(response){
       refreshToken(response)
    }
 }
@@ -34,7 +34,7 @@ function* handleComplianceadd (params) {
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -49,7 +49,7 @@ function* handleVendorGet(action) {
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
 }
@@ -69,7 +69,7 @@ function* handleAddVendor(action) {
    else {
       yield put ({type:'ERROR', payload:response.data.message})
    }
-   if(response.data && response.data.refresh_token){
+   if(response){
       refreshToken(response)
    }
   
@@ -78,7 +78,7 @@ function* handleAddVendor(action) {
 
 function refreshToken(response){
 
-if(response.data.refresh_token){
+if(response.data && response.data.refresh_token){
    const refreshTokenGet = response.data.refresh_token
    console.log("refreshTokenGet",refreshTokenGet)
    const cookies = new Cookies()
