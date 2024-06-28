@@ -1,3 +1,78 @@
+.texxttt{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 28px;
+  }
+  
+  
+  .headerone{
+    display: flex;
+    align-items: center;
+    justify-content:end;
+    padding: 10px;
+    background-color: #fff; /* You can adjust the background color */
+  }
+  
+  
+  .search-container {
+    position: relative;
+    width: 250px; 
+    margin-left: 35px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 8px 8px 8px 30px; /* Add left padding to make space for the icon */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+  }
+  
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background: url('../Assets//Images/search-normal.png') no-repeat center center;
+    background-size: contain;
+  }
+  
+  
+  
+  .notification-container {
+    position: relative;
+    margin-left: 10px;
+  }
+  
+  .notification-icon {
+    font-size: 24px;
+    position: relative;
+  }
+  
+  .notification-dot {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    height: 10px;
+    width: 10px;
+    background-color: blue; /* Color of the notification dot */
+    border-radius: 50%;
+  }
+  
+  .profile-container {
+    margin-left: 10px;
+  }
+  
+  .profile-image {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
+
+
 
 .custom-table {
     border: 1px solid #DCDCDC;
@@ -38,3 +113,17 @@ line-height: normal;
     border-bottom-width: 1px;
     box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
 }
+
+
+
+.modal-right {
+    position: fixed;
+    top: 5%;
+    right: 0;
+    left: 30%;
+    transform: translateY(-50%);
+    margin: 0;
+    max-width: 300px; /* Adjust as needed */
+}
+  
+  
