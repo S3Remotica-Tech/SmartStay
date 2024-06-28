@@ -61,7 +61,7 @@ function Vendor() {
 
 
   useEffect(() => {
-    if (state.ComplianceList.addVendorSuccessStatusCode === 200) {
+    if (state.ComplianceList.addVendorSuccessStatusCode === 200 || state.ComplianceList.deleteVendorStatusCode === 200) {
       setTimeout(() => {
         dispatch({ type: 'VENDORLIST' })
         console.log("get vendor list executed")
@@ -69,9 +69,13 @@ function Vendor() {
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_VENDOR_STATUS_CODE' })
       }, 5000)
+
+      setTimeout(()=>{
+        dispatch({ type: 'CLEAR_DELETE_VENDOR_STATUS_CODE' })
+      },5000)
     }
     setCheck(null)
-  }, [state.ComplianceList.addVendorSuccessStatusCode])
+  }, [state.ComplianceList.addVendorSuccessStatusCode,state.ComplianceList.deleteVendorStatusCode])
 
 
 
@@ -131,16 +135,12 @@ function Vendor() {
       setVendor_Id(vendorData.Vendor_Id)
       if (vendorData.Vendor_profile) {
         const profile = vendorData.Vendor_profile;
-        // Check if the profile is a valid URL or File/Blob object
-        if (typeof profile === 'string') {
-          // If it's a URL, you don't need to use createObjectURL
-          setFile(profile);
+               if (typeof profile === 'string') {
+                    setFile(profile);
         } else if (profile instanceof Blob) {
-          // If it's a Blob or File, use createObjectURL
-          setFile(profile);
+                  setFile(profile);
         } else {
-          // If it's neither, set file to null
-          setFile(null);
+                setFile(null);
           console.warn('Invalid profile format');
         }
       }
@@ -148,7 +148,35 @@ function Vendor() {
   };
 
 
+  const handleDeleteVendor = (item) =>{
+    console.log("delete item",item)
+if(item){
+    Swal.fire({
+      icon: 'warning',
+      title: 'Do you want to delete the Vendor ?',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      showCancelButton: true,
+  }).then((result) => {
+      if (result.isConfirmed) {
+          dispatch({
+              type: 'DELETEVENDOR',
+              payload: {
+                  id: item.id,
+                  Status: 0
+              },
+          });
+          Swal.fire({
+              icon: 'success',
+              title: 'Vendor deleted Successfully',
+          })
+      }
+      setCurrentPage(1);
+  });
 
+}
+
+  }
 
 
   
@@ -288,7 +316,7 @@ function Vendor() {
       closeButton.style.borderRadius = '50%';
       closeButton.style.width = '10px';
       closeButton.style.height = '10px';
-      closeButton.style.border = '1.5px solid #222222';
+      closeButton.style.border = '1.5px solid #000000';
       closeButton.style.padding = '9px';
     }
   }, []);
@@ -343,89 +371,8 @@ function Vendor() {
         <div className='row row-gap-3'>
           {currentItems && currentItems.map((vendor) => (
             <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-              <VendorListMap vendor={vendor} onEditVendor={handleEditVendor} />
-              {/* <Card className="h-100" key={vendor.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
-                <Card.Body style={{ padding: 20 }}>
-                  <div className="d-flex justify-content-between align-items-center flex-wrap" >
-                    <div className='d-flex gap-2'>
-                      <div className="">
-                        <Image src={vendor.Vendor_profile ? vendor.Vendor_profile : Vendors} roundedCircle style={{ height: "60px", width: "60px" }} />
-                      </div>
-                      <div >
-                        <div className='pb-2'>
-                          <label style={{ fontSize: 16, color: "#222222", fontWeight: 600, }} >{vendor.Vendor_Name}</label>
-                        </div>
-                        <div>
-                          <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: "fit-content", padding: 5, borderRadius: 10, fontSize: 14 }}>{vendor.Business_Name}</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <div style={{ height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={handleShowDots}>
-                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                        {showDots && <>
-                          <div style={{ backgroundColor: "#FFFFFF", position: "absolute", right: 0, top: 50, width: 100, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "center", padding: 10, alignItems: "center" }}>
-                            <div>
-                              <div className='mb-2'>
-                                <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222" }}>Edit</label>
-                              </div>
-                              <div>
-                                <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000" }}>Delete</label>
-                              </div>
-                            </div>
-                          </div>
-
-
-                        </>}
-
-                      </div>
-                    </div>
-                  </div>
-                  <hr style={{ border: "1px solid #E7E7E7" }} />
-
-                  <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-
-                    <div className='mb-2'>
-                      <div className='mb-1'>
-                        <label style={{ color: "#939393", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>Email ID </label>
-                      </div>
-                      <div >
-                        <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>{vendor.Vendor_Email}</label>
-                      </div>
-
-                    </div>
-                    <div className='mb-2'>
-                      <div className='mb-1'>
-                        <label style={{ color: "#939393", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>Contact Number</label>
-                      </div>
-                      <div>
-                        <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>+91 {vendor.Vendor_Mobile}</label>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <div className='mb-2'>
-                    <div className='mb-1'>
-                      <label style={{ color: "#939393", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}> Address</label>
-
-                    </div>
-
-                    <div>
-                      <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>{vendor.Vendor_Address}</label>
-                    </div>
-
-                  </div>
-
-
-
-
-                </Card.Body>
-              </Card> */}
-
-            </div>
+              <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}  onDeleteVendor={handleDeleteVendor} />
+                         </div>
           ))
           }
 
@@ -499,43 +446,43 @@ function Vendor() {
                 <div className='row mt-4'>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 500 }}>First Name</Form.Label>
-                      <Form.Control onChange={(e) => handleFirstNameChange(e)} value={first_Name} type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500}}>First Name</Form.Label>
+                      <Form.Control onChange={(e) => handleFirstNameChange(e)} value={first_Name} type="text" placeholder="Enter name" style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                     </Form.Group>
 
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 500 }}>Last Name</Form.Label>
-                      <Form.Control value={last_Name} onChange={(e) => handleLastNameChange(e)} type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Last Name</Form.Label>
+                      <Form.Control value={last_Name} onChange={(e) => handleLastNameChange(e)} type="text" placeholder="Enter name" style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                     </Form.Group>
 
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 500 }}>Mobile Number</Form.Label>
-                      <Form.Control value={vendor_Mobile} onChange={(e) => handleMobileChange(e)} type="text" placeholder="Enter Mobile Number" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Mobile Number</Form.Label>
+                      <Form.Control value={vendor_Mobile} onChange={(e) => handleMobileChange(e)} type="text" placeholder="Enter Mobile Number" maxLength={10} style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                     </Form.Group>
 
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 500 }}>Email ID</Form.Label>
-                      <Form.Control value={email_Id} onChange={(e) => handleEmailChange(e)} type="email" placeholder="Enter email address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Email ID</Form.Label>
+                      <Form.Control value={email_Id} onChange={(e) => handleEmailChange(e)} type="email" placeholder="Enter email address" style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                     </Form.Group>
 
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 500 }}>Business Name</Form.Label>
-                      <Form.Control value={business_Name} onChange={(e) => handleBusinessChange(e)} type="text" placeholder="Enter Business Name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Business Name</Form.Label>
+                      <Form.Control value={business_Name} onChange={(e) => handleBusinessChange(e)} type="text" placeholder="Enter Business Name" style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                     </Form.Group>
 
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 500 }}>Address</Form.Label>
-                      <Form.Control value={address} onChange={(e) => handleAddressChange(e)} type="text" placeholder="Enter Address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Address</Form.Label>
+                      <Form.Control value={address} onChange={(e) => handleAddressChange(e)} type="text" placeholder="Enter Address" style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                     </Form.Group>
 
                   </div>
