@@ -52,3 +52,11 @@ export async function addVendor(params) {
   }
 }
 
+
+
+  export async function DeleteVendorList(vendor) {
+    return await AxiosConfig.post('/delete-vendor-list', vendor, {
+      data: vendor
+    })
+  }
+  

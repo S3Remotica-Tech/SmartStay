@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {compliance,Compliancedetails, VendorList,addVendor} from "../Action/ComplianceAction"
+import {compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList} from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 
@@ -76,6 +76,31 @@ function* handleAddVendor(action) {
 }
 
 
+
+function* handleDeleteVendor(action) {
+   const response = yield call (DeleteVendorList,action.payload);
+ console.log(" response", response)
+   if (response.status === 200){
+      yield put ({type : 'DELETE_VENDOR' , payload:{response:response.data, statusCode:response.status}})
+      Swal.fire({
+         text: "To delete a Vendor is Successfully!",
+         icon: "success",
+         timer: 1000,
+     });
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+  
+}
+
+
+
+
+
 function refreshToken(response){
 
 if(response.data && response.data.refresh_token){
@@ -101,6 +126,7 @@ function* ComplianceSaga() {
     yield takeEvery('COMPLIANCE-ADD', handleComplianceadd) 
     yield takeEvery('VENDORLIST',handleVendorGet)
     yield takeEvery('ADDVENDOR',handleAddVendor)
+    yield takeEvery('DELETEVENDOR',handleDeleteVendor)
 
 }
 export default ComplianceSaga;

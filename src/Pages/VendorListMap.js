@@ -24,7 +24,9 @@ function VendorListMap(props) {
 
 console.log("handleSow props",props)
 
-
+const handleDelete = (item) =>{
+  props.onDeleteVendor(item)
+}
 
   return (
     <Card className="h-100" key={props.vendor && props.vendor.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
@@ -49,12 +51,12 @@ console.log("handleSow props",props)
             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
             {showDots && <>
-              <div style={{ backgroundColor: "#FFFFFF", position: "absolute", right: 0, top: 50, width: 100, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "center", padding: 10, alignItems: "center" }}>
+              <div style={{ backgroundColor: "#FFFFFF", position: "absolute", right: 0, top: 50, width: 163, height:92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                 <div >
                   <div className='mb-2' onClick={()=>handleEdit(props.vendor)}>
                     <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222" }} >Edit</label>
                   </div>
-                  <div>
+                  <div  onClick={()=>handleDelete(props.vendor)}> 
                     <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000" }}>Delete</label>
                   </div>
                 </div>
