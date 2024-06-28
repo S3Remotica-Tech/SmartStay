@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount } from '../Action/smartStayAction';
+import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,GetAllNotification,UpdateNotification } from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 
@@ -107,6 +107,39 @@ function* handleAccountDetails(args) {
 }
 }
 
+
+function* handlenotificationlist (action){
+  const response = yield call (GetAllNotification, action.payload);
+  console.log("response for notification",response)
+  
+  if (response.status === 200){
+     yield put ({type : 'ALL_NOTIFICATION_LIST' , payload:response.data.notification})
+  }else if(response.status === 401){
+    Swal.fire({
+       icon: 'warning',
+       title: 'Error',
+       text: response.data.message,
+     });
+  }
+  else {
+     yield put ({type:'ERROR', payload:response.data.message})
+  }
+  refreshToken(response)
+}
+
+
+function* HandleUpdateNotification(action) {
+  const response = yield call(UpdateNotification, action.payload)
+ 
+  if (response.status === 200) {
+    yield put({ type: 'UPDATE_NOTIFICATION', payload: { response: response.data.message, statusCode: response.status } })
+  }
+  else {
+    yield put({ type: 'ERROR', payload: response.data.message })
+  }
+  refreshToken(response)
+}
+
 function refreshToken(response){
   if(response.data.refresh_token){
      const refreshTokenGet = response.data.refresh_token
@@ -122,10 +155,15 @@ function refreshToken(response){
   
   }
 
+
+
 function* CreateAccountSaga() {
   yield takeEvery('CREATE_ACCOUNT', CreateAccountPage)
   yield takeEvery('TWOSTEPVERIFY', HandleTwoStepVerification)
   yield takeEvery('ACCOUNTDETAILS', handleAccountDetails)
   yield takeEvery('CREATE_ACCOUNT_PAGE', CreateNewAccount)
+  yield takeEvery('ALL-NOTIFICATION-LIST', handlenotificationlist)
+  yield takeEvery('UPDATE-NOTIFICATION', HandleUpdateNotification)
+
 }
 export default CreateAccountSaga;
