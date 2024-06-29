@@ -13,6 +13,8 @@ const initialState = {
    sendOtpValue: [],
    OtpVerifyStatusCode: 0,
    JWTtoken:'',
+   Notification:[],
+   UpdateNotificationMessage:''
    
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -44,6 +46,13 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode, JWTtoken:action.payload.response.token }
       case 'CLEAR_OTP_VERIFIED':
          return { ...state, OtpVerifyStatusCode: 0 }
+      case 'ALL_NOTIFICATION_LIST':
+         return { ...state, Notification: action.payload}
+      case 'UPDATE_NOTIFICATION':
+         return { ...state, UpdateNotificationMessage: action.payload.response}
+         case 'AFTER_UPDATE_NOTIFICATION':
+            return { ...state, UpdateNotificationMessage: action.message}
+
    }
 
    return state

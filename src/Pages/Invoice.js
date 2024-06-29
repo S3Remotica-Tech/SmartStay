@@ -1,5 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -8,11 +10,13 @@ import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
 import List from '../Assets/Images/list-report.png';
 import Edit from '../Assets/Images/edit.png';
-import { Button, Offcanvas, Form, Dropdown, FormControl } from 'react-bootstrap';
+import { Offcanvas, Form, Dropdown, FormControl } from 'react-bootstrap';
 import Plus from '../Assets/Images/Create-button.png';
 import Profile from '../Assets/Images/Profile.jpg';
 import Dots from '../Assets/Images/more.png';
 import User from '../Assets/Images/Ellipse 1.png';
+import NotificationIcon from '../Assets/Images/Notification.png'
+import rectangle from '../Assets/Images/Rectangle 2.png'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -23,7 +27,8 @@ import LoaderComponent from './LoaderComponent';
 import Sort from "../Assets/Images/sort.png"
 import CryptoJS from "crypto-js";
 import "../Pages/Invoices.css"
-import { fontSize, fontWeight } from '@mui/system';
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";   
+import { fontSize, fontStyle, fontWeight, lineHeight } from '@mui/system';
 
 
 const InvoicePage = () => {
@@ -32,6 +37,11 @@ const InvoicePage = () => {
   const state = useSelector(state => state)
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
+  console.log("state",state);
+
+  const [show, setShow] = useState(false);
+
+
 
 
   const customStyle = {
@@ -43,9 +53,11 @@ const InvoicePage = () => {
 
   const Tablebodystyle = {
     fontFamily: 'Gilroy, sans-serif',
-    color: "#222",
+    color: "#000",
     fontSize: "14px",
-    fontWeight:540
+    fontWeight:500,
+    fontStyle:'normal',
+    lineHeight:'normal'
   }
 
 
@@ -221,6 +233,46 @@ const InvoicePage = () => {
     dispatch({ type: 'INVOICELIST' })
   }, [])
 
+ const [notification, setNotification] = useState([]);
+ console.log("notification",notification);
+
+  useEffect(() => {
+    dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+    setNotification(state.login.Notification)
+  }, [])
+
+ 
+
+  let newNotificationIDs = state.login.Notification && state.login.Notification?.length>0 && state.login.Notification.filter(notification => notification.status === 1).map(notification => notification.id);
+
+
+  const newNotificationsCount = newNotificationIDs.length;
+  console.log("id",newNotificationIDs);
+
+ 
+  const handleClosepopup = () => setShow(false);
+
+const handleShowpopup = () => {
+      setShow(true);
+      if(newNotificationIDs.length > 0 &&  newNotificationIDs != []){
+        setTimeout(()=>{
+          dispatch({ type: 'UPDATE-NOTIFICATION', payload: { id: newNotificationIDs } });
+        },1000)
+      }
+     
+      // dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+}
+  
+
+useEffect(() => {
+  if (state.login.UpdateNotificationMessage != null && state.login.UpdateNotificationMessage != '' ) {
+         dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+    setTimeout(() => {
+      dispatch({ type: 'AFTER_UPDATE_NOTIFICATION', message: null })
+      newNotificationIDs=[]
+    }, 100);
+  }
+}, [state.login.UpdateNotificationMessage])
 
      useEffect(()=>{
       if(state.InvoiceList?.InvoiceListStatusCode == 200){
@@ -768,6 +820,63 @@ console.log("DATA",data)
         </> : <>
           <div class=' ps-5 pe-5' style={{ marginTop: "20px", position: "relative" }} >
 
+          <div className='texxttt'>
+  <div style={{flex:1}}>
+
+  </div>
+  <div style={{flex:1}}>
+  <div className="headerone">
+    
+       <div className="search-container">
+      <input type="text" placeholder="Search" className="search-input" />
+      <span className="search-icon"></span>
+    </div>
+      <div className="notification-container">
+       
+
+          
+
+
+<div type="button" onClick={handleShowpopup}>
+        <img src={NotificationIcon} className="notification-icon" alt="notification icon" />
+        <span className="notification-dot"></span>
+      </div>
+      
+      {/* <Modal show={show} onHide={handleClosepopup} backdrop="static" keyboard={false} dialogClassName="modal-right" style={{display:'flex',alignItems:"right"}}>
+        <Modal.Header >
+          
+          <Modal.Title>Notification</Modal.Title>
+          
+          <p style={{marginTop:'10px'}}><span style={{backgroundColor:'#DBE1FB',padding:'8px 12px',color:'#222222',borderRadius:'14px',fontWeight:500}}>{newNotificationsCount} new notifications</span></p>
+        
+        </Modal.Header>
+        <Modal.Body>
+          {state?.login?.Notification.length > 0 && state.login.Notification.map((val) => (
+            <div key={val.id} style={{ marginBottom: '10px',display:'flex',flexDirection:'row' ,justifyContent:"space-between"}}>
+              <p style={{ color: val.status === 1 ? 'black' : '#939393' }}>{val.message}</p>
+            {val.status === 1 && <div style={{width:'10px',height:'10px',backgroundColor:'blue',borderRadius:'50%',marginTop:'5px'}}> 
+              </div>}  
+            </div>
+          ))}
+        </Modal.Body>
+     
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClosepopup}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={updateNotifications} >
+            Ok
+          </Button>
+        </Modal.Footer>
+      </Modal> */}
+      </div>
+      <div className="profile-container">
+        <img src={rectangle}  className="profile-image" />
+      </div>
+    </div>
+  </div>
+  </div>
+
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
              
                 
@@ -808,8 +917,40 @@ console.log("DATA",data)
                   }
                   <img class=" me-4" onClick={handleFiltershow}   src={Sort}/> 
                   </div>
-              </div>
+              </div> 
             </div>
+
+            <Offcanvas placement="end" show={show} onHide={handleClosepopup} style={{ width: "69vh" }}>
+              <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Notification</Offcanvas.Title>
+              <Offcanvas.Body style={{ maxHeight: 'calc(100vh - 35px)', overflowY: 'auto' }}>
+                <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
+                  <div class="p-1 bd-highlight user-menu">
+                  <div>
+                {newNotificationsCount > 0 &&  <p style={{marginTop:'10px'}}><span style={{backgroundColor:'#DBE1FB',padding:'8px 12px',color:'#222222',borderRadius:'14px',fontWeight:500}}>{newNotificationsCount} new notifications</span></p>} 
+                  </div>
+                  <div className='container' style={{ marginTop: "30px"  }}>
+                      <>
+                        <div className='row mb-3'>
+                        {state.login.Notification && state.login.Notification?.length>0 && state.login.Notification.map((val) => (
+            <div key={val.id} className='border-bottom' style={{ marginBottom: '10px',display:'flex',flexDirection:'row' ,justifyContent:"space-between"}}>
+              <p style={{ color: val.status === 1 ? 'black' : '#939393' ,width:'75%'}}>{val.message}</p>
+            {val.status === 1 && <div style={{width:'10px',height:'10px',backgroundColor:'blue',borderRadius:'50%',marginTop:'5px'}}> 
+              </div>} 
+
+              
+            </div>
+          ))}
+          
+                        </div>
+                      </>
+                     
+
+                    </div>
+                  </div>
+                </div>
+             
+              </Offcanvas.Body>
+            </Offcanvas>
 
 
 
@@ -1098,11 +1239,11 @@ console.log("DATA",data)
 
 
 
-            <Table className="custom-table">
+            <Table className="custom-table" responsive>
       <thead className='Table-header'>
         <tr >
-          <th>
-            <input type='checkbox' className="custom-checkbox mx-2 mb-n5" style={customCheckboxStyle}/>
+          <th style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+            <input type='checkbox' className="mx-2 align-items-center" style={customCheckboxStyle}/>
           </th>
           <th style={customStyle}>Name</th>
           <th style={customStyle}>Invoice number</th>
@@ -1137,34 +1278,33 @@ console.log("DATA",data)
               <td><Skeleton width={100} /></td>
               <td><Skeleton width={150} /></td>
               <td><Skeleton width={100} /></td>
-              <td><Skeleton width={60} /></td>
-              <td><Skeleton width={40} /></td>
             </tr>
           ))
         ) : (
           currentItems.map((item) => (
             <tr key={item.id} 
-            style={{color: "#000", fontFamily: "Gilroy",fontSize: "14px",fontStyle: "normal",fontWeight: 400,
-              lineHeight: "normal"}}>
+            style={{color: "#000", fontFamily: "Gilroy",fontSize: "14px",fontStyle: "normal"
+              ,lineHeight: "normal"}}>
               <td style={{ color: "black", fontWeight: 500 }}>
                 <input type='checkbox' className="custom-checkbox  mx-2 " style={customCheckboxStyle}/>
               </td>
               <td style={{ fontFamily:'Gilroy, sans-serif'}}>
                 <div className="d-flex row align-items-center">
                   <div style={{display:'flex'}}>
-                     <span ><img src={User} style={{height:35,width:35,marginTop:'-7px'}}/></span>
-                    <div className='fw-bolder' style={{ fontFamily:'Gilroy, sans-serif',fontSize:'14px',wordWrap:'break-word' ,marginLeft:'8px',color: "#222222",fontWeight:350}}>{item.Name}</div><br />
+                     <span ><img src={User} style={{height:40,width:40,marginTop:'-7px'}}/></span>
+                    <div  style={{ fontFamily:'Gilroy, sans-serif',fontSize:'16px',wordWrap:'break-word' ,marginLeft:'8px',color: "#222",fontStyle:'normal',lineHeight:'normal',fontWeight:600}}>{item.Name}</div><br />
                   </div>
                 </div>
               </td>
-              <td style={{ cursor: 'pointer',fontFamily:'Gilroy, sans-serif' }} onClick={() => handleInvoiceDetail(item)} className='fw-bolder'>#{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</td>
-              <td style={Tablebodystyle}><span style={{backgroundColor:'#EBEBEB',padding:'8px 12px',color:'#000000',borderRadius:'14px'}} className='fw-bolder'>{moment(item.Date).format('DD MMM YYYY').toUpperCase()}</span></td>
-              <td style={Tablebodystyle}><span style={{backgroundColor:'#EBEBEB',padding:'8px 12px',color:'#222222',borderRadius:'14px'}} className='fw-bolder'>{moment(item.DueDate).format('DD MMM YYYY').toUpperCase()}</span></td>
-              <td style={Tablebodystyle} className='fw-bolder'> ₹{item.Amount.toLocaleString('en-IN')}</td>
-              <td style={Tablebodystyle} className='fw-bolder'>₹{item.BalanceDue.toLocaleString('en-IN')}</td>
-              <td className='fw-bolder' style={item.BalanceDue === 0 ? { color: "green", fontWeight: 500 } : { color: "red", fontWeight: 500 }}>
+              <td style={{ cursor: 'pointer',fontFamily:'Gilroy, sans-serif' ,fontSize:'16px',marginLeft:'8px',color: "#000",fontStyle:'normal',lineHeight:'normal',fontWeight:500}} onClick={() => handleInvoiceDetail(item)} className='fw-bolder'>#{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</td>
+              <td style={Tablebodystyle}><span style={{backgroundColor:'#EBEBEB',padding:'8px 12px',color:'#000000',borderRadius:'14px'}} >{moment(item.Date).format('DD MMM YYYY').toUpperCase()}</span></td>
+              <td style={Tablebodystyle}><span style={{backgroundColor:'#EBEBEB',padding:'8px 12px',color:'#222222',borderRadius:'14px'}} >{moment(item.DueDate).format('DD MMM YYYY').toUpperCase()}</span></td>
+              <td style={{fontFamily:'Gilroy, sans-serif' ,fontSize:'16px',color: "#000",fontStyle:'normal',lineHeight:'normal',fontWeight:500}} > ₹{item.Amount.toLocaleString('en-IN')}</td>
+              <td style={{fontFamily:'Gilroy, sans-serif' ,fontSize:'16px',color: "#000",fontStyle:'normal',lineHeight:'normal',fontWeight:500}} >₹{item.BalanceDue.toLocaleString('en-IN')}</td>
+              <td  style={item.BalanceDue === 0 ? { color: "green", fontWeight: 500 } : { color: "red", fontWeight: 500 }}>
               {item.BalanceDue === 0 ? <span style={{backgroundColor:'#D9FFD9',padding:'8px 12px',color:'#000000',borderRadius:'14px',fontFamily:'Gilroy, sans-serif'}}>Paid</span> : <span onClick={() => handleShow(item)} style={{ cursor: 'pointer',backgroundColor:'#FFD9D9',fontFamily:'Gilroy, sans-serif',padding:'8px 12px',color:'#000000',borderRadius:'14px' }}>Unpaid</span>}</td>
-            <td style={{}}><span style={{width:'38px',height:'25px',border:'0.3px solid #DCDCDC',borderRadius:'50%',padding:'5px 8px'}} ><img src={Dots}/></span></td>
+            <td style={{ height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" ,marginTop:'6px'}}>
+            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} /></td>
             </tr>
           ))
         )}

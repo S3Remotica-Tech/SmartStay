@@ -76,4 +76,16 @@ export async function OTPverification(datum) {
 } 
 
 
+export async function GetAllNotification() {
+  return await AxiosConfig.get('/all_notifications',{
+  })
+}
+
+
+export async function UpdateNotification(message) {
+   return await AxiosConfig.post('/update_notification',message,{
+    data:message
+   
+  })
+}
 // http://localhost:2001
