@@ -14,6 +14,7 @@ export async function Compliancedetails(formDetails) {
 }
 
 export async function VendorList(vendor) {
+  console.log("vendor",vendor)
   return await AxiosConfig.post('/get/vendor_list', vendor, {
     data: vendor
   })
