@@ -13,4 +13,8 @@ export async function AddAsset(asset) {
         })
   }
   
-  
+  export async function DeleteAssetList(asset) {
+    return await AxiosConfig.post('/remove_asset', asset, {
+      data: asset
+    })
+  } 

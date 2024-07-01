@@ -9,6 +9,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import AddAsset from './AddAsset'
 
+import AssetListTable from './AssetListTable'
 
 
 
@@ -28,6 +29,7 @@ function Asset() {
 
   const handleShow = () => {
     setShow(true)
+    setCurrentItem('')
   }
 
   const handleClose = () => {
@@ -43,14 +45,21 @@ function Asset() {
 
 
   useEffect(() => {
-    if (state.AssetList.addAssetStatusCode === 200) {
+    if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200) {
       dispatch({ type: 'ASSETLIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
       }, 4000)
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_ASSET_STATUS_CODE' })
+      }, 4000)
+
+
+
     }
 
-  }, [state.AssetList.addAssetStatusCode])
+  }, [state.AssetList.addAssetStatusCode,state.AssetList.deleteAssetStatusCode])
 
 
 
@@ -114,7 +123,7 @@ function Asset() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
 
-
+  const [currentItem, setCurrentItem] = useState(null);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredData = filterByPriceRange(getData);
@@ -129,7 +138,18 @@ function Asset() {
 
 
 
+  const handleEditAsset = (item) =>{
+    console.log("item for props",item)
+    setShow(true)
+    setCurrentItem(item);
+  }
 
+
+
+
+
+
+  
   return (
     <>
       <div style={{ width: "100%" }} >
@@ -192,41 +212,8 @@ function Asset() {
               </thead>
               <tbody>
                 {currentItems && currentItems.map((item) => (
-                  <tr style={{ fontFamily: "Gilroy, sans-serif"}} key={item.id}>
-
-                    <td style={{ color: "black", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center"}}>
-                      <input type='checkbox' className="custom-checkbox" style={customCheckboxStyle} />
-                    </td>
-
-                    <td>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: "between", flex:"wrap", gap:2, width:"100%" }}>
-                        <div style={{ height: 40, width: 40, backgroundColor: "#E0ECFF", borderRadius: "50%" }}></div>
-                        <div style={{ fontSize: 16, fontWeight: 600, color: "#222222" }}>{item.asset_name}</div>
-                      </div>
-                    </td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>{item.serial_number}</td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", width: "fit-content" }}>{item.brand_name}</div>
-                      </div>
-                    </td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>{item.product_count}</td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>₹{item.price.toLocaleString('en-IN')}</td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                        <div style={{ backgroundColor: "#EBEBEB", fontWeight: 500, padding: 8, borderRadius: 10, fontSize: 14, width: "fit-content" }} >
-                          {moment(item.purchase_date).format('DD MMM YYYY').toUpperCase()}
-                        </div >
-                      </div>
-
-                    </td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>₹{item.total_price.toLocaleString('en-IN')}</td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
-                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
-                      </div>
-                    </td>
-                  </tr>
+                  <AssetListTable  item={item} OnEditAsset={handleEditAsset}/> 
+                 
                 ))}
               </tbody>
             </Table>
@@ -241,6 +228,11 @@ function Asset() {
              
             </div>
 
+           
+
+
+       
+
           </div>
           {/*  Pagination code */}
 
@@ -253,7 +245,7 @@ function Asset() {
           </Pagination>
         </div>
       </div>
-      {show && <AddAsset show={show} handleClose={handleClose} />}
+      {show && <AddAsset show={show} handleClose={handleClose}   currentItem={currentItem}/>}
     </>
   )
 }

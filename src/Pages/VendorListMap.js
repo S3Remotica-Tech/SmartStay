@@ -47,11 +47,11 @@ const handleDelete = (item) =>{
         </div>
 
         <div>
-          <div style={{ cursor:"pointer",height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={handleShowDots}>
+          <div style={{ cursor:"pointer",height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" ,zIndex: showDots ? 1000 : 'auto'}} onClick={handleShowDots}>
             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
             {showDots && <>
-              <div style={{cursor:"pointer",backgroundColor: "#FFFFFF", position: "absolute", right: 0, top: 50, width: 163, height:92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+              <div style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height:92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                 <div >
                   <div className='mb-2' onClick={()=>handleEdit(props.vendor)} >
                     <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222" }} >Edit</label>
