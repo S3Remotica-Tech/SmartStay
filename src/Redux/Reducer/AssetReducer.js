@@ -2,7 +2,8 @@
 const initialState = {
    assetList: [],
    getAssetStatusCode:0,
-   addAssetStatusCode:0
+   addAssetStatusCode:0,
+   deleteAssetStatusCode:0,
 }
 
 const AssetReducer = (state = initialState, action) => {
@@ -16,6 +17,10 @@ const AssetReducer = (state = initialState, action) => {
                 return {...state, addAssetStatusCode:action.payload.statusCode}
                 case 'CLEAR_ADD_ASSET_STATUS_CODE':
                     return {...state, addAssetStatusCode:0}
+                    case 'DELETE_ASSET':
+                        return { ...state, deleteAssetStatusCode: action.payload.statusCode}
+                        case 'CLEAR_DELETE_ASSET_STATUS_CODE':
+                            return {...state, deleteAssetStatusCode:0}
        
     }
     return state;
