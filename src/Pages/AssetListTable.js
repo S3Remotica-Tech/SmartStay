@@ -6,6 +6,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
+import AssignAsset from './AssignAsset'
 
 
 function AssetListTable(props) {
@@ -17,11 +18,19 @@ function AssetListTable(props) {
 
 
 
-    const [showDots, setShowDots] = useState('')
+    const [showDots, setShowDots] = useState(null);
+    const [showAssignAssetModal, setShowAssignAssetModal] = useState(false)
+const [assign, setAssign] = useState('')
 
-    const handleShowDots = () => {
+
+
+
+    const handleShowDots = (id) => {
+      console.log("id",id, showDots)
         setShowDots(!showDots)
       }
+
+
       const customCheckboxStyle = {
         appearance: 'none',
         width: '20px',
@@ -69,14 +78,19 @@ props.OnEditAsset(item)
     
       }
     
+const handleAssignAsset = (item) => {
+setShowAssignAssetModal(true)
+setAssign(item)
+}
 
-
-
-
+const handleClose = () => {
+  setShowAssignAssetModal(false)
+}
 
 
 
   return (
+    <>
     <tr style={{ fontFamily: "Gilroy, sans-serif"}} key={props.item.id}>
 
     <td style={{ color: "black", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center"}}>
@@ -108,20 +122,21 @@ props.OnEditAsset(item)
     <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>₹{props.item.total_price.toLocaleString('en-IN')}</td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
       <div style={{width:"100%" , display:"flex", justifyContent:"center"}}>
-      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position:"relative"}}  onClick={handleShowDots} >
+      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position:"relative"}}  onClick={() => handleShowDots(props.item.id)}  >
         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
      
      
-{showDots && <>
-<div style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", right: 0, top:40, width: 163, height:"auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center" ,zIndex: showDots ? 1000 : 'auto'}}>
+{showDots  && <>
+<div style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", right: 40, top:10, width: 163, height:"auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center" ,zIndex: showDots ? 1000 : 'auto'}}>
 <div  style={{backgroundColor: "#fff"}} className=''>
 
 <div className='mb-2 d-flex justify-content-start align-items-center gap-2' 
-  // onClick={()=>handleEdit(props.vendor)}
+  onClick={()=>handleAssignAsset(props.item)}
   style={{backgroundColor: "#fff"}}
    >
-    <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222" }} >Assign asset</label>
+    <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222" }} >{props.item.hostel_id  ? 'Reassign asset':'Assign asset'}</label>
   </div>
+ 
   <div className='mb-2 d-flex justify-content-start align-items-center gap-2' 
   onClick={()=>handleEdit(props.item)}
   style={{backgroundColor: "#fff"}}
@@ -145,6 +160,15 @@ props.OnEditAsset(item)
       
     </td>
   </tr>
+
+{showAssignAssetModal && <AssignAsset  show={showAssignAssetModal}  handleClose={handleClose} currentItem={assign}/>}
+  
+
+
+
+
+
+  </>
   )
 }
 

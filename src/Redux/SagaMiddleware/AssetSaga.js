@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {GetAsset, AddAsset,  DeleteAssetList} from "../Action/AssetAction"
+import {GetAsset, AddAsset,  DeleteAssetList, getHostelRooms, AssignAsset} from "../Action/AssetAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 
@@ -61,8 +61,41 @@ function* handleAddAsset(action) {
 
 
 
+function* handleGetHostelRooms(action) {
+   const response = yield call (getHostelRooms,action.payload);
+ console.log(" response", response)
+   if (response.status === 200){
+      yield put ({type : 'GET_ROOMS' , payload:{response:response.data.data, statusCode:response.status}})
+        }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+  
+}
 
+function* handleAssignAsset(action) {
+   const response = yield call (AssignAsset,action.payload);
+ console.log(" response", response)
+   if (response.status === 200){
+      yield put ({type : 'ASSIGN_ASSET' , payload:{response:response.data, statusCode:response.status}})
+      Swal.fire({
+         text: `${response.data.message}`,
+         icon: "success",
+         timer: 1000,
+     });
 
+        }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+  
+}
 
 
 
@@ -98,5 +131,7 @@ function* AssetSaga() {
     yield takeEvery('ASSETLIST', handleGetAsset)
     yield takeEvery('ADDASSET',handleAddAsset)
     yield takeEvery('DELETEASSET',handleDeleteAsset)
+    yield takeEvery('GETROOMS',handleGetHostelRooms)
+    yield takeEvery('ASSIGNASSET',handleAssignAsset)
   }
 export default AssetSaga;
