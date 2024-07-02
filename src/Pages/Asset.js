@@ -45,7 +45,7 @@ function Asset() {
 
 
   useEffect(() => {
-    if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200) {
+    if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200, state.AssetList.addAssignAssetStatusCode === 200) {
       dispatch({ type: 'ASSETLIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
@@ -54,12 +54,15 @@ function Asset() {
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_ASSET_STATUS_CODE' })
       }, 4000)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_ASSIGN_STATUS_CODE' })
+      }, 4000)
 
 
 
     }
 
-  }, [state.AssetList.addAssetStatusCode,state.AssetList.deleteAssetStatusCode])
+  }, [state.AssetList.addAssetStatusCode,state.AssetList.deleteAssetStatusCode,state.AssetList.addAssignAssetStatusCode])
 
 
 
@@ -246,6 +249,9 @@ function Asset() {
         </div>
       </div>
       {show && <AddAsset show={show} handleClose={handleClose}   currentItem={currentItem}/>}
+
+
+
     </>
   )
 }

@@ -81,7 +81,7 @@ function ExpensesListTable(props) {
         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
 
         {showDots && <>
-<div style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", right: 0, top:40, width: 163, height:"auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center" ,zIndex: showDots ? 1000 : 'auto'}}>
+<div style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", right: 40, top:10, width: 163, height:"auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center" ,zIndex: showDots ? 1000 : 'auto'}}>
 <div  style={{backgroundColor: "#fff"}} className=''>
 
 
