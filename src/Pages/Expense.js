@@ -9,8 +9,15 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import AddExpenses from './AddExpenses';
 import Profile from '../Assets/Images/New_images/profile-picture.png'
-
-
+import Edit from '../Assets/Images/New_images/edit.png';
+import Delete from '../Assets/Images/New_images/trash.png';
+import ExpensesListTable from './ExpensesListTable';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import { Calendar } from 'react-bootstrap-icons';
+import Calendars from '../Assets/Images/New_images/calendar.png'
 
 
 function Expenses() {
@@ -23,16 +30,21 @@ function Expenses() {
 
   const [getData, setGetData] = useState([])
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
-  const [show, setShow] = useState(null)
+  const [showModal, setShowModal] = useState(null)
   const [showFilter, setShowFilter] = useState(false)
 
+  const [formattedDates, setFormattedDates] = useState('(01 Jan - 30 Jan)');
+
+  console.log(formattedDates, "formattedDates")
 
   const handleShow = () => {
-    setShow(true)
+    setShowModal(true)
+    setCurrentItem('');
+
   }
 
   const handleClose = () => {
-    setShow(false);
+    setShowModal(false);
 
   }
 
@@ -40,20 +52,20 @@ function Expenses() {
 
   useEffect(() => {
     dispatch({ type: 'ASSETLIST' })
-             }, [])
+  }, [])
 
 
   useEffect(() => {
     if (state.AssetList.getAssetStatusCode === 200) {
       setGetData(state.AssetList.assetList)
-      setTimeout(()=>{
-    dispatch({ type:  'CLEAR_GET_ASSET_STATUS_CODE'})
-      },2000)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_GET_ASSET_STATUS_CODE' })
+      }, 2000)
     }
 
   }, [state.AssetList.getAssetStatusCode])
 
- 
+
 
 
   const customCheckboxStyle = {
@@ -80,8 +92,8 @@ function Expenses() {
         return data.filter(item => item.price > 500 && item.price <= 1000);
       case '1000+':
         return data.filter(item => item.price > 1000);
-        case 'All':
-          return data
+      case 'All':
+        return data
       default:
         return data;
     }
@@ -111,12 +123,44 @@ function Expenses() {
   const filteredData = filterByPriceRange(getData);
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log("currentItems",currentItems)
+  console.log("currentItems", currentItems)
   // console.log("filteredData",filteredData)
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   }
+
+
+  const [dates, setDates] = useState([]);
+const [currentItem , setCurrentItem] = useState('')
+
+  console.log("dates", dates)
+
+  const formatDates = (selectedDates) => {
+    if (selectedDates.length === 0) {
+      setFormattedDates('');
+      return;
+    }
+
+    const sortedDates = selectedDates.sort((a, b) => new Date(a) - new Date(b));
+    const startDate = moment(sortedDates[0]);
+    const endDate = moment(sortedDates[sortedDates.length - 1]);
+
+    const formattedDateRange = `(${startDate.format('D MMMM')} - ${endDate.format('D MMMM')})`;
+    setFormattedDates(formattedDateRange);
+  };
+
+const handleEditExpen = (item) => {
+  setShowModal(true)
+    setCurrentItem(item);
+}
+
+
+
+
+
+
+
 
 
 
@@ -133,6 +177,30 @@ function Expenses() {
             </div>
 
             <div className="d-flex justify-content-between align-items-center">
+              <div style={{ margin: 20 ,}}>
+              <label htmlFor="date-input" style={{border:"1px solid #D9D9D9", borderRadius:8, padding:10, fontSize:14, fontWeight:500, color:"#222222"}}>
+                 <img src={Calendars} style={{height:24, width:24}} /> Week {formattedDates}
+                </label>
+                <Flatpickr
+                  id="date-input"
+                  value={dates}
+                  
+                  onChange={(selectedDates) => {
+                    if (selectedDates) {
+                      setDates(selectedDates);
+                      formatDates(selectedDates);
+                    }
+                  }}
+                  options={{ mode: 'multiple', dateFormat: 'd-M' }}
+                  placeholder="Select Date"
+                  style={{ padding: 10, fontSize: 16, width: "100%", borderRadius: 8, border: "1px solid #D9D9D9",display: "none"}}
+                  onClose={() => { }}
+                />
+
+              </div>
+
+
+
               <div className='me-3'>
                 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px", cursor: "pointer" }} onClick={handleFilterByPrice} />
 
@@ -166,10 +234,10 @@ function Expenses() {
             <Table responsive>
               <thead style={{ fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
                 <tr>
-                  <th style={{ color: "black", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center"}}>
+                  <th style={{ color: "black", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
                     <input type='checkbox' style={customCheckboxStyle} />
                   </th>
-                  
+
 
                   <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Name</th>
                   <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Category</th>
@@ -182,64 +250,19 @@ function Expenses() {
               </thead>
               <tbody>
                 {currentItems && currentItems.map((item) => (
-                  <tr style={{ fontFamily: "Gilroy, sans-serif"}} key={item.id}>
-
-                    <td style={{ color: "black", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center"}}>
-                      <input type='checkbox' className="custom-checkbox" style={customCheckboxStyle} />
-                    </td>
-
-                    <td>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: "between", flex:"wrap", gap:2, width:"100%" }}>
-                       <img src={Profile}  style={{height:40, width:40}}/>
-                        <div style={{ fontSize: 16, fontWeight: 600, color: "#222222" }}>{item.asset_name}</div>
-                      </div>
-                    </td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", width: "fit-content" }}>{item.brand_name}</div>
-                      </div>
-                    </td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>{item.serial_number}</td>
-                   
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                        <div style={{ backgroundColor: "#EBEBEB", fontWeight: 500, padding: 8, borderRadius: 10, fontSize: 14, width: "fit-content" }} >
-                          {moment(item.purchase_date).format('DD MMM YYYY').toUpperCase()}
-                        </div >
-                      </div>
-
-                    </td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>{item.product_count}</td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                        <div style={{ backgroundColor: "#D9E9FF", fontWeight: 500, padding: 8, borderRadius: 10, fontSize: 14, width: "fit-content" }} >
-                          {moment(item.purchase_date).format('DD MMM YYYY').toUpperCase()}
-                        </div >
-                      </div>
-
-                    </td>
-                   
-                   
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }} className=''>
-                    <div style={{width:"100%" , display:"flex", justifyContent:"center"}}>
-                      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
-                      </div>
-                      </div>
-                    </td>
-                  </tr>
+                  <ExpensesListTable item={item}  OnEditExpense={handleEditExpen}/>
                 ))}
               </tbody>
             </Table>
 
 
-            
+
             <div className="d-flex justify-content-center" style={{ width: "100%" }}>
               {
                 getData && getData.length === 0 || filteredData.length === 0 && <h5 style={{ fontSize: 12, color: "red" }}>No Asset Found</h5>
               }
 
-             
+
             </div>
 
           </div>
@@ -254,7 +277,7 @@ function Expenses() {
           </Pagination>
         </div>
       </div>
-      {show && <AddExpenses show={show} handleClose={handleClose} />}
+      {showModal && <AddExpenses show={showModal} handleClose={handleClose} currentItem={currentItem} />}
     </>
   )
 }

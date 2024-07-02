@@ -11,7 +11,7 @@ import './addAsset.css'
 
 
 
-function StaticExample({ show, handleClose }) {
+function StaticExample({ show, handleClose,currentItem}) {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ function StaticExample({ show, handleClose }) {
 
     console.log("state for Add expenses", state)
 
-
+console.log("currentItem  expense",currentItem)
 
 
     const [assetName, setAssetName] = useState('');
@@ -107,7 +107,7 @@ function StaticExample({ show, handleClose }) {
             <Modal show={show} onHide={handleClose}>
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
                     <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Add an expense</Modal.Title>
+                        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>{currentItem ?  'Edit an expense' : 'Add an expense' }</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{ padding: 20 }}>
 
@@ -148,10 +148,12 @@ function StaticExample({ show, handleClose }) {
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Category</Form.Label>
-                                    <Form.Control
-                                        value={price}
-                                        onChange={handlePriceChange}
-                                        type="text" placeholder="Enter Amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                    <Form.Select aria-label="Default select example"  className='' id="vendor-select">
+                                        <option>Select a Category</option>
+                                        <option  >Category 1</option>
+                                        <option >Category 2 </option>
+                                       
+                                    </Form.Select>
                                 </Form.Group>
 
                             </div>
@@ -169,20 +171,28 @@ function StaticExample({ show, handleClose }) {
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Brand Name</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Purchase Date</Form.Label>
                                     <Form.Control
-                                        value={brandName}
-                                        onChange={handleBrandNameChange}
+                                        value={purchaseDate}
+                                        onChange={handlePurchaseDateChange}
+                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                </Form.Group>
+
+                            </div>
+                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Unit count</Form.Label>
+                                    <Form.Control
+                                        
                                         type="text" placeholder="Enter Name" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Serial Number</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Per unit amount</Form.Label>
                                     <Form.Control
-                                        value={serialNumber}
-                                        onChange={handleSerialNumberChange}
+                                    
                                         type="email" placeholder="Enter Number" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
@@ -193,23 +203,22 @@ function StaticExample({ show, handleClose }) {
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Purchase Amount</Form.Label>
                                     <Form.Control
                                         value={price}
-                                        onChange={handlePriceChange}
-                                        type="text" placeholder="Enter Amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                      disabled
+                                        type="text" placeholder="" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
 
-
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            <div className='col-lg-12 col-md-12  col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Purchase Date</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Description</Form.Label>
                                     <Form.Control
-                                        value={purchaseDate}
-                                        onChange={handlePurchaseDateChange}
-                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                      
+                                        type="email" placeholder="Enter Number" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
+                            
 
 
 
@@ -217,9 +226,8 @@ function StaticExample({ show, handleClose }) {
 
                     </Modal.Body>
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
-
                         <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} >
-                            Add  asset
+                        {currentItem ?  'Edit  expense' : 'Add  expense' }
                         </Button>
                     </Modal.Footer>
                 </Modal.Dialog>
