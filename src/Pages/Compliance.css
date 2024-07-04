@@ -1,4 +1,51 @@
 .css-qcbczu-MuiFormControl-root{
-    margin: unset !important;
-  }
-  
+  margin: unset !important;
+}
+
+
+.frame-child1 {
+  height: 60px;
+  width: 288px;
+  position: relative;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  display: none;
+}
+.frame-input {
+  width: 104px;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  height: 21px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2px 0 0;
+  box-sizing: border-box;
+  font-family: Gilroy;
+  font-weight: 500;
+  font-size: 16px;
+  color: #4b4b4b;
+}
+.vuesaxlinearcalendar-icon {
+  height: 24px;
+  width: 24px;
+  position: relative;
+  min-height: 24px;
+  z-index: 1;
+}
+.rectangle-group {
+  align-self: stretch;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px 17px 16px 15px;
+  gap: 20px;
+}
