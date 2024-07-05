@@ -36,11 +36,13 @@ function* handleHostelList(hostel) {
 function* handleNumberOfRooms(ID) {
    const response = yield call(roomsCount, ID.payload)
   
+console.log("response",response)
+
    if (response.status === 200) {
-      yield put({ type: 'ROOM_COUNT', payload: response.data.responseData })
+      yield put({ type: 'ROOM_COUNT',payload:{response: response.data.responseData ,statusCode:response.status}})
    }
-   else {
-      yield put({ type: 'ERROR', payload: {response:response.data.message,floor_Id:ID.payload.floor_Id} })
+   else if(response.status === 201){
+      yield put({ type: 'NO_ROOMS', payload: {response:response.data.message,floor_Id:ID.payload.floor_Id, statusCode:response.status} })
    }
    if(response){
       refreshToken(response)
