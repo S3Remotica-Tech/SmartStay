@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed} from "../Action/UserListAction"
+import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 
 function* handleuserlist(user) {
@@ -234,6 +234,38 @@ function* handleDeleteBed(bedDetails){
       
       }
 
+
+      function* handlecustomerdetails(userDetails){
+         const response = yield call(CustomerDetails,userDetails.payload)
+         console.log("response...?",response)
+         if(response.status === 200){
+            yield put({ type: 'CUSTOMER_DETAILS', payload: response.data,statusCode:response.status })
+         }
+         else {
+            yield put({ type: 'ERROR', payload: response.data.message })
+         }
+         if(response){
+            refreshToken(response)
+         }
+         
+      } 
+      function* handleamenityhistory(amnityDetails){
+         const response = yield call(amenitieshistory,amnityDetails.payload)
+         console.log("response...?",response)
+         if(response.status === 200){
+            yield put({ type: 'AMENITIES_HISTORY', payload: response.data,statusCode:response.status })
+         }
+         else {
+            yield put({ type: 'ERROR', payload: response.data.message })
+         }
+         if(response){
+            refreshToken(response)
+         }
+         
+      } 
+
+     
+
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
@@ -247,6 +279,8 @@ function* UserListSaga() {
    yield takeEvery('CHECKOUTUSER',handleCheckOut)
    yield takeEvery('DELETEFLOOR',handleDeleteFloor)
    yield takeEvery('DELETEROOM',handleDeleteRoom)
-   yield takeEvery('DELETEBED',handleDeleteBed)    
+   yield takeEvery('DELETEBED',handleDeleteBed) 
+   yield takeEvery('CUSTOMERDETAILS',handlecustomerdetails)    
+   yield takeEvery('AMENITESHISTORY',handleamenityhistory) 
 }
 export default UserListSaga;

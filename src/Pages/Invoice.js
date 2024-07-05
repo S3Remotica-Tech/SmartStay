@@ -1317,26 +1317,7 @@ console.log("DATA",data)
 
 
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-              {/* <div style={{ display: "flex", flexDirection: "row" }}>
-                <div>
-                  <p style={{ fontSize: 13, marginTop: "5px" }}>Results:</p>
-                </div>
-                <Dropdown onSelect={(eventKey) => handlePageSelect(eventKey)}>
-                  <Dropdown.Toggle variant="secondary" style={{ backgroundColor: "#F6F7FB", color: "black", border: "none", fontSize: "10px", marginLeft: "10px" }}>
-                    {currentPage} - {currentPage}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {generatePageNumbers().map((page) => (
-                      <Dropdown.Item key={page} eventKey={page}>
-                        {currentPage} - {page}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-                <div style={{ fontSize: "10px", marginTop: "7px", marginLeft: "10px" }}>
-                  of <label>{currentPage}</label>
-                </div>
-              </div> */}
+             
               <div></div>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div onClick={handlePreviousClick} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
