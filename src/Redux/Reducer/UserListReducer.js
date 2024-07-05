@@ -18,9 +18,12 @@ const initialState = {
     CheckOut: [],
     checkOutStatusCode:0,
     hosteListStatusCode:0,
+    customerdetails:[],
+    amnetieshistory:[]
 }
 
 const UserListReducer = (state = initialState, action) => {
+    console.log("actionredu",action.payload)
     switch (action.type) {
         case 'CLEAR_ERROR_MESSAGE':
             return {
@@ -29,6 +32,13 @@ const UserListReducer = (state = initialState, action) => {
             };
         case 'BED_COUNTING_LIST':
             return { ...state, bedCount: action.payload }
+
+
+            case 'CUSTOMER_DETAILS':
+                return { ...state, customerdetails: action.payload };
+                case 'AMENITIES_HISTORY':
+                    return { ...state, amnetieshistory: action.payload };
+
         case 'BED_DETAILS':
             return { ...state, beddetails: action.payload }
         case 'SET_ERROR':
@@ -73,6 +83,9 @@ const UserListReducer = (state = initialState, action) => {
             } else {
                 return { ...state, roomFullCheck: action.payload };
             }
+
+           
+
     }
     return state;
 }

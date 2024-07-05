@@ -68,3 +68,25 @@ export async function deleteBed(bedDetails){
     data:bedDetails
   })
 }
+
+
+// export async function CustomerDetails(datum){
+//   console.log("Useraction",UserDetails)
+//   return await AxiosConfig.post('/customer_details',datum,{
+//     data:datum
+//   })
+// }
+
+export async function CustomerDetails (datum) {
+  console.log("datum,,,,,,",datum)
+  return await AxiosConfig.post('/customer_details',datum,{
+    data:datum
+  })
+}
+
+export async function amenitieshistory (datum) {
+  console.log("datum,,,,,,",datum)
+  return await AxiosConfig.post('user_amenities_history',datum,{
+    data:datum
+  })
+}
