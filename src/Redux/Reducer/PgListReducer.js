@@ -30,7 +30,9 @@ const initialState = {
     deleteRoom:'',
     deleteBed:'',
     roomCountStatusCode:0,
-    noRoomsInFloorStatusCode:0
+    noRoomsInFloorStatusCode:0,
+    createPgStatusCode:0,
+
   }
 const PgListReducer = (state = initialState, action) => {
     console.log("action.payload",action.payload);
@@ -46,17 +48,15 @@ const PgListReducer = (state = initialState, action) => {
         case 'DELETE_BED':
             return {...state,deleteBed:action.payload}
         case 'PG_LIST':
-            return { message: action.payload.message, roomCount: action.roomCount }
-        // return {...state ,Name:action.payload.name,phoneNumber:action.payload.phoneNo,email_Id:action.payload.email_Id,location:action.payload.location,number_Of_Floor:action.payload.number_of_floors,room_Id:action.payload.room,number_Of_Bed:action.payload.bed}
+            return { ...state, message: action.payload.message, createPgStatusCode:action.payload.statusCode}
+            case 'CLEAR_PG_STATUS_CODE':
+                return {...state, createPgStatusCode:0}
         case 'AFTER_CREATE_PG_MSG':
             return { ...state, createPGMessage: action.message }
         case 'CREATE_ROOM':
             return {...state, roomCreationSuccess: true, floor_Id: action.payload.floorId, room_Id: action.payload.roomId, number_Of_Bed: action.payload.number_of_beds, statusCodeCreateRoom:action.payload.statusCode}
         case 'CLEAR_CREATE_ROOM_STATUS_CODE':
             return {...state, statusCodeCreateRoom:0}
-            //  createRoomMessage: action.payload.message,
-
-        //  return { ...state, floor_Id: action.payload.floorId, room_Id: action.payload.roomId, number_Of_Bed: action.payload.number_of_beds,createRoomMessage: state.createRoomMessage !== '' ? '' : action.payload.message }
         case 'CHECK_ROOM':
             return { ...state, checkRoomList: action.payload }
         case 'CHECK_EB':

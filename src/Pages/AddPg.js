@@ -97,8 +97,6 @@ function AddPg( {show, handleClose ,currentItem}) {
     
     
  const handleCreatePayingGuest  = () =>{
-
-
   if (errors.email === 'Invalid Email Id *') {
     Swal.fire({
       icon: 'warning',
@@ -117,14 +115,14 @@ function AddPg( {show, handleClose ,currentItem}) {
     return;
   }
   
-  if(pgName && mobile && email && floors && location){
-dispatch({type: 'PGLIST', payload: {name: pgName, phoneNo: mobile,email_Id: email, location: location,number_of_floors: floors}})
+  if(pgName && mobile && email  && location){
+dispatch({type: 'PGLIST', payload: {profile: file, name: pgName, phoneNo: mobile,email_Id: email, location: location}})
 handleClose()
 setFile('')
 setPgName('')
-setMobile('')
+setMobile('') 
 setEmail('')
-setFloors('')
+
 setLocation('')
   }else{
     Swal.fire({
@@ -187,7 +185,7 @@ setLocation('')
           </div>
 
           <div className='row mt-4'>
-            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500}}>Paying Guest Name</Form.Label>
                 <Form.Control 
@@ -218,7 +216,7 @@ setLocation('')
               </Form.Group>
 
             </div>
-            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500}}>Number of floors</Form.Label>
                 <Form.Control 
@@ -227,7 +225,7 @@ setLocation('')
                  type="text" placeholder="Enter no. of floors" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
-            </div>
+            </div> */}
             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Location</Form.Label>

@@ -176,8 +176,6 @@ const [filteredData, setFilteredData] = useState([])
     if (state.UsersList.createFloorMessage) {
 
            dispatch({ type: 'HOSTELLIST' })
-
-
        setTimeout(() => {
         dispatch({ type: 'UPDATE_MESSAGE_FLOOR', message: null })
       }, 100)
@@ -185,17 +183,24 @@ const [filteredData, setFilteredData] = useState([])
 
   }, [state.UsersList.createFloorMessage])
   
+
+  
   useEffect(() => {
-    if (state.PgList.createPGMessage) {
+    if (state.PgList.createPgStatusCode == 200) {
            dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
-        dispatch({ type: 'AFTER_CREATE_PG_MSG', message: null })
-      }, 100);
+        dispatch({ type: 'CLEAR_PG_STATUS_CODE' })
+      }, 1000);
     }
-  }, [state.PgList.createPGMessage])
+  }, [state.PgList.createPgStatusCode])
 
 
-
+  useEffect(() => {
+    if (selectedHostel) {
+      const selected = state.UsersList.hostelList?.find(item => item.id === showHostelDetails.id);
+      setShowHostelDetails(selected);
+    }
+  }, [state.UsersList.hostelList]);
 
 
 
@@ -234,10 +239,6 @@ const [filteredData, setFilteredData] = useState([])
 
 
   const [decrypt, setDecrypt] = useState('')
-
-
-
-
 
   const loginId = localStorage.getItem('loginId');
 
@@ -547,7 +548,7 @@ const indexOfLastItem = currentPage * itemsPerPage;
 
   const [showFloor, setShowFloor] = useState(false)
   const [showRoom, setShowRoom] = useState(false)
-
+  const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
 
   const handleAddFloors = () => {
     setShowFloor(true)
@@ -557,8 +558,9 @@ const handleCloseFloor = () =>{
   setShowFloor(false)
 }
 
-const handleShowAddRoom = () => {
+const handleShowAddRoom = (room,selectedFloor) => {
     setShowRoom(true)
+    setHostelDetails({ room, selectedFloor });
 }
 
 const handlecloseRoom = () =>{
@@ -682,7 +684,7 @@ const handlebackToPG = () =>{
     </div>
 
 {
-  showHostelDetails.number_Of_Floor > 0 && 
+  showHostelDetails.number_Of_Floor > 0 ? 
 <>
     <Nav variant="underline"  style={{ borderBottom: "1px solid #DEDEDE", marginBottom: 2 }}>
         {Array.from({ length:showHostelDetails.number_Of_Floor }, (_, index) => (
@@ -704,8 +706,21 @@ phoneNumber={showHostelDetails.hostel_PhoneNo}
 
 />
 
-</>
+<div className='row mt-2'>
+<div>
+    <label style={{fontSize:16, color:"#1E45E1", fontWeight:600, fontFamily:'Montserrat,sans-serif'}} onClick={()=>handleShowAddRoom(showHostelDetails,floorClick)}>+ Add room</label>
+</div>
+</div>
 
+
+
+</>
+:  <div style={{ width: 400 }}>
+<Alert variant="warning" >
+  Currently, no floors are available So create a floor.
+</Alert>
+
+</div>
 
 
       }
@@ -716,11 +731,7 @@ phoneNumber={showHostelDetails.hostel_PhoneNo}
   
 
 
-  <div className='row mt-2'>
-<div>
-    <label style={{fontSize:16, color:"#1E45E1", fontWeight:600, fontFamily:'Montserrat,sans-serif'}} onClick={handleShowAddRoom}>+ Add room</label>
-</div>
-</div>
+ 
 
   </div>
 )}
@@ -731,7 +742,7 @@ phoneNumber={showHostelDetails.hostel_PhoneNo}
 
 
         {showFloor && <AddFloor  show={showFloor} handleClose={handleCloseFloor} />}
-        {showRoom && <AddRoom   show={showRoom} handleClose={handlecloseRoom}/>}
+        {showRoom && <AddRoom   show={showRoom} handleClose={handlecloseRoom} hostelDetails={hostelDetails}/>}
     </div>
 
   );

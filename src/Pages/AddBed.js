@@ -13,13 +13,54 @@ function AddBed( {show, handleClose ,currentItem}) {
   
     const state = useSelector(state => state)
     const dispatch = useDispatch();
-    const [file, setFile] = useState(null)
    
+    
+    const [bedNo, setBedNo] = useState('');
+  const [amount, setAmount] = useState('');
 
-   
+  const handleBedNoChange = (e) => {
+    setBedNo(e.target.value);
+  };
+
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
+  };
+
+
+  // const handleSubmit = () => {
+  //   const floorId = hostelDetails.selectedFloor.toString();
+  //   const hostel_Id = hostelDetails.room.id.toString();
+
     
+
+  //   if(floorId && hostel_Id){
+  //           dispatch({
+  //               type: 'CREATEROOM',
+  //               payload: {
+  //                   id: hostel_Id,
+  //                   floorDetails: [{
+  //                       floorId: floorId,
+  //                       roomId: room,
+  //                          }]
+  //               },
+  //           });
+
+  //           Swal.fire({
+  //               icon: 'success',
+  //               title: "Room created successfully",
+  //           })
+           
+  //           handleClose();
+           
+  //       }
+  //    else {
+  //       Swal.fire({
+  //           icon: 'warning',
+  //           title: 'Please enter Room no.',
+  //       });
+  //   }
     
-    
+  // };
     
     
     
@@ -39,12 +80,33 @@ function AddBed( {show, handleClose ,currentItem}) {
         }
       }, []);
     
-    useEffect(()=>{
-if(currentItem){
-}
-    },[currentItem])
-    
-console.log("currentItem for add vendor",currentItem)
+  
+
+
+
+// useEffect(() => {
+
+//   if (state.PgList.statusCodeCreateRoom == 200) {
+//     setTimeout(() => {
+//       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorId, hostel_Id: Hostel_Id } })
+//     }, 2000)
+
+//     setTimeout(() => {
+//       dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' });
+//     }, 2500);
+
+//   }
+// }, [state.PgList.statusCodeCreateRoom])
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div
@@ -67,7 +129,9 @@ console.log("currentItem for add vendor",currentItem)
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500}}>Bed no.</Form.Label>
                 <Form.Control 
-                 type="text" placeholder="Enter Room no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+ value={bedNo}
+ onChange={handleBedNoChange}
+                 type="text" placeholder="Enter bed no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
@@ -75,6 +139,8 @@ console.log("currentItem for add vendor",currentItem)
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500}}>Amount</Form.Label>
                 <Form.Control 
+                 value={amount}
+                 onChange={handleAmountChange}
                  type="text" placeholder="Enter Room no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
@@ -85,7 +151,9 @@ console.log("currentItem for add vendor",currentItem)
         </Modal.Body>
         <Modal.Footer style={{ border: "none" }}>
 
-          <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}>
+          <Button 
+          // onClick={handleSubmit}
+           className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}>
           Add bed
           </Button>
         </Modal.Footer>
