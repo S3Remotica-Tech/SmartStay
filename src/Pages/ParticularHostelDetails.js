@@ -24,13 +24,13 @@ function getFormattedRoomId(floor_Id, room_Id) {
   const roomIdString = String(room_Id);
   switch (floor_Id) {
     case 1:
-      return `G${roomIdString.padStart(3, '0')}`;
+      return `G${roomIdString}`;
     case 2:
-      return `F${roomIdString.padStart(3, '0')}`;
+      return `F${roomIdString}`;
     case 3:
-      return `S${roomIdString.padStart(3, '0')}`;
+      return `S${roomIdString}`;
     case 4:
-      return `T${roomIdString.padStart(3, '0')}`;
+      return `T${roomIdString}`;
     default:
       const floorAbbreviation = getFloorAbbreviation(floor_Id - 1);
       console.log("floorAbbreviation", floorAbbreviation, floor_Id);
@@ -101,9 +101,12 @@ function ParticularHostelDetails(props) {
   const [showDots, setShowDots] = useState('')
   const [roomCountData, setRoomCountData] = useState('')
 
+  const [activeRoomId, setActiveRoomId] = useState(null);
 
-  const handleShowDots = () => {
+
+  const handleShowDots = (roomId) => {
     setShowDots(!showDots)
+    setActiveRoomId(activeRoomId === roomId ? null : roomId);
   }
 
   useEffect(() => {
@@ -139,6 +142,17 @@ if(state.PgList.noRoomsInFloorStatusCode === 201){
 
 
 
+useEffect(() => {
+
+  if (state.PgList.createRoomMessage != null && state.PgList.createRoomMessage != "") {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+
+      setTimeout(() => {
+          dispatch({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: null })
+      }, 100)
+  }
+}, [state.PgList.createRoomMessage])  
+
 
 
   console.log("roomCountData", roomCountData)
@@ -147,12 +161,50 @@ if(state.PgList.noRoomsInFloorStatusCode === 201){
     dispatch({ type: 'USERLIST' })
   }, [])
 
+  // const handleDeleteRoom = () => {
 
+  //   console.log("bedDetailsSendThePage", bedDetailsSendThePage);
+  //   if (bedDetailsSendThePage.Number_Of_Beds > 0) {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Please delete the bed before deleting the room.',
+  //       confirmButtonText: 'Ok'
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //       }
+  //     });
+  //   }
+  //   else {
+  //     console.log("dleteRoom", RoomName);
+  //     // let roomID = RoomName.replace(/\D/g, "")
+  //     let roomID = bedDetailsSendThePage.Room_Id
+  //     console.log("roomID", roomID);
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Do you want to delete the Room ?',
+  //       confirmButtonText: 'Yes',
+  //       cancelButtonText: 'No',
+  //       showCancelButton: true,
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         dispatch({
+  //           type: 'DELETEROOM',
+  //           payload: {
+  //             hostelId: props.hostel_Id,
+  //             floorId: props.floorID,
+  //             roomNo: roomID
+  //           },
+  //         });
+  //         Swal.fire({
+  //           icon: 'success',
+  //           title: 'Room deleted Successfully',
+  //         })
+  //       }
+  //     });
+  //   }
 
-
-
-
-
+  //   // dispatch({type:'DELETEROOM'})
+  // }
 
 
 
@@ -174,18 +226,18 @@ if(state.PgList.noRoomsInFloorStatusCode === 201){
                   <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy, sans-serif" }}>
                     Room no. <span>{getFormattedRoomId(room.Floor_Id, room.Room_Id)}</span>
                   </div>
-                  <div onClick={handleShowDots} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto' }}>
+                  <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto' }}>
                     <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                    {showDots && (
+                    {activeRoomId === room.Room_Id && (
                       <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 30, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                         <div>
                           <div className='mb-2'>
-                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#FF0000" }}>Delete Room</label>
+                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Delete Room</label>
                           </div>
 
 
                           <div>
-                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#FF0000" }}>Delete Bed</label>
+                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>Delete Bed</label>
                           </div>
                         </div>
                       </div>
@@ -214,7 +266,7 @@ if(state.PgList.noRoomsInFloorStatusCode === 201){
                         </div>
                       </div>
                     ))}
-                    <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={handleAddBed}>
+                    <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={()=>handleAddBed(props,)}>
                       <div className='d-flex flex-column align-items-center' style={{ width: "100%" }}>
                         <div><FaSquarePlus style={{ height: 41, width: 34, color: "#1E45E1" }} /></div>
                         <div className="pt-2" style={{ color: "#1E45E1", fontSize: 10, fontWeight: 600 }}>Add bed</div>

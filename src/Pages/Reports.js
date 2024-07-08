@@ -6,8 +6,7 @@ function Reports() {
 <div >
 Reports page
 </div>
-   
-      
+    
       
       
      
