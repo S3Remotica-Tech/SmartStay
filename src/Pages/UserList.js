@@ -33,10 +33,18 @@ import house from '../Assets/Images/house.png';
 import Group from '../Assets/Images/Group.png';
 import sms from '../Assets/Images/sms.png';
 import call from "../Assets/Images/call.png"
+import dottt from "../Assets/Images/Group 14.png"
 import { Dot } from "recharts";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import Filter from '../Assets/Images/New_images/Group 13.png';
 import { textAlign } from "@mui/system";
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Modal from 'react-bootstrap/Modal';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+
+
 
 
 
@@ -46,6 +54,7 @@ function UserList() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
   const selectRef = useRef('select');
+  console.log("state",state)
 
 
   const [loading, setLoading] = useState(false)
@@ -363,7 +372,10 @@ function UserList() {
   const [rooms_id, setRoomsId] = useState('')
   const [beds_id, setBed_Id] = useState('')
   const [emaill_id, setemaill_id] = useState('')
-  const [userId, setuserId] = useState("");
+  const [userId, setuserId] = useState(null);
+  const [hostelName,sethosName] = useState("")
+  const [amniAmount,setamniAmount] = useState("");
+const [customerUser_Id,setcustomerUser_Id] = useState("")
 
   const handleRoomDetailsPage = (userData, bed, room, floor, hostel_id) => {
     const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
@@ -378,9 +390,12 @@ function UserList() {
     setRoomsIds(room)
     setemail_id(userData.Email)
     setuserId(userData.ID)
+    sethosName(userData.HostelName)
+    setcustomerUser_Id(userData.User_Id)
     setRoomDetail(true)
     setUserList(false)
     setClickedUserData(clickedUserDataArray);
+    
     
   
 
@@ -644,22 +659,249 @@ function UserList() {
 
   useEffect(() => {
     if (userId) {
+      console.log("user_id",userId)
       dispatch({ type: 'AMENITESHISTORY', payload: {user_id: userId}})
     }  
     console.log("userIduserId",userId)
   }, [userId]);
  
 const [selectAmneties,setselectAmneties] = useState("")
-const [selectedAmenityName, setSelectedAmenityName] = useState('');
+const [selectedAmenityName, setSelectedAmenityName] = useState(null);
+const[addamenityShow,setaddamenityShow] = useState(false)
+const [active, setActive] = useState(false)
+const [status, setStatus] = useState('')
+const [createby,setcreateby]=useState('')
+console.log("createby",createby)
+
+
+// const handleselect=((e)=>{
+//   setselectAmneties(e.target.value)
+// })
 
 const handleselect=((e)=>{
   setselectAmneties(e.target.value)
   console.log("e.target.value",e.target.value)
-  const selectedAmenity = state.UsersList?.amnetieshistory?.data && state.UsersList?.amnetieshistory?.data.filter(item => item.amenity_Id === e.target.value);
-  console.log("selectedAmenity",selectedAmenity)
-})
+  console.log("state.UsersList.amnetieshistory.data",state.UsersList.amnetieshistory.data);
+  if(state.UsersList.amnetieshistory.data && state.UsersList.amnetieshistory.data.length > 0){
+  for (let i = 0; i < state.UsersList.amnetieshistory.data.length; i++) {
+   if(state.UsersList.amnetieshistory.data[i].amenity_Id == e.target.value){
+    console.log("state.UsersList.amnetieshistory.data[i].amenity_Id",state.UsersList.amnetieshistory.data[i].amenity_Id)
+    setaddamenityShow(false)
+    const selectedAmenity = state.UsersList?.amnetieshistory?.data && state.UsersList.amnetieshistory.data.filter((item) => {return item.amenity_Id == e.target.value});
+    console.log("selectedAmenity",selectedAmenity)
+    setSelectedAmenityName(selectedAmenity)
+    break
+   }
+   else{
+    setaddamenityShow(true)
+    setSelectedAmenityName([])
+   }
+  }
+}
+else{
+  console.log("else")
+  setaddamenityShow(true)
+  setSelectedAmenityName([])
+ }
+ 
+}
+)
+useEffect(()=>{
+  if (state.UsersList.customerdetails.all_amenities && state.UsersList.customerdetails.all_amenities.length > 0 && selectAmneties) {
+    
+  console.log("state.UsersList.customerdetails.all_amenities",state.UsersList.customerdetails.all_amenities);
+  const  AmnitiesNamelist = state.UsersList.customerdetails.all_amenities.filter((item)=>{
+    return item.Amnities_Id == selectAmneties
+   
+  })
+  console.log("AmnitiesNamelist",AmnitiesNamelist)
+  setcreateby(AmnitiesNamelist)
+}
+},[state.UsersList?.customerdetails?.all_amenities,selectAmneties])
 
+
+
+
+// const handleselect = (e) => {
+//   setselectAmneties(e.target.value);
+//   console.log("e.target.value", e.target.value);
+
+//   const selectedAmenity = state.UsersList.amnetieshistory.data?.find(
+//     (item) => item.amenity_Id == e.target.value
+//   );
+
+//   if (selectedAmenity) {
+//     setaddamenityShow(false);
+//     console.log("selectedAmenity", selectedAmenity);
+//     setSelectedAmenityName(selectedAmenity);
+//     console.log("selectedAmenity.......?",selectedAmenity)
+//   } else {
+//     setaddamenityShow(true);
+//   }
+// };
+
+
+const uniqueAmenities = [];
+const seenNames = new Set();
+
+// if (state.UsersList?.amnetieshistory?.data) {
+//   state.UsersList.amnetieshistory.data.forEach((amenity) => {
+//     if (!seenNames.has(amenity.Amnities_Name)) {
+//       seenNames.add(amenity.Amnities_Name);
+//       uniqueAmenities.push(amenity);
+//     }
+//   });
+// }
+
+
+
+if (state.UsersList?.amnetieshistory?.data) {
+  state.UsersList.amnetieshistory.data.forEach((amenity) => {
+    if (!seenNames.has(amenity.Amnities_Name)) {
+      seenNames.add(amenity.Amnities_Name);
+      uniqueAmenities.push(amenity);
+    }
+  });
+}
+
+const handleSetAsDefault = (e) => {
+  setActive(e.target.checked);
+}
+const handleStatusChange = (e) => {
+  setStatus(e.target.value)
+}
+
+// const [selectedOptions, setSelectedOptions] = useState([]);
+//   const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+
+//   const handleCheckboxChange = (e) => {
+//     const value = e.target.value;
+//     if (e.target.checked) {
+//       setSelectedOptions([...selectedOptions, value]);
+//     } else {
+//       setSelectedOptions(selectedOptions.filter(option => option !== value));
+//     }
+//   };
+// const [selectedOptions, setSelectedOptions] = useState([]);
+// console.log("selectedOptions...,,,,,",selectedOptions)
+// const [selectAmneties, setSelectAmneties] = useState('');
+// const [tableopt,settableopt] = useState([])
+// const [amnitableshow,setamnitableshow] =useState(false)
+// // console.log("tableopt.......?",tableopt)
+
+// const handleCheckboxChange = (e) => {
+//   setamnitableshow(true)
+//   const { value, checked } = e.target;
+//   setSelectedOptions((prevSelected) =>
+//     checked ? [...prevSelected, value] : prevSelected.filter((option) => option !== value)
   
+//   );
+// };
+
+// const handleSelect = (e) => {
+//   setSelectAmneties(e.target.value);
+//   console.log("e.target.value", e.target.value);
+//   const selectedAmenity = state.UsersList?.amnetieshistory?.data &&
+//     state.UsersList.amnetieshistory.data.filter((item) => item.amenity_Id == e.target.value);
+//   console.log("selectedAmenity", selectedAmenity);
+// };
+// useEffect(() => {
+//   const options = state.UsersList?.amnetieshistory?.data
+//     ? [...new Set(state.UsersList.amnetieshistory.data.map((item) => item.Amnities_Name))]
+//     : [];
+//   const filteredOptions = state.UsersList?.amnetieshistory?.data?.filter((item) =>
+//     selectedOptions.includes(item.Amnities_Name)
+//   );
+//   settableopt(filteredOptions || []);
+//   console.log("tableopt", filteredOptions);
+// }, [selectedOptions]);
+
+// const options = state.UsersList?.amnetieshistory?.data
+//   ? [...new Set(state.UsersList.amnetieshistory.data.map((item) => item.Amnities_Name))]
+//   : [];
+
+// const options = state.UsersList?.amnetieshistory?.data
+//   ? [...new Set(state.UsersList.amnetieshistory.data.map((item) => item.Amnities_Name))]
+//   : [];
+//   const filteredOptions = state.UsersList?.amnetieshistory?.data?.filter((item) =>
+//     selectedOptions.includes(item.Amnities_Name)
+  
+//   );
+//   settableopt(filteredOptions)
+//   console.log("filteredOptions",filteredOptions)
+ 
+useEffect(()=>{
+  dispatch({ type: 'AMENITESNAMES' })
+},[])
+
+
+
+const amenities = state.UsersList?.amnetieshistory?.data;
+
+// const uniqueAmenities = [];
+// const seenNames = new Set();
+
+if (amenities) {
+  amenities.forEach((amenity) => {
+    if (!seenNames.has(amenity.Amnities_Name)) {
+      seenNames.add(amenity.Amnities_Name);
+      uniqueAmenities.push(amenity);
+    }
+  });
+}
+const handleCloseModal = () => {
+
+  setaddamenityShow(false);
+};
+
+
+
+// const handleAddUserAmnities=()=>{
+//   dispatch({
+//         type: 'AddUserAmnities',
+//         payload: {hostelID:hostelIds,userID:customerUser_Id,amenityID:selectAmneties,created_By:1 }
+//       });
+      
+// }
+const handleAddUserAmnities = () => {
+  dispatch({
+    type: 'AddUserAmnities',
+    payload: {
+      hostelID: hostelIds,
+      userID: customerUser_Id,
+      amenityID: selectAmneties,
+      created_By: 1
+    }
+  });
+
+  // Update userId after dispatch
+  setuserId(customerUser_Id); // make sure setUserId updates the userId in state
+};
+
+useEffect(() => {
+  if (userId) {
+    console.log("user_id", userId);
+    dispatch({ type: 'AMENITESHISTORY', payload: { user_id: userId } });
+  }
+  console.log("userIduserId", userId);
+}, [userId]);
+
+
+useEffect(() => {
+ 
+  if (customerUser_Id) {
+    setuserId(customerUser_Id);
+  }
+}, [customerUser_Id]);
+// console.log("state....?",state)
+// useEffect(()=>{
+//   console.log("state.UsersList.addUserAmnities",state.UsersList.addUserAmnities)
+// if(state.UsersList.addUserAmnities){
+  
+//   dispatch({ type: 'AMENITESHISTORY', payload: {user_id: userId}})
+// }
+// },[state.UsersList.addUserAmnities])
+
 
   return (
     <div className=' p-2' >
@@ -831,286 +1073,6 @@ const handleselect=((e)=>{
           <>
             {userDetails && userDetails.map((item, index) => (
               
-              // <div class="row d-flex g-0">
-              //   <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12 p-2" style={{ borderRight: "1px solid lightgray" }}>
-              //     <div class="row g-0 p-1">
-              //       <div className='col-lg-2 col-md-12 col-sm-12 col-xs-12'>
-              //         <Image src={Login} roundedCircle style={{ height: "50px", width: "50px", backgroundColor: "#F6F7FB" }} />
-              //       </div>
-              //       <div className='col-lg-5 col-md-12 col-sm-12 col-xs-12'>
-              //         <div class="d-block ps-1">
-              //           <p style={{ fontWeight: "700", textTransform: '' }} class="mb-0">{item.Name}</p>
-              //           <p style={{ fontSize: "10px", padding: "1px", fontWeight: 700 }}>Joining Date:{new Date(item.createdAt).toLocaleDateString('en-GB')}</p>
-              //         </div>
-
-
-
-              //       </div>
-              //       <div class="col-lg-4 offset-lg-1">
-              //         {/* <button type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={() => { handleShow(item) }} ><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button> */}
-
-              //       </div>
-              //     </div>
-              //     <div class="d-flex justify-content-between mb-0">
-              //       <div>
-              //         <p style={{ fontSize: "12px", fontWeight: '700' }} class="mb-2">USER DETAIL</p>
-              //       </div>
-              //       <div className="mb-2 me-2" onClick={() => { handleShow(item) }}>
-              //         <img src={img2} style={{ width: 20, height: 20 }} />
-              //       </div>
-              //     </div>
-              //     <hr class="m-0 mb-2" />
-              //     <div class="d-flex justify-content-between">
-              //       <p style={{ fontSize: "12px", fontWeight: '500', color: "gray" }}>Phone No</p>
-              //       <p style={{ fontSize: "12px", fontWeight: 700 }}>+91 {item.Phone}</p>
-              //     </div>
-              //     <div class="d-flex justify-content-between">
-              //       <p style={{ fontSize: "12px", fontWeight: '500', color: "gray" }}>Email Id</p>
-              //       <p style={{ fontSize: "12px", fontWeight: 700 }}>{item.Email}</p>
-              //     </div>
-
-
-
-              //     <div class="d-flex justify-content-between pt-1 mb-0">
-              //       <p style={{ fontSize: "12px", fontWeight: '700' }} class="mb-2">ROOM DETAIL</p>
-              //       <div className="mb-2 me-2" onClick={() => { handleShowAddBed(item) }}>
-              //         <img src={img2} style={{ width: 20, height: 20 }} />
-              //       </div>
-              //     </div>
-              //     <hr class="m-0 mb-2" />
-              //     <div class="d-flex justify-content-between">
-              //       <p style={{ fontSize: "12px", fontWeight: '500', color: "gray" }}>Floor</p>
-              //       <p style={{ fontSize: "12px", fontWeight: 700, textTransform: 'capitalize' }}> {getFloorName(item.Floor)}</p>
-              //     </div>
-              //     <div class="d-flex justify-content-between">
-              //       <p style={{ fontSize: "12px", fontWeight: '500', color: "gray" }}>Room & Bed</p>
-              //       <p style={{ fontSize: "12px", fontWeight: 700, textTransform: 'capitalize' }}>{getFormattedRoomId(item.Floor, item.Rooms)} & Bed {item.Bed}</p>
-              //     </div>
-              //     <div class="d-flex justify-content-between">
-              //       <p style={{ fontSize: "12px", fontWeight: '500', color: "gray" }}>Advance Amount</p>
-              //       <p style={{ fontSize: "12px", fontWeight: 700 }}>₹{item.AdvanceAmount} <span className='ps-2' style={{ color: "orange" }}>{item.Status}</span> </p>
-              //     </div>
-
-              //     <div class="d-flex justify-content-between pt-1 mb-0">
-              //       <p style={{ fontSize: "12px", fontWeight: '700' }} >ADDRESS DETAIL</p>
-
-              //     </div>
-              //     <hr class="m-0 mb-2" />
-              //     <div class="d-block">
-              //       <p class="mb-1" style={{ fontSize: "12px", fontWeight: 500 }} >PERMANENT ADDRESS</p>
-              //       <p class="mb-1" style={{ fontSize: "12px", textTransform: 'capitalize' }}>{item.Address}</p>
-
-              //     </div>
-
-
-              //     {/* <div class="d-flex justify-content-between mt-5">
-              //       <p style={{ fontSize: "12px", fontWeight: '700' }} >KYC DETAIL</p>
-
-              //     </div>
-              //     <hr class="m-0 mb-2" /> */}
-
-              //     {/* <div className='row g-1 mt-2'>
-              //       <div class="col-lg-4 d-flex justify-content-start">
-              //         <div>
-              //           <p style={{ fontSize: "12px", color: "gray", fontWeight: 700 }}>Aadhar Card  No</p>
-              //           <p style={{ fontSize: "12px", color: "gray", fontWeight: 700 }}>Pan Card  No</p>
-              //           <p style={{ fontSize: "12px", color: "gray", fontWeight: 700 }}>Licence</p>
-
-              //         </div>
-              //       </div>
-              //       <div class="col-lg-4 d-flex justify-content-center">
-              //         <div>
-              //           <p style={{ fontSize: "12px", fontWeight: 700 }}>{item.AadharNo}</p>
-              //           <p style={{ fontSize: "12px", fontWeight: 700 }}>{item.PancardNo}</p>
-              //           <p style={{ fontSize: "12px", fontWeight: 700, color: "black" }}>{item.licence}</p>
-              //         </div>
-              //       </div>
-              //       <div class="col-lg-4 d-flex justify-content-center">
-              //         <div>
-              //           <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
-              //           <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
-              //           <p style={{ color: "#63f759", fontSize: "12px" }}>Verified</p>
-              //         </div>
-
-              //       </div>
-              //     </div> */}
-              //   </div>
-              //   <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 p-2">
-
-
-              //     <div class="d-flex justify-content-between" style={{ backgroundColor: "", width: "100%" }}>
-              //       <div class="p-2" style={{ backgroundColor: "" }}>
-              //         <h6 style={{ fontSize: "16px" }}>Bill Payment</h6>
-              //       </div>
-              //       <div class="d-flex justify-content-between align-items-center" style={{ backgroundColor: "" }} >
-              //       {showLoader && <LoaderComponent />}
-              //         {search && <>
-              //           <input type="text" value={filterByInvoice} onChange={(e) => handleFilterByInvoice(e)} className='form-control form-control-sm me-2' placeholder='Search by Invoice' style={{ width: "150px", boxShadow: "none", border: "1px solid lightgray" }} /></>
-              //         }
-              //         <BsSearch class="me-2" style={{ fontSize: 20 }} onClick={handleSearch} />
-
-              //         {
-              //           filterStatus &&
-              //           <>
-              //             <select value={filterByStatus} onChange={(e) => handleStatusFilterChange(e)} class="form-control form-control-sm m-2"
-              //               style={{ fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", boxShadow: "none", padding: "5px", border: "1px Solid lightgray" }}
-              //             >
-              //               <option selected value="ALL"> ALL</option>
-              //               <option value="Success">Success</option>
-              //               <option value="Pending">Pending</option>
-              //             </select>
-              //           </>
-              //         }
-
-
-              //         <IoFilterOutline class="me-2" style={{ fontSize: 20 }} onClick={handleFliterByStatus} />
-
-              //         {/* <button   type="button" class="" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}  >Back</button> */}
-              //         {/* <button type="button" class="ms-2" style={{ fontSize: "12px", backgroundColor: "white", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={() => { handleShow(item) }} ><img src={Edits} height="12" width="12" alt='Edits' /> Edit</button> */}
-              //         <Button className="ms-2" variant="outline-secondary" onClick={handleBack} size="sm" style={{ borderRadius: '20vh', width: '100px', marginRight: '15px' }}>
-              //           Back
-              //         </Button>
-
-
-              //       </div>
-
-              //     </div>
-
-
-
-              //     <Table responsive>
-              //       <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
-              //         <tr className="" style={{ height: "30px" }}>
-
-              //           <th>Date</th>
-              //           <th>Invoices#</th>
-              //           <th>Amount</th>
-
-              //           <th>Status</th>
-              //           <th>Action</th>
-              //         </tr>
-              //       </thead>
-              //       <tbody style={{ height: "50px", fontSize: "11px" }}>
-              //         {currentItemsForInvoice.map((view) => (
-              //           <tr key={view.id}>
-
-              //             <td>{new Date(view.Date).toLocaleDateString('en-GB')}</td>
-              //             <td>{view.Invoices}</td>
-              //             <td>₹{view.Amount}</td>
-              //             {/* <td>₹{view.BalanceDue}</td> */}
-              //             <td style={view.Status === "Success" ? { color: "green", fontWeight: 700 } : { color: "red", fontWeight: 700 }}>{view.Status}</td>
-              //             <td
-              //               className="justify-content-center"
-              //             >
-              //               <img src={List} height={20} width={20} alt='List' onClick={() => { handleInvoiceDetail(view) }} />
-              //               {/* <img
-              //                 className="ms-1"
-              //                 src={Edits} height={20} width={20} alt='Edits' /> */}
-              //             </td>
-              //           </tr>
-              //         ))}
-              //         {currentItemsForInvoice.length === 0 && (
-              //           <tr>
-              //             <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
-              //           </tr>
-              //         )}
-
-              //       </tbody>
-              //     </Table>
-
-
-              //     <div style={{ display: "flex", flexDirection: "row", justifyContent: "end" }}>
-
-              //       <div onClick={handlePreviousInvoice} disabled={currentPages === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
-              //         Prev
-              //       </div>
-              //       <span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPages} </span>
-              //       <div onClick={handleNextInvoice} disabled={currentPages === totalPagesFor} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
-              //         Next
-              //       </div>
-              //     </div>
-
-
-
-              //     <div class="d-flex justify-content-between mb-3">
-              //       <p style={{ fontWeight: 700 }}>Comments</p>
-              //       {/* <p style={{ color: "#0D99FF", fontSize: "13px", textDecoration: "underline" }}>+ Add Comment</p> */}
-              //     </div>
-
-
-
-
-              //     <div class="" style={{ marginTop: 30 }}>
-
-              //       <div class="d-flex justify-content-start align-items-center" style={{ backgroundColor: "", marginLeft: 100, marginTop: 50 }}>
-              //         <div style={{ display: 'flex', flexDirection: 'column', alignItems: '', height: "" }}>
-              //           <Stepper activeStep={activeStep} orientation="vertical" style={{ color: "#2F74EB", height: "", }}>
-              //             <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }} >
-              //               <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
-              //                 <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
-              //               </div>
-              //               <div style={{ position: "absolute", left: -80, top: 0 }}>
-              //                 <p class="mb-0" style={{ color: "black", fontSize: '11px' }}>05-01-2023</p>
-              //                 <p style={{ color: "black", fontSize: '11px' }}>07.23PM</p>
-              //               </div>
-
-              //               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute", left: 50, top: -30 }}>
-              //                 <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "70vh", maxWidth: "1000px", borderRadius: 5 }}>
-              //                   <div class="d-block">
-              //                     <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice updated</p>
-              //                     <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri emailed by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
-              //                   </div>
-
-              //                   <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
-              //                 </div>
-              //               </div>
-
-              //             </Step>
-              //             <Step sx={{ color: "#2F74EB" }}>
-              //             </Step>
-              //             <Step sx={{ color: "#2F74EB", }}>
-              //             </Step>
-              //             <Step sx={{ color: "#2F74EB" }}>
-
-              //             </Step>
-              //             <Step sx={{ color: "#2F74EB" }}>
-
-              //             </Step>
-
-              //             <div>
-              //               <Step sx={{ color: "#2F74EB" }} style={{ position: "relative" }}>
-              //                 <div class="d-flex justify-content-center align-items-center" style={{ height: "25px", width: "25px", border: "1px solid #2F74EB", borderRadius: "50px" }}>
-              //                   <MapsUgcRoundedIcon style={{ color: "#2F74EB", height: "15px", width: "15px" }} />
-              //                 </div>
-              //                 <div style={{ position: "absolute", left: -80, top: 0 }}>
-              //                   <p class="mb-0" style={{ color: "black", fontSize: '11px' }} >05-01-2023</p>
-              //                   <p style={{ color: "black", fontSize: '11px' }}>07.20PM</p>
-              //                 </div>
-              //                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: "absolute", left: 50, top: -30 }}>
-              //                   <div className="pop-overs" style={{ padding: "20px", borderWidth: 1, borderColor: '#888888', borderStyle: 'solid', display: 'flex', flexDirection: 'row', alignItems: 'center', position: 'relative', width: "70vh", borderRadius: 5 }}>
-              //                     <div class="d-block">
-              //                       <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice added</p>
-              //                       <p class="mb-1" style={{ fontSize: '11px', color: "black" }}>Invoice Dhaskshan Sri amount of ₹500.00 created by <strong>SmartStay</strong> <span style={{ color: '#2F74EB' }}> - View Details</span></p>
-              //                     </div>
-
-              //                     <div style={{ width: 12, height: 12, borderLeftWidth: 1, borderTopWidth: 0, borderBottomWidth: 1, borderRightWidth: 0, borderLeftColor: '#888888', borderBottomColor: '#888888', borderStyle: 'solid', position: 'absolute', left: -7, transform: 'rotate(45deg)', backgroundColor: '#FFFFFF' }}></div>
-              //                   </div>
-              //                 </div>
-
-
-
-              //               </Step>
-              //             </div>
-
-              //           </Stepper>
-              //         </div>
-              //       </div>
-              //     </div>
-
-
-
-              //   </div>
-              // </div>
               <div className="container mt-5">
 
                 <div style={{marginLeft:20,paddingBottom:20}}><FaLongArrowAltLeft onClick={handleBack}/> UserProfile</div>
@@ -1140,6 +1102,9 @@ const handleselect=((e)=>{
                   <div  className={`tab-item ${transshow ? 'active' : ''}`} style={{marginRight:"25%"}}  onClick={handletransShow}>Transaction</div>
                    
                 </div>
+
+
+
 
 {
   overviewshow &&
@@ -1260,9 +1225,9 @@ Basic Information
 
      
       <div>
-      <Table className="custom-table" responsive>
-      <thead style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px" }}>
-          <tr className="" style={{ height: "30px" }}>
+      <Table className="ebtable" responsive style={{margin:"0px"}} >
+      <thead style={{  color: "gray", fontSize: "11px",height:50 }}>
+          <tr >
 
             <th style={{paddingLeft:"40px"}}>Floor</th>
          <th>Room no</th>
@@ -1273,6 +1238,7 @@ Basic Information
            <th>Total units</th>
            <th>Units used</th>
            <th>Amount</th>
+           <th></th>
            </tr>
         </thead>
       <tbody style={{ height: "50px", fontSize: "11px" }}>
@@ -1287,7 +1253,7 @@ Basic Information
             let formattedDate = `${day}/${month}/${year}`;
             console.log("Formatted Date:", formattedDate);
           return(
-            <tr key={u.id}>
+            <tr key={u.id} style={{lineHeight:"20px"}}>
 
             <td style={{paddingLeft:"40px"}}>{u.Floor_Id}</td>
             <td>{u.Room_No}</td>
@@ -1298,6 +1264,8 @@ Basic Information
             <td>{u.Eb_Unit}</td>
             <td>{u.Eb_Unit}</td>
             <td>{u.pay_eb_amount}</td>
+            <td >
+            <img src={dottt} style={{ height: 30, width: 30 }} /></td>
            
           </tr>
           )
@@ -1327,8 +1295,8 @@ Basic Information
   invoiceshow && 
   <div>
    
-        <Table className="custom-table " responsive >
-                  <thead  style={{ backgroundColor: "#F6F7FB", color: "gray", fontSize: "11px",marginLeft:10 }}>
+        <Table className="ebtable" responsive >
+                  <thead  style={{  color: "gray", fontSize: "11px",marginLeft:10 }}>
                       <tr className="" style={{ height: "30px" }}>
 
                         <th style={{paddingLeft:"40px"}}>Date</th>
@@ -1371,93 +1339,250 @@ Basic Information
 
 {
   amnitiesshow && 
-  <div class="container mt-5">
-            <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
-            <Form.Label style={{ fontSize: "12px" }}>Amnities</Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              className='border'
-              style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-              value={selectAmneties} onChange={(e)=>handleselect(e)}
-            >
-              <option>Select Amnities</option>
+
+
+//   <div class="container mt-5">
+//             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
+//             <Form.Label style={{ fontSize: "12px" }}>Amnities</Form.Label>
+//             <Form.Select
+//               aria-label="Default select example"
+//               className='border'
+//               style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+//               value={selectAmneties} onChange={(e)=>handleselect(e)}
+//             >
+//               <option>Select Amnities</option>
             
              
-             {
-  state.UsersList?.amnetieshistory?.data && (() => {
-    const uniqueAmenities = new Set();
-    return state.UsersList.amnetieshistory.data.map((item) => {
-      if (!uniqueAmenities.has(item.amenity_Id)) {
-        uniqueAmenities.add(item.amenity_Id);
-        return (
-          <option key={item.amenity_Id} value={item.amenity_Id}>
-            {item.Amnities_Name}
-          </option>
-        );
-      }
-      return null; // Return null for duplicates, which won't render anything
-    });
-  })()
-}
-            </Form.Select>
-          </div>
-          {/* { state.UsersList.amnetieshistory.data.map((v)=>{
-            return(
-              <div style={{marginTop:20}}>
-              <span class="btn  btn-sm rounded-pill " style={{backgroundColor:"#D9E9FF"}}>{v.Amnities_Name} - ₹{v.Amount}/m <button type="button" class="close ml-2" aria-label="Close"><span aria-hidden="true">&times;</span></button></span>
-          </div>
-            )
-            
-          })} */}
-          {(() => {
-    const seen = new Set();
-    return state.UsersList.amnetieshistory.data.map((v) => {
-        if (seen.has(v.Amnities_Name)) return null;
-        seen.add(v.Amnities_Name);
-        return (
-            <div style={{marginTop: 20}} key={v.Amnities_Name}>
-                <span className="btn btn-sm rounded-pill" style={{backgroundColor: "#D9E9FF"}}>
-                    {v.Amnities_Name} - ₹{v.Amount}/m 
-                    <button type="button" className="close ml-2" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </span>
-            </div>
-        );
-    });
-})()}
-          
-         
+//              {
+//   // state.UsersList?.amnitiesnamelist?.data && (() => {
+//     // const uniqueAmenities = new Set();
+//     state.UsersList?.amnitiesnamelist?.data && state.UsersList.amnitiesnamelist.data.map((item) => {
+    
+//         return (
+//           <option key={item.id} value={item.id}>
+//             {item.Amnities_Name}
+//           </option>
+//         )
+//     }
+//   )
+// }
+  
+ 
+//             </Form.Select>
+//           </div>
 
-        <Table className="custom-table" responsive>
-            <thead>
-                <tr>
-                    <th scope="col" style={{paddingLeft:"40px"}}>Amenities</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Subscription</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-           { state.UsersList.amnetieshistory.data.map((v)=>{
-            return(
-              <tr>
-              <td style={{paddingLeft:"40px"}}>{v.Amnities_Name} </td>
-              <td>{v.created_At}</td>
-              <td>Monthly</td>
-              <td>{v.Amount}</td>
-              <td><span class="badge badge-success">{v.status}</span></td>
-              <td><button class="btn btn-secondary btn-sm">...</button></td>
-          </tr>
-            )
+// {/* { */}
+//   {/* addamenityShow &&  */}
+//   <Modal show={addamenityShow} onHide={handleCloseModal} centered>
+//                 <Modal.Header closeButton style={{ backgroundColor: "#F5F5FF" }} className="text-center">
+//                     <Modal.Title style={{ fontSize: 18 }} className="text-center">Add Amnities</Modal.Title>
+//                 </Modal.Header>
+//                 <Modal.Body >
+//                     {/* <div className='mb-3 ps-2  pe-2'>
+//                         <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Select PG</label>
+//                         <Form.Select aria-label="Default select example" 
+//                         value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} 
+//                         style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa" }}>
 
-           })}
+//                             <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
+//                             {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((item) => (
+//                                 <>
+//                                     <option key={item.id} value={item.id} >{item.Name}</option></>
+//                             ))}
+
+//                         </Form.Select>
+//                     </div> */}
+
+
+//                     {/* <div className='mb-3 '>
+//                         <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amenities Name</label>
+//                         <Autocomplete
+//                             value={amenitiesName}
+//                             onChange={handleAmenitiesChange}
+//                             onInputChange={handleInputChange}
+//                             label='Amenities'
+//                             id="free-solo-dialog-demo"
+//                             options={uniqueOptions}
+//                             selectOnFocus
+//                             clearOnBlur
+//                             disabled={edit === 'EDIT'}
+//                             handleHomeEndKeys
+//                             renderOption={(props, option) => (
+//                                 <li {...props}>
+//                                     {option}
+//                                 </li>
+//                             )}
+
+//                             style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa", width: '97%', marginLeft: '1%' }}
+//                             sx={{ width: 300 }}
+
+//                             renderInput={(params) => <TextField {...params} label="" InputProps={{ ...params.InputProps, placeholder: 'Amenities Name' }} />}
+//                         />
+//                     </div> */}
+//                       <div className='mb-3 ps-2 pe-2'>
+//                         <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amnities_Name</label>
+//                         <Form.Control
+//                             placeholder="Amount"
+//                             aria-label="Recipient's username"
+//                             className='border custom-input'
+//                             aria-describedby="basic-addon2"
+//                             value={selectAmneties}
+//                             // onChange={(e) => handleAmountChange(e)}
+//                             style={{
+//                                 fontSize: 12,
+//                                 fontWeight: "530",
+//                                 opacity: 1,
+//                                 borderRadius: "4px",
+//                                 color: "gray",
+//                                 '::placeholder': { color: "gray", fontSize: 12 }
+//                             }}
+
+//                         />
+//                     </div>
+
+//                     <div className='mb-3 ps-2 pe-2'>
+//                         <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amount</label>
+//                         <Form.Control
+//                             placeholder="Amount"
+//                             aria-label="Recipient's username"
+//                             className='border custom-input'
+//                             aria-describedby="basic-addon2"
+//                             // value={amount}
+//                             // onChange={(e) => handleAmountChange(e)}
+//                             style={{
+//                                 fontSize: 12,
+//                                 fontWeight: "530",
+//                                 opacity: 1,
+//                                 borderRadius: "4px",
+//                                 color: "gray",
+//                                 '::placeholder': { color: "gray", fontSize: 12 }
+//                             }}
+
+//                         />
+//                     </div>
+
+//                      {/* <div className='d-flex justify-content-between  ps-2 pe-2 '>
+//                         <label className='mb-3 ' style={{ fontSize: 14, fontWeight: 650 }} >Set as Default</label>
+//                         <Form.Check type="switch" id="custom-switch" checked={active} onChange={(e) => handleSetAsDefault(e)} />
+//                     </div> */}
+//                     {/* {edit === 'EDIT' && <> */}
+
+//                         <div className='mb-3 ps-2  pe-2'>
+//                             <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Select Status</label>
+//                             <Form.Select aria-label="Default select example" value={status} onChange={(e) => handleStatusChange(e)} style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa" }}>
+//                                 <option style={{ fontSize: 14, fontWeight: 600, }} >Select Status</option>
+
+//                                 <option value="1" >Active</option>
+//                                 <option value="0" >In Active</option>
+//                             </Form.Select>
+//                         </div>
+
+//                     {/* </>}  */}
+
+//                 </Modal.Body>
+//                 <Modal.Footer className='d-flex justify-content-center'>
+//                     {/* <Button variant="outline-primary"
+//                      onClick={handleCloseModal}
+//                       size="sm" style={{ borderRadius: 8, width: '100px', marginRight: '15px' }}>
+//                         Cancel
+//                     </Button>
+//                     <Button variant="primary" size="sm" style={{ borderRadius: 8, width: '100px' }}
+//                      onClick={handleAmenitiesSetting} 
+//                      >
+//                       save
+//                         {edit === 'EDIT' ? 'Update' : 'Create'}
+//                     </Button> */}
+//                      <Button className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" ,marginTop:20}} 
+//                       // onClick={ handleSaveUserlist}
+//                       >
+// {/* {props.edit === 'Add' ? "Add Customer " : "Assign Bed"} */}
+// Add Amneties
+// </Button>
+
+//                 </Modal.Footer>
+//             </Modal>
+// {/* } */}
+
+// <div className="d-flex flex-wrap mt-2">
+//       {uniqueAmenities.length > 0 ? (
+//         uniqueAmenities.map((amenity, index) => (
+//           <div
+//             key={index}
+//             className="p-2 m-2"
+//             style={{ backgroundColor: "#E0ECFF", borderRadius: "10px" }}
+//           >
+//             {amenity.Amnities_Name}
+//           </div>
+//         ))
+//       ) : (
+//         <div>No amenities available</div>
+//       )}
+//     </div>
+
+// {/* <div class="d-flex flex-wrap mt-2">
+//         {
+//        state.UsersList?.amnetieshistory?.data?.length > 0 && state.UsersList?.amnetieshistory?.data?.map((p)=>{
+//         console.log("p",p)
+//             return(
+//               <div class=" p-2 m-2" style={{backgroundColor:"#E0ECFF",borderRadius:"10px"}}>{p.Amnities_Name}</div>
+
+//             )
+//           })
+//         }
+//       </div> */}
+      
+
+//            {/* {(() => {
+//     const seen = new Set();
+//     return state.UsersList.amnetieshistory.data.map((v) => {
+//         if (seen.has(v.Amnities_Name)) return null;
+//         seen.add(v.Amnities_Name);
+//         return (
+//             <div style={{marginTop: 20}} key={v.Amnities_Name}>
+//                 <span className="btn btn-sm rounded-pill" style={{backgroundColor: "#D9E9FF"}}>
+//                     {v.Amnities_Name} - ₹{v.Amount}/m 
+//                     <button type="button" className="close ml-2" aria-label="Close">
+//                         <span aria-hidden="true">&times;</span>
+//                     </button>
+//                 </span>
+//             </div>
+//         );
+//     });
+// })()}  */}
+
+
+//        <Table className="custom-table" responsive>
+//             <thead>
+//                 <tr>
+//                     <th scope="col" style={{paddingLeft:"40px"}}>Amenities</th>
+//                     <th scope="col">Date</th>
+//                     <th scope="col">Subscription</th>
+//                     <th scope="col">Amount</th>
+//                     <th scope="col">Status</th>
+//                     <th scope="col">Actions</th>
+//                 </tr>
+//             </thead>
+//             <tbody>
+//            { state.UsersList.amnetieshistory.data.map((v)=>{
+//             return(
+//               <tr>
+//               <td style={{paddingLeft:"40px"}}>{v.Amnities_Name} </td>
+//               <td>{v.created_At}</td>
+//               <td>Monthly</td>
+//               <td>{v.Amount}</td>
+//               <td><span class="badge badge-success">{v.status}</span></td>
+//               <td><button class="btn btn-secondary btn-sm">...</button></td>
+//           </tr>
+//             )
+
+//            })}
               
              
-            </tbody>
-        </Table>
+//             </tbody>
+//         </Table>
+         
+
+       
               
             
          
@@ -1466,6 +1591,163 @@ Basic Information
 
 
 
+//     </div>
+<div className="container mt-5">
+      <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
+        <Form.Label style={{ fontSize: "12px" }}>Amnities</Form.Label>
+        <Form.Select
+          aria-label="Default select example"
+          className='border'
+          style={{
+            fontSize: 16,
+            color: "#4B4B4B",
+            fontFamily: "Gilroy,sans-serif",
+            fontWeight: 500,
+            boxShadow: "none",
+            border: "1px solid #D9D9D9",
+            height: 50,
+            borderRadius: 8
+          }}
+          value={selectAmneties}
+          onChange={(e)=>handleselect(e)}
+        >
+          <option>Select Amnities</option>
+          {state.UsersList?.customerdetails?.all_amenities?.map((item) => (
+            <option key={item.Amnities_Id} value={item.Amnities_Id}>
+              {item.Amnities_Name}
+            </option>
+          ))}
+        </Form.Select>
+      </div>
+
+      <Modal show={addamenityShow} onHide={() => setaddamenityShow(false)} centered>
+        <Modal.Header closeButton style={{ backgroundColor: "#F5F5FF" }} className="text-center">
+          <Modal.Title style={{ fontSize: 18 }} className="text-center">Add Amnities</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className='mb-3 ps-2 pe-2'>
+            <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amnities_Name</label>
+            <Form.Control
+              placeholder="Amnities Name"
+              aria-label="Recipient's username"
+              className='border custom-input'
+              aria-describedby="basic-addon2"
+              value={selectAmneties}
+              style={{
+                fontSize: 12,
+                fontWeight: "530",
+                opacity: 1,
+                borderRadius: "4px",
+                color: "gray",
+                '::placeholder': { color: "gray", fontSize: 12 }
+              }}
+            />
+          </div>
+          <div className='mb-3 ps-2 pe-2'>
+            <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Hostel_Name</label>
+            <Form.Control
+              placeholder="HostelName"
+              aria-label="Recipient's username"
+              className='border custom-input'
+              aria-describedby="basic-addon2"
+              value={hostelName}
+              style={{
+                fontSize: 12,
+                fontWeight: "530",
+                opacity: 1,
+                borderRadius: "4px",
+                color: "gray",
+                '::placeholder': { color: "gray", fontSize: 12 }
+              }}
+            />
+          </div>
+
+          <div className='mb-3 ps-2 pe-2'>
+            <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Amount</label>
+            <Form.Control
+              placeholder="Amount"
+              aria-label="Recipient's username"
+              className='border custom-input'
+              aria-describedby="basic-addon2"
+              value={createby[0]?.Amount}
+              style={{
+                fontSize: 12,
+                fontWeight: "530",
+                opacity: 1,
+                borderRadius: "4px",
+                color: "gray",
+                '::placeholder': { color: "gray", fontSize: 12 }
+              }}
+            />
+          </div>
+
+          {/* <div className='mb-3 ps-2 pe-2'>
+            <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Select Status</label>
+            <Form.Select aria-label="Default select example" style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa" }}>
+              <option style={{ fontSize: 14, fontWeight: 600 }}>Select Status</option>
+              <option value="1">Active</option>
+              <option value="0">In Active</option>
+            </Form.Select>
+          </div> */}
+        </Modal.Body>
+        <Modal.Footer className='d-flex justify-content-center'>
+          <Button className='col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{
+
+            backgroundColor: "#1E45E1",
+            fontWeight: 600,
+            height: 50,
+            borderRadius: 12,
+            fontSize: 16,
+            fontFamily: "Montserrat, sans-serif",
+            marginTop: 20,   
+          }} 
+          onClick={handleAddUserAmnities}
+           >
+            Add Amnities
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <div className="d-flex flex-wrap mt-2">
+        {uniqueAmenities.length > 0 ? (
+          uniqueAmenities.map((amenity, index) => (
+            <div
+              key={index}
+              className="p-2 m-2"
+              style={{ backgroundColor: "#E0ECFF", borderRadius: "10px" }}
+            >
+              {amenity.Amnities_Name}
+            </div>
+          ))
+        ) : (
+          <div>No amenities available</div>
+        )}
+      </div>
+
+      <Table className="custom-table" responsive>
+        <thead>
+          <tr>
+            <th scope="col" style={{ paddingLeft: "40px" }}>Amenities</th>
+            <th scope="col">Date</th>
+            <th scope="col">Subscription</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {state.UsersList?.amnetieshistory?.data?.map((v) => (
+            <tr key={v.amenity_Id}>
+              <td style={{ paddingLeft: "40px" }}>{v.Amnities_Name}</td>
+              <td>{v.created_At}</td>
+              <td>Monthly</td>
+              <td>{v.Amount}</td>
+              <td><span className="badge badge-success">{v.status}</span></td>
+             <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </div>
 
 }
@@ -1484,6 +1766,7 @@ Basic Information
 
          <th>Amount</th>
        <th>Made of pyment</th>
+       <th></th>
        
        </tr>
     </thead>
@@ -1507,6 +1790,7 @@ Basic Information
         {/* <td>₹{view.BalanceDue}</td> */}
         <td>{v.amount}</td>
         <td>Cash</td>
+        <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
       
        
       </tr>

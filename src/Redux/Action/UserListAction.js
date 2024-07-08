@@ -86,7 +86,18 @@ export async function CustomerDetails (datum) {
 
 export async function amenitieshistory (datum) {
   console.log("datum,,,,,,",datum)
-  return await AxiosConfig.post('user_amenities_history',datum,{
+  return await AxiosConfig.post('/user_amenities_history',datum,{
+    data:datum
+  })
+}
+
+export async function amnitiesnameList() {
+  return await AxiosConfig.get('/list/AmnitiesName',{
+  })
+}
+export async function amenitieAddUser (datum) {
+  console.log("datum,,,,,,",datum)
+  return await AxiosConfig.post('/add/amenity-history',datum,{
     data:datum
   })
 }

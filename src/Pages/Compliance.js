@@ -26,7 +26,7 @@ import Filter from '../Assets/Images/New_images/Group 13.png';
 import { FaSearch } from 'react-icons/fa';
 import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
 import { CiSearch } from "react-icons/ci";
-import AddVendor from './AddVendormodal';
+// import AddVendor from './AddVendormodal';
 import { useDispatch, useSelector } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
 import VendorListMap from './VendorListMap';

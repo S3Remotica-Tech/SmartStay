@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory} from "../Action/UserListAction"
+import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 
 function* handleuserlist(user) {
@@ -251,7 +251,7 @@ function* handleDeleteBed(bedDetails){
       } 
       function* handleamenityhistory(amnityDetails){
          const response = yield call(amenitieshistory,amnityDetails.payload)
-         console.log("response...?",response)
+         console.log("response...?12",response)
          if(response.status === 200){
             yield put({ type: 'AMENITIES_HISTORY', payload: response.data,statusCode:response.status })
          }
@@ -263,6 +263,35 @@ function* handleDeleteBed(bedDetails){
          }
          
       } 
+      function* handleAmnitiesName (){
+         const response = yield call (amnitiesnameList);
+         
+         if (response.status === 200){
+            yield put ({type : 'AMNITIES_NAME' , payload:response.data})
+         }
+         else {
+            yield put ({type:'ERROR', payload:response.data.message})
+         }
+         if(response){
+           refreshToken(response)
+        }
+     }
+
+     function* handleuserAddAmnitiesName(amnity){
+      const response = yield call(amenitieAddUser,amnity.payload)
+      console.log("response...?",response)
+      if(response.status === 200){
+         yield put({ type: ' ADD_USER_AMENITIES', payload: {message:response.data.message,statusCode:response.status} })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if(response){
+         refreshToken(response)
+      }
+      
+   } 
+  
 
      
 
@@ -282,5 +311,7 @@ function* UserListSaga() {
    yield takeEvery('DELETEBED',handleDeleteBed) 
    yield takeEvery('CUSTOMERDETAILS',handlecustomerdetails)    
    yield takeEvery('AMENITESHISTORY',handleamenityhistory) 
+   yield takeEvery('AMENITESNAMES',handleAmnitiesName) 
+   yield takeEvery('AddUserAmnities',handleuserAddAmnitiesName) 
 }
 export default UserListSaga;
