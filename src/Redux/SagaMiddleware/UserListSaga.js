@@ -248,21 +248,8 @@ function* handleDeleteBed(bedDetails){
             refreshToken(response)
          }
          
-      } 
-      function* handleamenityhistory(amnityDetails){
-         const response = yield call(amenitieshistory,amnityDetails.payload)
-         console.log("response...?12",response)
-         if(response.status === 200){
-            yield put({ type: 'AMENITIES_HISTORY', payload: response.data,statusCode:response.status })
-         }
-         else {
-            yield put({ type: 'ERROR', payload: response.data.message })
-         }
-         if(response){
-            refreshToken(response)
-         }
-         
-      } 
+      }
+      
       function* handleAmnitiesName (){
          const response = yield call (amnitiesnameList);
          
@@ -276,6 +263,21 @@ function* handleDeleteBed(bedDetails){
            refreshToken(response)
         }
      }
+      function* handleamenityhistory(amnityDetails){
+         const response = yield call(amenitieshistory,amnityDetails.payload)
+         console.log("response...?12",response)
+         if(response.status === 200){
+            yield put({ type: 'AMENITIES_HISTORY', payload: {response:response.data.data,statusCode:response.status }})
+         }
+         else {
+            yield put({ type: 'ERROR', payload: response.data.message })
+         }
+         if(response){
+            refreshToken(response)
+         }
+         
+      } 
+     
 
      function* handleuserAddAmnitiesName(amnity){
       const response = yield call(amenitieAddUser,amnity.payload)

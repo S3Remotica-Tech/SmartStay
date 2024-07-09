@@ -85,7 +85,7 @@ export async function CustomerDetails (datum) {
 }
 
 export async function amenitieshistory (datum) {
-  console.log("datum,,,,,,",datum)
+  console.log("datum,,,,,,his",datum)
   return await AxiosConfig.post('/user_amenities_history',datum,{
     data:datum
   })

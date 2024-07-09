@@ -372,10 +372,11 @@ function UserList() {
   const [rooms_id, setRoomsId] = useState('')
   const [beds_id, setBed_Id] = useState('')
   const [emaill_id, setemaill_id] = useState('')
-  const [userId, setuserId] = useState(null);
+  const [id, setId] = useState('');
   const [hostelName,sethosName] = useState("")
   const [amniAmount,setamniAmount] = useState("");
 const [customerUser_Id,setcustomerUser_Id] = useState("")
+const[createbyamni,setcreatebyamni]=useState("")
 
   const handleRoomDetailsPage = (userData, bed, room, floor, hostel_id) => {
     const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
@@ -389,7 +390,8 @@ const [customerUser_Id,setcustomerUser_Id] = useState("")
     setFloorIds(floor)
     setRoomsIds(room)
     setemail_id(userData.Email)
-    setuserId(userData.ID)
+    setId(userData.ID)
+    setcreatebyamni(userData.created_By)
     sethosName(userData.HostelName)
     setcustomerUser_Id(userData.User_Id)
     setRoomDetail(true)
@@ -651,19 +653,19 @@ const [customerUser_Id,setcustomerUser_Id] = useState("")
   };
 
   useEffect(() => {
-    if (userId) {
-      dispatch({ type: 'CUSTOMERDETAILS', payload: {user_id: userId}})
+    if (id) {
+      dispatch({ type: 'CUSTOMERDETAILS', payload: {user_id: id}})
     }  
-    console.log("userIduserId",userId)
-  }, [userId]);
+    console.log("userIduserId",id)
+  }, [id]);
 
   useEffect(() => {
-    if (userId) {
-      console.log("user_id",userId)
-      dispatch({ type: 'AMENITESHISTORY', payload: {user_id: userId}})
+    if (id) {
+      console.log("user_id",id)
+      dispatch({ type: 'AMENITESHISTORY', payload: {user_id: id}})
     }  
-    console.log("userIduserId",userId)
-  }, [userId]);
+    console.log("userIduserId....?",id)
+  }, [id]);
  
 const [selectAmneties,setselectAmneties] = useState("")
 const [selectedAmenityName, setSelectedAmenityName] = useState(null);
@@ -677,35 +679,61 @@ console.log("createby",createby)
 // const handleselect=((e)=>{
 //   setselectAmneties(e.target.value)
 // })
+const handleselect = (e) => {
+  const value = e.target.value;
+  setselectAmneties(value);
+  console.log("e.target.value", value);
 
-const handleselect=((e)=>{
-  setselectAmneties(e.target.value)
-  console.log("e.target.value",e.target.value)
-  console.log("state.UsersList.amnetieshistory.data",state.UsersList.amnetieshistory.data);
-  if(state.UsersList.amnetieshistory.data && state.UsersList.amnetieshistory.data.length > 0){
-  for (let i = 0; i < state.UsersList.amnetieshistory.data.length; i++) {
-   if(state.UsersList.amnetieshistory.data[i].amenity_Id == e.target.value){
-    console.log("state.UsersList.amnetieshistory.data[i].amenity_Id",state.UsersList.amnetieshistory.data[i].amenity_Id)
-    setaddamenityShow(false)
-    const selectedAmenity = state.UsersList?.amnetieshistory?.data && state.UsersList.amnetieshistory.data.filter((item) => {return item.amenity_Id == e.target.value});
-    console.log("selectedAmenity",selectedAmenity)
-    setSelectedAmenityName(selectedAmenity)
-    break
-   }
-   else{
-    setaddamenityShow(true)
-    setSelectedAmenityName([])
-   }
+  const amenitiesHistory = state.UsersList.amnetieshistory.data;
+  console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
+
+  if (amenitiesHistory && amenitiesHistory.length > 0) {
+    const selectedAmenity = amenitiesHistory.find(item => item.amenity_Id == value);
+    
+    if (selectedAmenity) {
+      console.log("selectedAmenity", selectedAmenity);
+      setaddamenityShow(false);
+      setSelectedAmenityName(selectedAmenity);
+    } else {
+      setaddamenityShow(true);
+      setSelectedAmenityName([]);
+    }
+  } else {
+    console.log("else");
+    setaddamenityShow(true);
+    setSelectedAmenityName([]);
   }
 }
-else{
-  console.log("else")
-  setaddamenityShow(true)
-  setSelectedAmenityName([])
- }
+
+
+// const handleselect=((e)=>{
+//   setselectAmneties(e.target.value)
+//   console.log("e.target.value",e.target.value)
+//   console.log("state.UsersList.amnetieshistory.data",state.UsersList.amnetieshistory.data);
+//   if(state.UsersList.amnetieshistory.data && state.UsersList.amnetieshistory.data.length > 0){
+//   for (let i = 0; i < state.UsersList.amnetieshistory.data.length; i++) {
+//    if(state.UsersList.amnetieshistory.data[i].amenity_Id == e.target.value){
+//     console.log("state.UsersList.amnetieshistory.data[i].amenity_Id",state.UsersList.amnetieshistory.data[i].amenity_Id)
+//     setaddamenityShow(false)
+//     const selectedAmenity = state.UsersList?.amnetieshistory?.data && state.UsersList.amnetieshistory.data.filter((item) => {return item.amenity_Id == e.target.value});
+//     console.log("selectedAmenity",selectedAmenity)
+//     setSelectedAmenityName(selectedAmenity)
+//     break
+//    }
+//    else{
+//     setaddamenityShow(true)
+//     setSelectedAmenityName([])
+//    }
+//   }
+// }
+// else{
+//   console.log("else")
+//   setaddamenityShow(true)
+//   setSelectedAmenityName([])
+//  }
  
-}
-)
+// }
+// )
 useEffect(()=>{
   if (state.UsersList.customerdetails.all_amenities && state.UsersList.customerdetails.all_amenities.length > 0 && selectAmneties) {
     
@@ -862,7 +890,7 @@ const handleCloseModal = () => {
 //         payload: {hostelID:hostelIds,userID:customerUser_Id,amenityID:selectAmneties,created_By:1 }
 //       });
       
-// }
+
 const handleAddUserAmnities = () => {
   dispatch({
     type: 'AddUserAmnities',
@@ -870,37 +898,48 @@ const handleAddUserAmnities = () => {
       hostelID: hostelIds,
       userID: customerUser_Id,
       amenityID: selectAmneties,
-      created_By: 1
+      created_By: createbyamni
     }
   });
 
-  // Update userId after dispatch
-  setuserId(customerUser_Id); // make sure setUserId updates the userId in state
+ 
+  // setId(customerUser_Id); 
 };
+useEffect(() => {
+  if (id) {
+    dispatch({ type: 'CUSTOMERDETAILS', payload: {user_id: id}})
+  }  
+  console.log("userIduserId",id)
+}, [id]);
+
 
 useEffect(() => {
-  if (userId) {
-    console.log("user_id", userId);
-    dispatch({ type: 'AMENITESHISTORY', payload: { user_id: userId } });
+  if (id) {
+    console.log("user_id", id);
+    dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } });
   }
-  console.log("userIduserId", userId);
-}, [userId]);
+  console.log("userIduserId", id);
+}, [id]);
 
 
 useEffect(() => {
  
   if (customerUser_Id) {
-    setuserId(customerUser_Id);
+    // setId(customerUser_Id);
   }
 }, [customerUser_Id]);
-// console.log("state....?",state)
-// useEffect(()=>{
-//   console.log("state.UsersList.addUserAmnities",state.UsersList.addUserAmnities)
-// if(state.UsersList.addUserAmnities){
+console.log("state....?",state)
+useEffect(()=>{
+  console.log("state.UsersList.addUserAmnities",state.UsersList.addUserAmnities)
+if(state.UsersList.addUserAmnities){
   
-//   dispatch({ type: 'AMENITESHISTORY', payload: {user_id: userId}})
-// }
-// },[state.UsersList.addUserAmnities])
+  dispatch({ type: 'AMENITESHISTORY', payload: {user_id:id}})
+}
+},[state.UsersList.addUserAmnities])
+
+// const [edit, setEdit] = useState('')
+
+
 
 
   return (

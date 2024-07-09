@@ -19,11 +19,11 @@ const initialState = {
     checkOutStatusCode:0,
     hosteListStatusCode:0,
     customerdetails:[],
-    amnetieshistory:null,
+    amnetieshistory:[],
     amnitiesnamelist:[],
-    addUserAmnities:null,
+    addUserAmnities:'',
     usermessage:'',
-    statusCustomerAddUser:null
+    statusCustomerAddUser:''
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -41,7 +41,7 @@ const UserListReducer = (state = initialState, action) => {
             case 'CUSTOMER_DETAILS':
                 return { ...state, customerdetails: action.payload };
                 case 'AMENITIES_HISTORY':
-                    return { ...state, amnetieshistory: action.payload };
+                    return { ...state, amnetieshistory: action.payload.response };
                     case 'AMNITIES_NAME':
                         return { ...state, amnitiesnamelist: action.payload };
                         case 'ADD_USER_AMENITIES':
