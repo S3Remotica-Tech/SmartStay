@@ -36,6 +36,9 @@ import Nav from 'react-bootstrap/Nav';
 import AddRoom from './AddRoom';
 import { IoIosArrowDropleft } from "react-icons/io";
 
+import { ArrowLeft } from 'iconsax-react';
+
+
 function getFloorName(floor_Id) {
   if (floor_Id === 1) {
     return 'Ground Floor';
@@ -666,9 +669,10 @@ const handlebackToPG = () =>{
     <div className="d-flex justify-content-between align-items-center mb-3">
     
       <div className='d-flex align-items-center'>
-      <div onClick={handlebackToPG}>
+      <ArrowLeft size="32" color="#EBEBEB"  onClick={handlebackToPG}/>
+      {/* <div >
           <IoIosArrowDropleft style={{height:30, width:30, fontSize:25, color:"#dcdcdc"}} />
-          </div>
+          </div> */}
         <label style={{ fontSize: 24, color: "#000000", fontWeight: 600 }}>{showHostelDetails.Name}</label>
       </div>
 
