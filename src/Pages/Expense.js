@@ -18,7 +18,7 @@ import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import { Calendar } from 'react-bootstrap-icons';
 import Calendars from '../Assets/Images/New_images/calendar.png'
-
+import './Expenses.css'
 
 function Expenses() {
 
@@ -26,7 +26,7 @@ function Expenses() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  console.log("state asset //////////////////////////", state)
+  console.log("state expense//////////////////////////", state)
 
   const [getData, setGetData] = useState([])
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
@@ -35,7 +35,7 @@ function Expenses() {
 
   const [formattedDates, setFormattedDates] = useState('(01 Jan - 30 Jan)');
 
-  console.log(formattedDates, "formattedDates")
+  // console.log(formattedDates, "formattedDates")
 
   const handleShow = () => {
     setShowModal(true)
@@ -48,24 +48,39 @@ function Expenses() {
 
   }
 
-  console.log("getData", getData)
+  // console.log("getData", getData)
 
   useEffect(() => {
     dispatch({ type: 'ASSETLIST' })
+    dispatch({ type: 'CATEGORYLIST'})
+    dispatch({ type: 'EXPENSELIST'})
   }, [])
 
 
   useEffect(() => {
-    if (state.AssetList.getAssetStatusCode === 200) {
-      setGetData(state.AssetList.assetList)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_GET_ASSET_STATUS_CODE' })
-      }, 2000)
+    if (state.ExpenseList.getExpenseStatusCode == 200) {
+      setTimeout(()=>{
+        setGetData(state.ExpenseList.expenseList)
+      },100)
+           setTimeout(() => {
+        dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
+      }, 4000)
     }
 
-  }, [state.AssetList.getAssetStatusCode])
+  }, [state.ExpenseList.getExpenseStatusCode])
 
+useEffect(()=>{
+  if(state.ExpenseList.StatusCodeForAddExpenseSuccess == 200 || state.ExpenseList.deleteExpenseStatusCode){
+    dispatch({ type: 'EXPENSELIST'})
+setTimeout(()=>{
+  dispatch({ type: 'CLEAR_DELETE_EXPENSE'})
+},2000)
+setTimeout(()=>{
+  dispatch({ type: 'CLEAR_ADD_EXPENSE_SATUS_CODE'})
+},2000)
 
+     }
+},[state.ExpenseList.StatusCodeForAddExpenseSuccess,state.ExpenseList.deleteExpenseStatusCode])
 
 
   const customCheckboxStyle = {
@@ -79,7 +94,7 @@ function Expenses() {
     position: 'relative',
   };
 
-  console.log("selectedPriceRange", selectedPriceRange)
+  // console.log("selectedPriceRange", selectedPriceRange)
 
   const filterByPriceRange = (data) => {
     console.log("data", data)
@@ -123,7 +138,7 @@ function Expenses() {
   const filteredData = filterByPriceRange(getData);
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log("currentItems", currentItems)
+  // console.log("currentItems", currentItems)
   // console.log("filteredData",filteredData)
 
   const paginate = (pageNumber) => {
@@ -152,12 +167,41 @@ const [currentItem , setCurrentItem] = useState('')
 
 const handleEditExpen = (item) => {
   setShowModal(true)
+  console.log("item for",item)
     setCurrentItem(item);
 }
 
 
 
-
+const handleDeleteExpense = (id) =>{
+  if(id){
+    Swal.fire({
+      icon: 'warning',
+      title: 'Do you want to delete the expense?',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      showCancelButton: true,
+  }).then((result) => {
+      if (result.isConfirmed) {
+          dispatch({
+              type: 'DELETEEXPENSE',
+              payload: {
+                  id: id,
+                             },
+          });
+          Swal.fire({
+              icon: 'success',
+              title: 'Expense deleted Successfully',
+          })
+      }
+      
+  });
+ 
+  setCurrentPage(1)
+}
+  
+  }
+  
 
 
 
@@ -177,7 +221,7 @@ const handleEditExpen = (item) => {
             </div>
 
             <div className="d-flex justify-content-between align-items-center">
-              <div style={{ margin: 20 ,}}>
+              {/* <div style={{ margin: 20 ,}}>
               <label htmlFor="date-input" style={{border:"1px solid #D9D9D9", borderRadius:8, padding:10, fontSize:14, fontWeight:500, color:"#222222"}}>
                  <img src={Calendars} style={{height:24, width:24}} /> Week {formattedDates}
                 </label>
@@ -197,9 +241,53 @@ const handleEditExpen = (item) => {
                   onClose={() => { }}
                 />
 
-              </div>
+              </div> */}
 
-
+<div style={{ margin: 20, position: 'relative' }}>
+    <label
+      htmlFor="date-input"
+      style={{
+        border: "1px solid #D9D9D9",
+        borderRadius: 8,
+        padding: 10,
+        fontSize: 14,
+        fontWeight: 500,
+        color: "#222222",
+        display: "flex",
+        alignItems: "center",
+        cursor: "pointer"
+      }}
+      onClick={() => document.getElementById('date-input')._flatpickr.open()} 
+    >
+      <img src={Calendars} style={{ height: 24, width: 24, marginRight: 10 }} /> 
+      Week {formattedDates}
+    </label>
+    <Flatpickr
+      id="date-input"
+      value={dates}
+      onChange={(selectedDates) => {
+        if (selectedDates) {
+          setDates(selectedDates);
+          formatDates(selectedDates);
+        }
+      }}
+      options={{ mode: 'multiple', dateFormat: 'd-M' }}
+      placeholder="Select Date"
+      style={{
+        padding: 10,
+        fontSize: 16,
+        width: "100%",
+        borderRadius: 8,
+        border: "1px solid #D9D9D9",
+        position: 'absolute', 
+        top:100,
+        left:100, 
+        zIndex: 1000, 
+        display: "none"
+      }}
+      onClose={() => { }}
+    />
+  </div>
 
               <div className='me-3'>
                 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px", cursor: "pointer" }} onClick={handleFilterByPrice} />
@@ -250,7 +338,7 @@ const handleEditExpen = (item) => {
               </thead>
               <tbody>
                 {currentItems && currentItems.map((item) => (
-                  <ExpensesListTable item={item}  OnEditExpense={handleEditExpen}/>
+                  <ExpensesListTable item={item}  OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense}/>
                 ))}
               </tbody>
             </Table>
