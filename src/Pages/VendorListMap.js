@@ -12,11 +12,16 @@ import Image from 'react-bootstrap/Image';
 function VendorListMap(props) {
 
 
-    const [showDots, setShowDots] = useState('')
+  const [showDots, setShowDots] = useState(null);
 
-    const handleShowDots = () => {
-        setShowDots(!showDots)
-      }
+
+
+  const handleShowDots = (id) => {
+    console.log("vendor id", "showDots",id, showDots)
+    setShowDots(prevId => (prevId === id ? null : id));
+};
+     
+
 
       const handleEdit = (item) => {
                    props.onEditVendor(item); 
@@ -47,10 +52,10 @@ const handleDelete = (item) =>{
         </div>
 
         <div>
-          <div style={{ cursor:"pointer",height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" ,zIndex: showDots ? 1000 : 'auto'}} onClick={handleShowDots}>
+          <div style={{ cursor:"pointer",height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" ,  zIndex: showDots === props.vendor.id ? 1000 : 'auto' }} onClick={()=>handleShowDots(props.vendor.id)}>
             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-            {showDots && <>
+            {showDots === props.vendor.id && <>
               <div style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height:92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                 <div >
                   <div className='mb-2' onClick={()=>handleEdit(props.vendor)} >

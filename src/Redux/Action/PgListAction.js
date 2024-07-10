@@ -95,3 +95,12 @@ import AxiosConfig from "../../WebService/AxiosConfig"
       data:datum
     })
   }
+
+
+ 
+
+  export async function createBed(datum){
+    return await AxiosConfig.post('/create-bed',datum,{
+      data:datum
+    })
+  }

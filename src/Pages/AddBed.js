@@ -14,6 +14,8 @@ function AddBed( {show, handleClose ,currentItem}) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
    
+
+    console.log("currentItem",currentItem)
     
     const [bedNo, setBedNo] = useState('');
   const [amount, setAmount] = useState('');
@@ -27,45 +29,8 @@ function AddBed( {show, handleClose ,currentItem}) {
   };
 
 
-  // const handleSubmit = () => {
-  //   const floorId = hostelDetails.selectedFloor.toString();
-  //   const hostel_Id = hostelDetails.room.id.toString();
-
-    
-
-  //   if(floorId && hostel_Id){
-  //           dispatch({
-  //               type: 'CREATEROOM',
-  //               payload: {
-  //                   id: hostel_Id,
-  //                   floorDetails: [{
-  //                       floorId: floorId,
-  //                       roomId: room,
-  //                          }]
-  //               },
-  //           });
-
-  //           Swal.fire({
-  //               icon: 'success',
-  //               title: "Room created successfully",
-  //           })
-           
-  //           handleClose();
-           
-  //       }
-  //    else {
-  //       Swal.fire({
-  //           icon: 'warning',
-  //           title: 'Please enter Room no.',
-  //       });
-  //   }
-    
-  // };
-    
-    
-    
-    
-    
+  console.log("add bed state", state)
+  
       
     
       useEffect(() => {
@@ -99,10 +64,22 @@ function AddBed( {show, handleClose ,currentItem}) {
 // }, [state.PgList.statusCodeCreateRoom])
 
 
-
-
-
-
+const handleSubmit =() =>{
+  if(currentItem.item.hostel_Id && currentItem.item.floorID && currentItem.Room_Id && bedNo && amount){
+    dispatch({ type: 'CREATEBED', payload:{ hostel_id: currentItem.item.hostel_Id,floor_id:currentItem.item.floorID,room_id: currentItem.Room_Id, bed_no:bedNo, amount: amount}})
+ 
+    handleClose()
+    setBedNo('')
+    setAmount('')
+  }else{
+    Swal.fire({
+      icon: 'warning',
+      title: 'Please Enter All Fields',
+      timer: 1000
+    
+    });
+  }
+}
 
 
 
@@ -141,7 +118,7 @@ function AddBed( {show, handleClose ,currentItem}) {
                 <Form.Control 
                  value={amount}
                  onChange={handleAmountChange}
-                 type="text" placeholder="Enter Room no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                 type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
@@ -152,7 +129,7 @@ function AddBed( {show, handleClose ,currentItem}) {
         <Modal.Footer style={{ border: "none" }}>
 
           <Button 
-          // onClick={handleSubmit}
+          onClick={handleSubmit}
            className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}>
           Add bed
           </Button>

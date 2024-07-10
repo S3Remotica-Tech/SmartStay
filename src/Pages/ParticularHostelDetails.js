@@ -66,6 +66,7 @@ function ParticularHostelDetails(props) {
   const [showRoom, setShowRoom] = useState(false)
   const [showBed, setShowBed] = useState(false)
   const [showFloor, setShowFloor] = useState(false)
+const [details, setDetails] = useState('')
 
 
   useEffect(() => {
@@ -81,8 +82,9 @@ function ParticularHostelDetails(props) {
   }
 
 
-  const handleAddBed = () => {
+  const handleAddBed = (item, Room_Id) => {
     setShowBed(true)
+    setDetails({ item, Room_Id });
   }
 
   const handleCloseBed = () => {
@@ -152,6 +154,17 @@ useEffect(() => {
       }, 100)
   }
 }, [state.PgList.createRoomMessage])  
+
+
+useEffect(() => {
+  if (state.PgList.createBedStatusCode == 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+
+      setTimeout(() => {
+          dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
+      }, 1000)
+  }
+}, [state.PgList.createBedStatusCode]) 
 
 
 
@@ -266,7 +279,7 @@ useEffect(() => {
                         </div>
                       </div>
                     ))}
-                    <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={()=>handleAddBed(props,)}>
+                    <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={()=>handleAddBed(props,room.Room_Id)}>
                       <div className='d-flex flex-column align-items-center' style={{ width: "100%" }}>
                         <div><FaSquarePlus style={{ height: 41, width: 34, color: "#1E45E1" }} /></div>
                         <div className="pt-2" style={{ color: "#1E45E1", fontSize: 10, fontWeight: 600 }}>Add bed</div>
@@ -294,7 +307,7 @@ useEffect(() => {
       </div>
 
 
-      {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} />}
+      {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details}/>}
 
     </div>
   )

@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails } from "../Action/PgListAction"
+import { createBed,createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails } from "../Action/PgListAction"
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 
@@ -144,6 +144,35 @@ function* handleCheckBedDetails(action) {
    }
 }
 
+
+
+function* handleCreateBed(action) {
+   const response = yield call(createBed, action.payload);
+   console.log("response create Bed", response.status)
+   if (response.status === 200) {
+      yield put({ type: 'CREATE_BED', payload: { response: response.data, statusCode: response.status } })
+      Swal.fire({
+         icon: 'success',
+         title: "Bed created successfully",
+     })
+   }
+   else if (response.status === 201) {
+      // yield put({ type: 'ALREADY_BED', payload: { response: response.data.message, statusCode: response.status } })
+        Swal.fire({
+         icon: 'warning',
+         title: response.data.message,
+         timer: 1000
+              });
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+
+
+
 function refreshToken(response) {
    if (response.data && response.data.refresh_token) {
       const refreshTokenGet = response.data.refresh_token
@@ -171,6 +200,6 @@ function* PgListSaga() {
    yield takeEvery('EBLIST', handleCheckEblist)
    yield takeEvery('EBSTARTMETERLIST', handleCheckEbStartmeterlist)
    yield takeEvery('PGDASHBOARD', handleCreatePGDashboard)
-
+   yield takeEvery('CREATEBED',handleCreateBed)
 }
 export default PgListSaga;
