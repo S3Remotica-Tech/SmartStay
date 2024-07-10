@@ -669,11 +669,11 @@ const handlebackToPG = () =>{
     <div className="d-flex justify-content-between align-items-center mb-3">
     
       <div className='d-flex align-items-center'>
-      <ArrowLeft size="32" color="#EBEBEB"  onClick={handlebackToPG}/>
+      <ArrowLeft size="32" color="gray"  onClick={handlebackToPG}/>
       {/* <div >
           <IoIosArrowDropleft style={{height:30, width:30, fontSize:25, color:"#dcdcdc"}} />
           </div> */}
-        <label style={{ fontSize: 24, color: "#000000", fontWeight: 600 }}>{showHostelDetails.Name}</label>
+        <label className='ms-2' style={{ fontSize: 24, color: "#000000", fontWeight: 600 }}>{showHostelDetails.Name}</label>
       </div>
 
       <div className="d-flex justify-content-between align-items-center">
