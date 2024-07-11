@@ -576,7 +576,7 @@ const handleAssignClose = () => {
   return (
     <div style={{ width: "100%", fontFamily: "Gilroy,sans-serif" }} className=''>
       <div className='m-4'>
-        <div className='d-flex justify-content-end align-items-center mb-4'>
+        {/* <div className='d-flex justify-content-end align-items-center mb-4'>
 
           <div>
             <InputGroup>
@@ -595,7 +595,7 @@ const handleAssignClose = () => {
           <div className="mr-3">
             <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
           </div>
-        </div>
+        </div> */}
 
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>

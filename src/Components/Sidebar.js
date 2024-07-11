@@ -72,7 +72,11 @@ import Compl2 from '../Assets/Images/New_images/messages-active.png';
 import  Expense2 from '../Assets/Images/New_images/coin.png';
 import Repo2 from '../Assets/Images/New_images/clipboard-text.png';
 import Sett2 from '../Assets/Images/New_images/setting-2.png';
-
+import Notify from '../Assets/Images/New_images/notify.png';
+import Profile from '../Assets/Images/New_images/profile.png';
+import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
+import Image from 'react-bootstrap/Image';
+import { CiSearch } from "react-icons/ci";
 
 function Sidebar() {
   const cookies = new Cookies()
@@ -465,7 +469,10 @@ function Sidebar() {
               
                <img src={currentPage === 'reports' ? Repo2 : Repo} style={{ fontSize: '13px' }} />
                 <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block" }}>Reports</span></li>
-
+                <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
+                {/* <IoSettingsOutline style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} />  */}
+                <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  }}>Settings</span></li>
               {/* <li className={`p-2 align-items-center list-Item ${currentPage === 'checkout' ? 'active' : ''}`} onClick={() => handlePageClick('checkout')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BsClipboard2Check style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Checkout</span></li> */}
               {/* </ul> */}
 
@@ -474,16 +481,32 @@ function Sidebar() {
 
               {/* </ul> */}
               </ul>
-            <ul className="p-3">
-              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
-                {/* <IoSettingsOutline style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} />  */}
-                <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  }}>Settings</span></li>
-                </ul>
+            {/* <ul className="p-3"> */}
+              
+                {/* </ul> */}
           </Col>
           <Col lg={10} md={10} sm={10} xs={10} className="bg-white">
           {/* <img src={Logout} class="me-3" style={{ height: "25px", width: "25px" }} onClick={handleLogout} alt='Logout' /> */}
+          <div className='d-flex justify-content-end align-items-center m-4'>
 
+<div>
+  <InputGroup>
+    <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+      <CiSearch style={{ fontSize: 20 }} />
+    </InputGroup.Text>
+    <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+      placeholder="Search..."
+    />
+  </InputGroup>
+</div>
+<div className="mr-3">
+  <img src={Notify} alt="notification" />
+</div>
+
+<div className="mr-3">
+  <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+</div>
+</div>
             {currentPage === 'dashboard' && <Dashboards />}
             {currentPage === 'pg-list' && < PgLists />}
             {currentPage === 'user-list' && < UserLists />}

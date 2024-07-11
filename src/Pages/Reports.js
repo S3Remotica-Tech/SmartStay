@@ -17,6 +17,7 @@ import InvesGraph from "../Assets/Reports/graph.png";
 import Aging from "../Assets/Reports/chart-2.png";
 import Image from 'react-bootstrap/Image'; 
 import CatoryActive from "../Assets/Images/New_images/category-active.png";
+import HostelRentProjection from '../Reports/HostelRentProjection';
 
 
 
@@ -24,7 +25,8 @@ import CatoryActive from "../Assets/Images/New_images/category-active.png";
 function Reports() {
 
   const [hoveredCard, setHoveredCard] = useState(null);
-
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [showReport, setShowReport] = useState(true)
 
 const [reports, setReports] = useState([
 {id:1, ReportsName:"Hostel Wise Rent Projection", images:Rent},
@@ -52,9 +54,21 @@ const handleMouseLeave = () => {
   setHoveredCard(null);
 };
 
+const handlePageClick = (id) => {
+  setSelectedReport(id);
+  setShowReport(false)
+};
+
+const handleBack = (isVisible) => {
+  setSelectedReport(isVisible)
+  setShowReport(true)
+}
+
+
   return (
        
     <div style={{ width: "100%" }}>
+{showReport &&
     <div className='m-4'>
       <div>
         <label style={{ color: "#222222", fontWeight: 600, fontSize: 16, fontFamily: "Gilroy,sans-serif" }}>Reports</label>
@@ -65,6 +79,7 @@ const handleMouseLeave = () => {
             <Card  
              onMouseEnter={() => handleMouseEnter(report.id)}
              onMouseLeave={handleMouseLeave}
+             onClick={() => handlePageClick(report.id)}
             style={{borderRadius:16, border:"1px solid", borderColor: hoveredCard === report.id ? "#0000FF" : "#DCDCDC"}} >
               <Card.Body>
                 <div className='d-flex justify-content-start gap-2 align-items-center '>
@@ -81,6 +96,17 @@ const handleMouseLeave = () => {
         ))}
       </div>
     </div>
+}
+
+    {selectedReport === 1 && <HostelRentProjection  isVisible={handleBack}/>}
+
+
+
+
+
+
+
+
   </div>
       
      
