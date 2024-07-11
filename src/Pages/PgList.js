@@ -669,7 +669,7 @@ const handlebackToPG = () =>{
     <div className="d-flex justify-content-between align-items-center mb-3">
     
       <div className='d-flex align-items-center'>
-      <ArrowLeft size="32" color="gray"  onClick={handlebackToPG}/>
+      <ArrowLeft size="32" color="#222222"  onClick={handlebackToPG}/>
       {/* <div >
           <IoIosArrowDropleft style={{height:30, width:30, fontSize:25, color:"#dcdcdc"}} />
           </div> */}
