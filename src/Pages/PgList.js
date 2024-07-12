@@ -29,15 +29,16 @@ import PayingGuest from '../Pages/PayingGuestMap'
 import Alert from 'react-bootstrap/Alert';
 import ParticularHostelDetails from '../Pages/ParticularHostelDetails'
 import AddPg from "./AddPg"
-import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
 import AddFloor from './AddFloor';
 import './PgList.css';
 import Nav from 'react-bootstrap/Nav';
 import AddRoom from './AddRoom';
 import { IoIosArrowDropleft } from "react-icons/io";
-
 import { ArrowLeft } from 'iconsax-react';
-
+import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
+import { CiSearch } from "react-icons/ci";
+import Notify from '../Assets/Images/New_images/notify.png';
+import Profile from '../Assets/Images/New_images/profile.png';
 
 function getFloorName(floor_Id) {
   if (floor_Id === 1) {
@@ -537,16 +538,56 @@ const handleDisplayPgList = (isVisible) =>{
 }
 
 const [currentPage, setCurrentPage] = useState(1);
-const [itemsPerPage] = useState(4);
+const [itemsPerPage] = useState(2);
 
 const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItem, setCurrentItem] = useState('')
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const paginate = (pageNumber) =>{
     setCurrentPage(pageNumber);
   } 
+
+  const renderPagination = () => {
+    const pageNumbers = [];
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, currentPage + 2);
+
+    if (startPage > 1) {
+      pageNumbers.push(
+        <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
+          1
+        </Pagination.Item>
+      );
+      if (startPage > 2) {
+        pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
+          {i}
+        </Pagination.Item>
+      );
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
+      }
+      pageNumbers.push(
+        <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
+          {totalPages}
+        </Pagination.Item>
+      );
+    }
+
+    return pageNumbers;
+  };
+
 
 
   const [showFloor, setShowFloor] = useState(false)
@@ -585,17 +626,73 @@ const handlebackToPG = () =>{
   setHidePgList(true);
 }
 
+const stateAccount= useSelector(state => state.createAccount)
+
+
+const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
+
+
+useEffect(() => {
+  if (stateAccount.statusCodeForAccountList == 200) {
+    const loginProfile = stateAccount.accountList[0].user_details.profile
+      
+        setProfile(loginProfile)
+      }
+
+}, [stateAccount.statusCodeForAccountList])
+
+
+const [searchQuery, setSearchQuery] = useState("");
 
 
 
+  const handleInputChange = (e) => {
+    const searchItem = e.target.value
+    setSearchQuery(searchItem);
+    if (searchItem != '') {
+      const filteredItems = state.UsersList.hostelList && state.UsersList.hostelList.filter((user) =>
+        user.Name && user.Name.toLowerCase().includes(searchItem.toLowerCase())
+      );
 
-
+      setFilteredData(filteredItems);
+    }
+    else {
+      setFilteredData(state.UsersList.hostelList)
+    }
+    setCurrentPage(1);
+  };
+  
 
 
 
 
   return (
     <div className='m-4' style={{fontFamily: "Gilroy,sans-serif"}}>
+       <div className='d-flex justify-content-end align-items-center m-4'>
+
+       <div>
+  <InputGroup>
+    <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+      <CiSearch style={{ fontSize: 20 }} />
+    </InputGroup.Text>
+    <FormControl size="lg" 
+    value={searchQuery}
+    onChange={handleInputChange}
+    
+    style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+      placeholder="Search..."
+    />
+  </InputGroup>
+</div>
+<div className="mr-3">
+  <img src={Notify} alt="notification" />
+</div>
+
+<div className="mr-3">
+  <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+</div>
+</div>
+     
       {hidePgList && <>
         <div className="d-flex justify-content-between align-items-center mb-3">
           
@@ -644,15 +741,27 @@ const handlebackToPG = () =>{
         </div>
    
 
+        <Pagination className="mt-4 d-flex justify-content-end align-items-center " style={{border:"none"}}>
+        <Pagination.Prev
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        />
+       {/* <span style={{}}>Previous</span> */}
+        {renderPagination()}
+        {/* <span>Next</span> */}
+        <Pagination.Next
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        />
+      </Pagination>
       
-      
-        <Pagination className="mt-4 d-flex justify-content-end">
+        {/* <Pagination className="mt-4 d-flex justify-content-end">
           {[...Array(Math.ceil(filteredData.length / itemsPerPage)).keys()].map(number => (
             <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
               {number + 1}
             </Pagination.Item>
           ))}
-        </Pagination>
+        </Pagination> */}
       
       
       

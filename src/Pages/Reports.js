@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Rent from "../Assets/Reports/buildings.png"
 import Revenue from "../Assets/Reports/chart.png";
@@ -18,15 +19,30 @@ import Aging from "../Assets/Reports/chart-2.png";
 import Image from 'react-bootstrap/Image'; 
 import CatoryActive from "../Assets/Images/New_images/category-active.png";
 import HostelRentProjection from '../Reports/HostelRentProjection';
+import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
+import { CiSearch } from "react-icons/ci";
+import Notify from '../Assets/Images/New_images/notify.png';
+import Profile from '../Assets/Images/New_images/profile.png';
+
 
 
 
 
 function Reports() {
 
+
+
+  const dispatch = useDispatch()
+  const state= useSelector(state => state.createAccount)
+
+  console.log("state", state)
+
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedReport, setSelectedReport] = useState(null);
   const [showReport, setShowReport] = useState(true)
+  const [profile, setProfile] = useState(state.accountList[0].user_details.profile)
+  const [searchQuery, setSearchQuery] = useState("");
+
 
 const [reports, setReports] = useState([
 {id:1, ReportsName:"Hostel Wise Rent Projection", images:Rent},
@@ -64,17 +80,64 @@ const handleBack = (isVisible) => {
   setShowReport(true)
 }
 
+console.log("profile",profile)
 
+
+useEffect(() => {
+  if (state.statusCodeForAccountList == 200) {
+
+    const loginProfile = state.accountList[0].user_details.profile
+
+    
+    setProfile(loginProfile)
+
+      
+  }
+
+}, [state.statusCodeForAccountList])
+
+
+const handleSearch = (e) => {
+  setSearchQuery(e.target.value);
+};
+
+const filteredReports = reports.filter(report =>
+  report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
+);
   return (
        
     <div style={{ width: "100%" }}>
+      <div className='d-flex justify-content-end align-items-center m-4'>
+<div>
+<InputGroup>
+<InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+<CiSearch style={{ fontSize: 20 }} />
+</InputGroup.Text>
+<FormControl size="lg" 
+ value={searchQuery}
+ onChange={handleSearch}
+
+style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+placeholder="Search..."
+/>
+</InputGroup>
+</div>
+<div className="mr-3">
+<img src={Notify} alt="notification" />
+</div>
+
+<div className="mr-3">
+<Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+</div>
+</div>
 {showReport &&
     <div className='m-4'>
+
       <div>
         <label style={{ color: "#222222", fontWeight: 600, fontSize: 16, fontFamily: "Gilroy,sans-serif" }}>Reports</label>
       </div>
       <div className='row mt-3 mb-3 g-0 '>
-        {reports.map((report) => (
+        {filteredReports && filteredReports.map((report) => (
           <div key={report.id} className='col-lg-4 col-md-6 col-xs-12 col-sm-12 mb-3'>
             <Card  
              onMouseEnter={() => handleMouseEnter(report.id)}

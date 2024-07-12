@@ -204,7 +204,7 @@ function Dashboard() {
 <div>Manage all the inventory and analytics form here</div>
   </div>
   <div style={{flex:1}}>
-  {/* <div className="headerone">
+  <div className="headerone">
     
        <div className="search-container">
       <input type="text" placeholder="Search" className="search-input" />
@@ -218,7 +218,7 @@ function Dashboard() {
       <div className="profile-container">
         <img src={rectangle}  className="profile-image" />
       </div>
-    </div> */}
+    </div>
   </div>
   </div>
 

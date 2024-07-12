@@ -22,16 +22,14 @@ function* handleGetCategory() {
    }
 }
 
-function* handleGetExpenses() {
-    const response = yield call (GetExpense);
+function* handleGetExpenses(action) {
+    const response = yield call (GetExpense, action.payload);
     console.log("response for getExpense",response.status)
     if (response.status === 200){
-       yield put ({type : 'EXPENSES_LIST' , payload:{response:response.data.data, statusCode:response.status}})
- 
- 
-    }
-    else {
-       yield put ({type:'ERROR', payload:response.data.message})
+       yield put ({type : 'EXPENSES_LIST' , payload:{response:response.data.data,  statusCode:response.status}})
+     }
+    else if (response.status === 201){
+       yield put ({type:'NOEXPENSEDATA', payload: {statusCode:response.status}})
     }
     if(response){
        refreshToken(response)
