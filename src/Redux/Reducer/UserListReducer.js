@@ -16,18 +16,18 @@ const initialState = {
     statusCodeForAddUser: '',
     errormessage: {},
     CheckOut: [],
-    checkOutStatusCode:0,
-    hosteListStatusCode:0,
-    customerdetails:[],
-    amnetieshistory:[],
-    amnitiesnamelist:[],
-    addUserAmnities:'',
-    usermessage:'',
-    statusCustomerAddUser:''
+    checkOutStatusCode: 0,
+    hosteListStatusCode: 0,
+    customerdetails: [],
+    amnetieshistory: [],
+    amnitiesnamelist: [],
+    addUserAmnities: '',
+    usermessage: '',
+    statusCustomerAddUser: ''
 }
 
 const UserListReducer = (state = initialState, action) => {
-    console.log("actionredu",action.payload)
+    console.log("actionredu", action.payload)
     switch (action.type) {
         case 'CLEAR_ERROR_MESSAGE':
             return {
@@ -38,16 +38,17 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, bedCount: action.payload }
 
 
-            case 'CUSTOMER_DETAILS':
-                return { ...state, customerdetails: action.payload };
-                case 'AMENITIES_HISTORY':
-                    return { ...state, amnetieshistory: action.payload.response };
-                    case 'AMNITIES_NAME':
-                        return { ...state, amnitiesnamelist: action.payload };
-                        case 'ADD_USER_AMENITIES':
-                            return { ...state, addUserAmnities: action.payload.message,statusCustomerAddUser:action.payload.statusCode }
-                            
-    
+        case 'CUSTOMER_DETAILS':
+            return { ...state, customerdetails: action.payload };
+        case 'AMENITIES_HISTORY':
+            return { ...state, amnetieshistory: action.payload.response };
+        case 'AMNITIES_NAME':
+            return { ...state, amnitiesnamelist: action.payload };
+        case 'ADD_USER_AMENITIES':
+            console.log("ADD_USER_AMENITIES",action.payload.message);
+            return { ...state, addUserAmnities: action.payload.message, statusCustomerAddUser: action.payload.statusCode }
+
+
 
         case 'BED_DETAILS':
             return { ...state, beddetails: action.payload }
@@ -76,25 +77,25 @@ const UserListReducer = (state = initialState, action) => {
         case 'ERROR':
             return { ...state, errorMessage: action.payload }
         case 'HOSTEL_LIST':
-            return { ...state, hostelList: action.payload.response, hosteListStatusCode:action.payload.statusCode }
-       case 'CLEAR_HOSTELLIST_STATUS_CODE':
-        return {...state, hosteListStatusCode:0}
-       
-            case 'HOSTEL_DETAIL_LIST':
+            return { ...state, hostelList: action.payload.response, hosteListStatusCode: action.payload.statusCode }
+        case 'CLEAR_HOSTELLIST_STATUS_CODE':
+            return { ...state, hosteListStatusCode: 0 }
+
+        case 'HOSTEL_DETAIL_LIST':
             return { ...state, hosteldetailslist: action.payload }
         case 'CHECKOUT_USER':
-            return { ...state, CheckOut: action.payload.response, checkOutStatusCode:action.payload.statusCode }
-      case 'CLEAR_STATUS_CODE_CHECK_OUT':
-        return { ...state,  checkOutStatusCode:0}
-           
-            case 'ROOM_FULL':
+            return { ...state, CheckOut: action.payload.response, checkOutStatusCode: action.payload.statusCode }
+        case 'CLEAR_STATUS_CODE_CHECK_OUT':
+            return { ...state, checkOutStatusCode: 0 }
+
+        case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {
                 return { ...state, roomFullCheck: [...state.roomFullCheck, action.payload] };
             } else {
                 return { ...state, roomFullCheck: action.payload };
             }
 
-           
+
 
     }
     return state;

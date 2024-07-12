@@ -280,11 +280,23 @@ function* handleDeleteBed(bedDetails){
      
 
      function* handleuserAddAmnitiesName(amnity){
+      console.log("aminity add aminityuser",amnity);
       const response = yield call(amenitieAddUser,amnity.payload)
       console.log("response...?",response)
-      if(response.status === 200){
-         yield put({ type: ' ADD_USER_AMENITIES', payload: {message:response.data.message,statusCode:response.status} })
+      if(response.status == 200){
+         yield put({ type: 'ADD_USER_AMENITIES', payload: {message:response.data.message,statusCode:response.status} })
+         Swal.fire({
+            icon: "success",
+            text: response.data.message,
+          });
       }
+      else if(response.status === 201){
+         Swal.fire({
+          text:response.data.message,
+            icon: "warning",
+            
+        });
+      }   
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
       }
