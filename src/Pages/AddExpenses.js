@@ -75,9 +75,7 @@ const [id, setId] =useState('')
 
 
 
-    useEffect(() => {
-        dispatch({ type: 'VENDORLIST' })
-    }, [])
+   
 
 
     useEffect(() => {

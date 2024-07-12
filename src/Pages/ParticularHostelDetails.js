@@ -15,7 +15,7 @@ import { FaSquarePlus } from "react-icons/fa6";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../Assets/Images/New_images/trash.png';
 import Alert from 'react-bootstrap/Alert';
-
+import Spinner from 'react-bootstrap/Spinner';
 
 
 
@@ -123,10 +123,16 @@ const [details, setDetails] = useState('')
     return [...Array(count).keys()].map(index => `Bed ${index + 1}`)
   }
 
+
+const [loader, setLoader] = useState(true)
+
   useEffect(() => {
     if (state.PgList.roomCountStatusCode == 200) {
-      setRoomCountData(state.PgList.roomCount)
-      setTimeout(() => {
+      setRoomCountData(state.PgList.roomCount)  
+      setTimeout(()=>{
+        setLoader(false)
+      },100)
+            setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
       }, 100);
     }
@@ -225,7 +231,9 @@ useEffect(() => {
   return (
     <div className=''>
 
-
+<div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+{loader &&  <Spinner animation="grow" variant="primary" size="sm" />}
+</div>
 
 
       <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy, sans-serif" }}>
@@ -247,8 +255,6 @@ useEffect(() => {
                           <div className='mb-2'>
                             <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Delete Room</label>
                           </div>
-
-
                           <div>
                             <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>Delete Bed</label>
                           </div>
@@ -259,23 +265,12 @@ useEffect(() => {
                 </Card.Header>
                 <Card.Body className=''>
                   <div className='row row-gap-3 g-0'>
-                    {getRooms(room.Number_Of_Beds).map((bed, index) => (
+                      {room.bed_details && room.bed_details.map((bed, index) => (
                       <div className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center'>
                         <div  className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
-                         
-
-                            <img src={state.UsersList?.Users && state.UsersList?.Users.some(user => {
-                              const isSameFloor = Number(user.Floor) === Number(room.Floor_Id);
-                              const isSameHostel = Number(user.Hostel_Id) === Number(room.Hostel_Id);
-                              const isSameRoom = Number(user.Rooms) === Number(room.Room_Id);
-                              const isSameBed = Number(user.Bed) === index + 1;
-                              return isSameFloor && isSameHostel && isSameRoom && isSameBed;
-
-                              //  return user.Floor == room.Floor_Id && user.Hostel_Id == room.Hostel_Id && user.Rooms == room.Room_Id && user.Bed === bed
-                            }) ? Green : White} style={{ height: 41, width: 34 }} />
-
-                      
-                          <div className="pt-2" style={{ color: "#000", fontSize: 10, fontWeight: 600 }}>{bed}</div>
+                                                     <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34 }} />
+                     
+                          <div className="pt-2" style={{ color: "#000", fontSize: 10, fontWeight: 600 }}>Bed {bed.bed_no}</div>
                         </div>
                       </div>
                     ))}

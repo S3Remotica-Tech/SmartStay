@@ -8,7 +8,9 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import AddAsset from './AddAsset'
-
+import { CiSearch } from "react-icons/ci";
+import Notify from '../Assets/Images/New_images/notify.png';
+import Profile from '../Assets/Images/New_images/profile.png';
 import AssetListTable from './AssetListTable'
 
 
@@ -148,16 +150,73 @@ function Asset() {
   }
 
 
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const handleInputChange = (e) => {
+    const searchItem = e.target.value
+    setSearchQuery(searchItem);
+    if (searchItem != '') {
+      const filteredItems = state.AssetList.assetList && state.AssetList.assetList.filter((user) =>
+        user.asset_name && user.asset_name.toLowerCase().includes(searchItem.toLowerCase())
+      );
 
-
-
+      setGetData(filteredItems);
+    }
+    else {
+      setGetData(state.AssetList.assetList)
+    }
+    setCurrentPage(1);
+  };
   
+
+  const stateAccount= useSelector(state => state.createAccount)
+
+
+  const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
+  
+  
+  useEffect(() => {
+    if (stateAccount.statusCodeForAccountList == 200) {
+      const loginProfile = stateAccount.accountList[0].user_details.profile
+        
+          setProfile(loginProfile)
+        }
+  
+  }, [stateAccount.statusCodeForAccountList])
+
+
+
+
+
   return (
     <>
       <div style={{ width: "100%" }} >
         <div className='m-4'>
 
+
+        <div className='d-flex justify-content-end align-items-center m-4'>
+
+<div>
+<InputGroup>
+<InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+<CiSearch style={{ fontSize: 20 }} />
+</InputGroup.Text>
+<FormControl size="lg" 
+ value={searchQuery}
+ onChange={handleInputChange}
+style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+placeholder="Search..."
+/>
+</InputGroup>
+</div>
+<div className="mr-3">
+<img src={Notify} alt="notification" />
+</div>
+
+<div className="mr-3">
+<Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+</div>
+</div>
 
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div>

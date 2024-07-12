@@ -5,3 +5,34 @@
      right:auto; 
 
 }
+.list-group-item {
+    width:250px !important;
+}
+.list-group-item:hover {
+    background-color: #f0f0f0; 
+  }
+  
+  .list-group-item.active {
+    background-color: #1E45E1; 
+    color: #fff; 
+  }
+
+
+  .list-group-item .sub_item {
+    width:200px !important;
+    background-color: #EBEBEB; 
+    color: #000; 
+  }
+
+  .list-group-item .sub_item:hover {
+    background-color:  #0D6EFD; 
+    color: #fff; 
+  }
+  .list-group-item .sub_item:active {   
+    background-color:  #0D6EFD; 
+  }
+
+ .list-group{
+     background-color:  #0D6EFD; 
+    color: #fff; 
+ }

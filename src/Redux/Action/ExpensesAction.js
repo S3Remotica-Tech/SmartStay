@@ -9,8 +9,9 @@ export async function GetExpenseCatogory() {
 
 
 
-export async function GetExpense() {
-    return await AxiosConfig.post('/get/get-hostel-expenses',{
+export async function GetExpense(datum) {
+    return await AxiosConfig.post('/get/get-hostel-expenses',datum , {
+      data:datum
         })
   }
 
