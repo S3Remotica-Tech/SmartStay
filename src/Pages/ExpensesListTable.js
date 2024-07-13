@@ -7,6 +7,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
+import Image from 'react-bootstrap/Image';
 
 function ExpensesListTable(props) {
 
@@ -58,7 +59,7 @@ props.handleDelete(id)
 
     <td>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: "between", flex:"wrap", gap:2, width:"100%" }}>
-       <img src={Profile}  style={{height:40, width:40}}/>
+       <Image src={props.item.Vendor_profile ? props.item.Vendor_profile : Profile} roundedCircle style={{height:40, width:40}}/>
         <div style={{ fontSize: 16, fontWeight: 600, color: "#222222" }}>{props.item.Vendor_Name}</div>
       </div>
     </td>

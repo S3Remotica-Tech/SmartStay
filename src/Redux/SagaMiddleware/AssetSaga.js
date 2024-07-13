@@ -25,7 +25,7 @@ function* handleGetAsset() {
 
 function* handleAddAsset(action) {
     const response = yield call (AddAsset, action.payload);
-  console.log("response add",response.status)
+  console.log("response add",response)
      if (response.status === 200){
        yield put ({type : 'ADD_ASSET' , payload:{response:response.data.assets, statusCode:response.status}})
        Swal.fire({

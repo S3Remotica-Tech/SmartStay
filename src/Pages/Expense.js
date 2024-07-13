@@ -95,14 +95,14 @@ function Expenses() {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
 
-    return `${day}/${month}/${year}`;
+    return `${month}/${day}/${year}`;
   }
 
 
 
 
 
-  // console.log("getData", getData)
+  console.log("getData", getData)
 
   useEffect(() => {
     dispatch({ type: 'ASSETLIST' })
@@ -181,7 +181,7 @@ function Expenses() {
       setMinAmount('')
       setMaxAmount('')
     }else if(minAmount || maxAmount){
-      dispatch({ type: 'EXPENSELIST', payload: { min_amount:minAmount, max_amoun: maxAmount} })
+      dispatch({ type: 'EXPENSELIST', payload: { min_amount:minAmount, max_amount: maxAmount} })
       setCategoryValue('')
       setAssetValue('')
       setVendorValue('')
@@ -217,7 +217,7 @@ console.log("Mathu", selectedValue, categoryValue, assetValue, vendorValue, mode
 useEffect(()=>{
   if(state.ExpenseList.nodataGetExpenseStatusCode === 201){
     setTimeout(() => {
-      setGetData('')
+      setGetData([])
     }, 100)
 
     setTimeout(()=>{
@@ -298,12 +298,16 @@ useEffect(()=>{
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const filteredData = filterByPriceRange(getData);
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  let filteredData =  [];
+ 
+   filteredData = filterByPriceRange(getData) || [];;
+  const currentItems = (filteredData && filteredData.length > 0) 
+  ? filteredData.slice(indexOfFirstItem, indexOfLastItem) 
+  : [];
+  // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((filteredData && filteredData.length > 0) && filteredData.length / itemsPerPage);
 
   // console.log("currentItems", currentItems)
   // console.log("filteredData",filteredData)
@@ -312,7 +316,43 @@ useEffect(()=>{
     setCurrentPage(pageNumber);
   }
 
+  const renderPagination = () => {
+    const pageNumbers = [];
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, currentPage + 2);
 
+    if (startPage > 1) {
+      pageNumbers.push(
+        <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
+          1
+        </Pagination.Item>
+      );
+      if (startPage > 2) {
+        pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
+          {i}
+        </Pagination.Item>
+      );
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
+      }
+      pageNumbers.push(
+        <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
+          {totalPages}
+        </Pagination.Item>
+      );
+    }
+
+    return pageNumbers;
+  };
 
 
 
@@ -535,7 +575,7 @@ const [showAmount, setShowAmount]  = useState(false)
 
                 {showFilter &&
                   <ListGroup style={{ position: 'absolute', top: 45, right: 0 }}>
-                    <ListGroup.Item value="All" onClick={handleExpenseAll}>All</ListGroup.Item>
+                    <ListGroup.Item value="All"  onClick={handleExpenseAll}>All</ListGroup.Item>
 
                     <ListGroup.Item
                       active={showCategory}
@@ -612,7 +652,7 @@ const [showAmount, setShowAmount]  = useState(false)
                     </ListGroup.Item>
 
 
-                    <ListGroup.Item className='main_item'
+                    <ListGroup.Item 
                       active={showPaymentMode}
                       onMouseEnter={() => setShowPaymentMode(true)}
                       onMouseLeave={() => setShowPaymentMode(false)}
@@ -639,7 +679,7 @@ const [showAmount, setShowAmount]  = useState(false)
 
                     </ListGroup.Item>
 
-                    <ListGroup.Item className='main_item'
+                    <ListGroup.Item 
                       active={showAmount}
                       onMouseEnter={() => setShowAmount(true)}
                       onMouseLeave={() => setShowAmount(false)}
@@ -726,13 +766,19 @@ const [showAmount, setShowAmount]  = useState(false)
           </div>
           {/*  Pagination code */}
 
-          <Pagination className="mt-4 d-flex justify-content-end">
-            {[...Array(Math.ceil(getData.length / itemsPerPage)).keys()].map(number => (
-              <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
-                {number + 1}
-              </Pagination.Item>
-            ))}
-          </Pagination>
+          <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+        <Pagination.Prev style={{ visibility:"visible"}}
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        />
+       {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
+        {renderPagination()}
+        {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
+        <Pagination.Next style={{ visibility:"visible"}}
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        />
+      </Pagination>
         </div>
       </div>
       {showModal && <AddExpenses show={showModal} handleClose={handleClose} currentItem={currentItem} />}

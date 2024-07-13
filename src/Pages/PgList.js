@@ -538,7 +538,7 @@ const handleDisplayPgList = (isVisible) =>{
 }
 
 const [currentPage, setCurrentPage] = useState(1);
-const [itemsPerPage] = useState(2);
+const [itemsPerPage] = useState(4);
 
 const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -741,15 +741,15 @@ const [searchQuery, setSearchQuery] = useState("");
         </div>
    
 
-        <Pagination className="mt-4 d-flex justify-content-end align-items-center " style={{border:"none"}}>
-        <Pagination.Prev
+        <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+        <Pagination.Prev style={{ visibility:"visible"}}
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
         />
-       {/* <span style={{}}>Previous</span> */}
+       {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
         {renderPagination()}
-        {/* <span>Next</span> */}
-        <Pagination.Next
+        {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
+        <Pagination.Next style={{ visibility:"visible"}}
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
         />
