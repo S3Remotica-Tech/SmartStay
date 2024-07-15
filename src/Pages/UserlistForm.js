@@ -923,7 +923,7 @@ console.log("props.displayDetail",props.displayDetail)
   return (
     <div>
    <Modal show={props.showMenu} onHide={handleClose} centered>
-   <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
+   <Modal.Dialog style={{ maxWidth: 850, width: 600,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
    {/* <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
    
       <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> {props.edit && props.edit === 'Add' ? "Add Customer" : "Assign Bed"}</Modal.Title>
@@ -1069,7 +1069,8 @@ Add Customer
     :
     <div className='container'>
       <div className='row mb-3'></div>
-      <Modal.Header closeButton closeLabel="close-button" style={{ borderBottom: "1px solid #E7E7E7" ,marginBottom:"30px"}}>
+      
+      <Modal.Header closeButton closeLabel="close-button" style={{marginBottom:"30px"}}>
    
    <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> Assign Bed</Modal.Title>
 </Modal.Header>

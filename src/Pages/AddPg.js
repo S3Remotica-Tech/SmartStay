@@ -146,7 +146,7 @@ setLocation('')
   >
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
-        <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
+        <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid black" }}>
           <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Add Paying Guest</Modal.Title>
         </Modal.Header>
 
