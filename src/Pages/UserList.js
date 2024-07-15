@@ -661,21 +661,49 @@ function UserList() {
     const selectedStatus = e.target.value;
     setFilterByStatus(selectedStatus);
   };
+  const [amnnityhistory, setAmnnityhistory] = useState([])
+  const [Amnityuserdetail,setAmnityuserdetail]=useState([])
 
   useEffect(() => {
     if (id) {
       dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } })
+      // setAmnityuserdetail(state.UsersList?.customerdetail.all_amenities)
     }
     console.log("userIduserId", id)
   }, [id]);
-
   useEffect(() => {
     if (id) {
       console.log("user_id", id)
       dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } })
+      // setAmnnityhistory(state.UsersList?.amnetieshistory)
     }
     console.log("userIduserId....?", id)
   }, [id]);
+console.log("state.UsersList.CustomerdetailsgetStatuscode",state.UsersList.CustomerdetailsgetStatuscode)
+  useEffect(() => {
+    if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+      // dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } })
+      setAmnityuserdetail(state.UsersList?.customerdetail?.all_amenities)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
+      }, 1000)
+
+    }
+    
+  }, [state.UsersList.CustomerdetailsgetStatuscode]);
+
+ console.log("state.UsersList.AmentiesHistorygetStatuscode",state.UsersList.AmentiesHistorygetStatuscode)
+  useEffect(() => {
+    if (state.UsersList.AmentiesHistorygetStatuscode === 200) {
+      console.log("user_id", id)
+      // dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } })
+      setAmnnityhistory(state.UsersList?.amnetieshistory)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_AMENITIES_HISTORY_DETAILS' })
+      }, 1000)
+    }
+    console.log("userIduserId....?", id)
+  }, [state.UsersList.AmentiesHistorygetStatuscode]);
 
   const [selectAmneties, setselectAmneties] = useState("")
   const [selectedAmenityName, setSelectedAmenityName] = useState([]);
@@ -688,38 +716,84 @@ function UserList() {
   const [filtshow, setFiltshow] = useState(false)
   console.log("createby", createby)
 
-
-
   const handleselect = (e) => {
     const value = e.target.value;
     setselectAmneties(value);
-    setamnitytableshow(true)
+    setamnitytableshow(true);
     console.log("e.target.value", value);
-
-    const amenitiesHistory = state.UsersList.amnetieshistory;
+  
+    const amenitiesHistory = state.UsersList.amnetieshistory.filter((item)=>{
+      return item.amenity_Id == value
+    });
     console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
-
+  
     if (amenitiesHistory && amenitiesHistory.length > 0) {
-      const selectedAmenity = amenitiesHistory.find(item => item.amenity_Id == value);
-
-      if (selectedAmenity) {
-        console.log("selectedAmenity", selectedAmenity);
-        setaddamenityShow(false);
-        setFiltshow(true)
-        setSelectedAmenityName([selectedAmenity]);
-      } else {
+      if (amenitiesHistory && amenitiesHistory[0].status == 0) {
+        console.log("Status is 0, setting add amenity show to true");
         setaddamenityShow(true);
-        setstatusShow(false)
-        setSelectedAmenityName([]);
-
+        setstatusShow(false);
+       
       }
+
+      // const selectedAmenity = amenitiesHistory.find(item => item.amenity_Id == value);
+  
+      // if (selectedAmenity) {
+      //   console.log("selectedAmenity", selectedAmenity);
+      //   setaddamenityShow(false);
+      //   setFiltshow(true);
+      //   setSelectedAmenityName([selectedAmenity]);
+      // } else {
+      //   setaddamenityShow(true);
+      //   setstatusShow(false);
+      //   setSelectedAmenityName([]);
+      // }
     } else {
       console.log("else");
       setaddamenityShow(true);
-      setstatusShow(false)
+      setstatusShow(false);
       setSelectedAmenityName([]);
     }
-  }
+  
+    
+     
+  };
+
+
+
+
+  
+  
+
+  // const handleselect = (e) => {
+  //   const value = e.target.value;
+  //   setselectAmneties(value);
+  //   setamnitytableshow(true)
+  //   console.log("e.target.value", value);
+
+  //   const amenitiesHistory = state.UsersList.amnetieshistory;
+  //   console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
+
+  //   if (amenitiesHistory && amenitiesHistory.length > 0) {
+  //     const selectedAmenity = amenitiesHistory.find(item => item.amenity_Id == value);
+
+  //     if (selectedAmenity) {
+  //       console.log("selectedAmenity", selectedAmenity);
+  //       setaddamenityShow(false);
+  //       setFiltshow(true)
+  //       setSelectedAmenityName([selectedAmenity]);
+  //     } else {
+  //       setaddamenityShow(true);
+  //       setstatusShow(false)
+  //       setSelectedAmenityName([]);
+
+  //     }
+  //   } else {
+  //     console.log("else");
+  //     setaddamenityShow(true);
+  //     setstatusShow(false)
+  //     setSelectedAmenityName([]);
+  //   }
+  // }
 
 
   // const handleselect=((e)=>{
@@ -847,6 +921,8 @@ function UserList() {
   const [statusAmni, setStatusAmni] = useState(false)
   const [statusShow, setstatusShow] = useState(false);
   const [amnitynotshow, setamnitynotshow] = useState([])
+  
+
 
   const handleStatusAmnities = (e) => {
     setStatusAmni(e.target.value)
@@ -864,7 +940,9 @@ function UserList() {
           amenityID: selectAmneties,
           status: statusAmni
         }
+
       });
+      setStatusAmni('')
     } else {
       dispatch({
         type: 'AddUserAmnities',
@@ -875,38 +953,49 @@ function UserList() {
           created_By: createbyamni
         }
       });
+      setStatusAmni('')
     }
    
     
    
   };
+  console.log("state.UsersList?.customerdetails?.all_amenities?",state.UsersList?.customerdetails?.all_amenities);
+  // useEffect(() => {
+  //   if (id && state?.UsersList?.addUserAmnities) {
+  //     dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } });
+  //     dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } });
+  //   }
+  // }, [id, state?.UsersList?.addUserAmnities]);
+  console.log("state.UsersList?.statusCustomerAddUser",state.UsersList.statusCustomerAddUser)
   useEffect(() => {
-    if (id && state?.UsersList?.addUserAmnities) {
-      dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } });
-      dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } });
+    if (state.UsersList.statusCustomerAddUser == 200 ) {
+      setaddamenityShow(false)
+      setTimeout(() => {
+        dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } });
+        dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } });
+      }, 1000)
+ 
+     
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_ADDUSER_AMNETIES' })
+      }, 1000)
+     
+      
     }
-  }, [id, state?.UsersList?.addUserAmnities]);
-  useEffect(() => {
-    if (state.UsersList?.statusCustomerAddUser === 200) {
-    setcustomerUser_Id('')
-    setselectAmneties('')
-    setcreatebyamni('')
-    setHostelIds('')
-    }
-  }, [state.UsersList?.statusCustomerAddUser])
-  useEffect(() => {
-    if (state.UsersList?.statusCustomerAddUser === 200) {
-    setcustomerUser_Id('')
-    setselectAmneties('')
-    setStatusAmni('')
-    }
-  }, [state.UsersList?.statusCustomerAddUser])
+  }, [state.UsersList.statusCustomerAddUser])
+  // useEffect(() => {
+  //   if (state.UsersList?.statusCustomerAddUser === 200) {
+  //   setcustomerUser_Id('')
+  //   setselectAmneties('')
+  //   setStatusAmni('')
+  //   }
+  // }, [state.UsersList?.statusCustomerAddUser])
 
-  const removeAmnity = (v) => {
-    setamnitynotshow([...amnitynotshow, v.amenity_Id]);
-    setSelectedAmenityName(selectedAmenityName.filter(item => item.amenity_Id !== v.amenity_Id));
-    setamnitytableshow(false);
-  };
+  // const removeAmnity = (v) => {
+  //   setamnitynotshow([...amnitynotshow, v.amenity_Id]);
+  //   setSelectedAmenityName(selectedAmenityName.filter(item => item.amenity_Id !== v.amenity_Id));
+  //   setamnitytableshow(false);
+  // };
 
   // const handleAddUserAmnities = () => {
   //   if (statusAmni) {
@@ -1214,13 +1303,27 @@ placeholder="Search..."
         </tr>
       ))
     ) : (
-      currentItems.map((user) => (
-        <tr key={user.Email} style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", textAlign: "center" }}>
+      currentItems.map((user) => {
+        const imageUrl = user.profile || User;
+        console.log('Image URL:', imageUrl);
+        return(
+          <tr key={user.Email} style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", textAlign: "center" }}>
           <td style={{ padding: "10px", border: "none" }}>
-            <img src={squre} height={20} width={20} />
+            <img src={squre } height={20} width={20} />
           </td>
           <td style={{ padding: "10px", border: "none", display: "flex", alignItems: "center" }}>
-            <img src={User} alt={user.Name} style={{ height: 40, width: 40, marginRight: "10px" }} />
+            {/* <img src={user.profile ? user.profile:User}  style={{ height: 40, width: 40, marginRight: "10px" }} /> */}
+            {/* <Image src={user.profile ? user.profile:User} roundedCircle style={{ height: "40px", width: "40px" }} /> */}
+            <Image
+      src={imageUrl}
+      alt={user.Name || "Default Profile"}
+      roundedCircle
+      style={{ height: "40px", width: "40px", marginRight: "10px" }}
+      onError={(e) => {
+        e.target.onerror = null; // Prevents infinite loop
+        e.target.src = User; // Fallback to default image
+      }}
+    />
             <span onClick={() => handleRoomDetailsPage(user, user.Bed, user.Rooms, user.Floor, user.Hostel_Id)}>
               {user.Name}
             </span>
@@ -1231,18 +1334,34 @@ placeholder="Search..."
             <span style={{ padding: "8px 16px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start" }}>{user.HostelName}</span>
           </td>
           <td style={{ padding: "10px", border: "none", textAlign: "center" }}>{user.Rooms}</td>
-          <td
+          {/* <td
             className={user.Bed === 0 ? 'assign-bed' : ''}
             onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
             style={{ padding: "10px", border: "none", textDecoration: user.Bed === 0 ? "none" : "initial" }}
           >
             {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
-          </td>
+          </td> */}
+    <td
+  className={user.Bed === 0 ? 'assign-bed' : ''}
+  onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
+  style={{
+    padding: "10px",
+    border: "none",
+    color: user.Bed === 0 ? "blue" : "inherit",
+    textDecoration: user.Bed === 0 ? "none" : "initial"
+  }}
+>
+  {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
+</td>
           <td style={{ padding: "10px", border: "none" }}>
-            <img src={more} style={{ height: 20, width: 20 }} />
+            <img src={dottt} style={{ height: 20, width: 20 }} />
           </td>
         </tr>
-      ))
+
+        )
+       
+      
+      })
     )}
   </tbody>
 </Table>
@@ -1298,66 +1417,82 @@ placeholder="Search..."
       {
         roomDetail && (
           <>
-            {userDetails && userDetails.map((item, index) => (
-
+            {userDetails && userDetails.map((item, index) => {
+                const imageUrl = item.profile || User;
+            return(
               <div className="container mt-2">
-                <div className='d-flex justify-content-end align-items-center m-4'>
+              <div className='d-flex justify-content-end align-items-center m-4'>
 
-                  <div>
-                    <InputGroup>
-                      <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
-                        <CiSearch style={{ fontSize: 20 }} />
-                      </InputGroup.Text>
-                      <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
-                        placeholder="Search..."
-                      />
-                    </InputGroup>
-                  </div>
-                  <div className="mr-3">
-                    <img src={Notify} alt="notification" />
-                  </div>
-
-                  <div className="mr-3">
-                    <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
-                  </div>
+                <div>
+                  <InputGroup>
+                    <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+                      <CiSearch style={{ fontSize: 20 }} />
+                    </InputGroup.Text>
+                    <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+                      placeholder="Search..."
+                    />
+                  </InputGroup>
+                </div>
+                <div className="mr-3">
+                  <img src={Notify} alt="notification" />
                 </div>
 
-                <div style={{ marginLeft: 20, paddingBottom: 50 }}><img src={leftarrow} onClick={handleBack} /><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15 }}>UserProfile</span> </div>
-                <div className="card" style={{ height: 100 }}>
-                  <div className="card-body d-flex align-items-center justify-content-between">
-                    <div className="d-flex align-items-center">
-                      <img src={User} alt="Profile" className="rounded-circle me-3" style={{ width: '50px', height: '50px' }} />
-                      <div>
-                        <h5 className="card-title mb-0">
-                          {item.Name} <span className="text-primary"><i className="bi bi-check-circle-fill"></i></span>
-                        </h5>
-                        {/* <p className="mb-0">{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed} | {getFloorName(item.Floor)}</p> */}
-                        <p style={{marginTop:10}}>
-                          <span style={{ backgroundColor: '#FFE0D9',padding:"3px 3px 3px 3px",borderRadius:"10px" }}>
-                            {getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}
-                          </span>
-                          {' | '}
-                          <span style={{ backgroundColor: '#FFEFCF',padding:"3px 3px 3px 3px",borderRadius:"10px" }}>
-                            {getFloorName(item.Floor)}
-                          </span>
-                        </p>
-                      </div>
+                <div className="mr-3">
+                  
+                  <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+                </div>
+              </div>
+
+              <div style={{ marginLeft: 20, paddingBottom: 50 }}><img src={leftarrow} onClick={handleBack} /><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15 }}>UserProfile</span> </div>
+              <div className="card" style={{ height: 100 }}>
+                <div className="card-body d-flex align-items-center justify-content-between">
+                  <div className="d-flex align-items-center">
+                    {/* <img src={item.profile ? item.profile:User} alt="Profile" className="rounded-circle me-3" style={{ width: '50px', height: '50px' }} /> */}
+                    <Image
+      src={imageUrl}
+      alt={item.Name || "Default Profile"}
+      roundedCircle
+      style={{ height: "40px", width: "40px", marginRight: "10px" }}
+      onError={(e) => {
+        e.target.onerror = null; // Prevents infinite loop
+        e.target.src = User; // Fallback to default image
+      }}
+    />
+                    <div>
+                      <h5 className="card-title mb-0">
+                        {item.Name} <span className="text-primary"><i className="bi bi-check-circle-fill"></i></span>
+                      </h5>
+                      {/* <p className="mb-0">{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed} | {getFloorName(item.Floor)}</p> */}
+                      <p style={{marginTop:10}}>
+                        <span style={{ backgroundColor: '#FFE0D9',padding:"3px 3px 3px 3px",borderRadius:"10px" }}>
+                          {getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}
+                        </span>
+                        {' | '}
+                        <span style={{ backgroundColor: '#FFEFCF',padding:"3px 3px 3px 3px",borderRadius:"10px" }}>
+                          {getFloorName(item.Floor)}
+                        </span>
+                      </p>
                     </div>
-                    <img src={more} width={30} height={30} alt="More options" onClick={() => { handleShowAddBed(item) }} />
                   </div>
+                  <img src={dottt} width={40} height={40} alt="More options" onClick={() => { handleShowAddBed(item) }} />
                 </div>
+              </div>
 
 
 
-                <div className="tapppinfour" style={{ font: "Gilory", fontWeight: 500, fontSize: 16 }}>
-                  <div className={`tab-item ${overviewshow ? 'active' : ''}`} onClick={handleoverviewShow}>OverView</div>
+              <div className="tapppinfour" style={{ font: "Gilory", fontWeight: 500, fontSize: 16 }}>
+                <div className={`tab-item ${overviewshow ? 'active' : ''}`} onClick={handleoverviewShow}>OverView</div>
 
-                  <div className={`tab-item ${ebShow ? 'active' : ''}`} onClick={handleebViewShow}>EB Reading</div>
-                  <div className={`tab-item ${invoiceshow ? 'active' : ''}`} onClick={handleinvoiceShow}>Invoice</div>
-                  <div className={`tab-item ${amnitiesshow ? 'active' : ''}`} onClick={handleamnitiesShow}>Amnities</div>
-                  <div className={`tab-item ${transshow ? 'active' : ''}`} style={{ marginRight: "25%" }} onClick={handletransShow}>Transaction</div>
+                <div className={`tab-item ${ebShow ? 'active' : ''}`} onClick={handleebViewShow}>EB Reading</div>
+                <div className={`tab-item ${invoiceshow ? 'active' : ''}`} onClick={handleinvoiceShow}>Invoice</div>
+                <div className={`tab-item ${amnitiesshow ? 'active' : ''}`} onClick={handleamnitiesShow}>Amnities</div>
+                <div className={`tab-item ${transshow ? 'active' : ''}`} style={{ marginRight: "25%" }} onClick={handletransShow}>Transaction</div>
 
-                </div>
+              </div>
+
+            
+
+            
 
 
 
@@ -1367,23 +1502,23 @@ placeholder="Search..."
                   <div className="overdue">
                     <div style={{ flex: 1 }}>
                       <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="card-header d-flex justify-content-between align-items-center" style={{backgroundColor:"white"}}>
                           <div style={{ fontSize: 16, fontWeight: 600 }}>
                             Basic Information
                           </div>
                           <div>
-                            <img src={more} alt="More Options" onClick={() => { handleShow(item) }} />
+                            <img src={dottt} alt="More Options" onClick={() => { handleShow(item) }} />
                           </div>
                         </div>
                         <div class="card-body">
                           <div class="row mb-3">
                             <div class="col-sm-6">
                               <strong>Paying Guest</strong>
-                              <p><img src={building} />{item.HostelName}</p>
+                              <p><img src={building} /><span style={{marginLeft:5}}>{item.HostelName}</span></p>
                             </div>
                             <div class="col-sm-6 text-right">
                               <strong>Room/Bed</strong>
-                              <p ><img src={Group} />{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</p>
+                              <p ><img src={Group} /><span style={{marginLeft:5}}>{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</span></p>
                             </div>
                           </div>
                           <div class="row mb-3">
@@ -1416,12 +1551,12 @@ placeholder="Search..."
 
                           return (
                             <div class="card">
-                              <div class="card-header d-flex justify-content-between align-items-center">
+                              <div class="card-header d-flex justify-content-between align-items-center" style={{backgroundColor:"white"}}>
                                 <div style={{ fontSize: 16, fontWeight: 600 }}>
                                   Detailed Information
                                 </div>
                                 <div>
-                                  <img src={more} alt="More Options" />
+                                  <img src={dottt} alt="More Options" />
                                 </div>
                               </div>
                               <div class="card-body">
@@ -1444,7 +1579,7 @@ placeholder="Search..."
                                       {
                                         g?.amentites?.length > 0 && g?.amentites.map((p) => {
                                           return (
-                                            <div class=" p-2 m-2" style={{ backgroundColor: "#E0ECFF", borderRadius: "10px" }}>{p.Amnities_Name}</div>
+                                            <div  style={{ backgroundColor: "#E0ECFF", borderRadius: "10px",paddingLeft:"12px",paddingRight:"12px",fontSize:"13px",fontWeight:500,paddingTop:"2px",paddingBottom:"3px",margin:"10px" }}>{p.Amnities_Name}</div>
 
                                           )
                                         })
@@ -1509,7 +1644,7 @@ placeholder="Search..."
                                 <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{u.Eb_Unit}</td>
                                 <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{u.pay_eb_amount}</td>
                                 <td >
-                                  <img src={dottt} style={{ height: 30, width: 30 }} /></td>
+                                  <img src={dottt} style={{ height: 40, width: 40 }} /></td>
 
                               </tr>
                             )
@@ -1594,7 +1729,7 @@ placeholder="Search..."
                                 borderRadius: "10px"
                               }}>{view.Status === 'Success' ? 'Paid' : 'UnPaid'}</span></td>
                               {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}
-                              <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
+                              <td> <img src={dottt} style={{ height: 40, width: 40 }} /></td>
 
                             </tr>
 
@@ -1772,11 +1907,12 @@ placeholder="Search..."
   <div>No amenities available</div>
 )}
 </div> */}
+<div className="d-flex flex-wrap mt-2">
                     {
-                      selectedAmenityName && selectedAmenityName.map((v) => {
+                      state.UsersList.amnetieshistory && state.UsersList.amnetieshistory && state.UsersList.amnetieshistory && state.UsersList.amnetieshistory.map((v) => {
                         return (
                           <div style={{ marginTop: 20 }} key={v.Amnities_Name}>
-                            <span className="btn btn-sm rounded-pill" style={{ backgroundColor: "#D9E9FF" }}>
+                            <span className="btn btn-sm rounded-pill" style={{ backgroundColor: "#D9E9FF",margin:10 }}>
                               {v.Amnities_Name} - ₹{v.Amount}/m
                               <img
                                 src={cross}
@@ -1784,7 +1920,7 @@ placeholder="Search..."
                                 height={15}
                                 alt="Remove"
                                 style={{ marginLeft: '10px', cursor: 'pointer' }}
-                                onClick={() => removeAmnity(v)}
+                                // onClick={() => removeAmnity(v)}
                               />
                             </span>
                           </div>
@@ -1792,57 +1928,10 @@ placeholder="Search..."
 
                       })
                     }
-
-                    {
-                      amnitytableshow ?
-                        <>
-                          <Table className="ebtable" responsive style={{ marginTop: 30 }}>
-                            <thead >
-                              <tr>
-                                <th scope="col" style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Amenities</th>
-                                <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Date</th>
-                                <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Subscription</th>
-                                <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Amount</th>
-                                <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Status</th>
-                                <th scope="col"></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {selectedAmenityName && selectedAmenityName.map((v) => {
-                                let Datform = new Date(v.created_At);
-                                console.log("Datform..?", Datform);
-
-                                let day = Datform.getDate();
-                                let month = Datform.getMonth() + 1; // Months are zero-based
-                                let year = Datform.getFullYear();
-
-                                let formattedDate = `${day}/${month}/${year}`;
-                                console.log("Formatted Date:", formattedDate);
-                                return (
-                                  <tr key={v.amenity_Id}>
-                                    <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{v.Amnities_Name}</td>
-                                    <td><span style={{ backgroundColor: "#EBEBEB", padding: "3px 3px 3px 3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0" }}>{formattedDate}</span></td>
-                                    <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>Monthly</td>
-                                    <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{v.Amount}</td>
-                                    <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>
-                                      <span style={{
-                                        color: "black",
-                                        backgroundColor: v.status === 1 ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
-                                        padding: "5px 10px",
-                                        borderRadius: "5px"
-                                      }}>
-                                        {v.status == 1 ? 'Active' : 'Inactive'}
-                                      </span>
-                                    </td>
-                                    <td> <img src={dottt} style={{ height: 30, width: 30 }} onClick={() => handleEdit(v)} /></td>
-                                  </tr>
-                                )
-
-                              })}
-                            </tbody>
-                          </Table>
-                        </>
-                        : <>
+</div>
+                    
+                      
+                       
                           <Table className="ebtable" responsive style={{ marginTop: 30, }}>
                             <thead >
                               <tr>
@@ -1854,32 +1943,7 @@ placeholder="Search..."
                                 <th scope="col"></th>
                               </tr>
                             </thead>
-                            {/* <tbody>
-                        { state.UsersList.amnetieshistory && state.UsersList.amnetieshistory.map((v) => (
-                          let Datform = new Date(v.created_at);
-                          console.log("Datform..?", Datform);
-
-                          let day = Datform.getDate();
-                          let month = Datform.getMonth() + 1; // Months are zero-based
-                          let year = Datform.getFullYear();
-
-                          let formattedDate = `${day}/${month}/${year}`;
-                          console.log("Formatted Date:", formattedDate);
-
-                          <tr key={v.amenity_Id}>
-                            <td style={{ paddingLeft: "40px" }}>{v.Amnities_Name}</td>
-                            <td>{v.created_At}</td>
-                            <td>Monthly</td>
-                            <td>{v.Amount}</td>
-                            <td>
-  <span style={{color:"black"}}>
-    {v.status == 1 ? 'Active' : 'Inactive'}
-  </span>
-</td>
-                            <td> <img src={dottt} style={{ height: 30, width: 30 }} onClick={() => handleEdit(v)} /> </td>
-                          </tr>
-                        ))}
-                      </tbody> */}
+                   
                             <tbody>
                               {state.UsersList.amnetieshistory && state.UsersList.amnetieshistory.map((v) => {
                                 let Datform = new Date(v.created_At);
@@ -1909,15 +1973,15 @@ placeholder="Search..."
                                       </span>
                                     </td>
                                     <td>
-                                      <img src={dottt} style={{ height: 30, width: 30 }} onClick={() => handleEdit(v)} alt="edit" />
+                                      <img src={dottt} style={{ height: 40, width: 40 }} onClick={() => handleEdit(v)} alt="edit" />
                                     </td>
                                   </tr>
                                 );
                               })}
                             </tbody>
                           </Table>
-                        </>
-                    }
+                      
+                  
 
 
 
@@ -1963,7 +2027,7 @@ placeholder="Search..."
                               {/* <td>₹{view.BalanceDue}</td> */}
                               <td style={{ fontSize: "16px", fontWeight: 500, font: "Gilroy" }}>₹{v.amount}</td>
                               <td><span style={{ backgroundColor: "#D9E9FF", padding: "5px 10px 6px 10px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, font: "Gilroy" }}>Cash</span></td>
-                              <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
+                              <td> <img src={dottt} style={{ height: 40, width: 40 }} /></td>
 
 
                             </tr>
@@ -1988,7 +2052,8 @@ placeholder="Search..."
 
 
               </div>
-            ))}
+            )
+})}
 
 
 
@@ -2016,7 +2081,7 @@ placeholder="Search..."
           AfterEditRoomses={AfterEditRooms}
           AfterEditBeds={AfterEditBed}
 
-          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} /> : null
+          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed}/> : null
       }
 
     </div>

@@ -23,7 +23,12 @@ const initialState = {
     amnitiesnamelist: [],
     addUserAmnities: '',
     usermessage: '',
-    statusCustomerAddUser: ''
+    statusCustomerAddUser: '',
+    CustomerdetailsgetStatuscode : 0,
+    AmentiesHistorygetStatuscode : 0,
+    bednumberdetails:[],
+    statushostelbedstatuscode:''
+
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -39,16 +44,26 @@ const UserListReducer = (state = initialState, action) => {
 
 
         case 'CUSTOMER_DETAILS':
-            return { ...state, customerdetails: action.payload };
+            return { ...state, customerdetails: action.payload , CustomerdetailsgetStatuscode : action.payload.statusCode };
+            case 'CLEAR_CUSTOMER_DETAILS':
+                return {...state,CustomerdetailsgetStatuscode : 0 }
+
         case 'AMENITIES_HISTORY':
-            return { ...state, amnetieshistory: action.payload.response };
+            return { ...state, amnetieshistory: action.payload.response , AmentiesHistorygetStatuscode : action.payload.statusCode};
+            case 'CLEAR_AMENITIES_HISTORY_DETAILS':
+                return {...state,AmentiesHistorygetStatuscode : 0 }
         case 'AMNITIES_NAME':
             return { ...state, amnitiesnamelist: action.payload };
         case 'ADD_USER_AMENITIES':
             console.log("ADD_USER_AMENITIES",action.payload.message);
             return { ...state, addUserAmnities: action.payload.message, statusCustomerAddUser: action.payload.statusCode }
 
+        case 'CLEAR_ADDUSER_AMNETIES':
+           return {...state,statusCustomerAddUser : 0 }
 
+           case 'BED_NUMBER_DETAILS':
+            console.log("BED_NUMBER_DETAILS",action.payload.message);
+            return { ...state, bednumberdetails: action.payload, statushostelbedstatuscode: action.payload.statusCode }
 
         case 'BED_DETAILS':
             return { ...state, beddetails: action.payload }
@@ -71,9 +86,9 @@ const UserListReducer = (state = initialState, action) => {
         case 'REMOVE_STATUS_CODE_USER':
             return { ...state, UserListStatusCode: 0 }
         case 'ADD_USER':
-            return { ...state, addUser: action.payload.response, statusCodeForAddUser: action.payload.statusCode }
+            return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
-            return { ...state, statusCodeForAddUser: '' }
+            return { ...state, statusCodeForAddUser: 0 }
         case 'ERROR':
             return { ...state, errorMessage: action.payload }
         case 'HOSTEL_LIST':
