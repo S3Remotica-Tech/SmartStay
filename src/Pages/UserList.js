@@ -938,7 +938,8 @@ console.log("state.UsersList.CustomerdetailsgetStatuscode",state.UsersList.Custo
         payload: {
           userID: customerUser_Id,
           amenityID: selectAmneties,
-          status: statusAmni
+          Status: statusAmni,
+          hostelID: hostelIds,
         }
 
       });
@@ -950,7 +951,8 @@ console.log("state.UsersList.CustomerdetailsgetStatuscode",state.UsersList.Custo
           hostelID: hostelIds,
           userID: customerUser_Id,
           amenityID: selectAmneties,
-          created_By: createbyamni
+        
+         
         }
       });
       setStatusAmni('')
@@ -1907,7 +1909,7 @@ placeholder="Search..."
   <div>No amenities available</div>
 )}
 </div> */}
-<div className="d-flex flex-wrap mt-2">
+{/* <div className="d-flex flex-wrap mt-2">
                     {
                       state.UsersList.amnetieshistory && state.UsersList.amnetieshistory && state.UsersList.amnetieshistory && state.UsersList.amnetieshistory.map((v) => {
                         return (
@@ -1928,7 +1930,30 @@ placeholder="Search..."
 
                       })
                     }
+</div> */}
+<div className="d-flex flex-wrap mt-2">
+  {
+    state.UsersList.amnetieshistory && 
+    [...new Map(state.UsersList.amnetieshistory.map(item => [item['Amnities_Name'], item])).values()].map((v) => {
+      return (
+        <div style={{ marginTop: 20 }} key={v.Amnities_Name}>
+          <span className="btn btn-sm rounded-pill" style={{ backgroundColor: "#D9E9FF", margin: 10 }}>
+            {v.Amnities_Name} - ₹{v.Amount}/m
+            <img
+              src={cross}
+              width={15}
+              height={15}
+              alt="Remove"
+              style={{ marginLeft: '10px', cursor: 'pointer' }}
+              // onClick={() => removeAmnity(v)}
+            />
+          </span>
+        </div>
+      );
+    })
+  }
 </div>
+
                     
                       
                        
