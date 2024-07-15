@@ -52,6 +52,7 @@ function UserlistForm(props) {
   const [Phone, setPhone] = useState('')
   const [hostel_Id, setHostel_Id] = useState('')
   const [HostelName, setHostelName] = useState('')
+  console.log("HostelName",HostelName)
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
   const [Bed, setBed] = useState('')
@@ -79,7 +80,7 @@ function UserlistForm(props) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-
+  const [profilePicture, setProfilePicture] = useState('');
   console.log("state for userList form", state)
 
   const handleImageChange = async (event) => {
@@ -98,6 +99,26 @@ function UserlistForm(props) {
     }
     }
   };
+//   const handleImageChange = async (event) => {
+//     const fileImage = event.target.files[0];
+
+//     const options = {
+//         maxSizeMB: 1,
+//         maxWidthOrHeight: 800,
+//         useWebWorker: true
+//     };
+//     try {
+//         const compressedFile = await imageCompression(fileImage, options);
+//         setSelectedImage(compressedFile);
+//     } catch (error) {
+//         console.error('Image compression error:', error);
+//     }
+// };
+
+
+
+
+
 
   // useEffect(() => {
   //   dispatch({ type: 'USERLIST' })
@@ -109,30 +130,83 @@ function UserlistForm(props) {
   }, [hostel_Id,]);
 
 
-  useEffect(() => {
-    const temparry = state.UsersList.roomdetails.filter((item) => item.Room_Id == Rooms);
-    setBedArray(temparry);
+  // useEffect(() => {
+  //   const temparry = state.UsersList.roomdetails.filter((item) => item.Room_Id == Rooms);
+  //   setBedArray(temparry);
 
-    const temp2 = state.UsersList.Users.filter((item) => {
-      return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id;
-    });
-
-
+  //   const temp2 = state.UsersList.Users.filter((item) => {
+  //     return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id;
+  //   });
 
 
 
-    const arrayToDisplay = [];
-    for (let i = 0; i < temparry[0]?.Number_Of_Beds; i++) {
 
-      const filteredData = temp2.filter((item2) => {
-        return i == item2.Bed - 1
-      })
-      if (filteredData.length == 0) {
-        arrayToDisplay.push(i + 1);
-      }
-    }
-    setArrayset(arrayToDisplay);
-  }, [Rooms, state.UsersList.roomdetails]);
+
+  //   const arrayToDisplay = [];
+  //   for (let i = 0; i < temparry[0]?.Number_Of_Beds; i++) {
+
+  //     const filteredData = temp2.filter((item2) => {
+  //       return i == item2.Bed - 1
+  //     })
+  //     if (filteredData.length == 0) {
+  //       arrayToDisplay.push(i + 1);
+  //     }
+  //   }
+  //   setArrayset(arrayToDisplay);
+  // }, [Rooms, state.UsersList.roomdetails]);
+
+  // useEffect(() => {
+  //   const temparry = state.UsersList?.bednumberdetails?.bed_details.filter((item) => item.Room_Id == Rooms);
+  //   setBedArray(temparry);
+
+  //   const temp2 = state.UsersList.Users.filter((item) => {
+  //     return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id;
+  //   });
+
+
+
+
+
+  //   const arrayToDisplay = [];
+  //   for (let i = 0; i < temparry[0]?.Number_Of_Beds; i++) {
+
+  //     const filteredData = temp2.filter((item2) => {
+  //       return i == item2.Bed - 1
+  //     })
+  //     if (filteredData.length == 0) {
+  //       arrayToDisplay.push(i + 1);
+  //     }
+  //   }
+  //   setArrayset(arrayToDisplay);
+  // }, [Rooms, state.UsersList.roomdetails]);
+  // useEffect(() => {
+  //   const temparry = state.UsersList.bednumberdetails.bed_details.filter((item) => item.Room_Id == Rooms);
+  //   setBedArray(temparry);
+
+  //   const temp2 = state.UsersList.Users.filter((item) => {
+  //     return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id;
+  //   });
+
+
+
+
+
+  //   const arrayToDisplay = [];
+  //   for (let i = 0; i < temparry[0]?.Number_Of_Beds; i++) {
+
+  //     const filteredData = temp2.filter((item2) => {
+  //       return i == item2.Bed - 1
+  //     })
+  //     if (filteredData.length == 0) {
+  //       arrayToDisplay.push(i + 1);
+  //     }
+  //   }
+  //   setArrayset(arrayToDisplay);
+  // }, [Rooms, state.UsersList.roomdetails]);
+
+
+
+
   useEffect(() => {
     if (hostel_Id && Floor) {
 
@@ -248,6 +322,8 @@ function UserlistForm(props) {
     const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter(item => item.id == e.target.value);
     setHostel_Id(selectedHostelId);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : '');
+    console.log("selectedHostelId",selectedHostelId)
+    console.log("selectedHostel",selectedHostel);
 
     setFloor("")
     setRooms("")
@@ -258,6 +334,7 @@ function UserlistForm(props) {
   }
   const handleRooms = (e) => {
     setRooms(e.target.value);
+    dispatch({ type: 'BEDNUMBERDETAILS', payload: { hostel_id: hostel_Id, floor_id: Floor,room_id:e.target.value }})
   }
 
 
@@ -282,21 +359,38 @@ function UserlistForm(props) {
   }
 
 
+// useEffect(()=>{
+//   if(hostel_Id && Floor && Rooms){
+//     dispatch({ type: 'BEDNUMBERDETAILS', payload: { hostel_id: hostel_Id, floor_id: Floor,room_id:Rooms }})
+//   }
+// },[Rooms])
 
 
+const handleBed = (e) => {
+  setBed(e.target.value);
 
+  // let tempArray = state.UsersList.roomdetails.filter((item) => {
+  //   return item.Hostel_Id == hostel_Id && item.Floor_Id == Floor && item.Room_Id == Rooms
+  // })
+  // console.log("tempArray", tempArray);
+  // if (tempArray.length > 0) {
+  //   let roomRent = tempArray[0].Room_Rent
+  //   setRoomRent(roomRent)
+  // }
+};
 
-  const handleBed = (e) => {
-    setBed(e.target.value);
-    let tempArray = state.UsersList.roomdetails.filter((item) => {
-      return item.Hostel_Id == hostel_Id && item.Floor_Id == Floor && item.Room_Id == Rooms
-    })
-    console.log("tempArray", tempArray);
-    if (tempArray.length > 0) {
-      let roomRent = tempArray[0].Room_Rent
-      setRoomRent(roomRent)
-    }
-  };
+  // const handleBed = (e) => {
+  //   setBed(e.target.value);
+
+  //   let tempArray = state.UsersList.roomdetails.filter((item) => {
+  //     return item.Hostel_Id == hostel_Id && item.Floor_Id == Floor && item.Room_Id == Rooms
+  //   })
+  //   console.log("tempArray", tempArray);
+  //   if (tempArray.length > 0) {
+  //     let roomRent = tempArray[0].Room_Rent
+  //     setRoomRent(roomRent)
+  //   }
+  // };
   const handlePaymentType = (e) => {
     setPaymentType(e.target.value)
   }
@@ -372,6 +466,7 @@ function UserlistForm(props) {
       props.setEdit('Edit')
       setBednum(props.EditObj)
       setId(props.EditObj.ID);
+      setFile(props.EditObj.profile)
       let value = props.EditObj.Name.split(" ");
       console.log("value,,,",value)
       setFirstname(value[0]);
@@ -489,10 +584,142 @@ function UserlistForm(props) {
 
 
 
+  // const handleSaveUserlist = () => {
+  //   console.log("check");
+  //   const emailElement = document.getElementById('emailIDError');
+  //   const emailError = emailElement ? emailElement.innerHTML : '';
+
+  //   if (emailError === 'Invalid Email Id *') {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Please enter a valid email address',
+  //       confirmButtonText: 'Ok',
+  //       timer: 1000
+  //     });
+  //     return;
+  //   }
+
+  //   const phoneNumberError = document.getElementById('MobileNumberError')
+  //   const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+
+
+
+  //   if (mobileError === 'Invalid mobile number *') {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Please enter a valid 10-digit phone number',
+  //       confirmButtonText: 'Ok',
+  //       timer: 1000
+  //     });
+  //     return;
+  //   }
+  //   if (
+  //     firstname &&
+  //     lastname &&
+  //     Phone &&
+  //     Email &&
+  //     Address &&
+  //     hostel_Id
+  //   ) {
+  //     dispatch({
+  //       type: 'ADDUSER',
+  //       payload: {
+  //         profile: file,
+  //         firstname: firstname,
+  //         lastname: lastname,
+  //         Phone: Phone,
+  //         Email: Email,
+  //         Address: Address,
+  //         AadharNo: AadharNo,
+  //         PancardNo: PancardNo,
+  //         licence: licence,
+  //         HostelName: HostelName,
+  //         hostel_Id: hostel_Id,
+  //         Floor: Floor,
+  //         Rooms: Rooms,
+  //         Bed: Bed,
+  //         AdvanceAmount: AdvanceAmount,
+  //         RoomRent: RoomRent,
+  //         BalanceDue: BalanceDue,
+  //         paid_advance: paid_advance,
+  //         paid_rent: paid_rent,
+  //         PaymentType: PaymentType,
+  //         paid_advance: paid_advance,
+  //         payable_rent: payableamount,
+  //         ID: props.edit === 'Edit' ? id : '',
+
+  //       },
+  //     });
+  //     props.AfterEditHostels(hostel_Id)
+  //     props.AfterEditFloors(Floor)
+  //     props.AfterEditRoomses(Rooms)
+  //     props.AfterEditBeds(Bed)
+
+  //     // setFirstname('');
+  //     // setLastname('');
+  //     // setAddress('');
+  //     // setAadharNo('');
+  //     // setPancardNo('');
+  //     // setLicence('');
+  //     // setPhone('');
+  //     // setEmail('');
+  //     // setHostel_Id('');
+  //     // setFloor('');
+  //     // setRooms('');
+  //     // setBed('');
+  //     // setAdvanceAmount('');
+  //     // setRoomRent('');
+  //     // setPaymentType('');
+  //     // setBalanceDue('');
+  //     // handleClose()
+  //     // Swal.fire({
+  //     //   icon: 'success',
+  //     //   title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
+  //     //   confirmButtonText: 'Ok',
+  //     //   timer:1000,
+  //     // }).then((result) => {
+  //     //   if (result.isConfirmed) {
+  //     //     props.AfterEditHostels(hostel_Id)
+  //     //     props.AfterEditFloors(Floor)
+  //     //     props.AfterEditRoomses(Rooms)
+  //     //     props.AfterEditBeds(Bed)
+  //     //     setFirstname('');
+  //     //     setLastname('');
+  //     //     setAddress('');
+  //     //     setAadharNo('');
+  //     //     setPancardNo('');
+  //     //     setLicence('');
+  //     //     setPhone('');
+  //     //     setEmail('');
+  //     //     setHostel_Id('');
+  //     //     setFloor('');
+  //     //     setRooms('');
+  //     //     setBed('');
+  //     //     setAdvanceAmount('');
+  //     //     setRoomRent('');
+  //     //     setPaymentType('');
+  //     //     setBalanceDue('');
+  //     //     handleClose()
+  //     //   }
+  //     // });
+
+  //   } else {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Please Enter All Fields',
+  //       confirmButtonText: 'Ok',
+  //       timer: 300
+  //     });
+  //   }
+  // };
   const handleSaveUserlist = () => {
+    console.log("check");
+  
     const emailElement = document.getElementById('emailIDError');
     const emailError = emailElement ? emailElement.innerHTML : '';
-
+    const phoneNumberError = document.getElementById('MobileNumberError');
+    const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+  
     if (emailError === 'Invalid Email Id *') {
       Swal.fire({
         icon: 'warning',
@@ -502,12 +729,7 @@ function UserlistForm(props) {
       });
       return;
     }
-
-    const phoneNumberError = document.getElementById('MobileNumberError')
-    const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
-
-
-
+  
     if (mobileError === 'Invalid mobile number *') {
       Swal.fire({
         icon: 'warning',
@@ -517,6 +739,7 @@ function UserlistForm(props) {
       });
       return;
     }
+  
     if (
       firstname &&
       lastname &&
@@ -528,7 +751,7 @@ function UserlistForm(props) {
       dispatch({
         type: 'ADDUSER',
         payload: {
-          profile: file,
+          profile:file,
           firstname: firstname,
           lastname: lastname,
           Phone: Phone,
@@ -545,20 +768,20 @@ function UserlistForm(props) {
           AdvanceAmount: AdvanceAmount,
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
-          paid_advance: paid_advance,
-          paid_rent: paid_rent,
           PaymentType: PaymentType,
           paid_advance: paid_advance,
+          paid_rent: paid_rent,
           payable_rent: payableamount,
-          ID: props.edit === 'Edit' ? id : '',
-
-        },
+          ID: props.edit === 'Edit' ? id : ''
+        }
       });
-      props.AfterEditHostels(hostel_Id)
-      props.AfterEditFloors(Floor)
-      props.AfterEditRoomses(Rooms)
-      props.AfterEditBeds(Bed)
-
+  
+      props.AfterEditHostels(hostel_Id);
+      props.AfterEditFloors(Floor);
+      props.AfterEditRoomses(Rooms);
+      props.AfterEditBeds(Bed);
+  
+      // Reset form fields after successful submission if necessary
       // setFirstname('');
       // setLastname('');
       // setAddress('');
@@ -575,38 +798,40 @@ function UserlistForm(props) {
       // setRoomRent('');
       // setPaymentType('');
       // setBalanceDue('');
-      // handleClose()
-      // Swal.fire({
-      //   icon: 'success',
-      //   title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
-      //   confirmButtonText: 'Ok',
-      //   timer:1000,
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      //     props.AfterEditHostels(hostel_Id)
-      //     props.AfterEditFloors(Floor)
-      //     props.AfterEditRoomses(Rooms)
-      //     props.AfterEditBeds(Bed)
-      //     setFirstname('');
-      //     setLastname('');
-      //     setAddress('');
-      //     setAadharNo('');
-      //     setPancardNo('');
-      //     setLicence('');
-      //     setPhone('');
-      //     setEmail('');
-      //     setHostel_Id('');
-      //     setFloor('');
-      //     setRooms('');
-      //     setBed('');
-      //     setAdvanceAmount('');
-      //     setRoomRent('');
-      //     setPaymentType('');
-      //     setBalanceDue('');
-      //     handleClose()
-      //   }
-      // });
-
+      // handleClose();
+  
+      Swal.fire({
+        icon: 'success',
+        title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
+        confirmButtonText: 'Ok',
+        timer: 1000
+      }).then((result) => {
+        if (result.isConfirmed) {
+          props.AfterEditHostels(hostel_Id);
+          props.AfterEditFloors(Floor);
+          props.AfterEditRoomses(Rooms);
+          props.AfterEditBeds(Bed);
+          
+          // Reset form fields here if needed
+          // setFirstname('');
+          // setLastname('');
+          // setAddress('');
+          // setAadharNo('');
+          // setPancardNo('');
+          // setLicence('');
+          // setPhone('');
+          // setEmail('');
+          // setHostel_Id('');
+          // setFloor('');
+          // setRooms('');
+          // setBed('');
+          // setAdvanceAmount('');
+          // setRoomRent('');
+          // setPaymentType('');
+          // setBalanceDue('');
+          // handleClose();
+        }
+      });
     } else {
       Swal.fire({
         icon: 'warning',
@@ -616,12 +841,14 @@ function UserlistForm(props) {
       });
     }
   };
+  
 
   const handleSaveUserlistAddUser = () => {
     if (Floor && Rooms && Bed) {
       dispatch({
         type: 'ADDUSER',
         payload: {
+          profile:file,
           firstname: firstname,
           lastname: lastname,
           Phone: Phone,
@@ -662,7 +889,7 @@ function UserlistForm(props) {
     }
 
   }
-
+console.log("state.UsersList?.statusCodeForAddUser",state.UsersList.statusCodeForAddUser)
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
@@ -690,17 +917,17 @@ function UserlistForm(props) {
   }, [state.UsersList?.statusCodeForAddUser])
 
 
-
+console.log("props.displayDetail",props.displayDetail)
 
 
   return (
     <div>
    <Modal show={props.showMenu} onHide={handleClose} centered>
    <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
-   <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
+   {/* <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
    
       <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> {props.edit && props.edit === 'Add' ? "Add Customer" : "Assign Bed"}</Modal.Title>
-</Modal.Header>
+</Modal.Header> */}
 <Modal.Body>
  
   <div className='d-flex align-items-center'>
@@ -708,7 +935,11 @@ function UserlistForm(props) {
  
   {props.displayDetail ?
     <div>
-      
+       <Modal.Header closeButton closeLabel="close-button"style={{marginBottom:"30px"}} >
+   
+   <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> AddCustomer</Modal.Title>
+</Modal.Header>
+
 <div className='d-flex align-items-center'>
 
 
@@ -838,6 +1069,10 @@ Add Customer
     :
     <div className='container'>
       <div className='row mb-3'></div>
+      <Modal.Header closeButton closeLabel="close-button" style={{ borderBottom: "1px solid #E7E7E7" ,marginBottom:"30px"}}>
+   
+   <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> Assign Bed</Modal.Title>
+</Modal.Header>
       <div className='row mb-3'>
         <div className='col-lg-12'>
           <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
@@ -894,8 +1129,12 @@ Add Customer
             {props.edit === 'Edit' && Bednum && Bednum.Bed && (
               <option value={Bednum.Bed} selected>{Bednum.Bed}</option>
             )}
-            {Arrayset.map((item) => (
+            {/* {Arrayset.map((item) => (
               <option key={item} value={item}>{item}</option>
+            ))} */}
+             {  state.UsersList?.bednumberdetails?.bed_details && state.UsersList?.bednumberdetails?.bed_details.map((item) => (
+
+              <option key={item.bed_no} value={item.bed_no}>{item.bed_no}</option>
             ))}
           </Form.Select>
         </div>

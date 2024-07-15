@@ -118,14 +118,14 @@ function Sidebar() {
         const Pass_word = loginInfo.password;
 
         const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
-        const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
+        // const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
         const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
         const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
         const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
         const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
 
         localStorage.setItem("loginId", encryptedLoginId);
-        localStorage.setItem("NameId", encryptedname);
+        // localStorage.setItem("NameId", encryptedname);
         localStorage.setItem("phoneId", encryptedphone);
         localStorage.setItem("emilidd", encryptedemail);
         localStorage.setItem("IsEnable", encryptIsEnable);

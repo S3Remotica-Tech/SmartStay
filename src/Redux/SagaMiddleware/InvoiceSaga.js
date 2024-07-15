@@ -8,7 +8,7 @@ import Cookies from 'universal-cookie';
     const response = yield call (invoicelist);
     
     if (response.status === 200){
-       yield put ({type : 'INVOICE-ITEM' , payload:response.data})
+       yield put ({type : 'invoicelist' , payload:response.data})
     }
     else {
        yield put ({type:'ERROR', payload:response.data.message})
