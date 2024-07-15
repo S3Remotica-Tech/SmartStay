@@ -765,7 +765,7 @@ const [showAmount, setShowAmount]  = useState(false)
 
           </div>
           {/*  Pagination code */}
-
+{currentItems.length > 0 && 
           <Pagination className="mt-4 d-flex justify-content-end align-items-center">
         <Pagination.Prev style={{ visibility:"visible"}}
           onClick={() => paginate(currentPage - 1)}
@@ -779,6 +779,7 @@ const [showAmount, setShowAmount]  = useState(false)
           disabled={currentPage === totalPages}
         />
       </Pagination>
+}
         </div>
       </div>
       {showModal && <AddExpenses show={showModal} handleClose={handleClose} currentItem={currentItem} />}

@@ -8,15 +8,25 @@ import Cookies from 'universal-cookie';
 function* CreateNewAccount(args) {
   try {
     const response = yield call(Addaccount, args.payload);
+    console.log("response",response)
       if (response.status === 200) {
       yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status } });
 
       Swal.fire({
         icon: 'success',
         text: response.data.message,
-        confirmButtonText: 'Ok'
+               timer:1000
       });
-    } else if (response.status === 201) {
+    } else if (response.status === 210) {
+      Swal.fire({
+       icon: 'warning',
+       title: 'Error',
+       html: ` This ${response.data.message}`,
+       confirmButtonText: 'Ok',
+       
+     });
+    }
+    else if (response.status === 201) {
        Swal.fire({
         icon: 'warning',
         title: 'Error',

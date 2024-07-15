@@ -276,19 +276,22 @@ useEffect(() => {
           }
 
         </div>
-        <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-        <Pagination.Prev style={{ visibility:"visible"}}
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-        />
-       {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
-        {renderPagination()}
-        {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
-        <Pagination.Next style={{ visibility:"visible"}}
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        />
-      </Pagination>
+        {
+          currentItems.length > 0 &&   <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+          <Pagination.Prev style={{ visibility:"visible"}}
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          />
+         {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
+          {renderPagination()}
+          {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
+          <Pagination.Next style={{ visibility:"visible"}}
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          />
+        </Pagination>
+        }
+      
       </div>
 
       {show &&

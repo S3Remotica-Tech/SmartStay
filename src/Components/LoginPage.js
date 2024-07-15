@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Appicon from "../Assets/Images/Logo-color.png";
 import Login from "../Assets/Images/new icon/login-user.png";
-import Eye from "../Assets/Images/new icon/eye.png";
+// import Eye from "../Assets/Images/new icon/eye.png";
 import './LoginPage.css';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -17,7 +17,9 @@ import HomeSideComponent from "./HomeSideContent";
 import CryptoJS from "crypto-js";
 import OtpVerificationModal from '../Pages/OtpVerificationModal';
 import Cookies from 'universal-cookie';
-import Loginimage from '../Assets/Images/new_login.png'
+import Loginimage from '../Assets/Images/new_login.png';
+import Logo from '../Assets/Images/New_images/Group.png';
+import { Eye, EyeSlash } from 'iconsax-react';
 
 const MyComponent = () => {
 
@@ -144,153 +146,16 @@ const MyComponent = () => {
 
 
   return (
-    // <div className="m-0 p-0" style={{ height: "100vh", width: "100%", fontFamily: "Poppins,sans-serif" }} >
-    //   <div className="row g-0" style={{ height: "100vh", width: "100%" }} >
-    //     {/* <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12" style={{ backgroundColor: "#2F74EB", color: "white", overflowX: "hidden" }}> */}
-    //       {/* <HomeSideComponent /> */}
-    //     {/* </div> */}
-    //     <div className="col-lg-8 col-md-12 col-sm-12 col-xs-12 " style={{ backgroundColor: "#F6F7FB", overflowX: "hidden" }}>
-    //       <div className="text-end m-2" >
-    //         <span className="right-content lh-1" style={{ fontSize: "13px" }}>New to Smartstay account?</span>
-    //         <button style={{ fontSize: "13px", padding: "2px", backgroundColor: "white", color: "#007FFF", borderRadius: "30px", fontWeight: "bold", borderColor: "#2C77EC", width: "150px", height: "30px" }} type="button" class="btn btn-outline-primary createbutton ms-2" onClick={() => handleCreateAccount()}>Create an Account</button>
-    //       </div>
-    //       <div className="d-flex justify-content-center" id="Welcome" style={{ fontSize: "18px", paddingTop: "100px", fontWeight: "600" }}><strong>Welcome at Smartstay</strong><img src={Hai} width="30" height="30" alt='Hai' /></div>
-    //       <div className="d-flex justify-content-center pt-1"><p style={{ fontSize: "13px", color: "gray" }}>We need a few basic details to consider your profile</p></div>
-    //       <div className="row d-flex justify-content-center">
-    //         <div className="col-md-7 col-sm-7 col-xs-7 right-side-form">
-    //           {/* <div>{state.login.errorMessage?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.login.errorMessage}</label> : null}</div> */}
-    //           <Form className="Form">
-    //             <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>Email</b></Form.Label>
-    //             <InputGroup className="mb-3" size="lg" style={{ color: "#D9D9D9" }} >
-    //               <Form.Control
-    //                 placeholder="Enter Email"
-    //                 aria-label="Recipient's username"
-    //                 className='border border-0 custom-input'
-    //                 aria-describedby="basic-addon2"
-    //                 autoFocus
-    //                 disabled={showOtpVerification}
-    //                 value={email_Id} onChange={(e) => handleEmailChange(e)}
-    //                 style={{
-    //                   fontSize: "12px",
-    //                   fontWeight: "530",
-    //                   opacity: 1,
-    //                   borderRadius: "2px",
-    //                   color: "gray",
-    //                   '::placeholder': { color: "gray", fontSize: "12px" }
-    //                 }}
-
-    //               />
-    //               <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none', borderRadius: "2px" }} >
-    //                 <img src={Login} height="13" width="13" alt='Login' />
-    //               </InputGroup.Text>
-    //             </InputGroup>
-
-    //             <div>{state.login.errorEmail?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.login.errorEmail}</label> : null}</div>
-
-
-    //             <Form.Label style={{ color: "black", fontSize: "12px", fontWeight: "530" }}><b>Password</b></Form.Label>
-    //             <InputGroup className="mb-3" size="lg">
-    //               <Form.Control type={showPassword ? 'text' : 'password'}
-    //                 placeholder="Enter Password"
-    //                 aria-label="Recipient's username"
-    //                 className='border border-0 custom-input'
-    //                 disabled={showOtpVerification}
-    //                 aria-describedby="basic-addon2" style={{
-    //                   borderRadius: "2px", fontSize: "12px", fontWeight: "530", color: "gray",
-    //                   '::placeholder': { color: "gray", fontSize: 12 }
-
-    //                 }}
-    //                 value={password} onChange={(e) => handlePasswordChange(e)}
-    //               />
-
-    //               <InputGroup.Text id="basic-addon2" style={{ backgroundColor: "white", border: 'none', borderRadius: "2px" }}>
-    //                 <img src={showPassword ? Eye : eyeClosed} height="13" width="13" alt='Eye' onClick={togglePasswordVisibility} />
-    //               </InputGroup.Text>
-    //             </InputGroup>
-
-    //             <div>{state.login.errorPassword?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.login.errorPassword}</label> : null}</div>
-
-
-    //             <div className="mb-3 d-flex justify-content-between" >
-    //               <Form.Group controlId="formBasicCheckbox">
-    //                 <Form.Check type="checkbox" label="Remember me"
-    //                   value={checked}
-    //                   onChange={(e) => handleCheckboxChange(e)}
-    //                   style={{ fontSize: "11px", fontWeight: 700 }} />
-    //               </Form.Group>
-    //               <Form.Label style={{ color: "#007FFF", fontSize: "11px", cursor: "pointer" }} onClick={() => handleForgetPassword()} ><b>Forgot Password?</b></Form.Label>
-    //             </div>
-    //           </Form>
-    //           <div className="d-flex justify-content-center pt-2">
-    //             <Button type="" className="btn" style={{ fontWeight: 600, width: "200px", fontSize: "12px", backgroundColor: "#2F74EB", color: "white" }} onClick={() => handleLogin()}>
-    //               LOGIN
-    //             </Button>
-    //           </div>
-    //           <div className="d-flex justify-content-center pt-3">
-    //             <p style={{ color: 'gray', fontSize: "11px", fontFamily: "sans-serif", fontWeight: "bold", marginBottom: "0px" }}>By Clicking 'Sign in for free' I accept the</p>
-    //           </div>
-    //           <div className="d-flex justify-content-center">
-    //             <p style={{ color: '#007FFF', fontSize: "11px", fontWeight: "bold" }}>Terms of Use <span style={{ color: 'gray', fontSize: "13px", fontFamily: "sans-serif", fontWeight: "bold" }}>  & </span> Privacy Policy <span style={{ color: 'gray', fontSize: "11px", fontFamily: "sans-serif", fontWeight: "bold" }}> of SmartStay.</span></p>
-    //           </div>
-
-    //         </div>
-    //       </div>
-
-    //       {/* {showOtpVerification && <>
-    //       <div className='row d-flex justify-content-center'>
-
-    //                 <div className='col-lg-7'>
-    //                   <div className='d-flex justify-content-start mb-3'>
-    //                     <p id="Text-Mobile" style={{ color: "gray", fontSize: "12px", fontWeight: 600 }}>Enter 6 Digit OTP Number</p>
-    //                   </div>
-    //                   <div className='d-flex justify-content-evenly mt-2'>
-    //                     {inputRefs.map((ref, index) => (
-    //                       <div key={index}>
-    //                         <input
-    //                           id="Bottom-border"
-    //                           type="text"
-    //                           aria-label=".form-control-lg example"
-    //                           maxLength={1}
-    //                           onChange={(e) => handleOtpInputChange(e, index)}
-    //                           ref={ref}
-    //                           autoFocus={index === 0}
-    //                         />
-    //                       </div>
-    //                     ))}
-    //                   </div>
-
-    //                 <div class="d-flex justify-content-end w-100 gap-5 p-3">
-    //                   <div>
-    //                     <label  className="button-hover " style={{ fontSize: 12, backgroundColor: "", color: "#5290fa", borderColor: "#34A853" }}>
-    //                       Resend OTP
-    //                     </label>
-    //                   </div>
-    //                   <div class="d-flex">
-    //                     <div><Button onClick={handleOtpVerify} className="button-hover" style={{ fontSize: 12, backgroundColor: "#34A853", color: "white", borderColor: "#34A853" }}>
-    //                       Verify
-    //                     </Button>
-    //                     </div>
-
-    //                   </div>
-    //                 </div>
-    //                 </div>
-
-
-    //               </div>
-    //                       </>}
-    //      */}
-    //       <OtpVerificationModal show={showOtpVerification} handleClose={handleCloseModal} Email_Id={email_Id} checked={checked} />
-
-    //     </div>
-    //   </div>
-    // </div>
+  
     <div className='container login_page1 h-100'>
       <div className='row h-100 align-items-center p-3 mt-md-4 pt-md-4 w-100'>
         <div className='col-lg-6 col-md-6 col-sm-12'>
-          <div className='logo_icon mb-3'>
-            <img src={Appicon} className='w-25 h-25' alt='Hai' />
-          </div>
-          <div className='mb-3' >
+        <div className="d-flex gap-1 mb-1">
+
+<img src={Logo} style={{ height: 25, width: 25 }} />
+<div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy,sans-serif" }}>Smartstay</label></div>
+</div>
+          <div className='mb-3 mt-2' >
             <h1 style={{ fontFamily: "Gilroy, sans-serif", fontWeight: 600, color: 'black', fontSize: '32px' }}>Welcome back!</h1>
           </div>
           <div>
@@ -303,9 +168,11 @@ const MyComponent = () => {
               <Form.Control
                 placeholder="Enter Email"
                 aria-label="Recipient's username"
-                className='form_input rounded-3 custom-input mb-3'
+                className='form_input  custom-input mb-3'
                 aria-describedby="basic-addon2"
+                style={{ boxShadow: "none", border: "1px solid rgba(217, 217, 217, 1)", fontSize: 16, fontWeight: 500, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy,sans-serif" }}
                 autoFocus
+                size="lg"
                 disabled={showOtpVerification}
                 value={email_Id} onChange={(e) => handleEmailChange(e)}
 
@@ -313,37 +180,56 @@ const MyComponent = () => {
 
               <div>{state.login.errorEmail?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.login.errorEmail}</label> : null}</div>
 
-              <Form.Label className='label_style'>Password</Form.Label>
-              {/* <InputGroup className="mb-3" size="lg"> */}
-              <Form.Control type={showPassword ? 'text' : 'password'}
-                placeholder="Enter Password"
-                aria-label="Recipient's username"
-                className='form_input rounded-3 custom-input mb-3'
-                disabled={showOtpVerification}
-                aria-describedby="basic-addon2" style={{
-                  borderRadius: "2px", fontSize: "12px", fontWeight: "530", color: "gray",
-                  '::placeholder': { color: "gray", fontSize: 12 }
+          
 
-                }}
-                value={password} onChange={(e) => handlePasswordChange(e)}
-              />
+                   <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }}>Password</Form.Label>
+                  <InputGroup>
+                    <Form.Control
+                      size="lg"
+                      value={password} onChange={(e) => handlePasswordChange(e)}
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      disabled={showOtpVerification}
+                      style={{
+                        position: "relative",
+                        boxShadow: "none",
+                        border: "1px solid rgba(217, 217, 217, 1)",
+                        fontSize: 16,
+                        fontWeight: 500,
+                        color: "rgba(34, 34, 34, 1)",
+                        fontFamily: "Gilroy, sans-serif",
+                        borderRight: "none"
+                      }}
+                           />
+                    <InputGroup.Text    onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer" , borderLeft: "none"}}>
+                    {showPassword ? (
+               <Eye size="20" color="rgba(30, 69, 225, 1)" />
+            ) : (
+             
+              <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+            )}
+                    </InputGroup.Text>
+
+                  </InputGroup>
+
+
 
               <div>{state.login.errorPassword?.length > 0 ? <label style={{ color: "red", fontSize: 12 }}>{state.login.errorPassword}</label> : null}</div>
 
 
-              <div className="mb-3 d-flex justify-content-between" >
+              <div className="mb-3 d-flex justify-content-between mt-3" >
                 <Form.Group controlId="formBasicCheckbox">
                   <Form.Check type="checkbox" label="Stay signed in"
                     value={checked}
                     onChange={(e) => handleCheckboxChange(e)}
-                    style={{ fontSize: "15px", fontWeight: 500,fontFamily:'Gilroy' }} />
+                    style={{ fontSize: "15px", fontWeight: 500,fontFamily:'Gilroy, sans-serif' }} />
                 </Form.Group>
                 <Form.Label className='forgot_button' onClick={() => handleForgetPassword()} >Forgot Password?</Form.Label>
               </div>
             </Form>
 
             <div className="d-flex justify-content-center pt-2">
-               <Button type="button" className="btn w-100" style={{ height:'42px',fontWeight: 600,fontSize: "16px",borderRadius:'10px', backgroundColor: "rgb(47, 116, 235,1)", color: "white" }} onClick={() => handleLogin()}>
+               <Button type="button" className="btn w-100" style={{ height:'42px',fontWeight: 600,fontSize: "16px",borderRadius:'10px', backgroundColor: "rgba(30, 69, 225, 1)", color: "white" }} onClick={() => handleLogin()}>
                 Sign in
               </Button>
            </div>
@@ -355,10 +241,14 @@ const MyComponent = () => {
             </div>
         </div>
         <div className='new_account_div mt-3'>
-          <p style={{fontFamily:'Montserrat'}}>Don't have an account? <span style={{color:'rgba(30, 69, 225, 1)',fontWeight:600,fontSize:'16px'}}>Create an account</span></p>
+          <p style={{fontFamily:'Montserrat'}}>Don't have an account? <span style={{color:'rgba(30, 69, 225, 1)',fontWeight:600,fontSize:'16px'}} onClick={handleCreateAccount}>Create an account</span></p>
         </div>
 
       </div>
+
+
+      <OtpVerificationModal show={showOtpVerification} handleClose={handleCloseModal} Email_Id={email_Id} checked={checked} />
+
     </div>
 
 
