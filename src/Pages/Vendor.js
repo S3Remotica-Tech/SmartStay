@@ -107,9 +107,53 @@ function Vendor() {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItem, setCurrentItem] = useState('')
 
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+
   const paginate = (pageNumber) =>{
     setCurrentPage(pageNumber);
   } 
+
+  const renderPagination = () => {
+    const pageNumbers = [];
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, currentPage + 2);
+
+    if (startPage > 1) {
+      pageNumbers.push(
+        <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
+          1
+        </Pagination.Item>
+      );
+      if (startPage > 2) {
+        pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
+          {i}
+        </Pagination.Item>
+      );
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
+      }
+      pageNumbers.push(
+        <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
+          {totalPages}
+        </Pagination.Item>
+      );
+    }
+
+    return pageNumbers;
+  };
+
+
+
 
   const handleEditVendor = (vendorData) => {
     console.log("Edited vendor data:", vendorData);
@@ -149,7 +193,20 @@ if(item){
   }
 
 
-  
+  const stateAccount= useSelector(state => state.createAccount)
+
+
+const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
+
+
+useEffect(() => {
+  if (stateAccount.statusCodeForAccountList == 200) {
+    const loginProfile = stateAccount.accountList[0].user_details.profile
+      
+        setProfile(loginProfile)
+      }
+
+}, [stateAccount.statusCodeForAccountList])
 
 
 
@@ -180,7 +237,7 @@ if(item){
           </div>
 
           <div className="mr-3">
-            <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+            <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
           </div>
         </div>
 
@@ -219,13 +276,19 @@ if(item){
           }
 
         </div>
-        <Pagination className="mt-4 d-flex justify-content-end">
-          {[...Array(Math.ceil(filteredData.length / itemsPerPage)).keys()].map(number => (
-            <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
-              {number + 1}
-            </Pagination.Item>
-          ))}
-        </Pagination>
+        <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+        <Pagination.Prev style={{ visibility:"visible"}}
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        />
+       {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
+        {renderPagination()}
+        {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
+        <Pagination.Next style={{ visibility:"visible"}}
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        />
+      </Pagination>
       </div>
 
       {show &&

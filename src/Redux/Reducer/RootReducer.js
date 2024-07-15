@@ -7,7 +7,7 @@ import InvoiceReducer from "./InvoiceReducer";
 import ComplianceReducer from "./ComplianceReducer";
 import PgListReducer from "./PgListReducer";
 import AssetReducer from './AssetReducer';
-
+import ExpenseReducer from './ExpenseReducer'
 
 const RootReducer = combineReducers({
 login:SmartStayReducer,
@@ -17,7 +17,8 @@ UsersList:UserListReducer,
 InvoiceList:InvoiceReducer,
 ComplianceList:ComplianceReducer,
 PgList: PgListReducer,
-AssetList:AssetReducer
+AssetList:AssetReducer,
+ExpenseList:ExpenseReducer
 
 
 })

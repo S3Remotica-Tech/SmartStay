@@ -28,6 +28,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
     "flatpickr": "^4.6.13",
+    "iconsax-react": "^0.0.8",
     "mdb-react-ui-kit": "^6.1.0",
     "moment": "^2.30.1",
     "react": "^18.2.0",
