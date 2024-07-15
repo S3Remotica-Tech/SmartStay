@@ -339,7 +339,7 @@ placeholder="Search..."
 
           </div>
           {/*  Pagination code */}
-
+          {currentItems.length > 0 && 
           <Pagination className="mt-4 d-flex justify-content-end align-items-center">
         <Pagination.Prev style={{ visibility:"visible"}}
           onClick={() => paginate(currentPage - 1)}
@@ -352,7 +352,7 @@ placeholder="Search..."
         />
       </Pagination>
 
-
+          }
 
 
         </div>
