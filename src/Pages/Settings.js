@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'react-bootstrap/Image';
+import Button from 'react-bootstrap/Button';
 import Men from '../Assets/Images/men.jpg';
 import { FaCircleExclamation } from "react-icons/fa6";
 import SecurityIcon from '@mui/icons-material/Security';
@@ -19,6 +20,16 @@ import Amenities from './Amenities';
 import Billings from './Billing';
 import imageCompression from 'browser-image-compression';
 import Cookies from 'universal-cookie';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import Complaintsettings from './Complaint_settings';
+import ExpencesSettings from './Expences_settings';
+
+
+
 
 function Settings() {
   const state = useSelector(state => state)
@@ -279,18 +290,183 @@ setTimeout(()=>{
 
 console.log("state for settings",state)
 
+
+const [value, setValue] = React.useState('1');
+
+const handleChanges = (event, newValue) => {
+  setValue(newValue);
+}
+
+const [selectedHostel, setSelectedHostel] = useState('');
+const [unit , setUnit] = useState('');
+const [amount , setAmount] = useState('')
+console.log("selectedHostel",selectedHostel);
+
+const handleHostelChange = (e) => {
+  setSelectedHostel(e.target.value)
+};
+
+const handlesaveEbbill = () => {
+  dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit : unit , amount : amount} })
+  Swal.fire({
+    icon: "success",
+    title: 'EB Billings Added successfully',
+    confirmButtonText: "ok"
+}).then((result) => {
+    if (result.isConfirmed) {
+    }
+});
+  setSelectedHostel('')
+  setUnit('');
+  setAmount('')
+}
+
+
   return (
-    <div className='container-fluid'>
+    <div className='container'>
+
+
+
       <div className="d-flex row justify-content-between mt-2 ms-4 me-4 pt-3">
-        <div className='col-lg-8 col-md-6 col-sm-12'>
+        <div className='col-lg-8 col-md-6 col-sm-12 mb-4'>
           <h1 style={{ fontSize: "26px" }}>Settings</h1>
-          <p>Manage your account settings</p>
+          {/* <p>Manage your account settings</p> */}
         </div>
 
 
       </div>
 
-      <div className='mt-0 ' style={{}}>
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
+          <TabList onChange={handleChanges} aria-label="lab API tabs example" style={{marginLeft:'20px'}}>
+            <Tab label="Security" value="1" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
+            <Tab label="EB Billings" value="2" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
+            <Tab label="Invoice" value="3" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
+            <Tab label="Expences" value="4" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
+            <Tab label="Complaint type" value="5" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
+            <Tab label="Amenities" value="6" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
+          </TabList>
+        </Box>
+        <TabPanel value="1"> 
+           <>
+          
+                <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
+                  <div className='col-6'>
+                    <h6 style={{ fontWeight: 600 , fontSize:'17px' ,lineHeight:'19.09px', color:'#222222'}}>Enable Two-factor Authentication</h6>
+                    <p style={{fontWeight: 500 , fontSize:'14px' ,lineHeight:'19.09px'}}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+                  </div>
+                  <div className='col-2'>
+                  <Form.Check 
+        type="switch"
+        id="custom-switch"
+        checked={isChecked}
+        onChange={handleChange}
+      />
+                  
+                  </div>
+                </div>
+
+
+                <div className='d-flex  justify-content-between me-2 mb-3 '>
+                  <div className='col-6'>
+                    <h6 style={{ fontWeight: 600 , fontSize:'17px' ,lineHeight:'19.09px' , color:'#222222'}}>Email Setup</h6>
+                    <p style={{fontWeight: 500 , fontSize:'14px' ,lineHeight:'19.09px'}}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+                  </div>
+                  <div className='col-2'>
+                    <Form.Check type="switch" id="custom-switch" />
+                 
+                  </div>
+                </div>
+
+
+                <div className='d-flex  justify-content-between me-2'>
+                  <div className='col-6'>
+                    <h6 style={{ fontWeight: 600 , fontSize:'17px' ,lineHeight:'19.09px', color:'#222222'}}>SMS Setup</h6>
+                    <p style={{fontWeight: 500 , fontSize:'14px' ,lineHeight:'19.09px'}}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+                  </div>
+                  <div className='col-2'>
+                    <Form.Check type="switch" id="custom-switch" />
+                  </div>
+                </div>
+
+                <div className='justify-content-end mt-3'>
+                    <Button style={{ fontSize: 18, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }} onClick={handleTwoStepVerify}> Save Changes</Button>
+
+                  </div>
+
+                
+               
+              </>
+        </TabPanel>
+        <TabPanel value="2">
+        <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                      <Form.Label style={{ fontSize: 14,  fontWeight: 600 }}>
+                        Select Hostel
+                      </Form.Label>
+                    <Form.Select aria-label="Default select example" 
+           className='border'     value={selectedHostel.id} onChange={(e) => handleHostelChange(e)}  style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
+
+                        <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
+                        {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
+                            <>
+                                <option key={item.id} value={item.id} >{item.Name}</option></>
+                        ))}
+
+                    </Form.Select>
+                </Form.Group>
+
+                  </div>
+                  <div className='col-lg-10 col-md-8 col-sm-12 col-xs-12' style={{border:'1px solid #ced4da',padding:'30px',paddingRight:'100px',borderRadius:'20px'}}>
+                    <div className='d-flex row'>
+
+                    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Label style={{fontSize:14 , fontWeight:600}}
+          >
+            Unit
+          </Form.Label>
+          <Form.Control
+          style={{padding:'20px',marginTop:'10px'}}
+            type="text"
+            placeholder="Unit"
+            value={unit}
+            onChange={(e) => setUnit(e.target.value)}
+          />
+        </Form.Group>
+      </div>
+
+      <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Label style={{fontSize:14 , fontWeight:600}}
+          >
+            Set Amount
+          </Form.Label>
+          <Form.Control
+            style={{padding:'20px',marginTop:'10px'}}
+            type="text"
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </Form.Group>
+      </div>
+                    </div>
+                    <div style={{marginTop:'30px'}}>
+              <Button onClick={handlesaveEbbill} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px" }}>
+                 Save Changes</Button>
+            </div>
+
+                  </div>
+          
+           </TabPanel>
+        <TabPanel value="3"><InvoiceSettings /> </TabPanel>
+        <TabPanel value="4"><ExpencesSettings/> </TabPanel>
+        <TabPanel value="5"><Complaintsettings/> </TabPanel>
+        <TabPanel value="6"><Amenities /> </TabPanel>
+      </TabContext>
+
+      {/* <div className='mt-0 ' style={{}}>
         <div className='d-flex flex-column flex-md-row Page_Content g-0' >
           <div className="col-12 col-md-4 col-lg-3 pt-5 sidebar ">
             <div
@@ -340,7 +516,6 @@ console.log("state for settings",state)
                 <div className='d-flex justify-content-between'>
                   <div>
                     <h2 style={{ fontSize: '22px', fontWeight: 600 }}>General Information</h2>
-                    {/* <p style={{ fontSize: '16px', color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div className='justify-content-end'>
                     <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleSaveUpdate} >Save change</button>
@@ -445,7 +620,6 @@ console.log("state for settings",state)
                 <div className='d-flex  justify-content-between'>
                   <div>
                     <h2 style={{ fontSize: '24px', fontWeight: 650 }}>Security</h2>
-                    {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div className='justify-content-end'>
                     <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleTwoStepVerify} >Save change</button>
@@ -459,19 +633,15 @@ console.log("state for settings",state)
                 <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Login Two-Step Verification</h6>
-                    {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div>
-                  <Form.Check // prettier-ignore
+                  <Form.Check 
         type="switch"
         id="custom-switch"
         checked={isChecked}
         onChange={handleChange}
-        // label="Check this switch"
       />
-                    {/* <AntSwitch
-                      checked={isChecked}
-                      onChange={handleChange} inputProps={{ 'aria-label': 'ant design' }} /> */}
+                  
                   </div>
                 </div>
 
@@ -479,10 +649,8 @@ console.log("state for settings",state)
                 <div className='d-flex  justify-content-between me-2 mb-3 '>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Email Setup</h6>
-                    {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div>
-                    {/* <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} /> */}
                     <Form.Check type="switch" id="custom-switch" />
                  
                   </div>
@@ -492,10 +660,8 @@ console.log("state for settings",state)
                 <div className='d-flex  justify-content-between me-2'>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>SMS Setup</h6>
-                    {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div>
-                    {/* <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} /> */}
                     <Form.Check type="switch" id="custom-switch" />
                   </div>
                 </div>
@@ -507,7 +673,6 @@ console.log("state for settings",state)
                 <div className='d-flex  justify-content-between '>
                   <div>
                     <h6 style={{ fontWeight: 650 }}>Password Change</h6>
-                    {/* <p style={{ color: '#67686C' }}>Lorem Ipsum dolor sit amet consectetur</p> */}
                   </div>
                   <div>
                     <button className='ChangePassword'>Change Password</button>
@@ -524,7 +689,7 @@ console.log("state for settings",state)
             {selectedTab === 'Invoice_Settings' && <InvoiceSettings />}
           </div>
         </div>
-      </div>
+      </div> */}
 
     </div>
   )

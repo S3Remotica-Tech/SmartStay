@@ -29,7 +29,7 @@ import { CiSearch } from "react-icons/ci";
 // import AddVendor from './AddVendormodal';
 import { useDispatch, useSelector } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
-import VendorListMap from './VendorListMap';
+// import VendorListMap from './VendorListMap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Profile2 from '../Assets/Images/New_images/profile-picture.png'
