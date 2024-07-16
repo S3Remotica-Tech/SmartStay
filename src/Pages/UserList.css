@@ -65,8 +65,9 @@
   text-decoration: underline;
 
   text-decoration-color: #1E45E1;
-  text-underline-offset: 10px; /* Adjust this value as needed */
+  text-underline-offset: 15px; /* Adjust this value as needed */
   text-decoration-thickness: 2px;
+  
 }
 @media (max-width:800px) {
     
@@ -109,4 +110,3 @@
   border: none;
  }
 
- 

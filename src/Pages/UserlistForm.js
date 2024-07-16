@@ -474,6 +474,7 @@ const handleBed = (e) => {
     props.setShowMenu(false);
     props.setUserClicked(false);
     props.setShowForm(false);
+    props.OnShowTable(true)
 
 
   };
@@ -736,10 +737,8 @@ const handleBed = (e) => {
   //     });
   //   }
   // };
-  const handleSaveUserlist = useCallback (() => {
+  const handleSaveUserlist =  () => {
     console.log("check");
-    
-  
     const emailElement = document.getElementById('emailIDError');
     const emailError = emailElement ? emailElement.innerHTML : '';
     const phoneNumberError = document.getElementById('MobileNumberError');
@@ -806,25 +805,6 @@ const handleBed = (e) => {
       props.AfterEditRoomses(Rooms);
       props.AfterEditBeds(Bed);
   
-      // Reset form fields after successful submission if necessary
-      // setFirstname('');
-      // setLastname('');
-      // setAddress('');
-      // setAadharNo('');
-      // setPancardNo('');
-      // setLicence('');
-      // setPhone('');
-      // setEmail('');
-      // setHostel_Id('');
-      // setFloor('');
-      // setRooms('');
-      // setBed('');
-      // setAdvanceAmount('');
-      // setRoomRent('');
-      // setPaymentType('');
-      // setBalanceDue('');
-      // handleClose();
-  
       Swal.fire({
         icon: 'success',
         title: props.edit == 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
@@ -866,7 +846,7 @@ const handleBed = (e) => {
         timer: 300
       });
     }
-  });
+  };
   
 
   const handleSaveUserlistAddUser =  () => {
@@ -964,10 +944,42 @@ console.log("props.displayDetail",props.displayDetail)
  
   {props.displayDetail ?
     <div>
-       <Modal.Header closeButton closeLabel="close-button"style={{marginBottom:"30px"}} >
+       {/* <Modal.Header closeButton closeLabel="close-button"style={{marginBottom:"30px",position:"relative"}} >
    
-   <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> {props.edit === 'Edit' ? "Edit Customer" : "Add Customer"}</Modal.Title>
-</Modal.Header>
+  <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> {props.edit === 'Edit' ? "Edit Customer" : "Add Customer"}</Modal.Title>
+</Modal.Header> */}
+
+<Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <div style={{ fontSize: 20, fontWeight: 600 }}>{props.edit === 'Edit' ? "Edit Customer" : "Add an customer"}</div>
+        <button
+          type="button"
+          className="close"
+          aria-label="Close"
+          onClick={handleClose}
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '16px',
+            border: '1px solid black',
+            background: 'transparent',
+            cursor: 'pointer',
+            padding: '0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '30px',
+            height: '30px',
+            borderRadius: '50%',
+           
+          }}
+        >
+          <span aria-hidden="true" style={{
+              fontSize: '30px',
+              paddingBottom:"6px"
+             
+            }}>&times;</span>
+        </button>
+      </Modal.Header>
 
 <div className='d-flex align-items-center'>
 
@@ -1100,13 +1112,40 @@ Add Customer
     <div className='container'>
       <div className='row mb-3'></div>
       
-      <Modal.Header closeButton closeLabel="close-button" style={{marginBottom:"30px"}}>
-   
-   <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Assign Bed</Modal.Title>
-</Modal.Header>
+      <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <div style={{ fontSize: 20, fontWeight: 600 }}>Assign Bed</div>
+        <button
+          type="button"
+          className="close"
+          aria-label="Close"
+          onClick={handleClose}
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '16px',
+            border: '1px solid black',
+            background: 'transparent',
+            cursor: 'pointer',
+            padding: '0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '30px',
+            height: '30px',
+            borderRadius: '50%',
+           
+          }}
+        >
+          <span aria-hidden="true" style={{
+              fontSize: '30px',
+              paddingBottom:"6px"
+             
+            }}>&times;</span>
+        </button>
+      </Modal.Header>
       <div className='row mb-3'>
         <div className='col-lg-12'>
-          <Form.Label style={{ fontSize: "12px" }}>Select Floor</Form.Label>
+          <Form.Label style={{ fontSize: "12px" }}>Floor</Form.Label>
           <Form.Select
             aria-label="Default select example"
             // style={bottomBorderStyles}
@@ -1127,7 +1166,7 @@ Add Customer
           </Form.Select>
         </div>
         <div className='col-lg-12 mt-1'>
-          <Form.Label style={{ fontSize: '12px' }}>Select Room</Form.Label>
+          <Form.Label style={{ fontSize: '12px' }}>Room</Form.Label>
           <Form.Select
             aria-label='Default select example'
             // style={bottomBorderStyles}
@@ -1146,7 +1185,7 @@ Add Customer
           </Form.Select>
         </div>
         <div className='col-lg-12 mt-3 mb-3'>
-          <Form.Label style={{ fontSize: '12px' }}>Select Bed</Form.Label>
+          <Form.Label style={{ fontSize: '12px' }}>Bed</Form.Label>
           <Form.Select
             aria-label='Default select example'
             // style={bottomBorderStyles}

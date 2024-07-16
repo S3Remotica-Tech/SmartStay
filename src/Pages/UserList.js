@@ -182,7 +182,7 @@ function UserList() {
 
 
 
-  const itemsPerPage = 1;
+  const itemsPerPage = 2;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -391,17 +391,18 @@ function UserList() {
   const [createbyamni, setcreatebyamni] = useState("")
   const [amnitytableshow, setamnitytableshow] = useState(false)
 
-  const handleRoomDetailsPage = (userData, bed, room, floor, hostel_id) => {
+  const handleRoomDetailsPage = (userData) => {
+    // user.Bed, user.Rooms, user.Floor, user.Hostel_Id
     const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
     console.log("userData", userData)
     // sethostel(hostel_id)
     // setFloors_Id(floor)
     // setRoomsId(room)
     // setBed_Id(bed)
-    setHostelIds(hostel_id)
-    setBedIds(bed)
-    setFloorIds(floor)
-    setRoomsIds(room)
+    setHostelIds(userData.Hostel_Id)
+    setBedIds(userData.Bed)
+    setFloorIds(userData.Floor)
+    setRoomsIds(userData.Rooms)
     setemail_id(userData.Email)
     setId(userData.ID)
     setcreatebyamni(userData.created_By)
@@ -472,9 +473,6 @@ function UserList() {
     );
     console.log("ParticularUserDetails", ParticularUserDetails)
 
-
-    // const filteredUserDetails = ParticularUserDetails.filter(details => details.length !== 0);
-
     setUserDetails(ParticularUserDetails);
 
     let User_Id = null;
@@ -486,12 +484,6 @@ function UserList() {
 
     }
 
-    // if (User_Id) {
-    //   const filteredData = state.InvoiceList?.Invoice && state.InvoiceList?.Invoice.filter(user => user.User_Id == User_Id);
-
-    //   setFilteredDataForUser(filteredData);
-
-    //   }
   }, [roomDetail, state.UsersList?.Users, hostelIds, bedIds, floorIds, roomsIds, email_id]);
 
 
@@ -511,10 +503,6 @@ function UserList() {
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
       dispatch({ type: 'USERLIST' })
-
-      // setTimeout(()=>{
-      //   dispatch({ type: 'MANUALINVOICE' })
-      // },3000)
 
       setHostelIds(propsHostel);
       setBedIds(propsBeds);
@@ -550,10 +538,6 @@ function UserList() {
     const searchInvoice = e.target.value;
     setFilterByInvoice(searchInvoice);
   }
-
-
-
-
 
 
   useEffect(() => {
@@ -965,12 +949,7 @@ console.log("state.UsersList.CustomerdetailsgetStatuscode",state.UsersList.Custo
    
   };
   console.log("state.UsersList?.customerdetails?.all_amenities?",state.UsersList?.customerdetails?.all_amenities);
-  // useEffect(() => {
-  //   if (id && state?.UsersList?.addUserAmnities) {
-  //     dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } });
-  //     dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } });
-  //   }
-  // }, [id, state?.UsersList?.addUserAmnities]);
+ 
   console.log("state.UsersList?.statusCustomerAddUser",state.UsersList.statusCustomerAddUser)
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200 ) {
@@ -988,67 +967,7 @@ console.log("state.UsersList.CustomerdetailsgetStatuscode",state.UsersList.Custo
       
     }
   }, [state.UsersList.statusCustomerAddUser])
-  // useEffect(() => {
-  //   if (state.UsersList?.statusCustomerAddUser === 200) {
-  //   setcustomerUser_Id('')
-  //   setselectAmneties('')
-  //   setStatusAmni('')
-  //   }
-  // }, [state.UsersList?.statusCustomerAddUser])
-
-  // const removeAmnity = (v) => {
-  //   setamnitynotshow([...amnitynotshow, v.amenity_Id]);
-  //   setSelectedAmenityName(selectedAmenityName.filter(item => item.amenity_Id !== v.amenity_Id));
-  //   setamnitytableshow(false);
-  // };
-
-  // const handleAddUserAmnities = () => {
-  //   if (statusAmni) {
-  //     dispatch({
-  //       type: 'AddUserAmnities',
-  //       payload: {
-  //         userID: customerUser_Id,
-  //         amenityID: selectAmneties,
-  //         status: statusAmni
-  //       }
-  //     });
-  //     dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } })
-  //     dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } });
-  //     setstatusShow(false)
-  //     setaddamenityShow(false);
-
-  //   }
-  //   else {
-  //     dispatch({
-  //       type: 'AddUserAmnities',
-  //       payload: {
-  //         hostelID: hostelIds,
-  //         userID: customerUser_Id,
-  //         amenityID: selectAmneties,
-  //         created_By: createbyamni
-  //       }
-  //     });
-  //     dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } })
-  //     dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } });
-  //     setaddamenityShow(false);
-  //   }
-
-
-  // };
-
-
-  // useEffect(() => {
-  //   console.log("state For Add userAminity", state);
-  // }, [state]);
-
-  // useEffect(() => {
-  //   if (id && state.UsersList.addUserAmnities) {
-  //     dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } })
-  //     console.log("user_id", id);
-  //     dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } });
-  //   }
-  //   console.log("userIduserId", id);
-  // }, [id, state.UsersList.addUserAmnities]);
+  
 
 
   console.log("state For Add userAminity", state);
@@ -1061,6 +980,10 @@ console.log("state.UsersList.CustomerdetailsgetStatuscode",state.UsersList.Custo
     setselectAmneties(v.amenity_Id)
 
 
+  }
+  const OnShowTableForCustomer = (isVisible) =>{
+    setUserList(isVisible)
+    setRoomDetail(false)
   }
 
 
@@ -1312,13 +1235,12 @@ placeholder="Search..."
         const imageUrl = user.profile || User;
         console.log('Image URL:', imageUrl);
         return(
-          <tr key={user.Email} style={{ fontSize: "16px", fontWeight: 600,  textAlign: "center" }}>
+          <tr key={user.Email} style={{ fontSize: "16px", fontWeight: 600,  textAlign: "center",marginTop:10 }}>
           <td style={{ padding: "10px", border: "none" }}>
             <img src={squre } height={20} width={20} />
           </td>
-          <td style={{  border: "none", display: "flex",  }}>
-            {/* <img src={user.profile ? user.profile:User}  style={{ height: 40, width: 40, marginRight: "10px" }} /> */}
-            {/* <Image src={user.profile ? user.profile:User} roundedCircle style={{ height: "40px", width: "40px" }} /> */}
+          <td style={{  border: "none", display: "flex", padding: "10px" }}>
+          
             <Image
       src={imageUrl}
       alt={user.Name || "Default Profile"}
@@ -1329,23 +1251,16 @@ placeholder="Search..."
         e.target.src = User; // Fallback to default image
       }}
     />
-            <span onClick={() => handleRoomDetailsPage(user, user.Bed, user.Rooms, user.Floor, user.Hostel_Id)}>
+            <span onClick={() => handleRoomDetailsPage(user)}>
               {user.Name}
             </span>
           </td>
           <td style={{ padding: "10px", border: "none", textAlign: "start" }}>{user.Email}</td>
           <td style={{ padding: "10px", border: "none", textAlign: "start" }}>{user.Phone}</td>
           <td style={{ padding: "10px", border: "none", textAlign: "start" }}>
-            <span style={{ padding: "8px 16px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start" }}>{user.HostelName}</span>
+            <span style={{ paddingTop: "3px",paddingLeft:"10px",paddingRight:"10px",paddingBottom:"3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start" }}>{user.HostelName}</span>
           </td>
           <td style={{ padding: "10px", border: "none", textAlign: "start" }}>{user.Rooms}</td>
-          {/* <td
-            className={user.Bed === 0 ? 'assign-bed' : ''}
-            onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
-            style={{ padding: "10px", border: "none", textDecoration: user.Bed === 0 ? "none" : "initial" }}
-          >
-            {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
-          </td> */}
     <td
   className={user.Bed === 0 ? 'assign-bed' : ''}
   onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
@@ -1360,7 +1275,7 @@ placeholder="Search..."
   {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
 </td>
           <td style={{ padding: "10px", border: "none" }}>
-            <img src={dottt} style={{ height: 20, width: 20 }} />
+            <img src={dottt} style={{ height: 40, width: 40 }} />
           </td>
         </tr>
 
@@ -1461,8 +1376,8 @@ placeholder="Search..."
                 </div>
               </div>
 
-              <div style={{ marginLeft: 20, paddingBottom: 50 }}><img src={leftarrow} onClick={handleBack} /><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15 }}>UserProfile</span> </div>
-              <div className="card" style={{ height: 100 }}>
+              <div style={{ marginLeft: 20, paddingBottom: 20 }}><img src={leftarrow} onClick={handleBack} /><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15 }}>UserProfile</span> </div>
+              <div className="card" style={{ height: 100 ,borderRadius:"20px"}}>
                 <div className="card-body d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center">
                     <Image
@@ -1475,16 +1390,16 @@ placeholder="Search..."
         e.target.src = User; 
       }}
     />
-                    <div>
+                    <div style={{marginLeft:10}}>
                       <h5 className="card-title mb-0">
-                        {item.Name} <span className="text-primary"><i className="bi bi-check-circle-fill"></i></span>
+                        {item.Name} <span className="text-primary"></span>
                       </h5>
                       <p style={{marginTop:10}}>
-                        <span style={{ backgroundColor: '#FFE0D9',padding:"3px 3px 3px 3px",borderRadius:"10px" }}>
+                        <span style={{ backgroundColor: '#FFE0D9',padding:"3px 3px 3px 3px",borderRadius:"10px",paddingLeft:"10px",paddingRight:"10px" }}>
                           {getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}
                         </span>
-                        {' | '}
-                        <span style={{ backgroundColor: '#FFEFCF',padding:"3px 3px 3px 3px",borderRadius:"10px" }}>
+                      
+                        <span style={{ backgroundColor: '#FFEFCF',padding:"3px 3px 3px 3px",borderRadius:"10px",paddingLeft:"10px",paddingRight:"10px",marginLeft:10 }}>
                           {getFloorName(item.Floor)}
                         </span>
                       </p>
@@ -1515,11 +1430,11 @@ placeholder="Search..."
 
                 {
                   overviewshow &&
-                  <div className="overdue">
+                  <div className="overdue mt-3" >
                     <div style={{ flex: 1 }}>
-                      <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center" style={{backgroundColor:"white"}}>
-                          <div style={{ fontSize: 16, fontWeight: 600 }}>
+                      <div class="card" style={{borderRadius:"20px"}}>
+                        <div class="card-header d-flex justify-content-between align-items-center " style={{backgroundColor:"transparent"}}>
+                          <div style={{ fontSize: 17, fontWeight: 700 }}>
                             Basic Information
                           </div>
                           <div>
@@ -1527,7 +1442,7 @@ placeholder="Search..."
                           </div>
                         </div>
                         <div class="card-body">
-                          <div class="row mb-3">
+                          <div class="row ">
                             <div class="col-sm-6">
                               <strong>Paying Guest</strong>
                               <p><img src={building} /><span style={{marginLeft:5}}>{item.HostelName}</span></p>
@@ -1537,7 +1452,7 @@ placeholder="Search..."
                               <p ><img src={Group} /><span style={{marginLeft:5}}>{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</span></p>
                             </div>
                           </div>
-                          <div class="row mb-3">
+                          <div class="row ">
                             <div class="col-sm-6">
                               <strong>Email</strong>
                               <p><img src={sms} /> {item.Email}</p>
@@ -1547,7 +1462,7 @@ placeholder="Search..."
                               <p><img src={call} /> {item.Phone}</p>
                             </div>
                           </div>
-                          <div class="row mb-3">
+                          <div class="row">
                             <div class="col-sm-6">
                               <strong>Address</strong>
                               <p><img src={house} /> {item.Address}</p>
@@ -1566,9 +1481,9 @@ placeholder="Search..."
                           console.log("g", g)
 
                           return (
-                            <div class="card">
-                              <div class="card-header d-flex justify-content-between align-items-center" style={{backgroundColor:"white"}}>
-                                <div style={{ fontSize: 16, fontWeight: 600 }}>
+                            <div class="card" style={{borderRadius:"20px"}}>
+                              <div class="card-header d-flex justify-content-between align-items-center" style={{backgroundColor:"transparent"}}>
+                                <div style={{ fontSize: 17, fontWeight: 700 }}>
                                   Detailed Information
                                 </div>
                                 <div>
@@ -1621,7 +1536,7 @@ placeholder="Search..."
 
 
                     <div>
-                      <Table className="ebtable" responsive  >
+                      <Table className="ebtable mt-3" responsive  >
                         <thead >
                           <tr >
 
@@ -1690,7 +1605,7 @@ placeholder="Search..."
                   invoiceshow &&
                   <div>
 
-                    <Table className="ebtable" responsive >
+                    <Table className="ebtable mt-3" responsive >
                       <thead style={{ color: "gray", fontSize: "11px", marginLeft: 10 }}>
                         <tr className="" style={{ height: "30px" }}>
                           <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Invoice number</th>
@@ -1767,7 +1682,7 @@ placeholder="Search..."
                   amnitiesshow &&
 
 
-                  <div className="container mt-2">
+                  <div className="container mt-3">
                     <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                       <Form.Label style={{ fontSize: "14px", fontWeight: 600, font: "Gilroy" }}>Amnities</Form.Label>
                       <Form.Select
@@ -2032,7 +1947,7 @@ placeholder="Search..."
                   transshow &&
 
                   <div>
-                    <Table className="ebtable" responsive >
+                    <Table className="ebtable mt-3" responsive >
                       <thead style={{ color: "gray", fontSize: "11px" }}>
                         <tr className="" style={{ height: "30px" }}>
 
@@ -2120,7 +2035,7 @@ placeholder="Search..."
           AfterEditRoomses={AfterEditRooms}
           AfterEditBeds={AfterEditBed}
 
-          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail}/> : null
+          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer}/> : null
       }
 
     </div>
