@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Logo from '../Assets/Images/Logo-Icon.png'
 import Form from 'react-bootstrap/Form';
@@ -62,17 +63,17 @@ function InvoiceSettings() {
     const handleStartingNumber = (e) => {
         setStartNumber(e.target.value)
     }
-   
-    
+
+
     const handleInvoiceSettings = () => {
         const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== '';
         const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== '';
         const isSelectedImageValid = selectedImage !== undefined && selectedImage !== null;
-    
+
         console.log("isPrefixValid:", isPrefixValid);
         console.log("isStartNumberValid:", isStartNumberValid);
         console.log("isSelectedImageValid:", isSelectedImageValid);
-    
+
         if (isPrefixValid && isStartNumberValid && isSelectedImageValid) {
             dispatch({
                 type: 'INVOICESETTINGS',
@@ -141,8 +142,8 @@ function InvoiceSettings() {
             });
         }
     };
-    
-    
+
+
 
 
 
@@ -159,7 +160,7 @@ function InvoiceSettings() {
     useEffect(() => {
         if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
             console.log("executed hostel list")
-            
+
             dispatch({ type: 'HOSTELLIST' })
 
             setTimeout(() => {
@@ -219,11 +220,121 @@ function InvoiceSettings() {
 
     return (
         <div>
-            <div className='d-flex justify-content-between'>
+
+            <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                      <Form.Label style={{ fontSize: 14, fontWeight: 600 }}>
+                        Select Hostel
+                      </Form.Label>
+                    <Form.Select aria-label="Default select example" 
+           className='border'     value={selectedHostel.id} onChange={(e) => handleHostelChange(e)}  style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
+
+                        <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
+                        {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
+                            <>
+                                <option key={item.id} value={item.id} >{item.Name}</option></>
+                        ))}
+
+                    </Form.Select>
+                </Form.Group>
+
+            </div>
+
+
+
+            <div className='col-lg-10 col-md-8 col-sm-12 col-xs-12' style={{ border: '1px solid #ced4da', padding: '30px', paddingRight: '100px', borderRadius: '20px' }}>
+                <div className='d-flex row'>
+
+                    <div className='d-flex justify-content-start gap-3 align-items-center '>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5, marginBottom: '20px' }}>
+
+
+                            <Image
+                                src={selectedImage ? URL.createObjectURL(selectedImage) : logo == null ? Logo : logo}
+                                roundedCircle
+                                style={{
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: '50%',
+                                }}
+                            />
+                            <div style={{ marginLeft: '30px', marginTop: '10px' }}>
+                                <h2 style={{ fontSize: 22, fontWeight: 600, }}>PG Logo</h2>
+                                <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
+                                <p onClick={() => document.getElementById('upload-photo').click()} style={{ fontSize: '18px', color: 'blue', fontWeight: 500 }}>Update image</p>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label
+                            style={{fontSize:14 , fontWeight:600}}
+                            >
+                                Prefix
+                            </Form.Label>
+                            <Form.Control
+                                style={{ padding: '20px', marginTop: '10px' }}
+                                type="text"
+                                placeholder="prefix"
+                                value={prefix}
+                                onChange={(e) => handlePrefix(e)}
+                            // readOnly
+                            // style={inputStyle}
+                            />
+                        </Form.Group>
+                    </div>
+
+                    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label style={{fontSize:14 , fontWeight:600}}
+                            >
+                                Suffix
+                            </Form.Label>
+                            <Form.Control
+                                style={{ padding: '20px', marginTop: '10px' , fontSize:14 }}
+                                type="text"
+                                placeholder="suffix"
+                                value={startNumber}
+                                onChange={(e) => handleStartingNumber(e)}
+                            // readOnly
+                            />
+                        </Form.Group>
+                    </div>
+                </div>
+
+                <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Label style={{fontSize:14 , fontWeight:600}}
+                        // style={labelStyle}
+                        >
+                            Preview
+                        </Form.Label>
+                        <Form.Control
+                            style={{ padding: '20px', marginTop: '10px' , fontSize:14  }}
+                            type="text"
+                            placeholder="preview"
+                            disabled
+                            value={prefix + startNumber}
+                        // readOnly
+                        />
+                    </Form.Group>
+                </div>
+                <div style={{ marginTop: '30px' }}>
+                    <Button onClick={handleInvoiceSettings} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 10px, 18px, 10px" }}> Save changes</Button>
+                    <Button style={{ fontSize: 16, backgroundColor: "#FFFFFF", color: "red", border: '1px solid red ', height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 10px, 18px, 10px", marginLeft: '20px' }}> Delete</Button>
+
+                </div>
+
+            </div>
+
+
+            {/* <div className='d-flex justify-content-between'>
 
                 <div>
                     <h4 style={{ fontSize: 20, fontWeight: 600, }}>Invoice Settings</h4>
-                    {/* <p className='mb-1'>Lorem Ipsum dolor sit amet consectetur</p> */}
                 </div>
                 <div className='justify-content-end'>
                     <button type="button" class="mb-2" style={{ backgroundColor: "#2E75EA", fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "5px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "white", marginRight: '10px' }} onClick={handleInvoiceSettings}  >Save change</button>
@@ -231,9 +342,9 @@ function InvoiceSettings() {
 
                 </div>
 
-            </div>
+            </div> */}
 
-            <hr></hr>
+            {/* <hr></hr>
             <div className='row'>
                 <div className='col-lg-6 col-12'>
                     <Form.Group className="mb-3">
@@ -249,9 +360,9 @@ function InvoiceSettings() {
                         </Form.Select>
                     </Form.Group>
                 </div>
-            </div>
+            </div> */}
 
-            {showTable && <>
+            {/* {showTable && <>
                 <h4 style={{ fontSize: 16, fontWeight: 600, }}>Upload Logo</h4>
                 <div className='d-flex justify-content-start gap-3 align-items-center mt-3'>
                     <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5 }}>
@@ -336,7 +447,7 @@ function InvoiceSettings() {
                     </table>
                 </div>
 
-            </>}
+            </>} */}
 
 
         </div>

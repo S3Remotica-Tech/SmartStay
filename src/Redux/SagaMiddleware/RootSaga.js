@@ -7,7 +7,7 @@ import InvoiceSaga from './InvoiceSaga';
 import ComplianceSaga from './ComplianceSaga';
 import PgListSaga from './PgListSaga';
 import AssetSaga from './AssetSaga'
-
+import SettingsSaga from './SettingsSaga'
 
 function* RootSaga() {
     
@@ -19,7 +19,8 @@ yield all([
     InvoiceSaga(),
     ComplianceSaga(),
     PgListSaga(),
-    AssetSaga()
+    AssetSaga(),
+    SettingsSaga()
 ])
 }
 export default RootSaga;

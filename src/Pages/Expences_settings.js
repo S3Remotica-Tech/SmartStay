@@ -1,0 +1,285 @@
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Swal from 'sweetalert2';
+import Closebtn from '../Assets/Images/New_images/close-circle.png';
+
+const ExpencesSettings = () => {
+
+    const state = useSelector(state => state)
+    const dispatch = useDispatch()
+
+    console.log("state", state);
+
+    const [type, setType] = useState('');
+    // console.log("type",type);
+    const [subType, setSubType] = useState('');
+    // console.log("subType",subType);
+
+    const [typeidname,setTypeIdName] = useState('')
+    // console.log("typeid", typeidname);
+    const [types, setTypes] = useState([]);
+    const [isSubCategory, setIsSubCategory] = useState(false);
+    // console.log("isSubCategory",isSubCategory);
+    const [expences , setExpences] = useState([])
+    // console.log("expences",expences);
+
+    const [namefilter , setNamefilter]= useState()
+//    console.log("namefilter",namefilter);
+
+//    useEffect(() => {
+//     console.log("useEffect triggered");
+//     console.log("state.Settings.Expences.data", state.Settings.Expences.data);
+//     console.log("typeid", typeidname);
+
+//     // if (state.Settings.Expences.data && type !== undefined) {
+//     //     // Filter the data based on the typeidname
+//     //     console.log("type",type);
+//     //     const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
+//     //         console.log("all", typename.id);
+//     //         return typename.id === type;
+//     //     });
+//     //     // Set the filtered data to the state
+//     //     setNamefilter(Typeidnamefilter);
+//     //     // Log the filtered data for debugging
+//     //     console.log("Typeidnamefilter", Typeidnamefilter);
+//     // }
+// }, [state.Settings.Expences.data, type]); 
+
+    const addType = () => {
+        if (type.trim()) {
+            if (isSubCategory) {
+                if (subType.trim()) {
+                    console.log("subexecuted");
+                    // setTypes([...types, { category: type, subCategory: subType }]);
+                    dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { id: type,category_Name: namefilter, sub_Category: subType } });
+                    Swal.fire({
+                        icon: "success",
+                        title: 'Expenses Category Added successfully',
+                        confirmButtonText: "ok"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Additional logic if needed when Swal is confirmed
+                        }
+                    });
+                    setSubType('');
+                    setType('');
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Please enter a sub-category',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            } else {
+                // setTypes([...types, { category: type, subCategory: '' }]);
+                dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { category_Name: type, sub_Category: '' } });
+                Swal.fire({
+                    icon: "success",
+                    title: 'Expenses Category Added successfully',
+                    confirmButtonText: "ok"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Additional logic if needed when Swal is confirmed
+                    }
+                });
+                setType('');
+            }
+        } else {
+            console.log("Please enter a category");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Please enter a category',
+                confirmButtonText: 'OK'
+            });
+        }
+    };
+    
+
+   
+
+    useEffect(() => {
+        dispatch({ type: 'EXPENCES-CATEGORY-LIST' })
+    }, [])
+
+    useEffect(() => {
+        if (state.Settings.getExpensesStatuscode === 200) {
+            setExpences(state.Settings.Expences.data)
+          setTimeout(() => {
+            dispatch({ type: 'CLEAR_GET_EXPENSES_STATUS_CODE' })
+          }, 100)
+        }
+      }, [state.Settings.getExpensesStatuscode])
+
+       
+
+      useEffect(() => {
+        if (state.Settings.addexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
+          setTimeout(() => {
+            dispatch({ type: 'EXPENCES-CATEGORY-LIST' })
+            console.log("get expense category list executed")
+          }, 100)
+          setTimeout(() => {
+            dispatch({ type: 'CLEAR_ADD_EXPENCES_STATUS_CODE' })
+          }, 1000)
+    
+          setTimeout(()=>{
+            dispatch({ type: 'CLEAR_DELETE_EXPENCES_STATUS_CODE' })
+          },1000)
+        }
+      }, [state.Settings.addexpencesStatuscode,state.Settings.deleteexpencesStatusCode])
+
+      const handleDeleteExpensesCategory = (item) =>{
+        console.log("deleteitem",item)
+        if(item){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Do you want to delete the Expenses Category ?',
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+          showCancelButton: true,
+      }).then((result) => {
+          if (result.isConfirmed) {
+              dispatch({
+                  type: 'DELETE-EXPENCES-CATEGORY',
+                  payload: {
+                    id : item.id
+                  },
+              });
+              console.log("deleteexecuted");
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Expenses Category deleted Successfully',
+              })
+          }
+      });
+    
+    }
+    
+      }
+const handleCategoryid = (e) =>{
+    setType(e.target.value)
+    if (state.Settings.Expences.data && e.target.value !== undefined) {
+        console.log("type",e.target.value);
+        const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
+            console.log("all", typename.id);
+            return typename.id == e.target.value;
+        });
+        setNamefilter(Typeidnamefilter[0].category_Name);
+        
+        console.log("Typeidnamefilter", Typeidnamefilter);
+    }
+}
+    return (
+        <div>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Label style={{ fontSize: 14, fontWeight: 600 }}>Category</Form.Label>
+                        {isSubCategory ? (
+                            <Form.Control
+                                as="select"
+                                style={{ padding: '20px', marginTop: '10px' }}
+                                value={type}
+                                onChange={(e) => handleCategoryid(e)}
+                            >
+                                <option value="">Select Category</option>
+                                {expences.map((category, index) => (
+                                    <option key={index} value={category.id}>
+                                        {category.category_Name}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        ) : (
+                            <Form.Control
+                                style={{ padding: '20px', marginTop: '10px' }}
+                                type="text"
+                                placeholder="Enter Category"
+                                value={type}
+                                onChange={(e) => setType(e.target.value)}
+                            />
+                        )}
+                    </Form.Group>
+                </div> 
+
+                {/* {isSubCategory && ( */}
+                <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12 ms-4'>
+
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                        <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : 'black', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 600  }}>Sub-Category</Form.Label>
+                        <Form.Control
+                            style={{ padding: '20px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1' }}
+                            className={!isSubCategory ? 'custom-disabled' : 'white !important'}
+                            type="text"
+                            placeholder="Enter sub-category"
+                            value={subType}
+                            onChange={(e) => setSubType(e.target.value)}
+                            disabled={!isSubCategory}
+                        />
+                    </Form.Group>
+                </div>
+                {/* )} */}
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <input
+                    type='checkbox'
+                    className='mb-2 me-2'
+                    checked={isSubCategory}
+                    onChange={() => setIsSubCategory(!isSubCategory)}
+                />
+                <p className='mt-1'>Make sub-category</p>
+            </div>
+
+            <div style={{ marginTop: '30px',fontSize: 14, fontWeight: 600  }}>
+                <Button
+                    style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200 }}
+                    onClick={addType}
+                >
+                    + Add category
+                </Button>
+
+                <div className="mt-3">
+                    <h5>Existing categories</h5>
+                    <div className="mt-4" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {expences.map((t, index) => (
+                            <p key={index} className='m-1'>
+                                <span style={{ backgroundColor: '#FFEFCF', padding: '8px 12px', color: '#222222', borderRadius: '14px' }}>
+                                    {t.category_Name}
+                                    <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeleteExpensesCategory(t)}>
+                                        <img src={Closebtn} height={15} width={15} alt="delete" />
+                                    </span>
+                                </span>
+                            </p>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="mt-3">
+    <h5>Existing sub-categories</h5>
+    
+    <div className="mt-4" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+        {expences.filter(t => t.category_Name).map((t, index) => (
+            t.sub_Category && t.sub_Category.length > 0 ? (
+                <div key={index} className='m-1' style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ backgroundColor: '#FFEFCF', padding: '8px 12px', color: '#222222', borderRadius: '14px' }}>
+                        <span style={{ marginLeft: '10px', fontSize: '18px', color: '#555' }}>
+                            {t.category_Name} - {t.sub_Category}
+                        </span>
+                        <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeleteExpensesCategory(t)}>
+                            <img src={Closebtn} height={15} width={15} alt="delete" />
+                        </span>
+                    </span>
+                </div>
+            ) : null
+        ))}
+    </div>
+</div>
+
+            </div>
+        </div>
+    );
+};
+
+export default ExpencesSettings;

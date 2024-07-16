@@ -1284,7 +1284,7 @@ console.log("DATA",data)
           currentItems.map((item) => (
             <tr key={item.id} 
             style={{color: "#000", fontFamily: "Gilroy",fontSize: "14px",fontStyle: "normal"
-              ,lineHeight: "normal"}}>
+              ,lineHeight: "normal"}} className='m-2'>
               <td style={{ color: "black", fontWeight: 500 }}>
                 <input type='checkbox' className="custom-checkbox  mx-2 " style={customCheckboxStyle}/>
               </td>
