@@ -1,22 +1,101 @@
-*{
-  margin:0;
-  padding:0;
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 
 .custom-input:focus {
-  box-shadow: none !important; 
-  border-color: #ced4da !important; 
+  box-shadow: none !important;
+  border-color: #ced4da !important;
+
+
 }
+
 @media (max-width: 600px) {
-    .Form{
-      padding:20px;
-          }
-   
+  .Form {
+    padding: 20px;
   }
-  @media (max-width: 390px) {
-    #Welcome{
-        padding-top:50px !important;
-    }
+
+}
+
+@media (max-width: 390px) {
+  #Welcome {
+    padding-top: 50px !important;
   }
+}
+
+.login_page1 .p_font {
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: '16px';
+  color: 'rgba(75, 75, 75, 1)';
+  line-height: 19.5px;
+  text-align: left;
+}
+
+.login_page1 .label_style {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.48px;
+  text-align: left;
+
+}
+
+.login_page1 .form_input {
+  /* height: 50px; */
+  font-size: 14px !important;
+  opacity: 1;
+  color: gray
+}
+
+
+
+.forgot_button {
+  font-family: "Montserrat";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17.07px;
+  text-align: left;
+  color: rgba(30, 69, 225, 1);
+}
+
+/* @media (min-width: 768px) {
+  .image_div {
+    margin-left: 100px;
+  }
+} */
+
+
+.responsive-image {
+  width: 100%;
+  /* Default image width */
+  max-width: 100%;
+  /* Ensure it doesn't exceed container */
+}
+
+/* Adjust margin-left for medium and larger devices */
+@media (min-width: 768px) {
+  .image_div {
+    margin-left: 100px;
+  width: 450px;
+
+  }
+}
+
+/* Additional adjustments for larger screens if needed */
+@media (min-width: 800px) and (max-width: 1000px) {
+  .image_div {
+      width: 450px;
+    height: 200px;
+    margin-left: 50px;
+    /* Adjust as needed for this range */
+  }
+}
+
+@media (min-width: 1001px) {
+  .image_div {
+    /* margin-left: 120px; */
+    /* Adjust as needed for this range */
+  }
+}

@@ -8,7 +8,9 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import AddAsset from './AddAsset'
-
+import { CiSearch } from "react-icons/ci";
+import Notify from '../Assets/Images/New_images/notify.png';
+import Profile from '../Assets/Images/New_images/profile.png';
 import AssetListTable from './AssetListTable'
 
 
@@ -45,9 +47,11 @@ function Asset() {
 
 
   useEffect(() => {
-    if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200, state.AssetList.addAssignAssetStatusCode === 200) {
+    if (state.AssetList.addAssetStatusCode == 200 || state.AssetList.deleteAssetStatusCode == 200 || state.AssetList.addAssignAssetStatusCode == 200) {
+     setTimeout(()=>{
       dispatch({ type: 'ASSETLIST' })
-      setTimeout(() => {
+     },100)
+           setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
       }, 4000)
 
@@ -62,7 +66,7 @@ function Asset() {
 
     }
 
-  }, [state.AssetList.addAssetStatusCode,state.AssetList.deleteAssetStatusCode,state.AssetList.addAssignAssetStatusCode])
+  },[state.AssetList.addAssetStatusCode,state.AssetList.deleteAssetStatusCode,state.AssetList.addAssignAssetStatusCode])
 
 
 
@@ -94,13 +98,13 @@ function Asset() {
     console.log("data", data)
     switch (selectedPriceRange) {
       case '0-100':
-        return data.filter(item => item.price <= 100);
+        return data.filter(item => item.total_price <= 100);
       case '100-500':
-        return data.filter(item => item.price > 100 && item.price <= 500);
+        return data.filter(item => item.total_price > 100 && item.total_price <= 500);
       case '500-1000':
-        return data.filter(item => item.price > 500 && item.price <= 1000);
+        return data.filter(item => item.total_price > 500 && item.total_price <= 1000);
       case '1000+':
-        return data.filter(item => item.price > 1000);
+        return data.filter(item => item.total_price > 1000);
         case 'All':
           return data
       default:
@@ -140,6 +144,46 @@ function Asset() {
   }
 
 
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+
+  const renderPagination = () => {
+    const pageNumbers = [];
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, currentPage + 2);
+
+    if (startPage > 1) {
+      pageNumbers.push(
+        <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
+          1
+        </Pagination.Item>
+      );
+      if (startPage > 2) {
+        pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
+          {i}
+        </Pagination.Item>
+      );
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
+      }
+      pageNumbers.push(
+        <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
+          {totalPages}
+        </Pagination.Item>
+      );
+    }
+
+    return pageNumbers;
+  };
 
   const handleEditAsset = (item) =>{
     console.log("item for props",item)
@@ -148,16 +192,73 @@ function Asset() {
   }
 
 
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const handleInputChange = (e) => {
+    const searchItem = e.target.value
+    setSearchQuery(searchItem);
+    if (searchItem != '') {
+      const filteredItems = state.AssetList.assetList && state.AssetList.assetList.filter((user) =>
+        user.asset_name && user.asset_name.toLowerCase().includes(searchItem.toLowerCase())
+      );
 
-
-
+      setGetData(filteredItems);
+    }
+    else {
+      setGetData(state.AssetList.assetList)
+    }
+    setCurrentPage(1);
+  };
   
+
+  const stateAccount= useSelector(state => state.createAccount)
+
+
+  const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
+  
+  
+  useEffect(() => {
+    if (stateAccount.statusCodeForAccountList == 200) {
+      const loginProfile = stateAccount.accountList[0].user_details.profile
+        
+          setProfile(loginProfile)
+        }
+  
+  }, [stateAccount.statusCodeForAccountList])
+
+
+
+
+
   return (
     <>
       <div style={{ width: "100%" }} >
         <div className='m-4'>
 
+
+        <div className='d-flex justify-content-end align-items-center m-4'>
+
+<div>
+<InputGroup>
+<InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+<CiSearch style={{ fontSize: 20 }} />
+</InputGroup.Text>
+<FormControl size="lg" 
+ value={searchQuery}
+ onChange={handleInputChange}
+style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+placeholder="Search..."
+/>
+</InputGroup>
+</div>
+<div className="mr-3">
+<img src={Notify} alt="notification" />
+</div>
+
+<div className="mr-3">
+<Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+</div>
+</div>
 
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div>
@@ -238,14 +339,22 @@ function Asset() {
 
           </div>
           {/*  Pagination code */}
+          {currentItems.length > 0 && 
+          <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+        <Pagination.Prev style={{ visibility:"visible"}}
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        />
+              {renderPagination()}
+                <Pagination.Next style={{ visibility:"visible"}}
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        />
+      </Pagination>
 
-          <Pagination className="mt-4 d-flex justify-content-end">
-            {[...Array(Math.ceil(getData.length / itemsPerPage)).keys()].map(number => (
-              <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
-                {number + 1}
-              </Pagination.Item>
-            ))}
-          </Pagination>
+          }
+
+
         </div>
       </div>
       {show && <AddAsset show={show} handleClose={handleClose}   currentItem={currentItem}/>}

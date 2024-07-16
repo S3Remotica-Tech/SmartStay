@@ -1,270 +1,112 @@
-#form-controls {
-  display: block;
+.custom-table {
   width: 100%;
- padding:unset !important;
- 
+  border-collapse: collapse;
+  margin-top: 20px;
 }
-body{
-  background-color: #0066ff;
-}
-#form-selects{
-  padding:unset !important;
-}
-.user-menu {
-  list-style: none;
-  padding: 0;
 
+.custom-table thead {
+  background-color: #F6F7FB;
+  font-size: 14px;
+  color: #91969E;
 }
-.user-menu ul {
+
+.custom-table th, .custom-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.custom-table th {
+  text-align: left;
+}
+
+.custom-table tbody tr {
+  font-weight: 700;
+}
+
+.custom-table tbody tr td {
+  color: black;
+}
+
+.custom-table tbody tr td.name {
+  color: #0D99FF;
+  text-decoration: underline;
   cursor: pointer;
-  margin-bottom: 10px;
-  padding: 5px;
-  transition: color 0.3s, border-color 0.3s;
-}
-.custom-text:focus{
-  box-shadow: none !important; 
-  border-color: #ced4da !important; 
-}
-.user-menu ul.active {
-  color: #2F74EB;
-  border-bottom: 2px solid #2F74EB;
-  }
-
-.table {
-  width: 100%;
-  margin-top: 10px;
 }
 
-.user {
+.custom-table tbody tr td.assign-bed {
+  color: #0D99FF;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+/* roomtetail */
+
+.tapppinfour{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 20px;
-  
-
-
 }
-.user2{
-  display: flex;
-  flex-direction: row;
-justify-content: center;
-align-items: center;
-  
-}
-
-.searchinput:focus {
-  box-shadow: none !important; 
-  border-color: 1px solid #ced4da !important; 
-}
-.io {
-  margin-top: 10px;
-  margin-right: 20px;
-}
-
-.bs {
-  margin-top: 10px;
-  margin-right: 15px;
-}
-
-.bbbbttt {
-
-  width: 150px;
+.tab-item {
+  padding: 20px;
+  cursor: pointer;
   margin-bottom: 10px;
-  padding-bottom: 5px;
-
 }
 
-.img1 {
-  width: 14px;
-  height:14px;
-}
 
-.iconnn {
-  background-color: #D2D7DC;
-}
+/* .tab-item.active {
+  text-decoration: underline;
+  text-decoration-color: blue;
+  
+  
+} */
+.tab-item.active {
+  text-decoration: underline;
 
-.samson {
-  height: 40px;
+  text-decoration-color: #1E45E1;
+  text-underline-offset: 10px; /* Adjust this value as needed */
+  text-decoration-thickness: 2px;
 }
-
-.add {
-  font-size: 13;
-  margin-left: 1%;
-}
-
-.i-circle {
-  display: inline-block;
-  background-color: #EDEEF1;
-  color: #fff;
-  border-radius: 100%;
-  font-size: 10px;
-  line-height: 30px;
-    width: 30px;
-  height: 30px;
-  text-align: center;
-   padding-bottom: 5px;
+@media (max-width:800px) {
+    
+  .tapppinfour{
+    display: flex;
+    flex-direction: column;
+   
+  }
+  .tab-item {
+    padding: 2px;
+    cursor: pointer;
+  }
  }
 
-.tablebody {
-  font-size: 10px;
-}
+ /* overdue */
 
-.pagination {
-  list-style: none;
+ .overdue{
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 5rem;
-  font-size: 10px;
-  gap: 5px;
-}
+  flex-direction: row;
 
-.pagination .page-num {
-  padding: 8px 15px;
-  cursor: pointer;
-  border-radius: 3px;
-  font-weight: 13;
-}
-
-.pagination .page-num:hover {
-  background-color: #0066ff;
-  color: #fff;
-  border-radius: 100%;
-
-}
-
-.pagination .page-active {
-  background-color: #0066ff !important;
-  color: #fff;
-  border-radius: 100%;
-}
-
-a {
-  text-decoration: none;
-}
-
-.previousLabel {
-  text-decoration: none;
-}
-
-.user1 {
-  font-size: 30;
-
-}
+ }
 
 
-@media only screen and (max-width: 665px) and (min-width: 300px)  {
+ /* amni */
+ .spantag{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
-  .table {
-    width: 100%
-  }
+ }
+ .ebtable{
+  border: 1px solid #DCDCDC;
+  border-radius: 24px;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+ }
+ .ebtable td{
+  border: none;
+ }
 
-  .bbbbttt {
-    width: 100px;
-    padding: 0px;
-    height: 40px;
-  }
-  .add {
-    font-size: 10px;
-    
-  }
-
-  .user1 {
-    font-size: 30px;
-    margin-right: 50px;
-    margin-top: 30px !important;
-  }
  
-
-}
-
-@media only screen and (max-width: 650px) and (min-width: 100px)  {
-
-  .bbbbttt {
-    width: 50% !important;
-    padding: 0px !important;
-    height: 30px !important;
-    margin-left: 80px !important;
-    margin-top: -20px;
-  
-  }
-  .add {
-    font-size: 8px !important;
-    margin: 0px !important;
-  }
-
-  .user1 {
-    font-size: 10px !important;
-    margin-right: 15px !important;
-    margin-top: -0px !important;
-  }
-  .user {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between; 
-    margin-top: 0px !important;
-  
-  }
-  .user2{
-    
-    margin-top: -5px !important;
-    display: flex;
-    flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  }
-
-
-}
-@media only screen and (max-width: 667px) and (min-width: 650px)  {
-  .bbbbttt {
-    width: 50% !important;
-    padding: 0px !important;
-    height: 30px !important;
-    margin-left: 80px !important;
-    margin-top: -20px;
-  
-  }
-
-}
-@media only screen and (max-width: 450px){
-  .user2{
- margin-left: 70px;
- display: flex;
- flex-direction: row;
-justify-content: center;
-align-items: center;
-
-  }
-
-}
-@media only screen and (max-width: 280px) and (min-width: 100px){
-  .bbbbttt {
-    width: 50% !important;
-    padding: 0px !important;
-    height: 30px !important;
-    margin-left: 80px !important;
-    margin-top: -20px;
-  
-  }
-  .user2{
-    margin-left: 10px;
-    display: flex;
-  flex-direction: row;
-justify-content: center;
-align-items: center;
-     }
-
-}
-
-@media only screen and (max-width: 540px) and (min-width: 540px){
-  .user2{
-    margin-left: 170px;
-    display: flex;
-  flex-direction: row;
-justify-content: center;
-align-items: center;
-     }
-
-}
-

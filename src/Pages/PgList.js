@@ -23,7 +23,22 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import UserBedDetails from '../Pages/UserBedDetails';
 import CryptoJS from "crypto-js";
 import { FaAngleRight } from "react-icons/fa6";
-import SmartLogo from '../Assets/Images/Logo-Icon.png'
+import SmartLogo from '../Assets/Images/Logo-Icon.png';
+import Filter from '../Assets/Images/New_images/Group 13.png';
+import PayingGuest from '../Pages/PayingGuestMap'
+import Alert from 'react-bootstrap/Alert';
+import ParticularHostelDetails from '../Pages/ParticularHostelDetails'
+import AddPg from "./AddPg"
+import AddFloor from './AddFloor';
+import './PgList.css';
+import Nav from 'react-bootstrap/Nav';
+import AddRoom from './AddRoom';
+import { IoIosArrowDropleft } from "react-icons/io";
+import { ArrowLeft } from 'iconsax-react';
+import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
+import { CiSearch } from "react-icons/ci";
+import Notify from '../Assets/Images/New_images/notify.png';
+import Profile from '../Assets/Images/New_images/profile.png';
 
 function getFloorName(floor_Id) {
   if (floor_Id === 1) {
@@ -58,11 +73,16 @@ function getFloorName(floor_Id) {
 }
 
 
-
 function PgList() {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+
+
+console.log("state for pgList",state)
+
+
+
   const [pgList, setPgList] = useState({
     Name: '',
     phoneNumber: '',
@@ -74,29 +94,35 @@ function PgList() {
 
   })
 
+
+
+ 
   const [hostelIndex, setHostelIndex] = useState(0)
   const [roomDetails, setRoomDetails] = useState('')
 
 
-  const [selectedHostel, setSelectedHostel] = useState(state.UsersList.hostelList.length > 0 ? state.UsersList.hostelList[0] : {});
+  const [selectedHostel, setSelectedHostel] = useState(false);
 
 console.log("selectedHostel",selectedHostel)
 
 
-  const handleHostelSelect = (hostelName) => {
-    const selected = state.UsersList.hostelList?.find((item, index) => {
-      setHostelIndex(index)
-      return item.id == hostelName
-    });
-    setSelectedHostel(selected);
-    handleRowVisibilityChange(true);
-    handleBedVisibilityChange(false)
-  };
+  // const handleHostelSelect = (hostelName) => {
+  //   const selected = state.UsersList.hostelList?.find((item, index) => {
+  //     setHostelIndex(index)
+  //     return item.id == hostelName
+  //   });
+  //   setSelectedHostel(selected);
+  //   handleRowVisibilityChange(true);
+  //   handleBedVisibilityChange(false)
+  // };
+
+const [filteredData, setFilteredData] = useState([])
+
 
 
   useEffect(() => {
     if (state.UsersList?.hosteListStatusCode == 200) {
-      setSelectedHostel(state.UsersList.hostelList.length > 0 ? state.UsersList.hostelList[0] : {})
+     setFilteredData(state.UsersList.hostelList)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
       }, 1000)
@@ -115,50 +141,7 @@ console.log("selectedHostel",selectedHostel)
 
   const LoginId = localStorage.getItem("loginId")
 
-  // const [filterhostellist,setFilterhostellist] = useState([]);
-  // const [filterlogo,setFilterlogo] = useState([]);
 
-
-  // useEffect(() => {
-  //   if (LoginId) {
-  //     try{
-  //       const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-  //       const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-  //       const parsedData = decryptedString;
-  //       dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
-
-  //     }
-
-  //       catch(error){
-  //      console.log("Error decrypting loginid",error);
-  //       }
-  //   }
-
-  // }, [LoginId])
-
-  //  useEffect(() => {
-  //   console.log("filterhostellist", filterhostellist);
-  //   const filteredLogos = [];
-
-  //   for (let i = 0; i < filterhostellist.length; i++) {
-  //     const hostel = filterhostellist[i];
-  //     if (hostel === selectedHostel) {
-  //       const filteredHostels = state.UsersList?.hostelList?.filter((view) => {
-  //         return view.created_By === hostel.created_By;
-  //       });
-
-  //       filteredLogos.push(...filteredHostels);
-  //     }
-  //   }
-
-  //   console.log("filteredLogos", filteredLogos);
-  //   setFilterlogo(filteredLogos);
-  // }, [filterhostellist, state.UsersList, selectedHostel]);
-
-
-  // useEffect(() => {
-  //   dispatch({ type: 'HOSTELLIST' })
-  // }, [])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -203,25 +186,29 @@ console.log("selectedHostel",selectedHostel)
     }
 
   }, [state.UsersList.createFloorMessage])
+  
+
+  
   useEffect(() => {
-    if (state.PgList.createPGMessage) {
+    if (state.PgList.createPgStatusCode == 200) {
            dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
-        dispatch({ type: 'AFTER_CREATE_PG_MSG', message: null })
-      }, 100);
+        dispatch({ type: 'CLEAR_PG_STATUS_CODE' })
+      }, 1000);
     }
-  }, [state.PgList.createPGMessage])
+  }, [state.PgList.createPgStatusCode])
+
+
+  useEffect(() => {
+    if (selectedHostel) {
+      const selected = state.UsersList.hostelList?.find(item => item.id === showHostelDetails.id);
+      setShowHostelDetails(selected);
+    }
+  }, [state.UsersList.hostelList]);
 
 
 
 
-
-
-  // const handleFloorList = (index, roomlist) => {
-  //   var tempArray = pgList.floorDetails
-  //   tempArray[index] = roomlist
-  //   setPgList({ ...pgList, floorDetails: tempArray })
-  // }
 
   const [show, setShow] = useState(false);
   const handleClose = () => {
@@ -244,10 +231,6 @@ console.log("selectedHostel",selectedHostel)
       email_Id: '',
       location: '',
     
-      // number_Of_Floor: '',
-      // number_Of_Rooms: '',
-      // floorDetails: [],
-
     });
     setEmailError('')
     setAddhostelForm(false)
@@ -260,10 +243,6 @@ console.log("selectedHostel",selectedHostel)
 
 
   const [decrypt, setDecrypt] = useState('')
-
-
-
-
 
   const loginId = localStorage.getItem('loginId');
 
@@ -336,7 +315,7 @@ console.log("selectedHostel",selectedHostel)
   };
 
 
-  const handleCreateFloor = () => {
+  const handleCreateFloor = (hostel_Id) => {
 
     Swal.fire({
       icon: 'warning',
@@ -348,11 +327,11 @@ console.log("selectedHostel",selectedHostel)
       if (result.isConfirmed) {
         const floors = floorDetails.map((floor) => (
           { number_of_floors: 1 }));
-        const hostel_Id = selectedHostel.id.toString()
+        const hostel_ID= hostel_Id.toString()
         dispatch({
           type: 'CREATEFLOOR',
           payload: {
-            hostel_Id : hostel_Id,
+            hostel_Id : hostel_ID,
             hostelDetails: floors,
           },
         });
@@ -414,10 +393,10 @@ console.log("selectedHostel",selectedHostel)
 
 
 
-  useEffect(() => {
-    const selected = state.UsersList.hostelList.find(item => item.Name === selectedHostel?.Name);
-    setSelectedHostel(selected);
-  }, [state.UsersList.hostelList[hostelIndex]?.number_Of_Floor])
+  // useEffect(() => {
+  //   const selected = state.UsersList.hostelList.find(item => item.Name === selectedHostel?.Name);
+  //   setSelectedHostel(selected);
+  // }, [state.UsersList.hostelList[hostelIndex]?.number_Of_Floor])
 
   const [isRowVisible, setIsRowVisible] = useState(true);
   const [bedDetailShow, setBedDetailShow] = useState(false)
@@ -529,368 +508,358 @@ console.log("selectedHostel",selectedHostel)
     setPgList({ ...pgList, phoneNumber: validValue });
   };
 
+//  new Ui changes 
+const [showHostelDetails, setShowHostelDetails]= useState('')
+console.log("showHostelDetails",showHostelDetails)
+
+const handleSelectedHostel = (selectedHostelId) => {
+  const selected = state.UsersList.hostelList?.find((item, index) => {
+    setHostelIndex(index)
+    return item.id == selectedHostelId
+  });
+  setSelectedHostel(true);
+  setShowHostelDetails(selected)
+}
+
+
+const [showAddPg, setShowAddPg] = useState(false);
+
+  const handleCloses = () => {
+    setShowAddPg(false);
+  }
+  const handleShowAddPg = () => {
+    setShowAddPg(true);
+  }
+
+
+
+const handleDisplayPgList = (isVisible) =>{
+  setHidePgList(isVisible);
+}
+
+const [currentPage, setCurrentPage] = useState(1);
+const [itemsPerPage] = useState(4);
+
+const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  const [currentItem, setCurrentItem] = useState('')
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  const paginate = (pageNumber) =>{
+    setCurrentPage(pageNumber);
+  } 
+
+  const renderPagination = () => {
+    const pageNumbers = [];
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, currentPage + 2);
+
+    if (startPage > 1) {
+      pageNumbers.push(
+        <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
+          1
+        </Pagination.Item>
+      );
+      if (startPage > 2) {
+        pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
+          {i}
+        </Pagination.Item>
+      );
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
+      }
+      pageNumbers.push(
+        <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
+          {totalPages}
+        </Pagination.Item>
+      );
+    }
+
+    return pageNumbers;
+  };
+
+
+
+  const [showFloor, setShowFloor] = useState(false)
+  const [showRoom, setShowRoom] = useState(false)
+  const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
+
+  const handleAddFloors = () => {
+    setShowFloor(true)
+}
+
+const handleCloseFloor = () =>{
+  setShowFloor(false)
+}
+
+const handleShowAddRoom = (room,selectedFloor) => {
+    setShowRoom(true)
+    setHostelDetails({ room, selectedFloor });
+}
+
+const handlecloseRoom = () =>{
+    setShowRoom(false)
+}
+
+const [floorClick, setFloorClick] = useState(1)
+
+const  handleFloorClick = (floor) =>{
+
+console.log("Floor", floor)
+
+setFloorClick(floor)
+
+}
+
+const handlebackToPG = () =>{
+  setSelectedHostel(false)
+  setHidePgList(true);
+}
+
+const stateAccount= useSelector(state => state.createAccount)
+
+
+const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
+
+
+useEffect(() => {
+  if (stateAccount.statusCodeForAccountList == 200) {
+    const loginProfile = stateAccount.accountList[0].user_details.profile
+      
+        setProfile(loginProfile)
+      }
+
+}, [stateAccount.statusCodeForAccountList])
+
+
+const [searchQuery, setSearchQuery] = useState("");
+
+
+
+  const handleInputChange = (e) => {
+    const searchItem = e.target.value
+    setSearchQuery(searchItem);
+    if (searchItem != '') {
+      const filteredItems = state.UsersList.hostelList && state.UsersList.hostelList.filter((user) =>
+        user.Name && user.Name.toLowerCase().includes(searchItem.toLowerCase())
+      );
+
+      setFilteredData(filteredItems);
+    }
+    else {
+      setFilteredData(state.UsersList.hostelList)
+    }
+    setCurrentPage(1);
+  };
+  
+
+
 
 
   return (
-    <>
-      {hidePgList && <>
-        <div className="d-flex justify-content-between p-3">
-          <h4>Pg List</h4>
-          <div className="d-flex justify-content-center align-items-center p-2">
-            <div><p className='mb-0 me-2' style={{ fontSize: 16, fontWeight: 700 }}>Create a new PG</p></div>
-            <div><button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleshowHostelForm}><img src={Plus} height="12" width="12" alt='Plus' /> Create PG</button></div>
-          </div>
-          {/* <div className="d-flex">
-                  <p className='p-1 mr-1'>Create a new PG</p>
-                  <button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleshowHostelForm}><img src={Plus} height="12" width="12" alt='Plus' /> Create PG</button>
-                </div> */}
+    <div className='m-4' style={{fontFamily: "Gilroy,sans-serif"}}>
+       <div className='d-flex justify-content-end align-items-center m-4'>
 
-          <Offcanvas show={addhostelForm} onHide={handlecloseHostelForm} placement="end" style={{ width: "70vh" }}>
-            <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="p-3 m-0 d-flex align-items-center">Create PG</Offcanvas.Title>
-            <Offcanvas.Body className='p-0'>   <div className='ps-3 pt-2 pe-3 pb-2'>
-              <h6 style={{ color: "#0D6EFD" }}>PG Detail</h6>
-              <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
-              <div className="d-flex justify-content-center">
-                <p style={{ fontSize: "11px", fontWeight: "500" }}>Upload PG Photo</p>
-              </div>
-              <div className="d-flex justify-content-center" style={{ position: "relative" }}>
-                <Image src={Hostel} roundedCircle style={{ height: "50px", width: "50px" }} id="hostel-image" />
-                <Image src={CreateButton} style={{ height: "20px", width: "20px", position: "absolute", bottom: 0 }} id="plus-image" />
-              </div>
+       <div>
+  <InputGroup>
+    <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+      <CiSearch style={{ fontSize: 20 }} />
+    </InputGroup.Text>
+    <FormControl size="lg" 
+    value={searchQuery}
+    onChange={handleInputChange}
+    
+    style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+      placeholder="Search..."
+    />
+  </InputGroup>
+</div>
+<div className="mr-3">
+  <img src={Notify} alt="notification" />
+</div>
 
-              <div className="form-group mb-4">
-                <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>PG Name</label>
-                <input type="text"
-                  value={pgList.Name}
-                  onChange={(e) => { setPgList({ ...pgList, Name: e.target.value }) }}
-                  className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter PG Name" style={{ fontSize: "11px" }} />
-              </div>
-              <div className="form-group mb-4">
-                <div className="row">
-                  <div className="col">
-                    <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Phone Number</label>
-                    <input type="text"
-                      maxLength={10}
-                      value={pgList.phoneNumber}
-                      onChange={handlePhoneNumberChange}
-                      className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter Phone Number" style={{ fontSize: "11px" }} />
-                  </div>
-                  <div className="col">
-                    <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Email Id</label>
-                    <input type="email"
-                      value={pgList.email_Id}
-                      // onChange={(e) => { setPgList({ ...pgList, email_Id: e.target.value }) }}
-                      onChange={handleChangeEmail}
-                      className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter Email Id" style={{ fontSize: "11px" }} />
-                 {emailError && <div style={{ color: 'red', fontSize: '11px' }}>{emailError}</div>}
-                  </div>
-                  
-                </div>
-              </div>
-
-              <div className="form-group mb-4">
-                <label for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>PG Location</label>
-                <input type="text"
-                  value={pgList.location}
-                  onChange={(e) => { setPgList({ ...pgList, location: e.target.value }) }}
-
-                  className="form-control custom-border-bottom p-0" id="exampleInput" placeholder="Enter PG Location" style={{ fontSize: "11px" }} />
-              </div>
-
-
-              {/* <div className="form-group mb-3">
-              <label htmlFor="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Number Of Floor</label>
-              <input
-                type="text"
-                value={pgList.number_Of_Floor}
-                onChange={(e) => setPgList({ ...pgList, number_Of_Floor: e.target.value })}
-                className="form-control custom-border-bottom p-0 mt-2"
-                id="exampleInput"
-                placeholder="Enter Number of Floors"
-                style={{ fontSize: "11px" }}
-              />
-            </div> */}
-
-
-              {/* {pgList.number_Of_Floor && (
-              <div>
-                {Array.from({ length: parseInt(pgList.number_Of_Floor) }, (_, index) => {
-                  const floorNumber = index + 1;
-                  const numberOfRooms = parseInt(pgList[`number_Of_Rooms_${floorNumber}`]) || 0;
-                  const floorLabel = floorNumber === 1 ? 'Ground' : `${floorNumber - 1}`;
-                  return (
-                    <div key={index} className="form-group mb-3">
-                      <label htmlFor="exampleInput" className="form-label mb-1" style={{ fontWeight: 700, fontSize: "11px" }}>
-                        {`${floorLabel} Floor:`}
-                      </label>
-                      <CreatePG index={index} pgList={pgList} setPgList={setPgList} handleFloorList={handleFloorList}></CreatePG>
-
-                    </div>
-                  );
-                })}
-              </div>
-            )} */}
-
-            </div>
-              <hr style={{ marginTop: "50px" }} />
-              <div className="d-flex justify-content-end m-3"  >
-
-                <Button variant="white" size="sm" style={{ width: "90px" }} onClick={handleCancels}>
-                  Cancel
-                </Button>
-                <Button variant="outline-primary" size="sm" style={{ borderRadius: "20vh", width: "80px" }} onClick={handleSubmitPgList}>
-                  Save
-                </Button>
-
-              </div>
-            </Offcanvas.Body>
-          </Offcanvas>
-        </div>
-        <hr />
-        {/* <div className="row g-0 d-flex justify-content-start align-items-center p-2" >
-        <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12 col-12 d-flex justify-content-between align-items-center p-0" style={{ backgroundColor: "" }} >
-          <div className="d-flex justify-content-between align-items-center">
-            <Image src={Hostel} roundedCircle style={{ height: "30px", width: "30px" }} />
-            <div className="d-block ps-2">
-              <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray", fontWeight: 600 }}>PG Detail</p>
-
-              <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-0" aria-label="Default select example" style={{ backgroundColor: "", padding: "8px", border: "none", boxShadow: "none", width: "100px", fontSize: 9, fontWeight: 700 }}>
-                <option disabled selected className='p-3'>Select Hostel</option>
-                {state.UsersList.hostelList.map((obj) => {
-                  return (<>
-                    <option style={{ fontSize: 15 }}>{obj.Name}</option>
-                  </>)
-                })}
-
-              </select>
-
-            </div>
-            <div style={{ borderLeft: "1px solid #cccccc99", height: "30px" }} className="vertical-line"></div>
-          </div>
-        </div>
-        {selectedHostel && <>
-          {
-            Array.from(Array(selectedHostel.number_Of_Floor), (index, element) => {
-              return <SelectedHostelFloorList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
-            })}
-
-          <div className="col-lg-2  col-md-3 col-sm-4 col-xs-12 col-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <div>
-              <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleShow}>
-                <span style={{ padding: "20px 20px" }}>
-                  <img src={Plus} height="12" width="12" alt='Plus' /> Create Floor  </span></button>
-            </div>
-          </div>
-        </>}
-      </div> */}
-
-        <div className="row g-0 p-2" >
-          <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 col-12 d-flex justify-content-start align-items-center p-0" style={{ backgroundColor: "" }} >
-            <div className="d-flex justify-content-start align-items-center w-100">
-
-
-
-              {/* Hostel */}
-              <div className="d-block ps-2 w-100">
-                <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray", fontWeight: 600, marginLeft: '25%' }}>PG Detail</p>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <div style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5, marginRight: 5 }}>
-                    {/* <Image  src={selectedHostel && selectedHostel.profile == null ? Hostel : selectedHostel && selectedHostel.profile} roundedCircle style={{ height: 30, width: 30,borderRadius: '50%' }} /> */}
-                    {selectedHostel && selectedHostel.profile !== null ? (
-                      <Image src={selectedHostel.profile} roundedCircle style={{ height: 15, width: 15, borderRadius: '50%' }} />
-                    ) : (
-                      <Image src={SmartLogo} alt="Default Logo" style={{ height: 15, width: 15, borderRadius: '50%' }} />
-                    )}
-
-                  </div>
-
-                  <select value={selectedHostel ? selectedHostel.id || "" : ""} onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ backgroundColor: "#f8f9fa", padding: 8, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700, textTransform: "capitalize", borderRadius: "none" }}>
-                    <option disabled selected className='p-3' style={{ fontSize: 15, textTransform: "capitalize" }}>Select Hostel</option>
-                    {state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((obj) => {
-                      return (<>
-                        <option key={obj.id} value={obj.id} style={{ fontSize: 15, textTransform: "capitalize" }}>{obj.Name}</option>
-                      </>)
-                    })}
-
-                  </select>
-                </div>
-
-              </div>
-              <div style={{ borderLeft: "1px solid #cccccc99", height: "45px" }} className="vertical-line ms-1 me-2"></div>
-            </div>
-          </div>
-          <div className="col-lg-9  col-md-12 col-sm-12 col-xs-12 col-12">
-         <div className='row d-flex'>
-
-        
+<div className="mr-3">
+  <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+</div>
+</div>
      
-          {selectedHostel && <>
-            <div className="col-lg-10  col-md-10 col-sm-12 col-xs-12 col-12 d-flex row "
-            >
-            {
-              Array.from(new Array(selectedHostel.number_Of_Floor < 0 ? (selectedHostel.number_Of_Floor * -1) : selectedHostel.number_Of_Floor), (index, element) => {
-                return <SelectedHostelFloorList floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
-              })}
-         </div>
-              
-          </>}
-        
-          <div className='col-lg-2  col-md-2 col-sm-12 col-xs-12 col-12 align-items-center d-flex justify-content-center'>
-          <div className='ms-5'><button type="button" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "110px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} onClick={handleCreateFloor}> <span className='me-2'><img src={Plus} height="12" width="12" alt='Plus' /></span>Create Floor</button></div>
+      {hidePgList && <>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          
+          <div>
+            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600 }}>Paying Guest</label>
+          </div>
 
-                {/* <button type="button" className="" style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "auto", borderRadius: "15px", padding: "5px", border: "1px Solid #2E75EA", height: "auto", color: "#2E75EA" }} onClick={handleCreateFloor}>
-                  <span >
-                    <img src={Plus} height="12" width="12" alt='Plus' /> Create Floor  </span></button> */}
-              </div>
-              </div>
+          <div className="d-flex justify-content-between align-items-center">
+            <div className='me-3'>
+              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} />
+            </div>
+           
+            <div>
+              <Button 
+              onClick={handleShowAddPg}
+              style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add new PG</Button>
+            </div>
           </div>
         </div>
 
-        {/* <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "70vh" }}>
-        <Offcanvas.Title style={{ backgroundColor: "#0D6EFD", width: "100%", color: "white", fontSize: "15px", height: "30px", fontWeight: "700" }} className="ps-4">Create Floor</Offcanvas.Title>
-        <Offcanvas.Body>
-          <p className="text-justify" style={{ fontSize: "11px" }}>Generate revenue from your audience by promoting SmartStay hotels and homes.Be a part of SmartStay Circle, and invite-only,global community of social media influencers and affiliate networks.</p>
-          <div className="row g-3 d-flex align-items-center " >
-            {floorDetails.map((floor, index) => (
-              <>
-                <div key={index} className='col-lg-10 col-md-10 col-xs-12 col-sm-12 col-12' style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "0px" }}>
-                  <div className="form-group mb-4 ps-1" >
-                    <label htmlFor={`floorName${index}`} for="exampleInput" className="form-label mb-1" style={{ fontSize: "11px" }}>Floor Name</label>
+        {
+          showAddPg && <AddPg  show={showAddPg} handleClose={handleCloses}/>
+        }
+              
 
-                    <input type="text" id={`floorName${index}`}
-                      onChange={(e) => handleFloorChange(e.target.value, index)}
-                      value={floor.number_of_floor} className="form-control custom-border-bottom p-0" placeholder="Enter here" style={{ boxShadow: "none", fontSize: "11px", backgroundColor: "#F6F7FB", fontWeight: 700, borderTop: "none", borderLeft: "none", borderRadius: 0, width: "", borderRight: "none", borderBottom: "1px solid lightgray" }} />
-                  </div>
-                </div>
+          <div className='row row-gap-3'>
+          {currentItems.length > 0 && currentItems.map((hostel) => {
+            return (<>
+            <div key ={hostel.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
+              <PayingGuest   hostel={hostel} OnSelectHostel={handleSelectedHostel}   onRowVisiblity={handleDisplayPgList}/>
+                         </div>
+                         </>)
+                    })}
+          
 
-                <div className='col-lg-2 col-md-2 col-xs-12 col-sm-12 col-12 d-flex justify-content-between align-items-center' style={{ backgroundColor: "#F6F7FB", height: "60px", borderRadius: "0px" }}>
-                  {index > 0 &&
-                    <AiOutlineDelete style={{ color: "red" }} onClick={() => handleDeleteFloor(index)} />
-                  }
+          {filteredData.length == 0 &&
 
-                </div>
-
-              </>
-            ))}
-          </div>
-
-
-          <div className='d-flex mt-2' onClick={handleAddFloor}>
-            <div><AiOutlinePlusCircle style={{ height: "30px" }} /> </div>
-            <div className='ms-1'><label style={{ color: "gray", fontSize: "12px" }}>Add Floor</label></div>
-          </div>
-          <hr style={{ marginTop: "130px" }} />
-
-          <div className="d-flex justify-content-end" style={{ marginTop: "40px" }} >
-
-            <Button variant="outline-secondary" className='ms-2 me-2' size="sm" style={{ width: "80px", borderRadius: 200 }} onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button variant="outline-primary" className='ms-2 me-2' size="sm" style={{ borderRadius: 200, width: "80px" }} onClick={handleCreateFloor}>
-              Save
-            </Button>
-
-          </div>
-        </Offcanvas.Body>
-      </Offcanvas> */}
-
-        <hr />
-
-        {selectedHostel && <>
-          <div className="ms-5 me-5 d-flex justify-content-between p-2">
-            <div className='d-flex justify-content-center  align-items-center gap-1'>
-              {bedDetailShow && (<>
-                <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ backgroundColor: mouseEnter ? "#ebebeb" : "transparent", borderRadius: mouseEnter ? 10 : "none", padding: 5 }}>
-                  <MdOutlineKeyboardDoubleArrowLeft className="" style={{ fontSize: 23 }} onClick={handleBackToFloors} />
-                </span>
-
-              </>)}
-              <h5 className='mb-0' style={{ fontSize: 18, color: "black", fontWeight: 600, textTransform: "capitalize" }}>{selectedHostel.Name}</h5>
-              {bedDetailShow && <>
-                <span>
-                  <FaAngleRight style={{ fontSize: 16 }} />
-                </span>
-                <div style={{ fontSize: 18, color: "gray", fontWeight: 600 }} >{getFloorName(bedDetailsPage.Floor_Id)}</div>
-              </>}
-
-            </div>
-
-            <div className="d-flex gap-5 ms-2">
-              <div className="d-flex gap-1">
-                <FaSquare style={{ color: "gray", height: "20px" }} />   <h6 className="ps-2" style={{ color: "gray", fontSize: "" }}>{bedDetailShow ? "Bed Available" : "Room Available"}</h6>
-              </div>
-              <div className="d-flex gap-1">
-                <FaSquare style={{ color: "#25D366", height: "20px" }} />   <h6 className="ps-2" style={{ color: "#25D366" }}>{bedDetailShow ? "Bed Full" : "Room Full"}</h6>
-              </div>
-            </div>
-          </div>
-          {
-            isRowVisible &&
-
-            <div className="row row-cols-1 row-gap-3 row-cols-md-6 g-1 pt-2" >
-              {
-                selectedHostel.id &&
-                Array.from(Array(selectedHostel.number_Of_Floor < 0 ? (selectedHostel.number_Of_Floor * -1) : selectedHostel.number_Of_Floor), (index, element) => {
-                  return <DashboardRoomList onRowVisibilityChange={handleRowVisibilityChange} onRowBedVisibilityChange={handleBedVisibilityChange} floorID={element + 1} hostel_Id={selectedHostel.id} phoneNumber={selectedHostel.hostel_PhoneNo} />
-                })}
-              <div className="col-lg-3 col-md-5  col-sm-10 col-xs-10 col-10 ms-5">
-                <div className="card h-100 d-flex justify-content-center align-items-center text-center" style={{ boxShadow: "0 4px 8px rgba(0, 0, 0,0.3)", width: "auto", maxWidth: 400 }} id="card-hover" onClick={handleCreateFloor}>
-                  <div className=" d-flex justify-content-between p-2" style={{ height: '50px' }}></div>
-                  <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: "center" }} >
-                    <div className="d-flex justify-content-center align-items-center" >
-                      <img src={Plus} height="18" width="16" alt='Plus' />
-                    </div>
-                    <div>
-                      <p style={{ color: "#1F75FE", fontSize: "15px", fontWeight: 600 }}>Create Floor</p>
-                    </div>
-                  </div>
-                  <div className="col-4">
-                    <div className="text-center align-items-center" style={{ height: "60px", width: "35px" }} >
-
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div style={{ width: 400 }}>
+              <Alert variant="warning" >
+                Currently, no hostel are available.
+              </Alert>
 
             </div>
           }
-          {bedDetailShow && (
-            <>
-              <BedDetail bedDetailsSendThePage={bedDetailsPage}
-                hidePgList={handlehidePgList}
-                showBedDetail={handleDisplayBed}
-                userBedId={userBedId}
-                Hostel_Id={Hostel_Id}
-                floorId={floorId}
-                floorID={bedDetailsPage.Floor_Id}
-                hostel_Id={selectedHostel.id}
-                roomId={roomId} 
-                handleBackToFloors={handleBackToFloors}
-                />
-            </>
-          )
-          }
-        </>}
-        {roomDetails === 'RoomDetailsPage' && <RoomDetails />}
 
+        </div>
+   
+{
+  currentItems.length > 0 && 
+  <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+  <Pagination.Prev style={{ visibility:"visible"}}
+    onClick={() => paginate(currentPage - 1)}
+    disabled={currentPage === 1}
+  />
+ {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
+  {renderPagination()}
+  {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
+  <Pagination.Next style={{ visibility:"visible"}}
+    onClick={() => paginate(currentPage + 1)}
+    disabled={currentPage === totalPages}
+  />
+</Pagination>
+}
+      
+      
+        {/* <Pagination className="mt-4 d-flex justify-content-end">
+          {[...Array(Math.ceil(filteredData.length / itemsPerPage)).keys()].map(number => (
+            <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
+              {number + 1}
+            </Pagination.Item>
+          ))}
+        </Pagination> */}
+      
+      
+      
+      
+      
+      
+      
+      
       </>}
 
-      {bedDetailsDisplay && <>
-        <UserBedDetails
-          // showCreateBed={showCreatedBed} 
-          userBed_Id={usersBed}
-          Hostel_Id={hosteID}
-          Floor_Id={floorID}
-          Room_Id={roomID}
-          hidePgList={handlehidePgList}
-          backToBed={handlehidePgListForUser}
-          hideBed={handleDisplayBedDetails} 
-          />
+{selectedHostel && (
+  <div className=''>
+   
+    <div className="d-flex justify-content-between align-items-center mb-3">
+    
+      <div className='d-flex align-items-center'>
+      <ArrowLeft size="32" color="#222222"  onClick={handlebackToPG}/>
+      {/* <div >
+          <IoIosArrowDropleft style={{height:30, width:30, fontSize:25, color:"#dcdcdc"}} />
+          </div> */}
+        <label className='ms-2' style={{ fontSize: 24, color: "#000000", fontWeight: 600 }}>{showHostelDetails.Name}</label>
+      </div>
 
-      </>}
+      <div className="d-flex justify-content-between align-items-center">
+        <div className='me-3'>
+          <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} />
+        </div>
+
+        <div>
+          <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px"  }} onClick={()=>handleCreateFloor(showHostelDetails.id)}>+ Create a floor</Button>
+        </div>
+      </div>
+    </div>
+
+{
+  showHostelDetails.number_Of_Floor > 0 ? 
+<>
+    <Nav variant="underline"  style={{ borderBottom: "1px solid #DEDEDE", marginBottom: 2 }}>
+        {Array.from({ length:showHostelDetails.number_Of_Floor }, (_, index) => (
+          <Nav.Item key={index}>
+            <Nav.Link  className='Nav-Links' style={{ fontSize: 16 }} 
+            active={index + 1 === floorClick}
+            onClick={() => handleFloorClick(index + 1)}
+            >
+              {getFloorName(index + 1)}
+            </Nav.Link>
+          </Nav.Item>
+        ))}
+      </Nav>
+
+<ParticularHostelDetails
+floorID={floorClick}
+hostel_Id={showHostelDetails.id}
+phoneNumber={showHostelDetails.hostel_PhoneNo}
+
+/>
+
+<div className='row mt-2'>
+<div>
+    <label style={{fontSize:16, color:"#1E45E1", fontWeight:600, fontFamily:'Montserrat,sans-serif'}} onClick={()=>handleShowAddRoom(showHostelDetails,floorClick)}>+ Add room</label>
+</div>
+</div>
 
 
-    </>
+
+</>
+:  <div style={{ width: 400 }}>
+<Alert variant="warning" >
+  Currently, no floors are available So create a floor.
+</Alert>
+
+</div>
+
+
+      }
+
+    {/* Render floors */}
+   
+     
+  
+
+
+ 
+
+  </div>
+)}
+
+{/* {selectedHostel && 
+   <ParticularHostelDetails  floorID={showHostelDetails.number_Of_Floor} hostel_Id={showHostelDetails.id} phoneNumber={showHostelDetails.hostel_PhoneNo} hostelName={showHostelDetails}/>
+} */}
+
+
+        {showFloor && <AddFloor  show={showFloor} handleClose={handleCloseFloor} />}
+        {showRoom && <AddRoom   show={showRoom} handleClose={handlecloseRoom} hostelDetails={hostelDetails}/>}
+    </div>
 
   );
 }

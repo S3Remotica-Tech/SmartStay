@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed} from "../Action/UserListAction"
+import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 
 function* handleuserlist(user) {
@@ -36,11 +36,13 @@ function* handleHostelList(hostel) {
 function* handleNumberOfRooms(ID) {
    const response = yield call(roomsCount, ID.payload)
   
+console.log("response",response)
+
    if (response.status === 200) {
-      yield put({ type: 'ROOM_COUNT', payload: response.data.responseData })
+      yield put({ type: 'ROOM_COUNT',payload:{response: response.data.responseData ,statusCode:response.status}})
    }
-   else {
-      yield put({ type: 'ERROR', payload: {response:response.data.message,floor_Id:ID.payload.floor_Id} })
+   else if(response.status === 201){
+      yield put({ type: 'NO_ROOMS', payload: {response:response.data.message,floor_Id:ID.payload.floor_Id, statusCode:response.status} })
    }
    if(response){
       refreshToken(response)
@@ -108,18 +110,15 @@ function* handleRoomsDetails(ID) {
 
 function* handleAddUser(datum) {
       const response = yield call(addUser, datum.payload);
-     
-      if (response.status === 200) {
-         yield put({ type: 'ADD_USER',payload:{response: response.data, statusCode:response.status}})
-
-         Swal.fire({
-            icon: 'success',
-            title: 'Detail Updated Successfully',
-            confirmButtonText: 'Ok',
-            timer:1000,
-          })
+      console.log("responsetytytyytyyy",response);
+      if (response.statusCode === 200) {
+         
+         yield put({ type: 'ADD_USER',payload:{response: response.message, statusCode:response.statusCode}})
+            console.log("datum.payload..?",datum.payload)
+    
       }
-      else if(response.status === 202) {
+
+      else if(response.statusCode === 202) {
          Swal.fire({
             icon: 'warning',
            title: 'Error',
@@ -127,16 +126,16 @@ function* handleAddUser(datum) {
            
          });
       }
-      else if(response.status === 203) {
+      else if(response.statusCode === 203) {
          Swal.fire({
            icon: 'warning',
            title: 'Error',
            html: `<span style="color: red">${datum.payload.Email}</span> is already exist in the database`,
          });
       }
-      else {
-         yield put({ type: 'ERROR', payload: response.data.message })
-      }
+      // else {
+      //    yield put({ type: 'ERROR', payload: response.data.message })
+      // }
       if(response){
          refreshToken(response)
       }
@@ -234,6 +233,96 @@ function* handleDeleteBed(bedDetails){
       
       }
 
+
+      function* handlecustomerdetails(userDetails){
+         const response = yield call(CustomerDetails,userDetails.payload)
+         console.log("response...?",response)
+         if(response.status === 200){
+            yield put({ type: 'CUSTOMER_DETAILS', payload: response.data,statusCode:response.status })
+         }
+         else {
+            yield put({ type: 'ERROR', payload: response.data.message })
+         }
+         if(response){
+            refreshToken(response)
+         }
+         
+      }
+      
+      function* handleAmnitiesName (){
+         const response = yield call (amnitiesnameList);
+         
+         if (response.status === 200){
+            yield put ({type : 'AMNITIES_NAME' , payload:response.data})
+         }
+         else {
+            yield put ({type:'ERROR', payload:response.data.message})
+         }
+         if(response){
+           refreshToken(response)
+        }
+     }
+      function* handleamenityhistory(amnityDetails){
+         const response = yield call(amenitieshistory,amnityDetails.payload)
+         console.log("response...?12",response)
+         if(response.status === 200){
+            yield put({ type: 'AMENITIES_HISTORY', payload: {response:response.data.data,statusCode:response.status }})
+         }
+         else {
+            yield put({ type: 'ERROR', payload: response.data.message })
+         }
+         if(response){
+            refreshToken(response)
+         }
+         
+      } 
+     
+
+     function* handleuserAddAmnitiesName(amnity){
+      console.log("aminity add aminityuser",amnity);
+      const response = yield call(amenitieAddUser,amnity.payload)
+      console.log("response...?",response)
+      if(response.status == 200){
+         yield put({ type: 'ADD_USER_AMENITIES', payload: {message:response.data.message,statusCode:response.status} })
+         Swal.fire({
+            icon: "success",
+            text: response.data.message,
+          });
+      }
+      else if(response.status === 201){
+         Swal.fire({
+          text:response.data.message,
+            icon: "warning",
+            
+        });
+      }   
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if(response){
+         refreshToken(response)
+      }
+      
+   } 
+
+   function* handlebedNumberDetails(bedDetails){
+      const response = yield call(beddetailsNumber,bedDetails.payload)
+      console.log("response...?",response)
+      if(response.status === 200){
+         yield put({ type: 'BED_NUMBER_DETAILS', payload: response.data,statusCode:response.status })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if(response){
+         refreshToken(response)
+      }
+      
+   }
+  
+
+     
+
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
@@ -247,6 +336,11 @@ function* UserListSaga() {
    yield takeEvery('CHECKOUTUSER',handleCheckOut)
    yield takeEvery('DELETEFLOOR',handleDeleteFloor)
    yield takeEvery('DELETEROOM',handleDeleteRoom)
-   yield takeEvery('DELETEBED',handleDeleteBed)    
+   yield takeEvery('DELETEBED',handleDeleteBed) 
+   yield takeEvery('CUSTOMERDETAILS',handlecustomerdetails)    
+   yield takeEvery('AMENITESHISTORY',handleamenityhistory) 
+   yield takeEvery('AMENITESNAMES',handleAmnitiesName) 
+   yield takeEvery('AddUserAmnities',handleuserAddAmnitiesName)
+   yield takeEvery('BEDNUMBERDETAILS',handlebedNumberDetails) 
 }
 export default UserListSaga;

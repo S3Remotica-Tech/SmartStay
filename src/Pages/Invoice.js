@@ -825,7 +825,7 @@ console.log("DATA",data)
 
   </div>
   <div style={{flex:1}}>
-  <div className="headerone">
+  {/* <div className="headerone">
     
        <div className="search-container">
       <input type="text" placeholder="Search" className="search-input" />
@@ -842,38 +842,12 @@ console.log("DATA",data)
         <span className="notification-dot"></span>
       </div>
       
-      {/* <Modal show={show} onHide={handleClosepopup} backdrop="static" keyboard={false} dialogClassName="modal-right" style={{display:'flex',alignItems:"right"}}>
-        <Modal.Header >
-          
-          <Modal.Title>Notification</Modal.Title>
-          
-          <p style={{marginTop:'10px'}}><span style={{backgroundColor:'#DBE1FB',padding:'8px 12px',color:'#222222',borderRadius:'14px',fontWeight:500}}>{newNotificationsCount} new notifications</span></p>
-        
-        </Modal.Header>
-        <Modal.Body>
-          {state?.login?.Notification.length > 0 && state.login.Notification.map((val) => (
-            <div key={val.id} style={{ marginBottom: '10px',display:'flex',flexDirection:'row' ,justifyContent:"space-between"}}>
-              <p style={{ color: val.status === 1 ? 'black' : '#939393' }}>{val.message}</p>
-            {val.status === 1 && <div style={{width:'10px',height:'10px',backgroundColor:'blue',borderRadius:'50%',marginTop:'5px'}}> 
-              </div>}  
-            </div>
-          ))}
-        </Modal.Body>
-     
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClosepopup}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={updateNotifications} >
-            Ok
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
+      
       </div>
       <div className="profile-container">
         <img src={rectangle}  className="profile-image" />
       </div>
-    </div>
+    </div> */}
   </div>
   </div>
 
@@ -1317,26 +1291,7 @@ console.log("DATA",data)
 
 
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-              {/* <div style={{ display: "flex", flexDirection: "row" }}>
-                <div>
-                  <p style={{ fontSize: 13, marginTop: "5px" }}>Results:</p>
-                </div>
-                <Dropdown onSelect={(eventKey) => handlePageSelect(eventKey)}>
-                  <Dropdown.Toggle variant="secondary" style={{ backgroundColor: "#F6F7FB", color: "black", border: "none", fontSize: "10px", marginLeft: "10px" }}>
-                    {currentPage} - {currentPage}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {generatePageNumbers().map((page) => (
-                      <Dropdown.Item key={page} eventKey={page}>
-                        {currentPage} - {page}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-                <div style={{ fontSize: "10px", marginTop: "7px", marginLeft: "10px" }}>
-                  of <label>{currentPage}</label>
-                </div>
-              </div> */}
+             
               <div></div>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div onClick={handlePreviousClick} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>

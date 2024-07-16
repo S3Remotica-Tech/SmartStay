@@ -118,14 +118,14 @@ function Sidebar() {
         const Pass_word = loginInfo.password;
 
         const encryptedLoginId = CryptoJS.AES.encrypt(LoginId.toString(), 'abcd').toString();
-        const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
+        // const encryptedname = CryptoJS.AES.encrypt(NameId.toString(), 'abcd').toString();
         const encryptedphone = CryptoJS.AES.encrypt(phoneId.toString(), 'abcd').toString();
         const encryptedemail = CryptoJS.AES.encrypt(emilidd.toString(), 'abcd').toString();
         const encryptIsEnable = CryptoJS.AES.encrypt(Is_Enable.toString(), 'abcd').toString();
         const encryptPassword = CryptoJS.AES.encrypt(Pass_word.toString(), 'abcd').toString();
 
         localStorage.setItem("loginId", encryptedLoginId);
-        localStorage.setItem("NameId", encryptedname);
+        // localStorage.setItem("NameId", encryptedname);
         localStorage.setItem("phoneId", encryptedphone);
         localStorage.setItem("emilidd", encryptedemail);
         localStorage.setItem("IsEnable", encryptIsEnable);
@@ -473,12 +473,14 @@ function Sidebar() {
               {/* <li className={`p-2 align-items-center list-Item ${currentPage === 'support' ? 'active' : ''}`} onClick={() => handlePageClick('support')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaCircleExclamation style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Support</span></li> */}
 
               {/* </ul> */}
-              </ul>
-            <ul className="p-3">
+
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
                 {/* <IoSettingsOutline style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} />  */}
                 <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} />
                 <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  }}>Settings</span></li>
+              </ul>
+            <ul className="p-3">
+             
                 </ul>
           </Col>
           <Col lg={10} md={10} sm={10} xs={10} className="bg-white">

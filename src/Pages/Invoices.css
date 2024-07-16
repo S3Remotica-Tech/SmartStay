@@ -81,6 +81,7 @@
     border-collapse: separate;
     border-spacing: 0;
     overflow: hidden;
+    
   }
   
   
@@ -106,6 +107,7 @@ font-style: normal;
 font-weight: 500;
 line-height: normal;
 }
+
 
 /* .table>:not(caption)>*>* {
     padding: 1.2rem .5rem !important;

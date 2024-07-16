@@ -8,6 +8,8 @@ import ComplianceSaga from './ComplianceSaga';
 import PgListSaga from './PgListSaga';
 import AssetSaga from './AssetSaga'
 import SettingsSaga from './SettingsSaga'
+import ExpenseSaga from './ExpensesSaga'
+
 
 function* RootSaga() {
     
@@ -20,7 +22,9 @@ yield all([
     ComplianceSaga(),
     PgListSaga(),
     AssetSaga(),
-    SettingsSaga()
+    SettingsSaga(),
+    ExpenseSaga()
+
 ])
 }
 export default RootSaga;

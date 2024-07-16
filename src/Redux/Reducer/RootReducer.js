@@ -8,6 +8,8 @@ import ComplianceReducer from "./ComplianceReducer";
 import PgListReducer from "./PgListReducer";
 import AssetReducer from './AssetReducer';
 import SettingsReducer from "./SettingsReducer";
+import ExpenseReducer from './ExpenseReducer'
+
 
 const RootReducer = combineReducers({
 login:SmartStayReducer,
@@ -19,6 +21,7 @@ ComplianceList:ComplianceReducer,
 PgList: PgListReducer,
 AssetList:AssetReducer,
 Settings : SettingsReducer
+ExpenseList:ExpenseReducer
 
 })
 export default RootReducer;

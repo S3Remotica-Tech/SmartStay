@@ -7,6 +7,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
+import Image from 'react-bootstrap/Image';
 
 function ExpensesListTable(props) {
 
@@ -36,6 +37,19 @@ function ExpensesListTable(props) {
         props.OnEditExpense(item)
       }
 
+
+const handleDelete = (id) =>{
+props.handleDelete(id)
+
+}
+
+
+
+
+
+
+
+
   return (
     <tr style={{ fontFamily: "Gilroy, sans-serif"}} key={props.item.id}>
 
@@ -45,16 +59,16 @@ function ExpensesListTable(props) {
 
     <td>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: "between", flex:"wrap", gap:2, width:"100%" }}>
-       <img src={Profile}  style={{height:40, width:40}}/>
-        <div style={{ fontSize: 16, fontWeight: 600, color: "#222222" }}>{props.item.asset_name}</div>
+       <Image src={props.item.Vendor_profile ? props.item.Vendor_profile : Profile} roundedCircle style={{height:40, width:40}}/>
+        <div style={{ fontSize: 16, fontWeight: 600, color: "#222222" }}>{props.item.Vendor_Name}</div>
       </div>
     </td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", width: "fit-content" }}>{props.item.brand_name}</div>
+        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", width: "fit-content" }}>{props.item.category_Name}</div>
       </div>
     </td>
-    <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>{props.item.serial_number}</td>
+    <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>{props.item.asset_name}</td>
    
     <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
@@ -64,11 +78,11 @@ function ExpensesListTable(props) {
       </div>
 
     </td>
-    <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>{props.item.product_count}</td>
+    <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" }}>{props.item.purchase_amount}</td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div style={{ backgroundColor: "#D9E9FF", fontWeight: 500, padding: 8, borderRadius: 10, fontSize: 14, width: "fit-content" }} >
-          {moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}
+          {props.item.payment_mode}
         </div >
       </div>
 
@@ -93,7 +107,7 @@ style={{backgroundColor: "#fff"}}
 </div>
 <div  className='mb-1 d-flex justify-content-start align-items-center gap-2'
 style={{backgroundColor: "#fff"}}
-// onClick={()=>handleDelete(props.item)}
+onClick={()=>handleDelete(props.item.id)}
 > 
 <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000" }}>Delete</label>
 </div>
