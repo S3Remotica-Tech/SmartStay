@@ -63,7 +63,7 @@ function UserList() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
   const selectRef = useRef('select');
-  console.log("state", state)
+  // console.log("state", state)
 
 
   const [loading, setLoading] = useState(false)
@@ -182,7 +182,7 @@ function UserList() {
 
 
 
-  const itemsPerPage = 7;
+  const itemsPerPage = 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -304,6 +304,9 @@ function UserList() {
     }
 
   }
+  const setPage = (page) => {
+    setCurrentPage(page);
+  };
 
 
 
@@ -1309,11 +1312,11 @@ placeholder="Search..."
         const imageUrl = user.profile || User;
         console.log('Image URL:', imageUrl);
         return(
-          <tr key={user.Email} style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", textAlign: "center" }}>
+          <tr key={user.Email} style={{ fontSize: "16px", fontWeight: 600,  textAlign: "center" }}>
           <td style={{ padding: "10px", border: "none" }}>
             <img src={squre } height={20} width={20} />
           </td>
-          <td style={{ padding: "10px", border: "none", display: "flex", alignItems: "center" }}>
+          <td style={{  border: "none", display: "flex",  }}>
             {/* <img src={user.profile ? user.profile:User}  style={{ height: 40, width: 40, marginRight: "10px" }} /> */}
             {/* <Image src={user.profile ? user.profile:User} roundedCircle style={{ height: "40px", width: "40px" }} /> */}
             <Image
@@ -1335,7 +1338,7 @@ placeholder="Search..."
           <td style={{ padding: "10px", border: "none", textAlign: "start" }}>
             <span style={{ padding: "8px 16px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start" }}>{user.HostelName}</span>
           </td>
-          <td style={{ padding: "10px", border: "none", textAlign: "center" }}>{user.Rooms}</td>
+          <td style={{ padding: "10px", border: "none", textAlign: "start" }}>{user.Rooms}</td>
           {/* <td
             className={user.Bed === 0 ? 'assign-bed' : ''}
             onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
@@ -1350,7 +1353,8 @@ placeholder="Search..."
     padding: "10px",
     border: "none",
     color: user.Bed === 0 ? "blue" : "inherit",
-    textDecoration: user.Bed === 0 ? "none" : "initial"
+    textDecoration: user.Bed === 0 ? "none" : "initial",
+    textAlign:"start"
   }}
 >
   {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
@@ -1374,44 +1378,56 @@ placeholder="Search..."
         </div>
 
 
-
-        {/* <div className="p-3" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}> */}
-
-        {/* <div style={{ display: "flex", flexDirection: "row" }}>
-            <div>
-              <p style={{ fontSize: 13, marginTop: "5px" }}>Results:</p>
-            </div>
-            <Dropdown onSelect={(eventKey) => handlePageChange(parseInt(eventKey))} >
-              <Dropdown.Toggle variant="secondary" style={{ backgroundColor: "#F6F7FB", color: "black", border: "none", fontSize: "10px", marginLeft: "10px" }}>
-                {activePage} - {currentPage}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {generatepagenumbers().map((pageNumber) => (
-                  <Dropdown.Item key={pageNumber} eventKey={pageNumber}>
-                    {currentPage} - {pageNumber}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-            <div style={{ fontSize: "10px", marginTop: "7px", marginLeft: "10px" }}>
-              of <label>{currentPage}</label>
-            </div>
-          </div> */}
-
-        <div style={{ display: "flex", flexDirection: "row", alignItems: "end", justifyContent: "flex-end" }}>
-
-          <div onClick={handlePrevious} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
-            Prev
-          </div>
-          <span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD', padding: 10, borderRadius: "50%", height: 20, width: 20, marginTop: 20 }}> {currentPage}  </span>
-          <div onClick={handleNext} disabled={currentPage === totalPages} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
-            Next
-          </div>
-        </div>
-        {/* </div> */}
-
-
-
+{/* <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-end", marginTop: "20px" }}>
+  <div onClick={handlePrevious} style={{ border: "none", fontSize: "10px", cursor: currentPage === 1 ? 'not-allowed' : 'pointer', color: currentPage === 1 ? '#ccc' : '#0D6EFD' }}>
+    Previous
+  </div>
+  <span style={{ margin: '0 10px', fontSize: "10px", backgroundColor: '#0D6EFD', color: '#fff', padding: '5px 10px', borderRadius: "50%", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    {currentPage}
+  </span>
+  <div onClick={handleNext} style={{ border: "none", fontSize: "10px", cursor: currentPage === totalPages ? 'not-allowed' : 'pointer', color: currentPage === totalPages ? '#ccc' : '#0D6EFD' }}>
+    Next
+  </div>
+</div> */}
+  <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "end", marginTop: "20px" }}>
+      <div 
+        onClick={currentPage > 1 ? handlePrevious : null} 
+        style={{ 
+          border: "none", 
+          fontSize: "12px", 
+          cursor: currentPage > 1 ? 'pointer' : 'not-allowed', 
+          color: currentPage > 1 ? '#0D6EFD' : '#ccc', 
+          marginRight: '10px' 
+        }}
+      >
+        Previous
+      </div>
+      <span style={{ 
+          margin: '0 5px', 
+          fontSize: "12px", 
+          backgroundColor: '#0D6EFD', 
+          color: '#fff', 
+          padding: '5px 10px', 
+          borderRadius: "50%", 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center' 
+      }}>
+        {currentPage}
+      </span>
+      <div 
+        onClick={currentPage < totalPages ? handleNext : null} 
+        style={{ 
+          border: "none", 
+          fontSize: "12px", 
+          cursor: currentPage < totalPages ? 'pointer' : 'not-allowed', 
+          color: currentPage < totalPages ? '#0D6EFD' : '#ccc', 
+          marginLeft: '10px' 
+        }}
+      >
+        Next
+      </div>
+    </div>
 
       </>}
 
@@ -1422,7 +1438,7 @@ placeholder="Search..."
             {userDetails && userDetails.map((item, index) => {
                 const imageUrl = item.profile || User;
             return(
-              <div className="container mt-2">
+              <div key={item.ID} className="container mt-2">
               <div className='d-flex justify-content-end align-items-center m-4'>
 
                 <div>
@@ -1449,22 +1465,20 @@ placeholder="Search..."
               <div className="card" style={{ height: 100 }}>
                 <div className="card-body d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center">
-                    {/* <img src={item.profile ? item.profile:User} alt="Profile" className="rounded-circle me-3" style={{ width: '50px', height: '50px' }} /> */}
                     <Image
       src={imageUrl}
       alt={item.Name || "Default Profile"}
       roundedCircle
       style={{ height: "40px", width: "40px", marginRight: "10px" }}
       onError={(e) => {
-        e.target.onerror = null; // Prevents infinite loop
-        e.target.src = User; // Fallback to default image
+        e.target.onerror = null; 
+        e.target.src = User; 
       }}
     />
                     <div>
                       <h5 className="card-title mb-0">
                         {item.Name} <span className="text-primary"><i className="bi bi-check-circle-fill"></i></span>
                       </h5>
-                      {/* <p className="mb-0">{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed} | {getFloorName(item.Floor)}</p> */}
                       <p style={{marginTop:10}}>
                         <span style={{ backgroundColor: '#FFE0D9',padding:"3px 3px 3px 3px",borderRadius:"10px" }}>
                           {getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}
@@ -1581,7 +1595,7 @@ placeholder="Search..."
                                       {
                                         g?.amentites?.length > 0 && g?.amentites.map((p) => {
                                           return (
-                                            <div  style={{ backgroundColor: "#E0ECFF", borderRadius: "10px",paddingLeft:"12px",paddingRight:"12px",fontSize:"13px",fontWeight:500,paddingTop:"2px",paddingBottom:"3px",margin:"10px" }}>{p.Amnities_Name}</div>
+                                            <div key={p.Amnities_Name}  style={{ backgroundColor: "#E0ECFF", borderRadius: "10px",paddingLeft:"12px",paddingRight:"12px",fontSize:"13px",fontWeight:500,paddingTop:"2px",paddingBottom:"3px",margin:"10px" }}>{p.Amnities_Name}</div>
 
                                           )
                                         })
@@ -2106,7 +2120,7 @@ placeholder="Search..."
           AfterEditRoomses={AfterEditRooms}
           AfterEditBeds={AfterEditBed}
 
-          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed}/> : null
+          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail}/> : null
       }
 
     </div>

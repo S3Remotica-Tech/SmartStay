@@ -1,6 +1,6 @@
 import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
 import moment from 'moment';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import "../Pages/UserList.css";
 // import Plus from '../Assets/Images/Create-button.png';
 import Profile from '../Assets/Images/Profile.jpg';
@@ -14,6 +14,7 @@ import Plus from '../Assets/Images/New_images/add-circle.png'
 import Profile2 from '../Assets/Images/New_images/profile-picture.png'
 import imageCompression from 'browser-image-compression';
 import Image from 'react-bootstrap/Image';
+import User from '../Assets/Images/Ellipse 1.png';
 
 
 
@@ -81,6 +82,8 @@ function UserlistForm(props) {
   const dispatch = useDispatch();
 
   const [profilePicture, setProfilePicture] = useState('');
+  const [filteredProfile, setFilteredProfile] = useState(null);
+  
   console.log("state for userList form", state)
 
   const handleImageChange = async (event) => {
@@ -99,6 +102,21 @@ function UserlistForm(props) {
     }
     }
   };
+
+  
+
+  
+// useEffect(()=>{
+//   const FIlteredProfile = state.UsersList?.Users.filter((item)=>{
+//     return item[0].Email = Email
+   
+
+//   })
+  // console.log("FIlteredProfile",FIlteredProfile)
+ 
+ 
+
+
 //   const handleImageChange = async (event) => {
 //     const fileImage = event.target.files[0];
 
@@ -218,9 +236,9 @@ function UserlistForm(props) {
       return item.Hostel_Id == hostel_Id && item.Floor == Floor
     })
 
-
     setRoomnum(Roomdetail)
-  }, [state.UsersList.roomdetails]);
+  }, [state.UsersList.Users]);
+
   const handleFirstName = (e) => {
     setFirstname(e.target.value)
   }
@@ -466,7 +484,13 @@ const handleBed = (e) => {
       props.setEdit('Edit')
       setBednum(props.EditObj)
       setId(props.EditObj.ID);
-      setFile(props.EditObj.profile)
+      if(props.EditObj.profile == 0)(
+        setFile(null)
+      )
+      else{
+        setFile(props.EditObj.profile)
+      }
+      // setFile(props.EditObj.profile)
       let value = props.EditObj.Name.split(" ");
       console.log("value,,,",value)
       setFirstname(value[0]);
@@ -712,8 +736,9 @@ const handleBed = (e) => {
   //     });
   //   }
   // };
-  const handleSaveUserlist = () => {
+  const handleSaveUserlist = useCallback (() => {
     console.log("check");
+    
   
     const emailElement = document.getElementById('emailIDError');
     const emailError = emailElement ? emailElement.innerHTML : '';
@@ -802,7 +827,7 @@ const handleBed = (e) => {
   
       Swal.fire({
         icon: 'success',
-        title: props.edit === 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
+        title: props.edit == 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
         confirmButtonText: 'Ok',
         timer: 1000
       }).then((result) => {
@@ -832,6 +857,7 @@ const handleBed = (e) => {
           // handleClose();
         }
       });
+     
     } else {
       Swal.fire({
         icon: 'warning',
@@ -840,10 +866,10 @@ const handleBed = (e) => {
         timer: 300
       });
     }
-  };
+  });
   
 
-  const handleSaveUserlistAddUser = () => {
+  const handleSaveUserlistAddUser =  () => {
     if (Floor && Rooms && Bed) {
       dispatch({
         type: 'ADDUSER',
@@ -879,14 +905,17 @@ const handleBed = (e) => {
       props.AfterEditBeds(Bed)
 
 
-    } else {
+    } 
+    else {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
         confirmButtonText: 'Ok',
         timer: 300
       });
+     
     }
+    
 
   }
 console.log("state.UsersList?.statusCodeForAddUser",state.UsersList.statusCodeForAddUser)
@@ -926,7 +955,7 @@ console.log("props.displayDetail",props.displayDetail)
    <Modal.Dialog style={{ maxWidth: 850, width: 600,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
    {/* <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
    
-      <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> {props.edit && props.edit === 'Add' ? "Add Customer" : "Assign Bed"}</Modal.Title>
+      <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> {props.edit === 'Edit' ? "Edit Customer" : "Add Customer"}</Modal.Title>
 </Modal.Header> */}
 <Modal.Body>
  
@@ -937,7 +966,7 @@ console.log("props.displayDetail",props.displayDetail)
     <div>
        <Modal.Header closeButton closeLabel="close-button"style={{marginBottom:"30px"}} >
    
-   <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> AddCustomer</Modal.Title>
+   <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> {props.edit === 'Edit' ? "Edit Customer" : "Add Customer"}</Modal.Title>
 </Modal.Header>
 
 <div className='d-flex align-items-center'>
@@ -945,7 +974,8 @@ console.log("props.displayDetail",props.displayDetail)
 
 <div className="" style={{ height: 100, width: 100, position: "relative" }}>
 
-  <Image src={file ? (typeof file === 'string' ? file : URL.createObjectURL(file)) : Profile2} roundedCircle style={{ height: 100, width: 100 }} />
+  <Image src={file ? (typeof file == 'string' ? file : URL.createObjectURL(file)) : User} roundedCircle style={{ height: 100, width: 100 }} />
+ 
   <label htmlFor="imageInput" className='' >
     <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
     <input
@@ -1062,7 +1092,7 @@ console.log("props.displayDetail",props.displayDetail)
      
       
       <Button className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" ,marginTop:20}}  onClick={ handleSaveUserlist}>
-{/* {props.edit === 'Add' ? "Add Customer " : "Assign Bed"} */}
+
 Add Customer 
 </Button>
     </div>
@@ -1072,7 +1102,7 @@ Add Customer
       
       <Modal.Header closeButton closeLabel="close-button" style={{marginBottom:"30px"}}>
    
-   <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> Assign Bed</Modal.Title>
+   <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Assign Bed</Modal.Title>
 </Modal.Header>
       <div className='row mb-3'>
         <div className='col-lg-12'>
@@ -1227,8 +1257,8 @@ Add Customer
            
       </div>
       <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}  onClick={handleSaveUserlistAddUser}>
-{/* {props.edit === 'Add' ? "Add Customer " : "Assign Bed"} */}
 Assign Bed
+
 </Button>
     </div>
   }
@@ -1236,10 +1266,6 @@ Assign Bed
 </Modal.Body>
 
 <Modal.Footer style={{ border: "none" }}>
-
-{/* <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}  onClick={props.displayDetail ? handleSaveUserlist : handleSaveUserlistAddUser}>
-{props.edit === 'Add' ? "Add Customer " : "Assign Bed"}
-</Button> */}
 </Modal.Footer>
 </Modal.Dialog>
 </Modal>
