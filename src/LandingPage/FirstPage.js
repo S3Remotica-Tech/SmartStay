@@ -13,6 +13,13 @@ import { useNavigate } from "react-router-dom";
 
 function FirstPage() {
 
+
+    let navigate = useNavigate();
+
+    const handleStartNow = () =>{
+        navigate('/create-account')
+      } 
+
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     useEffect(() => {
@@ -33,7 +40,7 @@ function FirstPage() {
 </div>
 <div className='d-flex justify-content-center ' style={{}}>
     <label style={{fontSize:isMobile ? 40 : 80, textAlign:"center", wordSpacing:0.5}}>
-        <span style={{fontFamily:"Kalam", color:"rgba(30, 69, 225, 1)"}}>Simplify </span> <span style={{fontWeight:400, fontFamily:"Gilroy, sans-serif"}}>your</span>  <span style={{fontFamily:"Gilroy, sans-serif", color:"rgba(0, 0, 0, 1)", fontWeight:600}}>Paying Guest management</span> <span style={{fontWeight:400, fontFamily:"Gilroy, sans-serif"}}>with</span> <span style={{color:"rgba(30, 69, 225, 1)", fontWeight:700}}>SmartStay</span>
+        <span style={{fontFamily:"Kalam", color:"rgba(30, 69, 225, 1)",fontStyle: "italic"}}>Simplify </span> <span style={{fontWeight:400, fontFamily:"Gilroy, sans-serif"}}>your</span>  <span style={{fontFamily:"Gilroy, sans-serif", color:"rgba(0, 0, 0, 1)", fontWeight:600}}>Paying Guest management</span> <span style={{fontWeight:400, fontFamily:"Gilroy, sans-serif"}}>with</span> <span style={{color:"rgba(30, 69, 225, 1)", fontWeight:700}}>SmartStay</span>
     </label>
 </div>
 <div className='d-flex justify-content-center mb-1' >
@@ -47,7 +54,7 @@ function FirstPage() {
 
 
 <div className='d-flex justify-content-center  mt-3  '>
-<Button variant="" style={{backgroundColor:"rgba(30, 69, 225, 1)", color:"rgba(255, 255, 255, 1)", fontWeight:600, fontSize:16, fontFamily:"Montserrat", width:220,height:70, borderRadius:16, padding:"24px 32px 24px 32px"}}>Get Started</Button>
+<Button onClick={handleStartNow} variant="" style={{backgroundColor:"rgba(30, 69, 225, 1)", color:"rgba(255, 255, 255, 1)", fontWeight:600, fontSize:16, fontFamily:"Montserrat", width:220,height:70, borderRadius:16, padding:"24px 32px 24px 32px"}}>Get Started</Button>
 
 </div>
 

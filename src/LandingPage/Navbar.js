@@ -25,9 +25,7 @@ function CollapsibleExample() {
     navigate('/create-account')
   }
 
-  const handleStartNow = () =>{
-    navigate('/create-account')
-  }  
+  
 
 
 
