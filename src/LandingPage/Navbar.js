@@ -51,7 +51,7 @@ function CollapsibleExample() {
           </Nav>
           <Nav className='align-items-center justi-content-start'>
             <Nav.Link href="#deets" style={{fontSize:16, fontWeight:600, color:"rgba(0, 0, 0, 1)",fontFamily:"Montserrat"}} onClick={handleSignIn}>Sign in</Nav.Link>
-            <Button variant="" style={{backgroundColor:"rgba(30, 69, 225, 1)", color:"rgba(255, 255, 255, 1)", fontWeight:600, fontSize:16, fontFamily:"Montserrat",width:161,height:60, borderRadius:16, padding:"20px 24px 20px 24px"}}>Get Started</Button>
+            <Button onClick={handleSignUp} variant="" style={{backgroundColor:"rgba(30, 69, 225, 1)", color:"rgba(255, 255, 255, 1)", fontWeight:600, fontSize:16, fontFamily:"Montserrat",width:161,height:60, borderRadius:16, padding:"20px 24px 20px 24px"}}>Get Started</Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
