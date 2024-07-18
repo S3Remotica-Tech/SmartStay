@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBarIs from '../LandingPage/Navbar';
 import FirstPage from './FirstPage';
+import KeyFeature from './KeyFeature';
 
 function All_landing_pages() {
     return (
@@ -10,6 +11,9 @@ function All_landing_pages() {
             </div>
             <div>
                 <FirstPage />
+            </div>
+            <div>
+                <KeyFeature />
             </div>
         </>
     )

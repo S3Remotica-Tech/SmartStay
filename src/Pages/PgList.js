@@ -35,10 +35,11 @@ import Nav from 'react-bootstrap/Nav';
 import AddRoom from './AddRoom';
 import { IoIosArrowDropleft } from "react-icons/io";
 import { ArrowLeft } from 'iconsax-react';
-import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
+import { FormControl, InputGroup, Pagination ,Dropdown} from 'react-bootstrap';
 import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
+import { IoIosArrowBack ,IoIosArrowForward} from "react-icons/io";
 
 function getFloorName(floor_Id) {
   if (floor_Id === 1) {
@@ -544,6 +545,7 @@ const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItem, setCurrentItem] = useState('')
+
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const paginate = (pageNumber) =>{
@@ -663,11 +665,22 @@ const [searchQuery, setSearchQuery] = useState("");
   };
   
 
+  const [showMore, setShowMore] = useState(false);
+
+  const handleMoreClick = () => setShowMore(!showMore);
+
+  const visibleFloors = showHostelDetails.number_Of_Floor > 5 ? 5 : showHostelDetails.number_Of_Floor;
+  const remainingFloors = showHostelDetails.number_Of_Floor - visibleFloors;
+
+console.log("visiblefloor", visibleFloors)
+console.log("remainingFloors",remainingFloors)
 
 
 
   return (
-    <div className='m-4' style={{fontFamily: "Gilroy,sans-serif"}}>
+    <>
+ 
+    <div className='m-4'>
        <div className='d-flex justify-content-end align-items-center m-4'>
 
        <div>
@@ -697,7 +710,7 @@ const [searchQuery, setSearchQuery] = useState("");
         <div className="d-flex justify-content-between align-items-center mb-3">
           
           <div>
-            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600 }}>Paying Guest</label>
+            <label style={{ fontSize: 24, color: "rgba(34, 34, 34, 1)", fontWeight: 600 ,fontFamily:"'Gilroy', sans-serif"}}>Paying Guest</label>
           </div>
 
           <div className="d-flex justify-content-between align-items-center">
@@ -708,7 +721,7 @@ const [searchQuery, setSearchQuery] = useState("");
             <div>
               <Button 
               onClick={handleShowAddPg}
-              style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add new PG</Button>
+              style={{ fontFamily:"'Montserrat'",fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add new PG</Button>
             </div>
           </div>
         </div>
@@ -743,17 +756,19 @@ const [searchQuery, setSearchQuery] = useState("");
 {
   currentItems.length > 0 && 
   <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-  <Pagination.Prev style={{ visibility:"visible"}}
-    onClick={() => paginate(currentPage - 1)}
-    disabled={currentPage === 1}
-  />
- {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
+  <Pagination.Prev style={{ visibility:"visible",color:"#1E45E1"}}
+      onClick={() => paginate(currentPage - 1)}
+       disabled={currentPage === 1}
+  > 
+    </Pagination.Prev>
+ 
   {renderPagination()}
-  {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
-  <Pagination.Next style={{ visibility:"visible"}}
+ 
+  <Pagination.Next style={{ visibility:"visible",color:"#1E45E1"}}
     onClick={() => paginate(currentPage + 1)}
     disabled={currentPage === totalPages}
-  />
+>
+    </Pagination.Next>
 </Pagination>
 }
       
@@ -785,7 +800,7 @@ const [searchQuery, setSearchQuery] = useState("");
       {/* <div >
           <IoIosArrowDropleft style={{height:30, width:30, fontSize:25, color:"#dcdcdc"}} />
           </div> */}
-        <label className='ms-2' style={{ fontSize: 24, color: "#000000", fontWeight: 600 }}>{showHostelDetails.Name}</label>
+        <label className='ms-2' style={{ fontSize: 24, color: "#000000", fontWeight: 600, fontFamily:"'Gilroy',sans-serif",fontStyle:"initial" }}>{showHostelDetails.Name}</label>
       </div>
 
       <div className="d-flex justify-content-between align-items-center">
@@ -794,7 +809,7 @@ const [searchQuery, setSearchQuery] = useState("");
         </div>
 
         <div>
-          <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px"  }} onClick={()=>handleCreateFloor(showHostelDetails.id)}>+ Create a floor</Button>
+          <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px"  ,fontFamily:"Montserrat"}} onClick={()=>handleCreateFloor(showHostelDetails.id)}>+ Create a floor</Button>
         </div>
       </div>
     </div>
@@ -802,7 +817,7 @@ const [searchQuery, setSearchQuery] = useState("");
 {
   showHostelDetails.number_Of_Floor > 0 ? 
 <>
-    <Nav variant="underline"  style={{ borderBottom: "1px solid #DEDEDE", marginBottom: 2 }}>
+    {/* <Nav variant="underline"  style={{ borderBottom: "1px solid #DEDEDE", marginBottom: 2 }}>
         {Array.from({ length:showHostelDetails.number_Of_Floor }, (_, index) => (
           <Nav.Item key={index}>
             <Nav.Link  className='Nav-Links' style={{ fontSize: 16 }} 
@@ -813,7 +828,41 @@ const [searchQuery, setSearchQuery] = useState("");
             </Nav.Link>
           </Nav.Item>
         ))}
-      </Nav>
+      </Nav> */}
+
+
+<Nav variant="underline" style={{ borderBottom: "1px solid #DEDEDE", marginBottom: 2 }}>
+      {Array.from({ length: visibleFloors }, (_, index) => (
+        <Nav.Item key={index}>
+          <Nav.Link
+            className='Nav-Links'
+            style={{ fontSize: 16 , fontFamily:"Gilroy, sans-serif"}}
+            active={index + 1 === floorClick}
+            onClick={() => handleFloorClick(index + 1)}
+          >
+            {getFloorName(index + 1)}
+          </Nav.Link>
+        </Nav.Item>
+      ))}
+      {remainingFloors > 0 && (
+        <Dropdown as={Nav.Item} onToggle={handleMoreClick}>
+          <Dropdown.Toggle as={Nav.Link} className='Nav-Links'  style={{ fontSize: 16 , fontFamily:"Gilroy, sans-serif"}}>
+            More
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            {Array.from({ length: remainingFloors }, (_, index) => (
+              <Dropdown.Item
+                key={index + visibleFloors}
+                active={index + visibleFloors + 1 === floorClick}
+                onClick={() => handleFloorClick(index + visibleFloors + 1)}
+              >
+                {getFloorName(index + visibleFloors + 1)}
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
+      )}
+    </Nav>
 
 <ParticularHostelDetails
 floorID={floorClick}
@@ -860,7 +909,7 @@ phoneNumber={showHostelDetails.hostel_PhoneNo}
         {showFloor && <AddFloor  show={showFloor} handleClose={handleCloseFloor} />}
         {showRoom && <AddRoom   show={showRoom} handleClose={handlecloseRoom} hostelDetails={hostelDetails}/>}
     </div>
-
+    </>
   );
 }
 

@@ -16,6 +16,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../Assets/Images/New_images/trash.png';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
+import { FormControl, InputGroup, Pagination ,Dropdown} from 'react-bootstrap';
 
 
 
@@ -141,6 +142,7 @@ const [loader, setLoader] = useState(true)
 useEffect(()=>{
 if(state.PgList.noRoomsInFloorStatusCode === 201){
   setRoomCountData('')
+  setLoader(false)
   setTimeout(() => {
     dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
   }, 2000);
@@ -226,6 +228,56 @@ useEffect(() => {
   // }
 
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6);
+
+const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
+  
+  const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
+
+  const paginate = (pageNumber) =>{
+    setCurrentPage(pageNumber);
+  } 
+
+  const renderPagination = () => {
+    const pageNumbers = [];
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, currentPage + 2);
+
+    if (startPage > 1) {
+      pageNumbers.push(
+        <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
+          1
+        </Pagination.Item>
+      );
+      if (startPage > 2) {
+        pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
+          {i}
+        </Pagination.Item>
+      );
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
+      }
+      pageNumbers.push(
+        <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
+          {totalPages}
+        </Pagination.Item>
+      );
+    }
+
+    return pageNumbers;
+  };
 
 
   return (
@@ -237,7 +289,7 @@ useEffect(() => {
 
 
       <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy, sans-serif" }}>
-        {roomCountData.length > 0 ? roomCountData.map((room, index) => (
+        {currentItems.length > 0 ? currentItems.map((room, index) => (
           <>
 
             <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
@@ -270,14 +322,14 @@ useEffect(() => {
                         <div  className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
                                                      <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34 }} />
                      
-                          <div className="pt-2" style={{ color: "#000", fontSize: 10, fontWeight: 600 }}>Bed {bed.bed_no}</div>
+                          <div className="pt-2" style={{ color: "#000", fontSize: 10, fontWeight: 600 ,fontFamily:"Montserrat"}}>Bed {bed.bed_no}</div>
                         </div>
                       </div>
                     ))}
                     <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={()=>handleAddBed(props,room.Room_Id)}>
                       <div className='d-flex flex-column align-items-center' style={{ width: "100%" }}>
                         <div><FaSquarePlus style={{ height: 41, width: 34, color: "#1E45E1" }} /></div>
-                        <div className="pt-2" style={{ color: "#1E45E1", fontSize: 10, fontWeight: 600 }}>Add bed</div>
+                        <div className="pt-2" style={{ color: "#1E45E1", fontSize: 10, fontWeight: 600, fontFamily:"Montserrat"}}>Add bed</div>
                       </div>
                     </div>
                   </div>
@@ -301,6 +353,22 @@ useEffect(() => {
       }
       </div>
 
+
+
+      {
+  currentItems.length > 0 && 
+  <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+  <Pagination.Prev style={{ visibility:"visible"}}
+    onClick={() => paginate(currentPage - 1)}
+    disabled={currentPage === 1}
+  />
+   {renderPagination()}
+   <Pagination.Next style={{ visibility:"visible"}}
+    onClick={() => paginate(currentPage + 1)}
+    disabled={currentPage === totalPages}
+  />
+</Pagination>
+}
 
       {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details}/>}
 
