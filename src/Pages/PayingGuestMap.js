@@ -53,10 +53,10 @@ props.onRowVisiblity(false)
                         </div>
                         <div >
                             <div className='pb-2'>
-                                <label style={{ fontSize: 16, color: "#222222", fontWeight: 600,fontFamily:"'Gilroy', sans-serif"}} >{props.hostel && props.hostel.Name}</label>
+                                <label style={{ fontSize: 16, color: "#222222", fontWeight: 600,fontFamily:"'Gilroy'"}} >{props.hostel && props.hostel.Name}</label>
                             </div>
                             <div>
-                                <div style={{ backgroundColor: "rgba(255, 239, 207, 1)", fontWeight: 500, width: "fit-content", padding: 5, borderRadius: 10, fontSize: 14 ,fontFamily:"'Gilroy', sans-serif",color:'rgba(34, 34, 34, 1)'}}>Paying Guest</div>
+                                <div style={{ backgroundColor: "rgba(255, 239, 207, 1)", fontWeight: 500, width: "fit-content", padding: 5, borderRadius: 10, fontSize: 14 ,fontFamily:"'Gilroy'",color:'rgba(34, 34, 34, 1)'}}>Paying Guest</div>
                             </div>
                         </div>
                     </div>
