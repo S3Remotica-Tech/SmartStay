@@ -20,7 +20,7 @@ InvoiceList:InvoiceReducer,
 ComplianceList:ComplianceReducer,
 PgList: PgListReducer,
 AssetList:AssetReducer,
-Settings : SettingsReducer
+Settings : SettingsReducer,
 ExpenseList:ExpenseReducer
 
 })
