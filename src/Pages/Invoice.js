@@ -144,6 +144,7 @@ const InvoicePage = () => {
 
 
   const handleInvoiceDetail = (item) => {
+    console.log("printinvoice" , item);
     setSelectedItems(item);
 
     if (item.User_Id) {
@@ -1469,7 +1470,7 @@ const InvoicePage = () => {
                   ))
                 ) : (
                   currentItems.map((item) => (
-                    <InvoiceTable item={item}   OnHandleshowform = {handleShowForm} OnHandleshowInvoice={handleInvoiceDetail}/>
+                    <InvoiceTable item={item}   OnHandleshowform = {handleShowForm} OnHandleshowInvoicePdf={handleInvoiceDetail}/>
                  
 
                   ))

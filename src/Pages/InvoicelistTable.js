@@ -48,8 +48,9 @@ const InvoiceTable = (props) => {
     }
 
 
-    const handleInvoicepdf = () => {
-        props.OnHandleshowInvoice()
+    const handleInvoicepdf = (item) => {
+        console.log("invoicecall", item);
+        props.OnHandleshowInvoicePdf(item)
     }
 
     return (

@@ -48,10 +48,10 @@ function Asset() {
 
   useEffect(() => {
     if (state.AssetList.addAssetStatusCode == 200 || state.AssetList.deleteAssetStatusCode == 200 || state.AssetList.addAssignAssetStatusCode == 200) {
-     setTimeout(()=>{
-      dispatch({ type: 'ASSETLIST' })
-     },100)
-           setTimeout(() => {
+      setTimeout(() => {
+        dispatch({ type: 'ASSETLIST' })
+      }, 100)
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
       }, 4000)
 
@@ -66,16 +66,16 @@ function Asset() {
 
     }
 
-  },[state.AssetList.addAssetStatusCode,state.AssetList.deleteAssetStatusCode,state.AssetList.addAssignAssetStatusCode])
+  }, [state.AssetList.addAssetStatusCode, state.AssetList.deleteAssetStatusCode, state.AssetList.addAssignAssetStatusCode])
 
 
 
   useEffect(() => {
     if (state.AssetList.getAssetStatusCode === 200) {
       setGetData(state.AssetList.assetList)
-      setTimeout(()=>{
-    dispatch({ type:  'CLEAR_GET_ASSET_STATUS_CODE'})
-      },2000)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_GET_ASSET_STATUS_CODE' })
+      }, 2000)
     }
 
   }, [state.AssetList.getAssetStatusCode])
@@ -105,8 +105,8 @@ function Asset() {
         return data.filter(item => item.total_price > 500 && item.total_price <= 1000);
       case '1000+':
         return data.filter(item => item.total_price > 1000);
-        case 'All':
-          return data
+      case 'All':
+        return data
       default:
         return data;
     }
@@ -136,7 +136,7 @@ function Asset() {
   const filteredData = filterByPriceRange(getData);
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log("currentItems",currentItems)
+  console.log("currentItems", currentItems)
   // console.log("filteredData",filteredData)
 
   const paginate = (pageNumber) => {
@@ -185,8 +185,8 @@ function Asset() {
     return pageNumbers;
   };
 
-  const handleEditAsset = (item) =>{
-    console.log("item for props",item)
+  const handleEditAsset = (item) => {
+    console.log("item for props", item)
     setShow(true)
     setCurrentItem(item);
   }
@@ -209,21 +209,21 @@ function Asset() {
     }
     setCurrentPage(1);
   };
-  
 
-  const stateAccount= useSelector(state => state.createAccount)
+
+  const stateAccount = useSelector(state => state.createAccount)
 
 
   const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
-  
-  
+
+
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
       const loginProfile = stateAccount.accountList[0].user_details.profile
-        
-          setProfile(loginProfile)
-        }
-  
+
+      setProfile(loginProfile)
+    }
+
   }, [stateAccount.statusCodeForAccountList])
 
 
@@ -236,29 +236,29 @@ function Asset() {
         <div className='m-4'>
 
 
-        <div className='d-flex justify-content-end align-items-center m-4'>
+          <div className='d-flex justify-content-end align-items-center m-4'>
 
-<div>
-<InputGroup>
-<InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
-<CiSearch style={{ fontSize: 20 }} />
-</InputGroup.Text>
-<FormControl size="lg" 
- value={searchQuery}
- onChange={handleInputChange}
-style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
-placeholder="Search..."
-/>
-</InputGroup>
-</div>
-<div className="mr-3">
-<img src={Notify} alt="notification" />
-</div>
+            <div>
+              <InputGroup>
+                <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+                  <CiSearch style={{ fontSize: 20 }} />
+                </InputGroup.Text>
+                <FormControl size="lg"
+                  value={searchQuery}
+                  onChange={handleInputChange}
+                  style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+                  placeholder="Search..."
+                />
+              </InputGroup>
+            </div>
+            <div className="mr-3">
+              <img src={Notify} alt="notification" />
+            </div>
 
-<div className="mr-3">
-<Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
-</div>
-</div>
+            <div className="mr-3">
+              <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+            </div>
+          </div>
 
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div>
@@ -299,10 +299,10 @@ placeholder="Search..."
             <Table responsive>
               <thead style={{ fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
                 <tr>
-                  <th style={{ color: "black", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center"}}>
+                  <th style={{ color: "black", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
                     <input type='checkbox' style={customCheckboxStyle} />
                   </th>
-                  
+
 
                   <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Asset</th>
                   <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Serial Number</th>
@@ -316,48 +316,48 @@ placeholder="Search..."
               </thead>
               <tbody>
                 {currentItems && currentItems.map((item) => (
-                  <AssetListTable  item={item} OnEditAsset={handleEditAsset}/> 
-                 
+                  <AssetListTable item={item} OnEditAsset={handleEditAsset} />
+
                 ))}
               </tbody>
             </Table>
 
 
-            
+
             <div className="d-flex justify-content-center" style={{ width: "100%" }}>
               {
                 getData && getData.length === 0 || filteredData.length === 0 && <h5 style={{ fontSize: 12, color: "red" }}>No Asset Found</h5>
               }
 
-             
+
             </div>
 
-           
 
 
-       
+
+
 
           </div>
           {/*  Pagination code */}
-          {currentItems.length > 0 && 
-          <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-        <Pagination.Prev style={{ visibility:"visible"}}
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-        />
+          {currentItems.length > 0 &&
+            <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+              <Pagination.Prev style={{ visibility: "visible" }}
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
               {renderPagination()}
-                <Pagination.Next style={{ visibility:"visible"}}
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        />
-      </Pagination>
+              <Pagination.Next style={{ visibility: "visible" }}
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              />
+            </Pagination>
 
           }
 
 
         </div>
       </div>
-      {show && <AddAsset show={show} handleClose={handleClose}   currentItem={currentItem}/>}
+      {show && <AddAsset show={show} handleClose={handleClose} currentItem={currentItem} />}
 
 
 
