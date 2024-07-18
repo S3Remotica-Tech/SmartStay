@@ -72,14 +72,18 @@ function Dashboard() {
   
   
 
-  const data = [
-    { name: 'Jan 2024', Revenue: 300, Expenses: 200 },
-    { name: 'Feb 2024', Revenue: 200, Expenses: 100 },
-    { name: 'Mar 2024', Revenue: 400, Expenses: 300 },
-    { name: 'Apr 2024', Revenue: 150, Expenses: 250 },
-    { name: 'May 2024', Revenue: 500, Expenses: 350 },
-    { name: 'Jun 2024', Revenue: 350, Expenses: 300 },
-  ];
+  // const data = [
+  //   { name: 'Jan 2024', Revenue: 300, Expenses: 200 },
+  //   { name: 'Feb 2024', Revenue: 200, Expenses: 100 },
+  //   { name: 'Mar 2024', Revenue: 400, Expenses: 300 },
+  //   { name: 'Apr 2024', Revenue: 150, Expenses: 250 },
+  //   { name: 'May 2024', Revenue: 500, Expenses: 350 },
+  //   { name: 'Jun 2024', Revenue: 350, Expenses: 300 },
+  // ];
+
+
+
+  
   
   const formatYAxis = (tickItem) => {
     return `$${tickItem}`;
@@ -88,9 +92,15 @@ function Dashboard() {
   const state = useSelector(state => state)
   console.log("state", state)
   const dispatch = useDispatch();
+  const [data,setData] =useState([state.PgList?.dashboardDetails?.Revenue_reports])
   const [dashboardList, setDashboardList] = useState(state.PgList.dashboardDetails.dashboardList)
   const LoginId = localStorage.getItem("loginId")
   const [login_Id, setLogin_Id] = useState('')
+
+
+  useEffect(() => {
+    setData(state.PgList.dashboardDetails.Revenue_reports)
+  }, [state.PgList.dashboardDetails.Revenue_reports])
 
   useEffect(() => {
     dispatch({ type: 'PGDASHBOARD' })
@@ -124,7 +134,7 @@ function Dashboard() {
   console.log("percentage", percentage);
 
   const pathColor = current >= overdue ? '#00A32E' : 'EBEBEB';
-  const trailColor = overdue >= current ? 'EBEBEB' : '#00A32E';
+  const trailColor = overdue >= current ? '#EBEBEB' : '#00A32E';
 
 
 
@@ -263,7 +273,7 @@ function Dashboard() {
         
         </div> 
         <div style={{fontSize:32,fontWeight:600,font:"Gilroy"}}>
-          {hostelCount.toLocaleString()}
+          {availableBed.toLocaleString()}
         </div>
       </div>
     </Card.Body>
@@ -285,7 +295,7 @@ function Dashboard() {
         
         </div>
         <div style={{fontSize:32,fontWeight:600,font:"Gilroy"}}>
-          {hostelCount.toLocaleString()}
+          {roomCount.toLocaleString()}
         </div>
       </div>
     </Card.Body>
@@ -307,7 +317,7 @@ function Dashboard() {
         
         </div>
         <div style={{fontSize:32,fontWeight:600,font:"Gilroy"}}>
-          {hostelCount.toLocaleString()}
+          {occupied_Bed.toLocaleString()}
         </div>
       </div>
     </Card.Body>
@@ -344,169 +354,21 @@ function Dashboard() {
       </div>
     </div>
   </div>
-{/* <ResponsiveContainer width="100%" height={300}>
-  <BarChart
-    data={data}
-    margin={{ top: 10, left: 10, bottom: 40, right: 10 }}
-    barGap={0}
-    barCategoryGap="10%"
-  >
-    <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
-    <XAxis dataKey="name" style={{marginTop:"20px"}}>
-      <Label value="Month" position="insideBottom" offset={-5}  />
-    </XAxis>
-    <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={15}>
-      <Label value="Amount" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} dx={20} />
-    </YAxis>
-    <Tooltip formatter={(value) => `$${value}`} />
-    <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
-      <LabelList dataKey="RevenueLabel" position="bottom" style={{ fill: '#1E45E1' }} />
-    </Bar>
-    <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
-      <LabelList dataKey="ExpensesLabel" position="bottom" style={{ fill: '#00C2FF' }} />
-      
-    </Bar>
-    <Legend verticalAlign="bottom" height={36} />
-  </BarChart>
-</ResponsiveContainer> */}
-
-
-
-{/* <ResponsiveContainer width="100%" height={300}>
-      <BarChart
-        data={data}
-        margin={{ top: 10, left: 10, bottom: 40, right: 10 }}
-        barGap={0}
-        barCategoryGap="10%"
-      >
-        <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
-        <XAxis dataKey="month" style={{marginTop:"20px"}}>
-          <Label value="Month" position="insideBottom" offset={-5} />
-        </XAxis>
-        <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={15}>
-          <Label value="Amount" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} dx={20} />
-        </YAxis>
-        <Tooltip formatter={(value) => `$${value}`} />
-        <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
-          <LabelList dataKey="RevenueLabel" position="top" style={{ fill: '#1E45E1' }} />
-        </Bar>
-        <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
-          <LabelList dataKey="ExpensesLabel" position="top" style={{ fill: '#00C2FF' }} />
-        </Bar>
-        <Legend verticalAlign="bottom" height={36} />
-      </BarChart>
-    </ResponsiveContainer> */}
-
-
-{/* <ResponsiveContainer width="100%" height={300}>
-      <BarChart
-        data={data}
-        margin={{ top: 10, left: 10, bottom: 40, right: 10 }}
-        barGap={0}
-        barCategoryGap="10%"
-      >
-        <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
-        <XAxis dataKey="month" style={{marginTop:"20px"}}>
-          <Label value="Month" position="insideBottom" offset={-5} />
-        </XAxis>
-        <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={15}>
-          <Label value="Amount" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} dx={20} />
-        </YAxis>
-        <Tooltip formatter={(value) => `$${value}`} />
-        <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
-          <LabelList dataKey="RevenueLabel" position="top" style={{ fill: '#1E45E1' }} />
-        </Bar>
-        <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
-          <LabelList dataKey="ExpensesLabel" position="top" style={{ fill: '#00C2FF' }} />
-        </Bar>
-        <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
-      </BarChart>
-    </ResponsiveContainer> */}
-
-
-
-
-{/* <div style={{ position: 'relative', width: '100%', height: 300 }}>
-      <img src={arrow} alt="Arrow" style={{
-        position: 'absolute',
-        top: '10px',  // Adjust the position as needed
-        left: '10px', // Adjust the position as needed
-        width: '30px', // Adjust the size as needed
-        height: '30px' // Adjust the size as needed
-      }} />
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={data}
-          margin={{ top: 10, left: 10, bottom: 40, right: 10 }}
-          barGap={0}
-          barCategoryGap="10%"
-        >
-          <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
-          <XAxis dataKey="month" style={{ marginTop: "20px" }}>
-            <Label value="Month" position="insideBottom" offset={-5} />
-          </XAxis>
-          <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={15}>
-            <Label value="Amount" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} dx={20} />
-          </YAxis>
-          <Tooltip formatter={(value) => `$${value}`} />
-          <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
-            <LabelList dataKey="RevenueLabel" position="top" style={{ fill: '#1E45E1' }} />
-          </Bar>
-          <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
-            <LabelList dataKey="ExpensesLabel" position="top" style={{ fill: '#00C2FF' }} />
-          </Bar>
-          <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
-        </BarChart>
-      </ResponsiveContainer>
-    </div> */}
-
-
-
-
-
-
-{/* <div style={{ position: 'relative', width: '100%', height: 350 }}>
-
-      <div style={{ position: 'absolute', top: '10px', left: '20px', display: 'flex', alignItems: 'center' }}>
-        <img src={arrow} alt="Arrow" style={{
-          width: '10px', 
-          height: '30px', 
-          marginLeft: '10px'
-        }} />
-        <div style={{ transform: 'rotate(-90deg)', transformOrigin: 'left center', marginTop: '180px', color: '#000' }}>Amount</div>
-      </div>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={data}
-          margin={{ top: 10, left: 50, bottom: 40, right: 10 }}
-          barGap={0}
-          barCategoryGap="10%"
-        >
-          <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
-          <XAxis dataKey="name" style={{ marginTop: "20px" }}>
-            <Label value="Month" position="insideBottom" offset={-15} />
-          </XAxis>
-          <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={-10} />
-          <Tooltip formatter={(value) => `$${value}`} />
-          <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
-            <LabelList dataKey="RevenueLabel" position="top" style={{ fill: '#1E45E1' }} />
-          </Bar>
-          <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
-            <LabelList dataKey="ExpensesLabel" position="top" style={{ fill: '#00C2FF' }} />
-          </Bar>
-          <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
-        </BarChart>
-      </ResponsiveContainer>
-    </div> */}
-
 
 <div style={{ position: 'relative', width: '100%', height: 350 }}>
     <div style={{ position: 'absolute', top: '10px', left: '20px', display: 'flex', alignItems: 'center' }}>
       <img src={arrow} alt="Arrow" style={{ width: '10px', height: '30px', marginLeft: '10px' }} />
       <div style={{ transform: 'rotate(-90deg)', transformOrigin: 'left center', marginTop: '180px', color: '#000' }}>
-        Amount
+      <p className='me-3'>  Amount</p>
       </div>
     </div>
+    {/* {
+      state.PgList.dashboardDetails.Revenue_reports.map((item)=>{
+
+      })
+
+      
+    } */}
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
         data={data}
@@ -515,13 +377,13 @@ function Dashboard() {
         barCategoryGap="10%"
       >
         <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
-        <XAxis dataKey="name" style={{ marginTop: "20px" }}>
-          {/* <Label value="Month" position="insideBottom" offset={-15} /> */}
+        <XAxis dataKey="month" style={{ marginTop: "20px" }}>
+          <Label value="" position="insideBottom" offset={-15} />
         </XAxis>
         <YAxis axisLine={false} tickLine={false} tickFormatter={formatYAxis} dx={-10} />
         <Tooltip formatter={(value) => `$${value}`} />
-        <Bar dataKey="Revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
-          <LabelList dataKey="RevenueLabel" position="top" style={{ fill: '#1E45E1' }} />
+        <Bar dataKey="revenue" fill="#1E45E1" barSize={24} radius={[5, 5, 0, 0]}>
+          <LabelList dataKey={data.revenue} position="top" style={{ fill: '#1E45E1' }} />
         </Bar>
         <Bar dataKey="Expenses" fill="#00C2FF" barSize={24} radius={[5, 5, 0, 0]}>
           <LabelList dataKey="ExpensesLabel" position="top" style={{ fill: '#00C2FF' }} />
@@ -572,14 +434,14 @@ function Dashboard() {
     <div className="dot received"></div>
     <div>
       <div>Received</div>
-      <div>₹19,500</div>
+      <div>₹{current.toLocaleString()}</div>
     </div>
   </div>
   <div className="status-item">
     <div className="dot receivable"></div>
     <div>
       <div>Receivable</div>
-      <div>₹30,000</div>
+      <div>₹{overdue.toLocaleString()}</div>
     </div>
   </div>
 </div>
