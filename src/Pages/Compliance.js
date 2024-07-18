@@ -466,7 +466,7 @@ const handleAssignClose = () => {
 
    const [edit ,setEdit] = useState(false)
 
-  const handleAddVendor = () => {
+  const handleAddcomplaint = () => {
 
     setEdit(false)
 
@@ -862,7 +862,7 @@ const handleAssignClose = () => {
               <Modal.Footer style={{ border: "none" }}>
 
                 <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}
-                  onClick={handleAddVendor}
+                  onClick={handleAddcomplaint}
                 >
                 {edit ? "Save complaint" : "Add complaint"}  
                 </Button>
@@ -927,7 +927,7 @@ const handleAssignClose = () => {
               <Modal.Footer style={{ border: "none" }}>
 
                 <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}
-                  onClick={handleAddVendor}
+                  onClick={handleAddcomplaint}
                 >
                   Add complaint
                 </Button>

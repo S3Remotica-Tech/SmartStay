@@ -12,6 +12,7 @@ import List from '../Assets/Images/list-report.png';
 import Edit from '../Assets/Images/edit.png';
 import { Offcanvas, Form, Dropdown, FormControl } from 'react-bootstrap';
 import Plus from '../Assets/Images/Create-button.png';
+import Calendor from '../Assets/Images/calendar.png';
 import Profile from '../Assets/Images/Profile.jpg';
 import Dots from '../Assets/Images/more.png';
 import User from '../Assets/Images/Ellipse 1.png';
@@ -27,8 +28,9 @@ import LoaderComponent from './LoaderComponent';
 import Sort from "../Assets/Images/sort.png"
 import CryptoJS from "crypto-js";
 import "../Pages/Invoices.css"
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";   
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { fontSize, fontStyle, fontWeight, lineHeight } from '@mui/system';
+import InvoiceTable from './InvoicelistTable';
 
 
 const InvoicePage = () => {
@@ -37,7 +39,7 @@ const InvoicePage = () => {
   const state = useSelector(state => state)
   const [editOption, setEditOption] = useState('')
   const dispatch = useDispatch()
-  console.log("state",state);
+  console.log("state", state);
 
   const [show, setShow] = useState(false);
 
@@ -48,16 +50,18 @@ const InvoicePage = () => {
     fontFamily: 'Gilroy, sans-serif',
     color: "#939393",
     fontSize: "14px",
-    fontWeight:500
+    fontWeight: 500
   };
 
   const Tablebodystyle = {
+    // marginTop:'10px',
+    paddingTop: '17px',
     fontFamily: 'Gilroy, sans-serif',
     color: "#000",
     fontSize: "14px",
-    fontWeight:500,
-    fontStyle:'normal',
-    lineHeight:'normal'
+    fontWeight: 500,
+    fontStyle: 'normal',
+    lineHeight: 'normal'
   }
 
 
@@ -122,72 +126,78 @@ const InvoicePage = () => {
     dueDate: '',
     payableAmount: '',
     InvoiceId: '',
-    invoice_type: ''
+    invoice_type: '',
+    transaction: ''
   })
 
-  console.log("invoiceList", invoiceList);
+  // console.log("invoiceList", invoiceList);
 
   const [invoicePage, setInvoicePage] = useState('')
   const [showLoader, setShowLoader] = useState(false)
   const [selectedItems, setSelectedItems] = useState('')
 
+  const [showDots, setShowDots] = useState('')
+
+  const handleShowDots = () => {
+    setShowDots(!showDots)
+  }
 
 
   const handleInvoiceDetail = (item) => {
     setSelectedItems(item);
-    
+
     if (item.User_Id) {
-        // Parse the date and format it as 'YYYY-MM-DD'
-        const originalDate = new Date(item.Date);
-        const year = originalDate.getFullYear();
-        const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
-        const day = originalDate.getDate().toString().padStart(2, '0');
-        const newDate = `${year}-${month}-${day}`;
-        
-        if ((item.EbAmount == 0 || item.EbAmount == undefined) && item.invoice_type == 1 && item.AmnitiesAmount == 0 ) {
-          dispatch({
-            type: 'INVOICEPDF',
-            payload: {
-              Date: newDate,
-              User_Id: item.User_Id,
-              id: item.id,
-              hostel_Id: item.Hostel_Id,
-              invoice_type: item.invoice_type
-            }
-          });
-        } else if (item.invoice_type === 2) {
-          dispatch({
-            type: 'INVOICEPDF',
-            payload: {
-              User_Id: item.User_Id,
-              id: item.id,
-              hostel_Id: item.Hostel_Id,
-              invoice_type: item.invoice_type
-            }
-          });
-        } else {
-          dispatch({
-            type: 'INVOICEPDF',
-            payload: {
-              Date: newDate,
-              User_Id: item.User_Id,
-              id: item.id
-            }
-          });
-        }
-        
-        setShowLoader(true);
+      // Parse the date and format it as 'YYYY-MM-DD'
+      const originalDate = new Date(item.Date);
+      const year = originalDate.getFullYear();
+      const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = originalDate.getDate().toString().padStart(2, '0');
+      const newDate = `${year}-${month}-${day}`;
+
+      if ((item.EbAmount == 0 || item.EbAmount == undefined) && item.invoice_type == 1 && item.AmnitiesAmount == 0) {
+        dispatch({
+          type: 'INVOICEPDF',
+          payload: {
+            Date: newDate,
+            User_Id: item.User_Id,
+            id: item.id,
+            hostel_Id: item.Hostel_Id,
+            invoice_type: item.invoice_type
+          }
+        });
+      } else if (item.invoice_type === 2) {
+        dispatch({
+          type: 'INVOICEPDF',
+          payload: {
+            User_Id: item.User_Id,
+            id: item.id,
+            hostel_Id: item.Hostel_Id,
+            invoice_type: item.invoice_type
+          }
+        });
+      } else {
+        dispatch({
+          type: 'INVOICEPDF',
+          payload: {
+            Date: newDate,
+            User_Id: item.User_Id,
+            id: item.id
+          }
+        });
       }
+
+      setShowLoader(true);
     }
-    
-        // const payload = item.invoice_type === 2 
-        //     ? { User_Id: item.User_Id, id: item.id, hostel_Id: item.Hostel_Id, invoice_type: item.invoice_type }
-        //     : { Date: newDate, User_Id: item.User_Id, id: item.id };  
-        // dispatch({ type: 'INVOICEPDF', payload });
-        
-       
-        // setShowLoader(true);
-   
+  }
+
+  // const payload = item.invoice_type === 2 
+  //     ? { User_Id: item.User_Id, id: item.id, hostel_Id: item.Hostel_Id, invoice_type: item.invoice_type }
+  //     : { Date: newDate, User_Id: item.User_Id, id: item.id };  
+  // dispatch({ type: 'INVOICEPDF', payload });
+
+
+  // setShowLoader(true);
+
 
 
 
@@ -226,74 +236,74 @@ const InvoicePage = () => {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
 
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setLoading(true)
     dispatch({ type: 'INVOICELIST' })
   }, [])
 
- const [notification, setNotification] = useState([]);
- console.log("notification",notification);
+  const [notification, setNotification] = useState([]);
+  console.log("notification", notification);
 
   useEffect(() => {
     dispatch({ type: 'ALL-NOTIFICATION-LIST' })
     setNotification(state.login.Notification)
   }, [])
 
- 
 
-  let newNotificationIDs = state.login.Notification && state.login.Notification?.length>0 && state.login.Notification.filter(notification => notification.status === 1).map(notification => notification.id);
+
+  let newNotificationIDs = state.login.Notification && state.login.Notification?.length > 0 && state.login.Notification.filter(notification => notification.status === 1).map(notification => notification.id);
 
 
   const newNotificationsCount = newNotificationIDs.length;
-  console.log("id",newNotificationIDs);
+  console.log("id", newNotificationIDs);
 
- 
+
   const handleClosepopup = () => setShow(false);
 
-const handleShowpopup = () => {
-      setShow(true);
-      if(newNotificationIDs.length > 0 &&  newNotificationIDs != []){
-        setTimeout(()=>{
-          dispatch({ type: 'UPDATE-NOTIFICATION', payload: { id: newNotificationIDs } });
-        },1000)
-      }
-     
-      // dispatch({ type: 'ALL-NOTIFICATION-LIST' })
-}
-  
+  const handleShowpopup = () => {
+    setShow(true);
+    if (newNotificationIDs.length > 0 && newNotificationIDs != []) {
+      setTimeout(() => {
+        dispatch({ type: 'UPDATE-NOTIFICATION', payload: { id: newNotificationIDs } });
+      }, 1000)
+    }
 
-useEffect(() => {
-  if (state.login.UpdateNotificationMessage != null && state.login.UpdateNotificationMessage != '' ) {
-         dispatch({ type: 'ALL-NOTIFICATION-LIST' })
-    setTimeout(() => {
-      dispatch({ type: 'AFTER_UPDATE_NOTIFICATION', message: null })
-      newNotificationIDs=[]
-    }, 100);
+    // dispatch({ type: 'ALL-NOTIFICATION-LIST' })
   }
-}, [state.login.UpdateNotificationMessage])
-
-     useEffect(()=>{
-      if(state.InvoiceList?.InvoiceListStatusCode == 200){
-        setData(state.InvoiceList.Invoice)
-        setLoading(false);
-        setTimeout(() => {
-          dispatch({ type: 'CLEAR_INVOICE_LIST' });
-        }, 1000);
-
-      }
-
-     },[state.InvoiceList?.InvoiceListStatusCode])
 
 
+  useEffect(() => {
+    if (state.login.UpdateNotificationMessage != null && state.login.UpdateNotificationMessage != '') {
+      dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+      setTimeout(() => {
+        dispatch({ type: 'AFTER_UPDATE_NOTIFICATION', message: null })
+        newNotificationIDs = []
+      }, 100);
+    }
+  }, [state.login.UpdateNotificationMessage])
+
+  useEffect(() => {
+    if (state.InvoiceList?.InvoiceListStatusCode == 200) {
+      setData(state.InvoiceList.Invoice)
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_INVOICE_LIST' });
+      }, 1000);
+
+    }
+
+  }, [state.InvoiceList?.InvoiceListStatusCode])
 
 
 
 
 
-console.log("InvoiceList",state.InvoiceList);
-console.log("DATA",data)
+
+
+  console.log("InvoiceList", state.InvoiceList);
+  console.log("DATA", data)
 
   useEffect(() => {
     console.log("statuscode", state.InvoiceList.message);
@@ -304,7 +314,7 @@ console.log("DATA",data)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
       }, 100);
-      
+
 
     }
   }, [state.InvoiceList])
@@ -318,10 +328,10 @@ console.log("DATA",data)
         let pdfWindow;
         const InvoicePDf = state.InvoiceList?.Invoice &&
           state.InvoiceList.Invoice.filter(view => view.User_Id == selectedItems.User_Id && view.id == selectedItems.id);
-       console.log("InvoicePDf[0]?.invoicePDF",InvoicePDf[0])
-       console.log("////////////////////////////////////////")
-          if (InvoicePDf[0]?.invoicePDF) {
-                    pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
+        console.log("InvoicePDf[0]?.invoicePDF", InvoicePDf[0])
+        console.log("////////////////////////////////////////")
+        if (InvoicePDf[0]?.invoicePDF) {
+          pdfWindow = window.open(InvoicePDf[0]?.invoicePDF, '_blank');
           if (pdfWindow) {
             setShowLoader(false);
           }
@@ -355,7 +365,7 @@ console.log("DATA",data)
 
 
 
- 
+
 
 
 
@@ -588,52 +598,6 @@ console.log("DATA",data)
 
 
 
-  const handleSaveInvoiceList = () => {
-    const invoiceNo = randomNumberInRange(invoiceList.hostel_Name, 1, new Date())
-    const CheckInvoiceNo = state.InvoiceList?.Invoice.some(item =>
-      item.User_Id === selectedUserId && item.Invoices !== undefined
-    );
-
-
-
-    if (invoiceList.InvoiceId && invoiceList.payableAmount) {
-      dispatch({
-        type: 'UPDATEINVOICEDETAILS',
-        payload: {
-          id: invoiceList.id,
-          invoice_id: invoiceList.InvoiceId,
-          invoice_type: invoiceList.invoice_type,
-          amount: invoiceList.payableAmount,
-          balance_due: invoiceList.balanceDue
-        }
-      });
-
-      setTimeout(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Update Successfully",
-          confirmButtonText: "ok"
-        });
-      }, 300);
-      setShowMenu(false);
-      setShowForm(false);
-    }
-
-
-    else {
-      Swal.fire({
-        icon: "warning",
-        title: 'Please Enter All Field',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
-    }
-
-
-  }
-
 
 
 
@@ -808,6 +772,143 @@ console.log("DATA",data)
     setShowModal(!showModal);
   };
 
+  const [showform, setShowform] = useState(false);
+
+  const handleShowForm = (props) => {
+    console.log("currentitems", currentItems);
+    console.log("state.InvoiceList.Invoice", state.InvoiceList.Invoice);
+    setShowform(true);
+    console.log("editclickvalue", props.item);
+    setInvoiceValue(props.item);
+    if (props.item.id !== undefined) {
+      setEditOption('Edit');
+      const dateObject = new Date(props.item.Date);
+      const year = dateObject.getFullYear();
+      const month = dateObject.getMonth() + 1;
+      const day = dateObject.getDate();
+
+      const lastDayOfMonth = new Date(year, month, 0);
+      const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+
+      // const EditCheck = state.InvoiceList.Invoice.find(view => view.User_Id === item.User_Id && view.BalanceDue === 0 && view.Date.includes(`${year}-${month}`));
+      const EditCheck = state.InvoiceList.Invoice.find(view => {
+        const viewDate = new Date(view.Date);
+        return (
+          view.User_Id === props.item.User_Id &&
+          view.BalanceDue === 0 &&
+          viewDate.getFullYear() === year &&
+          viewDate.getMonth() === month - 1
+        );
+      });
+
+
+      // setShowMenu(true);
+      // setShowForm(true);
+      let value = props.item.Name.split(" ");
+      setSelectedUserId(props.item.User_Id);
+      const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      setInvoiceList({
+        id: props.item.id,
+        firstName: value[0],
+        lastName: value[1],
+        phone: props.item.phoneNo,
+        email: props.item.EmailID,
+        hostel_Name: props.item.Hostel_Name,
+        hostel_Id: props.item.Hostel_Id,
+        FloorNo: props.item.Floor_Id,
+        RoomNo: props.item.Room_No,
+        date: formattedDate,
+        // total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
+        amount: props.item.Amount,
+        paidAmount: props.item.PaidAmount,
+        balanceDue: props.item.BalanceDue == 0 ? '00' : props.item.BalanceDue,
+        dueDate: formattedDueDate,
+        InvoiceId: props.item.Invoices,
+        invoice_type: props.item.invoice_type
+      });
+      // }
+    } else {
+      setEditOption('Add');
+      setSelectedUserId('');
+      // setShowForm(true);
+      setUserClicked(true);
+      // setShowMenu(true);
+    }
+  }
+  const handleCloseForm = () => {
+    // setEdit(!edit)
+    setShowform(false);
+    setInvoiceList({
+      firstName: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      hostel_Name: '',
+      hostel_Id: '',
+      FloorNo: '',
+      RoomNo: '',
+      amount: '',
+      balanceDue: '',
+      dueDate: '',
+      // total_amount:'',
+      transaction: '',
+      paymentType: ''
+    })
+
+  }
+
+  // const [transaction , setTransaction] =  useState ('')
+
+
+  const handleSaveInvoiceList = () => {
+
+    const invoiceNo = randomNumberInRange(invoiceList.hostel_Name, 1, new Date())
+    const CheckInvoiceNo = state.InvoiceList?.Invoice.some(item =>
+      item.User_Id === selectedUserId && item.Invoices !== undefined
+    );
+
+    if (invoiceList.InvoiceId && invoiceList.payableAmount && invoiceList.transaction) {
+      dispatch({
+        type: 'UPDATEINVOICEDETAILS',
+        payload: {
+          id: invoiceList.id,
+          invoice_id: invoiceList.InvoiceId,
+          invoice_type: invoiceList.invoice_type,
+          amount: invoiceList.payableAmount,
+          balance_due: invoiceList.balanceDue,
+          payment_by: invoiceList.transaction,
+          payment_date: invoiceList.date
+        }
+      });
+
+      setTimeout(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Update Successfully",
+          confirmButtonText: "ok"
+        });
+      }, 300);
+      setShowform(false);
+
+      // setShowMenu(false);
+      // setShowForm(false);
+    }
+
+
+    else {
+      Swal.fire({
+        icon: "warning",
+        title: 'Please Enter All Field',
+        confirmButtonText: "ok"
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
+    }
+
+
+  }
+
 
   return (
     <>
@@ -820,12 +921,12 @@ console.log("DATA",data)
         </> : <>
           <div class=' ps-5 pe-5' style={{ marginTop: "20px", position: "relative" }} >
 
-          <div className='texxttt'>
-  <div style={{flex:1}}>
+            <div className='texxttt'>
+              <div style={{ flex: 1 }}>
 
-  </div>
-  <div style={{flex:1}}>
-  {/* <div className="headerone">
+              </div>
+              <div style={{ flex: 1 }}>
+                {/* <div className="headerone">
     
        <div className="search-container">
       <input type="text" placeholder="Search" className="search-input" />
@@ -848,20 +949,20 @@ console.log("DATA",data)
         <img src={rectangle}  className="profile-image" />
       </div>
     </div> */}
-  </div>
-  </div>
+              </div>
+            </div>
 
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-             
-                
-                  <p style={{ fontSize: "23px",fontFamily:'Gilroy, sans-serif',fontWeight:600 ,color:'#222' }}>Invoice</p>
-               
-             
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+
+
+              <p style={{ fontSize: "23px", fontFamily: 'Gilroy, sans-serif', fontWeight: 600, color: '#222' }}>Invoice</p>
+
+
               <div >
-                
 
-                  {showLoader && <LoaderComponent />}
-                  {/* {
+
+                {showLoader && <LoaderComponent />}
+                {/* {
                     searchicon &&
                     <>
                       <input
@@ -876,7 +977,7 @@ console.log("DATA",data)
                     </>
                   }
                   <BsSearch class=" me-4" onClick={handleiconshow} /> */}
-                  <div style={{display:'flex',flexDirection:'row'}}>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
                   {
                     filtericon &&
                     <>
@@ -889,9 +990,9 @@ console.log("DATA",data)
                       </select>
                     </>
                   }
-                  <img class=" me-4" onClick={handleFiltershow}   src={Sort}/> 
-                  </div>
-              </div> 
+                  <img class=" me-4" onClick={handleFiltershow} src={Sort} />
+                </div>
+              </div>
             </div>
 
             <Offcanvas placement="end" show={show} onHide={handleClosepopup} style={{ width: "69vh" }}>
@@ -899,30 +1000,30 @@ console.log("DATA",data)
               <Offcanvas.Body style={{ maxHeight: 'calc(100vh - 35px)', overflowY: 'auto' }}>
                 <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
                   <div class="p-1 bd-highlight user-menu">
-                  <div>
-                {newNotificationsCount > 0 &&  <p style={{marginTop:'10px'}}><span style={{backgroundColor:'#DBE1FB',padding:'8px 12px',color:'#222222',borderRadius:'14px',fontWeight:500}}>{newNotificationsCount} new notifications</span></p>} 
-                  </div>
-                  <div className='container' style={{ marginTop: "30px"  }}>
+                    <div>
+                      {newNotificationsCount > 0 && <p style={{ marginTop: '10px' }}><span style={{ backgroundColor: '#DBE1FB', padding: '8px 12px', color: '#222222', borderRadius: '14px', fontWeight: 500 }}>{newNotificationsCount} new notifications</span></p>}
+                    </div>
+                    <div className='container' style={{ marginTop: "30px" }}>
                       <>
                         <div className='row mb-3'>
-                        {state.login.Notification && state.login.Notification?.length>0 && state.login.Notification.map((val) => (
-            <div key={val.id} className='border-bottom' style={{ marginBottom: '10px',display:'flex',flexDirection:'row' ,justifyContent:"space-between"}}>
-              <p style={{ color: val.status === 1 ? 'black' : '#939393' ,width:'75%'}}>{val.message}</p>
-            {val.status === 1 && <div style={{width:'10px',height:'10px',backgroundColor:'blue',borderRadius:'50%',marginTop:'5px'}}> 
-              </div>} 
+                          {state.login.Notification && state.login.Notification?.length > 0 && state.login.Notification.map((val) => (
+                            <div key={val.id} className='border-bottom' style={{ marginBottom: '10px', display: 'flex', flexDirection: 'row', justifyContent: "space-between" }}>
+                              <p style={{ color: val.status === 1 ? 'black' : '#939393', width: '75%' }}>{val.message}</p>
+                              {val.status === 1 && <div style={{ width: '10px', height: '10px', backgroundColor: 'blue', borderRadius: '50%', marginTop: '5px' }}>
+                              </div>}
 
-              
-            </div>
-          ))}
-          
+
+                            </div>
+                          ))}
+
                         </div>
                       </>
-                     
+
 
                     </div>
                   </div>
                 </div>
-             
+
               </Offcanvas.Body>
             </Offcanvas>
 
@@ -1195,7 +1296,7 @@ console.log("DATA",data)
                         Cancel
                       </Button>
                       <Button variant={isSaveDisabled ? "outline-secondary" : "outline-primary"} size="sm" style={{ backgroundColor: isSaveDisabled && "gray", color: isSaveDisabled && "white", borderRadius: "20vh", width: "80px" }}
-                        onClick={handleSaveInvoiceList}
+                        // onClick={handleSaveInvoiceList}
                         disabled={isSaveDisabled}
                       >
                         {editOption === 'Add' ? "Save" : "Update"}
@@ -1212,92 +1313,183 @@ console.log("DATA",data)
 
 
 
+            {showform &&
+              <div
+                className="modal show"
+                style={{
+                  display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
+                }}
+              >
+                <Modal
+                  show={showform} onHide={handleCloseForm}
+                  centered>
+                  <Modal.Dialog style={{ maxWidth: 850, width: '700px' }} className='m-0 p-0'>
+                    <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
+                      <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Record payment</Modal.Title>
+                    </Modal.Header>
 
-            <Table className="custom-table" responsive>
-      <thead className='Table-header'>
-        <tr >
-          <th style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-            <input type='checkbox' className="mx-2 align-items-center" style={customCheckboxStyle}/>
-          </th>
-          <th style={customStyle}>Name</th>
-          <th style={customStyle}>Invoice number</th>
-          <th style={customStyle}>Created</th>
-          <th style={customStyle}>Due Date</th>
-          <th style={customStyle}>Amount</th>
-          <th style={customStyle}>Due</th>
-          <th style={customStyle}>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody style={{ fontSize: "10px" }}>
-        {loading ? (
-          Array.from({ length: 5 }).map((_, index) => (
-            <tr key={index}>
-              <td><Skeleton width={80} /></td>
-              <td><Skeleton width={120} /></td>
-              <td>
-                <div className="d-flex">
-                  <span className="i-circle">
-                    <Skeleton circle width={24} height={24} />
-                  </span>
-                  <div className="ms-2">
-                    <Skeleton width={80} /><br />
-                    <Skeleton width={100} />
-                  </div>
-                </div>
-              </td>
-              <td><Skeleton width={120} /></td>
-              <td><Skeleton width={50} /></td>
-              <td><Skeleton width={50} /></td>
-              <td><Skeleton width={100} /></td>
-              <td><Skeleton width={150} /></td>
-              <td><Skeleton width={100} /></td>
-            </tr>
-          ))
-        ) : (
-          currentItems.map((item) => (
-            <tr key={item.id} 
-            style={{color: "#000", fontFamily: "Gilroy",fontSize: "14px",fontStyle: "normal"
-              ,lineHeight: "normal"}} className='m-2'>
-              <td style={{ color: "black", fontWeight: 500 }}>
-                <input type='checkbox' className="custom-checkbox  mx-2 " style={customCheckboxStyle}/>
-              </td>
-              <td style={{ fontFamily:'Gilroy, sans-serif'}}>
-                <div className="d-flex row align-items-center">
-                  <div style={{display:'flex'}}>
-                     <span ><img src={User} style={{height:40,width:40,marginTop:'-7px'}}/></span>
-                    <div  style={{ fontFamily:'Gilroy, sans-serif',fontSize:'16px',wordWrap:'break-word' ,marginLeft:'8px',color: "#222",fontStyle:'normal',lineHeight:'normal',fontWeight:600}}>{item.Name}</div><br />
-                  </div>
-                </div>
-              </td>
-              <td style={{ cursor: 'pointer',fontFamily:'Gilroy, sans-serif' ,fontSize:'16px',marginLeft:'8px',color: "#000",fontStyle:'normal',lineHeight:'normal',fontWeight:500}} onClick={() => handleInvoiceDetail(item)} className='fw-bolder'>#{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</td>
-              <td style={Tablebodystyle}><span style={{backgroundColor:'#EBEBEB',padding:'8px 12px',color:'#000000',borderRadius:'14px'}} >{moment(item.Date).format('DD MMM YYYY').toUpperCase()}</span></td>
-              <td style={Tablebodystyle}><span style={{backgroundColor:'#EBEBEB',padding:'8px 12px',color:'#222222',borderRadius:'14px'}} >{moment(item.DueDate).format('DD MMM YYYY').toUpperCase()}</span></td>
-              <td style={{fontFamily:'Gilroy, sans-serif' ,fontSize:'16px',color: "#000",fontStyle:'normal',lineHeight:'normal',fontWeight:500}} > ₹{item.Amount.toLocaleString('en-IN')}</td>
-              <td style={{fontFamily:'Gilroy, sans-serif' ,fontSize:'16px',color: "#000",fontStyle:'normal',lineHeight:'normal',fontWeight:500}} >₹{item.BalanceDue.toLocaleString('en-IN')}</td>
-              <td  style={item.BalanceDue === 0 ? { color: "green", fontWeight: 500 } : { color: "red", fontWeight: 500 }}>
-              {item.BalanceDue === 0 ? <span style={{backgroundColor:'#D9FFD9',padding:'8px 12px',color:'#000000',borderRadius:'14px',fontFamily:'Gilroy, sans-serif'}}>Paid</span> : <span onClick={() => handleShow(item)} style={{ cursor: 'pointer',backgroundColor:'#FFD9D9',fontFamily:'Gilroy, sans-serif',padding:'8px 12px',color:'#000000',borderRadius:'14px' }}>Unpaid</span>}</td>
-            <td style={{ height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" ,marginTop:'6px'}}>
-            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} /></td>
-            </tr>
-          ))
-        )}
-      </tbody>
-    </Table>
+                    <Modal.Body>
 
-            <div className="d-flex justify-content-center" style={{width:"100%"}}>
-{currentItems.length === 0 && !loading && <h5 style={{fontSize: 12, color: "red"}}>No Data Found</h5>}
-</div>
+
+                      <div className='row mt-4'>
+
+
+
+                        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label
+                            >
+                              Due Amount
+                            </Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter amount"
+                              value={invoiceList.balanceDue}
+                              readOnly
+                            />
+                          </Form.Group>
+                        </div>
+
+
+
+
+                        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                            <Form.Label
+                            >
+                              Paid Amount
+                            </Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter amount"
+                              value={invoiceList.payableAmount}
+                              onChange={(e) => { handleAmount(e) }}
+
+                            />
+                          </Form.Group>
+                        </div>
+
+
+                        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Paid Date</Form.Label>
+
+                          <div className="rectangle-group">
+                            <div className="frame-child1" />
+                            <input
+                              className="frame-input"
+                              placeholder="DD-MM-YYYY"
+                              type="date"
+                              value={invoiceList.date}
+                              onChange={(e) => { handleDateChange(e) }}
+                            />
+                            <img
+                              className="vuesaxlinearcalendar-icon"
+                              alt=""
+                              src={Calendor}
+                            />
+                          </div></div>
+
+
+                        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                            <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>
+                              Mode of transaction
+                            </Form.Label>
+                            <Form.Select
+                              className='border'
+
+                              value={invoiceList.transaction}
+                              // value={editOption == 'Add' ? item.Name.split(' ')[0] : invoiceList.firstName}
+                              onChange={(e) => { setInvoiceList({ ...invoiceList, transaction: e.target.value }) }}
+                              style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                            >
+                              <option value="Cash">Cash </option>
+                              <option value="Debit Card">Debit Card</option>
+                              <option value="Credit Card">Credit Card</option>
+                              <option value="UPI">UPI</option>
+                            </Form.Select>
+                          </Form.Group>
+                        </div>
+
+                      </div>
+                    </Modal.Body>
+                    <Modal.Footer style={{ border: "none" }}>
+                      <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}
+                        onClick={handleSaveInvoiceList}
+
+                      >
+                        Record payment
+                      </Button>
+                    </Modal.Footer>
+                  </Modal.Dialog>
+                </Modal>
+              </div>
+            }
+
+            <Table className="custom-table" responsive >
+              <thead className='Table-header'>
+                <tr >
+                  <th style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    <input type='checkbox' className="mx-2 align-items-center" style={customCheckboxStyle} />
+                  </th>
+                  <th style={customStyle}>Name</th>
+                  <th style={customStyle}>Invoice number</th>
+                  <th style={customStyle}>Created</th>
+                  <th style={customStyle}>Due Date</th>
+                  <th style={customStyle}>Amount</th>
+                  <th style={customStyle}>Due</th>
+                  <th style={customStyle}>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody style={{ fontSize: "10px" }}>
+                {loading ? (
+                  Array.from({ length: 5 }).map((_, index) => (
+                    <tr key={index}>
+                      <td><Skeleton width={80} /></td>
+                      <td><Skeleton width={120} /></td>
+                      <td>
+                        <div className="d-flex">
+                          <span className="i-circle">
+                            <Skeleton circle width={24} height={24} />
+                          </span>
+                          <div className="ms-2">
+                            <Skeleton width={80} /><br />
+                            <Skeleton width={100} />
+                          </div>
+                        </div>
+                      </td>
+                      <td><Skeleton width={120} /></td>
+                      <td><Skeleton width={50} /></td>
+                      <td><Skeleton width={50} /></td>
+                      <td><Skeleton width={100} /></td>
+                      <td><Skeleton width={150} /></td>
+                      <td><Skeleton width={100} /></td>
+                    </tr>
+                  ))
+                ) : (
+                  currentItems.map((item) => (
+                    <InvoiceTable item={item}   OnHandleshowform = {handleShowForm} OnHandleshowInvoice={handleInvoiceDetail}/>
+                 
+
+                  ))
+                )}
+              </tbody>
+            </Table>
+
+            <div className="d-flex justify-content-center" style={{ width: "100%" }}>
+              {currentItems.length === 0 && !loading && <h5 style={{ fontSize: 12, color: "red" }}>No Data Found</h5>}
+            </div>
 
 
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-             
+
               <div></div>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div onClick={handlePreviousClick} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
-                  Prev
+                  Previous
                 </div>
-                <span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPage} </span>
+                <span class="i-circle" style={{ width: '50px', fontSize: "10px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPage} </span>
                 <div onClick={handleNextClick} disabled={currentPage === 10} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
                   Next
                 </div>
