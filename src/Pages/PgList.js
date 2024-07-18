@@ -800,7 +800,7 @@ console.log("remainingFloors",remainingFloors)
       {/* <div >
           <IoIosArrowDropleft style={{height:30, width:30, fontSize:25, color:"#dcdcdc"}} />
           </div> */}
-        <label className='ms-2' style={{ fontSize: 24, color: "#000000", fontWeight: 600, fontFamily:"'Gilroy',sans-serif",fontStyle:"initial" }}>{showHostelDetails.Name}</label>
+        <label className='ms-2' style={{ fontSize: 24, color: "#000000", fontWeight: 600, fontFamily:"'Gilroy'",fontStyle:"initial" }}>{showHostelDetails.Name}</label>
       </div>
 
       <div className="d-flex justify-content-between align-items-center">

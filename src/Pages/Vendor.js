@@ -243,7 +243,7 @@ useEffect(() => {
 
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600 }}>Vendors</label>
+            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600 , fontFamily:"Gilroy"}}>Vendors</label>
           </div>
 
           <div className="d-flex justify-content-between align-items-center">

@@ -79,7 +79,7 @@ const handleDelete = (item) =>{
 
         <div className='mb-2'>
           <div className='mb-1'>
-            <label style={{ color: "#939393", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>Email ID </label>
+            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
           </div>
           <div >
             <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>{props.vendor && props.vendor.Vendor_Email}</label>
