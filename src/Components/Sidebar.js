@@ -407,13 +407,13 @@ function Sidebar() {
               <li className={`p-2 mb-2  align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
                 <div className='d-flex  align-items-center justify-content-between'>
                   <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ fontSize: '13px' }} />
-                  <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" }}>Dashboard</span>
+                  <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block", fontFamily:"'Gilroy', sans-serif" }}>Dashboard</span>
                 </div>
               </li>
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", position: "", display: "flex" }}>
 
                 <img src={currentPage === 'pg-list' ? Paying2 : Paying} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block" }}>Paying Guest</span>
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block" ,fontFamily:"'Gilroy', sans-serif"}}>Paying Guest</span>
 
                 {/* <div className='d-flex  align-items-center justify-content-between'>
 
@@ -426,45 +426,45 @@ function Sidebar() {
                 {/* <LuUserCog style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
                 <img src={currentPage === 'user-list' ? Custom2 : Custom} style={{ fontSize: '13px' }} />
                 {/* <img src={Custom} style={{ fontSize: isSidebarMaximized ? '16px' : '13px' }} /> */}
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" }}>Customers</span></li>
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" ,fontFamily:"'Gilroy', sans-serif"}}>Customers</span></li>
               {/* </ul> */}
 
               {/* <ul className="m-0 mt-3 p-0"> */}
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'vendor' ? 'active' : ''}`} onClick={() => handlePageClick('vendor')} style={{ listStyleType: "none", display: "flex" }}>
                 {/* <GrCompliance style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
                 <img src={currentPage === 'vendor' ? Vendor2 : Vendor} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" }}>Vendor</span></li>
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" ,fontFamily:"'Gilroy', sans-serif"}}>Vendor</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'invoice' ? 'active' : ''}`} onClick={() => handlePageClick('invoice')} style={{ listStyleType: "none", display: "flex" }}>
                
               <img src={currentPage === 'invoice' ? Invoice2 : Invo} style={{ fontSize: '13px' }} />
 
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block" }}>Invoice</span></li>
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block",fontFamily:"'Gilroy', sans-serif" }}>Invoice</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" }}>
                 {/* <MdPayment style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
                 {/* <img src={Asset} style={{ fontSize: isSidebarMaximized ? '16px' : '13px' }} /> */}
 
                 <img src={currentPage === 'asset' ? Asset2 : Asset} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block"  }}>Assets</span></li>
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block",fontFamily:"'Gilroy', sans-serif"  }}>Assets</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex"}}>
                 {/* <CiViewList style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
                 <img src={currentPage === 'eb' ? Eb2 : Eb} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" }}>Electricity Bill</span></li>
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" ,fontFamily:"'Gilroy', sans-serif"}}>Electricity Bill</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex" }}>
                               <img src={currentPage === 'compliance' ? Compl2 : Compl} style={{ fontSize: '13px' }} />
-                  <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  }}>Compliants</span></li>
+                  <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  ,fontFamily:"'Gilroy', sans-serif"}}>Compliants</span></li>
               <li className={`p-2  mb-2 align-items-center list-Item ${currentPage === 'expenses' ? 'active' : ''}`} onClick={() => handlePageClick('expenses')} style={{ listStyleType: "none", display: "flex" }}>
                           
                 <img src={currentPage === 'expenses' ? Expense2 : Expense} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  }}>Expenses</span></li>
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" ,fontFamily:"'Gilroy', sans-serif" }}>Expenses</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex" }}>
               
                <img src={currentPage === 'reports' ? Repo2 : Repo} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block" }}>Reports</span></li>
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block",fontFamily:"'Gilroy', sans-serif" }}>Reports</span></li>
 
               {/* <li className={`p-2 align-items-center list-Item ${currentPage === 'checkout' ? 'active' : ''}`} onClick={() => handlePageClick('checkout')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BsClipboard2Check style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Checkout</span></li> */}
               {/* </ul> */}
@@ -477,7 +477,7 @@ function Sidebar() {
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
                 {/* <IoSettingsOutline style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} />  */}
                 <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  }}>Settings</span></li>
+                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  ,fontFamily:"'Gilroy', sans-serif"}}>Settings</span></li>
               </ul>
             <ul className="p-3">
              

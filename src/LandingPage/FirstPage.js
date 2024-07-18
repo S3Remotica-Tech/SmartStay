@@ -64,6 +64,31 @@ function FirstPage() {
        <img src={Spring2}   style={{position:"absolute", top:0, right:0, width:220, height:219,display:isMobile ? "none": "flex"}} />
 
 </div>
+
+<div className="d-flex justify-content-around flex-wrap mt-5 mb-5" style={{backgroundColor:"rgba(250, 249, 255, 1)",padding:"50px 30px"}}>
+
+<div className='text-center'>
+    <div style={{fontSize:60,fontWeight:700,fontFamily:"Montserrat",color:"rgba(30, 69, 225, 1)"}}>200K</div>
+    <div style={{fontSize:18,fontWeight:400,fontFamily:"Montserrat",color:"rgba(0, 0, 0, 1)"}}>Users use this platform</div>
+</div>
+
+<div className='text-center'>
+    <div style={{fontSize:60,fontWeight:700,fontFamily:"Montserrat",color:"rgba(30, 69, 225, 1)"}}>30K+</div>
+    <div style={{fontSize:18,fontWeight:400,fontFamily:"Montserrat",color:"rgba(0, 0, 0, 1)"}}>Active users this month</div>
+</div>
+<div className='text-center'>
+    <div style={{fontSize:60,fontWeight:700,fontFamily:"Montserrat",color:"rgba(30, 69, 225, 1)"}}>25K+</div>
+    <div style={{fontSize:18,fontWeight:400,fontFamily:"Montserrat",color:"rgba(0, 0, 0, 1)"}}>Available states</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
 </div>
 
   )
