@@ -69,7 +69,15 @@
   text-decoration-thickness: 2px;
   
 }
-@media (max-width:800px) {
+
+ /* overdue */
+
+ .overdue{
+  display: flex;
+  flex-direction: row;
+
+ }
+ @media (max-width:800px) {
     
   .tapppinfour{
     display: flex;
@@ -80,14 +88,11 @@
     padding: 2px;
     cursor: pointer;
   }
- }
-
- /* overdue */
-
- .overdue{
-  display: flex;
-  flex-direction: row;
-
+  .overdue{
+    display: flex;
+    flex-direction: column;
+  
+   }
  }
 
 

@@ -51,8 +51,11 @@ import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
 import squre from '../Assets/Images/New_images/minus-square.png';
-import leftArrow from '../Assets/Images/New_images/left-arrow.png'
+import leftArrow from '../Assets/Images/New_images/left-arrow.png';
 import rightarrow from '../Assets/Images/New_images/right-arrow.png'
+import Money from '../Assets/Images/New_images/Money.png';
+import { Autobrightness,Call,Sms,House,Buildings,ArrowLeft2,ArrowRight2 } from 'iconsax-react';
+
 
 
 
@@ -183,7 +186,7 @@ function UserList() {
   };
 
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
- 
+
   const renderPageNumbers = () => {
     const pageNumbers = [];
     let startPage = currentPage - 1;
@@ -245,7 +248,7 @@ function UserList() {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  
+
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -868,7 +871,7 @@ function UserList() {
   const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
   const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
   const currentRowsEb = EbFilterddata?.slice(indexOfFirstRowEb, indexOfLastRowEb);
-  console.log("currentRowsEb",currentRowsEb)
+  console.log("currentRowsEb", currentRowsEb)
 
 
 
@@ -934,11 +937,11 @@ function UserList() {
   };
 
 
-useEffect (()=>{
-  setEbFilterddata(state.UsersList.customerdetails.eb_data)
-},[state.UsersList.customerdetails.eb_data])
+  useEffect(() => {
+    setEbFilterddata(state.UsersList.customerdetails.eb_data)
+  }, [state.UsersList.customerdetails.eb_data])
 
-const invoicerowsPerPage = 1;
+  const invoicerowsPerPage = 1;
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
 
@@ -1010,9 +1013,9 @@ const invoicerowsPerPage = 1;
 
     return pageNumbersInvoice;
   };
-  useEffect(()=>{
+  useEffect(() => {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details)
-  },[state.UsersList.customerdetails.invoice_details])
+  }, [state.UsersList.customerdetails.invoice_details])
 
   const amentiesrowsPerPage = 1;
   const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
@@ -1025,7 +1028,7 @@ const invoicerowsPerPage = 1;
   const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
   const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
   const currentRowAmnities = amnitiesFilterddata?.slice(indexOfFirstRowamnities, indexOfLastRowamneties);
-  console.log("currentRowAmnities",currentRowAmnities)
+  console.log("currentRowAmnities", currentRowAmnities)
 
 
   const handleAmnitiesPageChange = (amnitiespageNumber) => {
@@ -1091,86 +1094,86 @@ const invoicerowsPerPage = 1;
 
 
 
-useEffect(()=>{
-  setamnitiesFilterddata(state.UsersList?.amnetieshistory)
-},[state.UsersList?.amnetieshistory])
+  useEffect(() => {
+    setamnitiesFilterddata(state.UsersList?.amnetieshistory)
+  }, [state.UsersList?.amnetieshistory])
 
-const transactionrowsPerPage = 1;
-const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
-const [transactionFilterddata, settransactionFilterddata] = useState([]);
-
-
+  const transactionrowsPerPage = 1;
+  const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
+  const [transactionFilterddata, settransactionFilterddata] = useState([]);
 
 
-const indexOfLastRowTransaction = transactioncurrentPage * transactionrowsPerPage;
-const indexOfFirstRowTransaction = indexOfLastRowTransaction - transactionrowsPerPage;
-const currentRowTransaction = transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
 
 
-const handleTransactionPageChange = (transactionpageNumber) => {
-  settransactioncurrentPage(transactionpageNumber);
-};
+  const indexOfLastRowTransaction = transactioncurrentPage * transactionrowsPerPage;
+  const indexOfFirstRowTransaction = indexOfLastRowTransaction - transactionrowsPerPage;
+  const currentRowTransaction = transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
 
 
-const totalPagesTransaction = Math.ceil(transactionFilterddata?.length / transactionrowsPerPage);
+  const handleTransactionPageChange = (transactionpageNumber) => {
+    settransactioncurrentPage(transactionpageNumber);
+  };
 
-const renderPageNumbersTransaction = () => {
-  const pageNumbersTransaction = [];
-  let startPageTransaction = transactioncurrentPage - 1;
-  let endPageTransaction = transactioncurrentPage + 1;
 
-  if (transactioncurrentPage === 1) {
-    startPageTransaction = 1;
-    endPageTransaction = 3;
-  }
+  const totalPagesTransaction = Math.ceil(transactionFilterddata?.length / transactionrowsPerPage);
 
-  if (transactioncurrentPage === totalPagesTransaction) {
-    startPageTransaction = totalPagesTransaction - 2;
-    endPageTransaction = totalPagesTransaction;
-  }
+  const renderPageNumbersTransaction = () => {
+    const pageNumbersTransaction = [];
+    let startPageTransaction = transactioncurrentPage - 1;
+    let endPageTransaction = transactioncurrentPage + 1;
 
-  if (transactioncurrentPage === 2) {
-    startPageTransaction = 1;
-    endPageTransaction = 3;
-  }
-
-  if (transactioncurrentPage === totalPagesTransaction - 1) {
-    startPageTransaction = totalPagesTransaction - 2;
-    endPageTransaction = totalPagesTransaction;
-  }
-
-  for (let i = startPageTransaction; i <= endPageTransaction; i++) {
-    if (i > 0 && i <= totalPagesTransaction) {
-      pageNumbersTransaction.push(
-        <li key={i} style={{ margin: '0 5px' }}>
-          <button
-            style={{
-              padding: '5px 10px',
-              textDecoration: 'none',
-              color: i === transactioncurrentPage ? '#007bff' : '#000000',
-              cursor: 'pointer',
-              borderRadius: '5px',
-              display: 'inline-block',
-              minWidth: '30px',
-              textAlign: 'center',
-              backgroundColor: i === transactioncurrentPage ? 'transparent' : 'transparent',
-              border: i === transactioncurrentPage ? '1px solid #ddd' : 'none'
-            }}
-            onClick={() => handleTransactionPageChange(i)}
-          >
-            {i}
-          </button>
-        </li>
-      );
+    if (transactioncurrentPage === 1) {
+      startPageTransaction = 1;
+      endPageTransaction = 3;
     }
-  }
 
-  return pageNumbersTransaction;
-};
+    if (transactioncurrentPage === totalPagesTransaction) {
+      startPageTransaction = totalPagesTransaction - 2;
+      endPageTransaction = totalPagesTransaction;
+    }
 
-useEffect(()=>{
-  settransactionFilterddata(state.UsersList.customerdetails.transactions)
-},[state.UsersList.customerdetails.transactions])
+    if (transactioncurrentPage === 2) {
+      startPageTransaction = 1;
+      endPageTransaction = 3;
+    }
+
+    if (transactioncurrentPage === totalPagesTransaction - 1) {
+      startPageTransaction = totalPagesTransaction - 2;
+      endPageTransaction = totalPagesTransaction;
+    }
+
+    for (let i = startPageTransaction; i <= endPageTransaction; i++) {
+      if (i > 0 && i <= totalPagesTransaction) {
+        pageNumbersTransaction.push(
+          <li key={i} style={{ margin: '0 5px' }}>
+            <button
+              style={{
+                padding: '5px 10px',
+                textDecoration: 'none',
+                color: i === transactioncurrentPage ? '#007bff' : '#000000',
+                cursor: 'pointer',
+                borderRadius: '5px',
+                display: 'inline-block',
+                minWidth: '30px',
+                textAlign: 'center',
+                backgroundColor: i === transactioncurrentPage ? 'transparent' : 'transparent',
+                border: i === transactioncurrentPage ? '1px solid #ddd' : 'none'
+              }}
+              onClick={() => handleTransactionPageChange(i)}
+            >
+              {i}
+            </button>
+          </li>
+        );
+      }
+    }
+
+    return pageNumbersTransaction;
+  };
+
+  useEffect(() => {
+    settransactionFilterddata(state.UsersList.customerdetails.transactions)
+  }, [state.UsersList.customerdetails.transactions])
 
 
 
@@ -1241,9 +1244,9 @@ useEffect(()=>{
             <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
           </div>
         </div>
-        <div className="d-flex justify-content-between align-items-center p-4 ">
+        <div className="d-flex justify-content-between align-items-center p-4 " >
           <div>
-            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginTop: 20 }}>Customers</label>
+            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginTop: 20,fontFamily:"Gilroy" }}>Customers</label>
           </div>
 
           <div className="d-flex justify-content-between align-items-center">
@@ -1252,25 +1255,25 @@ useEffect(()=>{
             </div>
 
             <div>
-              <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add Customer</Button>
+              <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px",fontFamily:"Montserrat" }}> + Add Customer</Button>
             </div>
           </div>
         </div>
 
-        <div className="p-2" style={{ paddingBottom: 50 }} >
+        <div className="p-2" style={{ paddingBottom:"20px"}} >
 
           <Table style={{ borderCollapse: "separate", borderSpacing: 0, border: "1px solid #ddd", borderRadius: "10px", overflow: "hidden" }}>
-            <thead>
+            <thead style={{backgroundColor:"#E7F1FF"}}>
               <tr>
                 <th style={{ textAlign: "center", padding: "10px" }}>
                   <img src={squre} height={20} width={20} />
                 </th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393" }}>Name</th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393" }}>Email ID</th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393" }}>Phone</th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393" }}>Paying Guest</th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393" }}>Room</th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393" }}>Bed</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393",fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy" }}>Name</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393" ,fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy"}}>Email ID</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393",fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy" }}>Phone</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393",fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy" }}>Paying Guest</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393" ,fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy"}}>Room</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393" ,fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy"}}>Bed</th>
                 <th style={{ textAlign: "start", padding: "10px" }}></th>
               </tr>
             </thead>
@@ -1308,16 +1311,16 @@ useEffect(()=>{
                             e.target.src = User; // Fallback to default image
                           }}
                         />
-                        <span onClick={() => handleRoomDetailsPage(user)}>
+                        <span  style={{fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy"}} onClick={() => handleRoomDetailsPage(user)}>
                           {user.Name}
                         </span>
                       </td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start" }}>{user.Email}</td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start" }}>{user.Phone}</td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start" }}>
-                        <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start" }}>{user.HostelName}</span>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start",fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy" }}>{user.Email}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start",fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy" }}>{user.Phone}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start" ,fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy"}}>
+                        <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start" ,fontSize: "14px", fontWeight: 500,fontFamily:"Gilroy"}}>{user.HostelName}</span>
                       </td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start" }}>{user.Rooms}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start",fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy" }}>{user.Rooms}</td>
                       <td
                         className={user.Bed === 0 ? 'assign-bed' : ''}
                         onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
@@ -1326,7 +1329,8 @@ useEffect(()=>{
                           border: "none",
                           color: user.Bed === 0 ? "blue" : "inherit",
                           textDecoration: user.Bed === 0 ? "none" : "initial",
-                          textAlign: "start"
+                          textAlign: "start",
+                          fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy"
                         }}
                       >
                         {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
@@ -1367,7 +1371,11 @@ useEffect(()=>{
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                <img src={leftArrow} width="10" height="10" alt="Previous" />
+                {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                <ArrowLeft2
+ size="16"
+  color="#1E45E1"
+/>
               </button>
               <span
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -1454,7 +1462,11 @@ useEffect(()=>{
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                <img src={rightarrow} width="10" height="10" alt="Next" />
+                {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                <ArrowRight2
+ size="16"
+  color="#1E45E1"
+/>
               </button>
             </li>
           </ul>
@@ -1492,45 +1504,49 @@ useEffect(()=>{
                     </div>
                   </div>
 
-                  <div style={{ marginLeft: 20, paddingBottom: 20 }}><img src={leftarrow} onClick={handleBack} /><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15 }}>UserProfile</span> </div>
-                  <div className="card" style={{ height: 100, borderRadius: "20px" }}>
+                  <div style={{ marginLeft: 25, paddingBottom: 20 }}>
+                     <img src={leftarrow} 
+                    onClick={handleBack} /><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15,fontFamily:"Gilroy" }}>User Profile</span> </div>
+                   <div className="card" style={{ height: 100, borderRadius: "20px" }}>
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <div className="d-flex align-items-center">
                         <Image
                           src={imageUrl}
                           alt={item.Name || "Default Profile"}
                           roundedCircle
-                          style={{ height: "40px", width: "40px", marginRight: "10px" }}
+                          style={{ height: "50px", width: "50px", marginRight: "10px" }}
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = User;
                           }}
                         />
                         <div style={{ marginLeft: 10 }}>
-                          <h5 className="card-title mb-0">
-                            {item.Name} <span className="text-primary"></span>
-                          </h5>
+                          <span  className="card-title mb-0" style={{fontSize: "20px", fontWeight: 600,fontFamily:"Gilroy"}}>
+                             {item.Name}
+                          </span>
                           <p style={{ marginTop: 10 }}>
-                            <span style={{ backgroundColor: '#FFE0D9', padding: "3px 3px 3px 3px", borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px" }}>
+                            <span style={{ backgroundColor: '#FFE0D9', borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px",paddingBottom:"5px",paddingTop:"5px",fontSize: "14px", fontWeight: 500,fontFamily:"Gilroy" }}>
                               {getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}
                             </span>
 
-                            <span style={{ backgroundColor: '#FFEFCF', padding: "3px 3px 3px 3px", borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px", marginLeft: 10 }}>
+                            <span style={{ backgroundColor: '#FFEFCF', paddingLeft: "10px", paddingRight: "10px",paddingBottom:"5px",paddingTop:"5px", borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px", marginLeft: 10,fontSize: "14px", fontWeight: 500,fontFamily:"Gilroy" }}>
                               {getFloorName(item.Floor)}
                             </span>
                           </p>
                         </div>
                       </div>
-                      <img src={dottt} width={40} height={40} alt="More options" onClick={() => { handleShowAddBed(item) }} />
+                      <img src={dottt} width={40} height={40} alt="More options"  />
                     </div>
-                  </div>
-                  <div className="tapppinfour" style={{ font: "Gilory", fontWeight: 500, fontSize: 16 }}>
-                    <div className={`tab-item ${overviewshow ? 'active' : ''}`} onClick={handleoverviewShow}>OverView</div>
+                  </div> 
+        
 
-                    <div className={`tab-item ${ebShow ? 'active' : ''}`} onClick={handleebViewShow}>EB Reading</div>
-                    <div className={`tab-item ${invoiceshow ? 'active' : ''}`} onClick={handleinvoiceShow}>Invoice</div>
-                    <div className={`tab-item ${amnitiesshow ? 'active' : ''}`} onClick={handleamnitiesShow}>Amnities</div>
-                    <div className={`tab-item ${transshow ? 'active' : ''}`} style={{ marginRight: "25%" }} onClick={handletransShow}>Transaction</div>
+                  <div className="tapppinfour" >
+                    <div className={`tab-item ${overviewshow ? 'active' : ''}`} onClick={handleoverviewShow} style={{ fontFamily: "Gilory", fontWeight: 500, fontSize: 16,marginLeft:10 }}>OverView</div>
+
+                    <div className={`tab-item ${ebShow ? 'active' : ''}`} onClick={handleebViewShow} style={{ fontFamily: "Gilory", fontWeight: 500, fontSize: 16 }}>EB Reading</div>
+                    <div className={`tab-item ${invoiceshow ? 'active' : ''}`} onClick={handleinvoiceShow} style={{ fontFamily: "Gilory", fontWeight: 500, fontSize: 16 }}>Invoice</div>
+                    <div className={`tab-item ${amnitiesshow ? 'active' : ''}`} onClick={handleamnitiesShow} style={{ fontFamily: "Gilory", fontWeight: 500, fontSize: 16 }}>Amnities</div>
+                    <div className={`tab-item ${transshow ? 'active' : ''}`} style={{ marginRight: "35%",fontFamily: "Gilory", fontWeight: 500, fontSize: 16 }} onClick={handletransShow} >Transaction</div>
 
                   </div>
 
@@ -1538,40 +1554,60 @@ useEffect(()=>{
                     overviewshow &&
                     <div className="overdue mt-3" >
                       <div style={{ flex: 1 }}>
-                        <div class="card" style={{ borderRadius: "20px" }}>
+                        <div class="card" style={{ borderRadius: "20px" ,paddingLeft:20,paddingTop:0 ,paddingRight:20,paddingBottom:5}}>
                           <div class="card-header d-flex justify-content-between align-items-center " style={{ backgroundColor: "transparent" }}>
-                            <div style={{ fontSize: 17, fontWeight: 700 }}>
+                            <div style={{ fontSize: 16, fontWeight: 600,fontFamily:"Gilroy" }}>
                               Basic Information
                             </div>
                             <div>
-                              <img src={dottt} alt="More Options" onClick={() => { handleShow(item) }} />
+                              <img src={dottt} height={32} width={32} alt="More Options" onClick={() => { handleShow(item) }} />
                             </div>
                           </div>
                           <div class="card-body">
                             <div class="row ">
                               <div class="col-sm-6">
-                                <strong>Paying Guest</strong>
-                                <p><img src={building} /><span style={{ marginLeft: 5 }}>{item.HostelName}</span></p>
+                                <p style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Paying Guest</p>
+                                <p> <Buildings
+ size="16"
+  color="#1E45E1"
+/> <span style={{ fontSize: 14, fontWeight: 600,fontFamily:"Gilroy",marginLeft:5}}>{item.HostelName}</span></p>
+
+                                  {/* <img src={building} /> */}
                               </div>
                               <div class="col-sm-6 text-right">
-                                <strong>Room/Bed</strong>
-                                <p ><img src={Group} /><span style={{ marginLeft: 5 }}>{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</span></p>
+                                <p style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Room/Bed</p>
+                                <p ><img src={Group} onClick={() => { handleShowAddBed(item) }}/><span onClick={() => { handleShowAddBed(item) }} style={{ marginLeft: 5 ,fontSize: 14, fontWeight: 600,fontFamily:"Gilroy"}}>{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</span></p>
                               </div>
                             </div>
                             <div class="row ">
                               <div class="col-sm-6">
-                                <strong>Email</strong>
-                                <p><img src={sms} /> {item.Email}</p>
+                                <p style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Email</p>
+                                <p><Sms
+ size="16"
+  color="#1E45E1"
+/>
+                                  {/* <img src={sms} />  */}
+                                  <span style={{ marginLeft: 5 ,fontSize: 14, fontWeight: 600,fontFamily:"Gilroy"}}>{item.Email}</span></p>
                               </div>
                               <div class="col-sm-6 text-right">
-                                <strong>Mobile no.</strong>
-                                <p><img src={call} /> {item.Phone}</p>
+                                <p style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Mobile no.</p>
+                                <p><Call
+ size="16"
+  color="#1E45E1"
+/>
+                                  {/* <img src={call} />  */}
+                                  <span style={{ marginLeft: 5 ,fontSize: 14, fontWeight: 600,fontFamily:"Gilroy"}}>{item.Phone}</span></p>
                               </div>
                             </div>
                             <div class="row">
                               <div class="col-sm-6">
-                                <strong>Address</strong>
-                                <p><img src={house} /> {item.Address}</p>
+                                <p style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Address</p>
+                                <p><House
+ size="16"
+  color="#1E45E1"
+/>
+                                  {/* <img src={house} /> */}
+                                  <span style={{ marginLeft: 5 ,fontSize: 14, fontWeight: 600,fontFamily:"Gilroy"}}>{item.Address}</span> </p>
                               </div>
                             </div>
                           </div>
@@ -1585,36 +1621,36 @@ useEffect(()=>{
                             console.log("g", g)
 
                             return (
-                              <div class="card" style={{ borderRadius: "20px" }}>
+                              <div class="card" style={{ borderRadius: "20px",paddingLeft:20,paddingTop:0 ,paddingRight:20,paddingBottom:5}}>
                                 <div class="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
-                                  <div style={{ fontSize: 17, fontWeight: 700 }}>
+                                  <div style={{ fontSize: 16, fontWeight: 600,fontFamily:"Gilroy" }}>
                                     Detailed Information
                                   </div>
                                   <div>
-                                    <img src={dottt} alt="More Options" />
+                                    <img src={dottt} width={32} height={32} alt="More Options" />
                                   </div>
                                 </div>
                                 <div class="card-body">
                                   <div class="row mb-3">
                                     <div class="col-sm-4">
-                                      <strong>Advance Amount</strong>
-                                      <p>₹{g.AdvanceAmount}</p>
+                                      <strong style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Advance Amount</strong>
+                                      <p style={{fontSize:14,fontWeight:600,fontFamily:"gilroy"}}><img src={Money} />   ₹{g.AdvanceAmount}</p>
                                     </div>
                                     <div class="col-sm-4">
-                                      <strong>Rent Amount</strong>
-                                      <p>₹{g.RoomRent}/m</p>
+                                      <strong style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Rent Amount</strong>
+                                      <p style={{fontSize:14,fontWeight:600,fontFamily:"gilroy"}}> <img src={Money} /> ₹{g.RoomRent}/m</p>
                                     </div>
 
                                   </div>
                                   <div class="row mb-3">
                                     <div class="col-sm-12">
-                                      <strong>Amenities</strong>
+                                      <strong style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Amenities</strong>
 
                                       <div class="d-flex flex-wrap mt-2">
                                         {
                                           g?.amentites?.length > 0 && g?.amentites.map((p) => {
                                             return (
-                                              <div key={p.Amnities_Name} style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "13px", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>{p.Amnities_Name}</div>
+                                              <div key={p.Amnities_Name} style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px",fontFamily:"Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>{p.Amnities_Name}</div>
 
                                             )
                                           })
@@ -1638,19 +1674,19 @@ useEffect(()=>{
 
                       <div>
                         <Table className="ebtable mt-3" responsive  >
-                          <thead >
+                          <thead style={{backgroundColor:"#E7F1FF"}}>
                             <tr >
 
-                              <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Floor</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Room no</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Start meter</th>
+                              <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingRight: "10px",paddingTop:"10px",paddingBottom:"10px" }}>Floor</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>Room no</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>Start meter</th>
 
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>End meter</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Dated</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Total units</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Units used</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Amount</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}></th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>End meter</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>Dated</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>Total units</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>Units used</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy" ,padding: "10px"}}>Amount</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy" ,padding: "10px"}}></th>
                             </tr>
                           </thead>
                           <tbody style={{ height: "50px", fontSize: "11px" }}>
@@ -1667,14 +1703,14 @@ useEffect(()=>{
                               return (
                                 <tr key={u.id} style={{ lineHeight: "20px" }}>
 
-                                  <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{u.Floor_Id}</td>
-                                  <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{u.Room_No}</td>
-                                  <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>₹{u.start_Meter_Reading}</td>
-                                  <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{u.end_Meter_Reading}</td>
-                                  <td> <span style={{ backgroundColor: "#EBEBEB", padding: "5px 10px 6px 10px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, font: "Gilroy" }}>{formattedDate}</span></td>
-                                  <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{u.Eb_Unit}</td>
-                                  <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{u.Eb_Unit}</td>
-                                  <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{u.pay_eb_amount}</td>
+                                  <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Floor_Id}</td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Room_No}</td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{u.start_Meter_Reading}</td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.end_Meter_Reading}</td>
+                                  <td> <span style={{ backgroundColor: "#EBEBEB",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.pay_eb_amount}</td>
                                   <td >
                                     <img src={dottt} style={{ height: 40, width: 40 }} /></td>
 
@@ -1695,116 +1731,124 @@ useEffect(()=>{
 
 
                       <nav>
-          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-            <li style={{ margin: '0 5px' }}>
-              <button
-                style={{
-                  padding: '5px 10px',
-                  textDecoration: 'none',
-                  color: EbcurrentPage === 1 ? '#ccc' : '#007bff',
-                  cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  minWidth: '30px',
-                  textAlign: 'center',
-                  backgroundColor: 'transparent',
-                  border: "none"
-                }}
-                onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-                disabled={EbcurrentPage === 1}
-              >
-                <img src={leftArrow} width="10" height="10" alt="Previous" />
-              </button>
-              <span
-                onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-                style={{
-                  marginTop: '20px',
-                  cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
-                  color: EbcurrentPage === 1 ? '#ccc' : '#007bff'
-                }}
-              >
-                Previous
-              </span>
-            </li>
-            {EbcurrentPage > 3 && (
-              <li style={{ margin: '0 5px' }}>
-                <button
-                  style={{
-                    padding: '5px 10px',
-                    textDecoration: 'none',
-                    color: 'white',
-                    cursor: 'pointer',
-                    borderRadius: '5px',
-                    display: 'inline-block',
-                    minWidth: '30px',
-                    textAlign: 'center',
-                    backgroundColor: 'transparent',
-                    border: "none"
+                        <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                          <li style={{ margin: '0 5px' }}>
+                            <button
+                              style={{
+                                padding: '5px 10px',
+                                textDecoration: 'none',
+                                color: EbcurrentPage === 1 ? '#ccc' : '#007bff',
+                                cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                borderRadius: '5px',
+                                display: 'inline-block',
+                                minWidth: '30px',
+                                textAlign: 'center',
+                                backgroundColor: 'transparent',
+                                border: "none"
+                              }}
+                              onClick={() => handleEbPageChange(EbcurrentPage - 1)}
+                              disabled={EbcurrentPage === 1}
+                            >
+                              {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                              <ArrowLeft2
+ size="16"
+  color="#1E45E1"
+/>
+                            </button>
+                            <span
+                              onClick={() => handleEbPageChange(EbcurrentPage - 1)}
+                              style={{
+                                marginTop: '20px',
+                                cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                color: EbcurrentPage === 1 ? '#ccc' : '#007bff'
+                              }}
+                            >
+                              Previous
+                            </span>
+                          </li>
+                          {EbcurrentPage > 3 && (
+                            <li style={{ margin: '0 5px' }}>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: 'white',
+                                  cursor: 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
 
-                  }}
-                  onClick={() => handleEbPageChange(1)}
-                >
-                  1
-                </button>
-              </li>
-            )}
-            {EbcurrentPage > 3 && <span>...</span>}
-            {renderPageNumbersEb()}
-            {EbcurrentPage < totalPagesEb - 2 && <span>...</span>}
-            {EbcurrentPage < totalPagesEb - 2 && (
-              <li style={{ margin: '0 5px' }}>
-                <button
-                  style={{
-                    padding: '5px 10px',
-                    textDecoration: 'none',
+                                }}
+                                onClick={() => handleEbPageChange(1)}
+                              >
+                                1
+                              </button>
+                            </li>
+                          )}
+                          {EbcurrentPage > 3 && <span>...</span>}
+                          {renderPageNumbersEb()}
+                          {EbcurrentPage < totalPagesEb - 2 && <span>...</span>}
+                          {EbcurrentPage < totalPagesEb - 2 && (
+                            <li style={{ margin: '0 5px' }}>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
 
-                    cursor: 'pointer',
-                    borderRadius: '5px',
-                    display: 'inline-block',
-                    minWidth: '30px',
-                    textAlign: 'center',
-                    backgroundColor: 'transparent',
-                    border: "none"
+                                  cursor: 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
 
-                  }}
-                  onClick={() => handleEbPageChange(totalPagesEb)}
-                >
-                  {totalPagesEb}
-                </button>
-              </li>
-            )}
-            <li style={{ margin: '0 5px' }}>
-              <span
-                onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-                style={{
-                  marginTop: '20px',
-                  cursor: EbcurrentPage === totalPagesEb ? 'not-allowed' : 'pointer',
-                  color: EbcurrentPage === totalPagesEb ? '#ccc' : '#007bff'
-                }}
-              >
-                Next
-              </span>
-              <button
-                style={{
-                  padding: '5px 10px',
-                  textDecoration: 'none',
-                  color: EbcurrentPage === EbcurrentPage ? '#ccc' : '#007bff',
-                  cursor: EbcurrentPage === EbcurrentPage ? 'not-allowed' : 'pointer',
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  minWidth: '30px',
-                  textAlign: 'center',
-                  backgroundColor: 'transparent',
-                  border: "none"
-                }}
-                onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-                disabled={EbcurrentPage === totalPagesEb}
-              >
-                <img src={rightarrow} width="10" height="10" alt="Next" />
-              </button>
-            </li>
-          </ul>
-        </nav>
+                                }}
+                                onClick={() => handleEbPageChange(totalPagesEb)}
+                              >
+                                {totalPagesEb}
+                              </button>
+                            </li>
+                          )}
+                          <li style={{ margin: '0 5px' }}>
+                            <span
+                              onClick={() => handleEbPageChange(EbcurrentPage + 1)}
+                              style={{
+                                marginTop: '20px',
+                                cursor: EbcurrentPage === totalPagesEb ? 'not-allowed' : 'pointer',
+                                color: EbcurrentPage === totalPagesEb ? '#ccc' : '#007bff'
+                              }}
+                            >
+                              Next
+                            </span>
+                            <button
+                              style={{
+                                padding: '5px 10px',
+                                textDecoration: 'none',
+                                color: EbcurrentPage === EbcurrentPage ? '#ccc' : '#007bff',
+                                cursor: EbcurrentPage === EbcurrentPage ? 'not-allowed' : 'pointer',
+                                borderRadius: '5px',
+                                display: 'inline-block',
+                                minWidth: '30px',
+                                textAlign: 'center',
+                                backgroundColor: 'transparent',
+                                border: "none"
+                              }}
+                              onClick={() => handleEbPageChange(EbcurrentPage + 1)}
+                              disabled={EbcurrentPage === totalPagesEb}
+                            >
+                              {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                              <ArrowRight2
+ size="16"
+  color="#1E45E1"
+/>
+                            </button>
+                          </li>
+                        </ul>
+                      </nav>
 
                     </div>
                   }
@@ -1812,190 +1856,197 @@ useEffect(()=>{
                   {
                     invoiceshow &&
                     <>
-                    <div>
+                      <div>
 
-                      <Table className="ebtable mt-3" responsive >
-                        <thead style={{ color: "gray", fontSize: "11px", marginLeft: 10 }}>
-                          <tr className="" style={{ height: "30px" }}>
-                            <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Invoice number</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Created</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Due Date</th>
+                        <Table className="ebtable mt-3" responsive >
+                          <thead style={{ color: "gray", fontSize: "11px", marginLeft: 10,backgroundColor:"#E7F1FF" }}>
+                            <tr className="" style={{ height: "30px" }}>
+                              <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Invoice number</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Created</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Due Date</th>
 
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Amount</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Due</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Amount</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy" ,paddingTop:"10px",paddingBottom:"10px"}}>Due</th>
 
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Status</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody style={{ height: "50px", fontSize: "11px" }}>
-                          {currentRowinvoice?.map((view) => {
-                            let Dated = new Date(view.Date);
-                            console.log("Dated..?", Dated);
-
-                            let day = Dated.getDate();
-                            let month = Dated.getMonth() + 1; // Months are zero-based
-                            let year = Dated.getFullYear();
-
-                            let formattedDate = `${day}/${month}/${year}`;
-                            console.log("Formatted Date:", formattedDate);
-
-
-                            let dueDated = new Date(view.DueDate);
-                            console.log("dueDated..?", dueDated);
-
-                            let daydue = dueDated.getDate();
-                            let monthdue = dueDated.getMonth() + 1; // Months are zero-based
-                            let yeardue = dueDated.getFullYear();
-
-                            let DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
-                            console.log("DueformattedDate:", DueformattedDate);
-
-                            return (
-                              <tr key={view.id}>
-                                <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{view.Invoices}</td>
-
-                                <td ><span style={{ backgroundColor: "#EBEBEB", padding: "5px 10px 6px 10px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, font: "Gilroy" }}>{formattedDate}</span></td>
-                                <td ><span style={{ backgroundColor: "#EBEBEB", padding: "5px 10px 6px 10px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, font: "Gilroy" }}>{DueformattedDate}</span></td>
-                                <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>₹{view.Amount}</td>
-                                <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>₹{view.BalanceDue}</td>
-                                <td><span style={{
-                                  color: "black",
-                                  backgroundColor: view.Status === 'Success' ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
-                                  padding: "5px 10px",
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  borderRadius: "10px"
-                                }}>{view.Status === 'Success' ? 'Paid' : 'UnPaid'}</span></td>
-                                {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}
-                                <td> <img src={dottt} style={{ height: 40, width: 40 }} /></td>
-
-                              </tr>
-
-                            )
-
-                          })}
-                          {currentRowinvoice.length === 0 && (
-                            <tr>
-                              <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Status</th>
+                              <th></th>
                             </tr>
-                          )}
+                          </thead>
+                          <tbody style={{ height: "50px", fontSize: "11px" }}>
+                            {currentRowinvoice?.map((view) => {
+                              let Dated = new Date(view.Date);
+                              console.log("Dated..?", Dated);
 
-                        </tbody>
-                      </Table>
-                    </div>
-           <nav>
-           <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-             <li style={{ margin: '0 5px' }}>
-               <button
-                 style={{
-                   padding: '5px 10px',
-                   textDecoration: 'none',
-                   color: invoicecurrentPage === 1 ? '#ccc' : '#007bff',
-                   cursor: invoicecurrentPage === 1 ? 'not-allowed' : 'pointer',
-                   borderRadius: '5px',
-                   display: 'inline-block',
-                   minWidth: '30px',
-                   textAlign: 'center',
-                   backgroundColor: 'transparent',
-                   border: "none"
-                 }}
-                 onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
-                 disabled={EbcurrentPage === 1}
-               >
-                 <img src={leftArrow} width="10" height="10" alt="Previous" />
-               </button>
-               <span
-                 onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
-                 style={{
-                   marginTop: '20px',
-                   cursor: invoicecurrentPage === 1 ? 'not-allowed' : 'pointer',
-                   color: invoicecurrentPage === 1 ? '#ccc' : '#007bff'
-                 }}
-               >
-                 Previous
-               </span>
-             </li>
-             {invoicecurrentPage > 3 && (
-               <li style={{ margin: '0 5px' }}>
-                 <button
-                   style={{
-                     padding: '5px 10px',
-                     textDecoration: 'none',
-                     color: 'white',
-                     cursor: 'pointer',
-                     borderRadius: '5px',
-                     display: 'inline-block',
-                     minWidth: '30px',
-                     textAlign: 'center',
-                     backgroundColor: 'transparent',
-                     border: "none"
- 
-                   }}
-                   onClick={() => handleInvoicePageChange(1)}
-                 >
-                   1
-                 </button>
-               </li>
-             )}
-             {invoicecurrentPage > 3 && <span>...</span>}
-             {renderPageNumbersInvoice()}
-             {invoicecurrentPage < totalPagesinvoice - 2 && <span>...</span>}
-             {invoicecurrentPage < totalPagesinvoice - 2 && (
-               <li style={{ margin: '0 5px' }}>
-                 <button
-                   style={{
-                     padding: '5px 10px',
-                     textDecoration: 'none',
- 
-                     cursor: 'pointer',
-                     borderRadius: '5px',
-                     display: 'inline-block',
-                     minWidth: '30px',
-                     textAlign: 'center',
-                     backgroundColor: 'transparent',
-                     border: "none"
- 
-                   }}
-                   onClick={() => handleInvoicePageChange(totalPagesinvoice)}
-                 >
-                   {totalPagesinvoice}
-                 </button>
-               </li>
-             )}
-             <li style={{ margin: '0 5px' }}>
-               <span
-                 onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
-                 style={{
-                   marginTop: '20px',
-                   cursor: invoicecurrentPage === totalPagesinvoice ? 'not-allowed' : 'pointer',
-                   color: invoicecurrentPage === totalPagesinvoice ? '#ccc' : '#007bff'
-                 }}
-               >
-                 Next
-               </span>
-               <button
-                 style={{
-                   padding: '5px 10px',
-                   textDecoration: 'none',
-                   color: invoicecurrentPage === invoicecurrentPage ? '#ccc' : '#007bff',
-                   cursor: invoicecurrentPage === invoicecurrentPage ? 'not-allowed' : 'pointer',
-                   borderRadius: '5px',
-                   display: 'inline-block',
-                   minWidth: '30px',
-                   textAlign: 'center',
-                   backgroundColor: 'transparent',
-                   border: "none"
-                 }}
-                 onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
-                 disabled={invoicecurrentPage === totalPagesinvoice}
-               >
-                 <img src={rightarrow} width="10" height="10" alt="Next" />
-               </button>
-             </li>
-           </ul>
-         </nav>
-         </>
+                              let day = Dated.getDate();
+                              let month = Dated.getMonth() + 1; // Months are zero-based
+                              let year = Dated.getFullYear();
+
+                              let formattedDate = `${day}/${month}/${year}`;
+                              console.log("Formatted Date:", formattedDate);
+
+
+                              let dueDated = new Date(view.DueDate);
+                              console.log("dueDated..?", dueDated);
+
+                              let daydue = dueDated.getDate();
+                              let monthdue = dueDated.getMonth() + 1; // Months are zero-based
+                              let yeardue = dueDated.getFullYear();
+
+                              let DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
+                              console.log("DueformattedDate:", DueformattedDate);
+
+                              return (
+                                <tr key={view.id}>
+                                  <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{view.Invoices}</td>
+
+                                  <td ><span style={{ backgroundColor: "#EBEBEB",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
+                                  <td ><span style={{ backgroundColor: "#EBEBEB",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{DueformattedDate}</span></td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{view.Amount}</td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{view.BalanceDue}</td>
+                                  <td><span style={{
+                                    color: "black",
+                                    backgroundColor: view.Status === 'Success' ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
+                                     paddingLeft: "10px", paddingRight: "10px",
+                                    fontSize: "14px",
+                                    fontWeight: 500,
+                                    borderRadius: "10px"
+                                  }}>{view.Status === 'Success' ? 'Paid' : 'UnPaid'}</span></td>
+                                  {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}
+                                  <td> <img src={dottt} style={{ height: 40, width: 40 }} /></td>
+
+                                </tr>
+
+                              )
+
+                            })}
+                            {currentRowinvoice.length === 0 && (
+                              <tr>
+                                <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
+                              </tr>
+                            )}
+
+                          </tbody>
+                        </Table>
+                      </div>
+                      <nav>
+                        <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                          <li style={{ margin: '0 5px' }}>
+                            <button
+                              style={{
+                                padding: '5px 10px',
+                                textDecoration: 'none',
+                                color: invoicecurrentPage === 1 ? '#ccc' : '#007bff',
+                                cursor: invoicecurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                borderRadius: '5px',
+                                display: 'inline-block',
+                                minWidth: '30px',
+                                textAlign: 'center',
+                                backgroundColor: 'transparent',
+                                border: "none"
+                              }}
+                              onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
+                              disabled={invoicecurrentPage === 1}
+                            >                                <ArrowLeft2
+ size="16"
+  color="#1E45E1"
+/>
+                              {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                            </button>
+                            <span
+                              onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
+                              style={{
+                                marginTop: '20px',
+                                cursor: invoicecurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                color: invoicecurrentPage === 1 ? '#ccc' : '#007bff'
+                              }}
+                            >
+                              Previous
+                            </span>
+                          </li>
+                          {invoicecurrentPage > 3 && (
+                            <li style={{ margin: '0 5px' }}>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: 'white',
+                                  cursor: 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+
+                                }}
+                                onClick={() => handleInvoicePageChange(1)}
+                              >
+                                1
+                              </button>
+                            </li>
+                          )}
+                          {invoicecurrentPage > 3 && <span>...</span>}
+                          {renderPageNumbersInvoice()}
+                          {invoicecurrentPage < totalPagesinvoice - 2 && <span>...</span>}
+                          {invoicecurrentPage < totalPagesinvoice - 2 && (
+                            <li style={{ margin: '0 5px' }}>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+
+                                  cursor: 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+
+                                }}
+                                onClick={() => handleInvoicePageChange(totalPagesinvoice)}
+                              >
+                                {totalPagesinvoice}
+                              </button>
+                            </li>
+                          )}
+                          <li style={{ margin: '0 5px' }}>
+                            <span
+                              onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
+                              style={{
+                                marginTop: '20px',
+                                cursor: invoicecurrentPage === totalPagesinvoice ? 'not-allowed' : 'pointer',
+                                color: invoicecurrentPage === totalPagesinvoice ? '#ccc' : '#007bff'
+                              }}
+                            >
+                              Next
+                            </span>
+                            <button
+                              style={{
+                                padding: '5px 10px',
+                                textDecoration: 'none',
+                                color: invoicecurrentPage === invoicecurrentPage ? '#ccc' : '#007bff',
+                                cursor: invoicecurrentPage === invoicecurrentPage ? 'not-allowed' : 'pointer',
+                                borderRadius: '5px',
+                                display: 'inline-block',
+                                minWidth: '30px',
+                                textAlign: 'center',
+                                backgroundColor: 'transparent',
+                                border: "none"
+                              }}
+                              onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
+                              disabled={invoicecurrentPage === totalPagesinvoice}
+                            >
+                              {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                              <ArrowRight2
+ size="16"
+  color="#1E45E1"
+/>
+                            </button>
+                          </li>
+                        </ul>
+                      </nav>
+                    </>
 
                   }
 
@@ -2003,7 +2054,7 @@ useEffect(()=>{
                     amnitiesshow &&
                     <div className="container mt-3">
                       <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
-                        <Form.Label style={{ fontSize: "14px", fontWeight: 600, font: "Gilroy" }}>Amnities</Form.Label>
+                        <Form.Label style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>Amnities</Form.Label>
                         <Form.Select
                           aria-label="Default select example"
                           className='border'
@@ -2021,7 +2072,7 @@ useEffect(()=>{
                           value={selectAmneties}
                           onChange={(e) => handleselect(e)}
                         >
-                          <option>Select Amnities</option>
+                          <option style={{fontSize:16,fontWeight:500,fontFamily:"Gilroy"}}>Select an amenity</option>
                           {state.UsersList?.customerdetails?.all_amenities?.map((item) => (
                             <option key={item.Amnities_Id} value={item.Amnities_Id}>
                               {item.Amnities_Name}
@@ -2128,7 +2179,7 @@ useEffect(()=>{
                           [...new Map(state.UsersList.amnetieshistory.map(item => [item['Amnities_Name'], item])).values()].map((v) => {
                             return (
                               <div style={{ marginTop: 20 }} key={v.Amnities_Name}>
-                                <span className="btn btn-sm rounded-pill" style={{ backgroundColor: "#D9E9FF", margin: 10 }}>
+                                <span className="btn btn-sm rounded-pill" style={{ backgroundColor: "#D9E9FF", margin: 10 ,fontFamily:"Gilroy",fontWeight:500,fontSize:14}}>
                                   {v.Amnities_Name} - ₹{v.Amount}/m
                                   <img
                                     src={cross}
@@ -2145,13 +2196,13 @@ useEffect(()=>{
                         }
                       </div>
                       <Table className="ebtable" responsive style={{ marginTop: 30, }}>
-                        <thead >
+                        <thead style={{backgroundColor:"#E7F1FF"}} >
                           <tr>
-                            <th scope="col" style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Amenities</th>
-                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Date</th>
-                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Subscription</th>
-                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Amount</th>
-                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Status</th>
+                            <th scope="col" style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Amenities</th>
+                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Date</th>
+                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Subscription</th>
+                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Amount</th>
+                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Status</th>
                             <th scope="col"></th>
                           </tr>
                         </thead>
@@ -2170,15 +2221,15 @@ useEffect(()=>{
 
                             return (
                               <tr key={v.amenity_Id}>
-                                <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{v.Amnities_Name}</td>
-                                <td><span style={{ backgroundColor: "#EBEBEB", padding: "3px 3px 3px 3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0" }}>{formattedDate}</span></td>
-                                <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>Monthly</td>
-                                <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>{v.Amount}</td>
-                                <td style={{ fontWeight: 500, fontSize: "16px", font: "Gilroy" }}>
+                                <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{v.Amnities_Name}</td>
+                                <td><span style={{ backgroundColor: "#EBEBEB", padding: "3px 3px 3px 3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0",fontSize:14,fontWeight:500,fontFamily:"Gilroy" }}>{formattedDate}</span></td>
+                                <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>Monthly</td>
+                                <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{v.Amount}</td>
+                                <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
                                   <span style={{
                                     color: "black",
                                     backgroundColor: v.status === 1 ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
-                                    padding: "5px 10px",
+                                     paddingTop: "2px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "2px",
                                     borderRadius: "5px"
                                   }}>
                                     {v.status == 1 ? 'Active' : 'Inactive'}
@@ -2190,122 +2241,130 @@ useEffect(()=>{
                               </tr>
                             );
                           })}
-                              {currentRowAmnities.length === 0 && (
-                              <tr>
-                                <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
-                              </tr>
-                            )}
+                          {currentRowAmnities.length === 0 && (
+                            <tr>
+                              <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
+                            </tr>
+                          )}
                         </tbody>
                       </Table>
                       <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-             <li style={{ margin: '0 5px' }}>
-               <button
-                 style={{
-                   padding: '5px 10px',
-                   textDecoration: 'none',
-                   color: amnitiescurrentPage === 1 ? '#ccc' : '#007bff',
-                   cursor: amnitiescurrentPage === 1 ? 'not-allowed' : 'pointer',
-                   borderRadius: '5px',
-                   display: 'inline-block',
-                   minWidth: '30px',
-                   textAlign: 'center',
-                   backgroundColor: 'transparent',
-                   border: "none"
-                 }}
-                 onClick={() => handleAmnitiesPageChange(amnitiescurrentPage - 1)}
-                 disabled={amnitiescurrentPage === 1}
-               >
-                 <img src={leftArrow} width="10" height="10" alt="Previous" />
-               </button>
-               <span
-                 onClick={() => handleAmnitiesPageChange(amnitiescurrentPage - 1)}
-                 style={{
-                   marginTop: '20px',
-                   cursor: amnitiescurrentPage === 1 ? 'not-allowed' : 'pointer',
-                   color: amnitiescurrentPage === 1 ? '#ccc' : '#007bff'
-                 }}
-               >
-                 Previous
-               </span>
-             </li>
-             {amnitiescurrentPage > 3 && (
-               <li style={{ margin: '0 5px' }}>
-                 <button
-                   style={{
-                     padding: '5px 10px',
-                     textDecoration: 'none',
-                     color: 'white',
-                     cursor: 'pointer',
-                     borderRadius: '5px',
-                     display: 'inline-block',
-                     minWidth: '30px',
-                     textAlign: 'center',
-                     backgroundColor: 'transparent',
-                     border: "none"
- 
-                   }}
-                   onClick={() => handleAmnitiesPageChange(1)}
-                 >
-                   1
-                 </button>
-               </li>
-             )}
-             {amnitiescurrentPage > 3 && <span>...</span>}
-             {renderPageNumbersAmnities()}
-             {amnitiescurrentPage < totalPagesAmnities - 2 && <span>...</span>}
-             {amnitiescurrentPage < totalPagesAmnities - 2 && (
-               <li style={{ margin: '0 5px' }}>
-                 <button
-                   style={{
-                     padding: '5px 10px',
-                     textDecoration: 'none',
- 
-                     cursor: 'pointer',
-                     borderRadius: '5px',
-                     display: 'inline-block',
-                     minWidth: '30px',
-                     textAlign: 'center',
-                     backgroundColor: 'transparent',
-                     border: "none"
- 
-                   }}
-                   onClick={() => handleAmnitiesPageChange(totalPagesAmnities)}
-                 >
-                   {totalPagesAmnities}
-                 </button>
-               </li>
-             )}
-             <li style={{ margin: '0 5px' }}>
-               <span
-                 onClick={() => handleAmnitiesPageChange(amnitiescurrentPage + 1)}
-                 style={{
-                   marginTop: '20px',
-                   cursor: amnitiescurrentPage === totalPagesAmnities ? 'not-allowed' : 'pointer',
-                   color: amnitiescurrentPage === totalPagesAmnities ? '#ccc' : '#007bff'
-                 }}
-               >
-                 Next
-               </span>
-               <button
-                 style={{
-                   padding: '5px 10px',
-                   textDecoration: 'none',
-                   color: amnitiescurrentPage === amnitiescurrentPage ? '#ccc' : '#007bff',
-                   cursor: amnitiescurrentPage === amnitiescurrentPage ? 'not-allowed' : 'pointer',
-                   borderRadius: '5px',
-                   display: 'inline-block',
-                   minWidth: '30px',
-                   textAlign: 'center',
-                   backgroundColor: 'transparent',
-                   border: "none"
-                 }}
-                 onClick={() => handleAmnitiesPageChange(amnitiescurrentPage + 1)}
-                 disabled={amnitiescurrentPage === totalPagesAmnities}
-               >
-                 <img src={rightarrow} width="10" height="10" alt="Next" />
-               </button>
-             </li>
-           </ul>
+                        <li style={{ margin: '0 5px' }}>
+                          <button
+                            style={{
+                              padding: '5px 10px',
+                              textDecoration: 'none',
+                              color: amnitiescurrentPage === 1 ? '#ccc' : '#007bff',
+                              cursor: amnitiescurrentPage === 1 ? 'not-allowed' : 'pointer',
+                              borderRadius: '5px',
+                              display: 'inline-block',
+                              minWidth: '30px',
+                              textAlign: 'center',
+                              backgroundColor: 'transparent',
+                              border: "none"
+                            }}
+                            onClick={() => handleAmnitiesPageChange(amnitiescurrentPage - 1)}
+                            disabled={amnitiescurrentPage === 1}
+                          >
+                            {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                            <ArrowLeft2
+ size="16"
+  color="#1E45E1"
+/>
+                          </button>
+                          <span
+                            onClick={() => handleAmnitiesPageChange(amnitiescurrentPage - 1)}
+                            style={{
+                              marginTop: '20px',
+                              cursor: amnitiescurrentPage === 1 ? 'not-allowed' : 'pointer',
+                              color: amnitiescurrentPage === 1 ? '#ccc' : '#007bff'
+                            }}
+                          >
+                            Previous
+                          </span>
+                        </li>
+                        {amnitiescurrentPage > 3 && (
+                          <li style={{ margin: '0 5px' }}>
+                            <button
+                              style={{
+                                padding: '5px 10px',
+                                textDecoration: 'none',
+                                color: 'white',
+                                cursor: 'pointer',
+                                borderRadius: '5px',
+                                display: 'inline-block',
+                                minWidth: '30px',
+                                textAlign: 'center',
+                                backgroundColor: 'transparent',
+                                border: "none"
+
+                              }}
+                              onClick={() => handleAmnitiesPageChange(1)}
+                            >
+                              1
+                            </button>
+                          </li>
+                        )}
+                        {amnitiescurrentPage > 3 && <span>...</span>}
+                        {renderPageNumbersAmnities()}
+                        {amnitiescurrentPage < totalPagesAmnities - 2 && <span>...</span>}
+                        {amnitiescurrentPage < totalPagesAmnities - 2 && (
+                          <li style={{ margin: '0 5px' }}>
+                            <button
+                              style={{
+                                padding: '5px 10px',
+                                textDecoration: 'none',
+
+                                cursor: 'pointer',
+                                borderRadius: '5px',
+                                display: 'inline-block',
+                                minWidth: '30px',
+                                textAlign: 'center',
+                                backgroundColor: 'transparent',
+                                border: "none"
+
+                              }}
+                              onClick={() => handleAmnitiesPageChange(totalPagesAmnities)}
+                            >
+                              {totalPagesAmnities}
+                            </button>
+                          </li>
+                        )}
+                        <li style={{ margin: '0 5px' }}>
+                          <span
+                            onClick={() => handleAmnitiesPageChange(amnitiescurrentPage + 1)}
+                            style={{
+                              marginTop: '20px',
+                              cursor: amnitiescurrentPage === totalPagesAmnities ? 'not-allowed' : 'pointer',
+                              color: amnitiescurrentPage === totalPagesAmnities ? '#ccc' : '#007bff'
+                            }}
+                          >
+                            Next
+                          </span>
+                          <button
+                            style={{
+                              padding: '5px 10px',
+                              textDecoration: 'none',
+                              color: amnitiescurrentPage === amnitiescurrentPage ? '#ccc' : '#007bff',
+                              cursor: amnitiescurrentPage === amnitiescurrentPage ? 'not-allowed' : 'pointer',
+                              borderRadius: '5px',
+                              display: 'inline-block',
+                              minWidth: '30px',
+                              textAlign: 'center',
+                              backgroundColor: 'transparent',
+                              border: "none"
+                            }}
+                            onClick={() => handleAmnitiesPageChange(amnitiescurrentPage + 1)}
+                            disabled={amnitiescurrentPage === totalPagesAmnities}
+                          >
+                            {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                            <ArrowRight2
+ size="16"
+  color="#1E45E1"
+/>
+                          </button>
+                        </li>
+                      </ul>
 
 
 
@@ -2320,15 +2379,15 @@ useEffect(()=>{
 
                     <div>
                       <Table className="ebtable mt-3" responsive >
-                        <thead style={{ color: "gray", fontSize: "11px" }}>
+                        <thead style={{ color: "gray", fontSize: "11px",backgroundColor:"#E7F1FF" }}>
                           <tr className="" style={{ height: "30px" }}>
 
-                            <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Transaction ID</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>category</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Date</th>
+                            <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Transaction ID</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>category</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Date</th>
 
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Amount</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", font: "Gilroy" }}>Made of pyment</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy" ,paddingTop:"10px",paddingBottom:"10px"}}>Amount</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Made of pyment</th>
                             <th ></th>
 
                           </tr>
@@ -2347,12 +2406,12 @@ useEffect(()=>{
                             return (
                               <tr key={v.id}>
 
-                                <td style={{ paddingLeft: "40px", fontSize: "16px", fontWeight: 500, font: "Gilroy" }}>{v.user_id}</td>
-                                <td ><span style={{ backgroundColor: "#FFEFCF", padding: "5px 10px 6px 10px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, font: "Gilroy" }}>{v.type}</span></td>
-                                <td><span style={{ backgroundColor: "#EBEBEB", padding: "5px 10px 6px 10px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, font: "Gilroy" }}>{formattedDate}</span></td>
+                                <td style={{ paddingLeft: "40px", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.user_id}</td>
+                                <td ><span style={{ backgroundColor: "#FFEFCF",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.type}</span></td>
+                                <td><span style={{ backgroundColor: "#EBEBEB",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                                 {/* <td>₹{view.BalanceDue}</td> */}
-                                <td style={{ fontSize: "16px", fontWeight: 500, font: "Gilroy" }}>₹{v.amount}</td>
-                                <td><span style={{ backgroundColor: "#D9E9FF", padding: "5px 10px 6px 10px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, font: "Gilroy" }}>Cash</span></td>
+                                <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>₹{v.amount}</td>
+                                <td><span style={{ backgroundColor: "#D9E9FF",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>Cash</span></td>
                                 <td> <img src={dottt} style={{ height: 40, width: 40 }} /></td>
 
 
@@ -2373,114 +2432,122 @@ useEffect(()=>{
 
 
                       <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-             <li style={{ margin: '0 5px' }}>
-               <button
-                 style={{
-                   padding: '5px 10px',
-                   textDecoration: 'none',
-                   color: transactioncurrentPage === 1 ? '#ccc' : '#007bff',
-                   cursor: transactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
-                   borderRadius: '5px',
-                   display: 'inline-block',
-                   minWidth: '30px',
-                   textAlign: 'center',
-                   backgroundColor: 'transparent',
-                   border: "none"
-                 }}
-                 onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
-                 disabled={transactioncurrentPage === 1}
-               >
-                 <img src={leftArrow} width="10" height="10" alt="Previous" />
-               </button>
-               <span
-                 onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
-                 style={{
-                   marginTop: '20px',
-                   cursor: transactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
-                   color: transactioncurrentPage === 1 ? '#ccc' : '#007bff'
-                 }}
-               >
-                 Previous
-               </span>
-             </li>
-             {transactioncurrentPage > 3 && (
-               <li style={{ margin: '0 5px' }}>
-                 <button
-                   style={{
-                     padding: '5px 10px',
-                     textDecoration: 'none',
-                     color: 'white',
-                     cursor: 'pointer',
-                     borderRadius: '5px',
-                     display: 'inline-block',
-                     minWidth: '30px',
-                     textAlign: 'center',
-                     backgroundColor: 'transparent',
-                     border: "none"
- 
-                   }}
-                   onClick={() => handleTransactionPageChange(1)}
-                 >
-                   1
-                 </button>
-               </li>
-             )}
-             {transactioncurrentPage > 3 && <span>...</span>}
-             {renderPageNumbersTransaction()}
-             {transactioncurrentPage < totalPagesTransaction - 2 && <span>...</span>}
-             {transactioncurrentPage < totalPagesTransaction - 2 && (
-               <li style={{ margin: '0 5px' }}>
-                 <button
-                   style={{
-                     padding: '5px 10px',
-                     textDecoration: 'none',
- 
-                     cursor: 'pointer',
-                     borderRadius: '5px',
-                     display: 'inline-block',
-                     minWidth: '30px',
-                     textAlign: 'center',
-                     backgroundColor: 'transparent',
-                     border: "none"
- 
-                   }}
-                   onClick={() => handleTransactionPageChange(totalPagesTransaction)}
-                 >
-                   {totalPagesTransaction}
-                 </button>
-               </li>
-             )}
-             <li style={{ margin: '0 5px' }}>
-               <span
-                 onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
-                 style={{
-                   marginTop: '20px',
-                   cursor: transactioncurrentPage === totalPagesTransaction ? 'not-allowed' : 'pointer',
-                   color: transactioncurrentPage === totalPagesTransaction ? '#ccc' : '#007bff'
-                 }}
-               >
-                 Next
-               </span>
-               <button
-                 style={{
-                   padding: '5px 10px',
-                   textDecoration: 'none',
-                   color: transactioncurrentPage === transactioncurrentPage ? '#ccc' : '#007bff',
-                   cursor: transactioncurrentPage === transactioncurrentPage ? 'not-allowed' : 'pointer',
-                   borderRadius: '5px',
-                   display: 'inline-block',
-                   minWidth: '30px',
-                   textAlign: 'center',
-                   backgroundColor: 'transparent',
-                   border: "none"
-                 }}
-                 onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
-                 disabled={transactioncurrentPage === totalPagesTransaction}
-               >
-                 <img src={rightarrow} width="10" height="10" alt="Next" />
-               </button>
-             </li>
-           </ul>
+                        <li style={{ margin: '0 5px' }}>
+                          <button
+                            style={{
+                              padding: '5px 10px',
+                              textDecoration: 'none',
+                              color: transactioncurrentPage === 1 ? '#ccc' : '#007bff',
+                              cursor: transactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
+                              borderRadius: '5px',
+                              display: 'inline-block',
+                              minWidth: '30px',
+                              textAlign: 'center',
+                              backgroundColor: 'transparent',
+                              border: "none"
+                            }}
+                            onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
+                            disabled={transactioncurrentPage === 1}
+                          >
+                            {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                            <ArrowLeft2
+ size="16"
+  color="#1E45E1"
+/>
+                          </button>
+                          <span
+                            onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
+                            style={{
+                              marginTop: '20px',
+                              cursor: transactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
+                              color: transactioncurrentPage === 1 ? '#ccc' : '#007bff'
+                            }}
+                          >
+                            Previous
+                          </span>
+                        </li>
+                        {transactioncurrentPage > 3 && (
+                          <li style={{ margin: '0 5px' }}>
+                            <button
+                              style={{
+                                padding: '5px 10px',
+                                textDecoration: 'none',
+                                color: 'white',
+                                cursor: 'pointer',
+                                borderRadius: '5px',
+                                display: 'inline-block',
+                                minWidth: '30px',
+                                textAlign: 'center',
+                                backgroundColor: 'transparent',
+                                border: "none"
+
+                              }}
+                              onClick={() => handleTransactionPageChange(1)}
+                            >
+                              1
+                            </button>
+                          </li>
+                        )}
+                        {transactioncurrentPage > 3 && <span>...</span>}
+                        {renderPageNumbersTransaction()}
+                        {transactioncurrentPage < totalPagesTransaction - 2 && <span>...</span>}
+                        {transactioncurrentPage < totalPagesTransaction - 2 && (
+                          <li style={{ margin: '0 5px' }}>
+                            <button
+                              style={{
+                                padding: '5px 10px',
+                                textDecoration: 'none',
+
+                                cursor: 'pointer',
+                                borderRadius: '5px',
+                                display: 'inline-block',
+                                minWidth: '30px',
+                                textAlign: 'center',
+                                backgroundColor: 'transparent',
+                                border: "none"
+
+                              }}
+                              onClick={() => handleTransactionPageChange(totalPagesTransaction)}
+                            >
+                              {totalPagesTransaction}
+                            </button>
+                          </li>
+                        )}
+                        <li style={{ margin: '0 5px' }}>
+                          <span
+                            onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
+                            style={{
+                              marginTop: '20px',
+                              cursor: transactioncurrentPage === totalPagesTransaction ? 'not-allowed' : 'pointer',
+                              color: transactioncurrentPage === totalPagesTransaction ? '#ccc' : '#007bff'
+                            }}
+                          >
+                            Next
+                          </span>
+                          <button
+                            style={{
+                              padding: '5px 10px',
+                              textDecoration: 'none',
+                              color: transactioncurrentPage === transactioncurrentPage ? '#ccc' : '#007bff',
+                              cursor: transactioncurrentPage === transactioncurrentPage ? 'not-allowed' : 'pointer',
+                              borderRadius: '5px',
+                              display: 'inline-block',
+                              minWidth: '30px',
+                              textAlign: 'center',
+                              backgroundColor: 'transparent',
+                              border: "none"
+                            }}
+                            onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
+                            disabled={transactioncurrentPage === totalPagesTransaction}
+                          >
+                            {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                            <ArrowRight2
+ size="16"
+  color="#1E45E1"
+/>
+                          </button>
+                        </li>
+                      </ul>
 
                     </div>
 
