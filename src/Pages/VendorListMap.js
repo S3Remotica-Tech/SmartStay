@@ -43,10 +43,10 @@ const handleDelete = (item) =>{
           </div>
           <div >
             <div className='pb-2'>
-              <label style={{ fontSize: 16, color: "#222222", fontWeight: 600, }} >{props.vendor && props.vendor.Vendor_Name}</label>
+              <label style={{ fontSize: 16, color: "#222222", fontWeight: 600, fontFamily: "Gilroy"}} >{props.vendor && props.vendor.Vendor_Name}</label>
             </div>
             <div>
-              <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: "fit-content", padding: 5, borderRadius: 10, fontSize: 14 }}>{props.vendor && props.vendor.Business_Name}</div>
+              <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500,fontFamily: "Gilroy", width: "fit-content", padding: 5, borderRadius: 10, fontSize: 14 }}>{props.vendor && props.vendor.Business_Name}</div>
             </div>
           </div>
         </div>
@@ -59,10 +59,10 @@ const handleDelete = (item) =>{
               <div style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height:92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                 <div >
                   <div className='mb-2' onClick={()=>handleEdit(props.vendor)} >
-                    <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222" }} >Edit</label>
+                    <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" }} >Edit</label>
                   </div>
                   <div  onClick={()=>handleDelete(props.vendor)}> 
-                    <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000" }}>Delete</label>
+                    <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
                   </div>
                 </div>
               </div>
@@ -82,16 +82,16 @@ const handleDelete = (item) =>{
             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
           </div>
           <div >
-            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>{props.vendor && props.vendor.Vendor_Email}</label>
+            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.vendor && props.vendor.Vendor_Email}</label>
           </div>
 
         </div>
         <div className='mb-2'>
           <div className='mb-1'>
-            <label style={{ color: "#939393", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>Contact Number</label>
+            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Contact Number</label>
           </div>
           <div>
-            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>+91 {props.vendor && props.vendor.Vendor_Mobile}</label>
+            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>+91 {props.vendor && props.vendor.Vendor_Mobile}</label>
           </div>
 
         </div>
@@ -99,12 +99,12 @@ const handleDelete = (item) =>{
 
       <div className='mb-2'>
         <div className='mb-1'>
-          <label style={{ color: "#939393", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}> Address</label>
+          <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}> Address</label>
 
         </div>
 
         <div>
-          <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>{props.vendor && props.vendor.Vendor_Address}</label>
+          <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.vendor && props.vendor.Vendor_Address}</label>
         </div>
 
       </div>

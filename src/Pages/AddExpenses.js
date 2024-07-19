@@ -166,13 +166,13 @@ if( !modeOfPayment){
         <div
             className="modal show"
             style={{
-                display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
+                display: 'block', position: 'initial', fontFamily: "Gilroy",
             }}
         >
             <Modal show={show} onHide={handleClose}>
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
                     <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>{currentItem ? 'Edit an expense' : 'Add an expense'}</Modal.Title>
+                        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? 'Edit an expense' : 'Add an expense'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{ padding: 20 }}>
 
@@ -180,8 +180,8 @@ if( !modeOfPayment){
                         <div className='row mt-1'>
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Vendor Name <span style={{ color: "#FF0000", display: vendorName ? "none" : "inline-block" }}>*</span></Form.Label>
-                                    <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Vendor Name <span style={{ color: "#FF0000", display: vendorName ? "none" : "inline-block" }}>*</span></Form.Label>
+                                    <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option>Select a vendor</option>
                                         {state.ComplianceList.VendorList && state.ComplianceList.VendorList.map((view) => (
                                             <>
@@ -196,8 +196,8 @@ if( !modeOfPayment){
                             </div>
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 600 }}>Asset Name</Form.Label>
-                                    <Form.Select aria-label="Default select example" value={assetName} onChange={handleAssetNameChange} className='' id="vendor-select">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name</Form.Label>
+                                    <Form.Select aria-label="Default select example" value={assetName} onChange={handleAssetNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option>Select an asset</option>
                                         {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
                                             <>
@@ -212,11 +212,11 @@ if( !modeOfPayment){
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Category <span style={{ color: "#FF0000", display: category ? "none" : "inline-block" }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Category <span style={{ color: "#FF0000", display: category ? "none" : "inline-block" }}>*</span></Form.Label>
                                     <Form.Select aria-label="Default select example"
                                         value={category}
                                         onChange={handleCategoryChange}
-                                        className='' id="vendor-select">
+                                        className='' id="vendor-select" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option>Select a Category</option>
                                         {state.ExpenseList.categoryList && state.ExpenseList.categoryList.map((view) => (
                                             <>
@@ -233,52 +233,52 @@ if( !modeOfPayment){
                            
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Purchase Date <span style={{ color: "#FF0000", display: purchaseDate ? "none" : "inline-block" }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Purchase Date <span style={{ color: "#FF0000", display: purchaseDate ? "none" : "inline-block" }}>*</span></Form.Label>
                                     <Form.Control
                                         value={purchaseDate}
                                         onChange={handlePurchaseDateChange}
-                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Unit count <span style={{ color: "#FF0000", display: count ? "none" : "inline-block" }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Unit count <span style={{ color: "#FF0000", display: count ? "none" : "inline-block" }}>*</span></Form.Label>
                                     <Form.Control
                                         value={count}
                                         onChange={handleCountChange}
-                                        type="text" placeholder="Enter unit count" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter unit count" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Per unit amount <span style={{ color: "#FF0000", display: price ? "none" : "inline-block" }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Per unit amount <span style={{ color: "#FF0000", display: price ? "none" : "inline-block" }}>*</span></Form.Label>
                                     <Form.Control
                                         value={price}
                                         onChange={handlePriceChange}
-                                        type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
 
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Purchase Amount</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Purchase Amount</Form.Label>
                                     <Form.Control
                                         value={count * price}
                                         disabled
-                                        type="text" placeholder="" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 600 }}>Mode of payment <span style={{ color: "#FF0000", display: modeOfPayment ? "none" : "inline-block" }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Mode of payment <span style={{ color: "#FF0000", display: modeOfPayment ? "none" : "inline-block" }}>*</span></Form.Label>
                                     <Form.Select aria-label="Default select example"
                                         value={modeOfPayment}
                                         onChange={handleModeOfPaymentChange}
-                                        className='' id="vendor-select">
+                                        className='' id="vendor-select" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option value="">Select mode of payment</option>
                                         <option value="UPI/BHIM">UPI/BHIM</option>
                                         <option value="CASH">CASH</option>
@@ -289,11 +289,11 @@ if( !modeOfPayment){
                             </div>
                             <div className='col-lg-12 col-md-12  col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Description</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Description</Form.Label>
                                     <Form.Control
                                         value={description}
                                         onChange={handleDescriptionChange}
-                                        type="email" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="email" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -305,7 +305,7 @@ if( !modeOfPayment){
 
                     </Modal.Body>
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
-                        <Button onClick={handleAddExpenses} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} >
+                        <Button onClick={handleAddExpenses} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }} >
                             {currentItem ? 'Edit  expense' : 'Add  expense'}
                         </Button>
                     </Modal.Footer>

@@ -200,13 +200,13 @@ console.log("currentItem for add vendor",currentItem)
     <div
     className="modal show"
     style={{
-      display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
+      display: 'block', position: 'initial', fontFamily: "Gilroy",
     }}
   >
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
         <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-          <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>{check === 'EDIT' ? 'Edit a vendor ' : 'Add a vendor'}</Modal.Title>
+          <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{check === 'EDIT' ? 'Edit a vendor ' : 'Add a vendor'}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -235,10 +235,10 @@ console.log("currentItem for add vendor",currentItem)
             </div>
             <div className='ps-3'>
               <div>
-                <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy,sans-serif" }}>Profile Photo</label>
+                <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
               </div>
               <div>
-                <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif" }}>Max size of image 10MB</label>
+                <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
               </div>
             </div>
           </div>
@@ -246,43 +246,43 @@ console.log("currentItem for add vendor",currentItem)
           <div className='row mt-4'>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500}}>First Name</Form.Label>
-                <Form.Control onChange={(e) => handleFirstNameChange(e)} value={first_Name} type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>First Name</Form.Label>
+                <Form.Control onChange={(e) => handleFirstNameChange(e)} value={first_Name} type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Last Name</Form.Label>
-                <Form.Control value={last_Name} onChange={(e) => handleLastNameChange(e)} type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Last Name</Form.Label>
+                <Form.Control value={last_Name} onChange={(e) => handleLastNameChange(e)} type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Mobile Number</Form.Label>
-                <Form.Control value={vendor_Mobile} onChange={(e) => handleMobileChange(e)} type="text" placeholder="Enter Mobile Number" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Mobile Number</Form.Label>
+                <Form.Control value={vendor_Mobile} onChange={(e) => handleMobileChange(e)} type="text" placeholder="Enter Mobile Number" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Email ID</Form.Label>
-                <Form.Control value={email_Id} onChange={(e) => handleEmailChange(e)} type="email" placeholder="Enter email address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email ID</Form.Label>
+                <Form.Control value={email_Id} onChange={(e) => handleEmailChange(e)} type="email" placeholder="Enter email address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Business Name</Form.Label>
-                <Form.Control value={business_Name} onChange={(e) => handleBusinessChange(e)} type="text" placeholder="Enter Business Name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Business Name</Form.Label>
+                <Form.Control value={business_Name} onChange={(e) => handleBusinessChange(e)} type="text" placeholder="Enter Business Name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Address</Form.Label>
-                <Form.Control value={address} onChange={(e) => handleAddressChange(e)} type="text" placeholder="Enter Address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address</Form.Label>
+                <Form.Control value={address} onChange={(e) => handleAddressChange(e)} type="text" placeholder="Enter Address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
@@ -291,7 +291,7 @@ console.log("currentItem for add vendor",currentItem)
         </Modal.Body>
         <Modal.Footer style={{ border: "none" }}>
 
-          <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} onClick={handleAddVendor}>
+          <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }} onClick={handleAddVendor}>
           {check === 'EDIT' ? 'Edit vendor ' : 'Add  vendor'}
           </Button>
         </Modal.Footer>

@@ -288,7 +288,7 @@ const indexOfLastItem = currentPage * itemsPerPage;
 </div>
 
 
-      <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy, sans-serif" }}>
+      <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy" }}>
         {currentItems.length > 0 ? currentItems.map((room, index) => (
           <>
 
@@ -296,7 +296,7 @@ const indexOfLastItem = currentPage * itemsPerPage;
 
               <Card className="h-100" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16 ,height: "auto", minHeight: 200}}>
                 <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
-                  <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy, sans-serif" }}>
+                  <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color:"rgba(34, 34, 34, 1)" }}>
                     Room no. <span>{getFormattedRoomId(room.Floor_Id, room.Room_Id)}</span>
                   </div>
                   <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto' }}>
@@ -308,7 +308,7 @@ const indexOfLastItem = currentPage * itemsPerPage;
                             <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Delete Room</label>
                           </div>
                           <div>
-                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>Delete Bed</label>
+                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" }}>Delete Bed</label>
                           </div>
                         </div>
                       </div>
@@ -322,14 +322,14 @@ const indexOfLastItem = currentPage * itemsPerPage;
                         <div  className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
                                                      <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34 }} />
                      
-                          <div className="pt-2" style={{ color: "#000", fontSize: 10, fontWeight: 600 ,fontFamily:"Montserrat"}}>Bed {bed.bed_no}</div>
+                          <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600 ,fontFamily:"Montserrat"}}>Bed {bed.bed_no}</div>
                         </div>
                       </div>
                     ))}
                     <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={()=>handleAddBed(props,room.Room_Id)}>
                       <div className='d-flex flex-column align-items-center' style={{ width: "100%" }}>
                         <div><FaSquarePlus style={{ height: 41, width: 34, color: "#1E45E1" }} /></div>
-                        <div className="pt-2" style={{ color: "#1E45E1", fontSize: 10, fontWeight: 600, fontFamily:"Montserrat"}}>Add bed</div>
+                        <div className="pt-2" style={{ color: "#1E45E1", fontSize: 12, fontWeight: 600, fontFamily:"Montserrat"}}>Add bed</div>
                       </div>
                     </div>
                   </div>

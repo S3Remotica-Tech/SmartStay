@@ -153,10 +153,10 @@ const MyComponent = () => {
         <div className="d-flex gap-1 mb-1">
 
 <img src={Logo} style={{ height: 25, width: 25 }} />
-<div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy,sans-serif" }}>Smartstay</label></div>
+<div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }}>Smartstay</label></div>
 </div>
           <div className='mb-3 mt-2' >
-            <h1 style={{ fontFamily: "Gilroy, sans-serif", fontWeight: 600, color: 'black', fontSize: '32px' }}>Welcome back!</h1>
+            <h1 style={{ fontFamily: "Gilroy", fontWeight: 600, color: 'rgba(34, 34, 34, 1)', fontSize: '32px' }}>Welcome back!</h1>
           </div>
           <div>
             <p className='p_font'>Enter your details below to get onto your SmartStay account.</p>
@@ -170,7 +170,7 @@ const MyComponent = () => {
                 aria-label="Recipient's username"
                 className='form_input  custom-input mb-3'
                 aria-describedby="basic-addon2"
-                style={{ boxShadow: "none", border: "1px solid rgba(217, 217, 217, 1)", fontSize: 16, fontWeight: 500, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy,sans-serif" }}
+                style={{ boxShadow: "none", border: "1px solid rgba(217, 217, 217, 1)", fontSize: 16, fontWeight: 500, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy" }}
                 autoFocus
                 size="lg"
                 disabled={showOtpVerification}
@@ -197,7 +197,7 @@ const MyComponent = () => {
                         fontSize: 16,
                         fontWeight: 500,
                         color: "rgba(34, 34, 34, 1)",
-                        fontFamily: "Gilroy, sans-serif",
+                        fontFamily: "Gilroy",
                         borderRight: "none"
                       }}
                            />
@@ -222,14 +222,14 @@ const MyComponent = () => {
                   <Form.Check type="checkbox" label="Stay signed in"
                     value={checked}
                     onChange={(e) => handleCheckboxChange(e)}
-                    style={{ fontSize: "15px", fontWeight: 500,fontFamily:'Gilroy, sans-serif' }} />
+                    style={{ fontSize: "14px", fontWeight: 500,fontFamily:'Gilroy' }} />
                 </Form.Group>
                 <Form.Label className='forgot_button' onClick={() => handleForgetPassword()} >Forgot Password?</Form.Label>
               </div>
             </Form>
 
             <div className="d-flex justify-content-center pt-2">
-               <Button type="button" className="btn w-100" style={{ height:'42px',fontWeight: 600,fontSize: "16px",borderRadius:'10px', backgroundColor: "rgba(30, 69, 225, 1)", color: "white" }} onClick={() => handleLogin()}>
+               <Button type="button" className="btn w-100" style={{ height:'42px',fontWeight: 600,fontSize: "16px",borderRadius:'10px', backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontFamily:"Montserrat"}} onClick={() => handleLogin()}>
                 Sign in
               </Button>
            </div>
@@ -240,8 +240,8 @@ const MyComponent = () => {
             <img src={Loginimage} className='responsive-image' alt='Hai' />
             </div>
         </div>
-        <div className='new_account_div mt-3'>
-          <p style={{fontFamily:'Montserrat'}}>Don't have an account? <span style={{color:'rgba(30, 69, 225, 1)',fontWeight:600,fontSize:'16px'}} onClick={handleCreateAccount}>Create an account</span></p>
+        <div className=' d-flex mt-3 gap-1'>
+          <p style={{fontFamily:'Montserrat',fontWeight:400,fontSize:16}}>Don't have an account? </p><span className="create-account-hover" style={{color:'rgba(30, 69, 225, 1)',fontWeight:600,fontSize:'16px',fontFamily:'Montserrat',cursor:"pointer"}} onClick={handleCreateAccount}>Create an account</span>
         </div>
 
       </div>

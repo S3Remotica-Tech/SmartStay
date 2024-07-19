@@ -39,6 +39,8 @@
   font-weight: 500;
   line-height: 16.48px;
   text-align: left;
+  font-family: "Gilroy";
+  color:rgba(34, 34, 34, 1);
 
 }
 
@@ -46,7 +48,8 @@
   /* height: 50px; */
   font-size: 14px !important;
   opacity: 1;
-  color: gray
+  color:rgba(34, 34, 34, 1);
+  font-family: "Gilroy";
 }
 
 
@@ -58,7 +61,14 @@
   line-height: 17.07px;
   text-align: left;
   color: rgba(30, 69, 225, 1);
+  cursor:pointer;
 }
+
+
+.create-account-hover:hover{
+  text-decoration: underline !important;
+}
+
 
 /* @media (min-width: 768px) {
   .image_div {

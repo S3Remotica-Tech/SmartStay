@@ -260,9 +260,9 @@ function Asset() {
             </div>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-3">
+          <div className="d-flex justify-content-between align-items-center  ms-3 mb-3">
             <div>
-              <label style={{ fontSize: 24, color: "#000000", fontWeight: 600 }}>Assets</label>
+              <label style={{ fontSize: 24, color: "rgba(34, 34, 34, 1)", fontWeight: 600 , fontFamily:"Gilroy"}}>Assets</label>
             </div>
 
             <div className="d-flex justify-content-between align-items-center">
@@ -278,7 +278,7 @@ function Asset() {
                   <Form.Select aria-label="Select Price Range"
                     value={selectedPriceRange}
                     onChange={handlePriceRangeChange}
-                    className='' id="vendor-select">
+                    className='' id="vendor-select" style={{fontSize: 24, color: "rgba(34, 34, 34, 1)", fontWeight: 600 , fontFamily:"Gilroy"}}>
                     <option value="All">All</option>
                     <option value="0-100">0-100</option>
                     <option value="100-500">100-500</option>
@@ -288,7 +288,7 @@ function Asset() {
                 </div>
               }
               <div>
-                <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add an asset</Button>
+                <Button onClick={handleShow} style={{fontFamily:"Montserrat", fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 500, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add an asset</Button>
               </div>
             </div>
           </div>
@@ -297,21 +297,21 @@ function Asset() {
 
           <div style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "hidden" }}>
             <Table responsive>
-              <thead style={{ fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
+              <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
                 <tr>
-                  <th style={{ color: "black", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
+                  <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
                     <input type='checkbox' style={customCheckboxStyle} />
                   </th>
 
 
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Asset</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Serial Number</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Brand</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Count</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Price</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Purchase Date</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Total Price</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}></th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Asset</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Serial Number</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Brand</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Count</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Price</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Purchase Date</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Total Price</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}></th>
                 </tr>
               </thead>
               <tbody>

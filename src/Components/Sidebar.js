@@ -65,11 +65,11 @@ import Dash2 from '../Assets/Images/New_images/category-active.png';
 import Paying2 from '../Assets/Images/New_images/housepay.png';
 import Custom2 from '../Assets/Images/New_images/profile-2user.png';
 import Invoice2 from '../Assets/Images/New_images/clipboard-text.png';
-import  Vendor2 from '../Assets/Images/New_images/shop.png'
+import Vendor2 from '../Assets/Images/New_images/shop.png'
 import Asset2 from '../Assets/Images/New_images/Money.png';
 import Eb2 from '../Assets/Images/New_images/ele-active.png';
 import Compl2 from '../Assets/Images/New_images/messages-active.png';
-import  Expense2 from '../Assets/Images/New_images/coin.png';
+import Expense2 from '../Assets/Images/New_images/coin.png';
 import Repo2 from '../Assets/Images/New_images/clipboard-text.png';
 import Sett2 from '../Assets/Images/New_images/setting-2.png';
 
@@ -287,7 +287,7 @@ function Sidebar() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  
+
 
   const handleLogout = () => {
     Swal.fire({
@@ -310,96 +310,19 @@ function Sidebar() {
   }
 
 
-  
+
   return (
     <>
 
-      {/* <Navbar bg="light" expand="lg" style={{ backgroundColor: "#FFFFFF", padding: "0px 0px", boxShadow: "1px 1px 2px lightgray" }} >
-        <Container fluid style={{ backgroundColor: "#FFFFFF", padding: "0px" }}>
-          <div class="d-flex justify-content-start" style={{ marginLeft: "0px" }} >
-            <Navbar.Brand href="#" style={{ padding: "5px 8px", backgroundColor: "#2E75EA", height: "100%", width: "auto" }}><img class="img-fluid" src={Smart} style={{ height: "30px", width: "30px" }} alt='Smart' /></Navbar.Brand>
-          </div>
 
-
-          <div style={{ display: 'flex', alignItems: "center", width: '20%', marginLeft: '0px', backgroundColor: "", gap: 5 }}>
-            <div >
-              {selectedHostel && selectedHostel.profile !== null ? (
-                <Image src={selectedHostel.profile} roundedCircle style={{ height: 25, width: 25, borderRadius: '50%' }} />
-              ) : (
-                <Image src={SmartLogo} alt="Default Logo" style={{ height: 25, width: 25, borderRadius: '50%' }} />
-              )}
-            </div>
-
-
-            <div style={{ alignItems: "center", display: "block", width: "100%" }}>
-              <div style={{ paddingLeft: 7, paddingTop: 2, paddingBottom: 0 }}>
-                <p style={{ fontSize: "10px", marginBottom: "0px", color: "gray" }}>PG Detail</p>
-              </div>
-
-
-              <select onChange={(e) => handleHostelSelect(e.target.value)} class="form-select ps-2" aria-label="Default select example" style={{ padding: 7, border: "none", boxShadow: "none", width: "100%", fontSize: 9, fontWeight: 700, textTransform: "capitalize", borderRadius: "none" }}>
-                <option disabled selected className='p-3' style={{ fontSize: 15, textTransform: "capitalize" }}>Select Hostel</option>
-                {state.hostelList.length > 0 && state.hostelList.map((obj) => {
-                  return (<>
-                    <option style={{ fontSize: 15, textTransform: "capitalize" }}>{obj.Name}</option>
-                  </>)
-                })}
-
-              </select>
-            </div>
-          </div>
-
-
-          <div style={{ borderLeft: "1px solid #cccccc99", height: "30px" }} className="vertical-line ms-2"></div>
-
-
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
-            <div style={{ margin: "0px auto" }}>
-              <Nav className="my-2 my-lg-0 " style={{ maxHeight: '100px' }} navbarScroll >
-                <Nav.Link href="#action1" style={{ color: "gray", fontSize: "14px", fontWeight: "600" }} onClick={() => handlePageClick('dashboard')}>Dashboard</Nav.Link>
-                <Nav.Link href="#action2" style={{ color: "gray", fontSize: "14px", fontWeight: "600" }} onClick={() => handlePageClick('invoice')}>Invoice</Nav.Link>
-                <Nav.Link href="#action1" style={{ color: "gray", fontSize: "14px", fontWeight: "600" }} onClick={() => handlePageClick('compliance')}>Compliances</Nav.Link>
-                <Nav.Link href="#action2" style={{ color: "gray", fontSize: "14px", fontWeight: "600" }} onClick={() => handlePageClick('reports')}>Reports</Nav.Link>
-
-              </Nav>
-            </div>
-            <Form className="d-flex">
-              <div class="justify-content-evenly">
-                <img src={Logout} class="me-3" style={{ height: "25px", width: "25px" }} onClick={handleLogout} alt='Logout' />
-                <img src={Notification} class="me-3" style={{ height: "25px", width: "25px" }} alt='Notification' />
-                <img src={Settings} class="me-3" style={{ height: "25px", width: "25px" }} alt='Settings' onClick={() => handlePageClick('settings')} />
-              </div>
-              <Image src={profiles == null ? Men : profiles} roundedCircle style={{ height: "30px", width: "30px" }} />
-              <div class="d-block ms-2">
-                <p style={{ fontSize: "12px", marginBottom: "0px", fontWeight: "800" }}>{profileArray}</p>
-                <p style={{ fontSize: "10px", marginBottom: "0px", marginRight: "0px", color: "gray" }}>Edit profile</p>
-              </div>
-
-            </Form>
-            <Form.Select class="me-5 pt-3" aria-label="Default select example" style={{ border: "none", height: "10px", width: "40px" }} >
-              <option>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </Form.Select>
-
-          </Navbar.Collapse>
-        </Container>
-      </Navbar> */}
 
       <Container fluid className='p-0'>
 
         <Row className='g-0 m-0 vh-100'  >
-          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block " style={{ cursor: "pointer",backgroundColor: '#E0ECFF' }} >
-            {/* <div className="d-flex align-items-center m-3" style={{ justifyContent: isSidebarMaximized ? "end" : "center" }}>
-              <div onClick={toggleSidebar} className="d-flex align-items-center justify-content-center  toggleButton" style={{ borderRadius: 10, width: "auto", padding: 5, backgroundColor: "#FFFFFF", boxShadow: "lightgray", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-                {isSidebarMaximized ? <label className="mb-0" style={{ fontSize: 11, color: "gray" }}><IoIosArrowBack style={{ fontSize: 11, color: "gray", fontFamily: "sans-serif" }} />Hide</label> : <label className="mb-0" style={{ fontSize: 11, color: "gray" }}><IoIosArrowForward style={{ fontSize: 11, color: "gray" }} />Show</label>}
-              </div>
-            </div> */}
+          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block " style={{ cursor: "pointer", backgroundColor: '#E0ECFF', position: "fixed" }} >
             <div className="d-flex align-items-center m-3 gap-1 justify-content-center">
-              
-              <img src={Smartstay} style={{ fontSize:'15px' }} />
+
+              <img src={Smartstay} style={{ fontSize: '15px' }} />
               <img src={Smarts} className='Title' style={{ fontSize: '15px' }} />
             </div>
 
@@ -407,84 +330,62 @@ function Sidebar() {
               <li className={`p-2 mb-2  align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
                 <div className='d-flex  align-items-center justify-content-between'>
                   <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ fontSize: '13px' }} />
-                  <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block", fontFamily:"'Gilroy', sans-serif" }}>Dashboard</span>
+                  <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Dashboard</span>
                 </div>
               </li>
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", position: "", display: "flex" }}>
 
                 <img src={currentPage === 'pg-list' ? Paying2 : Paying} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block" ,fontFamily:"'Gilroy', sans-serif"}}>Paying Guest</span>
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Paying Guest</span>
 
-                {/* <div className='d-flex  align-items-center justify-content-between'>
 
-                  <FaBuilding style={{ fontSize: isSidebarMaximized ? '16px' : '13px' }} />
-                  <FaCirclePlus style={{ fontSize: isSidebarMaximized ? '16px' : '13px', marginLeft: isSidebarMaximized ? 15 : 5, display: "inline-block" }} alt='Menu' />
-                </div> */}
               </li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'user-list' ? 'active' : ''}`} onClick={() => handlePageClick('user-list')} style={{ listStyleType: "none", display: "flex" }}>
-                {/* <LuUserCog style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
                 <img src={currentPage === 'user-list' ? Custom2 : Custom} style={{ fontSize: '13px' }} />
-                {/* <img src={Custom} style={{ fontSize: isSidebarMaximized ? '16px' : '13px' }} /> */}
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" ,fontFamily:"'Gilroy', sans-serif"}}>Customers</span></li>
-              {/* </ul> */}
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Customers</span></li>
 
-              {/* <ul className="m-0 mt-3 p-0"> */}
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'vendor' ? 'active' : ''}`} onClick={() => handlePageClick('vendor')} style={{ listStyleType: "none", display: "flex" }}>
-                {/* <GrCompliance style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
                 <img src={currentPage === 'vendor' ? Vendor2 : Vendor} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" ,fontFamily:"'Gilroy', sans-serif"}}>Vendor</span></li>
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Vendor</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'invoice' ? 'active' : ''}`} onClick={() => handlePageClick('invoice')} style={{ listStyleType: "none", display: "flex" }}>
-               
-              <img src={currentPage === 'invoice' ? Invoice2 : Invo} style={{ fontSize: '13px' }} />
 
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block",fontFamily:"'Gilroy', sans-serif" }}>Invoice</span></li>
+                <img src={currentPage === 'invoice' ? Invoice2 : Invo} style={{ fontSize: '13px' }} />
+
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Invoice</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" }}>
-                {/* <MdPayment style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
-                {/* <img src={Asset} style={{ fontSize: isSidebarMaximized ? '16px' : '13px' }} /> */}
-
                 <img src={currentPage === 'asset' ? Asset2 : Asset} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block",fontFamily:"'Gilroy', sans-serif"  }}>Assets</span></li>
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Assets</span></li>
 
-              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex"}}>
-                {/* <CiViewList style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /> */}
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex" }}>
                 <img src={currentPage === 'eb' ? Eb2 : Eb} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" ,fontFamily:"'Gilroy', sans-serif"}}>Electricity Bill</span></li>
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Electricity Bill</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex" }}>
-                              <img src={currentPage === 'compliance' ? Compl2 : Compl} style={{ fontSize: '13px' }} />
-                  <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  ,fontFamily:"'Gilroy', sans-serif"}}>Compliants</span></li>
+                <img src={currentPage === 'compliance' ? Compl2 : Compl} style={{ fontSize: '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Compliants</span></li>
               <li className={`p-2  mb-2 align-items-center list-Item ${currentPage === 'expenses' ? 'active' : ''}`} onClick={() => handlePageClick('expenses')} style={{ listStyleType: "none", display: "flex" }}>
-                          
+
                 <img src={currentPage === 'expenses' ? Expense2 : Expense} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block" ,fontFamily:"'Gilroy', sans-serif" }}>Expenses</span></li>
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Expenses</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex" }}>
-              
-               <img src={currentPage === 'reports' ? Repo2 : Repo} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600",display:  "inline-block",fontFamily:"'Gilroy', sans-serif" }}>Reports</span></li>
 
-              {/* <li className={`p-2 align-items-center list-Item ${currentPage === 'checkout' ? 'active' : ''}`} onClick={() => handlePageClick('checkout')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><BsClipboard2Check style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Checkout</span></li> */}
-              {/* </ul> */}
-
-              {/* <ul className="m-0 mt-3 p-0"> */}
-              {/* <li className={`p-2 align-items-center list-Item ${currentPage === 'support' ? 'active' : ''}`} onClick={() => handlePageClick('support')} style={{ listStyleType: "none", display: "flex", justifyContent: isSidebarMaximized ? "start" : "center" }}><FaCircleExclamation style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} /><span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display: isSidebarMaximized ? "inline-block" : "none" }}>Support</span></li> */}
-
-              {/* </ul> */}
+                <img src={currentPage === 'reports' ? Repo2 : Repo} style={{ fontSize: '13px' }} />
+                <span className="ms-3 Title" style={{ fontSize: "16px", fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Reports</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
-                {/* <IoSettingsOutline style={{ fontSize: isSidebarMaximized ? '16px' : '15px' }} />  */}
                 <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "13px", fontWeight: "600", display:  "inline-block"  ,fontFamily:"'Gilroy', sans-serif"}}>Settings</span></li>
-              </ul>
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Settings</span></li>
+            </ul>
             <ul className="p-3">
-             
-                </ul>
+
+            </ul>
           </Col>
-          <Col lg={10} md={10} sm={10} xs={10} className="bg-white">
-          <img src={Logout} class="me-3" style={{ height: "25px", width: "25px" }} onClick={handleLogout} alt='Logout' />
+          <Col lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} className="bg-white">
+            <img src={Logout} class="me-3" style={{ height: "25px", width: "25px", display: "" }} onClick={handleLogout} alt='Logout' />
 
             {currentPage === 'dashboard' && <Dashboards />}
             {currentPage === 'pg-list' && < PgLists />}
