@@ -451,6 +451,7 @@ const Compliance = () => {
     setFloor('');
     setRooms('');
     setHostelName('');
+    setStatus('')
   }
 
 const [Assignpopupshow,setAssignpopupshow] = useState(false);
@@ -473,7 +474,7 @@ const handleAssignClose = () => {
     if (Complainttype  && description  && date && hostelname  && beds && Rooms) {
       console.log();
       if(id) {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername,   Complainttype: Complainttype, Assign: Assign, Description: description, date: date, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname ,Floor_id: Floor, id : id } })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername,   Complainttype: Complainttype, Assign: Assign, Description: description, date: date, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname ,Floor_id: Floor,Status: Status, id : id } })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -484,11 +485,12 @@ const handleAssignClose = () => {
         setFloor('');
         setRooms('');
         setHostelName('');
+        setStatus('');
         setId('');
         setHostel_Id('')
       }
       else {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername,   Complainttype: Complainttype, Assign: Assign, Description: description, date: date,Hostel_id: hostel_Id,  Bed: beds, Room: Rooms, hostelname: hostelname ,Floor_id: Floor} })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername,   Complainttype: Complainttype, Assign: Assign, Description: description, date: date,Hostel_id: hostel_Id,  Bed: beds, Room: Rooms, hostelname: hostelname ,Floor_id: Floor , Status: Status} })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -499,6 +501,7 @@ const handleAssignClose = () => {
         setFloor('');
         setRooms('');
         setHostelName('');
+        setStatus('');
         setId('');
         setHostel_Id('')
       }
@@ -547,7 +550,7 @@ const handleAssignClose = () => {
       setFloor(Complaintdata.Floor_id);
       setRooms(Complaintdata.Room);
       setHostelName(Complaintdata.hostelname);
-     
+      setStatus(Complaintdata.Status)
     }
   };
 
@@ -571,6 +574,14 @@ const handleAssignClose = () => {
       closeButton.style.padding = '9px';
     }
   }, []);
+
+  const [complainttypelist , setComplainttypelist] = useState([])
+  console.log("complainttypelist",complainttypelist);
+
+ useEffect(() => {
+   dispatch({ type: 'COMPLAINT-TYPE-LIST' }) 
+   setComplainttypelist(state.Settings.Complainttypelist.complaint_types)
+}, [])
 
 
   return (
@@ -623,7 +634,7 @@ const handleAssignClose = () => {
             <div>
               <Button
                 onClick={handleShow}
-                style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px" }}> + Add Complaint</Button>
+                style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px",color:'#FFF' , fontFamily:'Montserrat' }}> + Add Complaint</Button>
             </div>
           </div>
         </div>
@@ -669,7 +680,7 @@ const handleAssignClose = () => {
             centered>
             <Modal.Dialog style={{ maxWidth: 850, width: '700px' }} className='m-0 p-0'>
               <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title>
+                <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600 , fontStyle:'normal',lineHeight:'normal'}}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title>
               </Modal.Header>
 
               <Modal.Body>
@@ -678,7 +689,7 @@ const handleAssignClose = () => {
                 <div className='row mt-4'>
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>
+                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>
                         Customer
                       </Form.Label>
                       <Form.Select className='border'
@@ -706,7 +717,7 @@ const handleAssignClose = () => {
                   </div>
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>
+                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>
                         Complaint Type
                       </Form.Label>
                       <Form.Select className='border'
@@ -718,9 +729,17 @@ const handleAssignClose = () => {
                         {
                           edit ? <option selected value={Complainttype}>{Complainttype}</option> :
                           <>
+                         
+
+
                             <option  selected value="">Select a type</option>
-                        <option value="Invoice">Invoice</option>
-                        <option value="Others">Others</option>
+                          {
+                           complainttypelist && complainttypelist.map((u , index)=>(
+                            <option selected value={u.complaint_name}>{u.complaint_name}</option>
+                          )
+                
+                          )
+                        }
                           </>
                         }
                       
@@ -734,6 +753,7 @@ const handleAssignClose = () => {
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label
           //  style={labelStyle}
+          style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}
           >
             Paying Guests
           </Form.Label>
@@ -750,6 +770,7 @@ const handleAssignClose = () => {
       <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label 
+          style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}
           // style={labelStyle}
           >
             Beds
@@ -764,9 +785,9 @@ const handleAssignClose = () => {
         </Form.Group>
       </div>
       {/* {!edit &&  Assign == !null( */}
-  <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>
+      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>
         Assignee
       </Form.Label>
       <Form.Select
@@ -787,6 +808,30 @@ const handleAssignClose = () => {
       </Form.Select>
     </Form.Group>
   </div>
+
+  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>
+        Status
+      </Form.Label>
+      <Form.Select
+        className='border'
+        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+        value={Status}
+        onChange={(e) => { setStatus(e.target.value) }}
+      >
+        {edit ? (
+          <option selected value={Status}>{Status}</option>
+        ) : (
+          <>
+            <option value="">Select a status</option>
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+          </>
+        )}
+      </Form.Select>
+    </Form.Group>
+  </div>
 {/* )} */}
 
 
@@ -794,7 +839,7 @@ const handleAssignClose = () => {
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
           <Form.Label
-          //  style={labelStyle}
+         style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}
            >
             Room no
           </Form.Label>
@@ -810,7 +855,7 @@ const handleAssignClose = () => {
 
                
    <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Complaint date</Form.Label>
+                  <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>Complaint date</Form.Label>
 
                   <div className="rectangle-group">
                   <div className="frame-child1" />
@@ -849,7 +894,7 @@ const handleAssignClose = () => {
 
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Description</Form.Label>
+                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>Description</Form.Label>
                       <Form.Control
                         value={description} onChange={(e) => { setDescription(e.target.value) }}
                         type="text" placeholder="Enter description" style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
@@ -861,7 +906,7 @@ const handleAssignClose = () => {
               </Modal.Body>
               <Modal.Footer style={{ border: "none" }}>
 
-                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}
+                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" , fontStyle:'normal',lineHeight:'normal' }}
                   onClick={handleAddcomplaint}
                 >
                 {edit ? "Save complaint" : "Add complaint"}  
@@ -926,7 +971,7 @@ const handleAssignClose = () => {
               </Modal.Body>
               <Modal.Footer style={{ border: "none" }}>
 
-                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}
+                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}
                   onClick={handleAddcomplaint}
                 >
                   Add complaint

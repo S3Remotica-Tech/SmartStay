@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
-import Closebtn from '../Assets/Images/New_images/close-circle.png';
+import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
 
 const ExpencesSettings = () => {
 
@@ -176,7 +176,7 @@ const handleCategoryid = (e) =>{
             <div style={{ display: 'flex', flexDirection: 'row' }}>
             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                        <Form.Label style={{ fontSize: 14, fontWeight: 600 }}>Category</Form.Label>
+                        <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>Category</Form.Label>
                         {isSubCategory ? (
                             <Form.Control
                                 as="select"
@@ -229,7 +229,7 @@ const handleCategoryid = (e) =>{
                     checked={isSubCategory}
                     onChange={() => setIsSubCategory(!isSubCategory)}
                 />
-                <p className='mt-1'>Make sub-category</p>
+                <p className='mt-1' style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}>Make sub-category</p>
             </div>
 
             <div style={{ marginTop: '30px',fontSize: 14, fontWeight: 600  }}>
@@ -241,10 +241,10 @@ const handleCategoryid = (e) =>{
                 </Button>
 
                 <div className="mt-3">
-                    <h5>Existing categories</h5>
+                    <h5 style={{fontFamily:'Gilroy', fontSize: 20,fontWeight:600, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>Existing categories</h5>
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                         {expences.map((t, index) => (
-                            <p key={index} className='m-1'>
+                            <p key={index} className='m-1' style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>
                                 <span style={{ backgroundColor: '#FFEFCF', padding: '8px 12px', color: '#222222', borderRadius: '14px' }}>
                                     {t.category_Name}
                                     <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeleteExpensesCategory(t)}>
@@ -257,13 +257,13 @@ const handleCategoryid = (e) =>{
                 </div>
 
                 <div className="mt-3">
-    <h5>Existing sub-categories</h5>
+    <h5 style={{fontFamily:'Gilroy', fontSize: 20,fontWeight:600, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>Existing sub-categories</h5>
     
     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
         {expences.filter(t => t.category_Name).map((t, index) => (
             t.sub_Category && t.sub_Category.length > 0 ? (
                 <div key={index} className='m-1' style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ backgroundColor: '#FFEFCF', padding: '8px 12px', color: '#222222', borderRadius: '14px' }}>
+                    <span style={{ backgroundColor: '#FFEFCF', padding: '8px 12px', borderRadius: '14px' ,fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222" }}>
                         <span style={{ marginLeft: '10px', fontSize: '18px', color: '#555' }}>
                             {t.category_Name} - {t.sub_Category}
                         </span>

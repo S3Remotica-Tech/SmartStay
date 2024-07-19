@@ -223,7 +223,7 @@ function InvoiceSettings() {
 
             <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                      <Form.Label style={{ fontSize: 14, fontWeight: 600 }}>
+                      <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>
                         Select Hostel
                       </Form.Label>
                     <Form.Select aria-label="Default select example" 
@@ -259,9 +259,9 @@ function InvoiceSettings() {
                                 }}
                             />
                             <div style={{ marginLeft: '30px', marginTop: '10px' }}>
-                                <h2 style={{ fontSize: 22, fontWeight: 600, }}>PG Logo</h2>
+                                <h2 style={{fontFamily:'Gilroy', fontSize: 20,fontWeight:600, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>PG Logo</h2>
                                 <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
-                                <p onClick={() => document.getElementById('upload-photo').click()} style={{ fontSize: '18px', color: 'blue', fontWeight: 500 }}>Update image</p>
+                                <p onClick={() => document.getElementById('upload-photo').click()} style={{fontFamily:'Gilroy', fontSize: 16,fontWeight:600, color: "#1E45E1", fontStyle:'normal', lineHeight:'normal'}}>Update image</p>
 
                             </div>
                         </div>
@@ -271,7 +271,7 @@ function InvoiceSettings() {
                     <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label
-                            style={{fontSize:14 , fontWeight:600}}
+                           style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
                             >
                                 Prefix
                             </Form.Label>
@@ -289,7 +289,7 @@ function InvoiceSettings() {
 
                     <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label style={{fontSize:14 , fontWeight:600}}
+                            <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
                             >
                                 Suffix
                             </Form.Label>
@@ -307,7 +307,7 @@ function InvoiceSettings() {
 
                 <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                        <Form.Label style={{fontSize:14 , fontWeight:600}}
+                        <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
                         // style={labelStyle}
                         >
                             Preview
@@ -323,8 +323,8 @@ function InvoiceSettings() {
                     </Form.Group>
                 </div>
                 <div style={{ marginTop: '30px' }}>
-                    <Button onClick={handleInvoiceSettings} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 10px, 18px, 10px" }}> Save changes</Button>
-                    <Button style={{ fontSize: 16, backgroundColor: "#FFFFFF", color: "red", border: '1px solid red ', height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 10px, 18px, 10px", marginLeft: '20px' }}> Delete</Button>
+                    <Button onClick={handleInvoiceSettings} style={{fontFamily:'Montserrat', fontSize: 16,fontWeight:500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}> Save changes</Button>
+                    <Button style={{fontFamily:'Montserrat', fontSize: 16, backgroundColor: "#FFFFFF", color: "red", border: '1px solid red ', height: 56, fontWeight: 500,letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px", marginLeft: '20px' }}> Delete</Button>
 
                 </div>
 

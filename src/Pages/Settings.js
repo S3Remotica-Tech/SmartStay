@@ -329,7 +329,7 @@ const handlesaveEbbill = () => {
 
       <div className="d-flex row justify-content-between mt-2 ms-4 me-4 pt-3">
         <div className='col-lg-8 col-md-6 col-sm-12 mb-4'>
-          <h1 style={{ fontSize: "26px" }}>Settings</h1>
+          <h1 style={{ fontSize: 24 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>Settings</h1>
           {/* <p>Manage your account settings</p> */}
         </div>
 
@@ -339,12 +339,12 @@ const handlesaveEbbill = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
           <TabList onChange={handleChanges} aria-label="lab API tabs example" style={{marginLeft:'20px'}}>
-            <Tab label="Security" value="1" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
-            <Tab label="EB Billings" value="2" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
-            <Tab label="Invoice" value="3" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
-            <Tab label="Expences" value="4" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
-            <Tab label="Complaint type" value="5" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
-            <Tab label="Amenities" value="6" className='me-3 fw-bold' style={{color:"#4B4B4B"}}/>
+            <Tab label="Security" value="1" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
+            <Tab label="EB Billing" value="2" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
+            <Tab label="Invoice" value="3" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
+            <Tab label="Expences" value="4" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
+            <Tab label="Complaint type" value="5" className='me-3 ' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
+            <Tab label="Amenities" value="6" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
           </TabList>
         </Box>
         <TabPanel value="1"> 
@@ -352,8 +352,8 @@ const handlesaveEbbill = () => {
           
                 <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
                   <div className='col-6'>
-                    <h6 style={{ fontWeight: 600 , fontSize:'17px' ,lineHeight:'19.09px', color:'#222222'}}>Enable Two-factor Authentication</h6>
-                    <p style={{fontWeight: 500 , fontSize:'14px' ,lineHeight:'19.09px'}}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+                    <h6 style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>Enable Two-factor Authentication</h6>
+                    <p style={{ fontSize: 14 , fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
                   </div>
                   <div className='col-2'>
                   <Form.Check 
@@ -369,8 +369,8 @@ const handlesaveEbbill = () => {
 
                 <div className='d-flex  justify-content-between me-2 mb-3 '>
                   <div className='col-6'>
-                    <h6 style={{ fontWeight: 600 , fontSize:'17px' ,lineHeight:'19.09px' , color:'#222222'}}>Email Setup</h6>
-                    <p style={{fontWeight: 500 , fontSize:'14px' ,lineHeight:'19.09px'}}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+                    <h6 style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>Email Setup</h6>
+                    <p style={{ fontSize: 14 , fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
                   </div>
                   <div className='col-2'>
                     <Form.Check type="switch" id="custom-switch" />
@@ -381,8 +381,8 @@ const handlesaveEbbill = () => {
 
                 <div className='d-flex  justify-content-between me-2'>
                   <div className='col-6'>
-                    <h6 style={{ fontWeight: 600 , fontSize:'17px' ,lineHeight:'19.09px', color:'#222222'}}>SMS Setup</h6>
-                    <p style={{fontWeight: 500 , fontSize:'14px' ,lineHeight:'19.09px'}}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+                    <h6 style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>SMS Setup</h6>
+                    <p style={{ fontSize: 14 , fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
                   </div>
                   <div className='col-2'>
                     <Form.Check type="switch" id="custom-switch" />
@@ -390,7 +390,7 @@ const handlesaveEbbill = () => {
                 </div>
 
                 <div className='justify-content-end mt-3'>
-                    <Button style={{ fontSize: 18, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }} onClick={handleTwoStepVerify}> Save Changes</Button>
+                    <Button style={{fontFamily:'Montserrat', fontSize: 16,fontWeight:500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }} onClick={handleTwoStepVerify}> Save Changes</Button>
 
                   </div>
 
@@ -401,7 +401,7 @@ const handlesaveEbbill = () => {
         <TabPanel value="2">
         <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                      <Form.Label style={{ fontSize: 14,  fontWeight: 600 }}>
+                      <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>
                         Select Hostel
                       </Form.Label>
                     <Form.Select aria-label="Default select example" 
@@ -422,7 +422,7 @@ const handlesaveEbbill = () => {
 
                     <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label style={{fontSize:14 , fontWeight:600}}
+          <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
           >
             Unit
           </Form.Label>
@@ -438,7 +438,7 @@ const handlesaveEbbill = () => {
 
       <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label style={{fontSize:14 , fontWeight:600}}
+          <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
           >
             Set Amount
           </Form.Label>
@@ -453,7 +453,7 @@ const handlesaveEbbill = () => {
       </div>
                     </div>
                     <div style={{marginTop:'30px'}}>
-              <Button onClick={handlesaveEbbill} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px" }}>
+              <Button onClick={handlesaveEbbill} style={{fontFamily:'Montserrat', fontSize: 16,fontWeight:500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
                  Save Changes</Button>
             </div>
 

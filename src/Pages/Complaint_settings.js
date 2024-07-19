@@ -2,7 +2,7 @@ import React, { useState , useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Closebtn from '../Assets/Images/New_images/close-circle.png'
+import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
 import Swal from 'sweetalert2';
 
 const ComplaintSettings = () => {
@@ -118,7 +118,7 @@ useEffect(() => {
     <div>
       <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label style={{ fontSize: 14, fontWeight: 600, }} >Complaint type</Form.Label>
+          <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}} >Complaint type</Form.Label>
           <Form.Control
             style={{ padding: '20px', marginTop: '10px' }}
             type="text"
@@ -130,16 +130,16 @@ useEffect(() => {
       </div>
       <div style={{ marginTop: '30px' }}>
         <Button
-          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200 }}
+          style={{ fontSize: 16, fontFamily:'Montserrat', backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 500, borderRadius: 12, width: 200 }}
           onClick={addType}
         >
           + Add type
         </Button>
         <div className="mt-3">
-          <h5>Existing complaint types</h5>
+          <h5 style={{fontFamily:'Gilroy', fontSize: 20,fontWeight:600, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>Existing complaint types</h5>
           <div className="mt-4" style={{display:'flex',flexDirection:'row'}}>
             {complainttypelist && complainttypelist.map((item, index) => (
-              <p key={index} className='m-1'>
+              <p key={index} className='m-1' style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>
                 <span style={{ backgroundColor: '#FFEFCF', padding: '8px 12px', color: '#222222', borderRadius: '14px' }}>
                   {item.complaint_name} <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeleteType(item)}><img src={Closebtn} height={15} width={15}/></span>
                 </span>
