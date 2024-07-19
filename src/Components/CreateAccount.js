@@ -174,7 +174,7 @@ if(password ==! confirmpassword){
 
   return (
     <>
-         <div style={{ width: "100%", height:"100vh" ,fontFamily: "Gilroy,sans-serif" , backgroundColor:""}}>
+         <div style={{ width: "100%", height:"100vh" ,fontFamily: "Gilroy" , backgroundColor:""}}>
         <div className=" ms-5 mb-5">
 
           <div className="row g-0 coumn-gap-1 row-gap-4">
@@ -183,52 +183,52 @@ if(password ==! confirmpassword){
 
                 <img src={Logo} style={{ height: 25, width: 25 }} />
                 {/* <img src={Icon} style={{width:"100%"}} /> */}
-                <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy,sans-serif" }}>Smartstay</label></div>
+                <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }}>Smartstay</label></div>
               </div>
 
-              <div className="mt-3 mb-1 "><label style={{ fontSize: 32, fontWeight: 600, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }}> Create your free account</label></div>
+              <div className="mt-3 mb-1 "><label style={{ fontSize: 32, fontWeight: 600, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}> Create your free account</label></div>
               <div className="mt-1 mb-1 "><label style={{ fontSize: 16, fontWeight: 400, color: "rgba(75, 75, 75, 1)", fontFamily: "Montserrat" }}>Enter your details below to find your stay smartly</label></div>
 
               <div className="row row-gap-3 mt-5 me-2">
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                   <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }}>First Name</Form.Label>
+                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>First Name</Form.Label>
                     <Form.Control
                     value={firstName}
                     onChange={(e)=>{handleFirstName(e)}}
-                    size="lg" type="text" placeholder="First name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }} />
+                    size="lg" type="text" placeholder="First name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group>
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                   <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }}>Last Name</Form.Label>
+                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Last Name</Form.Label>
                     <Form.Control
                     value={lastName}
                     onChange={(e)=>{handleLastName(e)}}
-                    size="lg" type="text" placeholder="Last name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }} />
+                    size="lg" type="text" placeholder="Last name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group>
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                   <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }}>Email ID</Form.Label>
+                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
                     <Form.Control size="lg"
                       value={emailID} onChange={(e) => { handleEmailID(e) }}
-                      type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }} />
+                      type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                 
                 <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div>
                   </Form.Group>
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                   <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }}>Mobile number</Form.Label>
+                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Mobile number</Form.Label>
                     <Form.Control size="lg"
                       value={phoneNo} onChange={(e) => { handlePhoneNo(e) }}
                       maxLength={10}
-                      type="text" placeholder="Enter Mobile no." style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }} />
+                      type="text" placeholder="Enter Mobile no." style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group>
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }}>Password</Form.Label>
+                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
                   <InputGroup>
                     <Form.Control
                       size="lg"
@@ -243,7 +243,7 @@ if(password ==! confirmpassword){
                         fontSize: 16,
                         fontWeight: 500,
                         color: "rgba(34, 34, 34, 1)",
-                        fontFamily: "Gilroy, sans-serif",
+                        fontFamily: "Gilroy",
                         borderRight: "none"
                       }}
                            />
@@ -260,7 +260,7 @@ if(password ==! confirmpassword){
                 </div>
 
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }}>Confirm Password</Form.Label>
+                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password</Form.Label>
                   <InputGroup>
                     <Form.Control
                       size="lg"
@@ -275,7 +275,7 @@ if(password ==! confirmpassword){
                         fontSize: 16,
                         fontWeight: 500,
                         color: "rgba(34, 34, 34, 1)",
-                        fontFamily: "Gilroy, sans-serif",
+                        fontFamily: "Gilroy",
                         borderRight: "none"
                       }}
                            />
@@ -292,12 +292,12 @@ if(password ==! confirmpassword){
                 </div>
                
                 <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1" >
-                  <Button onClick={handleCreateAccount} className="w-100" style={{ backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat,sans-serif ", height: 50 }}>Create account</Button>
+                  <Button onClick={handleCreateAccount} className="w-100" style={{ backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50 ,fontWeight:600}}>Create account</Button>
                 </div>
 
               </div>
               <div className="mt-3 mb-2">
-                <label style={{ fontSize: 16, fontWeight: 400, fontFamily: "Montserrat" }}>Already have an account?<span onClick={() => handleLoginPage()} className="ms-2" style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif", color: "rgba(30, 69, 225, 1)" }}>Sign in</span> </label>
+                <label style={{ fontSize: 14, fontWeight: 400, fontFamily: "Montserrat" }}>Already have an account?<span  onClick={() => handleLoginPage()} className="ms-2 create-account-hover" style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(30, 69, 225, 1)" ,cursor:"pointer"}}>Sign in</span> </label>
               </div>
 
             </div>

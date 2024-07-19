@@ -35,12 +35,12 @@ function FirstPage() {
     <div style={{backgroundColor:"#FFFFFF" ,height:"",paddingTop:40,width:"100%"}} className=''>
 
 <div className='d-flex justify-content-center '>
-    <label style={{fontWeight:700, fontFamily:"Montserrat", color:"rgba(0, 0, 0, 1)", fontSize:18}}>👋 MANAGE YOUR PG</label>
+    <label style={{fontWeight:600, fontFamily:"Montserrat", color:"rgba(0, 0, 0, 1)", fontSize:18}}>👋 MANAGE YOUR PG</label>
 
 </div>
 <div className='d-flex justify-content-center ' style={{}}>
     <label style={{fontSize:isMobile ? 40 : 80, textAlign:"center", wordSpacing:0.5}}>
-        <span style={{fontFamily:"Kalam", color:"rgba(30, 69, 225, 1)",fontStyle: "italic"}}>Simplify </span> <span style={{fontWeight:400, fontFamily:"Gilroy, sans-serif"}}>your</span>  <span style={{fontFamily:"Gilroy, sans-serif", color:"rgba(0, 0, 0, 1)", fontWeight:600}}>Paying Guest management</span> <span style={{fontWeight:400, fontFamily:"Gilroy, sans-serif"}}>with</span> <span style={{color:"rgba(30, 69, 225, 1)", fontWeight:700}}>SmartStay</span>
+        <span style={{fontFamily:"Kalam", color:"rgba(30, 69, 225, 1)",fontStyle: "italic",fontWeight:500}}>Simplify </span> <span style={{fontWeight:400, fontFamily:"Gilroy"}}>your</span>  <span style={{fontFamily:"Gilroy", color:"rgba(0, 0, 0, 1)", fontWeight:600}}>Paying Guest management</span> <span style={{fontWeight:400, fontFamily:"Gilroy"}}>with</span> <span style={{color:"rgba(30, 69, 225, 1)", fontWeight:700,fontFamily:"Gilroy"}}>SmartStay</span>
     </label>
 </div>
 <div className='d-flex justify-content-center mb-1' >

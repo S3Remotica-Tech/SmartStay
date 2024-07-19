@@ -707,10 +707,10 @@ console.log("remainingFloors",remainingFloors)
 </div>
      
       {hidePgList && <>
-        <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex justify-content-between align-items-center ms-4 mb-3">
           
           <div>
-            <label style={{ fontSize: 24, color: "rgba(34, 34, 34, 1)", fontWeight: 600 ,fontFamily:"'Gilroy', sans-serif"}}>Paying Guest</label>
+            <label style={{ fontSize: 24, color: "rgba(34, 34, 34, 1)", fontWeight: 600 ,fontFamily:"Gilroy"}}>Paying Guest</label>
           </div>
 
           <div className="d-flex justify-content-between align-items-center">
@@ -800,7 +800,7 @@ console.log("remainingFloors",remainingFloors)
       {/* <div >
           <IoIosArrowDropleft style={{height:30, width:30, fontSize:25, color:"#dcdcdc"}} />
           </div> */}
-        <label className='ms-2' style={{ fontSize: 24, color: "#000000", fontWeight: 600, fontFamily:"'Gilroy'",fontStyle:"initial" }}>{showHostelDetails.Name}</label>
+        <label className='ms-4' style={{ fontSize: 20, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily:"Gilroy"}}>{showHostelDetails.Name}</label>
       </div>
 
       <div className="d-flex justify-content-between align-items-center">
@@ -836,7 +836,7 @@ console.log("remainingFloors",remainingFloors)
         <Nav.Item key={index}>
           <Nav.Link
             className='Nav-Links'
-            style={{ fontSize: 16 , fontFamily:"Gilroy, sans-serif"}}
+            style={{ fontSize: 16 , fontFamily:"Gilroy", fontWeight:600}}
             active={index + 1 === floorClick}
             onClick={() => handleFloorClick(index + 1)}
           >
@@ -846,7 +846,7 @@ console.log("remainingFloors",remainingFloors)
       ))}
       {remainingFloors > 0 && (
         <Dropdown as={Nav.Item} onToggle={handleMoreClick}>
-          <Dropdown.Toggle as={Nav.Link} className='Nav-Links'  style={{ fontSize: 16 , fontFamily:"Gilroy, sans-serif"}}>
+          <Dropdown.Toggle as={Nav.Link} className='Nav-Links'  style={{ fontSize: 16 , fontFamily:"Gilroy", fontWeight:600}}>
             More
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -873,7 +873,7 @@ phoneNumber={showHostelDetails.hostel_PhoneNo}
 
 <div className='row mt-2'>
 <div>
-    <label style={{fontSize:16, color:"#1E45E1", fontWeight:600, fontFamily:'Montserrat,sans-serif'}} onClick={()=>handleShowAddRoom(showHostelDetails,floorClick)}>+ Add room</label>
+    <label style={{fontSize:16, color:"#1E45E1", fontWeight:600, fontFamily:'Montserrat'}} onClick={()=>handleShowAddRoom(showHostelDetails,floorClick)}>+ Add room</label>
 </div>
 </div>
 

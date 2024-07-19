@@ -94,13 +94,13 @@ console.log("pglist",room)
         <div
             className="modal show"
             style={{
-                display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
+                display: 'block', position: 'initial', fontFamily: "Gilroy",
             }}
         >
             <Modal show={show} onHide={handleClose}>
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
                     <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>{currentItem.hostel_id ? 'Reassign asset ' : 'Assign asset'}</Modal.Title>
+                        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem.hostel_id ? 'Reassign asset ' : 'Assign asset'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{ padding: 20 }}>
 
@@ -108,8 +108,8 @@ console.log("pglist",room)
                         <div className='row mt-1'>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 600 }}>Paying Guest</Form.Label>
-                                    <Form.Select aria-label="Default select example" className='' id="vendor-select" value={pglist} onChange={handlePgChange}>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest</Form.Label>
+                                    <Form.Select aria-label="Default select example" className='' id="vendor-select" value={pglist} onChange={handlePgChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option>Select a PG</option>
                                         {
                                             state.UsersList?.hostelList?.map((item) => {
@@ -126,8 +126,8 @@ console.log("pglist",room)
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Select a room</Form.Label>
-                                    <Form.Select aria-label="Default select example" className='' id="vendor-select" value={room} onChange={handleRoomChange}>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Select a room</Form.Label>
+                                    <Form.Select aria-label="Default select example" className='' id="vendor-select" value={room} onChange={handleRoomChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option>Select a room</option>
                                         {state.AssetList.GetRoomList && state.AssetList.GetRoomList.map((item) => {
                                             return (
@@ -144,11 +144,11 @@ console.log("pglist",room)
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Date</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Date</Form.Label>
                                     <Form.Control className="custom-date-input"
                                         value={date}
                                         onChange={handleDateChange}
-                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
                             </div>
 
@@ -158,11 +158,11 @@ console.log("pglist",room)
                     </Modal.Body>
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
-                        <Button className='w-100' onClick={handleAddAssignAsset} style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} >
+                        <Button className='w-100' onClick={handleAddAssignAsset} style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }} >
                         {currentItem.hostel_id ? 'Reassign asset ' : 'Assign asset'}
                         </Button>
                     </Modal.Footer>
-                </Modal.Dialog>
+                </Modal.Dialog> 
             </Modal>
         </div>
     );

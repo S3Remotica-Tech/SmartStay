@@ -89,13 +89,13 @@ const handleSubmit =() =>{
     <div
     className="modal show"
     style={{
-      display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
+      display: 'block', position: 'initial'
     }}
   >
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
         <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-          <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Add bed</Modal.Title>
+          <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Add bed</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -104,21 +104,21 @@ const handleSubmit =() =>{
           <div className='row mt-2'>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500}}>Bed no.</Form.Label>
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Bed no.</Form.Label>
                 <Form.Control 
  value={bedNo}
  onChange={handleBedNoChange}
-                 type="text" placeholder="Enter bed no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                 type="text" placeholder="Enter bed no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500}}>Amount</Form.Label>
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Amount</Form.Label>
                 <Form.Control 
                  value={amount}
                  onChange={handleAmountChange}
-                 type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                 type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
@@ -130,7 +130,7 @@ const handleSubmit =() =>{
 
           <Button 
           onClick={handleSubmit}
-           className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}>
+           className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}>
           Add bed
           </Button>
         </Modal.Footer>

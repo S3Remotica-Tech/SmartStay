@@ -135,8 +135,8 @@ placeholder="Search..."
 {showReport &&
     <div className='m-4'>
 
-      <div>
-        <label style={{ color: "#222222", fontWeight: 600, fontSize: 16, fontFamily: "Gilroy,sans-serif" }}>Reports</label>
+      <div className="ms-3">
+        <label style={{ color: "#222222", fontWeight: 600, fontSize: 24, fontFamily: "Gilroy" }}>Reports</label>
       </div>
       <div className='row mt-3 mb-3 g-0 '>
         {filteredReports && filteredReports.map((report) => (
@@ -152,7 +152,7 @@ placeholder="Search..."
                     <Image src={hoveredCard === report.id ? CatoryActive : report.images} style={{height:24, width:24}}/>
                   </div>
                   <div>
-                    <label style={{fontSize:16, fontWeight:600, color:hoveredCard === report.id ? "#0000FF" : "#222222"}}>{report.ReportsName}</label>
+                    <label style={{fontSize:16, fontWeight:600, color:hoveredCard === report.id ? "#0000FF" : "#222222", fontFamily:"Gilroy"}}>{report.ReportsName}</label>
                   </div>
                 </div>
               </Card.Body>

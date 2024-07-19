@@ -514,7 +514,7 @@ const [showAmount, setShowAmount]  = useState(false)
 
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div>
-              <label style={{ fontSize: 24, color: "#000000", fontWeight: 600 }}>Expenses</label>
+              <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, fontFamily:"Gilroy" }}>Expenses</label>
             </div>
 
             <div className="d-flex justify-content-between align-items-center">
@@ -532,6 +532,7 @@ const [showAmount, setShowAmount]  = useState(false)
                     borderRadius: 8,
                     padding: 10,
                     fontSize: 14,
+                    fontFamily:"Gilroy",
                     fontWeight: 500,
                     color: "#222222",
                     display: "flex",
@@ -574,7 +575,7 @@ const [showAmount, setShowAmount]  = useState(false)
                 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px", cursor: "pointer" }} onClick={handleFilterByPrice} />
 
                 {showFilter &&
-                  <ListGroup style={{ position: 'absolute', top: 45, right: 0 }}>
+                  <ListGroup style={{ position: 'absolute', top: 45, right: 0 , fontFamily:"Gilroy"}}>
                     <ListGroup.Item value="All"  onClick={handleExpenseAll}>All</ListGroup.Item>
 
                     <ListGroup.Item
@@ -720,7 +721,7 @@ const [showAmount, setShowAmount]  = useState(false)
 
 
               <div>
-                <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: "fit-content", padding: "18px, 20px, 18px, 20px" }}> + Add an expense</Button>
+                <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: "fit-content", padding: "18px, 20px, 18px, 20px", fontFamily:"Montserrat" }}> + Add an expense</Button>
               </div>
             </div>
           </div>
@@ -729,20 +730,20 @@ const [showAmount, setShowAmount]  = useState(false)
 
           <div style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "hidden" }}>
             <Table responsive>
-              <thead style={{ fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
+              <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
                 <tr>
-                  <th style={{ color: "black", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
+                  <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
                     <input type='checkbox' style={customCheckboxStyle} />
                   </th>
 
 
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Name</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Category</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Asset</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Expense Date</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Amount</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Mode of Payment</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy, sans-serif", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}></th>
+                  <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Name</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Category</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Asset</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Expense Date</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Amount</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Mode of Payment</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}></th>
                 </tr>
               </thead>
               <tbody>

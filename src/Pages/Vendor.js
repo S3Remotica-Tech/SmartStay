@@ -216,7 +216,7 @@ useEffect(() => {
 
   return (
 
-    <div style={{ width: "100%", fontFamily: "Gilroy,sans-serif" }} className=''>
+    <div style={{ width: "100%", fontFamily: "Gilroy" }} className=''>
       <div className='m-4'>
         <div className='d-flex justify-content-end align-items-center mb-4'>
 
@@ -241,7 +241,7 @@ useEffect(() => {
           </div>
         </div>
 
-        <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex justify-content-between align-items-center ms-3 mb-3">
           <div>
             <label style={{ fontSize: 24, color: "#000000", fontWeight: 600 , fontFamily:"Gilroy"}}>Vendors</label>
           </div>
@@ -252,7 +252,7 @@ useEffect(() => {
             </div>
 
             <div>
-              <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add Vendor</Button>
+              <Button onClick={handleShow} style={{ fontFamily:"Montserrat",fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add Vendor</Button>
             </div>
           </div>
         </div>
@@ -267,8 +267,8 @@ useEffect(() => {
 
           {filteredData.length == 0 &&
 
-            <div style={{ width: 400 }}>
-              <Alert variant="warning" >
+            <div style={{ width: 400, fontWeight:600, fontFamily:"Gilroy" }}>
+              <Alert variant="warning"  >
                 Currently, no vendors are available.
               </Alert>
 

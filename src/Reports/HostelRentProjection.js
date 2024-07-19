@@ -45,7 +45,7 @@ function HostelRentProjection(props) {
                         <ArrowLeft size="32" color="#222222" onClick={handleback} />
                     </div>
                     <div>
-                        <label style={{ fontSize: 24, fontWeight: 600, fontFamily: "Gilroy,sans-serif", color: "#222222" }}>Hostel Wise Rent Projection</label>
+                        <label style={{ fontSize: 24, fontWeight: 600, fontFamily: "Gilroy", color: "#222222" }}>Hostel Wise Rent Projection</label>
                     </div>
                 </div>
 
@@ -66,6 +66,7 @@ function HostelRentProjection(props) {
                                 fontWeight: 500,
                                 color: "#222222",
                                 display: "flex",
+                                fontFamily: "Gilroy",
                                 alignItems: "center",
                                 cursor: "pointer"
                             }}
@@ -125,7 +126,7 @@ function HostelRentProjection(props) {
                 </div>
               } */}
                     <div>
-                        <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: "fit-content", padding: "18px, 20px, 18px, 20px" }}> Run Report</Button>
+                        <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: "fit-content", padding: "18px, 20px, 18px, 20px", fontFamily:"Montserrat" }}> Run Report</Button>
                     </div>
                 </div>
 
@@ -166,40 +167,40 @@ function HostelRentProjection(props) {
 
 <div className="table table-striped" style={{ flex: 1, display: "flex", flexDirection: "column" , }}>
         <div style={{ flex: 1, display: "flex", flexDirection: "row", backgroundColor:"rgba(224, 236, 255, 1)",borderTopLeftRadius:12, borderTopRightRadius:12, padding:5 }} >
-          <div style={{ flex: 1 }}> <label style={{fontSize:16, fontWeight:600}}>Account</label>  </div>
-          <div style={{ flex: 1 }}> <label style={{fontSize:16, fontWeight:600}}>Account code</label> </div>
-          <div style={{ flex: 1 }}> <label style={{fontSize:16, fontWeight:600}}>Total</label> </div>
+          <div style={{ flex: 1 }}> <label style={{fontSize:16, fontWeight:600, fontFamily:"Gilroy"}}>Account</label>  </div>
+          <div style={{ flex: 1 }}> <label style={{fontSize:16, fontWeight:600, fontFamily:"Gilroy"}}>Account code</label> </div>
+          <div style={{ flex: 1 }}> <label style={{fontSize:16, fontWeight:600, fontFamily:"Gilroy"}}>Total</label> </div>
                 
         </div>
       
           <div  style={{ flex: 1, display: "flex", flexDirection: "row" }} 
-                  >            <div style={{ flex: 1,  }}> <label style={{fontSize:18, fontWeight:500}}>Operating Income</label>  </div>
+                  >            <div style={{ flex: 1,  }}> <label style={{fontSize:18, fontWeight:500, fontFamily:"Gilroy"}}>Operating Income</label>  </div>
             <div style={{ flex: 1 }}> <label>   </label> </div>
             <div style={{ flex: 1 }}> <label></label> </div>
                               </div>
 
                               <div  style={{ flex: 1, display: "flex", flexDirection: "row" }}>
-                                            <div style={{ flex: 1,  }}> <label style={{color:"rgba(30, 69, 225, 1)",fontSize:18, fontWeight:500}}>Sales</label>  </div>
+                                            <div style={{ flex: 1,  }}> <label style={{color:"rgba(30, 69, 225, 1)",fontSize:18, fontWeight:500, fontFamily:"Gilroy"}}>Sales</label>  </div>
             <div style={{ flex: 1 }}> <label>   </label> </div>
-            <div style={{ flex: 1 }}> <label style={{color:"rgba(30, 69, 225, 1)",fontSize:18, fontWeight:500}}>₹40,000.00</label> </div>
+            <div style={{ flex: 1 }}> <label style={{color:"rgba(30, 69, 225, 1)",fontSize:18, fontWeight:500, fontFamily:"Gilroy"}}>₹40,000.00</label> </div>
                               </div>
                               <div  style={{ flex: 1, display: "flex", flexDirection: "row" }}>
-                                            <div style={{ flex: 1,  }}> <label style={{fontSize:18, fontWeight:500}}>Total for operating incomes</label>  </div>
+                                            <div style={{ flex: 1,  }}> <label style={{fontSize:18, fontWeight:500, fontFamily:"Gilroy"}}>Total for operating incomes</label>  </div>
             <div style={{ flex: 1 }}> <label>   </label> </div>
-            <div style={{ flex: 1 }}> <label style={{fontSize:18, fontWeight:500}}>₹40,000.00</label> </div>
+            <div style={{ flex: 1 }}> <label style={{fontSize:18, fontWeight:500, fontFamily:"Gilroy"}}>₹40,000.00</label> </div>
                               </div>
 
       <hr style={{border:"1px solid rgba(220, 220, 220, 1)"}}/>
 
       <div  style={{ flex: 1, display: "flex", flexDirection: "row" }}>
-                                            <div style={{ flex: 1,  }}> <label style={{fontSize:18, fontWeight:500}}>Cost of Goods Sold</label>  </div>
+                                            <div style={{ flex: 1,  }}> <label style={{fontSize:18, fontWeight:500, fontFamily:"Gilroy"}}>Cost of Goods Sold</label>  </div>
             <div style={{ flex: 1 }}> <label>   </label> </div>
             <div style={{ flex: 1 }}> <label></label> </div>
                               </div>
                               <div  style={{ flex: 1, display: "flex", flexDirection: "row" }}>
-                                            <div style={{ flex: 1,  }}> <label style={{fontSize:18, fontWeight:500}}>Total cost of goods sold</label>  </div>
+                                            <div style={{ flex: 1,  }}> <label style={{fontSize:18, fontWeight:500, fontFamily:"Gilroy"}}>Total cost of goods sold</label>  </div>
             <div style={{ flex: 1 }}> <label>   </label> </div>
-            <div style={{ flex: 1 }}> <label style={{fontSize:18, fontWeight:500}}>₹0.00</label> </div>
+            <div style={{ flex: 1 }}> <label style={{fontSize:18, fontWeight:500, fontFamily:"Gilroy"}}>₹0.00</label> </div>
                               </div>
                               <hr style={{border:"1px solid rgba(220, 220, 220, 1)"}}/>
 
