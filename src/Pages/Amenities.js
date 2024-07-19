@@ -243,7 +243,7 @@ const handleHostelClick = (e) => {
 
             <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                      <Form.Label style={{ fontSize: 14,  fontWeight: 600 }}>
+                      <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>
                         Select Hostel
                       </Form.Label>
                     <Form.Select aria-label="Default select example" 
@@ -332,7 +332,7 @@ const handleHostelClick = (e) => {
                     
                     <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label style={{ fontSize: 14, fontWeight: 600, }}
+                            <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
                             >
                                 Amenity
                             </Form.Label>
@@ -349,7 +349,7 @@ const handleHostelClick = (e) => {
 
                     <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                            <Form.Label style={{ fontSize: 14, fontWeight: 600, }}
+                            <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
                             >
                                 Set Amount
                             </Form.Label>
@@ -402,14 +402,14 @@ const handleHostelClick = (e) => {
             {/* Add new amenity paragraph */}
             
             <div>
-                <p style={{ color: '#1E45E1', fontSize: '16px', fontWeight: 500 }}>+ Add new amenity</p>
+                <p style={{fontFamily:'Gilroy', fontSize: 16,fontWeight:600, color: "#1E45E1", fontStyle:'normal', lineHeight:'normal'}}>+ Add new amenity</p>
             </div>
 
            
         </>
 
                 <div style={{ marginTop: '30px' }}>
-                    <Button onClick={handleAmenitiesSetting} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px" }}> Save Changes</Button>
+                    <Button onClick={handleAmenitiesSetting} style={{fontFamily:'Montserrat', fontSize: 16,fontWeight:500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}> Save Changes</Button>
                 </div>
 
             </div>

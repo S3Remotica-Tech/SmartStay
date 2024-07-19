@@ -124,10 +124,10 @@ function getFloorAbbreviation(floor_Id) {
                         </div>
                         <div >
                             <div className='pb-2'>
-                                <label style={{ fontSize: 16, color: "#222222", fontWeight: 600, marginLeft: '10px' }} >{props.complaints && props.complaints.Name} </label>
+                                <label style={{fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 600, marginLeft: '10px' }} >{props.complaints && props.complaints.Name} </label>
                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFE0D9', padding: '6px 12px', color: '#222222', borderRadius: '60px', marginRight: '10px' }}>{getFormattedRoomId(props.complaints.Floor_id, props.complaints.Room)} - B{props.complaints && props.complaints.Bed}</div>
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFEFCF', padding: '6px 12px', color: '#222222', borderRadius: '60px' }}>{getFloorName(props.complaints.Floor_id)}
+                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFE0D9', padding: '6px 12px',  borderRadius: '60px', marginRight: '10px' ,fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500}}>{getFormattedRoomId(props.complaints.Floor_id, props.complaints.Room)} - B{props.complaints && props.complaints.Bed}</div>
+                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFEFCF', padding: '6px 12px',  borderRadius: '60px', fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{getFloorName(props.complaints.Floor_id)}
                                         {/* {props.complaints && props.complaints.Floor_id} */}
                                         {/* Ground floor */}
                                     </div>
@@ -145,6 +145,7 @@ function getFloorAbbreviation(floor_Id) {
                                     <div >
                                         <div className='mb-2' onClick={() => handleEdit(props.complaints)}>
                                             <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222" }} >Edit</label>
+                                       
                                         </div>
                                         <div  >
                                             <img style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000" }}>Delete</label>
@@ -164,30 +165,30 @@ function getFloorAbbreviation(floor_Id) {
 
                     <div className='mb-2'>
                         <div className='mb-1'>
-                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>Request ID </label>
+                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal' }}>Request ID </label>
                         </div>
                         <div >
-                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>{props.complaints && props.complaints.Requestid}</label>
+                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>{props.complaints && props.complaints.Requestid}</label>
                         </div>
 
                     </div>
 
                     <div className='mb-2'>
                         <div className='mb-1'>
-                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}> Complaint date</label>
+                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal' }}> Complaint date</label>
                         </div>
                         <div>
-                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>{moment(props.complaints.date).format('DD-MM-YYYY')} </label>
+                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>{moment(props.complaints.date).format('DD-MM-YYYY')} </label>
                         </div>
 
                     </div>
 
                     <div className='mb-2'>
                         <div className='mb-1'>
-                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>Assigned to</label>
+                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal' }}>Assigned to</label>
                         </div>
                         <div>
-                        <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>
+                        <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>
       {props.complaints.Assign  === '' || props.complaints.Assign == null ? (
         <p onClick={handleassignshow} style={{color:'#1E45E1',fontSize:'16px'}}>+ Assign</p>
       ) : (
@@ -198,28 +199,42 @@ function getFloorAbbreviation(floor_Id) {
                     </div>
                 </div>
 
+                <div style={{ display: 'flex', flexDirection: 'row',justifyContent:'space-between' }}>
                 <div className='mb-2'>
                     <div className='mb-1'>
-                        <label style={{ color: "#939393", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}> Complaint type</label>
+                        <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal' }}> Complaint type</label>
 
                     </div>
 
                     <div>
-                        <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy,sans-serif" }}>{props.complaints && props.complaints.Complainttype}- {props.complaints && props.complaints.Description}</label>
+                        <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>{props.complaints && props.complaints.Complainttype}- {props.complaints && props.complaints.Description}</label>
                     </div>
 
+                </div>
+
+                <div className='mb-2'>
+                    <div className='mb-1'>
+                        <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal' }}> Status</label>
+
+                    </div>
+
+                    <div>
+                        <label style={(props.complaints && props.complaints.Status.toUpperCase() === "COMPLETED") ? { color: "#00A32E" } : { color: "#FF9E00" }}>{props.complaints && props.complaints.Status}</label>
+                    </div>
+
+                </div>
                 </div>
 
                 <hr style={{ border: "1px solid #E7E7E7" }} />
                 
                 <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy, sans-serif" }}>
       {props.complaints.Assign === '' || props.complaints.Assign  == null ? (
-        <p style={{ fontSize: '14px', fontWeight: 600, color: '#222', fontFamily: 'Gilroy, sans-serif' }}>
+        <p style={{ fontSize: '14px', fontWeight: 600, color: '#222', fontFamily: 'Gilroy' ,fontStyle:'normal',lineHeight:'normal'}}>
           <img src={Profile_add} className='me-2' alt="Add Profile" />
           Yet to assign the complaint
         </p>
       ) : (
-        <p style={{ fontSize: '14px', fontWeight: 600, color: '#222', fontFamily: 'Gilroy, sans-serif' }}>
+        <p style={{ fontSize: '14px', fontWeight: 600, color: '#222', fontFamily: 'Gilroy',fontStyle:'normal',lineHeight:'normal' }}>
           <img src={Tickicon} className='me-2' alt="Success" />
           successfully attended on 21 MAR 2024
         </p>
