@@ -33,7 +33,12 @@
     font-style: normal;
   }
 
-
+  /* @font-face {
+       font-family: 'Satoshi';
+       src: url('/src/Assets/Font/Satoshi-Medium_0.ttf') format('truetype');
+              font-weight: 500;
+       font-style: normal;
+     } */
 
 
  @font-face {
