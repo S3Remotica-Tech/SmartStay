@@ -349,30 +349,34 @@ function UserlistForm(props) {
   }
   const handleFloor = (e) => {
     setFloor(e.target.value)
+    setRooms("")
+    setBed("")
   }
   const handleRooms = (e) => {
     setRooms(e.target.value);
     dispatch({ type: 'BEDNUMBERDETAILS', payload: { hostel_id: hostel_Id, floor_id: Floor,room_id:e.target.value }})
+    
+    
   }
 
 
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     setRoomRent(roomRentValue);
-    let newBalanceDue = 0;
-    let BalanceDuelength = 0;
+    // let newBalanceDue = 0;
+    // let BalanceDuelength = 0;
 
 
-    if (AdvanceAmount <= roomRentValue) {
-      newBalanceDue = roomRentValue - AdvanceAmount;
-      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-      setBalanceDue(BalanceDuelength);
-    } else if (AdvanceAmount >= roomRentValue) {
-      newBalanceDue = AdvanceAmount - roomRentValue;
-      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-      setBalanceDue(-BalanceDuelength);
+    // if (AdvanceAmount <= roomRentValue) {
+    //   newBalanceDue = roomRentValue - AdvanceAmount;
+    //   BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+    //   setBalanceDue(BalanceDuelength);
+    // } else if (AdvanceAmount >= roomRentValue) {
+    //   newBalanceDue = AdvanceAmount - roomRentValue;
+    //   BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+    //   setBalanceDue(-BalanceDuelength);
       // - sign
-    }
+    // }
 
   }
 
@@ -416,19 +420,19 @@ const handleBed = (e) => {
   const handleAdvanceAmount = (e) => {
     const advanceAmount = e.target.value;
     setAdvanceAmount(advanceAmount)
-    let newBalanceDue = 0;
-    let BalanceDuelength = 0;
+    // let newBalanceDue = 0;
+    // let BalanceDuelength = 0;
 
-    if (advanceAmount <= RoomRent) {
-      newBalanceDue = RoomRent - advanceAmount;
-      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-      setBalanceDue(BalanceDuelength);
-    } else if (advanceAmount >= RoomRent) {
-      newBalanceDue = advanceAmount - RoomRent;
-      BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-      setBalanceDue(-BalanceDuelength);
-      // - sign
-    }
+    // if (advanceAmount <= RoomRent) {
+    //   newBalanceDue = RoomRent - advanceAmount;
+    //   BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+    //   setBalanceDue(BalanceDuelength);
+    // } else if (advanceAmount >= RoomRent) {
+    //   newBalanceDue = advanceAmount - RoomRent;
+    //   BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
+    //   setBalanceDue(-BalanceDuelength);
+     
+    // }
   }
 
 
@@ -932,7 +936,7 @@ console.log("props.displayDetail",props.displayDetail)
   return (
     <div>
    <Modal show={props.showMenu} onHide={handleClose} centered>
-   <Modal.Dialog style={{ maxWidth: 850, width: 600,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
+   <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
    {/* <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
    
       <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> {props.edit === 'Edit' ? "Edit Customer" : "Add Customer"}</Modal.Title>
@@ -950,7 +954,7 @@ console.log("props.displayDetail",props.displayDetail)
 </Modal.Header> */}
 
 <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
-        <div style={{ fontSize: 20, fontWeight: 600 }}>{props.edit === 'Edit' ? "Edit Customer" : "Add an customer"}</div>
+        <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>{props.edit === 'Edit' ? "Edit Customer" : "Add an customer"}</div>
         <button
           type="button"
           className="close"
@@ -967,8 +971,8 @@ console.log("props.displayDetail",props.displayDetail)
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '30px',
-            height: '30px',
+            width: '32px',
+            height: '32px',
             borderRadius: '50%',
            
           }}
@@ -1004,10 +1008,10 @@ console.log("props.displayDetail",props.displayDetail)
 </div>
 <div className='ps-3'>
   <div>
-    <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy,sans-serif" }}>Profile Photo</label>
+    <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
   </div>
   <div>
-    <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif" }}>Max size of image 10MB</label>
+    <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
   </div>
 </div>
 </div>
@@ -1016,25 +1020,27 @@ console.log("props.displayDetail",props.displayDetail)
       
           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>First Name</Form.Label>
+              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>First Name</Form.Label>
               <FormControl
                 id="form-controls"
+                placeholder='Enter name'
                 type="text"
                 value={firstname}
                 onChange={(e) => handleFirstName(e)}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               />
             </Form.Group>
           </div>
           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Last Name</Form.Label>
+              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Last Name</Form.Label>
               <FormControl
                 type="text"
                 id="form-controls"
+                placeholder='Enter name'
                 value={lastname}
                 onChange={(e) => handleLastName(e)}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               />
             </Form.Group>
           </div>
@@ -1042,14 +1048,15 @@ console.log("props.displayDetail",props.displayDetail)
        
           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Phone Number</Form.Label>
+              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Phone Number</Form.Label>
               <FormControl
                 type="phone"
                 id="form-controls"
+                placeholder='Enter mobile Number'
                 maxLength={10}
                 value={Phone}
                 onChange={(e) => handlePhone(e)}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               />
               <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
             </Form.Group>
@@ -1060,10 +1067,11 @@ console.log("props.displayDetail",props.displayDetail)
               <FormControl
                 type="text"
                 id="form-controls"
+                placeholder='Enter email address'
                 value={Email}
                 onChange={(e) => handleEmail(e)}
                 // style={bottomBorderStyle}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               />
               <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
             </Form.Group>
@@ -1077,24 +1085,25 @@ console.log("props.displayDetail",props.displayDetail)
                 type="text"
                 id="form-controls"
                 value={Address}
+                placeholder='Enter address'
                 onChange={(e) => handleAddress(e)}
                 // style={bottomBorderStyle}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               />
             </Form.Group>
             </div>
          
           <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-            <Form.Label style={{ fontSize: "12px" }}>Select PG</Form.Label>
+            <Form.Label style={{ fontSize: "12px" }}>Paying Guest</Form.Label>
             <Form.Select
               aria-label="Default select example"
               className='border'
               // style={{ backgroundColor: "#f8f9fa", padding: 10, border: "none", boxShadow: "none", width: "100%", fontSize: 12, fontWeight: 700, textTransform: "capitalize" }}
-              style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+              style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               value={hostel_Id}
               onChange={(e) => handleHostelId(e)}
             >
-              <option>Select hostel</option>
+              <option>Select a PG</option>
               {state.UsersList?.hostelList?.map((item) => (
                 <option key={item.id} value={item.id}>{item.Name}</option>
               ))}
@@ -1103,17 +1112,242 @@ console.log("props.displayDetail",props.displayDetail)
         </div>
      
       
-      <Button className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" ,marginTop:20}}  onClick={ handleSaveUserlist}>
+      <Button className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" ,marginTop:20}}  onClick={ handleSaveUserlist}>
 
 Add Customer 
 </Button>
     </div>
     :
-    <div className='container'>
-      <div className='row mb-3'></div>
+//     <div className='container'>
+//       <div className='row mb-3'></div>
       
-      <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
-        <div style={{ fontSize: 20, fontWeight: 600 }}>Assign Bed</div>
+//       <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+//         <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>Assign bed</div>
+//         <button
+//           type="button"
+//           className="close"
+//           aria-label="Close"
+//           onClick={handleClose}
+//           style={{
+//             position: 'absolute',
+//             right: '10px',
+//             top: '16px',
+//             border: '1px solid black',
+//             background: 'transparent',
+//             cursor: 'pointer',
+//             padding: '0',
+//             display: 'flex',
+//             justifyContent: 'center',
+//             alignItems: 'center',
+//             width: '32px',
+//             height: '32px',
+//             borderRadius: '50%',
+           
+//           }}
+//         >
+//           <span aria-hidden="true" style={{
+//               fontSize: '30px',
+//               paddingBottom:"6px"
+             
+//             }}>&times;</span>
+//         </button>
+//       </Modal.Header>
+//       <div className='row mb-3'>
+//         <div className='col-lg-12'>
+//           <Form.Label style={{ fontSize:14,fontWeight:500,fontFamily:"Gilroy" }}>Floor</Form.Label>
+//           <Form.Select
+//             aria-label="Default select example"
+//             placeholder='Select no. of floor'
+//             // style={bottomBorderStyles}
+//             style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+//             id="form-selects"
+//              className='border'
+//             value={Floor}
+//             onChange={(e) => handleFloor(e)}
+//           >
+//             <option>Selected Floor</option>
+//             {state.UsersList?.hosteldetailslist
+//               ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id == item.Floor_Id) == index)
+//               .map((u) => (
+//                 <option key={u.Floor_Id}>
+//                   {u.Floor_Id}
+//                 </option>
+//               ))}
+//           </Form.Select>
+//         </div>
+//         <div className='col-lg-12 mt-1'>
+//           <Form.Label style={{ fontSize:14,fontWeight:500,fontFamily:"Gilroy" }}>Room</Form.Label>
+//           <Form.Select
+//             aria-label='Default select example'
+//              placeholder='Select no. of rooms'
+//             // style={bottomBorderStyles}
+//             style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+//             value={Rooms}
+//              className='border'
+//             id="form-selects"
+//             onChange={(e) => handleRooms(e)}
+//           >
+//             <option>Selected Room</option>
+//             {state.UsersList.roomdetails && state.UsersList?.roomdetails.map((item) => (
+//               <option key={item.Room_Id}>
+//                 {item.Room_Id}
+//               </option>
+//             ))}
+//           </Form.Select>
+//         </div>
+//         <div className='col-lg-12 mt-3 mb-3'>
+//           <Form.Label style={{ fontSize:14,fontWeight:500,fontFamily:"Gilroy" }}>Bed</Form.Label>
+//           <Form.Select
+//             aria-label='Default select example'
+//             // style={bottomBorderStyles}
+//             style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+//             value={Bed}
+//             className='border'
+//             placeholder='Select a bed'
+//             id="form-selects"
+//             onChange={(e) => handleBed(e)}
+//           >
+//             <option>Selected Bed</option>
+//             {props.edit === 'Edit' && Bednum && Bednum.Bed && (
+//               <option value={Bednum.Bed} selected>{Bednum.Bed}</option>
+//             )}
+//             {/* {Arrayset.map((item) => (
+//               <option key={item} value={item}>{item}</option>
+//             ))} */}
+//              {  state.UsersList?.bednumberdetails?.bed_details && state.UsersList?.bednumberdetails?.bed_details.map((item) => (
+
+//               <option key={item.bed_no} value={item.bed_no}>{item.bed_no}</option>
+//             ))}
+//           </Form.Select>
+//         </div>
+//         {/* <div className='col-lg-6'>
+//           <Form.Group className="mb-3">
+//             <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Room Rent (Monthly)</Form.Label>
+//             <FormControl
+//               type="text"
+//               id="form-controls"
+//               value={RoomRent}
+//               onChange={(e) => handleRoomRent(e)}
+//               style={bottomBorderStyle}
+//             />
+//           </Form.Group>
+//         </div>
+//         <div className='col-lg-6'>
+//           <Form.Group className="">
+//             <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Total Advance Amount</Form.Label>
+//             <FormControl
+//               type="text"
+//               id="form-controls"
+//               value={AdvanceAmount}
+//               onChange={(e) => handleAdvanceAmount(e)}
+//               style={bottomBorderStyle}
+//             />
+//           </Form.Group>
+//         </div> */}
+
+// <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+//                   <Form.Group className="">
+//                     <Form.Label style={{ fontSize:14,fontWeight:500,fontFamily:"Gilroy" }}> Advance Amount</Form.Label>
+//                     <FormControl
+//                       type="text"
+//                       id="form-controls"
+//                          placeholder='Enter amount'
+//                       value={AdvanceAmount} onChange={(e) => handleAdvanceAmount(e)}
+//                       // style={bottomBorderStyle}
+//                       style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
+//                     />
+//                   </Form.Group>
+//                 </div>
+// <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+//                   <Form.Group className="mb-3">
+//                     <Form.Label style={{ fontSize:14,fontWeight:500,fontFamily:"Gilroy" }}>Rental Amount</Form.Label>
+//                     <FormControl
+//                       type="text"
+//                       id="form-controls"
+//                       placeholder='Enter amount'
+//                       value={RoomRent} onChange={(e) => handleRoomRent(e)}
+//                       // style={bottomBorderStyle}
+//                       style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
+//                     />
+//                   </Form.Group>
+//                 </div>
+
+
+
+//                 {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+//                   <Form.Group className="">
+//                     <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Paid Advance</Form.Label>
+//                     <FormControl
+//                       type="text"
+//                       id="form-controls"
+//                       value={paid_advance} onChange={(e) => handlePaidadvance(e)}
+//                       // style={bottomBorderStyle}
+//                       style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
+//                       disabled={props.EditObj.paid_advance > 0}
+//                     />
+//                   </Form.Group>
+//                 </div> */}
+
+//                 {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+//                   <Form.Group className="">
+//                     <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Paid Rent</Form.Label>
+//                     <FormControl
+//                       type="text"
+//                       id="form-controls"
+//                       value={paid_rent} onChange={(e) => handlePaidrent(e)}
+                     
+//                       style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
+                      
+//                     />
+
+//                     {props.EditObj.RoomRent == 0 > 0 && (
+//                       <p style={{ fontSize: '11px', color: 'red' }}>
+//                         * This month payable amount <b style={{ color: 'black' }}>{payableamount}</b>
+//                       </p>
+//                      )} 
+//                   </Form.Group>
+//                 </div> */}
+           
+//       </div>
+//       <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}  onClick={handleSaveUserlistAddUser}>
+// Assign Bed
+
+// </Button>
+//     </div>
+<div className='container'>
+<div className='row mb-3'></div>
+
+{/* <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+  <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Assign bed</div>
+  <button
+    type="button"
+    className="close"
+    aria-label="Close"
+    onClick={handleClose}
+    style={{
+      position: 'absolute',
+      right: '10px',
+      top: '16px',
+      border: '1px solid black',
+      background: 'transparent',
+      cursor: 'pointer',
+      padding: '0',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '32px',
+      height: '32px',
+      borderRadius: '50%',
+    }}
+  >
+    <span aria-hidden="true" style={{
+        fontSize: '30px',
+        paddingBottom: "6px"
+      }}>&times;</span>
+  </button>
+</Modal.Header> */}
+<Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>Assign bed</div>
         <button
           type="button"
           className="close"
@@ -1130,8 +1364,8 @@ Add Customer
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '30px',
-            height: '30px',
+            width: '32px',
+            height: '32px',
             borderRadius: '50%',
            
           }}
@@ -1143,163 +1377,105 @@ Add Customer
             }}>&times;</span>
         </button>
       </Modal.Header>
-      <div className='row mb-3'>
-        <div className='col-lg-12'>
-          <Form.Label style={{ fontSize: "12px" }}>Floor</Form.Label>
-          <Form.Select
-            aria-label="Default select example"
-            // style={bottomBorderStyles}
-            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-            id="form-selects"
-             className='border'
-            value={Floor}
-            onChange={(e) => handleFloor(e)}
-          >
-            <option>Selected Floor</option>
-            {state.UsersList?.hosteldetailslist
-              ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id == item.Floor_Id) == index)
-              .map((u) => (
-                <option key={u.Floor_Id}>
-                  {u.Floor_Id}
-                </option>
-              ))}
-          </Form.Select>
-        </div>
-        <div className='col-lg-12 mt-1'>
-          <Form.Label style={{ fontSize: '12px' }}>Room</Form.Label>
-          <Form.Select
-            aria-label='Default select example'
-            // style={bottomBorderStyles}
-            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-            value={Rooms}
-             className='border'
-            id="form-selects"
-            onChange={(e) => handleRooms(e)}
-          >
-            <option>Selected Room</option>
-            {state.UsersList.roomdetails && state.UsersList?.roomdetails.map((item) => (
-              <option key={item.Room_Id}>
-                {item.Room_Id}
-              </option>
-            ))}
-          </Form.Select>
-        </div>
-        <div className='col-lg-12 mt-3 mb-3'>
-          <Form.Label style={{ fontSize: '12px' }}>Bed</Form.Label>
-          <Form.Select
-            aria-label='Default select example'
-            // style={bottomBorderStyles}
-            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-            value={Bed}
-            className='border'
-            id="form-selects"
-            onChange={(e) => handleBed(e)}
-          >
-            <option>Selected Bed</option>
-            {props.edit === 'Edit' && Bednum && Bednum.Bed && (
-              <option value={Bednum.Bed} selected>{Bednum.Bed}</option>
-            )}
-            {/* {Arrayset.map((item) => (
-              <option key={item} value={item}>{item}</option>
-            ))} */}
-             {  state.UsersList?.bednumberdetails?.bed_details && state.UsersList?.bednumberdetails?.bed_details.map((item) => (
-
-              <option key={item.bed_no} value={item.bed_no}>{item.bed_no}</option>
-            ))}
-          </Form.Select>
-        </div>
-        {/* <div className='col-lg-6'>
-          <Form.Group className="mb-3">
-            <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Room Rent (Monthly)</Form.Label>
-            <FormControl
-              type="text"
-              id="form-controls"
-              value={RoomRent}
-              onChange={(e) => handleRoomRent(e)}
-              style={bottomBorderStyle}
-            />
-          </Form.Group>
-        </div>
-        <div className='col-lg-6'>
-          <Form.Group className="">
-            <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Total Advance Amount</Form.Label>
-            <FormControl
-              type="text"
-              id="form-controls"
-              value={AdvanceAmount}
-              onChange={(e) => handleAdvanceAmount(e)}
-              style={bottomBorderStyle}
-            />
-          </Form.Group>
-        </div> */}
-
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                  <Form.Group className="">
-                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}> Advance Amount</Form.Label>
-                    <FormControl
-                      type="text"
-                      id="form-controls"
-                      value={AdvanceAmount} onChange={(e) => handleAdvanceAmount(e)}
-                      // style={bottomBorderStyle}
-                      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
-                    />
-                  </Form.Group>
-                </div>
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                  <Form.Group className="mb-3">
-                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Rental Amount</Form.Label>
-                    <FormControl
-                      type="text"
-                      id="form-controls"
-                      value={RoomRent} onChange={(e) => handleRoomRent(e)}
-                      // style={bottomBorderStyle}
-                      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
-                    />
-                  </Form.Group>
-                </div>
 
 
+<div className='row mb-3'>
+  <div className='col-12'>
+    <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</Form.Label>
+    <Form.Select
+      aria-label="Default select example"
+      placeholder='Select no. of floor'
+      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+      id="form-selects"
+      className='border'
+      value={Floor}
+      onChange={(e) => handleFloor(e)}
+    >
+      <option>Selected Floor</option>
+      {state.UsersList?.hosteldetailslist
+        ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
+        .map((u) => (
+          <option key={u.Floor_Id}>
+            {u.Floor_Id}
+          </option>
+        ))}
+    </Form.Select>
+  </div>
 
-                {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                  <Form.Group className="">
-                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Paid Advance</Form.Label>
-                    <FormControl
-                      type="text"
-                      id="form-controls"
-                      value={paid_advance} onChange={(e) => handlePaidadvance(e)}
-                      // style={bottomBorderStyle}
-                      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
-                      disabled={props.EditObj.paid_advance > 0}
-                    />
-                  </Form.Group>
-                </div> */}
+  <div className='col-12 mt-1'>
+    <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Room</Form.Label>
+    <Form.Select
+      aria-label='Default select example'
+      placeholder='Select no. of rooms'
+      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+      value={Rooms}
+      className='border'
+      id="form-selects"
+      onChange={(e) => handleRooms(e)}
+    >
+      <option>Selected Room</option>
+      {state.UsersList.roomdetails && state.UsersList?.roomdetails.map((item) => (
+        <option key={item.Room_Id}>
+          {item.Room_Id}
+        </option>
+      ))}
+    </Form.Select>
+  </div>
 
-                {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                  <Form.Group className="">
-                    <Form.Label style={{ fontSize: "12px", marginTop: "" }}>Paid Rent</Form.Label>
-                    <FormControl
-                      type="text"
-                      id="form-controls"
-                      value={paid_rent} onChange={(e) => handlePaidrent(e)}
-                     
-                      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
-                      
-                    />
+  <div className='col-12 mt-3 mb-3'>
+    <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Bed</Form.Label>
+    <Form.Select
+      aria-label='Default select example'
+      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+      value={Bed}
+      className='border'
+      placeholder='Select a bed'
+      id="form-selects"
+      onChange={(e) => handleBed(e)}
+    >
+      <option>Selected Bed</option>
+      {props.edit === 'Edit' && Bednum && Bednum.Bed && (
+        <option value={Bednum.Bed} selected>{Bednum.Bed}</option>
+      )}
+      {state.UsersList?.bednumberdetails?.bed_details && state.UsersList?.bednumberdetails?.bed_details.map((item) => (
+        <option key={item.bed_no} value={item.bed_no}>{item.bed_no}</option>
+      ))}
+    </Form.Select>
+  </div>
 
-                    {props.EditObj.RoomRent == 0 > 0 && (
-                      <p style={{ fontSize: '11px', color: 'red' }}>
-                        * This month payable amount <b style={{ color: 'black' }}>{payableamount}</b>
-                      </p>
-                     )} 
-                  </Form.Group>
-                </div> */}
-           
-      </div>
-      <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}  onClick={handleSaveUserlistAddUser}>
-Assign Bed
+  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+    <Form.Group className="">
+      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</Form.Label>
+      <FormControl
+        type="text"
+        id="form-controls"
+        placeholder='Enter amount'
+        value={AdvanceAmount} 
+        onChange={(e) => handleAdvanceAmount(e)}
+        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
+      />
+    </Form.Group>
+  </div>
 
+  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+    <Form.Group className="mb-3">
+      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Rental Amount</Form.Label>
+      <FormControl
+        type="text"
+        id="form-controls"
+        placeholder='Enter amount'
+        value={RoomRent} 
+        onChange={(e) => handleRoomRent(e)}
+        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
+      />
+    </Form.Group>
+  </div>
+</div>
+
+<Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} onClick={handleSaveUserlistAddUser}>
+  Assign Bed
 </Button>
-    </div>
+</div>
   }
   </div>
 </Modal.Body>

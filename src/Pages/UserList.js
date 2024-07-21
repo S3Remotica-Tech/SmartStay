@@ -1175,14 +1175,21 @@ function UserList() {
     settransactionFilterddata(state.UsersList.customerdetails.transactions)
   }, [state.UsersList.customerdetails.transactions])
 
+  const [searchQuery, setSearchQuery] = useState("");
 
-
+  // const handleSearch = (e) => {
+  //   setSearchQuery(e.target.value);
+  // };
+  
+  // const filteredReports = reports.filter(report =>
+  //   report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
 
   return (
     <div className=' p-2' >
 
       {userList && <>
-        {/* <div className="user ps-3 pe-3" >
+         {/* <div className="user ps-3 pe-3" >
 
           <div className="user1" >
             <h6>User List</h6>
@@ -1223,11 +1230,11 @@ function UserList() {
 
 
           </div>
-        </div> */}
-        <div className='container d-flex justify-content-end align-items-center mr-3'>
+        </div>  */}
+        <div className='customerprofile'>
 
-          <div>
-            <InputGroup>
+          {/* <div>
+            <InputGroup >
               <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
                 <CiSearch style={{ fontSize: 20 }} />
               </InputGroup.Text>
@@ -1235,7 +1242,29 @@ function UserList() {
                 placeholder="Search..."
               />
             </InputGroup>
-          </div>
+          </div> */}
+
+<div className="searchGroup">
+        <InputGroup >
+          <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+            <CiSearch style={{ fontSize: 20 }} />
+          </InputGroup.Text>
+          <FormControl
+           value={searchItem}
+           onChange={(e) => handleInputChange(e)}
+            size="lg"
+           
+            style={{
+              boxShadow: "none",
+              borderColor: "lightgray",
+              borderLeft: "none",
+              fontSize: 15,
+              fontWeight: 600,
+            }}
+            placeholder="Search..."
+          />
+        </InputGroup>
+      </div>
           <div className="mr-3">
             <img src={Notify} alt="notification" />
           </div>
@@ -1244,12 +1273,12 @@ function UserList() {
             <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
           </div>
         </div>
-        <div className="d-flex justify-content-between align-items-center p-4 " >
-          <div>
+        <div className="customer p-4" >
+          <div className="cuslable">
             <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginTop: 20,fontFamily:"Gilroy" }}>Customers</label>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="customerfilling d-flex justify-content-between align-items-center ">
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} />
             </div>
@@ -1259,10 +1288,10 @@ function UserList() {
             </div>
           </div>
         </div>
+  
+        <div className="p-4" style={{ paddingBottom:"20px"}} >
 
-        <div className="p-2" style={{ paddingBottom:"20px"}} >
-
-          <Table style={{ borderCollapse: "separate", borderSpacing: 0, border: "1px solid #ddd", borderRadius: "10px", overflow: "hidden" }}>
+          <Table className="ebtable"  responsive  >
             <thead style={{backgroundColor:"#E7F1FF"}}>
               <tr>
                 <th style={{ textAlign: "center", padding: "10px" }}>
@@ -1507,14 +1536,14 @@ function UserList() {
                   <div style={{ marginLeft: 25, paddingBottom: 20 }}>
                      <img src={leftarrow} 
                     onClick={handleBack} /><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15,fontFamily:"Gilroy" }}>User Profile</span> </div>
-                   <div className="card" style={{ height: 100, borderRadius: "20px" }}>
+                   <div className="card" style={{ height: 130, borderRadius: "20px" }}>
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <div className="d-flex align-items-center">
                         <Image
                           src={imageUrl}
                           alt={item.Name || "Default Profile"}
                           roundedCircle
-                          style={{ height: "50px", width: "50px", marginRight: "10px" }}
+                          style={{ height: "80px", width: "80px", marginRight: "10px" }}
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = User;
@@ -1535,7 +1564,7 @@ function UserList() {
                           </p>
                         </div>
                       </div>
-                      <img src={dottt} width={40} height={40} alt="More options"  />
+                      <img src={dottt} width={40} height={40} alt="More options" style={{marginBottom:"30px"}}  />
                     </div>
                   </div> 
         
@@ -2562,6 +2591,9 @@ function UserList() {
 
         )
       }
+
+
+
 
       {
         showMenu == true ? <UserlistForm

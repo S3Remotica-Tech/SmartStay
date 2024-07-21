@@ -115,3 +115,62 @@
   border: none;
  }
 
+.customerprofile{
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  padding-right: 12px;
+  
+}
+.customer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
+}
+.customerfill{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.cuslable{
+  margin-left: 0px;
+}
+.customerfilling{
+  margin-left: 0px;
+  margin-top: 20px;
+}
+.searchGroup{
+  margin-left: 0px;
+}
+@media only screen and (max-width:500px) and (min-width:300px) {
+  .customerprofile{
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    padding-right: 0px;
+   
+  }
+  .customer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+  }
+  .customerfill{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+ 
+  .customerfilling{
+    margin-left: 30px;
+    margin-top: 20px;
+  }
+  .searchGroup{
+    margin-left: 80px;
+  }
+}
