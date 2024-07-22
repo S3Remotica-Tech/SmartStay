@@ -54,29 +54,14 @@ import squre from '../Assets/Images/New_images/minus-square.png';
 import leftArrow from '../Assets/Images/New_images/left-arrow.png';
 import rightarrow from '../Assets/Images/New_images/right-arrow.png'
 import Money from '../Assets/Images/New_images/Money.png';
-import { Autobrightness,Call,Sms,House,Buildings,ArrowLeft2,ArrowRight2 } from 'iconsax-react';
+import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 
-
-
-
-
-
-
-
 function UserList() {
-
   const state = useSelector(state => state)
   const dispatch = useDispatch();
   const selectRef = useRef('select');
-
-
-
   const [loading, setLoading] = useState(false)
-
-
-
-
 
   useEffect(() => {
 
@@ -717,10 +702,7 @@ function UserList() {
       setstatusShow(false);
       setSelectedAmenityName([]);
     }
-
   };
-
-
   useEffect(() => {
     if (state.UsersList.customerdetails.all_amenities && state.UsersList.customerdetails.all_amenities.length > 0 && selectAmneties) {
 
@@ -736,7 +718,6 @@ function UserList() {
 
   const uniqueAmenities = [];
   const seenNames = new Set();
-
 
   if (state.UsersList?.amnetieshistory) {
     state.UsersList.amnetieshistory.forEach((amenity) => {
@@ -754,18 +735,11 @@ function UserList() {
     setStatus(e.target.value)
   }
 
-
-
   useEffect(() => {
     dispatch({ type: 'AMENITESNAMES' })
   }, [])
 
-
-
   const amenities = state.UsersList?.amnetieshistory;
-
-  // const uniqueAmenities = [];
-  // const seenNames = new Set();
 
   if (amenities) {
     amenities.forEach((amenity) => {
@@ -780,21 +754,13 @@ function UserList() {
     setaddamenityShow(false);
   };
 
-
-
-
   const [statusAmni, setStatusAmni] = useState(false)
   const [statusShow, setstatusShow] = useState(false);
   const [amnitynotshow, setamnitynotshow] = useState([])
-
-
-
   const handleStatusAmnities = (e) => {
     setStatusAmni(e.target.value)
     console.log("eee.ttt.v", e.target.value)
-
   }
-
 
   const handleAddUserAmnities = () => {
     if (statusAmni) {
@@ -817,16 +783,11 @@ function UserList() {
           hostelID: hostelIds,
           userID: customerUser_Id,
           amenityID: selectAmneties,
-
-
         }
       });
       setStatusAmni('')
       setselectAmneties('')
     }
-
-
-
   };
   console.log("state.UsersList?.customerdetails?.all_amenities?", state.UsersList?.customerdetails?.all_amenities);
 
@@ -875,16 +836,10 @@ function UserList() {
   const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
   const currentRowsEb = EbFilterddata?.slice(indexOfFirstRowEb, indexOfLastRowEb);
   console.log("currentRowsEb", currentRowsEb)
-
-
-
-
   const handleEbPageChange = (EbpageNumber) => {
     setEbCurrentPage(EbpageNumber);
   };
-
   const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
-
   const renderPageNumbersEb = () => {
     const pageNumbersEb = [];
     let startPageEb = EbcurrentPage - 1;
@@ -939,7 +894,6 @@ function UserList() {
     return pageNumbersEb;
   };
 
-
   useEffect(() => {
     setEbFilterddata(state.UsersList.customerdetails.eb_data)
   }, [state.UsersList.customerdetails.eb_data])
@@ -947,15 +901,9 @@ function UserList() {
   const invoicerowsPerPage = 1;
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
-
-
-
   const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
   const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
   const currentRowinvoice = invoiceFilterddata?.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice);
-
-
-
 
   const handleInvoicePageChange = (InvoicepageNumber) => {
     setinvoicecurrentPage(InvoicepageNumber);
@@ -1023,11 +971,6 @@ function UserList() {
   const amentiesrowsPerPage = 1;
   const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
   const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
-
-
-
-
-
   const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
   const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
   const currentRowAmnities = amnitiesFilterddata?.slice(indexOfFirstRowamnities, indexOfLastRowamneties);
@@ -1183,7 +1126,7 @@ function UserList() {
   // const handleSearch = (e) => {
   //   setSearchQuery(e.target.value);
   // };
-  
+
   // const filteredReports = reports.filter(report =>
   //   report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
   // );
@@ -1192,7 +1135,7 @@ function UserList() {
     <div className=' p-2' >
 
       {userList && <>
-         {/* <div className="user ps-3 pe-3" >
+        {/* <div className="user ps-3 pe-3" >
 
           <div className="user1" >
             <h6>User List</h6>
@@ -1269,7 +1212,7 @@ function UserList() {
         </div> */}
         <div className="customer p-4" >
           <div className="cuslable">
-            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginTop: 20,fontFamily:"Gilroy" }}>Customers</label>
+            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginTop: 20, fontFamily: "Gilroy" }}>Customers</label>
           </div>
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">
@@ -1278,25 +1221,25 @@ function UserList() {
             </div>
 
             <div>
-              <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px",fontFamily:"Montserrat" }}> + Add Customer</Button>
+              <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}> + Add Customer</Button>
             </div>
           </div>
         </div>
-  
-        <div className="p-4" style={{ paddingBottom:"20px"}} >
 
-          <Table className="ebtable"  responsive  >
-            <thead style={{backgroundColor:"#E7F1FF"}}>
+        <div className="p-4" style={{ paddingBottom: "20px" }} >
+
+          <Table className="ebtable" responsive  >
+            <thead style={{ backgroundColor: "#E7F1FF" }}>
               <tr>
                 <th style={{ textAlign: "center", padding: "10px" }}>
                   <img src={squre} height={20} width={20} />
                 </th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393",fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy" }}>Name</th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393" ,fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy"}}>Email ID</th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393",fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy" }}>Phone</th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393",fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy" }}>Paying Guest</th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393" ,fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy"}}>Room</th>
-                <th style={{ textAlign: "start", padding: "10px", color: "#939393" ,fontSize: "14px", fontWeight: 600,fontFamily:"Gilroy"}}>Bed</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Name</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Email ID</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Phone</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Paying Guest</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Room</th>
+                <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Bed</th>
                 <th style={{ textAlign: "start", padding: "10px" }}></th>
               </tr>
             </thead>
@@ -1334,16 +1277,16 @@ function UserList() {
                             e.target.src = Profile; // Fallback to default image
                           }}
                         />
-                        <span  style={{fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy"}} onClick={() => handleRoomDetailsPage(user)}>
+                        <span style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }} onClick={() => handleRoomDetailsPage(user)}>
                           {user.Name}
                         </span>
                       </td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start",fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy" }}>{user.Email}</td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start",fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy" }}>{user.Phone}</td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start" ,fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy"}}>
-                        <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start" ,fontSize: "14px", fontWeight: 500,fontFamily:"Gilroy"}}>{user.HostelName}</span>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Email}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Phone}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>
+                        <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{user.HostelName}</span>
                       </td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start",fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy" }}>{user.Rooms}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Rooms}</td>
                       <td
                         className={user.Bed === 0 ? 'assign-bed' : ''}
                         onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
@@ -1353,7 +1296,7 @@ function UserList() {
                           color: user.Bed === 0 ? "blue" : "inherit",
                           textDecoration: user.Bed === 0 ? "none" : "initial",
                           textAlign: "start",
-                          fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy"
+                          fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy"
                         }}
                       >
                         {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
@@ -1376,237 +1319,117 @@ function UserList() {
           </div>
         </div>
         {currentItems.length > 0 && (
-  <nav>
-    <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-      <li style={{ margin: '0 5px' }}>
-        <button
-          style={{
-            padding: '5px 10px',
-            textDecoration: 'none',
-            color: currentPage === 1 ? '#ccc' : '#007bff',
-            cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-            borderRadius: '5px',
-            display: 'inline-block',
-            minWidth: '30px',
-            textAlign: 'center',
-            backgroundColor: 'transparent',
-            border: "none"
-          }}
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-          <ArrowLeft2 size="16" color="#1E45E1" />
-        </button>
-        <span
-          onClick={() => handlePageChange(currentPage - 1)}
-          style={{
-            marginTop: '20px',
-            cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-            color: currentPage === 1 ? '#ccc' : '#007bff'
-          }}
-        >
-          Previous
-        </span>
-      </li>
-      {currentPage > 3 && (
-        <li style={{ margin: '0 5px' }}>
-          <button
-            style={{
-              padding: '5px 10px',
-              textDecoration: 'none',
-              color: 'white',
-              cursor: 'pointer',
-              borderRadius: '5px',
-              display: 'inline-block',
-              minWidth: '30px',
-              textAlign: 'center',
-              backgroundColor: 'transparent',
-              border: "none"
-            }}
-            onClick={() => handlePageChange(1)}
-          >
-            1
-          </button>
-        </li>
-      )}
-      {currentPage > 3 && <span>...</span>}
-      {renderPageNumbers()}
-      {currentPage < totalPages - 2 && <span>...</span>}
-      {currentPage < totalPages - 2 && (
-        <li style={{ margin: '0 5px' }}>
-          <button
-            style={{
-              padding: '5px 10px',
-              textDecoration: 'none',
-              cursor: 'pointer',
-              borderRadius: '5px',
-              display: 'inline-block',
-              minWidth: '30px',
-              textAlign: 'center',
-              backgroundColor: 'transparent',
-              border: "none"
-            }}
-            onClick={() => handlePageChange(totalPages)}
-          >
-            {totalPages}
-          </button>
-        </li>
-      )}
-      <li style={{ margin: '0 5px' }}>
-        <span
-          onClick={() => handlePageChange(currentPage + 1)}
-          style={{
-            marginTop: '20px',
-            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-            color: currentPage === totalPages ? '#ccc' : '#007bff'
-          }}
-        >
-          Next
-        </span>
-        <button
-          style={{
-            padding: '5px 10px',
-            textDecoration: 'none',
-            color: currentPage === totalPages ? '#ccc' : '#007bff',
-            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-            borderRadius: '5px',
-            display: 'inline-block',
-            minWidth: '30px',
-            textAlign: 'center',
-            backgroundColor: 'transparent',
-            border: "none"
-          }}
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-          <ArrowRight2 size="16" color="#1E45E1" />
-        </button>
-      </li>
-    </ul>
-  </nav>
-)}
-
-        {/* <nav>
-          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-            <li style={{ margin: '0 5px' }}>
-              <button
-                style={{
-                  padding: '5px 10px',
-                  textDecoration: 'none',
-                  color: currentPage === 1 ? '#ccc' : '#007bff',
-                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  minWidth: '30px',
-                  textAlign: 'center',
-                  backgroundColor: 'transparent',
-                  border: "none"
-                }}
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                
-                <ArrowLeft2
- size="16"
-  color="#1E45E1"
-/>
-              </button>
-              <span
-                onClick={() => handlePageChange(currentPage - 1)}
-                style={{
-                  marginTop: '20px',
-                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                  color: currentPage === 1 ? '#ccc' : '#007bff'
-                }}
-              >
-                Previous
-              </span>
-            </li>
-            {currentPage > 3 && (
+          <nav>
+            <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
               <li style={{ margin: '0 5px' }}>
                 <button
                   style={{
                     padding: '5px 10px',
                     textDecoration: 'none',
-                    color: 'white',
-                    cursor: 'pointer',
+                    color: currentPage === 1 ? '#ccc' : '#007bff',
+                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
                     borderRadius: '5px',
                     display: 'inline-block',
                     minWidth: '30px',
                     textAlign: 'center',
                     backgroundColor: 'transparent',
                     border: "none"
-
                   }}
-                  onClick={() => handlePageChange(1)}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
                 >
-                  1
+                  {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                  <ArrowLeft2 size="16" color="#1E45E1" />
                 </button>
+                <span
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  style={{
+                    marginTop: '20px',
+                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    color: currentPage === 1 ? '#ccc' : '#007bff'
+                  }}
+                >
+                  Previous
+                </span>
               </li>
-            )}
-            {currentPage > 3 && <span>...</span>}
-            {renderPageNumbers()}
-            {currentPage < totalPages - 2 && <span>...</span>}
-            {currentPage < totalPages - 2 && (
+              {currentPage > 3 && (
+                <li style={{ margin: '0 5px' }}>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      color: 'white',
+                      cursor: 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handlePageChange(1)}
+                  >
+                    1
+                  </button>
+                </li>
+              )}
+              {currentPage > 3 && <span>...</span>}
+              {renderPageNumbers()}
+              {currentPage < totalPages - 2 && <span>...</span>}
+              {currentPage < totalPages - 2 && (
+                <li style={{ margin: '0 5px' }}>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handlePageChange(totalPages)}
+                  >
+                    {totalPages}
+                  </button>
+                </li>
+              )}
               <li style={{ margin: '0 5px' }}>
+                <span
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  style={{
+                    marginTop: '20px',
+                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    color: currentPage === totalPages ? '#ccc' : '#007bff'
+                  }}
+                >
+                  Next
+                </span>
                 <button
                   style={{
                     padding: '5px 10px',
                     textDecoration: 'none',
-
-                    cursor: 'pointer',
+                    color: currentPage === totalPages ? '#ccc' : '#007bff',
+                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
                     borderRadius: '5px',
                     display: 'inline-block',
                     minWidth: '30px',
                     textAlign: 'center',
                     backgroundColor: 'transparent',
                     border: "none"
-
                   }}
-                  onClick={() => handlePageChange(totalPages)}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
                 >
-                  {totalPages}
+                  {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                  <ArrowRight2 size="16" color="#1E45E1" />
                 </button>
               </li>
-            )}
-            <li style={{ margin: '0 5px' }}>
-              <span
-                onClick={() => handlePageChange(currentPage + 1)}
-                style={{
-                  marginTop: '20px',
-                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                  color: currentPage === totalPages ? '#ccc' : '#007bff'
-                }}
-              >
-                Next
-              </span>
-              <button
-                style={{
-                  padding: '5px 10px',
-                  textDecoration: 'none',
-                  color: currentPage === totalPages ? '#ccc' : '#007bff',
-                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                  borderRadius: '5px',
-                  display: 'inline-block',
-                  minWidth: '30px',
-                  textAlign: 'center',
-                  backgroundColor: 'transparent',
-                  border: "none"
-                }}
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-              
-                <ArrowRight2
- size="16"
-  color="#1E45E1"
-/>
-              </button>
-            </li>
-          </ul>
-        </nav> */}
+            </ul>
+          </nav>
+        )}
 
       </>}
 
@@ -1641,9 +1464,9 @@ function UserList() {
                   </div> */}
 
                   <div style={{ marginLeft: 25, paddingBottom: 20 }}>
-                     <img src={leftarrow} 
-                    onClick={handleBack} /><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15,fontFamily:"Gilroy" }}>User Profile</span> </div>
-                   <div className="card" style={{ height: 130, borderRadius: "20px" }}>
+                    <img src={leftarrow}
+                      onClick={handleBack} /><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15, fontFamily: "Gilroy" }}>User Profile</span> </div>
+                  <div className="card" style={{ height: 130, borderRadius: "20px" }}>
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <div className="d-flex align-items-center">
                         <Image
@@ -1657,32 +1480,32 @@ function UserList() {
                           }}
                         />
                         <div style={{ marginLeft: 10 }}>
-                          <span  className="card-title mb-0" style={{fontSize: "20px", fontWeight: 600,fontFamily:"Gilroy"}}>
-                             {item.Name}
+                          <span className="card-title mb-0" style={{ fontSize: "20px", fontWeight: 600, fontFamily: "Gilroy" }}>
+                            {item.Name}
                           </span>
                           <p style={{ marginTop: 10 }}>
-                            <span style={{ backgroundColor: '#FFE0D9', borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px",paddingBottom:"5px",paddingTop:"5px",fontSize: "14px", fontWeight: 500,fontFamily:"Gilroy" }}>
+                            <span style={{ backgroundColor: '#FFE0D9', borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "5px", paddingTop: "5px", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>
                               {getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}
                             </span>
 
-                            <span style={{ backgroundColor: '#FFEFCF', paddingLeft: "10px", paddingRight: "10px",paddingBottom:"5px",paddingTop:"5px", borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px", marginLeft: 10,fontSize: "14px", fontWeight: 500,fontFamily:"Gilroy" }}>
+                            <span style={{ backgroundColor: '#FFEFCF', paddingLeft: "10px", paddingRight: "10px", paddingBottom: "5px", paddingTop: "5px", borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px", marginLeft: 10, fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>
                               {getFloorName(item.Floor)}
                             </span>
                           </p>
                         </div>
                       </div>
-                      <img src={dottt} width={40} height={40} alt="More options" style={{marginBottom:"30px"}}  />
+                      <img src={dottt} width={40} height={40} alt="More options" style={{ marginBottom: "30px" }} />
                     </div>
-                  </div> 
-        
+                  </div>
+
 
                   <div className="tapppinfour" >
-                    <div className={`tab-item ${overviewshow ? 'active' : ''}`} onClick={handleoverviewShow} style={{ fontFamily: "Gilroy", fontWeight: 500, fontSize: 16,marginLeft:10 }}>OverView</div>
+                    <div className={`tab-item ${overviewshow ? 'active' : ''}`} onClick={handleoverviewShow} style={{ fontFamily: "Gilroy", fontWeight: 500, fontSize: 16, marginLeft: 10 }}>OverView</div>
 
                     <div className={`tab-item ${ebShow ? 'active' : ''}`} onClick={handleebViewShow} style={{ fontFamily: "Gilroy", fontWeight: 500, fontSize: 16 }}>EB Reading</div>
                     <div className={`tab-item ${invoiceshow ? 'active' : ''}`} onClick={handleinvoiceShow} style={{ fontFamily: "Gilroy", fontWeight: 500, fontSize: 16 }}>Invoice</div>
                     <div className={`tab-item ${amnitiesshow ? 'active' : ''}`} onClick={handleamnitiesShow} style={{ fontFamily: "Gilroy", fontWeight: 500, fontSize: 16 }}>Amnities</div>
-                    <div className={`tab-item ${transshow ? 'active' : ''}`} style={{ marginRight: "35%",fontFamily: "Gilroy", fontWeight: 500, fontSize: 16 }} onClick={handletransShow} >Transaction</div>
+                    <div className={`tab-item ${transshow ? 'active' : ''}`} style={{ marginRight: "35%", fontFamily: "Gilroy", fontWeight: 500, fontSize: 16 }} onClick={handletransShow} >Transaction</div>
 
                   </div>
 
@@ -1690,9 +1513,9 @@ function UserList() {
                     overviewshow &&
                     <div className="overdue mt-3" >
                       <div style={{ flex: 1 }}>
-                        <div class="card" style={{ borderRadius: "20px" ,paddingLeft:20,paddingTop:0 ,paddingRight:20,paddingBottom:5}}>
+                        <div class="card" style={{ borderRadius: "20px", paddingLeft: 20, paddingTop: 0, paddingRight: 20, paddingBottom: 5 }}>
                           <div class="card-header d-flex justify-content-between align-items-center " style={{ backgroundColor: "transparent" }}>
-                            <div style={{ fontSize: 16, fontWeight: 600,fontFamily:"Gilroy" }}>
+                            <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
                               Basic Information
                             </div>
                             <div>
@@ -1702,48 +1525,48 @@ function UserList() {
                           <div class="card-body">
                             <div class="row ">
                               <div class="col-sm-6">
-                                <p style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Paying Guest</p>
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Paying Guest</p>
                                 <p> <Buildings
- size="16"
-  color="#1E45E1"
-/> <span style={{ fontSize: 14, fontWeight: 600,fontFamily:"Gilroy",marginLeft:5}}>{item.HostelName}</span></p>
+                                  size="16"
+                                  color="#1E45E1"
+                                /> <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginLeft: 5 }}>{item.HostelName}</span></p>
 
-                                  {/* <img src={building} /> */}
+                                {/* <img src={building} /> */}
                               </div>
                               <div class="col-sm-6 text-right">
-                                <p style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Room/Bed</p>
-                                <p ><img src={Group} onClick={() => { handleShowAddBed(item) }}/><span onClick={() => { handleShowAddBed(item) }} style={{ marginLeft: 5 ,fontSize: 14, fontWeight: 600,fontFamily:"Gilroy"}}>{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</span></p>
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Room/Bed</p>
+                                <p ><img src={Group} onClick={() => { handleShowAddBed(item) }} /><span onClick={() => { handleShowAddBed(item) }} style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</span></p>
                               </div>
                             </div>
                             <div class="row ">
                               <div class="col-sm-6">
-                                <p style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Email</p>
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email</p>
                                 <p><Sms
- size="16"
-  color="#1E45E1"
-/>
+                                  size="16"
+                                  color="#1E45E1"
+                                />
                                   {/* <img src={sms} />  */}
-                                  <span style={{ marginLeft: 5 ,fontSize: 14, fontWeight: 600,fontFamily:"Gilroy"}}>{item.Email}</span></p>
+                                  <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{item.Email}</span></p>
                               </div>
                               <div class="col-sm-6 text-right">
-                                <p style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Mobile no.</p>
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Mobile no.</p>
                                 <p><Call
- size="16"
-  color="#1E45E1"
-/>
+                                  size="16"
+                                  color="#1E45E1"
+                                />
                                   {/* <img src={call} />  */}
-                                  <span style={{ marginLeft: 5 ,fontSize: 14, fontWeight: 600,fontFamily:"Gilroy"}}>{item.Phone}</span></p>
+                                  <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{item.Phone}</span></p>
                               </div>
                             </div>
                             <div class="row">
                               <div class="col-sm-6">
-                                <p style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Address</p>
+                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Address</p>
                                 <p><House
- size="16"
-  color="#1E45E1"
-/>
+                                  size="16"
+                                  color="#1E45E1"
+                                />
                                   {/* <img src={house} /> */}
-                                  <span style={{ marginLeft: 5 ,fontSize: 14, fontWeight: 600,fontFamily:"Gilroy"}}>{item.Address}</span> </p>
+                                  <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{item.Address}</span> </p>
                               </div>
                             </div>
                           </div>
@@ -1757,9 +1580,9 @@ function UserList() {
                             console.log("g", g)
 
                             return (
-                              <div class="card" style={{ borderRadius: "20px",paddingLeft:20,paddingTop:0 ,paddingRight:20,paddingBottom:5}}>
+                              <div class="card" style={{ borderRadius: "20px", paddingLeft: 20, paddingTop: 0, paddingRight: 20, paddingBottom: 5 }}>
                                 <div class="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
-                                  <div style={{ fontSize: 16, fontWeight: 600,fontFamily:"Gilroy" }}>
+                                  <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
                                     Detailed Information
                                   </div>
                                   <div>
@@ -1769,24 +1592,24 @@ function UserList() {
                                 <div class="card-body">
                                   <div class="row mb-3">
                                     <div class="col-sm-4">
-                                      <strong style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Advance Amount</strong>
-                                      <p style={{fontSize:14,fontWeight:600,fontFamily:"gilroy"}}><img src={Money} />   ₹{g.AdvanceAmount}</p>
+                                      <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</strong>
+                                      <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}><img src={Money} />   ₹{g.AdvanceAmount}</p>
                                     </div>
                                     <div class="col-sm-4">
-                                      <strong style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Rent Amount</strong>
-                                      <p style={{fontSize:14,fontWeight:600,fontFamily:"gilroy"}}> <img src={Money} /> ₹{g.RoomRent}/m</p>
+                                      <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Rent Amount</strong>
+                                      <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}> <img src={Money} /> ₹{g.RoomRent}/m</p>
                                     </div>
 
                                   </div>
                                   <div class="row mb-3">
                                     <div class="col-sm-12">
-                                      <strong style={{ fontSize: 12, fontWeight: 500,fontFamily:"Gilroy" }}>Amenities</strong>
+                                      <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Amenities</strong>
 
                                       <div class="d-flex flex-wrap mt-2">
                                         {
                                           g?.amentites?.length > 0 && g?.amentites.map((p) => {
                                             return (
-                                              <div key={p.Amnities_Name} style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px",fontFamily:"Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>{p.Amnities_Name}</div>
+                                              <div key={p.Amnities_Name} style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>{p.Amnities_Name}</div>
 
                                             )
                                           })
@@ -1810,19 +1633,19 @@ function UserList() {
 
                       <div>
                         <Table className="ebtable mt-3" responsive  >
-                          <thead style={{backgroundColor:"#E7F1FF"}}>
+                          <thead style={{ backgroundColor: "#E7F1FF" }}>
                             <tr >
 
-                              <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingRight: "10px",paddingTop:"10px",paddingBottom:"10px" }}>Floor</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>Room no</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>Start meter</th>
+                              <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Floor</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Room no</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Start meter</th>
 
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>End meter</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>Dated</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>Total units</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",padding: "10px" }}>Units used</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy" ,padding: "10px"}}>Amount</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy" ,padding: "10px"}}></th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>End meter</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Dated</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Total units</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Units used</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amount</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
                             </tr>
                           </thead>
                           <tbody style={{ height: "50px", fontSize: "11px" }}>
@@ -1843,7 +1666,7 @@ function UserList() {
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Room_No}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{u.start_Meter_Reading}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.end_Meter_Reading}</td>
-                                  <td> <span style={{ backgroundColor: "#EBEBEB",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
+                                  <td> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.pay_eb_amount}</td>
@@ -1866,244 +1689,244 @@ function UserList() {
                       </div>
 
                       {currentRowsEb.length > 0 && (
-//                       <nav>
-//                         <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-//                           <li style={{ margin: '0 5px' }}>
-//                             <button
-//                               style={{
-//                                 padding: '5px 10px',
-//                                 textDecoration: 'none',
-//                                 color: EbcurrentPage === 1 ? '#ccc' : '#007bff',
-//                                 cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
-//                                 borderRadius: '5px',
-//                                 display: 'inline-block',
-//                                 minWidth: '30px',
-//                                 textAlign: 'center',
-//                                 backgroundColor: 'transparent',
-//                                 border: "none"
-//                               }}
-//                               onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-//                               disabled={EbcurrentPage === 1}
-//                             >
-//                               {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-//                               <ArrowLeft2
-//  size="16"
-//   color="#1E45E1"
-// />
-//                             </button>
-//                             <span
-//                               onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-//                               style={{
-//                                 marginTop: '20px',
-//                                 cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
-//                                 color: EbcurrentPage === 1 ? '#ccc' : '#007bff'
-//                               }}
-//                             >
-//                               Previous
-//                             </span>
-//                           </li>
-//                           {EbcurrentPage > 3 && (
-//                             <li style={{ margin: '0 5px' }}>
-//                               <button
-//                                 style={{
-//                                   padding: '5px 10px',
-//                                   textDecoration: 'none',
-//                                   color: 'white',
-//                                   cursor: 'pointer',
-//                                   borderRadius: '5px',
-//                                   display: 'inline-block',
-//                                   minWidth: '30px',
-//                                   textAlign: 'center',
-//                                   backgroundColor: 'transparent',
-//                                   border: "none"
+                        //                       <nav>
+                        //                         <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                        //                           <li style={{ margin: '0 5px' }}>
+                        //                             <button
+                        //                               style={{
+                        //                                 padding: '5px 10px',
+                        //                                 textDecoration: 'none',
+                        //                                 color: EbcurrentPage === 1 ? '#ccc' : '#007bff',
+                        //                                 cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+                        //                                 borderRadius: '5px',
+                        //                                 display: 'inline-block',
+                        //                                 minWidth: '30px',
+                        //                                 textAlign: 'center',
+                        //                                 backgroundColor: 'transparent',
+                        //                                 border: "none"
+                        //                               }}
+                        //                               onClick={() => handleEbPageChange(EbcurrentPage - 1)}
+                        //                               disabled={EbcurrentPage === 1}
+                        //                             >
+                        //                               {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                        //                               <ArrowLeft2
+                        //  size="16"
+                        //   color="#1E45E1"
+                        // />
+                        //                             </button>
+                        //                             <span
+                        //                               onClick={() => handleEbPageChange(EbcurrentPage - 1)}
+                        //                               style={{
+                        //                                 marginTop: '20px',
+                        //                                 cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+                        //                                 color: EbcurrentPage === 1 ? '#ccc' : '#007bff'
+                        //                               }}
+                        //                             >
+                        //                               Previous
+                        //                             </span>
+                        //                           </li>
+                        //                           {EbcurrentPage > 3 && (
+                        //                             <li style={{ margin: '0 5px' }}>
+                        //                               <button
+                        //                                 style={{
+                        //                                   padding: '5px 10px',
+                        //                                   textDecoration: 'none',
+                        //                                   color: 'white',
+                        //                                   cursor: 'pointer',
+                        //                                   borderRadius: '5px',
+                        //                                   display: 'inline-block',
+                        //                                   minWidth: '30px',
+                        //                                   textAlign: 'center',
+                        //                                   backgroundColor: 'transparent',
+                        //                                   border: "none"
 
-//                                 }}
-//                                 onClick={() => handleEbPageChange(1)}
-//                               >
-//                                 1
-//                               </button>
-//                             </li>
-//                           )}
-//                           {EbcurrentPage > 3 && <span>...</span>}
-//                           {renderPageNumbersEb()}
-//                           {EbcurrentPage < totalPagesEb - 2 && <span>...</span>}
-//                           {EbcurrentPage < totalPagesEb - 2 && (
-//                             <li style={{ margin: '0 5px' }}>
-//                               <button
-//                                 style={{
-//                                   padding: '5px 10px',
-//                                   textDecoration: 'none',
+                        //                                 }}
+                        //                                 onClick={() => handleEbPageChange(1)}
+                        //                               >
+                        //                                 1
+                        //                               </button>
+                        //                             </li>
+                        //                           )}
+                        //                           {EbcurrentPage > 3 && <span>...</span>}
+                        //                           {renderPageNumbersEb()}
+                        //                           {EbcurrentPage < totalPagesEb - 2 && <span>...</span>}
+                        //                           {EbcurrentPage < totalPagesEb - 2 && (
+                        //                             <li style={{ margin: '0 5px' }}>
+                        //                               <button
+                        //                                 style={{
+                        //                                   padding: '5px 10px',
+                        //                                   textDecoration: 'none',
 
-//                                   cursor: 'pointer',
-//                                   borderRadius: '5px',
-//                                   display: 'inline-block',
-//                                   minWidth: '30px',
-//                                   textAlign: 'center',
-//                                   backgroundColor: 'transparent',
-//                                   border: "none"
+                        //                                   cursor: 'pointer',
+                        //                                   borderRadius: '5px',
+                        //                                   display: 'inline-block',
+                        //                                   minWidth: '30px',
+                        //                                   textAlign: 'center',
+                        //                                   backgroundColor: 'transparent',
+                        //                                   border: "none"
 
-//                                 }}
-//                                 onClick={() => handleEbPageChange(totalPagesEb)}
-//                               >
-//                                 {totalPagesEb}
-//                               </button>
-//                             </li>
-//                           )}
-//                           <li style={{ margin: '0 5px' }}>
-//                             <span
-//                               onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-//                               style={{
-//                                 marginTop: '20px',
-//                                 cursor: EbcurrentPage === totalPagesEb ? 'not-allowed' : 'pointer',
-//                                 color: EbcurrentPage === totalPagesEb ? '#ccc' : '#007bff'
-//                               }}
-//                             >
-//                               Next
-//                             </span>
-//                             <button
-//                               style={{
-//                                 padding: '5px 10px',
-//                                 textDecoration: 'none',
-//                                 color: EbcurrentPage === EbcurrentPage ? '#ccc' : '#007bff',
-//                                 cursor: EbcurrentPage === EbcurrentPage ? 'not-allowed' : 'pointer',
-//                                 borderRadius: '5px',
-//                                 display: 'inline-block',
-//                                 minWidth: '30px',
-//                                 textAlign: 'center',
-//                                 backgroundColor: 'transparent',
-//                                 border: "none"
-//                               }}
-//                               onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-//                               disabled={EbcurrentPage === totalPagesEb}
-//                             >
-//                               {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-//                               <ArrowRight2
-//  size="16"
-//   color="#1E45E1"
-// />
-//                             </button>
-//                           </li>
-//                         </ul>
-//                       </nav>
-<nav>
-                      <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-                        <li style={{ margin: '0 5px' }}>
-                          <button
-                            style={{
-                              padding: '5px 10px',
-                              textDecoration: 'none',
-                              color: EbcurrentPage === 1 ? '#ccc' : '#007bff',
-                              cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
-                              borderRadius: '5px',
-                              display: 'inline-block',
-                              minWidth: '30px',
-                              textAlign: 'center',
-                              backgroundColor: 'transparent',
-                              border: "none"
-                            }}
-                            onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-                            disabled={EbcurrentPage === 1}
-                          >
-                            {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-                            <ArrowLeft2
- size="16"
-  color="#1E45E1"
-/>
-                          </button>
-                          <span
-                            onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-                            style={{
-                              marginTop: '20px',
-                              cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
-                              color: EbcurrentPage === 1 ? '#ccc' : '#007bff'
-                            }}
-                          >
-                            Previous
-                          </span>
-                        </li>
-                        {EbcurrentPage > 3 && (
-                          <li style={{ margin: '0 5px' }}>
-                            <button
-                              style={{
-                                padding: '5px 10px',
-                                textDecoration: 'none',
-                                color: 'white',
-                                cursor: 'pointer',
-                                borderRadius: '5px',
-                                display: 'inline-block',
-                                minWidth: '30px',
-                                textAlign: 'center',
-                                backgroundColor: 'transparent',
-                                border: "none"
+                        //                                 }}
+                        //                                 onClick={() => handleEbPageChange(totalPagesEb)}
+                        //                               >
+                        //                                 {totalPagesEb}
+                        //                               </button>
+                        //                             </li>
+                        //                           )}
+                        //                           <li style={{ margin: '0 5px' }}>
+                        //                             <span
+                        //                               onClick={() => handleEbPageChange(EbcurrentPage + 1)}
+                        //                               style={{
+                        //                                 marginTop: '20px',
+                        //                                 cursor: EbcurrentPage === totalPagesEb ? 'not-allowed' : 'pointer',
+                        //                                 color: EbcurrentPage === totalPagesEb ? '#ccc' : '#007bff'
+                        //                               }}
+                        //                             >
+                        //                               Next
+                        //                             </span>
+                        //                             <button
+                        //                               style={{
+                        //                                 padding: '5px 10px',
+                        //                                 textDecoration: 'none',
+                        //                                 color: EbcurrentPage === EbcurrentPage ? '#ccc' : '#007bff',
+                        //                                 cursor: EbcurrentPage === EbcurrentPage ? 'not-allowed' : 'pointer',
+                        //                                 borderRadius: '5px',
+                        //                                 display: 'inline-block',
+                        //                                 minWidth: '30px',
+                        //                                 textAlign: 'center',
+                        //                                 backgroundColor: 'transparent',
+                        //                                 border: "none"
+                        //                               }}
+                        //                               onClick={() => handleEbPageChange(EbcurrentPage + 1)}
+                        //                               disabled={EbcurrentPage === totalPagesEb}
+                        //                             >
+                        //                               {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                        //                               <ArrowRight2
+                        //  size="16"
+                        //   color="#1E45E1"
+                        // />
+                        //                             </button>
+                        //                           </li>
+                        //                         </ul>
+                        //                       </nav>
+                        <nav>
+                          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                            <li style={{ margin: '0 5px' }}>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: EbcurrentPage === 1 ? '#ccc' : '#007bff',
+                                  cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+                                }}
+                                onClick={() => handleEbPageChange(EbcurrentPage - 1)}
+                                disabled={EbcurrentPage === 1}
+                              >
+                                {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                                <ArrowLeft2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                              </button>
+                              <span
+                                onClick={() => handleEbPageChange(EbcurrentPage - 1)}
+                                style={{
+                                  marginTop: '20px',
+                                  cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                  color: EbcurrentPage === 1 ? '#ccc' : '#007bff'
+                                }}
+                              >
+                                Previous
+                              </span>
+                            </li>
+                            {EbcurrentPage > 3 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
 
-                              }}
-                              onClick={() => handleEbPageChange(1)}
-                            >
-                              1
-                            </button>
-                          </li>
-                        )}
-                        {EbcurrentPage > 3 && <span>...</span>}
-                        {renderPageNumbersEb()}
-                        {EbcurrentPage < totalPagesEb - 2 && <span>...</span>}
-                        {EbcurrentPage < totalPagesEb - 2 && (
-                          <li style={{ margin: '0 5px' }}>
-                            <button
-                              style={{
-                                padding: '5px 10px',
-                                textDecoration: 'none',
+                                  }}
+                                  onClick={() => handleEbPageChange(1)}
+                                >
+                                  1
+                                </button>
+                              </li>
+                            )}
+                            {EbcurrentPage > 3 && <span>...</span>}
+                            {renderPageNumbersEb()}
+                            {EbcurrentPage < totalPagesEb - 2 && <span>...</span>}
+                            {EbcurrentPage < totalPagesEb - 2 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
 
-                                cursor: 'pointer',
-                                borderRadius: '5px',
-                                display: 'inline-block',
-                                minWidth: '30px',
-                                textAlign: 'center',
-                                backgroundColor: 'transparent',
-                                border: "none"
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
 
-                              }}
-                              onClick={() => handleEbPageChange(totalPagesEb)}
-                            >
-                              {totalPagesEb}
-                            </button>
-                          </li>
-                        )}
-                        <li style={{ margin: '0 5px' }}>
-                          <span
-                            onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-                            style={{
-                              marginTop: '20px',
-                              cursor: EbcurrentPage === totalPagesEb ? 'not-allowed' : 'pointer',
-                              color: EbcurrentPage === totalPagesEb ? '#ccc' : '#007bff'
-                            }}
-                          >
-                            Next
-                          </span>
-                          <button
-                            style={{
-                              padding: '5px 10px',
-                              textDecoration: 'none',
-                              color: EbcurrentPage === EbcurrentPage ? '#ccc' : '#007bff',
-                              cursor: EbcurrentPage === EbcurrentPage ? 'not-allowed' : 'pointer',
-                              borderRadius: '5px',
-                              display: 'inline-block',
-                              minWidth: '30px',
-                              textAlign: 'center',
-                              backgroundColor: 'transparent',
-                              border: "none"
-                            }}
-                            onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-                            disabled={EbcurrentPage === totalPagesEb}
-                          >
-                            {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-                            <ArrowRight2
- size="16"
-  color="#1E45E1"
-/>
-                          </button>
-                        </li>
-                      </ul>
-</nav>
+                                  }}
+                                  onClick={() => handleEbPageChange(totalPagesEb)}
+                                >
+                                  {totalPagesEb}
+                                </button>
+                              </li>
+                            )}
+                            <li style={{ margin: '0 5px' }}>
+                              <span
+                                onClick={() => handleEbPageChange(EbcurrentPage + 1)}
+                                style={{
+                                  marginTop: '20px',
+                                  cursor: EbcurrentPage === totalPagesEb ? 'not-allowed' : 'pointer',
+                                  color: EbcurrentPage === totalPagesEb ? '#ccc' : '#007bff'
+                                }}
+                              >
+                                Next
+                              </span>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: EbcurrentPage === EbcurrentPage ? '#ccc' : '#007bff',
+                                  cursor: EbcurrentPage === EbcurrentPage ? 'not-allowed' : 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+                                }}
+                                onClick={() => handleEbPageChange(EbcurrentPage + 1)}
+                                disabled={EbcurrentPage === totalPagesEb}
+                              >
+                                {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                                <ArrowRight2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                              </button>
+                            </li>
+                          </ul>
+                        </nav>
                       )}
                     </div>
                   }
@@ -2114,16 +1937,16 @@ function UserList() {
                       <div>
 
                         <Table className="ebtable mt-3" responsive >
-                          <thead style={{ color: "gray", fontSize: "11px", marginLeft: 10,backgroundColor:"#E7F1FF" }}>
+                          <thead style={{ color: "gray", fontSize: "11px", marginLeft: 10, backgroundColor: "#E7F1FF" }}>
                             <tr className="" style={{ height: "30px" }}>
-                              <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Invoice number</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Created</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Due Date</th>
+                              <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Invoice number</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Created</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Due Date</th>
 
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Amount</th>
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy" ,paddingTop:"10px",paddingBottom:"10px"}}>Due</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amount</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Due</th>
 
-                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Status</th>
+                              <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Status</th>
                               <th></th>
                             </tr>
                           </thead>
@@ -2154,14 +1977,14 @@ function UserList() {
                                 <tr key={view.id}>
                                   <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{view.Invoices}</td>
 
-                                  <td ><span style={{ backgroundColor: "#EBEBEB",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
-                                  <td ><span style={{ backgroundColor: "#EBEBEB",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{DueformattedDate}</span></td>
+                                  <td ><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
+                                  <td ><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{DueformattedDate}</span></td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{view.Amount}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{view.BalanceDue}</td>
                                   <td><span style={{
                                     color: "black",
                                     backgroundColor: view.Status === 'Success' ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
-                                     paddingLeft: "10px", paddingRight: "10px",
+                                    paddingLeft: "10px", paddingRight: "10px",
                                     fontSize: "14px",
                                     fontWeight: 500,
                                     borderRadius: "10px"
@@ -2185,124 +2008,124 @@ function UserList() {
                       </div>
 
                       {currentRowinvoice.length > 0 && (
-                      <nav>
-                        <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-                          <li style={{ margin: '0 5px' }}>
-                            <button
-                              style={{
-                                padding: '5px 10px',
-                                textDecoration: 'none',
-                                color: invoicecurrentPage === 1 ? '#ccc' : '#007bff',
-                                cursor: invoicecurrentPage === 1 ? 'not-allowed' : 'pointer',
-                                borderRadius: '5px',
-                                display: 'inline-block',
-                                minWidth: '30px',
-                                textAlign: 'center',
-                                backgroundColor: 'transparent',
-                                border: "none"
-                              }}
-                              onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
-                              disabled={invoicecurrentPage === 1}
-                            >                                <ArrowLeft2
- size="16"
-  color="#1E45E1"
-/>
-                              {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-                            </button>
-                            <span
-                              onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
-                              style={{
-                                marginTop: '20px',
-                                cursor: invoicecurrentPage === 1 ? 'not-allowed' : 'pointer',
-                                color: invoicecurrentPage === 1 ? '#ccc' : '#007bff'
-                              }}
-                            >
-                              Previous
-                            </span>
-                          </li>
-                          {invoicecurrentPage > 3 && (
+                        <nav>
+                          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
                             <li style={{ margin: '0 5px' }}>
                               <button
                                 style={{
                                   padding: '5px 10px',
                                   textDecoration: 'none',
-                                  color: 'white',
-                                  cursor: 'pointer',
+                                  color: invoicecurrentPage === 1 ? '#ccc' : '#007bff',
+                                  cursor: invoicecurrentPage === 1 ? 'not-allowed' : 'pointer',
                                   borderRadius: '5px',
                                   display: 'inline-block',
                                   minWidth: '30px',
                                   textAlign: 'center',
                                   backgroundColor: 'transparent',
                                   border: "none"
-
                                 }}
-                                onClick={() => handleInvoicePageChange(1)}
-                              >
-                                1
+                                onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
+                                disabled={invoicecurrentPage === 1}
+                              >                                <ArrowLeft2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                                {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
                               </button>
+                              <span
+                                onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
+                                style={{
+                                  marginTop: '20px',
+                                  cursor: invoicecurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                  color: invoicecurrentPage === 1 ? '#ccc' : '#007bff'
+                                }}
+                              >
+                                Previous
+                              </span>
                             </li>
-                          )}
-                          {invoicecurrentPage > 3 && <span>...</span>}
-                          {renderPageNumbersInvoice()}
-                          {invoicecurrentPage < totalPagesinvoice - 2 && <span>...</span>}
-                          {invoicecurrentPage < totalPagesinvoice - 2 && (
+                            {invoicecurrentPage > 3 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
+
+                                  }}
+                                  onClick={() => handleInvoicePageChange(1)}
+                                >
+                                  1
+                                </button>
+                              </li>
+                            )}
+                            {invoicecurrentPage > 3 && <span>...</span>}
+                            {renderPageNumbersInvoice()}
+                            {invoicecurrentPage < totalPagesinvoice - 2 && <span>...</span>}
+                            {invoicecurrentPage < totalPagesinvoice - 2 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
+
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
+
+                                  }}
+                                  onClick={() => handleInvoicePageChange(totalPagesinvoice)}
+                                >
+                                  {totalPagesinvoice}
+                                </button>
+                              </li>
+                            )}
                             <li style={{ margin: '0 5px' }}>
+                              <span
+                                onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
+                                style={{
+                                  marginTop: '20px',
+                                  cursor: invoicecurrentPage === totalPagesinvoice ? 'not-allowed' : 'pointer',
+                                  color: invoicecurrentPage === totalPagesinvoice ? '#ccc' : '#007bff'
+                                }}
+                              >
+                                Next
+                              </span>
                               <button
                                 style={{
                                   padding: '5px 10px',
                                   textDecoration: 'none',
-
-                                  cursor: 'pointer',
+                                  color: invoicecurrentPage === invoicecurrentPage ? '#ccc' : '#007bff',
+                                  cursor: invoicecurrentPage === invoicecurrentPage ? 'not-allowed' : 'pointer',
                                   borderRadius: '5px',
                                   display: 'inline-block',
                                   minWidth: '30px',
                                   textAlign: 'center',
                                   backgroundColor: 'transparent',
                                   border: "none"
-
                                 }}
-                                onClick={() => handleInvoicePageChange(totalPagesinvoice)}
+                                onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
+                                disabled={invoicecurrentPage === totalPagesinvoice}
                               >
-                                {totalPagesinvoice}
+                                {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                                <ArrowRight2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
                               </button>
                             </li>
-                          )}
-                          <li style={{ margin: '0 5px' }}>
-                            <span
-                              onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
-                              style={{
-                                marginTop: '20px',
-                                cursor: invoicecurrentPage === totalPagesinvoice ? 'not-allowed' : 'pointer',
-                                color: invoicecurrentPage === totalPagesinvoice ? '#ccc' : '#007bff'
-                              }}
-                            >
-                              Next
-                            </span>
-                            <button
-                              style={{
-                                padding: '5px 10px',
-                                textDecoration: 'none',
-                                color: invoicecurrentPage === invoicecurrentPage ? '#ccc' : '#007bff',
-                                cursor: invoicecurrentPage === invoicecurrentPage ? 'not-allowed' : 'pointer',
-                                borderRadius: '5px',
-                                display: 'inline-block',
-                                minWidth: '30px',
-                                textAlign: 'center',
-                                backgroundColor: 'transparent',
-                                border: "none"
-                              }}
-                              onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
-                              disabled={invoicecurrentPage === totalPagesinvoice}
-                            >
-                              {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-                              <ArrowRight2
- size="16"
-  color="#1E45E1"
-/>
-                            </button>
-                          </li>
-                        </ul>
-                      </nav>
+                          </ul>
+                        </nav>
                       )}
                     </>
 
@@ -2330,7 +2153,7 @@ function UserList() {
                           value={selectAmneties}
                           onChange={(e) => handleselect(e)}
                         >
-                          <option style={{fontSize:16,fontWeight:500,fontFamily:"Gilroy"}}>Select an amenity</option>
+                          <option style={{ fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>Select an amenity</option>
                           {state.UsersList?.customerdetails?.all_amenities?.map((item) => (
                             <option key={item.Amnities_Id} value={item.Amnities_Id}>
                               {item.Amnities_Name}
@@ -2437,7 +2260,7 @@ function UserList() {
                           [...new Map(state.UsersList.amnetieshistory.map(item => [item['Amnities_Name'], item])).values()].map((v) => {
                             return (
                               <div style={{ marginTop: 20 }} key={v.Amnities_Name}>
-                                <span className="btn btn-sm rounded-pill" style={{ backgroundColor: "#D9E9FF", margin: 10 ,fontFamily:"Gilroy",fontWeight:500,fontSize:14}}>
+                                <span className="btn btn-sm rounded-pill" style={{ backgroundColor: "#D9E9FF", margin: 10, fontFamily: "Gilroy", fontWeight: 500, fontSize: 14 }}>
                                   {v.Amnities_Name} - ₹{v.Amount}/m
                                   <img
                                     src={cross}
@@ -2454,13 +2277,13 @@ function UserList() {
                         }
                       </div>
                       <Table className="ebtable" responsive style={{ marginTop: 30, }}>
-                        <thead style={{backgroundColor:"#E7F1FF"}} >
+                        <thead style={{ backgroundColor: "#E7F1FF" }} >
                           <tr>
-                            <th scope="col" style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Amenities</th>
-                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Date</th>
-                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Subscription</th>
-                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Amount</th>
-                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Status</th>
+                            <th scope="col" style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amenities</th>
+                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Date</th>
+                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Subscription</th>
+                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amount</th>
+                            <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Status</th>
                             <th scope="col"></th>
                           </tr>
                         </thead>
@@ -2480,14 +2303,14 @@ function UserList() {
                             return (
                               <tr key={v.amenity_Id}>
                                 <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{v.Amnities_Name}</td>
-                                <td><span style={{ backgroundColor: "#EBEBEB", padding: "3px 3px 3px 3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0",fontSize:14,fontWeight:500,fontFamily:"Gilroy" }}>{formattedDate}</span></td>
+                                <td><span style={{ backgroundColor: "#EBEBEB", padding: "3px 3px 3px 3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>Monthly</td>
                                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{v.Amount}</td>
                                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
                                   <span style={{
                                     color: "black",
                                     backgroundColor: v.status === 1 ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
-                                     paddingTop: "2px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "2px",
+                                    paddingTop: "2px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "2px",
                                     borderRadius: "5px"
                                   }}>
                                     {v.status == 1 ? 'Active' : 'Inactive'}
@@ -2507,127 +2330,127 @@ function UserList() {
                         </tbody>
                       </Table>
                       {currentRowAmnities.length > 0 && (
-                      <nav>
-                      <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-                        <li style={{ margin: '0 5px' }}>
-                          <button
-                            style={{
-                              padding: '5px 10px',
-                              textDecoration: 'none',
-                              color: amnitiescurrentPage === 1 ? '#ccc' : '#007bff',
-                              cursor: amnitiescurrentPage === 1 ? 'not-allowed' : 'pointer',
-                              borderRadius: '5px',
-                              display: 'inline-block',
-                              minWidth: '30px',
-                              textAlign: 'center',
-                              backgroundColor: 'transparent',
-                              border: "none"
-                            }}
-                            onClick={() => handleAmnitiesPageChange(amnitiescurrentPage - 1)}
-                            disabled={amnitiescurrentPage === 1}
-                          >
-                            {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-                            <ArrowLeft2
- size="16"
-  color="#1E45E1"
-/>
-                          </button>
-                          <span
-                            onClick={() => handleAmnitiesPageChange(amnitiescurrentPage - 1)}
-                            style={{
-                              marginTop: '20px',
-                              cursor: amnitiescurrentPage === 1 ? 'not-allowed' : 'pointer',
-                              color: amnitiescurrentPage === 1 ? '#ccc' : '#007bff'
-                            }}
-                          >
-                            Previous
-                          </span>
-                        </li>
-                        {amnitiescurrentPage > 3 && (
-                          <li style={{ margin: '0 5px' }}>
-                            <button
-                              style={{
-                                padding: '5px 10px',
-                                textDecoration: 'none',
-                                color: 'white',
-                                cursor: 'pointer',
-                                borderRadius: '5px',
-                                display: 'inline-block',
-                                minWidth: '30px',
-                                textAlign: 'center',
-                                backgroundColor: 'transparent',
-                                border: "none"
+                        <nav>
+                          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                            <li style={{ margin: '0 5px' }}>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: amnitiescurrentPage === 1 ? '#ccc' : '#007bff',
+                                  cursor: amnitiescurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+                                }}
+                                onClick={() => handleAmnitiesPageChange(amnitiescurrentPage - 1)}
+                                disabled={amnitiescurrentPage === 1}
+                              >
+                                {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                                <ArrowLeft2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                              </button>
+                              <span
+                                onClick={() => handleAmnitiesPageChange(amnitiescurrentPage - 1)}
+                                style={{
+                                  marginTop: '20px',
+                                  cursor: amnitiescurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                  color: amnitiescurrentPage === 1 ? '#ccc' : '#007bff'
+                                }}
+                              >
+                                Previous
+                              </span>
+                            </li>
+                            {amnitiescurrentPage > 3 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
 
-                              }}
-                              onClick={() => handleAmnitiesPageChange(1)}
-                            >
-                              1
-                            </button>
-                          </li>
-                        )}
-                        {amnitiescurrentPage > 3 && <span>...</span>}
-                        {renderPageNumbersAmnities()}
-                        {amnitiescurrentPage < totalPagesAmnities - 2 && <span>...</span>}
-                        {amnitiescurrentPage < totalPagesAmnities - 2 && (
-                          <li style={{ margin: '0 5px' }}>
-                            <button
-                              style={{
-                                padding: '5px 10px',
-                                textDecoration: 'none',
+                                  }}
+                                  onClick={() => handleAmnitiesPageChange(1)}
+                                >
+                                  1
+                                </button>
+                              </li>
+                            )}
+                            {amnitiescurrentPage > 3 && <span>...</span>}
+                            {renderPageNumbersAmnities()}
+                            {amnitiescurrentPage < totalPagesAmnities - 2 && <span>...</span>}
+                            {amnitiescurrentPage < totalPagesAmnities - 2 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
 
-                                cursor: 'pointer',
-                                borderRadius: '5px',
-                                display: 'inline-block',
-                                minWidth: '30px',
-                                textAlign: 'center',
-                                backgroundColor: 'transparent',
-                                border: "none"
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
 
-                              }}
-                              onClick={() => handleAmnitiesPageChange(totalPagesAmnities)}
-                            >
-                              {totalPagesAmnities}
-                            </button>
-                          </li>
-                        )}
-                        <li style={{ margin: '0 5px' }}>
-                          <span
-                            onClick={() => handleAmnitiesPageChange(amnitiescurrentPage + 1)}
-                            style={{
-                              marginTop: '20px',
-                              cursor: amnitiescurrentPage === totalPagesAmnities ? 'not-allowed' : 'pointer',
-                              color: amnitiescurrentPage === totalPagesAmnities ? '#ccc' : '#007bff'
-                            }}
-                          >
-                            Next
-                          </span>
-                          <button
-                            style={{
-                              padding: '5px 10px',
-                              textDecoration: 'none',
-                              color: amnitiescurrentPage === amnitiescurrentPage ? '#ccc' : '#007bff',
-                              cursor: amnitiescurrentPage === amnitiescurrentPage ? 'not-allowed' : 'pointer',
-                              borderRadius: '5px',
-                              display: 'inline-block',
-                              minWidth: '30px',
-                              textAlign: 'center',
-                              backgroundColor: 'transparent',
-                              border: "none"
-                            }}
-                            onClick={() => handleAmnitiesPageChange(amnitiescurrentPage + 1)}
-                            disabled={amnitiescurrentPage === totalPagesAmnities}
-                          >
-                            {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-                            <ArrowRight2
- size="16"
-  color="#1E45E1"
-/>
-                          </button>
-                        </li>
-                      </ul>
-                      </nav>
+                                  }}
+                                  onClick={() => handleAmnitiesPageChange(totalPagesAmnities)}
+                                >
+                                  {totalPagesAmnities}
+                                </button>
+                              </li>
+                            )}
+                            <li style={{ margin: '0 5px' }}>
+                              <span
+                                onClick={() => handleAmnitiesPageChange(amnitiescurrentPage + 1)}
+                                style={{
+                                  marginTop: '20px',
+                                  cursor: amnitiescurrentPage === totalPagesAmnities ? 'not-allowed' : 'pointer',
+                                  color: amnitiescurrentPage === totalPagesAmnities ? '#ccc' : '#007bff'
+                                }}
+                              >
+                                Next
+                              </span>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: amnitiescurrentPage === amnitiescurrentPage ? '#ccc' : '#007bff',
+                                  cursor: amnitiescurrentPage === amnitiescurrentPage ? 'not-allowed' : 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+                                }}
+                                onClick={() => handleAmnitiesPageChange(amnitiescurrentPage + 1)}
+                                disabled={amnitiescurrentPage === totalPagesAmnities}
+                              >
+                                {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                                <ArrowRight2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                              </button>
+                            </li>
+                          </ul>
+                        </nav>
 
-                          )}
+                      )}
 
 
                     </div>
@@ -2639,15 +2462,15 @@ function UserList() {
 
                     <div>
                       <Table className="ebtable mt-3" responsive >
-                        <thead style={{ color: "gray", fontSize: "11px",backgroundColor:"#E7F1FF" }}>
+                        <thead style={{ color: "gray", fontSize: "11px", backgroundColor: "#E7F1FF" }}>
                           <tr className="" style={{ height: "30px" }}>
 
-                            <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Transaction ID</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>category</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Date</th>
+                            <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Transaction ID</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>category</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Date</th>
 
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy" ,paddingTop:"10px",paddingBottom:"10px"}}>Amount</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy",paddingTop:"10px",paddingBottom:"10px" }}>Made of pyment</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amount</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Made of pyment</th>
                             <th ></th>
 
                           </tr>
@@ -2667,11 +2490,11 @@ function UserList() {
                               <tr key={v.id}>
 
                                 <td style={{ paddingLeft: "40px", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.user_id}</td>
-                                <td ><span style={{ backgroundColor: "#FFEFCF",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.type}</span></td>
-                                <td><span style={{ backgroundColor: "#EBEBEB",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
+                                <td ><span style={{ backgroundColor: "#FFEFCF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.type}</span></td>
+                                <td><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                                 {/* <td>₹{view.BalanceDue}</td> */}
                                 <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>₹{v.amount}</td>
-                                <td><span style={{ backgroundColor: "#D9E9FF",  paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>Cash</span></td>
+                                <td><span style={{ backgroundColor: "#D9E9FF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>Cash</span></td>
                                 <td> <img src={dottt} style={{ height: 40, width: 40 }} /></td>
 
 
@@ -2690,125 +2513,125 @@ function UserList() {
 
 
                       {currentRowTransaction.length > 0 && (
-<nav>
-                      <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-                        <li style={{ margin: '0 5px' }}>
-                          <button
-                            style={{
-                              padding: '5px 10px',
-                              textDecoration: 'none',
-                              color: transactioncurrentPage === 1 ? '#ccc' : '#007bff',
-                              cursor: transactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
-                              borderRadius: '5px',
-                              display: 'inline-block',
-                              minWidth: '30px',
-                              textAlign: 'center',
-                              backgroundColor: 'transparent',
-                              border: "none"
-                            }}
-                            onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
-                            disabled={transactioncurrentPage === 1}
-                          >
-                            {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-                            <ArrowLeft2
- size="16"
-  color="#1E45E1"
-/>
-                          </button>
-                          <span
-                            onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
-                            style={{
-                              marginTop: '20px',
-                              cursor: transactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
-                              color: transactioncurrentPage === 1 ? '#ccc' : '#007bff'
-                            }}
-                          >
-                            Previous
-                          </span>
-                        </li>
-                        {transactioncurrentPage > 3 && (
-                          <li style={{ margin: '0 5px' }}>
-                            <button
-                              style={{
-                                padding: '5px 10px',
-                                textDecoration: 'none',
-                                color: 'white',
-                                cursor: 'pointer',
-                                borderRadius: '5px',
-                                display: 'inline-block',
-                                minWidth: '30px',
-                                textAlign: 'center',
-                                backgroundColor: 'transparent',
-                                border: "none"
+                        <nav>
+                          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                            <li style={{ margin: '0 5px' }}>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: transactioncurrentPage === 1 ? '#ccc' : '#007bff',
+                                  cursor: transactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+                                }}
+                                onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
+                                disabled={transactioncurrentPage === 1}
+                              >
+                                {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                                <ArrowLeft2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                              </button>
+                              <span
+                                onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
+                                style={{
+                                  marginTop: '20px',
+                                  cursor: transactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                  color: transactioncurrentPage === 1 ? '#ccc' : '#007bff'
+                                }}
+                              >
+                                Previous
+                              </span>
+                            </li>
+                            {transactioncurrentPage > 3 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
 
-                              }}
-                              onClick={() => handleTransactionPageChange(1)}
-                            >
-                              1
-                            </button>
-                          </li>
-                        )}
-                        {transactioncurrentPage > 3 && <span>...</span>}
-                        {renderPageNumbersTransaction()}
-                        {transactioncurrentPage < totalPagesTransaction - 2 && <span>...</span>}
-                        {transactioncurrentPage < totalPagesTransaction - 2 && (
-                          <li style={{ margin: '0 5px' }}>
-                            <button
-                              style={{
-                                padding: '5px 10px',
-                                textDecoration: 'none',
+                                  }}
+                                  onClick={() => handleTransactionPageChange(1)}
+                                >
+                                  1
+                                </button>
+                              </li>
+                            )}
+                            {transactioncurrentPage > 3 && <span>...</span>}
+                            {renderPageNumbersTransaction()}
+                            {transactioncurrentPage < totalPagesTransaction - 2 && <span>...</span>}
+                            {transactioncurrentPage < totalPagesTransaction - 2 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
 
-                                cursor: 'pointer',
-                                borderRadius: '5px',
-                                display: 'inline-block',
-                                minWidth: '30px',
-                                textAlign: 'center',
-                                backgroundColor: 'transparent',
-                                border: "none"
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
 
-                              }}
-                              onClick={() => handleTransactionPageChange(totalPagesTransaction)}
-                            >
-                              {totalPagesTransaction}
-                            </button>
-                          </li>
-                        )}
-                        <li style={{ margin: '0 5px' }}>
-                          <span
-                            onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
-                            style={{
-                              marginTop: '20px',
-                              cursor: transactioncurrentPage === totalPagesTransaction ? 'not-allowed' : 'pointer',
-                              color: transactioncurrentPage === totalPagesTransaction ? '#ccc' : '#007bff'
-                            }}
-                          >
-                            Next
-                          </span>
-                          <button
-                            style={{
-                              padding: '5px 10px',
-                              textDecoration: 'none',
-                              color: transactioncurrentPage === transactioncurrentPage ? '#ccc' : '#007bff',
-                              cursor: transactioncurrentPage === transactioncurrentPage ? 'not-allowed' : 'pointer',
-                              borderRadius: '5px',
-                              display: 'inline-block',
-                              minWidth: '30px',
-                              textAlign: 'center',
-                              backgroundColor: 'transparent',
-                              border: "none"
-                            }}
-                            onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
-                            disabled={transactioncurrentPage === totalPagesTransaction}
-                          >
-                            {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-                            <ArrowRight2
- size="16"
-  color="#1E45E1"
-/>
-                          </button>
-                        </li>
-                      </ul>
-</nav>
+                                  }}
+                                  onClick={() => handleTransactionPageChange(totalPagesTransaction)}
+                                >
+                                  {totalPagesTransaction}
+                                </button>
+                              </li>
+                            )}
+                            <li style={{ margin: '0 5px' }}>
+                              <span
+                                onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
+                                style={{
+                                  marginTop: '20px',
+                                  cursor: transactioncurrentPage === totalPagesTransaction ? 'not-allowed' : 'pointer',
+                                  color: transactioncurrentPage === totalPagesTransaction ? '#ccc' : '#007bff'
+                                }}
+                              >
+                                Next
+                              </span>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: transactioncurrentPage === transactioncurrentPage ? '#ccc' : '#007bff',
+                                  cursor: transactioncurrentPage === transactioncurrentPage ? 'not-allowed' : 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+                                }}
+                                onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
+                                disabled={transactioncurrentPage === totalPagesTransaction}
+                              >
+                                {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                                <ArrowRight2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                              </button>
+                            </li>
+                          </ul>
+                        </nav>
                       )}
                     </div>
 
