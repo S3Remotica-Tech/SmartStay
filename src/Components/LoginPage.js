@@ -224,7 +224,7 @@ const MyComponent = () => {
                     onChange={(e) => handleCheckboxChange(e)}
                     style={{ fontSize: "14px", fontWeight: 500,fontFamily:'Gilroy' }} />
                 </Form.Group>
-                <Form.Label className='forgot_button' onClick={() => handleForgetPassword()} >Forgot Password?</Form.Label>
+                <Form.Label className='forgot_button create-account-hover' onClick={() => handleForgetPassword()} >Forgot Password?</Form.Label>
               </div>
             </Form>
 

@@ -107,9 +107,40 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
       }
     }
   };
+
+
+  // const handlePassword = (e) => {
+  //   setPassword(e.target.value);
+  //   };
+
+
+  const [passwordError, setPasswordError] = useState('');
+
+
+
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    };
+    const password = e.target.value;
+    let errorMessage = '';
+  
+    if (password.length < 8) {
+      errorMessage = 'Password must be at least 8 characters long.';
+    } else if (!/[a-z]/.test(password)) {
+      errorMessage = 'Password must contain at least one lowercase letter.';
+    } else if (!/[A-Z]/.test(password)) {
+      errorMessage = 'Password must contain at least one uppercase letter.';
+    } else if (!/\d/.test(password)) {
+      errorMessage = 'Password must contain at least one number.';
+    } else if (!/[@$!%*?&]/.test(password)) {
+      errorMessage = 'Password must contain at least one special character.';
+    }
+  
+    setPasswordError(errorMessage);
+  };
+  
+
+
+
 
   const handleLoginPage = () => {
     navigate('/login-Page')
@@ -150,6 +181,18 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
       });
       return;
     }
+
+    if (passwordError) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Invalid Password',
+        text: passwordError,
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+
+
 
 if(password ==! confirmpassword){
   Swal.fire({
