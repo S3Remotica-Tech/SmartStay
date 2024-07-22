@@ -27,7 +27,8 @@ function PayingGuestMap(props) {
 
 
     const handleEdit = (item) => {
-
+        console.log("item",item)
+props.OnEditHostel(item)
     };
 
 
@@ -52,8 +53,8 @@ props.onRowVisiblity(false)
                             <Image src={props.hostel && props.hostel.profile ? props.hostel.profile : Vendors} roundedCircle style={{ height: "60px", width: "60px" }} />
                         </div>
                         <div >
-                            <div className='pb-2'>
-                                <label style={{ fontSize: 16, color: "#222222", fontWeight: 600,fontFamily:"Gilroy"}} >{props.hostel && props.hostel.Name}</label>
+                            <div className='pb-2' >
+                                <label style={{ fontSize: 16, color: "#222222", fontWeight: 600,fontFamily:"Gilroy"}}  >{props.hostel && props.hostel.Name}</label>
                             </div>
                             <div>
                                 <div style={{ backgroundColor: "rgba(255, 239, 207, 1)", fontWeight: 500, width: "fit-content", padding: 5, borderRadius: 10, fontSize: 14 ,fontFamily:"Gilroy",color:'rgba(34, 34, 34, 1)'}}>Paying Guest</div>
@@ -69,10 +70,14 @@ props.onRowVisiblity(false)
                             {showDots === props.hostel.id && <>
                                 <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top:10, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                     <div >
-                                        <div className='mb-2' onClick={() => handleEdit(props.vendor)} >
+                                        <div className='mb-2' 
+                                        // onClick={() => handleEdit(props.hostel)}
+                                         >
                                             <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" }} >Edit</label>
                                         </div>
-                                        <div onClick={() => handleDelete(props.vendor)}>
+                                        <div 
+                                        // onClick={() => handleDelete(props.hostel)}
+                                        >
                                             <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
                                         </div>
                                     </div>

@@ -236,7 +236,7 @@ function Asset() {
         <div className='m-4'>
 
 
-          <div className='d-flex justify-content-end align-items-center m-4'>
+          {/* <div className='d-flex justify-content-end align-items-center m-4'>
 
             <div>
               <InputGroup>
@@ -258,7 +258,7 @@ function Asset() {
             <div className="mr-3">
               <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
             </div>
-          </div>
+          </div> */}
 
           <div className="d-flex justify-content-between align-items-center  ms-3 mb-3">
             <div>

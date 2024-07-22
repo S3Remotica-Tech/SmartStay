@@ -666,6 +666,7 @@ const [searchQuery, setSearchQuery] = useState("");
   
 
   const [showMore, setShowMore] = useState(false);
+  const [editHostelDetails, setEditHostelDetails] = useState('')
 
   const handleMoreClick = () => setShowMore(!showMore);
 
@@ -675,13 +676,16 @@ const [searchQuery, setSearchQuery] = useState("");
 console.log("visiblefloor", visibleFloors)
 console.log("remainingFloors",remainingFloors)
 
-
+const handleEditHostel = (hostelDetails) =>{
+  setShowAddPg(true);
+  setEditHostelDetails(hostelDetails)
+}
 
   return (
     <>
  
     <div className='m-4'>
-       <div className='d-flex justify-content-end align-items-center m-4'>
+       {/* <div className='d-flex justify-content-end align-items-center m-4'>
 
        <div>
   <InputGroup>
@@ -704,7 +708,7 @@ console.log("remainingFloors",remainingFloors)
 <div className="mr-3">
   <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
 </div>
-</div>
+</div> */}
      
       {hidePgList && <>
         <div className="d-flex justify-content-between align-items-center ms-4 mb-3">
@@ -727,7 +731,7 @@ console.log("remainingFloors",remainingFloors)
         </div>
 
         {
-          showAddPg && <AddPg  show={showAddPg} handleClose={handleCloses}/>
+          showAddPg && <AddPg  show={showAddPg} handleClose={handleCloses} currentItem={editHostelDetails}/>
         }
               
 
@@ -735,7 +739,7 @@ console.log("remainingFloors",remainingFloors)
           {currentItems.length > 0 && currentItems.map((hostel) => {
             return (<>
             <div key ={hostel.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-              <PayingGuest   hostel={hostel} OnSelectHostel={handleSelectedHostel}   onRowVisiblity={handleDisplayPgList}/>
+              <PayingGuest   hostel={hostel} OnSelectHostel={handleSelectedHostel}   onRowVisiblity={handleDisplayPgList} OnEditHostel={handleEditHostel}/>
                          </div>
                          </>)
                     })}
