@@ -742,7 +742,77 @@ const handleBed = (e) => {
   //     });
   //   }
   // };
-  const handleSaveUserlist =  () => {
+  // const handleSaveUserlist =  () => {
+  //   console.log("check");
+  //   const emailElement = document.getElementById('emailIDError');
+  //   const emailError = emailElement ? emailElement.innerHTML : '';
+  //   const phoneNumberError = document.getElementById('MobileNumberError');
+  //   const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+  
+  //   if (emailError === 'Invalid Email Id *') {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Please enter a valid email address',
+  //       confirmButtonText: 'Ok',
+  //       timer: 1000
+  //     });
+  //     return;
+  //   }
+  
+  //   if (mobileError === 'Invalid mobile number *') {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Please enter a valid 10-digit phone number',
+  //       confirmButtonText: 'Ok',
+  //       timer: 1000
+  //     });
+  //     return;
+  //   }
+  
+  //   if (
+  //     firstname &&
+  //     lastname &&
+  //     Phone &&
+  //     Email &&
+  //     Address &&
+  //     hostel_Id
+  //   ) {
+  //     dispatch({
+  //       type: 'ADDUSER',
+  //       payload: {
+  //         profile:file,
+  //         firstname: firstname,
+  //         lastname: lastname,
+  //         Phone: Phone,
+  //         Email: Email,
+  //         Address: Address,
+  //         AadharNo: AadharNo,
+  //         PancardNo: PancardNo,
+  //         licence: licence,
+  //         HostelName: HostelName,
+  //         hostel_Id: hostel_Id,
+  //         Floor: Floor,
+  //         Rooms: Rooms,
+  //         Bed: Bed,
+  //         AdvanceAmount: AdvanceAmount,
+  //         RoomRent: RoomRent,
+  //         BalanceDue: BalanceDue,
+  //         PaymentType: PaymentType,
+  //         paid_advance: paid_advance,
+  //         paid_rent: paid_rent,
+  //         payable_rent: payableamount,
+  //         ID: props.edit === 'Edit' ? id : ''
+  //       }
+  //     });
+  
+  //     props.AfterEditHostels(hostel_Id);
+  //     props.AfterEditFloors(Floor);
+  //     props.AfterEditRoomses(Rooms);
+  //     props.AfterEditBeds(Bed);
+  
+  //   }
+  // };
+  const handleSaveUserlist = () => {
     console.log("check");
     const emailElement = document.getElementById('emailIDError');
     const emailError = emailElement ? emailElement.innerHTML : '';
@@ -770,87 +840,54 @@ const handleBed = (e) => {
     }
   
     if (
-      firstname &&
-      lastname &&
-      Phone &&
-      Email &&
-      Address &&
-      hostel_Id
+      !firstname ||
+      !lastname ||
+      !Phone ||
+      !Email ||
+      !Address ||
+      !hostel_Id
     ) {
-      dispatch({
-        type: 'ADDUSER',
-        payload: {
-          profile:file,
-          firstname: firstname,
-          lastname: lastname,
-          Phone: Phone,
-          Email: Email,
-          Address: Address,
-          AadharNo: AadharNo,
-          PancardNo: PancardNo,
-          licence: licence,
-          HostelName: HostelName,
-          hostel_Id: hostel_Id,
-          Floor: Floor,
-          Rooms: Rooms,
-          Bed: Bed,
-          AdvanceAmount: AdvanceAmount,
-          RoomRent: RoomRent,
-          BalanceDue: BalanceDue,
-          PaymentType: PaymentType,
-          paid_advance: paid_advance,
-          paid_rent: paid_rent,
-          payable_rent: payableamount,
-          ID: props.edit === 'Edit' ? id : ''
-        }
-      });
-  
-      props.AfterEditHostels(hostel_Id);
-      props.AfterEditFloors(Floor);
-      props.AfterEditRoomses(Rooms);
-      props.AfterEditBeds(Bed);
-  
-      Swal.fire({
-        icon: 'success',
-        title: props.edit == 'Add' ? 'Detail Send Successfully' : 'Detail Updated Successfully',
-        confirmButtonText: 'Ok',
-        timer: 1000
-      }).then((result) => {
-        if (result.isConfirmed) {
-          props.AfterEditHostels(hostel_Id);
-          props.AfterEditFloors(Floor);
-          props.AfterEditRoomses(Rooms);
-          props.AfterEditBeds(Bed);
-          
-          // Reset form fields here if needed
-          // setFirstname('');
-          // setLastname('');
-          // setAddress('');
-          // setAadharNo('');
-          // setPancardNo('');
-          // setLicence('');
-          // setPhone('');
-          // setEmail('');
-          // setHostel_Id('');
-          // setFloor('');
-          // setRooms('');
-          // setBed('');
-          // setAdvanceAmount('');
-          // setRoomRent('');
-          // setPaymentType('');
-          // setBalanceDue('');
-          // handleClose();
-        }
-      });
-     
-    } else {
       Swal.fire({
         icon: 'warning',
-        title: 'Please Enter All Fields',
+        title: 'Please fill in all required fields',
         confirmButtonText: 'Ok',
-        timer: 300
+        timer: 1000
       });
+      return;
     }
+  
+    dispatch({
+      type: 'ADDUSER',
+      payload: {
+        profile: file,
+        firstname: firstname,
+        lastname: lastname,
+        Phone: Phone,
+        Email: Email,
+        Address: Address,
+        AadharNo: AadharNo,
+        PancardNo: PancardNo,
+        licence: licence,
+        HostelName: HostelName,
+        hostel_Id: hostel_Id,
+        Floor: Floor,
+        Rooms: Rooms,
+        Bed: Bed,
+        AdvanceAmount: AdvanceAmount,
+        RoomRent: RoomRent,
+        BalanceDue: BalanceDue,
+        PaymentType: PaymentType,
+        paid_advance: paid_advance,
+        paid_rent: paid_rent,
+        payable_rent: payableamount,
+        ID: props.edit === 'Edit' ? id : ''
+      }
+    });
+  
+    props.AfterEditHostels(hostel_Id);
+    props.AfterEditFloors(Floor);
+    props.AfterEditRoomses(Rooms);
+    props.AfterEditBeds(Bed);
   };
   
 
@@ -896,7 +933,7 @@ const handleBed = (e) => {
         icon: 'warning',
         title: 'Please Enter All Fields',
         confirmButtonText: 'Ok',
-        timer: 300
+        timer: 1000
       });
      
     }

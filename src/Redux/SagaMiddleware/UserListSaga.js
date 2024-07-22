@@ -115,6 +115,12 @@ function* handleAddUser(datum) {
          
          yield put({ type: 'ADD_USER',payload:{response: response.message, statusCode:response.statusCode}})
             console.log("datum.payload..?",datum.payload)
+            Swal.fire({
+               icon: 'success',
+               title: `${response.message}`,
+               confirmButtonText: 'Ok',
+               timer:1000,
+             })
     
       }
 
@@ -133,9 +139,6 @@ function* handleAddUser(datum) {
            html: `<span style="color: red">${datum.payload.Email}</span> is already exist in the database`,
          });
       }
-      // else {
-      //    yield put({ type: 'ERROR', payload: response.data.message })
-      // }
       if(response){
          refreshToken(response)
       }
