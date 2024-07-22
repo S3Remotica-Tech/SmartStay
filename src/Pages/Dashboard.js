@@ -475,7 +475,7 @@ function Dashboard() {
  
 </div>
 
-<Card  style={{ marginTop:15,height:"28%",width:"97%",borderRadius:"20px"}}>
+<Card  style={{ marginTop:15,height:"auto",width:"97%",borderRadius:"20px"}}>
   <Card.Body className="d-flex flex-column align-items-start">
     <div  style={{fontSize:"18px",fontWeight:600,fontFamily:"Montserrat",paddingLeft:10}}>Revenue Target</div>
     <div className='circulardesone' >

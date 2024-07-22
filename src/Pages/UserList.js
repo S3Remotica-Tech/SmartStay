@@ -49,12 +49,13 @@ import Select from 'react-select';
 import { FormControl, InputGroup, Pagination } from 'react-bootstrap';
 import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
-import Profile from '../Assets/Images/New_images/profile.png';
+// import Profile from '../Assets/Images/New_images/profile.png';
 import squre from '../Assets/Images/New_images/minus-square.png';
 import leftArrow from '../Assets/Images/New_images/left-arrow.png';
 import rightarrow from '../Assets/Images/New_images/right-arrow.png'
 import Money from '../Assets/Images/New_images/Money.png';
 import { Autobrightness,Call,Sms,House,Buildings,ArrowLeft2,ArrowRight2 } from 'iconsax-react';
+import Profile from '../Assets/Images/New_images/profile-picture.png';
 
 
 
@@ -808,6 +809,7 @@ function UserList() {
 
       });
       setStatusAmni('')
+      setselectAmneties('')
     } else {
       dispatch({
         type: 'AddUserAmnities',
@@ -820,6 +822,7 @@ function UserList() {
         }
       });
       setStatusAmni('')
+      setselectAmneties('')
     }
 
 
@@ -1321,7 +1324,7 @@ function UserList() {
                 ))
               ) : (
                 currentRows.map((user) => {
-                  const imageUrl = user.profile || User;
+                  const imageUrl = user.profile || Profile;
                   console.log('Image URL:', imageUrl);
                   return (
                     <tr key={user.Email} style={{ fontSize: "16px", fontWeight: 600, textAlign: "center", marginTop: 10 }}>
@@ -1337,7 +1340,7 @@ function UserList() {
                           style={{ height: "40px", width: "40px", marginRight: "10px" }}
                           onError={(e) => {
                             e.target.onerror = null; // Prevents infinite loop
-                            e.target.src = User; // Fallback to default image
+                            e.target.src = Profile; // Fallback to default image
                           }}
                         />
                         <span  style={{fontSize: "16px", fontWeight: 600,fontFamily:"Gilroy"}} onClick={() => handleRoomDetailsPage(user)}>
@@ -1381,7 +1384,120 @@ function UserList() {
             {currentItems.length === 0 && !loading && <h5 style={{ fontSize: 12, color: "red" }}>No Data Found</h5>}
           </div>
         </div>
-        <nav>
+        {currentItems.length > 0 && (
+  <nav>
+    <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+      <li style={{ margin: '0 5px' }}>
+        <button
+          style={{
+            padding: '5px 10px',
+            textDecoration: 'none',
+            color: currentPage === 1 ? '#ccc' : '#007bff',
+            cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+            borderRadius: '5px',
+            display: 'inline-block',
+            minWidth: '30px',
+            textAlign: 'center',
+            backgroundColor: 'transparent',
+            border: "none"
+          }}
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+          <ArrowLeft2 size="16" color="#1E45E1" />
+        </button>
+        <span
+          onClick={() => handlePageChange(currentPage - 1)}
+          style={{
+            marginTop: '20px',
+            cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+            color: currentPage === 1 ? '#ccc' : '#007bff'
+          }}
+        >
+          Previous
+        </span>
+      </li>
+      {currentPage > 3 && (
+        <li style={{ margin: '0 5px' }}>
+          <button
+            style={{
+              padding: '5px 10px',
+              textDecoration: 'none',
+              color: 'white',
+              cursor: 'pointer',
+              borderRadius: '5px',
+              display: 'inline-block',
+              minWidth: '30px',
+              textAlign: 'center',
+              backgroundColor: 'transparent',
+              border: "none"
+            }}
+            onClick={() => handlePageChange(1)}
+          >
+            1
+          </button>
+        </li>
+      )}
+      {currentPage > 3 && <span>...</span>}
+      {renderPageNumbers()}
+      {currentPage < totalPages - 2 && <span>...</span>}
+      {currentPage < totalPages - 2 && (
+        <li style={{ margin: '0 5px' }}>
+          <button
+            style={{
+              padding: '5px 10px',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              borderRadius: '5px',
+              display: 'inline-block',
+              minWidth: '30px',
+              textAlign: 'center',
+              backgroundColor: 'transparent',
+              border: "none"
+            }}
+            onClick={() => handlePageChange(totalPages)}
+          >
+            {totalPages}
+          </button>
+        </li>
+      )}
+      <li style={{ margin: '0 5px' }}>
+        <span
+          onClick={() => handlePageChange(currentPage + 1)}
+          style={{
+            marginTop: '20px',
+            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+            color: currentPage === totalPages ? '#ccc' : '#007bff'
+          }}
+        >
+          Next
+        </span>
+        <button
+          style={{
+            padding: '5px 10px',
+            textDecoration: 'none',
+            color: currentPage === totalPages ? '#ccc' : '#007bff',
+            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+            borderRadius: '5px',
+            display: 'inline-block',
+            minWidth: '30px',
+            textAlign: 'center',
+            backgroundColor: 'transparent',
+            border: "none"
+          }}
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+          <ArrowRight2 size="16" color="#1E45E1" />
+        </button>
+      </li>
+    </ul>
+  </nav>
+)}
+
+        {/* <nav>
           <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
             <li style={{ margin: '0 5px' }}>
               <button
@@ -1400,7 +1516,7 @@ function UserList() {
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                
                 <ArrowLeft2
  size="16"
   color="#1E45E1"
@@ -1491,7 +1607,7 @@ function UserList() {
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+              
                 <ArrowRight2
  size="16"
   color="#1E45E1"
@@ -1499,7 +1615,7 @@ function UserList() {
               </button>
             </li>
           </ul>
-        </nav>
+        </nav> */}
 
       </>}
 
@@ -1508,7 +1624,7 @@ function UserList() {
         roomDetail && (
           <>
             {userDetails && userDetails.map((item, index) => {
-              const imageUrl = item.profile || User;
+              const imageUrl = item.profile || Profile;
               return (
                 <div key={item.ID} className="container mt-2">
                   <div className='d-flex justify-content-end align-items-center m-4'>
@@ -1546,7 +1662,7 @@ function UserList() {
                           style={{ height: "80px", width: "80px", marginRight: "10px" }}
                           onError={(e) => {
                             e.target.onerror = null;
-                            e.target.src = User;
+                            e.target.src = Profile;
                           }}
                         />
                         <div style={{ marginLeft: 10 }}>
@@ -1570,12 +1686,12 @@ function UserList() {
         
 
                   <div className="tapppinfour" >
-                    <div className={`tab-item ${overviewshow ? 'active' : ''}`} onClick={handleoverviewShow} style={{ fontFamily: "Gilory", fontWeight: 500, fontSize: 16,marginLeft:10 }}>OverView</div>
+                    <div className={`tab-item ${overviewshow ? 'active' : ''}`} onClick={handleoverviewShow} style={{ fontFamily: "Gilroy", fontWeight: 500, fontSize: 16,marginLeft:10 }}>OverView</div>
 
-                    <div className={`tab-item ${ebShow ? 'active' : ''}`} onClick={handleebViewShow} style={{ fontFamily: "Gilory", fontWeight: 500, fontSize: 16 }}>EB Reading</div>
-                    <div className={`tab-item ${invoiceshow ? 'active' : ''}`} onClick={handleinvoiceShow} style={{ fontFamily: "Gilory", fontWeight: 500, fontSize: 16 }}>Invoice</div>
-                    <div className={`tab-item ${amnitiesshow ? 'active' : ''}`} onClick={handleamnitiesShow} style={{ fontFamily: "Gilory", fontWeight: 500, fontSize: 16 }}>Amnities</div>
-                    <div className={`tab-item ${transshow ? 'active' : ''}`} style={{ marginRight: "35%",fontFamily: "Gilory", fontWeight: 500, fontSize: 16 }} onClick={handletransShow} >Transaction</div>
+                    <div className={`tab-item ${ebShow ? 'active' : ''}`} onClick={handleebViewShow} style={{ fontFamily: "Gilroy", fontWeight: 500, fontSize: 16 }}>EB Reading</div>
+                    <div className={`tab-item ${invoiceshow ? 'active' : ''}`} onClick={handleinvoiceShow} style={{ fontFamily: "Gilroy", fontWeight: 500, fontSize: 16 }}>Invoice</div>
+                    <div className={`tab-item ${amnitiesshow ? 'active' : ''}`} onClick={handleamnitiesShow} style={{ fontFamily: "Gilroy", fontWeight: 500, fontSize: 16 }}>Amnities</div>
+                    <div className={`tab-item ${transshow ? 'active' : ''}`} style={{ marginRight: "35%",fontFamily: "Gilroy", fontWeight: 500, fontSize: 16 }} onClick={handletransShow} >Transaction</div>
 
                   </div>
 
@@ -1758,127 +1874,246 @@ function UserList() {
 
                       </div>
 
+                      {currentRowsEb.length > 0 && (
+//                       <nav>
+//                         <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+//                           <li style={{ margin: '0 5px' }}>
+//                             <button
+//                               style={{
+//                                 padding: '5px 10px',
+//                                 textDecoration: 'none',
+//                                 color: EbcurrentPage === 1 ? '#ccc' : '#007bff',
+//                                 cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+//                                 borderRadius: '5px',
+//                                 display: 'inline-block',
+//                                 minWidth: '30px',
+//                                 textAlign: 'center',
+//                                 backgroundColor: 'transparent',
+//                                 border: "none"
+//                               }}
+//                               onClick={() => handleEbPageChange(EbcurrentPage - 1)}
+//                               disabled={EbcurrentPage === 1}
+//                             >
+//                               {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+//                               <ArrowLeft2
+//  size="16"
+//   color="#1E45E1"
+// />
+//                             </button>
+//                             <span
+//                               onClick={() => handleEbPageChange(EbcurrentPage - 1)}
+//                               style={{
+//                                 marginTop: '20px',
+//                                 cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+//                                 color: EbcurrentPage === 1 ? '#ccc' : '#007bff'
+//                               }}
+//                             >
+//                               Previous
+//                             </span>
+//                           </li>
+//                           {EbcurrentPage > 3 && (
+//                             <li style={{ margin: '0 5px' }}>
+//                               <button
+//                                 style={{
+//                                   padding: '5px 10px',
+//                                   textDecoration: 'none',
+//                                   color: 'white',
+//                                   cursor: 'pointer',
+//                                   borderRadius: '5px',
+//                                   display: 'inline-block',
+//                                   minWidth: '30px',
+//                                   textAlign: 'center',
+//                                   backgroundColor: 'transparent',
+//                                   border: "none"
 
-                      <nav>
-                        <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+//                                 }}
+//                                 onClick={() => handleEbPageChange(1)}
+//                               >
+//                                 1
+//                               </button>
+//                             </li>
+//                           )}
+//                           {EbcurrentPage > 3 && <span>...</span>}
+//                           {renderPageNumbersEb()}
+//                           {EbcurrentPage < totalPagesEb - 2 && <span>...</span>}
+//                           {EbcurrentPage < totalPagesEb - 2 && (
+//                             <li style={{ margin: '0 5px' }}>
+//                               <button
+//                                 style={{
+//                                   padding: '5px 10px',
+//                                   textDecoration: 'none',
+
+//                                   cursor: 'pointer',
+//                                   borderRadius: '5px',
+//                                   display: 'inline-block',
+//                                   minWidth: '30px',
+//                                   textAlign: 'center',
+//                                   backgroundColor: 'transparent',
+//                                   border: "none"
+
+//                                 }}
+//                                 onClick={() => handleEbPageChange(totalPagesEb)}
+//                               >
+//                                 {totalPagesEb}
+//                               </button>
+//                             </li>
+//                           )}
+//                           <li style={{ margin: '0 5px' }}>
+//                             <span
+//                               onClick={() => handleEbPageChange(EbcurrentPage + 1)}
+//                               style={{
+//                                 marginTop: '20px',
+//                                 cursor: EbcurrentPage === totalPagesEb ? 'not-allowed' : 'pointer',
+//                                 color: EbcurrentPage === totalPagesEb ? '#ccc' : '#007bff'
+//                               }}
+//                             >
+//                               Next
+//                             </span>
+//                             <button
+//                               style={{
+//                                 padding: '5px 10px',
+//                                 textDecoration: 'none',
+//                                 color: EbcurrentPage === EbcurrentPage ? '#ccc' : '#007bff',
+//                                 cursor: EbcurrentPage === EbcurrentPage ? 'not-allowed' : 'pointer',
+//                                 borderRadius: '5px',
+//                                 display: 'inline-block',
+//                                 minWidth: '30px',
+//                                 textAlign: 'center',
+//                                 backgroundColor: 'transparent',
+//                                 border: "none"
+//                               }}
+//                               onClick={() => handleEbPageChange(EbcurrentPage + 1)}
+//                               disabled={EbcurrentPage === totalPagesEb}
+//                             >
+//                               {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+//                               <ArrowRight2
+//  size="16"
+//   color="#1E45E1"
+// />
+//                             </button>
+//                           </li>
+//                         </ul>
+//                       </nav>
+<nav>
+                      <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                        <li style={{ margin: '0 5px' }}>
+                          <button
+                            style={{
+                              padding: '5px 10px',
+                              textDecoration: 'none',
+                              color: EbcurrentPage === 1 ? '#ccc' : '#007bff',
+                              cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+                              borderRadius: '5px',
+                              display: 'inline-block',
+                              minWidth: '30px',
+                              textAlign: 'center',
+                              backgroundColor: 'transparent',
+                              border: "none"
+                            }}
+                            onClick={() => handleEbPageChange(EbcurrentPage - 1)}
+                            disabled={EbcurrentPage === 1}
+                          >
+                            {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                            <ArrowLeft2
+ size="16"
+  color="#1E45E1"
+/>
+                          </button>
+                          <span
+                            onClick={() => handleEbPageChange(EbcurrentPage - 1)}
+                            style={{
+                              marginTop: '20px',
+                              cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+                              color: EbcurrentPage === 1 ? '#ccc' : '#007bff'
+                            }}
+                          >
+                            Previous
+                          </span>
+                        </li>
+                        {EbcurrentPage > 3 && (
                           <li style={{ margin: '0 5px' }}>
                             <button
                               style={{
                                 padding: '5px 10px',
                                 textDecoration: 'none',
-                                color: EbcurrentPage === 1 ? '#ccc' : '#007bff',
-                                cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                color: 'white',
+                                cursor: 'pointer',
                                 borderRadius: '5px',
                                 display: 'inline-block',
                                 minWidth: '30px',
                                 textAlign: 'center',
                                 backgroundColor: 'transparent',
                                 border: "none"
+
                               }}
-                              onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-                              disabled={EbcurrentPage === 1}
+                              onClick={() => handleEbPageChange(1)}
                             >
-                              {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-                              <ArrowLeft2
- size="16"
-  color="#1E45E1"
-/>
+                              1
                             </button>
-                            <span
-                              onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-                              style={{
-                                marginTop: '20px',
-                                cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
-                                color: EbcurrentPage === 1 ? '#ccc' : '#007bff'
-                              }}
-                            >
-                              Previous
-                            </span>
                           </li>
-                          {EbcurrentPage > 3 && (
-                            <li style={{ margin: '0 5px' }}>
-                              <button
-                                style={{
-                                  padding: '5px 10px',
-                                  textDecoration: 'none',
-                                  color: 'white',
-                                  cursor: 'pointer',
-                                  borderRadius: '5px',
-                                  display: 'inline-block',
-                                  minWidth: '30px',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  border: "none"
-
-                                }}
-                                onClick={() => handleEbPageChange(1)}
-                              >
-                                1
-                              </button>
-                            </li>
-                          )}
-                          {EbcurrentPage > 3 && <span>...</span>}
-                          {renderPageNumbersEb()}
-                          {EbcurrentPage < totalPagesEb - 2 && <span>...</span>}
-                          {EbcurrentPage < totalPagesEb - 2 && (
-                            <li style={{ margin: '0 5px' }}>
-                              <button
-                                style={{
-                                  padding: '5px 10px',
-                                  textDecoration: 'none',
-
-                                  cursor: 'pointer',
-                                  borderRadius: '5px',
-                                  display: 'inline-block',
-                                  minWidth: '30px',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  border: "none"
-
-                                }}
-                                onClick={() => handleEbPageChange(totalPagesEb)}
-                              >
-                                {totalPagesEb}
-                              </button>
-                            </li>
-                          )}
+                        )}
+                        {EbcurrentPage > 3 && <span>...</span>}
+                        {renderPageNumbersEb()}
+                        {EbcurrentPage < totalPagesEb - 2 && <span>...</span>}
+                        {EbcurrentPage < totalPagesEb - 2 && (
                           <li style={{ margin: '0 5px' }}>
-                            <span
-                              onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-                              style={{
-                                marginTop: '20px',
-                                cursor: EbcurrentPage === totalPagesEb ? 'not-allowed' : 'pointer',
-                                color: EbcurrentPage === totalPagesEb ? '#ccc' : '#007bff'
-                              }}
-                            >
-                              Next
-                            </span>
                             <button
                               style={{
                                 padding: '5px 10px',
                                 textDecoration: 'none',
-                                color: EbcurrentPage === EbcurrentPage ? '#ccc' : '#007bff',
-                                cursor: EbcurrentPage === EbcurrentPage ? 'not-allowed' : 'pointer',
+
+                                cursor: 'pointer',
                                 borderRadius: '5px',
                                 display: 'inline-block',
                                 minWidth: '30px',
                                 textAlign: 'center',
                                 backgroundColor: 'transparent',
                                 border: "none"
+
                               }}
-                              onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-                              disabled={EbcurrentPage === totalPagesEb}
+                              onClick={() => handleEbPageChange(totalPagesEb)}
                             >
-                              {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-                              <ArrowRight2
+                              {totalPagesEb}
+                            </button>
+                          </li>
+                        )}
+                        <li style={{ margin: '0 5px' }}>
+                          <span
+                            onClick={() => handleEbPageChange(EbcurrentPage + 1)}
+                            style={{
+                              marginTop: '20px',
+                              cursor: EbcurrentPage === totalPagesEb ? 'not-allowed' : 'pointer',
+                              color: EbcurrentPage === totalPagesEb ? '#ccc' : '#007bff'
+                            }}
+                          >
+                            Next
+                          </span>
+                          <button
+                            style={{
+                              padding: '5px 10px',
+                              textDecoration: 'none',
+                              color: EbcurrentPage === EbcurrentPage ? '#ccc' : '#007bff',
+                              cursor: EbcurrentPage === EbcurrentPage ? 'not-allowed' : 'pointer',
+                              borderRadius: '5px',
+                              display: 'inline-block',
+                              minWidth: '30px',
+                              textAlign: 'center',
+                              backgroundColor: 'transparent',
+                              border: "none"
+                            }}
+                            onClick={() => handleEbPageChange(EbcurrentPage + 1)}
+                            disabled={EbcurrentPage === totalPagesEb}
+                          >
+                            {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                            <ArrowRight2
  size="16"
   color="#1E45E1"
 />
-                            </button>
-                          </li>
-                        </ul>
-                      </nav>
-
+                          </button>
+                        </li>
+                      </ul>
+</nav>
+                      )}
                     </div>
                   }
 
@@ -1957,6 +2192,8 @@ function UserList() {
                           </tbody>
                         </Table>
                       </div>
+
+                      {currentRowinvoice.length > 0 && (
                       <nav>
                         <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
                           <li style={{ margin: '0 5px' }}>
@@ -2075,6 +2312,7 @@ function UserList() {
                           </li>
                         </ul>
                       </nav>
+                      )}
                     </>
 
                   }
@@ -2277,6 +2515,8 @@ function UserList() {
                           )}
                         </tbody>
                       </Table>
+                      {currentRowAmnities.length > 0 && (
+                      <nav>
                       <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
                         <li style={{ margin: '0 5px' }}>
                           <button
@@ -2394,9 +2634,9 @@ function UserList() {
                           </button>
                         </li>
                       </ul>
+                      </nav>
 
-
-
+                          )}
 
 
                     </div>
@@ -2458,8 +2698,8 @@ function UserList() {
                       </Table>
 
 
-
-
+                      {currentRowTransaction.length > 0 && (
+<nav>
                       <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
                         <li style={{ margin: '0 5px' }}>
                           <button
@@ -2577,7 +2817,8 @@ function UserList() {
                           </button>
                         </li>
                       </ul>
-
+</nav>
+                      )}
                     </div>
 
                   }

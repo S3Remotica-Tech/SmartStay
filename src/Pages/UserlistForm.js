@@ -3,7 +3,7 @@ import moment from 'moment';
 import React, { useState, useEffect,useCallback } from "react";
 import "../Pages/UserList.css";
 // import Plus from '../Assets/Images/Create-button.png';
-import Profile from '../Assets/Images/Profile.jpg';
+// import Profile from '../Assets/Images/Profile.jpg';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaPlusCircle } from "react-icons/fa";
@@ -15,6 +15,7 @@ import Profile2 from '../Assets/Images/New_images/profile-picture.png'
 import imageCompression from 'browser-image-compression';
 import Image from 'react-bootstrap/Image';
 import User from '../Assets/Images/Ellipse 1.png';
+import Profile from '../Assets/Images/New_images/profile-picture.png';
 
 
 
@@ -990,7 +991,7 @@ console.log("props.displayDetail",props.displayDetail)
 
 <div className="" style={{ height: 100, width: 100, position: "relative" }}>
 
-  <Image src={file ? (typeof file == 'string' ? file : URL.createObjectURL(file)) : User} roundedCircle style={{ height: 100, width: 100 }} />
+  <Image src={file ? (typeof file == 'string' ? file : URL.createObjectURL(file)) : Profile} roundedCircle style={{ height: 100, width: 100 }} />
  
   <label htmlFor="imageInput" className='' >
     <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
@@ -1063,7 +1064,7 @@ console.log("props.displayDetail",props.displayDetail)
           </div>
           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Email Id</Form.Label>
+              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email Id</Form.Label>
               <FormControl
                 type="text"
                 id="form-controls"
@@ -1080,7 +1081,7 @@ console.log("props.displayDetail",props.displayDetail)
       
           <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: "12px" }}>Address</Form.Label>
+              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address</Form.Label>
               <FormControl
                 type="text"
                 id="form-controls"
@@ -1094,7 +1095,7 @@ console.log("props.displayDetail",props.displayDetail)
             </div>
          
           <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-            <Form.Label style={{ fontSize: "12px" }}>Paying Guest</Form.Label>
+            <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest</Form.Label>
             <Form.Select
               aria-label="Default select example"
               className='border'
