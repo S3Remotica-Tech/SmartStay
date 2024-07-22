@@ -15,6 +15,12 @@ import Setting from '../Pages/Settings';
 import Supports from '../Pages/Support';
 import VendorComponent from '../Pages/Vendor';
 import { useDispatch, useSelector } from 'react-redux';
+import {  InputGroup,FormControl, Pagination } from 'react-bootstrap';
+import { CiSearch } from "react-icons/ci";
+import Notify from '../Assets/Images/New_images/notify.png';
+import Profile from '../Assets/Images/New_images/profile.png';
+import Image from 'react-bootstrap/Image';
+import { Offcanvas, Dropdown } from 'react-bootstrap';
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import { RiDashboard3Line } from "react-icons/ri";
@@ -72,13 +78,14 @@ import Compl2 from '../Assets/Images/New_images/messages-active.png';
 import Expense2 from '../Assets/Images/New_images/coin.png';
 import Repo2 from '../Assets/Images/New_images/clipboard-text.png';
 import Sett2 from '../Assets/Images/New_images/setting-2.png';
+import Profilesettings from '../Pages/AccountSettings'
 
 
 function Sidebar() {
   const cookies = new Cookies()
   let navigate = useNavigate();
   const dispatch = useDispatch()
-  const state = useSelector(state => state.UsersList)
+  const state = useSelector(state => state)
   const stateData = useSelector(state => state.createAccount)
   const stateLogin = useSelector(state => state.login)
 
@@ -100,7 +107,47 @@ function Sidebar() {
     dispatch({ type: 'ACCOUNTDETAILS' })
   }, []);
 
+  const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState([]);
+  console.log("notification", notification);
 
+  useEffect(() => {
+    dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+    setNotification(state.login.Notification)
+  }, [])
+
+
+
+  let newNotificationIDs = state.login.Notification && state.login.Notification?.length > 0 && state.login.Notification.filter(notification => notification.status === 1).map(notification => notification.id);
+
+
+  const newNotificationsCount = newNotificationIDs.length;
+  console.log("id", newNotificationIDs);
+
+
+  const handleClosepopup = () => setShow(false);
+
+  const handleShowpopup = () => {
+    setShow(true);
+    if (newNotificationIDs.length > 0 && newNotificationIDs != []) {
+      setTimeout(() => {
+        dispatch({ type: 'UPDATE-NOTIFICATION', payload: { id: newNotificationIDs } });
+      }, 1000)
+    }
+
+    // dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+  }
+
+
+  useEffect(() => {
+    if (state.login.UpdateNotificationMessage != null && state.login.UpdateNotificationMessage != '') {
+      dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+      setTimeout(() => {
+        dispatch({ type: 'AFTER_UPDATE_NOTIFICATION', message: null })
+        newNotificationIDs = []
+      }, 100);
+    }
+  }, [state.login.UpdateNotificationMessage])
 
 
   useEffect(() => {
@@ -310,6 +357,21 @@ function Sidebar() {
   }
 
 
+  const stateAccount= useSelector(state => state.createAccount)
+
+
+  const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
+  
+  
+  useEffect(() => {
+    if (stateAccount.statusCodeForAccountList == 200) {
+      const loginProfile = stateAccount.accountList[0].user_details.profile
+        
+          setProfile(loginProfile)
+        }
+  
+  }, [stateAccount.statusCodeForAccountList])
+
 
   return (
     <>
@@ -387,6 +449,59 @@ function Sidebar() {
           <Col lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} className="bg-white">
             {/* <img src={Logout} class="me-3" style={{ height: "25px", width: "25px", display: "" }} onClick={handleLogout} alt='Logout' /> */}
 
+            <div className='container d-flex justify-content-end align-items-center mr-3' style={{ marginTop:'30px'}}>
+
+<div >
+  <InputGroup>
+    <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+      <CiSearch style={{ fontSize: 20 }} />
+    </InputGroup.Text>
+    <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+      placeholder="Search..."
+    />
+  </InputGroup>
+</div>
+<div className="mr-3" onClick={handleShowpopup}>
+  <img src={Notify} alt="notification" />
+</div>
+
+<div className="mr-3">
+  <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
+</div>
+</div>
+
+<Offcanvas placement="end" show={show} onHide={handleClosepopup} style={{ width: "69vh" }}>
+              <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Notification</Offcanvas.Title>
+              <Offcanvas.Body style={{ maxHeight: 'calc(100vh - 35px)', overflowY: 'auto' }}>
+                <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
+                  <div class="p-1 bd-highlight user-menu">
+                    <div>
+                      {newNotificationsCount > 0 && <p style={{ marginTop: '10px' }}><span style={{ backgroundColor: '#DBE1FB', padding: '8px 12px', color: '#222222', borderRadius: '14px', fontWeight: 500 }}>{newNotificationsCount} new notifications</span></p>}
+                    </div>
+                    <div className='container' style={{ marginTop: "30px" }}>
+                      <>
+                        <div className='row mb-3'>
+                          {state.login.Notification && state.login.Notification?.length > 0 && state.login.Notification.map((val) => (
+                            <div key={val.id} className='border-bottom' style={{ marginBottom: '10px', display: 'flex', flexDirection: 'row', justifyContent: "space-between" }}>
+                              <p style={{ color: val.status === 1 ? 'black' : '#939393', width: '75%' }}>{val.message}</p>
+                              {val.status === 1 && <div style={{ width: '10px', height: '10px', backgroundColor: 'blue', borderRadius: '50%', marginTop: '5px' }}>
+                              </div>}
+
+
+                            </div>
+                          ))}
+
+                        </div>
+                      </>
+
+
+                    </div>
+                  </div>
+                </div>
+
+              </Offcanvas.Body>
+            </Offcanvas>
+                
             {currentPage === 'dashboard' && <Dashboards />}
             {currentPage === 'pg-list' && < PgLists />}
             {currentPage === 'user-list' && < UserLists />}
@@ -399,7 +514,7 @@ function Sidebar() {
             {currentPage === 'eb' && <  EbHostel />}
             {currentPage === 'checkout' && <Checkout />}
             {currentPage === 'expenses' && <Expenses />}
-
+            {currentPage === 'profile' && <Profilesettings />}
           </Col>
         </Row>
       </Container>

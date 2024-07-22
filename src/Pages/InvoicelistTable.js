@@ -88,7 +88,7 @@ const InvoiceTable = (props) => {
 
 
                         {showDots && <>
-                            <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 40, top: 10, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
+                            <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 40, top: 1,bottom:0, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
                                 <div style={{ backgroundColor: "#fff" }} className=''>
 
                                     <div className='mb-2 d-flex justify-content-start align-items-center gap-2'

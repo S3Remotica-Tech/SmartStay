@@ -5,15 +5,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import {  InputGroup,FormControl, Pagination } from 'react-bootstrap';
+import { CiSearch } from "react-icons/ci";
+import Image from 'react-bootstrap/Image';
 import { Table } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
 import List from '../Assets/Images/list-report.png';
 import Edit from '../Assets/Images/edit.png';
-import { Offcanvas, Form, Dropdown, FormControl } from 'react-bootstrap';
+import { Offcanvas, Form, Dropdown } from 'react-bootstrap';
 import Plus from '../Assets/Images/Create-button.png';
 import Calendor from '../Assets/Images/calendar.png';
-import Profile from '../Assets/Images/Profile.jpg';
+// import Profile from '../Assets/Images/Profile.jpg';
 import Dots from '../Assets/Images/more.png';
 import User from '../Assets/Images/Ellipse 1.png';
 import NotificationIcon from '../Assets/Images/Notification.png'
@@ -33,6 +36,8 @@ import { fontSize, fontStyle, fontWeight, lineHeight } from '@mui/system';
 import InvoiceTable from './InvoicelistTable';
 import leftArrow from '../Assets/Images/New_images/left-arrow.png'
 import rightarrow from '../Assets/Images/New_images/right-arrow.png'
+import Notify from '../Assets/Images/New_images/notify.png';
+import Profile from '../Assets/Images/New_images/profile.png';
 
 
 const InvoicePage = () => {
@@ -1033,6 +1038,27 @@ const InvoicePage = () => {
     </div> */}
               </div>
             </div>
+
+            {/* <div className='container d-flex justify-content-end align-items-center mr-3'>
+
+          <div>
+            <InputGroup>
+              <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+                <CiSearch style={{ fontSize: 20 }} />
+              </InputGroup.Text>
+              <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+                placeholder="Search..."
+              />
+            </InputGroup>
+          </div>
+          <div className="mr-3">
+            <img src={Notify} alt="notification" />
+          </div>
+
+          <div className="mr-3">
+            <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+          </div>
+        </div> */}
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
