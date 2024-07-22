@@ -1234,18 +1234,9 @@ function UserList() {
 
           </div>
         </div>  */}
-        <div className='customerprofile'>
+        {/* <div className='customerprofile'>
 
-          {/* <div>
-            <InputGroup >
-              <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
-                <CiSearch style={{ fontSize: 20 }} />
-              </InputGroup.Text>
-              <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
-                placeholder="Search..."
-              />
-            </InputGroup>
-          </div> */}
+         
 
 <div className="searchGroup">
         <InputGroup >
@@ -1275,7 +1266,7 @@ function UserList() {
           <div className="mr-3">
             <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
           </div>
-        </div>
+        </div> */}
         <div className="customer p-4" >
           <div className="cuslable">
             <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginTop: 20,fontFamily:"Gilroy" }}>Customers</label>
@@ -1627,7 +1618,7 @@ function UserList() {
               const imageUrl = item.profile || Profile;
               return (
                 <div key={item.ID} className="container mt-2">
-                  <div className='d-flex justify-content-end align-items-center m-4'>
+                  {/* <div className='d-flex justify-content-end align-items-center m-4'>
 
                     <div>
                       <InputGroup>
@@ -1647,7 +1638,7 @@ function UserList() {
 
                       <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
                     </div>
-                  </div>
+                  </div> */}
 
                   <div style={{ marginLeft: 25, paddingBottom: 20 }}>
                      <img src={leftarrow} 

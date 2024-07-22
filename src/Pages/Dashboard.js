@@ -213,7 +213,7 @@ function Dashboard() {
 <lable style={{fontFamily:"Montserrat",fontWeight:600,fontSize:"24px",lineHeight:"28.63px"}}>Welcome back, Vikram!</lable>
 <p style={{fontFamily:"Montserrat",fontWeight:400,fontSize:"16px",color:"#4B4B4B"}} >Manage all the inventory and analytics form here</p>
   </div>
-  <div style={{flex:1}}>
+  {/* <div style={{flex:1}}>
   <div className="headerone">
     
        <div className="search-container">
@@ -229,7 +229,7 @@ function Dashboard() {
         <img src={rectangle}  className="profile-image" />
       </div>
     </div>
-  </div>
+  </div> */}
   </div>
 
 
