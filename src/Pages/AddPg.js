@@ -137,6 +137,51 @@ setLocation('')
 
  }
 
+console.log("current Item", currentItem)
+
+
+ useEffect(()=>{
+  if(currentItem){
+      
+
+
+        if (currentItem.Vendor_profile) {
+          const profile = currentItem.Vendor_profile;
+                 if (typeof profile === 'string') {
+                      setFile(profile);
+          } else if (profile instanceof Blob) {
+                    setFile(profile);
+          } else {
+                  setFile(null);
+            console.warn('Invalid profile format');
+          }
+        }
+      
+  }
+      },[currentItem])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div
     className="modal show"

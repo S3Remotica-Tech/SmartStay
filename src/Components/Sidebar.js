@@ -385,7 +385,7 @@ function Sidebar() {
             </ul>
           </Col>
           <Col lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} className="bg-white">
-            <img src={Logout} class="me-3" style={{ height: "25px", width: "25px", display: "" }} onClick={handleLogout} alt='Logout' />
+            {/* <img src={Logout} class="me-3" style={{ height: "25px", width: "25px", display: "" }} onClick={handleLogout} alt='Logout' /> */}
 
             {currentPage === 'dashboard' && <Dashboards />}
             {currentPage === 'pg-list' && < PgLists />}

@@ -490,9 +490,9 @@ const [showAmount, setShowAmount]  = useState(false)
       <div style={{ width: "100%" }} >
         <div className='m-4'>
 
-          <div className='d-flex justify-content-end align-items-center m-4'>
+          {/* <div className='d-flex justify-content-end align-items-center m-4'>
 
-            {/* <div>
+            <div>
               <InputGroup>
                 <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
                   <CiSearch style={{ fontSize: 20 }} />
@@ -501,7 +501,7 @@ const [showAmount, setShowAmount]  = useState(false)
                   placeholder="Search..."
                 />
               </InputGroup>
-            </div> */}
+            </div>
             <div className="mr-3">
               <img src={Notify} alt="notification" />
             </div>
@@ -509,7 +509,7 @@ const [showAmount, setShowAmount]  = useState(false)
             <div className="mr-3">
               <Image src={profile ? profile : Profiles} roundedCircle style={{ height: "60px", width: "60px" }} />
             </div>
-          </div>
+          </div> */}
 
 
           <div className="d-flex justify-content-between align-items-center mb-3">

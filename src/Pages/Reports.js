@@ -109,7 +109,7 @@ const filteredReports = reports.filter(report =>
   return (
        
     <div style={{ width: "100%" }}>
-      <div className='d-flex justify-content-end align-items-center m-4'>
+      {/* <div className='d-flex justify-content-end align-items-center m-4'>
 <div>
 <InputGroup>
 <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
@@ -131,7 +131,7 @@ placeholder="Search..."
 <div className="mr-3">
 <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
 </div>
-</div>
+</div> */}
 {showReport &&
     <div className='m-4'>
 
