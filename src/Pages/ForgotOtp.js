@@ -8,7 +8,7 @@ import CryptoJS from "crypto-js";
 import Cookies from 'universal-cookie';
 
 
-const OtpVerificationModal = ({ show, handleClose , Email_Id, checked}) => {
+const OtpVerificationModal = ({ show, handleClose , Email_Id}) => {
   
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -36,68 +36,26 @@ console.log("state for opt verification",state)
      setOtpValue(updatedOtpValue);
   };
 
-// i am command this line step :1
 
 
-  // useEffect(()=>{
-  //   dispatch({ type: 'ACCOUNTDETAILS' });
-  // },[])
-
-useEffect(()=>{
-  if(state.login.OtpVerifyStatusCode == 200){
-    console.log("executed mathu")
-    dispatch({ type: 'LOGIN-SUCCESS' })
-
-    const token = state.login.JWTtoken
-    const cookies = new Cookies()
-    cookies.set('token', token, { path: '/' });
-
-    console.log("tokenverification",token)
-
-    // dispatch({ type: 'ACCOUNTDETAILS'})
-    //   console.log("executed account details")
-    //   setTimeout(()=>{
-    //     dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
-    //     },2000)
-
-
-        setTimeout(()=>{
-          dispatch({ type: 'CLEAR_OTP_VERIFIED'})
-          },1000)
-
-      } else {
-  console.error("Login information not available.");
-}
- },[state.login.OtpVerifyStatusCode])
-
-  const otpResponse = state.NewPass?.OTP?.response;
-  const otp = otpResponse?.otp
 
 
 
   const handleOtpVerify = () => {
 
     if(otpValue){
-      dispatch({ type: 'OTPVERIFY', payload: {Email_Id:  Email_Id, OTP: otpValue} })
-    } else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Error',
-        text: 'Enter Valid Otp',
-      })
+      dispatch({ type: 'OTPVERIFYFORGOTPASSWORD', payload: {Email_Id:  Email_Id, OTP: otpValue} })
+    }else{
+         Swal.fire({
+          icon: 'warning',
+          title: 'Error',
+          text: 'Enter Valid Otp',
+        });
     }
     inputRefs && inputRefs.forEach(ref => {
       ref.current.value = null;
     });
-    // if (otp == otpValue) {
-    //     dispatch({ type: 'LOGIN-SUCCESS' })
-    //   }
-    //  
-      
-      // }
-
-  //  dispatch({type:'CLEAR_OTP_STATUS_CODE'})
-  };
+     };
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -112,7 +70,7 @@ useEffect(()=>{
         {inputRefs.map((ref, index) => (
                           <div key={index}>
                             <input
-                             style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}
+                            style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}
                               id="Bottom-border"
                               type="text"
                               aria-label=".form-control-lg example"
