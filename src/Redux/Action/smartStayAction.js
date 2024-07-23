@@ -5,7 +5,7 @@ import axios from 'axios'
 
 
 export async function login(EmailId, Password) {
-  return await axios.get('http://localhost:2001/login/login', {
+  return await axios.get('http://smartstaydev.s3remotica.com:2001/login/login', {
     params: EmailId, Password
   })
 }
@@ -70,7 +70,7 @@ export async function AccountDetails(user) {
 }
 
 export async function OTPverification(datum) {
-  return await axios.post('http://localhost:2001/otp-send/response',datum, {
+  return await axios.post('http://smartstaydev.s3remotica.com:2001/otp-send/response',datum, {
     data: datum
   })
 } 

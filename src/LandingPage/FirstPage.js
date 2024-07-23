@@ -14,6 +14,12 @@ import { useNavigate } from "react-router-dom";
 function FirstPage() {
 
 
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
+
     let navigate = useNavigate();
 
     const handleStartNow = () =>{
