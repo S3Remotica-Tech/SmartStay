@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from "react";
+import React, {useRef, useState ,useEffect } from "react";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import Men from '../Assets/Images/men.jpg';
+import Men from '../Assets/Images/Rectangle 2.png';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -28,6 +28,8 @@ const Accountsettings = () => {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
     const cookies = new Cookies()
+    console.log("state for settings", state)
+
     // const tokenCookies = cookies.get('token');
 
     // const state = useSelector(state => state.UsersList)
@@ -111,7 +113,9 @@ const Accountsettings = () => {
             const PhoneNUmber = FIlteredProfile.mobileNo
             const UserEmail = FIlteredProfile.email_Id
             const UserAddress = FIlteredProfile.Address
+            const CustomerId = FIlteredProfile.id
 
+            setId(CustomerId)
             setFirstName(CustomerFirstName)
             setLastName(CustomerLastName)
             setPhone(PhoneNUmber)
@@ -136,6 +140,7 @@ const Accountsettings = () => {
     useEffect(() => {
         if (state.createAccount.statusCodeForAccount == 200) {
             dispatch({ type: 'ACCOUNTDETAILS' })
+            console.log("accountdetails get working");
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT' })
             }, 2000)
@@ -149,7 +154,27 @@ const Accountsettings = () => {
         }
     }, [state.createAccount?.statusCodeForAccount])
 
-    console.log("state for settings", state)
+    useEffect(()=> {
+        dispatch({ type: 'ACCOUNTDETAILS' })
+    },[])
+
+    useEffect(() => {
+        if (state.createAccount.statuscodeforUpdateprofile == 200) {
+            dispatch({ type: 'ACCOUNTDETAILS' })
+            console.log("accountdetails get working");
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_UPDATE_STATUS_CODE_ACCOUNT' })
+            }, 2000)
+
+            // setTimeout(() => {
+            //     dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE' })
+            // }, 1000)
+
+        } else {
+            console.log("create account not working")
+        }
+    }, [state.createAccount?.statuscodeforUpdateprofile])
+
 
     const handleImageChange = async (event) => {
         const file = event.target.files[0];
@@ -239,48 +264,159 @@ const Accountsettings = () => {
     const handleSaveUpdate = () => {
         if (selectedImage) {
             dispatch({
-                type: 'CREATE_ACCOUNT',
-                payload: { name: firstname, mobileNo: phone, emailId: email, Address: Address, Country: Country, City: City, State: statee, id: id, profile: selectedImage }
+                type: 'PROFILE-UPDATE',
+                payload: { first_name: firstname, last_name:lastname, phone: phone, email_id: email, address: Address,  id: id, profile: selectedImage }
             });
             Swal.fire({
-                text: "Update successfully",
+                text: "Profile Update successfully",
                 icon: "success",
                 timer: 1000,
             });
+            dispatch({ type: 'ACCOUNTDETAILS' })
         } else {
             dispatch({
-                type: 'CREATE_ACCOUNT',
-                payload: { name: firstname, mobileNo: phone, emailId: email, Address: Address, Country: Country, City: City, State: statee, id: id }
+                type: 'PROFILE-UPDATE',
+                payload: { first_name: firstname, last_name:lastname, phone: phone, email_id: email, address: Address, id: id }
             });
             Swal.fire({
-                text: "Update successfully",
+                text: "Profile Update successfully",
                 icon: "success",
                 timer: 1000,
             });
+            dispatch({ type: 'ACCOUNTDETAILS' })
         }
 
-        setFirstName('');
-        setPhone('');
-        setEmail('');
-        setAddress('');
-        setCountry('');
-        setCity("");
-        setStatee("");
+        // setFirstName('');
+        // setLastName('')
+        // setPhone('');
+        // setEmail('');
+        // setAddress('');
+        // setCountry('');
+        // setCity("");
+        // setStatee("");
     }
 
-    const [password, setpassword] = useState('')
-    const [showPassword, setShowpassword] = useState(false)
-
-    const handlePasswordChange = (e) => {
-        dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
-        setpassword(e.target.value)
-      }
-
+    const [password, setPassword] = useState('')
+    const [showPassword, setShowpassword] = useState(false);
+    const [confirmpassword, setConfirmPassword] = useState('')
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  
     const togglePasswordVisibility = () => {
       setShowpassword(!showPassword);
     };
-
+  
+  
+    const [passwordError, setPasswordError] = useState('');
+    const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(false);
+    const [isLowerCaseEnough, setLowerCaseEnough] = useState(false);
+    const [isNumericEnough, setNumericEnough] = useState(false);
+  
+  
+    const handlePassword = (e) => {
+      setPassword(e.target.value);
+      const password = e.target.value;
+      let errorMessage = '';
+  
+      if (password.length >= 8) {
+        setIsPasswordLongEnough(true);
+      } else {
+        setIsPasswordLongEnough(false);
+      }
     
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
+        setLowerCaseEnough(true);
+      } else {
+        setLowerCaseEnough(false);
+      }
+    
+      if (/\d/.test(password) && /[@$!%*?&]/.test(password)) {
+        setNumericEnough(true);
+      } else {
+        setNumericEnough(false);
+      }
+  
+  
+  if (password.length < 8) {
+    errorMessage = 'Password must be at least 8 characters long.';
+  } else if (!/[a-z]/.test(password)) {
+    errorMessage = 'Password must contain at least one lowercase letter.';
+  } else if (!/[A-Z]/.test(password)) {
+    errorMessage = 'Password must contain at least one uppercase letter.';
+  } else if (!/\d/.test(password)) {
+    errorMessage = 'Password must contain at least one number.';
+  } else if (!/[@$!%*?&]/.test(password)) {
+    errorMessage = 'Password must contain at least one special character.';
+  }
+      setPasswordError(errorMessage);
+    };
+  
+  
+    const handleConfirmPassword = (e) => {
+      setConfirmPassword(e.target.value)
+    }
+  
+    const toggleConfirmPasswordVisibility = () => {
+      setShowConfirmPassword(!showConfirmPassword)
+    }
+
+    const inputRefs = [
+        useRef(null),
+        useRef(null),
+        useRef(null),
+        useRef(null),
+        useRef(null),
+        useRef(null),
+      ];
+
+    const handlePasswordchange = () => {
+        // setShowOtpVerification(true)
+    
+    
+        if (passwordError) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Invalid Password',
+            text: passwordError,
+            confirmButtonText: 'Ok'
+          });
+          return;
+        }
+    
+    
+    
+        if (password == !confirmpassword) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Please Enter Confirm Password Same as Password',
+            confirmButtonText: 'Ok'
+          });
+          return;
+        }
+    
+    
+        if (password && confirmpassword) {
+          dispatch({ type: 'FORGETPAGE', payload: { NewPassword: password, email: email, confirm_password: confirmpassword } });
+          inputRefs && inputRefs.forEach(ref => {
+            if (ref.current) {
+              ref.current.value = null;
+            }
+    
+          });
+
+         setPassword('');
+         setConfirmPassword('');
+    
+        } else {
+    
+          // setShowOtpVerification(false);
+          Swal.fire({
+            icon: 'error',
+            title: 'Please Enter All Fields',
+    
+          });
+    
+        }
+      };
 
   
 
@@ -413,36 +549,39 @@ const Accountsettings = () => {
 
                     </>
                 </TabPanel>
+
+                {/* password update  */}
+
                 <TabPanel value="2">
 
                     <div style={{display:'flex', flexDirection:'row'}}>
                         <div className="me-3">
-                            <label>Current Password</label>
-                        <InputGroup>
+                        <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
+                  <InputGroup>
                     <Form.Control
                       size="lg"
-                      value={password} onChange={(e) => handlePasswordChange(e)}
+                      value={password}
+                      onChange={handlePassword}
                       type={showPassword ? "text" : "password"}
                       placeholder="Password"
-                    //   disabled={showOtpVerification}
                       style={{
                         position: "relative",
                         boxShadow: "none",
-                        border: "1px solid rgba(217, 217, 217, 1)",
+                        border: "1px solid rgba(224, 236, 255, 1)",
                         fontSize: 16,
                         fontWeight: 500,
                         color: "rgba(34, 34, 34, 1)",
                         fontFamily: "Gilroy",
                         borderRight: "none"
                       }}
-                           />
-                    <InputGroup.Text    onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer" , borderLeft: "none"}}>
-                    {showPassword ? (
-               <Eye size="20" color="rgba(30, 69, 225, 1)" />
-            ) : (
-             
-              <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
-            )}
+                    />
+                    <InputGroup.Text onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
+                      {showPassword ? (
+                        <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                      ) : (
+
+                        <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                      )}
                     </InputGroup.Text>
 
                   </InputGroup>
@@ -450,39 +589,39 @@ const Accountsettings = () => {
 
 
                         <div>
-                        <label>New Password</label>
-                        <InputGroup>
+                        <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password</Form.Label>
+                  <InputGroup>
                     <Form.Control
                       size="lg"
-                      value={password} onChange={(e) => handlePasswordChange(e)}
-                      type={showPassword ? "text" : "password"}
+                      value={confirmpassword}
+                      onChange={handleConfirmPassword}
+                      type={showConfirmPassword ? "text" : "password"}
                       placeholder="Password"
-                    //   disabled={showOtpVerification}
                       style={{
                         position: "relative",
                         boxShadow: "none",
-                        border: "1px solid rgba(217, 217, 217, 1)",
+                        border: "1px solid rgba(224, 236, 255, 1)",
                         fontSize: 16,
                         fontWeight: 500,
                         color: "rgba(34, 34, 34, 1)",
                         fontFamily: "Gilroy",
                         borderRight: "none"
                       }}
-                           />
-                    <InputGroup.Text    onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer" , borderLeft: "none"}}>
-                    {showPassword ? (
-               <Eye size="20" color="rgba(30, 69, 225, 1)" />
-            ) : (
-             
-              <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
-            )}
+                    />
+                    <InputGroup.Text onClick={toggleConfirmPasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
+                      {showConfirmPassword ? (
+                        <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                      ) : (
+
+                        <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                      )}
                     </InputGroup.Text>
 
                   </InputGroup>
                         </div>
                     </div>
                     <div style={{ marginTop: '30px' }}>
-                            <Button  style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
+                            <Button onClick={handlePasswordchange} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
                                 Save Changes</Button>
                         </div>
 
