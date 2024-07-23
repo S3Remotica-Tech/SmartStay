@@ -7,10 +7,15 @@ import Smart from '../Assets/Images/New_images/logo_front.png';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-
+import React, { useState, useEffect } from 'react';
 
 
 function CollapsibleExample() {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)

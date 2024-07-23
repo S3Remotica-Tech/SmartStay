@@ -104,7 +104,7 @@
 }
 
 @media (min-width: 1001px) {
-  .image_div {
+  .image_div  {
     /* margin-left: 120px; */
     /* Adjust as needed for this range */
   }

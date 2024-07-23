@@ -35,6 +35,10 @@ const Accountsettings = () => {
     // const state = useSelector(state => state.UsersList)
   const stateData = useSelector(state => state.createAccount)
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
 
     const [selectedTab, setSelectedTab] = useState('Personal');
     const [firstname, setFirstName] = useState('')
