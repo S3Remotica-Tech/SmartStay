@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {  InputGroup,FormControl, Pagination } from 'react-bootstrap';
 import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
-import Profile from '../Assets/Images/New_images/profile.png';
+import Profileimage from '../Assets/Images/New_images/profile.png';
 import Image from 'react-bootstrap/Image';
 import { Offcanvas, Dropdown } from 'react-bootstrap';
 import { IoIosArrowBack } from "react-icons/io";
@@ -336,26 +336,7 @@ function Sidebar() {
 
 
 
-  const handleLogout = () => {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Do you want LogOut?',
-      confirmButtonText: 'Ok',
-      showCancelButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch({ type: 'LOG_OUT' })
-
-        const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
-        localStorage.setItem("login", encryptData.toString())
-        localStorage.setItem("loginId", '')
-        localStorage.setItem("NameId", '')
-        localStorage.setItem("phoneId", '')
-        localStorage.setItem("emilidd", '')
-      }
-    })
-  }
-
+  
 
   const stateAccount= useSelector(state => state.createAccount)
 
@@ -447,7 +428,6 @@ function Sidebar() {
             </ul>
           </Col>
           <Col lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} className="bg-white">
-            {/* <img src={Logout} class="me-3" style={{ height: "25px", width: "25px", display: "" }} onClick={handleLogout} alt='Logout' /> */}
 
             <div className='container d-flex justify-content-end align-items-center mr-3' style={{ marginTop:'30px'}}>
 
@@ -466,7 +446,7 @@ function Sidebar() {
 </div>
 
 <div className="mr-3">
-  <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
+  <Image src={profile && profile != 0 ? profile : Profileimage} roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
 </div>
 </div>
 

@@ -177,19 +177,20 @@ const Accountsettings = () => {
 
 
     const handleImageChange = async (event) => {
-        const file = event.target.files[0];
-
-        const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 800,
-            useWebWorker: true
-        };
+        const fileImage = event.target.files[0];
+    if (fileImage) {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true
+    };
         try {
-            const compressedFile = await imageCompression(file, options);
+            const compressedFile = await imageCompression(fileImage, options);
             setSelectedImage(compressedFile);
         } catch (error) {
             console.error('Image compression error:', error);
         }
+    }
     };
 
     
@@ -431,7 +432,7 @@ const Accountsettings = () => {
 
 
                     <Image
-                        src={selectedImage ? URL.createObjectURL(selectedImage) : profilePicture == null ? Men : profilePicture}
+                        src={selectedImage ? (typeof selectedImage == 'string' ? selectedImage : URL.createObjectURL(selectedImage)) : Men}
                         roundedCircle
                         style={{
                             height: 50,
@@ -441,7 +442,7 @@ const Accountsettings = () => {
                     />
                     <div style={{ marginLeft: '30px', marginTop: '10px' }}>
                         <h2 style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Profile Picture</h2>
-                        <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
+                        <input type="file"   className="sr-only" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
                         <p onClick={() => document.getElementById('upload-photo').click()} style={{ fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600, color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal' }}>Update image</p>
 
                     </div>
