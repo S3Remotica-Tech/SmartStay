@@ -13,6 +13,8 @@ const initialState = {
    statusCodeCreateAccount:0,
    toTriggerProfile:false,
    statusCodeForAccountList:0,
+   statuscodeforUpdateprofile:0,
+   message:''
 
 }
 const CreateAccountReducer = (state = initialState, action) => {
@@ -30,6 +32,14 @@ const CreateAccountReducer = (state = initialState, action) => {
          return { ...state, MobileNo: action.payload.mobileNo, EmailId: action.payload.emailId, Password: action.payload.password, Name: action.payload.name, accountMgs: action.payload.response, statusCodeForAccount:action.payload.statusCode }
       case 'CLEAR_STATUS_CODE_ACCOUNT':
          return { ...state, statusCodeForAccount: 0, toTriggerProfile:true }
+
+         case 'PROFILEUPDATE':
+            return { ...state,  statuscodeforUpdateprofile:action.payload.statusCode }
+         case 'CLEAR_UPDATE_STATUS_CODE_ACCOUNT':
+            return { ...state, statuscodeforUpdateprofile: 0 }
+            case 'PASSWORD-UPDATE':
+               return { ...state ,message:action.payload.message}
+            
       case 'TWO_STEP_VERIFY':
          return { ...state, EmailId: action.payload.emailId, IsEnable: action.payload.isEnable, statusCodeTwo: action.payload.statusCode }
       case 'CLEAR_STATUS_CODE_TWO_STEP':

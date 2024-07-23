@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useRef, useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import Calendars from '../Assets/Images/New_images/calendar.png'
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_blue.css'; 
 import { Table, Dropdown } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
@@ -90,9 +93,21 @@ const Compliance = () => {
 
 
 
+  const [selectedDate, setSelectedDate] = useState(null);
+  const calendarRef = useRef(null);
 
+  const options = {
+    dateFormat: 'd/m/Y', // Set the date format to DD/MM/YYYY
+    defaultDate: selectedDate || new Date(), // Set default date to the selected date or today
+    minDate: selectedDate ? selectedDate : 'today'
+     // Allow past dates if a date is selected
+  };
 
-
+  useEffect(() => {
+    if (calendarRef.current) {
+      calendarRef.current.flatpickr.set(options);
+    }
+  }, [selectedDate])
 
   useEffect(() => {
 
@@ -446,6 +461,7 @@ const Compliance = () => {
     setComplainttype('');
     setAssign('');
     setDescription('');
+    setSelectedDate('')
     setDate('');
     setBeds('')
     setFloor('');
@@ -474,13 +490,13 @@ const handleAssignClose = () => {
     if (Complainttype  && description  && date && hostelname  && beds && Rooms) {
       console.log();
       if(id) {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername,   Complainttype: Complainttype, Assign: Assign, Description: description, date: date, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname ,Floor_id: Floor,Status: Status, id : id } })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername,   Complainttype: Complainttype, Assign: Assign, Description: description, date: selectedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname ,Floor_id: Floor,Status: Status, id : id } })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
         setAssign('');
         setDescription('');
-        setDate('');
+        setSelectedDate('')
         setBeds('')
         setFloor('');
         setRooms('');
@@ -490,13 +506,13 @@ const handleAssignClose = () => {
         setHostel_Id('')
       }
       else {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername,   Complainttype: Complainttype, Assign: Assign, Description: description, date: date,Hostel_id: hostel_Id,  Bed: beds, Room: Rooms, hostelname: hostelname ,Floor_id: Floor , Status: Status} })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername,   Complainttype: Complainttype, Assign: Assign, Description: description, date: selectedDate,Hostel_id: hostel_Id,  Bed: beds, Room: Rooms, hostelname: hostelname ,Floor_id: Floor , Status: Status} })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
         setAssign('');
         setDescription('');
-        setDate('');
+        setSelectedDate('')
         setBeds('')
         setFloor('');
         setRooms('');
@@ -544,7 +560,8 @@ const handleAssignClose = () => {
       setComplainttype(Complaintdata.Complainttype);
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.Description);
-      setDate(format(new Date(Complaintdata.date), 'yyyy-MM-dd'));
+      // setDate(format(new Date(Complaintdata.date), 'yyyy-MM-dd'));
+      setSelectedDate(new Date(Complaintdata.date), 'dd/MM/yyyy');
       setHostel_Id(Complaintdata.Hostel_id)
       setBeds(Complaintdata.Bed)
       setFloor(Complaintdata.Floor_id);
@@ -857,7 +874,7 @@ const handleAssignClose = () => {
    <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                   <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>Complaint date</Form.Label>
 
-                  <div className="rectangle-group">
+                  {/* <div className="rectangle-group">
                   <div className="frame-child1" />
                   <input
                     className="frame-input"
@@ -872,7 +889,57 @@ const handleAssignClose = () => {
                     alt=""
                     src={Calendor}
                   />
-                </div></div>
+                </div> */}
+
+<div style={{ position: 'relative' }}>
+      <label
+        htmlFor="date-input"
+        style={{
+          border: "1px solid #D9D9D9",
+          borderRadius: 8,
+          padding: 7,
+          fontSize: 14,
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+          color: "#222222",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between", // Ensure space between text and icon
+          cursor: "pointer"
+        }}
+        onClick={() => {
+          if (calendarRef.current) {
+            calendarRef.current.flatpickr.open();
+          }
+        }}
+      >
+        {selectedDate ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
+        <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
+      </label>
+      <Flatpickr
+        ref={calendarRef}
+        options={options}
+        value={selectedDate}
+        onChange={(selectedDates) => {
+          setSelectedDate(selectedDates[0]);
+        }}
+        style={{
+          padding: 10,
+          fontSize: 16,
+          width: "100%",
+          borderRadius: 8,
+          border: "1px solid #D9D9D9",
+          position: 'absolute',
+          top: 100,
+          left: 100,
+          zIndex: 1000,
+          display: "none"
+        }}
+      />
+    </div>
+        
+                
+                </div>
 
                 {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">

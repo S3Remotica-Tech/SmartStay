@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,GetAllNotification,UpdateNotification } from '../Action/smartStayAction';
+import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,GetAllNotification,UpdateNotification , UpdateProfile , UpdatePassword} from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 
@@ -79,7 +79,50 @@ function* CreateAccountPage(action) {
   }
 }
 
+function* ProfileUpdate(action) {
+  console.log("action create account",action)
+  try {
+    const response = yield call(UpdateProfile, action.payload);
+    console.log("response for ca",response.statusCode)
+       
+    if (response.statusCode === 200) {
+      yield put({
+        type: 'PROFILEUPDATE',
+        payload: { response: response.data, statusCode: response.statusCode  }
+      });
 
+     
+    }
+    if(response){
+      refreshToken(response)
+   }
+  } catch (error) {
+    console.log("error", error);
+  }
+}
+
+
+function* handlepasswordUpdate(action) {
+  console.log("action create account",action)
+  try {
+    const response = yield call(UpdatePassword, action.payload);
+    console.log("response for ca",response.statusCode)
+       
+    if (response.statusCode === 200) {
+      yield put({
+        type: 'PASSWORD-UPDATE',
+        payload: { response: response.data, statusCode: response.statusCode, message : response.data.message }
+      });
+
+     
+    }
+    if(response){
+      refreshToken(response)
+   }
+  } catch (error) {
+    console.log("error", error);
+  }
+}
 
 
 
@@ -177,6 +220,8 @@ function refreshToken(response){
 
 function* CreateAccountSaga() {
   yield takeEvery('CREATE_ACCOUNT', CreateAccountPage)
+  yield takeEvery('PROFILE-UPDATE', ProfileUpdate)
+  yield takeEvery('PASSWORD_UPDATE', handlepasswordUpdate)
   yield takeEvery('TWOSTEPVERIFY', HandleTwoStepVerification)
   yield takeEvery('ACCOUNTDETAILS', handleAccountDetails)
   yield takeEvery('CREATE_ACCOUNT_PAGE', CreateNewAccount)
