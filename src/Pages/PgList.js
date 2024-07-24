@@ -880,11 +880,11 @@ const numberOfFloors = showHostelDetails.number_Of_Floor;
                   <Nav.Item
                     key={index}
                     onClick={() => handleFloorClick(index + 1)}
-                    className={`mb-3 mt-2 p-1 d-flex justify-content-center align-items-center Navs-Item ${floorClick === index + 1 ? 'active-floor' : 'Navs-Item'}`}
-                    style={{ border: "1px solid #dcdcdc", borderRadius: 10 , height:100, width:150}}
+                    className={`mb-3 mt-2 d-flex justify-content-center align-items-center Navs-Item ${floorClick === index + 1 ? 'active-floor' : 'Navs-Item'}`}
+                    style={{ border: "1px solid rgba(156, 156, 156, 1)", borderRadius: 16 , height:92, width:95, padding:"8px, 16px, 8px, 16px"}}
                   >
-                    <Nav.Link className={floorClick === index + 1 ? 'Nav-Links' : 'Nav-LinksUnActive'} style={{}}>
-                    <p className='text-center'>{index == 0 ? 'G' : index}</p> <p className='text-center'>{getFloorName(index + 1)}</p> 
+                    <Nav.Link  style={{}} className='text-center'>
+                    <div  className={floorClick === index + 1 ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{fontSize:32, fontFamily:"Gilroy",fontWeight:600}} >{index == 0 ? 'G' : index}</div> <div className={floorClick === index + 1 ? 'ActiveFloortext' : 'UnActiveFloortext'} style={{fontSize:14, fontFamily:"Gilroy",fontWeight:600}}>{getFloorName(index + 1)}</div> 
                     </Nav.Link>
                   </Nav.Item>
                 ))}

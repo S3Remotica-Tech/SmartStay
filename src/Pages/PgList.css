@@ -8,13 +8,25 @@
     color:#939393 !important;
    
 }
+.ActiveNumberFloor{
+    color:rgba(30, 69, 225, 1) !important;
+}
+.UnActiveNumberFloor{
+    color:rgba(34, 34, 34, 1) !important;
+}
+.ActiveFloortext{
+    color:rgba(34, 34, 34, 1) !important;
+}
+
+
+
 .Navs-Item{
     border: 2px solid  #dcdcdc !important;
-    color: #000000 !important;
+    
 }
 .active-floor {
     border: 2px solid  #1E45E1 !important;
-    color: #000000 !important;
+    
   }
 
 .pagination {
