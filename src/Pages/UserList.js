@@ -160,7 +160,7 @@ function UserList() {
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedAmenities, setSelectedAmenities] = useState("");
 
-  const rowsPerPage = 1;
+  const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -604,6 +604,11 @@ function UserList() {
   const handleBack = () => {
     setUserList(true)
     setRoomDetail(false)
+    setebshow(false)
+    setamnitiesshow(false)
+    settaransshow(false)
+    setinvoiceshow(false)
+    setoverviewshow(true)
   }
   const handleFilterByDate = (e) => {
     const searchDate = e.target.value;
@@ -1277,7 +1282,7 @@ function UserList() {
                             e.target.src = Profile; // Fallback to default image
                           }}
                         />
-                        <span style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }} onClick={() => handleRoomDetailsPage(user)}>
+                        <span style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy",color:"#1E45E1" }} onClick={() => handleRoomDetailsPage(user)}>
                           {user.Name}
                         </span>
                       </td>
@@ -1341,7 +1346,7 @@ function UserList() {
                   {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
                   <ArrowLeft2 size="16" color="#1E45E1" />
                 </button>
-                <span
+                {/* <span
                   onClick={() => handlePageChange(currentPage - 1)}
                   style={{
                     marginTop: '20px',
@@ -1350,7 +1355,7 @@ function UserList() {
                   }}
                 >
                   Previous
-                </span>
+                </span> */}
               </li>
               {currentPage > 3 && (
                 <li style={{ margin: '0 5px' }}>
@@ -1397,7 +1402,7 @@ function UserList() {
                 </li>
               )}
               <li style={{ margin: '0 5px' }}>
-                <span
+                {/* <span
                   onClick={() => handlePageChange(currentPage + 1)}
                   style={{
                     marginTop: '20px',
@@ -1406,7 +1411,7 @@ function UserList() {
                   }}
                 >
                   Next
-                </span>
+                </span> */}
                 <button
                   style={{
                     padding: '5px 10px',
