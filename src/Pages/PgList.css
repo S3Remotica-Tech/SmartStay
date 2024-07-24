@@ -1,15 +1,21 @@
 
-.Nav-Links.active{
-    color: #1E45E1 !important;
-    border-bottom-color: #1E45E1 !important;
+.Nav-Links{
+    color: #000000 !important;
+   
     
 }
-.Nav-Links{
+.Nav-LinksUnActive{
     color:#939393 !important;
    
 }
-
-
+.Navs-Item{
+    border: 2px solid  #dcdcdc !important;
+    color: #000000 !important;
+}
+.active-floor {
+    border: 2px solid  #1E45E1 !important;
+    color: #000000 !important;
+  }
 
 .pagination {
     --bs-pagination-padding-x: 0.85rem;

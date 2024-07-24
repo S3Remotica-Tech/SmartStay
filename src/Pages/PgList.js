@@ -40,6 +40,8 @@ import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
 import { IoIosArrowBack ,IoIosArrowForward} from "react-icons/io";
+import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
+import { Tab,  Row, Col } from 'react-bootstrap';
 
 function getFloorName(floor_Id) {
   if (floor_Id === 1) {
@@ -615,13 +617,7 @@ const handlecloseRoom = () =>{
 
 const [floorClick, setFloorClick] = useState(1)
 
-const  handleFloorClick = (floor) =>{
 
-console.log("Floor", floor)
-
-setFloorClick(floor)
-
-}
 
 const handlebackToPG = () =>{
   setSelectedHostel(false)
@@ -681,6 +677,33 @@ const handleEditHostel = (hostelDetails) =>{
   setEditHostelDetails(hostelDetails)
 }
 
+
+
+
+const [key, setKey] = useState('0');
+
+
+const [visibleRange, setVisibleRange] = useState([0, 4]);
+
+const numberOfFloors = showHostelDetails.number_Of_Floor;
+  const floorsPerPage = 5;
+
+  const handlePrev = () => {
+    if (visibleRange[0] > 0) {
+      setVisibleRange([visibleRange[0] - 1, visibleRange[1] - 1]);
+    }
+  };
+
+  const handleNext = () => {
+    if (visibleRange[1] < numberOfFloors - 1) {
+      setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
+    }
+  };
+
+  const handleFloorClick = (floorNumber) => {
+    setFloorClick(floorNumber);
+    setKey(floorNumber.toString());
+  };
   return (
     <>
  
@@ -824,7 +847,7 @@ const handleEditHostel = (hostelDetails) =>{
     {/* <Nav variant="underline"  style={{ borderBottom: "1px solid #DEDEDE", marginBottom: 2 }}>
         {Array.from({ length:showHostelDetails.number_Of_Floor }, (_, index) => (
           <Nav.Item key={index}>
-            <Nav.Link  className='Nav-Links' style={{ fontSize: 16 }} 
+            <Nav.Link  className='Nav-Links' style={{ fontSize: 16 , fontFamily:"Gilroy", fontWeight:600 }} 
             active={index + 1 === floorClick}
             onClick={() => handleFloorClick(index + 1)}
             >
@@ -835,45 +858,86 @@ const handleEditHostel = (hostelDetails) =>{
       </Nav> */}
 
 
-<Nav variant="underline" style={{ borderBottom: "1px solid #DEDEDE", marginBottom: 2 }}>
-      {Array.from({ length: visibleFloors }, (_, index) => (
-        <Nav.Item key={index}>
-          <Nav.Link
-            className='Nav-Links'
-            style={{ fontSize: 16 , fontFamily:"Gilroy", fontWeight:600}}
-            active={index + 1 === floorClick}
-            onClick={() => handleFloorClick(index + 1)}
-          >
-            {getFloorName(index + 1)}
-          </Nav.Link>
-        </Nav.Item>
-      ))}
-      {remainingFloors > 0 && (
-        <Dropdown as={Nav.Item} onToggle={handleMoreClick}>
-          <Dropdown.Toggle as={Nav.Link} className='Nav-Links'  style={{ fontSize: 16 , fontFamily:"Gilroy", fontWeight:600}}>
-            More
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {Array.from({ length: remainingFloors }, (_, index) => (
-              <Dropdown.Item
-                key={index + visibleFloors}
-                active={index + visibleFloors + 1 === floorClick}
-                onClick={() => handleFloorClick(index + visibleFloors + 1)}
-              >
-                {getFloorName(index + visibleFloors + 1)}
-              </Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
-      )}
-    </Nav>
 
-<ParticularHostelDetails
+
+
+     
+
+
+<Tab.Container activeKey={key} onSelect={(k) => setKey(k)} id="vertical-tabs-example">
+        <Row className="flex-nowrap g-0">
+          <Col sm={3} className='d-flex justify-content-start'>
+            <div>
+              <div className='d-flex justify-content-center'>
+                <div onClick={handlePrev} disabled={key === '0'} style={{ border: "1px solid #DCDCDC", width: "fit-content", borderRadius: 50 }}>
+                  <ArrowUp2 size="32" color="#EBEBEB" variant="Bold" />
+                </div>
+              </div>
+
+              <Nav variant="" className="flex-column">
+                {Array.from({ length: numberOfFloors }, (_, index) => (
+                  index >= visibleRange[0] && index <= visibleRange[1] &&
+                  <Nav.Item
+                    key={index}
+                    onClick={() => handleFloorClick(index + 1)}
+                    className={`mb-3 mt-2 p-1 d-flex justify-content-center align-items-center Navs-Item ${floorClick === index + 1 ? 'active-floor' : 'Navs-Item'}`}
+                    style={{ border: "1px solid #dcdcdc", borderRadius: 10 , height:100}}
+                  >
+                    <Nav.Link className={floorClick === index + 1 ? 'Nav-Links' : 'Nav-LinksUnActive'}>
+                      {getFloorName(index + 1)}
+                    </Nav.Link>
+                  </Nav.Item>
+                ))}
+              </Nav>
+
+              <div className='d-flex justify-content-center'>
+                <div onClick={handleNext} disabled={key === (showHostelDetails.number_Of_Floor - 1).toString()} style={{ border: "1px solid #DCDCDC", width: "fit-content", borderRadius: 50 }}>
+                  <ArrowDown2 size="32" color="#EBEBEB" variant="Bold" />
+                </div>
+              </div>
+            </div>
+          </Col>
+          <Col sm={9}>
+            <Tab.Content>
+            <ParticularHostelDetails
 floorID={floorClick}
 hostel_Id={showHostelDetails.id}
 phoneNumber={showHostelDetails.hostel_PhoneNo}
 
 />
+              {/* {Array.from({ length: showHostelDetails.number_Of_Floor }, (_, index) => (
+                <Tab.Pane eventKey={index.toString()} key={index}>
+                  <h4>{`Content for ${getFloorName(index + 1)}`}</h4>
+                </Tab.Pane>
+              ))} */}
+            </Tab.Content>
+          </Col>
+        </Row>
+      </Tab.Container>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <ParticularHostelDetails
+floorID={floorClick}
+hostel_Id={showHostelDetails.id}
+phoneNumber={showHostelDetails.hostel_PhoneNo}
+
+/> */}
 
 <div className='row mt-2'>
 <div>

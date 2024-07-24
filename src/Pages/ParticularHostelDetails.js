@@ -292,7 +292,7 @@ const indexOfLastItem = currentPage * itemsPerPage;
         {currentItems.length > 0 ? currentItems.map((room, index) => (
           <>
 
-            <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
+            <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
 
               <Card className="h-100" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16 ,height: "auto", minHeight: 200}}>
                 <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
@@ -355,7 +355,7 @@ const indexOfLastItem = currentPage * itemsPerPage;
 
 
 
-      {
+      {/* {
   currentItems.length > 0 && 
   <Pagination className="mt-4 d-flex justify-content-end align-items-center">
   <Pagination.Prev style={{ visibility:"visible"}}
@@ -368,7 +368,7 @@ const indexOfLastItem = currentPage * itemsPerPage;
     disabled={currentPage === totalPages}
   />
 </Pagination>
-}
+} */}
 
       {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details}/>}
 
