@@ -683,7 +683,7 @@ const handleEditHostel = (hostelDetails) =>{
 const [key, setKey] = useState('0');
 
 
-const [visibleRange, setVisibleRange] = useState([0, 4]);
+const [visibleRange, setVisibleRange] = useState([0, 3]);
 
 const numberOfFloors = showHostelDetails.number_Of_Floor;
   const floorsPerPage = 5;
@@ -865,8 +865,8 @@ const numberOfFloors = showHostelDetails.number_Of_Floor;
 
 
 <Tab.Container activeKey={key} onSelect={(k) => setKey(k)} id="vertical-tabs-example">
-        <Row className="flex-nowrap g-0">
-          <Col sm={3} className='d-flex justify-content-start'>
+        <Row className="g-0">
+          <Col sm={12} xs={12} md={3} lg={3} className='d-flex justify-content-start'>
             <div>
               <div className='d-flex justify-content-center'>
                 <div onClick={handlePrev} disabled={key === '0'} style={{ border: "1px solid #DCDCDC", width: "fit-content", borderRadius: 50 }}>
@@ -881,10 +881,10 @@ const numberOfFloors = showHostelDetails.number_Of_Floor;
                     key={index}
                     onClick={() => handleFloorClick(index + 1)}
                     className={`mb-3 mt-2 p-1 d-flex justify-content-center align-items-center Navs-Item ${floorClick === index + 1 ? 'active-floor' : 'Navs-Item'}`}
-                    style={{ border: "1px solid #dcdcdc", borderRadius: 10 , height:100}}
+                    style={{ border: "1px solid #dcdcdc", borderRadius: 10 , height:100, width:150}}
                   >
-                    <Nav.Link className={floorClick === index + 1 ? 'Nav-Links' : 'Nav-LinksUnActive'}>
-                      {getFloorName(index + 1)}
+                    <Nav.Link className={floorClick === index + 1 ? 'Nav-Links' : 'Nav-LinksUnActive'} style={{}}>
+                    <p className='text-center'>{index == 0 ? 'G' : index}</p> <p className='text-center'>{getFloorName(index + 1)}</p> 
                     </Nav.Link>
                   </Nav.Item>
                 ))}
@@ -897,7 +897,7 @@ const numberOfFloors = showHostelDetails.number_Of_Floor;
               </div>
             </div>
           </Col>
-          <Col sm={9}>
+          <Col sm={12} xs={12} md={9} lg={9}>
             <Tab.Content>
             <ParticularHostelDetails
 floorID={floorClick}
