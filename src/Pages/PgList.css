@@ -17,7 +17,9 @@
 .ActiveFloortext{
     color:rgba(34, 34, 34, 1) !important;
 }
-
+.UnActiveFloortext{
+    color: rgba(156, 156, 156, 1) !important;
+}
 
 
 .Navs-Item{

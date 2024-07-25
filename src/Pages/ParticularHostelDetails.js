@@ -343,12 +343,23 @@ const indexOfLastItem = currentPage * itemsPerPage;
         ))
         :
 
-        <div style={{ width: 400 }}>
-        <Alert variant="warning" >
+        <div className='d-flex align-items-center justify-content-center' style={{ width: "100%" }}>
+        {/* <Alert variant="warning" >
           Currently, no rooms are available.
-        </Alert>
+        </Alert> */}
+        <div>
 
+        <div style={{textAlign:"center", fontWeight:600, fontFamily:"Gilroy",fontSize:24,color:"rgba(75, 75, 75, 1)"}}>No rooms available</div>
+        <div style={{textAlign:"center", fontWeight:500, fontFamily:"Gilroy",fontSize:20,color:"rgba(75, 75, 75, 1)"}}>There is no room added in this floor.</div>
+        </div>
+        <div>
+
+</div>
       </div>
+
+
+
+
       
       }
       </div>
