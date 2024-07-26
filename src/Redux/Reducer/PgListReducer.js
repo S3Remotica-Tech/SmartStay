@@ -25,7 +25,7 @@ const initialState = {
     errorForBed: "",
     errorStatusCode: 0,
     statusCodeCreateRoom: 0,
-    dashboardDetails: '',
+    dashboardDetails: [],
     deleteFloor: '',
     deleteRoom: '',
     deleteBed: '',

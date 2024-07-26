@@ -34,6 +34,7 @@ export default AxiosConfig;
 // http://smartstaydev.s3remotica.com:2001
 
 
+// http://13.126.102.54:1010
 
 
 
