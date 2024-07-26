@@ -21,6 +21,13 @@
     color: rgba(156, 156, 156, 1) !important;
 }
 
+.hover-hostel-name:hover{
+text-decoration: underline;
+color:#1E45E1 !important;
+cursor:pointer;
+
+
+}
 
 .Navs-Item{
     border: 2px solid  #dcdcdc !important;

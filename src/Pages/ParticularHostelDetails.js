@@ -182,50 +182,7 @@ useEffect(() => {
     dispatch({ type: 'USERLIST' })
   }, [])
 
-  // const handleDeleteRoom = () => {
-
-  //   console.log("bedDetailsSendThePage", bedDetailsSendThePage);
-  //   if (bedDetailsSendThePage.Number_Of_Beds > 0) {
-  //     Swal.fire({
-  //       icon: 'warning',
-  //       title: 'Please delete the bed before deleting the room.',
-  //       confirmButtonText: 'Ok'
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //       }
-  //     });
-  //   }
-  //   else {
-  //     console.log("dleteRoom", RoomName);
-  //     // let roomID = RoomName.replace(/\D/g, "")
-  //     let roomID = bedDetailsSendThePage.Room_Id
-  //     console.log("roomID", roomID);
-  //     Swal.fire({
-  //       icon: 'warning',
-  //       title: 'Do you want to delete the Room ?',
-  //       confirmButtonText: 'Yes',
-  //       cancelButtonText: 'No',
-  //       showCancelButton: true,
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         dispatch({
-  //           type: 'DELETEROOM',
-  //           payload: {
-  //             hostelId: props.hostel_Id,
-  //             floorId: props.floorID,
-  //             roomNo: roomID
-  //           },
-  //         });
-  //         Swal.fire({
-  //           icon: 'success',
-  //           title: 'Room deleted Successfully',
-  //         })
-  //       }
-  //     });
-  //   }
-
-  //   // dispatch({type:'DELETEROOM'})
-  // }
+  
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -292,15 +249,22 @@ const indexOfLastItem = currentPage * itemsPerPage;
   }
 
 const [showDeleteRoom, setShowDeleteRoom] = useState(false)
+const [deleteRoomDetails, setDeleteRoomDetails] = useState({hostel_Id:null , floor_Id:null , room_Id: null})
 
-const handleDeleteRoom = (Floor_Id,Room_Id) => {
+const handleDeleteRoom = (Hostel_Id,Floor_Id,Room_Id) => {
 setShowDeleteRoom(true)
+setDeleteRoomDetails({Hostel_Id,Floor_Id,Room_Id})
 }
 
 
 const handleCloseDeleteRoom = () =>{
   setShowDeleteRoom(false)
 }
+
+
+console.log("currentItems",currentItems)
+
+
 
   return (
     <div className=''>
@@ -330,7 +294,7 @@ const handleCloseDeleteRoom = () =>{
                             <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Edit</label>
                           </div>
                           <div>
-                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(255, 0, 0, 1)" }} onClick={()=> {handleDeleteRoom(room.Floor_Id, room.Room_Id)}}>Delete</label>
+                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(255, 0, 0, 1)" }} onClick={()=> {handleDeleteRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}}>Delete</label>
                           </div>
                         </div>
                       </div>
@@ -431,7 +395,7 @@ const handleCloseDeleteRoom = () =>{
        />}
 
 {
-  showDeleteRoom && <DeleteRoom  show={showDeleteRoom} handleClose={handleCloseDeleteRoom}/>
+  showDeleteRoom && <DeleteRoom  show={showDeleteRoom} handleClose={handleCloseDeleteRoom} deleteRoomDetails={deleteRoomDetails}/>
 }
 
     </div>

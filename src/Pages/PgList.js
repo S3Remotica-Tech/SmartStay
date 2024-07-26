@@ -45,17 +45,17 @@ function getFloorName(floor_Id) {
     11: 'Eleventh',
     12: 'Twelfth',
     13: 'Thirteenth',
-    
+
   };
 
-  
+
   if (floor_Id === 1) {
     return 'Ground Floor';
   } else if (numberToWord[floor_Id - 1]) {
-   
+
     return `${numberToWord[floor_Id - 1]} Floor`;
   } else {
-   
+
     const floorNumber = floor_Id - 1;
     const lastDigit = floorNumber % 10;
     let suffix = 'th';
@@ -724,7 +724,7 @@ function PgList() {
 
 
 
- 
+
 
   const [showDelete, setShowDelete] = useState(false);
   const [deleteFloor, setDeleteFloor] = useState('')
@@ -734,9 +734,9 @@ function PgList() {
   const handleShowDelete = (FloorNumber) => {
     setShowDelete(true)
     setDeleteFloor(FloorNumber)
-    
+
   }
-   
+
 
 
 
@@ -789,9 +789,7 @@ function PgList() {
             </div>
           </div>
 
-          {
-            showAddPg && <AddPg show={showAddPg} handleClose={handleCloses} currentItem={editHostelDetails} />
-          }
+         
 
 
           <div className='row row-gap-3'>
@@ -806,12 +804,21 @@ function PgList() {
 
             {filteredData.length == 0 &&
 
-              <div style={{ width: 400 }}>
-                <Alert variant="warning" >
-                  Currently, no hostel are available.
-                </Alert>
+<div className='d-flex align-items-center justify-content-center' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
-              </div>
+<div>
+
+  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No hostel available</div>
+  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are currently no hostels available</div>
+  <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
+    onClick={handleShowAddPg}
+  > + Add PG</Button>
+  </div>
+</div>
+<div>
+
+</div>
+</div>
             }
 
           </div>
@@ -860,9 +867,7 @@ function PgList() {
 
               <div className='d-flex align-items-center'>
                 <ArrowLeft size="32" color="#222222" onClick={handlebackToPG} />
-                {/* <div >
-          <IoIosArrowDropleft style={{height:30, width:30, fontSize:25, color:"#dcdcdc"}} />
-          </div> */}
+               
                 <label className='ms-4' style={{ fontSize: 20, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>{showHostelDetails.Name}</label>
               </div>
 
@@ -880,32 +885,13 @@ function PgList() {
             {
               showHostelDetails.number_Of_Floor > 0 ?
                 <>
-                  {/* <Nav variant="underline"  style={{ borderBottom: "1px solid #DEDEDE", marginBottom: 2 }}>
-        {Array.from({ length:showHostelDetails.number_Of_Floor }, (_, index) => (
-          <Nav.Item key={index}>
-            <Nav.Link  className='Nav-Links' style={{ fontSize: 16 , fontFamily:"Gilroy", fontWeight:600 }} 
-            active={index + 1 === floorClick}
-            onClick={() => handleFloorClick(index + 1)}
-            >
-              {getFloorName(index + 1)}
-            </Nav.Link>
-          </Nav.Item>
-        ))}
-      </Nav> */}
-
-
-
-
-
-
-
-
+                
                   <Tab.Container activeKey={key} onSelect={(k) => setKey(k)} id="vertical-tabs-example">
                     <Row className="g-0">
                       <Col sm={12} xs={12} md={2} lg={2} className='d-flex justify-content-start'>
                         <div>
                           <div className='d-flex justify-content-center'>
-                            <div onClick={handlePrev} disabled={key === '0'} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, cursor: 'pointer',padding:3}}>
+                            <div onClick={handlePrev} disabled={key === '0'} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, cursor: 'pointer', padding: 3 }}>
                               <ArrowUp2 size="32" color={key === '0' ? "rgba(156, 156, 156, 1)" : "#000000"} variant="Bold" />
                             </div>
                           </div>
@@ -927,7 +913,7 @@ function PgList() {
                           </Nav>
 
                           <div className='d-flex justify-content-center'>
-                            <div onClick={handleNext} disabled={key === (showHostelDetails.number_Of_Floor - 1).toString()} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50,padding:3 }}>
+                            <div onClick={handleNext} disabled={key === (showHostelDetails.number_Of_Floor - 1).toString()} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, padding: 3 }}>
                               <ArrowDown2 size="32" color={key === (showHostelDetails.number_Of_Floor - 1).toString() ? "rgba(156, 156, 156, 1)" : "#000000"} variant="Bold" />
                             </div>
                           </div>
@@ -971,8 +957,8 @@ function PgList() {
 
                           />
 
-{/* add room popup */}
-                  {/* <div className='row mt-2'>
+                          {/* add room popup */}
+                          {/* <div className='row mt-2'>
                     <div>
                       <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(showHostelDetails, floorClick)}>+ Add room</label>
                     </div>
@@ -985,70 +971,33 @@ function PgList() {
                   </Tab.Container>
 
 
-
-
-
-
-
-{showDelete && <DeleteFloor show={showDelete}  handleClose={handleCloseDelete}  currentItem={deleteFloor}/>}
-
-
-
-
-
-
-
-
-
-
-                  {/* <ParticularHostelDetails
-floorID={floorClick}
-hostel_Id={showHostelDetails.id}
-phoneNumber={showHostelDetails.hostel_PhoneNo}
-
-/> */}
-
-                
-
-
-
                 </>
-                : 
-                
-                <div className='d-flex align-items-center justify-content-center' style={{ width: "100%" ,height:350,margin:"0px auto"}}>
-              
-                <div>
-        
-                <div  className="pb-1" style={{textAlign:"center", fontWeight:600, fontFamily:"Gilroy",fontSize:24,color:"rgba(75, 75, 75, 1)"}}>No floors available</div>
-                <div className="pb-1" style={{textAlign:"center", fontWeight:500, fontFamily:"Gilroy",fontSize:20,color:"rgba(75, 75, 75, 1)"}}>There is no floor added to this paying guest.</div>
-                <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
-                 onClick={() => handleCreateFloor(showHostelDetails.id)}
-                 > + Add floor</Button>
+                :
+
+                <div className='d-flex align-items-center justify-content-center' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+
+                  <div>
+
+                    <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No floors available</div>
+                    <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There is no floor added to this paying guest.</div>
+                    <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
+                      onClick={() => handleCreateFloor(showHostelDetails.id)}
+                    > + Add floor</Button>
+                    </div>
+                  </div>
+                  <div>
+
+                  </div>
                 </div>
-                </div>
-                <div>
-        
-        </div>
-              </div>
 
             }
 
-            {/* Render floors */}
-
-
-
-
-
-
-
+         
           </div>
         )}
-
-        {/* {selectedHostel && 
-   <ParticularHostelDetails  floorID={showHostelDetails.number_Of_Floor} hostel_Id={showHostelDetails.id} phoneNumber={showHostelDetails.hostel_PhoneNo} hostelName={showHostelDetails}/>
-} */}
-
-
+      
+      {showAddPg && <AddPg show={showAddPg} handleClose={handleCloses} currentItem={editHostelDetails} /> }
+{showDelete && <DeleteFloor show={showDelete} handleClose={handleCloseDelete} currentItem={deleteFloor} />}
         {showFloor && <AddFloor show={showFloor} handleClose={handleCloseFloor} />}
         {showRoom && <AddRoom show={showRoom} handleClose={handlecloseRoom} hostelDetails={hostelDetails} />}
       </div>
