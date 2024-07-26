@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import { Dropdown, Table } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import Logo from '../Assets/Images/Logo-Icon.png'
 import Form from 'react-bootstrap/Form';
@@ -7,6 +8,7 @@ import '../Pages/Settings.css'
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
+import dottt from "../Assets/Images/Group 14.png"
 import CryptoJS from "crypto-js";
 
 function InvoiceSettings() {
@@ -136,10 +138,13 @@ function InvoiceSettings() {
             });
         } else {
             Swal.fire({
-                text: "Please Enter All field.",
                 icon: "warning",
-                timer: 2000,
-            });
+                title: 'Please Enter All Field',
+                confirmButtonText: "ok"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                }
+              });
         }
     };
 
@@ -219,9 +224,10 @@ function InvoiceSettings() {
 
 
     return (
-        <div>
+        <div style={{display:'flex', flexDirection:'row'}}>
+            <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
 
-            <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
+            <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                       <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>
                         Select Hostel
@@ -242,8 +248,8 @@ function InvoiceSettings() {
 
 
 
-            <div className='col-lg-10 col-md-8 col-sm-12 col-xs-12' style={{ border: '1px solid #ced4da', padding: '30px', paddingRight: '100px', borderRadius: '20px' }}>
-                <div className='d-flex row'>
+            <div className='col-lg-11 col-md-8 col-sm-12 col-xs-12 ps-4' style={{ border: '1px solid #ced4da',  borderRadius: '20px' }}>
+                {/* <div className='d-flex row'> */}
 
                     <div className='d-flex justify-content-start gap-3 align-items-center '>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5, marginBottom: '20px' }}>
@@ -267,8 +273,8 @@ function InvoiceSettings() {
                         </div>
                     </div>
 
-
-                    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                    <div className='d-flex row '>
+                    <div className='col-lg-5 col-md-4 col-sm-12 col-xs-12'>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label
                            style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
@@ -276,7 +282,7 @@ function InvoiceSettings() {
                                 Prefix
                             </Form.Label>
                             <Form.Control
-                                style={{ padding: '20px', marginTop: '10px' }}
+                                style={{ padding: '10px', marginTop: '10px' }}
                                 type="text"
                                 placeholder="prefix"
                                 value={prefix}
@@ -287,14 +293,14 @@ function InvoiceSettings() {
                         </Form.Group>
                     </div>
 
-                    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                    <div className='col-lg-5 col-md-4 col-sm-12 col-xs-12'>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
                             >
                                 Suffix
                             </Form.Label>
                             <Form.Control
-                                style={{ padding: '20px', marginTop: '10px' , fontSize:14 }}
+                                style={{ padding: '10px', marginTop: '10px' , fontSize:14 }}
                                 type="text"
                                 placeholder="suffix"
                                 value={startNumber}
@@ -303,9 +309,10 @@ function InvoiceSettings() {
                             />
                         </Form.Group>
                     </div>
-                </div>
+                    </div>
+                {/* </div> */}
 
-                <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                <div className='col-lg-10 col-md-4 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
                         // style={labelStyle}
@@ -313,7 +320,7 @@ function InvoiceSettings() {
                             Preview
                         </Form.Label>
                         <Form.Control
-                            style={{ padding: '20px', marginTop: '10px' , fontSize:14  }}
+                            style={{ padding: '10px', marginTop: '10px' , fontSize:14 ,backgroundColor: "#E7F1FF" }}
                             type="text"
                             placeholder="preview"
                             disabled
@@ -322,13 +329,53 @@ function InvoiceSettings() {
                         />
                     </Form.Group>
                 </div>
-                <div style={{ marginTop: '30px' }}>
-                    <Button onClick={handleInvoiceSettings} style={{fontFamily:'Montserrat', fontSize: 16,fontWeight:500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}> Save changes</Button>
-                    <Button style={{fontFamily:'Montserrat', fontSize: 16, backgroundColor: "#FFFFFF", color: "red", border: '1px solid red ', height: 56, fontWeight: 500,letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px", marginLeft: '20px' }}> Delete</Button>
+                <div style={{ marginTop: '20px' }}>
+                    
+                    <Button className='col-lg-10 col-md-4 col-sm-12 col-xs-12 mb-2' onClick={handleInvoiceSettings} style={{fontFamily:'Montserrat', fontSize: 16,fontWeight:500, backgroundColor: "#1E45E1", color: "white",  letterSpacing:1, borderRadius: 12,  padding: "10px" }}> Save </Button>
+
+                    
+                    <Button className='col-lg-10 col-md-4 col-sm-12 col-xs-12 mb-2' style={{fontFamily:'Montserrat', fontSize: 16, backgroundColor: "#FFFFFF", color: "red", border: '1px solid red ',  fontWeight: 500,letterSpacing:1, borderRadius: 12,  padding: "10px" }}> Delete</Button>
 
                 </div>
 
             </div>
+            </div>
+
+            <hr style={{ border:'1px solid #ced4da',   transform: 'rotate(180deg)'}}/>
+            <div className='col-lg-6 col-md-5 col-sm-12 col-xs-12 ms-5'> 
+                  <Table className="ebtable mt-3" responsive  >
+                          <thead style={{ backgroundColor: "#E7F1FF" }}>
+                            <tr>
+
+                              <th style={{color:'#222', paddingLeft: "40px",  fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
+                              <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Prefix</th>
+                              <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>suffix </th>
+                              <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
+                              {/* <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Dated</th> */}
+
+                            </tr>
+                          </thead>
+                          <tbody style={{ height: "50px", fontSize: "11px" }}>
+                           
+                          {state.UsersList.hostelList.map((invoice) => (
+                                <tr  style={{ lineHeight: "40px" }}>
+                                  <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{invoice.Name}</td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{invoice.prefix}</td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{invoice.suffix}</td>
+                                  <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
+                                </tr>
+
+                           )
+                            )}
+                            {/* {currentRowsEb.length === 0 && (
+                              <tr>
+                                <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
+                              </tr>
+                            )} */}
+
+                          </tbody>
+                        </Table>
+                  </div>
 
 
             {/* <div className='d-flex justify-content-between'>
