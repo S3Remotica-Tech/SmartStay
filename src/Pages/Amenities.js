@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import CryptoJS from "crypto-js";
 import Button from 'react-bootstrap/Button';
+import { Dropdown, Table } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { FaPlus } from "react-icons/fa6";
 import Modal from 'react-bootstrap/Modal';
@@ -10,6 +11,7 @@ import AmenitiesView from '../Pages/AmenitiesView'
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import "./Amenities.css";
+import dottt from "../Assets/Images/Group 14.png"
 import Swal from 'sweetalert2';
 
 function Amenities() {
@@ -124,6 +126,14 @@ function Amenities() {
 
 
     // }
+    const [selectedhostel, setSelecteDHostel] = useState('');
+    // const [unit , setUnit] = useState('');
+    // const [amount , setAmount] = useState('')
+    console.log("selectedHostel", selectedhostel);
+
+    const handleHostelClick = (e) => {
+        setSelecteDHostel(e.target.value)
+    };
 
 
     const handleAmenitiesSetting = () => {
@@ -222,22 +232,134 @@ function Amenities() {
 
     const uniqueOptions = Array.from(new Set(state?.InvoiceList?.AmenitiesList.map((item) => item.Amnities_Name)));
 
-   
+//     const[ hostelname , setHostelname] = useState([])
+//    const  Hostelnamefilterlist = state.UsersList.hostelList.filter((u)=> u.id == state?.InvoiceList?.AmenitiesList.id )
+//     setHostelname(Hostelnamefilterlist)
+//     console.log("Hostelnamefilterlist", hostelname);
 
-   
-
-    const [selectedhostel, setSelecteDHostel] = useState('');
-// const [unit , setUnit] = useState('');
-// const [amount , setAmount] = useState('')
-console.log("selectedHostel",selectedhostel);
-
-const handleHostelClick = (e) => {
-    setSelecteDHostel(e.target.value)
-};
 
 
     return (
-        <div className='container'>
+
+        <>
+
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                    <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                            <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>
+                                Select Hostel
+                            </Form.Label>
+                            <Form.Select aria-label="Default select example"
+                                className='border' value={selectedhostel} onChange={(e) => handleHostelClick(e)} style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
+
+                                <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
+                                {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
+                                    <>
+                                        <option key={item.id} value={item.id} >{item.Name}</option></>
+                                ))}
+
+                            </Form.Select>
+                        </Form.Group>
+
+                    </div>
+                    <div className='col-lg-11 col-md-4 col-sm-12 col-xs-12' style={{ border: '1px solid #ced4da', padding: '30px', borderRadius: '20px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+                            <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}
+                                    >
+                                        Amenity
+                                    </Form.Label>
+                                    <Form.Control
+                                        style={{ padding: '10px', marginTop: '10px' }}
+                                        type="text"
+                                        placeholder="Enter amenity"
+                                        value={amenitiesName}
+                                        onChange={handleAmenitiesChange}
+
+                                    />
+                                </Form.Group>
+                            </div>
+
+                            <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                                    <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}
+                                    >
+                                        Set Amount
+                                    </Form.Label>
+                                    <Form.Control
+                                        style={{ padding: '10px', marginTop: '10px' }}
+                                        type="text"
+                                        placeholder="Enter Amount"
+                                        value={amount}
+                                        onChange={(e) => handleAmountChange(e)}
+
+                                    />
+                                </Form.Group>
+                            </div>
+
+                            <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
+                                <div className='d-flex justify-content-between  ps-2 pe-2 '>
+                                    <label className='mb-3 ' style={{ fontSize: 14, fontWeight: 600 }} >Set as Default</label>
+                                    <Form.Check type="switch" id="custom-switch" checked={active} onChange={(e) => handleSetAsDefault(e)} />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                            <Button className='col-lg-11 col-md-12 col-sm-12 col-xs-12' onClick={handleAmenitiesSetting} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12 }}>
+                                Save Changes</Button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <hr style={{ border:'1px solid #ced4da',   transform: 'rotate(180deg)'}}/>
+
+                <div className='col-lg-6 col-md-5 col-sm-12 col-xs-12 ms-5'>
+                    <Table className="ebtable mt-3" responsive  >
+                        <thead style={{ backgroundColor: "#E7F1FF" }}>
+                            <tr>
+
+                                <th style={{color:'#222', paddingLeft: "40px", fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
+                                <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amenity</th>
+                                <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amount </th>
+                                <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Status</th>
+                                <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
+
+                            </tr>
+                        </thead>
+                        <tbody style={{ height: "50px", fontSize: "11px" }}>
+
+                            {state.InvoiceList.AmenitiesList.map((amenity) => (
+                                <tr style={{ lineHeight: "40px" }}>
+                                    <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{amenity.Name}</td>
+                                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>{amenity.Amnities_Name}</td>
+                                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>₹ {amenity.Amount}</td>
+                                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{amenity.Status == 1 ? "Active" : "Inactive"}</td>
+                                    <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
+                                </tr>
+                            )
+                            )}
+
+
+                            {/* {currentRowsEb.length === 0 && (
+                              <tr>
+                                <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
+                              </tr>
+                            )} */}
+
+                        </tbody>
+                    </Table>
+                </div>
+            </div>
+
+
+
+
+            {/* <div className='container'>
 
           
 
@@ -261,70 +383,7 @@ const handleHostelClick = (e) => {
             </div>
 
             <div className='col-lg-10 col-md-8 col-sm-12 col-xs-12' style={{ border: '1px solid #ced4da', padding: '30px', paddingRight: '100px', borderRadius: '20px' }}>
-                {/* <div className='d-flex row'>
-
-                    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label
-                            //  style={labelStyle}
-                            >
-                                Amenity
-                            </Form.Label>
-                            <Form.Control
-                                style={{ padding: '20px', marginTop: '10px' }}
-                                type="text"
-                                placeholder="Enter amenity"
-                                // value={hostelname}
-                                readOnly
-                            // style={inputStyle}
-                            />
-                        </Form.Group>
-                    </div>
-
-                    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label
-                            // style={labelStyle}
-                            >
-                                Set Amount
-                            </Form.Label>
-                            <Form.Control
-                                style={{ padding: '20px', marginTop: '10px' }}
-                                type="text"
-                                placeholder="Enter Amount"
-                                // value={beds}
-                                readOnly
-                            // style={inputStyle}
-                            />
-                        </Form.Group>
-                    </div>
-
-                    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                            <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>
-                                Type
-                            </Form.Label>
-                            <Form.Select className='border'
-                                selected
-                                // value={Complainttype}
-                                // onChange={(e) => { setComplainttype(e.target.value) }}
-                                style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 ,paddingTop:10,marginTop:10}}
-                            >
-
-                                <option selected value="">Select a Type</option>
-                                <option value="Invoice">Annai hostel</option>
-                                <option value="Others">vetri hostel</option>
-
-
-                            </Form.Select>
-                        </Form.Group>
-                    </div>
-                </div>
-                       
-                  <div>
-                  <p style={{color:'#1E45E1',fontSize:'16px',fontWeight:500}}>+ Add new amenity</p>   
-                  </div> */}
-
+             
 
                   <>
                 <div className='d-flex row ' style={{width:'auto'}}>
@@ -364,24 +423,7 @@ const handleHostelClick = (e) => {
                         </Form.Group>
                     </div>
 
-                    {/* <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                            <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>
-                                Type
-                            </Form.Label>
-                            <Form.Select className='border'
-                                selected
-                                style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 ,paddingTop:10,marginTop:10}}
-                            >
-
-                                <option selected value="">Select a Type</option>
-                                <option value="Invoice">Annai hostel</option>
-                                <option value="Others">vetri hostel</option>
-
-
-                            </Form.Select>
-                        </Form.Group>
-                    </div> */}
+              
 
                  
                 </div>
@@ -390,16 +432,9 @@ const handleHostelClick = (e) => {
                          <label className='mb-3 ' style={{ fontSize: 14, fontWeight: 600 }} >Set as Default</label>
                          <Form.Check type="switch" id="custom-switch" checked={active} onChange={(e) => handleSetAsDefault(e)} />
                     </div>
-                    {/* <div className='mb-3 ps-2  pe-2'>
-                            <label className='mb-1' style={{ fontSize: 14, fontWeight: 650 }}>Select Status</label>
-                            <Form.Select aria-label="Default select example" value={status} onChange={(e) => handleStatusChange(e)} style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa" }}>
-                                <option style={{ fontSize: 14, fontWeight: 600, }} >Select Status</option>
-                                <option value="1" >Active</option>
-                               <option value="0" >In Active</option>
-                           </Form.Select>
-                        </div> */}
+               
                         </div>
-            {/* Add new amenity paragraph */}
+          
             
             <div>
                 <p style={{fontFamily:'Gilroy', fontSize: 16,fontWeight:600, color: "#1E45E1", fontStyle:'normal', lineHeight:'normal'}}>+ Add new amenity</p>
@@ -415,9 +450,9 @@ const handleHostelClick = (e) => {
             </div>
 
 
-        </div>
+        </div> */}
 
-
+        </>
 
         // <div className='Amenities'>
         //     <div className='d-flex justify-content-between'>

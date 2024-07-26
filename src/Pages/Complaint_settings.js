@@ -16,6 +16,7 @@ const ComplaintSettings = () => {
   const [types, setTypes] = useState([]);
 
   const addType = () => {
+    if(type !== ''){
     if (type.trim()) {
       setTypes([...types, type]);
       dispatch({ type: 'COMPLAINT-TYPE-ADD', payload: { complaint_name: type} })
@@ -29,6 +30,15 @@ const ComplaintSettings = () => {
     });
       setType('');
     }
+  }
+  else {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Please enter a complaint type',
+      confirmButtonText: 'OK'
+  });
+  }
+
   };
 
   // const deleteType = (index) => {

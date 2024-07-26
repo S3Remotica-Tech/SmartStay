@@ -47,17 +47,46 @@ export async function Addaccount (datum) {
   })
 }
   
-export async function UpdateProfile (datum) {
-  return await AxiosConfig.post('/update_account_details',datum,{
-    data:datum
-  })
+export async function UpdateProfile (params) {
+  const formData = new FormData();
+  formData.append("first_name", params.first_name);
+  formData.append("last_name", params.last_name);
+  formData.append("phone", params.phone);
+  formData.append("email_id", params.email_id);
+  formData.append("address", params.address);
+  // formData.append("Country", params.Country);
+  // formData.append("City", params.City);
+  // formData.append("State", params.State);
+  formData.append("id", params.id);
+  formData.append("profile", params.profile);
+  
+  try {
+    const response = await AxiosConfig.post('/update_account_details',formData, {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+      timeout: 100000000,
+           onUploadProgress: (event) => {
+       
+              }
+    });
+    console.log("response for Api", response);
+    return response.data;
+  } catch (error) {
+    console.error("Axios Error", error);
+         }
+
+  // return await AxiosConfig.post('/update_account_details',datum,{
+  //   data:datum
+  // })
 }
 
 export async function UpdatePassword (datum) {
   return await AxiosConfig.post('/forget/select-list ',datum,{
     data:datum
   })
-}//update password
+}
+//update password
 
 
 

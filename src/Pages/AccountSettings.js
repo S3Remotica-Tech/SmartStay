@@ -108,30 +108,43 @@ const Accountsettings = () => {
 
 
     useEffect(() => {
-        const FIlteredProfile = state.createAccount?.accountList[0].user_details
-        console.log("FIlteredProfile",FIlteredProfile);
-        if (FIlteredProfile.profile) {
-            const ProfileImage = FIlteredProfile.profile
-            const CustomerFirstName = FIlteredProfile.first_name
-            const CustomerLastName = FIlteredProfile.last_name
-            const PhoneNUmber = FIlteredProfile.mobileNo
-            const UserEmail = FIlteredProfile.email_Id
-            const UserAddress = FIlteredProfile.Address
-            const CustomerId = FIlteredProfile.id
+      const FIlteredProfile = state.createAccount?.accountList[0].user_details
+      console.log("FIlteredProfile",FIlteredProfile);
+      if (FIlteredProfile.profile) {
+          const ProfileImage = FIlteredProfile.profile
+          const CustomerFirstName = FIlteredProfile.first_name
+          const CustomerLastName = FIlteredProfile.last_name
+          const PhoneNUmber = FIlteredProfile.mobileNo
+          const UserEmail = FIlteredProfile.email_Id
+          const UserAddress = FIlteredProfile.Address
+          const CustomerId = FIlteredProfile.id
 
-            setId(CustomerId)
-            setFirstName(CustomerFirstName)
-            setLastName(CustomerLastName)
-            setPhone(PhoneNUmber)
-            setEmail(UserEmail)
-            setAddress(UserAddress)
+          setId(CustomerId)
+          setFirstName(CustomerFirstName)
+          setLastName(CustomerLastName)
+          setPhone(PhoneNUmber)
+          setEmail(UserEmail)
+          setAddress(UserAddress)
 
-            setProfilePicture(ProfileImage)
-        } else {
-            setProfilePicture(Men)
-        }
+          setSelectedImage(ProfileImage)
+      } else {
+        const CustomerFirstName = FIlteredProfile.first_name
+        const CustomerLastName = FIlteredProfile.last_name
+        const PhoneNUmber = FIlteredProfile.mobileNo
+        const UserEmail = FIlteredProfile.email_Id
+        const UserAddress = FIlteredProfile.Address
+        const CustomerId = FIlteredProfile.id
 
-    }, [state.createAccount?.accountList])
+        setId(CustomerId)
+        setFirstName(CustomerFirstName)
+        setLastName(CustomerLastName)
+        setPhone(PhoneNUmber)
+        setEmail(UserEmail)
+        setAddress(UserAddress)
+          setProfilePicture(Men)
+      }
+
+  }, [state.createAccount?.accountList])
 
 
 
@@ -457,8 +470,8 @@ const Accountsettings = () => {
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
                     <TabList onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }}>
-                        <Tab label="Edit profile" value="1" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 }} />
-                        <Tab label="Account setting" value="2" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 }} />
+                        <Tab label="Edit profile" value="1" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 , textTransform: 'none'}} />
+                        <Tab label="Account setting" value="2" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 , textTransform: 'none'}} />
                     </TabList>
                 </Box>
                 <TabPanel value="1">
@@ -558,9 +571,10 @@ const Accountsettings = () => {
                 {/* password update  */}
 
                 <TabPanel value="2">
-
+                <hr style={{ border:'1px solid #ced4da', width:'70%'}}/>
                     <div style={{display:'flex', flexDirection:'row'}}>
-                        <div className="me-3">
+                      
+                        <div className="me-3 col-lg-4 col-md-5 col-sm-10 col-xs-10">
                         <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
                   <InputGroup>
                     <Form.Control
@@ -593,7 +607,7 @@ const Accountsettings = () => {
                         </div>
 
 
-                        <div>
+                        <div className="col-lg-4 col-md-5 col-sm-10 col-xs-10">
                         <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password</Form.Label>
                   <InputGroup>
                     <Form.Control

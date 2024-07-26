@@ -46,3 +46,8 @@ export async function AddExpencesCategory(Expences) {
       data:type
     })
   }
+
+  export async function GetEBBillingUnit() {
+    return await AxiosConfig.get('/get_ebbilling_settings',{
+    })
+  }
