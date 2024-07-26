@@ -201,7 +201,7 @@ function Settings() {
 
 
 useEffect(()=>{
-  const UserIsEnable = state.createAccount.accountList[0].user_details.isEnable
+  const UserIsEnable = state.createAccount.accountList[0]?.user_details.isEnable
  
 
 if(UserIsEnable === 1){
@@ -246,7 +246,7 @@ const [profilePicture, setProfilePicture] = useState('');
 
 
 useEffect(()=>{
-     const FIlteredProfile = state.createAccount?.accountList[0].user_details
+     const FIlteredProfile = state.createAccount?.accountList[0]?.user_details
        if(FIlteredProfile.profile){
         const ProfileImage = FIlteredProfile.profile
     const CustomerName = FIlteredProfile.Name
