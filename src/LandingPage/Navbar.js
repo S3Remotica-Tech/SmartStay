@@ -23,6 +23,7 @@ function CollapsibleExample() {
   let navigate = useNavigate();
 
   const handleSignIn = () => { 
+    // alert('click sign in success')
     navigate('/login-Page')
   }
  

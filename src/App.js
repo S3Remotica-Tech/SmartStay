@@ -79,7 +79,7 @@ function App() {
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         parseData = JSON.parse(decryptedString);
         console.log("parseData", parseData)
-        setIsLoading(false)
+        // setIsLoading(false)
         }
         if (is_Enable == 1 || parseData == false) {
           setData(false);
@@ -113,9 +113,9 @@ function App() {
   }, [state.login?.isLoggedIn])
 
 
+console.log("state.login?.isLoggedIn",state)
 
-
-
+console.log("login",login)
 
 
   //  useEffect(() => {
@@ -147,44 +147,67 @@ function App() {
 
   // }, [state.createAccount.accountList, LoginId])
 
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
 
-  if (isLoading) {
-    return <div style={{ display: 'flex', justifyContent: 'center' }}> <Spinner animation="border" variant="primary" /></div>
-  }
+  // if (isLoading) {
+  //   return <div style={{ display: 'flex', justifyContent: 'center' }}> <Spinner animation="border" variant="primary" /></div>
+  // }
 
 
 
   return (
-    <div>
+    // <div>
 
-      {
-        data ||
-          state.login?.isLoggedIn ?
-          <Router>
-            <Routes>
+    //   {
+    //     data ||
+    //       state.login?.isLoggedIn ?
+    //       <Router>
+    //         <Routes>
 
-              <Route index path="/" element={<RoyalGrandHostel />}></Route>
-              <Route path='/Bed' element={< BedDetails />} ></Route>
-              <Route path='/roomList' element={<DashboardRoomList />} />
-              {/* <Route path="/login-Page" element={<LoginPage />} /> */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Router>
-          :
-          <Router>
-            <Routes>
-              <Route index element={<FrontPage />} />
-              <Route path="/login-Page" element={<LoginPage />} />
-              <Route path="/create-account" element={<CreateAccount />} />
-              <Route path="/forget-password" element={< ForgetPassword />} />
-              <Route path="*" element={<Navigate to="/login-page" replace />} />
-            </Routes>
-          </Router>
+    //           <Route index path="/" element={<RoyalGrandHostel />}></Route>
+    //           <Route path='/Bed' element={< BedDetails />} ></Route>
+    //           <Route path='/roomList' element={<DashboardRoomList />} />
+    //           {/* <Route path="/login-Page" element={<LoginPage />} /> */}
+    //           <Route path="*" element={<Navigate to="/" replace />} />
+    //         </Routes>
+    //       </Router>
+    //       : 
+    //       <Router>
+    //         <Routes>
+    //           <Route path="/"  element={<FrontPage />} />
+    //           <Route path="/login-Page" element={<LoginPage />} />
+    //           <Route path="/create-account" element={<CreateAccount />} />
+    //           <Route path="/forget-password" element={< ForgetPassword />} />
+    //           <Route path="*" element={<Navigate to="/login-page" replace />} />
+    //         </Routes>
+    //       </Router>
 
-      }
-    </div>
+    //   }
+    // </div>
+    <>
+      <Router>
+      <Routes>
+   
+        {data || state.login?.isLoggedIn ? (
+          <>
+            <Route path="/royal" element={<RoyalGrandHostel />} />
+            <Route path="/bed" element={<BedDetails />} />
+            <Route path="/roomList" element={<DashboardRoomList />} />
+            <Route path="*" element={<Navigate to="/royal" replace />} />
+          </>
+        ) : (
+          <>
+           <Route path="/" element={<FrontPage />} />
+            <Route path="/login-Page" element={<LoginPage />} />
+            <Route path="/create-account" element={<CreateAccount />} />
+            <Route path="/forget-password" element={<ForgetPassword />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </>
+        )}
+      </Routes>
+    </Router>
+    </>
   );
 }
 

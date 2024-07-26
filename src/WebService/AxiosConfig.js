@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const AxiosConfig = axios.create({
-    baseURL: "http://localhost:2001",
+    baseURL: "http://13.126.102.54:1010",
 headers: {
   'Content-Type': 'application/json',
     'Access-Control-Allow-Origin' : '*'

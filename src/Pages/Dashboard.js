@@ -92,14 +92,14 @@ function Dashboard() {
   const state = useSelector(state => state)
   console.log("state", state)
   const dispatch = useDispatch();
-  const [data,setData] =useState([state.PgList?.dashboardDetails?.Revenue_reports])
-  const [dashboardList, setDashboardList] = useState(state.PgList.dashboardDetails.dashboardList)
+  const [data,setData] =useState([])
+  const [dashboardList, setDashboardList] = useState([])
   const LoginId = localStorage.getItem("loginId")
   const [login_Id, setLogin_Id] = useState('')
 
 
   useEffect(() => {
-    setData(state.PgList.dashboardDetails.Revenue_reports)
+    setData(state.PgList.dashboardDetails.Revenue_reports || [])
   }, [state.PgList.dashboardDetails.Revenue_reports])
 
   useEffect(() => {
@@ -107,27 +107,44 @@ function Dashboard() {
   }, [])
   
   useEffect(() => {
-    setDashboardList(state.PgList.dashboardDetails.dashboardList)
+    if(state.PgList?.dashboardDetails?.dashboardList){
+      setDashboardList(state.PgList.dashboardDetails.dashboardList)
+
+    }
   }, [state.PgList.dashboardDetails.dashboardList])
 
   console.log("dashboardList", dashboardList)
-  if (!dashboardList || dashboardList.length === 0) {
-    return null;
-  }
+  // if (!dashboardList || dashboardList.length === 0) {
+  //   return null;
+  // }
 
 
   
 
+  // const {
+  //   hostelCount,
+  //   roomCount,
+  //   TotalBed,
+  //   availableBed,
+  //   occupied_Bed,
+  //   Revenue,
+  //   current,
+  //   overdue,
+  // } = dashboardList[0];
+
+
   const {
-    hostelCount,
-    roomCount,
-    TotalBed,
-    availableBed,
-    occupied_Bed,
-    Revenue,
-    current,
-    overdue,
-  } = dashboardList[0];
+    hostelCount = 0,
+    roomCount = 0,
+    TotalBed = 0,
+    availableBed = 0,
+    occupied_Bed = 0,
+    Revenue = 0,
+    current = 0,
+    overdue = 0,
+  } = dashboardList[0] || {};
+
+  console.log(hostelCount, roomCount, TotalBed, availableBed, occupied_Bed, Revenue, current, overdue);
 
   const total = Revenue;
   const percentage = ((Revenue - overdue) / total) * 100;
@@ -208,130 +225,16 @@ function Dashboard() {
 
 
 <div className='cotainer  p-4' >
-<div className='texxttt'>
+ <div className='texxttt'>
   <div style={{flex:1}}>
 <lable style={{fontFamily:"Montserrat",fontWeight:600,fontSize:"24px",lineHeight:"28.63px"}}>Welcome back, Vikram!</lable>
 <p style={{fontFamily:"Montserrat",fontWeight:400,fontSize:"16px",color:"#4B4B4B"}} >Manage all the inventory and analytics form here</p>
   </div>
-  {/* <div style={{flex:1}}>
-  <div className="headerone">
-    
-       <div className="search-container">
-      <input type="text" placeholder="Search" className="search-input" />
-      <span className="search-icon"></span>
-    </div>
-      <div className="notification-container">
-        <img src={notification} className="notification-icon"/>
-          <span className="notification-dot"></span>
-        
-      </div>
-      <div className="profile-container">
-        <img src={rectangle}  className="profile-image" />
-      </div>
-    </div>
-  </div> */}
+  
   </div>
 
 
-{/* <div className="row carddesign" >
-      
-      <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-3">
-  <Card style={{ height: "auto",width:"100%",borderRadius:"20px" }}>
-    <Card.Body>
-      <div >
-        <div >
-        <img 
-            src={vector} 
-            height={32} 
-            width={32} 
-            
-          />
-          <p style={{paddingTop:15,fontSize:16,fontWeight:400,fontFamily:"Montserrat"}}>Total Hostel</p>
-        
-        </div>
-        <p style={{fontSize:32,fontWeight:600,fontFamily:"Montserrat"}}>
-          {hostelCount.toLocaleString()}
-        </p>
-      </div>
-    </Card.Body>
-  </Card>
-</div>
 
-<div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-3">
-  <Card style={{ height: "auto",width:"100%",borderRadius:"20px" }}>
-    <Card.Body>
-
-      <div >
-        <div >
-        <img 
-            src={key} 
-            height={32} 
-            width={32} 
-            
-          />
-          <p style={{paddingTop:15,fontSize:16,fontWeight:400,fontFamily:"Montserrat"}}>Available Beds</p>
-        
-        </div> 
-        <p style={{fontSize:32,fontWeight:600,fontFamily:"Montserrat"}}>
-          {availableBed.toLocaleString()}
-        </p>
-      </div>
-    </Card.Body>
-  </Card>
-</div>
-
-<div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-3">
-  <Card style={{ height: "auto",width:"100%",borderRadius:"20px" }}>
-    <Card.Body>
-      <div >
-        <div >
-        <img 
-            src={clock} 
-            height={32} 
-            width={32} 
-           
-          />
-          <p style={{paddingTop:15,fontSize:16,fontWeight:400,fontFamily:"Montserrat"}}>Total Rooms</p>
-        
-        </div>
-        <p style={{fontSize:32,fontWeight:600,font:"Montserrat"}}>
-          {roomCount.toLocaleString()}
-        </p>
-      </div>
-    </Card.Body>
-  </Card>
-</div>
-
-<div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-3">
-  <Card style={{ height: "auto",width:"100%",borderRadius:"20px" }}>
-    <Card.Body>
-      <div >
-        <div >
-        <img 
-            src={car} 
-            height={35} 
-            width={35} 
-            
-          />
-          <p style={{paddingTop:15,fontSize:16,fontWeight:400,fontFamily:"Montserrat"}}>Occupied Beds</p>
-        
-        </div>
-        <p style={{fontSize:32,fontWeight:600,font:"Montserrat"}}>
-          {occupied_Bed.toLocaleString()}
-        </p>
-      </div>
-    </Card.Body>
-  </Card>
-</div>   
-
-
-
-
-
-
-
-      </div> */}
-    
   <div className="row carddesign">
     <div className="col-lg-4 col-md-12 col-sm-12 col-xl-3 mb-3">
       <Card style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
@@ -430,13 +333,7 @@ function Dashboard() {
       <p className='me-3' style={{fontFamily:"Montserrat",fontWeight:600,fontSize:12,color:"#4B4B4B"}}>  Amount</p>
       </div>
     </div>
-    {/* {
-      state.PgList.dashboardDetails.Revenue_reports.map((item)=>{
-
-      })
-
-      
-    } */}
+   
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
         data={data}
@@ -459,10 +356,7 @@ function Dashboard() {
         <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
       </BarChart>
     </ResponsiveContainer>
-    {/* <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center',flexDirection:"row" }}>
-      <Label value="Month" position="insideBottom" offset={-15} />
-      <img src={leftarrow} alt="Arrow" style={{ width: '30px', height: '10px' }} />
-    </div> */}
+  
     <div style={{ position: 'absolute', bottom: '50px', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
       <span style={{ marginRight: '5px',fontFamily:"Montserrat",fontWeight:600,fontSize:12,color:"#4B4B4B" }}>Month</span>
       <img src={leftarrow} alt="Arrow" style={{ width: '30px', height: '10px' }} />
