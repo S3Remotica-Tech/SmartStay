@@ -138,10 +138,13 @@ function InvoiceSettings() {
             });
         } else {
             Swal.fire({
-                text: "Please Enter All field.",
                 icon: "warning",
-                timer: 2000,
-            });
+                title: 'Please Enter All Field',
+                confirmButtonText: "ok"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                }
+              });
         }
     };
 

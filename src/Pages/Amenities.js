@@ -180,13 +180,26 @@ function Amenities() {
         // }
         //  else {
         // }
-        dispatch({ type: 'AMENITIESSETTINGS', payload: { amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedhostel } });
+        if(amenitiesName && amount && selectedhostel){
+            dispatch({ type: 'AMENITIESSETTINGS', payload: { amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedhostel } });
 
-        setSelecteDHostel('')
-        setAmenitiesName('');
-        setAmount('');
-        // setAsDefault('')
-        setActive('');
+            setSelecteDHostel('')
+            setAmenitiesName('');
+            setAmount('');
+            // setAsDefault('')
+            setActive('');
+        }
+        else {
+            Swal.fire({
+                icon: "warning",
+                title: 'Please Enter All Field',
+                confirmButtonText: "ok"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                }
+              });
+        }
+       
         // setStatus('');
         // handleCloseModal();
     }
