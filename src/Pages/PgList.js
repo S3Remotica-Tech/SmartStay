@@ -710,6 +710,15 @@ function PgList() {
     setKey(floorNumber.toString());
   };
 
+  useEffect(() => {
+    if (state.PgList.statusCodeForDeleteRoom == 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id} })
+         setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_ROOM' })
+      }, 1000);
+    }
+  }, [state.PgList.statusCodeForDeleteRoom])
+
 
   const [showDots, setShowDots] = useState(false);
 

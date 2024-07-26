@@ -29,15 +29,7 @@ useEffect(() => {
   }
 }, [state.PgList.roomCount, deleteRoomDetails]);
 
-// useEffect(() => {
-//   if (state.PgList.deleteRoom != null && state.PgList.deleteRoom != "") {
-//     dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorId, hostel_Id: Hostel_Id } })
-//     props.handleBackToFloors()
-//     setTimeout(() => {
-//       dispatch({ type: 'CLEAR_DELETE_ROOM', message: null })
-//     }, 100);
-//   }
-// }, [state.PgList.deleteRoom])
+
 
   const handleDeleteRoomConfirm = () => {
  
