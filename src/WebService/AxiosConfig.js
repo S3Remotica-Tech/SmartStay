@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const AxiosConfig = axios.create({
-    baseURL: "http://13.126.102.54:1010",
+    baseURL: "http://localhost:2001",
 headers: {
   'Content-Type': 'application/json',
     'Access-Control-Allow-Origin' : '*'
@@ -34,6 +34,7 @@ export default AxiosConfig;
 // http://smartstaydev.s3remotica.com:2001
 
 
+// http://13.126.102.54:1010
 
 
 

@@ -5,7 +5,7 @@ import axios from 'axios'
 
 
 export async function login(EmailId, Password) {
-  return await axios.get('http://13.126.102.54:1010/login/login', {
+  return await axios.get('http://localhost:2001/login/login', {
     params: EmailId, Password
   })
 }
@@ -85,7 +85,7 @@ export async function AccountDetails(user) {
 }
 
 export async function OTPverification(datum) {
-  return await axios.post('http://13.126.102.54:1010/otp-send/response',datum, {
+  return await axios.post('http://localhost:2001/otp-send/response',datum, {
     data: datum
   })
 } 
