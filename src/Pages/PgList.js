@@ -612,6 +612,7 @@ function PgList() {
 
   const handleShowAddRoom = (room, selectedFloor) => {
     setShowRoom(true)
+    console.log("add room", room, selectedFloor)
     setHostelDetails({ room, selectedFloor });
   }
 
@@ -901,7 +902,7 @@ function PgList() {
 
                   <Tab.Container activeKey={key} onSelect={(k) => setKey(k)} id="vertical-tabs-example">
                     <Row className="g-0">
-                      <Col sm={12} xs={12} md={2} lg={2} className='d-flex justify-content-center'>
+                      <Col sm={12} xs={12} md={2} lg={2} className='d-flex justify-content-start'>
                         <div>
                           <div className='d-flex justify-content-center'>
                             <div onClick={handlePrev} disabled={key === '0'} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, cursor: 'pointer',padding:3}}>
@@ -969,11 +970,15 @@ function PgList() {
                             phoneNumber={showHostelDetails.hostel_PhoneNo}
 
                           />
-  <div className='row mt-2'>
+
+{/* add room popup */}
+                  {/* <div className='row mt-2'>
                     <div>
                       <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(showHostelDetails, floorClick)}>+ Add room</label>
                     </div>
-                  </div>
+                  </div> */}
+
+
                         </Tab.Content>
                       </Col>
                     </Row>
@@ -1008,16 +1013,23 @@ phoneNumber={showHostelDetails.hostel_PhoneNo}
 
 
                 </>
-                : <div style={{ width:"100%" }}>
-                  {/* <Alert variant="warning" >
-                    Currently, no floors are available So create a floor.
-                  </Alert> */}
-<label>No floors available</label>
-<label>There is no floor added to this paying guest.</label>
-
-
+                : 
+                
+                <div className='d-flex align-items-center justify-content-center' style={{ width: "100%" ,height:350,margin:"0px auto"}}>
+              
+                <div>
+        
+                <div  className="pb-1" style={{textAlign:"center", fontWeight:600, fontFamily:"Gilroy",fontSize:24,color:"rgba(75, 75, 75, 1)"}}>No floors available</div>
+                <div className="pb-1" style={{textAlign:"center", fontWeight:500, fontFamily:"Gilroy",fontSize:20,color:"rgba(75, 75, 75, 1)"}}>There is no floor added to this paying guest.</div>
+                <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
+                 onClick={() => handleCreateFloor(showHostelDetails.id)}
+                 > + Add floor</Button>
                 </div>
-
+                </div>
+                <div>
+        
+        </div>
+              </div>
 
             }
 

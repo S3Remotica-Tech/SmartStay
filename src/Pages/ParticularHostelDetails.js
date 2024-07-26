@@ -17,8 +17,8 @@ import Delete from '../Assets/Images/New_images/trash.png';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import { FormControl, InputGroup, Pagination ,Dropdown} from 'react-bootstrap';
-
-
+import Edit from '../Assets/Images/New_images/edit.png';
+import DeleteRoom from './DeleteRoom';
 
 
 function getFormattedRoomId(floor_Id, room_Id) {
@@ -64,7 +64,7 @@ function ParticularHostelDetails(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-  const [showRoom, setShowRoom] = useState(false)
+  // const [showRoom, setShowRoom] = useState(false)
   const [showBed, setShowBed] = useState(false)
   const [showFloor, setShowFloor] = useState(false)
 const [details, setDetails] = useState('')
@@ -74,9 +74,9 @@ const [details, setDetails] = useState('')
     window.scrollTo(0, 0);
   }, []);
 
-  const handleShowAddRoom = () => {
-    setShowRoom(true)
-  }
+  // const handleShowAddRoom = () => {
+  //   setShowRoom(true)
+  // }
 
   const handleClose = () => {
     setShowRoom(false)
@@ -279,6 +279,28 @@ const indexOfLastItem = currentPage * itemsPerPage;
     return pageNumbers;
   };
 
+   const [showRoom, setShowRoom] = useState(false)
+   const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
+
+  const handleShowAddRoom = (floor_Id, hostel_Id) => {
+    setShowRoom(true)
+    console.log("add room", floor_Id, hostel_Id)
+    setHostelDetails({ hostel_Id, floor_Id });
+  }
+  const handlecloseRoom = () => {
+    setShowRoom(false)
+  }
+
+const [showDeleteRoom, setShowDeleteRoom] = useState(false)
+
+const handleDeleteRoom = (Floor_Id,Room_Id) => {
+setShowDeleteRoom(true)
+}
+
+
+const handleCloseDeleteRoom = () =>{
+  setShowDeleteRoom(false)
+}
 
   return (
     <div className=''>
@@ -305,10 +327,10 @@ const indexOfLastItem = currentPage * itemsPerPage;
                       <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 30, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                         <div>
                           <div className='mb-2'>
-                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Delete Room</label>
+                            <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Edit</label>
                           </div>
                           <div>
-                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" }}>Delete Bed</label>
+                            <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(255, 0, 0, 1)" }} onClick={()=> {handleDeleteRoom(room.Floor_Id, room.Room_Id)}}>Delete</label>
                           </div>
                         </div>
                       </div>
@@ -337,20 +359,27 @@ const indexOfLastItem = currentPage * itemsPerPage;
               </Card>
 
             </div>
-
+            
 
           </>
         ))
+
+      
+
+
+
         :
 
-        <div className='d-flex align-items-center justify-content-center' style={{ width: "100%" }}>
+        <div className='d-flex align-items-center justify-content-center' style={{ width: "100%" ,height:350,margin:"0px auto"}}>
         {/* <Alert variant="warning" >
           Currently, no rooms are available.
         </Alert> */}
         <div>
 
-        <div style={{textAlign:"center", fontWeight:600, fontFamily:"Gilroy",fontSize:24,color:"rgba(75, 75, 75, 1)"}}>No rooms available</div>
-        <div style={{textAlign:"center", fontWeight:500, fontFamily:"Gilroy",fontSize:20,color:"rgba(75, 75, 75, 1)"}}>There is no room added in this floor.</div>
+        <div  className="pb-1" style={{textAlign:"center", fontWeight:600, fontFamily:"Gilroy",fontSize:24,color:"rgba(75, 75, 75, 1)"}}>No rooms available</div>
+        <div className="pb-1" style={{textAlign:"center", fontWeight:500, fontFamily:"Gilroy",fontSize:20,color:"rgba(75, 75, 75, 1)"}}>There is no room added in this floor.</div>
+        <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}> + Add room</Button>
+        </div>
         </div>
         <div>
 
@@ -362,7 +391,22 @@ const indexOfLastItem = currentPage * itemsPerPage;
 
       
       }
+
+
+
       </div>
+
+
+      {currentItems.length > 0 && <>
+        <div className='row mt-2'>
+        <div>
+          <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}>+ Add room</label>
+        </div>
+      </div>
+            </>
+       
+    
+    }
 
 
 
@@ -382,6 +426,13 @@ const indexOfLastItem = currentPage * itemsPerPage;
 } */}
 
       {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details}/>}
+      {showRoom && <AddRoom show={showRoom} 
+      handleClose={handlecloseRoom} hostelDetails={hostelDetails}
+       />}
+
+{
+  showDeleteRoom && <DeleteRoom  show={showDeleteRoom} handleClose={handleCloseDeleteRoom}/>
+}
 
     </div>
   )

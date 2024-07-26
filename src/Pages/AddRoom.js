@@ -24,8 +24,8 @@ const [alreadyRoom,setAlreadyRoom] = useState(false)
 const handleRoomChange = (e) => {
   const Room_Id = e.target.value
   setRoom(Room_Id)
-  const floorId = hostelDetails.selectedFloor.toString();
-      const hostel_Id = hostelDetails.room.id.toString();
+  const floorId = hostelDetails.floor_Id.toString();
+      const hostel_Id = hostelDetails.hostel_Id.toString();
 
 
    setAlreadyRoom(state.PgList.roomCount.some((item)=>{
@@ -41,8 +41,8 @@ const handleRoomChange = (e) => {
 
 
     const handleCreateRoom = () => {
-      const floorId = hostelDetails.selectedFloor.toString();
-      const hostel_Id = hostelDetails.room.id.toString();
+      const floorId = hostelDetails.floor_Id.toString();
+      const hostel_Id = hostelDetails.hostel_Id.toString();
 
       if (!room) {
         Swal.fire({
