@@ -21,12 +21,7 @@ const ExpenseReducer = (state = initialState, action) => {
         case 'CLEAR_ADD_EXPENSE_SATUS_CODE':
             return { ...state, StatusCodeForAddExpenseSuccess: 0 }
         case 'EXPENSES_LIST':
-            return { ...state, expenseList: action.payload.response,
-                // assetList:action.payload.assetList,
-                // vendorList:action.payload.vendorList,
-                // categorylist:action.payload.categorylist,
-                // paymentModeList:action.payload.paymentModeList,
-                getExpenseStatusCode: action.payload.statusCode }
+            return { ...state, expenseList: action.payload.response,getExpenseStatusCode: action.payload.statusCode }
         case 'CLEAR_EXPENSE_SATUS_CODE':
             return { ...state, getExpenseStatusCode: 0 }
         case 'DELETE_EXPENSE':

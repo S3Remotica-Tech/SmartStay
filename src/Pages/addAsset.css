@@ -29,3 +29,6 @@
 .custom-date-input::-webkit-datetime-edit {
   color: #4B4B4B; 
 }
+.table-responsive{
+  overflow: unset !important;
+}

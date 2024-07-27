@@ -295,9 +295,9 @@ function Asset() {
 
 
 
-          <div style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "hidden" }}>
-            <Table responsive>
-              <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
+          <div className='table-responsive' style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}} >
+            <Table responsive >
+              <thead style={{  borderRadius: "24px",fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
                 <tr>
                   <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
                     <input type='checkbox' style={customCheckboxStyle} />

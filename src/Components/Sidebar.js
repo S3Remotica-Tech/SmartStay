@@ -368,10 +368,12 @@ function Sidebar() {
             <div className="d-flex align-items-center m-3 gap-1 justify-content-center">
 
               <img src={Smartstay} style={{ fontSize: '15px' }} />
-              <img src={Smarts} className='Title' style={{ fontSize: '15px' }} />
+              <div><label className='Title' style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", fontSize:24 }}>Smartstay</label></div>
+
+              {/* <img src={Smarts} className='Title' style={{ fontSize: '15px' }} /> */}
             </div>
 
-            <ul className="p-3 mb-5">
+            <ul className="p-3 pt-0 mb-5">
               <li className={`p-2 mb-2  align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
                 <div className='d-flex  align-items-center justify-content-between'>
                   <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ fontSize: '13px' }} />
