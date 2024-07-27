@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 
 
+
+
 function CollapsibleExample() {
 
   useEffect(() => {
@@ -23,6 +25,7 @@ function CollapsibleExample() {
   let navigate = useNavigate();
 
   const handleSignIn = () => { 
+    // alert('click sign in success')
     navigate('/login-Page')
   }
  

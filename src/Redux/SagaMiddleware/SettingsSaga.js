@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {AddExpencesCategory,ExpencesCategorylist,DeleteExpencesCategoryList , Addcomplainttype , Complainttypelist ,DeletecomplaintType , AddEBBillingUnit } from "../Action/SettingsAction"
+import {AddExpencesCategory,ExpencesCategorylist,DeleteExpencesCategoryList , Addcomplainttype , Complainttypelist ,DeletecomplaintType , AddEBBillingUnit , GetEBBillingUnit } from "../Action/SettingsAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 
@@ -127,6 +127,20 @@ function* handleEBBillingUnitAdd (params) {
   }
 }
 
+function* handleEBBillingUnitGet(action) {
+   const response = yield call (GetEBBillingUnit,action.payload);
+ 
+   if (response.status === 200){
+      yield put ({type : 'EB_BILLING_UNIT_LIST' , payload:{response:response.data, statusCode:response.status}})
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
 
 function refreshToken(response){
 
@@ -157,5 +171,6 @@ function* SettingsSaga() {
     yield takeEvery('COMPLAINT-TYPE-ADD', handleComplaintTypeAdd) 
     yield takeEvery('DELETE-COMPLAINT-TYPE',handleDeleteComplainttype)
     yield takeEvery('EB-BILLING-UNIT-ADD', handleEBBillingUnitAdd) 
+    yield takeEvery('EB-BILLING-UNIT-LIST', handleEBBillingUnitGet) 
 }
 export default SettingsSaga;

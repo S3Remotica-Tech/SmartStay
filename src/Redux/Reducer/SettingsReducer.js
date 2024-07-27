@@ -9,6 +9,7 @@ const initialState = {
     addComplaintSuccessStatusCode:0,
     deletecomplaintStatuscode :0,
     addEbbillingUnitStatuscode: 0,
+    EBBillingUnitlist:[]
 }
 
 const SettingsReducer = (state = initialState, action) => {
@@ -48,6 +49,10 @@ const SettingsReducer = (state = initialState, action) => {
                 return { ...state, message: action.payload.message  , addEbbillingUnitStatuscode : action.payload.statusCode}
                 case 'CLEAR_ADD_EB_BILLING_STATUS_CODE':
                     return { ...state, addEbbillingUnitStatuscode: 0 }
+
+                    case 'EB_BILLING_UNIT_LIST':
+                        return { ...state, EBBillingUnitlist: action.payload.response }
+                    
             }
     return state;
 }
