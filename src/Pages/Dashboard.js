@@ -66,25 +66,6 @@ function Dashboard() {
   ];
 
 
- 
-  
-  
-  
-  
-
-  // const data = [
-  //   { name: 'Jan 2024', Revenue: 300, Expenses: 200 },
-  //   { name: 'Feb 2024', Revenue: 200, Expenses: 100 },
-  //   { name: 'Mar 2024', Revenue: 400, Expenses: 300 },
-  //   { name: 'Apr 2024', Revenue: 150, Expenses: 250 },
-  //   { name: 'May 2024', Revenue: 500, Expenses: 350 },
-  //   { name: 'Jun 2024', Revenue: 350, Expenses: 300 },
-  // ];
-
-
-
-  
-  
   const formatYAxis = (tickItem) => {
     return `${tickItem}`;
   }
@@ -99,10 +80,16 @@ function Dashboard() {
   const [lablesdata,setLables] =useState([])
   const [totalAmount,setTotalAmount] =useState([])
 
+
   console.log("lablesdata",lablesdata)
   useEffect(() => {
     setTotalAmount(state.PgList.dashboardDetails.totalAmount)
   }, [state.PgList.dashboardDetails.totalAmount])
+
+
+
+ 
+
 
   useEffect(() => {
 
@@ -132,11 +119,6 @@ function Dashboard() {
    }
 
 
-  
-
-
-  
-
    const {
      hostelCount,
      roomCount,
@@ -147,9 +129,6 @@ function Dashboard() {
      current,
      overdue,
    } = dashboardList[0];
-
-
-
 
 
   console.log(hostelCount, roomCount, TotalBed, availableBed, occupied_Bed, Revenue, current, overdue);
@@ -184,22 +163,7 @@ function Dashboard() {
     ],
   };
 
-  // const datum = {
-  //   // labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Others'],
-  //   labels: lablesdata.map(category => category.category_Name),
-  //   datasets: [
-  //     {
-  //       data: lablesdata.map(category => category.Amount),
-  //       backgroundColor: ['#FFA500', '#00FF00', '#0000FF', '#00FFFF', '#FFC0CB', '#FFD700'],
-  //       hoverBackgroundColor: ['#FFA500', '#00FF00', '#0000FF', '#00FFFF', '#FFC0CB', '#FFD700'],
-  //       borderWidth: 5,
-  //       borderColor: '#fff',
-  //       borderRadius:10
-  //     },
-  //   ],
-  // };
 
-  
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -247,8 +211,6 @@ function Dashboard() {
     };
 
 
-
-   
 
   return (
 
@@ -512,4 +474,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
