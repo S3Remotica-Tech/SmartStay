@@ -16,6 +16,7 @@ import Logo from '../Assets/Images/New_images/Group.png'
 import { Eye, EyeSlash } from 'iconsax-react';
 import ForgotOtp from '../Pages/ForgotOtp'
 import { IoIosCheckmark } from "react-icons/io";
+import { ClipLoader } from 'react-spinners';
 
 
 function ForgetPasswordPage() {
@@ -156,15 +157,19 @@ console.log("NewPass",state)
     if (state.NewPass?.statusCode == 200) {
       setShowLoader(false)
       setShowOtpVerification(true);
+      setDisabledButton(true)
+
+    
+
     
     } else {
       setShowLoader(false)
       setShowOtpVerification(false);
+      setDisabledButton(false)
     }
 
   }, [state.NewPass?.statusCode])
 
-  // console.log("state.NewPass?.sendEmailStatusCode == 203",state.NewPass?.sendEmailStatusCode == 203)
 
 
   useEffect(() => {
@@ -280,6 +285,7 @@ console.log("NewPass",state)
   const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(false);
   const [isLowerCaseEnough, setLowerCaseEnough] = useState(false);
   const [isNumericEnough, setNumericEnough] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(false)
 
 
   const handlePassword = (e) => {
@@ -333,11 +339,12 @@ if (password.length < 8) {
     setShowOtpVerification(false);
   };
 
-
+console.log("disabledButton",disabledButton)
 
   return (
 
     <div style={{ width: "100%", height: "100vh", fontFamily: "Gilroy", backgroundColor: "" }}>
+     
       {
         showEmailSend && <>
           <div className="ms-5 mb-5">
@@ -355,11 +362,12 @@ if (password.length < 8) {
                 <div className="mt-1 mb-1 "><label style={{ fontSize: 16, fontWeight: 400, color: "rgba(75, 75, 75, 1)", fontFamily: "Montserrat" }}>Enter your email address to recover your account.</label></div>
 
                 <div className="row row-gap-3 ">
-
+              
                   <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 " >
                     <Form.Group controlId="formGridEmail" className='mt-4 mb-3'>
                       <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
                       <Form.Control size="lg"
+                      disabled={disabledButton}
                         value={email} onChange={(e) => handleEmailid(e)}
                         type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
@@ -370,10 +378,17 @@ if (password.length < 8) {
 
 
 
-                  <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1" >
+                  <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1 d-flex gap-5" >
                     <Button
-                      onClick={handleAccountVerification}
-                      className="w-100" style={{ backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600, fontSize: 16 }}>Continue</Button>
+                      onClick={handleAccountVerification} disabled={disabledButton}
+                      className="w-100" style={{ border: disabledButton ? "gray": "rgba(30, 69, 225, 1)",backgroundColor: disabledButton ? "gray" : "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600, fontSize: 16 }}>Continue</Button>
+                 <div>
+                 {showLoader &&  <Spinner animation="grow" variant="primary" />}
+
+                 <div>
+    <ClipLoader color="#123abc" loading={true} size={150} />
+  </div>
+                 </div>
                   </div>
 
                 </div>
@@ -384,6 +399,7 @@ if (password.length < 8) {
                 </div>
 
               </div>
+           
               <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 d-flex justify-content-center mt-4" style={{ backgroundColor: "", padding: "60px 80px" }}>
                 <div>
                   <img src={Forgot} style={{ height: 460, width: 460 }} />

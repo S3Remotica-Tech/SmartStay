@@ -278,7 +278,7 @@ function Asset() {
                   <Form.Select aria-label="Select Price Range"
                     value={selectedPriceRange}
                     onChange={handlePriceRangeChange}
-                    className='' id="vendor-select" style={{fontSize: 24, color: "rgba(34, 34, 34, 1)", fontWeight: 600 , fontFamily:"Gilroy"}}>
+                    className='' id="vendor-select" style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600 , fontFamily:"Gilroy"}}>
                     <option value="All">All</option>
                     <option value="0-100">0-100</option>
                     <option value="100-500">100-500</option>

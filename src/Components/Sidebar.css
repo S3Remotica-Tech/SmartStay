@@ -1,11 +1,14 @@
 
 .list-Item.active {
   background-color:  #FFFFFF!important; 
-  color: #2E76E3 !important; 
+  color: rgba(30, 69, 225, 1)!important; 
 }
 .list-Item{
   border-radius: 6px;
 }
+
+
+
 
 .container {
   width: 100%;
