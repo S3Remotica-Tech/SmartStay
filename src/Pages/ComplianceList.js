@@ -236,7 +236,7 @@ function getFloorAbbreviation(floor_Id) {
       ) : (
         <p style={{ fontSize: '14px', fontWeight: 600, color: '#222', fontFamily: 'Gilroy',fontStyle:'normal',lineHeight:'normal' }}>
           <img src={Tickicon} className='me-2' alt="Success" />
-          successfully attended on 21 MAR 2024
+          successfully attended on {moment(props.complaints.date).format('DD-MM-YYYY')}
         </p>
       )}
     </label>

@@ -10,6 +10,9 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Settings.css";
+import {  Tabs } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import Swal from 'sweetalert2';
@@ -246,24 +249,63 @@ const [profilePicture, setProfilePicture] = useState('');
 
 
 
-useEffect(()=>{
-     const FIlteredProfile = state.createAccount?.accountList[0]?.user_details
-       if(FIlteredProfile.profile){
-        const ProfileImage = FIlteredProfile.profile
-    const CustomerName = FIlteredProfile.Name
-    const PhoneNUmber = FIlteredProfile.mobileNo
-    const UserEmail = FIlteredProfile.email_Id
+// useEffect(()=>{
+//      const FIlteredProfile = state.createAccount?.accountList[0]?.user_details
+//        if(FIlteredProfile.profile){
+//         const ProfileImage = FIlteredProfile.profile
+//     const CustomerName = FIlteredProfile.Name
+//     const PhoneNUmber = FIlteredProfile.mobileNo
+//     const UserEmail = FIlteredProfile.email_Id
     
-    setName(CustomerName)
-    setPhone(PhoneNUmber)
-    setEmail(UserEmail)
+//     setName(CustomerName)
+//     setPhone(PhoneNUmber)
+//     setEmail(UserEmail)
     
-    setProfilePicture(ProfileImage)
-    }else{
-      setProfilePicture(Men)
-    }
+//     setProfilePicture(ProfileImage)
+//     }else{
+//       setProfilePicture(Men)
+//     }
   
-},[state.createAccount?.accountList])
+// },[state.createAccount?.accountList])
+
+// useEffect(() => {
+//   const FIlteredProfile = state.createAccount?.accountList[0].user_details
+//   console.log("FIlteredProfile",FIlteredProfile);
+//   if (FIlteredProfile.profile) {
+//       const ProfileImage = FIlteredProfile.profile
+//       const CustomerFirstName = FIlteredProfile.first_name
+//       const CustomerLastName = FIlteredProfile.last_name
+//       const PhoneNUmber = FIlteredProfile.mobileNo
+//       const UserEmail = FIlteredProfile.email_Id
+//       const UserAddress = FIlteredProfile.Address
+//       const CustomerId = FIlteredProfile.id
+
+//       setId(CustomerId)
+//       setFirstName(CustomerFirstName)
+//       setLastName(CustomerLastName)
+//       setPhone(PhoneNUmber)
+//       setEmail(UserEmail)
+//       setAddress(UserAddress)
+
+//       setProfilePicture(ProfileImage)
+//   } else {
+//     const CustomerFirstName = FIlteredProfile.first_name
+//     const CustomerLastName = FIlteredProfile.last_name
+//     const PhoneNUmber = FIlteredProfile.mobileNo
+//     const UserEmail = FIlteredProfile.email_Id
+//     const UserAddress = FIlteredProfile.Address
+//     const CustomerId = FIlteredProfile.id
+
+//     setId(CustomerId)
+//     setFirstName(CustomerFirstName)
+//     setLastName(CustomerLastName)
+//     setPhone(PhoneNUmber)
+//     setEmail(UserEmail)
+//     setAddress(UserAddress)
+//       setProfilePicture(Men)
+//   }
+
+// }, [state.createAccount?.accountList])
 
 
 
@@ -308,7 +350,8 @@ const handleHostelChange = (e) => {
 };
 
 const handlesaveEbbill = () => {
-  if (selectedHostel && amount){
+
+  if (selectedHostel && amount && unit){
     dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit : unit , amount : amount} })
     Swal.fire({
       icon: "success",
@@ -319,25 +362,38 @@ const handlesaveEbbill = () => {
       }
   });
     setSelectedHostel('')
-    setUnit('');
+    // setUnit('');
     setAmount('')
   }
-  else {
+  else if (!selectedHostel || selectedHostel === ''){
        Swal.fire({
            icon: "warning",
-           title: 'Please Enter All Field',
+           title: 'Please Enter a hostel',
            confirmButtonText: "ok"
          }).then((result) => {
            if (result.isConfirmed) {
            }
          });
        }
+       else if (!amount){
+        Swal.fire({
+            icon: "warning",
+            title: 'Please Enter a Amount',
+            confirmButtonText: "ok"
+          }).then((result) => {
+            if (result.isConfirmed) {
+            }
+          });
+        }
 
 }
 
 useEffect(()=>{
 dispatch({type:'EB-BILLING-UNIT-LIST'})
 },[])
+
+const theme = useTheme();
+const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <div className='container'>
@@ -354,23 +410,25 @@ dispatch({type:'EB-BILLING-UNIT-LIST'})
       </div>
 
       <TabContext value={value}>
+        <div >
         <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
-          <TabList onChange={handleChanges} aria-label="lab API tabs example" style={{marginLeft:'20px'}}>
-            <Tab label="Security" value="1" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
-            <Tab label="EB Billing" value="2" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
-            <Tab label="Invoice" value="3" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
-            <Tab label="Expences" value="4" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
-            <Tab label="Complaint type" value="5" className='me-3 ' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
-            <Tab label="Amenities" value="6" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
+          <TabList  orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{marginLeft:'20px'}} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
+            <Tab label="Security" value="1"  style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
+            <Tab label="EB Billing" value="2"  style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
+            <Tab label="Invoice" value="3"  style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
+            <Tab label="Expences" value="4"  style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
+            <Tab label="Complaint type" value="5" style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
+            <Tab label="Amenities" value="6"  style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
           </TabList>
         </Box>
+        </div>
         <TabPanel value="1"> 
            <>
           
                 <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
                   <div className='col-6'>
                     <h6 style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>Enable Two-factor Authentication</h6>
-                    <p style={{ fontSize: 14 , fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+                    <p style={{ fontSize:isSmallScreen ? 10  : 14, fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
                   </div>
                   <div className='col-2'>
                   <Form.Check 
@@ -387,7 +445,7 @@ dispatch({type:'EB-BILLING-UNIT-LIST'})
                 <div className='d-flex  justify-content-between me-2 mb-3 '>
                   <div className='col-6'>
                     <h6 style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>Email Setup</h6>
-                    <p style={{ fontSize: 14 , fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+                    <p style={{fontSize:isSmallScreen ? 10  : 14, fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
                   </div>
                   <div className='col-2'>
                     <Form.Check type="switch" id="custom-switch" />
@@ -399,7 +457,7 @@ dispatch({type:'EB-BILLING-UNIT-LIST'})
                 <div className='d-flex  justify-content-between me-2'>
                   <div className='col-6'>
                     <h6 style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>SMS Setup</h6>
-                    <p style={{ fontSize: 14 , fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+                    <p style={{fontSize:isSmallScreen ? 10  : 14, fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
                   </div>
                   <div className='col-2'>
                     <Form.Check type="switch" id="custom-switch" />
@@ -419,8 +477,8 @@ dispatch({type:'EB-BILLING-UNIT-LIST'})
 
 
         <TabPanel value="2">
-          <div style={{display:'flex', flexDirection:'row'}}>
-            <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+          <div  className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
+            <div className='col-lg-4 col-md-5 col-sm-12 col-xs-12'>
         <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                       <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>
@@ -429,7 +487,7 @@ dispatch({type:'EB-BILLING-UNIT-LIST'})
                     <Form.Select aria-label="Default select example" 
            className='border'     value={selectedHostel.id} onChange={(e) => handleHostelChange(e)}  style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
 
-                        <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
+                        <option style={{ fontSize: 14, fontWeight: 600, }} selected value=''>Select PG</option>
                         {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
                             <>
                                 <option key={item.id} value={item.id} >{item.Name}</option></>
@@ -439,7 +497,7 @@ dispatch({type:'EB-BILLING-UNIT-LIST'})
                 </Form.Group>
 
                   </div>
-                  <div className='col-lg-11 col-md-4 col-sm-12 col-xs-12' style={{border:'1px solid #ced4da',padding:'30px',borderRadius:'20px'}}>
+                  <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12' style={{border:'1px solid #ced4da',padding:'30px',borderRadius:'20px'}}>
                     <div style={{display:'flex',flexDirection:'column'}}>
 
                     <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
@@ -485,7 +543,7 @@ dispatch({type:'EB-BILLING-UNIT-LIST'})
                   <hr style={{ border:'1px solid #ced4da',   transform: 'rotate(180deg)'}}/>
 
 
-                  <div className='col-lg-6 col-md-5 col-sm-12 col-xs-12 ms-5'> 
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0">  
                   <Table className="ebtable mt-3" responsive  >
                           <thead style={{ backgroundColor: "#E7F1FF" }}>
                             <tr>
@@ -500,17 +558,17 @@ dispatch({type:'EB-BILLING-UNIT-LIST'})
                           </thead>
                           <tbody style={{ height: "50px", fontSize: "11px" }}>
                            
-                          {state.Settings.EBBillingUnitlist?.eb_settings && state.Settings.EBBillingUnitlist.eb_settings.length > 0 &&state.Settings.EBBillingUnitlist.eb_settings.map((eb) => (
+                          {state.Settings.EBBillingUnitlist?.eb_settings && state.Settings.EBBillingUnitlist.eb_settings.length > 0 && state.Settings.EBBillingUnitlist.eb_settings.map((eb) => (
                                 <tr  style={{ lineHeight: "40px" }}>
                                   <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.Name}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.unit} KW </td>
-                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.amount}</td>
-                                  <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹ {eb.amount}</td>
+                                  <td> <img src={dottt} alt='dot image' style={{ height: 30, width: 30 }} /></td>
                                 </tr>
                           ))}
-                            {/* {currentRowsEb.length === 0 && (
+                            {/* {state.Settings.EBBillingUnitlist.eb_settings.length === 0 && (
                               <tr>
-                                <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
+                                <td colSpan="6" style={{ textAlign: "center", color: "red" ,fontSize:14}}>No data found</td>
                               </tr>
                             )} */}
 

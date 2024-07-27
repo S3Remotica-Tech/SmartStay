@@ -1511,6 +1511,7 @@ const InvoicePage = () => {
                               onChange={(e) => { setInvoiceList({ ...invoiceList, transaction: e.target.value }) }}
                               style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                             >
+                              <option  selected>select </option>
                               <option value="Cash">Cash </option>
                               <option value="Debit Card">Debit Card</option>
                               <option value="Credit Card">Credit Card</option>
@@ -1555,23 +1556,23 @@ const InvoicePage = () => {
                   Array.from({ length: 5 }).map((_, index) => (
                     <tr key={index}>
                       <td><Skeleton width={80} /></td>
-                      <td><Skeleton width={120} /></td>
+                      {/* <td><Skeleton width={120} /></td> */}
                       <td>
                         <div className="d-flex">
                           <span className="i-circle">
                             <Skeleton circle width={24} height={24} />
                           </span>
                           <div className="ms-2">
-                            <Skeleton width={80} /><br />
+                            {/* <Skeleton width={80} /><br /> */}
                             <Skeleton width={100} />
                           </div>
                         </div>
                       </td>
-                      <td><Skeleton width={120} /></td>
+                      <td><Skeleton width={100} /></td>
+                      <td><Skeleton width={100} /></td>
                       <td><Skeleton width={50} /></td>
                       <td><Skeleton width={50} /></td>
                       <td><Skeleton width={100} /></td>
-                      <td><Skeleton width={150} /></td>
                       <td><Skeleton width={100} /></td>
                     </tr>
                   ))

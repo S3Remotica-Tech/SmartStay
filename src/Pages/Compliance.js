@@ -1,9 +1,9 @@
-import React, {useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/themes/material_blue.css'; 
+import 'flatpickr/dist/themes/material_blue.css';
 import { Table, Dropdown } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 import { IoFilterOutline } from "react-icons/io5";
@@ -99,8 +99,8 @@ const Compliance = () => {
   const options = {
     dateFormat: 'd/m/Y', // Set the date format to DD/MM/YYYY
     defaultDate: selectedDate || new Date(), // Set default date to the selected date or today
-    minDate: selectedDate ? selectedDate : 'today'
-     // Allow past dates if a date is selected
+    // minDate: selectedDate ? selectedDate : 'today'
+    // Allow past dates if a date is selected
   };
 
   useEffect(() => {
@@ -113,8 +113,8 @@ const Compliance = () => {
 
 
     if (state?.ComplianceList?.Compliance) {
-        setData(state.ComplianceList.Compliance);
-    } 
+      setData(state.ComplianceList.Compliance);
+    }
 
   }, [state?.ComplianceList?.Compliance]);
 
@@ -124,8 +124,8 @@ const Compliance = () => {
   const [Complainttype, setComplainttype] = useState('');
   const [description, setDescription] = useState('')
   const [Assign, setAssign] = useState('');
-    console.log("assign",Assign);
-    console.log("Complainttype",Complainttype);
+  console.log("assign", Assign);
+  console.log("Complainttype", Complainttype);
   const [Status, setStatus] = useState('')
   const [date, setDate] = useState('');
   const [editbtn, setEditbtn] = useState(false)
@@ -134,6 +134,7 @@ const Compliance = () => {
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
   const [beds, setBeds] = useState('');
+  const [userid, setUser_Id] = useState('')
   const [loading, setLoading] = useState(true);
 
 
@@ -169,7 +170,7 @@ const Compliance = () => {
 
 
   const [hostelname, setHostelName] = useState('')
-  console.log("hostelname",hostelname);
+  console.log("hostelname", hostelname);
   // const handleHostelId = (e) => {
   //   console.log("e.target.value", e.target.value);
   //   const selectedHostelId = e.target.value;
@@ -330,7 +331,7 @@ const Compliance = () => {
       );
 
       setData(filteredItems);
-    } 
+    }
     else {
       setData(state.ComplianceList.Compliance)
     }
@@ -399,19 +400,19 @@ const Compliance = () => {
 
   const [selectedUsername, setSelectedUserName] = useState('')
   const [filteredUserDetails, setFilteredUserDetails] = useState([]);
- 
-  console.log("username",selectedUsername);
-  console.log("state",state);
-  console.log("filterdetails",filteredUserDetails);
+
+  console.log("username", selectedUsername);
+  console.log("state", state);
+  console.log("filterdetails", filteredUserDetails);
 
   useEffect(() => {
     if (selectedUsername) {
-      console.log("state.UsersList.Users",state.UsersList.Users);
+      console.log("state.UsersList.Users", state.UsersList.Users);
       const filteredDetails = state.UsersList.Users.filter(item => {
         return item.Name == selectedUsername
       }
-      ) 
-      console.log("filteredDetails",filteredDetails);
+      )
+      console.log("filteredDetails", filteredDetails);
       if (filteredDetails.length > 0) {
         setFilteredUserDetails(filteredDetails);
         const firstFilteredDetail = filteredDetails[0];
@@ -422,6 +423,8 @@ const Compliance = () => {
         setFloor(firstFilteredDetail.Floor || '');
         setBeds(firstFilteredDetail.Bed || '');
         setRooms(firstFilteredDetail.Rooms || '');
+        setUser_Id(firstFilteredDetail.User_Id || '');
+
       } else {
         setFilteredUserDetails([]);
         setName('');
@@ -434,16 +437,16 @@ const Compliance = () => {
     } else {
       setFilteredUserDetails([]);
       setName('');
-        // setPhone('');
-        setHostelName('');
-        setBeds('')
-        setFloor('');
-        setRooms('');
+      // setPhone('');
+      setHostelName('');
+      setBeds('')
+      setFloor('');
+      setRooms('');
     }
   }, [selectedUsername]);
 
   const handleCheckoutChange = (event, newValue) => {
-    console.log("clickeduser",event.target.value);
+    console.log("clickeduser", event.target.value);
     setSelectedUserName(event.target.value);
   };
 
@@ -470,27 +473,27 @@ const Compliance = () => {
     setStatus('')
   }
 
-const [Assignpopupshow,setAssignpopupshow] = useState(false);
+  const [Assignpopupshow, setAssignpopupshow] = useState(false);
 
-const handleAssignShow = () => {
-  console.log('handleAssignShow called'); // Add a log here
-  setAssignpopupshow(true);
-}
-const handleAssignClose = () => {
-  console.log('handleAssignClose called'); // Add a log here
-  setAssignpopupshow(false);
-}
+  const handleAssignShow = () => {
+    console.log('handleAssignShow called'); // Add a log here
+    setAssignpopupshow(true);
+  }
+  const handleAssignClose = () => {
+    console.log('handleAssignClose called'); // Add a log here
+    setAssignpopupshow(false);
+  }
 
-   const [edit ,setEdit] = useState(false)
+  const [edit, setEdit] = useState(false)
 
   const handleAddcomplaint = () => {
 
     setEdit(false)
 
-    if (Complainttype  && description  && date && hostelname  && beds && Rooms) {
+    if (Complainttype && description && selectedDate && hostelname && beds && Rooms) {
       console.log();
-      if(id) {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername,   Complainttype: Complainttype, Assign: Assign, Description: description, date: selectedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname ,Floor_id: Floor,Status: Status, id : id } })
+      if (id) {
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: selectedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id } })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -506,7 +509,7 @@ const handleAssignClose = () => {
         setHostel_Id('')
       }
       else {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername,   Complainttype: Complainttype, Assign: Assign, Description: description, date: selectedDate,Hostel_id: hostel_Id,  Bed: beds, Room: Rooms, hostelname: hostelname ,Floor_id: Floor , Status: Status} })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: selectedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status } })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -521,16 +524,16 @@ const handleAssignClose = () => {
         setId('');
         setHostel_Id('')
       }
-   
+
       Swal.fire({
-              icon: "success",
-               title:edit ?   'Complaince Updated successfully' : 'Complaince Added successfully',
-               confirmButtonText: "ok"
-             }).then((result) => {
-      
-               if (result.isConfirmed) {
-               }
-             });
+        icon: "success",
+        title: edit ? 'Complaince Updated successfully' : 'Complaince Added successfully',
+        confirmButtonText: "ok"
+      }).then((result) => {
+
+        if (result.isConfirmed) {
+        }
+      });
     }
     else {
       Swal.fire({
@@ -541,12 +544,12 @@ const handleAssignClose = () => {
     }
   }
 
- 
 
-   const [editdata,setEditData]= useState('')
+
+  const [editdata, setEditData] = useState('')
 
   const handleEditcomplaint = (Complaintdata) => {
-     
+
     console.log("edit works", Complaintdata);
 
     if (Complaintdata) {
@@ -575,9 +578,9 @@ const handleAssignClose = () => {
   //   handleEditcomplaint(editdata)
   // }, [editdata]);
 
-  console.log("description",description);
-  console.log("date",date);
-  console.log("assign",Assign);
+  console.log("description", description);
+  console.log("date", date);
+  console.log("assign", Assign);
 
 
   useEffect(() => {
@@ -592,13 +595,13 @@ const handleAssignClose = () => {
     }
   }, []);
 
-  const [complainttypelist , setComplainttypelist] = useState([])
-  console.log("complainttypelist",complainttypelist);
+  const [complainttypelist, setComplainttypelist] = useState([])
+  console.log("complainttypelist", complainttypelist);
 
- useEffect(() => {
-   dispatch({ type: 'COMPLAINT-TYPE-LIST' }) 
-   setComplainttypelist(state.Settings.Complainttypelist.complaint_types)
-}, [])
+  useEffect(() => {
+    dispatch({ type: 'COMPLAINT-TYPE-LIST' })
+    setComplainttypelist(state.Settings.Complainttypelist.complaint_types)
+  }, [])
 
 
   return (
@@ -632,57 +635,57 @@ const handleAssignClose = () => {
 
           <div className="d-flex justify-content-between align-items-center">
 
-          {
-                 filtericon &&
-                   <>
-                     <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
-                     >
-                       <option selected value="ALL"> ALL</option>
-                       <option value="Success">Success</option>
-                       <option value="Hold">Hold</option>
-                       <option value="Pending">Pending</option>
-                     </select>
-                   </>
-                 }
+            {
+              filtericon &&
+              <>
+                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
+                >
+                  <option selected value="ALL"> ALL</option>
+                  <option value="Success">Success</option>
+                  <option value="Hold">Hold</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </>
+            }
             <div className='me-3'>
-              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow}/>
+              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div>
 
             <div>
               <Button
                 onClick={handleShow}
-                style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px",color:'#FFF' , fontFamily:'Montserrat' }}> + Add Complaint</Button>
+                style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Complaint</Button>
             </div>
           </div>
         </div>
 
         <div className='row row-gap-3'>
-        {data && data.map((complaints) => (
-          <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-            <ComplianceList  complaints = {complaints}  onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow}/>      
-          </div>
-           ))
+          {data && data.map((complaints) => (
+            <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
+              <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} />
+            </div>
+          ))
           }
-      
-          
-        {data.length == 0 &&
 
-          <div style={{ width: 400 }}>
-            <Alert variant="warning" >
-              Currently, no complaints are available.
-            </Alert>
 
-          </div>
-        }
+          {data.length == 0 &&
+
+            <div style={{ width: 400 }}>
+              <Alert variant="warning" >
+                Currently, no complaints are available.
+              </Alert>
+
+            </div>
+          }
 
         </div>
         <Pagination className="mt-4 d-flex justify-content-end">
-        {[...Array(Math.ceil(data.length / itemsPerPage)).keys()].map(number => (
-          <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
-            {number + 1}
-          </Pagination.Item>
-        ))}
-      </Pagination>
+          {[...Array(Math.ceil(data.length / itemsPerPage)).keys()].map(number => (
+            <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
+              {number + 1}
+            </Pagination.Item>
+          ))}
+        </Pagination>
       </div>
 
       {show &&
@@ -697,7 +700,7 @@ const handleAssignClose = () => {
             centered>
             <Modal.Dialog style={{ maxWidth: 850, width: '700px' }} className='m-0 p-0'>
               <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600 , fontStyle:'normal',lineHeight:'normal'}}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title>
+                <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title>
               </Modal.Header>
 
               <Modal.Body>
@@ -706,7 +709,7 @@ const handleAssignClose = () => {
                 <div className='row mt-4'>
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>
+                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
                         Customer
                       </Form.Label>
                       <Form.Select className='border'
@@ -718,13 +721,13 @@ const handleAssignClose = () => {
                         <option value="">Select a customer</option>
 
                         {
-                          state.UsersList?.Users.map((u , index)=>(
+                          state.UsersList?.Users.map((u, index) => (
                             <option selected value={u.Name}>{u.Name}</option>
                           )
-                
+
                           )
                         }
-                        
+
 
                       </Form.Select>
                     </Form.Group>
@@ -734,7 +737,7 @@ const handleAssignClose = () => {
                   </div>
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>
+                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
                         Complaint Type
                       </Form.Label>
                       <Form.Select className='border'
@@ -745,136 +748,137 @@ const handleAssignClose = () => {
                       >
                         {
                           edit ? <option selected value={Complainttype}>{Complainttype}</option> :
-                          <>
-                         
+                            <>
 
 
-                            <option  selected value="">Select a type</option>
-                          {
-                           complainttypelist && complainttypelist.map((u , index)=>(
-                            <option selected value={u.complaint_name}>{u.complaint_name}</option>
-                          )
-                
-                          )
+
+                              <option selected value="">Select a type</option>
+                              {
+                                complainttypelist && complainttypelist.map((u, index) => (
+                                  <option selected value={u.id}>{u.complaint_name}</option>
+                                )
+
+                                )
+                              }
+                            </>
                         }
-                          </>
-                        }
-                      
-                      
+
+
                       </Form.Select>
                     </Form.Group>
 
                   </div>
 
-                      <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label
-          //  style={labelStyle}
-          style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}
-          >
-            Paying Guests
-          </Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Paying Guests"
-            value={hostelname}
-            readOnly
-            // style={inputStyle}
-          />
-        </Form.Group>
-      </div>
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label
+                        //  style={labelStyle}
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Paying Guests
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Paying Guests"
+                        value={hostelname}
+                        readOnly
+                      // style={inputStyle}
+                      />
+                    </Form.Group>
+                  </div>
 
-      <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label 
-          style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}
-          // style={labelStyle}
-          >
-            Beds
-          </Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Beds"
-            value={beds}
-            readOnly
-            // style={inputStyle}
-          />
-        </Form.Group>
-      </div>
-      {/* {!edit &&  Assign == !null( */}
-  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>
-        Assignee
-      </Form.Label>
-      <Form.Select
-        className='border'
-        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-        value={Assign}
-        onChange={(e) => { setAssign(e.target.value) }}
-      >
-        {edit ? (
-          <option selected value={Assign}>{Assign}</option>
-        ) : (
-          <>
-            <option value="">Select assignee</option>
-            <option value="John">John</option>
-            <option value="Josh">Josh</option>
-          </>
-        )}
-      </Form.Select>
-    </Form.Group>
-  </div>
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      // style={labelStyle}
+                      >
+                        Beds
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Beds"
+                        value={beds}
+                        readOnly
+                      // style={inputStyle}
+                      />
+                    </Form.Group>
+                  </div>
+                  {/* {!edit &&  Assign == !null( */}
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
+                        Assignee
+                      </Form.Label>
+                      <Form.Select
+                        className='border'
+                        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        value={Assign}
+                        onChange={(e) => { setAssign(e.target.value) }}
+                      >
+                        {edit ? (
+                          <option selected value={Assign}>{Assign}</option>
+                        ) : (
+                          <>
+                            <option value="">Select assignee</option>
+                            <option value="John">John</option>
+                            <option value="Josh">Josh</option>
+                          </>
+                        )}
+                      </Form.Select>
+                    </Form.Group>
+                  </div>
 
-  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>
-        Status
-      </Form.Label>
-      <Form.Select
-        className='border'
-        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-        value={Status}
-        onChange={(e) => { setStatus(e.target.value) }}
-      >
-        {edit ? (
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
+                        Status
+                      </Form.Label>
+                      <Form.Select
+                        className='border'
+                        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        value={Status}
+                        onChange={(e) => { setStatus(e.target.value) }}
+                      >
+                        {/* {edit ? (
           <option selected value={Status}>{Status}</option>
+
         ) : (
-          <>
-            <option value="">Select a status</option>
-            <option value="Pending">Pending</option>
-            <option value="Completed">Completed</option>
-          </>
-        )}
-      </Form.Select>
-    </Form.Group>
-  </div>
-{/* )} */}
+          <> */}
+                        <option value="">Select a status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                        {/* </> */}
+                        {/* )} */}
+                      </Form.Select>
+                    </Form.Group>
+                  </div>
+                  {/* )} */}
 
 
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-          <Form.Label
-         style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}
-           >
-            Room no
-          </Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Rooms"
-            value={Rooms}
-            readOnly
-            // style={inputStyle}
-          />
-        </Form.Group>
-      </div>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Room no
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Rooms"
+                        value={Rooms}
+                        readOnly
+                      // style={inputStyle}
+                      />
+                    </Form.Group>
+                  </div>
 
-               
-   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                  <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>Complaint date</Form.Label>
 
-                  {/* <div className="rectangle-group">
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Complaint date</Form.Label>
+
+                    {/* <div className="rectangle-group">
                   <div className="frame-child1" />
                   <input
                     className="frame-input"
@@ -891,57 +895,57 @@ const handleAssignClose = () => {
                   />
                 </div> */}
 
-<div style={{ position: 'relative' }}>
-      <label
-        htmlFor="date-input"
-        style={{
-          border: "1px solid #D9D9D9",
-          borderRadius: 8,
-          padding: 7,
-          fontSize: 14,
-          fontFamily: "Gilroy",
-          fontWeight: 500,
-          color: "#222222",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between", // Ensure space between text and icon
-          cursor: "pointer"
-        }}
-        onClick={() => {
-          if (calendarRef.current) {
-            calendarRef.current.flatpickr.open();
-          }
-        }}
-      >
-        {selectedDate ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-        <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-      </label>
-      <Flatpickr
-        ref={calendarRef}
-        options={options}
-        value={selectedDate}
-        onChange={(selectedDates) => {
-          setSelectedDate(selectedDates[0]);
-        }}
-        style={{
-          padding: 10,
-          fontSize: 16,
-          width: "100%",
-          borderRadius: 8,
-          border: "1px solid #D9D9D9",
-          position: 'absolute',
-          top: 100,
-          left: 100,
-          zIndex: 1000,
-          display: "none"
-        }}
-      />
-    </div>
-        
-                
-                </div>
+                    <div style={{ position: 'relative' }}>
+                      <label
+                        htmlFor="date-input"
+                        style={{
+                          border: "1px solid #D9D9D9",
+                          borderRadius: 8,
+                          padding: 7,
+                          fontSize: 14,
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          color: "#222222",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between", // Ensure space between text and icon
+                          cursor: "pointer"
+                        }}
+                        onClick={() => {
+                          if (calendarRef.current) {
+                            calendarRef.current.flatpickr.open();
+                          }
+                        }}
+                      >
+                        {selectedDate ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
+                        <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
+                      </label>
+                      <Flatpickr
+                        ref={calendarRef}
+                        options={options}
+                        value={selectedDate}
+                        onChange={(selectedDates) => {
+                          setSelectedDate(selectedDates[0]);
+                        }}
+                        style={{
+                          padding: 10,
+                          fontSize: 16,
+                          width: "100%",
+                          borderRadius: 8,
+                          border: "1px solid #D9D9D9",
+                          position: 'absolute',
+                          top: 100,
+                          left: 100,
+                          zIndex: 1000,
+                          display: "none"
+                        }}
+                      />
+                    </div>
 
-                {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+
+                  </div>
+
+                  {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Date</Form.Label>
                                     <Form.Control className="custom-date-input"
@@ -950,18 +954,18 @@ const handleAssignClose = () => {
                                         type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
                             </div> */}
-                    {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                  {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Complaint date</Form.Label>
                       <Form.Control
                         //  value={address} onChange={(e) => handleAddressChange(e)}
                         type="text" placeholder="Enter Address" style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                     </Form.Group> */}
 
-                  
+
 
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 , fontStyle:'normal',lineHeight:'normal'}}>Description</Form.Label>
+                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Description</Form.Label>
                       <Form.Control
                         value={description} onChange={(e) => { setDescription(e.target.value) }}
                         type="text" placeholder="Enter description" style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
@@ -973,10 +977,10 @@ const handleAssignClose = () => {
               </Modal.Body>
               <Modal.Footer style={{ border: "none" }}>
 
-                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" , fontStyle:'normal',lineHeight:'normal' }}
+                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
                   onClick={handleAddcomplaint}
                 >
-                {edit ? "Save complaint" : "Add complaint"}  
+                  {edit ? "Save complaint" : "Add complaint"}
                 </Button>
               </Modal.Footer>
             </Modal.Dialog>
@@ -984,17 +988,17 @@ const handleAssignClose = () => {
         </div>
       }
 
-{Assignpopupshow &&
+      {Assignpopupshow &&
         <div
           className="modal show"
           style={{
             display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
-          }}  
+          }}
         >
           <Modal
             show={Assignpopupshow} onHide={handleAssignClose}
             centered>
-            <Modal.Dialog style={{width: '100%' }} className='m-0 p-0 col-4'>
+            <Modal.Dialog style={{ width: '100%' }} className='m-0 p-0 col-4'>
               <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
                 <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> Assign Complaint</Modal.Title>
               </Modal.Header>
@@ -1009,20 +1013,20 @@ const handleAssignClose = () => {
                         Assignee
                       </Form.Label>
                       <Form.Select className='border'
-                       selected value={selectedUsername}
+                        selected value={selectedUsername}
                         onChange={handleCheckoutChange}
                         style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       >
                         <option value="">Select Assignee</option>
 
                         {
-                          state.UsersList?.Users.map((u , index)=>(
+                          state.UsersList?.Users.map((u, index) => (
                             <option key={index} value={u.id}>{u.Name}</option>
                           )
-                
+
                           )
                         }
-                        
+
 
                       </Form.Select>
                     </Form.Group>
@@ -1030,9 +1034,9 @@ const handleAssignClose = () => {
 
 
                   </div>
-                 
-                  
-          
+
+
+
                 </div>
 
               </Modal.Body>
