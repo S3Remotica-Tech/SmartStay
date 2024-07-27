@@ -68,7 +68,7 @@ const InvoiceTable = (props) => {
                         </div>
                     </div>
                 </td>
-                <td style={{ cursor: 'pointer', fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px',color: "#000", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500 }} onClick={() => handleInvoicepdf(props.item)} className='pt-3'>#{props.item.Invoices == null || props.item.Invoices == '' ? '0.00' : props.item.Invoices}</td>
+                <td style={{color:'#2E76E3', cursor: 'pointer', fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500 }} onClick={() => handleInvoicepdf(props.item)} className='pt-3'>#{props.item.Invoices == null || props.item.Invoices == '' ? '0.00' : props.item.Invoices}</td>
                 <td style={Tablebodystyle}><span style={{ backgroundColor: '#EBEBEB', padding: '8px 12px', color: '#000', borderRadius: '14px' }} >{moment(props.item.Date).format('DD MMM YYYY').toUpperCase()}</span></td>
                 <td style={Tablebodystyle}><span style={{ backgroundColor: '#EBEBEB', padding: '8px 12px', color: '#222222', borderRadius: '14px' }} >{moment(props.item.DueDate).format('DD MMM YYYY').toUpperCase()}</span></td>
                 <td style={{ fontFamily: 'Gilroy', fontSize: '16px', color: "#000", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500, paddingTop: '17px' }} > ₹{props.item.Amount.toLocaleString('en-IN')}</td>

@@ -45,7 +45,7 @@ props.onRowVisiblity(false)
 
 
     return (
-        <Card className="h-100" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }} onClick={()=>handleSelectedHostel(props.hostel.id)}>
+        <Card className="h-100" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }} >
             <Card.Body style={{ padding: 20 }}>
                 <div className="d-flex justify-content-between align-items-center flex-wrap" >
                     <div className='d-flex gap-2'>
@@ -53,8 +53,8 @@ props.onRowVisiblity(false)
                             <Image src={props.hostel && props.hostel.profile ? props.hostel.profile : Vendors} roundedCircle style={{ height: "60px", width: "60px" }} />
                         </div>
                         <div >
-                            <div className='pb-2' >
-                                <label style={{ fontSize: 16, color: "#222222", fontWeight: 600,fontFamily:"Gilroy"}}  >{props.hostel && props.hostel.Name}</label>
+                            <div className='pb-2'  onClick={()=>handleSelectedHostel(props.hostel.id)} >
+                                <label className='hover-hostel-name'  style={{ fontSize: 16, color: "#222222", fontWeight: 600,fontFamily:"Gilroy"}}  >{props.hostel && props.hostel.Name}</label>
                             </div>
                             <div>
                                 <div style={{ backgroundColor: "rgba(255, 239, 207, 1)", fontWeight: 500, width: "fit-content", padding: 5, borderRadius: 10, fontSize: 14 ,fontFamily:"Gilroy",color:'rgba(34, 34, 34, 1)'}}>Paying Guest</div>
@@ -71,14 +71,14 @@ props.onRowVisiblity(false)
                                 <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top:10, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                     <div >
                                         <div className='mb-2' 
-                                        // onClick={() => handleEdit(props.hostel)}
+                                        onClick={() => handleEdit(props.hostel)}
                                          >
-                                            <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" }} >Edit</label>
+                                            <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222",cursor:"pointer" }} >Edit</label>
                                         </div>
                                         <div 
                                         // onClick={() => handleDelete(props.hostel)}
                                         >
-                                            <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
+                                            <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" ,cursor:"pointer"}}>Delete</label>
                                         </div>
                                     </div>
                                 </div>

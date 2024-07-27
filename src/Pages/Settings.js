@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Men from '../Assets/Images/men.jpg';
+import { Dropdown, Table } from 'react-bootstrap';
 import { FaCircleExclamation } from "react-icons/fa6";
 import SecurityIcon from '@mui/icons-material/Security';
 import ReceiptIcon from '@mui/icons-material/Receipt';
@@ -27,7 +28,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Complaintsettings from './Complaint_settings';
 import ExpencesSettings from './Expences_settings';
-
+import dottt from "../Assets/Images/Group 14.png"
 
 
 
@@ -201,7 +202,7 @@ function Settings() {
 
 
 useEffect(()=>{
-  const UserIsEnable = state.createAccount.accountList[0].user_details.isEnable
+  const UserIsEnable = state.createAccount.accountList[0]?.user_details.isEnable
  
 
 if(UserIsEnable === 1){
@@ -246,7 +247,7 @@ const [profilePicture, setProfilePicture] = useState('');
 
 
 useEffect(()=>{
-     const FIlteredProfile = state.createAccount?.accountList[0].user_details
+     const FIlteredProfile = state.createAccount?.accountList[0]?.user_details
        if(FIlteredProfile.profile){
         const ProfileImage = FIlteredProfile.profile
     const CustomerName = FIlteredProfile.Name
@@ -298,7 +299,7 @@ const handleChanges = (event, newValue) => {
 }
 
 const [selectedHostel, setSelectedHostel] = useState('');
-const [unit , setUnit] = useState('');
+const [unit , setUnit] = useState(1);
 const [amount , setAmount] = useState('')
 console.log("selectedHostel",selectedHostel);
 
@@ -307,20 +308,36 @@ const handleHostelChange = (e) => {
 };
 
 const handlesaveEbbill = () => {
-  dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit : unit , amount : amount} })
-  Swal.fire({
-    icon: "success",
-    title: 'EB Billings Added successfully',
-    confirmButtonText: "ok"
-}).then((result) => {
-    if (result.isConfirmed) {
-    }
-});
-  setSelectedHostel('')
-  setUnit('');
-  setAmount('')
+  if (selectedHostel && amount){
+    dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit : unit , amount : amount} })
+    Swal.fire({
+      icon: "success",
+      title: 'EB Billings Added successfully',
+      confirmButtonText: "ok"
+  }).then((result) => {
+      if (result.isConfirmed) {
+      }
+  });
+    setSelectedHostel('')
+    setUnit('');
+    setAmount('')
+  }
+  else {
+       Swal.fire({
+           icon: "warning",
+           title: 'Please Enter All Field',
+           confirmButtonText: "ok"
+         }).then((result) => {
+           if (result.isConfirmed) {
+           }
+         });
+       }
+
 }
 
+useEffect(()=>{
+dispatch({type:'EB-BILLING-UNIT-LIST'})
+},[])
 
   return (
     <div className='container'>
@@ -339,12 +356,12 @@ const handlesaveEbbill = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
           <TabList onChange={handleChanges} aria-label="lab API tabs example" style={{marginLeft:'20px'}}>
-            <Tab label="Security" value="1" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
-            <Tab label="EB Billing" value="2" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
-            <Tab label="Invoice" value="3" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
-            <Tab label="Expences" value="4" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
-            <Tab label="Complaint type" value="5" className='me-3 ' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
-            <Tab label="Amenities" value="6" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 }}/>
+            <Tab label="Security" value="1" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
+            <Tab label="EB Billing" value="2" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
+            <Tab label="Invoice" value="3" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
+            <Tab label="Expences" value="4" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
+            <Tab label="Complaint type" value="5" className='me-3 ' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
+            <Tab label="Amenities" value="6" className='me-3' style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
           </TabList>
         </Box>
         <TabPanel value="1"> 
@@ -398,8 +415,13 @@ const handlesaveEbbill = () => {
                
               </>
         </TabPanel>
+
+
+
         <TabPanel value="2">
-        <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
+          <div style={{display:'flex', flexDirection:'row'}}>
+            <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+        <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                       <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>
                         Select Hostel
@@ -417,17 +439,17 @@ const handlesaveEbbill = () => {
                 </Form.Group>
 
                   </div>
-                  <div className='col-lg-10 col-md-8 col-sm-12 col-xs-12' style={{border:'1px solid #ced4da',padding:'30px',paddingRight:'100px',borderRadius:'20px'}}>
-                    <div className='d-flex row'>
+                  <div className='col-lg-11 col-md-4 col-sm-12 col-xs-12' style={{border:'1px solid #ced4da',padding:'30px',borderRadius:'20px'}}>
+                    <div style={{display:'flex',flexDirection:'column'}}>
 
-                    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                    <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
           >
             Unit
           </Form.Label>
           <Form.Control
-          style={{padding:'20px',marginTop:'10px'}}
+          style={{padding:'10px',marginTop:'10px',backgroundColor: "#E7F1FF"}}
             type="text"
             placeholder="Unit"
             value={unit}
@@ -436,14 +458,14 @@ const handlesaveEbbill = () => {
         </Form.Group>
       </div>
 
-      <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+      <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
           >
-            Set Amount
+            Amount / Unit 
           </Form.Label>
           <Form.Control
-            style={{padding:'20px',marginTop:'10px'}}
+            style={{padding:'10px',marginTop:'10px'}}
             type="text"
             placeholder="Amount"
             value={amount}
@@ -452,13 +474,50 @@ const handlesaveEbbill = () => {
         </Form.Group>
       </div>
                     </div>
-                    <div style={{marginTop:'30px'}}>
-              <Button onClick={handlesaveEbbill} style={{fontFamily:'Montserrat', fontSize: 16,fontWeight:500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
-                 Save Changes</Button>
-            </div>
+              <div  className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+              <Button className='col-lg-11 col-md-12 col-sm-12 col-xs-12' onClick={handlesaveEbbill} style={{fontFamily:'Montserrat', fontSize: 16,fontWeight:500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12 }}>
+               Save Changes</Button>
+              </div>
 
                   </div>
-          
+                  </div>
+
+                  <hr style={{ border:'1px solid #ced4da',   transform: 'rotate(180deg)'}}/>
+
+
+                  <div className='col-lg-6 col-md-5 col-sm-12 col-xs-12 ms-5'> 
+                  <Table className="ebtable mt-3" responsive  >
+                          <thead style={{ backgroundColor: "#E7F1FF" }}>
+                            <tr>
+
+                              <th style={{color:'#222', paddingLeft: "40px",  fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal', paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
+                              <th style={{color:'#222',fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" ,fontStyle:'normal',lineHeight:'normal'}}>Unit</th>
+                              <th style={{color:'#222',fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" ,fontStyle:'normal',lineHeight:'normal'}}>Amount </th>
+                              <th style={{color:'#222',fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",fontStyle:'normal',lineHeight:'normal', }}></th>
+                              {/* <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Dated</th> */}
+
+                            </tr>
+                          </thead>
+                          <tbody style={{ height: "50px", fontSize: "11px" }}>
+                           
+                          {state.Settings.EBBillingUnitlist?.eb_settings && state.Settings.EBBillingUnitlist.eb_settings.length > 0 &&state.Settings.EBBillingUnitlist.eb_settings.map((eb) => (
+                                <tr  style={{ lineHeight: "40px" }}>
+                                  <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.Name}</td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.unit} KW </td>
+                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.amount}</td>
+                                  <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
+                                </tr>
+                          ))}
+                            {/* {currentRowsEb.length === 0 && (
+                              <tr>
+                                <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
+                              </tr>
+                            )} */}
+
+                          </tbody>
+                        </Table>
+                  </div>
+                  </div>
            </TabPanel>
         <TabPanel value="3"><InvoiceSettings /> </TabPanel>
         <TabPanel value="4"><ExpencesSettings/> </TabPanel>

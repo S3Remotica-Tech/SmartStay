@@ -23,7 +23,7 @@ const ExpencesSettings = () => {
     const [isSubCategory, setIsSubCategory] = useState(false);
     // console.log("isSubCategory",isSubCategory);
     const [expences , setExpences] = useState([])
-    // console.log("expences",expences);
+    console.log("expences",expences);
 
     const [namefilter , setNamefilter]= useState()
 //    console.log("namefilter",namefilter);
@@ -132,10 +132,10 @@ const ExpencesSettings = () => {
 
       const handleDeleteExpensesCategory = (item) =>{
         console.log("deleteitem",item)
-        if(item){
+        if(item && item.category_Id && item.subcategory_Id){
         Swal.fire({
           icon: 'warning',
-          title: 'Do you want to delete the Expenses Category ?',
+          title: 'Do you want to delete the Expenses sub Category ?',
           confirmButtonText: 'Yes',
           cancelButtonText: 'No',
           showCancelButton: true,
@@ -144,18 +144,45 @@ const ExpencesSettings = () => {
               dispatch({
                   type: 'DELETE-EXPENCES-CATEGORY',
                   payload: {
-                    id : item.id
+                    id : item.category_Id,
+                    sub_Category_Id : item.subcategory_Id
                   },
               });
               console.log("deleteexecuted");
               Swal.fire({
                   icon: 'success',
-                  title: 'Expenses Category deleted Successfully',
+                  title: 'Expenses sub-Category deleted Successfully',
               })
           }
       });
     
     }
+
+    else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Do you want to delete the Expenses Category ?',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            showCancelButton: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch({
+                    type: 'DELETE-EXPENCES-CATEGORY',
+                    payload: {
+                      id : item,
+                    //   sub_Category_Id : item.subcategory_Id
+                    },
+                });
+                console.log("deleteexecuted");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Expenses Category deleted Successfully',
+                })
+            }
+        });
+    }
+
     
       }
 const handleCategoryid = (e) =>{
@@ -164,8 +191,9 @@ const handleCategoryid = (e) =>{
         console.log("type",e.target.value);
         const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
             console.log("all", typename.id);
-            return typename.id == e.target.value;
+            return typename.category_Id == e.target.value;
         });
+        console.log("Typeidnamefilter",Typeidnamefilter);
         setNamefilter(Typeidnamefilter[0].category_Name);
         
         console.log("Typeidnamefilter", Typeidnamefilter);
@@ -186,7 +214,7 @@ const handleCategoryid = (e) =>{
                             >
                                 <option value="">Select Category</option>
                                 {expences.map((category, index) => (
-                                    <option key={index} value={category.id}>
+                                    <option key={index} value={category.category_Id}>
                                         {category.category_Name}
                                     </option>
                                 ))}
@@ -247,7 +275,7 @@ const handleCategoryid = (e) =>{
                             <p key={index} className='m-1' style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>
                                 <span style={{ backgroundColor: '#FFEFCF', padding: '8px 12px', color: '#222222', borderRadius: '14px' }}>
                                     {t.category_Name}
-                                    <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeleteExpensesCategory(t)}>
+                                    <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeleteExpensesCategory(t.category_Id)}>
                                         <img src={Closebtn} height={15} width={15} alt="delete" />
                                     </span>
                                 </span>
@@ -261,11 +289,11 @@ const handleCategoryid = (e) =>{
     
     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
         {expences.filter(t => t.category_Name).map((t, index) => (
-            t.sub_Category && t.sub_Category.length > 0 ? (
+            t.subcategory && t.subcategory.length > 0 ? (
                 <div key={index} className='m-1' style={{ display: 'flex', flexDirection: 'column' }}>
                     <span style={{ backgroundColor: '#FFEFCF', padding: '8px 12px', borderRadius: '14px' ,fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222" }}>
                         <span style={{ marginLeft: '10px', fontSize: '18px', color: '#555' }}>
-                            {t.category_Name} - {t.sub_Category}
+                            {t.category_Name} - {t.subcategory}
                         </span>
                         <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeleteExpensesCategory(t)}>
                             <img src={Closebtn} height={15} width={15} alt="delete" />

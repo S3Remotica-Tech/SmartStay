@@ -80,10 +80,16 @@ function Dashboard() {
   const [lablesdata,setLables] =useState([])
   const [totalAmount,setTotalAmount] =useState([])
 
+
   console.log("lablesdata",lablesdata)
   useEffect(() => {
     setTotalAmount(state.PgList.dashboardDetails.totalAmount)
   }, [state.PgList.dashboardDetails.totalAmount])
+
+
+
+ 
+
 
   useEffect(() => {
 
@@ -91,6 +97,9 @@ function Dashboard() {
   }, [state.PgList.dashboardDetails.categoryList])
   useEffect(() => {
     setData(state.PgList.dashboardDetails.Revenue_reports)
+
+    
+
   }, [state.PgList.dashboardDetails.Revenue_reports])
 
   useEffect(() => {
@@ -109,6 +118,7 @@ function Dashboard() {
      return null;
    }
 
+
    const {
      hostelCount,
      roomCount,
@@ -119,6 +129,7 @@ function Dashboard() {
      current,
      overdue,
    } = dashboardList[0];
+
 
   console.log(hostelCount, roomCount, TotalBed, availableBed, occupied_Bed, Revenue, current, overdue);
 
@@ -151,6 +162,7 @@ function Dashboard() {
       },
     ],
   };
+
 
   const options = {
     responsive: true,
