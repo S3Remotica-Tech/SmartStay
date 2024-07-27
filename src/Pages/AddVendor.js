@@ -120,7 +120,7 @@ function AddVendor( {show, handleClose ,currentItem}) {
     
     
     
-        if (first_Name && last_Name && vendor_Mobile && email_Id && address) {
+        if (first_Name && vendor_Mobile && email_Id && address) {
           if(check === 'EDIT'){
             dispatch({
               type: 'ADDVENDOR',

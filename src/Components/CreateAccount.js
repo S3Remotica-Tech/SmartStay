@@ -173,7 +173,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
       return;
     }
 
-    if (!firstName || !lastName || !phoneNo || !emailID || !password || !confirmpassword) {
+    if (!firstName || !phoneNo || !emailID || !password || !confirmpassword) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',

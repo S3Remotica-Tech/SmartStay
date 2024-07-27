@@ -23,13 +23,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import DashboardChart from './DashboardChart';
 import { FaSearch } from "react-icons/fa";
 import { createPortal } from 'react-dom';
+import Compliance from './Compliance';
 
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,Label,LabelList
 } from 'recharts';
 import { borderRadius, color, fontFamily, fontSize, fontWeight } from '@mui/system';
 
-function Dashboard() {
+function Dashboard(props) {
   const complaintsData = [
     {
       name: "Akash Rathod",
@@ -88,7 +89,9 @@ function Dashboard() {
 
 
 
- 
+ const handlecompliance = (compliance) =>{
+   props.displayCompliance(compliance)
+ }
 
 
   useEffect(() => {
@@ -114,22 +117,32 @@ function Dashboard() {
   }, [state.PgList.dashboardDetails.dashboardList])
 
   console.log("dashboardList", dashboardList)
-   if (!dashboardList || dashboardList.length === 0) {
-     return null;
-   }
+  //  if (!dashboardList || dashboardList.length === 0) {
+  //    return null;
+  //  }
 
 
-   const {
-     hostelCount,
-     roomCount,
-     TotalBed,
-     availableBed,
-     occupied_Bed,
-     Revenue,
-     current,
-     overdue,
-   } = dashboardList[0];
+  //  const {
+  //    hostelCount,
+  //    roomCount,
+  //    TotalBed,
+  //    availableBed,
+  //    occupied_Bed,
+  //    Revenue,
+  //    current,
+  //    overdue,
+  //  } = dashboardList[0];
 
+  const {
+    hostelCount = 0,
+    roomCount = 0,
+    TotalBed = 0,
+    availableBed = 0,
+    occupied_Bed = 0,
+    Revenue = 0,
+    current = 0,
+    overdue = 0,
+  } = dashboardList[0] || {};
 
   console.log(hostelCount, roomCount, TotalBed, availableBed, occupied_Bed, Revenue, current, overdue);
 
@@ -150,12 +163,12 @@ function Dashboard() {
   };
   
   const datum = {
-    labels: lablesdata.map(category => category.category_Name),
+    labels: lablesdata?.map(category => category.category_Name),
     datasets: [
       {
-        data: lablesdata.map(category => category.Amount),
-        backgroundColor: lablesdata.map(() => getRandomColor()),
-        hoverBackgroundColor: lablesdata.map(() => getRandomColor()),
+        data: lablesdata?.map(category => category.Amount),
+        backgroundColor: lablesdata?.map(() => getRandomColor()),
+        hoverBackgroundColor: lablesdata?.map(() => getRandomColor()),
         borderWidth: 5,
         borderColor: '#fff',
         borderRadius: 10
@@ -442,7 +455,7 @@ function Dashboard() {
     <div className="complaints-container">
   <div className="header">
     <p style={{fontSize:18,fontWeight:600,fontFamily:"Montserrat",paddingLeft:"10px",marginTop:15}}>Active Complaints</p>
-    <a href="/view-all" style={{ textAlign:"right",paddingRight:15 }}>View all</a>
+    <a  style={{ textAlign:"right",paddingRight:15 }} onClick={()=>handlecompliance()}>View all</a>
   </div>
   {complaintsData.map((complaint, index) => (
     <div className="complaint" key={index} >
