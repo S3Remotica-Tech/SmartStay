@@ -1282,7 +1282,7 @@ function UserList() {
                             e.target.src = Profile; // Fallback to default image
                           }}
                         />
-                        <span style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy",color:"#1E45E1" }} onClick={() => handleRoomDetailsPage(user)}>
+                        <span style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", color: "#1E45E1" }} onClick={() => handleRoomDetailsPage(user)}>
                           {user.Name}
                         </span>
                       </td>
@@ -1516,120 +1516,174 @@ function UserList() {
 
                   {
                     overviewshow &&
-                    <div className="overdue mt-3" >
-                      <div style={{ flex: 1 }}>
-                        <div class="card" style={{ borderRadius: "20px", paddingLeft: 20, paddingTop: 0, paddingRight: 20, paddingBottom: 5 }}>
-                          <div class="card-header d-flex justify-content-between align-items-center " style={{ backgroundColor: "transparent" }}>
-                            <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
-                              Basic Information
+                    <>
+                      <div className="overdue mt-3" >
+                        <div style={{ flex: 1 }}>
+                          <div class="card" style={{ borderRadius: "20px", paddingLeft: 20, paddingTop: 0, paddingRight: 20, paddingBottom: 5 }}>
+                            <div class="card-header d-flex justify-content-between align-items-center " style={{ backgroundColor: "transparent" }}>
+                              <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                Basic Information
+                              </div>
+                              <div>
+                                <img src={dottt} height={32} width={32} alt="More Options" onClick={() => { handleShow(item) }} />
+                              </div>
                             </div>
-                            <div>
-                              <img src={dottt} height={32} width={32} alt="More Options" onClick={() => { handleShow(item) }} />
-                            </div>
-                          </div>
-                          <div class="card-body">
-                            <div class="row ">
-                              <div class="col-sm-6">
-                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Paying Guest</p>
-                                <p> <Buildings
-                                  size="16"
-                                  color="#1E45E1"
-                                /> <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginLeft: 5 }}>{item.HostelName}</span></p>
+                            <div class="card-body">
+                              <div class="row ">
+                                <div class="col-sm-6">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Paying Guest</p>
+                                  <p> <Buildings
+                                    size="16"
+                                    color="#1E45E1"
+                                  /> <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginLeft: 5 }}>{item.HostelName}</span></p>
 
-                                {/* <img src={building} /> */}
-                              </div>
-                              <div class="col-sm-6 text-right">
-                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Room/Bed</p>
-                                <p ><img src={Group} onClick={() => { handleShowAddBed(item) }} /><span onClick={() => { handleShowAddBed(item) }} style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</span></p>
-                              </div>
-                            </div>
-                            <div class="row ">
-                              <div class="col-sm-6">
-                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email</p>
-                                <p><Sms
-                                  size="16"
-                                  color="#1E45E1"
-                                />
-                                  {/* <img src={sms} />  */}
-                                  <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{item.Email}</span></p>
-                              </div>
-                              <div class="col-sm-6 text-right">
-                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Mobile no.</p>
-                                <p><Call
-                                  size="16"
-                                  color="#1E45E1"
-                                />
-                                  {/* <img src={call} />  */}
-                                  <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{item.Phone}</span></p>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Address</p>
-                                <p><House
-                                  size="16"
-                                  color="#1E45E1"
-                                />
-                                  {/* <img src={house} /> */}
-                                  <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{item.Address}</span> </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-                      <div style={{ flex: 1 }}>
-
-                        {
-                          state.UsersList?.customerdetails?.data?.length > 0 && state.UsersList?.customerdetails?.data.map((g) => {
-                            console.log("g", g)
-
-                            return (
-                              <div class="card" style={{ borderRadius: "20px", paddingLeft: 20, paddingTop: 0, paddingRight: 20, paddingBottom: 5 }}>
-                                <div class="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
-                                  <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                    Detailed Information
-                                  </div>
-                                  <div>
-                                    <img src={dottt} width={32} height={32} alt="More Options" />
-                                  </div>
+                                  {/* <img src={building} /> */}
                                 </div>
-                                <div class="card-body">
-                                  <div class="row mb-3">
-                                    <div class="col-sm-4">
-                                      <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</strong>
-                                      <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}><img src={Money} />   ₹{g.AdvanceAmount}</p>
-                                    </div>
-                                    <div class="col-sm-4">
-                                      <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Rent Amount</strong>
-                                      <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}> <img src={Money} /> ₹{g.RoomRent}/m</p>
-                                    </div>
+                                <div class="col-sm-6 text-right">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Room/Bed</p>
+                                  <p ><img src={Group} onClick={() => { handleShowAddBed(item) }} /><span onClick={() => { handleShowAddBed(item) }} style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</span></p>
+                                </div>
+                              </div>
+                              <div class="row ">
+                                <div class="col-sm-6">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email</p>
+                                  <p><Sms
+                                    size="16"
+                                    color="#1E45E1"
+                                  />
+                                    {/* <img src={sms} />  */}
+                                    <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{item.Email}</span></p>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Mobile no.</p>
+                                  <p><Call
+                                    size="16"
+                                    color="#1E45E1"
+                                  />
+                                    {/* <img src={call} />  */}
+                                    <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{item.Phone}</span></p>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-sm-6">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Address</p>
+                                  <p><House
+                                    size="16"
+                                    color="#1E45E1"
+                                  />
+                                    {/* <img src={house} /> */}
+                                    <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{item.Address}</span> </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
+                        </div>
+                        <div style={{ flex: 1 }}>
+
+                          {
+                            state.UsersList?.customerdetails?.data?.length > 0 && state.UsersList?.customerdetails?.data.map((g) => {
+                              console.log("g", g)
+
+                              return (
+                                <div class="card" style={{ borderRadius: "20px", paddingLeft: 20, paddingTop: 0, paddingRight: 20, paddingBottom: 5 }}>
+                                  <div class="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
+                                    <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                      Detailed Information
+                                    </div>
+                                    <div>
+                                      <img src={dottt} width={32} height={32} alt="More Options" />
+                                    </div>
                                   </div>
-                                  <div class="row mb-3">
-                                    <div class="col-sm-12">
-                                      <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Amenities</strong>
+                                  <div class="card-body">
+                                    <div class="row mb-3">
+                                      <div class="col-sm-4">
+                                        <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</strong>
+                                        <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}><img src={Money} />   ₹{g.AdvanceAmount}</p>
+                                      </div>
+                                      <div class="col-sm-4">
+                                        <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Rent Amount</strong>
+                                        <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}> <img src={Money} /> ₹{g.RoomRent}/m</p>
+                                      </div>
 
-                                      <div class="d-flex flex-wrap mt-2">
-                                        {
-                                          g?.amentites?.length > 0 && g?.amentites.map((p) => {
-                                            return (
-                                              <div key={p.Amnities_Name} style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>{p.Amnities_Name}</div>
+                                    </div>
+                                    <div class="row mb-3">
+                                      <div class="col-sm-12">
+                                        <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Amenities</strong>
 
-                                            )
-                                          })
-                                        }
+                                        <div class="d-flex flex-wrap mt-2">
+                                          {
+                                            g?.amentites?.length > 0 && g?.amentites.map((p) => {
+                                              return (
+                                                <div key={p.Amnities_Name} style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>{p.Amnities_Name}</div>
+
+                                              )
+                                            })
+                                          }
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            )
-                          })
-                        }
+                              )
+                            })
+                          }
+
+                        </div>
+
+
 
                       </div>
-                    </div>
+
+                      <div class="card" style={{ borderRadius: "20px", paddingLeft: 20, paddingTop: 0, paddingRight: 20, paddingBottom: 5, marginTop: 30 }}>
+                        <div class="card-header d-flex justify-content-between align-items-center " style={{ backgroundColor: "transparent" }}>
+                          <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
+                            KYC details
+                          </div>
+
+                        </div>
+                        <div class="card-body">
+                          <div className="row">
+                            <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+                              <Form.Group className="mb-3">
+                                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Aaadhar Number</Form.Label>
+                                <FormControl
+                                  id="form-controls"
+                                  placeholder='987654321012'
+                                  type="text"
+                                  // value={firstname}
+                                  // onChange={(e) => handleFirstName(e)}
+                                  style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                                />
+                              </Form.Group>
+                            </div>
+                            <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+                              <Form.Group className="mb-3">
+                                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>OTP</Form.Label>
+                                <FormControl
+                                  type="text"
+                                  id="form-controls"
+                                  placeholder='****'
+                                  // value={lastname}
+                                  // onChange={(e) => handleLastName(e)}
+                                  style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                                />
+                              </Form.Group>
+                              <span>Didn’t receive OTP? <a href="#" style={{textDecoration:"none"}}> Resend</a></span>
+                            </div>
+
+                          </div>
+
+
+                        </div>
+
+<div style={{marginBottom:20}}>
+<Button style={{ fontFamily: 'Montserrat', fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 52, letterSpacing: 1, borderRadius: 12, width: 152, padding: "10px, 3px, 10px, 3px", marginLeft: 20 }} > Save Changes</Button>
+
+</div>
+
+                      </div>
+                    </>
                   }
 
                   {
