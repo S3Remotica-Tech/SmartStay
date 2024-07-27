@@ -355,7 +355,9 @@ function Sidebar() {
   
   }, [stateAccount.statusCodeForAccountList])
 
-
+ const handledisplaycompliace =(compliance)=>{
+setCurrentPage('compliance')
+ }
   return (
     <>
 
@@ -488,7 +490,7 @@ function Sidebar() {
               </Offcanvas.Body>
             </Offcanvas>
                 
-            {currentPage === 'dashboard' && <Dashboards />}
+            {currentPage === 'dashboard' && <Dashboards  displayCompliance={handledisplaycompliace}/>}
             {currentPage === 'pg-list' && < PgLists />}
             {currentPage === 'user-list' && < UserLists />}
             {currentPage === 'invoice' && < Invoices />}

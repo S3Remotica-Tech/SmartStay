@@ -106,123 +106,9 @@ function UserlistForm(props) {
 
   
 
-  
-// useEffect(()=>{
-//   const FIlteredProfile = state.UsersList?.Users.filter((item)=>{
-//     return item[0].Email = Email
-   
-
-//   })
-  // console.log("FIlteredProfile",FIlteredProfile)
- 
- 
-
-
-//   const handleImageChange = async (event) => {
-//     const fileImage = event.target.files[0];
-
-//     const options = {
-//         maxSizeMB: 1,
-//         maxWidthOrHeight: 800,
-//         useWebWorker: true
-//     };
-//     try {
-//         const compressedFile = await imageCompression(fileImage, options);
-//         setSelectedImage(compressedFile);
-//     } catch (error) {
-//         console.error('Image compression error:', error);
-//     }
-// };
-
-
-
-
-
-
-  // useEffect(() => {
-  //   dispatch({ type: 'USERLIST' })
-  //   dispatch({ type: 'HOSTELLIST' })
-  // }, [])
-
   useEffect(() => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
   }, [hostel_Id,]);
-
-
-  // useEffect(() => {
-  //   const temparry = state.UsersList.roomdetails.filter((item) => item.Room_Id == Rooms);
-  //   setBedArray(temparry);
-
-  //   const temp2 = state.UsersList.Users.filter((item) => {
-  //     return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id;
-  //   });
-
-
-
-
-
-  //   const arrayToDisplay = [];
-  //   for (let i = 0; i < temparry[0]?.Number_Of_Beds; i++) {
-
-  //     const filteredData = temp2.filter((item2) => {
-  //       return i == item2.Bed - 1
-  //     })
-  //     if (filteredData.length == 0) {
-  //       arrayToDisplay.push(i + 1);
-  //     }
-  //   }
-  //   setArrayset(arrayToDisplay);
-  // }, [Rooms, state.UsersList.roomdetails]);
-
-  // useEffect(() => {
-  //   const temparry = state.UsersList?.bednumberdetails?.bed_details.filter((item) => item.Room_Id == Rooms);
-  //   setBedArray(temparry);
-
-  //   const temp2 = state.UsersList.Users.filter((item) => {
-  //     return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id;
-  //   });
-
-
-
-
-
-  //   const arrayToDisplay = [];
-  //   for (let i = 0; i < temparry[0]?.Number_Of_Beds; i++) {
-
-  //     const filteredData = temp2.filter((item2) => {
-  //       return i == item2.Bed - 1
-  //     })
-  //     if (filteredData.length == 0) {
-  //       arrayToDisplay.push(i + 1);
-  //     }
-  //   }
-  //   setArrayset(arrayToDisplay);
-  // }, [Rooms, state.UsersList.roomdetails]);
-  // useEffect(() => {
-  //   const temparry = state.UsersList.bednumberdetails.bed_details.filter((item) => item.Room_Id == Rooms);
-  //   setBedArray(temparry);
-
-  //   const temp2 = state.UsersList.Users.filter((item) => {
-  //     return item.Rooms == Rooms && item.Floor == Floor && item.Hostel_Id == hostel_Id;
-  //   });
-
-
-
-
-
-  //   const arrayToDisplay = [];
-  //   for (let i = 0; i < temparry[0]?.Number_Of_Beds; i++) {
-
-  //     const filteredData = temp2.filter((item2) => {
-  //       return i == item2.Bed - 1
-  //     })
-  //     if (filteredData.length == 0) {
-  //       arrayToDisplay.push(i + 1);
-  //     }
-  //   }
-  //   setArrayset(arrayToDisplay);
-  // }, [Rooms, state.UsersList.roomdetails]);
-
 
 
 
@@ -364,56 +250,17 @@ function UserlistForm(props) {
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     setRoomRent(roomRentValue);
-    // let newBalanceDue = 0;
-    // let BalanceDuelength = 0;
-
-
-    // if (AdvanceAmount <= roomRentValue) {
-    //   newBalanceDue = roomRentValue - AdvanceAmount;
-    //   BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-    //   setBalanceDue(BalanceDuelength);
-    // } else if (AdvanceAmount >= roomRentValue) {
-    //   newBalanceDue = AdvanceAmount - roomRentValue;
-    //   BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-    //   setBalanceDue(-BalanceDuelength);
-      // - sign
-    // }
-
+  
   }
 
-
-// useEffect(()=>{
-//   if(hostel_Id && Floor && Rooms){
-//     dispatch({ type: 'BEDNUMBERDETAILS', payload: { hostel_id: hostel_Id, floor_id: Floor,room_id:Rooms }})
-//   }
-// },[Rooms])
 
 
 const handleBed = (e) => {
   setBed(e.target.value);
 
-  // let tempArray = state.UsersList.roomdetails.filter((item) => {
-  //   return item.Hostel_Id == hostel_Id && item.Floor_Id == Floor && item.Room_Id == Rooms
-  // })
-  // console.log("tempArray", tempArray);
-  // if (tempArray.length > 0) {
-  //   let roomRent = tempArray[0].Room_Rent
-  //   setRoomRent(roomRent)
-  // }
 };
 
-  // const handleBed = (e) => {
-  //   setBed(e.target.value);
 
-  //   let tempArray = state.UsersList.roomdetails.filter((item) => {
-  //     return item.Hostel_Id == hostel_Id && item.Floor_Id == Floor && item.Room_Id == Rooms
-  //   })
-  //   console.log("tempArray", tempArray);
-  //   if (tempArray.length > 0) {
-  //     let roomRent = tempArray[0].Room_Rent
-  //     setRoomRent(roomRent)
-  //   }
-  // };
   const handlePaymentType = (e) => {
     setPaymentType(e.target.value)
   }
@@ -421,19 +268,7 @@ const handleBed = (e) => {
   const handleAdvanceAmount = (e) => {
     const advanceAmount = e.target.value;
     setAdvanceAmount(advanceAmount)
-    // let newBalanceDue = 0;
-    // let BalanceDuelength = 0;
-
-    // if (advanceAmount <= RoomRent) {
-    //   newBalanceDue = RoomRent - advanceAmount;
-    //   BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-    //   setBalanceDue(BalanceDuelength);
-    // } else if (advanceAmount >= RoomRent) {
-    //   newBalanceDue = advanceAmount - RoomRent;
-    //   BalanceDuelength = newBalanceDue === 0 ? '00' : newBalanceDue;
-    //   setBalanceDue(-BalanceDuelength);
-     
-    // }
+  
   }
 
 
@@ -447,14 +282,6 @@ const handleBed = (e) => {
   const handlelicence = (e) => {
     setLicence(e.target.value)
   }
-  // const handleImageChange = (event) => {
-  //   const fileimgage = event.target.files[0];
-
-  //   if (fileimgage) {
-  //     setFile(fileimgage);
-  //   }
-  // };
-
 
   const handleClose = () => {
     setFirstname('');
@@ -562,7 +389,7 @@ const handleBed = (e) => {
   
     if (
       !firstname ||
-      !lastname ||
+      // !lastname ||
       !Phone ||
       !Email ||
       !Address ||
@@ -865,8 +692,7 @@ console.log("props.displayDetail",props.displayDetail)
      
       
       <Button className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" ,marginTop:20}}  onClick={ handleSaveUserlist}>
-      Add an customer
-
+      {props.edit === 'Edit' ? "Edit Customer" : "Add an customer"}
 </Button>
     </div>
     :

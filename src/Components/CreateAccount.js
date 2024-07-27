@@ -183,7 +183,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
       return;
     }
 
-   
+
 
     if (passwordError) {
       Swal.fire({
