@@ -385,9 +385,7 @@ console.log("disabledButton",disabledButton)
                  <div>
                  {showLoader &&  <Spinner animation="grow" variant="primary" />}
 
-                 <div>
-    <ClipLoader color="#123abc" loading={true} size={150} />
-  </div>
+                
                  </div>
                   </div>
 
