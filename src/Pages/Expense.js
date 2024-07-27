@@ -200,11 +200,11 @@ console.log("Mathu", selectedValue, categoryValue, assetValue, vendorValue, mode
 
 
 
-
+console.log("getData",getData)
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
       setTimeout(() => {
-        setGetData(state.ExpenseList.expenseList)
+        setGetData(state.ExpenseList.expenseList.data)
       }, 1000)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
@@ -302,7 +302,7 @@ useEffect(()=>{
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   let filteredData =  [];
  
-   filteredData = filterByPriceRange(getData) || [];;
+   filteredData = filterByPriceRange(getData) || [];
   const currentItems = (filteredData && filteredData.length > 0) 
   ? filteredData.slice(indexOfFirstItem, indexOfLastItem) 
   : [];
@@ -728,7 +728,7 @@ const [showAmount, setShowAmount]  = useState(false)
 
 
 
-          <div style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "hidden" }}>
+          <div className='table-responsive' style={{ border: "1px solid #DCDCDC", borderRadius: "24px" }}>
             <Table responsive>
               <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
                 <tr>

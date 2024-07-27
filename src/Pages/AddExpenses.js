@@ -32,7 +32,14 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [modeOfPayment, setModeOfPayment] = useState('');
     const [description, setDescription] = useState('');
     const [count, setCount] = useState('')
-const [id, setId] =useState('')
+    const [id, setId] = useState('')
+    const [hostelName, setHostelName] = useState('')
+
+
+    const handleHostelNameChange = (e) => {
+        setHostelName(e.target.value)
+    }
+
 
     const handleCountChange = (e) => {
         const value = e.target.value;
@@ -52,6 +59,10 @@ const [id, setId] =useState('')
     const handleCategoryChange = (e) => {
         setCategory(e.target.value);
     };
+
+
+    console.log("category", category)
+
 
     const handleModeOfPaymentChange = (e) => {
         setModeOfPayment(e.target.value);
@@ -75,7 +86,7 @@ const [id, setId] =useState('')
 
 
 
-   
+
 
 
     useEffect(() => {
@@ -90,19 +101,20 @@ const [id, setId] =useState('')
         }
     }, []);
 
-    console.log("category",category )
+    console.log("category", category)
 
     useEffect(() => {
         if (currentItem) {
-setId(currentItem && currentItem.id || '')
+            setId(currentItem && currentItem.id || '')
             setAssetName(currentItem && currentItem.asset_id || '');
             setVendorName(currentItem && currentItem.vendor_id || '');
             setPurchaseDate(currentItem && moment(currentItem.purchase_date).format('YYYY-MM-DD') || '');
             setPrice(currentItem && currentItem.unit_amount || '');
-            setCategory(currentItem && currentItem.category_id  || '');
+            setCategory(currentItem && currentItem.category_id || '');
             setModeOfPayment(currentItem && currentItem.payment_mode || '');
             setDescription(currentItem && currentItem.description || '');
             setCount(currentItem && currentItem.unit_count || '')
+            setHostelName(currentItem && currentItem.hostel_id || '')
 
         }
     }, [currentItem])
@@ -136,10 +148,10 @@ setId(currentItem && currentItem.id || '')
             Swal.fire('Error', 'Please enter a price', 'error');
             return;
         }
-if( !modeOfPayment){
-    Swal.fire('Error', 'Please enter a mode of payment', 'error');
-    return;
-}
+        if (!modeOfPayment) {
+            Swal.fire('Error', 'Please enter a mode of payment', 'error');
+            return;
+        }
         dispatch({
             type: 'ADDEXPENSE',
             payload: {
@@ -151,6 +163,7 @@ if( !modeOfPayment){
                 unit_amount: price,
                 description: description,
                 payment_mode: modeOfPayment,
+                hostel_id:hostelName,
                 id: currentItem ? currentItem.id : null
             }
         });
@@ -178,6 +191,22 @@ if( !modeOfPayment){
 
 
                         <div className='row mt-1'>
+                            <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Hostel Name</Form.Label>
+                                    <Form.Select aria-label="Default select example" value={hostelName} onChange={handleHostelNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                        <option>Select an hostel</option>
+                                        {state.UsersList.hostelList && state.UsersList.hostelList.map((view) => (
+                                            <>
+
+                                                <option key={view.id} value={view.id}>{view.Name}</option>
+
+                                            </>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+
+                            </div>
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Vendor Name <span style={{ color: "#FF0000", display: vendorName ? "none" : "inline-block" }}>*</span></Form.Label>
@@ -221,7 +250,7 @@ if( !modeOfPayment){
                                         {state.ExpenseList.categoryList && state.ExpenseList.categoryList.map((view) => (
                                             <>
 
-                                                <option key={view.id} value={view.id}>{view.category_Name}</option>
+                                                <option key={view.category_Id} value={view.category_Id}>{view.category_Name}</option>
 
                                             </>
                                         ))}
@@ -230,7 +259,7 @@ if( !modeOfPayment){
                                 </Form.Group>
 
                             </div>
-                           
+
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Purchase Date <span style={{ color: "#FF0000", display: purchaseDate ? "none" : "inline-block" }}>*</span></Form.Label>

@@ -54,12 +54,12 @@ function* handleSendOtp(action) {
 
     if (response.status === 200) {
         yield put({ type: 'OTP_SEND', payload:{ response:response.data,statusCode:response.status}})
-        Swal.fire({
-            title: "Good job!",
-            text: "OTP is Send your Email_id",
-            icon: "success",
-            timer: 1000,
-        });
+        // Swal.fire({
+        //     title: "Good job!",
+        //     text: "OTP is Send your Email_id",
+        //     icon: "success",
+        //     timer: 1000,
+        // });
     }else if(response.status === 201){
         yield put({ type: 'EMAIL_ERROR', payload: { response:response.data.message,statusCode:response.status}})
         Swal.fire({
