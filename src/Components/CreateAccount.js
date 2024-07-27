@@ -150,6 +150,16 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
     const emailElement = document.getElementById('emailIDError');
     const emailError = emailElement ? emailElement.innerHTML : '';
 
+    if (!firstName || !lastName || !phoneNo || !emailID || !password || !confirmpassword) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter All Fields',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+
+
     if (emailError === 'Invalid Email Id *') {
       Swal.fire({
         icon: 'warning',
@@ -173,14 +183,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
       return;
     }
 
-    if (!firstName || !phoneNo || !emailID || !password || !confirmpassword) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Fields',
-        confirmButtonText: 'Ok'
-      });
-      return;
-    }
+
 
     if (passwordError) {
       Swal.fire({

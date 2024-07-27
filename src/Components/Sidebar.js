@@ -402,13 +402,18 @@ setCurrentPage('compliance')
 
                 <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Invoice</span></li>
 
-              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" }}>
-                <img src={currentPage === 'asset' ? Asset2 : Asset} style={{ fontSize: '13px' }} />
+
+              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage == 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" ,backgroundColor: currentPage === 'asset' ? '#FFFFFF' : 'inherit',color: currentPage === 'asset' ? 'rgba(30, 69, 225, 1)' : 'inherit'}}>
+                <img src={currentPage == 'asset' ? Asset2 : Asset} style={{ fontSize: '13px',color:currentPage == 'asset' && "rgba(30, 69, 225, 1)" }} />
                 <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Assets</span></li>
 
+            
+            
+            
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex" }}>
                 <img src={currentPage === 'eb' ? Eb2 : Eb} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Electricity Bill</span></li>
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Electricity Bill</span>
+                </li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex" }}>
                 <img src={currentPage === 'compliance' ? Compl2 : Compl} style={{ fontSize: '13px' }} />
