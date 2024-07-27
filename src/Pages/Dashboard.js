@@ -96,10 +96,23 @@ function Dashboard() {
   const [dashboardList, setDashboardList] = useState([])
   const LoginId = localStorage.getItem("loginId")
   const [login_Id, setLogin_Id] = useState('')
+  const [lablesdata,setLables] =useState([])
+  const [totalAmount,setTotalAmount] =useState([])
 
+  console.log("lablesdata",lablesdata)
+  useEffect(() => {
+    setTotalAmount(state.PgList.dashboardDetails.totalAmount)
+  }, [state.PgList.dashboardDetails.totalAmount])
 
   useEffect(() => {
-    setData(state.PgList.dashboardDetails.Revenue_reports || [])
+
+    setLables(state.PgList.dashboardDetails.categoryList)
+  }, [state.PgList.dashboardDetails.categoryList])
+  useEffect(() => {
+    setData(state.PgList.dashboardDetails.Revenue_reports)
+
+    
+
   }, [state.PgList.dashboardDetails.Revenue_reports])
 
   useEffect(() => {
@@ -114,35 +127,30 @@ function Dashboard() {
   }, [state.PgList.dashboardDetails.dashboardList])
 
   console.log("dashboardList", dashboardList)
-  // if (!dashboardList || dashboardList.length === 0) {
-  //   return null;
-  // }
+   if (!dashboardList || dashboardList.length === 0) {
+     return null;
+   }
 
 
   
 
-  // const {
-  //   hostelCount,
-  //   roomCount,
-  //   TotalBed,
-  //   availableBed,
-  //   occupied_Bed,
-  //   Revenue,
-  //   current,
-  //   overdue,
-  // } = dashboardList[0];
+
+  
+
+   const {
+     hostelCount,
+     roomCount,
+     TotalBed,
+     availableBed,
+     occupied_Bed,
+     Revenue,
+     current,
+     overdue,
+   } = dashboardList[0];
 
 
-  const {
-    hostelCount = 0,
-    roomCount = 0,
-    TotalBed = 0,
-    availableBed = 0,
-    occupied_Bed = 0,
-    Revenue = 0,
-    current = 0,
-    overdue = 0,
-  } = dashboardList[0] || {};
+
+
 
   console.log(hostelCount, roomCount, TotalBed, availableBed, occupied_Bed, Revenue, current, overdue);
 
@@ -153,21 +161,43 @@ function Dashboard() {
   const pathColor = current >= overdue ? '#00A32E' : 'EBEBEB';
   const trailColor = overdue >= current ? '#EBEBEB' : '#00A32E';
 
-
-
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  
   const datum = {
-    labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Others'],
+    labels: lablesdata.map(category => category.category_Name),
     datasets: [
       {
-        data: [19500, 19500, 19500, 19500, 19500, 19500],
-        backgroundColor: ['#FFA500', '#00FF00', '#0000FF', '#00FFFF', '#FFC0CB', '#FFD700'],
-        hoverBackgroundColor: ['#FFA500', '#00FF00', '#0000FF', '#00FFFF', '#FFC0CB', '#FFD700'],
+        data: lablesdata.map(category => category.Amount),
+        backgroundColor: lablesdata.map(() => getRandomColor()),
+        hoverBackgroundColor: lablesdata.map(() => getRandomColor()),
         borderWidth: 5,
         borderColor: '#fff',
-        borderRadius:10
+        borderRadius: 10
       },
     ],
   };
+
+  // const datum = {
+  //   // labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Others'],
+  //   labels: lablesdata.map(category => category.category_Name),
+  //   datasets: [
+  //     {
+  //       data: lablesdata.map(category => category.Amount),
+  //       backgroundColor: ['#FFA500', '#00FF00', '#0000FF', '#00FFFF', '#FFC0CB', '#FFD700'],
+  //       hoverBackgroundColor: ['#FFA500', '#00FF00', '#0000FF', '#00FFFF', '#FFC0CB', '#FFD700'],
+  //       borderWidth: 5,
+  //       borderColor: '#fff',
+  //       borderRadius:10
+  //     },
+  //   ],
+  // };
 
   
   const options = {
@@ -190,7 +220,7 @@ function Dashboard() {
   };
   
   
-    const { labels, datasets } = datum;
+    const {  datasets } = datum;
   
     if (!datasets || datasets.length === 0 || !datasets[0].backgroundColor) {
       return <div>Loading...</div>;
@@ -221,8 +251,6 @@ function Dashboard() {
    
 
   return (
-
-
 
 <div className='cotainer  p-4' >
  <div className='texxttt'>
@@ -434,15 +462,15 @@ function Dashboard() {
       <div className="content">
         <div className="chart">
           <Doughnut data={datum} options={options} style={{width:196,height:196}} />
-          <p className="center-text" style={{fontFamily:"Gilroy",fontSize:25,fontWeight:600}}>₹19,500</p>
+          <p className="center-text" style={{fontFamily:"Gilroy",fontSize:25,fontWeight:600}}>₹{totalAmount}</p>
         </div>
         <div className="categories">
-          {labels.map((label, index) => (
+          {lablesdata?.map((label, index) => (
             <div className="category" key={index}>
               <span className="dot" style={{ backgroundColor: datasets[0].backgroundColor[index] }}></span>
               <div className="text">
-                <p style={{fontFamily:"Montserrat",fontSize:12,fontWeight:600,color:"#4B4B4B"}}>{label}</p>
-                <p style={{fontFamily:"Gilroy",fontSize:16,fontWeight:600}}>₹19,500</p>
+                <p style={{fontFamily:"Montserrat",fontSize:12,fontWeight:600,color:"#4B4B4B"}}>{label.category_Name}</p>
+                <p style={{fontFamily:"Gilroy",fontSize:16,fontWeight:600}}>₹{label.Amount}</p>
               </div>
             </div>
           ))}
