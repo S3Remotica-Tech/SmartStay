@@ -180,7 +180,7 @@ function Amenities() {
         // }
         //  else {
         // }
-        if(amenitiesName && amount && selectedhostel){
+        if (amenitiesName && amount && selectedhostel) {
             dispatch({ type: 'AMENITIESSETTINGS', payload: { amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedhostel } });
 
             setSelecteDHostel('')
@@ -194,12 +194,12 @@ function Amenities() {
                 icon: "warning",
                 title: 'Please Enter All Field',
                 confirmButtonText: "ok"
-              }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                 }
-              });
+            });
         }
-       
+
         // setStatus('');
         // handleCloseModal();
     }
@@ -245,10 +245,10 @@ function Amenities() {
 
     const uniqueOptions = Array.from(new Set(state?.InvoiceList?.AmenitiesList.map((item) => item.Amnities_Name)));
 
-//     const[ hostelname , setHostelname] = useState([])
-//    const  Hostelnamefilterlist = state.UsersList.hostelList.filter((u)=> u.id == state?.InvoiceList?.AmenitiesList.id )
-//     setHostelname(Hostelnamefilterlist)
-//     console.log("Hostelnamefilterlist", hostelname);
+    //     const[ hostelname , setHostelname] = useState([])
+    //    const  Hostelnamefilterlist = state.UsersList.hostelList.filter((u)=> u.id == state?.InvoiceList?.AmenitiesList.id )
+    //     setHostelname(Hostelnamefilterlist)
+    //     console.log("Hostelnamefilterlist", hostelname);
 
 
 
@@ -256,8 +256,8 @@ function Amenities() {
 
         <>
 
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+            <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
+                <div className='col-lg-4 col-md-5 col-sm-12 col-xs-12'>
                     <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                             <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>
@@ -276,7 +276,7 @@ function Amenities() {
                         </Form.Group>
 
                     </div>
-                    <div className='col-lg-11 col-md-4 col-sm-12 col-xs-12' style={{ border: '1px solid #ced4da', padding: '30px', borderRadius: '20px' }}>
+                    <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12' style={{ border: '1px solid #ced4da', padding: '30px', borderRadius: '20px' }}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
 
                             <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
@@ -329,26 +329,26 @@ function Amenities() {
                     </div>
                 </div>
 
-                <hr style={{ border:'1px solid #ced4da',   transform: 'rotate(180deg)'}}/>
+                <hr style={{ border: '1px solid #ced4da', transform: 'rotate(180deg)' }} />
 
-                <div className='col-lg-6 col-md-5 col-sm-12 col-xs-12 ms-5'>
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0">
                     <Table className="ebtable mt-3" responsive  >
                         <thead style={{ backgroundColor: "#E7F1FF" }}>
                             <tr>
 
-                                <th style={{color:'#222', paddingLeft: "40px", fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
-                                <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amenity</th>
-                                <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amount </th>
-                                <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Status</th>
-                                <th style={{color:'#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
+                                <th className='ps-1 ps-lg-5' style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
+                                <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amenity</th>
+                                <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amount </th>
+                                <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Status</th>
+                                <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
 
                             </tr>
                         </thead>
                         <tbody style={{ height: "50px", fontSize: "11px" }}>
 
-                            {state.InvoiceList.AmenitiesList.map((amenity) => (
+                            {state.InvoiceList.AmenitiesList.length > 0 && state.InvoiceList.AmenitiesList.map((amenity) => (
                                 <tr style={{ lineHeight: "40px" }}>
-                                    <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{amenity.Name}</td>
+                                    <td className='ps-1 ps-lg-5' style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{amenity.Name}</td>
                                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>{amenity.Amnities_Name}</td>
                                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>₹ {amenity.Amount}</td>
                                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{amenity.Status == 1 ? "Active" : "Inactive"}</td>
@@ -357,12 +357,11 @@ function Amenities() {
                             )
                             )}
 
-
-                            {/* {currentRowsEb.length === 0 && (
-                              <tr>
-                                <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
-                              </tr>
-                            )} */}
+                            {state.InvoiceList.AmenitiesList.length === 0 && (
+                                <tr>
+                                    <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
+                                </tr>
+                            )}
 
                         </tbody>
                     </Table>

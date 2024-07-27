@@ -108,9 +108,9 @@ const Accountsettings = () => {
 
 
     useEffect(() => {
-      const FIlteredProfile = state.createAccount?.accountList[0].user_details
+      const FIlteredProfile = state?.createAccount?.accountList[0].user_details
       console.log("FIlteredProfile",FIlteredProfile);
-      if (FIlteredProfile.profile) {
+      if (FIlteredProfile?.profile) {
           const ProfileImage = FIlteredProfile.profile
           const CustomerFirstName = FIlteredProfile.first_name
           const CustomerLastName = FIlteredProfile.last_name
@@ -127,7 +127,7 @@ const Accountsettings = () => {
           setAddress(UserAddress)
 
           setSelectedImage(ProfileImage)
-      } else {
+      } else if(FIlteredProfile.length > 0){
         const CustomerFirstName = FIlteredProfile.first_name
         const CustomerLastName = FIlteredProfile.last_name
         const PhoneNUmber = FIlteredProfile.mobileNo
@@ -143,8 +143,16 @@ const Accountsettings = () => {
         setAddress(UserAddress)
           setProfilePicture(Men)
       }
+      else{
+        setId("")
+        setFirstName("")
+        setLastName("")
+        setPhone("")
+        setEmail("")
+        setAddress("")
+      }
 
-  }, [state.createAccount?.accountList])
+  }, [state?.createAccount?.accountList])
 
 
 
