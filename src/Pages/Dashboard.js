@@ -24,6 +24,8 @@ import DashboardChart from './DashboardChart';
 import { FaSearch } from "react-icons/fa";
 import { createPortal } from 'react-dom';
 import Compliance from './Compliance';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,Label,LabelList
@@ -200,7 +202,8 @@ function Dashboard(props) {
     const {  datasets } = datum;
   
     if (!datasets || datasets.length === 0 || !datasets[0].backgroundColor) {
-      return <div>Loading...</div>;
+      return <div className="d-flex justify-content-center align-items-start gap-3" style={{height:"100%"}}><Spinner animation="grow" style={{color:"rgb(30, 69, 225)"}} /> <div style={{color:"rgb(30, 69, 225)", fontWeight:600}}>Loading.....</div></div> 
+  
     }
    
     
