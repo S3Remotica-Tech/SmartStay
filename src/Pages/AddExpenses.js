@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Profile from '../Assets/Images/New_images/profile-picture.png'
@@ -10,6 +10,10 @@ import Swal from 'sweetalert2';
 import './addAsset.css'
 import { FileX } from 'react-bootstrap-icons';
 import moment from 'moment';
+import Calendars from '../Assets/Images/New_images/calendar.png'
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_blue.css';
+
 
 
 function StaticExample({ show, handleClose, currentItem }) {
@@ -108,7 +112,8 @@ function StaticExample({ show, handleClose, currentItem }) {
             setId(currentItem && currentItem.id || '')
             setAssetName(currentItem && currentItem.asset_id || '');
             setVendorName(currentItem && currentItem.vendor_id || '');
-            setPurchaseDate(currentItem && moment(currentItem.purchase_date).format('YYYY-MM-DD') || '');
+            setSelectedDate(moment(currentItem.purchase_date).toDate());
+            // setPurchaseDate(currentItem && moment(currentItem.purchase_date).format('YYYY-MM-DD') || '');
             setPrice(currentItem && currentItem.unit_amount || '');
             setCategory(currentItem && currentItem.category_id || '');
             setModeOfPayment(currentItem && currentItem.payment_mode || '');
@@ -136,7 +141,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             Swal.fire('Error', 'Please select a category', 'error');
             return;
         }
-        if (!purchaseDate) {
+        if (!selectedDate) {
             Swal.fire('Error', 'Please select a purchase date', 'error');
             return;
         }
@@ -158,7 +163,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 vendor_id: vendorName,
                 asset_id: assetName,
                 category_id: category,
-                purchase_date: purchaseDate,
+                purchase_date: formattedDate,
                 unit_count: count,
                 unit_amount: price,
                 description: description,
@@ -172,7 +177,42 @@ function StaticExample({ show, handleClose, currentItem }) {
     };
 
 
+    const [selectedDate, setSelectedDate] = useState(null);
+    const calendarRef = useRef(null);
 
+
+  console.log("selectedDate",selectedDate)
+
+
+
+    const options = {
+        dateFormat: 'd/m/Y',
+        defaultDate: selectedDate || new Date(),
+    };
+
+    useEffect(() => {
+        if (calendarRef.current) {
+            calendarRef.current.flatpickr.set(options);
+        }
+    }, [selectedDate])
+
+    const formatDateForPayload = (date) => {
+        if (!date) return null;
+        const offset = date.getTimezoneOffset();
+        date.setMinutes(date.getMinutes() - offset);
+        return date.toISOString().split('T')[0]; 
+      };
+    
+
+const [formattedDate, setFormattedDate] = useState('')
+
+
+      const handleDateChange = (selectedDates) => {
+      const date = selectedDates[0];
+    setSelectedDate(date); 
+    const formattedDate = formatDateForPayload(date);
+    setFormattedDate(formattedDate); 
+              };
 
 
     return (
@@ -194,7 +234,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Hostel Name</Form.Label>
-                                    <Form.Select aria-label="Default select example" value={hostelName} onChange={handleHostelNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    <Form.Select aria-label="Default select example" value={hostelName} onChange={handleHostelNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option>Select an hostel</option>
                                         {state.UsersList.hostelList && state.UsersList.hostelList.map((view) => (
                                             <>
@@ -210,7 +250,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Vendor Name <span style={{ color: "#FF0000", display: vendorName ? "none" : "inline-block" }}>*</span></Form.Label>
-                                    <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option>Select a vendor</option>
                                         {state.ComplianceList.VendorList && state.ComplianceList.VendorList.map((view) => (
                                             <>
@@ -226,7 +266,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name</Form.Label>
-                                    <Form.Select aria-label="Default select example" value={assetName} onChange={handleAssetNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    <Form.Select aria-label="Default select example" value={assetName} onChange={handleAssetNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option>Select an asset</option>
                                         {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
                                             <>
@@ -245,17 +285,18 @@ function StaticExample({ show, handleClose, currentItem }) {
                                     <Form.Select aria-label="Default select example"
                                         value={category}
                                         onChange={handleCategoryChange}
-                                        className='' id="vendor-select" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                        className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option>Select a Category</option>
                                         {state.ExpenseList.categoryList && state.ExpenseList.categoryList.map((view) => (
                                             <>
 
-                                                <option key={view.category_Id} value={view.category_Id}>{view.category_Name}</option>
+                                                <option  key={view.category_Id} value={view.category_Id}>{view.category_Name}</option>
 
                                             </>
                                         ))}
 
                                     </Form.Select>
+                                   
                                 </Form.Group>
 
                             </div>
@@ -263,10 +304,58 @@ function StaticExample({ show, handleClose, currentItem }) {
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Purchase Date <span style={{ color: "#FF0000", display: purchaseDate ? "none" : "inline-block" }}>*</span></Form.Label>
-                                    <Form.Control
+                                    {/* <Form.Control
                                         value={purchaseDate}
                                         onChange={handlePurchaseDateChange}
-                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} /> */}
+                               
+                               
+                               <div style={{ position: 'relative' }}>
+                                        <label
+                                            htmlFor="date-input"
+                                            style={{
+                                                border: "1px solid #D9D9D9",
+                                                borderRadius: 8,
+                                                padding: 7,
+                                                fontSize: 14,
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                color: "rgba(75, 75, 75, 1)",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                            }}
+                                            onClick={() => {
+                                                if (calendarRef.current) {
+                                                    calendarRef.current.flatpickr.open();
+                                                }
+                                            }}
+                                        >
+                                            {selectedDate instanceof Date && !isNaN(selectedDate) ?  selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
+                                            <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
+                                        </label>
+                                        <Flatpickr
+                                            ref={calendarRef}
+                                            options={options}
+                                            value={selectedDate}
+                                            onChange={handleDateChange}
+                                            style={{
+                                                padding: 10,
+                                                fontSize: 16,
+                                                width: "100%",
+                                                borderRadius: 8,
+                                                border: "1px solid #D9D9D9",
+                                                position: 'absolute',
+                                                top: 100,
+                                                left: 100,
+                                                zIndex: 1000,
+                                                display: "none"
+                                            }}
+                                        />
+                                    </div>
+                               
+                               
+                               
                                 </Form.Group>
 
                             </div>
@@ -307,7 +396,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                     <Form.Select aria-label="Default select example"
                                         value={modeOfPayment}
                                         onChange={handleModeOfPaymentChange}
-                                        className='' id="vendor-select" style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                        className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         <option value="">Select mode of payment</option>
                                         <option value="UPI/BHIM">UPI/BHIM</option>
                                         <option value="CASH">CASH</option>

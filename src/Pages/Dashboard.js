@@ -24,6 +24,8 @@ import DashboardChart from './DashboardChart';
 import { FaSearch } from "react-icons/fa";
 import { createPortal } from 'react-dom';
 import Compliance from './Compliance';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import drop from '../Assets/Images/New_images/arrow-down.png';
 import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
@@ -173,33 +175,34 @@ function Dashboard(props) {
       },
     },
   };
-
-
-  const { datasets } = datum;
-
-  if (!datasets || datasets.length === 0 || !datasets[0].backgroundColor) {
-    return <div>Loading...</div>;
-  }
-
-
-  const CustomLegend = ({ payload }) => {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 15 }}>
-        {payload.map((entry, index) => (
-          <div key={`item-${index}`} style={{ display: 'flex', alignItems: 'center', marginRight: 10, marginTop: 25 }}>
-            <div style={{
-              width: 12,
-              height: 12,
-              borderRadius: '50%',
-              backgroundColor: entry.color,
-              marginRight: 5
-            }} />
-            <span style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>{entry.value}</span>
-          </div>
-        ))}
-      </div>
-    );
-  };
+  
+  
+    const {  datasets } = datum;
+  
+    if (!datasets || datasets.length === 0 || !datasets[0].backgroundColor) {
+      return <div className="d-flex justify-content-center align-items-start gap-3" style={{height:"100%"}}><Spinner animation="grow" style={{color:"rgb(30, 69, 225)"}} /> <div style={{color:"rgb(30, 69, 225)", fontWeight:600}}>Loading.....</div></div> 
+  
+    }
+   
+    
+    const CustomLegend = ({ payload }) => {
+      return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',paddingTop:15}}>
+          {payload.map((entry, index) => (
+            <div key={`item-${index}`} style={{ display: 'flex', alignItems: 'center', marginRight: 10,marginTop:25 }}>
+              <div style={{
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                backgroundColor: entry.color,
+                marginRight: 5
+              }} />
+              <span  style={{fontSize:12,fontWeight:600,fontFamily:"Montserrat"}}>{entry.value}</span>
+            </div>
+          ))}
+        </div>
+      );
+    };
 
 
 
