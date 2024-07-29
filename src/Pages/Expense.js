@@ -109,6 +109,7 @@ function Expenses() {
     dispatch({ type: 'CATEGORYLIST' })
     dispatch({ type: 'VENDORLIST' })
     dispatch({ type: 'EXPENSELIST' })
+    setLoading(true)
   }, [])
 
 
@@ -199,12 +200,14 @@ function Expenses() {
 console.log("Mathu", selectedValue, categoryValue, assetValue, vendorValue, modeValue,dates, minAmount, maxAmount)
 
 
+const [loading, setLoading] = useState(false)
 
 console.log("getData",getData)
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
       setTimeout(() => {
         setGetData(state.ExpenseList.expenseList.data)
+        setLoading(false)
       }, 1000)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
@@ -473,7 +476,12 @@ const [showAmount, setShowAmount]  = useState(false)
 
 
 
-
+  const skeletonStyle = {
+    backgroundColor: '#dcdcdc',
+    borderRadius: '10px',
+    height: '20px',
+    marginBottom: '10px',
+  };
 
 
 
@@ -747,7 +755,23 @@ const [showAmount, setShowAmount]  = useState(false)
                 </tr>
               </thead>
               <tbody>
-                {currentItems && currentItems.map((item) => (
+                {
+                  loading ? <>
+                   <tr>
+      <td><div style={{ ...skeletonStyle, width: '20px' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '150px' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100px' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100px' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '150px' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100px' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '120px' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '50px' }}></div></td>
+    </tr>
+                  
+                  </>
+
+                :
+                currentItems && currentItems.map((item) => (
                   <ExpensesListTable item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
                 ))}
               </tbody>
