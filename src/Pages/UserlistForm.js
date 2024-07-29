@@ -762,7 +762,7 @@ console.log("props.displayDetail",props.displayDetail)
     <Form.Select
       aria-label='Default select example'
       placeholder='Select no. of rooms'
-      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
       value={Rooms}
       className='border'
       id="form-selects"
@@ -781,7 +781,7 @@ console.log("props.displayDetail",props.displayDetail)
     <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Bed</Form.Label>
     <Form.Select
       aria-label='Default select example'
-      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+      style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
       value={Bed}
       className='border'
       placeholder='Select a bed'
@@ -807,7 +807,7 @@ console.log("props.displayDetail",props.displayDetail)
         placeholder='Enter amount'
         value={AdvanceAmount} 
         onChange={(e) => handleAdvanceAmount(e)}
-        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
+        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
       />
     </Form.Group>
   </div>
@@ -821,13 +821,13 @@ console.log("props.displayDetail",props.displayDetail)
         placeholder='Enter amount'
         value={RoomRent} 
         onChange={(e) => handleRoomRent(e)}
-        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
+        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} 
       />
     </Form.Group>
   </div>
 </div>
 
-<Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} onClick={handleSaveUserlistAddUser}>
+<Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }} onClick={handleSaveUserlistAddUser}>
   Assign Bed
 </Button>
 </div>

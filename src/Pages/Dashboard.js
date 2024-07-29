@@ -294,62 +294,16 @@ function Dashboard(props) {
                 <p style={{ fontFamily: "Montserrat", fontSize: 18, fontWeight: 600, paddingLeft: 10 }}>Revenus vs Expenses</p>
               </div>
               <div className="d-flex align-items-end mb-3 justify-content-end" style={{ marginTop: 10 }}>
-                {/* <div className="dropdown">
-                  <button className="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ color: 'black', borderColor: 'grey' }}>
-                    <span style={{ fontFamily: "Montserrat", fontSize: 12, fontWeight: 600 }}> 2024 - 2025</span>
-                  </button>
-                  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a className="dropdown-item" href="#">Action</a>
-                    <a className="dropdown-item" href="#">Another action</a>
-                    <a className="dropdown-item" href="#">Something else here</a>
-                  </div>
-                </div> */}
-          {/* <div style={{ position: 'relative', display: 'inline-block' }}>
-      <select 
-        style={{
-          padding: '5px 10px',
-          borderRadius: '5px',
-          border: '1px solid #ccc',
-          fontSize: '14px',
-          fontFamily: 'Arial, sans-serif',
-          fontWeight: 500,
-          color: '#000',
-          background: '#fff',
-          cursor: 'pointer',
-          appearance: 'none',
-          WebkitAppearance: 'none',
-          MozAppearance: 'none',
-          paddingRight: '30px' // space for the arrow
-        }}
-      >
-         <option value="2023-2024">2023 - 2024</option>
-        <option value="2024-2025">2024 - 2025</option>
        
-      </select>
-      <div 
-        style={{
-          position: 'absolute',
-          top: '50%',
-          right: '10px',
-          pointerEvents: 'none',
-          transform: 'translateY(-50%)',
-          borderLeft: '5px solid transparent',
-          borderRight: '5px solid transparent',
-          borderTop: '5px solid #000',
-        }}
-      />
-    </div> */}
-
-
 
 <div style={{ position: 'relative', width: 118, height: 36 }}>
   <select
     aria-label="Default select example"
     style={{
-      fontSize: 16,
+      fontSize: 12,
       color: "#4B4B4B",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
+      fontFamily: "Gilroy",
+      fontWeight: 600,
       boxShadow: "none",
       border: "1px solid #D9D9D9",
       height: 36,
