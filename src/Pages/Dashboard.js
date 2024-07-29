@@ -28,7 +28,7 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import drop from '../Assets/Images/New_images/arrow-down.png';
-import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
+import { Offcanvas, Form, FormControl } from 'react-bootstrap';
 
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label, LabelList
