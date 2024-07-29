@@ -16,7 +16,7 @@ import Logo from '../Assets/Images/New_images/Group.png'
 import { Eye, EyeSlash } from 'iconsax-react';
 import ForgotOtp from '../Pages/ForgotOtp'
 import { IoIosCheckmark } from "react-icons/io";
-import { ClipLoader } from 'react-spinners';
+// import { ClipLoader } from 'react-spinners';
 
 
 function ForgetPasswordPage() {

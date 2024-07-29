@@ -265,7 +265,13 @@ const handleCloseDeleteRoom = () =>{
 // console.log("currentItems",currentItems)
 
 
+const handleDeleteBed = (bed) =>{
+  console.log("deletebed",bed)
+  if(bed.isfilled){
 
+  }
+
+}
 
   return (
     <div className=''>
@@ -309,7 +315,7 @@ const handleCloseDeleteRoom = () =>{
                         <div  className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
                                                      <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34 }} />
                      
-                          <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600 ,fontFamily:"Montserrat"}}>Bed {bed.bed_no}</div>
+                          <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600 ,fontFamily:"Montserrat"}} onClick={()=>handleDeleteBed(bed)}>Bed {bed.bed_no}</div>
                         </div>
                       </div>
                     ))}

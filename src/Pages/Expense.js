@@ -758,14 +758,14 @@ const [showAmount, setShowAmount]  = useState(false)
                 {
                   loading ? <>
                    <tr>
-      <td><div style={{ ...skeletonStyle, width: '20px' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '150px' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100px' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100px' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '150px' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100px' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '120px' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '50px' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle,width: '100%' }}></div></td>
     </tr>
                   
                   </>

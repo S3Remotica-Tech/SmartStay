@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useRef} from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
@@ -38,7 +38,13 @@ import leftArrow from '../Assets/Images/New_images/left-arrow.png'
 import rightarrow from '../Assets/Images/New_images/right-arrow.png'
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
+
 import squre from '../Assets/Images/New_images/minus-square.png';
+
+import Calendars from '../Assets/Images/New_images/calendar.png'
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_blue.css';
+
 
 
 const InvoicePage = () => {
@@ -694,37 +700,7 @@ const InvoicePage = () => {
 
 
 
-  const handleDateChange = (e) => {
-    const selectedDate = new Date(e.target.value);
-
-    const year = selectedDate.getFullYear();
-    const month = selectedDate.getMonth() + 1;
-    const lastDayOfMonth = new Date(year, month, 0);
-    const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
-    const selectedMonth = selectedDate.getMonth();
-    const roomRent = filteredUserDetails[0]?.RoomRent;
-    const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => {
-      const itemDate = new Date(item.Date);
-      const itemMonth = itemDate.getMonth();
-      return itemMonth === selectedMonth && item.User_Id === selectedUserId;
-    });
-
-    let totalPaidAmount = 0;
-    AlreadyPaidRoomRent.forEach(item => {
-      const paidAmount = parseFloat(item.Amount) || 0;
-      totalPaidAmount += paidAmount;
-    });
-
-    const isRoomRentPaid = roomRent === totalPaidAmount;
-    // setDisplayText(isRoomRentPaid);
-    setIsSaveDisabled(isRoomRentPaid);
-
-    setInvoiceList(prevState => ({
-      ...prevState,
-      date: e.target.value,
-      dueDate: formattedDueDate,
-    }));
-  }
+ 
 
   const handleAmount = (e) => {
     const AmountValue = e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
@@ -889,7 +865,7 @@ const InvoicePage = () => {
           amount: invoiceList.payableAmount,
           balance_due: invoiceList.balanceDue,
           payment_by: invoiceList.transaction,
-          payment_date: invoiceList.date
+          payment_date: formattedDate
         }
       });
 
@@ -999,6 +975,96 @@ const InvoicePage = () => {
   },[state.UsersList.customerdetails.invoice_details])
 
 
+
+
+  const [selectedDate, setSelectedDate] = useState(null);
+  const calendarRef = useRef(null);
+
+
+console.log("selectedDate",selectedDate)
+
+
+
+  const options = {
+      dateFormat: 'd/m/Y',
+      defaultDate: selectedDate || new Date(),
+  };
+
+  useEffect(() => {
+      if (calendarRef.current) {
+          calendarRef.current.flatpickr.set(options);
+      }
+  }, [selectedDate])
+
+  const formatDateForPayload = (date) => {
+      if (!date) return null;
+      const offset = date.getTimezoneOffset();
+      date.setMinutes(date.getMinutes() - offset);
+      return date.toISOString().split('T')[0]; 
+    };
+  
+
+const [formattedDate, setFormattedDate] = useState('')
+
+
+    const handleDateChange = (selectedDates) => {
+    const date = selectedDates[0];
+  setSelectedDate(date); 
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const lastDayOfMonth = new Date(year, month, 0);
+  const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+ const formattedDate = formatDateForPayload(date);
+ setFormattedDate(formattedDate)
+  console.log("formattedDueDate ",formattedDate,formattedDueDate )
+      setInvoiceList(prevState => ({
+      ...prevState,
+      date: formattedDate,
+      dueDate: formattedDueDate,
+    }));
+            };
+
+
+
+//  const handleDateChange = (e) => {
+//     const selectedDate = new Date(e.target.value);
+
+//     const year = selectedDate.getFullYear();
+//     const month = selectedDate.getMonth() + 1;
+//     const lastDayOfMonth = new Date(year, month, 0);
+//     const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+//     const selectedMonth = selectedDate.getMonth();
+//     const roomRent = filteredUserDetails[0]?.RoomRent;
+//     const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => {
+//       const itemDate = new Date(item.Date);
+//       const itemMonth = itemDate.getMonth();
+//       return itemMonth === selectedMonth && item.User_Id === selectedUserId;
+//     });
+
+//     let totalPaidAmount = 0;
+//     AlreadyPaidRoomRent.forEach(item => {
+//       const paidAmount = parseFloat(item.Amount) || 0;
+//       totalPaidAmount += paidAmount;
+//     });
+
+//     const isRoomRentPaid = roomRent === totalPaidAmount;
+//     // setDisplayText(isRoomRentPaid);
+//     setIsSaveDisabled(isRoomRentPaid);
+
+//     setInvoiceList(prevState => ({
+//       ...prevState,
+//       date: e.target.value,
+//       dueDate: formattedDueDate,
+//     }));
+//   }
+
+
+
+
+
+
+
   return (
     <>
 
@@ -1093,7 +1159,7 @@ const InvoicePage = () => {
                     <>
                      <Form.Select aria-label="Default select example" value={statusfilter} onChange={(e) => handleStatusFilter(e)} 
                       id="vendor-select" className='ps-3'
-                      style={{ marginRight: '20px',fontFamily:"Gilroy", fontSize: "16px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #dcdcdc", height: "45px" }}
+                      style={{ marginRight: '20px',fontFamily:"Gilroy", fontSize: "16px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #dcdcdc", height: "35px" }}
                       >
                       
                         <option  id="vendor-select"  selected value="ALL"> ALL</option>
@@ -1486,7 +1552,7 @@ const InvoicePage = () => {
                         <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                           <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Paid Date</Form.Label>
 
-                          <div className="rectangle-group">
+                          {/* <div className="rectangle-group">
                             <div className="frame-child1" />
                             <input
                               className="frame-input"
@@ -1500,7 +1566,56 @@ const InvoicePage = () => {
                               alt=""
                               src={Calendor}
                             />
-                          </div></div>
+                          </div> */}
+                          
+
+   <div style={{ position: 'relative' }}>
+                                        <label
+                                            htmlFor="date-input"
+                                            style={{
+                                                border: "1px solid #D9D9D9",
+                                                borderRadius: 8,
+                                                padding: 7,
+                                                fontSize: 14,
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                color: "rgba(75, 75, 75, 1)",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                            }}
+                                            onClick={() => {
+                                                if (calendarRef.current) {
+                                                    calendarRef.current.flatpickr.open();
+                                                }
+                                            }}
+                                        >
+                                            {selectedDate instanceof Date && !isNaN(selectedDate) ?  selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
+                                            <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
+                                        </label>
+                                        <Flatpickr
+                                            ref={calendarRef}
+                                            options={options}
+                                            value={selectedDate}
+                                            onChange={handleDateChange}
+                                            style={{
+                                                padding: 10,
+                                                fontSize: 16,
+                                                width: "100%",
+                                                borderRadius: 8,
+                                                border: "1px solid #D9D9D9",
+                                                position: 'absolute',
+                                                top: 100,
+                                                left: 100,
+                                                zIndex: 1000,
+                                                display: "none"
+                                            }}
+                                        />
+                                    </div>
+
+
+                          
+                          </div>
 
 
                         <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
