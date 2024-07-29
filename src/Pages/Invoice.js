@@ -32,15 +32,19 @@ import Sort from "../Assets/Images/sort.png"
 import CryptoJS from "crypto-js";
 import "../Pages/Invoices.css"
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { fontSize, fontStyle, fontWeight, lineHeight } from '@mui/system';
+import { fontSize, fontStyle, fontWeight, lineHeight, padding } from '@mui/system';
 import InvoiceTable from './InvoicelistTable';
 import leftArrow from '../Assets/Images/New_images/left-arrow.png'
 import rightarrow from '../Assets/Images/New_images/right-arrow.png'
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
+
+import squre from '../Assets/Images/New_images/minus-square.png';
+
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
+
 
 
 const InvoicePage = () => {
@@ -62,7 +66,8 @@ const InvoicePage = () => {
     fontSize: "14px",
     fontWeight: 500,
     lineHeight: "normal",
-    fontStyle:"normal"
+    fontStyle:"normal",
+    padding:10
   };
 
   const Tablebodystyle = {
@@ -1650,12 +1655,12 @@ const [formattedDate, setFormattedDate] = useState('')
               </div>
             }
 
-            <Table className="custom-table" responsive >
-              <thead className='Table-header'>
+            <Table className="ebtable mt-3" responsive >
+              <thead  style={{backgroundColor:"#E7F1FF"}}>
                 <tr >
-                  <th style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <input type='checkbox' className="mx-2 align-items-center" style={customCheckboxStyle} />
-                  </th>
+                <th style={{ textAlign: "center", padding: "10px" }}>
+                  <img src={squre} height={20} width={20} />
+                </th>
                   <th style={customStyle}>Name</th>
                   <th style={customStyle}>Invoice number</th>
                   <th style={customStyle}>Created</th>

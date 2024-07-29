@@ -160,7 +160,7 @@ function UserList() {
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedAmenities, setSelectedAmenities] = useState("");
 
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -831,7 +831,7 @@ function UserList() {
     setUserList(isVisible)
     setRoomDetail(false)
   }
-  const EbrowsPerPage = 1;
+  const EbrowsPerPage = 10;
   const [EbcurrentPage, setEbCurrentPage] = useState(1);
   const [EbFilterddata, setEbFilterddata] = useState([]);
 
@@ -903,7 +903,7 @@ function UserList() {
     setEbFilterddata(state.UsersList.customerdetails.eb_data)
   }, [state.UsersList.customerdetails.eb_data])
 
-  const invoicerowsPerPage = 1;
+  const invoicerowsPerPage = 10;
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
   const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
@@ -973,7 +973,7 @@ function UserList() {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details)
   }, [state.UsersList.customerdetails.invoice_details])
 
-  const amentiesrowsPerPage = 1;
+  const amentiesrowsPerPage = 10;
   const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
   const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
   const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
@@ -1049,7 +1049,7 @@ function UserList() {
     setamnitiesFilterddata(state.UsersList?.amnetieshistory)
   }, [state.UsersList?.amnetieshistory])
 
-  const transactionrowsPerPage = 1;
+  const transactionrowsPerPage = 10;
   const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
 
@@ -1695,7 +1695,7 @@ function UserList() {
                           <thead style={{ backgroundColor: "#E7F1FF" }}>
                             <tr >
 
-                              <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Floor</th>
+                              <th style={{ textAlign:"center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Floor</th>
                               <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Room no</th>
                               <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Start meter</th>
 
@@ -1721,7 +1721,7 @@ function UserList() {
                               return (
                                 <tr key={u.id} style={{ lineHeight: "20px" }}>
 
-                                  <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Floor_Id}</td>
+                                  <td style={{ textAlign:"center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Floor_Id}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Room_No}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{u.start_Meter_Reading}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.end_Meter_Reading}</td>
@@ -1736,7 +1736,7 @@ function UserList() {
                               )
 
                             })}
-                            {currentRowsEb.length === 0 && (
+                            {currentRowsEb?.length === 0 && (
                               <tr>
                                 <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
                               </tr>
@@ -1747,126 +1747,8 @@ function UserList() {
 
                       </div>
 
-                      {currentRowsEb.length > 0 && (
-                        //                       <nav>
-                        //                         <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-                        //                           <li style={{ margin: '0 5px' }}>
-                        //                             <button
-                        //                               style={{
-                        //                                 padding: '5px 10px',
-                        //                                 textDecoration: 'none',
-                        //                                 color: EbcurrentPage === 1 ? '#ccc' : '#007bff',
-                        //                                 cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
-                        //                                 borderRadius: '5px',
-                        //                                 display: 'inline-block',
-                        //                                 minWidth: '30px',
-                        //                                 textAlign: 'center',
-                        //                                 backgroundColor: 'transparent',
-                        //                                 border: "none"
-                        //                               }}
-                        //                               onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-                        //                               disabled={EbcurrentPage === 1}
-                        //                             >
-                        //                               {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-                        //                               <ArrowLeft2
-                        //  size="16"
-                        //   color="#1E45E1"
-                        // />
-                        //                             </button>
-                        //                             <span
-                        //                               onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-                        //                               style={{
-                        //                                 marginTop: '20px',
-                        //                                 cursor: EbcurrentPage === 1 ? 'not-allowed' : 'pointer',
-                        //                                 color: EbcurrentPage === 1 ? '#ccc' : '#007bff'
-                        //                               }}
-                        //                             >
-                        //                               Previous
-                        //                             </span>
-                        //                           </li>
-                        //                           {EbcurrentPage > 3 && (
-                        //                             <li style={{ margin: '0 5px' }}>
-                        //                               <button
-                        //                                 style={{
-                        //                                   padding: '5px 10px',
-                        //                                   textDecoration: 'none',
-                        //                                   color: 'white',
-                        //                                   cursor: 'pointer',
-                        //                                   borderRadius: '5px',
-                        //                                   display: 'inline-block',
-                        //                                   minWidth: '30px',
-                        //                                   textAlign: 'center',
-                        //                                   backgroundColor: 'transparent',
-                        //                                   border: "none"
-
-                        //                                 }}
-                        //                                 onClick={() => handleEbPageChange(1)}
-                        //                               >
-                        //                                 1
-                        //                               </button>
-                        //                             </li>
-                        //                           )}
-                        //                           {EbcurrentPage > 3 && <span>...</span>}
-                        //                           {renderPageNumbersEb()}
-                        //                           {EbcurrentPage < totalPagesEb - 2 && <span>...</span>}
-                        //                           {EbcurrentPage < totalPagesEb - 2 && (
-                        //                             <li style={{ margin: '0 5px' }}>
-                        //                               <button
-                        //                                 style={{
-                        //                                   padding: '5px 10px',
-                        //                                   textDecoration: 'none',
-
-                        //                                   cursor: 'pointer',
-                        //                                   borderRadius: '5px',
-                        //                                   display: 'inline-block',
-                        //                                   minWidth: '30px',
-                        //                                   textAlign: 'center',
-                        //                                   backgroundColor: 'transparent',
-                        //                                   border: "none"
-
-                        //                                 }}
-                        //                                 onClick={() => handleEbPageChange(totalPagesEb)}
-                        //                               >
-                        //                                 {totalPagesEb}
-                        //                               </button>
-                        //                             </li>
-                        //                           )}
-                        //                           <li style={{ margin: '0 5px' }}>
-                        //                             <span
-                        //                               onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-                        //                               style={{
-                        //                                 marginTop: '20px',
-                        //                                 cursor: EbcurrentPage === totalPagesEb ? 'not-allowed' : 'pointer',
-                        //                                 color: EbcurrentPage === totalPagesEb ? '#ccc' : '#007bff'
-                        //                               }}
-                        //                             >
-                        //                               Next
-                        //                             </span>
-                        //                             <button
-                        //                               style={{
-                        //                                 padding: '5px 10px',
-                        //                                 textDecoration: 'none',
-                        //                                 color: EbcurrentPage === EbcurrentPage ? '#ccc' : '#007bff',
-                        //                                 cursor: EbcurrentPage === EbcurrentPage ? 'not-allowed' : 'pointer',
-                        //                                 borderRadius: '5px',
-                        //                                 display: 'inline-block',
-                        //                                 minWidth: '30px',
-                        //                                 textAlign: 'center',
-                        //                                 backgroundColor: 'transparent',
-                        //                                 border: "none"
-                        //                               }}
-                        //                               onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-                        //                               disabled={EbcurrentPage === totalPagesEb}
-                        //                             >
-                        //                               {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-                        //                               <ArrowRight2
-                        //  size="16"
-                        //   color="#1E45E1"
-                        // />
-                        //                             </button>
-                        //                           </li>
-                        //                         </ul>
-                        //                       </nav>
+                      {currentRowsEb?.length > 0 && (
+                      
                         <nav>
                           <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
                             <li style={{ margin: '0 5px' }}>
@@ -1998,7 +1880,7 @@ function UserList() {
                         <Table className="ebtable mt-3" responsive >
                           <thead style={{ color: "gray", fontSize: "11px", marginLeft: 10, backgroundColor: "#E7F1FF" }}>
                             <tr className="" style={{ height: "30px" }}>
-                              <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Invoice number</th>
+                              <th style={{ textAlign:"center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Invoice number</th>
                               <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Created</th>
                               <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Due Date</th>
 
@@ -2034,7 +1916,7 @@ function UserList() {
 
                               return (
                                 <tr key={view.id}>
-                                  <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{view.Invoices}</td>
+                                  <td style={{ textAlign:"center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{view.Invoices}</td>
 
                                   <td ><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                                   <td ><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{DueformattedDate}</span></td>
@@ -2338,7 +2220,7 @@ function UserList() {
                       <Table className="ebtable" responsive style={{ marginTop: 30, }}>
                         <thead style={{ backgroundColor: "#E7F1FF" }} >
                           <tr>
-                            <th scope="col" style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amenities</th>
+                            <th scope="col" style={{ textAlign:"center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amenities</th>
                             <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Date</th>
                             <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Subscription</th>
                             <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amount</th>
@@ -2361,7 +2243,7 @@ function UserList() {
 
                             return (
                               <tr key={v.amenity_Id}>
-                                <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{v.Amnities_Name}</td>
+                                <td style={{ textAlign:"center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{v.Amnities_Name}</td>
                                 <td><span style={{ backgroundColor: "#EBEBEB", padding: "3px 3px 3px 3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>Monthly</td>
                                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{v.Amount}</td>
@@ -2524,7 +2406,7 @@ function UserList() {
                         <thead style={{ color: "gray", fontSize: "11px", backgroundColor: "#E7F1FF" }}>
                           <tr className="" style={{ height: "30px" }}>
 
-                            <th style={{ paddingLeft: "40px", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Transaction ID</th>
+                            <th style={{  color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px",textAlign:"center" }}>Transaction ID</th>
                             <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>category</th>
                             <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Date</th>
 
@@ -2548,7 +2430,7 @@ function UserList() {
                             return (
                               <tr key={v.id}>
 
-                                <td style={{ paddingLeft: "40px", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.user_id}</td>
+                                <td style={{  fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy",textAlign:"center" }}>{v.user_id}</td>
                                 <td ><span style={{ backgroundColor: "#FFEFCF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.type}</span></td>
                                 <td><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                                 {/* <td>₹{view.BalanceDue}</td> */}
