@@ -150,7 +150,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
     const emailElement = document.getElementById('emailIDError');
     const emailError = emailElement ? emailElement.innerHTML : '';
 
-    if (!firstName || !lastName || !phoneNo || !emailID || !password || !confirmpassword) {
+    if (!firstName || !phoneNo || !emailID || !password || !confirmpassword) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
