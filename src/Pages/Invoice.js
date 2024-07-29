@@ -1089,13 +1089,16 @@ const InvoicePage = () => {
                   {
                     filtericon &&
                     <>
-                      <select value={statusfilter} onChange={(e) => handleStatusFilter(e)}
-                        class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
+                     <Form.Select aria-label="Default select example" value={statusfilter} onChange={(e) => handleStatusFilter(e)} 
+                      id="vendor-select" className='ps-3'
+                      style={{ marginRight: '20px',fontFamily:"Gilroy", fontSize: "16px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #dcdcdc", height: "45px" }}
                       >
-                        <option selected value="ALL"> ALL</option>
-                        <option value="Success">Success</option>
-                        <option value="Pending">Pending</option>
-                      </select>
+                      
+                        <option  id="vendor-select"  selected value="ALL"> ALL</option>
+                        <option   id="vendor-select" value="Success">Success</option>
+                        <option  id="vendor-select" value="Pending">Pending</option>
+                     
+                      </Form.Select>
                     </>
                   }
                   <img class=" me-4" onClick={handleFiltershow} src={Sort} />
