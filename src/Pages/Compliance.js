@@ -600,10 +600,11 @@ const Compliance = () => {
   }, []);
 
   const [complainttypelist, setComplainttypelist] = useState([])
-  console.log("complainttypelist", complainttypelist);
+  console.log("complainttypelist", state);
 
   useEffect(() => {
     dispatch({ type: 'COMPLAINT-TYPE-LIST' })
+
   }, [])
 
   useEffect(() => {
@@ -613,9 +614,12 @@ const Compliance = () => {
 
   }, [state.Settings.Complainttypelist.complaint_types])
 
+ 
+
+
 
   return (
-    <div style={{ width: "100%", fontFamily: "Gilroy,sans-serif" }} className=''>
+    <div style={{ width: "100%", fontFamily: "Gilroy" }} className=''>
       <div className='m-4'>
         {/* <div className='d-flex justify-content-end align-items-center mb-4'>
 
@@ -760,7 +764,7 @@ const Compliance = () => {
                         value={selectedUsername}
                         onChange={handleCheckoutChange}
                         disabled={edit}
-                        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       >
                         <option value="">Select a customer</option>
 
@@ -779,6 +783,7 @@ const Compliance = () => {
 
 
                   </div>
+                  {state.Settings.Complainttypelist && state.Settings.Complainttypelist.length == 0 && <><label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'ComplaintType' option in Settings, accessible after adding an Complaints.</label></>}
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
@@ -788,7 +793,9 @@ const Compliance = () => {
                         selected
                         value={Complainttype}
                         onChange={(e) => { setComplainttype(e.target.value) }}
-                        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+
                       >
                         {
                           edit ? <option selected value={Complainttype}>{editcomplainttype}</option> :
@@ -826,6 +833,7 @@ const Compliance = () => {
                         placeholder="Paying Guests"
                         value={hostelname}
                         readOnly
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       // style={inputStyle}
                       />
                     </Form.Group>
@@ -844,6 +852,7 @@ const Compliance = () => {
                         placeholder="Beds"
                         value={beds}
                         readOnly
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       // style={inputStyle}
                       />
                     </Form.Group>
@@ -856,7 +865,7 @@ const Compliance = () => {
                       </Form.Label>
                       <Form.Select
                         className='border'
-                        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         value={Assign}
                         onChange={(e) => { setAssign(e.target.value) }}
                       >
@@ -880,7 +889,7 @@ const Compliance = () => {
                       </Form.Label>
                       <Form.Select
                         className='border'
-                        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         value={Status}
                         onChange={(e) => { setStatus(e.target.value) }}
                       >
@@ -913,6 +922,7 @@ const Compliance = () => {
                         placeholder="Rooms"
                         value={Rooms}
                         readOnly
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       // style={inputStyle}
                       />
                     </Form.Group>
@@ -1012,7 +1022,7 @@ const Compliance = () => {
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Description</Form.Label>
                       <Form.Control
                         value={description} onChange={(e) => { setDescription(e.target.value) }}
-                        type="text" placeholder="Enter description" style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                        type="text" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                     </Form.Group>
 
                   </div>
