@@ -110,30 +110,15 @@ const Accountsettings = () => {
     useEffect(() => {
       const FIlteredProfile = state?.createAccount?.accountList[0].user_details
       console.log("FIlteredProfile",FIlteredProfile);
-      if (FIlteredProfile?.profile) {
-          const ProfileImage = FIlteredProfile.profile
-          const CustomerFirstName = FIlteredProfile.first_name
-          const CustomerLastName = FIlteredProfile.last_name
-          const PhoneNUmber = FIlteredProfile.mobileNo
-          const UserEmail = FIlteredProfile.email_Id
-          const UserAddress = FIlteredProfile.Address
-          const CustomerId = FIlteredProfile.id
-
-          setId(CustomerId)
-          setFirstName(CustomerFirstName)
-          setLastName(CustomerLastName)
-          setPhone(PhoneNUmber)
-          setEmail(UserEmail)
-          setAddress(UserAddress)
-
-          setSelectedImage(ProfileImage)
-      } else if(FIlteredProfile.length > 0){
+       if(FIlteredProfile){
         const CustomerFirstName = FIlteredProfile.first_name
         const CustomerLastName = FIlteredProfile.last_name
         const PhoneNUmber = FIlteredProfile.mobileNo
         const UserEmail = FIlteredProfile.email_Id
         const UserAddress = FIlteredProfile.Address
         const CustomerId = FIlteredProfile.id
+const AdminProfile =  FIlteredProfile.profile
+
 
         setId(CustomerId)
         setFirstName(CustomerFirstName)
@@ -142,19 +127,14 @@ const Accountsettings = () => {
         setEmail(UserEmail)
         setAddress(UserAddress)
           setProfilePicture(Men)
+          setSelectedImage(AdminProfile)
       }
-      else{
-        setId("")
-        setFirstName("")
-        setLastName("")
-        setPhone("")
-        setEmail("")
-        setAddress("")
-      }
+     
 
   }, [state?.createAccount?.accountList])
 
 
+  console.log("details",firstname,lastname,email,phone)
 
     const tokenCookies = cookies.get('token');
 
@@ -193,7 +173,8 @@ const Accountsettings = () => {
 
             // setTimeout(() => {
             //     dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE' })
-            // }, 1000)
+            // },
+
 
         } else {
             console.log("create account not working")
@@ -288,38 +269,18 @@ const Accountsettings = () => {
       }
 
     const handleSaveUpdate = () => {
-        if (selectedImage) {
+        if (firstname && phone &&  email &&  id && Address) {
             dispatch({
                 type: 'PROFILE-UPDATE',
                 payload: { first_name: firstname, last_name:lastname, phone: phone, email_id: email, address: Address,  id: id, profile: selectedImage }
             });
-            Swal.fire({
-                text: "Profile Update successfully",
-                icon: "success",
-                timer: 1000,
-            });
-            dispatch({ type: 'ACCOUNTDETAILS' })
-        } else {
-            dispatch({
-                type: 'PROFILE-UPDATE',
-                payload: { first_name: firstname, last_name:lastname, phone: phone, email_id: email, address: Address, id: id }
-            });
-            Swal.fire({
-                text: "Profile Update successfully",
-                icon: "success",
-                timer: 1000,
-            });
-            dispatch({ type: 'ACCOUNTDETAILS' })
+        }else{
+          Swal.fire({
+            icon: 'warning',
+            title: 'Please Enter All Fields',
+                       timer:1000
+          });
         }
-
-        // setFirstName('');
-        // setLastName('')
-        // setPhone('');
-        // setEmail('');
-        // setAddress('');
-        // setCountry('');
-        // setCity("");
-        // setStatee("");
     }
 
     const [password, setPassword] = useState('')
@@ -449,7 +410,7 @@ const Accountsettings = () => {
     return (
 
         <div className="container" style={{marginLeft:'30px'}}>
-            <h3 style={{marginLeft:'10px'}}>AccountSettings</h3>
+            <h3 style={{marginLeft:'10px', fontSize:24, fontWeight:600, fontFamily:"Gilroy"}}>Account Settings</h3>
 
 
             <div className='d-flex justify-content-start gap-3 align-items-center '>
@@ -490,7 +451,10 @@ const Accountsettings = () => {
                                     <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>First name</Form.Label>
 
                                     <Form.Control
-                                        style={{ padding: '20px', marginTop: '10px' }}
+                                        style={{ padding: '20px', marginTop: '10px', fontSize: 16,
+                                          fontWeight: 500,
+                                          color: "rgba(34, 34, 34, 1)",
+                                          fontFamily: "Gilroy"}}
                                         type="text"
                                         placeholder="Enter first name"
                                         value={firstname} onChange={handleName}
@@ -504,7 +468,10 @@ const Accountsettings = () => {
                                     <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>last name</Form.Label>
 
                                     <Form.Control
-                                        style={{ padding: '20px', marginTop: '10px' }}
+                                        style={{ padding: '20px', marginTop: '10px', fontSize: 16,
+                                          fontWeight: 500,
+                                          color: "rgba(34, 34, 34, 1)",
+                                          fontFamily: "Gilroy" }}
                                         type="text"
                                         placeholder="Enter lastname"
                                         value={lastname} onChange={handlelastName}
@@ -522,7 +489,10 @@ const Accountsettings = () => {
                                     <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>email</Form.Label>
 
                                     <Form.Control
-                                        style={{ padding: '20px', marginTop: '10px' }}
+                                        style={{ padding: '20px', marginTop: '10px', fontSize: 16,
+                                          fontWeight: 500,
+                                          color: "rgba(34, 34, 34, 1)",
+                                          fontFamily: "Gilroy" }}
                                         type="text"
                                         placeholder="Enter email"
                                         value={email} onChange={handleEmailId}
@@ -537,7 +507,10 @@ const Accountsettings = () => {
                                     <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>phone no</Form.Label>
 
                                     <Form.Control
-                                        style={{ padding: '20px', marginTop: '10px' }}
+                                        style={{ padding: '20px', marginTop: '10px' ,fontSize: 16,
+                                          fontWeight: 500,
+                                          color: "rgba(34, 34, 34, 1)",
+                                          fontFamily: "Gilroy", }}
                                         type="text"
                                         placeholder="Enter phone"
                                         value={phone} onChange={handlePhone}
@@ -551,7 +524,10 @@ const Accountsettings = () => {
                                 <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Address</Form.Label>
 
                                 <Form.Control
-                                    style={{ padding: '20px', marginTop: '10px' }}
+                                    style={{ padding: '20px', marginTop: '10px', fontSize: 16,
+                                      fontWeight: 500,
+                                      color: "rgba(34, 34, 34, 1)",
+                                      fontFamily: "Gilroy" }}
                                     type="text"
                                     placeholder="Enter Address"
                                     value={Address} onChange={handleAddress}
@@ -566,10 +542,10 @@ const Accountsettings = () => {
                                 Save Changes</Button>
                         </div>
 
-                        <div style={{ marginTop: '50px' , display:'flex' , flexDirection:'row'}}>
+                        <div style={{ marginTop: '50px' , display:'flex' , flexDirection:'row',cursor:"pointer"}} onClick={handleLogout}>
 
                            <div> <img  src={Logout} height={20} width={20}/> </div> 
-                       <p onClick={handleLogout}  style={{color:'red', fontWeight:500, fontSize:'18px' , paddingBottom:'5px', marginLeft:'5px'}}>Log out</p>
+                       <p   style={{color:'red', fontWeight:500, fontSize:'18px' , paddingBottom:'5px', marginLeft:'5px'}}>Log out</p>
                         </div>
 
 
