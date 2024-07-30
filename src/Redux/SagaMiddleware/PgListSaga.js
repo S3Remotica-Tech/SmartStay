@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { createBed,createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails } from "../Action/PgListAction"
+import {DeleteBed, createBed,createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails } from "../Action/PgListAction"
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 
@@ -171,6 +171,30 @@ function* handleCreateBed(action) {
 
 
 
+function* handleDeleteBed(action) {
+   const response = yield call(DeleteBed, action.payload);
+   console.log("response delete Bed", response.status)
+   if (response.status === 200) {
+      yield put({ type: 'DELETE_BED', payload: { response: response.data, statusCode: response.status } })
+      Swal.fire({
+         icon: 'success',
+         title: "Bed created successfully",
+     })
+   }
+   else if (response.status === 201) {
+       Swal.fire({
+         icon: 'warning',
+         title: response.data.message,
+         timer: 1000
+              });
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+
 
 
 function refreshToken(response) {
@@ -201,5 +225,7 @@ function* PgListSaga() {
    yield takeEvery('EBSTARTMETERLIST', handleCheckEbStartmeterlist)
    yield takeEvery('PGDASHBOARD', handleCreatePGDashboard)
    yield takeEvery('CREATEBED',handleCreateBed)
+   yield takeEvery('DELETEBED',handleDeleteBed)
+
 }
 export default PgListSaga;
