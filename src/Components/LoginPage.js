@@ -163,12 +163,12 @@ const MyComponent = () => {
           </div>
           <div className='mt-5'>
             <Form className="Form p-0">
-              <Form.Label className='label_style'>Email ID</Form.Label>
+              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
               {/* <InputGroup className="mb-3" size="lg" style={{ color: "#D9D9D9" }} > */}
               <Form.Control
                 placeholder="Enter Email"
                 aria-label="Recipient's username"
-                className='form_input  custom-input mb-3'
+                className=' mb-3'
                 aria-describedby="basic-addon2"
                 style={{ boxShadow: "none", border: "1px solid rgba(217, 217, 217, 1)", fontSize: 16, fontWeight: 500, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy" }}
                 autoFocus
@@ -182,7 +182,7 @@ const MyComponent = () => {
 
           
 
-                   <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy,sans-serif" }}>Password</Form.Label>
+                   <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
                   <InputGroup>
                     <Form.Control
                       size="lg"

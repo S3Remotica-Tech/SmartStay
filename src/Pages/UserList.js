@@ -2075,6 +2075,13 @@ function UserList() {
                   {
                     amnitiesshow &&
                     <div className="container mt-3">
+{state.UsersList?.customerdetails?.all_amenities && state.UsersList?.customerdetails?.all_amenities.length === 0 && <>
+
+  <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'Amenities' option in Settings, accessible after assign an amenities.</label>
+
+
+ </>}
+
                       <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                         <Form.Label style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>Amnities</Form.Label>
                         <Form.Select
