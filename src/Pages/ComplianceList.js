@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Edit from '../Assets/Images/New_images/edit.png';
-import Delete from '../Assets/Images/New_images/trash.png';
-import { PiDotsThreeCircleVerticalThin } from "react-icons/pi";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from 'react-bootstrap/Card';
-import Vendors from '../Assets/Images/New_images/profile-picture.png';
-import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
 import User from '../Assets/Images/Ellipse 1.png';
 import Tickicon from '../Assets/Images/tick-circle.png'
@@ -92,7 +88,7 @@ function getFloorAbbreviation(floor_Id) {
 }
 
 
-    const [showDots, setShowDots] = useState('')
+    const [showDots, setShowDots] = useState(false)
 
     const handleShowDots = () => {
         setShowDots(!showDots)
@@ -207,7 +203,7 @@ function getFloorAbbreviation(floor_Id) {
                     </div>
 
                     <div>
-                        <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>{props.complaints && props.complaints.Complainttype}- {props.complaints && props.complaints.Description}</label>
+                        <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>{props.complaints && props.complaints.complaint_name}- {props.complaints && props.complaints.Description}</label>
                     </div>
 
                 </div>
