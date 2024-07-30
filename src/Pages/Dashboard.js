@@ -473,11 +473,11 @@ function Dashboard(props) {
                 <>
                   <div className="complaint"  >
                     {/* <img src={Profile} alt={complaint.name} className="avatar" /> */}
-                    <img src={complaint.profile == 0 ? Profile : complaint.profile} className="avatar" />
+                    <img src={complaint.profile === "0" ? Profile : complaint.profile} className="avatar" />
 
                     <div className="complaint-info">
                       <p className="name" style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }} >{complaint.Name}</p>
-                      <p className="details" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>{complaint.Complainttype} . {formattedDate}</p>
+                      <p className="details" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>{complaint.complaint_name} . {formattedDate}</p>
                     </div>
                     <div>
                       <div>
