@@ -342,12 +342,25 @@ const handleChanges = (event, newValue) => {
 
 const [selectedHostel, setSelectedHostel] = useState('');
 const [unit , setUnit] = useState(1);
-const [amount , setAmount] = useState('')
+const [amount , setAmount] = useState(0)
 console.log("selectedHostel",selectedHostel);
+
+const [data , setData] = useState([])
 
 const handleHostelChange = (e) => {
   setSelectedHostel(e.target.value)
 };
+
+useEffect(()=>{
+  dispatch({type:'EB-BILLING-UNIT-LIST'})
+  },[])
+
+
+  useEffect(()=>{
+    // dispatch({type:'EB-BILLING-UNIT-LIST'})
+    setData(state.Settings.EBBillingUnitlist.eb_settings)
+    },[state?.Settings?.EBBillingUnitlist?.eb_settings])
+  
 
 const handlesaveEbbill = () => {
 
@@ -360,6 +373,8 @@ const handlesaveEbbill = () => {
   }).then((result) => {
       if (result.isConfirmed) {
       }
+      dispatch({type:'EB-BILLING-UNIT-LIST'})
+
   });
     setSelectedHostel('')
     // setUnit('');
@@ -388,9 +403,7 @@ const handlesaveEbbill = () => {
 
 }
 
-useEffect(()=>{
-dispatch({type:'EB-BILLING-UNIT-LIST'})
-},[])
+
 
 const theme = useTheme();
 const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -558,7 +571,7 @@ const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
                           </thead>
                           <tbody style={{ height: "50px", fontSize: "11px" }}>
                            
-                          {state.Settings.EBBillingUnitlist?.eb_settings && state.Settings.EBBillingUnitlist.eb_settings.length > 0 && state.Settings.EBBillingUnitlist.eb_settings.map((eb) => (
+                          {data && data.length > 0 && data.map((eb) => (
                                 <tr  style={{ lineHeight: "40px" }}>
                                   <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.Name}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.unit} KW </td>
