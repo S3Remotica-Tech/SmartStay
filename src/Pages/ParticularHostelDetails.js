@@ -19,6 +19,8 @@ import Spinner from 'react-bootstrap/Spinner';
 import { FormControl, InputGroup, Pagination ,Dropdown} from 'react-bootstrap';
 import Edit from '../Assets/Images/New_images/edit.png';
 import DeleteRoom from './DeleteRoom';
+import DeleteBed from './DeleteBed';
+
 
 
 function getFormattedRoomId(floor_Id, room_Id) {
@@ -264,14 +266,40 @@ const handleCloseDeleteRoom = () =>{
 
 // console.log("currentItems",currentItems)
 
+const [showDeleteBed, setShowDeleteBed] = useState(false)
+const [ deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null})
 
-const handleDeleteBed = (bed) =>{
-  console.log("deletebed",bed)
-  if(bed.isfilled){
+
+
+const handleCloseDeleteBed = () =>{
+  setShowDeleteBed(false)
+}
+
+
+
+const handleDeleteBedConfirmation = (bed, room) =>{
+  if(bed.isfilled === 0 ){
+    setShowDeleteBed(true)
+    setDeleteBedDetails({bed , room})
+  }else{
 
   }
 
 }
+
+
+console.log("state",state)
+
+useEffect(()=>{
+  if(state.PgList.statusCodeDeleteBed == 200){
+    dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+setTimeout(()=>{
+   dispatch({ type: 'CLEAR_DELETE_BED_STATUS_CODE'})
+},2000)
+      }
+
+},[state.PgList.statusCodeDeleteBed])
+
 
   return (
     <div className=''>
@@ -311,11 +339,16 @@ const handleDeleteBed = (bed) =>{
                 <Card.Body className=''>
                   <div className='row row-gap-3 g-0'>
                       {room.bed_details && room.bed_details.map((bed, index) => (
-                      <div className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center'>
+                      <div className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
                         <div  className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
-                                                     <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34 }} />
+                                                     <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34 }} 
+                                                    
+                                                    onClick={()=> handleDeleteBedConfirmation(bed,room)}
+                                                    // onClick={()=>handleDeleteBed(bed, room)}
+
+                                                      />
                      
-                          <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600 ,fontFamily:"Montserrat"}} onClick={()=>handleDeleteBed(bed)}>Bed {bed.bed_no}</div>
+                          <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600 ,fontFamily:"Montserrat"}} >Bed {bed.bed_no}</div>
                         </div>
                       </div>
                     ))}
@@ -403,6 +436,11 @@ const handleDeleteBed = (bed) =>{
 
 {
   showDeleteRoom && <DeleteRoom  show={showDeleteRoom} handleClose={handleCloseDeleteRoom} deleteRoomDetails={deleteRoomDetails}/>
+}
+
+
+{
+  showDeleteBed && <DeleteBed  show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
 }
 
     </div>

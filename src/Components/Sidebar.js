@@ -365,8 +365,8 @@ setCurrentPage('compliance')
 
       <Container fluid className='p-0'>
 
-        <Row className='g-0 m-0 vh-100'  >
-          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block  vh-100" style={{ cursor: "pointer", backgroundColor: '#E0ECFF', position: "fixed"  }} >
+        <Row className='g-0 m-0'  >
+          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block " style={{ cursor: "pointer", backgroundColor: '#E0ECFF',  position: "fixed", overflowY:"auto", height: "100vh"}} >
             <div className="d-flex align-items-center m-3 gap-1 justify-content-center">
 
               <img src={Smartstay} style={{ fontSize: '15px' }} />
@@ -377,7 +377,7 @@ setCurrentPage('compliance')
 
             <ul className="p-3 pt-0 mb-5">
               <li className={`p-2 mb-2  align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
-                <div className='d-flex  align-items-center justify-content-between'>
+                <div className='d-flex  align-items-center justify-content-between' >
                   <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ fontSize: '13px' }} />
                   <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Dashboard</span>
                 </div>
@@ -437,7 +437,7 @@ setCurrentPage('compliance')
             </ul>
            
           </Col>
-          <Col lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} className="bg-white vh-100">
+          <Col lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} className="bg-white">
 
             <div className='container d-flex justify-content-end align-items-center mr-3' style={{ marginTop:'30px'}}>
 
@@ -508,6 +508,10 @@ setCurrentPage('compliance')
           </Col>
         </Row>
       </Container>
+
+
+      
+
     </>
   );
 }

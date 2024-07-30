@@ -208,19 +208,21 @@ function* handleDeleteRoom(roomDetails){
    }
 }
 
-function* handleDeleteBed(bedDetails){
-   const response = yield call(deleteBed,bedDetails.payload)
-   if(response.status === 200){
-      yield put({ type: 'DELETE_BED', payload:{message: response.data.message, statusCode:response.status} })
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if(response){
-      refreshToken(response)
-   }
+// function* handleDeleteBed(bedDetails){
+//    const response = yield call(deleteBed,bedDetails.payload)
+//    if(response.status === 200){
+//       yield put({ type: 'DELETE_BED', payload:{message: response.data.message, statusCode:response.status} })
+//    }
+//    else {
+//       yield put({ type: 'ERROR', payload: response.data.message })
+//    }
+//    if(response){
+//       refreshToken(response)
+//    }
    
-}  
+// }  
+
+
  function refreshToken(response){
       if(response.data && response.data.refresh_token){
          const refreshTokenGet = response.data.refresh_token
@@ -339,7 +341,7 @@ function* UserListSaga() {
    yield takeEvery('CHECKOUTUSER',handleCheckOut)
    yield takeEvery('DELETEFLOOR',handleDeleteFloor)
    yield takeEvery('DELETEROOM',handleDeleteRoom)
-   yield takeEvery('DELETEBED',handleDeleteBed) 
+   // yield takeEvery('DELETEBED',handleDeleteBed) 
    yield takeEvery('CUSTOMERDETAILS',handlecustomerdetails)    
    yield takeEvery('AMENITESHISTORY',handleamenityhistory) 
    yield takeEvery('AMENITESNAMES',handleAmnitiesName) 
