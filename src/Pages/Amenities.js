@@ -351,7 +351,16 @@ function Amenities() {
                                     <td className='ps-1 ps-lg-5' style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{amenity.Name}</td>
                                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>{amenity.Amnities_Name}</td>
                                     <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>₹ {amenity.Amount}</td>
-                                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{amenity.Status == 1 ? "Active" : "Inactive"}</td>
+                                    {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{amenity.Status == 1 ? "Active" : "Inactive"}</td> */}
+                                    <td style={{
+                                        // paddingTop: 20,
+                                        fontSize: "16px",
+                                        color: amenity.Status == 1 ? "green" : "red",
+                                        fontWeight: 500
+                                    }}>
+                                        {amenity.Status == 1 ? <span style={{ backgroundColor: '#D9FFD9', padding: '8px 12px', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy' }}>Active</span> : <span
+                                            // onClick={() => handleShow(props.item)}
+                                            style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', padding: '8px 12px', color: '#000', borderRadius: '14px' }}>Inactive</span>}</td>
                                     <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
                                 </tr>
                             )

@@ -364,7 +364,8 @@ function InvoiceSettings() {
                     </thead>
                     <tbody style={{ height: "50px", fontSize: "11px" }}>
                         {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((invoice) => (
-                            <tr style={{ lineHeight: "40px" }} key={invoice.id}> {/* Assuming `invoice.id` is a unique identifier */}
+                           (invoice.prefix !== null && invoice.suffix !== null) ? 
+                           <tr style={{ lineHeight: "40px" }} key={invoice.id}> {/* Assuming `invoice.id` is a unique identifier */}
                                 <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
                                     {(invoice.prefix !== null && invoice.suffix !== null) ? invoice.Name : ''}
                                 </td>
@@ -374,6 +375,8 @@ function InvoiceSettings() {
                                     <td><img src={dottt} style={{ height: 30, width: 30 }} /></td>
                                 )}
                             </tr>
+                            :''
+
                         ))}
 
 
