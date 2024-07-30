@@ -63,7 +63,10 @@ function InvoiceSettings() {
     }
 
     const handleStartingNumber = (e) => {
-        setStartNumber(e.target.value)
+        const value = e.target.value;
+        if (/^\d*$/.test(value)) {
+            setStartNumber(value);
+        }
     }
 
 
@@ -161,6 +164,10 @@ function InvoiceSettings() {
 
 
     // console.log("state.InvoiceList?.invoiceSettingsStatusCode == 200", state.InvoiceList?.invoiceSettingsStatusCode === 200)
+    useEffect(() => {
+        dispatch({ type: 'HOSTELLIST' })
+    }, [])
+
 
     useEffect(() => {
         if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
@@ -356,17 +363,20 @@ function InvoiceSettings() {
                         </tr>
                     </thead>
                     <tbody style={{ height: "50px", fontSize: "11px" }}>
-
                         {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((invoice) => (
-                            <tr style={{ lineHeight: "40px" }}>
-                                <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{invoice.Name}</td>
+                            <tr style={{ lineHeight: "40px" }} key={invoice.id}> {/* Assuming `invoice.id` is a unique identifier */}
+                                <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
+                                    {(invoice.prefix !== null && invoice.suffix !== null) ? invoice.Name : ''}
+                                </td>
                                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{invoice.prefix}</td>
                                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{invoice.suffix}</td>
-                                <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
+                                {(invoice.prefix !== null && invoice.suffix !== null) && (
+                                    <td><img src={dottt} style={{ height: 30, width: 30 }} /></td>
+                                )}
                             </tr>
+                        ))}
 
-                        )
-                        )}
+
                         {state.UsersList.hostelList.length === 0 && (
                             <tr>
                                 <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>

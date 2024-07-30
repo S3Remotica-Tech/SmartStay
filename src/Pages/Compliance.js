@@ -109,9 +109,9 @@ const Compliance = () => {
     }
   }, [selectedDate])
 
+
+
   useEffect(() => {
-
-
     if (state?.ComplianceList?.Compliance) {
       setData(state.ComplianceList.Compliance);
     }
@@ -455,10 +455,11 @@ const Compliance = () => {
   const [show, setShow] = useState(false);
 
   const handleShow = () => {
+    setEdit(false)
     setShow(true);
   }
   const handleClose = () => {
-    setEdit(!edit)
+    // setEdit(!edit)
     setShow(false);
     setSelectedUserName('');
     setComplainttype('');
@@ -491,7 +492,7 @@ const Compliance = () => {
     setEdit(false)
 
     if (Complainttype && description && selectedDate && hostelname && beds && Rooms) {
-      console.log();
+      // console.log();
       if (id) {
         dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: selectedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id } })
         handleClose()
@@ -548,19 +549,22 @@ const Compliance = () => {
 
   const [editdata, setEditData] = useState('')
 
+    const[editcomplainttype , setEditcomplainttype ] = useState('')
+
   const handleEditcomplaint = (Complaintdata) => {
 
     console.log("edit works", Complaintdata);
 
+    setEdit(true)
     if (Complaintdata) {
       setEditData(Complaintdata)
       setShow(true);
-      setEdit(true)
       // setCheck('EDIT')
       console.log("Edited complaint data:", Complaintdata);
       setId(Complaintdata.ID)
       setSelectedUserName(Complaintdata.Name);
       setComplainttype(Complaintdata.Complainttype);
+      setEditcomplainttype(Complaintdata.complaint_name)
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.Description);
       // setDate(format(new Date(Complaintdata.date), 'yyyy-MM-dd'));
@@ -600,12 +604,18 @@ const Compliance = () => {
 
   useEffect(() => {
     dispatch({ type: 'COMPLAINT-TYPE-LIST' })
-    // setComplainttypelist(state.Settings.Complainttypelist.complaint_types)
+
   }, [])
 
-useEffect(()=>{
-  setComplainttypelist(state.Settings.Complainttypelist.complaint_types)
-},[state.Settings.Complainttypelist.complaint_types])
+  useEffect(() => {
+
+    setComplainttypelist(state.Settings.Complainttypelist.complaint_types)
+
+
+  }, [state.Settings.Complainttypelist.complaint_types])
+
+ 
+
 
 
   return (
@@ -700,15 +710,49 @@ useEffect(()=>{
           }}
         >
           <Modal
-            show={show} onHide={handleClose}
+            show={show}
+             onHide={handleClose}
             centered>
-            <Modal.Dialog style={{ maxWidth: 850, width: '700px' }} className='m-0 p-0'>
-              <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title>
-              </Modal.Header>
+            <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
+             
 
               <Modal.Body>
+   <div>
 
+              <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+              <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
+              <button
+          type="button"
+          className="close"
+          aria-label="Close"
+          onClick={handleClose}
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '16px',
+            border: '1px solid black',
+            background: 'transparent',
+            cursor: 'pointer',
+            padding: '0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '32px',
+            height: '32px',
+            borderRadius: '50%',
+           
+          }}
+        >
+          <span aria-hidden="true" style={{
+              fontSize: '30px',
+              paddingBottom:"6px"
+             
+            }}>&times;</span>
+        </button>
+       
+                {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+              </Modal.Header>
+              </div>
 
                 <div className='row mt-4'>
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
@@ -749,10 +793,12 @@ useEffect(()=>{
                         selected
                         value={Complainttype}
                         onChange={(e) => { setComplainttype(e.target.value) }}
+
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+
                       >
                         {
-                          edit ? <option selected value={Complainttype}>{Complainttype}</option> :
+                          edit ? <option selected value={Complainttype}>{editcomplainttype}</option> :
                             <>
 
 
