@@ -63,7 +63,10 @@ function InvoiceSettings() {
     }
 
     const handleStartingNumber = (e) => {
-        setStartNumber(e.target.value)
+        const value = e.target.value;
+        if (/^\d*$/.test(value)) {
+            setStartNumber(value);
+        }
     }
 
 
@@ -161,6 +164,10 @@ function InvoiceSettings() {
 
 
     // console.log("state.InvoiceList?.invoiceSettingsStatusCode == 200", state.InvoiceList?.invoiceSettingsStatusCode === 200)
+    useEffect(() => {
+        dispatch({ type: 'HOSTELLIST' })
+    }, [])
+
 
     useEffect(() => {
         if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
