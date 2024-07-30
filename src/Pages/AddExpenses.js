@@ -279,9 +279,15 @@ const [formattedDate, setFormattedDate] = useState('')
                                 </Form.Group>
 
                             </div>
+                            {state.ExpenseList.categoryList && state.ExpenseList.categoryList.length ==0 && 
+                            <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'Category' option in Settings, accessible after adding an expense.</label>}
+
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Category <span style={{ color: "#FF0000", display: category ? "none" : "inline-block" }}>*</span></Form.Label>
+                                   
+                                   
                                     <Form.Select aria-label="Default select example"
                                         value={category}
                                         onChange={handleCategoryChange}
