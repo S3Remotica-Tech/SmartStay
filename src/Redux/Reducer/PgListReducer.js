@@ -34,7 +34,8 @@ const initialState = {
     createPgStatusCode: 0,
     createBedStatusCode: 0,
     alreadyBedAvailable: 0,
-    statusCodeForDeleteRoom:0,
+    statusCodeForDeleteRoom: 0,
+    statusCodeDeleteBed: 0,
 }
 const PgListReducer = (state = initialState, action) => {
     console.log("action.payload", action.payload);
@@ -44,11 +45,11 @@ const PgListReducer = (state = initialState, action) => {
         case 'CLEAR_DELETE_FLOOR':
             return { ...state, deleteFloor: action.message }
         case 'DELETE_ROOM':
-            return { ...state, deleteRoom: action.payload , statusCodeForDeleteRoom:action.payload.statusCode}
+            return { ...state, deleteRoom: action.payload, statusCodeForDeleteRoom: action.payload.statusCode }
         case 'CLEAR_DELETE_ROOM':
             return { ...state, statusCodeForDeleteRoom: 0 }
-        case 'DELETE_BED':
-            return { ...state, deleteBed: action.payload }
+        // case 'DELETE_BED':
+        //     return { ...state, deleteBed: action.payload }
         case 'PG_LIST':
             return { ...state, message: action.payload.message, createPgStatusCode: action.payload.statusCode }
         case 'CLEAR_PG_STATUS_CODE':
@@ -104,9 +105,15 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, createBedStatusCode: action.payload.statusCode }
         case 'CLEAR_CREATE_BED_STATUS_CODE':
             return { ...state, createBedStatusCode: 0 }
+        case 'DELETE_BED':
+            return { ...state, statusCodeDeleteBed: action.payload.statusCode }
+        case 'CLEAR_DELETE_BED_STATUS_CODE':
+            return { ...state, statusCodeDeleteBed: 0 }
+
+
         case 'ALREADY_BED':
-            return { ...state, alreadyBedAvailable:action.payload.statusCode }
-       
+            return { ...state, alreadyBedAvailable: action.payload.statusCode }
+
 
         //         case 'ROOM_COUNT':
         // console.log("action.payload.response",action.payload.response)

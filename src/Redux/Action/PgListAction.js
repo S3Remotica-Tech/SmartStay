@@ -104,3 +104,13 @@ import AxiosConfig from "../../WebService/AxiosConfig"
       data:datum
     })
   }
+
+
+  
+
+
+  export async function DeleteBed(datum){
+    return await AxiosConfig.post('/delete/delete-bed',datum,{
+      data:datum
+    })
+  }
