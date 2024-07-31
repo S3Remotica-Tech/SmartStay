@@ -19,10 +19,21 @@ console.log("state add room",state)
 
 const[room, setRoom] = useState('')
 const [alreadyRoom,setAlreadyRoom] = useState(false)
-
+const [errorMessage, setErrorMessage] = useState('');
 
 const handleRoomChange = (e) => {
   const Room_Id = e.target.value
+
+
+  if (!/^\d*$/.test(Room_Id)) {
+    setErrorMessage('Please enter a valid  number.');
+  } else {
+    setErrorMessage('');
+  }
+  
+
+
+
   setRoom(Room_Id)
   const floorId = hostelDetails.floor_Id.toString();
       const hostel_Id = hostelDetails.hostel_Id.toString();
@@ -44,13 +55,13 @@ const handleRoomChange = (e) => {
       const floorId = hostelDetails.floor_Id.toString();
       const hostel_Id = hostelDetails.hostel_Id.toString();
 
-      if (!room) {
+      if (!room || !/^\d+$/.test(room)) {
         Swal.fire({
-            icon: 'warning',
-            title: 'Please enter Room no.',
+          icon: 'warning',
+          title: 'Please enter a valid Room no.',
         });
         return;
-    }
+      }
 
     if (alreadyRoom) {
         Swal.fire({

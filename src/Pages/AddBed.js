@@ -65,6 +65,18 @@ function AddBed( {show, handleClose ,currentItem}) {
 
 
 const handleSubmit =() =>{
+
+  if (!bedNo || !/^\d+$/.test(bedNo)) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Please enter a valid Room no.',
+    });
+    return;
+  }
+
+
+
+
   if(currentItem.item.hostel_Id && currentItem.item.floorID && currentItem.Room_Id && bedNo && amount){
     dispatch({ type: 'CREATEBED', payload:{ hostel_id: currentItem.item.hostel_Id,floor_id:currentItem.item.floorID,room_id: currentItem.Room_Id, bed_no:bedNo, amount: amount}})
  
