@@ -1675,25 +1675,25 @@ const [formattedDate, setFormattedDate] = useState('')
                 {loading ? (
                   Array.from({ length: 5 }).map((_, index) => (
                     <tr key={index}>
-                      <td><Skeleton width={80} /></td>
+                      <td style={{ padding: "10px", border: "none" }}><Skeleton width={80} /></td>
                       {/* <td><Skeleton width={120} /></td> */}
                       <td>
                         <div className="d-flex">
-                          <span className="i-circle">
-                            <Skeleton circle width={24} height={24} />
+                          <span className="i-circle" >
+                            <Skeleton circle width={24} height={24} style={{ padding: "10px", border: "none" }} />
                           </span>
-                          <div className="ms-2">
+                          <div >
                             {/* <Skeleton width={80} /><br /> */}
-                            <Skeleton width={100} />
+                            <Skeleton width={80} style={{ padding: "5px", border: "none" }}/>
                           </div>
                         </div>
                       </td>
-                      <td><Skeleton width={100} /></td>
-                      <td><Skeleton width={100} /></td>
-                      <td><Skeleton width={50} /></td>
-                      <td><Skeleton width={50} /></td>
-                      <td><Skeleton width={100} /></td>
-                      <td><Skeleton width={100} /></td>
+                      <td style={{ padding: "10px", border: "none" }}><Skeleton width={100} /></td>
+                      <td style={{ padding: "10px", border: "none" }}><Skeleton width={100} /></td>
+                      <td style={{ padding: "10px", border: "none" }}><Skeleton width={50} /></td>
+                      <td style={{ padding: "10px", border: "none" }}><Skeleton width={50} /></td>
+                      <td style={{ padding: "10px", border: "none" }}><Skeleton width={100} /></td>
+                      <td style={{ padding: "10px", border: "none" }}><Skeleton width={100} /></td>
                     </tr>
                   ))
                 ) : (

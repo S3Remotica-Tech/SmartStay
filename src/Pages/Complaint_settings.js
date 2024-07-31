@@ -130,7 +130,7 @@ const ComplaintSettings = () => {
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Complaint type</Form.Label>
           <Form.Control
-            style={{ padding: '20px', marginTop: '10px' }}
+            style={{ padding: '20px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
             type="text"
             placeholder="Enter a complaint type"
             value={type}

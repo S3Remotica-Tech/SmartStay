@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AmenitiesView from '../Pages/AmenitiesView'
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import "./Amenities.css";
 import dottt from "../Assets/Images/Group 14.png"
 import Swal from 'sweetalert2';
@@ -226,6 +227,7 @@ function Amenities() {
     useEffect(() => {
         if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode == 200) {
             dispatch({ type: 'AMENITIESLIST' })
+            // setData(state.InvoiceList.AmenitiesList)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
             }, 1000)
@@ -252,6 +254,73 @@ function Amenities() {
 
 
 
+    const rowsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState(1);
+  
+    const indexOfLastRow = currentPage * rowsPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+    const currentRows = state?.InvoiceList?.AmenitiesList.slice(indexOfFirstRow, indexOfLastRow);
+  
+    const handlePageChange = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
+  
+    const totalPages = Math.ceil(state?.InvoiceList?.AmenitiesList.length / rowsPerPage);
+  
+    const renderPageNumbers = () => {
+      const pageNumbers = [];
+      let startPage = currentPage - 1;
+      let endPage = currentPage + 1;
+  
+      if (currentPage === 1) {
+        startPage = 1;
+        endPage = 3;
+      }
+  
+      if (currentPage === totalPages) {
+        startPage = totalPages - 2;
+        endPage = totalPages;
+      }
+  
+      if (currentPage === 2) {
+        startPage = 1;
+        endPage = 3;
+      }
+  
+      if (currentPage === totalPages - 1) {
+        startPage = totalPages - 2;
+        endPage = totalPages;
+      }
+  
+      for (let i = startPage; i <= endPage; i++) {
+        if (i > 0 && i <= totalPages) {
+          pageNumbers.push(
+            <li key={i} style={{ margin: '0 5px' }}>
+              <button
+                style={{
+                  padding: '5px 10px',
+                  textDecoration: 'none',
+                  color: i === currentPage ? '#007bff' : '#000000',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                  display: 'inline-block',
+                  minWidth: '30px',
+                  textAlign: 'center',
+                  backgroundColor: i === currentPage ? 'transparent' : 'transparent',
+                  border: i === currentPage ? '1px solid #ddd' : 'none'
+                }}
+                onClick={() => handlePageChange(i)}
+              >
+                {i}
+              </button>
+            </li>
+          );
+        }
+      }
+  
+      return pageNumbers;
+    };
+
     return (
 
         <>
@@ -264,7 +333,7 @@ function Amenities() {
                                 Select Hostel
                             </Form.Label>
                             <Form.Select aria-label="Default select example"
-                                className='border' value={selectedhostel} onChange={(e) => handleHostelClick(e)} style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
+                                className='border' value={selectedhostel} onChange={(e) => handleHostelClick(e)} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
 
                                 <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
                                 {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
@@ -286,7 +355,7 @@ function Amenities() {
                                         Amenity
                                     </Form.Label>
                                     <Form.Control
-                                        style={{ padding: '10px', marginTop: '10px' }}
+                                        style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500 }}
                                         type="text"
                                         placeholder="Enter amenity"
                                         value={amenitiesName}
@@ -303,7 +372,7 @@ function Amenities() {
                                         Set Amount
                                     </Form.Label>
                                     <Form.Control
-                                        style={{ padding: '10px', marginTop: '10px' }}
+                                        style={{ padding: '10px', marginTop: '10px' ,fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500}}
                                         type="text"
                                         placeholder="Enter Amount"
                                         value={amount}
@@ -366,14 +435,130 @@ function Amenities() {
                             )
                             )}
 
-                            {state.InvoiceList.AmenitiesList.length === 0 && (
+                         
+
+                        </tbody>
+                    </Table>
+                    {state.InvoiceList.AmenitiesList.length === 0 && (
                                 <tr>
                                     <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
                                 </tr>
                             )}
 
-                        </tbody>
-                    </Table>
+
+{currentRows.length > 0 && (
+          <nav>
+            <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+              <li style={{ margin: '0 5px' }}>
+                <button
+                  style={{
+                    padding: '5px 10px',
+                    textDecoration: 'none',
+                    color: currentPage === 1 ? '#ccc' : '#007bff',
+                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    borderRadius: '5px',
+                    display: 'inline-block',
+                    minWidth: '30px',
+                    textAlign: 'center',
+                    backgroundColor: 'transparent',
+                    border: "none"
+                  }}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                  <ArrowLeft2 size="16" color="#1E45E1" />
+                </button>
+                {/* <span
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  style={{
+                    marginTop: '20px',
+                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    color: currentPage === 1 ? '#ccc' : '#007bff'
+                  }}
+                >
+                  Previous
+                </span> */}
+              </li>
+              {currentPage > 3 && (
+                <li style={{ margin: '0 5px' }}>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      color: 'white',
+                      cursor: 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handlePageChange(1)}
+                  >
+                    1
+                  </button>
+                </li>
+              )}
+              {currentPage > 3 && <span>...</span>}
+              {renderPageNumbers()}
+              {currentPage < totalPages - 2 && <span>...</span>}
+              {currentPage < totalPages - 2 && (
+                <li style={{ margin: '0 5px' }}>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handlePageChange(totalPages)}
+                  >
+                    {totalPages}
+                  </button>
+                </li>
+              )}
+              <li style={{ margin: '0 5px' }}>
+                {/* <span
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  style={{
+                    marginTop: '20px',
+                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    color: currentPage === totalPages ? '#ccc' : '#007bff'
+                  }}
+                >
+                  Next
+                </span> */}
+                <button
+                  style={{
+                    padding: '5px 10px',
+                    textDecoration: 'none',
+                    color: currentPage === totalPages ? '#ccc' : '#007bff',
+                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    borderRadius: '5px',
+                    display: 'inline-block',
+                    minWidth: '30px',
+                    textAlign: 'center',
+                    backgroundColor: 'transparent',
+                    border: "none"
+                  }}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                  <ArrowRight2 size="16" color="#1E45E1" />
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
+                    
                 </div>
             </div>
 

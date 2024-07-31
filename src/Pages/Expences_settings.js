@@ -209,7 +209,7 @@ const ExpencesSettings = () => {
                         {isSubCategory ? (
                             <Form.Control
                                 as="select"
-                                style={{ padding: '20px', marginTop: '10px' }}
+                                style={{ padding: '20px', marginTop: '10px' , fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500}}
                                 value={type}
                                 onChange={(e) => handleCategoryid(e)}
                             >
@@ -222,7 +222,7 @@ const ExpencesSettings = () => {
                             </Form.Control>
                         ) : (
                             <Form.Control
-                                style={{ padding: '20px', marginTop: '10px' }}
+                                style={{ padding: '20px', marginTop: '10px' , fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500}}
                                 type="text"
                                 placeholder="Enter Category"
                                 value={type}
@@ -238,7 +238,7 @@ const ExpencesSettings = () => {
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                         <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : 'black', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 600 }}>Sub-Category</Form.Label>
                         <Form.Control
-                            style={{ padding: '20px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1' }}
+                            style={{ padding: '20px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1' , fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500}}
                             className={!isSubCategory ? 'custom-disabled' : 'white !important'}
                             type="text"
                             placeholder="Enter sub-category"

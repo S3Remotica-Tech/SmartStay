@@ -8,7 +8,8 @@ import '../Pages/Settings.css'
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
-import dottt from "../Assets/Images/Group 14.png"
+import dottt from "../Assets/Images/Group 14.png";
+import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import CryptoJS from "crypto-js";
 
 function InvoiceSettings() {
@@ -209,6 +210,74 @@ function InvoiceSettings() {
 
 
 
+    
+    const rowsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState(1);
+  
+    const indexOfLastRow = currentPage * rowsPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+    const currentRows = state?.UsersList?.hostelList.slice(indexOfFirstRow, indexOfLastRow);
+  
+    const handlePageChange = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
+  
+    const totalPages = Math.ceil(state?.UsersList?.hostelList.length / rowsPerPage);
+  
+    const renderPageNumbers = () => {
+      const pageNumbers = [];
+      let startPage = currentPage - 1;
+      let endPage = currentPage + 1;
+  
+      if (currentPage === 1) {
+        startPage = 1;
+        endPage = 3;
+      }
+  
+      if (currentPage === totalPages) {
+        startPage = totalPages - 2;
+        endPage = totalPages;
+      }
+  
+      if (currentPage === 2) {
+        startPage = 1;
+        endPage = 3;
+      }
+  
+      if (currentPage === totalPages - 1) {
+        startPage = totalPages - 2;
+        endPage = totalPages;
+      }
+  
+      for (let i = startPage; i <= endPage; i++) {
+        if (i > 0 && i <= totalPages) {
+          pageNumbers.push(
+            <li key={i} style={{ margin: '0 5px' }}>
+              <button
+                style={{
+                  padding: '5px 10px',
+                  textDecoration: 'none',
+                  color: i === currentPage ? '#007bff' : '#000000',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                  display: 'inline-block',
+                  minWidth: '30px',
+                  textAlign: 'center',
+                  backgroundColor: i === currentPage ? 'transparent' : 'transparent',
+                  border: i === currentPage ? '1px solid #ddd' : 'none'
+                }}
+                onClick={() => handlePageChange(i)}
+              >
+                {i}
+              </button>
+            </li>
+          );
+        }
+      }
+  
+      return pageNumbers;
+    };
+
 
     // const loginId = localStorage.getItem('loginId');
 
@@ -242,7 +311,7 @@ function InvoiceSettings() {
                         <Form.Select aria-label="Default select example"
                             className='border' value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
 
-                            <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
+                            <option style={{ fontSize: 14, fontWeight: 600 , fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500 }} >Select PG</option>
                             {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
                                 <>
                                     <option key={item.id} value={item.id} >{item.Name}</option></>
@@ -289,7 +358,7 @@ function InvoiceSettings() {
                                     Prefix
                                 </Form.Label>
                                 <Form.Control
-                                    style={{ padding: '10px', marginTop: '10px' }}
+                                    style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500 }}
                                     type="text"
                                     placeholder="prefix"
                                     value={prefix}
@@ -307,7 +376,7 @@ function InvoiceSettings() {
                                     Suffix
                                 </Form.Label>
                                 <Form.Control
-                                    style={{ padding: '10px', marginTop: '10px', fontSize: 14 }}
+                                    style={{ padding: '10px', marginTop: '10px', fontSize: 14 , fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500}}
                                     type="text"
                                     placeholder="suffix"
                                     value={startNumber}
@@ -327,7 +396,7 @@ function InvoiceSettings() {
                                 Preview
                             </Form.Label>
                             <Form.Control
-                                style={{ padding: '10px', marginTop: '10px', fontSize: 14, backgroundColor: "#E7F1FF" }}
+                                style={{ padding: '10px', marginTop: '10px', fontSize: 14, backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500 }}
                                 type="text"
                                 placeholder="preview"
                                 disabled
@@ -380,14 +449,129 @@ function InvoiceSettings() {
                         ))}
 
 
-                        {state.UsersList.hostelList.length === 0 && (
+                    
+
+                    </tbody>
+                </Table>
+
+                {state.UsersList.hostelList.length === 0 && (
                             <tr>
                                 <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
                             </tr>
                         )}
 
-                    </tbody>
-                </Table>
+                {currentRows.length > 0 && (
+          <nav>
+            <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+              <li style={{ margin: '0 5px' }}>
+                <button
+                  style={{
+                    padding: '5px 10px',
+                    textDecoration: 'none',
+                    color: currentPage === 1 ? '#ccc' : '#007bff',
+                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    borderRadius: '5px',
+                    display: 'inline-block',
+                    minWidth: '30px',
+                    textAlign: 'center',
+                    backgroundColor: 'transparent',
+                    border: "none"
+                  }}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                  <ArrowLeft2 size="16" color="#1E45E1" />
+                </button>
+                {/* <span
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  style={{
+                    marginTop: '20px',
+                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    color: currentPage === 1 ? '#ccc' : '#007bff'
+                  }}
+                >
+                  Previous
+                </span> */}
+              </li>
+              {currentPage > 3 && (
+                <li style={{ margin: '0 5px' }}>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      color: 'white',
+                      cursor: 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handlePageChange(1)}
+                  >
+                    1
+                  </button>
+                </li>
+              )}
+              {currentPage > 3 && <span>...</span>}
+              {renderPageNumbers()}
+              {currentPage < totalPages - 2 && <span>...</span>}
+              {currentPage < totalPages - 2 && (
+                <li style={{ margin: '0 5px' }}>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handlePageChange(totalPages)}
+                  >
+                    {totalPages}
+                  </button>
+                </li>
+              )}
+              <li style={{ margin: '0 5px' }}>
+                {/* <span
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  style={{
+                    marginTop: '20px',
+                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    color: currentPage === totalPages ? '#ccc' : '#007bff'
+                  }}
+                >
+                  Next
+                </span> */}
+                <button
+                  style={{
+                    padding: '5px 10px',
+                    textDecoration: 'none',
+                    color: currentPage === totalPages ? '#ccc' : '#007bff',
+                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    borderRadius: '5px',
+                    display: 'inline-block',
+                    minWidth: '30px',
+                    textAlign: 'center',
+                    backgroundColor: 'transparent',
+                    border: "none"
+                  }}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                  <ArrowRight2 size="16" color="#1E45E1" />
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
             </div>
 
 
