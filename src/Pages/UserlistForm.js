@@ -486,7 +486,7 @@ const handleBed = (e) => {
      
     }
     
-
+    dispatch({ type: 'INVOICELIST' })
   }
 console.log("state.UsersList?.statusCodeForAddUser",state.UsersList.statusCodeForAddUser)
 

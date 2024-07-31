@@ -456,7 +456,7 @@ function InvoiceSettings() {
                                 </tr>
                                 // : ''
 
-                        ))}
+                        ))}  
 
 
 

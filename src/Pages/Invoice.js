@@ -303,15 +303,16 @@ const InvoicePage = () => {
   }, [state.login.UpdateNotificationMessage])
 
   useEffect(() => {
+     dispatch({ type: 'INVOICELIST' })
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
+      console.log("invoice added executed");
+      
       setData(state.InvoiceList.Invoice)
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
       }, 1000);
-
     }
-
   }, [state.InvoiceList?.InvoiceListStatusCode])
 
 
@@ -329,6 +330,7 @@ const InvoicePage = () => {
       console.log("statuscode_number", state.InvoiceList.UpdateInvoiceStatusCode);
       dispatch({ type: 'INVOICELIST' })
       setData(state.InvoiceList.Invoice)
+      setLoading(true)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
       }, 100);
