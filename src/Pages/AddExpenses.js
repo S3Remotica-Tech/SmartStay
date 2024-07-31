@@ -133,6 +133,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     const handleAddExpenses = () => {
+      
         if (!vendorName) {
             Swal.fire('Error', 'Please select a vendor', 'error');
             return;
@@ -157,6 +158,8 @@ function StaticExample({ show, handleClose, currentItem }) {
             Swal.fire('Error', 'Please enter a mode of payment', 'error');
             return;
         }
+
+        const formattedDate = moment(selectedDate).format('YYYY-MM-DD');  
         dispatch({
             type: 'ADDEXPENSE',
             payload: {
@@ -208,10 +211,9 @@ const [formattedDate, setFormattedDate] = useState('')
 
 
       const handleDateChange = (selectedDates) => {
-      const date = selectedDates[0];
-    setSelectedDate(date); 
-    const formattedDate = formatDateForPayload(date);
-    setFormattedDate(formattedDate); 
+     
+    setSelectedDate(selectedDates[0]); 
+    
               };
 
 
