@@ -101,7 +101,10 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     const handleAddAsset = () => {
-        if (assetName && vendorName && brandName && serialNumber && productCount && formattedDate && price) {
+        if (assetName && vendorName && brandName && serialNumber && productCount && selectedDate && price) {
+
+            const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
+            
             dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: productCount, purchase_date: formattedDate, price: price, id: id } })
 
 
@@ -175,13 +178,11 @@ const [formattedDate, setFormattedDate] = useState('')
 
 
       const handleDateChange = (selectedDates) => {
-    //     const date  = selectedDates[0];
-    //    const formatedDate = formatDateForPayload(date);
-    //   setSelectedDate(formatedDate)
-    const date = selectedDates[0];
-    setSelectedDate(date); 
-    const formattedDate = formatDateForPayload(date);
-    setFormattedDate(formattedDate); 
+       
+    //    const date = selectedDates[0];
+    // const formatedDate = formatDateForPayload(date);
+    setSelectedDate(selectedDates[0]); 
+ 
               };
               console.log("selectedDate", selectedDate,formattedDate)
 
