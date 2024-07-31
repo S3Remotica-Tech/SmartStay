@@ -10,7 +10,7 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Settings.css";
-import {  Tabs } from '@mui/material';
+import { Tabs } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
@@ -109,9 +109,9 @@ function Settings() {
   }, [LoginId])
 
 
-  
 
-  
+
+
   const handleName = (e) => {
     setName(e.target.value)
   }
@@ -134,17 +134,17 @@ function Settings() {
     setStatee(e.target.value)
   }
   const handleSaveUpdate = () => {
-   if(selectedImage){
+    if (selectedImage) {
       dispatch({
         type: 'CREATE_ACCOUNT',
-        payload: { name: Name, mobileNo: phone, emailId: email, Address: Address, Country: Country, City: City, State: statee, id : id, profile:selectedImage }
+        payload: { name: Name, mobileNo: phone, emailId: email, Address: Address, Country: Country, City: City, State: statee, id: id, profile: selectedImage }
       });
       Swal.fire({
         text: "Update successfully",
         icon: "success",
         timer: 1000,
-    });
-    }else{
+      });
+    } else {
       dispatch({
         type: 'CREATE_ACCOUNT',
         payload: { name: Name, mobileNo: phone, emailId: email, Address: Address, Country: Country, City: City, State: statee, id: id }
@@ -153,9 +153,9 @@ function Settings() {
         text: "Update successfully",
         icon: "success",
         timer: 1000,
-    });
+      });
     }
-    
+
     setName('');
     setPhone('');
     setEmail('');
@@ -166,9 +166,9 @@ function Settings() {
   }
 
 
-// useEffect(()=>{
-//   setIsChecked(isEnableCheck === '1');
-// },[])
+  // useEffect(()=>{
+  //   setIsChecked(isEnableCheck === '1');
+  // },[])
 
 
   const [isChecked, setIsChecked] = useState(null);
@@ -178,7 +178,7 @@ function Settings() {
 
   const handleChange = (event) => {
     setIsChecked(event.target.checked);
-    
+
   };
 
 
@@ -187,294 +187,299 @@ function Settings() {
   const handleTwoStepVerify = () => {
     dispatch({ type: 'TWOSTEPVERIFY', payload: { emailId: email_IdForLoginUser, isEnable: isChecked } })
     dispatch({ type: 'CLEAR_ERROR' })
-    
+
   }
 
- 
+
   useEffect(() => {
     if (state.createAccount.statusCodeTwo === 200) {
       dispatch({ type: 'ACCOUNTDETAILS' });
-            setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_TWO_STEP' })
-              }, 100)
-              setTimeout(() => {
-                      dispatch({ type: 'CLEAR_STATUSCODE' });
-                    }, 200);
-    }   
-    
+      }, 100)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUSCODE' });
+      }, 200);
+    }
+
   }, [state.createAccount.statusCodeTwo])
 
 
-useEffect(()=>{
-  const UserIsEnable = state.createAccount.accountList[0]?.user_details.isEnable
- 
-
-if(UserIsEnable === 1){
-  setIsChecked(true);
-
- localStorage.setItem("IsEnable", '');
+  useEffect(() => {
+    const UserIsEnable = state.createAccount.accountList[0]?.user_details.isEnable
 
 
-}else{
-  setIsChecked(false);
-}
-},[state.createAccount.accountList])
+    if (UserIsEnable === 1) {
+      setIsChecked(true);
+
+      localStorage.setItem("IsEnable", '');
 
 
-
-// useEffect(()=>{
-//     dispatch({ type: 'ACCOUNTDETAILS' })
-//    },[])
-
-  
-const [selectedImage, setSelectedImage] = useState(null);
-const [profilePicture, setProfilePicture] = useState('');
+    } else {
+      setIsChecked(false);
+    }
+  }, [state.createAccount.accountList])
 
 
 
-   const handleImageChange = async (event) => {
+  // useEffect(()=>{
+  //     dispatch({ type: 'ACCOUNTDETAILS' })
+  //    },[])
+
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [profilePicture, setProfilePicture] = useState('');
+
+
+
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
 
     const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 800,
-        useWebWorker: true
+      maxSizeMB: 1,
+      maxWidthOrHeight: 800,
+      useWebWorker: true
     };
     try {
-        const compressedFile = await imageCompression(file, options);
-        setSelectedImage(compressedFile);
+      const compressedFile = await imageCompression(file, options);
+      setSelectedImage(compressedFile);
     } catch (error) {
-        console.error('Image compression error:', error);
+      console.error('Image compression error:', error);
     }
-};
+  };
 
 
 
-// useEffect(()=>{
-//      const FIlteredProfile = state.createAccount?.accountList[0]?.user_details
-//        if(FIlteredProfile.profile){
-//         const ProfileImage = FIlteredProfile.profile
-//     const CustomerName = FIlteredProfile.Name
-//     const PhoneNUmber = FIlteredProfile.mobileNo
-//     const UserEmail = FIlteredProfile.email_Id
-    
-//     setName(CustomerName)
-//     setPhone(PhoneNUmber)
-//     setEmail(UserEmail)
-    
-//     setProfilePicture(ProfileImage)
-//     }else{
-//       setProfilePicture(Men)
-//     }
-  
-// },[state.createAccount?.accountList])
+  // useEffect(()=>{
+  //      const FIlteredProfile = state.createAccount?.accountList[0]?.user_details
+  //        if(FIlteredProfile.profile){
+  //         const ProfileImage = FIlteredProfile.profile
+  //     const CustomerName = FIlteredProfile.Name
+  //     const PhoneNUmber = FIlteredProfile.mobileNo
+  //     const UserEmail = FIlteredProfile.email_Id
 
-// useEffect(() => {
-//   const FIlteredProfile = state.createAccount?.accountList[0].user_details
-//   console.log("FIlteredProfile",FIlteredProfile);
-//   if (FIlteredProfile.profile) {
-//       const ProfileImage = FIlteredProfile.profile
-//       const CustomerFirstName = FIlteredProfile.first_name
-//       const CustomerLastName = FIlteredProfile.last_name
-//       const PhoneNUmber = FIlteredProfile.mobileNo
-//       const UserEmail = FIlteredProfile.email_Id
-//       const UserAddress = FIlteredProfile.Address
-//       const CustomerId = FIlteredProfile.id
+  //     setName(CustomerName)
+  //     setPhone(PhoneNUmber)
+  //     setEmail(UserEmail)
 
-//       setId(CustomerId)
-//       setFirstName(CustomerFirstName)
-//       setLastName(CustomerLastName)
-//       setPhone(PhoneNUmber)
-//       setEmail(UserEmail)
-//       setAddress(UserAddress)
+  //     setProfilePicture(ProfileImage)
+  //     }else{
+  //       setProfilePicture(Men)
+  //     }
 
-//       setProfilePicture(ProfileImage)
-//   } else {
-//     const CustomerFirstName = FIlteredProfile.first_name
-//     const CustomerLastName = FIlteredProfile.last_name
-//     const PhoneNUmber = FIlteredProfile.mobileNo
-//     const UserEmail = FIlteredProfile.email_Id
-//     const UserAddress = FIlteredProfile.Address
-//     const CustomerId = FIlteredProfile.id
+  // },[state.createAccount?.accountList])
 
-//     setId(CustomerId)
-//     setFirstName(CustomerFirstName)
-//     setLastName(CustomerLastName)
-//     setPhone(PhoneNUmber)
-//     setEmail(UserEmail)
-//     setAddress(UserAddress)
-//       setProfilePicture(Men)
-//   }
+  // useEffect(() => {
+  //   const FIlteredProfile = state.createAccount?.accountList[0].user_details
+  //   console.log("FIlteredProfile",FIlteredProfile);
+  //   if (FIlteredProfile.profile) {
+  //       const ProfileImage = FIlteredProfile.profile
+  //       const CustomerFirstName = FIlteredProfile.first_name
+  //       const CustomerLastName = FIlteredProfile.last_name
+  //       const PhoneNUmber = FIlteredProfile.mobileNo
+  //       const UserEmail = FIlteredProfile.email_Id
+  //       const UserAddress = FIlteredProfile.Address
+  //       const CustomerId = FIlteredProfile.id
 
-// }, [state.createAccount?.accountList])
+  //       setId(CustomerId)
+  //       setFirstName(CustomerFirstName)
+  //       setLastName(CustomerLastName)
+  //       setPhone(PhoneNUmber)
+  //       setEmail(UserEmail)
+  //       setAddress(UserAddress)
 
+  //       setProfilePicture(ProfileImage)
+  //   } else {
+  //     const CustomerFirstName = FIlteredProfile.first_name
+  //     const CustomerLastName = FIlteredProfile.last_name
+  //     const PhoneNUmber = FIlteredProfile.mobileNo
+  //     const UserEmail = FIlteredProfile.email_Id
+  //     const UserAddress = FIlteredProfile.Address
+  //     const CustomerId = FIlteredProfile.id
 
+  //     setId(CustomerId)
+  //     setFirstName(CustomerFirstName)
+  //     setLastName(CustomerLastName)
+  //     setPhone(PhoneNUmber)
+  //     setEmail(UserEmail)
+  //     setAddress(UserAddress)
+  //       setProfilePicture(Men)
+  //   }
 
-const tokenCookies = cookies.get('token');
+  // }, [state.createAccount?.accountList])
 
 
-// console.log("state.createAccount.statusCodeForAccount == 200",state.createAccount.statusCodeForAccount == 200)
+
+  const tokenCookies = cookies.get('token');
 
 
-useEffect(()=>{
-if(state.createAccount.statusCodeForAccount == 200){
-  dispatch({ type: 'ACCOUNTDETAILS' })
-setTimeout(()=>{
-dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT'})
-},2000)
-
-setTimeout(()=>{
-  dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE'})
-  },1000)
-
-}else{
-  console.log("create account not working")
-}
-},[state.createAccount?.statusCodeForAccount])
-
-console.log("state for settings",state)
+  // console.log("state.createAccount.statusCodeForAccount == 200",state.createAccount.statusCodeForAccount == 200)
 
 
-const [value, setValue] = React.useState('1');
+  useEffect(() => {
+    if (state.createAccount.statusCodeForAccount == 200) {
+      dispatch({ type: 'ACCOUNTDETAILS' })
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT' })
+      }, 2000)
 
-const handleChanges = (event, newValue) => {
-  setValue(newValue);
-}
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE' })
+      }, 1000)
 
-const [selectedHostel, setSelectedHostel] = useState('');
-const [unit , setUnit] = useState(1);
-const [amount , setAmount] = useState(0)
-console.log("selectedHostel",selectedHostel);
+    } else {
+      console.log("create account not working")
+    }
+  }, [state.createAccount?.statusCodeForAccount])
 
-const [data , setData] = useState([])
-
-const handleHostelChange = (e) => {
-  setSelectedHostel(e.target.value)
-};
-
-useEffect(()=>{
-  dispatch({type:'EB-BILLING-UNIT-LIST'})
-  },[])
+  console.log("state for settings", state)
 
 
-  useEffect(()=>{
+  const [value, setValue] = React.useState('1');
+
+  const handleChanges = (event, newValue) => {
+    setValue(newValue);
+  }
+
+  const [selectedHostel, setSelectedHostel] = useState('');
+  const [unit, setUnit] = useState(1);
+  const [amount, setAmount] = useState(0)
+  console.log("selectedHostel", selectedHostel);
+
+  const [data, setData] = useState([])
+
+  const handleHostelChange = (e) => {
+    setSelectedHostel(e.target.value)
+  };
+
+  useEffect(() => {
+    dispatch({ type: 'EB-BILLING-UNIT-LIST' })
+  }, [])
+
+
+  useEffect(() => {
     // dispatch({type:'EB-BILLING-UNIT-LIST'})
     setData(state.Settings.EBBillingUnitlist.eb_settings)
-    },[state?.Settings?.EBBillingUnitlist?.eb_settings])
-  
+  }, [state?.Settings?.EBBillingUnitlist?.eb_settings])
 
-const handlesaveEbbill = () => {
 
-  if (selectedHostel && amount && unit){
-    dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit : unit , amount : amount} })
-    Swal.fire({
-      icon: "success",
-      title: 'EB Billings Added successfully',
-      confirmButtonText: "ok"
-  }).then((result) => {
-      if (result.isConfirmed) {
-      }
-      dispatch({type:'EB-BILLING-UNIT-LIST'})
+  const handlesaveEbbill = () => {
 
-  });
-    setSelectedHostel('')
-    // setUnit('');
-    setAmount('')
-  }
-  else if (!selectedHostel || selectedHostel === ''){
-       Swal.fire({
-           icon: "warning",
-           title: 'Please Enter a hostel',
-           confirmButtonText: "ok"
-         }).then((result) => {
-           if (result.isConfirmed) {
-           }
-         });
-       }
-       else if (!amount){
-        Swal.fire({
-            icon: "warning",
-            title: 'Please Enter a Amount',
-            confirmButtonText: "ok"
-          }).then((result) => {
-            if (result.isConfirmed) {
-            }
-          });
+    if (selectedHostel && amount && unit) {
+      dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit: unit, amount: amount } })
+      Swal.fire({
+        icon: "success",
+        title: 'EB Billings Added successfully',
+        confirmButtonText: "ok"
+      }).then((result) => {
+        if (result.isConfirmed) {
         }
+        dispatch({ type: 'EB-BILLING-UNIT-LIST' })
 
-}
-
-
-
-const rowsPerPage = 10;
-const [currentPage, setCurrentPage] = useState(1);
-
-const indexOfLastRow = currentPage * rowsPerPage;
-const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-const currentRows = state?.Settings?.EBBillingUnitlist?.eb_settings.slice(indexOfFirstRow, indexOfLastRow);
-
-const handlePageChange = (pageNumber) => {
-  setCurrentPage(pageNumber);
-};
-
-const totalPages = Math.ceil(state?.Settings?.EBBillingUnitlist?.eb_settings.length / rowsPerPage);
-
-const renderPageNumbers = () => {
-  const pageNumbers = [];
-  let startPage = currentPage - 1;
-  let endPage = currentPage + 1;
-
-  if (currentPage === 1) {
-    startPage = 1;
-    endPage = 3;
-  }
-
-  if (currentPage === totalPages) {
-    startPage = totalPages - 2;
-    endPage = totalPages;
-  }
-
-  if (currentPage === 2) {
-    startPage = 1;
-    endPage = 3;
-  }
-
-  if (currentPage === totalPages - 1) {
-    startPage = totalPages - 2;
-    endPage = totalPages;
-  }
-
-  for (let i = startPage; i <= endPage; i++) {
-    if (i > 0 && i <= totalPages) {
-      pageNumbers.push(
-        <li key={i} style={{ margin: '0 5px' }}>
-          <button
-            style={{
-              padding: '5px 10px',
-              textDecoration: 'none',
-              color: i === currentPage ? '#007bff' : '#000000',
-              cursor: 'pointer',
-              borderRadius: '5px',
-              display: 'inline-block',
-              minWidth: '30px',
-              textAlign: 'center',
-              backgroundColor: i === currentPage ? 'transparent' : 'transparent',
-              border: i === currentPage ? '1px solid #ddd' : 'none'
-            }}
-            onClick={() => handlePageChange(i)}
-          >
-            {i}
-          </button>
-        </li>
-      );
+      });
+      setSelectedHostel('')
+      // setUnit('');
+      setAmount('')
     }
+    else if (!selectedHostel || selectedHostel === '') {
+      Swal.fire({
+        icon: "warning",
+        title: 'Please Enter a hostel',
+        confirmButtonText: "ok"
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
+    }
+    else if (!amount) {
+      Swal.fire({
+        icon: "warning",
+        title: 'Please Enter a Amount',
+        confirmButtonText: "ok"
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
+    }
+
   }
 
-  return pageNumbers;
-};
 
-const theme = useTheme();
-const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const rowsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+
+  if (state.Settings.EBBillingUnitlist.length != 0) {
+    var currentRows = state?.Settings?.EBBillingUnitlist?.eb_settings.slice(indexOfFirstRow, indexOfLastRow);
+    var totalPages = Math.ceil(state?.Settings?.EBBillingUnitlist?.eb_settings.length / rowsPerPage);
+  } else {
+    var currentRows = 0;
+    var totalPages = 0;
+  }
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    let startPage = currentPage - 1;
+    let endPage = currentPage + 1;
+
+    if (currentPage === 1) {
+      startPage = 1;
+      endPage = 3;
+    }
+
+    if (currentPage === totalPages) {
+      startPage = totalPages - 2;
+      endPage = totalPages;
+    }
+
+    if (currentPage === 2) {
+      startPage = 1;
+      endPage = 3;
+    }
+
+    if (currentPage === totalPages - 1) {
+      startPage = totalPages - 2;
+      endPage = totalPages;
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      if (i > 0 && i <= totalPages) {
+        pageNumbers.push(
+          <li key={i} style={{ margin: '0 5px' }}>
+            <button
+              style={{
+                padding: '5px 10px',
+                textDecoration: 'none',
+                color: i === currentPage ? '#007bff' : '#000000',
+                cursor: 'pointer',
+                borderRadius: '5px',
+                display: 'inline-block',
+                minWidth: '30px',
+                textAlign: 'center',
+                backgroundColor: i === currentPage ? 'transparent' : 'transparent',
+                border: i === currentPage ? '1px solid #ddd' : 'none'
+              }}
+              onClick={() => handlePageChange(i)}
+            >
+              {i}
+            </button>
+          </li>
+        );
+      }
+    }
+
+    return pageNumbers;
+  };
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <div className='container'>
@@ -483,7 +488,7 @@ const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
       <div className="d-flex row justify-content-between mt-2 ms-4 me-4 pt-3">
         <div className='col-lg-8 col-md-6 col-sm-12 mb-4'>
-          <h1 style={{ fontSize: 24 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>Settings</h1>
+          <h1 style={{ fontSize: 24, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Settings</h1>
           {/* <p>Manage your account settings</p> */}
         </div>
 
@@ -492,193 +497,193 @@ const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
       <TabContext value={value}>
         <div >
-        <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
-          <TabList  orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{marginLeft:'20px'}} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
-            <Tab label="Security" value="1"  style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
-            <Tab label="EB Billing" value="2"  style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
-            <Tab label="Invoice" value="3"  style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
-            <Tab label="Expences" value="4"  style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
-            <Tab label="Complaint type" value="5" style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500, textTransform: 'none' }}/>
-            <Tab label="Amenities" value="6"  style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#4B4B4B',lineHeight:'normal',fontStyle:'normal', fontWeight:500 , textTransform: 'none'}}/>
-          </TabList>
-        </Box>
+          <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
+            <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
+              <Tab label="Security" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="EB Billing" value="2" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Invoice" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Expences" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Complaint type" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Amenities" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            </TabList>
+          </Box>
         </div>
-        <TabPanel value="1"> 
-           <>
-          
-                <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
-                  <div className='col-6'>
-                    <h6 style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>Enable Two-factor Authentication</h6>
-                    <p style={{ fontSize:isSmallScreen ? 10  : 14, fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
-                  </div>
-                  <div className='col-2'>
-                  <Form.Check 
-        type="switch"
-        id="custom-switch"
-        checked={isChecked}
-        onChange={handleChange}
-      />
-                  
-                  </div>
-                </div>
+        <TabPanel value="1">
+          <>
+
+            <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
+              <div className='col-6'>
+                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Enable Two-factor Authentication</h6>
+                <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+              </div>
+              <div className='col-2'>
+                <Form.Check
+                  type="switch"
+                  id="custom-switch"
+                  checked={isChecked}
+                  onChange={handleChange}
+                />
+
+              </div>
+            </div>
 
 
-                <div className='d-flex  justify-content-between me-2 mb-3 '>
-                  <div className='col-6'>
-                    <h6 style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>Email Setup</h6>
-                    <p style={{fontSize:isSmallScreen ? 10  : 14, fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
-                  </div>
-                  <div className='col-2'>
-                    <Form.Check type="switch" id="custom-switch" />
-                 
-                  </div>
-                </div>
+            <div className='d-flex  justify-content-between me-2 mb-3 '>
+              <div className='col-6'>
+                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Email Setup</h6>
+                <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+              </div>
+              <div className='col-2'>
+                <Form.Check type="switch" id="custom-switch" />
+
+              </div>
+            </div>
 
 
-                <div className='d-flex  justify-content-between me-2'>
-                  <div className='col-6'>
-                    <h6 style={{ fontSize: 16 , fontFamily:"Gilroy", color:'#222',lineHeight:'normal',fontStyle:'normal', fontWeight:600 }}>SMS Setup</h6>
-                    <p style={{fontSize:isSmallScreen ? 10  : 14, fontFamily:"Montserrat", color:'#4B4B4B',lineHeight:'19.6px',fontStyle:'normal', fontWeight:500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
-                  </div>
-                  <div className='col-2'>
-                    <Form.Check type="switch" id="custom-switch" />
-                  </div>
-                </div>
+            <div className='d-flex  justify-content-between me-2'>
+              <div className='col-6'>
+                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>SMS Setup</h6>
+                <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+              </div>
+              <div className='col-2'>
+                <Form.Check type="switch" id="custom-switch" />
+              </div>
+            </div>
 
-                <div className='justify-content-end mt-3'>
-                    <Button style={{fontFamily:'Montserrat', fontSize: 16,fontWeight:500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }} onClick={handleTwoStepVerify}> Save Changes</Button>
+            <div className='justify-content-end mt-3'>
+              <Button style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }} onClick={handleTwoStepVerify}> Save Changes</Button>
 
-                  </div>
+            </div>
 
-                
-               
-              </>
+
+
+          </>
         </TabPanel>
 
 
 
         <TabPanel value="2">
-          <div  className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
+          <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
             <div className='col-lg-4 col-md-5 col-sm-12 col-xs-12'>
-        <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                      <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#222", fontStyle:'normal', lineHeight:'normal'}}>
-                        Select Hostel
-                      </Form.Label>
-                    <Form.Select aria-label="Default select example" 
-           className='border'     value={selectedHostel.id} onChange={(e) => handleHostelChange(e)}  style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
+              <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>
+                    Select Hostel
+                  </Form.Label>
+                  <Form.Select aria-label="Default select example"
+                    className='border' value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
 
-                        <option style={{ fontSize: 14, fontWeight: 600, }} selected value=''>Select PG</option>
-                        {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
-                            <>
-                                <option key={item.id} value={item.id} >{item.Name}</option></>
-                        ))}
+                    <option style={{ fontSize: 14, fontWeight: 600, }} selected value=''>Select PG</option>
+                    {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
+                      <>
+                        <option key={item.id} value={item.id} >{item.Name}</option></>
+                    ))}
 
-                    </Form.Select>
+                  </Form.Select>
                 </Form.Group>
 
-                  </div>
-                  <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12' style={{border:'1px solid #ced4da',padding:'30px',borderRadius:'20px'}}>
-                    <div style={{display:'flex',flexDirection:'column'}}>
-
-                    <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
-          >
-            Unit
-          </Form.Label>
-          <Form.Control
-          style={{padding:'10px',marginTop:'10px',backgroundColor: "#E7F1FF" ,fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500}}
-            type="text"
-            placeholder="Unit"
-            value={unit}
-            onChange={(e) => setUnit(e.target.value)}
-          />
-        </Form.Group>
-      </div>
-
-      <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label style={{fontFamily:'Gilroy', fontSize: 14,fontWeight:500, color: "#000", fontStyle:'normal', lineHeight:'normal'}}
-          >
-            Amount / Unit 
-          </Form.Label>
-          <Form.Control
-            style={{padding:'10px',marginTop:'10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight:'18.83px' , fontWeight: 500}}
-            type="text"
-            placeholder="Amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        </Form.Group>
-      </div>
-                    </div>
-              <div  className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-              <Button className='col-lg-11 col-md-12 col-sm-12 col-xs-12' onClick={handlesaveEbbill} style={{fontFamily:'Montserrat', fontSize: 16,fontWeight:500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing:1, borderRadius: 12 }}>
-               Save Changes</Button>
               </div>
+              <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12' style={{ border: '1px solid #ced4da', padding: '30px', borderRadius: '20px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
 
+                  <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Unit
+                      </Form.Label>
+                      <Form.Control
+                        style={{ padding: '10px', marginTop: '10px', backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                        type="text"
+                        placeholder="Unit"
+                        value={unit}
+                        onChange={(e) => setUnit(e.target.value)}
+                      />
+                    </Form.Group>
                   </div>
+
+                  <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Amount / Unit
+                      </Form.Label>
+                      <Form.Control
+                        style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                        type="text"
+                        placeholder="Amount"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                      />
+                    </Form.Group>
                   </div>
+                </div>
+                <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                  <Button className='col-lg-11 col-md-12 col-sm-12 col-xs-12' onClick={handlesaveEbbill} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12 }}>
+                    Save Changes</Button>
+                </div>
 
-                  <hr style={{ border:'1px solid #ced4da',   transform: 'rotate(180deg)'}}/>
+              </div>
+            </div>
+
+            <hr style={{ border: '1px solid #ced4da', transform: 'rotate(180deg)' }} />
 
 
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0">  
-                  <Table className="ebtable mt-3" responsive  >
-                          <thead style={{ backgroundColor: "#E7F1FF" }}>
-                            <tr>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0">
+              <Table className="ebtable mt-3" responsive  >
+                <thead style={{ backgroundColor: "#E7F1FF" }}>
+                  <tr>
 
-                              <th style={{color:'#222', paddingLeft: "40px",  fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal', paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
-                              <th style={{color:'#222',fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" ,fontStyle:'normal',lineHeight:'normal'}}>Unit</th>
-                              <th style={{color:'#222',fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" ,fontStyle:'normal',lineHeight:'normal'}}>Amount </th>
-                              <th style={{color:'#222',fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",fontStyle:'normal',lineHeight:'normal', }}></th>
-                              {/* <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Dated</th> */}
+                    <th style={{ color: '#222', paddingLeft: "40px", fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal', paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal' }}>Unit</th>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal' }}>Amount </th>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}></th>
+                    {/* <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Dated</th> */}
 
-                            </tr>
-                          </thead>
-                          <tbody style={{ height: "50px", fontSize: "11px" }}>
-                           
-                          {data && data.length > 0 && data.map((eb) => (
-                                <tr  style={{ lineHeight: "40px" }}>
-                                  <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.Name}</td>
-                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.unit} KW </td>
-                                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹ {eb.amount}</td>
-                                  <td> <img src={dottt} alt='dot image' style={{ height: 30, width: 30 }} /></td>
-                                </tr>
-                          ))}
-                            {/* {state.Settings.EBBillingUnitlist.eb_settings.length === 0 && (
+                  </tr>
+                </thead>
+                <tbody style={{ height: "50px", fontSize: "11px" }}>
+
+                  {data && data.length > 0 && data.map((eb) => (
+                    <tr style={{ lineHeight: "40px" }}>
+                      <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.Name}</td>
+                      <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.unit} KW </td>
+                      <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹ {eb.amount}</td>
+                      <td> <img src={dottt} alt='dot image' style={{ height: 30, width: 30 }} /></td>
+                    </tr>
+                  ))}
+                  { currentRows.length === 0 && (
                               <tr>
                                 <td colSpan="6" style={{ textAlign: "center", color: "red" ,fontSize:14}}>No data found</td>
                               </tr>
-                            )} */}
+                            )}
 
-                          </tbody>
-                        </Table>
-                        {currentRows.length > 0 && (
-          <nav>
-            <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-              <li style={{ margin: '0 5px' }}>
-                <button
-                  style={{
-                    padding: '5px 10px',
-                    textDecoration: 'none',
-                    color: currentPage === 1 ? '#ccc' : '#007bff',
-                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                    borderRadius: '5px',
-                    display: 'inline-block',
-                    minWidth: '30px',
-                    textAlign: 'center',
-                    backgroundColor: 'transparent',
-                    border: "none"
-                  }}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-                  <ArrowLeft2 size="16" color="#1E45E1" />
-                </button>
-                {/* <span
+                </tbody>
+              </Table>
+              {currentRows.length > 0 && (
+                <nav>
+                  <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                    <li style={{ margin: '0 5px' }}>
+                      <button
+                        style={{
+                          padding: '5px 10px',
+                          textDecoration: 'none',
+                          color: currentPage === 1 ? '#ccc' : '#007bff',
+                          cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                          borderRadius: '5px',
+                          display: 'inline-block',
+                          minWidth: '30px',
+                          textAlign: 'center',
+                          backgroundColor: 'transparent',
+                          border: "none"
+                        }}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                        <ArrowLeft2 size="16" color="#1E45E1" />
+                      </button>
+                      {/* <span
                   onClick={() => handlePageChange(currentPage - 1)}
                   style={{
                     marginTop: '20px',
@@ -688,53 +693,53 @@ const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
                 >
                   Previous
                 </span> */}
-              </li>
-              {currentPage > 3 && (
-                <li style={{ margin: '0 5px' }}>
-                  <button
-                    style={{
-                      padding: '5px 10px',
-                      textDecoration: 'none',
-                      color: 'white',
-                      cursor: 'pointer',
-                      borderRadius: '5px',
-                      display: 'inline-block',
-                      minWidth: '30px',
-                      textAlign: 'center',
-                      backgroundColor: 'transparent',
-                      border: "none"
-                    }}
-                    onClick={() => handlePageChange(1)}
-                  >
-                    1
-                  </button>
-                </li>
-              )}
-              {currentPage > 3 && <span>...</span>}
-              {renderPageNumbers()}
-              {currentPage < totalPages - 2 && <span>...</span>}
-              {currentPage < totalPages - 2 && (
-                <li style={{ margin: '0 5px' }}>
-                  <button
-                    style={{
-                      padding: '5px 10px',
-                      textDecoration: 'none',
-                      cursor: 'pointer',
-                      borderRadius: '5px',
-                      display: 'inline-block',
-                      minWidth: '30px',
-                      textAlign: 'center',
-                      backgroundColor: 'transparent',
-                      border: "none"
-                    }}
-                    onClick={() => handlePageChange(totalPages)}
-                  >
-                    {totalPages}
-                  </button>
-                </li>
-              )}
-              <li style={{ margin: '0 5px' }}>
-                {/* <span
+                    </li>
+                    {currentPage > 3 && (
+                      <li style={{ margin: '0 5px' }}>
+                        <button
+                          style={{
+                            padding: '5px 10px',
+                            textDecoration: 'none',
+                            color: 'white',
+                            cursor: 'pointer',
+                            borderRadius: '5px',
+                            display: 'inline-block',
+                            minWidth: '30px',
+                            textAlign: 'center',
+                            backgroundColor: 'transparent',
+                            border: "none"
+                          }}
+                          onClick={() => handlePageChange(1)}
+                        >
+                          1
+                        </button>
+                      </li>
+                    )}
+                    {currentPage > 3 && <span>...</span>}
+                    {renderPageNumbers()}
+                    {currentPage < totalPages - 2 && <span>...</span>}
+                    {currentPage < totalPages - 2 && (
+                      <li style={{ margin: '0 5px' }}>
+                        <button
+                          style={{
+                            padding: '5px 10px',
+                            textDecoration: 'none',
+                            cursor: 'pointer',
+                            borderRadius: '5px',
+                            display: 'inline-block',
+                            minWidth: '30px',
+                            textAlign: 'center',
+                            backgroundColor: 'transparent',
+                            border: "none"
+                          }}
+                          onClick={() => handlePageChange(totalPages)}
+                        >
+                          {totalPages}
+                        </button>
+                      </li>
+                    )}
+                    <li style={{ margin: '0 5px' }}>
+                      {/* <span
                   onClick={() => handlePageChange(currentPage + 1)}
                   style={{
                     marginTop: '20px',
@@ -744,36 +749,36 @@ const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
                 >
                   Next
                 </span> */}
-                <button
-                  style={{
-                    padding: '5px 10px',
-                    textDecoration: 'none',
-                    color: currentPage === totalPages ? '#ccc' : '#007bff',
-                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                    borderRadius: '5px',
-                    display: 'inline-block',
-                    minWidth: '30px',
-                    textAlign: 'center',
-                    backgroundColor: 'transparent',
-                    border: "none"
-                  }}
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-                  <ArrowRight2 size="16" color="#1E45E1" />
-                </button>
-              </li>
-            </ul>
-          </nav>
-        )}
-          
-                  </div>
-                  </div>
-           </TabPanel>
+                      <button
+                        style={{
+                          padding: '5px 10px',
+                          textDecoration: 'none',
+                          color: currentPage === totalPages ? '#ccc' : '#007bff',
+                          cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                          borderRadius: '5px',
+                          display: 'inline-block',
+                          minWidth: '30px',
+                          textAlign: 'center',
+                          backgroundColor: 'transparent',
+                          border: "none"
+                        }}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                      >
+                        {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                        <ArrowRight2 size="16" color="#1E45E1" />
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              )}
+
+            </div>
+          </div>
+        </TabPanel>
         <TabPanel value="3"><InvoiceSettings /> </TabPanel>
-        <TabPanel value="4"><ExpencesSettings/> </TabPanel>
-        <TabPanel value="5"><Complaintsettings/> </TabPanel>
+        <TabPanel value="4"><ExpencesSettings /> </TabPanel>
+        <TabPanel value="5"><Complaintsettings /> </TabPanel>
         <TabPanel value="6"><Amenities /> </TabPanel>
       </TabContext>
 
