@@ -11,7 +11,7 @@ import './addAsset.css'
 import moment from 'moment';
 
 
-function StaticExample({ show, handleClose, currentItem }) {
+function StaticExample({ show, handleClose, hostelFloor }) {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -19,12 +19,14 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     console.log("state", state)
 
-    
-    
 
 
+const [floorNo, setFloorNo] = useState('')
 
 
+const handleFloorChange = (e) =>{
+    setFloorNo(e.target.value)
+}
 
 
     useEffect(() => {
@@ -39,13 +41,61 @@ function StaticExample({ show, handleClose, currentItem }) {
         }
     }, []);
 
-   
 
+
+    const handleCreateFloor = () => {
+
+
+        if (!floorNo || !/^\d+$/.test(floorNo)) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Please enter a valid Floor no.',
+            });
+            return;
+          }
+
+
+if(floorNo){
+    dispatch({ type: 'CREATEFLOOR', payload:{hostel_Id : hostelFloor, floor_Id : floorNo }})
+     handleClose();
+}
+
+
+        // Swal.fire({
+        //   icon: 'warning',
+        //   title: 'Do you want create one floor ?',
+        //   confirmButtonText: 'Yes',
+        //   cancelButtonText: 'No',
+        //   showCancelButton: true,
+        // }).then((result) => {
+        //   if (result.isConfirmed) {
+        //     const floors = floorDetails.map((floor) => (
+        //       { number_of_floors: 1 }));
+        //     const hostel_ID = hostel_Id.toString()
+        //     dispatch({
+        //       type: 'CREATEFLOOR',
+        //       payload: {
+        //         hostel_Id: hostel_ID,
+        //         hostelDetails: floors,
+        //       },
+        //     });
+        //     Swal.fire({
+        //       icon: 'success',
+        //       title: 'Create Floor details saved Successfully',
+        //     })
+        //   }
+        // });
+    
+    
+    
+      
  
+        
+      };
 
 
 
-   
+
     return (
         <div
             className="modal show"
@@ -62,17 +112,17 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
                         <div className='row mt-1'>
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 600 }}>Floors</Form.Label>
-                                    <Form.Select aria-label="Default select example" className='' id="vendor-select">
-                                        <option>Select no. of floors</option>
-                                      
-                                    </Form.Select>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 600 }}>Floor</Form.Label>
+                                    <Form.Control
+                                         value={floorNo}
+                                         onChange={handleFloorChange}
+                                        type="text" placeholder="Enter floor no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Beds</Form.Label>
                                     <Form.Select aria-label="Default select example" className='' id="vendor-select">
@@ -90,14 +140,14 @@ function StaticExample({ show, handleClose, currentItem }) {
                                        
                                     </Form.Select>
                                 </Form.Group>
-                            </div>
+                            </div> */}
                         </div>
 
                     </Modal.Body>
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
-                        <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} >
-                       Add floor
+                        <Button onClick={handleCreateFloor} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} >
+                            Add floor
                         </Button>
                     </Modal.Footer>
                 </Modal.Dialog>

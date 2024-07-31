@@ -83,9 +83,21 @@ function* handleCreateFloor(data) {
    if (response.status === 200) {
       yield put({ type: 'CREATE_FLOOR', payload: response.data })
       yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
+      Swal.fire({
+         icon: 'success',
+         title: `${response.data.message}`,
+                 timer:1000,
+       })
    }
-   else {
+   else if(response.status === 202) {
+      Swal.fire({
+         icon: 'warning',
+        title: 'Error',
+        html: `<span style="color: red">${response.data.message }</span> `,
+        
+      });
       yield put({ type: 'ERROR', payload: response.data.message })
+
    }
    if(response){
       refreshToken(response)

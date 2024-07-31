@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Token } from '@mui/icons-material';
 import Cookies from 'universal-cookie';
 import Spinner from 'react-bootstrap/Spinner';
+import KYC from './Pages/KycValidation'
+
 
 
 function App() {
@@ -202,7 +204,10 @@ console.log("login",login)
             <Route path="/login-Page" element={<LoginPage />} />
             <Route path="/create-account" element={<CreateAccount />} />
             <Route path="/forget-password" element={<ForgetPassword />} />
+            <Route path="/kyc" element={<KYC />} />
             <Route path="*" element={<Navigate to="/" replace />} />
+           
+
           </>
         )}
       </Routes>

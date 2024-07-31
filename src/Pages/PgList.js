@@ -322,53 +322,55 @@ function PgList() {
   };
 
 
-  const handleCreateFloor = (hostel_Id) => {
-
-    Swal.fire({
-      icon: 'warning',
-      title: 'Do you want create one floor ?',
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'No',
-      showCancelButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const floors = floorDetails.map((floor) => (
-          { number_of_floors: 1 }));
-        const hostel_ID = hostel_Id.toString()
-        dispatch({
-          type: 'CREATEFLOOR',
-          payload: {
-            hostel_Id: hostel_ID,
-            hostelDetails: floors,
-          },
-        });
-        Swal.fire({
-          icon: 'success',
-          title: 'Create Floor details saved Successfully',
-        })
-      }
-    });
+  // const handleCreateFloor = (hostel_Id) => {
 
 
 
-    // const floors = floorDetails.map((floor) => (
-    //   { number_of_floors: parseInt(floor.number_of_floor) }));
-    // const phoneNumber = selectedHostel.hostel_PhoneNo.toString()
-    // dispatch({
-    //   type: 'CREATEFLOOR',
-    //   payload: {
-    //     phoneNo: phoneNumber,
-    //     hostelDetails: floors,
-    //   },
-    // });
+  //   // Swal.fire({
+  //   //   icon: 'warning',
+  //   //   title: 'Do you want create one floor ?',
+  //   //   confirmButtonText: 'Yes',
+  //   //   cancelButtonText: 'No',
+  //   //   showCancelButton: true,
+  //   // }).then((result) => {
+  //   //   if (result.isConfirmed) {
+  //   //     const floors = floorDetails.map((floor) => (
+  //   //       { number_of_floors: 1 }));
+  //   //     const hostel_ID = hostel_Id.toString()
+  //   //     dispatch({
+  //   //       type: 'CREATEFLOOR',
+  //   //       payload: {
+  //   //         hostel_Id: hostel_ID,
+  //   //         hostelDetails: floors,
+  //   //       },
+  //   //     });
+  //   //     Swal.fire({
+  //   //       icon: 'success',
+  //   //       title: 'Create Floor details saved Successfully',
+  //   //     })
+  //   //   }
+  //   // });
 
-    // Swal.fire({
-    //   icon: 'success',
-    //   title: 'Create Floor details saved Successfully',
-    // })
-    setFloorDetails([])
-    handleClose();
-  };
+
+
+  //   // const floors = floorDetails.map((floor) => (
+  //   //   { number_of_floors: parseInt(floor.number_of_floor) }));
+  //   // const phoneNumber = selectedHostel.hostel_PhoneNo.toString()
+  //   // dispatch({
+  //   //   type: 'CREATEFLOOR',
+  //   //   payload: {
+  //   //     phoneNo: phoneNumber,
+  //   //     hostelDetails: floors,
+  //   //   },
+  //   // });
+
+  //   // Swal.fire({
+  //   //   icon: 'success',
+  //   //   title: 'Create Floor details saved Successfully',
+  //   // })
+  //   setFloorDetails([])
+  //   handleClose();
+  // };
 
   const handleAddFloor = () => {
     setFloorDetails([...floorDetails, { number_of_floor: '' }])
@@ -600,10 +602,12 @@ function PgList() {
 
   const [showFloor, setShowFloor] = useState(false)
   const [showRoom, setShowRoom] = useState(false)
+  const [hostelFloor, setHostelFloor] = useState('')
   const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
 
-  const handleAddFloors = () => {
+  const handleAddFloors = (hostel_Id) => {
     setShowFloor(true)
+    setHostelFloor(hostel_Id)
   }
 
   const handleCloseFloor = () => {
@@ -886,7 +890,7 @@ function PgList() {
                 </div>
 
                 <div>
-                  <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }} onClick={() => handleCreateFloor(showHostelDetails.id)}>+ Create a floor</Button>
+                  <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }} onClick={() => handleAddFloors(showHostelDetails.id)}>+ Create a floor</Button>
                 </div>
               </div>
             </div>
@@ -990,7 +994,7 @@ function PgList() {
                     <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No floors available</div>
                     <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There is no floor added to this paying guest.</div>
                     <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
-                      onClick={() => handleCreateFloor(showHostelDetails.id)}
+                      onClick={() => handleAddFloors(showHostelDetails.id)}
                     > + Add floor</Button>
                     </div>
                   </div>
@@ -1007,7 +1011,7 @@ function PgList() {
       
       {showAddPg && <AddPg show={showAddPg} handleClose={handleCloses} currentItem={editHostelDetails} /> }
 {showDelete && <DeleteFloor show={showDelete} handleClose={handleCloseDelete} currentItem={deleteFloor} />}
-        {showFloor && <AddFloor show={showFloor} handleClose={handleCloseFloor} />}
+        {showFloor && <AddFloor show={showFloor} handleClose={handleCloseFloor} hostelFloor={hostelFloor} />}
         {showRoom && <AddRoom show={showRoom} handleClose={handlecloseRoom} hostelDetails={hostelDetails} />}
       </div>
     </>
