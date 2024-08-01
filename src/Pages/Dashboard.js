@@ -211,7 +211,7 @@ function Dashboard(props) {
     <div className='cotainer  p-4' >
       <div className='texxttt'>
         <div style={{ flex: 1 }}>
-          <lable style={{ fontFamily: "Montserrat", fontWeight: 600, fontSize: "24px", lineHeight: "28.63px" }}>Welcome back,   {first_name.toLocaleString()} {last_name.toLocaleString()}!</lable>
+          <lable style={{ fontFamily: "Montserrat", fontWeight: 600, fontSize: "24px", lineHeight: "28.63px" }}>Welcome back,   {first_name != null ? first_name.toLocaleString() :''} {last_name != null ? last_name.toLocaleString() : ''}!</lable>
           <p style={{ fontFamily: "Montserrat", fontWeight: 400, fontSize: "16px", color: "#4B4B4B" }} >Manage all the inventory and analytics form here</p>
         </div>
 
