@@ -103,6 +103,10 @@ const [details, setDetails] = useState('')
     setShowFloor(false)
   }
 
+
+
+
+  
   const [showDots, setShowDots] = useState('')
   const [roomCountData, setRoomCountData] = useState('')
 

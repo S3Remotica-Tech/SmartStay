@@ -28,8 +28,8 @@ const initialState = {
     AmentiesHistorygetStatuscode: 0,
     bednumberdetails: [],
     statushostelbedstatuscode: '',
-    kycValidateSendOtpSuccess:0,
-
+    kycValidateSendOtpSuccess: 0,
+    deleteFloorSuccessStatusCode: 0,
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -45,8 +45,13 @@ const UserListReducer = (state = initialState, action) => {
 
         case 'KYC_VALIDATE':
             return { ...state, kycValidateSendOtpSuccess: action.payload.statusCode }
-            case 'CLEAR_KYC_VALIDATE_SATUS_CODE':
-                return { ...state, kycValidateSendOtpSuccess:0}
+        case 'CLEAR_KYC_VALIDATE_SATUS_CODE':
+            return { ...state, kycValidateSendOtpSuccess: 0 }
+        case 'DELETE_FLOOR':
+            return { ...state, deleteFloorSuccessStatusCode: action.payload.statusCode }
+
+        case 'CLEAR_DELETE_FLOOR':
+            return { ...state, deleteFloorSuccessStatusCode: 0 }
 
         case 'CUSTOMER_DETAILS':
             return { ...state, customerdetails: action.payload, CustomerdetailsgetStatuscode: action.payload.statusCode };

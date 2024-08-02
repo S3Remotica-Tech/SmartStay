@@ -191,6 +191,17 @@ function PgList() {
   }, [state.UsersList.createFloorMessage])
 
 
+useEffect(()=>{
+if(state.UsersList.deleteFloorSuccessStatusCode == 200){
+  dispatch({ type: 'HOSTELLIST' })
+
+  setTimeout(()=>{
+dispatch({ type: 'CLEAR_DELETE_FLOOR'})
+  },2000)
+}
+},[state.UsersList.deleteFloorSuccessStatusCode])
+
+
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode == 200) {
@@ -738,14 +749,13 @@ function PgList() {
 
 
   const [showDelete, setShowDelete] = useState(false);
-  const [deleteFloor, setDeleteFloor] = useState('')
+  const [deleteFloor, setDeleteFloor] = useState({floor_Id: null, hostel_Id : null})
 
   const handleCloseDelete = () => setShowDelete(false);
 
-  const handleShowDelete = (FloorNumber) => {
+  const handleShowDelete = (FloorNumber, hostel_Id) => {
     setShowDelete(true)
-    setDeleteFloor(FloorNumber)
-
+    setDeleteFloor({floor_Id: FloorNumber, hostel_Id : hostel_Id })
   }
 
 console.log("key",key)
@@ -894,7 +904,7 @@ console.log("key",key)
             </div>
 
             {
-              showHostelDetails.floorDetails.length> 0 ?
+              showHostelDetails.floorDetails.length > 0 ?
           
 
                 <Tab.Container activeKey={key} onSelect={(k) => setKey(k)} id="vertical-tabs-example">
@@ -949,7 +959,7 @@ console.log("key",key)
 
 
 
-                              <div onClick={() => handleShowDelete(floorClick)}>
+                              <div onClick={() => handleShowDelete(floorClick,showHostelDetails.id,showHostelDetails )}>
                                 <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
                               </div>
 

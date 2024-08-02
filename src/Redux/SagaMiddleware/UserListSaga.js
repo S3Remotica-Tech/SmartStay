@@ -198,6 +198,15 @@ function* handleAddUser(datum) {
       console.log("response",response);
       if(response.status === 200){
          yield put({ type: 'DELETE_FLOOR', payload:{message: response.data.message, statusCode:response.status} })
+    
+         Swal.fire({
+            icon: 'success',
+         text: 'Floor Delete Successfully',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+     
+     
       }
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
@@ -220,19 +229,7 @@ function* handleDeleteRoom(roomDetails){
    }
 }
 
-// function* handleDeleteBed(bedDetails){
-//    const response = yield call(deleteBed,bedDetails.payload)
-//    if(response.status === 200){
-//       yield put({ type: 'DELETE_BED', payload:{message: response.data.message, statusCode:response.status} })
-//    }
-//    else {
-//       yield put({ type: 'ERROR', payload: response.data.message })
-//    }
-//    if(response){
-//       refreshToken(response)
-//    }
-   
-// }  
+
 
 
  function refreshToken(response){
