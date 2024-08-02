@@ -764,7 +764,7 @@ const Compliance = () => {
                         value={selectedUsername}
                         onChange={handleCheckoutChange}
                         disabled={edit}
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       >
                         <option value="">Select a customer</option>
 
@@ -865,7 +865,7 @@ const Compliance = () => {
                       </Form.Label>
                       <Form.Select
                         className='border'
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         value={Assign}
                         onChange={(e) => { setAssign(e.target.value) }}
                       >
@@ -889,7 +889,7 @@ const Compliance = () => {
                       </Form.Label>
                       <Form.Select
                         className='border'
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         value={Status}
                         onChange={(e) => { setStatus(e.target.value) }}
                       >
@@ -900,6 +900,7 @@ const Compliance = () => {
           <> */}
                         <option value="">Select a status</option>
                         <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
                         <option value="Completed">Completed</option>
                         {/* </> */}
                         {/* )} */}
@@ -1022,7 +1023,7 @@ const Compliance = () => {
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Description</Form.Label>
                       <Form.Control
                         value={description} onChange={(e) => { setDescription(e.target.value) }}
-                        type="text" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                        type="text" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                     </Form.Group>
 
                   </div>
@@ -1046,7 +1047,7 @@ const Compliance = () => {
         <div
           className="modal show"
           style={{
-            display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
+            display: 'block', position: 'initial', fontFamily: "Gilroy",
           }}
         >
           <Modal
@@ -1054,7 +1055,7 @@ const Compliance = () => {
             centered>
             <Modal.Dialog style={{ width: '100%' }} className='m-0 p-0 col-4'>
               <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}> Assign Complaint</Modal.Title>
+                <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}> Assign Complaint</Modal.Title>
               </Modal.Header>
 
               <Modal.Body>
@@ -1063,13 +1064,13 @@ const Compliance = () => {
                 <div className='row mt-4'>
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                         Assignee
                       </Form.Label>
                       <Form.Select className='border'
                         selected value={selectedUsername}
                         onChange={handleCheckoutChange}
-                        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       >
                         <option value="">Select Assignee</option>
 
@@ -1085,11 +1086,7 @@ const Compliance = () => {
                       </Form.Select>
                     </Form.Group>
 
-
-
                   </div>
-
-
 
                 </div>
 

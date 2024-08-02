@@ -90,7 +90,14 @@ function* ProfileUpdate(action) {
         type: 'PROFILEUPDATE',
         payload: { response: response.data, statusCode: response.statusCode  }
       });
-
+      Swal.fire({
+        icon: 'success',
+        text: 'Profile Updated successfully',
+        confirmButtonText: 'Ok'
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
      
     }
     if(response){
