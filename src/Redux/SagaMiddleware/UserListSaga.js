@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber} from "../Action/UserListAction"
+import {KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 
 function* handleuserlist(user) {
@@ -83,9 +83,21 @@ function* handleCreateFloor(data) {
    if (response.status === 200) {
       yield put({ type: 'CREATE_FLOOR', payload: response.data })
       yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
+      Swal.fire({
+         icon: 'success',
+         title: `${response.data.message}`,
+                 timer:1000,
+       })
    }
-   else {
+   else if(response.status === 202) {
+      Swal.fire({
+         icon: 'warning',
+        title: 'Error',
+        html: `<span style="color: red">${response.data.message }</span> `,
+        
+      });
       yield put({ type: 'ERROR', payload: response.data.message })
+
    }
    if(response){
       refreshToken(response)
@@ -186,6 +198,15 @@ function* handleAddUser(datum) {
       console.log("response",response);
       if(response.status === 200){
          yield put({ type: 'DELETE_FLOOR', payload:{message: response.data.message, statusCode:response.status} })
+    
+         Swal.fire({
+            icon: 'success',
+         text: 'Floor Delete Successfully',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+     
+     
       }
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
@@ -208,19 +229,7 @@ function* handleDeleteRoom(roomDetails){
    }
 }
 
-// function* handleDeleteBed(bedDetails){
-//    const response = yield call(deleteBed,bedDetails.payload)
-//    if(response.status === 200){
-//       yield put({ type: 'DELETE_BED', payload:{message: response.data.message, statusCode:response.status} })
-//    }
-//    else {
-//       yield put({ type: 'ERROR', payload: response.data.message })
-//    }
-//    if(response){
-//       refreshToken(response)
-//    }
-   
-// }  
+
 
 
  function refreshToken(response){
@@ -326,6 +335,21 @@ function* handleDeleteRoom(roomDetails){
    }
   
 
+
+   function* handleKYCValidate(action){
+      const response = yield call(KYCValidate,action.payload)
+      console.log("response...?",response)
+      if(response.status === 200){
+         yield put({ type: 'KYC_VALIDATE', payload: {response:response.data,statusCode:response.status }})
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if(response){
+         refreshToken(response)
+      }
+      
+   }
      
 
 function* UserListSaga() {
@@ -347,5 +371,6 @@ function* UserListSaga() {
    yield takeEvery('AMENITESNAMES',handleAmnitiesName) 
    yield takeEvery('AddUserAmnities',handleuserAddAmnitiesName)
    yield takeEvery('BEDNUMBERDETAILS',handlebedNumberDetails) 
+   yield takeEvery('KYCVALIDATE',handleKYCValidate) 
 }
 export default UserListSaga;
