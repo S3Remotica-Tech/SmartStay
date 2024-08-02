@@ -155,3 +155,9 @@ export async function KYCValidate(adhar) {
     data:adhar
   })
 }
+
+export async function KYCValidateOtpVerify(adhar) {
+  return await AxiosConfig.post('aadhaar_otp_verification',adhar,{
+    data:adhar
+  })
+}

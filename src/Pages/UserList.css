@@ -3,7 +3,11 @@
   border-collapse: collapse;
   margin-top: 20px;
 }
+.Customer_Name_Hover:hover{
 
+text-decoration: underline;
+
+}
 .custom-table thead {
   background-color: #F6F7FB;
   font-size: 14px;
