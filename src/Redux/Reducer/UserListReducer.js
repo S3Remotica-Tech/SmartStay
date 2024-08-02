@@ -30,6 +30,8 @@ const initialState = {
     statushostelbedstatuscode: '',
     kycValidateSendOtpSuccess: 0,
     deleteFloorSuccessStatusCode: 0,
+    Kyc_Ref_Id: '',
+    kycValidateOtpVerifySuccess:0,
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -44,9 +46,13 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, bedCount: action.payload }
 
         case 'KYC_VALIDATE':
-            return { ...state, kycValidateSendOtpSuccess: action.payload.statusCode }
+            return { ...state, kycValidateSendOtpSuccess: action.payload.statusCode , Kyc_Ref_Id: action.payload.response}
         case 'CLEAR_KYC_VALIDATE_SATUS_CODE':
             return { ...state, kycValidateSendOtpSuccess: 0 }
+         case 'KYC_VALIDATE_OTP_VERIFY':
+         return {...state, kycValidateOtpVerifySuccess:action.payload.statusCode}
+
+
         case 'DELETE_FLOOR':
             return { ...state, deleteFloorSuccessStatusCode: action.payload.statusCode }
 

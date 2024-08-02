@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber} from "../Action/UserListAction"
+import {KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 
 function* handleuserlist(user) {
@@ -340,8 +340,40 @@ function* handleDeleteRoom(roomDetails){
       const response = yield call(KYCValidate,action.payload)
       console.log("response...?",response)
       if(response.status === 200){
-         yield put({ type: 'KYC_VALIDATE', payload: {response:response.data,statusCode:response.status }})
+         yield put({ type: 'KYC_VALIDATE', payload: {response:response.data.result.ref_id,statusCode:response.status }})
+         Swal.fire({
+            icon: "success",
+            text: response.data.result.message,
+          });
+     
       }
+      else if (response.status === 201){
+      
+         Swal.fire({
+            icon: "warning",
+            text: "Enter valid Aadhaar No.",
+          });
+
+      }
+
+
+      if(response){
+         refreshToken(response)
+      }
+      
+   }
+     
+
+   function* handleKYCValidateOtpVerify(action){
+      const response = yield call(KYCValidateOtpVerify,action.payload)
+      console.log("response...?",response)
+      if(response.status === 200){
+         yield put({ type: 'KYC_VALIDATE_OTP_VERIFY', payload: {response:response.data,statusCode:response.status }})
+             Swal.fire({
+            icon: "success",
+            text: response.data.message,
+          });
+             }
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
       }
@@ -350,7 +382,22 @@ function* handleDeleteRoom(roomDetails){
       }
       
    }
-     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
@@ -372,5 +419,7 @@ function* UserListSaga() {
    yield takeEvery('AddUserAmnities',handleuserAddAmnitiesName)
    yield takeEvery('BEDNUMBERDETAILS',handlebedNumberDetails) 
    yield takeEvery('KYCVALIDATE',handleKYCValidate) 
+   yield takeEvery('KYCVALIDATEOTPVERIFY',handleKYCValidateOtpVerify) 
+
 }
 export default UserListSaga;

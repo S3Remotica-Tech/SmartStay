@@ -1169,10 +1169,41 @@ function UserList() {
 
   }
 
+
+
+  const [ref_id, setRef_Id] = useState('')
+
+  console.log("state.UsersList.Kyc_Ref_Id",state.UsersList.Kyc_Ref_Id)
+
+const handleVerifyOtp = (customer_Id) => {
+
+  if (!kycOtpValue || !/^\d+$/.test(kycOtpValue)) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Please enter a valid otp',
+    });
+    return;
+  }
+  if(kycOtpValue){
+ dispatch({ type: 'KYCVALIDATEOTPVERIFY', payload: { user_id: customer_Id, aadhar_number: aadhaarNo ,ref_id: ref_id , otp: kycOtpValue }})
+ 
+ setKycOtpValue('')
+ setAdhaarNo('')
+ setShowOtpValidation(false)
+
+}
+  
+}
+
+
+
+
+
   useEffect(() => {
     if (state.UsersList.kycValidateSendOtpSuccess == 200) {
       setShowOtpValidation(true)
       setShowValidate(false)
+      setRef_Id(state.UsersList && state.UsersList.Kyc_Ref_Id)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_KYC_VALIDATE_SATUS_CODE' })
       }, 2000)
@@ -1181,9 +1212,11 @@ function UserList() {
 
 
 
+const [kycOtpValue, setKycOtpValue] = useState('')
 
-
-
+ const handleKycOtpChange = (e) =>{
+  setKycOtpValue(e.target.value)
+ }
 
 
 
@@ -1334,7 +1367,7 @@ function UserList() {
                             e.target.src = Profile; // Fallback to default image
                           }}
                         />
-                        <span style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", color: "#1E45E1" }} onClick={() => handleRoomDetailsPage(user)}>
+                        <span className="Customer_Name_Hover" style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", color: "#1E45E1" ,cursor:"pointer"}} onClick={() => handleRoomDetailsPage(user)}>
                           {user.Name}
                         </span>
                       </td>
@@ -1705,6 +1738,7 @@ function UserList() {
                                   placeholder='987654321012'
                                   type="text"
                                   value={aadhaarNo}
+                                  maxLength={12}
                                   onChange={(e) => handleAdhaarChange(e)}
                                   style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                                 />
@@ -1722,18 +1756,14 @@ function UserList() {
                                     type="text"
                                     id="form-controls"
                                     placeholder='****'
-                                    // value={lastname}
-                                    // onChange={(e) => handleLastName(e)}
+                                    value={kycOtpValue}
+                                    
+                                    onChange={(e) => handleKycOtpChange(e)}
                                     style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                                   />
                                 </Form.Group>
-                                <span style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}> Didn’t receive OTP? <a href="#" style={{ textDecoration: "none", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}> Resend</a></span>
+                                <span style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}> Didn’t receive OTP? <a href="#" style={{ textDecoration: "none", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }} onClick={() => handleValidateAadhaar(item.id)}> Resend</a></span>
                               </div>
-
-
-
-
-
                             </>
                             }
 
@@ -1745,7 +1775,7 @@ function UserList() {
                             }
                             {showOtpValidation &&
                               <div style={{ marginBottom: 20 }}>
-                                <Button style={{ fontFamily: 'Montserrat', fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 52, letterSpacing: 1, borderRadius: 12, width: 152, padding: "10px, 3px, 10px, 3px" }} > Save Changes</Button>
+                                <Button style={{ fontFamily: 'Montserrat', fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 52, letterSpacing: 1, borderRadius: 12, width: 152, padding: "10px, 3px, 10px, 3px" }} onClick={()=>handleVerifyOtp(item.id)}> Save Changes</Button>
 
                               </div>}
 
