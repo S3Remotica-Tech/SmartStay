@@ -633,9 +633,6 @@ dispatch({ type: 'CLEAR_DELETE_FLOOR'})
 
   const [floorClick, setFloorClick] = useState(1)
 
-
-  console.log("floorClick",floorClick,showHostelDetails && showHostelDetails.floorDetails[0].floor_id)
-
   const handlebackToPG = () => {
     setSelectedHostel(false)
     setHidePgList(true);
