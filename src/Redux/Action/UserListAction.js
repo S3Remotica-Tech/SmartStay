@@ -149,3 +149,9 @@ export async function beddetailsNumber (bednum) {
     data:bednum
   })
 }
+
+export async function KYCValidate(adhar) {
+  return await AxiosConfig.post('/aadhar_verify_otp',adhar,{
+    data:adhar
+  })
+}

@@ -30,37 +30,34 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from './DeleteFloor';
 
 function getFloorName(floor_Id) {
-  // Mapping of numbers to words for easier conversion
+  
   const numberToWord = {
-    1: 'First',
-    2: 'Second',
-    3: 'Third',
-    4: 'Fourth',
-    5: 'Fifth',
-    6: 'Sixth',
-    7: 'Seventh',
-    8: 'Eighth',
-    9: 'Ninth',
-    10: 'Tenth',
-    11: 'Eleventh',
-    12: 'Twelfth',
-    13: 'Thirteenth',
-
+    1: 'Ground',  
+    2: 'First',
+    3: 'Second',
+    4: 'Third',
+    5: 'Fourth',
+    6: 'Fifth',
+    7: 'Sixth',
+    8: 'Seventh',
+    9: 'Eighth',
+    10: 'Ninth',
+    11: 'Tenth',
+    12: 'Eleventh',
+    13: 'Twelfth',
+    14: 'Thirteenth',
   };
-
 
   if (floor_Id === 1) {
     return 'Ground Floor';
-  } else if (numberToWord[floor_Id - 1]) {
-
-    return `${numberToWord[floor_Id - 1]} Floor`;
+  } else if (numberToWord[floor_Id]) { 
+    return `${numberToWord[floor_Id]} Floor`;
   } else {
-
-    const floorNumber = floor_Id - 1;
-    const lastDigit = floorNumber % 10;
+   
+    const lastDigit = floor_Id % 10;
     let suffix = 'th';
 
-    if (floorNumber !== 11 && floorNumber !== 12 && floorNumber !== 13) {
+    if (floor_Id % 100 < 11 || floor_Id % 100 > 13) {
       switch (lastDigit) {
         case 1:
           suffix = 'st';
@@ -74,10 +71,9 @@ function getFloorName(floor_Id) {
       }
     }
 
-    return `${floorNumber}${suffix} Floor`;
+    return `${floor_Id}${suffix} Floor`;
   }
 }
-
 
 
 function PgList() {
@@ -627,6 +623,7 @@ function PgList() {
   const [floorClick, setFloorClick] = useState(1)
 
 
+  console.log("floorClick",floorClick,showHostelDetails && showHostelDetails.floorDetails[0].floor_id)
 
   const handlebackToPG = () => {
     setSelectedHostel(false)
@@ -689,12 +686,12 @@ function PgList() {
 
 
 
-  const [key, setKey] = useState('0');
+  const [key, setKey] = useState('1');
 
 
   const [visibleRange, setVisibleRange] = useState([0, 3]);
 
-  const numberOfFloors = showHostelDetails.number_Of_Floor;
+  const numberOfFloors = showHostelDetails && showHostelDetails.floorDetails.length;
   const floorsPerPage = 5;
 
   const handlePrev = () => {
@@ -710,6 +707,7 @@ function PgList() {
   };
 
   const handleFloorClick = (floorNumber) => {
+    console.log("floorNumber",floorNumber)
     setFloorClick(floorNumber);
     setKey(floorNumber.toString());
   };
@@ -750,7 +748,7 @@ function PgList() {
 
   }
 
-
+console.log("key",key)
 
 
   return (
@@ -896,95 +894,90 @@ function PgList() {
             </div>
 
             {
-              showHostelDetails.number_Of_Floor > 0 ?
-                <>
-                
-                  <Tab.Container activeKey={key} onSelect={(k) => setKey(k)} id="vertical-tabs-example">
-                    <Row className="g-0">
-                      <Col sm={12} xs={12} md={2} lg={2} className='d-flex justify-content-start'>
-                        <div>
-                          <div className='d-flex justify-content-center'>
-                            <div onClick={handlePrev} disabled={key === '0'} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, cursor: 'pointer', padding: 3 }}>
-                              <ArrowUp2 size="32" color={key === '0' ? "rgba(156, 156, 156, 1)" : "#000000"} variant="Bold" />
-                            </div>
-                          </div>
+              showHostelDetails.floorDetails.length> 0 ?
+          
 
-                          <Nav variant="" className="flex-column">
-                            {Array.from({ length: numberOfFloors }, (_, index) => (
-                              index >= visibleRange[0] && index <= visibleRange[1] &&
-                              <Nav.Item
-                                key={index}
-                                onClick={() => handleFloorClick(index + 1)}
-                                className={`mb-3 mt-2 d-flex justify-content-center align-items-center Navs-Item ${floorClick === index + 1 ? 'active-floor' : 'Navs-Item'}`}
-                                style={{ border: "1px solid rgba(156, 156, 156, 1)", borderRadius: 16, height: 92, width: 95, padding: "8px, 16px, 8px, 16px" }}
-                              >
-                                <Nav.Link style={{}} className='text-center'>
-                                  <div className={floorClick === index + 1 ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600 }} >{index == 0 ? 'G' : index}</div> <div className={floorClick === index + 1 ? 'ActiveFloortext' : 'UnActiveFloortext'} style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(index + 1)}</div>
-                                </Nav.Link>
-                              </Nav.Item>
-                            ))}
-                          </Nav>
-
-                          <div className='d-flex justify-content-center'>
-                            <div onClick={handleNext} disabled={key === (showHostelDetails.number_Of_Floor - 1).toString()} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, padding: 3 }}>
-                              <ArrowDown2 size="32" color={key === (showHostelDetails.number_Of_Floor - 1).toString() ? "rgba(156, 156, 156, 1)" : "#000000"} variant="Bold" />
-                            </div>
-                          </div>
-                        </div>
-                      </Col>
-                      <Col sm={12} xs={12} md={10} lg={10}>
-                        <div className='d-flex justify-content-between align-items-center'>
-                          <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(floorClick)}</div>
-                          <div>
-                            <div style={{
-                              cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative",
-                              zIndex: showDots ? 1000 : 'auto'
-                            }}
-                              onClick={() => handleShowDots()}>
-                              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                              {showDots && <>
-                                <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
-
-
-
-                                  <div onClick={() => handleShowDelete(floorClick)}>
-                                    <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
-                                  </div>
-
-                                </div>
-
-
-                              </>}
-
-                            </div>
-                          </div>
-                        </div>
-
-
-                        <Tab.Content>
-                          <ParticularHostelDetails
-                            floorID={floorClick}
-                            hostel_Id={showHostelDetails.id}
-                            phoneNumber={showHostelDetails.hostel_PhoneNo}
-
-                          />
-
-                          {/* add room popup */}
-                          {/* <div className='row mt-2'>
+                <Tab.Container activeKey={key} onSelect={(k) => setKey(k)} id="vertical-tabs-example">
+                <Row className="g-0">
+                  <Col sm={12} xs={12} md={2} lg={2} className='d-flex justify-content-start'>
                     <div>
-                      <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(showHostelDetails, floorClick)}>+ Add room</label>
+                      <div className='d-flex justify-content-center'>
+                        <div onClick={handlePrev} disabled={visibleRange[0] === 0 } style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, cursor: 'pointer', padding: 3 }}>
+                          <ArrowUp2 size="32" color={visibleRange[0] === 0 ? "rgba(156, 156, 156, 1)" : "#000000"} variant="Bold" />
+                        </div>
+                      </div>
+
+                      <Nav variant="" className="flex-column">
+                      {showHostelDetails.floorDetails.map((floor, index) => (
+                             index >= visibleRange[0] && index <= visibleRange[1] &&
+                          <Nav.Item
+                          key={floor.floor_id}
+                          onClick={() => handleFloorClick(floor.floor_id)}
+                          className={`mb-3 mt-2 d-flex justify-content-center align-items-center Navs-Item ${key === floor.floor_id.toString() ? 'active-floor' : 'Navs-Item'}`}
+                            style={{ border: "1px solid rgba(156, 156, 156, 1)", borderRadius: 16, height: 92, width: 95, padding: "8px, 16px, 8px, 16px" }}
+                          >
+                            <Nav.Link style={{}} className='text-center'>
+                            <div className={key === floor.floor_id.toString() ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600 }}>
+                         {floor.floor_id === 1 ? 'G': floor.floor_id - 1}
+                       </div>
+                      <div className={key === floor.floor_id.toString() ? 'ActiveFloortext' : 'UnActiveFloortext'} style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(floor.floor_id)}</div>
+                            </Nav.Link>
+                          </Nav.Item>
+                        ))}
+                      </Nav>
+
+                      <div className='d-flex justify-content-center'>
+                        <div onClick={handleNext} disabled={key === (showHostelDetails.number_Of_Floor - 1).toString()} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, padding: 3 }}>
+                          <ArrowDown2 size="32" color={visibleRange[1] === numberOfFloors - 1 ?  "rgba(156, 156, 156, 1)" : "#000000"} variant="Bold" />
+                        </div>
+                      </div>
                     </div>
-                  </div> */}
+                  </Col>
+                  <Col sm={12} xs={12} md={10} lg={10}>
+                    <div className='d-flex justify-content-between align-items-center'>
+                      <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(floorClick)}</div>
+                      <div>
+                        <div style={{
+                          cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative",
+                          zIndex: showDots ? 1000 : 'auto'
+                        }}
+                          onClick={() => handleShowDots()}>
+                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                          {showDots && <>
+                            <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
 
 
-                        </Tab.Content>
-                      </Col>
-                    </Row>
-                  </Tab.Container>
+
+                              <div onClick={() => handleShowDelete(floorClick)}>
+                                <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
+                              </div>
+
+                            </div>
 
 
-                </>
+                          </>}
+
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <Tab.Content>
+                      <ParticularHostelDetails
+                        floorID={floorClick}
+                        hostel_Id={showHostelDetails.id}
+                        phoneNumber={showHostelDetails.hostel_PhoneNo}
+
+                      />
+
+                     
+
+
+                    </Tab.Content>
+                  </Col>
+                </Row>
+              </Tab.Container>
                 :
 
                 <div className='d-flex align-items-center justify-content-center' style={{ width: "100%", height: 350, margin: "0px auto" }}>
@@ -1008,7 +1001,12 @@ function PgList() {
          
           </div>
         )}
-      
+       
+
+
+
+
+
       {showAddPg && <AddPg show={showAddPg} handleClose={handleCloses} currentItem={editHostelDetails} /> }
 {showDelete && <DeleteFloor show={showDelete} handleClose={handleCloseDelete} currentItem={deleteFloor} />}
         {showFloor && <AddFloor show={showFloor} handleClose={handleCloseFloor} hostelFloor={hostelFloor} />}

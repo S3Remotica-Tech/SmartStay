@@ -24,10 +24,11 @@ const initialState = {
     addUserAmnities: '',
     usermessage: '',
     statusCustomerAddUser: '',
-    CustomerdetailsgetStatuscode : 0,
-    AmentiesHistorygetStatuscode : 0,
-    bednumberdetails:[],
-    statushostelbedstatuscode:''
+    CustomerdetailsgetStatuscode: 0,
+    AmentiesHistorygetStatuscode: 0,
+    bednumberdetails: [],
+    statushostelbedstatuscode: '',
+    kycValidateSendOtpSuccess:0,
 
 }
 
@@ -42,27 +43,31 @@ const UserListReducer = (state = initialState, action) => {
         case 'BED_COUNTING_LIST':
             return { ...state, bedCount: action.payload }
 
+        case 'KYC_VALIDATE':
+            return { ...state, kycValidateSendOtpSuccess: action.payload.statusCode }
+            case 'CLEAR_KYC_VALIDATE_SATUS_CODE':
+                return { ...state, kycValidateSendOtpSuccess:0}
 
         case 'CUSTOMER_DETAILS':
-            return { ...state, customerdetails: action.payload , CustomerdetailsgetStatuscode : action.payload.statusCode };
-            case 'CLEAR_CUSTOMER_DETAILS':
-                return {...state,CustomerdetailsgetStatuscode : 0 }
+            return { ...state, customerdetails: action.payload, CustomerdetailsgetStatuscode: action.payload.statusCode };
+        case 'CLEAR_CUSTOMER_DETAILS':
+            return { ...state, CustomerdetailsgetStatuscode: 0 }
 
         case 'AMENITIES_HISTORY':
-            return { ...state, amnetieshistory: action.payload.response , AmentiesHistorygetStatuscode : action.payload.statusCode};
-            case 'CLEAR_AMENITIES_HISTORY_DETAILS':
-                return {...state,AmentiesHistorygetStatuscode : 0 }
+            return { ...state, amnetieshistory: action.payload.response, AmentiesHistorygetStatuscode: action.payload.statusCode };
+        case 'CLEAR_AMENITIES_HISTORY_DETAILS':
+            return { ...state, AmentiesHistorygetStatuscode: 0 }
         case 'AMNITIES_NAME':
             return { ...state, amnitiesnamelist: action.payload };
         case 'ADD_USER_AMENITIES':
-            console.log("ADD_USER_AMENITIES",action.payload.message);
+            console.log("ADD_USER_AMENITIES", action.payload.message);
             return { ...state, addUserAmnities: action.payload.message, statusCustomerAddUser: action.payload.statusCode }
 
         case 'CLEAR_ADDUSER_AMNETIES':
-           return {...state,statusCustomerAddUser : 0 }
+            return { ...state, statusCustomerAddUser: 0 }
 
-           case 'BED_NUMBER_DETAILS':
-            console.log("BED_NUMBER_DETAILS",action.payload.message);
+        case 'BED_NUMBER_DETAILS':
+            console.log("BED_NUMBER_DETAILS", action.payload.message);
             return { ...state, bednumberdetails: action.payload, statushostelbedstatuscode: action.payload.statusCode }
 
         case 'BED_DETAILS':
