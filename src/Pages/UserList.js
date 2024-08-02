@@ -1136,6 +1136,58 @@ function UserList() {
   //   report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
   // );
 
+
+  //  Aadhaar integration
+
+  const [showOtpValidation, setShowOtpValidation] = useState(false)
+  const [showValidate, setShowValidate] = useState(true)
+  const [aadhaarNo, setAdhaarNo] = useState('')
+
+
+  const handleAdhaarChange = (e) => {
+    setAdhaarNo(e.target.value)
+  }
+
+
+
+
+
+  const handleValidateAadhaar = (customer_Id) => {
+
+
+    if (!aadhaarNo || !/^\d+$/.test(aadhaarNo)) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter a valid aadhaar no.',
+      });
+      return;
+    }
+    if (aadhaarNo) {
+      dispatch({ type: 'KYCVALIDATE', payload: { user_id: customer_Id, aadhar_number: aadhaarNo } })
+
+    }
+
+  }
+
+  useEffect(() => {
+    if (state.UsersList.kycValidateSendOtpSuccess == 200) {
+      setShowOtpValidation(true)
+      setShowValidate(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_KYC_VALIDATE_SATUS_CODE' })
+      }, 2000)
+    }
+  }, [state.UsersList.kycValidateSendOtpSuccess])
+
+
+
+
+
+
+
+
+
+
   return (
     <div className=' p-2' >
 
@@ -1444,6 +1496,7 @@ function UserList() {
           <>
             {userDetails && userDetails.map((item, index) => {
               const imageUrl = item.profile || Profile;
+              { console.log("single User", item) }
               return (
                 <div key={item.ID} className="container mt-2">
                   {/* <div className='d-flex justify-content-end align-items-center m-4'>
@@ -1644,44 +1697,62 @@ function UserList() {
                         </div>
                         <div class="card-body">
                           <div className="row">
-                            <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+                            <div className='col-lg-5 col-md-6 col-sm-12 col-xs-12'>
                               <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Aaadhar Number</Form.Label>
+                                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Aadhaar Number</Form.Label>
                                 <FormControl
                                   id="form-controls"
                                   placeholder='987654321012'
                                   type="text"
-                                  // value={firstname}
-                                  // onChange={(e) => handleFirstName(e)}
+                                  value={aadhaarNo}
+                                  onChange={(e) => handleAdhaarChange(e)}
                                   style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                                 />
                               </Form.Group>
                             </div>
-                            <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
-                              <Form.Group className="mb-3">
-                                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>OTP</Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder='****'
-                                  // value={lastname}
-                                  // onChange={(e) => handleLastName(e)}
-                                  style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                                />
-                              </Form.Group>
-                              <span>Didn’t receive OTP? <a href="#" style={{textDecoration:"none"}}> Resend</a></span>
-                            </div>
+
+
+
+
+                            {showOtpValidation && <>
+                              <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-3">
+                                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>OTP</Form.Label>
+                                  <FormControl
+                                    type="text"
+                                    id="form-controls"
+                                    placeholder='****'
+                                    // value={lastname}
+                                    // onChange={(e) => handleLastName(e)}
+                                    style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                                  />
+                                </Form.Group>
+                                <span style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}> Didn’t receive OTP? <a href="#" style={{ textDecoration: "none", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}> Resend</a></span>
+                              </div>
+
+
+
+
+
+                            </>
+                            }
+
+                            {showValidate &&
+                              <div className="mt-2" style={{ marginBottom: 20 }}>
+                                <Button style={{ fontFamily: 'Montserrat', fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 52, letterSpacing: 1, borderRadius: 12, width: "fit-content", padding: "10px, 3px, 10px, 3px", }} onClick={() => handleValidateAadhaar(item.id)}>Validate Aadhaar</Button>
+
+                              </div>
+                            }
+                            {showOtpValidation &&
+                              <div style={{ marginBottom: 20 }}>
+                                <Button style={{ fontFamily: 'Montserrat', fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 52, letterSpacing: 1, borderRadius: 12, width: 152, padding: "10px, 3px, 10px, 3px" }} > Save Changes</Button>
+
+                              </div>}
 
                           </div>
 
 
                         </div>
-
-<div style={{marginBottom:20}}>
-<Button style={{ fontFamily: 'Montserrat', fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 52, letterSpacing: 1, borderRadius: 12, width: 152, padding: "10px, 3px, 10px, 3px", marginLeft: 20 }} > Save Changes</Button>
-
-</div>
-
                       </div>
                     </>
                   }
@@ -1695,7 +1766,7 @@ function UserList() {
                           <thead style={{ backgroundColor: "#E7F1FF" }}>
                             <tr >
 
-                              <th style={{ textAlign:"center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Floor</th>
+                              <th style={{ textAlign: "center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Floor</th>
                               <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Room no</th>
                               <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Start meter</th>
 
@@ -1721,7 +1792,7 @@ function UserList() {
                               return (
                                 <tr key={u.id} style={{ lineHeight: "20px" }}>
 
-                                  <td style={{ textAlign:"center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Floor_Id}</td>
+                                  <td style={{ textAlign: "center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Floor_Id}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Room_No}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{u.start_Meter_Reading}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.end_Meter_Reading}</td>
@@ -1748,7 +1819,7 @@ function UserList() {
                       </div>
 
                       {currentRowsEb?.length > 0 && (
-                      
+
                         <nav>
                           <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
                             <li style={{ margin: '0 5px' }}>
@@ -1880,7 +1951,7 @@ function UserList() {
                         <Table className="ebtable mt-3" responsive >
                           <thead style={{ color: "gray", fontSize: "11px", marginLeft: 10, backgroundColor: "#E7F1FF" }}>
                             <tr className="" style={{ height: "30px" }}>
-                              <th style={{ textAlign:"center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Invoice number</th>
+                              <th style={{ textAlign: "center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Invoice number</th>
                               <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Created</th>
                               <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Due Date</th>
 
@@ -1916,7 +1987,7 @@ function UserList() {
 
                               return (
                                 <tr key={view.id}>
-                                  <td style={{ textAlign:"center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{view.Invoices}</td>
+                                  <td style={{ textAlign: "center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{view.Invoices}</td>
 
                                   <td ><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                                   <td ><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{DueformattedDate}</span></td>
@@ -2075,12 +2146,12 @@ function UserList() {
                   {
                     amnitiesshow &&
                     <div className="container mt-3">
-{state.UsersList?.customerdetails?.all_amenities && state.UsersList?.customerdetails?.all_amenities.length === 0 && <>
+                      {state.UsersList?.customerdetails?.all_amenities && state.UsersList?.customerdetails?.all_amenities.length === 0 && <>
 
-  <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'Amenities' option in Settings, accessible after assign an amenities.</label>
+                        <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'Amenities' option in Settings, accessible after assign an amenities.</label>
 
 
- </>}
+                      </>}
 
                       <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                         <Form.Label style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>Amnities</Form.Label>
@@ -2227,7 +2298,7 @@ function UserList() {
                       <Table className="ebtable" responsive style={{ marginTop: 30, }}>
                         <thead style={{ backgroundColor: "#E7F1FF" }} >
                           <tr>
-                            <th scope="col" style={{ textAlign:"center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amenities</th>
+                            <th scope="col" style={{ textAlign: "center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amenities</th>
                             <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Date</th>
                             <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Subscription</th>
                             <th scope="col" style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amount</th>
@@ -2250,7 +2321,7 @@ function UserList() {
 
                             return (
                               <tr key={v.amenity_Id}>
-                                <td style={{ textAlign:"center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{v.Amnities_Name}</td>
+                                <td style={{ textAlign: "center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{v.Amnities_Name}</td>
                                 <td><span style={{ backgroundColor: "#EBEBEB", padding: "3px 3px 3px 3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>Monthly</td>
                                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{v.Amount}</td>
@@ -2413,7 +2484,7 @@ function UserList() {
                         <thead style={{ color: "gray", fontSize: "11px", backgroundColor: "#E7F1FF" }}>
                           <tr className="" style={{ height: "30px" }}>
 
-                            <th style={{  color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px",textAlign:"center" }}>Transaction ID</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px", textAlign: "center" }}>Transaction ID</th>
                             <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>category</th>
                             <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Date</th>
 
@@ -2437,7 +2508,7 @@ function UserList() {
                             return (
                               <tr key={v.id}>
 
-                                <td style={{  fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy",textAlign:"center" }}>{v.user_id}</td>
+                                <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>{v.user_id}</td>
                                 <td ><span style={{ backgroundColor: "#FFEFCF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.type}</span></td>
                                 <td><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
                                 {/* <td>₹{view.BalanceDue}</td> */}
