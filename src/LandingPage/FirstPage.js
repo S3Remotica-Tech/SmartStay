@@ -45,7 +45,7 @@ function FirstPage() {
 
 </div>
 <div className='d-flex justify-content-center ' style={{}}>
-    <label style={{fontSize:isMobile ? 40 : 80, textAlign:"center", wordSpacing:0.5}}>
+    <label style={{fontSize:isMobile ? 40 : 70, textAlign:"center", wordSpacing:0.5}}>
         <span style={{fontFamily:"Kalam", color:"rgba(30, 69, 225, 1)",fontStyle: "italic",fontWeight:500}}>Simplify </span> <span style={{fontWeight:400, fontFamily:"Gilroy"}}>your</span>  <span style={{fontFamily:"Gilroy", color:"rgba(0, 0, 0, 1)", fontWeight:600}}>Paying Guest management</span> <span style={{fontWeight:400, fontFamily:"Gilroy"}}>with</span> <span style={{color:"rgba(30, 69, 225, 1)", fontWeight:700,fontFamily:"Gilroy"}}>SmartStay</span>
     </label>
 </div>
