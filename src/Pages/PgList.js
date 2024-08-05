@@ -699,7 +699,7 @@ dispatch({ type: 'CLEAR_DELETE_FLOOR'})
 
   const [visibleRange, setVisibleRange] = useState([0, 3]);
 
-  const numberOfFloors = showHostelDetails && showHostelDetails.floorDetails.length;
+  const numberOfFloors = showHostelDetails && showHostelDetails?.floorDetails?.length;
   const floorsPerPage = 5;
 
   const handlePrev = () => {
@@ -901,7 +901,7 @@ console.log("key",key)
             </div>
 
             {
-              showHostelDetails.floorDetails.length > 0 ?
+              showHostelDetails?.floorDetails?.length > 0 ?
           
 
                 <Tab.Container activeKey={key} onSelect={(k) => setKey(k)} id="vertical-tabs-example">
