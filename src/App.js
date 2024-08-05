@@ -193,10 +193,10 @@ console.log("login",login)
    
         {data || state.login?.isLoggedIn ? (
           <>
-            <Route path="/royal" element={<RoyalGrandHostel />} />
+            <Route path="/" element={<RoyalGrandHostel />} />
             <Route path="/bed" element={<BedDetails />} />
             <Route path="/roomList" element={<DashboardRoomList />} />
-            <Route path="*" element={<Navigate to="/royal" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </>
         ) : (
           <>
