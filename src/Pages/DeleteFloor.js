@@ -80,8 +80,8 @@ if( currentItem.hostel_Id && currentItem.floor_Id){
       });
       setFilteredDataRoom(filtered);
   
-      console.log(filtered);
-    }, [currentItem.hostel_Id, currentItem.floor_Id, state.PgList.roomCount]);
+      console.log("filtered",filtered);
+    }, [currentItem.hostel_Id, currentItem.floor_Id]);
 
 console.log("state dlete floor",state)
 
