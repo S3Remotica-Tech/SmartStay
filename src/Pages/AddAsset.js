@@ -38,6 +38,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [price, setPrice] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
     const [id, setId] = useState('')
+    const [productName, setProductName] = useState('')
 
 
 
@@ -75,10 +76,13 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     }
 
-    // const handleTotalPriceChange = () => {
-    //     
 
-    // }
+
+
+
+    const handleProductNameChange = (e) => {
+        setProductName(e.target.value)
+    }
 
 
 
@@ -101,11 +105,11 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     const handleAddAsset = () => {
-        if (assetName && vendorName && brandName && serialNumber && productCount && selectedDate && price) {
+        if (assetName && vendorName && brandName && serialNumber && productCount && selectedDate && price && productName) {
 
             const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
             
-            dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: productCount, purchase_date: formattedDate, price: price, id: id } })
+            dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, product_name: productName,vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: productCount, purchase_date: formattedDate, price: price, id: id } })
 
 
             handleClose()
@@ -141,6 +145,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             setPrice(currentItem.price || '');
             setTotalPrice(currentItem.product_count * currentItem.price || '');
             setId(currentItem.id || 0)
+            setProductName(currentItem.product_name || 0)
         }
     }, [currentItem]);
 
@@ -202,12 +207,22 @@ const [formattedDate, setFormattedDate] = useState('')
 
 
                         <div className='row mt-1'>
-                            <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name</Form.Label>
                                     <Form.Control
                                         value={assetName}
                                         onChange={handleAssetNameChange}
+                                        type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                </Form.Group>
+
+                            </div>
+                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Product Name</Form.Label>
+                                    <Form.Control
+                                        value={productName}
+                                        onChange={handleProductNameChange}
                                         type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
@@ -234,7 +249,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={brandName}
                                         onChange={handleBrandNameChange}
-                                        type="text" placeholder="Enter Name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -244,7 +259,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={serialNumber}
                                         onChange={handleSerialNumberChange}
-                                        type="email" placeholder="Enter Number" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="email" placeholder="Enter number" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -255,7 +270,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={productCount}
                                         onChange={handleProductCountChange}
-                                        type="email" placeholder="Enter Count" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="email" placeholder="Enter count" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -324,7 +339,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={price}
                                         onChange={handlePriceChange}
-                                        type="text" placeholder="Enter Amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -334,7 +349,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={productCount * price}
                                         readOnly
-                                        type="text" placeholder="Enter Amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
