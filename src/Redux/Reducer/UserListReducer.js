@@ -106,7 +106,7 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_STATUS_CODES':
             return { ...state, statusCodeForAddUser: 0 }
         case 'ERROR':
-            return { ...state, errorMessage: action.payload }
+            return { ...state, errorMessage: action.payload ,roomdetails :[],bednumberdetails:[]}
         case 'HOSTEL_LIST':
             return { ...state, hostelList: action.payload.response, hosteListStatusCode: action.payload.statusCode }
         case 'CLEAR_HOSTELLIST_STATUS_CODE':

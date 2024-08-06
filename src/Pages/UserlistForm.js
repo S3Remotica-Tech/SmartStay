@@ -748,10 +748,9 @@ console.log("props.displayDetail",props.displayDetail)
     >
       <option>Selected Floor</option>
       {state.UsersList?.hosteldetailslist
-        ?.filter((item, index, array) => array.findIndex(i => i.Floor_Id === item.Floor_Id) === index)
-        .map((u) => (
-          <option key={u.Floor_Id}>
-            {u.Floor_Id}
+        ?.map((u) => (
+          <option key={u.floor_id}>
+            {u.floor_id}
           </option>
         ))}
     </Form.Select>
@@ -768,12 +767,22 @@ console.log("props.displayDetail",props.displayDetail)
       id="form-selects"
       onChange={(e) => handleRooms(e)}
     >
-      <option>Selected Room</option>
-      {state.UsersList.roomdetails && state.UsersList?.roomdetails.map((item) => (
+      {/* {
+         state.UsersList.roomdetails.length ==0 ?
+         <option>Selected Room</option>
+         : */}
+         <option>Selected Room</option>
+      {/* } */}
+      
+      {
+      state.UsersList?.roomdetails &&      
+      state.UsersList.roomdetails.map((item) => (
         <option key={item.Room_Id}>
           {item.Room_Id}
         </option>
-      ))}
+      ))
+
+      }
     </Form.Select>
   </div>
 
