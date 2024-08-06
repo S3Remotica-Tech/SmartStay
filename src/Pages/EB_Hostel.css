@@ -1,0 +1,24 @@
+.tab-path {
+    padding-left: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding-top: 20px;
+    
+  }
+  
+  
+  .tab-path.active {
+    text-decoration: underline;
+  
+    text-decoration-color: #1E45E1;
+    text-underline-offset: 15px; /* Adjust this value as needed */
+    text-decoration-thickness: 2px;
+    
+  }
+  @media (max-width:800px) {
+    .tab-path {
+        padding: 2px;
+        cursor: pointer;
+    }
+  
+  }
