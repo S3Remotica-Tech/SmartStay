@@ -10,7 +10,7 @@ const Footer = () => {
 
     return (
         <>
-             <div style={{backgroundColor:'#222222', color:'white'}}>
+             <div style={{backgroundColor:'#222222', color:'white',marginTop:'100px'}}>
             <div className="container mt-5 pb-2" >
                 <div className="d-flex row pt-3 pb-2">
                     <div className="col-lg-6 col-md-6 col-sm-10 col-xs-10">

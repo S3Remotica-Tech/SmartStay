@@ -221,9 +221,7 @@ console.log("activeLink",activeLink)
                 <Testimonials />
             </Element>
 
-            <Element name="footer">
-                <Footer />
-            </Element>
+           
             <Element name="pricing">
                 <Pricing />
             </Element>
@@ -231,7 +229,9 @@ console.log("activeLink",activeLink)
             <div>
           <GetAnswer />
             </div>
-
+            <Element name="footer">
+                <Footer />
+            </Element>
         </>
     );
 }
