@@ -307,6 +307,8 @@ function Asset() {
                   <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Asset</th>
                   <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Serial Number</th>
                   <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Brand</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Product Name</th>
+
                   <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Count</th>
                   <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Price</th>
                   <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Purchase Date</th>

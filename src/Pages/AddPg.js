@@ -116,7 +116,7 @@ function AddPg({ show, handleClose, currentItem }) {
     }
 
     if (pgName && mobile && email && location) {
-      dispatch({ type: 'PGLIST', payload: { profile: file, name: pgName, phoneNo: mobile, email_Id: email, location: location } })
+      dispatch({ type: 'PGLIST', payload: { profile: file, name: pgName, phoneNo: mobile, email_Id: email, location: location, id: currentItem.id } })
       handleClose()
       setFile('')
       setPgName('')
