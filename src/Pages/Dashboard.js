@@ -221,7 +221,7 @@ function Dashboard(props) {
 
       <div className="row carddesign">
         <div className="col-lg-4 col-md-12 col-sm-12 col-xl-3 mb-3">
-          <Card style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
+          <Card  style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
             <Card.Body>
               <div>
                 <div>
