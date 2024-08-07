@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
-import { Dropdown, Table } from 'react-bootstrap';
+import {  Table } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import Logo from '../Assets/Images/Logo-Icon.png'
 import Form from 'react-bootstrap/Form';
@@ -9,8 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import dottt from "../Assets/Images/Group 14.png";
-import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
-import CryptoJS from "crypto-js";
+import {  ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import InvoiceSettingsList from './InvoicesettingsList';
+import Modal from 'react-bootstrap/Modal';
+
+
+
+
 
 function InvoiceSettings() {
     const dispatch = useDispatch();
@@ -69,6 +74,51 @@ function InvoiceSettings() {
             setStartNumber(value);
         }
     }
+
+    const [editprefix, setEditPrefix] = useState('')
+    const [editstartnumber, setEditStartnumber] = useState('')
+    const [editHostel, setEditHostel] = useState({id : '', name :''})
+    console.log("editHostel",editHostel);
+    
+    const [show, setShow] = useState(false);
+
+
+    const handleEdit = (item) => {
+        console.log("item", item);
+        setShow(true);
+        setEditPrefix(item.prefix)
+        setEditStartnumber(item.suffix)
+        setEditHostel({ id:item.id, name: item.Name} )
+    }
+      
+    const handleClose = () => {
+        console.log("edit closed");
+        setShow(false)
+        }
+
+    const HandleupdateInvoice = () => {
+        if(editprefix&& editstartnumber && editHostel){
+            dispatch({
+                type: 'INVOICESETTINGS',
+                payload: {
+                    hostel_Id: editHostel.id,
+                    prefix: editprefix,
+                    suffix: editstartnumber
+                }
+            });
+            Swal.fire({
+                text: "Prefix, Suffix Update successfully",
+                icon: "success",
+                timer: 1000,
+            }).then(() => {
+                handleClose();
+                setEditHostel({ id: '', name: '' });
+                setEditPrefix('');
+                setEditStartnumber('');
+            });
+        }
+    }
+    
 
 
     const handleInvoiceSettings = () => {
@@ -288,23 +338,6 @@ function InvoiceSettings() {
     };
 
 
-    // const loginId = localStorage.getItem('loginId');
-
-    // useEffect(() => {
-    //   if (loginId) {
-    //     try {
-    //       const decryptedId = CryptoJS.AES.decrypt(loginId, 'abcd');
-    //       const decryptedIdString = decryptedId.toString(CryptoJS.enc.Utf8);
-    //       console.log('Decrypted Login Id:', decryptedIdString);
-    //       const parsedData = Number(decryptedIdString);
-
-    //       dispatch({ type: 'HOSTELLIST', payload:{ loginId: parsedData} })
-
-    //     } catch (error) {
-    //       console.error('Error decrypting loginId:', error);
-    //     }
-    //   }
-    // }, []);
 
 
 
@@ -441,20 +474,18 @@ function InvoiceSettings() {
                         </tr>
                     </thead>
                     <tbody style={{ height: "50px", fontSize: "11px" }}>
-                        {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((invoice) => (
-                            // (invoice.prefix && invoice.suffix) ?
-                                <tr style={{ lineHeight: "40px" }} key={invoice.id}> {/* Assuming `invoice.id` is a unique identifier */}
-                                    <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
-                                        {/* {(invoice.prefix !== null && invoice.suffix !== null) ? invoice.Name : ''} */}
-                                        {invoice.Name}
-                                    </td>
-                                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{invoice.prefix ? invoice.prefix :'-'}</td>
-                                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{invoice.suffix ? invoice.suffix : '-'}</td>
-                                    {/* {(invoice.prefix !== null && invoice.suffix !== null) && ( */}
-                                        <td><img src={dottt} style={{ height: 30, width: 30 }} /></td>
-                                    {/* // )} */}
-                                </tr>
-                                // : ''
+                        {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((item) => (
+                               
+
+                               <InvoiceSettingsList item={item} modalEditInvoice={handleEdit}/>
+                            //    <tr style={{ lineHeight: "40px" }} key={invoice.id}> 
+                            //         <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
+                            //             {invoice.Name}
+                            //         </td>
+                            //         <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{invoice.prefix ? invoice.prefix :'-'}</td>
+                            //         <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{invoice.suffix ? invoice.suffix : '-'}</td>
+                            //             <td><img src={dottt} style={{ height: 30, width: 30 }} /></td>
+                            //     </tr>
 
                         ))}  
 
@@ -585,6 +616,129 @@ function InvoiceSettings() {
             </div>
 
 
+            {show &&
+        <div
+          className="modal show"
+          style={{
+            display: 'block', position: 'initial', fontFamily: "Gilroy",
+          }}
+        >
+          <Modal
+            show={show}
+             onHide={handleClose}
+            centered>
+            <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
+             
+
+              <Modal.Body>
+   <div>
+
+              <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+              <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>Update Invoice</div>
+              <button
+          type="button"
+          className="close"
+          aria-label="Close"
+          onClick={handleClose}
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '16px',
+            border: '1px solid black',
+            background: 'transparent',
+            cursor: 'pointer',
+            padding: '0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '32px',
+            height: '32px',
+            borderRadius: '50%',
+           
+          }}
+        >
+          <span aria-hidden="true" style={{
+              fontSize: '30px',
+              paddingBottom:"6px"
+             
+            }}>&times;</span>
+        </button>
+       
+              </Modal.Header>
+              </div>
+
+                <div className='row mt-4'>
+                
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Paying Guests
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Paying Guests"
+                        value={editHostel.name}
+                        // readOnly
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Prefix
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="prefix"
+                        value={editprefix}
+                        onChange={(e) => setEditPrefix(e.target.value)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+                
+                 
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Suffix
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Suffix"
+                        value={editstartnumber}
+                        onChange={(e) => setEditStartnumber(e.target.value)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+
+              
+                </div>
+
+              </Modal.Body>
+              <Modal.Footer style={{ border: "none" }}>
+
+                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
+                 onClick={HandleupdateInvoice}
+                >
+                 Update Invoice
+                </Button>
+              </Modal.Footer>
+            </Modal.Dialog>
+          </Modal>
+        </div>
+      }
             {/* <div className='d-flex justify-content-between'>
 
                 <div>

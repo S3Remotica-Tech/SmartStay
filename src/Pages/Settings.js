@@ -33,6 +33,8 @@ import Complaintsettings from './Complaint_settings';
 import ExpencesSettings from './Expences_settings';
 import dottt from "../Assets/Images/Group 14.png"
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import EBBillingUnitlist from './EBUnitsettingsList';
+import Modal from 'react-bootstrap/Modal';
 
 
 
@@ -315,6 +317,47 @@ function Settings() {
 
   // console.log("state.createAccount.statusCodeForAccount == 200",state.createAccount.statusCodeForAccount == 200)
 
+  const [editunit, setEditUnit] = useState('')
+  const [editamount, setEditAmount] = useState('')
+  const [editHostel, setEditHostel] = useState({id : '', name :''})
+  console.log("editHostel",editHostel);
+  
+  const [show, setShow] = useState(false);
+
+
+  const handleEdit = (item) => {
+      console.log("item", item);
+      setShow(true);
+      setEditUnit(item.unit)
+      setEditAmount(item.amount)
+      setEditHostel({ id:item.hostel_id, name: item.Name} )
+  }
+    
+  const handleClose = () => {
+      console.log("edit closed");
+      setShow(false)
+      }
+
+  const handleUpdateEB = () => {
+    if (editHostel && editamount && editunit) {
+      dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: editHostel.id, unit: editunit, amount: editamount } })
+      Swal.fire({
+        icon: "success",
+        title: 'EB Billings Updated successfully',
+        confirmButtonText: "ok"
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+        dispatch({ type: 'EB-BILLING-UNIT-LIST' })
+
+      });
+      handleClose();
+      setEditHostel({id : '', name :''})
+      setEditUnit('');
+      setEditAmount('')
+    }
+  }
+
 
   useEffect(() => {
     if (state.createAccount.statusCodeForAccount == 200) {
@@ -335,7 +378,7 @@ function Settings() {
   console.log("state for settings", state)
 
 
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState('1'); 
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
@@ -644,13 +687,15 @@ function Settings() {
                 </thead>
                 <tbody style={{ height: "50px", fontSize: "11px" }}>
 
-                  {data && data.length > 0 && data.map((eb) => (
-                    <tr style={{ lineHeight: "40px" }}>
-                      <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.Name}</td>
-                      <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.unit} KW </td>
-                      <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹ {eb.amount}</td>
-                      <td> <img src={dottt} alt='dot image' style={{ height: 30, width: 30 }} /></td>
-                    </tr>
+                  {data && data.length > 0 && data.map((item) => (
+                    <EBBillingUnitlist item={item} modalEditEbunit={handleEdit}/>
+                    // <tr style={{ lineHeight: "40px" }}>
+                    //   <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.Name}</td>
+                    //   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.unit} KW </td>
+                    //   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹ {eb.amount}</td>
+                    //   <td> <img src={dottt} alt='dot image' style={{ height: 30, width: 30 }} /></td>
+                    // </tr>
+
                   ))}
                   { currentRows.length === 0 && (
                               <tr>
@@ -774,6 +819,129 @@ function Settings() {
               )}
 
             </div>
+
+            {show &&
+        <div
+          className="modal show"
+          style={{
+            display: 'block', position: 'initial', fontFamily: "Gilroy",
+          }}
+        >
+          <Modal
+            show={show}
+             onHide={handleClose}
+            centered>
+            <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
+             
+              <Modal.Body>
+   <div>
+
+              <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+              <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>Update EB</div>
+              <button
+          type="button"
+          className="close"
+          aria-label="Close"
+          onClick={handleClose}
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '16px',
+            border: '1px solid black',
+            background: 'transparent',
+            cursor: 'pointer',
+            padding: '0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '32px',
+            height: '32px',
+            borderRadius: '50%',
+           
+          }}
+        >
+          <span aria-hidden="true" style={{
+              fontSize: '30px',
+              paddingBottom:"6px"
+             
+            }}>&times;</span>
+        </button>
+       
+              </Modal.Header>
+              </div>
+
+                <div className='row mt-4'>
+                
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Paying Guests
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Paying Guests"
+                        value={editHostel.name}
+                        // readOnly
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Unit
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="unit"
+                        value={editunit}
+                        onChange={(e) => setEditUnit(e.target.value)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+                
+                 
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Amount
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Amount"
+                        value={editamount}
+                        onChange={(e) => setEditAmount(e.target.value)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+
+              
+                </div>
+
+              </Modal.Body>
+              <Modal.Footer style={{ border: "none" }}>
+
+                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
+                 onClick={handleUpdateEB}
+                >
+                 Update EB
+                </Button>
+              </Modal.Footer>
+            </Modal.Dialog>
+          </Modal>
+        </div>
+      }
           </div>
         </TabPanel>
         <TabPanel value="3"><InvoiceSettings /> </TabPanel>
