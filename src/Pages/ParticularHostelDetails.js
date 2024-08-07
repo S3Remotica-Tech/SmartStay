@@ -20,6 +20,7 @@ import { FormControl, InputGroup, Pagination ,Dropdown} from 'react-bootstrap';
 import Edit from '../Assets/Images/New_images/edit.png';
 import DeleteRoom from './DeleteRoom';
 import DeleteBed from './DeleteBed';
+import OccupiedCustomer from './OccupiedCustomer'
 
 
 
@@ -292,6 +293,14 @@ const handleCloseDeleteBed = () =>{
   setShowDeleteBed(false)
 }
 
+const [occupiedCustomer, setOccupiedCustomer] = useState(false)
+const [OccupiedCustomerDetails, setOccupiedCustomerDetails]= useState({bed:null, room:null})
+
+
+
+const handleCloseOccupiedCustomer = () => {
+  setOccupiedCustomer(false)
+}
 
 
 const handleDeleteBedConfirmation = (bed, room) =>{
@@ -299,7 +308,8 @@ const handleDeleteBedConfirmation = (bed, room) =>{
     setShowDeleteBed(true)
     setDeleteBedDetails({bed , room})
   }else{
-
+    setOccupiedCustomer(true)
+    setOccupiedCustomerDetails({bed:bed, room:room})
   }
 
 }
@@ -458,6 +468,9 @@ setTimeout(()=>{
 
 {
   showDeleteBed && <DeleteBed  show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
+}
+{
+  occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails}/>
 }
 
     </div>

@@ -106,7 +106,12 @@ const handleClose = () => {
     <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.serial_number}</td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center", width: "fit-content",fontFamily: "Gilroy" }}>{props.item.brand_name}</div>
+        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500,width:120,  padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.brand_name}</div>
+      </div>
+    </td>
+    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: 120, padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center",fontFamily: "Gilroy" }}>{props.item.product_name}</div>
       </div>
     </td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>{props.item.product_count}</td>
