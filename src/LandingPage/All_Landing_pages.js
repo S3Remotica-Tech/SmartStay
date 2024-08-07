@@ -87,7 +87,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from '../Assets/Images/New_images/Group.png';
 import Smart from '../Assets/Images/New_images/logo_front.png';
 import { Link, Element, animateScroll as scroll } from 'react-scroll';
@@ -96,6 +96,10 @@ import KeyFeature from './KeyFeature';
 import WhySmartstay from './WhySmartstay';
 import Testimonials from './Testimonials';
 import Footer from './Footer';
+import Pricing from './Pricing';
+import GetAnswer from './GetAnswer';
+
+
 
 function All_landing_pages() {
 
@@ -115,6 +119,21 @@ function All_landing_pages() {
         navigate('/create-account');
     };
 
+
+    const [activeLink, setActiveLink] = useState('');
+
+
+console.log("activeLink",activeLink)
+
+
+    const linkStyle = (isActive) => ({
+        cursor: "pointer",
+        fontSize: 16,
+        fontWeight: isActive ? 700 : 600,
+        color: isActive ? "rgba(30, 69, 225, 1)" : "rgba(0, 0, 0, 1)",
+        fontFamily: "Montserrat"
+    });
+
     return (
         <>
             <div>
@@ -125,46 +144,58 @@ function All_landing_pages() {
                         <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="mx-auto">
                                 <Nav.Link
-                                    style={{cursor:"pointer", fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
+                                    // style={{cursor:"pointer", fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
                                     as={Link}
+                                    style={linkStyle(activeLink === 'firstPage')}
+                                    onSetActive={() => setActiveLink('firstPage')}
                                     to="firstPage"
                                     spy={true}
                                     smooth={true}
                                     offset={-70}
                                     duration={500}
+                                     activeClass="active-link"
                                 >
                                     Home
                                 </Nav.Link>
                                 <Nav.Link
-                                    style={{ cursor:"pointer",fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
+                                    // style={{ cursor:"pointer",fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
                                     as={Link}
                                     to="keyFeature"
                                     spy={true}
                                     smooth={true}
                                     offset={-70}
                                     duration={500}
+                                     activeClass="active-link"
+                                     style={linkStyle(activeLink === 'keyFeature')}
+                                     onSetActive={() => setActiveLink('keyFeature')}
                                 >
                                     Features
                                 </Nav.Link>
                                 <Nav.Link
-                                    style={{ cursor:"pointer",fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
+                                    // style={{ cursor:"pointer",fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
                                     as={Link}
                                     to="pricing"
                                     spy={true}
                                     smooth={true}
                                     offset={-70}
                                     duration={500}
+                                     activeClass="active-link"
+                                     style={linkStyle(activeLink === 'pricing')}
+                                     onSetActive={() => setActiveLink('pricing')}
                                 >
                                     Pricing
                                 </Nav.Link>
                                 <Nav.Link
-                                    style={{cursor:"pointer", fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
+                                    // style={{cursor:"pointer", fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }}
                                     as={Link}
                                     to="testimonials"
                                     spy={true}
                                     smooth={true}
                                     offset={-70}
                                     duration={500}
+                                     activeClass="active-link"
+                                     style={linkStyle(activeLink === 'testimonials')}
+                                     onSetActive={() => setActiveLink('testimonials')}
                                 >
                                     Testimonials
                                 </Nav.Link>
@@ -189,9 +220,18 @@ function All_landing_pages() {
             <Element name="testimonials">
                 <Testimonials />
             </Element>
+
             <Element name="footer">
                 <Footer />
             </Element>
+            <Element name="pricing">
+                <Pricing />
+            </Element>
+
+            <div>
+          <GetAnswer />
+            </div>
+
         </>
     );
 }
