@@ -23,18 +23,18 @@ const [showAddCustomer, setShowAddCustomer] = useState(false)
 
 const {bed, room } = deleteBedDetails
 
+
+
+
 console.log("showAddCustomer",showAddCustomer)
 
 const handleAddCustomer = () => {
- 
-  handleClose();
-
-  
-  setTimeout(() => {
     setShowAddCustomer(true);
-  }, 300); 
-   
-  };
+
+      };
+
+
+
 
 const handleCloseAddCustomer = () =>{
   setShowAddCustomer(false)
@@ -54,10 +54,14 @@ const handleDeleteBed = () =>{
   
   }
 
+
+
+
+
+
   const handleShow = (type) => {
     setActionType(type);
-   
-  };
+    };
 
   
 
@@ -103,7 +107,7 @@ const handleDeleteBed = () =>{
     </Modal.Footer>
   </Modal>
   {
-    showAddCustomer && <AddCustomer show={showAddCustomer} handleClosed={handleCloseAddCustomer} currentItem={deleteBedDetails} />
+    showAddCustomer && <AddCustomer show={showAddCustomer} handleClosing={handleCloseAddCustomer} currentItem={deleteBedDetails} />
   }
   </div>
   )

@@ -92,7 +92,7 @@ function AddBed({ show, handleClose, currentItem }) {
                                     <label style={{ fontSize: 14, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Occupied by</label>
                                     <div className='d-flex  pt-3'>
                                         <div>
-                                            <Image src={custom.profile} roundedCircle style={{ height: 48, width: 48 }} />
+                                            <Image  src={custom.profile && custom.profile !== "0" ? custom.profile : Profile2} roundedCircle style={{ height: 48, width: 48 }} />
                                         </div>
                                         <div className='d-flex flex-column justify-content-between flex-wrap w-100 ps-2 '>
 
