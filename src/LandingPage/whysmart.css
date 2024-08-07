@@ -33,3 +33,16 @@
     -webkit-transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
+button:focus:not(:focus-visible) {
+  outline: unset !important;
+}
+.accordion-button:not(.collapsed) {
+  color: unset !important; 
+   background-color: unset !important;
+  box-shadow: unset !important;
+}
+.accordion-button:focus {
+  z-index: 3;
+  outline: 0;
+  box-shadow: unset !important;
+}

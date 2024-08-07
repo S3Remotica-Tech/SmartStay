@@ -51,7 +51,7 @@ const MyCarousel = () => {
     </div>
 
 
-<div className='row'>
+<div className='row mb-5' >
 <div className='col-lg-10 offset-lg-1  col-sm-10 col-xs-10 custom-owl-carousel'>
     <OwlCarousel className="owl-carousel" options={options} style={{position:"relative",backgroundColor:"rgba(231, 241, 255, 1)", paddingTop:40, borderRadius:32}}>
       {images.map((image, index) => (
