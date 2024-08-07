@@ -1,0 +1,57 @@
+.custom-owl-carousel .owl-nav .owl-prev,
+.custom-owl-carousel  .owl-nav  .owl-next {
+  font-size: 1rem;
+  width: 60px;
+  height: 60px;
+    background-color:rgba(255, 255, 255, 1);
+  display: flex !important;
+  justify-content: space-around !important;
+  align-items: center;
+  color: rgb(38, 204, 8) !important;
+  border: none;
+  border-radius: 50px; 
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+ 
+}
+
+.custom-owl-carousel   .owl-nav  .owl-prev {
+  left: 50px !important;
+  
+  
+}
+
+.custom-owl-carousel  .owl-nav  .owl-next {
+  right: 50px !important;
+  }
+
+
+
+
+
+
+.owl-prev-icon,
+.owl-next-icon {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 100px !important;
+  width: 100px !important;
+ 
+}
+
+.owl-prev-icon {
+  background-image: url('../Assets/Images/arrow.png');
+height:100px;
+width:30px !important;
+
+  }
+
+.owl-next-icon {
+    background-image: url('../Assets/Images/right-arrow.png');
+    height:100px;
+    width:30px !important;
+}
+
+

@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import Nav from 'react-bootstrap/Nav';
+import AddCustomer from './AddCustomerPG';
 
 
 
@@ -18,14 +19,26 @@ console.log("state ",state)
 console.log("deleteBedDetails",deleteBedDetails)
 
 const [actionType, setActionType] = useState('addCustomer');
+const [showAddCustomer, setShowAddCustomer] = useState(false)
 
 const {bed, room } = deleteBedDetails
 
+console.log("showAddCustomer",showAddCustomer)
+
 const handleAddCustomer = () => {
+ 
+  handleClose();
+
+  
+  setTimeout(() => {
+    setShowAddCustomer(true);
+  }, 300); 
    
   };
 
-
+const handleCloseAddCustomer = () =>{
+  setShowAddCustomer(false)
+}
 
 const handleDeleteBed = () =>{
    
@@ -89,7 +102,9 @@ const handleDeleteBed = () =>{
 
     </Modal.Footer>
   </Modal>
-  
+  {
+    showAddCustomer && <AddCustomer show={showAddCustomer} handleClosed={handleCloseAddCustomer} currentItem={deleteBedDetails} />
+  }
   </div>
   )
 }
