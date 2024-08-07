@@ -95,6 +95,7 @@ import FirstPage from './FirstPage';
 import KeyFeature from './KeyFeature';
 import WhySmartstay from './WhySmartstay';
 import Testimonials from './Testimonials';
+import Footer from './Footer';
 
 function All_landing_pages() {
 
@@ -187,6 +188,9 @@ function All_landing_pages() {
             </Element>
             <Element name="testimonials">
                 <Testimonials />
+            </Element>
+            <Element name="footer">
+                <Footer />
             </Element>
         </>
     );
