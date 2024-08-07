@@ -35,6 +35,7 @@ import dottt from "../Assets/Images/Group 14.png"
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import EBBillingUnitlist from './EBUnitsettingsList';
 import Modal from 'react-bootstrap/Modal';
+import UserSettings from './UserSettings';
 
 
 
@@ -548,6 +549,8 @@ function Settings() {
               <Tab label="Expences" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Complaint type" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Amenities" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Users" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+
             </TabList>
           </Box>
         </div>
@@ -689,12 +692,7 @@ function Settings() {
 
                   {data && data.length > 0 && data.map((item) => (
                     <EBBillingUnitlist item={item} modalEditEbunit={handleEdit}/>
-                    // <tr style={{ lineHeight: "40px" }}>
-                    //   <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.Name}</td>
-                    //   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{eb.unit} KW </td>
-                    //   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹ {eb.amount}</td>
-                    //   <td> <img src={dottt} alt='dot image' style={{ height: 30, width: 30 }} /></td>
-                    // </tr>
+             
 
                   ))}
                   { currentRows.length === 0 && (
@@ -725,19 +723,9 @@ function Settings() {
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
                       >
-                        {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
                         <ArrowLeft2 size="16" color="#1E45E1" />
                       </button>
-                      {/* <span
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  style={{
-                    marginTop: '20px',
-                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                    color: currentPage === 1 ? '#ccc' : '#007bff'
-                  }}
-                >
-                  Previous
-                </span> */}
+            
                     </li>
                     {currentPage > 3 && (
                       <li style={{ margin: '0 5px' }}>
@@ -784,16 +772,7 @@ function Settings() {
                       </li>
                     )}
                     <li style={{ margin: '0 5px' }}>
-                      {/* <span
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  style={{
-                    marginTop: '20px',
-                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                    color: currentPage === totalPages ? '#ccc' : '#007bff'
-                  }}
-                >
-                  Next
-                </span> */}
+             
                       <button
                         style={{
                           padding: '5px 10px',
@@ -948,6 +927,7 @@ function Settings() {
         <TabPanel value="4"><ExpencesSettings /> </TabPanel>
         <TabPanel value="5"><Complaintsettings /> </TabPanel>
         <TabPanel value="6"><Amenities /> </TabPanel>
+        <TabPanel value="7"><UserSettings /> </TabPanel>
       </TabContext>
 
       {/* <div className='mt-0 ' style={{}}>

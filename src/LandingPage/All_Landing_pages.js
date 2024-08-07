@@ -95,6 +95,7 @@ import FirstPage from './FirstPage';
 import KeyFeature from './KeyFeature';
 import WhySmartstay from './WhySmartstay';
 import Testimonials from './Testimonials';
+import Footer from './Footer';
 import Pricing from './Pricing';
 import GetAnswer from './GetAnswer';
 
@@ -219,6 +220,10 @@ console.log("activeLink",activeLink)
             <Element name="testimonials">
                 <Testimonials />
             </Element>
+
+            <Element name="footer">
+                <Footer />
+            </Element>
             <Element name="pricing">
                 <Pricing />
             </Element>
@@ -226,6 +231,7 @@ console.log("activeLink",activeLink)
             <div>
           <GetAnswer />
             </div>
+
         </>
     );
 }
