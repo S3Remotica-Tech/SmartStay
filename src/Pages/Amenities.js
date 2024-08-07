@@ -104,7 +104,9 @@ function Amenities() {
   }
 
 
-
+  const handleChange = (e) => {
+    setStatus(e.target.value);
+  };
 
 
   // const handleAmenitiesSetting = () => {
@@ -181,7 +183,19 @@ function Amenities() {
     // }
     //  else {
     // }
-    if (amenitiesName && amount && selectedhostel) {
+
+    if (id) {
+          dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: edithostelId } });
+          handleClose()
+          setSelecteDHostel('')
+          setAmenitiesName('');
+          setAmount('');
+          // setAsDefault('')
+          setActive('');
+
+        }
+
+   else if (amenitiesName && amount && selectedhostel) {
       dispatch({ type: 'AMENITIESSETTINGS', payload: { amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedhostel } });
 
       setSelecteDHostel('')
@@ -206,28 +220,49 @@ function Amenities() {
   }
 
 
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => {
+    // setEdit(false)
+    setShow(true);
+  }
 
 
+  const [edithostelId , setEdithostelId] = useState()
 
-  // const handleEdit = (item) => {
-  //     setShowModal(true)
-  //     setEdit('EDIT')
-  //     setID(item.Amnities_Id)
-  //     setAmenitiesName(item.Amnities_Name)
-  //     setAmount(item.Amount)
-  //     setActive(item.setAsDefault)
-  //     setStatus(item.Status)
-  //     setSelectedHostel({
-  //         id: item.Hostel_Id,
+  const handleEdit = (item) => {
+    console.log("item", item);
+      setShow(true);
 
-  //     });
-  // }
+
+      setEdit('EDIT')
+      setID(item.Amnities_Id)
+      setEdithostelId(item.Hostel_Id)
+      setSelecteDHostel(item.Name)
+      setAmenitiesName(item.Amnities_Name)
+      setAmount(item.Amount)
+      setActive(item.setAsDefault)
+      setStatus(item.Status)
+   
+  }
+
+  
+
+  const handleClose = () => {
+  console.log("edit closed");
+  setShow(false)
+  setSelecteDHostel('')
+  setAmenitiesName('');
+  setAmount('');
+  // setAsDefault('')
+  setActive('');
+  setStatus('')
+  }
 
 
   useEffect(() => {
     if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode == 200) {
       dispatch({ type: 'AMENITIESLIST' })
-      // setData(state.InvoiceList.AmenitiesList)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
       }, 1000)
@@ -415,23 +450,8 @@ function Amenities() {
             </thead>
             <tbody style={{ height: "50px", fontSize: "11px" }}>
 
-              {state.InvoiceList.AmenitiesList.length > 0 && state.InvoiceList.AmenitiesList.map((amenity) => (
-                <tr style={{ lineHeight: "40px" }}>
-                  <td className='ps-1 ps-lg-5' style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{amenity.Name}</td>
-                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>{amenity.Amnities_Name}</td>
-                  <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>₹ {amenity.Amount}</td>
-                  {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{amenity.Status == 1 ? "Active" : "Inactive"}</td> */}
-                  <td style={{
-                    // paddingTop: 20,
-                    fontSize: "16px",
-                    color: amenity.Status == 1 ? "green" : "red",
-                    fontWeight: 500
-                  }}>
-                    {amenity.Status == 1 ? <span style={{ backgroundColor: '#D9FFD9', padding: '8px 12px', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy' }}>Active</span> : <span
-                      // onClick={() => handleShow(props.item)}
-                      style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', padding: '8px 12px', color: '#000', borderRadius: '14px' }}>Inactive</span>}</td>
-                  <td> <img src={dottt} style={{ height: 30, width: 30 }} /></td>
-                </tr>
+              {state.InvoiceList.AmenitiesList.length > 0 && state.InvoiceList.AmenitiesList.map((item) => (
+                <AmenitiesView item={item} modalEditAmenities={handleEdit}/>
               )
               )}
               {currentRows.length === 0 && (
@@ -563,6 +583,175 @@ function Amenities() {
       </div>
 
 
+      {show &&
+        <div
+          className="modal show"
+          style={{
+            display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
+          }}
+        >
+          <Modal
+            show={show}
+             onHide={handleClose}
+            centered>
+            <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
+             
+
+              <Modal.Body>
+   <div>
+
+              <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+              <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>Update Amenities</div>
+              <button
+          type="button"
+          className="close"
+          aria-label="Close"
+          onClick={handleClose}
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '16px',
+            border: '1px solid black',
+            background: 'transparent',
+            cursor: 'pointer',
+            padding: '0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '32px',
+            height: '32px',
+            borderRadius: '50%',
+           
+          }}
+        >
+          <span aria-hidden="true" style={{
+              fontSize: '30px',
+              paddingBottom:"6px"
+             
+            }}>&times;</span>
+        </button>
+       
+                {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+              </Modal.Header>
+              </div>
+
+                <div className='row mt-4'>
+                
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Paying Guests
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Paying Guests"
+                        value={selectedhostel}
+                        readOnly
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Amenitiy Name
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Beds"
+                        value={amenitiesName}
+                        onChange={handleAmenitiesChange}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+                
+                 
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Amount
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Rooms"
+                        value={amount}
+                        onChange={(e) => handleAmountChange(e)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+
+
+                
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+      <Form.Label
+        style={{
+          fontSize: 14,
+          color: "#222",
+          fontFamily: "'Gilroy'",
+          fontWeight: 500,
+          fontStyle: 'normal',
+          lineHeight: 'normal'
+        }}
+      >
+        Status
+      </Form.Label>
+
+      <Form.Select
+        aria-label="Default select example"
+        className="border"
+        value={status}
+        onChange={handleChange}
+        style={{
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          lineHeight: '18.83px',
+          fontWeight: 500,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 50,
+          borderRadius: 8
+        }}
+      >
+        <option style={{ fontSize: 14, fontWeight: 600 }} value={1}>Active</option>
+        <option value={0}>Inactive</option>
+      </Form.Select>
+    </Form.Group>
+                  </div>
+
+
+
+                  <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Set as default</Form.Label>
+                    <Form.Check type="switch" id="custom-switch" checked={active} onChange={(e) => handleSetAsDefault(e)} />
+                  </div>
+                </div>
+
+              </Modal.Body>
+              <Modal.Footer style={{ border: "none" }}>
+
+                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
+                 onClick={handleAmenitiesSetting}
+                >
+                 Update Ameniteies
+                </Button>
+              </Modal.Footer>
+            </Modal.Dialog>
+          </Modal>
+        </div>
+      }
 
 
       {/* <div className='container'>
