@@ -26,7 +26,7 @@ function App() {
   const dispatch = useDispatch()
   const state = useSelector(state => state)
   const [data, setData] = useState('');
-
+  const [loading, setLoading] = useState(true);
 
   const loginId = localStorage.getItem("loginId")
 
@@ -72,52 +72,100 @@ function App() {
 
 
   useEffect(() => {
-    let parseData;
+    let parseData = null;
     try {
-        const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable
-        console.log("is_Enable", is_Enable)
-        if(login){
+      const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable;
+      if (login) {
         const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         parseData = JSON.parse(decryptedString);
-        console.log("parseData", parseData)
-        // setIsLoading(false)
-        }
-        if (is_Enable == 1 || parseData == false) {
-          setData(false);
-          console.log("execute data true case enable is 1")
-        } else {
-          setData(true);
-          console.log("execute data true case enable is 0")
-        }
-       }
-    catch (error) {
-      console.error("Error parsing decrypted data:", error);
-    }
-        
-  }, [login]);
-
-
-  useEffect(() => {
-    if (!state.login?.isLoggedIn && login){
-      let parseData;
-      setTimeout(()=>{
-      const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
-      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-       parseData = JSON.parse(decryptedString);
-      console.log("parseData", parseData)
-      },2000)
-   
-      if (parseData == false) {
-        setData(false);
       }
+      if (is_Enable === 1 || parseData === false) {
+        setData(false);
+      } else {
+        setData(true);
+      }
+    } catch (error) {
+      console.error("Error parsing decrypted data:", error);
+    } finally {
+      setLoading(false);
     }
-  }, [state.login?.isLoggedIn])
+  }, [login, state.createAccount]);
+  
+
+
+  // useEffect(() => {
+  //   let parseData;
+  //   try {
+  //       const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable
+  //       console.log("is_Enable", is_Enable)
+  //       if(login){
+  //       const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
+  //       const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+  //       parseData = JSON.parse(decryptedString);
+  //       console.log("parseData", parseData)
+  //       // setIsLoading(false)
+  //       }
+  //       if (is_Enable == 1 || parseData == false) {
+  //         setData(false);
+  //         console.log("execute data true case enable is 1")
+  //       } else {
+  //         setData(true);
+  //         console.log("execute data true case enable is 0")
+  //       }
+  //      }
+  //   catch (error) {
+  //     console.error("Error parsing decrypted data:", error);
+  //   }
+        
+  // }, [login]);
+
+
+  // useEffect(() => {
+  //   if (!state.login?.isLoggedIn && login){
+  //     let parseData;
+  //     setTimeout(()=>{
+  //     const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
+  //     const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+  //      parseData = JSON.parse(decryptedString);
+  //     console.log("parseData", parseData)
+  //     if (parseData == false) {
+  //       setData(false);
+  //     }
+  //     },2000)
+   
+     
+  //   }
+  // }, [state.login?.isLoggedIn])
 
 
 console.log("state.login?.isLoggedIn",state)
 
 console.log("login",login)
+
+
+
+useEffect(() => {
+  if (!state.login?.isLoggedIn && login) {
+    let parseData = null;
+    setTimeout(() => {
+      const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
+      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+      parseData = JSON.parse(decryptedString);
+      if (parseData === false) {
+        setData(false);
+      }
+      setLoading(false);
+    }, 2000);
+  } else {
+    setLoading(false);
+  }
+}, [state.login?.isLoggedIn, login]);
+
+if (loading) {
+  return <div >Loading ......</div>; // Display loading component while processing
+}
+
 
 
   //  useEffect(() => {
