@@ -303,7 +303,7 @@ const InvoicePage = () => {
   }, [state.login.UpdateNotificationMessage])
 
   useEffect(() => {
-     dispatch({ type: 'INVOICELIST' })
+    //  dispatch({ type: 'INVOICELIST' })
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
       console.log("invoice added executed");
       
