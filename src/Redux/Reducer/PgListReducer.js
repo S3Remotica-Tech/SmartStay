@@ -36,6 +36,7 @@ const initialState = {
     alreadyBedAvailable: 0,
     statusCodeForDeleteRoom: 0,
     statusCodeDeleteBed: 0,
+    AddEBstatusCode: 0,
 }
 const PgListReducer = (state = initialState, action) => {
     console.log("action.payload", action.payload);
@@ -65,10 +66,13 @@ const PgListReducer = (state = initialState, action) => {
         case 'CHECK_EB':
             return { ...state, checkEBList: action.payload }
         case 'CREATE_EB':
-            return { ...state, createEBList: action.payload }
+            return { ...state, createEBList: action.payload.response, AddEBstatusCode: action.payload.statusCode }
+        case 'CLEAR_EB':
+            return { ...state, AddEBstatusCode: 0 }
         case 'EB_LIST':
             return { ...state, EB_Customerlist: action.payload }
         case 'EB_STARTMETER_LIST':
+            console.log("EB_STARTMETER_LIST", action.payload)
             return { ...state, EB_startmeterlist: action.payload }
         case 'ERROR':
             if (state.roomCount.length > 0) {

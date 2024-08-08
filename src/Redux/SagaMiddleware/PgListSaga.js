@@ -76,6 +76,7 @@ function* handleCheckEblist() {
 function* handleCheckEbStartmeterlist() {
    const response = yield call(EB_startmeterlist);
    if (response.status === 200) {
+      console.log("....responsePG",response)
       yield put({ type: 'EB_STARTMETER_LIST', payload: response.data.data })
    }
    else {
@@ -105,7 +106,7 @@ function* handleCreateEB(action) {
    const response = yield call(CreateEbbill, action.payload);
 
    if (response.status === 200) {
-      yield put({ type: 'CREATE_EB', payload: response.data })
+      yield put({ type: 'CREATE_EB', payload: { response: response.data, statusCode: response.status } })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
