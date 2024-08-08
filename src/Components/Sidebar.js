@@ -451,11 +451,11 @@ setCurrentPage('compliance')
     />
   </InputGroup>
 </div>
-<div className="mr-3" onClick={handleShowpopup}>
+<div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
   <img src={Notify} alt="notification" />
 </div>
 
-<div className="mr-3">
+<div className="mr-3" style={{cursor:"pointer"}}>
   <Image src={profile && profile != 0 ? profile : Profileimage} roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
 </div>
 </div>

@@ -16,8 +16,13 @@ console.log("response PG",response)
       });
 
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+   else if(response.statusCode === 201){
+      Swal.fire({
+         icon: 'warning',
+         title: response.data.message,
+         timer: 1000
+              });
+      // yield put({ type: 'ERROR', payload: response.data.message })
    }
    if(response){
       refreshToken(response)

@@ -54,8 +54,9 @@ import squre from '../Assets/Images/New_images/minus-square.png';
 import leftArrow from '../Assets/Images/New_images/left-arrow.png';
 import rightarrow from '../Assets/Images/New_images/right-arrow.png'
 import Money from '../Assets/Images/New_images/Money.png';
-import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 ,MoreCircle} from 'iconsax-react';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 function UserList() {
   const state = useSelector(state => state)
@@ -1392,7 +1393,13 @@ const [kycOtpValue, setKycOtpValue] = useState('')
                         {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
                       </td>
                       <td style={{ padding: "10px", border: "none" }}>
-                        <img src={dottt} style={{ height: 40, width: 40 }} />
+                      {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/> */}
+                      
+                      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex:  1000 }} >
+                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                            </div>
+                      
+                        {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
                       </td>
                     </tr>
 
@@ -1556,7 +1563,7 @@ const [kycOtpValue, setKycOtpValue] = useState('')
 
                   <div style={{ marginLeft: 25, paddingBottom: 20 }}>
                     <img src={leftarrow}
-                      onClick={handleBack} /><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15, fontFamily: "Gilroy" }}>User Profile</span> </div>
+                      onClick={handleBack} style={{cursor:"pointer"}}/><span style={{ fontWeight: 600, fontSize: "20px", marginLeft: 15, fontFamily: "Gilroy" }}>User Profile</span> </div>
                   <div className="card" style={{ height: 130, borderRadius: "20px" }}>
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <div className="d-flex align-items-center">
@@ -1585,7 +1592,10 @@ const [kycOtpValue, setKycOtpValue] = useState('')
                           </p>
                         </div>
                       </div>
-                      <img src={dottt} width={40} height={40} alt="More options" style={{ marginBottom: "30px" }} />
+                      <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex:  1000 }} >
+                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                            </div>
+                      {/* <img src={dottt} width={40} height={40} alt="More options" style={{ marginBottom: "30px",cursor:"pointer" }} /> */}
                     </div>
                   </div>
 
@@ -1610,8 +1620,11 @@ const [kycOtpValue, setKycOtpValue] = useState('')
                               <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
                                 Basic Information
                               </div>
-                              <div>
-                                <img src={dottt} height={32} width={32} alt="More Options" onClick={() => { handleShow(item) }} />
+                              <div style={{cursor:"pointer"}}>
+                              <div onClick={() => { handleShow(item) }} style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex:  1000 }} >
+                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                            </div>
+                                {/* <img src={dottt} height={32} width={32} alt="More Options"  /> */}
                               </div>
                             </div>
                             <div class="card-body">
@@ -1677,8 +1690,11 @@ const [kycOtpValue, setKycOtpValue] = useState('')
                                     <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       Detailed Information
                                     </div>
-                                    <div>
-                                      <img src={dottt} width={32} height={32} alt="More Options" />
+                                    <div style={{cursor:"pointer"}}>
+                                    <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex:  1000 }} >
+                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                            </div>
+                                      {/* <img src={dottt} width={32} height={32} alt="More Options" /> */}
                                     </div>
                                   </div>
                                   <div class="card-body">
@@ -1830,8 +1846,12 @@ const [kycOtpValue, setKycOtpValue] = useState('')
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td>
                                   <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.pay_eb_amount}</td>
-                                  <td >
-                                    <img src={dottt} style={{ height: 40, width: 40 }} /></td>
+                                  <td  style={{cursor:"pointer"}}>
+                                  <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex:  1000 }} >
+                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                            </div>
+                                    {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+                                    </td>
 
                                 </tr>
                               )
@@ -2032,7 +2052,11 @@ const [kycOtpValue, setKycOtpValue] = useState('')
                                     borderRadius: "10px"
                                   }}>{view.Status === 'Success' ? 'Paid' : 'UnPaid'}</span></td>
                                   {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}
-                                  <td> <img src={dottt} style={{ height: 40, width: 40 }} /></td>
+                                  <td>  <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex:  1000 }} >
+                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                            </div>
+                                    {/* <img src={dottt} style={{ height: 40, width: 40, cursor:"pointer" }} /> */}
+                                    </td>
 
                                 </tr>
 
@@ -2366,7 +2390,11 @@ const [kycOtpValue, setKycOtpValue] = useState('')
                                   </span>
                                 </td>
                                 <td>
-                                  <img src={dottt} style={{ height: 40, width: 40 }} onClick={() => handleEdit(v)} alt="edit" />
+                                <div onClick={() => handleEdit(v)} style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex:  1000 }} >
+                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                            </div>
+
+                                  {/* <img src={dottt} style={{ height: 40, width: 40,cursor:"pointer" }}  alt="edit" /> */}
                                 </td>
                               </tr>
                             );
@@ -2544,7 +2572,12 @@ const [kycOtpValue, setKycOtpValue] = useState('')
                                 {/* <td>₹{view.BalanceDue}</td> */}
                                 <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>₹{v.amount}</td>
                                 <td><span style={{ backgroundColor: "#D9E9FF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.payment_type}</span></td>
-                                <td> <img src={dottt} style={{ height: 40, width: 40 }} /></td>
+                                <td> 
+                                <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex:  1000 }} >
+                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                            </div>
+                                  {/* <img src={dottt} style={{ height: 40, width: 40,cursor:"pointer"}} /> */}
+                                  </td>
 
 
                               </tr>

@@ -306,10 +306,28 @@ const handleBed = (e) => {
     props.setShowMenu(false);
     props.setUserClicked(false);
     props.setShowForm(false);
-    props.OnShowTable(true)
+    props.OnShowTable(true);
+    // props.setShowMenu(true)
+if(props.edit === 'Edit'){
+  props.setUserList(false);
+  props.setRoomDetail(true)
+}else{
+  props.setUserList(true);
+      props.setRoomDetail(false)
+}
 
-
+      
   };
+
+
+  const [reports, setReports] = useState([
+
+    {id:1, CustomerName:"mathu", contactPerson:"Chitra", Email:"abc@gmail.com", Mobile:1234587685, Address:"North strret chennai, Gst:GST501", openingBalance:2500},
+        {id:2, CustomerName:"Jasvika", contactPerson:"Chitra", Email:"abc@gmail.com", Mobile:1234587685, Address:"North strret chennai, Gst:GST501", openingBalance:2500},
+
+    ])
+console.log("props#########", props)
+
   useEffect(() => {
 
     if (props.EditObj && props.EditObj.ID) {
