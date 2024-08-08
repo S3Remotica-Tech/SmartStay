@@ -1636,7 +1636,7 @@ const [kycOtpValue, setKycOtpValue] = useState('')
                                 </div>
                                 <div class="col-sm-6 text-right">
                                   <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Room/Bed</p>
-                                  <p ><img src={Group} onClick={() => { handleShowAddBed(item) }} /><span onClick={() => { handleShowAddBed(item) }} style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</span></p>
+                                  <p ><img src={Group} onClick={() => { handleShowAddBed(item) }} style={{cursor:"pointer"}} /><span onClick={() => { handleShowAddBed(item) }} style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy",cursor:"pointer" }}>{getFormattedRoomId(item.Floor, item.Rooms)} - Bed {item.Bed}</span></p>
                                 </div>
                               </div>
                               <div class="row ">

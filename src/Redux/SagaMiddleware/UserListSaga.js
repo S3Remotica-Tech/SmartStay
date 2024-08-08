@@ -53,7 +53,7 @@ function* handlehosteliddetail(data) {
    const response = yield call(hosteliddetail,data.payload);
   console.log("response....Floor",response)
    if (response.status === 200) {
-      yield put({ type: 'HOSTEL_DETAIL_LIST', payload: response.data.data })
+      yield put({ type: 'HOSTEL_DETAIL_LIST', payload: response.data.hostel_data})
 
    }
    else {
