@@ -109,6 +109,7 @@ function UserlistForm(props) {
   useEffect(() => {
     dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
   }, [hostel_Id,]);
+  console.log("hostel_Id",hostel_Id)
 
 
 
@@ -767,8 +768,8 @@ console.log("props.displayDetail",props.displayDetail)
       <option>Selected Floor</option>
       {state.UsersList?.hosteldetailslist
         ?.map((u) => (
-          <option key={u.floor_id}>
-            {u.floor_id}
+          <option key={u.Floor_Id}>
+            {u.Floor_Id}
           </option>
         ))}
     </Form.Select>

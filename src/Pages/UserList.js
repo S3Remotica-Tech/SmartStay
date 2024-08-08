@@ -65,9 +65,7 @@ function UserList() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-
-    setLoading(true)
-
+   setLoading(true)
     if (state?.UsersList?.Users) {
       setTimeout(() => {
         dispatch({ type: 'USERLIST' })
@@ -78,8 +76,6 @@ function UserList() {
     else {
       setLoading(true)
     }
-
-
   }, [])
 
   //  to trigger invoice pdf

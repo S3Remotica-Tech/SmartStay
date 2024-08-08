@@ -113,6 +113,7 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, hosteListStatusCode: 0 }
 
         case 'HOSTEL_DETAIL_LIST':
+            console.log("HOSTEL_DETAIL_LIST",action.payload)
             return { ...state, hosteldetailslist: action.payload }
         case 'CHECKOUT_USER':
             return { ...state, CheckOut: action.payload.response, checkOutStatusCode: action.payload.statusCode }
