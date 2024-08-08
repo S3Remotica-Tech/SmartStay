@@ -545,6 +545,7 @@ dispatch({ type: 'CLEAR_DELETE_FLOOR'})
   }
   const handleShowAddPg = () => {
     setShowAddPg(true);
+    setEditHostelDetails('')
   }
 
 
