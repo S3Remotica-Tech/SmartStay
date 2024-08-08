@@ -193,7 +193,7 @@ function AddPg({ show, handleClose, currentItem }) {
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
           <Modal.Header closeButton closeLabel="close-button" style={{}}>
-            <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Add Paying Guest</Modal.Title>
+            <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ?  "Edit Paying Guest": "Add Paying Guest"}</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -288,7 +288,7 @@ function AddPg({ show, handleClose, currentItem }) {
           <Modal.Footer style={{ border: "none" }}>
 
             <Button onClick={handleCreatePayingGuest} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}>
-              Add paying guest
+            {currentItem ?  "Edit Paying Guest": "Add Paying Guest"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
