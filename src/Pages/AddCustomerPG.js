@@ -13,7 +13,7 @@ import Profile from '../Assets/Images/New_images/profile-picture.png';
 
 
 
-function AddCustomer({show, handleClosed, currentItem}) {
+function AddCustomer({show, handleClosing, currentItem}) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
   
@@ -23,7 +23,7 @@ console.log("add custom",currentItem)
   useEffect(() => {
 
     if (state.UsersList?.statusCodeForAddUser === 200) {
-        handleClosed()
+      handleClosing()
       setFirstname('');
       setLastname('');
       setAddress('');
@@ -70,26 +70,36 @@ const Hostel_Id = currentItem.room.Hostel_Id
 const Floor_Id = currentItem.room.Floor_Id
 const Room_Id = currentItem.room.Room_Id
 const Bed_Id = currentItem.bed.bed_no
-
-    dispatch({ type: 'ADDUSER',
-        payload: {
-          profile: file,
-          firstname: firstname,
-          lastname: lastname,
-          Phone: phone,
-          Email: email,
-          hostel_Id: Hostel_Id,
-          Floor: Floor_Id,
-          Rooms: Room_Id,
-          Bed: Bed_Id,
-        //   HostelName: HostelName
-                }
-        })
+if(firstname && lastname && phone && email){
+  dispatch({ type: 'ADDUSER',
+    payload: {
+      profile: file,
+      firstname: firstname,
+      lastname: lastname,
+      Phone: phone,
+      Email: email,
+      hostel_Id: Hostel_Id,
+      Floor: Floor_Id,
+      Rooms: Room_Id,
+      Bed: Bed_Id,
+    //   HostelName: HostelName
+            }
+    })
+    handleClosing()
+}else{
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please Enter All Fields',
+    timer: 1000
+  
+  });
+}
+   
 }
 
   return (
     <div>
-   <Modal show={show} onHide={handleClosed} centered>
+   <Modal show={show} onHide={handleClosing} centered>
    <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
   
 <Modal.Body>
@@ -106,7 +116,7 @@ const Bed_Id = currentItem.bed.bed_no
           type="button"
           className="close"
           aria-label="Close"
-          onClick={handleClosed}
+          onClick={handleClosing}
           style={{
             position: 'absolute',
             right: '10px',
