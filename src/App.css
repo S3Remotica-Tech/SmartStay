@@ -33,6 +33,12 @@
     font-style: normal;
   }
 
+  @font-face {
+       font-family: 'Gilroy';
+       src: url('/src/Assets/Font/Gilroy-Black_0.ttf') format('truetype');
+              font-weight: 900;
+       font-style: normal;
+     }
   /* @font-face {
        font-family: 'Satoshi';
        src: url('/src/Assets/Font/Satoshi-Medium_0.ttf') format('truetype');
@@ -66,3 +72,12 @@
        font-weight: 300;
        font-style: normal;
    } */
+
+   /* .form-control:focus {
+       color: #000 !important;
+       background-color: #fff;
+       border-color: #86b7fe;
+       font-weight :900px !important;
+       outline: 0;
+       box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+     } */

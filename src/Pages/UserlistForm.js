@@ -312,7 +312,7 @@ if(props.edit === 'Edit'){
   props.setUserList(false);
   props.setRoomDetail(true)
 }else{
-  props.setUserList(true);
+      props.setUserList(true);
       props.setRoomDetail(false)
 }
 

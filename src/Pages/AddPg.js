@@ -9,6 +9,7 @@ import imageCompression from 'browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 
+
 function AddPg({ show, handleClose, currentItem }) {
 
   const state = useSelector(state => state)
@@ -20,7 +21,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [floors, setFloors] = useState('');
   const [location, setLocation] = useState('');
   const [errors, setErrors] = useState({});
-
+  const [errorsPG, setErrorsPG] = useState({});
 
 
   const handleImageChange = async (event) => {
@@ -63,9 +64,9 @@ function AddPg({ show, handleClose, currentItem }) {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const isValidEmail = emailRegex.test(emailValue);
     if (isValidEmail) {
-      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
+      setErrorsPG(prevErrors => ({ ...prevErrors, email: '' }));
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid Email Id *' }));
+      setErrorsPG(prevErrors => ({ ...prevErrors, email: 'Invalid Email Id *' }));
     }
   };
 
@@ -74,6 +75,10 @@ function AddPg({ show, handleClose, currentItem }) {
   const handlePgNameChange = (e) => {
     setPgName(e.target.value);
   };
+
+
+
+ 
 
   const handleFloorsChange = (e) => {
     setFloors(e.target.value);
@@ -115,9 +120,11 @@ function AddPg({ show, handleClose, currentItem }) {
       return;
     }
 
+   
+
     if (pgName && mobile && email && location) {
       dispatch({ type: 'PGLIST', payload: { profile: file, name: pgName, phoneNo: mobile, email_Id: email, location: location, id: currentItem.id } })
-      handleClose()
+      // handleClose()
       setFile('')
       setPgName('')
       setMobile('')
@@ -237,7 +244,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   <Form.Control
                     value={pgName}
                     onChange={handlePgNameChange}
-                    type="text" placeholder="Enter PG name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                    type="text" placeholder="Enter PG name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:pgName ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                 </Form.Group>
 
               </div>
@@ -248,7 +255,11 @@ function AddPg({ show, handleClose, currentItem }) {
                   <Form.Control
                     value={mobile}
                     onChange={handleMobileChange}
-                    type="text" placeholder="9876543210" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                    type="text" placeholder="9876543210" maxLength={10} 
+                    style={{
+                      fontSize: 16,color:"#4B4B4B" ,fontFamily: "Gilroy", fontWeight: mobile ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 ,
+                                       
+                    }} />
                 </Form.Group>
 
               </div>
@@ -258,7 +269,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   <Form.Control
                     value={email}
                     onChange={handleEmailChange}
-                    type="email" placeholder="email@gmail.com" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                    type="email" placeholder="email@gmail.com" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:email ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                 </Form.Group>
 
               </div>
@@ -278,7 +289,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   <Form.Control
                     value={location}
                     onChange={handleLocationChange}
-                    type="text" placeholder="Enter address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                    type="text" placeholder="Enter address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:location ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                 </Form.Group>
 
               </div>

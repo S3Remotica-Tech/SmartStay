@@ -5,24 +5,23 @@ import Cookies from 'universal-cookie';
 
 function* handlePgList(datum) {
    const response = yield call(createPgList, datum.payload);
-console.log("response PG",response)
+// console.log("response PG",response)
    if (response.statusCode === 200) {
       yield put({ type: 'PG_LIST', payload:{response: response.data , statusCode:response.statusCode}})
-      // yield put({ type: 'AFTER_CREATE_PG_MSG', message: 'PG created succesfully' })
-
-      Swal.fire({
+          Swal.fire({
          icon: 'success',
          title: 'Hostel Details saved Successful',
       });
 
    }
-   else if(response.statusCode === 201){
-      Swal.fire({
+   else if(response && response.statusCode === 201){
+          Swal.fire({
          icon: 'warning',
-         title: response.data.message,
+         title: 'Hostel name already exist' ,
          timer: 1000
               });
-      // yield put({ type: 'ERROR', payload: response.data.message })
+        }else {
+      console.log('Unhandled status code:', response.statusCode); 
    }
    if(response){
       refreshToken(response)

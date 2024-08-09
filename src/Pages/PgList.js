@@ -206,6 +206,7 @@ dispatch({ type: 'CLEAR_DELETE_FLOOR'})
   useEffect(() => {
     if (state.PgList.createPgStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
+      setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PG_STATUS_CODE' })
       }, 1000);
