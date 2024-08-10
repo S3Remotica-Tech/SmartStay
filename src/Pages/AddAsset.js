@@ -41,7 +41,16 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [productName, setProductName] = useState('')
 
 
-
+    const [initialState, setInitialState] = useState({
+        assetName: '',
+        vendorName: '',
+        brandName:  '',
+        serialNumber: '',
+        productCount: '',
+        selectedDate:  null,
+        price: '',
+        productName:  '',
+            });
 
     const handleAssetNameChange = (e) => {
         setAssetName(e.target.value);
@@ -105,6 +114,34 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     const handleAddAsset = () => {
+
+
+        const isChanged = initialState.assetName !== assetName ||
+        initialState.vendorName !== vendorName ||
+        initialState.brandName !== brandName ||
+        initialState.serialNumber !== serialNumber ||
+        initialState.productCount !== productCount ||
+        (initialState.selectedDate && selectedDate && initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
+        initialState.price !== price ||
+        initialState.productName !== productName
+
+        console.log("isChanged",isChanged)
+
+
+ if (!isChanged) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'No changes detected',
+        text: 'Please make some changes before saving.',
+        timer: 2000,
+      });
+      return;
+    }
+
+
+
+
+
         if (assetName && vendorName && brandName && serialNumber && productCount && selectedDate && price && productName) {
 
             const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
@@ -134,8 +171,28 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
 
 
+    // useEffect(() => {
+    //     if (currentItem) {
+    //         setAssetName(currentItem.asset_name || '');
+    //         setVendorName(currentItem.vendor_id || '');
+    //         setBrandName(currentItem.brand_name || '');
+    //         setSerialNumber(currentItem.serial_number || '');
+    //         setProductCount(currentItem.product_count || '');
+    //         setSelectedDate(moment(currentItem.purchase_date).toDate());
+    //         setPrice(currentItem.price || '');
+    //         setTotalPrice(currentItem.product_count * currentItem.price || '');
+    //         setId(currentItem.id || 0)
+    //         setProductName(currentItem.product_name || 0)
+    //     }
+    // }, [currentItem]);
+
+   
+    
+
+
     useEffect(() => {
         if (currentItem) {
+
             setAssetName(currentItem.asset_name || '');
             setVendorName(currentItem.vendor_id || '');
             setBrandName(currentItem.brand_name || '');
@@ -146,9 +203,22 @@ function StaticExample({ show, handleClose, currentItem }) {
             setTotalPrice(currentItem.product_count * currentItem.price || '');
             setId(currentItem.id || 0)
             setProductName(currentItem.product_name || 0)
+
+
+            setInitialState({
+                assetName: currentItem.asset_name || '',
+                vendorName: currentItem.vendor_id || '',
+                brandName: currentItem.brand_name || '',
+                serialNumber: currentItem.serial_number || '',
+                productCount: currentItem.product_count || '',
+                selectedDate: currentItem.purchase_date ? moment(currentItem.purchase_date).toDate() : null,
+                price: currentItem.price || '',
+                productName: currentItem.product_name || '',
+                            })
+           
         }
     }, [currentItem]);
-
+    
 
     console.log("currentItem", currentItem)
 
@@ -190,6 +260,15 @@ const [formattedDate, setFormattedDate] = useState('')
  
               };
               console.log("selectedDate", selectedDate,formattedDate)
+
+
+
+              console.log('Initial State:', initialState);
+              console.log('Current State:', {
+                  assetName, vendorName, brandName, serialNumber, productCount, selectedDate, price, productName
+              });
+
+
 
     return (
         <div

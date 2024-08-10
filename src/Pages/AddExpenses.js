@@ -40,6 +40,24 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [hostelName, setHostelName] = useState('')
 
 
+
+
+    const [initialState, setInitialState] = useState({
+        
+        assetName:'',
+        vendorName: '',
+        selectedDate: '',
+        price:'',
+        category:'',
+        modeOfPayment:'',
+        description:'',
+        count:'',
+        hostelName:'',
+      
+            });
+
+
+
     const handleHostelNameChange = (e) => {
         setHostelName(e.target.value)
     }
@@ -105,7 +123,7 @@ function StaticExample({ show, handleClose, currentItem }) {
         }
     }, []);
 
-    console.log("category", category)
+    console.log("category", category, initialState)
 
     useEffect(() => {
         if (currentItem) {
@@ -113,13 +131,28 @@ function StaticExample({ show, handleClose, currentItem }) {
             setAssetName(currentItem && currentItem.asset_id || '');
             setVendorName(currentItem && currentItem.vendor_id || '');
             setSelectedDate(moment(currentItem.purchase_date).toDate());
-            // setPurchaseDate(currentItem && moment(currentItem.purchase_date).format('YYYY-MM-DD') || '');
             setPrice(currentItem && currentItem.unit_amount || '');
             setCategory(currentItem && currentItem.category_id || '');
             setModeOfPayment(currentItem && currentItem.payment_mode || '');
             setDescription(currentItem && currentItem.description || '');
             setCount(currentItem && currentItem.unit_count || '')
             setHostelName(currentItem && currentItem.hostel_id || '')
+
+            setInitialState({
+
+                assetName: currentItem.asset_id || '',
+                vendorName: currentItem.vendor_id || '',
+                selectedDate: currentItem.purchase_date ? moment(currentItem.purchase_date).toDate() : null,
+                price:currentItem.unit_amount || '',
+                category:currentItem.category_id || '',
+                modeOfPayment:currentItem.payment_mode || '',
+                description:currentItem.description || '',
+                count:currentItem.unit_count || '',
+                hostelName:currentItem.hostel_id || '',
+         
+
+            })
+
 
         }
     }, [currentItem])
@@ -133,8 +166,30 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     const handleAddExpenses = () => {
-      
-        if (!vendorName) {
+        const isChanged = 
+        initialState.assetName !== assetName ||
+        initialState.vendorName !== vendorName ||
+        initialState.selectedDate && selectedDate && initialState.selectedDate.getTime() !== selectedDate.getTime() ||
+        initialState.price !== price ||
+        initialState.category !== category ||
+        initialState.modeOfPayment !== modeOfPayment ||
+        initialState.description !== description ||
+        initialState.count !== count ||
+        initialState.hostelName !== hostelName;
+
+    console.log("isChanged", isChanged);
+
+    if (!isChanged) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'No changes detected',
+            text: 'Please make some changes before saving.',
+            timer: 2000,
+        });
+        return;
+    }
+
+       if (!vendorName) {
             Swal.fire('Error', 'Please select a vendor', 'error');
             return;
         }

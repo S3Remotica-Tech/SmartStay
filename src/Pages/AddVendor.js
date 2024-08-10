@@ -119,6 +119,24 @@ function AddVendor( {show, handleClose ,currentItem}) {
         }
     
     
+        const isChanged =
+        first_Name !== initialState.first_Name ||
+        last_Name !== initialState.last_Name ||
+        vendor_Mobile !== initialState.vendor_Mobile ||
+        address !== initialState.address ||
+        email_Id !== initialState.email_Id ||
+        business_Name !== initialState.business_Name ||
+        file !== initialState.file;
+
+    if (!isChanged) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'No changes detected',
+            timer: 1000
+        });
+        return;
+    }
+
     
         if (first_Name && vendor_Mobile && email_Id && address) {
           if(check === 'EDIT'){
@@ -164,35 +182,78 @@ function AddVendor( {show, handleClose ,currentItem}) {
           closeButton.style.padding = '9px';
         }
       }, []);
+
+
+      const [initialState, setInitialState] = useState({
+        first_Name: '',
+        last_Name: '',
+        vendor_Mobile: '',
+        address: '',
+        email_Id: '',
+        business_Name: '',
+        file: null
+    });
+
     
-    useEffect(()=>{
-if(currentItem){
-    const nameParts = currentItem.Vendor_Name.split(' ');
-    const firstName = nameParts[0];
-    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-        setCheck('EDIT')
-      setFirst_Name(firstName)
-      setLast_Name(lastName)
-      setVendor_Mobile(currentItem.Vendor_Mobile)
-      setAddress(currentItem.Vendor_Address)
-      setEmail_Id(currentItem.Vendor_Email)
-      setBusiness_Name(currentItem.Business_Name)
-      setId(currentItem.id)
-      setVendor_Id(currentItem.Vendor_Id)
-      if (currentItem.Vendor_profile) {
-        const profile = currentItem.Vendor_profile;
-               if (typeof profile === 'string') {
-                    setFile(profile);
-        } else if (profile instanceof Blob) {
-                  setFile(profile);
-        } else {
-                setFile(null);
-          console.warn('Invalid profile format');
-        }
-      }
+//     useEffect(()=>{
+// if(currentItem){
+//     const nameParts = currentItem.Vendor_Name.split(' ');
+//     const firstName = nameParts[0];
+//     const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+//         setCheck('EDIT')
+//       setFirst_Name(firstName)
+//       setLast_Name(lastName)
+//       setVendor_Mobile(currentItem.Vendor_Mobile)
+//       setAddress(currentItem.Vendor_Address)
+//       setEmail_Id(currentItem.Vendor_Email)
+//       setBusiness_Name(currentItem.Business_Name)
+//       setId(currentItem.id)
+//       setVendor_Id(currentItem.Vendor_Id)
+//       if (currentItem.Vendor_profile) {
+//         const profile = currentItem.Vendor_profile;
+//                if (typeof profile === 'string') {
+//                     setFile(profile);
+//         } else if (profile instanceof Blob) {
+//                   setFile(profile);
+//         } else {
+//                 setFile(null);
+//           console.warn('Invalid profile format');
+//         }
+//       }
     
-}
-    },[currentItem])
+// }
+//     },[currentItem])
+
+useEffect(() => {
+  if (currentItem) {
+      const nameParts = currentItem.Vendor_Name.split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+
+      setCheck('EDIT');
+      setFirst_Name(firstName);
+      setLast_Name(lastName);
+      setVendor_Mobile(currentItem.Vendor_Mobile);
+      setAddress(currentItem.Vendor_Address);
+      setEmail_Id(currentItem.Vendor_Email);
+      setBusiness_Name(currentItem.Business_Name);
+      setId(currentItem.id);
+      setVendor_Id(currentItem.Vendor_Id);
+      setFile(currentItem.Vendor_profile ? currentItem.Vendor_profile : null);
+
+      // Set initial state
+      setInitialState({
+          first_Name: firstName,
+          last_Name: lastName,
+          vendor_Mobile: currentItem.Vendor_Mobile,
+          address: currentItem.Vendor_Address,
+          email_Id: currentItem.Vendor_Email,
+          business_Name: currentItem.Business_Name,
+          file: currentItem.Vendor_profile ? currentItem.Vendor_profile : null
+      });
+  }
+}, [currentItem]);
+
     
 console.log("currentItem for add vendor",currentItem)
 

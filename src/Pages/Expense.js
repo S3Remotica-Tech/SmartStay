@@ -206,7 +206,7 @@ console.log("getData",getData)
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
       setTimeout(() => {
-        setGetData(state.ExpenseList.expenseList.data)
+        setGetData(state.ExpenseList.expenseList)
         setLoading(false)
       }, 1000)
       setTimeout(() => {
@@ -312,8 +312,8 @@ useEffect(()=>{
   // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((filteredData && filteredData.length > 0) && filteredData.length / itemsPerPage);
 
-  // console.log("currentItems", currentItems)
-  // console.log("filteredData",filteredData)
+  console.log("currentItems", currentItems)
+  console.log("filteredData",filteredData)
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);

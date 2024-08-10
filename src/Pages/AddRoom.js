@@ -21,6 +21,8 @@ const[room, setRoom] = useState('')
 const [alreadyRoom,setAlreadyRoom] = useState(false)
 const [errorMessage, setErrorMessage] = useState('');
 
+const [initialState, setInitialState] = useState({});
+
 const handleRoomChange = (e) => {
   const Room_Id = e.target.value
 
@@ -50,6 +52,9 @@ const handleRoomChange = (e) => {
 useEffect(()=>{
 if(editRoom){
   setRoom(editRoom.room_Id ? editRoom.room_Id : '')
+  setInitialState({
+    room:editRoom.room_Id
+  })
 }
 },[editRoom])
 
@@ -74,7 +79,17 @@ if(editRoom){
         });
         return;
     }
+    const isChanged = 
+    room !== initialState.room 
 
+  if (!isChanged) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'No changes detected',
+      timer: 2000,
+    });
+    return;
+  }
       if(floorId && hostel_Id ){
               dispatch({
                   type: 'CREATEROOM',
