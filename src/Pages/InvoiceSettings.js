@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useRef, useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import {  Table } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
@@ -75,6 +75,8 @@ function InvoiceSettings() {
         }
     }
 
+    const initialValuesRef = useRef({});
+
     const [editprefix, setEditPrefix] = useState('')
     const [editstartnumber, setEditStartnumber] = useState('')
     const [editHostel, setEditHostel] = useState({id : '', name :''})
@@ -89,8 +91,16 @@ function InvoiceSettings() {
         setEditPrefix(item.prefix)
         setEditStartnumber(item.suffix)
         setEditHostel({ id:item.id, name: item.Name} )
+
+        initialValuesRef.current = {
+            editprefix: item.prefix,
+            editstartnumber: item.suffix,
+             
+          };
     }
       
+    let hasChanges = editprefix !== initialValuesRef.current.editprefix ||editstartnumber !== initialValuesRef.current.editstartnumber 
+
     const handleClose = () => {
         console.log("edit closed");
         setShow(false)
@@ -730,7 +740,7 @@ function InvoiceSettings() {
               <Modal.Footer style={{ border: "none" }}>
 
                 <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
-                 onClick={HandleupdateInvoice}
+                 onClick={HandleupdateInvoice} disabled ={!hasChanges}
                 >
                  Update Invoice
                 </Button>

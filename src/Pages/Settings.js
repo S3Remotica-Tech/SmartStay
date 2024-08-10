@@ -175,13 +175,19 @@ function Settings() {
 
 
   const [isChecked, setIsChecked] = useState(null);
-
-
+  const [isChanged, setIsChanged] = useState(false);
+  const [initialIsEnable, setInitialIsEnable] = useState(null);
 
 
   const handleChange = (event) => {
-    setIsChecked(event.target.checked);
+    const newValue = event.target.checked;
+    setIsChecked(newValue);
 
+    if (newValue !== initialIsEnable) {
+      setIsChanged(true);
+    } else {
+      setIsChanged(false);
+    }
   };
 
 
@@ -209,19 +215,36 @@ function Settings() {
 
 
   useEffect(() => {
-    const UserIsEnable = state.createAccount.accountList[0]?.user_details.isEnable
+    const UserIsEnable = state.createAccount.accountList[0]?.user_details.isEnable;
+    const isEnableInitialValue = UserIsEnable === 1;
 
+    setIsChecked(isEnableInitialValue);
+    setInitialIsEnable(isEnableInitialValue); // Set the initial value
 
     if (UserIsEnable === 1) {
-      setIsChecked(true);
-
       localStorage.setItem("IsEnable", '');
-
-
-    } else {
-      setIsChecked(false);
     }
-  }, [state.createAccount.accountList])
+
+    setIsChanged(false);
+  }, [state.createAccount.accountList]);
+
+
+
+
+  // useEffect(() => {
+  //   const UserIsEnable = state.createAccount.accountList[0]?.user_details.isEnable
+
+
+  //   if (UserIsEnable === 1) {
+  //     setIsChecked(true);
+
+  //     localStorage.setItem("IsEnable", '');
+
+
+  //   } else {
+  //     setIsChecked(false);
+  //   }
+  // }, [state.createAccount.accountList])
 
 
 
@@ -320,27 +343,44 @@ function Settings() {
 
   const [editunit, setEditUnit] = useState('')
   const [editamount, setEditAmount] = useState('')
-  const [editHostel, setEditHostel] = useState({id : '', name :''})
-  console.log("editHostel",editHostel);
-  
+  const [editHostel, setEditHostel] = useState({ id: '', name: '' })
+  console.log("editHostel", editHostel);
+  const [isModified, setIsModified] = useState(false);
+
   const [show, setShow] = useState(false);
 
 
   const handleEdit = (item) => {
-      console.log("item", item);
-      setShow(true);
-      setEditUnit(item.unit)
-      setEditAmount(item.amount)
-      setEditHostel({ id:item.hostel_id, name: item.Name} )
+    console.log("item", item);
+    setShow(true);
+    setEditUnit(item.unit)
+    setEditAmount(item.amount)
+    setEditHostel({ id: item.hostel_id, name: item.Name })
   }
-    
+
   const handleClose = () => {
-      console.log("edit closed");
-      setShow(false)
-      }
+    console.log("edit closed");
+    setShow(false)
+  }
+
+  const handleUnitChange = (e) => {
+    const newValue = e.target.value;
+    if (newValue !== editunit) {
+      setEditUnit(newValue);
+      setIsModified(true);
+    }
+  };
+  
+  const handleAmountChange = (e) => {
+    const newValue = e.target.value;
+    if (newValue !== editamount) {
+      setEditAmount(newValue);
+      setIsModified(true);
+    }
+  };
 
   const handleUpdateEB = () => {
-    if (editHostel && editamount && editunit) {
+    if (editHostel && editamount && editunit && isModified) {
       dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: editHostel.id, unit: editunit, amount: editamount } })
       Swal.fire({
         icon: "success",
@@ -353,7 +393,7 @@ function Settings() {
 
       });
       handleClose();
-      setEditHostel({id : '', name :''})
+      setEditHostel({ id: '', name: '' })
       setEditUnit('');
       setEditAmount('')
     }
@@ -379,7 +419,7 @@ function Settings() {
   console.log("state for settings", state)
 
 
-  const [value, setValue] = React.useState('1'); 
+  const [value, setValue] = React.useState('1');
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
@@ -597,7 +637,7 @@ function Settings() {
             </div>
 
             <div className='justify-content-end mt-3'>
-              <Button style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }} onClick={handleTwoStepVerify}> Save Changes</Button>
+              <Button onClick={handleTwoStepVerify} disabled={!isChanged} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}> Save Changes</Button>
 
             </div>
 
@@ -691,15 +731,15 @@ function Settings() {
                 <tbody style={{ height: "50px", fontSize: "11px" }}>
 
                   {data && data.length > 0 && data.map((item) => (
-                    <EBBillingUnitlist item={item} modalEditEbunit={handleEdit}/>
-             
+                    <EBBillingUnitlist item={item} modalEditEbunit={handleEdit} />
+
 
                   ))}
-                  { currentRows.length === 0 && (
-                              <tr>
-                                <td colSpan="6" style={{ textAlign: "center", color: "red" ,fontSize:14}}>No data found</td>
-                              </tr>
-                            )}
+                  {currentRows.length === 0 && (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
+                    </tr>
+                  )}
 
                 </tbody>
               </Table>
@@ -725,7 +765,7 @@ function Settings() {
                       >
                         <ArrowLeft2 size="16" color="#1E45E1" />
                       </button>
-            
+
                     </li>
                     {currentPage > 3 && (
                       <li style={{ margin: '0 5px' }}>
@@ -772,7 +812,7 @@ function Settings() {
                       </li>
                     )}
                     <li style={{ margin: '0 5px' }}>
-             
+
                       <button
                         style={{
                           padding: '5px 10px',
@@ -800,127 +840,127 @@ function Settings() {
             </div>
 
             {show &&
-        <div
-          className="modal show"
-          style={{
-            display: 'block', position: 'initial', fontFamily: "Gilroy",
-          }}
-        >
-          <Modal
-            show={show}
-             onHide={handleClose}
-            centered>
-            <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
-             
-              <Modal.Body>
-   <div>
+              <div
+                className="modal show"
+                style={{
+                  display: 'block', position: 'initial', fontFamily: "Gilroy",
+                }}
+              >
+                <Modal
+                  show={show}
+                  onHide={handleClose}
+                  centered>
+                  <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
 
-              <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
-              <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>Update EB</div>
-              <button
-          type="button"
-          className="close"
-          aria-label="Close"
-          onClick={handleClose}
-          style={{
-            position: 'absolute',
-            right: '10px',
-            top: '16px',
-            border: '1px solid black',
-            background: 'transparent',
-            cursor: 'pointer',
-            padding: '0',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-           
-          }}
-        >
-          <span aria-hidden="true" style={{
-              fontSize: '30px',
-              paddingBottom:"6px"
-             
-            }}>&times;</span>
-        </button>
-       
-              </Modal.Header>
+                    <Modal.Body>
+                      <div>
+
+                        <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+                          <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Update EB</div>
+                          <button
+                            type="button"
+                            className="close"
+                            aria-label="Close"
+                            onClick={handleClose}
+                            style={{
+                              position: 'absolute',
+                              right: '10px',
+                              top: '16px',
+                              border: '1px solid black',
+                              background: 'transparent',
+                              cursor: 'pointer',
+                              padding: '0',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              width: '32px',
+                              height: '32px',
+                              borderRadius: '50%',
+
+                            }}
+                          >
+                            <span aria-hidden="true" style={{
+                              fontSize: '30px',
+                              paddingBottom: "6px"
+
+                            }}>&times;</span>
+                          </button>
+
+                        </Modal.Header>
+                      </div>
+
+                      <div className='row mt-4'>
+
+
+                        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label
+                              style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                            >
+                              Paying Guests
+                            </Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="Paying Guests"
+                              value={editHostel.name}
+                              // readOnly
+                              style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                            />
+                          </Form.Group>
+                        </div>
+
+                        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label
+                              style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                            >
+                              Unit
+                            </Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="unit"
+                              value={editunit}
+                              onChange={handleUnitChange}
+                              style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                            />
+                          </Form.Group>
+                        </div>
+
+
+
+                        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                          <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                            <Form.Label
+                              style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                            >
+                              Amount
+                            </Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="Amount"
+                              value={editamount}
+                              onChange={handleAmountChange}
+                              style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                            />
+                          </Form.Group>
+                        </div>
+
+
+                      </div>
+
+                    </Modal.Body>
+                    <Modal.Footer style={{ border: "none" }}>
+
+                      <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
+                           disabled={!isModified }   onClick={handleUpdateEB}
+                      >
+                        Update EB
+                      </Button>
+                    </Modal.Footer>
+                  </Modal.Dialog>
+                </Modal>
               </div>
-
-                <div className='row mt-4'>
-                
-
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                      >
-                        Paying Guests
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Paying Guests"
-                        value={editHostel.name}
-                        // readOnly
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                      />
-                    </Form.Group>
-                  </div>
-
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                      >
-                        Unit
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="unit"
-                        value={editunit}
-                        onChange={(e) => setEditUnit(e.target.value)}
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                      />
-                    </Form.Group>
-                  </div>
-                
-                 
-
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                      <Form.Label
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                      >
-                        Amount
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Amount"
-                        value={editamount}
-                        onChange={(e) => setEditAmount(e.target.value)}
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                      />
-                    </Form.Group>
-                  </div>
-
-              
-                </div>
-
-              </Modal.Body>
-              <Modal.Footer style={{ border: "none" }}>
-
-                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
-                 onClick={handleUpdateEB}
-                >
-                 Update EB
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
-      }
+            }
           </div>
         </TabPanel>
         <TabPanel value="3"><InvoiceSettings /> </TabPanel>
