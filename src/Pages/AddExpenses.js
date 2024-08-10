@@ -291,7 +291,7 @@ const [formattedDate, setFormattedDate] = useState('')
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Hostel Name</Form.Label>
-                                    <Form.Select aria-label="Default select example" value={hostelName} onChange={handleHostelNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    <Form.Select aria-label="Default select example" value={hostelName} onChange={handleHostelNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight:hostelName ? 600 : 500 }}>
                                         <option>Select an hostel</option>
                                         {state.UsersList.hostelList && state.UsersList.hostelList.map((view) => (
                                             <>
@@ -307,7 +307,7 @@ const [formattedDate, setFormattedDate] = useState('')
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Vendor Name <span style={{ color: "#FF0000", display: vendorName ? "none" : "inline-block" }}>*</span></Form.Label>
-                                    <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight:vendorName ? 600 :  500 }}>
                                         <option>Select a vendor</option>
                                         {state.ComplianceList.VendorList && state.ComplianceList.VendorList.map((view) => (
                                             <>
@@ -323,7 +323,7 @@ const [formattedDate, setFormattedDate] = useState('')
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name</Form.Label>
-                                    <Form.Select aria-label="Default select example" value={assetName} onChange={handleAssetNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    <Form.Select aria-label="Default select example" value={assetName} onChange={handleAssetNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: assetName ? 600 : 500 }}>
                                         <option>Select an asset</option>
                                         {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
                                             <>
@@ -348,7 +348,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Select aria-label="Default select example"
                                         value={category}
                                         onChange={handleCategoryChange}
-                                        className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                        className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: category ? 600 : 500 }}>
                                         <option>Select a Category</option>
                                         {state.ExpenseList.categoryList && state.ExpenseList.categoryList.map((view) => (
                                             <>
@@ -382,7 +382,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                                 padding: 7,
                                                 fontSize: 14,
                                                 fontFamily: "Gilroy",
-                                                fontWeight: 500,
+                                                fontWeight: selectedDate ? 600 : 500,
                                                 color: "rgba(75, 75, 75, 1)",
                                                 display: "flex",
                                                 alignItems: "center",
@@ -428,7 +428,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={count}
                                         onChange={handleCountChange}
-                                        type="text" placeholder="Enter unit count" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter unit count" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: count ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -438,7 +438,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={price}
                                         onChange={handlePriceChange}
-                                        type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: price ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -449,7 +449,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={count * price}
                                         disabled
-                                        type="text" placeholder="" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 600, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -459,7 +459,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Select aria-label="Default select example"
                                         value={modeOfPayment}
                                         onChange={handleModeOfPaymentChange}
-                                        className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                        className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight:modeOfPayment ? 600 :  500 }}>
                                         <option value="">Select mode of payment</option>
                                         <option value="UPI/BHIM">UPI/BHIM</option>
                                         <option value="CASH">CASH</option>
@@ -474,7 +474,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={description}
                                         onChange={handleDescriptionChange}
-                                        type="email" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="email" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: description ? 600 :  500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>

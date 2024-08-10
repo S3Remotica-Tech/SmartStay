@@ -369,7 +369,7 @@ console.log("disabledButton",disabledButton)
                       <Form.Control size="lg"
                       disabled={disabledButton}
                         value={email} onChange={(e) => handleEmailid(e)}
-                        type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                        type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight:email ? 600 :  500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
                       <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div>
                     </Form.Group>
@@ -461,7 +461,7 @@ console.log("disabledButton",disabledButton)
                         boxShadow: "none",
                         border: "1px solid rgba(224, 236, 255, 1)",
                         fontSize: 16,
-                        fontWeight: 500,
+                        fontWeight: password ? 600 : 500,
                         color: "rgba(34, 34, 34, 1)",
                         fontFamily: "Gilroy",
                         borderRight: "none"
@@ -493,7 +493,7 @@ console.log("disabledButton",disabledButton)
                         boxShadow: "none",
                         border: "1px solid rgba(224, 236, 255, 1)",
                         fontSize: 16,
-                        fontWeight: 500,
+                        fontWeight: confirmpassword ? 600 : 500,
                         color: "rgba(34, 34, 34, 1)",
                         fontFamily: "Gilroy",
                         borderRight: "none"
