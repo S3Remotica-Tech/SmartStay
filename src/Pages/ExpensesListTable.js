@@ -47,7 +47,7 @@ props.handleDelete(id)
 
 
 
-
+console.log("props ##############",props)
 
 
   return (

@@ -118,7 +118,7 @@ if(floorNo){
                                     <Form.Control
                                          value={floorNo}
                                          onChange={handleFloorChange}
-                                        type="text" placeholder="Enter floor no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter floor no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: floorNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>

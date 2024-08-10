@@ -31,7 +31,8 @@ const initialState = {
     kycValidateSendOtpSuccess: 0,
     deleteFloorSuccessStatusCode: 0,
     Kyc_Ref_Id: '',
-    kycValidateOtpVerifySuccess:0,
+    kycValidateOtpVerifySuccess: 0,
+    createFloorSuccessStatusCode: 0,
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -46,11 +47,11 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, bedCount: action.payload }
 
         case 'KYC_VALIDATE':
-            return { ...state, kycValidateSendOtpSuccess: action.payload.statusCode , Kyc_Ref_Id: action.payload.response}
+            return { ...state, kycValidateSendOtpSuccess: action.payload.statusCode, Kyc_Ref_Id: action.payload.response }
         case 'CLEAR_KYC_VALIDATE_SATUS_CODE':
             return { ...state, kycValidateSendOtpSuccess: 0 }
-         case 'KYC_VALIDATE_OTP_VERIFY':
-         return {...state, kycValidateOtpVerifySuccess:action.payload.statusCode}
+        case 'KYC_VALIDATE_OTP_VERIFY':
+            return { ...state, kycValidateOtpVerifySuccess: action.payload.statusCode }
 
 
         case 'DELETE_FLOOR':
@@ -88,11 +89,12 @@ const UserListReducer = (state = initialState, action) => {
         case 'ROOM_DETAILS':
             return { ...state, roomdetails: action.payload }
         case 'CREATE_FLOOR':
-            return {
-                ...state,
-                createFloorMessage: action.payload.message,
-                number_of_floor: action.payload.number_of_floors
-            }
+            return { ...state, createFloorSuccessStatusCode: action.payload.statusCode }
+        case 'CLEAR_FLOOR_STATUS_CODE':
+            return { ...state, createFloorSuccessStatusCode: 0 }
+        // createFloorMessage: action.payload.message,
+        // number_of_floor: action.payload.number_of_floors
+
         case 'UPDATE_MESSAGE_FLOOR':
             return { ...state, createFloorMessage: action.message }
         case 'BILL_PAYMENT_HISTORY':
@@ -106,14 +108,14 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_STATUS_CODES':
             return { ...state, statusCodeForAddUser: 0 }
         case 'ERROR':
-            return { ...state, errorMessage: action.payload ,roomdetails :[],bednumberdetails:[]}
+            return { ...state, errorMessage: action.payload, roomdetails: [], bednumberdetails: [] }
         case 'HOSTEL_LIST':
             return { ...state, hostelList: action.payload.response, hosteListStatusCode: action.payload.statusCode }
         case 'CLEAR_HOSTELLIST_STATUS_CODE':
             return { ...state, hosteListStatusCode: 0 }
 
         case 'HOSTEL_DETAIL_LIST':
-            console.log("HOSTEL_DETAIL_LIST",action.payload)
+            console.log("HOSTEL_DETAIL_LIST", action.payload)
             return { ...state, hosteldetailslist: action.payload }
         case 'CHECKOUT_USER':
             return { ...state, CheckOut: action.payload.response, checkOutStatusCode: action.payload.statusCode }

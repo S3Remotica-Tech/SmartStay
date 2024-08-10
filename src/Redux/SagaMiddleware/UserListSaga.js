@@ -79,10 +79,10 @@ function* handleUserBillPaymentHistory(){
 
 function* handleCreateFloor(data) {
    const response = yield call(createFloor,data.payload);
-  
+  console.log("response floor", response)
    if (response.status === 200) {
-      yield put({ type: 'CREATE_FLOOR', payload: response.data })
-      yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
+      yield put({ type: 'CREATE_FLOOR', payload: {response:response.data, statusCode:response.status} })
+      // yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
       Swal.fire({
          icon: 'success',
          title: `${response.data.message}`,

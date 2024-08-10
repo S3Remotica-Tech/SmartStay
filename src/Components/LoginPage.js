@@ -170,7 +170,7 @@ const MyComponent = () => {
                 aria-label="Recipient's username"
                 className=' mb-3'
                 aria-describedby="basic-addon2"
-                style={{ boxShadow: "none", border: "1px solid rgba(217, 217, 217, 1)", fontSize: 16, fontWeight: 500, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy" }}
+                style={{ boxShadow: "none", border: "1px solid rgba(217, 217, 217, 1)", fontSize: 16, fontWeight: email_Id ? 600 : 500, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy" }}
                 autoFocus
                 size="lg"
                 disabled={showOtpVerification}
@@ -195,7 +195,7 @@ const MyComponent = () => {
                         boxShadow: "none",
                         border: "1px solid rgba(217, 217, 217, 1)",
                         fontSize: 16,
-                        fontWeight: 500,
+                        fontWeight:password ? 600 : 500,
                         color: "rgba(34, 34, 34, 1)",
                         fontFamily: "Gilroy",
                         borderRight: "none"

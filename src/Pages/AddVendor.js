@@ -119,6 +119,24 @@ function AddVendor( {show, handleClose ,currentItem}) {
         }
     
     
+        const isChanged =
+        first_Name !== initialState.first_Name ||
+        last_Name !== initialState.last_Name ||
+        vendor_Mobile !== initialState.vendor_Mobile ||
+        address !== initialState.address ||
+        email_Id !== initialState.email_Id ||
+        business_Name !== initialState.business_Name ||
+        file !== initialState.file;
+
+    if (!isChanged) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'No changes detected',
+            timer: 1000
+        });
+        return;
+    }
+
     
         if (first_Name && vendor_Mobile && email_Id && address) {
           if(check === 'EDIT'){
@@ -164,35 +182,78 @@ function AddVendor( {show, handleClose ,currentItem}) {
           closeButton.style.padding = '9px';
         }
       }, []);
+
+
+      const [initialState, setInitialState] = useState({
+        first_Name: '',
+        last_Name: '',
+        vendor_Mobile: '',
+        address: '',
+        email_Id: '',
+        business_Name: '',
+        file: null
+    });
+
     
-    useEffect(()=>{
-if(currentItem){
-    const nameParts = currentItem.Vendor_Name.split(' ');
-    const firstName = nameParts[0];
-    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-        setCheck('EDIT')
-      setFirst_Name(firstName)
-      setLast_Name(lastName)
-      setVendor_Mobile(currentItem.Vendor_Mobile)
-      setAddress(currentItem.Vendor_Address)
-      setEmail_Id(currentItem.Vendor_Email)
-      setBusiness_Name(currentItem.Business_Name)
-      setId(currentItem.id)
-      setVendor_Id(currentItem.Vendor_Id)
-      if (currentItem.Vendor_profile) {
-        const profile = currentItem.Vendor_profile;
-               if (typeof profile === 'string') {
-                    setFile(profile);
-        } else if (profile instanceof Blob) {
-                  setFile(profile);
-        } else {
-                setFile(null);
-          console.warn('Invalid profile format');
-        }
-      }
+//     useEffect(()=>{
+// if(currentItem){
+//     const nameParts = currentItem.Vendor_Name.split(' ');
+//     const firstName = nameParts[0];
+//     const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+//         setCheck('EDIT')
+//       setFirst_Name(firstName)
+//       setLast_Name(lastName)
+//       setVendor_Mobile(currentItem.Vendor_Mobile)
+//       setAddress(currentItem.Vendor_Address)
+//       setEmail_Id(currentItem.Vendor_Email)
+//       setBusiness_Name(currentItem.Business_Name)
+//       setId(currentItem.id)
+//       setVendor_Id(currentItem.Vendor_Id)
+//       if (currentItem.Vendor_profile) {
+//         const profile = currentItem.Vendor_profile;
+//                if (typeof profile === 'string') {
+//                     setFile(profile);
+//         } else if (profile instanceof Blob) {
+//                   setFile(profile);
+//         } else {
+//                 setFile(null);
+//           console.warn('Invalid profile format');
+//         }
+//       }
     
-}
-    },[currentItem])
+// }
+//     },[currentItem])
+
+useEffect(() => {
+  if (currentItem) {
+      const nameParts = currentItem.Vendor_Name.split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+
+      setCheck('EDIT');
+      setFirst_Name(firstName);
+      setLast_Name(lastName);
+      setVendor_Mobile(currentItem.Vendor_Mobile);
+      setAddress(currentItem.Vendor_Address);
+      setEmail_Id(currentItem.Vendor_Email);
+      setBusiness_Name(currentItem.Business_Name);
+      setId(currentItem.id);
+      setVendor_Id(currentItem.Vendor_Id);
+      setFile(currentItem.Vendor_profile ? currentItem.Vendor_profile : null);
+
+      // Set initial state
+      setInitialState({
+          first_Name: firstName,
+          last_Name: lastName,
+          vendor_Mobile: currentItem.Vendor_Mobile,
+          address: currentItem.Vendor_Address,
+          email_Id: currentItem.Vendor_Email,
+          business_Name: currentItem.Business_Name,
+          file: currentItem.Vendor_profile ? currentItem.Vendor_profile : null
+      });
+  }
+}, [currentItem]);
+
     
 console.log("currentItem for add vendor",currentItem)
 
@@ -247,42 +308,42 @@ console.log("currentItem for add vendor",currentItem)
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>First Name</Form.Label>
-                <Form.Control onChange={(e) => handleFirstNameChange(e)} value={first_Name} type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Control onChange={(e) => handleFirstNameChange(e)} value={first_Name} type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:first_Name ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Last Name</Form.Label>
-                <Form.Control value={last_Name} onChange={(e) => handleLastNameChange(e)} type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Control value={last_Name} onChange={(e) => handleLastNameChange(e)} type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: last_Name ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Mobile Number</Form.Label>
-                <Form.Control value={vendor_Mobile} onChange={(e) => handleMobileChange(e)} type="text" placeholder="Enter Mobile Number" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Control value={vendor_Mobile} onChange={(e) => handleMobileChange(e)} type="text" placeholder="Enter Mobile Number" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: vendor_Mobile ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email ID</Form.Label>
-                <Form.Control value={email_Id} onChange={(e) => handleEmailChange(e)} type="email" placeholder="Enter email address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Control value={email_Id} onChange={(e) => handleEmailChange(e)} type="email" placeholder="Enter email address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: email_Id ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Business Name</Form.Label>
-                <Form.Control value={business_Name} onChange={(e) => handleBusinessChange(e)} type="text" placeholder="Enter Business Name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Control value={business_Name} onChange={(e) => handleBusinessChange(e)} type="text" placeholder="Enter Business Name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: business_Name ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address</Form.Label>
-                <Form.Control value={address} onChange={(e) => handleAddressChange(e)} type="text" placeholder="Enter Address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                <Form.Control value={address} onChange={(e) => handleAddressChange(e)} type="text" placeholder="Enter Address" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: address ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>

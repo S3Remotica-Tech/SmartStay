@@ -352,7 +352,9 @@ setTimeout(()=>{
                     {activeRoomId === room.Room_Id && (
                       <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 30, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                         <div>
-                          <div className='mb-2' onClick={()=> handleEditRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}>
+                          <div className='mb-2' 
+                          // onClick={()=> handleEditRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}
+                          >
                             <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Edit</label>
                           </div>
                           <div  onClick={()=> {handleDeleteRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}}>
