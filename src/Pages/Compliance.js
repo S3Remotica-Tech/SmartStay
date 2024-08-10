@@ -48,7 +48,7 @@ import Card from 'react-bootstrap/Card';
 import User from '../Assets/Images/Ellipse 1.png';
 import Calendor from '../Assets/Images/calendar.png';
 import Badge from 'react-bootstrap/Badge';
-import { Room } from '@material-ui/icons';
+import { Description, Room } from '@material-ui/icons';
 import ComplianceList from './ComplianceList';
 // import Image from 'react-bootstrap/Image';
 
@@ -57,6 +57,8 @@ const Compliance = () => {
   const state = useSelector(state => state)
   const dispatch = useDispatch()
   const [data, setData] = useState(state.ComplianceList.Compliance);
+
+  const initialValuesRef = useRef({});
 
   const bottomBorderStyles = {
     border: 'none',
@@ -487,13 +489,16 @@ const Compliance = () => {
 
   const [edit, setEdit] = useState(false)
 
+ 
+
+
   const handleAddcomplaint = () => {
 
     setEdit(false)
 
     if (Complainttype && description && selectedDate && hostelname && beds && Rooms) {
       // console.log();
-      if (id) {
+      if (id && hasChanges) {
         dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: selectedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id } })
         handleClose()
         setSelectedUserName('');
@@ -548,13 +553,14 @@ const Compliance = () => {
 
 
   const [editdata, setEditData] = useState('')
+  const [editcomplainttype, setEditcomplainttype] = useState('')
 
-    const[editcomplainttype , setEditcomplainttype ] = useState('')
+
+
 
   const handleEditcomplaint = (Complaintdata) => {
 
     console.log("edit works", Complaintdata);
-
     setEdit(true)
     if (Complaintdata) {
       setEditData(Complaintdata)
@@ -575,8 +581,21 @@ const Compliance = () => {
       setRooms(Complaintdata.Room);
       setHostelName(Complaintdata.hostelname);
       setStatus(Complaintdata.Status)
+
+
+      initialValuesRef.current = {
+        Assign: Complaintdata.Assign,
+        Description: Complaintdata.Description,
+        Status: Complaintdata.Status
+      };
     }
   };
+
+  let hasChanges =
+  Assign !== initialValuesRef.current.Assign ||
+  description !== initialValuesRef.current.Description ||
+  Status !== initialValuesRef.current.Status ||
+
 
   // useEffect(() => {
   //   handleEditcomplaint(editdata)
@@ -614,7 +633,7 @@ const Compliance = () => {
 
   }, [state.Settings.Complainttypelist.complaint_types])
 
- 
+
 
 
 
@@ -711,48 +730,48 @@ const Compliance = () => {
         >
           <Modal
             show={show}
-             onHide={handleClose}
+            onHide={handleClose}
             centered>
-            <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
-             
+            <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
+
 
               <Modal.Body>
-   <div>
+                <div>
 
-              <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
-              <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
-              <button
-          type="button"
-          className="close"
-          aria-label="Close"
-          onClick={handleClose}
-          style={{
-            position: 'absolute',
-            right: '10px',
-            top: '16px',
-            border: '1px solid black',
-            background: 'transparent',
-            cursor: 'pointer',
-            padding: '0',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-           
-          }}
-        >
-          <span aria-hidden="true" style={{
-              fontSize: '30px',
-              paddingBottom:"6px"
-             
-            }}>&times;</span>
-        </button>
-       
-                {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
-              </Modal.Header>
-              </div>
+                  <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+                    <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
+                    <button
+                      type="button"
+                      className="close"
+                      aria-label="Close"
+                      onClick={handleClose}
+                      style={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '16px',
+                        border: '1px solid black',
+                        background: 'transparent',
+                        cursor: 'pointer',
+                        padding: '0',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%',
+
+                      }}
+                    >
+                      <span aria-hidden="true" style={{
+                        fontSize: '30px',
+                        paddingBottom: "6px"
+
+                      }}>&times;</span>
+                    </button>
+
+                    {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+                  </Modal.Header>
+                </div>
 
                 <div className='row mt-4'>
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
@@ -1033,7 +1052,7 @@ const Compliance = () => {
               <Modal.Footer style={{ border: "none" }}>
 
                 <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
-                  onClick={handleAddcomplaint}
+           disabled={edit && !hasChanges}       onClick={handleAddcomplaint} 
                 >
                   {edit ? "Save complaint" : "Add complaint"}
                 </Button>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import CryptoJS from "crypto-js";
 import Button from 'react-bootstrap/Button';
 import { Dropdown, Table } from 'react-bootstrap';
@@ -21,6 +21,8 @@ function Amenities() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
+
+  const initialValuesRef = useRef({});
 
   useEffect(() => {
     dispatch({ type: 'AMENITIESLIST' })
@@ -139,6 +141,61 @@ function Amenities() {
   };
 
 
+  const handleEdit = (item) => {
+    console.log("item", item);
+    setShow(true);
+
+    setEdit('EDIT')
+    setID(item.Amnities_Id)
+    setEdithostelId(item.Hostel_Id)
+    setSelecteDHostel(item.Name)
+    setAmenitiesName(item.Amnities_Name)
+    setAmount(item.Amount)
+    setActive(item.setAsDefault)
+    setStatus(item.Status)
+
+    initialValuesRef.current = {
+      hostelname: item.Name,
+      Amenityname: item.Amnities_Name,
+      Amount: item.Amount,
+      Active: item.setAsDefault,
+      Status: item.Status
+    };
+
+  }
+
+  let hasChanges = selectedhostel !== initialValuesRef.current.hostelname ||
+                   amenitiesName !== initialValuesRef.current.Amenityname || 
+                   amount !== initialValuesRef.current.Amount || 
+                   active !== initialValuesRef.current.Active || 
+                   status !== initialValuesRef.current.Status 
+
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => {
+    // setEdit(false)
+    setShow(true);
+  }
+
+
+  const [edithostelId, setEdithostelId] = useState()
+
+
+
+
+
+  const handleClose = () => {
+    console.log("edit closed");
+    setShow(false)
+    setSelecteDHostel('')
+    setAmenitiesName('');
+    setAmount('');
+    // setAsDefault('')
+    setActive('');
+    setStatus('')
+  }
+
+
   const handleAmenitiesSetting = () => {
     const setAsDefault = active || false;
 
@@ -184,18 +241,18 @@ function Amenities() {
     //  else {
     // }
 
-    if (id) {
-          dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: edithostelId } });
-          handleClose()
-          setSelecteDHostel('')
-          setAmenitiesName('');
-          setAmount('');
-          // setAsDefault('')
-          setActive('');
+    if (id && hasChanges) {
+      dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: edithostelId } });
+      handleClose()
+      setSelecteDHostel('')
+      setAmenitiesName('');
+      setAmount('');
+      // setAsDefault('')
+      setActive('');
 
-        }
+    }
 
-   else if (amenitiesName && amount && selectedhostel) {
+    else if (amenitiesName && amount && selectedhostel) {
       dispatch({ type: 'AMENITIESSETTINGS', payload: { amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedhostel } });
 
       setSelecteDHostel('')
@@ -220,44 +277,7 @@ function Amenities() {
   }
 
 
-  const [show, setShow] = useState(false);
 
-  const handleShow = () => {
-    // setEdit(false)
-    setShow(true);
-  }
-
-
-  const [edithostelId , setEdithostelId] = useState()
-
-  const handleEdit = (item) => {
-    console.log("item", item);
-      setShow(true);
-
-
-      setEdit('EDIT')
-      setID(item.Amnities_Id)
-      setEdithostelId(item.Hostel_Id)
-      setSelecteDHostel(item.Name)
-      setAmenitiesName(item.Amnities_Name)
-      setAmount(item.Amount)
-      setActive(item.setAsDefault)
-      setStatus(item.Status)
-   
-  }
-
-  
-
-  const handleClose = () => {
-  console.log("edit closed");
-  setShow(false)
-  setSelecteDHostel('')
-  setAmenitiesName('');
-  setAmount('');
-  // setAsDefault('')
-  setActive('');
-  setStatus('')
-  }
 
 
   useEffect(() => {
@@ -451,7 +471,7 @@ function Amenities() {
             <tbody style={{ height: "50px", fontSize: "11px" }}>
 
               {state.InvoiceList.AmenitiesList.length > 0 && state.InvoiceList.AmenitiesList.map((item) => (
-                <AmenitiesView item={item} modalEditAmenities={handleEdit}/>
+                <AmenitiesView item={item} modalEditAmenities={handleEdit} />
               )
               )}
               {currentRows.length === 0 && (
@@ -592,51 +612,51 @@ function Amenities() {
         >
           <Modal
             show={show}
-             onHide={handleClose}
+            onHide={handleClose}
             centered>
-            <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
-             
+            <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
+
 
               <Modal.Body>
-   <div>
+                <div>
 
-              <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
-              <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>Update Amenities</div>
-              <button
-          type="button"
-          className="close"
-          aria-label="Close"
-          onClick={handleClose}
-          style={{
-            position: 'absolute',
-            right: '10px',
-            top: '16px',
-            border: '1px solid black',
-            background: 'transparent',
-            cursor: 'pointer',
-            padding: '0',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-           
-          }}
-        >
-          <span aria-hidden="true" style={{
-              fontSize: '30px',
-              paddingBottom:"6px"
-             
-            }}>&times;</span>
-        </button>
-       
-                {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
-              </Modal.Header>
-              </div>
+                  <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+                    <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Update Amenities</div>
+                    <button
+                      type="button"
+                      className="close"
+                      aria-label="Close"
+                      onClick={handleClose}
+                      style={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '16px',
+                        border: '1px solid black',
+                        background: 'transparent',
+                        cursor: 'pointer',
+                        padding: '0',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%',
+
+                      }}
+                    >
+                      <span aria-hidden="true" style={{
+                        fontSize: '30px',
+                        paddingBottom: "6px"
+
+                      }}>&times;</span>
+                    </button>
+
+                    {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+                  </Modal.Header>
+                </div>
 
                 <div className='row mt-4'>
-                
+
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -671,8 +691,8 @@ function Amenities() {
                       />
                     </Form.Group>
                   </div>
-                
-                 
+
+
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
@@ -692,49 +712,49 @@ function Amenities() {
                   </div>
 
 
-                
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-      <Form.Label
-        style={{
-          fontSize: 14,
-          color: "#222",
-          fontFamily: "'Gilroy'",
-          fontWeight: 500,
-          fontStyle: 'normal',
-          lineHeight: 'normal'
-        }}
-      >
-        Status
-      </Form.Label>
 
-      <Form.Select
-        aria-label="Default select example"
-        className="border"
-        value={status}
-        onChange={handleChange}
-        style={{
-          fontSize: 16,
-          color: "#4B4B4B",
-          fontFamily: "Gilroy",
-          lineHeight: '18.83px',
-          fontWeight: 500,
-          boxShadow: "none",
-          border: "1px solid #D9D9D9",
-          height: 50,
-          borderRadius: 8
-        }}
-      >
-        <option style={{ fontSize: 14, fontWeight: 600 }} value={1}>Active</option>
-        <option value={0}>Inactive</option>
-      </Form.Select>
-    </Form.Group>
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222",
+                          fontFamily: "'Gilroy'",
+                          fontWeight: 500,
+                          fontStyle: 'normal',
+                          lineHeight: 'normal'
+                        }}
+                      >
+                        Status
+                      </Form.Label>
+
+                      <Form.Select
+                        aria-label="Default select example"
+                        className="border"
+                        value={status}
+                        onChange={handleChange}
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          lineHeight: '18.83px',
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #D9D9D9",
+                          height: 50,
+                          borderRadius: 8
+                        }}
+                      >
+                        <option style={{ fontSize: 14, fontWeight: 600 }} value={1}>Active</option>
+                        <option value={0}>Inactive</option>
+                      </Form.Select>
+                    </Form.Group>
                   </div>
 
 
 
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Set as default</Form.Label>
+                    <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Set as default</Form.Label>
                     <Form.Check type="switch" id="custom-switch" checked={active} onChange={(e) => handleSetAsDefault(e)} />
                   </div>
                 </div>
@@ -743,9 +763,9 @@ function Amenities() {
               <Modal.Footer style={{ border: "none" }}>
 
                 <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
-                 onClick={handleAmenitiesSetting}
+                  onClick={handleAmenitiesSetting} disabled={!hasChanges}
                 >
-                 Update Ameniteies
+                  Update Ameniteies
                 </Button>
               </Modal.Footer>
             </Modal.Dialog>

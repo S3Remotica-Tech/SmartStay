@@ -74,7 +74,7 @@ const toggleConfirmPasswordVisibility = () => {
 setTimeout(()=>{
 dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
 },2000)
-
+ navigate('/login-Page')
     }
   }, [state.createAccount.statusCodeCreateAccount]);
 
