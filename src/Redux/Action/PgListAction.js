@@ -117,6 +117,11 @@ import AxiosConfig from "../../WebService/AxiosConfig"
   }
 
 
+  export async function DeletePG(datum){
+    return await AxiosConfig.post('/delete/delete-hostel',datum,{
+      data:datum
+    })
+  }
 
   
 

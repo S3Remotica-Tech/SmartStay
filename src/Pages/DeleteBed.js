@@ -93,7 +93,8 @@ const handleDeleteBed = () =>{
          
           {actionType === 'addCustomer' && (
             <Button style={{width:130,height:52,borderRadius:8, border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} 
-              onClick={handleAddCustomer}>
+              // onClick={handleAddCustomer}
+              >
               Add Customer
             </Button>
           )}
