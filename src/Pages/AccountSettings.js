@@ -377,14 +377,13 @@ const Accountsettings = () => {
       Swal.fire({
         icon: 'info',
         title: 'No Changes Detected',
-        timer: 1000
+    
       });
     } else {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
-        timer: 1000
-      });
+          });
     }
   };
   

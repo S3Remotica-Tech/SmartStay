@@ -145,7 +145,7 @@ function Settings() {
       Swal.fire({
         text: "Update successfully",
         icon: "success",
-        timer: 1000,
+     
       });
     } else {
       dispatch({
@@ -155,7 +155,7 @@ function Settings() {
       Swal.fire({
         text: "Update successfully",
         icon: "success",
-        timer: 1000,
+       
       });
     }
 

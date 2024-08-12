@@ -86,7 +86,7 @@ if(editRoom){
     Swal.fire({
       icon: 'warning',
       title: 'No changes detected',
-      timer: 2000,
+     
     });
     return;
   }

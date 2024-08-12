@@ -116,13 +116,24 @@ function StaticExample({ show, handleClose, currentItem }) {
     const handleAddAsset = () => {
 
 
+if(!assetName && !vendorName && !brandName && !serialNumber && !productCount && !selectedDate && !price && !productName){
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter All Fields',
+       
+    });
+    return;
+}
+
+
+
         const isChanged = initialState.assetName !== assetName ||
         initialState.vendorName !== vendorName ||
         initialState.brandName !== brandName ||
         initialState.serialNumber !== serialNumber ||
-        initialState.productCount !== productCount ||
+        Number(initialState.productCount) !== Number(productCount) ||
         (initialState.selectedDate && selectedDate && initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
-        initialState.price !== price ||
+        Number(initialState.price) !== Number(price) ||
         initialState.productName !== productName
 
         console.log("isChanged",isChanged)
@@ -133,7 +144,7 @@ function StaticExample({ show, handleClose, currentItem }) {
         icon: 'warning',
         title: 'No changes detected',
         text: 'Please make some changes before saving.',
-        timer: 2000,
+   
       });
       return;
     }
@@ -162,11 +173,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
         } else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please Enter All Fields',
-                timer: 1000
-            });
+           
         }
     }
 
@@ -338,7 +345,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={serialNumber}
                                         onChange={handleSerialNumberChange}
-                                        type="email" placeholder="Enter number" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: serialNumber ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter number" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: serialNumber ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -349,7 +356,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={productCount}
                                         onChange={handleProductCountChange}
-                                        type="email" placeholder="Enter count" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: productCount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter count" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: productCount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>

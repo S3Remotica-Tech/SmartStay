@@ -64,6 +64,7 @@ const toggleConfirmPasswordVisibility = () => {
 
   useEffect(() => {
     if (state.createAccount.statusCodeCreateAccount === 200) {
+      navigate('/login-Page')
       setFirstName('')
       setLastName('')
       setPhoneNo('');
@@ -74,7 +75,7 @@ const toggleConfirmPasswordVisibility = () => {
 setTimeout(()=>{
 dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
 },2000)
- navigate('/login-Page')
+
     }
   }, [state.createAccount.statusCodeCreateAccount]);
 
@@ -96,7 +97,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
   const handleEmailID = (e) => {
     setEmailID(e.target.value);
     const email = e.target.value;
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const isValidEmail = emailRegex.test(email);
     const emailIDError = document.getElementById('emailIDError');
     if (emailIDError) {
@@ -165,7 +166,8 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
         icon: 'warning',
         title: 'Please enter a valid email address',
         confirmButtonText: 'Ok',
-        timer: 1000
+       
+        
       });
       return;
     }

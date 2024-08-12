@@ -166,15 +166,27 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     const handleAddExpenses = () => {
+
+
+        if(!vendorName && !category && !selectedDate && !count && !price && !modeOfPayment){
+            Swal.fire({
+                icon: 'warning',
+                title: 'Please Enter All Fields',
+                           });
+            return;
+        }
+
+
+
         const isChanged = 
         initialState.assetName !== assetName ||
         initialState.vendorName !== vendorName ||
         initialState.selectedDate && selectedDate && initialState.selectedDate.getTime() !== selectedDate.getTime() ||
-        initialState.price !== price ||
+      Number(initialState.price) !== Number(price) ||
         initialState.category !== category ||
         initialState.modeOfPayment !== modeOfPayment ||
         initialState.description !== description ||
-        initialState.count !== count ||
+       Number(initialState.count) !== Number(count) ||
         initialState.hostelName !== hostelName;
 
     console.log("isChanged", isChanged);
@@ -184,7 +196,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             icon: 'warning',
             title: 'No changes detected',
             text: 'Please make some changes before saving.',
-            timer: 2000,
+           
         });
         return;
     }
