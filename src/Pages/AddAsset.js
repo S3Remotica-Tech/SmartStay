@@ -116,13 +116,24 @@ function StaticExample({ show, handleClose, currentItem }) {
     const handleAddAsset = () => {
 
 
+if(!assetName && !vendorName && !brandName && !serialNumber && !productCount && !selectedDate && !price && !productName){
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter All Fields',
+       
+    });
+    return;
+}
+
+
+
         const isChanged = initialState.assetName !== assetName ||
         initialState.vendorName !== vendorName ||
         initialState.brandName !== brandName ||
         initialState.serialNumber !== serialNumber ||
-        initialState.productCount !== productCount ||
+        Number(initialState.productCount) !== Number(productCount) ||
         (initialState.selectedDate && selectedDate && initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
-        initialState.price !== price ||
+        Number(initialState.price) !== Number(price) ||
         initialState.productName !== productName
 
         console.log("isChanged",isChanged)
@@ -162,11 +173,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
         } else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please Enter All Fields',
-               
-            });
+           
         }
     }
 
