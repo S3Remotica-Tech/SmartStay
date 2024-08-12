@@ -10,7 +10,7 @@ console.log("response PG",response)
       yield put({ type: 'PG_LIST', payload:{response: response.data , statusCode:response.statusCode}})
           Swal.fire({
          icon: 'success',
-         title: 'Hostel Details saved Successfully',
+         title: response.message,
 
       });
 
@@ -181,12 +181,12 @@ function* handleCreateBed(action) {
 
 function* handleDeleteBed(action) {
    const response = yield call(DeleteBed, action.payload);
-   console.log("response delete Bed", response.status)
+   console.log("response delete Bed", response)
    if (response.status === 200) {
       yield put({ type: 'DELETE_BED', payload: { response: response.data, statusCode: response.status } })
       Swal.fire({
          icon: 'success',
-         title: "Bed created successfully",
+         title: "Bed Deleted successfully",
      })
    }
    else if (response.status === 201) {

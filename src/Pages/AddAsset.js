@@ -338,7 +338,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={serialNumber}
                                         onChange={handleSerialNumberChange}
-                                        type="email" placeholder="Enter number" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: serialNumber ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter number" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: serialNumber ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -349,7 +349,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={productCount}
                                         onChange={handleProductCountChange}
-                                        type="email" placeholder="Enter count" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: productCount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter count" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: productCount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
