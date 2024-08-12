@@ -395,7 +395,7 @@ function UserlistForm(props) {
         icon: 'warning',
         title: 'Please enter a valid email address',
         confirmButtonText: 'Ok',
-     
+       
       });
       return;
     }
@@ -415,7 +415,7 @@ function UserlistForm(props) {
         icon: 'warning',
         title: 'Please fill in all required fields',
         confirmButtonText: 'Ok',
-   
+       
       });
       return;
     }
