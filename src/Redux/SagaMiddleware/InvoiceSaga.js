@@ -89,6 +89,7 @@ function* handleAmenitiesSettings(action){
          text: "Amenities Insert successfully",
          icon: "success",
          timer: 1000,
+         showConfirmButton: false,
      });
 
    }
@@ -131,6 +132,7 @@ function* handleUpdateAmenities(action) {
          text: "Amenities Update successfully",
          icon: "success",
          timer: 1000,
+         showConfirmButton: false,
      });
 
    }

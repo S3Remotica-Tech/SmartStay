@@ -87,6 +87,7 @@ function* handleCreateFloor(data) {
          icon: 'success',
          title: `${response.data.message}`,
                  timer:1000,
+                 showConfirmButton: false,
        })
    }
    else if(response.status === 202) {
@@ -132,6 +133,7 @@ function* handleAddUser(datum) {
                title: `${response.message}`,
                confirmButtonText: 'Ok',
                timer:1000,
+               showConfirmButton: false,
              })
     
       }

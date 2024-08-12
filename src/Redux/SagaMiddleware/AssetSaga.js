@@ -32,6 +32,7 @@ function* handleAddAsset(action) {
          text: `${response.data.message}`,
          icon: "success",
          timer: 1000,
+         showConfirmButton: false,
      });
 
     }
@@ -85,6 +86,7 @@ function* handleAssignAsset(action) {
          text: `${response.data.message}`,
          icon: "success",
          timer: 1000,
+         showConfirmButton: false,
      });
 
         }

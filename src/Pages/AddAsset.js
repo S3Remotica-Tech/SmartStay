@@ -133,7 +133,7 @@ function StaticExample({ show, handleClose, currentItem }) {
         icon: 'warning',
         title: 'No changes detected',
         text: 'Please make some changes before saving.',
-        timer: 2000,
+   
       });
       return;
     }
@@ -165,7 +165,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Please Enter All Fields',
-                timer: 1000
+               
             });
         }
     }

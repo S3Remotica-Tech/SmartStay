@@ -104,7 +104,7 @@ function AddVendor( {show, handleClose ,currentItem}) {
           Swal.fire({
             icon: 'warning',
             title: 'Enter Valid Email Id',
-            timer: 2000
+           
           });
           return;
         }
@@ -113,7 +113,7 @@ function AddVendor( {show, handleClose ,currentItem}) {
           Swal.fire({
             icon: 'warning',
             title: 'Enter Valid Mobile Number',
-            timer: 2000
+          
           });
           return;
         }
@@ -132,7 +132,7 @@ function AddVendor( {show, handleClose ,currentItem}) {
         Swal.fire({
             icon: 'warning',
             title: 'No changes detected',
-            timer: 1000
+            
         });
         return;
     }
@@ -166,7 +166,7 @@ function AddVendor( {show, handleClose ,currentItem}) {
           Swal.fire({
             icon: 'warning',
             title: 'Please Enter All Fields',
-            timer: 1000
+          
           });
         }
       }

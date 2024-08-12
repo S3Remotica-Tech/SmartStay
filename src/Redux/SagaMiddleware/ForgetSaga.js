@@ -13,6 +13,7 @@ function* handleforgetpage(rpsd) {
                 text: "NewPassword is Updated",
                 icon: "success",
                 timer: 1000,
+                showConfirmButton: false,
             });
 
         }
@@ -23,6 +24,7 @@ function* handleforgetpage(rpsd) {
                 title: 'Error',
                 text: response.data.message ,
                 timer: 1000,
+                showConfirmButton: false,
             });
 
         } else if (response.status === 201) {
@@ -32,6 +34,7 @@ function* handleforgetpage(rpsd) {
                 title: 'Error',
                 text: response.data.message ,
                 timer: 1000,
+                showConfirmButton: false,
             });
         }
     }
@@ -76,6 +79,7 @@ function* handleSendOtp(action) {
             title: 'Error',
             text: response.data.message ,
                 timer:1000,
+                showConfirmButton: false,
             });
     }
 }
