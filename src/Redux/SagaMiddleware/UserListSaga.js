@@ -86,7 +86,8 @@ function* handleCreateFloor(data) {
       Swal.fire({
          icon: 'success',
          title: `${response.data.message}`,
-                 timer:1000,
+               //   timer:1000,
+               //   showConfirmButton: false,
        })
    }
    else if(response.status === 202) {
@@ -131,7 +132,8 @@ function* handleAddUser(datum) {
                icon: 'success',
                title: `${response.message}`,
                confirmButtonText: 'Ok',
-               timer:1000,
+               // timer:1000,
+               // showConfirmButton: false,
              })
     
       }
@@ -180,8 +182,8 @@ function* handleAddUser(datum) {
           Swal.fire({
             icon: 'success',
          text: 'User Check Out Successfully',
-        timer: 2000,
-        showConfirmButton: false,
+      //   timer: 2000,
+      //   showConfirmButton: false,
       });
 
       }
@@ -202,8 +204,8 @@ function* handleAddUser(datum) {
          Swal.fire({
             icon: 'success',
          text: 'Floor Delete Successfully',
-        timer: 2000,
-        showConfirmButton: false,
+      //   timer: 2000,
+      //   showConfirmButton: false,
       });
      
      

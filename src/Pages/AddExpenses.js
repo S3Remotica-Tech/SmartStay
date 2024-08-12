@@ -184,7 +184,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             icon: 'warning',
             title: 'No changes detected',
             text: 'Please make some changes before saving.',
-            timer: 2000,
+           
         });
         return;
     }

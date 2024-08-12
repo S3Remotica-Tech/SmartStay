@@ -61,15 +61,15 @@ function AddPg({ show, handleClose, currentItem }) {
   const handleEmailChange = (e) => {
     const emailValue = e.target.value;
     setEmail(emailValue);
+
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const isValidEmail = emailRegex.test(emailValue);
-    if (isValidEmail) {
-      setErrorsPG(prevErrors => ({ ...prevErrors, email: '' }));
-    } else {
-      setErrorsPG(prevErrors => ({ ...prevErrors, email: 'Invalid Email Id *' }));
-    }
-  };
 
+    setErrors(prevErrors => ({
+        ...prevErrors,
+        email: isValidEmail ? '' : 'Invalid Email Id *'
+    }));
+};
 
 
   const handlePgNameChange = (e) => {
@@ -102,20 +102,23 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
   const handleCreatePayingGuest = () => {
-    if (errors.email === 'Invalid Email Id *') {
+    const emailError = errors.email === 'Invalid Email Id *';
+    const mobileError = errors.mobile === 'Invalid mobile number *';
+
+    if (errors.email)  {
       Swal.fire({
         icon: 'warning',
         title: 'Enter Valid Email Id',
-        timer: 2000
+       
       });
       return;
     }
 
-    if (errors.mobile === 'Invalid mobile number *') {
+    if (mobileError) {
       Swal.fire({
         icon: 'warning',
         title: 'Enter Valid Mobile Number',
-        timer: 2000
+     
       });
       return;
     }
@@ -131,7 +134,7 @@ function AddPg({ show, handleClose, currentItem }) {
     Swal.fire({
       icon: 'warning',
       title: 'No changes detected',
-      timer: 2000,
+     
     });
     return;
   }
@@ -150,7 +153,7 @@ function AddPg({ show, handleClose, currentItem }) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
-        timer: 1000
+    
 
       });
     }

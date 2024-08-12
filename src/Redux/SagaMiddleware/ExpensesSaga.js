@@ -43,7 +43,8 @@ function* handleAddExpense(action) {
        Swal.fire({
         text: `${response.data.message}`,
         icon: "success",
-        timer: 1000,
+      //   timer: 1000,
+      //   showConfirmButton: false,
     });
 
 
@@ -62,7 +63,8 @@ function* handleAddExpense(action) {
     console.log("response",response)
     if (response.status === 200){
        yield put ({type : 'DELETE_EXPENSE' , payload:{response:response.data.data, statusCode:response.status}})
-           }
+         
+      }
     else {
        yield put ({type:'ERROR', payload:response.data.message})
     }

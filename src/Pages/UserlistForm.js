@@ -395,7 +395,7 @@ function UserlistForm(props) {
         icon: 'warning',
         title: 'Please enter a valid email address',
         confirmButtonText: 'Ok',
-        timer: 1000
+     
       });
       return;
     }
@@ -405,7 +405,7 @@ function UserlistForm(props) {
         icon: 'warning',
         title: 'Please enter a valid 10-digit phone number',
         confirmButtonText: 'Ok',
-        timer: 1000
+        
       });
       return;
     }
@@ -415,7 +415,7 @@ function UserlistForm(props) {
         icon: 'warning',
         title: 'Please fill in all required fields',
         confirmButtonText: 'Ok',
-        timer: 1000
+   
       });
       return;
     }
@@ -515,7 +515,7 @@ function UserlistForm(props) {
         icon: 'warning',
         title: 'Please Enter All Fields',
         confirmButtonText: 'Ok',
-        timer: 1000
+       
       });
 
     }

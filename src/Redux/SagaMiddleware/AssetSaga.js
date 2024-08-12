@@ -31,7 +31,8 @@ function* handleAddAsset(action) {
        Swal.fire({
          text: `${response.data.message}`,
          icon: "success",
-         timer: 1000,
+         // timer: 1000,
+         // showConfirmButton: false,
      });
 
     }
@@ -84,7 +85,7 @@ function* handleAssignAsset(action) {
       Swal.fire({
          text: `${response.data.message}`,
          icon: "success",
-         timer: 1000,
+        
      });
 
         }

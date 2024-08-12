@@ -545,7 +545,7 @@ const Compliance = () => {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
-        timer: 1000
+        
       });
     }
   }
