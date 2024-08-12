@@ -86,7 +86,7 @@ function AddVendor( {show, handleClose ,currentItem}) {
       const handleEmailChange = (e) => {
         const email = e.target.value;
         setEmail_Id(email);
-        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
         const isValidEmail = emailRegex.test(email);
         if (isValidEmail) {
           setErrors(prevErrors => ({ ...prevErrors, email_Id: '' }));

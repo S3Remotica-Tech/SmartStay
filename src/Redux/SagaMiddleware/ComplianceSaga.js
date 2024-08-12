@@ -57,11 +57,11 @@ function* handleVendorGet(action) {
 
 function* handleAddVendor(action) {
    const response = yield call (addVendor,action.payload);
- console.log(" response", response)
+ console.log("response", response)
    if (response.statusCode === 200){
       yield put ({type : 'ADD_VENDOR' , payload:{response:response.data, statusCode:response.statusCode}})
       Swal.fire({
-         text: "To Create a Vendor is Successfully!",
+         text: response.message,
          icon: "success",
          // timer: 2000,
          // showConfirmButton: false,

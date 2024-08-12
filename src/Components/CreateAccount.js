@@ -97,7 +97,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
   const handleEmailID = (e) => {
     setEmailID(e.target.value);
     const email = e.target.value;
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const isValidEmail = emailRegex.test(email);
     const emailIDError = document.getElementById('emailIDError');
     if (emailIDError) {
