@@ -7,14 +7,17 @@ import Card from 'react-bootstrap/Card';
 import Vendors from '../Assets/Images/New_images/profile-picture.png';
 import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
+import Swal from 'sweetalert2';
 
-
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
 function PayingGuestMap(props) {
 
-
+    const state = useSelector(state => state)
+    const dispatch = useDispatch();
+   
     const [showDots, setShowDots] = useState(null);
 
     const handleMouseEnter = (hostelId) => {
@@ -34,7 +37,21 @@ props.OnEditHostel(item)
 
 
     const handleDelete = (item) => {
-
+        console.log("item",item)
+if(item){
+    Swal.fire({
+        icon: 'warning',
+        title: 'Do you want to delete the hostel?',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        showCancelButton: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            dispatch({ type: 'DELETEPG', payload:{hostel_Id: item.id}})
+                  }
+    });
+    
+}
     }
 
     const handleSelectedHostel = (selectedHostel) => {
@@ -76,7 +93,7 @@ props.onRowVisiblity(false)
                                             <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222",cursor:"pointer" }} >Edit</label>
                                         </div>
                                         <div 
-                                        // onClick={() => handleDelete(props.hostel)}
+                                        onClick={() => handleDelete(props.hostel)}
                                         >
                                             <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" ,cursor:"pointer"}}>Delete</label>
                                         </div>
