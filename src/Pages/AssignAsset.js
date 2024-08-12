@@ -20,19 +20,32 @@ function StaticExample({ show, handleClose, currentItem }) {
     console.log("state", state)
 
     console.log("currentItem", currentItem)
-    
 
-useEffect(()=>{
-if(currentItem.hostel_id){
-    setPgList(currentItem.hostel_id)
-    setRoom(currentItem.room_id)
-    setDate(moment(currentItem.assigned_date).format('YYYY-MM-DD'))
-}else{
-    setPgList('')
-    setRoom('')
-    setDate('')
-}
-},[currentItem])
+    const [initialState, setInitialState] = useState({
+        pglist: '',
+        room: '',
+        date: ''
+    });
+
+
+
+    useEffect(() => {
+        if (currentItem.hostel_id) {
+            setPgList(currentItem.hostel_id)
+            setRoom(currentItem.room_id)
+            setDate(moment(currentItem.assigned_date).format('YYYY-MM-DD'))
+            
+            setInitialState({
+                pglist: currentItem.hostel_id || '',
+                room: currentItem.room_id || '',
+                date: currentItem.assigned_date ? moment(currentItem.assigned_date).format('YYYY-MM-DD') : '',
+            });
+        } else {
+            setPgList('')
+            setRoom('')
+            setDate('')
+        }
+    }, [currentItem])
 
 
 
@@ -65,31 +78,52 @@ if(currentItem.hostel_id){
         setDate(e.target.value)
     }
 
-    useEffect(()=>{
-        if(pglist){
-            dispatch({ type: 'GETROOMS' , payload : { hostel_Id : pglist }})
+    useEffect(() => {
+        if (pglist) {
+            dispatch({ type: 'GETROOMS', payload: { hostel_Id: pglist } })
         }
-    },[pglist])
+    }, [pglist])
 
 
 
-    const handleAddAssignAsset = () =>{
-        if(pglist  && room  && date && currentItem.id ){
-dispatch({ type: 'ASSIGNASSET', payload:{ asset_id : currentItem.id, hostel_id:pglist , room_id: room,asseign_date: date}})
-setPgList('')
-setRoom('')
-setDate('')
-handleClose()
-}else{
+    const handleAddAssignAsset = () => {
+
+
+        if (!pglist && !room && !date) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Please Enter All Fields',
-              
-              });
+
+            });
+            return;
+        }
+
+
+        const isChanged = 
+          Number(initialState.pglist) !== Number(pglist) ||
+        Number(initialState.room) !== Number(room)||
+        initialState.date !== date;
+
+
+        if (!isChanged) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'No changes detected',
+            });
+            return;
+        }
+        if (pglist && room && date && currentItem.id) {
+            dispatch({ type: 'ASSIGNASSET', payload: { asset_id: currentItem.id, hostel_id: pglist, room_id: room, asseign_date: date } })
+            setPgList('')
+            setRoom('')
+            setDate('')
+            handleClose()
+        } else {
+
         }
     }
 
-console.log("pglist",room)
+    console.log("pglist", room)
     return (
         <div
             className="modal show"
@@ -109,7 +143,7 @@ console.log("pglist",room)
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest</Form.Label>
-                                    <Form.Select aria-label="Default select example" className='' id="vendor-select" value={pglist} onChange={handlePgChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    <Form.Select aria-label="Default select example" className='' id="vendor-select" value={pglist} onChange={handlePgChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: pglist ? 600 : 500 }}>
                                         <option>Select a PG</option>
                                         {
                                             state.UsersList?.hostelList?.map((item) => {
@@ -127,7 +161,7 @@ console.log("pglist",room)
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Select a room</Form.Label>
-                                    <Form.Select aria-label="Default select example" className='' id="vendor-select" value={room} onChange={handleRoomChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    <Form.Select aria-label="Default select example" className='' id="vendor-select" value={room} onChange={handleRoomChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: room ? 600 : 500 }}>
                                         <option>Select a room</option>
                                         {state.AssetList.GetRoomList && state.AssetList.GetRoomList.map((item) => {
                                             return (
@@ -148,7 +182,7 @@ console.log("pglist",room)
                                     <Form.Control className="custom-date-input"
                                         value={date}
                                         onChange={handleDateChange}
-                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: date ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
                             </div>
 
@@ -159,10 +193,10 @@ console.log("pglist",room)
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
                         <Button className='w-100' onClick={handleAddAssignAsset} style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }} >
-                        {currentItem.hostel_id ? 'Reassign asset ' : 'Assign asset'}
+                            {currentItem.hostel_id ? 'Reassign asset ' : 'Assign asset'}
                         </Button>
                     </Modal.Footer>
-                </Modal.Dialog> 
+                </Modal.Dialog>
             </Modal>
         </div>
     );

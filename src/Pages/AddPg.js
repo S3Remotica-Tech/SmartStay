@@ -106,6 +106,17 @@ function AddPg({ show, handleClose, currentItem }) {
     const emailError = errors.email === 'Invalid Email Id *';
     const mobileError = errors.mobile === 'Invalid mobile number *';
 
+
+    if(!pgName && !mobile && !email && !location){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter All Fields',
+    
+
+      });
+      return;
+    }
+
     if (errors.email)  {
       Swal.fire({
         icon: 'warning',
@@ -126,7 +137,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
     const isChanged = 
     pgName !== initialState.pgName || 
-    mobile !== initialState.mobile || 
+    Number(mobile) !== Number(initialState.mobile) || 
     email !== initialState.email || 
     location !== initialState.location || 
     file !== initialState.file;
@@ -151,12 +162,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
       setLocation('')
     } else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Fields',
-    
-
-      });
+      
     }
 
 
