@@ -131,7 +131,7 @@ function* handleAddUser(datum) {
                icon: 'success',
                title: `${response.message}`,
                confirmButtonText: 'Ok',
-               timer:1000,
+               // timer:1000,
              })
     
       }
