@@ -19,8 +19,8 @@ console.log("response PG",response)
           Swal.fire({
          icon: 'warning',
          title: 'Hostel name already exist' ,
-         timer: 1000,
-         showConfirmButton: false,
+         // timer: 1000,
+         // showConfirmButton: false,
               });
         }else {
       console.log('Unhandled status code:', response.statusCode); 
@@ -168,8 +168,8 @@ function* handleCreateBed(action) {
         Swal.fire({
          icon: 'warning',
          title: response.data.message,
-         timer: 1000,
-         showConfirmButton: false,
+         // timer: 1000,
+         // showConfirmButton: false,
               });
    }
    if(response){
@@ -193,8 +193,8 @@ function* handleDeleteBed(action) {
        Swal.fire({
          icon: 'warning',
          title: response.data.message,
-         timer: 1000,
-         showConfirmButton: false,
+         // timer: 1000,
+         // showConfirmButton: false,
               });
    }
    if(response){

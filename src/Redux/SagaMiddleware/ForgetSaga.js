@@ -12,8 +12,8 @@ function* handleforgetpage(rpsd) {
                 title: "Good job!",
                 text: "NewPassword is Updated",
                 icon: "success",
-                timer: 1000,
-                showConfirmButton: false,
+                // timer: 1000,
+                // showConfirmButton: false,
             });
 
         }
@@ -23,8 +23,8 @@ function* handleforgetpage(rpsd) {
                 icon: 'warning',
                 title: 'Error',
                 text: response.data.message ,
-                timer: 1000,
-                showConfirmButton: false,
+                // timer: 1000,
+                // showConfirmButton: false,
             });
 
         } else if (response.status === 201) {
@@ -33,8 +33,8 @@ function* handleforgetpage(rpsd) {
                 icon: 'warning',
                 title: 'Error',
                 text: response.data.message ,
-                timer: 1000,
-                showConfirmButton: false,
+                // timer: 1000,
+                // showConfirmButton: false,
             });
         }
     }
@@ -78,8 +78,8 @@ function* handleSendOtp(action) {
             icon: 'warning',
             title: 'Error',
             text: response.data.message ,
-                timer:1000,
-                showConfirmButton: false,
+                // timer:1000,
+                // showConfirmButton: false,
             });
     }
 }

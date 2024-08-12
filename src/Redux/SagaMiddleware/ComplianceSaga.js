@@ -63,8 +63,8 @@ function* handleAddVendor(action) {
       Swal.fire({
          text: "To Create a Vendor is Successfully!",
          icon: "success",
-         timer: 2000,
-         showConfirmButton: false,
+         // timer: 2000,
+         // showConfirmButton: false,
      });
    }
    else {
@@ -86,8 +86,8 @@ function* handleDeleteVendor(action) {
       Swal.fire({
          text: "To delete a Vendor is Successfully!",
          icon: "success",
-         timer: 1000,
-         showConfirmButton: false,
+         // timer: 1000,
+         // showConfirmButton: false,
      });
    }
    else {

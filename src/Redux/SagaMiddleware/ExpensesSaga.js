@@ -43,8 +43,8 @@ function* handleAddExpense(action) {
        Swal.fire({
         text: `${response.data.message}`,
         icon: "success",
-        timer: 1000,
-        showConfirmButton: false,
+      //   timer: 1000,
+      //   showConfirmButton: false,
     });
 
 

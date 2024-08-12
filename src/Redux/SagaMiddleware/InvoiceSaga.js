@@ -88,8 +88,8 @@ function* handleAmenitiesSettings(action){
          title: "Good job!",
          text: "Amenities Insert successfully",
          icon: "success",
-         timer: 1000,
-         showConfirmButton: false,
+         // timer: 1000,
+         // showConfirmButton: false,
      });
 
    }
@@ -131,8 +131,8 @@ function* handleUpdateAmenities(action) {
          title: "Good job!",
          text: "Amenities Update successfully",
          icon: "success",
-         timer: 1000,
-         showConfirmButton: false,
+         // timer: 1000,
+         // showConfirmButton: false,
      });
 
    }
