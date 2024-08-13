@@ -459,8 +459,7 @@ const Accountsettings = () => {
         title: 'Please Enter All Fields',
         confirmButtonText: 'Ok'
         // timer: 1000
-      });
-          });
+                });
     }
   };
 
