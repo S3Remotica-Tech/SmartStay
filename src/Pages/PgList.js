@@ -199,6 +199,7 @@ if(state.UsersList.deleteFloorSuccessStatusCode == 200){
   setTimeout(()=>{
 dispatch({ type: 'CLEAR_DELETE_FLOOR'})
   },2000)
+  setFloorClick('')
 }
 },[state.UsersList.deleteFloorSuccessStatusCode])
 
@@ -764,6 +765,7 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
   const handleShowDelete = (FloorNumber, hostel_Id) => {
     setShowDelete(true)
     setDeleteFloor({floor_Id: FloorNumber, hostel_Id : hostel_Id })
+    
   }
 
 console.log("key",key)
@@ -952,6 +954,9 @@ console.log("key",key)
                     </div>
                   </Col>
                   <Col sm={12} xs={12} md={10} lg={10}>
+                  {
+                    floorClick &&
+               
                     <div className='d-flex justify-content-between align-items-center'>
                       <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(floorClick)}</div>
                       <div>
@@ -979,7 +984,7 @@ console.log("key",key)
                         </div>
                       </div>
                     </div>
-
+}
 
                     <Tab.Content>
                       <ParticularHostelDetails
