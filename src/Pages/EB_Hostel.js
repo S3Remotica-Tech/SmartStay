@@ -412,7 +412,26 @@ if(state.PgList.AddEBstatusCode === 200){
           </div>
 
           <div>
-            <Button style={{ fontFamily: "Montserrat", fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 184, height: 56, padding: "18px, 20px, 18px, 20px" }} onClick={handleAddEbDetails}> + Add transaction</Button>
+          <Button
+    style={{
+      fontFamily: "Montserrat",
+      fontSize: 16,
+      backgroundColor: transactionshow ? "#ccc" : "#1E45E1",
+      color: "white",
+      height: 56,
+      fontWeight: 600,
+      borderRadius: 12,
+      width: 184,
+      padding: "18px, 20px, 18px, 20px",
+      border:"none",
+      cursor: transactionshow ? "not-allowed" : "pointer"
+    }}
+    onClick={handleAddEbDetails}
+    disabled={transactionshow}
+  >
+    + Add transaction
+  </Button> 
+            {/* <Button style={{ fontFamily: "Montserrat", fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 184, height: 56, padding: "18px, 20px, 18px, 20px" }} onClick={handleAddEbDetails}> + Add transaction</Button> */}
           </div>
         </div>
       </div>
@@ -726,7 +745,7 @@ if(state.PgList.AddEBstatusCode === 200){
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest</Form.Label>
                 <Form.Select aria-label="Default select example"
-                  className='border' value={selectedHostel} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
+                  className='border' value={selectedHostel} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}>
 
                   <option style={{ fontSize: 14, fontWeight: 600, }} selected value=''>Select PG</option>
                   {state.UsersList?.hostelList && state.UsersList?.hostelList.map((item) => (
@@ -735,7 +754,14 @@ if(state.PgList.AddEBstatusCode === 200){
                   ))}
 
                 </Form.Select>
+                   {unitAmount && unitAmount?.length === 0 && selectedHostel != '' && <>
+
+<label className="pb-1" style={{ fontSize: 12, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'ebUnitAmount'</label>
+
+
+</>}
               </div>
+           
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Floor</Form.Label>
                 <Form.Select

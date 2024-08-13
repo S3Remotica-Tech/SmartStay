@@ -1001,7 +1001,7 @@ console.log("item",item)
 
           showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer} userDetails={userDetails} handleBack={handleBack} getFormattedRoomId={getFormattedRoomId} getFloorName={getFloorName} id={id} aadhaarNo={aadhaarNo}
           handleValidateAadhaar={handleValidateAadhaar} showOtpValidation={showOtpValidation} kycOtpValue={kycOtpValue} handleKycOtpChange={handleKycOtpChange} showValidate={showValidate} handleVerifyOtp={handleVerifyOtp}   selectAmneties={selectAmneties} handleselect={handleselect}  hostelName={hostelName} createby={createby} statusShow={statusShow} customerUser_Id={customerUser_Id} hostelIds={hostelIds}
-          statusAmni={statusAmni} handleStatusAmnities={handleStatusAmnities} handleAddUserAmnities={handleAddUserAmnities} currentRowAmnities={currentRowAmnities} amnitiescurrentPage={amnitiescurrentPage}  /> : null
+          statusAmni={statusAmni} handleStatusAmnities={handleStatusAmnities} handleAddUserAmnities={handleAddUserAmnities} currentRowAmnities={currentRowAmnities} amnitiescurrentPage={amnitiescurrentPage} handleAdhaarChange={handleAdhaarChange}  /> : null
       }
 
       {
