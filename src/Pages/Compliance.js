@@ -99,11 +99,13 @@ const Compliance = () => {
   const calendarRef = useRef(null);
 
   const options = {
-    dateFormat: 'd/m/Y', // Set the date format to DD/MM/YYYY
-    defaultDate: selectedDate || new Date(), // Set default date to the selected date or today
-    // minDate: selectedDate ? selectedDate : 'today'
-    // Allow past dates if a date is selected
+    dateFormat: 'd/m/Y',
+    defaultDate: selectedDate,
+    maxDate: new Date(),
+    minDate:new Date() 
   };
+
+ 
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -545,7 +547,7 @@ const Compliance = () => {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
-        
+         confirmButtonText: "ok"
       });
     }
   }

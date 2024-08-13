@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from '../Assets/Images/New_images/edit.png';
-
+import Hostel from  "../Assets/Images/Logo-Icon.png"
+import Image from 'react-bootstrap/Image';
 
 
 
@@ -25,7 +26,20 @@ const InvoiceSettingsList = (props) => {
     return (
         <>
             <tr style={{ lineHeight: "40px" }}>
-                <td className='ps-1 ps-lg-5' style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{props.item.Name}</td>
+            <td className='ps-1 ps-lg-3' style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
+            <Image
+            src={Hostel}
+            roundedCircle
+            style={{
+              height: 30,
+              width: 30,
+              borderRadius: '50%',
+            }}
+
+          
+          />
+            </td>
+                <td className='ps-1 ps-lg-2' style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{props.item.Name}</td>
                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>{props.item.prefix ? props.item.prefix :'-'}</td>
                 <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy", alignItems: 'center' }}>{props.item.suffix ? props.item.suffix :'-'}</td>
 

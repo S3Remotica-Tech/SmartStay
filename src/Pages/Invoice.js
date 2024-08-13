@@ -875,7 +875,7 @@ const InvoicePage = () => {
         Swal.fire({
           icon: "success",
           title: "Update Successfully",
-          confirmButtonText: "ok"
+          // confirmButtonText: "ok"
         });
       }, 300);
       setShowform(false);
@@ -979,7 +979,7 @@ const InvoicePage = () => {
 
 
 
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const calendarRef = useRef(null);
 
 
@@ -987,10 +987,12 @@ console.log("selectedDate",selectedDate)
 
 
 
-  const options = {
-      dateFormat: 'd/m/Y',
-      defaultDate: selectedDate || new Date(),
-  };
+const options = {
+  dateFormat: 'd/m/Y',
+  defaultDate: selectedDate,
+  maxDate: new Date(),
+  minDate:new Date() 
+};
 
   useEffect(() => {
       if (calendarRef.current) {

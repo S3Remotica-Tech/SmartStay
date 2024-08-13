@@ -119,7 +119,9 @@ function InvoiceSettings() {
             Swal.fire({
                 text: "Prefix, Suffix Update successfully",
                 icon: "success",
-            
+                confirmButtonText: 'Ok'
+                // timer: 1000,
+
             }).then(() => {
                 handleClose();
                 setEditHostel({ id: '', name: '' });
@@ -153,7 +155,9 @@ function InvoiceSettings() {
             Swal.fire({
                 text: "Prefix, Suffix, Profile Update successfully",
                 icon: "success",
-            
+
+                confirmButtonText: 'Ok'
+                // timer: 1000,
             }).then(() => {
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
@@ -172,7 +176,9 @@ function InvoiceSettings() {
             Swal.fire({
                 text: "Profile Update successfully",
                 icon: "success",
-               
+
+                confirmButtonText: 'Ok'
+                // timer: 1000,
             }).then(() => {
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
@@ -192,7 +198,10 @@ function InvoiceSettings() {
             Swal.fire({
                 text: "Prefix, Suffix Update successfully",
                 icon: "success",
-                
+
+                confirmButtonText: 'Ok'
+                // timer: 1000,
+
             }).then(() => {
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
@@ -474,8 +483,8 @@ function InvoiceSettings() {
                 <Table className="ebtable mt-3" responsive  >
                     <thead style={{ backgroundColor: "#E7F1FF" }}>
                         <tr>
-
-                            <th style={{ color: '#222', paddingLeft: "40px", fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
+                           <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}></th>
+                            <th style={{ color: '#222',  fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
                             <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Prefix</th>
                             <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>suffix </th>
                             <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>

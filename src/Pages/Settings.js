@@ -145,7 +145,7 @@ function Settings() {
       Swal.fire({
         text: "Update successfully",
         icon: "success",
-     
+        confirmButtonText: 'Ok'
       });
     } else {
       dispatch({
@@ -155,7 +155,10 @@ function Settings() {
       Swal.fire({
         text: "Update successfully",
         icon: "success",
-       
+
+        confirmButtonText: 'Ok'
+        // timer: 1000,
+
       });
     }
 
@@ -589,7 +592,7 @@ function Settings() {
               <Tab label="Expences" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Complaint type" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Amenities" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Users" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              {/* <Tab label="Users" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
 
             </TabList>
           </Box>
@@ -719,8 +722,8 @@ function Settings() {
               <Table className="ebtable mt-3" responsive  >
                 <thead style={{ backgroundColor: "#E7F1FF" }}>
                   <tr>
-
-                    <th style={{ color: '#222', paddingLeft: "40px", fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal', paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}></th>
+                    <th style={{ color: '#222',  fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal', paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
                     <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal' }}>Unit</th>
                     <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal' }}>Amount </th>
                     <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}></th>
@@ -967,7 +970,7 @@ function Settings() {
         <TabPanel value="4"><ExpencesSettings /> </TabPanel>
         <TabPanel value="5"><Complaintsettings /> </TabPanel>
         <TabPanel value="6"><Amenities /> </TabPanel>
-        <TabPanel value="7"><UserSettings /> </TabPanel>
+        {/* <TabPanel value="7"><UserSettings /> </TabPanel> */}
       </TabContext>
 
       {/* <div className='mt-0 ' style={{}}>
