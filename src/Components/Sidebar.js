@@ -343,13 +343,20 @@ function Sidebar() {
   const stateAccount= useSelector(state => state.createAccount)
 
 
-  const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
+  const [profile, setProfile] = useState(null)
   
+
+  useEffect(()=> {
+   
+    const Filteredprofile = stateAccount?.accountList[0]?.user_details?.profile
+    setProfile(Filteredprofile)
+  },[])
+
+
   
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
       const loginProfile = stateAccount.accountList[0].user_details.profile
-        
           setProfile(loginProfile)
         }
   
@@ -442,21 +449,24 @@ setCurrentPage('compliance')
             <div className='container d-flex justify-content-end align-items-center mr-3' style={{ marginTop:'30px'}}>
 
 <div >
-  <InputGroup>
+  {/* <InputGroup>
     <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
       <CiSearch style={{ fontSize: 20 }} />
     </InputGroup.Text>
     <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
       placeholder="Search..."
     />
-  </InputGroup>
+  </InputGroup> */}
 </div>
 <div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
   <img src={Notify} alt="notification" />
 </div>
 
 <div className="mr-3" style={{cursor:"pointer"}}>
-  <Image src={profile && profile != 0 ? profile : Profileimage} roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
+  <Image 
+src={profile && profile != 0 ? profile : Profileimage}
+  // src={profile && profile != 0  || profile !=null? profile : Profileimage}
+   roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
 </div>
 </div>
 

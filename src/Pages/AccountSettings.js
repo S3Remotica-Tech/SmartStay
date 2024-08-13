@@ -62,20 +62,20 @@ const Accountsettings = () => {
   //   email: '',     
   //   Address: ''   
   // };
-  
+
   // const [firstname, setFirstName] = useState(initialValues.firstname);
   // const [lastname, setLastName] = useState(initialValues.lastname);
   // const [phone, setPhone] = useState(initialValues.phone);
   // const [email, setEmail] = useState(initialValues.email);
   // const [Address, setAddress] = useState(initialValues.Address);
-  
+
 
   const [firstNameError, setFirstNameError] = useState(false);
   const [lastNameError, setLastNameError] = useState(false);
   const [EmailError, setEmailError] = useState(false);
   const [mobilenoError, setMobileNoError] = useState(false);
   const [AddressError, setAddressError] = useState(false);
-  const [error , setError] = useState(false)
+  const [error, setError] = useState(false)
   const [value, setValue] = React.useState('1');
 
 
@@ -109,32 +109,41 @@ const Accountsettings = () => {
   }
 
   const handleEmailId = (e) => {
-    const value = e.target.value;
-    if (value.trim() === '') {
-      setEmailError(true);
-      setEmail('');
-    } else {
-      setEmailError(false);
-      setEmail(value);
-    }
-  }
+    setEmail(e.target.value);
+    const email = e.target.value;
 
-  const handlePhone = (e) => {
-    const value = e.target.value.trim();
-  
-    if (value === '') {
-      setMobileNoError(true);
-      setPhone('');
-    } else if (value.length <= 10) {  // Allow input as long as it's 10 digits or less
-      setMobileNoError(false);
-      setPhone(value);
+    const hasUpperCase = /[A-Z]/.test(email);
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+    const isValidEmail = emailRegex.test(email);
+
+
+    if (hasUpperCase) {
+      document.getElementById('emailIDError').innerHTML = 'Email should be in lowercase *';
+    } else if (isValidEmail) {
+      document.getElementById('emailIDError').innerHTML = '';
     } else {
-      // If the length is greater than 10, do nothing to prevent adding more digits
-      setPhone(value.slice(0, 10)); // Optionally trim it to 10 digits if needed
+      document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *';
     }
   };
-  
-  
+
+
+  const handlePhone = (e) => {
+
+    setPhone(e.target.value)
+    const pattern = new RegExp(/^\d{1,10}$/);
+    const isValidMobileNo = pattern.test(e.target.value)
+    if (isValidMobileNo && e.target.value.length === 10) {
+      document.getElementById('MobileNumberError').innerHTML = ''
+    }
+    else {
+      document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
+    }
+
+
+  };
+
+
+
 
   const handleAddress = (e) => {
     const value = e.target.value;
@@ -180,40 +189,79 @@ const Accountsettings = () => {
 
 
   useEffect(() => {
-
-    const FIlteredProfile = state?.createAccount?.accountList[0].user_details
+    const FIlteredProfile = state?.createAccount?.accountList[0]?.user_details;
     console.log("FIlteredProfile", FIlteredProfile);
+  
     if (FIlteredProfile) {
-      const CustomerFirstName = FIlteredProfile.first_name
-      const CustomerLastName = FIlteredProfile.last_name
-      const PhoneNUmber = FIlteredProfile.mobileNo
-      const UserEmail = FIlteredProfile.email_Id
-      const UserAddress = FIlteredProfile.Address
-      const CustomerId = FIlteredProfile.id
-      const AdminProfile = FIlteredProfile.profile
-
-      setId(CustomerId)
-      setFirstName(CustomerFirstName)
-      setLastName(CustomerLastName)
-      setPhone(PhoneNUmber)
-      setEmail(UserEmail)
-      setAddress(UserAddress)
-      setProfilePicture(Men)
-      setSelectedImage(AdminProfile)
-
-
+      const CustomerFirstName = FIlteredProfile.first_name;
+      const CustomerLastName = FIlteredProfile.last_name;
+      const PhoneNUmber = FIlteredProfile.mobileNo;
+      const UserEmail = FIlteredProfile.email_Id;
+      const UserAddress = FIlteredProfile.Address;
+      const CustomerId = FIlteredProfile.id;
+      const AdminProfile = FIlteredProfile.profile;
+  
+      setId(CustomerId);
+      setFirstName(CustomerFirstName);
+      setLastName(CustomerLastName);
+      setPhone(PhoneNUmber);
+      setEmail(UserEmail);
+      setAddress(UserAddress);
+      
+      // Set default image if AdminProfile is null or undefined
+      if (AdminProfile) {
+        setSelectedImage(AdminProfile);
+      } else {
+        setSelectedImage(null); // This will trigger the default image
+      }
+  
       initialValuesRef.current = {
         firstname: CustomerFirstName,
         lastname: CustomerLastName,
         phone: PhoneNUmber,
         email: UserEmail,
         Address: UserAddress,
+        Profile :AdminProfile
       };
-
     }
+  }, [state?.createAccount?.accountList]);
 
 
-  }, [state?.createAccount?.accountList])
+  // useEffect(() => {
+
+  //   const FIlteredProfile = state?.createAccount?.accountList[0].user_details
+  //   console.log("FIlteredProfile", FIlteredProfile);
+  //   if (FIlteredProfile) {
+  //     const CustomerFirstName = FIlteredProfile.first_name
+  //     const CustomerLastName = FIlteredProfile.last_name
+  //     const PhoneNUmber = FIlteredProfile.mobileNo
+  //     const UserEmail = FIlteredProfile.email_Id
+  //     const UserAddress = FIlteredProfile.Address
+  //     const CustomerId = FIlteredProfile.id
+  //     const AdminProfile = FIlteredProfile.profile
+
+  //     setId(CustomerId)
+  //     setFirstName(CustomerFirstName)
+  //     setLastName(CustomerLastName)
+  //     setPhone(PhoneNUmber)
+  //     setEmail(UserEmail)
+  //     setAddress(UserAddress)
+  //     setProfilePicture(Men)
+  //     setSelectedImage(AdminProfile)
+
+
+  //     initialValuesRef.current = {
+  //       firstname: CustomerFirstName,
+  //       lastname: CustomerLastName,
+  //       phone: PhoneNUmber,
+  //       email: UserEmail,
+  //       Address: UserAddress,
+  //     };
+
+  //   }
+
+
+  // }, [state?.createAccount?.accountList])
 
 
   console.log("details", firstname, lastname, email, phone)
@@ -351,24 +399,47 @@ const Accountsettings = () => {
   }
 
   let hasChanges =
-  firstname !== initialValuesRef.current.firstname ||
-  lastname !== initialValuesRef.current.lastname ||
-  phone !== initialValuesRef.current.phone ||
-  email !== initialValuesRef.current.email ||
-  Address !== initialValuesRef.current.Address;
-
-
-
-  const handleSaveUpdate = () => {
-
-    const hasChanges =
     firstname !== initialValuesRef.current.firstname ||
     lastname !== initialValuesRef.current.lastname ||
     phone !== initialValuesRef.current.phone ||
     email !== initialValuesRef.current.email ||
-    Address !== initialValuesRef.current.Address;
-    
-    if (hasChanges && firstname  && phone && email && Address) {
+    Address !== initialValuesRef.current.Address  ||
+    selectedImage !== initialValuesRef.current.Profile
+
+
+  const handleSaveUpdate = () => {
+
+
+    const emailElement = document.getElementById('emailIDError');
+    const emailError = emailElement ? emailElement.innerHTML : '';
+    const emailcapitalelement = document.getElementById('emailIDError');
+    const emailCapitalError = emailcapitalelement ? emailcapitalelement.innerHTML : '';
+    // document.getElementById('emailIDError').innerHTML = 'Email should be in lowercase *';
+    const phoneNumberError = document.getElementById('MobileNumberError');
+    const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+
+
+    if (emailError === 'Invalid Email Id *' || emailCapitalError === 'Email should be in lowercase *') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter a valid email address',
+        confirmButtonText: 'Ok',
+        // timer: 1000
+      });
+      return;
+    }
+
+    if (mobileError === 'Invalid mobile number *') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter a valid 10-digit phone number',
+        confirmButtonText: 'Ok',
+        // timer: 1000
+      });
+      return;
+    }
+
+    if (hasChanges && firstname && phone && email && Address) {
       dispatch({
         type: 'PROFILE-UPDATE',
         payload: { first_name: firstname, last_name: lastname, phone: phone, email_id: email, address: Address, id: id, profile: selectedImage }
@@ -377,17 +448,19 @@ const Accountsettings = () => {
       Swal.fire({
         icon: 'info',
         title: 'No Changes Detected',
-        timer: 1000
+        confirmButtonText: 'Ok'
+        // timer: 1000
       });
     } else {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
-        timer: 1000
+        confirmButtonText: 'Ok'
+        // timer: 1000
       });
     }
   };
-  
+
 
   const [password, setPassword] = useState('')
   const [showPassword, setShowpassword] = useState(false);
@@ -524,14 +597,26 @@ const Accountsettings = () => {
 
 
           <Image
-            src={selectedImage ? (typeof selectedImage == 'string' ? selectedImage : URL.createObjectURL(selectedImage)) : Men}
+            src={
+              selectedImage
+                ? typeof selectedImage === 'string'
+                  ? selectedImage
+                  : URL.createObjectURL(selectedImage)
+                : Men // Default image
+            }
             roundedCircle
             style={{
               height: 50,
               width: 50,
               borderRadius: '50%',
             }}
+
+            onError={(e) => {
+              e.target.onerror = null; // Prevent infinite loop if the default image fails too
+              e.target.src = Men; // Fallback to the default image if the provided src fails to load
+            }}
           />
+
           <div style={{ marginLeft: '30px', marginTop: '10px' }}>
             <h2 style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Profile Picture</h2>
             <input type="file" className="sr-only" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
@@ -554,7 +639,7 @@ const Accountsettings = () => {
             <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
               <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>First Name <span style={{color:'red', fontSize:'20px'}}>*</span></Form.Label>
+                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>First Name <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
 
                   <Form.Control
                     style={{
@@ -594,7 +679,7 @@ const Accountsettings = () => {
             <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
               <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Email <span style={{color:'red', fontSize:'20px'}}>*</span></Form.Label>
+                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Email <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
 
                   <Form.Control
                     style={{
@@ -608,14 +693,15 @@ const Accountsettings = () => {
                     value={EmailError ? '' : email}
                     onChange={handleEmailId}
                   />
- {EmailError && <p style={{ fontSize: '12px', color: 'red' }}>*Email is Required</p>}
+                  <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                  {EmailError && <p style={{ fontSize: '12px', color: 'red' }}>*Email is Required</p>}
                 </Form.Group>
               </div>
 
 
               <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Mobile Number <span style={{color:'red', fontSize:'20px'}}>*</span></Form.Label>
+                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Mobile Number <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <Form.Control
                     style={{
                       padding: '20px', marginTop: '10px', fontSize: 16,
@@ -625,16 +711,17 @@ const Accountsettings = () => {
                     }}
                     type="text"
                     placeholder="Enter phone"
-                     value={mobilenoError ? '' : phone}
-                     onChange={handlePhone}
+                    value={mobilenoError ? '' : phone}
+                    onChange={handlePhone}
                   />
- {mobilenoError && <p style={{ fontSize: '12px', color: 'red' }}>* Mobile Number is Required</p>}
+                  <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                  {mobilenoError && <p style={{ fontSize: '12px', color: 'red' }}>* Mobile Number is Required</p>}
                 </Form.Group>
               </div>
             </div>
             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Address <span style={{color:'red', fontSize:'20px'}}>*</span></Form.Label>
+                <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Address <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
 
                 <Form.Control
                   style={{
@@ -645,10 +732,10 @@ const Accountsettings = () => {
                   }}
                   type="text"
                   placeholder="Enter Address"
-                   value={AddressError ? '' : Address}
-                   onChange={handleAddress}
+                  value={AddressError ? '' : Address}
+                  onChange={handleAddress}
                 />
- {AddressError && <p style={{ fontSize: '12px', color: 'red' }}>* Address is Required</p>}
+                {AddressError && <p style={{ fontSize: '12px', color: 'red' }}>* Address is Required</p>}
               </Form.Group>
             </div>
 
