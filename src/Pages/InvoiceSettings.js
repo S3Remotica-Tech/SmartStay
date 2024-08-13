@@ -121,6 +121,7 @@ function InvoiceSettings() {
                 icon: "success",
                 confirmButtonText: 'Ok'
                 // timer: 1000,
+
             }).then(() => {
                 handleClose();
                 setEditHostel({ id: '', name: '' });
@@ -154,6 +155,7 @@ function InvoiceSettings() {
             Swal.fire({
                 text: "Prefix, Suffix, Profile Update successfully",
                 icon: "success",
+
                 confirmButtonText: 'Ok'
                 // timer: 1000,
             }).then(() => {
@@ -174,6 +176,7 @@ function InvoiceSettings() {
             Swal.fire({
                 text: "Profile Update successfully",
                 icon: "success",
+
                 confirmButtonText: 'Ok'
                 // timer: 1000,
             }).then(() => {
@@ -195,8 +198,10 @@ function InvoiceSettings() {
             Swal.fire({
                 text: "Prefix, Suffix Update successfully",
                 icon: "success",
+
                 confirmButtonText: 'Ok'
                 // timer: 1000,
+
             }).then(() => {
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });

@@ -448,8 +448,10 @@ const Accountsettings = () => {
       Swal.fire({
         icon: 'info',
         title: 'No Changes Detected',
+
         confirmButtonText: 'Ok'
         // timer: 1000
+
       });
     } else {
       Swal.fire({
@@ -458,6 +460,7 @@ const Accountsettings = () => {
         confirmButtonText: 'Ok'
         // timer: 1000
       });
+          });
     }
   };
 

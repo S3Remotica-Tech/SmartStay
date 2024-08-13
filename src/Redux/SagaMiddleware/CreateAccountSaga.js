@@ -15,7 +15,8 @@ function* CreateNewAccount(args) {
       Swal.fire({
         icon: 'success',
         text: response.data.message,
-               timer:1000
+        // timer: 1000,
+        // showConfirmButton: false,
       });
     } else if (response.status === 210) {
       Swal.fire({

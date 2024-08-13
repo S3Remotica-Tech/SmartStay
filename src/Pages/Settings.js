@@ -155,8 +155,10 @@ function Settings() {
       Swal.fire({
         text: "Update successfully",
         icon: "success",
+
         confirmButtonText: 'Ok'
         // timer: 1000,
+
       });
     }
 

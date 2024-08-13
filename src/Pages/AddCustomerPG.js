@@ -90,7 +90,7 @@ if(firstname && lastname && phone && email){
   Swal.fire({
     icon: 'warning',
     title: 'Please Enter All Fields',
-    timer: 1000
+   
   
   });
 }
@@ -184,7 +184,7 @@ if(firstname && lastname && phone && email){
                 type="text"
                 value={firstname}
                 onChange={(e) => handleFirstName(e)}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: firstname ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               />
             </Form.Group>
           </div>
@@ -197,7 +197,7 @@ if(firstname && lastname && phone && email){
                 placeholder='Enter name'
                 value={lastname}
                 onChange={(e) => handleLastName(e)}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: lastname ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               />
             </Form.Group>
           </div>
@@ -213,7 +213,7 @@ if(firstname && lastname && phone && email){
                 maxLength={10}
                 value={phone}
                 onChange={(e) => handlePhone(e)}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: phone ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               />
               <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
             </Form.Group>
@@ -228,7 +228,7 @@ if(firstname && lastname && phone && email){
                 value={email}
                 onChange={(e) => handleEmail(e)}
               
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: email ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               />
               <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
             </Form.Group>
@@ -244,7 +244,7 @@ if(firstname && lastname && phone && email){
                 value={address}
                 placeholder='Enter address'
                 onChange={(e) => handleAddress(e)}
-                            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: address ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
               />
             </Form.Group>
             </div>

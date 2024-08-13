@@ -21,6 +21,8 @@ const[room, setRoom] = useState('')
 const [alreadyRoom,setAlreadyRoom] = useState(false)
 const [errorMessage, setErrorMessage] = useState('');
 
+const [initialState, setInitialState] = useState({});
+
 const handleRoomChange = (e) => {
   const Room_Id = e.target.value
 
@@ -50,6 +52,9 @@ const handleRoomChange = (e) => {
 useEffect(()=>{
 if(editRoom){
   setRoom(editRoom.room_Id ? editRoom.room_Id : '')
+  setInitialState({
+    room:editRoom.room_Id
+  })
 }
 },[editRoom])
 
@@ -74,7 +79,17 @@ if(editRoom){
         });
         return;
     }
+    const isChanged = 
+    room !== initialState.room 
 
+  if (!isChanged) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'No changes detected',
+     
+    });
+    return;
+  }
       if(floorId && hostel_Id ){
               dispatch({
                   type: 'CREATEROOM',
@@ -134,7 +149,7 @@ if(editRoom){
                 <Form.Control 
                 value={room}
                 onChange={handleRoomChange}
-                 type="text" placeholder="Enter Room no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                 type="text" placeholder="Enter Room no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:room ? 600 :  500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>

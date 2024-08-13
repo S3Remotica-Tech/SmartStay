@@ -87,7 +87,7 @@ const handleSubmit =() =>{
     Swal.fire({
       icon: 'warning',
       title: 'Please Enter All Fields',
-      timer: 1000
+
     
     });
   }
@@ -120,7 +120,7 @@ const handleSubmit =() =>{
                 <Form.Control 
  value={bedNo}
  onChange={handleBedNoChange}
-                 type="text" placeholder="Enter bed no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                 type="text" placeholder="Enter bed no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:bedNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
@@ -130,7 +130,7 @@ const handleSubmit =() =>{
                 <Form.Control 
                  value={amount}
                  onChange={handleAmountChange}
-                 type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                 type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:amount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>

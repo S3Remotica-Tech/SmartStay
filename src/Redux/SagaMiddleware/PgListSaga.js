@@ -1,16 +1,17 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {DeleteBed, createBed,createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails } from "../Action/PgListAction"
+import {DeletePG, DeleteBed, createBed,createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails } from "../Action/PgListAction"
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 
 function* handlePgList(datum) {
    const response = yield call(createPgList, datum.payload);
-// console.log("response PG",response)
+console.log("response PG",response)
    if (response.statusCode === 200) {
       yield put({ type: 'PG_LIST', payload:{response: response.data , statusCode:response.statusCode}})
           Swal.fire({
          icon: 'success',
-         title: 'Hostel Details saved Successful',
+         title: response.message,
+
       });
 
    }
@@ -18,7 +19,8 @@ function* handlePgList(datum) {
           Swal.fire({
          icon: 'warning',
          title: 'Hostel name already exist' ,
-         timer: 1000
+         // timer: 1000,
+         // showConfirmButton: false,
               });
         }else {
       console.log('Unhandled status code:', response.statusCode); 
@@ -166,7 +168,8 @@ function* handleCreateBed(action) {
         Swal.fire({
          icon: 'warning',
          title: response.data.message,
-         timer: 1000
+         // timer: 1000,
+         // showConfirmButton: false,
               });
    }
    if(response){
@@ -178,19 +181,20 @@ function* handleCreateBed(action) {
 
 function* handleDeleteBed(action) {
    const response = yield call(DeleteBed, action.payload);
-   console.log("response delete Bed", response.status)
+   console.log("response delete Bed", response)
    if (response.status === 200) {
       yield put({ type: 'DELETE_BED', payload: { response: response.data, statusCode: response.status } })
       Swal.fire({
          icon: 'success',
-         title: "Bed created successfully",
+         title: "Bed Deleted successfully",
      })
    }
    else if (response.status === 201) {
        Swal.fire({
          icon: 'warning',
          title: response.data.message,
-         timer: 1000
+         // timer: 1000,
+         // showConfirmButton: false,
               });
    }
    if(response){
@@ -198,8 +202,27 @@ function* handleDeleteBed(action) {
    }
 }
 
-
-
+function* handleDeletePG(action) {
+   const response = yield call(DeletePG, action.payload);
+   console.log("response delete PG", response)
+   if (response.status === 200) {
+      yield put({ type: 'DELETE_PG', payload: { response: response.data, statusCode: response.status } })
+      Swal.fire({
+         icon: 'success',
+         title: "Hostel deleted successfully",
+     })
+   }
+   else if (response.status === 201) {
+       Swal.fire({
+         icon: 'warning',
+         title: response.data.message,
+       
+              });
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
 
 
 function refreshToken(response) {
@@ -231,6 +254,6 @@ function* PgListSaga() {
    yield takeEvery('PGDASHBOARD', handleCreatePGDashboard)
    yield takeEvery('CREATEBED',handleCreateBed)
    yield takeEvery('DELETEBED',handleDeleteBed)
-
+   yield takeEvery('DELETEPG',handleDeletePG)
 }
 export default PgListSaga;

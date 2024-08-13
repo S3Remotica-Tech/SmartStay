@@ -75,7 +75,7 @@ const toggleConfirmPasswordVisibility = () => {
 setTimeout(()=>{
 dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
 },2000)
- 
+
     }
   }, [state.createAccount.statusCodeCreateAccount]);
 
@@ -97,7 +97,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
   const handleEmailID = (e) => {
     setEmailID(e.target.value);
     const email = e.target.value;
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const isValidEmail = emailRegex.test(email);
     const emailIDError = document.getElementById('emailIDError');
     if (emailIDError) {
@@ -166,7 +166,8 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
         icon: 'warning',
         title: 'Please enter a valid email address',
         confirmButtonText: 'Ok',
-        timer: 1000
+       
+        
       });
       return;
     }
@@ -243,7 +244,7 @@ if(password ==! confirmpassword){
                     <Form.Control
                     value={firstName}
                     onChange={(e)=>{handleFirstName(e)}}
-                    size="lg" type="text" placeholder="First name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                    size="lg" type="text" placeholder="First name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: firstName ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group>
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
@@ -252,7 +253,7 @@ if(password ==! confirmpassword){
                     <Form.Control
                     value={lastName}
                     onChange={(e)=>{handleLastName(e)}}
-                    size="lg" type="text" placeholder="Last name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                    size="lg" type="text" placeholder="Last name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: lastName ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group>
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
@@ -260,7 +261,7 @@ if(password ==! confirmpassword){
                     <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
                     <Form.Control size="lg"
                       value={emailID} onChange={(e) => { handleEmailID(e) }}
-                      type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                      type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: emailID ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                 
                 <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div>
                   </Form.Group>
@@ -271,7 +272,7 @@ if(password ==! confirmpassword){
                     <Form.Control size="lg"
                       value={phoneNo} onChange={(e) => { handlePhoneNo(e) }}
                       maxLength={10}
-                      type="text" placeholder="Enter Mobile no." style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                      type="text" placeholder="Enter Mobile no." style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight:phoneNo ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group>
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
@@ -288,7 +289,7 @@ if(password ==! confirmpassword){
                         boxShadow: "none",
                         border: "1px solid rgba(224, 236, 255, 1)",
                         fontSize: 16,
-                        fontWeight: 500,
+                        fontWeight:password ? 600 : 500,
                         color: "rgba(34, 34, 34, 1)",
                         fontFamily: "Gilroy",
                         borderRight: "none"
@@ -320,7 +321,7 @@ if(password ==! confirmpassword){
                         boxShadow: "none",
                         border: "1px solid rgba(224, 236, 255, 1)",
                         fontSize: 16,
-                        fontWeight: 500,
+                        fontWeight:confirmpassword ? 600 : 500,
                         color: "rgba(34, 34, 34, 1)",
                         fontFamily: "Gilroy",
                         borderRight: "none"

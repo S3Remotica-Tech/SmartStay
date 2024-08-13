@@ -180,15 +180,16 @@ function PgList() {
 
 
   useEffect(() => {
-    if (state.UsersList.createFloorMessage) {
+    if (state.UsersList.createFloorSuccessStatusCode == 200) {
 
       dispatch({ type: 'HOSTELLIST' })
+      
       setTimeout(() => {
-        dispatch({ type: 'UPDATE_MESSAGE_FLOOR', message: null })
-      }, 100)
+        dispatch({ type: 'CLEAR_FLOOR_STATUS_CODE' })
+      }, 1000)
     }
 
-  }, [state.UsersList.createFloorMessage])
+  }, [state.UsersList.createFloorSuccessStatusCode])
 
 
 useEffect(()=>{
@@ -201,7 +202,15 @@ dispatch({ type: 'CLEAR_DELETE_FLOOR'})
 }
 },[state.UsersList.deleteFloorSuccessStatusCode])
 
+useEffect(()=>{
+  if(state.PgList.deletePgSuccessStatusCode == 200){
+    dispatch({ type: 'HOSTELLIST' })
+    setTimeout(()=>{
+dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
+    },1000)
+  }
 
+},[state.PgList.deletePgSuccessStatusCode])
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode == 200) {

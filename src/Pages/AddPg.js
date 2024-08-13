@@ -22,7 +22,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [location, setLocation] = useState('');
   const [errors, setErrors] = useState({});
   const [errorsPG, setErrorsPG] = useState({});
-
+  const [initialState, setInitialState] = useState({});
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -61,14 +61,15 @@ function AddPg({ show, handleClose, currentItem }) {
   const handleEmailChange = (e) => {
     const emailValue = e.target.value;
     setEmail(emailValue);
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const isValidEmail = emailRegex.test(emailValue);
-    if (isValidEmail) {
-      setErrorsPG(prevErrors => ({ ...prevErrors, email: '' }));
-    } else {
-      setErrorsPG(prevErrors => ({ ...prevErrors, email: 'Invalid Email Id *' }));
-    }
-  };
+
+    setErrors(prevErrors => ({
+        ...prevErrors,
+        email: isValidEmail ? '' : 'Invalid Email Id *'
+    }));
+};
 
 
 
@@ -102,25 +103,54 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
   const handleCreatePayingGuest = () => {
-    if (errors.email === 'Invalid Email Id *') {
+    const emailError = errors.email === 'Invalid Email Id *';
+    const mobileError = errors.mobile === 'Invalid mobile number *';
+
+
+    if(!pgName && !mobile && !email && !location){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter All Fields',
+    
+
+      });
+      return;
+    }
+
+    if (errors.email)  {
       Swal.fire({
         icon: 'warning',
         title: 'Enter Valid Email Id',
-        timer: 2000
+       
       });
       return;
     }
 
-    if (errors.mobile === 'Invalid mobile number *') {
+    if (mobileError) {
       Swal.fire({
         icon: 'warning',
         title: 'Enter Valid Mobile Number',
-        timer: 2000
+     
       });
       return;
     }
 
-   
+    const isChanged = 
+    pgName !== initialState.pgName || 
+    Number(mobile) !== Number(initialState.mobile) || 
+    email !== initialState.email || 
+    location !== initialState.location || 
+    file !== initialState.file;
+
+  if (!isChanged) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'No changes detected',
+     
+    });
+    return;
+  }
+
 
     if (pgName && mobile && email && location) {
       dispatch({ type: 'PGLIST', payload: { profile: file, name: pgName, phoneNo: mobile, email_Id: email, location: location, id: currentItem.id } })
@@ -132,12 +162,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
       setLocation('')
     } else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Fields',
-        timer: 1000
-
-      });
+      
     }
 
 
@@ -147,31 +172,48 @@ function AddPg({ show, handleClose, currentItem }) {
   console.log("current Item", currentItem)
 
 
+  // useEffect(() => {
+  //   if (currentItem) {
+  //     setPgName(currentItem.Name || '')
+  //     setMobile(currentItem.hostel_PhoneNo || '')
+  //     setEmail(currentItem.email_id || '')
+  //     setLocation(currentItem.Address)
+  //     if (currentItem.profile) {
+  //       const profile = currentItem.profile;
+  //       if (typeof profile === 'string') {
+  //         setFile(profile);
+  //       } else if (profile instanceof Blob) {
+  //         setFile(profile);
+  //       } else {
+  //         setFile(null);
+  //         console.warn('Invalid profile format');
+  //       }
+  //     }
+
+  //   }
+  // }, [currentItem])
+
+
+
+
   useEffect(() => {
     if (currentItem) {
-      setPgName(currentItem.Name || '')
-      setMobile(currentItem.hostel_PhoneNo || '')
-      setEmail(currentItem.email_id || '')
-      setLocation(currentItem.Address)
-      if (currentItem.profile) {
-        const profile = currentItem.profile;
-        if (typeof profile === 'string') {
-          setFile(profile);
-        } else if (profile instanceof Blob) {
-          setFile(profile);
-        } else {
-          setFile(null);
-          console.warn('Invalid profile format');
-        }
-      }
+      const initialData = {
+        pgName: currentItem.Name || '',
+        mobile: currentItem.hostel_PhoneNo || '',
+        email: currentItem.email_id || '',
+        location: currentItem.Address,
+        file: currentItem.profile ? (typeof currentItem.profile === 'string' ? currentItem.profile : null) : null,
+      };
 
+      setPgName(initialData.pgName);
+      setMobile(initialData.mobile);
+      setEmail(initialData.email);
+      setLocation(initialData.location);
+      setFile(initialData.file);
+      setInitialState(initialData); // Save initial state
     }
-  }, [currentItem])
-
-
-
-
-
+  }, [currentItem]);
 
 
 

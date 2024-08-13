@@ -583,7 +583,7 @@ console.log("props",props);
         icon: 'warning',
         title: 'Please enter a valid email address',
         confirmButtonText: 'Ok',
-        timer: 1000
+        
       });
       return;
     }
@@ -597,7 +597,7 @@ console.log("props",props);
         icon: 'warning',
         title: 'Please enter a valid 10-digit phone number',
         confirmButtonText: 'Ok',
-        timer: 1000
+        
       });
       return;
     }

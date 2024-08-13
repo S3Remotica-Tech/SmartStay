@@ -79,14 +79,15 @@ function* handleUserBillPaymentHistory(){
 
 function* handleCreateFloor(data) {
    const response = yield call(createFloor,data.payload);
-  
+  console.log("response floor", response)
    if (response.status === 200) {
-      yield put({ type: 'CREATE_FLOOR', payload: response.data })
-      yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
+      yield put({ type: 'CREATE_FLOOR', payload: {response:response.data, statusCode:response.status} })
+      // yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
       Swal.fire({
          icon: 'success',
          title: `${response.data.message}`,
-                 timer:1000,
+               //   timer:1000,
+               //   showConfirmButton: false,
        })
    }
    else if(response.status === 202) {
@@ -131,7 +132,11 @@ function* handleAddUser(datum) {
                icon: 'success',
                title: `${response.message}`,
                confirmButtonText: 'Ok',
-               timer:1000,
+               // timer:1000,
+
+
+               // showConfirmButton: false,
+
              })
     
       }
@@ -180,8 +185,8 @@ function* handleAddUser(datum) {
           Swal.fire({
             icon: 'success',
          text: 'User Check Out Successfully',
-        timer: 2000,
-        showConfirmButton: false,
+      //   timer: 2000,
+      //   showConfirmButton: false,
       });
 
       }
@@ -202,8 +207,8 @@ function* handleAddUser(datum) {
          Swal.fire({
             icon: 'success',
          text: 'Floor Delete Successfully',
-        timer: 2000,
-        showConfirmButton: false,
+      //   timer: 2000,
+      //   showConfirmButton: false,
       });
      
      
