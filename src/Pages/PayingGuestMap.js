@@ -18,10 +18,10 @@ function PayingGuestMap(props) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
    
-    const [showDots, setShowDots] = useState(null);
+    const [showDots, setShowDots] = useState(false);
 
     const handleMouseEnter = (hostelId) => {
-      setShowDots(hostelId);
+      setShowDots(!showDots);
     };
   
     const handleMouseLeave = () => {
@@ -80,12 +80,15 @@ props.onRowVisiblity(false)
                     </div>
 
                     <div>
-                        <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }} onMouseEnter={() => handleMouseEnter(props.hostel.id)}
-                        onMouseLeave={handleMouseLeave}>
+                        <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
+                        //  onMouseEnter={() => handleMouseEnter(props.hostel.id)}
+                        // onMouseLeave={handleMouseLeave}
+                        onClick={() => handleMouseEnter(props.hostel.id)}
+                        >
                             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-                            {showDots === props.hostel.id && <>
-                                <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top:10, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                            {showDots  && <>
+                                <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top:50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                     <div >
                                         <div className='mb-2' 
                                         onClick={() => handleEdit(props.hostel)}
