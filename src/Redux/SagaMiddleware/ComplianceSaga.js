@@ -8,9 +8,10 @@ import Swal from 'sweetalert2';
     const response = yield call (compliance, action.payload);
     console.log("response for compliance",response)
     
-    if (response.status === 200){
+    if (response.status === 200 || response.statusCode === 200){
        yield put ({type : 'COMPLIANCE_LIST' , payload:response.data.hostelData})
-    }else if(response.status === 401){
+    }
+    else if(response.status === 401 || response.statusCode === 401){
       Swal.fire({
          icon: 'warning',
          title: 'Error',
@@ -28,8 +29,8 @@ import Swal from 'sweetalert2';
 function* handleComplianceadd (params) {
    const response = yield call (Compliancedetails,params.payload);
  
-   if (response.status === 200){
-      yield put ({type : 'COMPLIANCE_ADD' , payload:{response:response.data, statusCode:response.status}})
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'COMPLIANCE_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
@@ -41,8 +42,7 @@ function* handleComplianceadd (params) {
 
 
 function* handleVendorGet(action) {
-   const response = yield call (VendorList,action.payload);
- 
+   const response = yield call (VendorList,action.payload); 
    if (response.status === 200){
       yield put ({type : 'VENDOR_LIST' , payload:{response:response.data.VendorList, statusCode:response.status}})
    }
