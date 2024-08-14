@@ -57,7 +57,7 @@ const handleFloorChange = (e) =>{
 
 if(floorNo){
     dispatch({ type: 'CREATEFLOOR', payload:{hostel_Id : hostelFloor, floor_Id : floorNo }})
-     handleClose();
+    //  handleClose();
 }
 
 

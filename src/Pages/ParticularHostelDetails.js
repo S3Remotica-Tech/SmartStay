@@ -161,20 +161,25 @@ if(state.PgList.noRoomsInFloorStatusCode === 201){
 
 useEffect(() => {
 
-  if (state.PgList.createRoomMessage != null && state.PgList.createRoomMessage != "") {
+  if (state.PgList.statusCodeCreateRoom === 200 ) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-
+      setShowRoom(false)
       setTimeout(() => {
-          dispatch({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: null })
+          dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
       }, 100)
   }
-}, [state.PgList.createRoomMessage])  
+}, [state.PgList.statusCodeCreateRoom])  
+
+
+
+
+
 
 
 useEffect(() => {
   if (state.PgList.createBedStatusCode == 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-
+      setShowBed(false)
       setTimeout(() => {
           dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
       }, 1000)
@@ -193,7 +198,7 @@ useEffect(() => {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6);
+  const [itemsPerPage] = useState(4);
 
 const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -443,7 +448,7 @@ setTimeout(()=>{
 
 
 
-      {/* {
+       {
   currentItems.length > 0 && 
   <Pagination className="mt-4 d-flex justify-content-end align-items-center">
   <Pagination.Prev style={{ visibility:"visible"}}
@@ -456,7 +461,7 @@ setTimeout(()=>{
     disabled={currentPage === totalPages}
   />
 </Pagination>
-} */}
+} 
 
       {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details}/>}
       {showRoom && <AddRoom show={showRoom}  

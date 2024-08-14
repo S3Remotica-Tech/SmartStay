@@ -110,7 +110,7 @@ if(!floorId){
                   type: 'CREATEROOM',
                   payload: {hostel_id: hostel_Id,floorId: floorId, roomId: room}});
                     
-              handleClose();
+              // handleClose();
              
           }
        else {
@@ -145,10 +145,10 @@ if(!floorId){
           
 
           <div className='row mt-2'>
-          {alreadyRoom && 
+          {/* {alreadyRoom && 
             <div>
              <label style={{color:"red", fontSize:16}}>This room already exists in the hostel.</label>
-            </div>}
+            </div>} */}
             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Room</Form.Label>

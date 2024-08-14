@@ -183,7 +183,7 @@ function PgList() {
     if (state.UsersList.createFloorSuccessStatusCode == 200) {
 
       dispatch({ type: 'HOSTELLIST' })
-      
+      setShowFloor(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_FLOOR_STATUS_CODE' })
       }, 1000)
@@ -745,6 +745,13 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
   const [showDots, setShowDots] = useState(false);
 
 
+  useEffect(() => {
+
+    if (state.PgList.statusCodeCreateRoom === 200 ) {
+       setShowRoom(false)
+    }
+  }, [state.PgList.statusCodeCreateRoom])  
+
 
   const handleShowDots = (id) => {
     setShowDots(!showDots);
@@ -752,7 +759,16 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
 
 
 
+  // useEffect(() => {
 
+  //   if (state.PgList.createRoomMessage != null && state.PgList.createRoomMessage != "") {
+  //       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+  
+  //       setTimeout(() => {
+  //           dispatch({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: null })
+  //       }, 100)
+  //   }
+  // }, [state.PgList.createRoomMessage]) 
 
 
 

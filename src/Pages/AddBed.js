@@ -80,7 +80,7 @@ const handleSubmit =() =>{
   if(currentItem.item.hostel_Id && currentItem.item.floorID && currentItem.Room_Id && bedNo && amount){
     dispatch({ type: 'CREATEBED', payload:{ hostel_id: currentItem.item.hostel_Id,floor_id:currentItem.item.floorID,room_id: currentItem.Room_Id, bed_no:bedNo, amount: amount}})
  
-    handleClose()
+    // handleClose()
     setBedNo('')
     setAmount('')
   }else{
