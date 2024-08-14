@@ -362,7 +362,9 @@ setTimeout(()=>{
                           >
                             <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Edit</label>
                           </div>
-                          <div  onClick={()=> {handleDeleteRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}}>
+                          <div  
+                          // onClick={()=> {handleDeleteRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}}
+                          >
                             <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(255, 0, 0, 1)" }}>Delete</label>
                           </div>
                         </div>
