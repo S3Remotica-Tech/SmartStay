@@ -8,8 +8,8 @@ function* handleuserlist(user) {
    const response = yield call(userlist,user.payload);
    
    console.log("response for user list",response)
-   if (response.status === 200) {
-      yield put({ type: 'USER_LIST', payload:{response: response.data.hostelData, statusCode:response.status} })
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'USER_LIST', payload:{response: response.data.hostelData, statusCode:response.status || response.statusCode} })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -22,8 +22,8 @@ function* handleHostelList(hostel) {
    const response = yield call(hostelList,hostel.payload)
    
    console.log("response hostel list", response)
-   if (response.status === 200) {
-      yield put({ type: 'HOSTEL_LIST', payload:{ response: response.data.data, statusCode: response.status} })
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'HOSTEL_LIST', payload:{ response: response.data.data, statusCode: response.status || response.statusCode} })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -38,11 +38,11 @@ function* handleNumberOfRooms(ID) {
   
 console.log("response",response)
 
-   if (response.status === 200) {
-      yield put({ type: 'ROOM_COUNT',payload:{response: response.data.responseData ,statusCode:response.status}})
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'ROOM_COUNT',payload:{response: response.data.responseData ,statusCode:response.status || response.statusCode }})
    }
    else if(response.status === 201){
-      yield put({ type: 'NO_ROOMS', payload: {response:response.data.message,floor_Id:ID.payload.floor_Id, statusCode:response.status} })
+      yield put({ type: 'NO_ROOMS', payload: {response:response.data.message,floor_Id:ID.payload.floor_Id, statusCode:response.status || response.statusCode} })
    }
    if(response){
       refreshToken(response)
@@ -52,8 +52,8 @@ console.log("response",response)
 function* handlehosteliddetail(data) {
    const response = yield call(hosteliddetail,data.payload);
   console.log("response....Floor",response)
-   if (response.status === 200) {
-      yield put({ type: 'HOSTEL_DETAIL_LIST', payload: response.data.hostel_data})
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'HOSTEL_DETAIL_LIST', payload: response.data.hostel_data ,statusCode:response.status || response.statusCode })
 
    }
    else {
@@ -66,8 +66,8 @@ function* handlehosteliddetail(data) {
 function* handleUserBillPaymentHistory(){
    const response = yield call(userBillPaymentHistory)
 
-   if (response.status === 200) {
-      yield put ({type:'BILL_PAYMENT_HISTORY',payload:response.data})
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put ({type:'BILL_PAYMENT_HISTORY',payload:response.data,statusCode:response.status || response.statusCode})
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
@@ -80,8 +80,8 @@ function* handleUserBillPaymentHistory(){
 function* handleCreateFloor(data) {
    const response = yield call(createFloor,data.payload);
   console.log("response floor", response)
-   if (response.status === 200) {
-      yield put({ type: 'CREATE_FLOOR', payload: {response:response.data, statusCode:response.status} })
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'CREATE_FLOOR', payload: {response:response.data, statusCode:response.status || response.statusCode} })
       // yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
       Swal.fire({
          icon: 'success',
@@ -90,7 +90,7 @@ function* handleCreateFloor(data) {
                //   showConfirmButton: false,
        })
    }
-   else if(response.status === 202) {
+   else if(response.status === 202 || response.statusCode === 202) {
       Swal.fire({
          icon: 'warning',
         title: 'Error',
@@ -108,8 +108,8 @@ function* handleCreateFloor(data) {
 function* handleRoomsDetails(ID) {
    const response = yield call(roomsCount, ID.payload)
  
-   if (response.status === 200) {
-      yield put({ type: 'ROOM_DETAILS', payload: response.data.responseData })
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'ROOM_DETAILS', payload: response.data.responseData,statusCode:response.status || response.statusCode })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -124,9 +124,9 @@ function* handleRoomsDetails(ID) {
 function* handleAddUser(datum) {
       const response = yield call(addUser, datum.payload);
       console.log("responsetytytyytyyy",response);
-      if (response.statusCode === 200) {
+      if (response.statusCode === 200 || response.status === 200) {
          
-         yield put({ type: 'ADD_USER',payload:{response: response.message, statusCode:response.statusCode}})
+         yield put({ type: 'ADD_USER',payload:{response: response.message, statusCode:response.statusCode || response.status}})
             console.log("datum.payload..?",datum.payload)
             Swal.fire({
                icon: 'success',
@@ -165,8 +165,8 @@ function* handleAddUser(datum) {
    function* handleRoomCheck(action) {
       const response = yield call(roomFullCheck, action.payload)
      
-      if (response.status === 200 && response.data.length > 0) {
-         yield put({ type: 'ROOM_FULL', payload: response.data.data })
+      if (response.status === 200 || response.statusCode === 200 && response.data.length > 0) {
+         yield put({ type: 'ROOM_FULL', payload: response.data.data,statusCode:response.status || response.statusCode })
             }
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
@@ -180,8 +180,8 @@ function* handleAddUser(datum) {
    function* handleCheckOut(action) {
       const response = yield call(checkOutUser, action.payload)
      
-      if (response.status === 200) {
-         yield put({ type: 'CHECKOUT_USER', payload:{response: response.data, statusCode:response.status} })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'CHECKOUT_USER', payload:{response: response.data, statusCode:response.status || response.statusCode} })
           Swal.fire({
             icon: 'success',
          text: 'User Check Out Successfully',
@@ -201,8 +201,8 @@ function* handleAddUser(datum) {
    function* handleDeleteFloor(hosteID){
       const response = yield call(deleteFloor,hosteID.payload)
       console.log("response",response);
-      if(response.status === 200){
-         yield put({ type: 'DELETE_FLOOR', payload:{message: response.data.message, statusCode:response.status} })
+      if(response.status === 200 || response.statusCode === 200){
+         yield put({ type: 'DELETE_FLOOR', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
     
          Swal.fire({
             icon: 'success',
@@ -223,8 +223,8 @@ function* handleAddUser(datum) {
 
 function* handleDeleteRoom(roomDetails){
    const response = yield call(deleteRoom,roomDetails.payload)
-   if(response.status === 200){
-      yield put({ type: 'DELETE_ROOM', payload:{message: response.data.message, statusCode:response.status} })
+   if(response.status === 200 || response.statusCode === 200){
+      yield put({ type: 'DELETE_ROOM', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -256,8 +256,8 @@ function* handleDeleteRoom(roomDetails){
       function* handlecustomerdetails(userDetails){
          const response = yield call(CustomerDetails,userDetails.payload)
          console.log("response...?",response)
-         if(response.status === 200){
-            yield put({ type: 'CUSTOMER_DETAILS', payload: response.data,statusCode:response.status })
+         if(response.status === 200 || response.statusCode === 200){
+            yield put({ type: 'CUSTOMER_DETAILS', payload: response.data,statusCode:response.status || response.statusCode })
          }
          else {
             yield put({ type: 'ERROR', payload: response.data.message })
@@ -271,8 +271,8 @@ function* handleDeleteRoom(roomDetails){
       function* handleAmnitiesName (){
          const response = yield call (amnitiesnameList);
          
-         if (response.status === 200){
-            yield put ({type : 'AMNITIES_NAME' , payload:response.data})
+         if (response.status === 200 || response.statusCode === 200){
+            yield put ({type : 'AMNITIES_NAME' , payload:response.data,statusCode:response.status || response.statusCode})
          }
          else {
             yield put ({type:'ERROR', payload:response.data.message})
@@ -284,8 +284,8 @@ function* handleDeleteRoom(roomDetails){
       function* handleamenityhistory(amnityDetails){
          const response = yield call(amenitieshistory,amnityDetails.payload)
          console.log("response...?12",response)
-         if(response.status === 200){
-            yield put({ type: 'AMENITIES_HISTORY', payload: {response:response.data.data,statusCode:response.status }})
+         if(response.status === 200 || response.statusCode === 200){
+            yield put({ type: 'AMENITIES_HISTORY', payload: {response:response.data.data,statusCode:response.status || response.statusCode }})
          }
          else {
             yield put({ type: 'ERROR', payload: response.data.message })
@@ -301,14 +301,14 @@ function* handleDeleteRoom(roomDetails){
       console.log("aminity add aminityuser",amnity);
       const response = yield call(amenitieAddUser,amnity.payload)
       console.log("response...?",response)
-      if(response.status == 200){
-         yield put({ type: 'ADD_USER_AMENITIES', payload: {message:response.data.message,statusCode:response.status} })
+      if(response.status == 200 || response.statusCode === 200){
+         yield put({ type: 'ADD_USER_AMENITIES', payload: {message:response.data.message,statusCode:response.status || response.statusCode} })
          Swal.fire({
             icon: "success",
             text: response.data.message,
           });
       }
-      else if(response.status === 201){
+      else if(response.status === 201 || response.statusCode === 201){
          Swal.fire({
           text:response.data.message,
             icon: "warning",
@@ -327,8 +327,8 @@ function* handleDeleteRoom(roomDetails){
    function* handlebedNumberDetails(bedDetails){
       const response = yield call(beddetailsNumber,bedDetails.payload)
       console.log("response...?",response)
-      if(response.status === 200){
-         yield put({ type: 'BED_NUMBER_DETAILS', payload: response.data,statusCode:response.status })
+      if(response.status === 200 || response.statusCode === 200){
+         yield put({ type: 'BED_NUMBER_DETAILS', payload: response.data,statusCode:response.status || response.statusCode })
       }
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
@@ -344,8 +344,8 @@ function* handleDeleteRoom(roomDetails){
    function* handleKYCValidate(action){
       const response = yield call(KYCValidate,action.payload)
       console.log("response...?",response)
-      if(response.status === 200){
-         yield put({ type: 'KYC_VALIDATE', payload: {response:response.data.result.ref_id,statusCode:response.status }})
+      if(response.status === 200 || response.statusCode === 200){
+         yield put({ type: 'KYC_VALIDATE', payload: {response:response.data.result.ref_id,statusCode:response.status || response.statusCode }})
          Swal.fire({
             icon: "success",
             text: response.data.result.message,
@@ -372,8 +372,8 @@ function* handleDeleteRoom(roomDetails){
    function* handleKYCValidateOtpVerify(action){
       const response = yield call(KYCValidateOtpVerify,action.payload)
       console.log("response...?",response)
-      if(response.status === 200){
-         yield put({ type: 'KYC_VALIDATE_OTP_VERIFY', payload: {response:response.data,statusCode:response.status }})
+      if(response.status === 200 ||response.statusCode === 200){
+         yield put({ type: 'KYC_VALIDATE_OTP_VERIFY', payload: {response:response.data,statusCode:response.status || response.statusCode }})
              Swal.fire({
             icon: "success",
             text: response.data.message,
