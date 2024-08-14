@@ -58,11 +58,13 @@ if(editRoom){
 }
 },[editRoom])
 
-
+console.log("room@",room)
 
     const handleCreateRoom = () => {
       const floorId = hostelDetails.floor_Id.toString();
       const hostel_Id = hostelDetails.hostel_Id.toString();
+
+console.log("floorId",floorId,hostel_Id )
 
       if (!room || !/^\d+$/.test(room)) {
         Swal.fire({
@@ -72,15 +74,28 @@ if(editRoom){
         return;
       }
 
-    if (alreadyRoom) {
-        Swal.fire({
-            icon: 'error',
-            title: 'This room already exists in the hostel.',
-        });
-        return;
-    }
+
+if(!floorId){
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please select floor',
+  });
+  return;
+}
+
+
+    // if (alreadyRoom) {
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: 'This room already exists in the hostel.',
+    //     });
+    //     return;
+    // }
+
+
+
     const isChanged = 
-    room !== initialState.room 
+    Number(room) !== Number(initialState.room)
 
   if (!isChanged) {
     Swal.fire({
@@ -93,18 +108,9 @@ if(editRoom){
       if(floorId && hostel_Id ){
               dispatch({
                   type: 'CREATEROOM',
-                  payload: {
-                      id: hostel_Id,
-                      floorDetails: [{
-                          floorId: floorId,
-                          roomId: room,
-                             }]
-                  },
-              });
-
-             
-             
-              handleClose();
+                  payload: {hostel_id: hostel_Id,floorId: floorId, roomId: room}});
+                    
+              // handleClose();
              
           }
        else {
@@ -139,10 +145,10 @@ if(editRoom){
           
 
           <div className='row mt-2'>
-          {alreadyRoom && 
+          {/* {alreadyRoom && 
             <div>
              <label style={{color:"red", fontSize:16}}>This room already exists in the hostel.</label>
-            </div>}
+            </div>} */}
             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Room</Form.Label>
