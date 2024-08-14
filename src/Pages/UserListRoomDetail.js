@@ -1265,8 +1265,8 @@ function UserListRoomDetail(props) {
                                                                                         <option>Selected Floor</option>
                                                                                         {state.UsersList?.hosteldetailslist
                                                                                             ?.map((u) => (
-                                                                                                <option key={u.Floor_Id}>
-                                                                                                    {u.Floor_Id}
+                                                                                                <option key={u.floor_id}>
+                                                                                                    {u.floor_id}
                                                                                                 </option>
                                                                                             ))}
                                                                                     </Form.Select>

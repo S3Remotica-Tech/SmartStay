@@ -774,7 +774,7 @@ if(state.PgList.AddEBstatusCode === 200){
                   <option style={{ fontSize: 14, fontWeight: 600, }} selected value=''>Select Floor</option>
                   {state?.UsersList?.hosteldetailslist && state?.UsersList?.hosteldetailslist.map((item) => (
                     <>
-                      <option key={item.Floor_Id} value={item.Floor_Id} >{item.Floor_Id}</option></>
+                      <option key={item.floor_id} value={item.floor_id} >{item.floor_id}</option></>
                   ))}
 
                 </Form.Select>
