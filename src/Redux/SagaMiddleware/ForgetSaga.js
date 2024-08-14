@@ -6,8 +6,8 @@ import Cookies from 'universal-cookie';
 function* handleforgetpage(rpsd) {
     try {
         const response = yield call(forgetpage, rpsd.payload)
-        if (response.status === 200) {
-            yield put({ type: 'NEWPASSWORD_LIST', payload:{ response:response.data,statusCode:response.status} })
+        if (response.status === 200 || response.statusCode === 200) {
+            yield put({ type: 'NEWPASSWORD_LIST', payload:{ response:response.data,statusCode:response.status || response.statusCode} })
             Swal.fire({
                 title: "Good job!",
                 text: "NewPassword is Updated",
@@ -17,7 +17,7 @@ function* handleforgetpage(rpsd) {
             });
 
         }
-        else if (response.status === 203) {
+        else if (response.status === 203 || response.statusCode === 203) {
             yield put({ type: 'ERROR', payload: response.data.message })
             Swal.fire({
                 icon: 'warning',
@@ -27,7 +27,7 @@ function* handleforgetpage(rpsd) {
                 // showConfirmButton: false,
             });
 
-        } else if (response.status === 201) {
+        } else if (response.status === 201 || response.statusCode === 201 ) {
             yield put({ type: 'OTP_ERROR', payload: response.data.message })
             Swal.fire({
                 icon: 'warning',
@@ -55,16 +55,16 @@ function* handleforgetpage(rpsd) {
 function* handleSendOtp(action) {
     const response = yield call(otpSend, action.payload);
 
-    if (response.status === 200) {
-        yield put({ type: 'OTP_SEND', payload:{ response:response.data,statusCode:response.status}})
+    if (response.status === 200 || response.statusCode === 200) {
+        yield put({ type: 'OTP_SEND', payload:{ response:response.data,statusCode:response.status || response.statusCode}})
         // Swal.fire({
         //     title: "Good job!",
         //     text: "OTP is Send your Email_id",
         //     icon: "success",
         //     timer: 1000,
         // });
-    }else if(response.status === 201){
-        yield put({ type: 'EMAIL_ERROR', payload: { response:response.data.message,statusCode:response.status}})
+    }else if(response.status === 201 || response.statusCode === 201){
+        yield put({ type: 'EMAIL_ERROR', payload: { response:response.data.message,statusCode:response.status || response.statusCode}})
         Swal.fire({
             icon: 'warning',
             title: 'Error',
@@ -72,8 +72,8 @@ function* handleSendOtp(action) {
                 
             });
     }
-    else if(response.status === 203) {
-        yield put({ type: 'SEND_EMAIL_ERROR', payload: {response: response.data.message ,statusCode:response.status}})
+    else if(response.status === 203 || response.statusCode === 203) {
+        yield put({ type: 'SEND_EMAIL_ERROR', payload: {response: response.data.message ,statusCode:response.status || response.statusCode}})
         Swal.fire({
             icon: 'warning',
             title: 'Error',
@@ -87,9 +87,9 @@ function* handleSendOtp(action) {
 function* handleOtpVerifyforForgotPassword(action) {
      const response = yield call(OTPverificationForForgotPassword, action.payload);
         console.log("response for  otp VERIFY",response)
-    if (response.status === 200) {
-        yield put({ type: 'OTPVERIFY_FORGOT_PASSWORD', payload:{ response:response.data,statusCode:response.status}})
-    }else if(response.status === 201){
+    if (response.status === 200 || response.statusCode === 200) {
+        yield put({ type: 'OTPVERIFY_FORGOT_PASSWORD', payload:{ response:response.data,statusCode:response.status || response.statusCode}})
+    }else if(response.status === 201 || response.statusCode === 201){
         Swal.fire({
             icon: 'warning',
             title: 'Error',

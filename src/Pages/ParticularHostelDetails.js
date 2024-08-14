@@ -332,7 +332,7 @@ setTimeout(()=>{
     <div className=''>
 
 <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
-{loader &&  <Spinner animation="grow" variant="primary" size="sm" />}
+{/* {loader &&  <Spinner animation="grow" variant="primary" size="sm" />} */}
 </div>
 
 

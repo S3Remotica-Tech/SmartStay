@@ -9,8 +9,8 @@ import Swal from 'sweetalert2';
 function* handleGetAsset() {
    const response = yield call (GetAsset);
    console.log("response for get",response.status)
-   if (response.status === 200){
-      yield put ({type : 'ASSET_LIST' , payload:{response:response.data.assets, statusCode:response.status}})
+   if (response.status === 200 || response.statusCode === 200 ){
+      yield put ({type : 'ASSET_LIST' , payload:{response:response.data.assets, statusCode:response.status || response.statusCode}})
 
 
    }
@@ -26,14 +26,12 @@ function* handleGetAsset() {
 function* handleAddAsset(action) {
     const response = yield call (AddAsset, action.payload);
   console.log("response add",response)
-     if (response.status === 200){
-       yield put ({type : 'ADD_ASSET' , payload:{response:response.data.assets, statusCode:response.status}})
+     if (response.status === 200 || response.statusCode === 200){
+       yield put ({type : 'ADD_ASSET' , payload:{response:response.data.assets, statusCode:response.status || response.statusCode}})
        Swal.fire({
          text: `${response.data.message}`,
          icon: "success",
-         // timer: 1000,
-         // showConfirmButton: false,
-     });
+             });
 
     }
     else {
@@ -48,8 +46,8 @@ function* handleAddAsset(action) {
  function* handleDeleteAsset(action) {
    const response = yield call (DeleteAssetList,action.payload);
  console.log(" response", response)
-   if (response.status === 200){
-      yield put ({type : 'DELETE_ASSET' , payload:{response:response.data, statusCode:response.status}})
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'DELETE_ASSET' , payload:{response:response.data, statusCode:response.status || response.statusCode}})
         }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
@@ -65,8 +63,8 @@ function* handleAddAsset(action) {
 function* handleGetHostelRooms(action) {
    const response = yield call (getHostelRooms,action.payload);
  console.log(" response", response)
-   if (response.status === 200){
-      yield put ({type : 'GET_ROOMS' , payload:{response:response.data.data, statusCode:response.status}})
+   if (response.status === 200 || response.statusCode === 200 ){
+      yield put ({type : 'GET_ROOMS' , payload:{response:response.data.data, statusCode:response.status || response.statusCode}})
         }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
@@ -80,8 +78,8 @@ function* handleGetHostelRooms(action) {
 function* handleAssignAsset(action) {
    const response = yield call (AssignAsset,action.payload);
  console.log(" response", response)
-   if (response.status === 200){
-      yield put ({type : 'ASSIGN_ASSET' , payload:{response:response.data, statusCode:response.status}})
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'ASSIGN_ASSET' , payload:{response:response.data, statusCode:response.status || response.statusCode}})
       Swal.fire({
          text: `${response.data.message}`,
          icon: "success",

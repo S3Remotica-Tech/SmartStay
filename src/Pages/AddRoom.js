@@ -58,11 +58,13 @@ if(editRoom){
 }
 },[editRoom])
 
-
+console.log("room@",room)
 
     const handleCreateRoom = () => {
       const floorId = hostelDetails.floor_Id.toString();
       const hostel_Id = hostelDetails.hostel_Id.toString();
+
+console.log("floorId",floorId,hostel_Id )
 
       if (!room || !/^\d+$/.test(room)) {
         Swal.fire({
@@ -72,15 +74,28 @@ if(editRoom){
         return;
       }
 
-    if (alreadyRoom) {
-        Swal.fire({
-            icon: 'error',
-            title: 'This room already exists in the hostel.',
-        });
-        return;
-    }
+
+if(!floorId){
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please select floor',
+  });
+  return;
+}
+
+
+    // if (alreadyRoom) {
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: 'This room already exists in the hostel.',
+    //     });
+    //     return;
+    // }
+
+
+
     const isChanged = 
-    room !== initialState.room 
+    Number(room) !== Number(initialState.room)
 
   if (!isChanged) {
     Swal.fire({
@@ -93,17 +108,8 @@ if(editRoom){
       if(floorId && hostel_Id ){
               dispatch({
                   type: 'CREATEROOM',
-                  payload: {
-                      id: hostel_Id,
-                      floorDetails: [{
-                          floorId: floorId,
-                          roomId: room,
-                             }]
-                  },
-              });
-
-             
-             
+                  payload: {hostel_id: hostel_Id,floorId: floorId, roomId: room}});
+                    
               handleClose();
              
           }

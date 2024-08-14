@@ -9,8 +9,8 @@ function* CreateNewAccount(args) {
   try {
     const response = yield call(Addaccount, args.payload);
     console.log("response",response)
-      if (response.status === 200) {
-      yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status } });
+      if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode} });
 
       Swal.fire({
         icon: 'success',
@@ -18,7 +18,7 @@ function* CreateNewAccount(args) {
         // timer: 1000,
         // showConfirmButton: false,
       });
-    } else if (response.status === 210) {
+    } else if (response.status === 210 || response.statusCode === 210) {
       Swal.fire({
        icon: 'warning',
        title: 'Error',
@@ -27,21 +27,21 @@ function* CreateNewAccount(args) {
        
      });
     }
-    else if (response.status === 201) {
+    else if (response.status === 201 || response.statusCode === 201) {
        Swal.fire({
         icon: 'warning',
         title: 'Error',
         html: `<span style="color: red">${args.payload.emailId}</span> This ${response.data.message}`,
         confirmButtonText: 'Ok'
       });
-    } else if (response.status === 202) {
+    } else if (response.status === 202 || response.statusCode === 202) {
      Swal.fire({
         icon: 'warning',
         title: 'Error',
         html: `<span style="color: red">${args.payload.mobileNo}</span> This ${response.data.message}`,
         confirmButtonText: 'Ok'
       });
-    } else if (response.status === 203) {
+    } else if (response.status === 203 || response.statusCode === 203) {
      Swal.fire({
         icon: 'warning',
         title: 'Error',
@@ -64,10 +64,10 @@ function* CreateAccountPage(action) {
     const response = yield call(CreateAccountAction, action.payload);
     console.log("response for ca",response.statusCode)
        
-    if (response.statusCode === 200) {
+    if (response.statusCode === 200 || response.status === 200) {
       yield put({
         type: 'CREATEACCOUNT',
-        payload: { response: response.data, statusCode: response.statusCode }
+        payload: { response: response.data, statusCode: response.statusCode || response.status }
       });
 
      
@@ -86,10 +86,10 @@ function* ProfileUpdate(action) {
     const response = yield call(UpdateProfile, action.payload);
     console.log("response for ca",response.statusCode)
        
-    if (response.statusCode === 200) {
+    if (response.statusCode === 200 || response.status === 200) {
       yield put({
         type: 'PROFILEUPDATE',
-        payload: { response: response.data, statusCode: response.statusCode  }
+        payload: { response: response.data, statusCode: response.statusCode || response.status }
       });
       Swal.fire({
         icon: 'success',
@@ -116,10 +116,10 @@ function* handlepasswordUpdate(action) {
     const response = yield call(UpdatePassword, action.payload);
     console.log("response for ca",response.statusCode)
        
-    if (response.statusCode === 200) {
+    if (response.statusCode === 200 || response.status === 200 ) {
       yield put({
         type: 'PASSWORD-UPDATE',
-        payload: { response: response.data, statusCode: response.statusCode, message : response.data.message }
+        payload: { response: response.data, statusCode: response.statusCode || response.status, message : response.data.message }
       });
 
      
@@ -137,8 +137,8 @@ function* handlepasswordUpdate(action) {
 function* HandleTwoStepVerification(action) {
   const response = yield call(TwoStepVerification, action.payload)
  
-  if (response.status === 200) {
-    yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response.status } })
+  if (response.status === 200 || response.statusCode === 200) {
+    yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response.status || response.statusCode } })
     Swal.fire({
       icon: 'success',
       text: 'Updated successfully',
@@ -161,8 +161,8 @@ function* handleAccountDetails(args) {
    const response = yield call(AccountDetails,args.payload)
 // console.log("Response for account",response)
 
-  if (response.status === 200) {
-    yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response.status }})
+  if (response.status === 200 || response.statusCode === 200) {
+    yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode}})
      }
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
@@ -181,9 +181,9 @@ function* handlenotificationlist (action){
   const response = yield call (GetAllNotification, action.payload);
   console.log("response for notification",response)
   
-  if (response.status === 200){
+  if (response.status === 200 || response.statusCode === 200){
      yield put ({type : 'ALL_NOTIFICATION_LIST' , payload:response.data.notification})
-  }else if(response.status === 401){
+  }else if(response.status === 401 || response.statusCode === 401){
     Swal.fire({
        icon: 'warning',
        title: 'Error',
@@ -200,8 +200,8 @@ function* handlenotificationlist (action){
 function* HandleUpdateNotification(action) {
   const response = yield call(UpdateNotification, action.payload)
  
-  if (response.status === 200) {
-    yield put({ type: 'UPDATE_NOTIFICATION', payload: { response: response.data.message, statusCode: response.status } })
+  if (response.status === 200 || response.statusCode === 200) {
+    yield put({ type: 'UPDATE_NOTIFICATION', payload: { response: response.data.message, statusCode: response.status || response.statusCode} })
   }
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
