@@ -86,10 +86,12 @@ function* ProfileUpdate(action) {
     const response = yield call(UpdateProfile, action.payload);
     console.log("response for ca",response.statusCode)
        
+
     if (response.statusCode === 200 || response.status === 200) {
       yield put({
         type: 'PROFILEUPDATE',
         payload: { response: response.data, statusCode: response.statusCode || response.status }
+
       });
       Swal.fire({
         icon: 'success',
@@ -116,10 +118,12 @@ function* handlepasswordUpdate(action) {
     const response = yield call(UpdatePassword, action.payload);
     console.log("response for ca",response.statusCode)
        
+
     if (response.statusCode === 200 || response.status === 200 ) {
       yield put({
         type: 'PASSWORD-UPDATE',
         payload: { response: response.data, statusCode: response.statusCode || response.status, message : response.data.message }
+
       });
 
      
@@ -183,7 +187,9 @@ function* handlenotificationlist (action){
   
   if (response.status === 200 || response.statusCode === 200){
      yield put ({type : 'ALL_NOTIFICATION_LIST' , payload:response.data.notification})
+
   }else if(response.status === 401 || response.statusCode === 401){
+
     Swal.fire({
        icon: 'warning',
        title: 'Error',
@@ -201,7 +207,9 @@ function* HandleUpdateNotification(action) {
   const response = yield call(UpdateNotification, action.payload)
  
   if (response.status === 200 || response.statusCode === 200) {
+
     yield put({ type: 'UPDATE_NOTIFICATION', payload: { response: response.data.message, statusCode: response.status || response.statusCode} })
+
   }
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
