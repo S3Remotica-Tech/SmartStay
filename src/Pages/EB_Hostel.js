@@ -75,7 +75,7 @@ function EB_Hostel() {
     console.log("filter", filteredstartmeter);
     // const lastItem = filteredstartmeter[filteredstartmeter?.length - 1];
     const lastItem = filteredstartmeter?.length > 0 ? filteredstartmeter[filteredstartmeter.length - 1] : null;
-    console.log("lastItem",lastItem);
+    console.log("lastItem", lastItem);
     setStartmeter(lastItem)
     // if ( lastItem && lastItem.length >0) {
     //   setStartmeter(lastItem[0].end_Meter_Reading);
@@ -83,7 +83,7 @@ function EB_Hostel() {
     // else{
     //   setStartmeter(0)
     // }
-    
+
   }, [selectedHostel, state.PgList?.EB_startmeterlist, Floor, Rooms]);
 
   const options = {
@@ -91,7 +91,7 @@ function EB_Hostel() {
     defaultDate: selectedDate || new Date(),
 
   };
-  
+
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -182,7 +182,7 @@ function EB_Hostel() {
   const handleebViewShow = () => {
     setebshow(true)
     settransactionshow(false)
-    
+
   };
   useEffect(() => {
     // const FilterEbAmount = state.Settings?.EBBillingUnitlist?.eb_settings?.filter((item) => {
@@ -208,33 +208,33 @@ function EB_Hostel() {
   const totalAmountRead = (unitAmount ? parseFloat(unitAmount) : 0) * (totalMeterReading || 0);
   console.log("totalAmountRead", totalAmountRead)
 
-// const handleEdit = (v) =>{
-//   console.log("handleEditv",v)
-//   setEdit('Edit')
-//   setaddEbDetail(true)
-//   setStartmeter(v.start_Meter_Reading)
-//     setEndmeter(v.end_Meter_Reading)
-//     setSelectedHostel(v.hostel_Id)
-//     setFloor(v.Floor)
-//     setRooms(v.Room)
-//     setId(v.eb_Id);
+  // const handleEdit = (v) =>{
+  //   console.log("handleEditv",v)
+  //   setEdit('Edit')
+  //   setaddEbDetail(true)
+  //   setStartmeter(v.start_Meter_Reading)
+  //     setEndmeter(v.end_Meter_Reading)
+  //     setSelectedHostel(v.hostel_Id)
+  //     setFloor(v.Floor)
+  //     setRooms(v.Room)
+  //     setId(v.eb_Id);
 
 
-// }
-useEffect(()=>{
-if(state.PgList.AddEBstatusCode === 200){
-  dispatch({ type: 'EBSTARTMETERLIST'})
+  // }
+  useEffect(() => {
+    if (state.PgList.AddEBstatusCode === 200) {
+      dispatch({ type: 'EBSTARTMETERLIST' })
 
-  setTimeout(()=>{
-    dispatch({ type: 'CLEAR_EB'})
-  },200)
-}
-},[state.PgList.AddEBstatusCode])
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_EB' })
+      }, 200)
+    }
+  }, [state.PgList.AddEBstatusCode])
 
   const handleSaveEbBill = () => {
     if (selectedHostel && Floor && Rooms && endmeter) {
       dispatch({ type: 'CREATEEB', payload: { Hostel_Id: selectedHostel, Floor: Floor, Room: Rooms, end_Meter_Reading: endmeter, EbAmount: totalAmountRead } });
-     
+
       Swal.fire({
         icon: "success",
         title: 'EB Added successfully',
@@ -270,7 +270,7 @@ if(state.PgList.AddEBstatusCode === 200){
       setEndmeter('')
       setAmount('')
       setSelectedDate('')
-      
+
     }
     else {
       Swal.fire({
@@ -412,25 +412,25 @@ if(state.PgList.AddEBstatusCode === 200){
           </div>
 
           <div>
-          <Button
-    style={{
-      fontFamily: "Montserrat",
-      fontSize: 16,
-      backgroundColor: transactionshow ? "#ccc" : "#1E45E1",
-      color: "white",
-      height: 56,
-      fontWeight: 600,
-      borderRadius: 12,
-      width: 184,
-      padding: "18px, 20px, 18px, 20px",
-      border:"none",
-      cursor: transactionshow ? "not-allowed" : "pointer"
-    }}
-    onClick={handleAddEbDetails}
-    disabled={transactionshow}
-  >
-    + Add transaction
-  </Button> 
+            <Button
+              style={{
+                fontFamily: "Montserrat",
+                fontSize: 16,
+                backgroundColor: transactionshow ? "#ccc" : "#1E45E1",
+                color: "white",
+                height: 56,
+                fontWeight: 600,
+                borderRadius: 12,
+                width: 184,
+                padding: "18px, 20px, 18px, 20px",
+                border: "none",
+                cursor: transactionshow ? "not-allowed" : "pointer"
+              }}
+              onClick={handleAddEbDetails}
+              disabled={transactionshow}
+            >
+              + Add transaction
+            </Button>
             {/* <Button style={{ fontFamily: "Montserrat", fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 184, height: 56, padding: "18px, 20px, 18px, 20px" }} onClick={handleAddEbDetails}> + Add transaction</Button> */}
           </div>
         </div>
@@ -480,10 +480,10 @@ if(state.PgList.AddEBstatusCode === 200){
                 {/* <td>₹{view.BalanceDue}</td> */}
                 <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>₹amount</td>
                 <td><span style={{ backgroundColor: "#D9E9FF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>payment</span></td>
-                <td>  <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex:  1000 }} >
-                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                            </div>
-                    </td>
+                <td>  <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                  <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                </div>
+                </td>
 
 
               </tr>
@@ -502,112 +502,112 @@ if(state.PgList.AddEBstatusCode === 200){
       }
       {
         ebShow &&
-<>
-        <div style={{ padding: 15 }}>
-          <Table className="ebtable mt-3" responsive >
-            <thead style={{ color: "gray", fontSize: "11px", backgroundColor: "#E7F1FF" }}>
-              <tr className="" style={{ height: "30px" }}>
+        <>
+          <div style={{ padding: 15 }}>
+            <Table className="ebtable mt-3" responsive >
+              <thead style={{ color: "gray", fontSize: "11px", backgroundColor: "#E7F1FF" }}>
+                <tr className="" style={{ height: "30px" }}>
 
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px", textAlign: "center" }}>Paying Guest</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Floor</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Room no</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Start meter</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>End meter</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Dated</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Units</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amount</th>
-                <th ></th>
+                  <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px", textAlign: "center" }}>Paying Guest</th>
+                  <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Floor</th>
+                  <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Room no</th>
+                  <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Start meter</th>
+                  <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>End meter</th>
+                  <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Dated</th>
+                  <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Units</th>
+                  <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amount</th>
+                  <th ></th>
 
-              </tr>
-            </thead>
-            <tbody style={{ height: "50px", fontSize: "11px" }}>
-              {currentRowelectricity && currentRowelectricity.map((v) => {
-                const imageUrl = v.profile || Profile;
-                let Dated = new Date(v.createAt);
-                console.log("Dated..?", Dated);
+                </tr>
+              </thead>
+              <tbody style={{ height: "50px", fontSize: "11px" }}>
+                {currentRowelectricity && currentRowelectricity.map((v) => {
+                  const imageUrl = v.profile || Profile;
+                  let Dated = new Date(v.createAt);
+                  console.log("Dated..?", Dated);
 
-                let day = Dated.getDate();
-                let month = Dated.getMonth() + 1;
-                let year = Dated.getFullYear();
+                  let day = Dated.getDate();
+                  let month = Dated.getMonth() + 1;
+                  let year = Dated.getFullYear();
 
-                let formattedDate = `${day}/${month}/${year}`;
-                console.log("Formatted Date:", formattedDate);
-                return (
-                  <tr>
-                    <td style={{ border: "none", display: "flex", padding: "10px" }}>
+                  let formattedDate = `${day}/${month}/${year}`;
+                  console.log("Formatted Date:", formattedDate);
+                  return (
+                    <tr>
+                      <td style={{ border: "none", display: "flex", padding: "10px" }}>
 
-                      <Image
-                        src={imageUrl}
-                        alt={v.hoatel_Name || "Default Profile"}
-                        roundedCircle
-                        style={{ height: "40px", width: "40px", marginRight: "10px" }}
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = Profile;
-                        }}
-                      />
-                      <span style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }} >
-                        {v.hoatel_Name}
-                      </span>
-                    </td>
-                    {/* <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>{v.hoatel_Name}</td> */}
-                    <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.Floor}</td>
-                    <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.Room}</td>
-                    <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.start_Meter_Reading}</td>
-                    <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.end_Meter_Reading
-                    }</td>
-                    {/* <td>₹{view.BalanceDue}</td> */}
+                        <Image
+                          src={imageUrl}
+                          alt={v.hoatel_Name || "Default Profile"}
+                          roundedCircle
+                          style={{ height: "40px", width: "40px", marginRight: "10px" }}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = Profile;
+                          }}
+                        />
+                        <span style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }} >
+                          {v.hoatel_Name}
+                        </span>
+                      </td>
+                      {/* <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>{v.hoatel_Name}</td> */}
+                      <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.Floor}</td>
+                      <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.Room}</td>
+                      <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.start_Meter_Reading}</td>
+                      <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.end_Meter_Reading
+                      }</td>
+                      {/* <td>₹{view.BalanceDue}</td> */}
 
-                    <td><span style={{ backgroundColor: "#EBEBEB", paddingTop: "5px", paddingLeft: "16px", paddingRight: "16px", paddingBottom: "5px", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
-                    <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.Eb_Unit}</td>
-                    <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.EbAmount}</td>
-                    <td>  
-                  <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex:  1000 }} >
-                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                            </div>
-                    </td>
+                      <td><span style={{ backgroundColor: "#EBEBEB", paddingTop: "5px", paddingLeft: "16px", paddingRight: "16px", paddingBottom: "5px", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
+                      <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.Eb_Unit}</td>
+                      <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "start" }}>{v.EbAmount}</td>
+                      <td>
+                        <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                        </div>
+                      </td>
 
 
-                  </tr>
-                )
-              })}
+                    </tr>
+                  )
+                })}
 
-              {/* {currentRowTransaction.length === 0 && (
+                {/* {currentRowTransaction.length === 0 && (
                             <tr>
                               <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
                             </tr>
                           )} */}
 
-            </tbody>
-          </Table>
-        </div>
+              </tbody>
+            </Table>
+          </div>
 
-        {currentRowelectricity.length > 0 && (
-                        <nav>
-                          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-                            <li style={{ margin: '0 5px' }}>
-                              <button
-                                style={{
-                                  padding: '5px 10px',
-                                  textDecoration: 'none',
-                                  color: electricitycurrentPage === 1 ? '#ccc' : '#007bff',
-                                  cursor: electricitycurrentPage === 1 ? 'not-allowed' : 'pointer',
-                                  borderRadius: '5px',
-                                  display: 'inline-block',
-                                  minWidth: '30px',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  border: "none"
-                                }}
-                                onClick={() => handleElectricityPageChange(electricitycurrentPage - 1)}
-                                disabled={electricitycurrentPage === 1}
-                              >                                <ArrowLeft2
-                                  size="16"
-                                  color="#1E45E1"
-                                />
-                                {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-                              </button>
-                              {/* <span
+          {currentRowelectricity.length > 0 && (
+            <nav>
+              <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                <li style={{ margin: '0 5px' }}>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      color: electricitycurrentPage === 1 ? '#ccc' : '#007bff',
+                      cursor: electricitycurrentPage === 1 ? 'not-allowed' : 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handleElectricityPageChange(electricitycurrentPage - 1)}
+                    disabled={electricitycurrentPage === 1}
+                  >                                <ArrowLeft2
+                      size="16"
+                      color="#1E45E1"
+                    />
+                    {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                  </button>
+                  {/* <span
                                 onClick={() => handleElectricityPageChange(electricitycurrentPage - 1)}
                                 style={{
                                   marginTop: '20px',
@@ -617,56 +617,56 @@ if(state.PgList.AddEBstatusCode === 200){
                               >
                                 Previous
                               </span> */}
-                            </li>
-                            {electricitycurrentPage > 3 && (
-                              <li style={{ margin: '0 5px' }}>
-                                <button
-                                  style={{
-                                    padding: '5px 10px',
-                                    textDecoration: 'none',
-                                    color: 'white',
-                                    cursor: 'pointer',
-                                    borderRadius: '5px',
-                                    display: 'inline-block',
-                                    minWidth: '30px',
-                                    textAlign: 'center',
-                                    backgroundColor: 'transparent',
-                                    border: "none"
+                </li>
+                {electricitycurrentPage > 3 && (
+                  <li style={{ margin: '0 5px' }}>
+                    <button
+                      style={{
+                        padding: '5px 10px',
+                        textDecoration: 'none',
+                        color: 'white',
+                        cursor: 'pointer',
+                        borderRadius: '5px',
+                        display: 'inline-block',
+                        minWidth: '30px',
+                        textAlign: 'center',
+                        backgroundColor: 'transparent',
+                        border: "none"
 
-                                  }}
-                                  onClick={() => handleElectricityPageChange(1)}
-                                >
-                                  1
-                                </button>
-                              </li>
-                            )}
-                            {electricitycurrentPage > 3 && <span>...</span>}
-                            {renderPageNumberselectricity()}
-                            {electricitycurrentPage < totalPagesinvoice - 2 && <span>...</span>}
-                            {electricitycurrentPage < totalPagesinvoice - 2 && (
-                              <li style={{ margin: '0 5px' }}>
-                                <button
-                                  style={{
-                                    padding: '5px 10px',
-                                    textDecoration: 'none',
+                      }}
+                      onClick={() => handleElectricityPageChange(1)}
+                    >
+                      1
+                    </button>
+                  </li>
+                )}
+                {electricitycurrentPage > 3 && <span>...</span>}
+                {renderPageNumberselectricity()}
+                {electricitycurrentPage < totalPagesinvoice - 2 && <span>...</span>}
+                {electricitycurrentPage < totalPagesinvoice - 2 && (
+                  <li style={{ margin: '0 5px' }}>
+                    <button
+                      style={{
+                        padding: '5px 10px',
+                        textDecoration: 'none',
 
-                                    cursor: 'pointer',
-                                    borderRadius: '5px',
-                                    display: 'inline-block',
-                                    minWidth: '30px',
-                                    textAlign: 'center',
-                                    backgroundColor: 'transparent',
-                                    border: "none"
+                        cursor: 'pointer',
+                        borderRadius: '5px',
+                        display: 'inline-block',
+                        minWidth: '30px',
+                        textAlign: 'center',
+                        backgroundColor: 'transparent',
+                        border: "none"
 
-                                  }}
-                                  onClick={() => handleElectricityPageChange(totalPagesinvoice)}
-                                >
-                                  {totalPagesinvoice}
-                                </button>
-                              </li>
-                            )}
-                            <li style={{ margin: '0 5px' }}>
-                              {/* <span
+                      }}
+                      onClick={() => handleElectricityPageChange(totalPagesinvoice)}
+                    >
+                      {totalPagesinvoice}
+                    </button>
+                  </li>
+                )}
+                <li style={{ margin: '0 5px' }}>
+                  {/* <span
                                 onClick={() => handleElectricityPageChange(electricitycurrentPage + 1)}
                                 style={{
                                   marginTop: '20px',
@@ -676,33 +676,33 @@ if(state.PgList.AddEBstatusCode === 200){
                               >
                                 Next
                               </span> */}
-                              <button
-                                style={{
-                                  padding: '5px 10px',
-                                  textDecoration: 'none',
-                                  color: electricitycurrentPage === electricitycurrentPage ? '#ccc' : '#007bff',
-                                  cursor: electricitycurrentPage === electricitycurrentPage ? 'not-allowed' : 'pointer',
-                                  borderRadius: '5px',
-                                  display: 'inline-block',
-                                  minWidth: '30px',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  border: "none"
-                                }}
-                                onClick={() => handleElectricityPageChange(electricitycurrentPage + 1)}
-                                disabled={electricitycurrentPage === totalPagesinvoice}
-                              >
-                                {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-                                <ArrowRight2
-                                  size="16"
-                                  color="#1E45E1"
-                                />
-                              </button>
-                            </li>
-                          </ul>
-                        </nav>
-                      )}
-</>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      color: electricitycurrentPage === electricitycurrentPage ? '#ccc' : '#007bff',
+                      cursor: electricitycurrentPage === electricitycurrentPage ? 'not-allowed' : 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handleElectricityPageChange(electricitycurrentPage + 1)}
+                    disabled={electricitycurrentPage === totalPagesinvoice}
+                  >
+                    {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                    <ArrowRight2
+                      size="16"
+                      color="#1E45E1"
+                    />
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          )}
+        </>
 
 
       }
@@ -754,19 +754,20 @@ if(state.PgList.AddEBstatusCode === 200){
                   ))}
 
                 </Form.Select>
-                   {unitAmount && unitAmount?.length === 0 && selectedHostel != '' && <>
+                {unitAmount && unitAmount?.length === 0 && selectedHostel != '' && <>
 
-<label className="pb-1" style={{ fontSize: 12, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'ebUnitAmount'</label>
+                  <label className="pb-1" style={{ fontSize: 12, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'ebUnitAmount in Settings'</label>
 
 
-</>}
+                </>}
               </div>
-           
+
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Floor</Form.Label>
                 <Form.Select
                   aria-label="Default select example"
                   className='border'
+                  disabled={unitAmount && unitAmount?.length === 0 && selectedHostel != ''}
                   value={Floor}
                   onChange={(e) => handleFloor(e)}
                   style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
@@ -784,6 +785,7 @@ if(state.PgList.AddEBstatusCode === 200){
                 <Form.Select
                   aria-label="Default select example"
                   className='border'
+                  disabled={unitAmount && unitAmount?.length === 0 && selectedHostel != ''}
                   value={Rooms}
                   onChange={(e) => handleRoom(e)}
                   style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
