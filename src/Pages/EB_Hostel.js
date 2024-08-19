@@ -798,7 +798,7 @@ function EB_Hostel() {
                 </Form.Select>
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 }}>Complaint date</Form.Label>
+                <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 }}>Date</Form.Label>
 
                 <div style={{ position: 'relative' }}>
                   <label
