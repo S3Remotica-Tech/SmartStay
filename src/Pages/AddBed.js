@@ -69,12 +69,18 @@ const handleSubmit =() =>{
   if (!bedNo || !/^\d+$/.test(bedNo)) {
     Swal.fire({
       icon: 'warning',
-      title: 'Please enter a valid Room no.',
+      title: 'Please enter a valid bed no.',
     });
     return;
   }
 
-
+  if (!amount || isNaN(amount) || amount <= 0) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter a Valid amount',
+    });
+    return;
+}
 
 
   if(currentItem.item.hostel_Id && currentItem.item.floorID && currentItem.Room_Id && bedNo && amount){

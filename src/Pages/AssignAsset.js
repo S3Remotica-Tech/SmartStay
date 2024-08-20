@@ -98,7 +98,30 @@ function StaticExample({ show, handleClose, currentItem }) {
             return;
         }
 
-
+        if (!pglist) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Please Select a PG List',
+            });
+            return;
+        }
+        
+        if (!room) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Please Select a Room',
+            });
+            return;
+        }
+        
+        if (!date) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Please Select a Date',
+            });
+            return;
+        }
+        
         const isChanged = 
           Number(initialState.pglist) !== Number(pglist) ||
         Number(initialState.room) !== Number(room)||
@@ -144,7 +167,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest</Form.Label>
                                     <Form.Select aria-label="Default select example" className='' id="vendor-select" value={pglist} onChange={handlePgChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: pglist ? 600 : 500 }}>
-                                        <option>Select a PG</option>
+                                        <option value="" disabled>Select a PG</option>
                                         {
                                             state.UsersList?.hostelList?.map((item) => {
                                                 return (
@@ -162,7 +185,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Select a room</Form.Label>
                                     <Form.Select aria-label="Default select example" className='' id="vendor-select" value={room} onChange={handleRoomChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: room ? 600 : 500 }}>
-                                        <option>Select a room</option>
+                                        <option value="" disabled>Select a room</option>
                                         {state.AssetList.GetRoomList && state.AssetList.GetRoomList.map((item) => {
                                             return (
                                                 <>

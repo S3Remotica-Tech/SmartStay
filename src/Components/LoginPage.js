@@ -129,19 +129,29 @@ const MyComponent = () => {
   };
 
   const handleLogin = () => {
-    if (email_Id && password) {
-      dispatch({ type: 'LOGININFO', payload: { email_Id: email_Id, password: password } });
+    if (!email_Id && !password) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            text: 'Enter Email id and Password',
+                   });
+    } else if (!email_Id) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            text: 'Enter Email id',
+                   });
+    } else if (!password) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            text: 'Enter Password',
+                });
+    } else {
+        dispatch({ type: 'LOGININFO', payload: { email_Id: email_Id, password: password } });
     }
-    else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Error',
-        text: email_Id ? 'Enter Password' : 'Enter Email id and Password',
-        timer: 3000,
-        showConfirmButton: false,
-      });
-    }
-  };
+};
+
 
 
 

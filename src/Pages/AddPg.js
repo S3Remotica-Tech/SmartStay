@@ -117,6 +117,37 @@ function AddPg({ show, handleClose, currentItem }) {
       return;
     }
 
+    if(!location){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter address',
+          });
+      return;
+    }
+
+    if(!mobile){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter mobile',
+          });
+      return;
+    }
+    if(!email){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter email',
+          });
+      return;
+    }
+
+    if(!pgName){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter Pg name',
+          });
+      return;
+    }
+    
     if (errors.email)  {
       Swal.fire({
         icon: 'warning',

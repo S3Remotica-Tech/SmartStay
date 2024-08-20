@@ -151,7 +151,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
     const emailElement = document.getElementById('emailIDError');
     const emailError = emailElement ? emailElement.innerHTML : '';
 
-    if (!firstName || !phoneNo || !emailID || !password || !confirmpassword) {
+    if (!firstName && !phoneNo && !emailID && !password && !confirmpassword) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
@@ -159,6 +159,56 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
       });
       return;
     }
+
+    if (!firstName) {
+      Swal.fire({
+          icon: 'warning',
+          title: 'Error',
+          text: 'Enter First Name',
+          confirmButtonText: 'Ok'
+      });
+      return;
+  }
+
+  if (!phoneNo) {
+      Swal.fire({
+          icon: 'warning',
+          title: 'Error',
+          text: 'Enter Phone Number',
+          confirmButtonText: 'Ok'
+      });
+      return;
+  }
+
+  if (!emailID) {
+      Swal.fire({
+          icon: 'warning',
+          title: 'Error',
+          text: 'Enter Email ID',
+          confirmButtonText: 'Ok'
+      });
+      return;
+  }
+
+  if (!password) {
+      Swal.fire({
+          icon: 'warning',
+          title: 'Error',
+          text: 'Enter Password',
+          confirmButtonText: 'Ok'
+      });
+      return;
+  }
+
+  if (!confirmpassword) {
+      Swal.fire({
+          icon: 'warning',
+          title: 'Error',
+          text: 'Confirm Your Password',
+          confirmButtonText: 'Ok'
+      });
+      return;
+  }
 
 
     if (emailError === 'Invalid Email Id *') {
