@@ -213,12 +213,12 @@ function StaticExample({ show, handleClose, currentItem }) {
             Swal.fire('Error', 'Please select a purchase date', 'error');
             return;
         }
-        if (!count) {
-            Swal.fire('Error', 'Please enter a unit count', 'error');
+        if (!count || isNaN(count) || count <= 0 ) {
+            Swal.fire('Error', 'Please enter a valid unit count', 'error');
             return;
         }
-        if (!price) {
-            Swal.fire('Error', 'Please enter a price', 'error');
+        if (!price || isNaN(price) || price <= 0) {
+            Swal.fire('Error', 'Please enter a  valid price', 'error');
             return;
         }
         if (!modeOfPayment) {
