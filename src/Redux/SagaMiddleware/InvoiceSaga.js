@@ -51,10 +51,16 @@ function* handleAddInvoiceDetails (param){
 
 function* handleInvoiceSettings(param){
        const response = yield call (InvoiceSettings,param.payload)
-   //   console.log("invoice response",response.statusCode === 200)
+      console.log("invoice response",response)
       if (response.statusCode === 200 || response.status === 200) {
          yield put({ type: 'INVOICE_SETTINGS',  payload:{response:response.data, statusCode: response.statusCode || response.status} })
-          
+         
+         Swal.fire({
+            title: "Good job!",
+            text: `${response.message}`,
+            icon: "success",
+                   }); 
+
       }
       else {
          yield put({ type: 'ERROR', payload: response?.data?.message })
