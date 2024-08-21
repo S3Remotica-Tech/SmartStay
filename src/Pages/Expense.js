@@ -25,6 +25,7 @@ import Profiles from '../Assets/Images/New_images/profile.png';
 import { Dropdown, NavDropdown, Container } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { AllInbox } from '@mui/icons-material';
+import { TruckRemove } from 'iconsax-react';
 
 
 function Expenses() {
@@ -207,7 +208,10 @@ console.log("getData",getData)
     if (state.ExpenseList.getExpenseStatusCode === 200) {
       setTimeout(() => {
         setGetData(state.ExpenseList.expenseList)
+     
         setLoading(false)
+      
+        
       }, 1000)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
@@ -221,6 +225,7 @@ useEffect(()=>{
   if(state.ExpenseList.nodataGetExpenseStatusCode === 201){
     setTimeout(() => {
       setGetData([])
+      setLoading(false)
     }, 100)
 
     setTimeout(()=>{
@@ -240,7 +245,7 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    if (state.ExpenseList.StatusCodeForAddExpenseSuccess == 200 || state.ExpenseList.deleteExpenseStatusCode) {
+    if (state.ExpenseList.StatusCodeForAddExpenseSuccess == 200 || state.ExpenseList.deleteExpenseStatusCode == 200) {
       dispatch({ type: 'EXPENSELIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_EXPENSE' })
@@ -738,20 +743,20 @@ const [showAmount, setShowAmount]  = useState(false)
 
           <div className='table-responsive' style={{ border: "1px solid #DCDCDC", borderRadius: "24px" }}>
             <Table responsive>
-              <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
+              <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor:"rgba(231, 241, 255, 1)" }}>
                 <tr>
                   <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
                     <input type='checkbox' style={customCheckboxStyle} />
                   </th>
 
 
-                  <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Name</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Category</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Asset</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Expense Date</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Amount</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Mode of Payment</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}></th>
+                  <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Name</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Expense Date</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Amount</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Mode of Payment</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
                 </tr>
               </thead>
               <tbody>
@@ -780,10 +785,12 @@ const [showAmount, setShowAmount]  = useState(false)
 
 
             <div className="d-flex justify-content-center" style={{ width: "100%" }}>
-              {
-                getData  && getData.length === 0 || filteredData.length === 0 && <h5 style={{ fontSize: 12, color: "red" }}>No Expense Found</h5>
-              
-              }
+            {
+  !loading && getData.length === 0 && (
+    <h5 style={{ fontSize: 12, color: "red" }}>No Expense Found</h5>
+  )
+}
+
 
 
             </div>

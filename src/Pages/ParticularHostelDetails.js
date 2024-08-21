@@ -157,6 +157,19 @@ if(state.PgList.noRoomsInFloorStatusCode === 201){
   
 },[state.PgList.noRoomsInFloorStatusCode])
 
+useEffect(() => {
+  if (state.UsersList?.statusCodeForAddUser === 200) {
+    dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_STATUS_CODES' })
+    }, 2000)
+    setShowDeleteBed(false)
+    dispatch({ type: 'USERLIST' })
+
+  }
+}, [state.UsersList?.statusCodeForAddUser]);
+
+
 
 
 useEffect(() => {

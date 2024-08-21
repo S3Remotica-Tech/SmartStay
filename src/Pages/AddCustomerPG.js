@@ -40,11 +40,38 @@ const [address, setAddress] = useState('');
 const [phone, setPhone] = useState('');
 const [email, setEmail] = useState('');
 const [file, setFile] = useState(null);
+const [RoomRent, setRoomRent] = useState('')
+const [AdvanceAmount, setAdvanceAmount] = useState('')
 
 const handleFirstName = (e) => setFirstname(e.target.value);
   const handleLastName = (e) => setLastname(e.target.value);
-  const handlePhone = (e) => setPhone(e.target.value);
-  const handleEmail = (e) => setEmail(e.target.value);
+
+  const handlePhone = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value) && value.length <= 10) {
+      setPhone(value);
+    }
+  };
+  
+  const [emailError, setEmailError] = useState('');
+
+  const handleEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+    
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const isValidEmail = emailRegex.test(email);
+    
+    if (isValidEmail) {
+      setEmailError(''); 
+    } else {
+      setEmailError('Invalid Email Id *'); 
+    }
+  };
+  
+  
+
+
   const handleAddress = (e) => setAddress(e.target.value);
 
 
@@ -70,7 +97,88 @@ const Hostel_Id = currentItem.room.Hostel_Id
 const Floor_Id = currentItem.room.Floor_Id
 const Room_Id = currentItem.room.Room_Id
 const Bed_Id = currentItem.bed.bed_no
-if(firstname && lastname && phone && email){
+
+const filterData_Hostel_Name = state.UsersList.hostelList.filter((view)=>{
+  return view.id == Hostel_Id
+})
+console.log("filterData_Hostel_Name[0]?.Name",filterData_Hostel_Name[0]?.Name)
+
+if(!firstname  && !phone && !email && !AdvanceAmount && !RoomRent &&  !address){
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please Enter All Fields',
+    
+  });
+  return
+}
+
+if (!firstname) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please Enter First Name',
+  });
+  return;
+}
+
+if (!phone) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please Enter Phone Number',
+  });
+  return;
+}
+
+if (phone.length < 10) {
+  Swal.fire({
+      icon: 'warning',
+      title: 'Phone number must be 10 digits long',
+  });
+  return;
+}
+
+if (!email) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please Enter Email',
+  });
+  return;
+}
+
+if (emailError) {
+  Swal.fire({
+    icon: 'warning',
+    title: emailError, 
+  });
+  return;
+}
+
+if (!AdvanceAmount || isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please Enter Valid Advance Amount',
+  });
+  return;
+}
+
+if (!RoomRent || isNaN(RoomRent) || RoomRent <= 0) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please Enter Valid Room Rent',
+  });
+  return;
+}
+
+if (!address) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please Enter Address',
+  });
+  return;
+}
+
+
+
+if(firstname  && phone && email && AdvanceAmount && RoomRent &&  address){
   dispatch({ type: 'ADDUSER',
     payload: {
       profile: file,
@@ -82,20 +190,35 @@ if(firstname && lastname && phone && email){
       Floor: Floor_Id,
       Rooms: Room_Id,
       Bed: Bed_Id,
-    //   HostelName: HostelName
+      Address:address,
+      HostelName: filterData_Hostel_Name[0]?.Name,
+    AdvanceAmount: AdvanceAmount,
+    RoomRent: RoomRent,
             }
     })
     handleClosing()
 }else{
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please Enter All Fields',
-   
-  
-  });
+ 
 }
    
 }
+
+
+const handleRoomRent = (e) => {
+  const roomRentValue = e.target.value;
+  // handleInputChange()
+  setRoomRent(roomRentValue);
+
+}
+
+
+const handleAdvanceAmount = (e) => {
+  // handleInputChange()
+  const advanceAmount = e.target.value;
+  setAdvanceAmount(advanceAmount)
+
+}
+
 
   return (
     <div>
@@ -248,6 +371,32 @@ if(firstname && lastname && phone && email){
               />
             </Form.Group>
             </div>
+            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                                                                                    <Form.Group className="">
+                                                                                        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</Form.Label>
+                                                                                        <FormControl
+                                                                                            type="text"
+                                                                                            id="form-controls"
+                                                                                            placeholder='Enter amount'
+                                                                                            value={AdvanceAmount}
+                                                                                            onChange={(e) => handleAdvanceAmount(e)}
+                                                                                            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:AdvanceAmount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                                                                                        />
+                                                                                    </Form.Group>
+                                                                                </div>
+                                                                                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                                                                                    <Form.Group className="mb-3">
+                                                                                        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Rental Amount</Form.Label>
+                                                                                        <FormControl
+                                                                                            type="text"
+                                                                                            id="form-controls"
+                                                                                            placeholder='Enter amount'
+                                                                                            value={RoomRent}
+                                                                                            onChange={(e) => handleRoomRent(e)}
+                                                                                            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:RoomRent ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                                                                                        />
+                                                                                    </Form.Group>
+                                                                                </div>
             </div>
      
       
