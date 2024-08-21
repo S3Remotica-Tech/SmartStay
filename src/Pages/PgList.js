@@ -912,8 +912,8 @@ console.log("key",key)
 
             <div className="d-flex justify-content-between align-items-center mb-3">
 
-              <div className='d-flex align-items-center'>
-                <ArrowLeft size="32" color="#222222" onClick={handlebackToPG} />
+              <div className='d-flex align-items-center' >
+                <ArrowLeft size="32" color="#222222" onClick={handlebackToPG}  style={{cursor:"pointer"}}/>
                
                 <label className='ms-4' style={{ fontSize: 20, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>{showHostelDetails.Name}</label>
               </div>
