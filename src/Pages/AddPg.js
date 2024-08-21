@@ -117,6 +117,37 @@ function AddPg({ show, handleClose, currentItem }) {
       return;
     }
 
+    if(!location){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter address',
+          });
+      return;
+    }
+
+    if(!mobile){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter mobile',
+          });
+      return;
+    }
+    if(!email){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter email',
+          });
+      return;
+    }
+
+    if(!pgName){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter Pg name',
+          });
+      return;
+    }
+    
     if (errors.email)  {
       Swal.fire({
         icon: 'warning',
@@ -341,7 +372,7 @@ function AddPg({ show, handleClose, currentItem }) {
           <Modal.Footer style={{ border: "none" }}>
 
             <Button onClick={handleCreatePayingGuest} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}>
-            {currentItem ?  "Edit Paying Guest": "Add Paying Guest"}
+            {currentItem ?  "Save": "Add Paying Guest"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

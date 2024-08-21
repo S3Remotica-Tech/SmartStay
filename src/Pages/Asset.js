@@ -137,7 +137,7 @@ function Asset() {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
   console.log("currentItems", currentItems)
-  // console.log("filteredData",filteredData)
+  console.log("filteredData",filteredData)
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -296,24 +296,24 @@ function Asset() {
 
 
           <div className='table-responsive' style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}} >
-            <Table responsive >
-              <thead style={{  borderRadius: "24px",fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
+            <Table responsive  className="w-100" >
+              <thead style={{  borderRadius: "24px",fontFamily: "Gilroy",backgroundColor:"rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
                 <tr>
                   <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
                     <input type='checkbox' style={customCheckboxStyle} />
                   </th>
 
 
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Asset</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Serial Number</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Brand</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Product Name</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Serial Number</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Brand</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Product Name</th>
 
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Count</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Price</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Purchase Date</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Total Price</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}></th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Count</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Price</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Purchase Date</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Price</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
                 </tr>
               </thead>
               <tbody>
@@ -328,7 +328,7 @@ function Asset() {
 
             <div className="d-flex justify-content-center" style={{ width: "100%" }}>
               {
-                getData && getData.length === 0 || filteredData.length === 0 && <h5 style={{ fontSize: 12, color: "red" }}>No Asset Found</h5>
+                getData.length === 0 && <h5 style={{ fontSize: 12, color: "red" }}>No Asset Found</h5>
               }
 
 

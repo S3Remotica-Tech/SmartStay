@@ -43,7 +43,7 @@ function AddBed({ show, handleClose, currentItem }) {
             setCustomer(FilteredCustomer)
 
         }
-    }, [currentItem])
+    }, [currentItem,show])
 
 
     useEffect(() => {
