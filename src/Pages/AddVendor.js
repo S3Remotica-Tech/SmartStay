@@ -210,7 +210,7 @@ if(!business_Name){
       }
 
       setFile('')
-      handleClose()
+      // handleClose()
       setFirst_Name('')
       setLast_Name('')
       setVendor_Mobile('')

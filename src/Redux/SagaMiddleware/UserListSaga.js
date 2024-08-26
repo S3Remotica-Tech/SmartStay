@@ -213,8 +213,13 @@ function* handleAddUser(datum) {
      
      
       }
-      else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+      else if(response.status === 201 || response.statusCode === 201){
+         Swal.fire({
+            icon: 'warning',
+         text: 'Please delete rooms before deleting the floor',
+      //   timer: 2000,
+      //   showConfirmButton: false,
+      });
       }
       if(response){
          refreshToken(response)
@@ -225,9 +230,19 @@ function* handleDeleteRoom(roomDetails){
    const response = yield call(deleteRoom,roomDetails.payload)
    if(response.status === 200 || response.statusCode === 200){
       yield put({ type: 'DELETE_ROOM', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
+      Swal.fire({
+         icon: 'success',
+      text: 'Room Delete Successfully',
+     });
+ 
+ 
+ 
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+   else  if(response.status === 201 || response.statusCode === 201) {
+      Swal.fire({
+         icon: 'warning',
+      text: `Please delete the bed before deleting the room`,
+     });
    }
    if(response){
       refreshToken(response)
