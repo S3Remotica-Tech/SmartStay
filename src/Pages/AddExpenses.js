@@ -43,18 +43,18 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     const [initialState, setInitialState] = useState({
-        
-        assetName:'',
+
+        assetName: '',
         vendorName: '',
         selectedDate: '',
-        price:'',
-        category:'',
-        modeOfPayment:'',
-        description:'',
-        count:'',
-        hostelName:'',
-      
-            });
+        price: '',
+        category: '',
+        modeOfPayment: '',
+        description: '',
+        count: '',
+        hostelName: '',
+
+    });
 
 
 
@@ -143,13 +143,13 @@ function StaticExample({ show, handleClose, currentItem }) {
                 assetName: currentItem.asset_id || '',
                 vendorName: currentItem.vendor_id || '',
                 selectedDate: currentItem.purchase_date ? moment(currentItem.purchase_date).toDate() : null,
-                price:currentItem.unit_amount || '',
-                category:currentItem.category_id || '',
-                modeOfPayment:currentItem.payment_mode || '',
-                description:currentItem.description || '',
-                count:currentItem.unit_count || '',
-                hostelName:currentItem.hostel_id || '',
-         
+                price: currentItem.unit_amount || '',
+                category: currentItem.category_id || '',
+                modeOfPayment: currentItem.payment_mode || '',
+                description: currentItem.description || '',
+                count: currentItem.unit_count || '',
+                hostelName: currentItem.hostel_id || '',
+
 
             })
 
@@ -168,40 +168,40 @@ function StaticExample({ show, handleClose, currentItem }) {
     const handleAddExpenses = () => {
 
 
-        if(!vendorName && !category && !selectedDate && !count && !price && !modeOfPayment){
+        if (!vendorName && !category && !selectedDate && !count && !price && !modeOfPayment) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Please Enter All Fields',
-                           });
+            });
             return;
         }
 
 
 
-        const isChanged = 
-        initialState.assetName !== assetName ||
-        initialState.vendorName !== vendorName ||
-        initialState.selectedDate && selectedDate && initialState.selectedDate.getTime() !== selectedDate.getTime() ||
-      Number(initialState.price) !== Number(price) ||
-        initialState.category !== category ||
-        initialState.modeOfPayment !== modeOfPayment ||
-        initialState.description !== description ||
-       Number(initialState.count) !== Number(count) ||
-        initialState.hostelName !== hostelName;
+        const isChanged =
+            initialState.assetName !== assetName ||
+            initialState.vendorName !== vendorName ||
+            initialState.selectedDate && selectedDate && initialState.selectedDate.getTime() !== selectedDate.getTime() ||
+            Number(initialState.price) !== Number(price) ||
+            initialState.category !== category ||
+            initialState.modeOfPayment !== modeOfPayment ||
+            initialState.description !== description ||
+            Number(initialState.count) !== Number(count) ||
+            initialState.hostelName !== hostelName;
 
-    console.log("isChanged", isChanged);
+        console.log("isChanged", isChanged);
 
-    if (!isChanged) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'No changes detected',
-            text: 'Please make some changes before saving.',
-           
-        });
-        return;
-    }
+        if (!isChanged) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'No changes detected',
+                text: 'Please make some changes before saving.',
 
-       if (!vendorName) {
+            });
+            return;
+        }
+
+        if (!vendorName) {
             Swal.fire('Error', 'Please select a vendor', 'error');
             return;
         }
@@ -213,7 +213,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             Swal.fire('Error', 'Please select a purchase date', 'error');
             return;
         }
-        if (!count || isNaN(count) || count <= 0 ) {
+        if (!count || isNaN(count) || count <= 0) {
             Swal.fire('Error', 'Please enter a valid unit count', 'error');
             return;
         }
@@ -226,7 +226,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             return;
         }
 
-        const formattedDate = moment(selectedDate).format('YYYY-MM-DD');  
+        const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
         dispatch({
             type: 'ADDEXPENSE',
             payload: {
@@ -238,7 +238,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 unit_amount: price,
                 description: description,
                 payment_mode: modeOfPayment,
-                hostel_id:hostelName,
+                hostel_id: hostelName,
                 id: currentItem ? currentItem.id : null
             }
         });
@@ -251,7 +251,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     const calendarRef = useRef(null);
 
 
-  console.log("selectedDate",selectedDate)
+    console.log("selectedDate", selectedDate)
 
 
 
@@ -270,18 +270,18 @@ function StaticExample({ show, handleClose, currentItem }) {
         if (!date) return null;
         const offset = date.getTimezoneOffset();
         date.setMinutes(date.getMinutes() - offset);
-        return date.toISOString().split('T')[0]; 
-      };
-    
-
-const [formattedDate, setFormattedDate] = useState('')
+        return date.toISOString().split('T')[0];
+    };
 
 
-      const handleDateChange = (selectedDates) => {
-     
-    setSelectedDate(selectedDates[0]); 
-    
-              };
+    const [formattedDate, setFormattedDate] = useState('')
+
+
+    const handleDateChange = (selectedDates) => {
+
+        setSelectedDate(selectedDates[0]);
+
+    };
 
 
     return (
@@ -303,7 +303,7 @@ const [formattedDate, setFormattedDate] = useState('')
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Hostel Name</Form.Label>
-                                    <Form.Select aria-label="Default select example" value={hostelName} onChange={handleHostelNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight:hostelName ? 600 : 500 }}>
+                                    <Form.Select aria-label="Default select example" value={hostelName} onChange={handleHostelNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: hostelName ? 600 : 500 }}>
                                         <option>Select an hostel</option>
                                         {state.UsersList.hostelList && state.UsersList.hostelList.map((view) => (
                                             <>
@@ -319,7 +319,7 @@ const [formattedDate, setFormattedDate] = useState('')
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Vendor Name <span style={{ color: "#FF0000", display: vendorName ? "none" : "inline-block" }}>*</span></Form.Label>
-                                    <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight:vendorName ? 600 :  500 }}>
+                                    <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: vendorName ? 600 : 500 }}>
                                         <option>Select a vendor</option>
                                         {state.ComplianceList.VendorList && state.ComplianceList.VendorList.map((view) => (
                                             <>
@@ -335,7 +335,7 @@ const [formattedDate, setFormattedDate] = useState('')
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name</Form.Label>
-                                    <Form.Select aria-label="Default select example" value={assetName} onChange={handleAssetNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: assetName ? 600 : 500 }}>
+                                    {/* <Form.Select aria-label="Default select example" value={assetName} onChange={handleAssetNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: assetName ? 600 : 500 }}>
                                         <option>Select an asset</option>
                                         {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
                                             <>
@@ -344,19 +344,34 @@ const [formattedDate, setFormattedDate] = useState('')
 
                                             </>
                                         ))}
+                                    </Form.Select> */}
+                                    <Form.Select
+                                        aria-label="Default select example"
+                                        value={assetName}
+                                        onChange={handleAssetNameChange}
+                                        className=''
+                                        id="vendor-select"
+                                        style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: assetName ? 600 : 500 }}
+                                    >
+                                        <option>Select an asset</option>
+                                        {state.AssetList.assetList &&
+                                    [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
+                                                <option key={view.id} value={view.id}>{view.asset_name}</option>
+                                            ))
+                                        }
                                     </Form.Select>
                                 </Form.Group>
 
                             </div>
-                            {state.ExpenseList.categoryList && state.ExpenseList.categoryList.length ==0 && 
-                            <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'Category' option in Settings, accessible after adding an expense.</label>}
+                            {state.ExpenseList.categoryList && state.ExpenseList.categoryList.length == 0 &&
+                                <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'Category' option in Settings, accessible after adding an expense.</label>}
 
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Category <span style={{ color: "#FF0000", display: category ? "none" : "inline-block" }}>*</span></Form.Label>
-                                   
-                                   
+
+
                                     <Form.Select aria-label="Default select example"
                                         value={category}
                                         onChange={handleCategoryChange}
@@ -365,13 +380,13 @@ const [formattedDate, setFormattedDate] = useState('')
                                         {state.ExpenseList.categoryList && state.ExpenseList.categoryList.map((view) => (
                                             <>
 
-                                                <option  key={view.category_Id} value={view.category_Id}>{view.category_Name}</option>
+                                                <option key={view.category_Id} value={view.category_Id}>{view.category_Name}</option>
 
                                             </>
                                         ))}
 
                                     </Form.Select>
-                                   
+
                                 </Form.Group>
 
                             </div>
@@ -383,9 +398,9 @@ const [formattedDate, setFormattedDate] = useState('')
                                         value={purchaseDate}
                                         onChange={handlePurchaseDateChange}
                                         type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} /> */}
-                               
-                               
-                               <div style={{ position: 'relative' }}>
+
+
+                                    <div style={{ position: 'relative' }}>
                                         <label
                                             htmlFor="date-input"
                                             style={{
@@ -406,7 +421,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                                 }
                                             }}
                                         >
-                                            {selectedDate instanceof Date && !isNaN(selectedDate) ?  selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
+                                            {selectedDate instanceof Date && !isNaN(selectedDate) ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
                                             <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
                                         </label>
                                         <Flatpickr
@@ -428,9 +443,9 @@ const [formattedDate, setFormattedDate] = useState('')
                                             }}
                                         />
                                     </div>
-                               
-                               
-                               
+
+
+
                                 </Form.Group>
 
                             </div>
@@ -471,7 +486,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Select aria-label="Default select example"
                                         value={modeOfPayment}
                                         onChange={handleModeOfPaymentChange}
-                                        className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight:modeOfPayment ? 600 :  500 }}>
+                                        className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: modeOfPayment ? 600 : 500 }}>
                                         <option value="">Select mode of payment</option>
                                         <option value="UPI/BHIM">UPI/BHIM</option>
                                         <option value="CASH">CASH</option>
@@ -486,7 +501,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={description}
                                         onChange={handleDescriptionChange}
-                                        type="email" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: description ? 600 :  500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="email" placeholder="Enter description" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: description ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>

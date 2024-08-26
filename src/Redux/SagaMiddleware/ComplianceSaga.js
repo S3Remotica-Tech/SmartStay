@@ -43,8 +43,8 @@ function* handleComplianceadd (params) {
 
 function* handleVendorGet(action) {
    const response = yield call (VendorList,action.payload); 
-   if (response.status === 200){
-      yield put ({type : 'VENDOR_LIST' , payload:{response:response.data.VendorList, statusCode:response.status}})
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'VENDOR_LIST' , payload:{response:response.data.VendorList, statusCode:response.status || response.statusCode}})
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
@@ -58,8 +58,8 @@ function* handleVendorGet(action) {
 function* handleAddVendor(action) {
    const response = yield call (addVendor,action.payload);
  console.log("response", response)
-   if (response.statusCode === 200){
-      yield put ({type : 'ADD_VENDOR' , payload:{response:response.data, statusCode:response.statusCode}})
+   if (response.statusCode === 200 || response.status === 200){
+      yield put ({type : 'ADD_VENDOR' , payload:{response:response.data, statusCode:response.statusCode || response.status}})
       Swal.fire({
          text: response.message,
          icon: "success",
@@ -67,8 +67,13 @@ function* handleAddVendor(action) {
          // showConfirmButton: false,
      });
    }
-   else {
-      yield put ({type:'ERROR', payload:response.data.message})
+   else if(response.statusCode === 202 || response.status === 202) {
+      Swal.fire({
+         text: response.message,
+         icon: "warning",
+         // timer: 2000,
+         // showConfirmButton: false,
+     });
    }
    if(response){
       refreshToken(response)
@@ -81,8 +86,8 @@ function* handleAddVendor(action) {
 function* handleDeleteVendor(action) {
    const response = yield call (DeleteVendorList,action.payload);
  console.log(" response", response)
-   if (response.status === 200){
-      yield put ({type : 'DELETE_VENDOR' , payload:{response:response.data, statusCode:response.status}})
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'DELETE_VENDOR' , payload:{response:response.data, statusCode:response.status || response.statusCode}})
       Swal.fire({
          text: "To delete a Vendor is Successfully!",
          icon: "success",
