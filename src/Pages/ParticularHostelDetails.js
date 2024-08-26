@@ -157,6 +157,19 @@ if(state.PgList.noRoomsInFloorStatusCode === 201){
   
 },[state.PgList.noRoomsInFloorStatusCode])
 
+useEffect(() => {
+  if (state.UsersList?.statusCodeForAddUser === 200) {
+    dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_STATUS_CODES' })
+    }, 2000)
+    setShowDeleteBed(false)
+    dispatch({ type: 'USERLIST' })
+
+  }
+}, [state.UsersList?.statusCodeForAddUser]);
+
+
 
 
 useEffect(() => {
@@ -352,7 +365,7 @@ setTimeout(()=>{
                   <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color:"rgba(34, 34, 34, 1)" }}>
                     Room no. <span>{getFormattedRoomId(room.Floor_Id, room.Room_Id)}</span>
                   </div>
-                  <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto' }}>
+                  <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto' ,cursor:"pointer"}}>
                     <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                     {activeRoomId === room.Room_Id && (
                       <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 30, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
@@ -363,7 +376,7 @@ setTimeout(()=>{
                             <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Edit</label>
                           </div>
                           <div  
-                          // onClick={()=> {handleDeleteRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}}
+                          onClick={()=> {handleDeleteRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}}
                           >
                             <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(255, 0, 0, 1)" }}>Delete</label>
                           </div>
@@ -377,7 +390,7 @@ setTimeout(()=>{
                       {room.bed_details && room.bed_details.map((bed, index) => (
                       <div className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
                         <div  className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
-                                                     <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34 }} 
+                                                     <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34 , cursor:"pointer"}} 
                                                     
                                                     onClick={()=> handleDeleteBedConfirmation(bed,room)}
                                                     // onClick={()=>handleDeleteBed(bed, room)}
@@ -389,7 +402,7 @@ setTimeout(()=>{
                       </div>
                     ))}
                     <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={()=>handleAddBed(props,room.Room_Id)}>
-                      <div className='d-flex flex-column align-items-center' style={{ width: "100%" }}>
+                      <div className='d-flex flex-column align-items-center' style={{ width: "100%", cursor:"pointer" }}>
                         <div><FaSquarePlus style={{ height: 41, width: 34, color: "#1E45E1" }} /></div>
                         <div className="pt-2" style={{ color: "#1E45E1", fontSize: 12, fontWeight: 600, fontFamily:"Montserrat"}}>Add bed</div>
                       </div>

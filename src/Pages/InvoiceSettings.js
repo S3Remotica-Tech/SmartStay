@@ -142,7 +142,9 @@ function InvoiceSettings() {
         console.log("isStartNumberValid:", isStartNumberValid);
         console.log("isSelectedImageValid:", isSelectedImageValid);
 
+
         if (isPrefixValid && isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
+
             dispatch({
                 type: 'INVOICESETTINGS',
                 payload: {
@@ -152,20 +154,22 @@ function InvoiceSettings() {
                     profile: selectedImage
                 }
             });
-            Swal.fire({
-                text: "Prefix, Suffix, Profile Update successfully",
-                icon: "success",
+            // Swal.fire({
+            //     text: "Prefix, Suffix, Profile Update successfully",
+            //     icon: "success",
 
-                confirmButtonText: 'Ok'
-                // timer: 1000,
-            }).then(() => {
+            //     confirmButtonText: 'Ok'
+            //     // timer: 1000,
+            // }).then(() => {
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
                 setStartNumber('');
                 setSelectedImage('');
+
             });
         } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
+
             dispatch({
                 type: 'INVOICESETTINGS',
                 payload: {
@@ -173,20 +177,22 @@ function InvoiceSettings() {
                     profile: selectedImage
                 }
             });
-            Swal.fire({
-                text: "Profile Update successfully",
-                icon: "success",
+            // Swal.fire({
+            //     text: "Profile Update successfully",
+            //     icon: "success",
 
-                confirmButtonText: 'Ok'
-                // timer: 1000,
-            }).then(() => {
+            //     confirmButtonText: 'Ok'
+            //     // timer: 1000,
+            // }).then(() => {
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
                 setStartNumber('');
                 setSelectedImage('');
+
             });
         } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid && selectedHostel.id) {
+
             dispatch({
                 type: 'INVOICESETTINGS',
                 payload: {
@@ -195,20 +201,20 @@ function InvoiceSettings() {
                     suffix: startNumber
                 }
             });
-            Swal.fire({
-                text: "Prefix, Suffix Update successfully",
-                icon: "success",
+            // Swal.fire({
+            //     text: "Prefix, Suffix Update successfully",
+            //     icon: "success",
 
-                confirmButtonText: 'Ok'
-                // timer: 1000,
+            //     confirmButtonText: 'Ok'
+            //     // timer: 1000,
 
-            }).then(() => {
+            // }).then(() => {
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
                 setStartNumber('');
                 setSelectedImage('');
-            });
+            // });
         } else {
             Swal.fire({
                 icon: "warning",
@@ -404,7 +410,7 @@ function InvoiceSettings() {
                             <div style={{ marginLeft: '30px', marginTop: '10px' }}>
                                 <h2 style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>PG Logo</h2>
                                 <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
-                                <p onClick={() => document.getElementById('upload-photo').click()} style={{ fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600, color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal' }}>Update image</p>
+                                <p onClick={() => document.getElementById('upload-photo').click()} style={{ fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600, color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal' , cursor:"pointer"}}>Update image</p>
 
                             </div>
                         </div>

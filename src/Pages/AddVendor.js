@@ -100,7 +100,7 @@ function AddVendor({ show, handleClose, currentItem }) {
 
   const handleAddVendor = () => {
 
-    if (!first_Name && !vendor_Mobile && !email_Id && !address) {
+    if (!first_Name && !vendor_Mobile && !email_Id && !address && !business_Name) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
@@ -108,15 +108,63 @@ function AddVendor({ show, handleClose, currentItem }) {
       return;
     }
 
-    if (errors.email_Id === 'Invalid Email Id *') {
+  
+  
+ 
+  if (!first_Name) {
       Swal.fire({
-        icon: 'warning',
-        title: 'Enter Valid Email Id',
-
+          icon: 'warning',
+          title: 'Please Enter a valid First Name',
       });
       return;
-    }
+  }
+  
+  if (!vendor_Mobile) {
+      Swal.fire({
+          icon: 'warning',
+          title: 'Please Enter a valid Mobile Number',
+      });
+      return;
+  }
+  
+  if (!email_Id) {
+      Swal.fire({
+          icon: 'warning',
+          title: 'Please Enter a valid Email ID',
+      });
+      return;
+  }
+  if (errors.email_Id === 'Invalid Email Id *') {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Enter Valid Email Id',
 
+    });
+    return;
+  }
+
+  
+  if (!address) {
+      Swal.fire({
+          icon: 'warning',
+          title: 'Please Enter a valid Address',
+      });
+      return;
+  }
+
+if(!business_Name){
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please Enter a business name',
+});
+  return
+}
+
+
+
+
+
+   
     if (errors.vendor_Mobile === 'Invalid mobile number *') {
       Swal.fire({
         icon: 'warning',
@@ -162,7 +210,7 @@ function AddVendor({ show, handleClose, currentItem }) {
       }
 
       setFile('')
-      handleClose()
+      // handleClose()
       setFirst_Name('')
       setLast_Name('')
       setVendor_Mobile('')

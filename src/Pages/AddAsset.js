@@ -116,6 +116,10 @@ function StaticExample({ show, handleClose, currentItem }) {
     const handleAddAsset = () => {
 
 
+
+
+
+
 if(!assetName && !vendorName && !brandName && !serialNumber && !productCount && !selectedDate && !price && !productName){
     Swal.fire({
         icon: 'warning',
@@ -124,6 +128,71 @@ if(!assetName && !vendorName && !brandName && !serialNumber && !productCount && 
     });
     return;
 }
+
+if (!assetName) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter a Valid Asset Name',
+    });
+    return;
+}
+if (!productName) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter a Valid Product Name',
+    });
+    return;
+}
+if (!vendorName) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter a Valid Vendor Name',
+    });
+    return;
+}
+
+if (!brandName) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter a Valid Brand Name',
+    });
+    return;
+}
+
+if (!serialNumber) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter a Valid Serial Number',
+    });
+    return;
+}
+
+if (!productCount || isNaN(productCount) || productCount <= 0) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter a Valid Product Count',
+    });
+    return;
+}
+
+if (!selectedDate) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Select a Valid Date',
+    });
+    return;
+}
+
+if (!price || isNaN(price) || price <= 0) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter a Valid Price',
+    });
+    return;
+}
+
+
+
 
 
 

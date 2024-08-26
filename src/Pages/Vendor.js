@@ -51,6 +51,8 @@ function Vendor() {
 
   useEffect(() => {
     if (state.ComplianceList.addVendorSuccessStatusCode === 200 || state.ComplianceList.deleteVendorStatusCode === 200) {
+      setShow(false);
+     
       setTimeout(() => {
         dispatch({ type: 'VENDORLIST' })
         console.log("get vendor list executed")
@@ -62,7 +64,11 @@ function Vendor() {
       setTimeout(()=>{
         dispatch({ type: 'CLEAR_DELETE_VENDOR_STATUS_CODE' })
       },5000)
+
+      
     }
+
+
     // setCheck(null)
   }, [state.ComplianceList.addVendorSuccessStatusCode,state.ComplianceList.deleteVendorStatusCode])
 
