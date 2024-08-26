@@ -142,21 +142,9 @@ function InvoiceSettings() {
         console.log("isStartNumberValid:", isStartNumberValid);
         console.log("isSelectedImageValid:", isSelectedImageValid);
 
-        if(!selectedHostel.id){
-            Swal.fire({
-                icon: "warning",
-                title: 'Select hostel',
-                confirmButtonText: "ok"
-            })
-            return
-        }
 
+        if (isPrefixValid && isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
 
-
-
-
-
-        if (isPrefixValid && isStartNumberValid && isSelectedImageValid) {
             dispatch({
                 type: 'INVOICESETTINGS',
                 payload: {
@@ -178,8 +166,10 @@ function InvoiceSettings() {
                 setPrefix('');
                 setStartNumber('');
                 setSelectedImage('');
-            // });
-        } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid) {
+
+            });
+        } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
+
             dispatch({
                 type: 'INVOICESETTINGS',
                 payload: {
@@ -199,8 +189,10 @@ function InvoiceSettings() {
                 setPrefix('');
                 setStartNumber('');
                 setSelectedImage('');
-            // });
-        } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid) {
+
+            });
+        } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid && selectedHostel.id) {
+
             dispatch({
                 type: 'INVOICESETTINGS',
                 payload: {
