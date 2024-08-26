@@ -142,7 +142,7 @@ function InvoiceSettings() {
         console.log("isStartNumberValid:", isStartNumberValid);
         console.log("isSelectedImageValid:", isSelectedImageValid);
 
-        if (isPrefixValid && isStartNumberValid && isSelectedImageValid) {
+        if (isPrefixValid && isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
             dispatch({
                 type: 'INVOICESETTINGS',
                 payload: {
@@ -165,7 +165,7 @@ function InvoiceSettings() {
                 setStartNumber('');
                 setSelectedImage('');
             });
-        } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid) {
+        } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
             dispatch({
                 type: 'INVOICESETTINGS',
                 payload: {
@@ -186,7 +186,7 @@ function InvoiceSettings() {
                 setStartNumber('');
                 setSelectedImage('');
             });
-        } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid) {
+        } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid && selectedHostel.id) {
             dispatch({
                 type: 'INVOICESETTINGS',
                 payload: {
