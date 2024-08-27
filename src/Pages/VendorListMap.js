@@ -91,7 +91,17 @@ const handleDelete = (item) =>{
             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Contact Number</label>
           </div>
           <div>
-            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>+91 {props.vendor && props.vendor.Vendor_Mobile}</label>
+            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
+              
+              {/* +{props.vendor && props.vendor.Vendor_Mobile} */}
+              
+              +{props.vendor && String(props.vendor.Vendor_Mobile).slice(0, String(props.vendor.Vendor_Mobile).length - 10)}
+                                {' '}
+                                {props.vendor && String(props.vendor.Vendor_Mobile).slice(-10)}
+              </label>
+         
+         
+         
           </div>
 
         </div>
