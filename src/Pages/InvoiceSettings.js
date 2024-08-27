@@ -167,7 +167,7 @@ function InvoiceSettings() {
                 setStartNumber('');
                 setSelectedImage('');
 
-            });
+            // });
         } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
 
             dispatch({
@@ -190,7 +190,7 @@ function InvoiceSettings() {
                 setStartNumber('');
                 setSelectedImage('');
 
-            });
+            // });
         } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid && selectedHostel.id) {
 
             dispatch({
