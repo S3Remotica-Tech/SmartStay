@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import {  InputGroup} from 'react-bootstrap';
 
 
 function AddPg({ show, handleClose, currentItem }) {
@@ -89,6 +90,16 @@ function AddPg({ show, handleClose, currentItem }) {
     setLocation(e.target.value);
   };
 
+  
+  const [countryCode, setCountryCode] = useState('91');
+
+
+  const handleCountryCodeChange = (e) => {
+    setCountryCode(e.target.value);
+  };
+
+
+
   useEffect(() => {
     const closeButton = document.querySelector('button[aria-label="close-button"]');
     if (closeButton) {
@@ -107,7 +118,7 @@ function AddPg({ show, handleClose, currentItem }) {
     const mobileError = errors.mobile === 'Invalid mobile number *';
 
 
-    if(!pgName && !mobile && !email && !location){
+    if(!pgName && !mobile && !email && !location && !countryCode){
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
@@ -117,10 +128,10 @@ function AddPg({ show, handleClose, currentItem }) {
       return;
     }
 
-    if(!location){
+    if(!pgName){
       Swal.fire({
         icon: 'warning',
-        title: 'Please Enter address',
+        title: 'Please Enter Pg name',
           });
       return;
     }
@@ -140,14 +151,21 @@ function AddPg({ show, handleClose, currentItem }) {
       return;
     }
 
-    if(!pgName){
+    if(!countryCode){
       Swal.fire({
         icon: 'warning',
-        title: 'Please Enter Pg name',
+        title: 'Please select countryCode',
           });
       return;
     }
     
+    if(!location){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter address',
+          });
+      return;
+    }
     if (errors.email)  {
       Swal.fire({
         icon: 'warning',
@@ -171,7 +189,8 @@ function AddPg({ show, handleClose, currentItem }) {
     Number(mobile) !== Number(initialState.mobile) || 
     email !== initialState.email || 
     location !== initialState.location || 
-    file !== initialState.file;
+    file !== initialState.file ||
+    countryCode !== initialState.countryCode;
 
   if (!isChanged) {
     Swal.fire({
@@ -182,9 +201,12 @@ function AddPg({ show, handleClose, currentItem }) {
     return;
   }
 
+  const MobileNumber = `${countryCode}${mobile}`
 
-    if (pgName && mobile && email && location) {
-      dispatch({ type: 'PGLIST', payload: { profile: file, name: pgName, phoneNo: mobile, email_Id: email, location: location, id: currentItem.id } })
+  console.log("MobileNumber",MobileNumber)
+
+    if (pgName && MobileNumber && email && location) {
+      dispatch({ type: 'PGLIST', payload: { profile: file, name: pgName, phoneNo:MobileNumber, email_Id: email, location: location, id: currentItem.id } })
       // handleClose()
       setFile('')
       setPgName('')
@@ -229,9 +251,18 @@ function AddPg({ show, handleClose, currentItem }) {
 
   useEffect(() => {
     if (currentItem) {
+
+
+      const phoneNumber = String(currentItem.hostel_PhoneNo || '');
+      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10); 
+      const mobileNumber = phoneNumber.slice(-10);
+
+
+
       const initialData = {
         pgName: currentItem.Name || '',
-        mobile: currentItem.hostel_PhoneNo || '',
+        mobile: mobileNumber, 
+        countryCode: countryCode,
         email: currentItem.email_id || '',
         location: currentItem.Address,
         file: currentItem.profile ? (typeof currentItem.profile === 'string' ? currentItem.profile : null) : null,
@@ -242,22 +273,20 @@ function AddPg({ show, handleClose, currentItem }) {
       setEmail(initialData.email);
       setLocation(initialData.location);
       setFile(initialData.file);
-      setInitialState(initialData); // Save initial state
+      setCountryCode(initialData.countryCode)
+      setInitialState(initialData); 
     }
   }, [currentItem]);
 
 
 
 
+ 
 
 
 
 
-
-
-
-
-
+ 
 
 
 
@@ -322,7 +351,8 @@ function AddPg({ show, handleClose, currentItem }) {
 
               </div>
 
-              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Mobile no.</Form.Label>
                   <Form.Control
@@ -335,7 +365,79 @@ function AddPg({ show, handleClose, currentItem }) {
                     }} />
                 </Form.Group>
 
-              </div>
+
+
+
+
+              </div> */}
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+  
+  
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label style={{ 
+              fontSize: 14, 
+              color: "#222222", 
+              fontFamily: "Gilroy", 
+              fontWeight: 500 
+            }}>
+              Mobile no.
+            </Form.Label>
+
+            <InputGroup>
+              <Form.Select
+                value={countryCode}
+                id="vendor-select-pg"
+                onChange={handleCountryCodeChange}
+                style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "8px 0 0 8px",
+                  height: 50,
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: countryCode ? 600 : 500,
+                  boxShadow: "none",
+                  backgroundColor: "#fff",
+                  maxWidth:90
+                }}
+              >
+                <option value="91">+91</option>
+                <option value="1">+1</option>
+                <option value="44">+44</option>
+                <option value="61">+61</option>
+                <option value="49">+49</option>
+                <option value="33">+33</option>
+                <option value="55">+55</option>
+                <option value="7">+7</option>
+
+       
+              </Form.Select>
+              <Form.Control
+                value={mobile}
+                onChange={handleMobileChange}
+                type="text"
+                placeholder="9876543210"
+                maxLength={10}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: mobile ? 600 : 500,
+                  boxShadow: "none",
+                  borderLeft: "unset",
+                  borderRight: "1px solid #D9D9D9",
+                  borderTop: "1px solid #D9D9D9",
+                  borderBottom: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: "0 8px 8px 0",
+                }}
+              />
+            </InputGroup>
+          </Form.Group> 
+</div>
+
+
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email ID</Form.Label>
@@ -346,17 +448,7 @@ function AddPg({ show, handleClose, currentItem }) {
                 </Form.Group>
 
               </div>
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500}}>Number of floors</Form.Label>
-                <Form.Control 
-                value={floors}
-                onChange={handleFloorsChange}
-                 type="text" placeholder="Enter no. of floors" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-              </Form.Group>
-
-            </div> */}
-              <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                         <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address</Form.Label>
                   <Form.Control

@@ -8,6 +8,9 @@ import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import {  InputGroup} from 'react-bootstrap';
+
+
 
 function AddVendor({ show, handleClose, currentItem }) {
 
@@ -26,6 +29,13 @@ function AddVendor({ show, handleClose, currentItem }) {
 
   const [check, setCheck] = useState(null)
 
+
+  const [countryCode, setCountryCode] = useState('91');
+
+
+  const handleCountryCodeChange = (e) => {
+    setCountryCode(e.target.value);
+  };
 
 
   const handleBusinessChange = (e) => {
@@ -127,6 +137,16 @@ function AddVendor({ show, handleClose, currentItem }) {
       return;
   }
   
+
+  if (!countryCode) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please select country code',
+    });
+    return;
+}
+
+
   if (!email_Id) {
       Swal.fire({
           icon: 'warning',
@@ -134,6 +154,28 @@ function AddVendor({ show, handleClose, currentItem }) {
       });
       return;
   }
+
+
+  if(!business_Name){
+    Swal.fire({
+      icon: 'warning',
+      title: 'Please Enter a business name',
+    });
+    return
+    }
+
+
+  if (!address) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter a valid Address',
+    });
+    return;
+}
+
+
+
+
   if (errors.email_Id === 'Invalid Email Id *') {
     Swal.fire({
       icon: 'warning',
@@ -144,21 +186,7 @@ function AddVendor({ show, handleClose, currentItem }) {
   }
 
   
-  if (!address) {
-      Swal.fire({
-          icon: 'warning',
-          title: 'Please Enter a valid Address',
-      });
-      return;
-  }
-
-if(!business_Name){
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please Enter a business name',
-});
-  return
-}
+ 
 
 
 
@@ -182,7 +210,8 @@ if(!business_Name){
       address !== initialState.address ||
       email_Id !== initialState.email_Id ||
       business_Name !== initialState.business_Name ||
-      file !== initialState.file;
+      file !== initialState.file ||
+      countryCode !== initialState.countryCode;
 
     if (!isChanged) {
       Swal.fire({
@@ -194,18 +223,22 @@ if(!business_Name){
     }
 
 
-    if (first_Name && vendor_Mobile && email_Id && address) {
+    const MobileNumber = `${countryCode}${vendor_Mobile}`
+
+
+
+    if (first_Name && MobileNumber && email_Id && address) {
       if (check === 'EDIT') {
         dispatch({
           type: 'ADDVENDOR',
           payload:
-            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: vendor_Mobile, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name, Vendor_Id: vendor_Id, id: id }
+            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name, Vendor_Id: vendor_Id, id: id }
         })
       } else {
         dispatch({
           type: 'ADDVENDOR',
           payload:
-            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: vendor_Mobile, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name }
+            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name }
         })
       }
 
@@ -282,10 +315,17 @@ if(!business_Name){
       const firstName = nameParts[0];
       const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
 
+      const phoneNumber = String(currentItem.Vendor_Mobile || '');
+      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10); 
+      const mobileNumber = phoneNumber.slice(-10);
+
+
+
       setCheck('EDIT');
       setFirst_Name(firstName);
       setLast_Name(lastName);
-      setVendor_Mobile(currentItem.Vendor_Mobile);
+      setVendor_Mobile(mobileNumber);
+      setCountryCode(countryCode)
       setAddress(currentItem.Vendor_Address);
       setEmail_Id(currentItem.Vendor_Email);
       setBusiness_Name(currentItem.Business_Name);
@@ -293,11 +333,12 @@ if(!business_Name){
       setVendor_Id(currentItem.Vendor_Id);
       setFile(currentItem.Vendor_profile ? currentItem.Vendor_profile : null);
 
-      // Set initial state
+  
       setInitialState({
         first_Name: firstName,
         last_Name: lastName,
-        vendor_Mobile: currentItem.Vendor_Mobile,
+        vendor_Mobile: mobileNumber,
+        countryCode: countryCode,
         address: currentItem.Vendor_Address,
         email_Id: currentItem.Vendor_Email,
         business_Name: currentItem.Business_Name,
@@ -372,11 +413,71 @@ if(!business_Name){
 
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Mobile Number</Form.Label>
                   <Form.Control value={vendor_Mobile} onChange={(e) => handleMobileChange(e)} type="text" placeholder="Enter Mobile Number" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: vendor_Mobile ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-                </Form.Group>
+                </Form.Group> */}
+<Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label style={{ 
+              fontSize: 14, 
+              color: "#222222", 
+              fontFamily: "Gilroy", 
+              fontWeight: 500 
+            }}>
+              Mobile no.
+            </Form.Label>
 
+            <InputGroup>
+              <Form.Select
+                value={countryCode}
+                id="vendor-select-pg"
+                onChange={handleCountryCodeChange}
+                style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "8px 0 0 8px",
+                  height: 50,
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: countryCode ? 600 : 500,
+                  boxShadow: "none",
+                  backgroundColor: "#fff",
+                  maxWidth:90
+                }}
+              >
+                <option value="91">+91</option>
+                <option value="1">+1</option>
+                <option value="44">+44</option>
+                <option value="61">+61</option>
+                <option value="49">+49</option>
+                <option value="33">+33</option>
+                <option value="55">+55</option>
+                <option value="7">+7</option>
+
+       
+              </Form.Select>
+              <Form.Control
+                value={vendor_Mobile}
+                onChange={handleMobileChange}
+                type="text"
+                placeholder="9876543210"
+                maxLength={10}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: vendor_Mobile ? 600 : 500,
+                  boxShadow: "none",
+                  borderLeft: "unset",
+                  borderRight: "1px solid #D9D9D9",
+                  borderTop: "1px solid #D9D9D9",
+                  borderBottom: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: "0 8px 8px 0",
+                }}
+              />
+            </InputGroup>
+          </Form.Group> 
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
