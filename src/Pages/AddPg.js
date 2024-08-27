@@ -396,7 +396,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   fontSize: 16,
                   color: "#4B4B4B",
                   fontFamily: "Gilroy",
-                  fontWeight: 500,
+                  fontWeight: countryCode ? 600 : 500,
                   boxShadow: "none",
                   backgroundColor: "#fff",
                   maxWidth:90
