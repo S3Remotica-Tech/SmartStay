@@ -22,13 +22,14 @@ const InvoiceSettingsList = (props) => {
         props.modalEditInvoice(item)
     }
 
+    console.log("props invoicesett***********", props)
 
     return (
         <>
             <tr style={{ lineHeight: "40px" }}>
             <td className='ps-1 ps-lg-3' style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
             <Image
-            src={Hostel}
+            src={props.item.profile ? props.item.profile : Hostel}
             roundedCircle
             style={{
               height: 30,

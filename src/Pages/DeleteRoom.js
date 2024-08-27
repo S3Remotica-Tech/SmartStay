@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-function DeleteFloor({ show, handleClose, deleteRoomDetails}) {
+function DeleteRoom({ show, handleClose, deleteRoomDetails}) {
 
   
   const state = useSelector(state => state)
@@ -41,10 +41,10 @@ useEffect(() => {
               roomNo: deleteRoomDetails.Room_Id,
             },
           });
-          Swal.fire({
-            icon: 'success',
-            title: 'Room deleted Successfully',
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Room deleted Successfully',
+          // })
           handleClose()
   
   }
@@ -58,24 +58,28 @@ useEffect(() => {
       <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>Delete room ?</Modal.Title>
     </Modal.Header>
 
-      <Modal.Body style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>{numberOfBeds[0]?.bed_details.length > 0 && numberOfBeds[0]?.bed_details.length > 0
+      <Modal.Body style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>
+        {/* {numberOfBeds[0]?.bed_details.length > 0 && numberOfBeds[0]?.bed_details.length > 0
         ? 'Please delete the bed before deleting the room.'
-        : 'Are you sure you want to delete the room?'}</Modal.Body>
+        : 'Are you sure you want to delete the room?'} */}
+        Are you sure you want to delete the room?
+        
+        </Modal.Body>
 
   
     <Modal.Footer className='d-flex justify-content-center' style={{border:"none"}}>
     <Button  onClick={handleClose} style={{width:160,height:52,borderRadius:8, padding:"16px, 45px, 16px, 45px",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"#FFF",color:"rgba(36, 0, 255, 1)",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
             Cancel
           </Button>
-          {numberOfBeds[0]?.bed_details.length > 0 && numberOfBeds[0]?.bed_details.length > 0? 
+          {/* {numberOfBeds[0]?.bed_details.length > 0 && numberOfBeds[0]?.bed_details.length > 0? 
 
           ""
-          :
+          : */}
 
           <Button style={{width:160,height:52,borderRadius:8, padding:"16px, 45px, 16px, 45px",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} onClick={handleDeleteRoomConfirm}>
             Delete
           </Button>
-}
+{/* } */}
     </Modal.Footer>
   </Modal>
   
@@ -83,4 +87,4 @@ useEffect(() => {
   )
 }
 
-export default DeleteFloor
+export default DeleteRoom;

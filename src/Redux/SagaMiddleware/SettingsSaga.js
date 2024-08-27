@@ -31,6 +31,14 @@ function* handleCategoryAdd(params) {
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EXPENCES_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
+      Swal.fire({
+         icon: 'success',
+         text: response.data.message,
+         confirmButtonText: 'Ok'
+       }).then((result) => {
+         if (result.isConfirmed) {
+         }
+       });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -47,6 +55,14 @@ function* handleDeleteExpencescategory(action) {
    console.log(" response", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_EXPENCES', payload: { response: response.data, statusCode: response.status ||  response.statusCode } })
+      Swal.fire({
+         icon: 'success',
+         text: response.data.message,
+         confirmButtonText: 'Ok'
+       }).then((result) => {
+         if (result.isConfirmed) {
+         }
+       });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -86,6 +102,14 @@ function* handleComplaintTypeAdd(params) {
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'COMPLAINT_TYPE_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
+      Swal.fire({
+         icon: 'success',
+         text: response.data.message,
+         confirmButtonText: 'Ok'
+       }).then((result) => {
+         if (result.isConfirmed) {
+         }
+       });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -102,6 +126,14 @@ function* handleDeleteComplainttype(action) {
    console.log(" response", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_COMPLAINT_TYPE', payload: { response: response.data, statusCode: response.status || response.statusCode  } })
+      Swal.fire({
+         icon: 'success',
+         text: response.data.message,
+         confirmButtonText: 'Ok'
+       }).then((result) => {
+         if (result.isConfirmed) {
+         }
+       });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -119,6 +151,14 @@ function* handleEBBillingUnitAdd(params) {
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
+      Swal.fire({
+         icon: 'success',
+         text: response.data.message,
+         confirmButtonText: 'Ok'
+       }).then((result) => {
+         if (result.isConfirmed) {
+         }
+       });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

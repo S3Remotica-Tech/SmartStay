@@ -95,7 +95,7 @@ function* ProfileUpdate(action) {
       });
       Swal.fire({
         icon: 'success',
-        text: 'Profile Updated successfully',
+        text: response.data.message,
         confirmButtonText: 'Ok'
       }).then((result) => {
         if (result.isConfirmed) {
@@ -125,7 +125,14 @@ function* handlepasswordUpdate(action) {
         payload: { response: response.data, statusCode: response.statusCode || response.status, message : response.data.message }
 
       });
-
+      Swal.fire({
+        icon: 'success',
+        text: response.data.message,
+        confirmButtonText: 'Ok'
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
      
     }
     if(response){
