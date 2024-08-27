@@ -28,7 +28,8 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import InvoiceDetail from './InvoiceDetails';
 import MessageModal from './MessageModal';
 import LoaderComponent from './LoaderComponent';
-import Sort from "../Assets/Images/sort.png"
+import Sort from "../Assets/Images/sort.png";
+import {  ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import CryptoJS from "crypto-js";
 import "../Pages/Invoices.css"
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -399,15 +400,20 @@ const InvoicePage = () => {
 
 
 
-  const itemsPerPage = 7;
-  const [currentPage, setCurrentPage] = useState(1);
+  // const itemsPerPage = 7;
+  // const [currentPage, setCurrentPage] = useState(1);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+ 
 
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  // 
+
+
+
+
+
+
+
 
   const [filtericon, setFiltericon] = useState(false)
 
@@ -570,7 +576,7 @@ const InvoicePage = () => {
       const filteredItems = state.InvoiceList.Invoice.filter((user) =>
         user.Name.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setData(filteredItems.slice(indexOfFirstItem, indexOfLastItem))
+      setData(filteredItems.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice))
     }
     else {
       setData(state.InvoiceList.Invoice)
@@ -633,7 +639,7 @@ const InvoicePage = () => {
     const searchTerm = e.target.value;
     setStatusfilter(searchTerm)
     if (searchTerm == "ALL") {
-      setData(state.InvoiceList.Invoice.slice(indexOfFirstItem, indexOfLastItem))
+      setData(state.InvoiceList.Invoice.slice(indexOfFirstRow, indexOfLastRow))
     }
     else {
       const filteredItems = state.InvoiceList.Invoice.filter((user) =>
@@ -765,7 +771,7 @@ const InvoicePage = () => {
   const [showform, setShowform] = useState(false);
 
   const handleShowForm = (props) => {
-    console.log("currentitems", currentItems);
+    // console.log("currentitems", currentItems);
     console.log("state.InvoiceList.Invoice", state.InvoiceList.Invoice);
     setShowform(true);
     console.log("editclickvalue", props.item);
@@ -900,11 +906,18 @@ const InvoicePage = () => {
   }
 
 
-  const invoicerowsPerPage = 3;
+ 
+  
+
+  // const totalPages = Math.ceil(data.length / itemsPerPage);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+
+  const invoicerowsPerPage = 5;
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
-
-
 
   const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
   const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
@@ -918,6 +931,8 @@ const InvoicePage = () => {
   };
 
   const totalPagesinvoice = Math.ceil(data?.length / invoicerowsPerPage);
+  console.log("invoicedetails",data);
+
 
   const renderPageNumbersInvoice = () => {
     const pageNumbersInvoice = [];
@@ -1064,8 +1079,77 @@ const [formattedDate, setFormattedDate] = useState('')
 //   }
 
 
+const rowsPerPage = 5;
+const [currentPage, setCurrentPage] = useState(1);
 
+const indexOfLastRow = currentPage * rowsPerPage;
+const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
 
+const handlePageChange = (pageNumber) => {
+  setCurrentPage(pageNumber);
+};
+
+const totalPages = Math.ceil(data.length / rowsPerPage);
+
+const renderPageNumbers = () => {
+  const pageNumbers = [];
+  let startPage = currentPage - 1;
+  let endPage = currentPage + 1;
+
+  if (currentPage === 1) {
+    startPage = 1;
+    endPage = 3;
+  }
+
+  if (currentPage === totalPages) {
+    startPage = totalPages - 2;
+    endPage = totalPages;
+  }
+
+  if (currentPage === 2) {
+    startPage = 1;
+    endPage = 3;
+  }
+
+  if (currentPage === totalPages - 1) {
+    startPage = totalPages - 2;
+    endPage = totalPages;
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    if (i > 0 && i <= totalPages) {
+      pageNumbers.push(
+        <li key={i} style={{ margin: '0 5px' }}>
+          <button
+            style={{
+              padding: '5px 10px',
+              textDecoration: 'none',
+              color: i === currentPage ? '#007bff' : '#000000',
+              cursor: 'pointer',
+              borderRadius: '5px',
+              display: 'inline-block',
+              minWidth: '30px',
+              textAlign: 'center',
+              backgroundColor: i === currentPage ? 'transparent' : 'transparent',
+              border: i === currentPage ? '1px solid #ddd' : 'none'
+            }}
+            onClick={() => handlePageChange(i)}
+          >
+            {i}
+          </button>
+        </li>
+      );
+    }
+  }
+
+  return pageNumbers;
+};
+
+const itemsPerPage = 4;
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
 
 
@@ -1715,118 +1799,118 @@ const [formattedDate, setFormattedDate] = useState('')
             </div>
 
 
-            <nav>
-           <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-             <li style={{ margin: '0 5px' }}>
-               <button
-                 style={{
-                   padding: '5px 10px',
-                   textDecoration: 'none',
-                   color: invoicecurrentPage === 1 ? '#ccc' : '#007bff',
-                   cursor: invoicecurrentPage === 1 ? 'not-allowed' : 'pointer',
-                   borderRadius: '5px',
-                   display: 'inline-block',
-                   minWidth: '30px',
-                   textAlign: 'center',
-                   backgroundColor: 'transparent',
-                   border: "none"
-                 }}
-                 onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
-                 disabled={invoicecurrentPage === 1}
-               >
-                 <img src={leftArrow} width="10" height="10" alt="Previous" />
-               </button>
-               <span
-                 onClick={() => handleInvoicePageChange(invoicecurrentPage - 1)}
-                 style={{
-                   marginTop: '20px',
-                   cursor: invoicecurrentPage === 1 ? 'not-allowed' : 'pointer',
-                   color: invoicecurrentPage === 1 ? '#ccc' : '#007bff'
-                 }}
-               >
-                 Previous
-               </span>
-             </li>
-             {invoicecurrentPage > 3 && (
-               <li style={{ margin: '0 5px' }}>
-                 <button
-                   style={{
-                     padding: '5px 10px',
-                     textDecoration: 'none',
-                     color: 'white',
-                     cursor: 'pointer',
-                     borderRadius: '5px',
-                     display: 'inline-block',
-                     minWidth: '30px',
-                     textAlign: 'center',
-                     backgroundColor: 'transparent',
-                     border: "none"
- 
-                   }}
-                   onClick={() => handleInvoicePageChange(1)}
-                 >
-                   1
-                 </button>
-               </li>
-             )}
-             {invoicecurrentPage > 3 && <span>...</span>}
-             {renderPageNumbersInvoice()}
-             {invoicecurrentPage < totalPagesinvoice - 2 && <span>...</span>}
-             {invoicecurrentPage < totalPagesinvoice - 2 && (
-               <li style={{ margin: '0 5px' }}>
-                 <button
-                   style={{
-                     padding: '5px 10px',
-                     textDecoration: 'none',
- 
-                     cursor: 'pointer',
-                     borderRadius: '5px',
-                     display: 'inline-block',
-                     minWidth: '30px',
-                     textAlign: 'center',
-                     backgroundColor: 'transparent',
-                     border: "none"
- 
-                   }}
-                   onClick={() => handleInvoicePageChange(totalPagesinvoice)}
-                 >
-                   {totalPagesinvoice}
-                 </button>
-               </li>
-             )}
-             <li style={{ margin: '0 5px' }}>
-               <span
-                 onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
-                 style={{
-                   marginTop: '20px',
-                   cursor: invoicecurrentPage === totalPagesinvoice ? 'not-allowed' : 'pointer',
-                   color: invoicecurrentPage === totalPagesinvoice ? '#ccc' : '#007bff'
-                 }}
-               >
-                 Next
-               </span>
-               <button
-                 style={{
-                   padding: '5px 10px',
-                   textDecoration: 'none',
-                   color: invoicecurrentPage === invoicecurrentPage ? '#ccc' : '#007bff',
-                   cursor: invoicecurrentPage === invoicecurrentPage ? 'not-allowed' : 'pointer',
-                   borderRadius: '5px',
-                   display: 'inline-block',
-                   minWidth: '30px',
-                   textAlign: 'center',
-                   backgroundColor: 'transparent',
-                   border: "none"
-                 }}
-                 onClick={() => handleInvoicePageChange(invoicecurrentPage + 1)}
-                 disabled={invoicecurrentPage === totalPagesinvoice}
-               >
-                 <img src={rightarrow} width="10" height="10" alt="Next" />
-               </button>
-             </li>
-           </ul>
-         </nav>
-             
+            {currentItems.length > 0 && (
+          <nav>
+            <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+              <li style={{ margin: '0 5px' }}>
+                <button
+                  style={{
+                    padding: '5px 10px',
+                    textDecoration: 'none',
+                    color: currentPage === 1 ? '#ccc' : '#007bff',
+                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    borderRadius: '5px',
+                    display: 'inline-block',
+                    minWidth: '30px',
+                    textAlign: 'center',
+                    backgroundColor: 'transparent',
+                    border: "none"
+                  }}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                  <ArrowLeft2 size="16" color="#1E45E1" />
+                </button>
+                {/* <span
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  style={{
+                    marginTop: '20px',
+                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    color: currentPage === 1 ? '#ccc' : '#007bff'
+                  }}
+                >
+                  Previous
+                </span> */}
+              </li>
+              {currentPage > 3 && (
+                <li style={{ margin: '0 5px' }}>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      color: 'white',
+                      cursor: 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handlePageChange(1)}
+                  >
+                    1
+                  </button>
+                </li>
+              )}
+              {currentPage > 3 && <span>...</span>}
+              {renderPageNumbers()}
+              {currentPage < totalPages - 2 && <span>...</span>}
+              {currentPage < totalPages - 2 && (
+                <li style={{ margin: '0 5px' }}>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handlePageChange(totalPages)}
+                  >
+                    {totalPages}
+                  </button>
+                </li>
+              )}
+              <li style={{ margin: '0 5px' }}>
+                {/* <span
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  style={{
+                    marginTop: '20px',
+                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    color: currentPage === totalPages ? '#ccc' : '#007bff'
+                  }}
+                >
+                  Next
+                </span> */}
+                <button
+                  style={{
+                    padding: '5px 10px',
+                    textDecoration: 'none',
+                    color: currentPage === totalPages ? '#ccc' : '#007bff',
+                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    borderRadius: '5px',
+                    display: 'inline-block',
+                    minWidth: '30px',
+                    textAlign: 'center',
+                    backgroundColor: 'transparent',
+                    border: "none"
+                  }}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                  <ArrowRight2 size="16" color="#1E45E1" />
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
 
             {/* <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
 
