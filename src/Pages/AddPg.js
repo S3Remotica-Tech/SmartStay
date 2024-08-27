@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import {  InputGroup} from 'react-bootstrap';
 
 
 function AddPg({ show, handleClose, currentItem }) {
@@ -249,7 +250,12 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
 
+  const [countryCode, setCountryCode] = useState('+91');
 
+
+  const handleCountryCodeChange = (e) => {
+    setCountryCode(e.target.value);
+  };
 
 
 
@@ -323,6 +329,7 @@ function AddPg({ show, handleClose, currentItem }) {
               </div>
 
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Mobile no.</Form.Label>
                   <Form.Control
@@ -335,7 +342,72 @@ function AddPg({ show, handleClose, currentItem }) {
                     }} />
                 </Form.Group>
 
+
+
+
+
               </div>
+
+{/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+  
+  
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label style={{ 
+              fontSize: 14, 
+              color: "#222222", 
+              fontFamily: "Gilroy", 
+              fontWeight: 500 
+            }}>
+              Mobile no.
+            </Form.Label>
+
+            <InputGroup>
+              <Form.Select
+                value={countryCode}
+                id="vendor-select-pg"
+                onChange={handleCountryCodeChange}
+                style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "8px 0 0 8px",
+                  height: 50,
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  backgroundColor: "#fff",
+                  maxWidth:90
+                }}
+              >
+                <option value="+91">+91</option>
+                <option value="+84">+84</option>
+       
+              </Form.Select>
+              <Form.Control
+                value={mobile}
+                onChange={handleMobileChange}
+                type="text"
+                placeholder="9876543210"
+                maxLength={10}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: mobile ? 600 : 500,
+                  boxShadow: "none",
+                  borderLeft: "unset",
+                  borderRight: "1px solid #D9D9D9",
+                  borderTop: "1px solid #D9D9D9",
+                  borderBottom: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: "0 8px 8px 0",
+                }}
+              />
+            </InputGroup>
+          </Form.Group> 
+</div> */}
+
+
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email ID</Form.Label>
