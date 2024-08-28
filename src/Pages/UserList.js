@@ -847,6 +847,7 @@ console.log("item",item)
                         style={{
                           padding: "10px",
                           border: "none",
+                          cursor:"pointer",
                           color: user.Bed === 0 ? "blue" : "inherit",
                           textDecoration: user.Bed === 0 ? "none" : "initial",
                           textAlign: "start",

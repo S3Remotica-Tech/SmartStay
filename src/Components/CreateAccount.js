@@ -38,6 +38,16 @@ function CreateAccountPage() {
 const [firstName, setFirstName] = useState('')
 const [lastName, setLastName] = useState('')
 
+
+
+const [countryCode, setCountryCode] = useState('91');
+
+
+const handleCountryCodeChange = (e) => {
+  setCountryCode(e.target.value);
+};
+
+
 const handleFirstName = (e) =>{
   setFirstName(e.target.value)
 }
@@ -151,7 +161,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
     const emailElement = document.getElementById('emailIDError');
     const emailError = emailElement ? emailElement.innerHTML : '';
 
-    if (!firstName && !phoneNo && !emailID && !password && !confirmpassword) {
+    if (!firstName && !phoneNo && !emailID && !password && !confirmpassword && !countryCode) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
@@ -170,6 +180,17 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
       return;
   }
 
+  if (!emailID) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Error',
+        text: 'Enter Email ID',
+        confirmButtonText: 'Ok'
+    });
+    return;
+}
+
+
   if (!phoneNo) {
       Swal.fire({
           icon: 'warning',
@@ -180,15 +201,15 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
       return;
   }
 
-  if (!emailID) {
-      Swal.fire({
-          icon: 'warning',
-          title: 'Error',
-          text: 'Enter Email ID',
-          confirmButtonText: 'Ok'
-      });
-      return;
-  }
+  if (!countryCode) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Error',
+        text: 'Select CountryCode',
+        confirmButtonText: 'Ok'
+    });
+    return;
+}
 
   if (!password) {
       Swal.fire({
@@ -258,9 +279,13 @@ if(password ==! confirmpassword){
   return;
 }
 
+
+const mobileNumber = `${countryCode}${phoneNumber}`
+
+
     dispatch({
       type: 'CREATE_ACCOUNT_PAGE',
-      payload: { first_name: firstName, last_name: lastName, mobileNo: phoneNumber, emailId: emailID, password: password,confirm_password: confirmpassword }
+      payload: { first_name: firstName, last_name: lastName, mobileNo:mobileNumber, emailId: emailID, password: password,confirm_password: confirmpassword }
     });
     // setFirstName('')
     // setLastName('')
@@ -317,17 +342,82 @@ if(password ==! confirmpassword){
                   </Form.Group>
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                  <Form.Group controlId="formGridEmail">
+                  {/* <Form.Group controlId="formGridEmail">
                     <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Mobile number</Form.Label>
                     <Form.Control size="lg"
                       value={phoneNo} onChange={(e) => { handlePhoneNo(e) }}
                       maxLength={10}
                       type="text" placeholder="Enter Mobile no." style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight:phoneNo ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
-                  </Form.Group>
+                  </Form.Group> */}
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label style={{ 
+              fontSize: 14, 
+              color: "#222222", 
+              fontFamily: "Gilroy", 
+              fontWeight: 500 
+            }}>
+              Mobile number
+            </Form.Label>
+
+            <InputGroup >
+              <Form.Select
+                value={countryCode}
+                id="vendor-select-create_account"
+                onChange={handleCountryCodeChange}
+                style={{
+                  border: "1px solid rgba(224, 236, 255, 1)",
+                  borderRadius: "8px 0 0 8px",
+                  height: 43,
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: countryCode ? 600 : 500,
+                  boxShadow: "none",
+                  backgroundColor: "#fff",
+                  maxWidth:90
+                }}
+              >
+                <option value="91">+91</option>
+                <option value="1">+1</option>
+                <option value="44">+44</option>
+                <option value="61">+61</option>
+                <option value="49">+49</option>
+                <option value="33">+33</option>
+                <option value="55">+55</option>
+                <option value="7">+7</option>
+
+       
+              </Form.Select>
+              <Form.Control
+               value={phoneNo}
+                onChange={(e) => { handlePhoneNo(e) }}
+                type="text"
+                //  size="lg"
+                placeholder="9876543210"
+                maxLength={10}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight:phoneNo ? 600 : 500,
+                  boxShadow: "none",
+                  borderLeft: "unset",
+                  borderRight: "1px solid rgba(224, 236, 255, 1)",
+                  borderTop: "1px solid rgba(224, 236, 255, 1)",
+                  borderBottom: "1px solid rgba(224, 236, 255, 1)",
+                  // height: 50,
+                  borderRadius: "0 8px 8px 0",
+                }}
+              />
+            </InputGroup>
+          </Form.Group> 
+              
+              
+              
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                   <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
-                  <InputGroup>
+                  <InputGroup >
                     <Form.Control
                       size="lg"
                       value={password}
