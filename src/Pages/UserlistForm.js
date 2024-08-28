@@ -77,6 +77,13 @@ function UserlistForm(props) {
   const [romnum, setRoomnum] = useState('')
   const [createdat, setCreatedAt] = useState('')
   const [payableamount, setPayableamount] = useState('');
+  const [countryCode, setCountryCode] = useState('91');
+
+
+
+  const handleCountryCodeChange = (e) => {
+    setCountryCode(e.target.value);
+  };
 
 
 
@@ -189,17 +196,33 @@ function UserlistForm(props) {
     }
   }
 
+  // const handlePhone = (e) => {
+  //   setPhone(e.target.value)
+  //   const pattern = new RegExp(/^\d{1,10}$/);
+  //   const isValidMobileNo = pattern.test(e.target.value)
+  //   if (isValidMobileNo && e.target.value.length === 10) {
+  //     document.getElementById('MobileNumberError').innerHTML = ''
+  //   }
+  //   else {
+  //     document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
+  //   }
+  // }
+
   const handlePhone = (e) => {
-    setPhone(e.target.value)
+    setPhone(e.target.value);
     const pattern = new RegExp(/^\d{1,10}$/);
-    const isValidMobileNo = pattern.test(e.target.value)
-    if (isValidMobileNo && e.target.value.length === 10) {
-      document.getElementById('MobileNumberError').innerHTML = ''
-    }
-    else {
-      document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
+    const isValidMobileNo = pattern.test(e.target.value);
+    const errorElement = document.getElementById('MobileNumberError');
+  
+    if (errorElement) {
+      if (isValidMobileNo && e.target.value.length === 10) {
+        errorElement.innerHTML = '';
+      } else {
+        errorElement.innerHTML = 'Invalid mobile number *';
+      }
     }
   }
+
   const handleEmail = (e) => {
     setEmail(e.target.value)
     const email = e.target.value
@@ -379,8 +402,8 @@ function UserlistForm(props) {
   }, [])
 
 
-
-
+//  const MobileNumber = `${countryCode}${Phone}`
+ const MobileNumber = `${countryCode}${Phone}`
   const handleSaveUserlist = () => {
     console.log("check");
   
@@ -429,11 +452,13 @@ function UserlistForm(props) {
     const capitalizedLastname = capitalizeFirstLetter(lastname);
   
     // Prepare payload
+   
+    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
     const payload = {
       profile: file,
       firstname: capitalizedFirstname,
       lastname: capitalizedLastname,
-      Phone: Phone,
+      Phone: MobileNumber,
       Email: Email,
       Address: Address,
       AadharNo: AadharNo,
@@ -652,7 +677,7 @@ function UserlistForm(props) {
                     </div>
 
 
-                    <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                       <Form.Group className="mb-3">
                         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Phone Number</Form.Label>
                         <FormControl
@@ -666,7 +691,71 @@ function UserlistForm(props) {
                         />
                         <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
                       </Form.Group>
-                    </div>
+                    </div> */}
+
+<Form.Group  className='col-lg-6 col-md-6 col-sm-12 col-xs-12' controlId="exampleForm.ControlInput1">
+            <Form.Label style={{ 
+              fontSize: 14, 
+              color: "#222222", 
+              fontFamily: "Gilroy", 
+              fontWeight: 500 
+            }}>
+              Phone Number.
+            </Form.Label>
+
+            <InputGroup>
+              <Form.Select
+                value={countryCode}
+                id="vendor-select-pg"
+                onChange={handleCountryCodeChange}
+                style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "8px 0 0 8px",
+                  height: 50,
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: countryCode ? 600 : 500,
+                  boxShadow: "none",
+                  backgroundColor: "#fff",
+                  maxWidth:90,
+                  paddingRight:10
+                }}
+              >
+                <option value="91">+91</option>
+                <option value="1">+1</option>
+                <option value="44">+44</option>
+                <option value="61">+61</option>
+                <option value="49">+49</option>
+                <option value="33">+33</option>
+                <option value="55">+55</option>
+                <option value="7">+7</option>
+
+       
+              </Form.Select>
+              <Form.Control
+                value={Phone}
+                onChange={handlePhone}
+                type="text"
+                placeholder="9876543210"
+                maxLength={10}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: Phone ? 600 : 500,
+                  boxShadow: "none",
+                  borderLeft: "unset",
+                  borderRight: "1px solid #D9D9D9",
+                  borderTop: "1px solid #D9D9D9",
+                  borderBottom: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: "0 8px 8px 0",
+                }}
+              />
+            </InputGroup>
+            <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+          </Form.Group> 
                     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                       <Form.Group className="mb-3">
                         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email Id</Form.Label>
