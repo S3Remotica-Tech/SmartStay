@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaPlusCircle } from "react-icons/fa";
-import {  InputGroup, Pagination } from 'react-bootstrap';
+import { InputGroup, Pagination } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import Plus from '../Assets/Images/New_images/add-circle.png'
 import imageCompression from 'browser-image-compression';
@@ -13,12 +13,12 @@ import Profile from '../Assets/Images/New_images/profile-picture.png';
 
 
 
-function AddCustomer({show, handleClosing, currentItem}) {
-    const state = useSelector(state => state)
-    const dispatch = useDispatch();
-  
-  console.log("state ",state)
-console.log("add custom",currentItem)
+function AddCustomer({ show, handleClosing, currentItem }) {
+  const state = useSelector(state => state)
+  const dispatch = useDispatch();
+
+  console.log("state ", state)
+  console.log("add custom", currentItem)
 
   useEffect(() => {
 
@@ -27,23 +27,23 @@ console.log("add custom",currentItem)
       setFirstname('');
       setLastname('');
       setAddress('');
-        setPhone('');
+      setPhone('');
       setEmail('');
       setFile('')
-     
+
     }
   }, [state.UsersList?.statusCodeForAddUser])
 
-const [firstname, setFirstname] = useState('');
-const [lastname, setLastname] = useState('');
-const [address, setAddress] = useState('');
-const [phone, setPhone] = useState('');
-const [email, setEmail] = useState('');
-const [file, setFile] = useState(null);
-const [RoomRent, setRoomRent] = useState('')
-const [AdvanceAmount, setAdvanceAmount] = useState('')
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [file, setFile] = useState(null);
+  const [RoomRent, setRoomRent] = useState('')
+  const [AdvanceAmount, setAdvanceAmount] = useState('')
 
-const handleFirstName = (e) => setFirstname(e.target.value);
+  const handleFirstName = (e) => setFirstname(e.target.value);
   const handleLastName = (e) => setLastname(e.target.value);
 
   const handlePhone = (e) => {
@@ -52,24 +52,34 @@ const handleFirstName = (e) => setFirstname(e.target.value);
       setPhone(value);
     }
   };
-  
+
+
+
+  const [countryCode, setCountryCode] = useState('91');
+
+
+  const handleCountryCodeChange = (e) => {
+    setCountryCode(e.target.value);
+  };
+
+
   const [emailError, setEmailError] = useState('');
 
   const handleEmail = (e) => {
     const email = e.target.value;
     setEmail(email);
-    
+
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const isValidEmail = emailRegex.test(email);
-    
+
     if (isValidEmail) {
-      setEmailError(''); 
+      setEmailError('');
     } else {
-      setEmailError('Invalid Email Id *'); 
+      setEmailError('Invalid Email Id *');
     }
   };
-  
-  
+
+
 
 
   const handleAddress = (e) => setAddress(e.target.value);
@@ -91,329 +101,403 @@ const handleFirstName = (e) => setFirstname(e.target.value);
     }
   };
 
-const handleAddCustomerDetails = () =>{
+  const handleAddCustomerDetails = () => {
 
-const Hostel_Id = currentItem.room.Hostel_Id
-const Floor_Id = currentItem.room.Floor_Id
-const Room_Id = currentItem.room.Room_Id
-const Bed_Id = currentItem.bed.bed_no
+    const Hostel_Id = currentItem.room.Hostel_Id
+    const Floor_Id = currentItem.room.Floor_Id
+    const Room_Id = currentItem.room.Room_Id
+    const Bed_Id = currentItem.bed.bed_no
 
-const filterData_Hostel_Name = state.UsersList.hostelList.filter((view)=>{
-  return view.id == Hostel_Id
-})
-console.log("filterData_Hostel_Name[0]?.Name",filterData_Hostel_Name[0]?.Name)
-
-if(!firstname  && !phone && !email && !AdvanceAmount && !RoomRent &&  !address){
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please Enter All Fields',
-    
-  });
-  return
-}
-
-if (!firstname) {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please Enter First Name',
-  });
-  return;
-}
-
-if (!phone) {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please Enter Phone Number',
-  });
-  return;
-}
-
-if (phone.length < 10) {
-  Swal.fire({
-      icon: 'warning',
-      title: 'Phone number must be 10 digits long',
-  });
-  return;
-}
-
-if (!email) {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please Enter Email',
-  });
-  return;
-}
-
-if (emailError) {
-  Swal.fire({
-    icon: 'warning',
-    title: emailError, 
-  });
-  return;
-}
-
-if (!AdvanceAmount || isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please Enter Valid Advance Amount',
-  });
-  return;
-}
-
-if (!RoomRent || isNaN(RoomRent) || RoomRent <= 0) {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please Enter Valid Room Rent',
-  });
-  return;
-}
-
-if (!address) {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please Enter Address',
-  });
-  return;
-}
-
-
-
-if(firstname  && phone && email && AdvanceAmount && RoomRent &&  address){
-  dispatch({ type: 'ADDUSER',
-    payload: {
-      profile: file,
-      firstname: firstname,
-      lastname: lastname,
-      Phone: phone,
-      Email: email,
-      hostel_Id: Hostel_Id,
-      Floor: Floor_Id,
-      Rooms: Room_Id,
-      Bed: Bed_Id,
-      Address:address,
-      HostelName: filterData_Hostel_Name[0]?.Name,
-    AdvanceAmount: AdvanceAmount,
-    RoomRent: RoomRent,
-            }
+    const filterData_Hostel_Name = state.UsersList.hostelList.filter((view) => {
+      return view.id == Hostel_Id
     })
-    handleClosing()
-}else{
- 
-}
-   
-}
+    // console.log("filterData_Hostel_Name[0]?.Name", filterData_Hostel_Name[0]?.Name)
+
+    if (!firstname && !phone && !email && !AdvanceAmount && !RoomRent && !address && !countryCode) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please enter all fields',
+
+      });
+      return
+    }
+
+    if (!firstname) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter First Name',
+      });
+      return;
+    }
+
+    if (!phone) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter Phone Number',
+      });
+      return;
+    }
+
+    if (phone.length < 10) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Phone number must be 10 digits long',
+      });
+      return;
+    }
+
+    if (!email) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter Email',
+      });
+      return;
+    }
+
+    if (emailError) {
+      Swal.fire({
+        icon: 'warning',
+        title: emailError,
+      });
+      return;
+    }
+
+    if (!AdvanceAmount || isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter Valid Advance Amount',
+      });
+      return;
+    }
+
+    if (!RoomRent || isNaN(RoomRent) || RoomRent <= 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter Valid Room Rent',
+      });
+      return;
+    }
+
+    if (!address) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter Address',
+      });
+      return;
+    }
+
+const mobileNumber = `${countryCode}${phone}`
+
+    if (firstname &&  mobileNumber && email && AdvanceAmount && RoomRent && address) {
+      dispatch({
+        type: 'ADDUSER',
+        payload: {
+          profile: file,
+          firstname: firstname,
+          lastname: lastname,
+          Phone:  mobileNumber,
+          Email: email,
+          hostel_Id: Hostel_Id,
+          Floor: Floor_Id,
+          Rooms: Room_Id,
+          Bed: Bed_Id,
+          Address: address,
+          HostelName: filterData_Hostel_Name[0]?.Name,
+          AdvanceAmount: AdvanceAmount,
+          RoomRent: RoomRent,
+        }
+      })
+      handleClosing()
+    } else {
+
+    }
+
+  }
 
 
-const handleRoomRent = (e) => {
-  const roomRentValue = e.target.value;
-  // handleInputChange()
-  setRoomRent(roomRentValue);
+  const handleRoomRent = (e) => {
+    const roomRentValue = e.target.value;
+    // handleInputChange()
+    setRoomRent(roomRentValue);
 
-}
+  }
 
 
-const handleAdvanceAmount = (e) => {
-  // handleInputChange()
-  const advanceAmount = e.target.value;
-  setAdvanceAmount(advanceAmount)
+  const handleAdvanceAmount = (e) => {
+    // handleInputChange()
+    const advanceAmount = e.target.value;
+    setAdvanceAmount(advanceAmount)
 
-}
+  }
 
+
+
+
+  
 
   return (
     <div>
-   <Modal show={show} onHide={handleClosing} centered>
-   <Modal.Dialog style={{ maxWidth: 950,paddingRight:"10px",paddingRight:"10px" ,borderRadius:"30px"}} className='m-0 p-0'>
+      <Modal show={show} onHide={handleClosing} centered>
+        <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
+
+          <Modal.Body>
+
+            <div className='d-flex align-items-center'>
+
+
+
+              <div>
+
+                <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+                  <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Add an customer</div>
+                  <button
+                    type="button"
+                    className="close"
+                    aria-label="Close"
+                    onClick={handleClosing}
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '16px',
+                      border: '1px solid black',
+                      background: 'transparent',
+                      cursor: 'pointer',
+                      padding: '0',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+
+                    }}
+                  >
+                    <span aria-hidden="true" style={{
+                      fontSize: '30px',
+                      paddingBottom: "6px"
+
+                    }}>&times;</span>
+                  </button>
+                </Modal.Header>
+
+                <div className='d-flex align-items-center'>
+
+
+                  <div className="" style={{ height: 100, width: 100, position: "relative" }}>
+
+                    <Image src={file ? (typeof file == 'string' ? file : URL.createObjectURL(file)) : Profile} roundedCircle style={{ height: 100, width: 100 }} />
+
+                    <label htmlFor="imageInput" className='' >
+                      <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="sr-only"
+                        id="imageInput"
+                        onChange={handleImageChange}
+                        style={{ display: "none" }} />
+                    </label>
+
+
+                  </div>
+                  <div className='ps-3'>
+                    <div>
+                      <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='row mt-4'>
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>First Name</Form.Label>
+                      <FormControl
+                        id="form-controls"
+                        placeholder='Enter name'
+                        type="text"
+                        value={firstname}
+                        onChange={(e) => handleFirstName(e)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: firstname ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Last Name</Form.Label>
+                      <FormControl
+                        type="text"
+                        id="form-controls"
+                        placeholder='Enter name'
+                        value={lastname}
+                        onChange={(e) => handleLastName(e)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: lastname ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+
+
+                  {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Phone Number</Form.Label>
+                      <FormControl
+                        type="phone"
+                        id="form-controls"
+                        placeholder='Enter mobile Number'
+                        maxLength={10}
+                        value={phone}
+                        onChange={(e) => handlePhone(e)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: phone ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                      <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                    </Form.Group>
+                  </div> */}
+
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
   
-<Modal.Body>
- 
-  <div className='d-flex align-items-center'>
-    
- 
- 
-    <div>
-    
-<Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
-        <div style={{ fontSize: 20, fontWeight: 600,fontFamily:"Gilroy" }}>Add an customer</div>
-        <button
-          type="button"
-          className="close"
-          aria-label="Close"
-          onClick={handleClosing}
-          style={{
-            position: 'absolute',
-            right: '10px',
-            top: '16px',
-            border: '1px solid black',
-            background: 'transparent',
-            cursor: 'pointer',
-            padding: '0',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-           
-          }}
-        >
-          <span aria-hidden="true" style={{
-              fontSize: '30px',
-              paddingBottom:"6px"
-             
-            }}>&times;</span>
-        </button>
-      </Modal.Header>
+  
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label style={{ 
+              fontSize: 14, 
+              color: "#222222", 
+              fontFamily: "Gilroy", 
+              fontWeight: 500 
+            }}>
+              Mobile no.
+            </Form.Label>
 
-<div className='d-flex align-items-center'>
+            <InputGroup>
+              <Form.Select
+                value={countryCode}
+                id="vendor-select-pg"
+                onChange={handleCountryCodeChange}
+                style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "8px 0 0 8px",
+                  height: 50,
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: countryCode ? 600 : 500,
+                  boxShadow: "none",
+                  backgroundColor: "#fff",
+                  maxWidth:90
+                }}
+              >
+                <option value="91">+91</option>
+                <option value="1">+1</option>
+                <option value="44">+44</option>
+                <option value="61">+61</option>
+                <option value="49">+49</option>
+                <option value="33">+33</option>
+                <option value="55">+55</option>
+                <option value="7">+7</option>
 
-
-<div className="" style={{ height: 100, width: 100, position: "relative" }}>
-
-  <Image src={file ? (typeof file == 'string' ? file : URL.createObjectURL(file)) : Profile} roundedCircle style={{ height: 100, width: 100 }} />
- 
-  <label htmlFor="imageInput" className='' >
-    <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
-    <input
-      type="file"
-      accept="image/*"
-      multiple
-      className="sr-only"
-      id="imageInput"
-      onChange={handleImageChange}
-      style={{ display: "none" }} />
-  </label>
-
-
-</div>
-<div className='ps-3'>
-  <div>
-    <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
-  </div>
-  <div>
-    <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
-  </div>
-</div>
-</div>
-
-      <div  className='row mt-4'>
-      
-          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>First Name</Form.Label>
-              <FormControl
-                id="form-controls"
-                placeholder='Enter name'
-                type="text"
-                value={firstname}
-                onChange={(e) => handleFirstName(e)}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: firstname ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-              />
-            </Form.Group>
-          </div>
-          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Last Name</Form.Label>
-              <FormControl
-                type="text"
-                id="form-controls"
-                placeholder='Enter name'
-                value={lastname}
-                onChange={(e) => handleLastName(e)}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: lastname ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-              />
-            </Form.Group>
-          </div>
        
-       
-          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Phone Number</Form.Label>
-              <FormControl
-                type="phone"
-                id="form-controls"
-                placeholder='Enter mobile Number'
-                maxLength={10}
+              </Form.Select>
+              <Form.Control
                 value={phone}
                 onChange={(e) => handlePhone(e)}
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: phone ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-              />
-              <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-            </Form.Group>
-          </div>
-          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email Id</Form.Label>
-              <FormControl
                 type="text"
-                id="form-controls"
-                placeholder='Enter email address'
-                value={email}
-                onChange={(e) => handleEmail(e)}
-              
-                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: email ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                placeholder="9876543210"
+                maxLength={10}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: phone ? 600 : 500,
+                  boxShadow: "none",
+                  borderLeft: "unset",
+                  borderRight: "1px solid #D9D9D9",
+                  borderTop: "1px solid #D9D9D9",
+                  borderBottom: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: "0 8px 8px 0",
+                }}
               />
-              <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-            </Form.Group>
-          </div>
-        
-      
-          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address</Form.Label>
-              <FormControl
-                type="text"
-                id="form-controls"
-                value={address}
-                placeholder='Enter address'
-                onChange={(e) => handleAddress(e)}
-                            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: address ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-              />
-            </Form.Group>
+            </InputGroup>
+          </Form.Group> 
+</div>
+
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email Id</Form.Label>
+                      <FormControl
+                        type="text"
+                        id="form-controls"
+                        placeholder='Enter email address'
+                        value={email}
+                        onChange={(e) => handleEmail(e)}
+
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: email ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                      <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                    </Form.Group>
+                  </div>
+
+
+                  <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address</Form.Label>
+                      <FormControl
+                        type="text"
+                        id="form-controls"
+                        value={address}
+                        placeholder='Enter address'
+                        onChange={(e) => handleAddress(e)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: address ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="">
+                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</Form.Label>
+                      <FormControl
+                        type="text"
+                        id="form-controls"
+                        placeholder='Enter amount'
+                        value={AdvanceAmount}
+                        onChange={(e) => handleAdvanceAmount(e)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: AdvanceAmount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Rental Amount</Form.Label>
+                      <FormControl
+                        type="text"
+                        id="form-controls"
+                        placeholder='Enter amount'
+                        value={RoomRent}
+                        onChange={(e) => handleRoomRent(e)}
+                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: RoomRent ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
+
+
+                <Button onClick={handleAddCustomerDetails} className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat", marginTop: 20 }} >
+                  Add an customer
+                </Button>
+              </div>
+
+
+
             </div>
-            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                                                                    <Form.Group className="">
-                                                                                        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</Form.Label>
-                                                                                        <FormControl
-                                                                                            type="text"
-                                                                                            id="form-controls"
-                                                                                            placeholder='Enter amount'
-                                                                                            value={AdvanceAmount}
-                                                                                            onChange={(e) => handleAdvanceAmount(e)}
-                                                                                            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:AdvanceAmount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                                                                                        />
-                                                                                    </Form.Group>
-                                                                                </div>
-                                                                                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                                                                    <Form.Group className="mb-3">
-                                                                                        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Rental Amount</Form.Label>
-                                                                                        <FormControl
-                                                                                            type="text"
-                                                                                            id="form-controls"
-                                                                                            placeholder='Enter amount'
-                                                                                            value={RoomRent}
-                                                                                            onChange={(e) => handleRoomRent(e)}
-                                                                                            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:RoomRent ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                                                                                        />
-                                                                                    </Form.Group>
-                                                                                </div>
-            </div>
-     
-      
-      <Button onClick={handleAddCustomerDetails} className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" ,marginTop:20}} >
-      Add an customer
-</Button>
-    </div>
-  
+          </Modal.Body>
 
-
-  </div>
-</Modal.Body>
-
-<Modal.Footer style={{ border: "none" }}>
-</Modal.Footer>
-</Modal.Dialog>
-</Modal>
+          <Modal.Footer style={{ border: "none" }}>
+          </Modal.Footer>
+        </Modal.Dialog>
+      </Modal>
 
     </div>
   )
