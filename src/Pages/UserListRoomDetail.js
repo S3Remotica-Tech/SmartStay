@@ -206,7 +206,7 @@ function UserListRoomDetail(props) {
     //   }
     const MobileNumber = `${countryCode}${Phone}`
     const handleEditUser = (item) => {
-        console.log("item...",item)
+        console.log("item...", item)
         if (item[0].ID) {
             if (item) {
                 dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: item[0].Hostel_Id } });
@@ -214,8 +214,8 @@ function UserListRoomDetail(props) {
                 dispatch({ type: 'BEDNUMBERDETAILS', payload: { hostel_id: item[0].Hostel_Id, floor_id: item[0].Floor, room_id: item[0].Rooms } });
             }
             const phoneNumber = String(item[0].Phone || '');
-      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10); 
-      const mobileNumber = phoneNumber.slice(-10);
+            const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+            const mobileNumber = phoneNumber.slice(-10);
             setBednum(item);
             seteditBed('editbeddet');
             setcustomerAsignBed(false);
@@ -592,7 +592,7 @@ function UserListRoomDetail(props) {
     //     // handleCloseEditcustomer();
     //   };
 
-    
+
 
 
     const handleSaveUserlist = () => {
@@ -840,8 +840,8 @@ function UserListRoomDetail(props) {
                                                 </div>
                                             </div>
                                             {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
-                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                      </div> */}
+ <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+ </div> */}
 
                                         </div>
                                     </div>
@@ -1164,68 +1164,68 @@ function UserListRoomDetail(props) {
                                                                                         <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
                                                                                     </Form.Group> */}
                                                                                     <Form.Group  >
-            <Form.Label style={{ 
-              fontSize: 14, 
-              color: "#222222", 
-              fontFamily: "Gilroy", 
-              fontWeight: 500 
-            }}>
-              Phone Number.
-            </Form.Label>
+                                                                                        <Form.Label style={{
+                                                                                            fontSize: 14,
+                                                                                            color: "#222222",
+                                                                                            fontFamily: "Gilroy",
+                                                                                            fontWeight: 500
+                                                                                        }}>
+                                                                                            Phone Number.
+                                                                                        </Form.Label>
 
-            <InputGroup>
-              <Form.Select
-                value={countryCode}
-                id="vendor-select-pg"
-                onChange={handleCountryCodeChange}
-                style={{
-                  border: "1px solid #D9D9D9",
-                  borderRadius: "8px 0 0 8px",
-                  height: 50,
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: countryCode ? 600 : 500,
-                  boxShadow: "none",
-                  backgroundColor: "#fff",
-                  maxWidth:90,
-                  paddingRight:10
-                }}
-              >
-                <option value="91">+91</option>
-                <option value="1">+1</option>
-                <option value="44">+44</option>
-                <option value="61">+61</option>
-                <option value="49">+49</option>
-                <option value="33">+33</option>
-                <option value="55">+55</option>
-                <option value="7">+7</option>
+                                                                                        <InputGroup>
+                                                                                            <Form.Select
+                                                                                                value={countryCode}
+                                                                                                id="vendor-select-pg"
+                                                                                                onChange={handleCountryCodeChange}
+                                                                                                style={{
+                                                                                                    border: "1px solid #D9D9D9",
+                                                                                                    borderRadius: "8px 0 0 8px",
+                                                                                                    height: 50,
+                                                                                                    fontSize: 16,
+                                                                                                    color: "#4B4B4B",
+                                                                                                    fontFamily: "Gilroy",
+                                                                                                    fontWeight: countryCode ? 600 : 500,
+                                                                                                    boxShadow: "none",
+                                                                                                    backgroundColor: "#fff",
+                                                                                                    maxWidth: 90,
+                                                                                                    paddingRight: 10
+                                                                                                }}
+                                                                                            >
+                                                                                                <option value="91">+91</option>
+                                                                                                <option value="1">+1</option>
+                                                                                                <option value="44">+44</option>
+                                                                                                <option value="61">+61</option>
+                                                                                                <option value="49">+49</option>
+                                                                                                <option value="33">+33</option>
+                                                                                                <option value="55">+55</option>
+                                                                                                <option value="7">+7</option>
 
-       
-              </Form.Select>
-              <Form.Control
-                value={Phone}
-                onChange={handlePhone}
-                type="text"
-                placeholder="9876543210"
-                maxLength={10}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: Phone ? 600 : 500,
-                  boxShadow: "none",
-                  borderLeft: "unset",
-                  borderRight: "1px solid #D9D9D9",
-                  borderTop: "1px solid #D9D9D9",
-                  borderBottom: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: "0 8px 8px 0",
-                }}
-              />
-            </InputGroup>
-            <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-          </Form.Group> 
+
+                                                                                            </Form.Select>
+                                                                                            <Form.Control
+                                                                                                value={Phone}
+                                                                                                onChange={handlePhone}
+                                                                                                type="text"
+                                                                                                placeholder="9876543210"
+                                                                                                maxLength={10}
+                                                                                                style={{
+                                                                                                    fontSize: 16,
+                                                                                                    color: "#4B4B4B",
+                                                                                                    fontFamily: "Gilroy",
+                                                                                                    fontWeight: Phone ? 600 : 500,
+                                                                                                    boxShadow: "none",
+                                                                                                    borderLeft: "unset",
+                                                                                                    borderRight: "1px solid #D9D9D9",
+                                                                                                    borderTop: "1px solid #D9D9D9",
+                                                                                                    borderBottom: "1px solid #D9D9D9",
+                                                                                                    height: 50,
+                                                                                                    borderRadius: "0 8px 8px 0",
+                                                                                                }}
+                                                                                            />
+                                                                                        </InputGroup>
+                                                                                        <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                                                                                    </Form.Group>
                                                                                 </div>
                                                                                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                                                                     <Form.Group className="mb-3">
