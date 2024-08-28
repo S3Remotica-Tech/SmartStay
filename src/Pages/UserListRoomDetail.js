@@ -63,9 +63,14 @@ function UserListRoomDetail(props) {
     const [customerAsignBed, setcustomerAsignBed] = useState(false)
     const [Editbed, seteditBed] = useState('')
     const [value, setValue] = React.useState('1');
+    const [countryCode, setCountryCode] = useState('');
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+
+    const handleCountryCodeChange = (e) => {
+        setCountryCode(e.target.value);
+    };
 
     const handleChanges = (event, newValue) => {
         setValue(newValue);
@@ -199,31 +204,37 @@ function UserListRoomDetail(props) {
     //     //   setHasChanges(false);
     //     }
     //   }
+    const MobileNumber = `${countryCode}${Phone}`
     const handleEditUser = (item) => {
+        console.log("item...",item)
         if (item[0].ID) {
             if (item) {
                 dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: item[0].Hostel_Id } });
                 dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: item[0].Hostel_Id, floor_Id: item[0].Floor } });
                 dispatch({ type: 'BEDNUMBERDETAILS', payload: { hostel_id: item[0].Hostel_Id, floor_id: item[0].Floor, room_id: item[0].Rooms } });
             }
+            const phoneNumber = String(item[0].Phone || '');
+      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10); 
+      const mobileNumber = phoneNumber.slice(-10);
             setBednum(item);
             seteditBed('editbeddet');
             setcustomerAsignBed(false);
             setcustomerdetailShow(true);
             setFormShow(true);
-    
+
             setId(item[0].ID);
             setFile(item[0].profile === '0' ? null : item[0].profile);
-    
+
             let value = item[0].Name ? item[0].Name.split(" ") : ["", ""];
             setFirstname(value[0].trim());
             setLastname(value[1] ? value[1].trim() : "");
-    
+
             setAddress(item[0].Address || "");
             setAadharNo(item[0].AadharNo || "");
             setPancardNo(item[0].PancardNo || "");
             setLicence(item[0].licence || "");
-            setPhone(item[0].Phone || "");
+            setPhone(mobileNumber);
+            setCountryCode(countryCode)
             setEmail(item[0].Email || "");
             setHostelName(item[0].HostelName || "");
             setHostel_Id(item[0].Hostel_Id || "");
@@ -236,7 +247,7 @@ function UserListRoomDetail(props) {
             setBalanceDue(item[0].BalanceDue || "");
             setPaidAdvance(item[0].paid_advance || "");
             setPaidrent(item[0].paid_rent || "");
-    
+
             setInitialState({
                 firstname: value[0].trim(),
                 lastname: value[1] ? value[1].trim() : "",
@@ -249,7 +260,7 @@ function UserListRoomDetail(props) {
             });
         }
     };
-    
+
     useEffect(() => {
         if (hostel_Id && Floor) {
 
@@ -581,7 +592,7 @@ function UserListRoomDetail(props) {
     //     // handleCloseEditcustomer();
     //   };
 
-
+    
 
 
     const handleSaveUserlist = () => {
@@ -595,7 +606,7 @@ function UserListRoomDetail(props) {
                 icon: 'warning',
                 title: 'Please enter a valid email address',
                 confirmButtonText: 'Ok',
-                
+
             });
             return;
         }
@@ -605,7 +616,7 @@ function UserListRoomDetail(props) {
                 icon: 'warning',
                 title: 'Please enter a valid 10-digit phone number',
                 confirmButtonText: 'Ok',
-                
+
             });
             return;
         }
@@ -615,27 +626,28 @@ function UserListRoomDetail(props) {
                 icon: 'warning',
                 title: 'Please fill in all required fields',
                 confirmButtonText: 'Ok',
-               
+
             });
             return;
         }
 
-        let isChanged = 
-        firstname.trim() !== (initialState.firstname || "").trim() ||
-        lastname.trim() !== (initialState.lastname || "").trim() ||
-        Number(Phone) !== Number(initialState.Phone || "") ||
-        Email !== initialState.Email || "" ||
-        Address !== initialState.Address || "" ||
-        hostel_Id !== initialState.hostel_Id || "" ||
-        (file || null) !== (initialState.file || null);
-    
-    if (!isChanged && !isChanged) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'No changes detected',
-        });
-        return;
-    }
+        let isChanged =
+            firstname.trim() !== (initialState.firstname || "").trim() ||
+            lastname.trim() !== (initialState.lastname || "").trim() ||
+            Number(Phone) !== Number(initialState.Phone || "") ||
+            Email !== initialState.Email || "" ||
+            Address !== initialState.Address || "" ||
+            hostel_Id !== initialState.hostel_Id || "" ||
+            (file || null) !== (initialState.file || null) ||
+            countryCode !== initialState.countryCode;
+
+        if (!isChanged && !isChanged) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'No changes detected',
+            });
+            return;
+        }
 
         const capitalizeFirstLetter = (str) => {
             return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -647,7 +659,7 @@ function UserListRoomDetail(props) {
             profile: file,
             firstname: capitalizedFirstname,
             lastname: capitalizedLastname,
-            Phone: Phone,
+            Phone: MobileNumber,
             Email: Email,
             Address: Address,
             AadharNo: AadharNo,
@@ -699,32 +711,32 @@ function UserListRoomDetail(props) {
 
     });
 
- 
+
     const handleSaveUserlistAddUser = () => {
         if (Floor && Rooms && Bed) {
 
 
             const isChangedBed =
-           
-            Number(Floor) !== Number(initialStateAssign.Floor) ||
-            Number(Rooms) !== Number(initialStateAssign.Rooms) ||
-            Number(Bed) !== Number(initialStateAssign.Bed) ||
-            Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
-            Number(RoomRent) !== Number(initialStateAssign.RoomRent) 
+
+                Number(Floor) !== Number(initialStateAssign.Floor) ||
+                Number(Rooms) !== Number(initialStateAssign.Rooms) ||
+                Number(Bed) !== Number(initialStateAssign.Bed) ||
+                Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
+                Number(RoomRent) !== Number(initialStateAssign.RoomRent)
             // Rooms !== initialStateAssign.Rooms ||
             // Bed !== initialStateAssign.Bed ||
-           
+
             // AdvanceAmount !== initialStateAssign.AdvanceAmount ||
             // RoomRent !== initialStateAssign.RoomRent ;
 
-        if (!isChangedBed) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'No changes detected',
-                
-            });
-            return;
-        }
+            if (!isChangedBed) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'No changes detected',
+
+                });
+                return;
+            }
             dispatch({
                 type: 'ADDUSER',
                 payload: {
@@ -765,7 +777,7 @@ function UserListRoomDetail(props) {
                 icon: 'warning',
                 title: 'Please Enter All Fields',
                 confirmButtonText: 'Ok',
-               
+
             });
 
         }
@@ -1137,8 +1149,8 @@ function UserListRoomDetail(props) {
                                                                                 </div>
 
 
-                                                                                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                                                                    <Form.Group className="mb-3">
+                                                                                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' controlId="exampleForm.ControlInput1">
+                                                                                    {/* <Form.Group className="mb-3">
                                                                                         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Phone Number</Form.Label>
                                                                                         <FormControl
                                                                                             type="phone"
@@ -1150,7 +1162,70 @@ function UserListRoomDetail(props) {
                                                                                             style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                                                                                         />
                                                                                         <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                                                                                    </Form.Group>
+                                                                                    </Form.Group> */}
+                                                                                    <Form.Group  >
+            <Form.Label style={{ 
+              fontSize: 14, 
+              color: "#222222", 
+              fontFamily: "Gilroy", 
+              fontWeight: 500 
+            }}>
+              Phone Number.
+            </Form.Label>
+
+            <InputGroup>
+              <Form.Select
+                value={countryCode}
+                id="vendor-select-pg"
+                onChange={handleCountryCodeChange}
+                style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "8px 0 0 8px",
+                  height: 50,
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: countryCode ? 600 : 500,
+                  boxShadow: "none",
+                  backgroundColor: "#fff",
+                  maxWidth:90,
+                  paddingRight:10
+                }}
+              >
+                <option value="91">+91</option>
+                <option value="1">+1</option>
+                <option value="44">+44</option>
+                <option value="61">+61</option>
+                <option value="49">+49</option>
+                <option value="33">+33</option>
+                <option value="55">+55</option>
+                <option value="7">+7</option>
+
+       
+              </Form.Select>
+              <Form.Control
+                value={Phone}
+                onChange={handlePhone}
+                type="text"
+                placeholder="9876543210"
+                maxLength={10}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: Phone ? 600 : 500,
+                  boxShadow: "none",
+                  borderLeft: "unset",
+                  borderRight: "1px solid #D9D9D9",
+                  borderTop: "1px solid #D9D9D9",
+                  borderBottom: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: "0 8px 8px 0",
+                }}
+              />
+            </InputGroup>
+            <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+          </Form.Group> 
                                                                                 </div>
                                                                                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                                                                     <Form.Group className="mb-3">

@@ -266,7 +266,7 @@ function UserListAmenities(props) {
             </>}
 
             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
-                <Form.Label style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>Amnities</Form.Label>
+                <Form.Label style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>Amenities </Form.Label>
                 <Form.Select
                     aria-label="Default select example"
                     className='border'
