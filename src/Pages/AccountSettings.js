@@ -77,7 +77,15 @@ const Accountsettings = () => {
   const [AddressError, setAddressError] = useState(false);
   const [error, setError] = useState(false)
   const [value, setValue] = React.useState('1');
+  const [countryCode, setCountryCode] = useState('91');
 
+
+
+  const handleCountryCodeChange = (e) => {
+    setCountryCode(e.target.value);
+  };
+
+  const MobileNumber = `${countryCode}${phone}`
 
 
   const handleChanges = (event, newValue) => {
@@ -439,10 +447,10 @@ const Accountsettings = () => {
       return;
     }
 
-    if (hasChanges && firstname && phone && email && Address) {
+    if (hasChanges && firstname && MobileNumber && email && Address) {
       dispatch({
         type: 'PROFILE-UPDATE',
-        payload: { first_name: firstname, last_name: lastname, phone: phone, email_id: email, address: Address, id: id, profile: selectedImage }
+        payload: { first_name: firstname, last_name: lastname, phone: MobileNumber, email_id: email, address: Address, id: id, profile: selectedImage }
       });
     } else if (!hasChanges) {
       Swal.fire({
@@ -704,6 +712,37 @@ const Accountsettings = () => {
               <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Mobile Number <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                  <InputGroup>
+                  <Form.Select
+                value={countryCode}
+                id="vendor-select-pg"
+                onChange={handleCountryCodeChange}
+                style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "8px 0 0 8px",
+                  height: 66,
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: countryCode ? 600 : 500,
+                  boxShadow: "none",
+                  backgroundColor: "#fff",
+                  maxWidth:90,
+                  paddingRight:10,
+                  padding: '20px', marginTop: '10px'
+                }}
+              >
+                <option value="91">+91</option>
+                <option value="1">+1</option>
+                <option value="44">+44</option>
+                <option value="61">+61</option>
+                <option value="49">+49</option>
+                <option value="33">+33</option>
+                <option value="55">+55</option>
+                <option value="7">+7</option>
+
+       
+              </Form.Select>
                   <Form.Control
                     style={{
                       padding: '20px', marginTop: '10px', fontSize: 16,
@@ -716,6 +755,7 @@ const Accountsettings = () => {
                     value={mobilenoError ? '' : phone}
                     onChange={handlePhone}
                   />
+                  </InputGroup>
                   <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
                   {mobilenoError && <p style={{ fontSize: '12px', color: 'red' }}>* Mobile Number is Required</p>}
                 </Form.Group>
