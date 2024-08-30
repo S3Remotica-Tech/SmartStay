@@ -26,7 +26,7 @@ import { Dropdown, NavDropdown, Container } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { AllInbox } from '@mui/icons-material';
 import { TruckRemove } from 'iconsax-react';
-
+import { format } from 'date-fns';
 
 function Expenses() {
 
@@ -49,7 +49,24 @@ function Expenses() {
   const [minAmount, setMinAmount] = useState(0);
   const [maxAmount, setMaxAmount] = useState(0);
 
-  const [formattedDates, setFormattedDates] = useState('(01 Jan - 30 Jan)');
+
+
+
+
+const [formattedDates, setFormattedDates] = useState('');
+
+  useEffect(() => {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    const formattedStart = format(startOfMonth, 'dd MMM');
+    const formattedEnd = format(endOfMonth, 'dd MMM');
+
+    setFormattedDates(`(${formattedStart} - ${formattedEnd})`);
+  }, []);
+
+  
 
 
 
@@ -83,7 +100,7 @@ function Expenses() {
   const [dates, setDates] = useState([]);
   const startDate = formatDate(dates[0] ? dates[0] : '')
   const endDate = formatDate(dates[1] ? dates[1] : '')
-  console.log("startDate", startDate, endDate)
+  // console.log("startDate", startDate, endDate)
 
 
   function formatDate(dateString) {
@@ -116,6 +133,40 @@ function Expenses() {
 
 
   useEffect(() => {
+
+// if(!startDate && !endDate){
+//   Swal.fire({
+//     icon: 'warning',
+//     text: `Please Select Start date and End Date`,
+//     confirmButtonText: 'Ok'
+//   })
+
+//   return
+// }
+
+// if(!startDate){
+//   Swal.fire({
+//     icon: 'warning',
+//     text: `Please Select Start date`,
+//     confirmButtonText: 'Ok'
+//   })
+
+//   return
+// }
+// if( !endDate){
+//   Swal.fire({
+//     icon: 'warning',
+//     text: `Please Select  End Date`,
+//     confirmButtonText: 'Ok'
+//   })
+
+//   return
+// }
+
+
+
+
+
     if (selectedValue === 'All') {
       dispatch({ type: 'EXPENSELIST' })
       setCategoryValue('')
@@ -194,11 +245,12 @@ function Expenses() {
       setMinAmount('')
       setMaxAmount('')
     }
-  }, [selectedValue, categoryValue, assetValue, vendorValue, modeValue,dates, minAmount, maxAmount])
+   
+  }, [ selectedValue, categoryValue, assetValue, vendorValue, modeValue,dates, minAmount, maxAmount,formattedDates])
 
 
-
-console.log("Mathu", selectedValue, categoryValue, assetValue, vendorValue, modeValue,dates, minAmount, maxAmount)
+console.log("formattedDates",formattedDates)
+// console.log("Mathu", selectedValue, categoryValue, assetValue, vendorValue, modeValue,dates, minAmount, maxAmount)
 
 
 const [loading, setLoading] = useState(false)
@@ -588,8 +640,9 @@ const [showAmount, setShowAmount]  = useState(false)
                 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px", cursor: "pointer" }} onClick={handleFilterByPrice} />
 
                 {showFilter &&
-                  <ListGroup style={{ position: 'absolute', top: 45, right: 0 , fontFamily:"Gilroy"}}>
+                  <ListGroup style={{ position: 'absolute', top: 45, right: 0 , fontFamily:"Gilroy", cursor:"pointer"}}>
                     <ListGroup.Item value="All"  onClick={handleExpenseAll}>All</ListGroup.Item>
+
 
                     <ListGroup.Item
                       active={showCategory}
@@ -604,7 +657,7 @@ const [showAmount, setShowAmount]  = useState(false)
                         >
                           {state.ExpenseList.categoryList && state.ExpenseList.categoryList.map((view) => (
                             <ListGroup.Item
-                              className='sub_item' key={view.id} value={view.id}>
+                              className='sub_item' key={view.category_Id} value={view.category_Id}>
                               {view.category_Name}
                             </ListGroup.Item >
                           ))}
@@ -777,7 +830,7 @@ const [showAmount, setShowAmount]  = useState(false)
 
                 :
                 currentItems && currentItems.map((item) => (
-                  <ExpensesListTable item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
+                  <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
                 ))}
               </tbody>
             </Table>
@@ -786,12 +839,10 @@ const [showAmount, setShowAmount]  = useState(false)
 
             <div className="d-flex justify-content-center" style={{ width: "100%" }}>
             {
-  !loading && getData.length === 0 && (
+  (!loading && Array.isArray(getData) && getData.length === 0) || currentItems.length === 0 ? (
     <h5 style={{ fontSize: 12, color: "red" }}>No Expense Found</h5>
-  )
+  ) : null
 }
-
-
 
             </div>
 
