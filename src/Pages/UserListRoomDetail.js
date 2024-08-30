@@ -908,7 +908,9 @@ function UserListRoomDetail(props) {
                                                                             color="#1E45E1"
                                                                         />
                                                                             {/* <img src={call} />  */}
-                                                                            <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>{item.Phone}</span></p>
+                                                                            <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>+{item && String(item.Phone).slice(0, String(item.Phone).length - 10)}
+                                {' '}
+                                {item && String(item.Phone).slice(-10)}</span></p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -1170,7 +1172,7 @@ function UserListRoomDetail(props) {
                                                                                             fontFamily: "Gilroy",
                                                                                             fontWeight: 500
                                                                                         }}>
-                                                                                            Phone Number.
+                                                                                           Mobile number
                                                                                         </Form.Label>
 
                                                                                         <InputGroup>
@@ -1192,14 +1194,34 @@ function UserListRoomDetail(props) {
                                                                                                     paddingRight: 10
                                                                                                 }}
                                                                                             >
-                                                                                                <option value="91">+91</option>
+                                                                                                 {
+                  state.UsersList?.countrycode?.country_codes?.map((item)=>{
+                    console.log("itemImage",item);
+                    
+                    return(
+                      console.log("item.country_flag",item.country_flag),
+                      
+                      <>
+                     
+                      <option value={item.country_code}>
+                        +{item.country_code}
+                        {/* {item.country_flag} */}
+                        {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
+                        </option>
+                        {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
+                      {/* {item.country_code} */}
+                      </>
+                    )
+                  })
+                }
+                                                                                                {/* <option value="91">+91</option>
                                                                                                 <option value="1">+1</option>
                                                                                                 <option value="44">+44</option>
                                                                                                 <option value="61">+61</option>
                                                                                                 <option value="49">+49</option>
                                                                                                 <option value="33">+33</option>
                                                                                                 <option value="55">+55</option>
-                                                                                                <option value="7">+7</option>
+                                                                                                <option value="7">+7</option> */}
 
 
                                                                                             </Form.Select>

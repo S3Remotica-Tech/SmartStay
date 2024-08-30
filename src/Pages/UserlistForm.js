@@ -1,4 +1,4 @@
-import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
+import { Button, Offcanvas, Form, FormControl, FormSelect } from 'react-bootstrap';
 import moment from 'moment';
 import React, { useState, useEffect, useCallback } from "react";
 import "../Pages/UserList.css";
@@ -17,6 +17,8 @@ import Image from 'react-bootstrap/Image';
 import User from '../Assets/Images/Ellipse 1.png';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
+import Select from 'react-select';
+
 
 
 
@@ -77,12 +79,13 @@ function UserlistForm(props) {
   const [romnum, setRoomnum] = useState('')
   const [createdat, setCreatedAt] = useState('')
   const [payableamount, setPayableamount] = useState('');
-  const [countryCode, setCountryCode] = useState(0);
-
+  const [countryCode, setCountryCode] = useState('91');
+  console.log("countryCode",countryCode)
 
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
+   
   };
 
 
@@ -570,7 +573,10 @@ function UserlistForm(props) {
 
 
   console.log("props.displayDetail", props.displayDetail)
-
+  const countries = [
+    { value: 'IN', label: <><img src="https://www.worldometers.info/img/flags/in-flag.gif" alt="India Flag" style={{ height: '20px', width: '20px', marginRight: '5px' }} /> </> }
+    // Add more countries here
+  ];
 
   return (
     <div>
@@ -698,10 +704,10 @@ function UserlistForm(props) {
             <Form.Label style={{ 
               fontSize: 14, 
               color: "#222222", 
-              fontFamily: "Gilroy", 
+              fontFamily: "Gilroy",
               fontWeight: 500 
             }}>
-              Phone Number.
+              Mobile number
             </Form.Label>
 
             <InputGroup>
@@ -711,6 +717,7 @@ function UserlistForm(props) {
                 onChange={handleCountryCodeChange}
                 style={{
                   border: "1px solid #D9D9D9",
+                 
                   borderRadius: "8px 0 0 8px",
                   height: 50,
                   fontSize: 16,
@@ -723,7 +730,7 @@ function UserlistForm(props) {
                   paddingRight:10
                 }}
               >
-                {/* <option value="91">+91</option> */}
+               
                 {
                   state.UsersList?.countrycode?.country_codes?.map((item)=>{
                     console.log("itemImage",item);
@@ -732,20 +739,11 @@ function UserlistForm(props) {
                       console.log("item.country_flag",item.country_flag),
                       
                       <>
-                            <div className="dropdown-content">
-        {/* {items.map((item) => ( */}
-          <div key={item.country_id} 
-          // onClick={() => handleSelect(item)} className="dropdown-item"
-          >
-            <img src={item.country_flag} alt="flag" style={{ height: "20px", width: "20px", marginRight: "10px" }} />
-            {item.country_code}
-          </div>
-        {/* ))} */}
-      </div>
-                      <option value={item.country_id}>
-                        {item.country_code}
+                     
+                      <option value={item.country_code}>
+                        +{item.country_code}
                         {/* {item.country_flag} */}
-                        <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/> 
+                        {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
                         </option>
                         {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
                       {/* {item.country_code} */}
@@ -753,14 +751,7 @@ function UserlistForm(props) {
                     )
                   })
                 }
-                {/* <option value="91">+91</option>
-                <option value="1">+1</option>
-                <option value="44">+44</option>
-                <option value="61">+61</option>
-                <option value="49">+49</option>
-                <option value="33">+33</option>
-                <option value="55">+55</option>
-                <option value="7">+7</option> */}
+               
 
        
               </Form.Select>
