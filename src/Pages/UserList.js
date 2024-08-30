@@ -390,7 +390,9 @@ console.log("item",item)
       }, 2000)
     }
   }, [state.UsersList?.statusCodeForAddUser, propsHostel, propsBeds, propsFloor, propsRooms, propsEmil]);
-
+  useEffect(() => {
+    dispatch({ type: 'COUNTRYLIST' })
+  }, [])
 
   const [search, setSearch] = useState(false)
   const [isOpenTab, setIsOpenTab] = useState(true)
@@ -813,6 +815,7 @@ console.log("item",item)
                 ))
               ) : (
                 currentRows.map((user) => {
+                  console.log("userrr",user)
                   const imageUrl = user.profile || Profile;;
                   return (
                     <tr key={user.Email} style={{ fontSize: "16px", fontWeight: 600, textAlign: "center", marginTop: 10 }}>
@@ -836,7 +839,9 @@ console.log("item",item)
                         </span>
                       </td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Email}</td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Phone}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>+{user && String(user.Phone).slice(0, String(user.Phone).length - 10)}
+                                {' '}
+                                {user && String(user.Phone).slice(-10)}</td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>
                         <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{user.HostelName}</span>
                       </td>
