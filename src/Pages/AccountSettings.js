@@ -17,7 +17,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Eye, EyeSlash } from 'iconsax-react';
 import Logout from '../Assets/Images/LogoutCurve-Linear-32px.png'
-
+import bcrypt from 'bcryptjs';
 
 const Accountsettings = () => {
 
@@ -51,7 +51,8 @@ const Accountsettings = () => {
   const [statee, setStatee] = useState("")
   const [id, setId] = useState("")
   const [updateval, setUpdateval] = useState("")
-  const [login_Password, setLogin_Password] = useState("")
+  const [login_Password, setLogin_Password] = useState("");
+  const [currentpasswordfilter , setcurentpasswordfilter] = useState('')
 
   const initialValuesRef = useRef({});
 
@@ -91,7 +92,6 @@ const Accountsettings = () => {
   const handleChanges = (event, newValue) => {
     setValue(newValue);
   }
-
 
 
   const handleName = (e) => {
@@ -208,6 +208,7 @@ const Accountsettings = () => {
       const UserAddress = FIlteredProfile.Address;
       const CustomerId = FIlteredProfile.id;
       const AdminProfile = FIlteredProfile.profile;
+      const Currentpassword = FIlteredProfile.password
   
       setId(CustomerId);
       setFirstName(CustomerFirstName);
@@ -215,6 +216,7 @@ const Accountsettings = () => {
       setPhone(PhoneNUmber);
       setEmail(UserEmail);
       setAddress(UserAddress);
+      setcurentpasswordfilter(Currentpassword)
       
       // Set default image if AdminProfile is null or undefined
       if (AdminProfile) {
@@ -337,6 +339,54 @@ const Accountsettings = () => {
     }
   };
 
+
+
+  const [currentpassword, setCurrentpassword] = useState('');
+  console.log("currentpassword", currentpassword);
+  
+  const handlecurrentpassword = (e) => {
+    setCurrentpassword(e.target.value);
+  }
+
+
+   const [inputdisable, setInputDisable] = useState('')
+
+  const Passwordverify = async () => {
+    var plainPassword=currentpassword;
+    var storedHashPassword=currentpasswordfilter;
+  try {
+    // Compare the plain password with the stored hashed password
+    const isMatch = await bcrypt.compare(plainPassword, storedHashPassword);
+    setInputDisable(isMatch)
+     
+    if (isMatch) {
+      Swal.fire({
+        icon: 'success',
+        // title: "C",
+        text: 'Password matches!',
+        confirmButtonText: 'Ok'
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
+        console.log('Password matches!');
+        // Proceed with login
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: 'Password does not match!',
+        confirmButtonText: "ok"
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
+        console.log('Password does not match!');
+        // Handle failed login
+    }
+} catch (error) {
+    console.error('Error comparing passwords:', error);
+}
+  }
 
   useEffect(() => {
     if (stateData.statusCodeForAccountList == 200) {
@@ -477,9 +527,16 @@ const Accountsettings = () => {
   const [confirmpassword, setConfirmPassword] = useState('')
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
+  
+
+  // const encryptedPassword = localStorage.getItem("Password");
+
   const togglePasswordVisibility = () => {
     setShowpassword(!showPassword);
   };
+
+ 
+
 
 
   const [passwordError, setPasswordError] = useState('');
@@ -801,13 +858,47 @@ const Accountsettings = () => {
 
         <TabPanel value="2">
           <hr style={{ border: '1px solid #ced4da', width: '70%' }} />
+
+           <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <div className="me-3 col-lg-4 col-md-5 col-sm-10 col-xs-10">
+              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>current Password</Form.Label>
+             
+                <Form.Control
+                  size="lg"
+                  value={currentpassword}
+                  onChange={handlecurrentpassword}
+                  type="text" 
+                  placeholder="Password"
+                  style={{
+                    position: "relative",
+                    boxShadow: "none",
+                    border: "1px solid rgba(224, 236, 255, 1)",
+                    fontSize: 16,
+                    fontWeight: 500,
+                    color: "rgba(34, 34, 34, 1)",
+                    fontFamily: "Gilroy",
+                    borderRight: "none"
+                  }}
+                />
+              
+            </div>
+
+            <div style={{ marginTop: '30px' }}>
+            <Button onClick={Passwordverify}  style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 36, letterSpacing: 1, borderRadius: 12, width: 70, padding: "4px, 2px, 4px, 2px" }}>
+            Verify</Button>
+            </div>
+            </div>
+
           <div style={{ display: 'flex', flexDirection: 'row' }}>
+
+         
 
             <div className="me-3 col-lg-4 col-md-5 col-sm-10 col-xs-10">
               <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
               <InputGroup>
                 <Form.Control
                   size="lg"
+                  disabled={!inputdisable}
                   value={password}
                   onChange={handlePassword}
                   type={showPassword ? "text" : "password"}
@@ -841,6 +932,7 @@ const Accountsettings = () => {
               <InputGroup>
                 <Form.Control
                   size="lg"
+                  disabled={!inputdisable}
                   value={confirmpassword}
                   onChange={handleConfirmPassword}
                   type={showConfirmPassword ? "text" : "password"}
