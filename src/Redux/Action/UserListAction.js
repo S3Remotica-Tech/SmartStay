@@ -162,3 +162,8 @@ export async function KYCValidateOtpVerify(adhar) {
     data:adhar
   })
 }
+
+export async function countrylist() {
+  return await AxiosConfig.get('/conutry_list',{
+  })
+}

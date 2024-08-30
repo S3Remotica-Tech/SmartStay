@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber} from "../Action/UserListAction"
+import {KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 
 function* handleuserlist(user) {
@@ -407,7 +407,19 @@ function* handleDeleteRoom(roomDetails){
 
 
 
-
+   function* handleCountrylist (){
+      const response = yield call (countrylist);
+      
+      if (response.status === 200 || response.statusCode === 200){
+         yield put ({type : 'COUNTRY_LIST' , payload:response.data,statusCode:response.status || response.statusCode})
+      }
+      else {
+         yield put ({type:'ERROR', payload:response.data.message})
+      }
+      if(response){
+        refreshToken(response)
+     }
+  }
 
 
 
@@ -440,6 +452,7 @@ function* UserListSaga() {
    yield takeEvery('BEDNUMBERDETAILS',handlebedNumberDetails) 
    yield takeEvery('KYCVALIDATE',handleKYCValidate) 
    yield takeEvery('KYCVALIDATEOTPVERIFY',handleKYCValidateOtpVerify) 
+   yield takeEvery('COUNTRYLIST',handleCountrylist)
 
 }
 export default UserListSaga;
