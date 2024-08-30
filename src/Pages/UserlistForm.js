@@ -77,7 +77,7 @@ function UserlistForm(props) {
   const [romnum, setRoomnum] = useState('')
   const [createdat, setCreatedAt] = useState('')
   const [payableamount, setPayableamount] = useState('');
-  const [countryCode, setCountryCode] = useState('91');
+  const [countryCode, setCountryCode] = useState(0);
 
 
 
@@ -147,8 +147,9 @@ function UserlistForm(props) {
     setPaidAdvance(e.target.value)
   }
 
-
-
+  useEffect(() => {
+    dispatch({ type: 'COUNTRYLIST' })
+  }, [])
   useEffect(() => {
     const currentDate = moment().format('YYYY-MM-DD');
     const joinDate = moment(currentDate).format('YYYY-MM-DD');
@@ -722,14 +723,44 @@ function UserlistForm(props) {
                   paddingRight:10
                 }}
               >
-                <option value="91">+91</option>
+                {/* <option value="91">+91</option> */}
+                {
+                  state.UsersList?.countrycode?.country_codes?.map((item)=>{
+                    console.log("itemImage",item);
+                    
+                    return(
+                      console.log("item.country_flag",item.country_flag),
+                      
+                      <>
+                            <div className="dropdown-content">
+        {/* {items.map((item) => ( */}
+          <div key={item.country_id} 
+          // onClick={() => handleSelect(item)} className="dropdown-item"
+          >
+            <img src={item.country_flag} alt="flag" style={{ height: "20px", width: "20px", marginRight: "10px" }} />
+            {item.country_code}
+          </div>
+        {/* ))} */}
+      </div>
+                      <option value={item.country_id}>
+                        {item.country_code}
+                        {/* {item.country_flag} */}
+                        <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/> 
+                        </option>
+                        {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
+                      {/* {item.country_code} */}
+                      </>
+                    )
+                  })
+                }
+                {/* <option value="91">+91</option>
                 <option value="1">+1</option>
                 <option value="44">+44</option>
                 <option value="61">+61</option>
                 <option value="49">+49</option>
                 <option value="33">+33</option>
                 <option value="55">+55</option>
-                <option value="7">+7</option>
+                <option value="7">+7</option> */}
 
        
               </Form.Select>

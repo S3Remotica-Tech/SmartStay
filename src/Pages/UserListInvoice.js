@@ -169,7 +169,7 @@ return(
       </Table>
     </div>
 
-    {currentRowinvoice.length > 0 && (
+    {currentRowinvoice?.length > 0 && (
       <nav>
         <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
           <li style={{ margin: '0 5px' }}>
