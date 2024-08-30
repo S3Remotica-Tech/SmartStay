@@ -1172,7 +1172,7 @@ function UserListRoomDetail(props) {
                                                                                             fontFamily: "Gilroy",
                                                                                             fontWeight: 500
                                                                                         }}>
-                                                                                            Phone Number.
+                                                                                           Mobile number
                                                                                         </Form.Label>
 
                                                                                         <InputGroup>

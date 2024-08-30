@@ -707,7 +707,7 @@ function UserlistForm(props) {
               fontFamily: "Gilroy",
               fontWeight: 500 
             }}>
-              Phone Number.
+              Mobile number
             </Form.Label>
 
             <InputGroup>
@@ -730,7 +730,7 @@ function UserlistForm(props) {
                   paddingRight:10
                 }}
               >
-                {/* <option value="91">+91</option> */}
+               
                 {
                   state.UsersList?.countrycode?.country_codes?.map((item)=>{
                     console.log("itemImage",item);
@@ -751,14 +751,7 @@ function UserlistForm(props) {
                     )
                   })
                 }
-                {/* <option value="91">+91</option>
-                <option value="1">+1</option>
-                <option value="44">+44</option>
-                <option value="61">+61</option>
-                <option value="49">+49</option>
-                <option value="33">+33</option>
-                <option value="55">+55</option>
-                <option value="7">+7</option> */}
+               
 
        
               </Form.Select>
