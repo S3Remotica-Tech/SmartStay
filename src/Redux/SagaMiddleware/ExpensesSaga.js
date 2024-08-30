@@ -93,8 +93,10 @@ function* HandleTransactionHistory(action) {
    const response = yield call(transactionHistory, action.payload)
   
    if (response.status === 200 || response.statusCode === 200) {
+      console.log("TRANSACTIONHISTORY",response);
+      
  
-     yield put({ type: 'TRANSACTION_HISTORY', payload: { response: response.data.message, statusCode: response.status || response.statusCode} })
+     yield put({ type: 'TRANSACTION_HISTORY', payload: { response: response.data.data, statusCode: response.status || response.statusCode} })
  
    }
    else {
