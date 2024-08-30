@@ -279,6 +279,14 @@ function AddVendor({ show, handleClose, currentItem }) {
     file: null
   });
 
+  useEffect(() => {
+    dispatch({ type: 'COUNTRYLIST' })
+  }, [])
+ 
+
+
+
+
 
   //     useEffect(()=>{
   // if(currentItem){
@@ -445,14 +453,14 @@ function AddVendor({ show, handleClose, currentItem }) {
                   maxWidth:90
                 }}
               >
-                <option value="91">+91</option>
-                <option value="1">+1</option>
-                <option value="44">+44</option>
-                <option value="61">+61</option>
-                <option value="49">+49</option>
-                <option value="33">+33</option>
-                <option value="55">+55</option>
-                <option value="7">+7</option>
+                {
+                  state.UsersList?.countrycode && state.UsersList?.countrycode?.country_codes?.map((view)=>{
+                    return  <option key={view.country_code} value={view.country_code}>+{view.country_code}</option>
+                  })
+
+
+                }
+                
 
        
               </Form.Select>

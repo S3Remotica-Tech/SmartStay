@@ -648,6 +648,7 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
   const handlebackToPG = () => {
     setSelectedHostel(false)
     setHidePgList(true);
+    setFloorClick(1)
   }
 
   const stateAccount = useSelector(state => state.createAccount)
@@ -781,6 +782,7 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
   const handleShowDelete = (FloorNumber, hostel_Id) => {
     setShowDelete(true)
     setDeleteFloor({floor_Id: FloorNumber, hostel_Id : hostel_Id })
+    setFloorClick(1)
     
   }
 
@@ -949,14 +951,14 @@ console.log("key",key)
                           <Nav.Item
                           key={floor.floor_id}
                           onClick={() => handleFloorClick(floor.floor_id)}
-                          className={`mb-3 mt-2 d-flex justify-content-center align-items-center Navs-Item ${key === floor.floor_id.toString() ? 'active-floor' : 'Navs-Item'}`}
+                          className={`mb-3 mt-2 d-flex justify-content-center align-items-center Navs-Item ${floorClick === floor.floor_id ? 'active-floor' : 'Navs-Item'}`}
                             style={{ border: "1px solid rgba(156, 156, 156, 1)", borderRadius: 16, height: 92, width: 95, padding: "8px, 16px, 8px, 16px" }}
                           >
                             <Nav.Link style={{}} className='text-center'>
-                            <div className={key === floor.floor_id.toString() ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600 }}>
+                            <div className={floorClick === floor.floor_id ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600 }}>
                          {floor.floor_id === 1 ? 'G': floor.floor_id - 1}
                        </div>
-                      <div className={key === floor.floor_id.toString() ? 'ActiveFloortext' : 'UnActiveFloortext'} style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(floor.floor_id)}</div>
+                      <div className={floorClick === floor.floor_id ? 'ActiveFloortext' : 'UnActiveFloortext'} style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(floor.floor_id)}</div>
                             </Nav.Link>
                           </Nav.Item>
                         ))}

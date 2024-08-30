@@ -225,6 +225,9 @@ function AddPg({ show, handleClose, currentItem }) {
   console.log("current Item", currentItem)
 
 
+console.log("state", state)
+
+
   // useEffect(() => {
   //   if (currentItem) {
   //     setPgName(currentItem.Name || '')
@@ -280,7 +283,9 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
 
-
+  useEffect(() => {
+    dispatch({ type: 'COUNTRYLIST' })
+  }, [])
  
 
 
@@ -402,14 +407,23 @@ function AddPg({ show, handleClose, currentItem }) {
                   maxWidth:90
                 }}
               >
-                <option value="91">+91</option>
-                <option value="1">+1</option>
+                 {
+                  state.UsersList?.countrycode && state.UsersList?.countrycode?.country_codes?.map((view)=>{
+                    return  <option key={view.country_code} value={view.country_code}>+{view.country_code}</option>
+                  })
+
+
+                }
+                {/* <option value="91">+91</option> */}
+
+
+                {/* <option value="1">+1</option>
                 <option value="44">+44</option>
                 <option value="61">+61</option>
                 <option value="49">+49</option>
                 <option value="33">+33</option>
                 <option value="55">+55</option>
-                <option value="7">+7</option>
+                <option value="7">+7</option> */}
 
        
               </Form.Select>
