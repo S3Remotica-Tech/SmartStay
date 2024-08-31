@@ -6,7 +6,7 @@ import FrontPage from './LandingPage/All_Landing_pages';
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
 import ForgetPassword from "./Components/Forgetpass";
-import RoyalGrandHostel from './Components/RoyalGrandHostel';
+import Hostel from './Components/Hostel_Management';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import BedDetails from './Pages/Bed';
@@ -46,16 +46,20 @@ function App() {
           const parseData = JSON.parse(decryptedString);
           const is_Enable = state.createAccount?.accountList[0]?.user_details.isEnable;
 
+
+          console.log("login", parseData)
+
           if (is_Enable === 1 || !parseData) {
             setData(false);
           } else {
             setData(true);
           }
-        } else if (state.login?.isLoggedIn) {
-          setData(true);
-        } else {
-          setData(false);
         }
+        //  else if (state.login?.isLoggedIn) {
+        //   setData(true);
+        // } else {
+        //   setData(false);
+        // }
       } catch (error) {
         console.error('Error during login validation:', error);
         setData(false);
@@ -65,7 +69,7 @@ function App() {
     };
 
     validateLogin();
-  }, [dispatch, login, state.createAccount, state.login?.isLoggedIn, tokenAccessDenied]);
+  }, [login, state.createAccount, state.login?.isLoggedIn, tokenAccessDenied]);
 
   if (loading) {
     return (
@@ -88,10 +92,10 @@ function App() {
       <Routes>
         {data || state.login?.isLoggedIn ? (
           <>
-            <Route path="/" element={<RoyalGrandHostel />} />
-            <Route path="/bed" element={<BedDetails />} />
-            <Route path="/roomList" element={<DashboardRoomList />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="/Hostel-Management" element={<Hostel />} />
+            {/* <Route path="/bed" element={<BedDetails />} />
+            <Route path="/roomList" element={<DashboardRoomList />} /> */}
+            <Route path="*" element={<Navigate to="/Hostel-Management" replace />} />
           </>
         ) : (
           <>
