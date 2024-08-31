@@ -79,7 +79,7 @@ const Accountsettings = () => {
   const [error, setError] = useState(false)
   const [value, setValue] = React.useState('1');
   const [countryCode, setCountryCode] = useState('91');
-
+const [displayPassword, setDisplayPassword] = useState(false)
 
 
   const handleCountryCodeChange = (e) => {
@@ -305,6 +305,9 @@ const Accountsettings = () => {
 
   useEffect(() => {
     if (state.createAccount.statuscodeforUpdateprofile == 200) {
+
+    
+
       dispatch({ type: 'ACCOUNTDETAILS' })
       console.log("accountdetails get working");
       setTimeout(() => {
@@ -321,6 +324,15 @@ const Accountsettings = () => {
     }
   }, [state.createAccount?.statuscodeforUpdateprofile])
 
+
+  useEffect(() => {
+    if (state.NewPass?.status_codes === 200) {
+      setDisplayPassword(false)
+      setHideCurrentPassword(true)
+      setCurrentpassword('')
+
+    }
+  },[state.NewPass?.status_codes])
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -354,6 +366,22 @@ const Accountsettings = () => {
   const Passwordverify = async () => {
     var plainPassword=currentpassword;
     var storedHashPassword=currentpasswordfilter;
+
+if(!currentpassword){
+
+  Swal.fire({
+    icon: 'warning',
+       text: 'Enter Current Password',
+    confirmButtonText: 'Ok'
+  })
+
+
+  return
+}
+
+
+
+
   try {
     // Compare the plain password with the stored hashed password
     const isMatch = await bcrypt.compare(plainPassword, storedHashPassword);
@@ -367,6 +395,11 @@ const Accountsettings = () => {
         confirmButtonText: 'Ok'
       }).then((result) => {
         if (result.isConfirmed) {
+
+
+          setDisplayPassword(true)
+          setHideCurrentPassword(false)
+
         }
       });
         console.log('Password matches!');
@@ -526,8 +559,8 @@ const Accountsettings = () => {
   const [showPassword, setShowpassword] = useState(false);
   const [confirmpassword, setConfirmPassword] = useState('')
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
-  
+const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
+  const [showCurrentPassword, setShowCurrentpassword] = useState(false)
 
   // const encryptedPassword = localStorage.getItem("Password");
 
@@ -535,7 +568,9 @@ const Accountsettings = () => {
     setShowpassword(!showPassword);
   };
 
- 
+  const togglePasswordVisibilitys = () => {
+    setShowCurrentpassword(!showCurrentPassword);
+  };
 
 
 
@@ -859,15 +894,20 @@ const Accountsettings = () => {
         <TabPanel value="2">
           <hr style={{ border: '1px solid #ced4da', width: '70%' }} />
 
-           <div style={{ display: 'flex', flexDirection: 'row' }}>
+{
+  hideCurrentpassword && <>
+
+  
+
+           <div className="mb-3" style={{ display: 'flex', flexDirection: 'row' }}>
           <div className="me-3 col-lg-4 col-md-5 col-sm-10 col-xs-10">
-              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>current Password</Form.Label>
-             
+              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Current Password</Form.Label>
+              <InputGroup>
                 <Form.Control
                   size="lg"
                   value={currentpassword}
                   onChange={handlecurrentpassword}
-                  type="text" 
+                  type={showCurrentPassword ? "text"  : "password"}
                   placeholder="Password"
                   style={{
                     position: "relative",
@@ -877,18 +917,31 @@ const Accountsettings = () => {
                     fontWeight: 500,
                     color: "rgba(34, 34, 34, 1)",
                     fontFamily: "Gilroy",
-                    borderRight: "none"
+                    // borderRight: "none"
                   }}
                 />
-              
+               <InputGroup.Text onClick={togglePasswordVisibilitys} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
+                  {showCurrentPassword ? (
+                    <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                  ) : (
+
+                    <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                  )}
+                </InputGroup.Text>
+
+              </InputGroup>
             </div>
 
             <div style={{ marginTop: '30px' }}>
-            <Button onClick={Passwordverify}  style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 36, letterSpacing: 1, borderRadius: 12, width: 70, padding: "4px, 2px, 4px, 2px" }}>
+            <Button onClick={Passwordverify}  style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 40, letterSpacing: 1, borderRadius: 12, width: 80, padding: "4px  4px" }}>
             Verify</Button>
             </div>
             </div>
-
+            </>
+}
+{
+  displayPassword && <>
+ 
           <div style={{ display: 'flex', flexDirection: 'row' }}>
 
          
@@ -961,10 +1014,11 @@ const Accountsettings = () => {
             </div>
           </div>
           <div style={{ marginTop: '30px' }}>
-            <Button onClick={handlePasswordchange} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
+            <Button onClick={handlePasswordchange}  disabled={!inputdisable} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
               Save Changes</Button>
           </div>
-
+          </>
+        }
         </TabPanel>
 
       </TabContext>

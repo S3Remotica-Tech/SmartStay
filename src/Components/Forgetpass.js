@@ -60,6 +60,10 @@ function ForgetPasswordPage() {
   // };
 
 
+
+console.log("state forgot", state)
+
+
   useEffect(() => {
     if (state.NewPass?.status_codes === 200) {
       setEmail("");
@@ -94,7 +98,7 @@ setIsPasswordLongEnough(false)
 
 
     }
-  }, [state.NewPass?.Pass]);
+  }, [state.NewPass?.status_codes]);
 
 
 
