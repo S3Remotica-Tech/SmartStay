@@ -8,7 +8,8 @@ const initialState = {
     vendorList:[],
     categorylist:[],
     paymentModeList:[],
-    nodataGetExpenseStatusCode:0
+    nodataGetExpenseStatusCode:0,
+    transactionHistory:[]
 }
 
 const ExpenseReducer = (state = initialState, action) => {
@@ -16,6 +17,8 @@ const ExpenseReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'CATEGORY_LIST':
             return { ...state, categoryList: action.payload.response }
+            case 'TRANSACTION_HISTORY':
+                return { ...state, transactionHistory: action.payload.response }
         case 'ADD_EXPENSE':
             return { ...state, StatusCodeForAddExpenseSuccess: action.payload.statusCode }
         case 'CLEAR_ADD_EXPENSE_SATUS_CODE':

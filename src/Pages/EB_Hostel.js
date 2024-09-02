@@ -138,6 +138,10 @@ function EB_Hostel() {
   useEffect(() => {
     dispatch({ type: 'EB-BILLING-UNIT-LIST' })
   }, [])
+  useEffect(()=>{
+    dispatch({type:'TRANSACTIONHISTORY'})
+    
+  },[])
 
 
   const handleEbbill = (hostel) => {
@@ -354,6 +358,7 @@ function EB_Hostel() {
     setelectricityFilterddata(state.PgList?.EB_startmeterlist)
   }, [state.PgList?.EB_startmeterlist])
 
+  console.log("TRANSACTIONHISTORY",state.ExpenseList.transactionHistory);
 
   return (
 
@@ -472,12 +477,33 @@ function EB_Hostel() {
                             let formattedDate = `${day}/${month}/${year}`;
                             console.log("Formatted Date:", formattedDate); */}
               {/* return ( */}
-              <tr>
+              {
+                state.ExpenseList.transactionHistory && state.ExpenseList.transactionHistory.map((v,i)=>{
+                  return(
+                    <tr>
+
+                <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>{v.hostel_Name}</td>
+                <td ><span style={{ backgroundColor: "#FFEFCF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.category_Name}</span></td>
+                <td><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.date}</span></td>
+                {/* <td>₹{view.BalanceDue}</td> */}
+                <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.credit}</td>
+                <td><span style={{ backgroundColor: "#D9E9FF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.payment_type}</span></td>
+                <td>  <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                  <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                </div>
+                </td>
+
+
+              </tr>
+                  )
+                })
+              }
+              {/* <tr>
 
                 <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>Name</td>
                 <td ><span style={{ backgroundColor: "#FFEFCF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>type</span></td>
                 <td><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>date</span></td>
-                {/* <td>₹{view.BalanceDue}</td> */}
+                <td>₹{view.BalanceDue}</td>
                 <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>₹amount</td>
                 <td><span style={{ backgroundColor: "#D9E9FF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>payment</span></td>
                 <td>  <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
@@ -486,7 +512,10 @@ function EB_Hostel() {
                 </td>
 
 
-              </tr>
+              </tr> */}
+
+
+              
               {/* ) */}
 
               {/* })} */}

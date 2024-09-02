@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {GetExpenseCatogory,AddExpense, GetExpense, DeleteExpense} from "../Action/ExpensesAction"
+import {GetExpenseCatogory,AddExpense, GetExpense, DeleteExpense,transactionHistory} from "../Action/ExpensesAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 
@@ -89,7 +89,21 @@ if(response.data && response.data.refresh_token){
 }
 
 
-
+function* HandleTransactionHistory(action) {
+   const response = yield call(transactionHistory, action.payload)
+  
+   if (response.status === 200 || response.statusCode === 200) {
+      console.log("TRANSACTIONHISTORY",response);
+      
+ 
+     yield put({ type: 'TRANSACTION_HISTORY', payload: { response: response.data.data, statusCode: response.status || response.statusCode} })
+ 
+   }
+   else {
+     yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   refreshToken(response)
+ }
 
 
 function* ExpenseSaga() {
@@ -97,6 +111,7 @@ function* ExpenseSaga() {
     yield takeEvery('ADDEXPENSE', handleAddExpense)
     yield takeEvery('EXPENSELIST', handleGetExpenses)
     yield takeEvery('DELETEEXPENSE', handleDeleteExpense)
+    yield takeEvery('TRANSACTIONHISTORY', HandleTransactionHistory)
    
   }
 export default ExpenseSaga;

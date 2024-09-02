@@ -26,3 +26,10 @@ export async function AddExpense(datum) {
         data:datum
         })
   }
+
+
+  export async function transactionHistory(datum) {
+    return await AxiosConfig.post('/hostel/transaction-history',datum,{
+        data:datum
+        })
+  }
