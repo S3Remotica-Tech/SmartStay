@@ -572,11 +572,11 @@ function EB_Hostel() {
                   )
                 })}
 
-                {/* {currentRowTransaction.length === 0 && (
+                {currentRowelectricity?.length === 0 && (
                             <tr>
                               <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
                             </tr>
-                          )} */}
+                          )}
 
               </tbody>
             </Table>

@@ -876,12 +876,17 @@ console.log("item",item)
 
                 })
               )}
+            
+
+          {currentItems.length === 0 && (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
+                    </tr>
+                  )}
             </tbody>
           </Table>
 
-          <div className="d-flex justify-content-center" style={{ width: "100%" }}>
-            {currentItems.length === 0 && !loading && <h5 style={{ fontSize: 12, color: "red" }}>No Data Found</h5>}
-          </div>
+        
         </div>
         {currentItems.length > 0 && (
           <nav>
