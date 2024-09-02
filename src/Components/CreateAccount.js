@@ -194,7 +194,15 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
     });
     return;
 }
-
+if (!countryCode) {
+  Swal.fire({
+      icon: 'warning',
+      title: 'Error',
+      text: 'Select CountryCode',
+      confirmButtonText: 'Ok'
+  });
+  return;
+}
 
   if (!phoneNo) {
       Swal.fire({
@@ -206,15 +214,7 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
       return;
   }
 
-  if (!countryCode) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Error',
-        text: 'Select CountryCode',
-        confirmButtonText: 'Ok'
-    });
-    return;
-}
+ 
 
   if (!password) {
       Swal.fire({
@@ -287,11 +287,13 @@ if(password ==! confirmpassword){
 
 const mobileNumber = `${countryCode}${phoneNumber}`
 
-
-    dispatch({
-      type: 'CREATE_ACCOUNT_PAGE',
-      payload: { first_name: firstName, last_name: lastName, mobileNo:mobileNumber, emailId: emailID, password: password,confirm_password: confirmpassword }
-    });
+if(firstName && phoneNo && emailID && password && confirmpassword && countryCode){
+  dispatch({
+    type: 'CREATE_ACCOUNT_PAGE',
+    payload: { first_name: firstName, last_name: lastName, mobileNo:mobileNumber, emailId: emailID, password: password,confirm_password: confirmpassword }
+  });
+}
+   
     // setFirstName('')
     // setLastName('')
     // setPhoneNo('');

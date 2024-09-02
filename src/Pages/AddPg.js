@@ -136,6 +136,14 @@ function AddPg({ show, handleClose, currentItem }) {
       return;
     }
 
+    if(!countryCode){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please select countryCode',
+          });
+      return;
+    }
+    
     if(!mobile){
       Swal.fire({
         icon: 'warning',
@@ -151,13 +159,7 @@ function AddPg({ show, handleClose, currentItem }) {
       return;
     }
 
-    if(!countryCode){
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please select countryCode',
-          });
-      return;
-    }
+   
     
     if(!location){
       Swal.fire({
@@ -205,7 +207,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
   console.log("MobileNumber",MobileNumber)
 
-    if (pgName && MobileNumber && email && location) {
+    if (pgName && MobileNumber && email && location && countryCode ) {
       dispatch({ type: 'PGLIST', payload: { profile: file, name: pgName, phoneNo:MobileNumber, email_Id: email, location: location, id: currentItem.id } })
       // handleClose()
       setFile('')

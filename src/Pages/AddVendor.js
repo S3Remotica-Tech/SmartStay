@@ -110,7 +110,7 @@ function AddVendor({ show, handleClose, currentItem }) {
 
   const handleAddVendor = () => {
 
-    if (!first_Name && !vendor_Mobile && !email_Id && !address && !business_Name) {
+    if (!first_Name && !vendor_Mobile && !email_Id && !address && !business_Name && !countryCode) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter All Fields',
@@ -227,7 +227,7 @@ function AddVendor({ show, handleClose, currentItem }) {
 
 
 
-    if (first_Name && MobileNumber && email_Id && address) {
+    if (first_Name && MobileNumber && email_Id && address && countryCode) {
       if (check === 'EDIT') {
         dispatch({
           type: 'ADDVENDOR',
