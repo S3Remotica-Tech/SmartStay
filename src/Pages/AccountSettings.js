@@ -536,7 +536,16 @@ if(!currentpassword){
         type: 'PROFILE-UPDATE',
         payload: { first_name: firstname, last_name: lastname, phone: MobileNumber, email_id: email, address: Address, id: id, profile: selectedImage }
       });
-    } else if (!hasChanges) {
+      Swal.fire({
+        icon: 'success',
+        text: "Profile Updated successfully",
+        confirmButtonText: 'Ok'
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
+    } 
+    else if (!hasChanges) {
       Swal.fire({
         icon: 'info',
         title: 'No Changes Detected',

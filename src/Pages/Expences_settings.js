@@ -62,7 +62,7 @@ const ExpencesSettings = () => {
                     //     confirmButtonText: "ok"
                     // }).then((result) => {
                     //     if (result.isConfirmed) {
-                    //         // Additional logic if needed when Swal is confirmed
+
                     //     }
                     // });
                     setSubType('');
@@ -83,7 +83,7 @@ const ExpencesSettings = () => {
                 //     confirmButtonText: "ok"
                 // }).then((result) => {
                 //     if (result.isConfirmed) {
-                //         // Additional logic if needed when Swal is confirmed
+
                 //     }
                 // });
                 setType('');
@@ -152,10 +152,10 @@ const ExpencesSettings = () => {
                         },
                     });
                     console.log("deleteexecuted");
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Expenses sub-Category deleted Successfully',
-                    })
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: 'Expenses sub-Category deleted Successfully',
+                    // })
                 }
             });
 
@@ -178,10 +178,10 @@ const ExpencesSettings = () => {
                         },
                     });
                     console.log("deleteexecuted");
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Expenses Category deleted Successfully',
-                    })
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: 'Expenses Category deleted Successfully',
+                    // })
                 }
             });
         }

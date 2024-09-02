@@ -151,14 +151,14 @@ function* handleEBBillingUnitAdd(params) {
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
-      Swal.fire({
-         icon: 'success',
-         text: response.data.message,
-         confirmButtonText: 'Ok'
-       }).then((result) => {
-         if (result.isConfirmed) {
-         }
-       });
+      // Swal.fire({
+      //    icon: 'success',
+      //    text: response.data.message,
+      //    confirmButtonText: 'Ok'
+      //  }).then((result) => {
+      //    if (result.isConfirmed) {
+      //    }
+      //  });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
