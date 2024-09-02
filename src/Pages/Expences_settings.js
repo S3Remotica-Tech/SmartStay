@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
 
+
+
 const ExpencesSettings = () => {
 
     const state = useSelector(state => state)
@@ -60,6 +62,7 @@ const ExpencesSettings = () => {
                     //     confirmButtonText: "ok"
                     // }).then((result) => {
                     //     if (result.isConfirmed) {
+
                     //     }
                     // });
                     setSubType('');
@@ -80,6 +83,7 @@ const ExpencesSettings = () => {
                 //     confirmButtonText: "ok"
                 // }).then((result) => {
                 //     if (result.isConfirmed) {
+
                 //     }
                 // });
                 setType('');

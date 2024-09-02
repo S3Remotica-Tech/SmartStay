@@ -7,7 +7,7 @@ import User from '../Assets/Images/Ellipse 1.png';
 import Tickicon from '../Assets/Images/tick-circle.png'
 import Profile_add from '../Assets/Images/profile-add.png'
 import moment from 'moment';
-
+import Delete from '../Assets/Images/New_images/trash.png';
 
 
 
@@ -144,7 +144,7 @@ function getFloorAbbreviation(floor_Id) {
                                        
                                         </div>
                                         <div  >
-                                            <img style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000" }}>Delete</label>
+                                            <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000" }}>Delete</label>
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +186,9 @@ function getFloorAbbreviation(floor_Id) {
                         <div>
                         <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>
       {props.complaints.Assign  === '' || props.complaints.Assign == null ? (
-        <p onClick={handleassignshow} style={{color:'#1E45E1',fontSize:'16px'}}>+ Assign</p>
+        <p 
+        // onClick={handleassignshow}
+         style={{color:'#1E45E1',fontSize:'16px'}}>+ Assign</p>
       ) : (
         props.complaints.Assign
       )}
