@@ -18,6 +18,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Eye, EyeSlash } from 'iconsax-react';
 import Logout from '../Assets/Images/LogoutCurve-Linear-32px.png'
 import bcrypt from 'bcryptjs';
+import { style } from "@mui/system";
 
 const Accountsettings = () => {
 
@@ -686,6 +687,8 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
     }
   };
 
+ 
+
 
 
   return (
@@ -722,7 +725,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
           <div style={{ marginLeft: '30px', marginTop: '10px' }}>
             <h2 style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Profile Picture</h2>
             <input type="file" className="sr-only" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
-            <p onClick={() => document.getElementById('upload-photo').click()} style={{ fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600, color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal' }}>Update image</p>
+            <p className="hover-text-underline" onClick={() => document.getElementById('upload-photo').click()} style={{ fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600, color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal',  cursor: "pointer","& :hover": {textDecoration: "underline"} }}>Update image</p>
 
           </div>
         </div>
