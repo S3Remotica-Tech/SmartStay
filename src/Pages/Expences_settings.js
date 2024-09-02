@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
 
+
+
 const ExpencesSettings = () => {
 
     const state = useSelector(state => state)
@@ -54,15 +56,15 @@ const ExpencesSettings = () => {
                     console.log("subexecuted");
                     // setTypes([...types, { category: type, subCategory: subType }]);
                     dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { id: type, category_Name: namefilter, sub_Category: subType } });
-                    Swal.fire({
-                        icon: "success",
-                        title: 'Expenses Category Added successfully',
-                        confirmButtonText: "ok"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Additional logic if needed when Swal is confirmed
-                        }
-                    });
+                    // Swal.fire({
+                    //     icon: "success",
+                    //     title: 'Expenses Category Added successfully',
+                    //     confirmButtonText: "ok"
+                    // }).then((result) => {
+                    //     if (result.isConfirmed) {
+                    //         // Additional logic if needed when Swal is confirmed
+                    //     }
+                    // });
                     setSubType('');
                     setType('');
                 } else {
@@ -75,15 +77,15 @@ const ExpencesSettings = () => {
             } else {
                 // setTypes([...types, { category: type, subCategory: '' }]);
                 dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { category_Name: type, sub_Category: '' } });
-                Swal.fire({
-                    icon: "success",
-                    title: 'Expenses Category Added successfully',
-                    confirmButtonText: "ok"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Additional logic if needed when Swal is confirmed
-                    }
-                });
+                // Swal.fire({
+                //     icon: "success",
+                //     title: 'Expenses Category Added successfully',
+                //     confirmButtonText: "ok"
+                // }).then((result) => {
+                //     if (result.isConfirmed) {
+                //         // Additional logic if needed when Swal is confirmed
+                //     }
+                // });
                 setType('');
             }
         } else {
