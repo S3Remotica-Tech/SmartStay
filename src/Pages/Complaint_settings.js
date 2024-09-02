@@ -20,14 +20,14 @@ const ComplaintSettings = () => {
       if (type.trim()) {
         setTypes([...types, type]);
         dispatch({ type: 'COMPLAINT-TYPE-ADD', payload: { complaint_name: type } })
-        Swal.fire({
-          icon: "success",
-          title: 'Complaint Type Added successfully',
-          confirmButtonText: "ok"
-        }).then((result) => {
-          if (result.isConfirmed) {
-          }
-        });
+        // Swal.fire({
+        //   icon: "success",
+        //   title: 'Complaint Type Added successfully',
+        //   confirmButtonText: "ok"
+        // }).then((result) => {
+        //   if (result.isConfirmed) {
+        //   }
+        // });
         setType('');
       }
     }
@@ -94,10 +94,10 @@ const ComplaintSettings = () => {
             },
           });
           console.log("deleteexecuted");
-          Swal.fire({
-            icon: 'success',
-            title: 'Complaint Type deleted Successfully',
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Complaint Type deleted Successfully',
+          // })
         }
       });
 

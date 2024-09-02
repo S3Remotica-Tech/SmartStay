@@ -116,18 +116,18 @@ function InvoiceSettings() {
                     suffix: editstartnumber
                 }
             });
-            Swal.fire({
-                text: "Prefix, Suffix Update successfully",
-                icon: "success",
-                confirmButtonText: 'Ok'
-                // timer: 1000,
+            // Swal.fire({
+            //     text: "Prefix, Suffix Update successfully",
+            //     icon: "success",
+            //     confirmButtonText: 'Ok'
 
-            }).then(() => {
-                handleClose();
-                setEditHostel({ id: '', name: '' });
-                setEditPrefix('');
-                setEditStartnumber('');
-            });
+            // }).then(() => {
+              
+            // });
+            handleClose();
+            setEditHostel({ id: '', name: '' });
+            setEditPrefix('');
+            setEditStartnumber('');
         }
     }
     
