@@ -681,11 +681,19 @@ const [showAmount, setShowAmount]  = useState(false)
                           value={assetValue}
                           onClick={handleAssetChange}
                         >
-                          {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
-                            <ListGroup.Item className='sub_item' key={view.id} value={view.id}>
+                           {state.AssetList.assetList &&
+                                    [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
+                                      <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
                               {view.asset_name}
                             </ListGroup.Item >
-                          ))}
+                                                
+                                            ))
+                                        }
+                          {/* {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
+                            <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
+                              {view.asset_name}
+                            </ListGroup.Item >
+                          ))} */}
 
                         </ListGroup>
                       )}

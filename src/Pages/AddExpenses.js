@@ -283,7 +283,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     };
 
-
+console.log("assetName",assetName)
     return (
         <div
             className="modal show"
@@ -340,7 +340,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                         {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
                                             <>
 
-                                                <option key={view.id} value={view.id}>{view.asset_name}</option>
+                                                <option key={view.asset_id} value={view.asset_id}>{view.asset_name}</option>
 
                                             </>
                                         ))}
@@ -356,7 +356,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                         <option>Select an asset</option>
                                         {state.AssetList.assetList &&
                                     [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
-                                                <option key={view.id} value={view.id}>{view.asset_name}</option>
+                                                <option key={view.asset_id} value={view.asset_id}>{view.asset_name}</option>
                                             ))
                                         }
                                     </Form.Select>
