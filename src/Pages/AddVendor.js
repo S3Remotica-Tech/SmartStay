@@ -137,6 +137,14 @@ function AddVendor({ show, handleClose, currentItem }) {
       return;
   }
   
+  if (errors.vendor_Mobile === 'Invalid mobile number *') {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Enter Valid Mobile Number',
+
+    });
+    return;
+  }
 
   if (!countryCode) {
     Swal.fire({
@@ -155,6 +163,14 @@ function AddVendor({ show, handleClose, currentItem }) {
       return;
   }
 
+  if (errors.email_Id === 'Invalid Email Id *') {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Enter Valid Email Id',
+
+    });
+    return;
+  }
 
   if(!business_Name){
     Swal.fire({
@@ -176,14 +192,7 @@ function AddVendor({ show, handleClose, currentItem }) {
 
 
 
-  if (errors.email_Id === 'Invalid Email Id *') {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Enter Valid Email Id',
-
-    });
-    return;
-  }
+  
 
   
  
@@ -193,14 +202,7 @@ function AddVendor({ show, handleClose, currentItem }) {
 
 
    
-    if (errors.vendor_Mobile === 'Invalid mobile number *') {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Enter Valid Mobile Number',
-
-      });
-      return;
-    }
+   
 
 
     const isChanged =
@@ -514,7 +516,7 @@ function AddVendor({ show, handleClose, currentItem }) {
           <Modal.Footer style={{ border: "none" }}>
 
             <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }} onClick={handleAddVendor}>
-              {check === 'EDIT' ? 'Edit vendor ' : 'Add  vendor'}
+              {check === 'EDIT' ? 'Save ' : 'Add  vendor'}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

@@ -115,11 +115,6 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handleAddAsset = () => {
 
-
-
-
-
-
 if(!assetName && !vendorName && !brandName && !serialNumber && !productCount && !selectedDate && !price && !productName){
     Swal.fire({
         icon: 'warning',
@@ -514,7 +509,7 @@ const [formattedDate, setFormattedDate] = useState('')
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
                         <Button onClick={handleAddAsset} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }} >
-                            {currentItem ? 'Edit  asset' : 'Add  asset'}
+                            {currentItem ? 'Save' : 'Add  asset'}
                         </Button>
                     </Modal.Footer>
                 </Modal.Dialog>
