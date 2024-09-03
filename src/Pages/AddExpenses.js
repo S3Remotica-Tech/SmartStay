@@ -168,7 +168,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     const handleAddExpenses = () => {
 
 
-        if (!vendorName && !category && !selectedDate && !count && !price && !modeOfPayment) {
+        if (!hostelName && !vendorName && !category && !selectedDate && !count && !price && !modeOfPayment) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Please Enter All Fields',
@@ -190,7 +190,6 @@ function StaticExample({ show, handleClose, currentItem }) {
             initialState.hostelName !== hostelName;
 
         console.log("isChanged", isChanged);
-
         if (!isChanged) {
             Swal.fire({
                 icon: 'warning',
@@ -201,10 +200,27 @@ function StaticExample({ show, handleClose, currentItem }) {
             return;
         }
 
+        if (!hostelName) {
+            Swal.fire('Error', 'Please select a hostel name', 'error');
+            return;
+            
+        }
         if (!vendorName) {
             Swal.fire('Error', 'Please select a vendor', 'error');
             return;
         }
+        if (!assetName) {
+            Swal.fire('Error', 'Please select a asset name', 'error');
+            return;
+            
+        }
+
+
+
+
+      
+
+     
         if (!category) {
             Swal.fire('Error', 'Please select a category', 'error');
             return;
