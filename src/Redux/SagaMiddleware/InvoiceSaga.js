@@ -92,9 +92,11 @@ function* handleAmenitiesSettings(action){
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'AMENITIES_SETTINGS', payload: {response:response.data ,statusCode:response.status || response.statusCode}})
       Swal.fire({
-         title: "Good job!",
-         text: "Amenities Insert successfully",
+        
+         // text: "Amenities Insert successfully",
          icon: "success",
+         title: response.data.message,
+          confirmButtonText: 'Ok'
          // timer: 1000,
          // showConfirmButton: false,
      });
@@ -135,9 +137,10 @@ function* handleUpdateAmenities(action) {
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'AMENITIES_UPDATE',  payload:{response: response.data, statusCode:response.status || response.statusCode} })
       Swal.fire({
-         title: "Good job!",
-         text: "Amenities Update successfully",
          icon: "success",
+         title: response.data.message,
+         // text: "Amenities Update successfully",
+         confirmButtonText: 'Ok'
          // timer: 1000,
          // showConfirmButton: false,
      });

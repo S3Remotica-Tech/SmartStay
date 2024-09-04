@@ -33,7 +33,8 @@ function* handleCategoryAdd(params) {
       yield put({ type: 'EXPENCES_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
       Swal.fire({
          icon: 'success',
-         text: response.data.message,
+         title: response.data.message,
+         // text: response.data.message,
          confirmButtonText: 'Ok'
        }).then((result) => {
          if (result.isConfirmed) {
@@ -57,7 +58,8 @@ function* handleDeleteExpencescategory(action) {
       yield put({ type: 'DELETE_EXPENCES', payload: { response: response.data, statusCode: response.status ||  response.statusCode } })
       Swal.fire({
          icon: 'success',
-         text: response.data.message,
+         title:  response.data.message,
+         // text: response.data.message,
          confirmButtonText: 'Ok'
        }).then((result) => {
          if (result.isConfirmed) {
@@ -104,7 +106,8 @@ function* handleComplaintTypeAdd(params) {
       yield put({ type: 'COMPLAINT_TYPE_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
       Swal.fire({
          icon: 'success',
-         text: response.data.message,
+         title: response.data.message,
+         // text: response.data.message,
          confirmButtonText: 'Ok'
        }).then((result) => {
          if (result.isConfirmed) {
@@ -128,7 +131,8 @@ function* handleDeleteComplainttype(action) {
       yield put({ type: 'DELETE_COMPLAINT_TYPE', payload: { response: response.data, statusCode: response.status || response.statusCode  } })
       Swal.fire({
          icon: 'success',
-         text: response.data.message,
+         title: response.data.message,
+         // text: response.data.message,
          confirmButtonText: 'Ok'
        }).then((result) => {
          if (result.isConfirmed) {

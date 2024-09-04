@@ -87,6 +87,10 @@ const [displayPassword, setDisplayPassword] = useState(false)
     setCountryCode(e.target.value);
   };
 
+  useEffect(() => {
+    dispatch({ type: 'COUNTRYLIST' })
+  }, [])
+
   const MobileNumber = `${countryCode}${phone}`
 
 
@@ -138,14 +142,17 @@ const [displayPassword, setDisplayPassword] = useState(false)
 
   const handlePhone = (e) => {
 
-    setPhone(e.target.value)
+    setPhone(e.target.value);
     const pattern = new RegExp(/^\d{1,10}$/);
-    const isValidMobileNo = pattern.test(e.target.value)
-    if (isValidMobileNo && e.target.value.length === 10) {
-      document.getElementById('MobileNumberError').innerHTML = ''
-    }
-    else {
-      document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
+    const isValidMobileNo = pattern.test(e.target.value);
+    const errorElement = document.getElementById('MobileNumberError');
+  
+    if (errorElement) {
+      if (isValidMobileNo && e.target.value.length === 10) {
+        errorElement.innerHTML = '';
+      } else {
+        errorElement.innerHTML = 'Invalid mobile number *';
+      }
     }
 
 
@@ -204,7 +211,9 @@ const [displayPassword, setDisplayPassword] = useState(false)
     if (FIlteredProfile) {
       const CustomerFirstName = FIlteredProfile.first_name;
       const CustomerLastName = FIlteredProfile.last_name;
-      const PhoneNUmber = FIlteredProfile.mobileNo;
+      const PhoneNUmber = String(FIlteredProfile.mobileNo).slice(-10);
+      const Countrycode = + String(FIlteredProfile.mobileNo).slice(0, String(FIlteredProfile .mobileNo).length - 10)
+      // console.log("Countrycode",Countrycode);
       const UserEmail = FIlteredProfile.email_Id;
       const UserAddress = FIlteredProfile.Address;
       const CustomerId = FIlteredProfile.id;
@@ -218,6 +227,7 @@ const [displayPassword, setDisplayPassword] = useState(false)
       setEmail(UserEmail);
       setAddress(UserAddress);
       setcurentpasswordfilter(Currentpassword)
+      setCountryCode(Countrycode)
       
       // Set default image if AdminProfile is null or undefined
       if (AdminProfile) {
@@ -836,14 +846,27 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                   padding: '20px', marginTop: '10px'
                 }}
               >
-                <option value="91">+91</option>
-                <option value="1">+1</option>
-                <option value="44">+44</option>
-                <option value="61">+61</option>
-                <option value="49">+49</option>
-                <option value="33">+33</option>
-                <option value="55">+55</option>
-                <option value="7">+7</option>
+              {
+                  state.UsersList?.countrycode?.country_codes?.map((item)=>{
+                    console.log("itemImage",item);
+                    
+                    return(
+                      console.log("item.country_flag",item.country_flag),
+                      
+                      <>
+                     
+                      <option value={item.country_code}>
+                        +{item.country_code}
+                        
+                        {/* {item.country_flag} */}
+                        {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
+                        </option>
+                        {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
+                      {/* {item.country_code} */}
+                      </>
+                    )
+                  })
+                }
 
        
               </Form.Select>
@@ -856,8 +879,10 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                     }}
                     type="text"
                     placeholder="Enter phone"
-                    value={mobilenoError ? '' : phone}
+                    maxLength={10}
+                    value={phone}
                     onChange={handlePhone}
+                   
                   />
                   </InputGroup>
                   <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
