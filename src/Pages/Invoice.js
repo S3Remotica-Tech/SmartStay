@@ -994,7 +994,7 @@ const InvoicePage = () => {
 
 
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = useRef(null);
 
 
@@ -1004,10 +1004,12 @@ console.log("selectedDate",selectedDate)
 
 const options = {
   dateFormat: 'd/m/Y',
-  defaultDate: selectedDate,
-  maxDate: new Date(),
-  minDate:new Date() 
+  defaultDate: null,
+  // defaultDate: selectedDate,
+  maxDate: new Date(),           
+  minDate: null,                 
 };
+
 
   useEffect(() => {
       if (calendarRef.current) {
@@ -1024,11 +1026,12 @@ const options = {
   
 
 const [formattedDate, setFormattedDate] = useState('')
-
+  console.log("formattedDate",formattedDate);
+  
 
     const handleDateChange = (selectedDates) => {
     const date = selectedDates[0];
-  setSelectedDate(date); 
+    setSelectedDate(date); 
 
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -1588,9 +1591,9 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
                 }}
               >
                 <Modal
-                  show={showform} onHide={handleCloseForm}
+                  show={showform} onHide={handleCloseForm} backdrop="static"
                   centered>
-                  <Modal.Dialog style={{ maxWidth: 850, width: '700px' }} className='m-0 p-0'>
+                  <Modal.Dialog style={{ maxWidth: 850, width: '600px' }} className='m-0 p-0'>
                     <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
                       <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Record payment</Modal.Title>
                     </Modal.Header>
@@ -1684,6 +1687,7 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
                                         <Flatpickr
                                             ref={calendarRef}
                                             options={options}
+                                             placeholder="Select Date"
                                             value={selectedDate}
                                             onChange={handleDateChange}
                                             style={{
@@ -1717,7 +1721,7 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
                               value={invoiceList.transaction}
                               // value={editOption == 'Add' ? item.Name.split(' ')[0] : invoiceList.firstName}
                               onChange={(e) => { setInvoiceList({ ...invoiceList, transaction: e.target.value }) }}
-                              style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                              style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 40, borderRadius: 8 }}
                             >
                               <option  selected>select </option>
                               <option value="Cash">Cash </option>

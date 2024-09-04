@@ -734,7 +734,8 @@ const Compliance = () => {
           <Modal
             show={show}
             onHide={handleClose}
-            centered>
+            centered 
+            backdrop="static">
             <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
 
 
@@ -805,7 +806,6 @@ const Compliance = () => {
 
 
                   </div>
-                  {state.Settings.Complainttypelist && state.Settings.Complainttypelist.length == 0 && <><label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'ComplaintType' option in Settings, accessible after adding an Complaints.</label></>}
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
@@ -815,16 +815,11 @@ const Compliance = () => {
                         selected
                         value={Complainttype}
                         onChange={(e) => { setComplainttype(e.target.value) }}
-
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-
                       >
                         {
                           edit ? <option selected value={Complainttype}>{editcomplainttype}</option> :
                             <>
-
-
-
                               <option selected value="">Select a type</option>
                               {
                                 complainttypelist && complainttypelist.map((u, index) => (
@@ -841,6 +836,9 @@ const Compliance = () => {
                     </Form.Group>
 
                   </div>
+
+                  {state.Settings?.Complainttypelist && state.Settings?.Complainttypelist?.complaint_types.length == 0 && <><label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>* Please add a 'ComplaintType' option in Settings, accessible after  adding an Complaints.</label></>}
+
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">

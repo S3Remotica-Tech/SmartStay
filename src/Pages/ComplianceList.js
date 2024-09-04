@@ -105,9 +105,7 @@ function getFloorAbbreviation(floor_Id) {
 
     console.log("handleSow props", props)
 
-    // const handleDelete = (item) =>{
-    //   props.onDeleteVendor(item)
-    // }
+    
 
 
     return (
