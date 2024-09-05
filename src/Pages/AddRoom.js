@@ -66,13 +66,14 @@ console.log("room@",room)
 
 console.log("floorId",floorId,hostel_Id )
 
-      if (!room || !/^\d+$/.test(room)) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Please enter a valid Room no.',
-        });
-        return;
-      }
+if (!room || !/^[1-9]\d*$/.test(room)) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
+  });
+  return;
+}
+
 
 
 if(!floorId){
@@ -133,7 +134,7 @@ if(!floorId){
       display: 'block', position: 'initial', fontFamily: "Gilroy",
     }}
   >
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
         <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
           <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>

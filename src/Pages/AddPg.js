@@ -74,9 +74,24 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
 
-  const handlePgNameChange = (e) => {
-    setPgName(e.target.value);
-  };
+const handlePgNameChange = (e) => {
+  const value = e.target.value;
+  
+ 
+  if (value === "") {
+      setPgName(value);
+      setErrors(prevErrors => ({ ...prevErrors, pgName: "PG name cannot be empty or spaces only *" }));
+      return;
+  }
+
+ 
+  if (value.trim() !== "") {
+      setPgName(value);
+      setErrors(prevErrors => ({ ...prevErrors, pgName: "" }));
+  }
+};
+
+
 
 
 
@@ -185,6 +200,18 @@ function AddPg({ show, handleClose, currentItem }) {
       });
       return;
     }
+
+    // if (errors.pgName)  {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'PG name cannot be empty or spaces only *',
+       
+    //   });
+    //   return;
+    // }
+
+
+
 
     const isChanged = 
     pgName !== initialState.pgName || 
@@ -306,7 +333,7 @@ console.log("state", state)
         display: 'block', position: 'initial',
       }}
     >
-      <Modal show={show} onHide={handleClose} centered>
+      <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
           <Modal.Header closeButton closeLabel="close-button" style={{}}>
             <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ?  "Edit Paying Guest": "Add Paying Guest"}</Modal.Title>

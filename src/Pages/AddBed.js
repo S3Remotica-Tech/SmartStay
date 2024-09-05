@@ -66,13 +66,14 @@ function AddBed( {show, handleClose ,currentItem}) {
 
 const handleSubmit =() =>{
 
-  if (!bedNo || !/^\d+$/.test(bedNo)) {
+  if (!bedNo || !/^[1-9]\d*$/.test(bedNo)) {
     Swal.fire({
       icon: 'warning',
       title: 'Please enter a valid bed no.',
     });
     return;
   }
+  
 
   if (!amount || isNaN(amount) || amount <= 0) {
     Swal.fire({
@@ -87,8 +88,7 @@ const handleSubmit =() =>{
     dispatch({ type: 'CREATEBED', payload:{ hostel_id: currentItem.item.hostel_Id,floor_id:currentItem.item.floorID,room_id: currentItem.Room_Id, bed_no:bedNo, amount: amount}})
  
     // handleClose()
-    setBedNo('')
-    setAmount('')
+   
   }else{
     Swal.fire({
       icon: 'warning',
@@ -99,7 +99,12 @@ const handleSubmit =() =>{
   }
 }
 
-
+useEffect(() => {
+  if (state.PgList.createBedStatusCode == 200) {
+    setBedNo('')
+    setAmount('')
+  }
+}, [state.PgList.createBedStatusCode]) 
 
 
 
@@ -110,7 +115,7 @@ const handleSubmit =() =>{
       display: 'block', position: 'initial'
     }}
   >
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
         <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
           <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Add bed</Modal.Title>

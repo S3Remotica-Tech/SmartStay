@@ -37,7 +37,7 @@ function CreateAccountPage() {
   const [showConfirmPassword , setShowConfirmPassword] = useState(false)
 const [firstName, setFirstName] = useState('')
 const [lastName, setLastName] = useState('')
-
+const [errors, setErrors] = useState({});
 
 
 const [countryCode, setCountryCode] = useState('91');
@@ -48,13 +48,41 @@ const handleCountryCodeChange = (e) => {
 };
 
 
-const handleFirstName = (e) =>{
-  setFirstName(e.target.value)
-}
+const  handleFirstName = (e) => {
+  const value = e.target.value;
+  
+  // Allow empty value (e.g., when clearing the field)
+  if (value === "") {
+    setFirstName(value);
+      setErrors(prevErrors => ({ ...prevErrors, first_Name: "First name cannot be empty or spaces only" }));
+      return;
+  }
 
-const handleLastName = (e)=>{
-  setLastName(e.target.value)
-}
+  // If not empty and contains text, update the value and clear errors
+  if (value.trim() !== "") {
+    setFirstName(value);
+      setErrors(prevErrors => ({ ...prevErrors, first_Name: "" }));
+  }
+};
+
+
+const handleLastName = (e) => {
+  const value = e.target.value;
+
+ 
+  if (value === "") {
+    setLastName(value);
+    setErrors(prevErrors => ({ ...prevErrors, last_Name: "Last name cannot be empty or spaces only" }));
+    return;
+  }
+
+
+  if (value.trim() !== "") {
+    setLastName(value);
+    setErrors(prevErrors => ({ ...prevErrors, last_Name: "" }));
+  }
+};
+
 
 
   const togglePasswordVisibility = () => {
@@ -134,7 +162,9 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
     const password = e.target.value;
     let errorMessage = '';
   
-    if (password.length < 8) {
+    if (/\s/.test(password)) {
+      errorMessage = 'Password cannot contain spaces.';
+     } else if (password.length < 8) {
       errorMessage = 'Password must be at least 8 characters long.';
     } else if (!/[a-z]/.test(password)) {
       errorMessage = 'Password must contain at least one lowercase letter.';

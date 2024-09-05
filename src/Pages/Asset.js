@@ -27,6 +27,7 @@ function Asset() {
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
   const [show, setShow] = useState(null)
   const [showFilter, setShowFilter] = useState(false)
+  const [loading, setLoading] = useState(false)
 
 
   const handleShow = () => {
@@ -43,6 +44,7 @@ function Asset() {
 
   useEffect(() => {
     dispatch({ type: 'ASSETLIST' })
+    setLoading(true)
   }, [])
 
 
@@ -73,6 +75,7 @@ function Asset() {
   useEffect(() => {
     if (state.AssetList.getAssetStatusCode === 200) {
       setGetData(state.AssetList.assetList)
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_GET_ASSET_STATUS_CODE' })
       }, 2000)
@@ -137,7 +140,7 @@ function Asset() {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
   console.log("currentItems", currentItems)
-  console.log("filteredData",filteredData)
+  console.log("filteredData", filteredData)
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -226,6 +229,12 @@ function Asset() {
 
   }, [stateAccount.statusCodeForAccountList])
 
+  const skeletonStyle = {
+    backgroundColor: '#dcdcdc',
+    borderRadius: '10px',
+    height: '20px',
+    marginBottom: '10px',
+  };
 
 
 
@@ -262,7 +271,7 @@ function Asset() {
 
           <div className="d-flex justify-content-between align-items-center  ms-3 mb-3">
             <div>
-              <label style={{ fontSize: 24, color: "rgba(34, 34, 34, 1)", fontWeight: 600 , fontFamily:"Gilroy"}}>Assets</label>
+              <label style={{ fontSize: 24, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Assets</label>
             </div>
 
             <div className="d-flex justify-content-between align-items-center">
@@ -278,7 +287,7 @@ function Asset() {
                   <Form.Select aria-label="Select Price Range"
                     value={selectedPriceRange}
                     onChange={handlePriceRangeChange}
-                    className='' id="vendor-select" style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600 , fontFamily:"Gilroy"}}>
+                    className='' id="vendor-select" style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
                     <option value="All">All</option>
                     <option value="0-100">0-100</option>
                     <option value="100-500">100-500</option>
@@ -288,58 +297,91 @@ function Asset() {
                 </div>
               }
               <div>
-                <Button onClick={handleShow} style={{fontFamily:"Montserrat", fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 500, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add an asset</Button>
+                <Button onClick={handleShow} style={{ fontFamily: "Montserrat", fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 500, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add an asset</Button>
               </div>
             </div>
           </div>
 
 
-
-          <div className='table-responsive' style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}} >
-            <Table responsive  className="w-100" >
-              <thead style={{  borderRadius: "24px",fontFamily: "Gilroy",backgroundColor:"rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
-                <tr>
-                  <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
-                    <input type='checkbox' style={customCheckboxStyle} />
-                  </th>
-
-
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Serial Number</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Brand</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Product Name</th>
-
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Count</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Price</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Purchase Date</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Price</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentItems && currentItems.map((item) => (
-                  <AssetListTable item={item} OnEditAsset={handleEditAsset} />
-
-                ))}
-              </tbody>
-            </Table>
+          {/* <div className='table-responsive' 
+          style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "visible", height:"auto"}}
+           >  */}
+          <Table
+            responsive="md"
+            className='Table_Design'
+            style={{
+              height: "auto",
+              tableLayout: "auto",
+              overflow: "visible",
+              borderRadius: "24px",
+              border: "1px solid #DCDCDC"
+            }}
+          // className="Table_Design w-100" style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}}
+          >
+            <thead style={{ borderRadius: "24px", fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
+              <tr>
+                <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", borderTopLeftRadius: 24, }}>
+                  <input type='checkbox' style={customCheckboxStyle} />
+                </th>
 
 
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Serial Number</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Brand</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Product Name</th>
 
-            <div className="d-flex justify-content-center" style={{ width: "100%" }}>
-              {
-                getData.length === 0 && <h5 style={{ fontSize: 12, color: "red" }}>No Asset Found</h5>
-              }
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Count</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Price</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Purchase Date</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Price</th>
+                <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
+              </tr>
+            </thead>
+            <tbody>
+            {
+                  loading ? <>
+                   <tr>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle,width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle,width: '100%' }}></div></td>
+      <td><div style={{ ...skeletonStyle,width: '100%' }}></div></td>
+    </tr>
+                  
+                  </>
+
+                : <>
+                
+              {currentItems && currentItems.map((item) => (
+                <AssetListTable item={item} OnEditAsset={handleEditAsset} />
+
+              ))}
+              </>
+            }
+            </tbody>
+          </Table>
 
 
-            </div>
 
-
-
-
+          <div className="d-flex justify-content-center" style={{ width: "100%" }}>
+            {
+              !loading && currentItems.length === 0 && <h5 style={{ fontSize: 12, color: "red" }}>No Asset Found</h5>
+            }
 
 
           </div>
+
+
+
+
+
+
+          {/* </div>  */}
           {/*  Pagination code */}
           {currentItems.length > 0 &&
             <Pagination className="mt-4 d-flex justify-content-end align-items-center">

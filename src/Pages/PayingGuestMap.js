@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useRef} from 'react';
 import Edit from '../Assets/Images/New_images/edit.png';
 import Delete from '../Assets/Images/New_images/trash.png';
 import { PiDotsThreeCircleVerticalThin } from "react-icons/pi";
@@ -20,13 +20,15 @@ function PayingGuestMap(props) {
 
     const [showDots, setShowDots] = useState(false);
 
-    const handleMouseEnter = (hostelId) => {
-        setShowDots(!showDots);
-    };
+    const [activeHostel, setActiveHostel] = useState(null);
 
-    const handleMouseLeave = () => {
-        setShowDots(null);
-    };
+    const popupRef = useRef(null);
+   
+    
+    
+    console.log("popupRef", popupRef)
+
+    
 
 
     const handleEdit = (item) => {
@@ -59,7 +61,23 @@ function PayingGuestMap(props) {
         props.onRowVisiblity(false)
     }
 
+    const handleDotsClick = () => {
+        setShowDots(!showDots);
+    };
 
+
+    const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setShowDots(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <Card className="h-100" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }} >
@@ -79,26 +97,29 @@ function PayingGuestMap(props) {
                         </div>
                     </div>
 
-                    <div>
+                    <div  
+                    //  onMouseEnter={handleMouseEnter}
+                    //         onMouseLeave={handleMouseLeave}
+                            >
                         <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
-                            //  onMouseEnter={() => handleMouseEnter(props.hostel.id)}
-                            // onMouseLeave={handleMouseLeave}
-                            onClick={() => handleMouseEnter(props.hostel.id)}
+                            onClick={handleDotsClick}
+                            // onClick={() => handleDotsClick(props.hostel.id)}
                         >
                             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                             {showDots && <>
-                                <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+
+                                <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top:50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                     <div >
                                         <div className='mb-2'
                                             onClick={() => handleEdit(props.hostel)}
                                         >
-                                            <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222", cursor: "pointer" }} >Edit</label>
+                                            <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ cursor:"pointer",fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222", cursor: "pointer" }} >Edit</label>
                                         </div>
                                         <div
                                             onClick={() => handleDelete(props.hostel)}
                                         >
-                                            <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
+                                            <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ cursor:"pointer",fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
                                         </div>
                                     </div>
                                 </div>
