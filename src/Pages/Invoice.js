@@ -58,7 +58,12 @@ const InvoicePage = () => {
 
   const [show, setShow] = useState(false);
 
+  const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    setLoading(true)
+    dispatch({ type: 'INVOICELIST' })
+  }, [])
 
 
   const customStyle = {
@@ -243,8 +248,8 @@ const InvoicePage = () => {
 
 
   useEffect(() => {
-    if (state.InvoiceList.statusCodeForPDf === 200) {
-      dispatch({ type: 'INVOICELIST' })
+    if (state.InvoiceList.InvoiceListStatusCode === 200 || state.InvoiceList.statusCodeForPDf === 200 ) {
+      // dispatch({ type: 'INVOICELIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_LIST' });
       }, 100);
@@ -252,15 +257,10 @@ const InvoicePage = () => {
         dispatch({ type: 'CLEAR_INVOICE_PDF_STATUS_CODE' });
       }, 200);
     }
-  }, [state.InvoiceList?.statusCodeForPDf]);
+  }, [state.InvoiceList?.InvoiceListStatusCode , state.InvoiceList?.statusCodeForPDf]);
 
 
-  const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    setLoading(true)
-    dispatch({ type: 'INVOICELIST' })
-  }, [])
 
   const [notification, setNotification] = useState([]);
   console.log("notification", notification);
