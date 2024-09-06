@@ -743,35 +743,9 @@ function EB_Hostel() {
             <Modal.Title style={{ fontSize: 18 }} className="text-center">Add a transaction</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className='row mt-4'>
-              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3">
-                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Start meter</Form.Label>
-                  <FormControl
-                    id="form-controls"
-                    placeholder='6542310'
-                    type="text"
-                    // value={startmeter}
-                    value={startmeter ? startmeter.end_Meter_Reading : 0}
-                    // onChange={(e) => handlestartmeter(e)}
-                    style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                  />
-                </Form.Group>
-              </div>
-              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3">
-                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>End meter</Form.Label>
-                  <FormControl
-                    type="text"
-                    id="form-controls"
-                    placeholder='6542310'
-                    value={endmeter}
-                    onChange={(e) => handleendmeter(e)}
-                    style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                  />
-                </Form.Group>
-              </div>
-              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            <div className='row '>
+            
+              <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest</Form.Label>
                 <Form.Select aria-label="Default select example"
                   className='border' value={selectedHostel} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}>
@@ -827,6 +801,33 @@ function EB_Hostel() {
                 </Form.Select>
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                <Form.Group className="mb-3">
+                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Start meter</Form.Label>
+                  <FormControl
+                    id="form-controls"
+                    placeholder='6542310'
+                    type="text"
+                    // value={startmeter}
+                    value={startmeter ? startmeter.end_Meter_Reading : 0}
+                    // onChange={(e) => handlestartmeter(e)}
+                    style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                  />
+                </Form.Group>
+              </div>
+              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                <Form.Group className="mb-3">
+                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>End meter</Form.Label>
+                  <FormControl
+                    type="text"
+                    id="form-controls"
+                    placeholder='6542310'
+                    value={endmeter}
+                    onChange={(e) => handleendmeter(e)}
+                    style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                  />
+                </Form.Group>
+              </div>
+              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 }}>Date</Form.Label>
 
                 <div style={{ position: 'relative' }}>
@@ -877,7 +878,7 @@ function EB_Hostel() {
                 </div>
 
 
-              </div>
+              </div> */}
               {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Date</Form.Label>
