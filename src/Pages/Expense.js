@@ -805,6 +805,7 @@ function Expenses() {
           {/* <div className='table-responsive' style={{ border: "1px solid #DCDCDC", borderRadius: "24px", }}> */}
           <Table responsive="md"
             className='Table_Design'
+           
             style={{
               height: "auto",
               tableLayout: "auto",
