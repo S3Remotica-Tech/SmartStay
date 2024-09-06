@@ -27,7 +27,8 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [initialState, setInitialState] = useState({
         pglist: '',
         room: '',
-        selectedDate: ''
+        selectedDate: '',
+        floor_id: ''
     });
 
 
@@ -37,10 +38,12 @@ function StaticExample({ show, handleClose, currentItem }) {
             setPgList(currentItem.hostel_id)
             setRoom(currentItem.room_id)
             setSelectedDate(moment(currentItem.assigned_date).toDate())
+            setFloor(currentItem.floor_id)
                        setInitialState({
                 pglist: currentItem.hostel_id || '',
                 room: currentItem.room_id || '',
                selectedDate: currentItem.assigned_date ? moment(currentItem.assigned_date).toDate() : null,
+               floor_id:currentItem.floor_id || ''
             });
         } else {
             setPgList('')
@@ -159,12 +162,16 @@ function StaticExample({ show, handleClose, currentItem }) {
             return;
         }
 
-        
+        const formattedSelectedDate = new Date(selectedDate).toISOString().split('T')[0]; 
+        const formattedInitialDate = new Date(initialState.selectedDate).toISOString().split('T')[0];
+    
         const isChanged = 
-          Number(initialState.pglist) !== Number(pglist) ||
-        Number(initialState.room) !== Number(room)||
-        initialState.selectedDate !== selectedDate;
+        Number(initialState.pglist) !== Number(pglist) ||
+        Number(initialState.room) !== Number(room) ||
+        formattedInitialDate !== formattedSelectedDate || 
+        Number(initialState.floor_id) !== Number(Floor);
 
+console.log("isChanged",isChanged, initialState, pglist, room,Floor, selectedDate)
 
         if (!isChanged) {
             Swal.fire({
@@ -173,12 +180,12 @@ function StaticExample({ show, handleClose, currentItem }) {
             });
             return;
         }
-        if (pglist && room && selectedDate && currentItem.id) {
+        if (pglist && room && selectedDate && currentItem.id && Floor) {
             dispatch({ type: 'ASSIGNASSET', payload: { asset_id: currentItem.id, hostel_id: pglist, room_id: room, asseign_date: selectedDate,
-                //  floor_Id: Floor
+                  floor_id: Floor
                  } })
            
-            handleClose()
+           
         } else {
 
         }
@@ -189,6 +196,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                    setPgList('')
             setRoom('')
             setSelectedDate('')
+            setFloor('')
+            handleClose()
           
         }
     

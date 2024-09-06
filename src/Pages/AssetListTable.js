@@ -126,13 +126,14 @@ useEffect(() => {
     <td style={{ color: "", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center", border: "none"}}>
       <input type='checkbox' className="custom-checkbox" style={customCheckboxStyle} />
     </td>
+    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.asset_name}</td>
 
-    <td style={{border: "none"}}>
+    {/* <td style={{border: "none"}}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: "between", flex:"wrap", gap:2, width:"100%" }}>
         <div style={{ height: 40, width: 40, backgroundColor: "#E0ECFF", borderRadius: "50%" }}></div>
         <div style={{ fontSize: 16, fontWeight: 600, color: "#222222" ,fontFamily: "Gilroy"}}>{props.item.asset_name}</div>
       </div>
-    </td>
+    </td> */}
     <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.serial_number}</td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' ,border: "none"}}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>

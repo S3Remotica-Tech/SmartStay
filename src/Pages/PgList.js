@@ -28,6 +28,7 @@ import { Tab, Row, Col } from 'react-bootstrap';
 import Delete from '../Assets/Images/New_images/trash.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from './DeleteFloor';
+import Spinner from 'react-bootstrap/Spinner';
 
 function getFloorName(floor_Id) {
   
@@ -121,11 +122,12 @@ function PgList() {
 
   const [filteredData, setFilteredData] = useState([])
 
-
+const [ loader, setLoader] = useState(true)
 
   useEffect(() => {
     if (state.UsersList?.hosteListStatusCode == 200) {
       setFilteredData(state.UsersList.hostelList)
+      setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
       }, 1000)
@@ -799,6 +801,7 @@ console.log("key",key)
     <>
 
       <div className='m-4'>
+      
         {/* <div className='d-flex justify-content-end align-items-center m-4'>
 
        <div>
@@ -857,7 +860,7 @@ console.log("key",key)
             })}
 
 
-            {filteredData.length == 0 &&
+            {!loader && filteredData.length == 0 &&
 
 <div className='d-flex align-items-center justify-content-center' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
@@ -875,6 +878,18 @@ console.log("key",key)
 </div>
 </div>
             }
+
+
+
+<div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+        {loader && 
+        //  <Spinner animation="grow" variant="primary" size="sm" />
+        
+        <div className="d-flex justify-content-center align-items-start gap-3" style={{height:"100%"}}><Spinner animation="grow" style={{color:"rgb(30, 69, 225)"}} /> <div style={{color:"rgb(30, 69, 225)", fontWeight:600}}>Loading.....</div></div> 
+
+        }
+      </div>
+
 
           </div>
 

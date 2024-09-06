@@ -16,12 +16,13 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../Assets/Images/New_images/trash.png';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
-import { FormControl, InputGroup, Pagination ,Dropdown} from 'react-bootstrap';
+import { FormControl, InputGroup, Pagination, Dropdown } from 'react-bootstrap';
 import Edit from '../Assets/Images/New_images/edit.png';
 import DeleteRoom from './DeleteRoom';
 import DeleteBed from './DeleteBed';
 import OccupiedCustomer from './OccupiedCustomer'
-
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 
 function getFormattedRoomId(floor_Id, room_Id) {
@@ -70,7 +71,7 @@ function ParticularHostelDetails(props) {
   // const [showRoom, setShowRoom] = useState(false)
   const [showBed, setShowBed] = useState(false)
   const [showFloor, setShowFloor] = useState(false)
-const [details, setDetails] = useState('')
+  const [details, setDetails] = useState('')
 
 
   useEffect(() => {
@@ -107,7 +108,7 @@ const [details, setDetails] = useState('')
 
 
 
-  
+
   const [showDots, setShowDots] = useState('')
   const [roomCountData, setRoomCountData] = useState('')
 
@@ -132,56 +133,56 @@ const [details, setDetails] = useState('')
   }
 
 
-const [loader, setLoader] = useState(true)
+  const [loader, setLoader] = useState(true)
 
   useEffect(() => {
     if (state.PgList.roomCountStatusCode == 200) {
-      setRoomCountData(state.PgList.roomCount)  
-      setTimeout(()=>{
+      setRoomCountData(state.PgList.roomCount)
+      setTimeout(() => {
         setLoader(false)
-      },100)
-            setTimeout(() => {
+      }, 100)
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
       }, 100);
     }
   }, [state.PgList.roomCountStatusCode])
 
-useEffect(()=>{
-if(state.PgList.noRoomsInFloorStatusCode === 201){
-  setRoomCountData('')
-  setLoader(false)
-  setTimeout(() => {
-    dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
-  }, 2000);
-}
-  
-},[state.PgList.noRoomsInFloorStatusCode])
+  useEffect(() => {
+    if (state.PgList.noRoomsInFloorStatusCode === 201) {
+      setRoomCountData('')
+      setLoader(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
+      }, 2000);
+    }
 
-useEffect(() => {
-  if (state.UsersList?.statusCodeForAddUser === 200) {
-    dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_STATUS_CODES' })
-    }, 2000)
-    setShowDeleteBed(false)
-    dispatch({ type: 'USERLIST' })
+  }, [state.PgList.noRoomsInFloorStatusCode])
 
-  }
-}, [state.UsersList?.statusCodeForAddUser]);
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODES' })
+      }, 2000)
+      setShowDeleteBed(false)
+      dispatch({ type: 'USERLIST' })
 
-
+    }
+  }, [state.UsersList?.statusCodeForAddUser]);
 
 
-useEffect(() => {
 
-  if (state.PgList.statusCodeCreateRoom === 200 ) {
+
+  useEffect(() => {
+
+    if (state.PgList.statusCodeCreateRoom === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowRoom(false)
       setTimeout(() => {
-          dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
+        dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
       }, 100)
-  }
-}, [state.PgList.statusCodeCreateRoom])  
+    }
+  }, [state.PgList.statusCodeCreateRoom])
 
 
 
@@ -189,15 +190,15 @@ useEffect(() => {
 
 
 
-useEffect(() => {
-  if (state.PgList.createBedStatusCode == 200) {
+  useEffect(() => {
+    if (state.PgList.createBedStatusCode == 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowBed(false)
       setTimeout(() => {
-          dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
+        dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
       }, 1000)
-  }
-}, [state.PgList.createBedStatusCode]) 
+    }
+  }, [state.PgList.createBedStatusCode])
 
 
 
@@ -207,21 +208,21 @@ useEffect(() => {
     dispatch({ type: 'USERLIST' })
   }, [])
 
-  
+
 
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(4);
 
-const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
-  
+
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
 
-  const paginate = (pageNumber) =>{
+  const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-  } 
+  }
 
   const renderPagination = () => {
     const pageNumbers = [];
@@ -261,8 +262,8 @@ const indexOfLastItem = currentPage * itemsPerPage;
     return pageNumbers;
   };
 
-   const [showRoom, setShowRoom] = useState(false)
-   const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
+  const [showRoom, setShowRoom] = useState(false)
+  const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
 
   const handleShowAddRoom = (floor_Id, hostel_Id) => {
     setShowRoom(true)
@@ -273,110 +274,115 @@ const indexOfLastItem = currentPage * itemsPerPage;
     setShowRoom(false)
   }
 
-const [showDeleteRoom, setShowDeleteRoom] = useState(false)
-const [deleteRoomDetails, setDeleteRoomDetails] = useState({hostel_Id:null , floor_Id:null , room_Id: null})
+  const [showDeleteRoom, setShowDeleteRoom] = useState(false)
+  const [deleteRoomDetails, setDeleteRoomDetails] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
 
-const handleDeleteRoom = (Hostel_Id,Floor_Id,Room_Id) => {
-setShowDeleteRoom(true)
-setDeleteRoomDetails({Hostel_Id,Floor_Id,Room_Id})
-}
-
-
-const handleCloseDeleteRoom = () =>{
-  setShowDeleteRoom(false)
-}
-
-
-const [editRoom, setEditRoom] = useState({hostel_Id:null , floor_Id:null , room_Id: null})
-
-
-const handleEditRoom = (Hostel_Id,Floor_Id,Room_Id) => {
-  setShowRoom(true)
-  setEditRoom({hostel_Id : Hostel_Id,floor_Id: Floor_Id, room_Id : Room_Id})
-}
-
-
-
-
-
-
-// console.log("currentItems",currentItems)
-
-const [showDeleteBed, setShowDeleteBed] = useState(false)
-const [ deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null})
-
-
-
-const handleCloseDeleteBed = () =>{
-  setShowDeleteBed(false)
-}
-
-const [occupiedCustomer, setOccupiedCustomer] = useState(false)
-const [OccupiedCustomerDetails, setOccupiedCustomerDetails]= useState({bed:null, room:null})
-
-
-
-const handleCloseOccupiedCustomer = () => {
-  setOccupiedCustomer(false)
-}
-
-
-const handleDeleteBedConfirmation = (bed, room) =>{
-  if(bed.isfilled === 0 ){
-    setShowDeleteBed(true)
-    setDeleteBedDetails({bed , room})
-  }else{
-    setOccupiedCustomer(true)
-    setOccupiedCustomerDetails({bed:bed, room:room})
+  const handleDeleteRoom = (Hostel_Id, Floor_Id, Room_Id) => {
+    setShowDeleteRoom(true)
+    setDeleteRoomDetails({ Hostel_Id, Floor_Id, Room_Id })
   }
 
-}
+
+  const handleCloseDeleteRoom = () => {
+    setShowDeleteRoom(false)
+  }
 
 
-console.log("state",state)
+  const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
 
-useEffect(()=>{
-  if(state.PgList.statusCodeDeleteBed == 200){
-    dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-setTimeout(()=>{
-   dispatch({ type: 'CLEAR_DELETE_BED_STATUS_CODE'})
-},2000)
-      }
 
-},[state.PgList.statusCodeDeleteBed])
+  const handleEditRoom = (Hostel_Id, Floor_Id, Room_Id) => {
+    setShowRoom(true)
+    setEditRoom({ hostel_Id: Hostel_Id, floor_Id: Floor_Id, room_Id: Room_Id })
+  }
+
+
+
+
+
+
+  // console.log("currentItems",currentItems)
+
+  const [showDeleteBed, setShowDeleteBed] = useState(false)
+  const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
+
+
+
+  const handleCloseDeleteBed = () => {
+    setShowDeleteBed(false)
+  }
+
+  const [occupiedCustomer, setOccupiedCustomer] = useState(false)
+  const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
+
+
+
+  const handleCloseOccupiedCustomer = () => {
+    setOccupiedCustomer(false)
+  }
+
+
+  const handleDeleteBedConfirmation = (bed, room) => {
+    if (bed.isfilled === 0) {
+      setShowDeleteBed(true)
+      setDeleteBedDetails({ bed, room })
+    } else {
+      setOccupiedCustomer(true)
+      setOccupiedCustomerDetails({ bed: bed, room: room })
+    }
+
+  }
+
+
+  console.log("state", state)
+
+  useEffect(() => {
+    if (state.PgList.statusCodeDeleteBed == 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_BED_STATUS_CODE' })
+      }, 2000)
+    }
+
+  }, [state.PgList.statusCodeDeleteBed])
+
+  
+
+
+
 
 
   return (
     <div className=''>
 
-<div className='mt-2 mb-2 d-flex justify-content-center w-100'>
-{/* {loader &&  <Spinner animation="grow" variant="primary" size="sm" />} */}
-</div>
+      <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+        {loader &&  <Spinner animation="grow" variant="primary" size="sm" />}
+      </div>
 
 
       <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy" }}>
-        {currentItems.length > 0 ? currentItems.map((room, index) => (
+        {currentItems.length > 0 && currentItems.map((room, index) => (
           <>
 
             <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
 
-              <Card className="h-100" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16 ,height: "auto", minHeight: 200}}>
+              <Card className="h-100" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 200 }}>
                 <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
-                  <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color:"rgba(34, 34, 34, 1)" }}>
+                  <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>
                     Room no. <span>{getFormattedRoomId(room.Floor_Id, room.Room_Id)}</span>
                   </div>
-                  <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto' ,cursor:"pointer"}}>
+                  <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
                     <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                     {activeRoomId === room.Room_Id && (
                       <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 30, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                         <div>
-                          <div className='mb-2' 
+                          <div className='mb-2'
                           // onClick={()=> handleEditRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}
                           >
                             <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Edit</label>
                           </div>
-                          <div  
-                          onClick={()=> {handleDeleteRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}}
+                          <div
+                            onClick={() => { handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id) }}
                           >
                             <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(255, 0, 0, 1)" }}>Delete</label>
                           </div>
@@ -387,24 +393,36 @@ setTimeout(()=>{
                 </Card.Header>
                 <Card.Body className=''>
                   <div className='row row-gap-3 g-0'>
-                      {room.bed_details && room.bed_details.map((bed, index) => (
+                    {room.bed_details && room.bed_details.map((bed, index) => (
                       <div className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
-                        <div  className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
-                                                     <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34 , cursor:"pointer"}} 
-                                                    
-                                                    onClick={()=> handleDeleteBedConfirmation(bed,room)}
-                                                    // onClick={()=>handleDeleteBed(bed, room)}
+                        <div className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
 
-                                                      />
-                     
-                          <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600 ,fontFamily:"Montserrat"}} >Bed {bed.bed_no}</div>
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip variant="secondary" 
+                               id={`tooltip-top`} 
+                                                             >
+                                {bed.isfilled ? "Occupied - Customer info" : "Available - Add or delete"}
+                              </Tooltip>
+                            }
+                          >
+                            <img src={bed.isfilled ? Green : White} style={{ height: 41, width: 34, cursor: "pointer" }}
+
+                              onClick={() => handleDeleteBedConfirmation(bed, room)}
+                            // onClick={()=>handleDeleteBed(bed, room)}
+
+                            />
+                          </OverlayTrigger>
+
+                          <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }} >Bed {bed.bed_no}</div>
                         </div>
                       </div>
                     ))}
-                    <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={()=>handleAddBed(props,room.Room_Id)}>
-                      <div className='d-flex flex-column align-items-center' style={{ width: "100%", cursor:"pointer" }}>
+                    <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={() => handleAddBed(props, room.Room_Id)}>
+                      <div className='d-flex flex-column align-items-center' style={{ width: "100%", cursor: "pointer" }}>
                         <div><FaSquarePlus style={{ height: 41, width: 34, color: "#1E45E1" }} /></div>
-                        <div className="pt-2" style={{ color: "#1E45E1", fontSize: 12, fontWeight: 600, fontFamily:"Montserrat"}}>Add bed</div>
+                        <div className="pt-2" style={{ color: "#1E45E1", fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>Add bed</div>
                       </div>
                     </div>
                   </div>
@@ -412,38 +430,40 @@ setTimeout(()=>{
               </Card>
 
             </div>
-            
+
 
           </>
         ))
 
-      
 
 
 
-        :
 
-        <div className='d-flex align-items-center justify-content-center' style={{ width: "100%" ,height:350,margin:"0px auto"}}>
-        {/* <Alert variant="warning" >
+      }
+{
+
+!loader && currentItems.length === 0 && 
+          <div className='d-flex align-items-center justify-content-center' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+            {/* <Alert variant="warning" >
           Currently, no rooms are available.
         </Alert> */}
-        <div>
+            <div>
 
-        <div  className="pb-1" style={{textAlign:"center", fontWeight:600, fontFamily:"Gilroy",fontSize:24,color:"rgba(75, 75, 75, 1)"}}>No rooms available</div>
-        <div className="pb-1" style={{textAlign:"center", fontWeight:500, fontFamily:"Gilroy",fontSize:20,color:"rgba(75, 75, 75, 1)"}}>There is no room added in this floor.</div>
-        <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}> + Add room</Button>
-        </div>
-        </div>
-        <div>
+              <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
+              <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
+              <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}> + Add room</Button>
+              </div>
+            </div>
+            <div>
 
-</div>
-      </div>
-
-
+            </div>
+          </div>
 
 
-      
-      }
+
+
+
+        }
 
 
 
@@ -452,48 +472,48 @@ setTimeout(()=>{
 
       {currentItems.length > 0 && <>
         <div className='row mt-2'>
-        <div>
-          <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}>+ Add room</label>
+          <div>
+            <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}>+ Add room</label>
+          </div>
         </div>
-      </div>
-            </>
-       
-    
-    }
+      </>
+
+
+      }
 
 
 
-       {
-  currentItems.length > 0 && 
-  <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-  <Pagination.Prev style={{ visibility:"visible"}}
-    onClick={() => paginate(currentPage - 1)}
-    disabled={currentPage === 1}
-  />
-   {renderPagination()}
-   <Pagination.Next style={{ visibility:"visible"}}
-    onClick={() => paginate(currentPage + 1)}
-    disabled={currentPage === totalPages}
-  />
-</Pagination>
-} 
+      {
+        currentItems.length > 0 &&
+        <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+          <Pagination.Prev style={{ visibility: "visible" }}
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          />
+          {renderPagination()}
+          <Pagination.Next style={{ visibility: "visible" }}
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          />
+        </Pagination>
+      }
 
-      {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details}/>}
-      {showRoom && <AddRoom show={showRoom}  
-      handleClose={handlecloseRoom} hostelDetails={hostelDetails} editRoom={editRoom}
-       />}
+      {showBed && <AddBedUI show={showBed} handleClose={handleCloseBed} currentItem={details} />}
+      {showRoom && <AddRoom show={showRoom}
+        handleClose={handlecloseRoom} hostelDetails={hostelDetails} editRoom={editRoom}
+      />}
 
-{
-  showDeleteRoom && <DeleteRoom  show={showDeleteRoom} handleClose={handleCloseDeleteRoom} deleteRoomDetails={deleteRoomDetails}/>
-}
+      {
+        showDeleteRoom && <DeleteRoom show={showDeleteRoom} handleClose={handleCloseDeleteRoom} deleteRoomDetails={deleteRoomDetails} />
+      }
 
 
-{
-  showDeleteBed && <DeleteBed  show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
-}
-{
-  occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails}/>
-}
+      {
+        showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
+      }
+      {
+        occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails} />
+      }
 
     </div>
   )

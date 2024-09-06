@@ -96,13 +96,13 @@ function StaticExample({ show, handleClose, currentItem }) {
       
         if (value === "") {
             setSerialNumber(value);
-            setErrors(prevErrors => ({ ...prevErrors, serialNumber: "Serial number cannot be empty or spaces only" }));
+            setErrors(prevErrors => ({ ...prevErrors, serial_Number: "Serial number cannot be empty or spaces only" }));
             return;
         }
     
         if (value.trim() !== "") {
             setSerialNumber(value);
-            setErrors(prevErrors => ({ ...prevErrors, serialNumber: "" }));
+            setErrors(prevErrors => ({ ...prevErrors, serial_Number: "" }));
         }
     };
     
@@ -273,7 +273,7 @@ if (!price || isNaN(price) || price <= 0) {
             dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, product_name: productName,vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: productCount, purchase_date: formattedDate, price: price, id: id } })
 
 
-            handleClose()
+          
             // setAssetName('');
             // setVendorName('');
             // setBrandName('');
@@ -403,7 +403,7 @@ const [formattedDate, setFormattedDate] = useState('')
                     setPurchaseDate('');
                     setPrice('');
                     setTotalPrice('');
-
+                    handleClose()
 
 
                     
