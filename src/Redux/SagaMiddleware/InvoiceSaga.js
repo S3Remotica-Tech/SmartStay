@@ -24,7 +24,7 @@ function* handleInvoiceList(action) {
    console.log("response for invoice list",response)
   
    if (response.status === 200 || response.statusCode === 200 ) {
-      yield put({ type: 'INVOICE_LIST', payload: {response:response.data.data,statusCode:response.status || response.statusCode} })
+      yield put({ type: 'INVOICE_LIST', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
