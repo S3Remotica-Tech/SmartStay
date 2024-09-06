@@ -738,7 +738,7 @@ function EB_Hostel() {
 
 
       {!transactionshow && (
-        <Modal show={addEbDetail} onHide={() => setaddEbDetail(false)} centered>
+        <Modal show={addEbDetail} onHide={() => setaddEbDetail(false)} backdrop="static" centered>
           <Modal.Header closeButton className="text-center">
             <Modal.Title style={{ fontSize: 18 }} className="text-center">Add a transaction</Modal.Title>
           </Modal.Header>

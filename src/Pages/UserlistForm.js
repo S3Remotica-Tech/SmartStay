@@ -408,57 +408,63 @@ function UserlistForm(props) {
 
 //  const MobileNumber = `${countryCode}${Phone}`
  const MobileNumber = `${countryCode}${Phone}`
-  const handleSaveUserlist = () => {
-    console.log("check");
-  
-    // Error checks for email and mobile number
-    const emailElement = document.getElementById('emailIDError');
-    const emailError = emailElement ? emailElement.innerHTML : '';
-    const phoneNumberError = document.getElementById('MobileNumberError');
-    const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
-  
-    if (emailError === 'Invalid Email Id *') {
+ const handleSaveUserlist = () => {
+  console.log("check");
+
+  // Common validation function
+  const validateField = (value, fieldName) => {
+      if (!value || value.trim() === '') {
+          Swal.fire({
+              icon: 'warning',
+              title: `Please enter a valid ${fieldName}`,
+          });
+          return false;
+      }
+      return true;
+  };
+
+  // Validate fields
+  if (!validateField(firstname, 'First Name')) return;
+  if (!validateField(Phone, 'Phone Number')) return;
+  if (!validateField(Email, 'Email')) return;
+  if (!validateField(Address, 'Address')) return;
+  if (!validateField(hostel_Id, 'Hostel ID')) return;
+
+  // Error checks for email and mobile number
+  const emailElement = document.getElementById('emailIDError');
+  const emailError = emailElement ? emailElement.innerHTML : '';
+  const phoneNumberError = document.getElementById('MobileNumberError');
+  const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+
+  if (emailError === 'Invalid Email Id *') {
       Swal.fire({
-        icon: 'warning',
-        title: 'Please enter a valid email address',
-        confirmButtonText: 'Ok',
-       
+          icon: 'warning',
+          title: 'Please enter a valid email address',
+          confirmButtonText: 'Ok',
       });
       return;
-    }
-  
-    if (mobileError === 'Invalid mobile number *') {
+  }
+
+  if (mobileError === 'Invalid mobile number *') {
       Swal.fire({
-        icon: 'warning',
-        title: 'Please enter a valid 10-digit phone number',
-        confirmButtonText: 'Ok',
-        
+          icon: 'warning',
+          title: 'Please enter a valid 10-digit phone number',
+          confirmButtonText: 'Ok',
       });
       return;
-    }
-  
-    if (!firstname || !Phone || !Email || !Address || !hostel_Id) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please fill in all required fields',
-        confirmButtonText: 'Ok',
-       
-      });
-      return;
-    }
-  
-    // Capitalize the first letter of firstname and lastname
-    const capitalizeFirstLetter = (str) => {
+  }
+
+  // Capitalize the first letter of firstname and lastname
+  const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-  
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
-  
-    // Prepare payload
-   
-    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
-    const payload = {
+  };
+
+  const capitalizedFirstname = capitalizeFirstLetter(firstname);
+  const capitalizedLastname = capitalizeFirstLetter(lastname);
+
+  // Prepare payload
+  const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
+  const payload = {
       profile: file,
       firstname: capitalizedFirstname,
       lastname: capitalizedLastname,
@@ -479,31 +485,65 @@ function UserlistForm(props) {
       PaymentType: PaymentType,
       paid_advance: paid_advance,
       paid_rent: paid_rent,
-      payable_rent: payableamount
-    };
-  
-    if (props.edit === 'Edit') {
-      payload.ID = id; // Include the ID if editing an existing user
-    }
-  
-    // Dispatch action
-    dispatch({
-      type: 'ADDUSER',
-      payload: payload
-    });
-  
-    // Additional actions after edit (optional)
-    props.AfterEditHostels(hostel_Id);
-    props.AfterEditFloors(Floor);
-    props.AfterEditRoomses(Rooms);
-    props.AfterEditBeds(Bed);
-  
-    // Close the form
-    handleClose();
+      payable_rent: payableamount,
   };
+
+  if (props.edit === 'Edit') {
+      payload.ID = id; // Include the ID if editing an existing user
+  }
+
+  // Dispatch action
+  dispatch({
+      type: 'ADDUSER',
+      payload: payload,
+  });
+
+  // Additional actions after edit (optional)
+  props.AfterEditHostels(hostel_Id);
+  props.AfterEditFloors(Floor);
+  props.AfterEditRoomses(Rooms);
+  props.AfterEditBeds(Bed);
+
+  // Close the form
   
+};
 
   const handleSaveUserlistAddUser = () => {
+    const validateField = (value, fieldName) => {
+      if (!value || value.trim() === '') {
+          Swal.fire({
+              icon: 'warning',
+              title: `Please enter a valid ${fieldName}`,
+          });
+          return false;
+      }
+      return true;
+  };
+
+  // Validate fields
+  if (!validateField(Floor, 'Floor')) return;
+  if (!validateField(Rooms, 'Rooms')) return;
+  if (!validateField(Bed, 'Bed')) return;
+  if (!validateField(AdvanceAmount, 'AdvanceAmount')) return;
+  if (!validateField(RoomRent, 'RoomRent')) return;
+
+
+
+  if (Number(RoomRent) <= 0) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Room Rent must be greater than 0',
+    });
+    return;
+}
+
+if (Number(AdvanceAmount) <= 0) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Advance Amount must be greater than 0',
+    });
+    return;
+}
     if (Floor && Rooms && Bed) {
       dispatch({
         type: 'ADDUSER',
@@ -580,7 +620,7 @@ function UserlistForm(props) {
 
   return (
     <div>
-      <Modal show={props.showMenu} onHide={handleClose} centered>
+      <Modal show={props.showMenu} onHide={handleClose} backdrop="static" centered>
         <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
 
           <Modal.Body>
