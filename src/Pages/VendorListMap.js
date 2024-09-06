@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useRef} from 'react';
 import Edit from '../Assets/Images/New_images/edit.png';
 import Delete from '../Assets/Images/New_images/trash.png';
 import { PiDotsThreeCircleVerticalThin } from "react-icons/pi";
@@ -12,18 +12,27 @@ import Image from 'react-bootstrap/Image';
 function VendorListMap(props) {
 
 
+
   const [showDots, setShowDots] = useState(null);
 
+  const popupRef = useRef(null);
 
-
-  const handleShowDots = (id) => {
-    console.log("vendor id", "showDots",id, showDots)
-    setShowDots(prevId => (prevId === id ? null : id));
+  const handleShowDots = () => {
+    setShowDots(!showDots);
+   
 };
      
 
+const handleMouseEnter = () => {
+  setShowDots(true)
+}
 
-      const handleEdit = (item) => {
+const handleMouseLeave = () => {
+  setShowDots(false)
+
+}
+  
+  const handleEdit = (item) => {
                    props.onEditVendor(item); 
             };
 
@@ -32,6 +41,24 @@ console.log("handleSow props",props)
 const handleDelete = (item) =>{
   props.onDeleteVendor(item)
 }
+
+
+
+const handleClickOutside = (event) => {
+  if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setShowDots(false);
+  }
+};
+
+useEffect(() => {
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+  };
+}, []);
+
+
+
 
   return (
     <Card className="h-100" key={props.vendor && props.vendor.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
@@ -52,17 +79,17 @@ const handleDelete = (item) =>{
         </div>
 
         <div>
-          <div style={{ cursor:"pointer",height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" ,  zIndex: showDots === props.vendor.id ? 1000 : 'auto' }} onClick={()=>handleShowDots(props.vendor.id)}>
+          <div style={{ cursor:"pointer",height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" ,  zIndex: showDots  ? 1000 : 'auto' }} onClick={()=>handleShowDots(props.vendor.id)}>
             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-            {showDots === props.vendor.id && <>
-              <div style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height:92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+            {showDots && <>
+              <div  ref={popupRef} style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height:92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                 <div >
                   <div className='mb-2' onClick={()=>handleEdit(props.vendor)} >
-                    <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" }} >Edit</label>
+                    <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ cursor:"pointer",fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" }} >Edit</label>
                   </div>
                   <div  onClick={()=>handleDelete(props.vendor)}> 
-                    <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
+                    <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{cursor:"pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
                   </div>
                 </div>
               </div>

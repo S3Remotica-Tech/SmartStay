@@ -39,8 +39,20 @@ function AddVendor({ show, handleClose, currentItem }) {
 
 
   const handleBusinessChange = (e) => {
-    setBusiness_Name(e.target.value)
-  }
+    const value = e.target.value;
+
+    if (value === "") {
+        setBusiness_Name(value);
+        setErrors(prevErrors => ({ ...prevErrors, businessName: "Business name cannot be empty or spaces only" }));
+        return;
+    }
+
+       if (value.trim() !== "") {
+        setBusiness_Name(value);
+        setErrors(prevErrors => ({ ...prevErrors, businessName: "" }));
+    }
+};
+
 
 
   // const handleImageChange = (event) => {
@@ -69,12 +81,34 @@ function AddVendor({ show, handleClose, currentItem }) {
 
 
   const handleFirstNameChange = (e) => {
-    setFirst_Name(e.target.value)
-  }
+    const value = e.target.value;
+    
+       if (value === "") {
+        setFirst_Name(value);
+        setErrors(prevErrors => ({ ...prevErrors, firstName: "First name cannot be empty or spaces only" }));
+        return;
+    }
+  
+    if (value.trim() !== "") {
+        setFirst_Name(value);
+        setErrors(prevErrors => ({ ...prevErrors, firstName: "" }));
+    }
+};
 
-  const handleLastNameChange = (e) => {
-    setLast_Name(e.target.value)
-  }
+const handleLastNameChange = (e) => {
+    const value = e.target.value;
+      
+    if (value === "") {
+        setLast_Name(value);
+        setErrors(prevErrors => ({ ...prevErrors, lastName: "Last name cannot be empty or spaces only" }));
+        return;
+    }
+    if (value.trim() !== "") {
+        setLast_Name(value);
+        setErrors(prevErrors => ({ ...prevErrors, lastName: "" }));
+    }
+};
+
 
   const handleMobileChange = (e) => {
     const value = e.target.value;
@@ -90,8 +124,22 @@ function AddVendor({ show, handleClose, currentItem }) {
 
 
   const handleAddressChange = (e) => {
-    setAddress(e.target.value)
-  }
+    const value = e.target.value;
+
+      if (value === "") {
+        setAddress(value);
+        setErrors(prevErrors => ({ ...prevErrors, address: "Address cannot be empty or spaces only" }));
+        return;
+    }
+
+     if (value.trim() !== "") {
+        setAddress(value);
+        setErrors(prevErrors => ({ ...prevErrors, address: "" }));
+    }
+};
+
+
+
 
   const handleEmailChange = (e) => {
     const email = e.target.value;
@@ -234,7 +282,7 @@ function AddVendor({ show, handleClose, currentItem }) {
         dispatch({
           type: 'ADDVENDOR',
           payload:
-            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name, Vendor_Id: vendor_Id, id: id }
+            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name,  id: id }
         })
       } else {
         dispatch({
@@ -244,19 +292,40 @@ function AddVendor({ show, handleClose, currentItem }) {
         })
       }
 
+      // setFile('')
+      // // handleClose()
+      // setFirst_Name('')
+      // setLast_Name('')
+      // setVendor_Mobile('')
+      // setAddress('')
+      // setEmail_Id('')
+      // setBusiness_Name('')
+    }
+    else {
+
+    }
+  }
+
+
+  useEffect(() => {
+    if (state.ComplianceList.addVendorSuccessStatusCode === 200 ) {
+      
       setFile('')
-      // handleClose()
-      setFirst_Name('')
+         setFirst_Name('')
       setLast_Name('')
       setVendor_Mobile('')
       setAddress('')
       setEmail_Id('')
       setBusiness_Name('')
     }
-    else {
+    }, [state.ComplianceList.addVendorSuccessStatusCode])
 
-    }
-  }
+
+
+
+
+
+
 
   useEffect(() => {
     const closeButton = document.querySelector('button[aria-label="close-button"]');
@@ -367,7 +436,7 @@ function AddVendor({ show, handleClose, currentItem }) {
         display: 'block', position: 'initial', fontFamily: "Gilroy",
       }}
     >
-      <Modal show={show} onHide={handleClose} centered>
+      <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
           <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
             <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{check === 'EDIT' ? 'Edit a vendor ' : 'Add a vendor'}</Modal.Title>

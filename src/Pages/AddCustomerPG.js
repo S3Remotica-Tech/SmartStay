@@ -42,9 +42,49 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const [file, setFile] = useState(null);
   const [RoomRent, setRoomRent] = useState('')
   const [AdvanceAmount, setAdvanceAmount] = useState('')
+  const [errors, setErrors] = useState({});
 
-  const handleFirstName = (e) => setFirstname(e.target.value);
-  const handleLastName = (e) => setLastname(e.target.value);
+  // const handleFirstName = (e) => setFirstname(e.target.value);
+  // const handleLastName = (e) => setLastname(e.target.value);
+
+
+  const handleFirstName = (e) => {
+    const value = e.target.value;
+
+    // Allow empty value (e.g., when clearing the field)
+    if (value === "") {
+      setFirstname(value);
+      setErrors(prevErrors => ({ ...prevErrors, first_Name: "First name cannot be empty or spaces only" }));
+      return;
+    }
+
+    // If not empty and contains text, update the value and clear errors
+    if (value.trim() !== "") {
+      setFirstname(value);
+      setErrors(prevErrors => ({ ...prevErrors, first_Name: "" }));
+    }
+  };
+
+
+  const handleLastName = (e) => {
+    const value = e.target.value;
+
+
+    if (value === "") {
+      setLastname(value);
+      setErrors(prevErrors => ({ ...prevErrors, last_Name: "Last name cannot be empty or spaces only" }));
+      return;
+    }
+
+
+    if (value.trim() !== "") {
+      setLastname(value);
+      setErrors(prevErrors => ({ ...prevErrors, last_Name: "" }));
+    }
+  };
+
+
+
 
   const handlePhone = (e) => {
     const value = e.target.value;
@@ -82,9 +122,27 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
 
 
-  const handleAddress = (e) => setAddress(e.target.value);
+  const handleAddress = (e) => {
+
+    const value = e.target.value;
 
 
+    if (value === "") {
+      setAddress(value);
+      setErrors(prevErrors => ({ ...prevErrors, last_Name: "Last name cannot be empty or spaces only" }));
+      return;
+    }
+
+
+    if (value.trim() !== "") {
+      setAddress(value);
+      setErrors(prevErrors => ({ ...prevErrors, last_Name: "" }));
+    }
+
+
+
+
+  }
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -126,6 +184,14 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Enter First Name',
+      });
+      return;
+    }
+
+    if (!countryCode) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter Country code',
       });
       return;
     }
@@ -186,16 +252,16 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       return;
     }
 
-const mobileNumber = `${countryCode}${phone}`
+    const mobileNumber = `${countryCode}${phone}`
 
-    if (firstname &&  mobileNumber && email && AdvanceAmount && RoomRent && address) {
+    if (firstname && mobileNumber && email && AdvanceAmount && RoomRent && address) {
       dispatch({
         type: 'ADDUSER',
         payload: {
           profile: file,
           firstname: firstname,
           lastname: lastname,
-          Phone:  mobileNumber,
+          Phone: mobileNumber,
           Email: email,
           hostel_Id: Hostel_Id,
           Floor: Floor_Id,
@@ -207,12 +273,46 @@ const mobileNumber = `${countryCode}${phone}`
           RoomRent: RoomRent,
         }
       })
-      handleClosing()
+
     } else {
 
     }
 
   }
+
+
+
+
+
+
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      setFirstname('');
+      setLastname('');
+      setAddress('');
+      setPhone('');
+      setEmail('');
+      setFile(null);
+      setRoomRent('')
+      setAdvanceAmount('')
+      handleClosing()
+    }
+  }, [state.UsersList?.statusCodeForAddUser]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   const handleRoomRent = (e) => {
@@ -230,14 +330,16 @@ const mobileNumber = `${countryCode}${phone}`
 
   }
 
+  useEffect(() => {
+    dispatch({ type: 'COUNTRYLIST' })
+  }, [])
 
 
 
-  
 
   return (
     <div>
-      <Modal show={show} onHide={handleClosing} centered>
+      <Modal show={show} onHide={handleClosing} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
 
           <Modal.Body>
@@ -358,71 +460,70 @@ const mobileNumber = `${countryCode}${phone}`
                   </div> */}
 
 
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-  
-  
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label style={{ 
-              fontSize: 14, 
-              color: "#222222", 
-              fontFamily: "Gilroy", 
-              fontWeight: 500 
-            }}>
-              Mobile no.
-            </Form.Label>
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 
-            <InputGroup>
-              <Form.Select
-                value={countryCode}
-                id="vendor-select-pg"
-                onChange={handleCountryCodeChange}
-                style={{
-                  border: "1px solid #D9D9D9",
-                  borderRadius: "8px 0 0 8px",
-                  height: 50,
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: countryCode ? 600 : 500,
-                  boxShadow: "none",
-                  backgroundColor: "#fff",
-                  maxWidth:90
-                }}
-              >
-                <option value="91">+91</option>
-                <option value="1">+1</option>
-                <option value="44">+44</option>
-                <option value="61">+61</option>
-                <option value="49">+49</option>
-                <option value="33">+33</option>
-                <option value="55">+55</option>
-                <option value="7">+7</option>
 
-       
-              </Form.Select>
-              <Form.Control
-                value={phone}
-                onChange={(e) => handlePhone(e)}
-                type="text"
-                placeholder="9876543210"
-                maxLength={10}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: phone ? 600 : 500,
-                  boxShadow: "none",
-                  borderLeft: "unset",
-                  borderRight: "1px solid #D9D9D9",
-                  borderTop: "1px solid #D9D9D9",
-                  borderBottom: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: "0 8px 8px 0",
-                }}
-              />
-            </InputGroup>
-          </Form.Group> 
-</div>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label style={{
+                        fontSize: 14,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500
+                      }}>
+                        Mobile no.
+                      </Form.Label>
+
+                      <InputGroup>
+                        <Form.Select
+                          value={countryCode}
+                          id="vendor-select-pg"
+                          onChange={handleCountryCodeChange}
+                          style={{
+                            border: "1px solid #D9D9D9",
+                            borderRadius: "8px 0 0 8px",
+                            height: 50,
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: countryCode ? 600 : 500,
+                            boxShadow: "none",
+                            backgroundColor: "#fff",
+                            maxWidth: 90
+                          }}
+                        >
+                          {
+                            state.UsersList?.countrycode && state.UsersList?.countrycode?.country_codes?.map((view) => {
+                              return <option key={view.country_code} value={view.country_code}>+{view.country_code}</option>
+                            })
+
+
+                          }
+
+
+                        </Form.Select>
+                        <Form.Control
+                          value={phone}
+                          onChange={(e) => handlePhone(e)}
+                          type="text"
+                          placeholder="9876543210"
+                          maxLength={10}
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: phone ? 600 : 500,
+                            boxShadow: "none",
+                            borderLeft: "unset",
+                            borderRight: "1px solid #D9D9D9",
+                            borderTop: "1px solid #D9D9D9",
+                            borderBottom: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: "0 8px 8px 0",
+                          }}
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                  </div>
 
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>

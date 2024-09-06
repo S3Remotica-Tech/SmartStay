@@ -77,7 +77,7 @@ function AddBed({ show, handleClose, currentItem }) {
                 display: 'block', position: 'initial'
             }}
         >
-            <Modal show={show} onHide={handleClose} centered size="sm"  style={{borderRadius:24}}>
+            <Modal show={show} onHide={handleClose} centered size="sm"  style={{borderRadius:24}} backdrop="static" >
               
                     <Modal.Dialog className="p-0 m-0" style={{ margin: '0 auto' }}>
                         {customer && customer.map((custom) => (

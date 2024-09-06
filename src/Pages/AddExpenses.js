@@ -62,6 +62,8 @@ function StaticExample({ show, handleClose, currentItem }) {
         setHostelName(e.target.value)
     }
 
+    const [errors, setErrors] = useState({});
+
 
     const handleCountChange = (e) => {
         const value = e.target.value;
@@ -102,9 +104,26 @@ function StaticExample({ show, handleClose, currentItem }) {
     };
 
     const handleDescriptionChange = (e) => {
-        setDescription(e.target.value);
+        const value = e.target.value;
+    
+        
+        if (value === "") {
+            setDescription(value);
+            setErrors(prevErrors => ({ ...prevErrors, Description: "Description cannot be empty or spaces only" }));
+            return;
+        }
+    
+     
+        if (value.trim() !== "") {
+            setDescription(value);
+            setErrors(prevErrors => ({ ...prevErrors, Description: "" }));
+        } else {
+          
+            setDescription(value);
+            setErrors(prevErrors => ({ ...prevErrors, Description: "Description cannot be empty or spaces only" }));
+        }
     };
-
+    
 
 
 
@@ -274,6 +293,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     const options = {
         dateFormat: 'd/m/Y',
         defaultDate: selectedDate || new Date(),
+        maxDate: 'today',
     };
 
     useEffect(() => {
@@ -307,7 +327,7 @@ console.log("assetName",assetName)
                 display: 'block', position: 'initial', fontFamily: "Gilroy",
             }}
         >
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
                     <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
                         <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? 'Edit an expense' : 'Add an expense'}</Modal.Title>

@@ -89,7 +89,7 @@ console.log("state dlete floor",state)
 
   return (
     <div>  
-        <Modal show={show} onHide={handleClose} centered>
+        <Modal show={show} onHide={handleClose} centered backdrop="static">
     <Modal.Header closeButton>
       <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>Delete floor ?</Modal.Title>
     </Modal.Header>

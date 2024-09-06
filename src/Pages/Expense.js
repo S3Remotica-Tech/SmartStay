@@ -53,7 +53,7 @@ function Expenses() {
 
 
 
-const [formattedDates, setFormattedDates] = useState('');
+  const [formattedDates, setFormattedDates] = useState('');
 
   useEffect(() => {
     const now = new Date();
@@ -66,7 +66,7 @@ const [formattedDates, setFormattedDates] = useState('');
     setFormattedDates(`(${formattedStart} - ${formattedEnd})`);
   }, []);
 
-  
+
 
 
 
@@ -87,7 +87,7 @@ const [formattedDates, setFormattedDates] = useState('');
     const value = e.target.getAttribute('value');
     setAmountValue(value);
     setShowFilter(false);
-      const amountRange = value; 
+    const amountRange = value;
     const [minAmount, maxAmount] = amountRange.split('-').map(Number);
     setMinAmount(minAmount);
     setMaxAmount(maxAmount);
@@ -134,34 +134,34 @@ const [formattedDates, setFormattedDates] = useState('');
 
   useEffect(() => {
 
-// if(!startDate && !endDate){
-//   Swal.fire({
-//     icon: 'warning',
-//     text: `Please Select Start date and End Date`,
-//     confirmButtonText: 'Ok'
-//   })
+    // if(!startDate && !endDate){
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     text: `Please Select Start date and End Date`,
+    //     confirmButtonText: 'Ok'
+    //   })
 
-//   return
-// }
+    //   return
+    // }
 
-// if(!startDate){
-//   Swal.fire({
-//     icon: 'warning',
-//     text: `Please Select Start date`,
-//     confirmButtonText: 'Ok'
-//   })
+    // if(!startDate){
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     text: `Please Select Start date`,
+    //     confirmButtonText: 'Ok'
+    //   })
 
-//   return
-// }
-// if( !endDate){
-//   Swal.fire({
-//     icon: 'warning',
-//     text: `Please Select  End Date`,
-//     confirmButtonText: 'Ok'
-//   })
+    //   return
+    // }
+    // if( !endDate){
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     text: `Please Select  End Date`,
+    //     confirmButtonText: 'Ok'
+    //   })
 
-//   return
-// }
+    //   return
+    // }
 
 
 
@@ -233,8 +233,8 @@ const [formattedDates, setFormattedDates] = useState('');
       setAmountValue('')
       setMinAmount('')
       setMaxAmount('')
-    }else if(minAmount || maxAmount){
-      dispatch({ type: 'EXPENSELIST', payload: { min_amount:minAmount, max_amount: maxAmount} })
+    } else if (minAmount || maxAmount) {
+      dispatch({ type: 'EXPENSELIST', payload: { min_amount: minAmount, max_amount: maxAmount } })
       setCategoryValue('')
       setAssetValue('')
       setVendorValue('')
@@ -245,25 +245,25 @@ const [formattedDates, setFormattedDates] = useState('');
       setMinAmount('')
       setMaxAmount('')
     }
-   
-  }, [ selectedValue, categoryValue, assetValue, vendorValue, modeValue,dates, minAmount, maxAmount,formattedDates])
+
+  }, [selectedValue, categoryValue, assetValue, vendorValue, modeValue, dates, minAmount, maxAmount, formattedDates])
 
 
-console.log("formattedDates",formattedDates)
-// console.log("Mathu", selectedValue, categoryValue, assetValue, vendorValue, modeValue,dates, minAmount, maxAmount)
+  console.log("formattedDates", formattedDates)
+  // console.log("Mathu", selectedValue, categoryValue, assetValue, vendorValue, modeValue,dates, minAmount, maxAmount)
 
 
-const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-console.log("getData",getData)
+  console.log("getData", getData)
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
       setTimeout(() => {
         setGetData(state.ExpenseList.expenseList)
-     
+
         setLoading(false)
-      
-        
+
+
       }, 1000)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
@@ -273,19 +273,19 @@ console.log("getData",getData)
   }, [state.ExpenseList.getExpenseStatusCode])
 
 
-useEffect(()=>{
-  if(state.ExpenseList.nodataGetExpenseStatusCode === 201){
-    setTimeout(() => {
-      setGetData([])
-      setLoading(false)
-    }, 100)
+  useEffect(() => {
+    if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
+      setTimeout(() => {
+        setGetData([])
+        setLoading(false)
+      }, 100)
 
-    setTimeout(()=>{
-      dispatch({ type: 'CLEAR_NOEXPENSEdATA' })
-    },200)
-  }
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NOEXPENSEdATA' })
+      }, 200)
+    }
 
-},[state.ExpenseList.nodataGetExpenseStatusCode])
+  }, [state.ExpenseList.nodataGetExpenseStatusCode])
 
 
 
@@ -360,17 +360,17 @@ useEffect(()=>{
   const [itemsPerPage] = useState(5);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  let filteredData =  [];
- 
-   filteredData = filterByPriceRange(getData) || [];
-  const currentItems = (filteredData && filteredData.length > 0) 
-  ? filteredData.slice(indexOfFirstItem, indexOfLastItem) 
-  : [];
+  let filteredData = [];
+
+  filteredData = filterByPriceRange(getData) || [];
+  const currentItems = (filteredData && filteredData.length > 0)
+    ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
   // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((filteredData && filteredData.length > 0) && filteredData.length / itemsPerPage);
 
   console.log("currentItems", currentItems)
-  console.log("filteredData",filteredData)
+  console.log("filteredData", filteredData)
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -492,7 +492,7 @@ useEffect(()=>{
   const [showAsset, setShowAsset] = useState(false);
   const [showVendor, setShowVendor] = useState(false);
   const [showPaymentMode, setShowPaymentMode] = useState(false);
-const [showAmount, setShowAmount]  = useState(false)
+  const [showAmount, setShowAmount] = useState(false)
 
 
   const handleCatogoryChange = (e) => {
@@ -579,7 +579,7 @@ const [showAmount, setShowAmount]  = useState(false)
 
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div>
-              <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, fontFamily:"Gilroy" }}>Expenses</label>
+              <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
             </div>
 
             <div className="d-flex justify-content-between align-items-center">
@@ -597,7 +597,7 @@ const [showAmount, setShowAmount]  = useState(false)
                     borderRadius: 8,
                     padding: 10,
                     fontSize: 14,
-                    fontFamily:"Gilroy",
+                    fontFamily: "Gilroy",
                     fontWeight: 500,
                     color: "#222222",
                     display: "flex",
@@ -618,7 +618,7 @@ const [showAmount, setShowAmount]  = useState(false)
                       formatDates(selectedDates);
                     }
                   }}
-                  options={{ mode: 'multiple', dateFormat: 'd-M' }}
+                  options={{ mode: 'multiple', dateFormat: 'd-M', maxDate: 'today', }}
                   placeholder="Select Date"
                   style={{
                     padding: 10,
@@ -640,8 +640,8 @@ const [showAmount, setShowAmount]  = useState(false)
                 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px", cursor: "pointer" }} onClick={handleFilterByPrice} />
 
                 {showFilter &&
-                  <ListGroup style={{ position: 'absolute', top: 45, right: 0 , fontFamily:"Gilroy", cursor:"pointer"}}>
-                    <ListGroup.Item value="All"  onClick={handleExpenseAll}>All</ListGroup.Item>
+                  <ListGroup style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
+                    <ListGroup.Item value="All" onClick={handleExpenseAll}>All</ListGroup.Item>
 
 
                     <ListGroup.Item
@@ -681,14 +681,14 @@ const [showAmount, setShowAmount]  = useState(false)
                           value={assetValue}
                           onClick={handleAssetChange}
                         >
-                           {state.AssetList.assetList &&
-                                    [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
-                                      <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
-                              {view.asset_name}
-                            </ListGroup.Item >
-                                                
-                                            ))
-                                        }
+                          {state.AssetList.assetList &&
+                            [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
+                              <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
+                                {view.asset_name}
+                              </ListGroup.Item >
+
+                            ))
+                          }
                           {/* {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
                             <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
                               {view.asset_name}
@@ -727,7 +727,7 @@ const [showAmount, setShowAmount]  = useState(false)
                     </ListGroup.Item>
 
 
-                    <ListGroup.Item 
+                    <ListGroup.Item
                       active={showPaymentMode}
                       onMouseEnter={() => setShowPaymentMode(true)}
                       onMouseLeave={() => setShowPaymentMode(false)}
@@ -754,7 +754,7 @@ const [showAmount, setShowAmount]  = useState(false)
 
                     </ListGroup.Item>
 
-                    <ListGroup.Item 
+                    <ListGroup.Item
                       active={showAmount}
                       onMouseEnter={() => setShowAmount(true)}
                       onMouseLeave={() => setShowAmount(false)}
@@ -767,16 +767,16 @@ const [showAmount, setShowAmount]  = useState(false)
 
                         >
                           <ListGroup.Item className='sub_item' value="0-1000" >
-                           0-1000
+                            0-1000
                           </ListGroup.Item >
                           <ListGroup.Item className='sub_item' value="1000-5000">
                             1000-5000
                           </ListGroup.Item >
                           <ListGroup.Item className='sub_item' value="5000-10000" >
-                         5000-10000
+                            5000-10000
                           </ListGroup.Item >
                           <ListGroup.Item className='sub_item' value="10000" >
-                           10000 Above
+                            10000 Above
                           </ListGroup.Item >
                         </ListGroup>
                       )}
@@ -795,82 +795,99 @@ const [showAmount, setShowAmount]  = useState(false)
 
 
               <div>
-                <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: "fit-content", padding: "18px, 20px, 18px, 20px", fontFamily:"Montserrat" }}> + Add an expense</Button>
+                <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: "fit-content", padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}> + Add an expense</Button>
               </div>
             </div>
           </div>
 
 
 
-          <div className='table-responsive' style={{ border: "1px solid #DCDCDC", borderRadius: "24px" }}>
-            <Table responsive>
-              <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor:"rgba(231, 241, 255, 1)" }}>
-                <tr>
-                  <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center" }}>
-                    <input type='checkbox' style={customCheckboxStyle} />
-                  </th>
+          {/* <div className='table-responsive' style={{ border: "1px solid #DCDCDC", borderRadius: "24px", }}> */}
+          <Table responsive="md"
+            className='Table_Design'
+           
+            style={{
+              height: "auto",
+              tableLayout: "auto",
+              overflow: "visible",
+              borderRadius: "24px",
+              border: "1px solid #DCDCDC"
+            }} >
+            <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor: "rgba(231, 241, 255, 1)" }}>
+              <tr>
+                <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", borderTopLeftRadius: 24, }}>
+                  <input type='checkbox' style={customCheckboxStyle} />
+                </th>
 
 
-                  <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Name</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Expense Date</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Amount</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Mode of Payment</th>
-                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  loading ? <>
-                   <tr>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle,width: '100%' }}></div></td>
-    </tr>
-                  
-                  </>
+                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Name</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Expense Date</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Amount</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Mode of Payment</th>
+                <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                loading ? <>
+                  <tr>
+                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                  </tr>
 
-                :
-                currentItems && currentItems.map((item) => (
-                  <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
-                ))}
-              </tbody>
-            </Table>
+                </>
+
+                  :
+                  currentItems && currentItems.map((item) => (
+                    <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
+                  ))}
+
+<div className="d-flex justify-content-center align-items-center" style={{ height: 'auto', width: "100%" }}>
+  <td  style={{ textAlign: 'center', verticalAlign: 'middle', maxWidth: '100%' ,border:"none"}}>
+    {
+      !loading && currentItems.length === 0 ? (
+        <h5 style={{ fontSize: 14, color: "red" ,textAlign:"center"}}>No Expense Found</h5>
+      ) : null
+    }
+  </td>
+</div>
 
 
 
-            <div className="d-flex justify-content-center" style={{ width: "100%" }}>
-            {
-  (!loading && Array.isArray(getData) && getData.length === 0) || currentItems.length === 0 ? (
-    <h5 style={{ fontSize: 12, color: "red" }}>No Expense Found</h5>
-  ) : null
-}
 
-            </div>
 
-          </div>
+            </tbody>
+          </Table>
+
+
+
+         
+
+          {/* </div> */}
           {/*  Pagination code */}
-{currentItems.length > 0 && 
-          <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-        <Pagination.Prev style={{ visibility:"visible"}}
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-        />
-       {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
-        {renderPagination()}
-        {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
-        <Pagination.Next style={{ visibility:"visible"}}
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        />
-      </Pagination>
-}
+          {currentItems.length > 0 &&
+            <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+              <Pagination.Prev style={{ visibility: "visible" }}
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+              {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
+              {renderPagination()}
+              {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
+              <Pagination.Next style={{ visibility: "visible" }}
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              />
+            </Pagination>
+          }
         </div>
       </div>
       {showModal && <AddExpenses show={showModal} handleClose={handleClose} currentItem={currentItem} />}

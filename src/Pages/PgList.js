@@ -220,6 +220,21 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PG_STATUS_CODE' })
       }, 1000);
+
+
+      setPgList({
+        Name: '',
+        phoneNumber: '',
+        email_Id: '',
+        location: '',
+      
+      });
+
+
+
+
+
+
     }
   }, [state.PgList.createPgStatusCode])
 
@@ -312,16 +327,7 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
           // created_by: decrypt
         }
       });
-      setPgList({
-        Name: '',
-        phoneNumber: '',
-        email_Id: '',
-        location: '',
-        // number_Of_Floor: '',
-        // number_Of_Rooms: '',
-        // floorDetails: [],
-
-      });
+     
       handlecloseHostelForm()
 
 
@@ -782,7 +788,7 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
   const handleShowDelete = (FloorNumber, hostel_Id) => {
     setShowDelete(true)
     setDeleteFloor({floor_Id: FloorNumber, hostel_Id : hostel_Id })
-    setFloorClick(1)
+    // setFloorClick(1)
     
   }
 

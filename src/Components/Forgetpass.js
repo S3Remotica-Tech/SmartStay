@@ -316,7 +316,9 @@ console.log("NewPass",state)
     }
 
 
-if (password.length < 8) {
+    if (/\s/.test(password)) {
+      errorMessage = 'Password cannot contain spaces.';
+     } else if (password.length < 8) {
   errorMessage = 'Password must be at least 8 characters long.';
 } else if (!/[a-z]/.test(password)) {
   errorMessage = 'Password must contain at least one lowercase letter.';

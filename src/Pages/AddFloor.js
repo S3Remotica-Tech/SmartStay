@@ -46,13 +46,14 @@ const handleFloorChange = (e) =>{
     const handleCreateFloor = () => {
 
 
-        if (!floorNo || !/^\d+$/.test(floorNo)) {
+        if (!floorNo || !/^[1-9]\d*$/.test(floorNo)) {
             Swal.fire({
               icon: 'warning',
-              title: 'Please enter a valid Floor no.',
+              title: 'Please enter a valid Floor no.(must be a positive number greater than 0)',
             });
             return;
           }
+          
 
 
 if(floorNo){
@@ -103,7 +104,7 @@ if(floorNo){
                 display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
             }}
         >
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
                     <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
                         <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Add floor</Modal.Title>

@@ -70,7 +70,7 @@ const handleDeleteBed = () =>{
   return (
     <div>  
         
-        <Modal show={show} onHide={handleClose} centered>
+        <Modal show={show} onHide={handleClose} centered backdrop="static">
             <div>
             <Nav fill variant="tabs" >
       <Nav.Item onClick={() => handleShow('addCustomer')}>

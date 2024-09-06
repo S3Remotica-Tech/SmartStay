@@ -40,7 +40,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [id, setId] = useState('')
     const [productName, setProductName] = useState('')
 
-
+    const [errors, setErrors] = useState({});
     const [initialState, setInitialState] = useState({
         assetName: '',
         vendorName: '',
@@ -52,9 +52,20 @@ function StaticExample({ show, handleClose, currentItem }) {
         productName:  '',
             });
 
-    const handleAssetNameChange = (e) => {
-        setAssetName(e.target.value);
-    }
+            const handleAssetNameChange = (e) => {
+                const value = e.target.value;
+                if (value === "") {
+                    setAssetName(value);
+                    setErrors(prevErrors => ({ ...prevErrors, assetName: "Asset name cannot be empty or spaces only" }));
+                    return;
+                }
+                       
+                if (value.trim() !== "") {
+                    setAssetName(value);
+                    setErrors(prevErrors => ({ ...prevErrors, assetName: "" }));
+                }
+            };
+            
 
     const handleVendorNameChange = (e) => {
         setVendorName(e.target.value);
@@ -62,12 +73,39 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
 
     const handleBrandNameChange = (e) => {
-        setBrandName(e.target.value);
-    }
+        const value = e.target.value;
+    
+ 
+        if (value === "") {
+            setBrandName(value);
+            setErrors(prevErrors => ({ ...prevErrors, brandName: "Brand name cannot be empty or spaces only" }));
+            return;
+        }
+    
+    
+        if (value.trim() !== "") {
+            setBrandName(value);
+            setErrors(prevErrors => ({ ...prevErrors, brandName: "" }));
+        }
+    };
+    
 
     const handleSerialNumberChange = (e) => {
-        setSerialNumber(e.target.value);
-    }
+        const value = e.target.value;
+    
+      
+        if (value === "") {
+            setSerialNumber(value);
+            setErrors(prevErrors => ({ ...prevErrors, serialNumber: "Serial number cannot be empty or spaces only" }));
+            return;
+        }
+    
+        if (value.trim() !== "") {
+            setSerialNumber(value);
+            setErrors(prevErrors => ({ ...prevErrors, serialNumber: "" }));
+        }
+    };
+    
 
 
 
@@ -90,11 +128,22 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     const handleProductNameChange = (e) => {
-        setProductName(e.target.value)
-    }
-
-
-
+        const value = e.target.value;
+    
+  
+        if (value === "") {
+            setProductName(value);
+            setErrors(prevErrors => ({ ...prevErrors, productName: "Product name cannot be empty or spaces only" }));
+            return;
+        }
+    
+ 
+        if (value.trim() !== "") {
+            setProductName(value);
+            setErrors(prevErrors => ({ ...prevErrors, productName: "" }));
+        }
+    };
+    
     useEffect(() => {
         dispatch({ type: 'VENDORLIST' })
     }, [])
@@ -225,14 +274,14 @@ if (!price || isNaN(price) || price <= 0) {
 
 
             handleClose()
-            setAssetName('');
-            setVendorName('');
-            setBrandName('');
-            setSerialNumber('');
-            setProductCount('');
-            setPurchaseDate('');
-            setPrice('');
-            setTotalPrice('');
+            // setAssetName('');
+            // setVendorName('');
+            // setBrandName('');
+            // setSerialNumber('');
+            // setProductCount('');
+            // setPurchaseDate('');
+            // setPrice('');
+            // setTotalPrice('');
 
 
 
@@ -304,6 +353,7 @@ if (!price || isNaN(price) || price <= 0) {
     const options = {
         dateFormat: 'd/m/Y',
         defaultDate: selectedDate || new Date(),
+        maxDate: 'today',
     };
 
     useEffect(() => {
@@ -341,6 +391,46 @@ const [formattedDate, setFormattedDate] = useState('')
 
 
 
+
+              useEffect(() => {
+                if (state.AssetList.addAssetStatusCode == 200) {
+               
+                    setAssetName('');
+                    setVendorName('');
+                    setBrandName('');
+                    setSerialNumber('');
+                    setProductCount('');
+                    setPurchaseDate('');
+                    setPrice('');
+                    setTotalPrice('');
+
+
+
+                    
+                }
+            
+              }, [state.AssetList.addAssetStatusCode])
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <div
             className="modal show"
@@ -348,7 +438,7 @@ const [formattedDate, setFormattedDate] = useState('')
                 display: 'block', position: 'initial',
             }}
         >
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
                     <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
                         <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? 'Edit an asset' : 'Add an asset'}</Modal.Title>
