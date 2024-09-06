@@ -293,7 +293,7 @@ function UserListAmenities(props) {
                 </Form.Select>
             </div>
 
-            <Modal show={addamenityShow} onHide={() => setaddamenityShow(false)} centered>
+            <Modal show={addamenityShow} onHide={() => setaddamenityShow(false)} backdrop="static" centered>
                 <Modal.Header closeButton style={{ backgroundColor: "#F5F5FF" }} className="text-center">
                     <Modal.Title style={{ fontSize: 18 }} className="text-center">Add Amnities</Modal.Title>
                 </Modal.Header>

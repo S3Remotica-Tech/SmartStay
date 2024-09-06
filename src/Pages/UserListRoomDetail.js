@@ -31,6 +31,7 @@ function UserListRoomDetail(props) {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
+    console.log("state", state)
     const initialvalue = useRef();
     const [id, setId] = useState('')
     const [file, setFile] = useState(null)
@@ -621,27 +622,38 @@ function UserListRoomDetail(props) {
             return;
         }
 
-        if (!firstname || !Phone || !Email || !Address || !hostel_Id) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please fill in all required fields',
-                confirmButtonText: 'Ok',
+        const validateField = (value, fieldName) => {
+            // Convert the value to a string and trim it, or directly check if it's a non-empty string
+            const stringValue = typeof value === 'string' ? value.trim() : String(value).trim();
 
-            });
-            return;
-        }
+            if (!stringValue) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: `Please enter a valid ${fieldName}`,
+                });
+                return false;
+            }
+            return true;
+        };
 
-        let isChanged =
-            firstname.trim() !== (initialState.firstname || "").trim() ||
-            lastname.trim() !== (initialState.lastname || "").trim() ||
-            Number(Phone) !== Number(initialState.Phone || "") ||
-            Email !== initialState.Email || "" ||
-            Address !== initialState.Address || "" ||
-            hostel_Id !== initialState.hostel_Id || "" ||
-            (file || null) !== (initialState.file || null) ||
-            countryCode !== initialState.countryCode;
+        // Validate fields
+        if (!validateField(firstname, 'First Name')) return;
+        if (!validateField(Phone, 'Phone Number')) return;
+        if (!validateField(Email, 'Email')) return;
+        if (!validateField(Address, 'Address')) return;
+        if (!validateField(hostel_Id, 'Hostel ID')) return;
 
-        if (!isChanged && !isChanged) {
+        const isChanged = (
+            (firstname == initialState.firstname) &&
+            (lastname == initialState.lastname) &&
+            (Number(countryCode + Phone) == Number(initialState.Phone)) &&
+            (Email == initialState.Email) &&
+            (Address == initialState.Address) &&
+            (hostel_Id == initialState.hostel_Id) &&
+            (file) == (initialState.file) 
+        )
+
+        if (isChanged == true) {
             Swal.fire({
                 icon: 'warning',
                 title: 'No changes detected',
@@ -699,6 +711,7 @@ function UserListRoomDetail(props) {
         Email: '',
         Address: '',
         hostel_Id: '',
+        countryCode: '',
         file: null
     });
 
@@ -714,7 +727,6 @@ function UserListRoomDetail(props) {
 
     const handleSaveUserlistAddUser = () => {
         if (Floor && Rooms && Bed) {
-
 
             const isChangedBed =
 
@@ -909,8 +921,8 @@ function UserListRoomDetail(props) {
                                                                         />
                                                                             {/* <img src={call} />  */}
                                                                             <span style={{ marginLeft: 5, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>+{item && String(item.Phone).slice(0, String(item.Phone).length - 10)}
-                                {' '}
-                                {item && String(item.Phone).slice(-10)}</span></p>
+                                                                                {' '}
+                                                                                {item && String(item.Phone).slice(-10)}</span></p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -931,48 +943,93 @@ function UserListRoomDetail(props) {
                                                     <div style={{ flex: 1 }}>
 
                                                         {
-                                                            state.UsersList?.customerdetails?.data?.length > 0 && state.UsersList?.customerdetails?.data.map((g) => {
+                                                            state.UsersList?.customerdetails?.data?.length === 0 || state.UsersList?.customerdetails == '' ?
 
-                                                                return (
-                                                                    <div class="card" style={{ borderRadius: "20px", paddingLeft: 20, paddingTop: 0, paddingRight: 20, paddingBottom: 5 }}>
-                                                                        <div class="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
-                                                                            <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                                                Detailed Information
+                                                                <div class="card" style={{ borderRadius: "20px", paddingLeft: 20, paddingTop: 0, paddingRight: 20, paddingBottom: 5 }}>
+                                                                    <div class="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
+                                                                        <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                                            Detailed Information
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div class="row mb-3">
+                                                                            <div class="col-sm-4">
+                                                                                <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</strong>
+                                                                                <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}><img src={Money} />   ₹{props.userDetails[0].AdvanceAmount}</p>
+                                                                            </div>
+                                                                            <div class="col-sm-4">
+                                                                                <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Rent Amount</strong>
+                                                                                <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}> <img src={Money} /> ₹{props.userDetails[0].RoomRent}/m</p>
                                                                             </div>
 
                                                                         </div>
-                                                                        <div class="card-body">
-                                                                            <div class="row mb-3">
-                                                                                <div class="col-sm-4">
-                                                                                    <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</strong>
-                                                                                    <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}><img src={Money} />   ₹{props.userDetails[0].AdvanceAmount}</p>
-                                                                                </div>
-                                                                                <div class="col-sm-4">
-                                                                                    <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Rent Amount</strong>
-                                                                                    <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}> <img src={Money} /> ₹{props.userDetails[0].RoomRent}/m</p>
-                                                                                </div>
+                                                                        <div class="row mb-3">
+                                                                            <div class="col-sm-12">
+                                                                                <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Amenities</strong>
 
-                                                                            </div>
-                                                                            <div class="row mb-3">
-                                                                                <div class="col-sm-12">
-                                                                                    <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Amenities</strong>
-
-                                                                                    <div class="d-flex flex-wrap mt-2">
-                                                                                        {
+                                                                                {/* <div class="d-flex flex-wrap mt-2">
+                                                                                     <div  style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>Amnities_Name</div> 
+                                                                                         {
                                                                                             g?.amentites?.length > 0 && g?.amentites.map((p) => {
+                                                                                                console.log("p,,,",p)
                                                                                                 return (
                                                                                                     <div key={p.Amnities_Name} style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>{p.Amnities_Name}</div>
 
                                                                                                 )
                                                                                             })
-                                                                                        }
+                                                                                        } 
+                                                                                    </div> */}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                :
+
+                                                                state.UsersList?.customerdetails?.data?.length > 0 && state.UsersList?.customerdetails?.data.map((g) => {
+
+                                                                    return (
+
+                                                                        <div class="card" style={{ borderRadius: "20px", paddingLeft: 20, paddingTop: 0, paddingRight: 20, paddingBottom: 5 }}>
+                                                                            <div class="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
+                                                                                <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                                                    Detailed Information
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                <div class="row mb-3">
+                                                                                    <div class="col-sm-4">
+                                                                                        <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</strong>
+                                                                                        <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}><img src={Money} />   ₹{props.userDetails[0].AdvanceAmount}</p>
+                                                                                    </div>
+                                                                                    <div class="col-sm-4">
+                                                                                        <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Rent Amount</strong>
+                                                                                        <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "gilroy" }}> <img src={Money} /> ₹{props.userDetails[0].RoomRent}/m</p>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                                <div class="row mb-3">
+                                                                                    <div class="col-sm-12">
+                                                                                        <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Amenities</strong>
+
+                                                                                        <div class="d-flex flex-wrap mt-2">
+                                                                                            {
+                                                                                                g?.amentites?.length > 0 && g?.amentites.map((p) => {
+                                                                                                    console.log("p,,,", p)
+                                                                                                    return (
+                                                                                                        <div key={p.Amnities_Name} style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>{p.Amnities_Name}</div>
+
+                                                                                                    )
+                                                                                                })
+                                                                                            }
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                )
-                                                            })
+                                                                    )
+                                                                })
                                                         }
 
                                                     </div>
@@ -1045,7 +1102,7 @@ function UserListRoomDetail(props) {
                                                     </div>
                                                 </div>
 
-                                                <Modal show={formshow} onHide={handleCloseEditcustomer} centered>
+                                                <Modal show={formshow} onHide={handleCloseEditcustomer} backdrop="static" centered>
                                                     <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
 
                                                         <Modal.Body>
@@ -1172,7 +1229,7 @@ function UserListRoomDetail(props) {
                                                                                             fontFamily: "Gilroy",
                                                                                             fontWeight: 500
                                                                                         }}>
-                                                                                           Mobile number
+                                                                                            Mobile number
                                                                                         </Form.Label>
 
                                                                                         <InputGroup>
@@ -1194,26 +1251,26 @@ function UserListRoomDetail(props) {
                                                                                                     paddingRight: 10
                                                                                                 }}
                                                                                             >
-                                                                                                 {
-                  state.UsersList?.countrycode?.country_codes?.map((item)=>{
-                    console.log("itemImage",item);
-                    
-                    return(
-                      console.log("item.country_flag",item.country_flag),
-                      
-                      <>
-                     
-                      <option value={item.country_code}>
-                        +{item.country_code}
-                        {/* {item.country_flag} */}
-                        {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
-                        </option>
-                        {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
-                      {/* {item.country_code} */}
-                      </>
-                    )
-                  })
-                }
+                                                                                                {
+                                                                                                    state.UsersList?.countrycode?.country_codes?.map((item) => {
+                                                                                                        console.log("itemImage", item);
+
+                                                                                                        return (
+                                                                                                            console.log("item.country_flag", item.country_flag),
+
+                                                                                                            <>
+
+                                                                                                                <option value={item.country_code}>
+                                                                                                                    +{item.country_code}
+                                                                                                                    {/* {item.country_flag} */}
+                                                                                                                    {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
+                                                                                                                </option>
+                                                                                                                {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
+                                                                                                                {/* {item.country_code} */}
+                                                                                                            </>
+                                                                                                        )
+                                                                                                    })
+                                                                                                }
                                                                                                 {/* <option value="91">+91</option>
                                                                                                 <option value="1">+1</option>
                                                                                                 <option value="44">+44</option>
