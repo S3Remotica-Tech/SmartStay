@@ -35,7 +35,12 @@ function* handleAddAsset(action) {
 
     }
     else {
-       yield put ({type:'ERROR', payload:response.data.message})
+      Swal.fire({
+         text: `${response.data.message}`,
+         icon: "warning",
+        
+     });
+      //  yield put ({type:'ERROR', payload:response.data.message})
     }
     if(response){
        refreshToken(response)
