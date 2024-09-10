@@ -153,12 +153,31 @@ const MyComponent = () => {
 };
 
 
-
+useEffect(() => {
+  const appearOptions = {
+    threshold : 0.5
+  };
+  const faders = document.querySelectorAll('.fade-in'); 
+  const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+    entries.forEach(entry =>{
+      if(!entry.isIntersecting){
+        return;
+      }
+      else{
+        entry.target.classList.add('appear');
+        appearOnScro1l.unobserve(entry.target);
+      }
+    })
+  }, appearOptions)
+  faders.forEach(fader =>{
+    appearOnScro1l.observe(fader);
+  })
+});
 
   return (
   
     <div className='container login_page1 h-100'>
-      <div className='row h-100 align-items-center p-3 mt-md-4 pt-md-4 w-100'>
+      <div className='row h-100 align-items-center p-3 mt-md-4 pt-md-4 w-100 fade-in'>
         <div className='col-lg-6 col-md-6 col-sm-12'>
         <div className="d-flex gap-1 mb-1">
 

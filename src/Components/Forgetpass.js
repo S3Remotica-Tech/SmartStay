@@ -346,6 +346,26 @@ console.log("NewPass",state)
   };
 
 console.log("disabledButton",disabledButton)
+useEffect(() => {
+  const appearOptions = {
+    threshold : 0.5
+  };
+  const faders = document.querySelectorAll('.fade-in'); 
+  const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+    entries.forEach(entry =>{
+      if(!entry.isIntersecting){
+        return;
+      }
+      else{
+        entry.target.classList.add('appear');
+        appearOnScro1l.unobserve(entry.target);
+      }
+    })
+  }, appearOptions)
+  faders.forEach(fader =>{
+    appearOnScro1l.observe(fader);
+  })
+});
 
   return (
 
@@ -355,7 +375,7 @@ console.log("disabledButton",disabledButton)
         showEmailSend && <>
           <div className="ms-5 mb-5">
 
-            <div className="row g-0 coumn-gap-1 row-gap-4">
+            <div className="row g-0 coumn-gap-1 row-gap-4 fade-in">
               <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" style={{ padding: 80 }}>
                 <div className="d-flex gap-1 mb-1">
 
