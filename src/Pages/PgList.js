@@ -821,7 +821,26 @@ console.log("filteredData",filteredData)
   }
 
 console.log("key",key)
-
+useEffect(() => {
+  const appearOptions = {
+    threshold : 0.5
+  };
+  const faders = document.querySelectorAll('.fade-in'); 
+  const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+    entries.forEach(entry =>{
+      if(!entry.isIntersecting){
+        return;
+      }
+      else{
+        entry.target.classList.add('appear');
+        appearOnScro1l.unobserve(entry.target);
+      }
+    })
+  }, appearOptions)
+  faders.forEach(fader =>{
+    appearOnScro1l.observe(fader);
+  })
+});
 
   return (
     <>
@@ -888,7 +907,7 @@ console.log("key",key)
 
             {!loader && filteredData.length == 0 &&
 
-<div className='d-flex align-items-center justify-content-center' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+<div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
 <div>
 

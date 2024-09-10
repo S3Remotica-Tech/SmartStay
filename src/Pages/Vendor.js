@@ -220,7 +220,26 @@ useEffect(() => {
 
 
 
- 
+useEffect(() => {
+  const appearOptions = {
+    threshold : 0.5
+  };
+  const faders = document.querySelectorAll('.fade-in'); 
+  const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+    entries.forEach(entry =>{
+      if(!entry.isIntersecting){
+        return;
+      }
+      else{
+        entry.target.classList.add('appear');
+        appearOnScro1l.unobserve(entry.target);
+      }
+    })
+  }, appearOptions)
+  faders.forEach(fader =>{
+    appearOnScro1l.observe(fader);
+  })
+});
 
 
   return (
@@ -276,12 +295,24 @@ useEffect(() => {
 
           {!loader && currentItems.length == 0 &&
 
-            <div style={{ width: 400, fontWeight:600, fontFamily:"Gilroy" }}>
-              <Alert variant="warning"  >
-                Currently, no vendors are available.
-              </Alert>
+<div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
-            </div>
+<div>
+
+  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No vendor available</div>
+  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are currently no vendors available</div>
+ 
+</div>
+<div>
+
+</div>
+</div>
+            // <div style={{ width:"100%", fontWeight:600, fontFamily:"Gilroy" }} className='d-flex justify-content-center align-items-center fade-in'>
+            //   <Alert variant="warning"  >
+            //     Currently, no vendors are available.
+            //   </Alert>
+
+            // </div>
           }
   {loader && 
 <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
