@@ -358,7 +358,80 @@ function EB_Hostel() {
     setelectricityFilterddata(state.PgList?.EB_startmeterlist)
   }, [state.PgList?.EB_startmeterlist])
 
-  console.log("TRANSACTIONHISTORY",state.ExpenseList.transactionHistory);
+  
+  const transactionrowsPerPage = 10;
+  const [tranactioncurrentPage, settranactioncurrentPage] = useState(1);
+  const [TransactionFilterddata, seteleTransactionFilterddata] = useState([]);
+
+  const indexOfLastRowtransaction = tranactioncurrentPage * transactionrowsPerPage;
+  const indexOfFirstRowtranaction = indexOfLastRowtransaction - transactionrowsPerPage;
+  const currentRowtransaction = TransactionFilterddata?.slice(indexOfFirstRowtranaction, indexOfLastRowtransaction);
+  const totalPagestransaction = Math.ceil(TransactionFilterddata?.length / transactionrowsPerPage);
+
+
+  const handleTransactionPageChange = (transpageNumber) => {
+    settranactioncurrentPage(transpageNumber);
+  };
+
+  const renderPageNumberstransaction = () => {
+    const pageNumberstransaction = [];
+    let startPagetransaction = tranactioncurrentPage - 1;
+    let endPagetransaction = tranactioncurrentPage + 1;
+
+    if (tranactioncurrentPage === 1) {
+      startPagetransaction = 1;
+      endPagetransaction = 3;
+    }
+
+    if (tranactioncurrentPage === totalPagestransaction) {
+      startPagetransaction = totalPagestransaction - 2;
+      endPagetransaction = totalPagestransaction;
+    }
+
+    if (tranactioncurrentPage === 2) {
+      startPagetransaction = 1;
+      endPagetransaction = 3;
+    }
+
+    if (tranactioncurrentPage === totalPagestransaction - 1) {
+      startPagetransaction = totalPagestransaction - 2;
+      endPagetransaction = totalPagestransaction;
+    }
+
+    for (let i = startPagetransaction; i <= endPagetransaction; i++) {
+      if (i > 0 && i <= totalPagestransaction) {
+        pageNumberstransaction.push(
+          <li key={i} style={{ margin: '0 5px' }}>
+            <button
+              style={{
+                padding: '5px 10px',
+                textDecoration: 'none',
+                color: i === tranactioncurrentPage ? '#007bff' : '#000000',
+                cursor: 'pointer',
+                borderRadius: '5px',
+                display: 'inline-block',
+                minWidth: '30px',
+                textAlign: 'center',
+                backgroundColor: i === tranactioncurrentPage ? 'transparent' : 'transparent',
+                border: i === tranactioncurrentPage ? '1px solid #ddd' : 'none'
+              }}
+              onClick={() => handleTransactionPageChange(i)}
+            >
+              {i}
+            </button>
+          </li>
+        );
+      }
+    }
+
+    return pageNumberstransaction;
+  };
+
+  useEffect(() => {
+    seteleTransactionFilterddata(state.ExpenseList.transactionHistory)
+  }, [state.ExpenseList.transactionHistory])
+
+ 
 
   return (
 
@@ -478,7 +551,7 @@ function EB_Hostel() {
                             console.log("Formatted Date:", formattedDate); */}
               {/* return ( */}
               {
-                state.ExpenseList.transactionHistory && state.ExpenseList.transactionHistory.map((v,i)=>{
+                currentRowtransaction && currentRowtransaction.map((v,i)=>{
                   return(
                     <tr>
 
@@ -519,15 +592,140 @@ function EB_Hostel() {
               {/* ) */}
 
               {/* })} */}
-              {/* {currentRowTransaction.length === 0 && (
+              {currentRowtransaction.length === 0 && (
                             <tr>
                               <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
                             </tr>
-                          )} */}
+                          )}
 
             </tbody>
           </Table>
+
+
+          {currentRowtransaction.length > 0 && (
+            <nav>
+              <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                <li style={{ margin: '0 5px' }}>
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      color: tranactioncurrentPage === 1 ? '#ccc' : '#007bff',
+                      cursor: tranactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handleTransactionPageChange(tranactioncurrentPage - 1)}
+                    disabled={tranactioncurrentPage === 1}
+                  >                                <ArrowLeft2
+                      size="16"
+                      color="#1E45E1"
+                    />
+                    {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                  </button>
+                  {/* <span
+                                onClick={() => handleElectricityPageChange(electricitycurrentPage - 1)}
+                                style={{
+                                  marginTop: '20px',
+                                  cursor: electricitycurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                  color: electricitycurrentPage === 1 ? '#ccc' : '#007bff'
+                                }}
+                              >
+                                Previous
+                              </span> */}
+                </li>
+                {tranactioncurrentPage > 3 && (
+                  <li style={{ margin: '0 5px' }}>
+                    <button
+                      style={{
+                        padding: '5px 10px',
+                        textDecoration: 'none',
+                        color: 'white',
+                        cursor: 'pointer',
+                        borderRadius: '5px',
+                        display: 'inline-block',
+                        minWidth: '30px',
+                        textAlign: 'center',
+                        backgroundColor: 'transparent',
+                        border: "none"
+
+                      }}
+                      onClick={() => handleTransactionPageChange(1)}
+                    >
+                      1
+                    </button>
+                  </li>
+                )}
+                {tranactioncurrentPage > 3 && <span>...</span>}
+                {renderPageNumberstransaction()}
+                {tranactioncurrentPage < totalPagestransaction - 2 && <span>...</span>}
+                {tranactioncurrentPage < totalPagestransaction - 2 && (
+                  <li style={{ margin: '0 5px' }}>
+                    <button
+                      style={{
+                        padding: '5px 10px',
+                        textDecoration: 'none',
+
+                        cursor: 'pointer',
+                        borderRadius: '5px',
+                        display: 'inline-block',
+                        minWidth: '30px',
+                        textAlign: 'center',
+                        backgroundColor: 'transparent',
+                        border: "none"
+
+                      }}
+                      onClick={() => handleTransactionPageChange(totalPagestransaction)}
+                    >
+                      {totalPagestransaction}
+                    </button>
+                  </li>
+                )}
+                <li style={{ margin: '0 5px' }}>
+                  {/* <span
+                                onClick={() => handleElectricityPageChange(electricitycurrentPage + 1)}
+                                style={{
+                                  marginTop: '20px',
+                                  cursor: electricitycurrentPage === totalPagesinvoice ? 'not-allowed' : 'pointer',
+                                  color: electricitycurrentPage === totalPagesinvoice ? '#ccc' : '#007bff'
+                                }}
+                              >
+                                Next
+                              </span> */}
+                  <button
+                    style={{
+                      padding: '5px 10px',
+                      textDecoration: 'none',
+                      color: tranactioncurrentPage === tranactioncurrentPage ? '#ccc' : '#007bff',
+                      cursor: tranactioncurrentPage === tranactioncurrentPage ? 'not-allowed' : 'pointer',
+                      borderRadius: '5px',
+                      display: 'inline-block',
+                      minWidth: '30px',
+                      textAlign: 'center',
+                      backgroundColor: 'transparent',
+                      border: "none"
+                    }}
+                    onClick={() => handleTransactionPageChange(tranactioncurrentPage + 1)}
+                    disabled={tranactioncurrentPage === totalPagestransaction}
+                  >
+                    {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                    <ArrowRight2
+                      size="16"
+                      color="#1E45E1"
+                    />
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          )}
         </div>
+
+
+
       }
       {
         ebShow &&
