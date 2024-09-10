@@ -136,6 +136,28 @@ const [ loader, setLoader] = useState(true)
   }, [state.UsersList?.hosteListStatusCode])
 
 
+  
+
+  useEffect(() => {
+    if (state.UsersList?.noHosteListStatusCode == 201) {
+           setLoader(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NO_HOSTEL_STATUS_CODE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList?.noHosteListStatusCode])
+
+
+
+
+
+
+
+
+
+
+
   const [floorDetails, setFloorDetails] = useState([{ number_of_floor: '' }
     // , { number_of_floor: '' }, { number_of_floor: '' }
   ]);
@@ -586,6 +608,10 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   }
+
+
+console.log("currentItems",currentItems)
+console.log("filteredData",filteredData)
 
   const renderPagination = () => {
     const pageNumbers = [];

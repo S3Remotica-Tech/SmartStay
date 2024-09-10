@@ -25,8 +25,8 @@ function* handleHostelList(hostel) {
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST', payload:{ response: response.data.data, statusCode: response.status || response.statusCode} })
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+   else if(response.status === 201 || response.statusCode === 201){
+      yield put({ type: 'NO_HOSTEL',  payload:{  statusCode: response.status || response.statusCode} })
    }
    if(response){
       refreshToken(response)
