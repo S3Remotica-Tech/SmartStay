@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Room from '../Assets/Images/Key/image 25Room.png'
 import Custom from '../Assets/Images/Key/image 3Custom.png'
 import Inventry from '../Assets/Images/Key/image 26Inventry.png'
@@ -20,6 +20,26 @@ function KeyFeature() {
 
   ])
 
+  useEffect(() => {
+    const appearOptions = {
+      threshold : 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in'); 
+    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+      entries.forEach(entry =>{
+        if(!entry.isIntersecting){
+          return;
+        }
+        else{
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader =>{
+      appearOnScro1l.observe(fader);
+    })
+  });
 
 
   return (
@@ -33,7 +53,7 @@ function KeyFeature() {
 
         {keyValue.map((item) => (
           <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12 '>
-            <Card className="h-100" style={{ backgroundColor: "rgba(224, 236, 255, 1)", borderRadius: 24, border: "1px solid rgba(224, 236, 255, 1)" }}>
+            <Card className="h-100 fade-in" style={{ backgroundColor: "rgba(224, 236, 255, 1)", borderRadius: 24, border: "1px solid rgba(224, 236, 255, 1)" }}>
               <Card.Body>
 
                 <div className='ps-2 mb-2'>

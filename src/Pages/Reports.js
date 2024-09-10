@@ -111,6 +111,36 @@ const handleSearch = (e) => {
 const filteredReports = reports.filter(report =>
   report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
 );
+
+
+
+
+useEffect(() => {
+  const appearOptions = {
+    threshold : 0.5
+  };
+  const faders = document.querySelectorAll('.fade-in'); 
+  const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+    entries.forEach(entry =>{
+      if(!entry.isIntersecting){
+        return;
+      }
+      else{
+        entry.target.classList.add('appear');
+        appearOnScro1l.unobserve(entry.target);
+      }
+    })
+  }, appearOptions)
+  faders.forEach(fader =>{
+    appearOnScro1l.observe(fader);
+  })
+});
+
+
+
+
+
+
   return (
 
     <div style={{ width: "100%" }}>
@@ -146,7 +176,7 @@ placeholder="Search..."
       <div className='row mt-3 mb-3 g-0 '>
         {filteredReports && filteredReports.map((report) => (
           <div key={report.id} className='col-lg-4 col-md-6 col-xs-12 col-sm-12 mb-3'>
-            <Card  
+            <Card  className='fade-in'
              onMouseEnter={() => handleMouseEnter(report.id)}
              onMouseLeave={handleMouseLeave}
              onClick={() => handlePageClick(report.id)}

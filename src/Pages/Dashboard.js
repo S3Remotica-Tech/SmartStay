@@ -59,6 +59,31 @@ function Dashboard(props) {
   console.log("lablesdata", lablesdata)
 
 
+
+
+  useEffect(() => {
+    const appearOptions = {
+      threshold : 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in'); 
+    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+      entries.forEach(entry =>{
+        if(!entry.isIntersecting){
+          return;
+        }
+        else{
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader =>{
+      appearOnScro1l.observe(fader);
+    })
+  });
+
+
+
   useEffect(() => {
     setTotalAmount(state.PgList.dashboardDetails.totalAmount)
   }, [state.PgList.dashboardDetails.totalAmount])
@@ -184,6 +209,9 @@ function Dashboard(props) {
   
     }
    
+
+
+
     
     const CustomLegend = ({ payload }) => {
       return (
@@ -204,8 +232,7 @@ function Dashboard(props) {
       );
     };
 
-
-
+   
   return (
 
     <div className='cotainer  p-4' >
@@ -221,7 +248,7 @@ function Dashboard(props) {
 
       <div className="row carddesign">
         <div className="col-lg-4 col-md-12 col-sm-12 col-xl-3 mb-3">
-          <Card  style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
+          <Card  className="fade-in" style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
             <Card.Body>
               <div>
                 <div>
@@ -237,7 +264,7 @@ function Dashboard(props) {
         </div>
 
         <div className="col-lg-3 col-md-6 col-sm-12 mb-3">
-          <Card style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
+          <Card className="fade-in"  style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
             <Card.Body>
               <div>
                 <div>
@@ -253,7 +280,7 @@ function Dashboard(props) {
         </div>
 
         <div className="col-lg-3 col-md-6 col-sm-12 mb-3">
-          <Card style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
+          <Card className="fade-in" style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
             <Card.Body>
               <div>
                 <div>
@@ -269,7 +296,7 @@ function Dashboard(props) {
         </div>
 
         <div className="col-lg-3 col-md-6 col-sm-12 mb-3">
-          <Card style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
+          <Card className="fade-in" style={{ height: "auto", width: "100%", borderRadius: "20px" }}>
             <Card.Body>
               <div>
                 <div>
@@ -288,7 +315,7 @@ function Dashboard(props) {
 
       <div className='circulardes' >
 
-        <div className='w-full' style={{ flex: 1 }}>
+        <div className='w-full fade-in' style={{ flex: 1 }}>
 
 
           <div className='crddesg w-full' style={{ padding: '0px', paddingTop: "20px", border: '1px solid #e0e0e0', borderRadius: '20px', backgroundColor: '#fff', }}>
@@ -331,7 +358,7 @@ function Dashboard(props) {
               </div>
             </div>
 
-            <div style={{ position: 'relative', width: '100%', height: 350 }}>
+            <div style={{ position: 'relative', width: '100%', height: 350 }} >
               <div style={{ position: 'absolute', top: '10px', left: '20px', display: 'flex', alignItems: 'center' }}>
                 <img src={arrow} alt="Arrow" style={{ width: '10px', height: '30px', marginLeft: '10px' }} />
                 <div style={{ transform: 'rotate(-90deg)', transformOrigin: 'left center', marginTop: '150px', color: '#000' }}>
@@ -339,7 +366,7 @@ function Dashboard(props) {
                 </div>
               </div>
 
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height="100%" >
                 <BarChart
                   data={data}
                   margin={{ top: 10, left: 50, bottom: 40, right: 10 }}
@@ -374,7 +401,7 @@ function Dashboard(props) {
 
           </div>
 
-          <Card style={{ marginTop: 15, height: "auto", width: "97%", borderRadius: "20px" }}>
+          <Card className="fade-in" style={{ marginTop: 15, height: "auto", width: "97%", borderRadius: "20px" }}>
             <Card.Body className="d-flex flex-column align-items-start">
               <div style={{ fontSize: "18px", fontWeight: 600, fontFamily: "Montserrat", paddingLeft: 10 }}>Revenue Target</div>
               <div className='circulardesone' >
@@ -432,7 +459,7 @@ function Dashboard(props) {
         <div style={{ flex: 1 }}>
 
 
-          <div className="expenses-container">
+          <div className="expenses-container fade-in">
             <div className="headertwo">
               <p style={{ fontFamily: "Montserrat", fontSize: 18, fontWeight: 600 }}>Expenses Breakdown</p>
             </div>
@@ -454,7 +481,7 @@ function Dashboard(props) {
               </div>
             </div>
           </div>
-          <div className="complaints-container">
+          <div className="complaints-container fade-in">
             <div className="header">
               <p style={{ fontSize: 18, fontWeight: 600, fontFamily: "Montserrat", paddingLeft: "10px", marginTop: 15 }}>Active Complaints</p>
               <a style={{ textAlign: "right", paddingRight: 15, fontWeight: 600, fontSize: 16, fontFamily: "Montserrat", color: "#1E45E1", cursor: "pointer" }} onClick={() => handlecompliance()}>View all</a>

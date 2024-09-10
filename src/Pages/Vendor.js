@@ -17,7 +17,7 @@ import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import AddVendor from './AddVendor';
-
+import Spinner from 'react-bootstrap/Spinner';
 
 
 function Vendor() {
@@ -31,16 +31,19 @@ function Vendor() {
 
   
 
+  const [ loader, setLoader] = useState(true)
 
   console.log("/////////state for VEndor/////////////", state)
 
   useEffect(() => {
     dispatch({ type: 'VENDORLIST' })
+    setLoader(true)
   }, [])
 
   useEffect(() => {
     if (state.ComplianceList.getVendorStatusCode === 200) {
       setFilteredData(state.ComplianceList.VendorList)
+      setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_GET_VENDOR_STATUS_CODE' })
       }, 1000)
@@ -271,7 +274,7 @@ useEffect(() => {
           ))
           }
 
-          {filteredData.length == 0 &&
+          {!loader && currentItems.length == 0 &&
 
             <div style={{ width: 400, fontWeight:600, fontFamily:"Gilroy" }}>
               <Alert variant="warning"  >
@@ -280,6 +283,20 @@ useEffect(() => {
 
             </div>
           }
+  {loader && 
+<div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+      
+    
+        
+        <div className="d-flex justify-content-center align-items-start gap-3" style={{height:"100%"}}><Spinner animation="grow" style={{color:"rgb(30, 69, 225)"}} /> <div style={{color:"rgb(30, 69, 225)", fontWeight:600}}>Loading.....</div></div> 
+
+      
+      </div>
+}
+
+
+
+
 
         </div>
         {

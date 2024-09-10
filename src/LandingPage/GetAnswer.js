@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card';
 import Smart from '../Assets/Images/get.png'
@@ -6,6 +6,33 @@ import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 
 function GetAnswer() {
+
+
+
+
+
+  useEffect(() => {
+    const appearOptions = {
+      threshold : 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in'); 
+    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+      entries.forEach(entry =>{
+        if(!entry.isIntersecting){
+          return;
+        }
+        else{
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader =>{
+      appearOnScro1l.observe(fader);
+    })
+  });
+
+
   return (
     <div className='mt-3 mb-3'>
 
@@ -19,7 +46,7 @@ function GetAnswer() {
   <div className='row mb-5'>
 
   
-<div className='col-lg-8 offset-lg-2 col-md-12 col-xs-12 col-sm-12'  style={{backgroundColor:""}}>
+<div className='col-lg-8 offset-lg-2 col-md-12 col-xs-12 col-sm-12 fade-in'  style={{backgroundColor:""}}>
 <Accordion 
 // defaultActiveKey="0"
  style={{backgroundColor:"", border:"1px solid rgba(30, 69, 225, 1)", borderRadius:24, padding:20}}>
@@ -84,7 +111,7 @@ function GetAnswer() {
 <div className='row mb-5 mt-2'>
 <div className='col-lg-8 offset-lg-2 col-md-12 col-xs-12 col-sm-12 d-flex justify-content-start' style={{backgroundColor:""}}>
 
-<Card style={{position:"relative",backgroundColor:"rgba(30, 69, 225, 1)", marginLeft:0, borderRadius:24,width:"100%", maxWidth:1000, padding:40}} className='d-flex justify-content-center align-items-center'>
+<Card  style={{position:"relative",backgroundColor:"rgba(30, 69, 225, 1)", marginLeft:0, borderRadius:24,width:"100%", maxWidth:1000, padding:40}} className='d-flex justify-content-center align-items-center fade-in'>
       <Card.Body>
 
 <div style={{border:"1px solid rgba(255, 255, 255, 1)", width:150, height:100, borderRadius:70, position:"absolute", top:-20, left:-100}}>

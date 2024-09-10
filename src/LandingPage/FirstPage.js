@@ -37,8 +37,36 @@ function FirstPage() {
         return () => window.removeEventListener('resize', handleResize);
       }, []);
 
+
+
+      useEffect(() => {
+        const appearOptions = {
+          threshold : 0.5
+        };
+        const faders = document.querySelectorAll('.fade-in'); 
+        const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+          entries.forEach(entry =>{
+            if(!entry.isIntersecting){
+              return;
+            }
+            else{
+              entry.target.classList.add('appear');
+              appearOnScro1l.unobserve(entry.target);
+            }
+          })
+        }, appearOptions)
+        faders.forEach(fader =>{
+          appearOnScro1l.observe(fader);
+        })
+      });
+
+
+
+
+
+
   return (
-    <div style={{backgroundColor:"#FFFFFF" ,height:"",paddingTop:40,width:"100%"}} className=''>
+    <div style={{backgroundColor:"#FFFFFF" ,height:"",paddingTop:40,width:"100%"}} className='animated-text'>
 
 <div className='d-flex justify-content-center '>
     <label style={{fontWeight:600, fontFamily:"Montserrat", color:"rgba(0, 0, 0, 1)", fontSize:18}}>👋 MANAGE YOUR PG</label>
