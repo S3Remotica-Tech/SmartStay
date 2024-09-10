@@ -43,6 +43,7 @@
     "react-bootstrap-icons": "^1.10.3",
     "react-chartjs-2": "^5.2.0",
     "react-circular-progressbar": "^2.1.0",
+    "react-countup": "^6.5.3",
     "react-datepicker": "^4.25.0",
     "react-dom": "^18.2.0",
     "react-flatpickr": "^3.10.13",

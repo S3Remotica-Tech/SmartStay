@@ -25,7 +25,7 @@ function App() {
   const cookies = new Cookies();
   const dispatch = useDispatch();
   const state = useSelector(state => state);
-  const [data, setData] = useState('');
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const login = localStorage.getItem("login");

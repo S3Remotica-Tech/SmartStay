@@ -29,6 +29,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import drop from '../Assets/Images/New_images/arrow-down.png';
 import { Offcanvas, Form, FormControl } from 'react-bootstrap';
+import CountUp from 'react-countup';
 
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label, LabelList
@@ -229,7 +230,7 @@ function Dashboard(props) {
                   <p style={{ paddingTop: 15, fontSize: 16, fontWeight: 400, fontFamily: "Montserrat" }}>Total Hostel</p>
                 </div>
                 <p style={{ fontSize: 32, fontWeight: 600, fontFamily: "Montserrat" }}>
-                  {hostelCount.toLocaleString()}
+                <CountUp start={0} end={hostelCount.toLocaleString()} /> 
                 </p>
               </div>
             </Card.Body>
@@ -245,7 +246,7 @@ function Dashboard(props) {
                   <p style={{ paddingTop: 15, fontSize: 16, fontWeight: 400, fontFamily: "Montserrat" }}>Available Beds</p>
                 </div>
                 <p style={{ fontSize: 32, fontWeight: 600, fontFamily: "Montserrat" }}>
-                  {availableBed.toLocaleString()}
+                <CountUp start={0} end= {availableBed.toLocaleString()} />    
                 </p>
               </div>
             </Card.Body>
@@ -261,7 +262,7 @@ function Dashboard(props) {
                   <p style={{ paddingTop: 15, fontSize: 16, fontWeight: 400, fontFamily: "Montserrat" }}>Total Rooms</p>
                 </div>
                 <p style={{ fontSize: 32, fontWeight: 600, fontFamily: "Montserrat" }}>
-                  {roomCount.toLocaleString()}
+                <CountUp start={0} end={roomCount.toLocaleString()} />    
                 </p>
               </div>
             </Card.Body>
@@ -277,7 +278,7 @@ function Dashboard(props) {
                   <p style={{ paddingTop: 15, fontSize: 16, fontWeight: 400, fontFamily: "Montserrat" }}>Occupied Beds</p>
                 </div>
                 <p style={{ fontSize: 32, fontWeight: 600, fontFamily: "Montserrat" }}>
-                  {occupied_Bed.toLocaleString()}
+                <CountUp start={0} end={occupied_Bed.toLocaleString()} />   
                 </p>
               </div>
             </Card.Body>

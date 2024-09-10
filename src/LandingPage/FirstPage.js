@@ -5,6 +5,7 @@ import { Height } from '@material-ui/icons';
 import Spring1 from '../Assets/Images/New_images/image 24.png'
 import Spring2 from '../Assets/Images/New_images/image 23.png';
 import { useNavigate } from "react-router-dom";
+import CountUp from 'react-countup';
 
 
 
@@ -74,16 +75,16 @@ function FirstPage() {
 <div className="d-flex justify-content-around flex-wrap mt-5 mb-5" style={{backgroundColor:"rgba(250, 249, 255, 1)",padding:"50px 30px"}}>
 
 <div className='text-center'>
-    <div style={{fontSize:60,fontWeight:700,fontFamily:"Montserrat",color:"rgba(30, 69, 225, 1)"}}>200K</div>
+    <div style={{fontSize:60,fontWeight:700,fontFamily:"Montserrat",color:"rgba(30, 69, 225, 1)"}}> <CountUp start={0} end={200} delay={2}/>K</div>
     <div style={{fontSize:18,fontWeight:400,fontFamily:"Montserrat",color:"rgba(0, 0, 0, 1)"}}>Users use this platform</div>
 </div>
 
 <div className='text-center'>
-    <div style={{fontSize:60,fontWeight:700,fontFamily:"Montserrat",color:"rgba(30, 69, 225, 1)"}}>30K+</div>
+    <div style={{fontSize:60,fontWeight:700,fontFamily:"Montserrat",color:"rgba(30, 69, 225, 1)"}}><CountUp start={0} end={30} delay={2}/>K+</div>
     <div style={{fontSize:18,fontWeight:400,fontFamily:"Montserrat",color:"rgba(0, 0, 0, 1)"}}>Active users this month</div>
 </div>
 <div className='text-center'>
-    <div style={{fontSize:60,fontWeight:700,fontFamily:"Montserrat",color:"rgba(30, 69, 225, 1)"}}>25K+</div>
+    <div style={{fontSize:60,fontWeight:700,fontFamily:"Montserrat",color:"rgba(30, 69, 225, 1)"}}><CountUp start={0} end={25} delay={2}/>K+</div>
     <div style={{fontSize:18,fontWeight:400,fontFamily:"Montserrat",color:"rgba(0, 0, 0, 1)"}}>Available states</div>
 </div>
 </div>
