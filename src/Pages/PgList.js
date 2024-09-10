@@ -136,6 +136,28 @@ const [ loader, setLoader] = useState(true)
   }, [state.UsersList?.hosteListStatusCode])
 
 
+  
+
+  useEffect(() => {
+    if (state.UsersList?.noHosteListStatusCode == 201) {
+           setLoader(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NO_HOSTEL_STATUS_CODE' })
+      }, 1000)
+    }
+
+  }, [state.UsersList?.noHosteListStatusCode])
+
+
+
+
+
+
+
+
+
+
+
   const [floorDetails, setFloorDetails] = useState([{ number_of_floor: '' }
     // , { number_of_floor: '' }, { number_of_floor: '' }
   ]);
@@ -587,6 +609,10 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
     setCurrentPage(pageNumber);
   }
 
+
+console.log("currentItems",currentItems)
+console.log("filteredData",filteredData)
+
   const renderPagination = () => {
     const pageNumbers = [];
     let startPage = Math.max(1, currentPage - 2);
@@ -795,7 +821,26 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
   }
 
 console.log("key",key)
-
+useEffect(() => {
+  const appearOptions = {
+    threshold : 0.5
+  };
+  const faders = document.querySelectorAll('.fade-in'); 
+  const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+    entries.forEach(entry =>{
+      if(!entry.isIntersecting){
+        return;
+      }
+      else{
+        entry.target.classList.add('appear');
+        appearOnScro1l.unobserve(entry.target);
+      }
+    })
+  }, appearOptions)
+  faders.forEach(fader =>{
+    appearOnScro1l.observe(fader);
+  })
+});
 
   return (
     <>
@@ -862,7 +907,7 @@ console.log("key",key)
 
             {!loader && filteredData.length == 0 &&
 
-<div className='d-flex align-items-center justify-content-center' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+<div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
 <div>
 

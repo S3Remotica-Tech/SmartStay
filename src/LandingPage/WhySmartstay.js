@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import './whysmart.css';
 import Image from '../Assets/Images/New_images/image 9.png'
+
 
 const steps = [
   {
@@ -37,7 +38,26 @@ const steps = [
 export default function VerticalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
 
- 
+  useEffect(() => {
+    const appearOptions = {
+      threshold : 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in'); 
+    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+      entries.forEach(entry =>{
+        if(!entry.isIntersecting){
+          return;
+        }
+        else{
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader =>{
+      appearOnScro1l.observe(fader);
+    })
+  });
 
   return (
     <>
@@ -54,10 +74,10 @@ export default function VerticalLinearStepper() {
       <Stepper  orientation="vertical" style={{backgroundColor:"", height:"100%"}} >
         {steps.map((step, index) => (
           <Step key={step.label} active={true} style={{color:"none",paddingBottom:5 }}>
-            <StepLabel  style={{fontFamily:"Gilroy", fontSize:24, fontWeight:600,color:"rgba(0, 0, 0, 1)"}}>
+            <StepLabel className='fade-in' style={{fontFamily:"Gilroy", fontSize:24, fontWeight:600,color:"rgba(0, 0, 0, 1)"}}>
               {step.label}
             </StepLabel>
-            <StepContent className='content-mui'>
+            <StepContent className='content-mui fade-in'>
               <Typography style={{fontFamily:"Montserrat", fontSize:18, fontWeight:400,color:"rgba(0, 0, 0, 1)"}}>{step.description}</Typography>
              
             </StepContent>

@@ -33,7 +33,8 @@ const initialState = {
     Kyc_Ref_Id: '',
     kycValidateOtpVerifySuccess: 0,
     createFloorSuccessStatusCode: 0,
-    countrycode:[]
+    countrycode: [],
+    noHosteListStatusCode: 0
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -115,6 +116,12 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_HOSTELLIST_STATUS_CODE':
             return { ...state, hosteListStatusCode: 0 }
 
+        case 'NO_HOSTEL':
+            return { ...state, noHosteListStatusCode: action.payload.statusCode }
+
+        case 'CLEAR_NO_HOSTEL_STATUS_CODE':
+            return { ...state, noHosteListStatusCode: 0 }
+            
         case 'HOSTEL_DETAIL_LIST':
             console.log("HOSTEL_DETAIL_LIST", action.payload)
             return { ...state, hosteldetailslist: action.payload }
@@ -122,8 +129,8 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, CheckOut: action.payload.response, checkOutStatusCode: action.payload.statusCode }
         case 'CLEAR_STATUS_CODE_CHECK_OUT':
             return { ...state, checkOutStatusCode: 0 }
-            case 'COUNTRY_LIST':
-                return { ...state, countrycode: action.payload };
+        case 'COUNTRY_LIST':
+            return { ...state, countrycode: action.payload };
 
         case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {

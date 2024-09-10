@@ -357,6 +357,42 @@ function Asset() {
               </tr>
             </thead>
             <tbody>
+  {
+    loading ? (
+      <>
+        <tr>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+        </tr>
+      </>
+    ) : (
+      currentItems && currentItems.length > 0 ? (
+        <>
+          {currentItems.map((item) => (
+            <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} />
+          ))}
+        </>
+      ) : (
+        <tr style={{border:"none"}}>
+        <td colSpan="10" style={{ textAlign: "center", padding: "20px", color: "red",border:"none" }}>
+          <h5 style={{ fontSize: 14 }}>No Asset Found</h5>
+        </td>
+      </tr>
+        
+      )
+    )
+  }
+</tbody>
+
+            {/* <tbody>
             {
                   loading ? <>
                    <tr>
@@ -381,19 +417,22 @@ function Asset() {
 
               ))}
               </>
+              :
+              <>
+                           <div className="d-flex justify-content-center" style={{ width: "100%" }}>
+              {
+                !loading && currentItems.length === 0 && <h5 style={{ fontSize: 12, color: "red" }}>No Asset Found</h5>
+              }
+   
+            </div>
+            </>
             }
-            </tbody>
+            </tbody> */}
           </Table>
 
 
 
-          <div className="d-flex justify-content-center" style={{ width: "100%" }}>
-            {
-              !loading && currentItems.length === 0 && <h5 style={{ fontSize: 12, color: "red" }}>No Asset Found</h5>
-            }
-
-
-          </div>
+        
 
 
 
