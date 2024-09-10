@@ -79,8 +79,33 @@ function PayingGuestMap(props) {
         };
     }, []);
 
+
+
+    useEffect(() => {
+        const appearOptions = {
+          threshold : 0.5
+        };
+        const faders = document.querySelectorAll('.fade-in'); 
+        const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+          entries.forEach(entry =>{
+            if(!entry.isIntersecting){
+              return;
+            }
+            else{
+              entry.target.classList.add('appear');
+              appearOnScro1l.unobserve(entry.target);
+            }
+          })
+        }, appearOptions)
+        faders.forEach(fader =>{
+          appearOnScro1l.observe(fader);
+        })
+      });
+    
+
+
     return (
-        <Card className="h-100" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }} >
+        <Card className="h-100 fade-in" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }} >
             <Card.Body style={{ padding: 20 }}>
                 <div className="d-flex justify-content-between align-items-center flex-wrap" >
                     <div className='d-flex gap-2'>

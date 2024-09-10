@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
@@ -12,6 +12,32 @@ import Report from '../Assets/pricing/clipboard-text.png';
 
 
 function Pricing() {
+
+
+   useEffect(() => {
+      const appearOptions = {
+        threshold : 0.5
+      };
+      const faders = document.querySelectorAll('.fade-in'); 
+      const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+        entries.forEach(entry =>{
+          if(!entry.isIntersecting){
+            return;
+          }
+          else{
+            entry.target.classList.add('appear');
+            appearOnScro1l.unobserve(entry.target);
+          }
+        })
+      }, appearOptions)
+      faders.forEach(fader =>{
+        appearOnScro1l.observe(fader);
+      })
+    });
+  
+
+
+
   return (
     <div className='mb-5'>
 <div className='d-flex justify-content-center mt-3 mb-5'>
@@ -19,7 +45,7 @@ function Pricing() {
 </div>
 
 <div className='d-flex justify-content-center'>
-<Card style={{backgroundColor:"rgba(34, 34, 34, 1)", borderRadius:"40px", maxWidth:600, width:"100%", padding:"15px 20px"}}>
+<Card className='fade-in' style={{backgroundColor:"rgba(34, 34, 34, 1)", borderRadius:"40px", maxWidth:600, width:"100%", padding:"15px 20px"}}>
       <Card.Body>
 
 <label style={{color:"rgba(255, 255, 255, 1)",fontFamily:"Gilroy", fontWeight:700, fontSize:40 }}> Get SmartStay</label>

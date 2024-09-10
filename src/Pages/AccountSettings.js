@@ -707,12 +707,31 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
   };
 
  
-
+  useEffect(() => {
+    const appearOptions = {
+      threshold : 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in'); 
+    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+      entries.forEach(entry =>{
+        if(!entry.isIntersecting){
+          return;
+        }
+        else{
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader =>{
+      appearOnScro1l.observe(fader);
+    })
+  });
 
 
   return (
 
-    <div className="container" style={{ marginLeft: '30px' }}>
+    <div className="container fade-in" style={{ marginLeft: '30px' }}>
       <h3 style={{ marginLeft: '10px', fontSize: 24, fontWeight: 600, fontFamily: "Gilroy" }}>Account Settings</h3>
 
 
