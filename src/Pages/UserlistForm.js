@@ -18,6 +18,9 @@ import User from '../Assets/Images/Ellipse 1.png';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { MdError } from "react-icons/md";
 
 
 
@@ -80,18 +83,19 @@ function UserlistForm(props) {
   const [createdat, setCreatedAt] = useState('')
   const [payableamount, setPayableamount] = useState('');
   const [countryCode, setCountryCode] = useState('91');
-  console.log("countryCode",countryCode)
+  console.log("countryCode", countryCode)
 
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
-   
+
   };
 
 
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
+  console.log("state",state)
 
   const [profilePicture, setProfilePicture] = useState('');
   const [filteredProfile, setFilteredProfile] = useState(null);
@@ -140,7 +144,68 @@ function UserlistForm(props) {
 
   const handleFirstName = (e) => {
     setFirstname(e.target.value)
+    setFirstnameError('');
   }
+  const [firstnameError, setFirstnameError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [addressError, setAddressError] = useState('');
+  const [hostelIdError, setHostelIdError] = useState('');
+  const [phonenumError,setphonenumError] = useState('')
+  const [emailIdError,setemailIdError] = useState('')
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
+
+
+  useEffect(()=>{
+    setphonenumError(state.UsersList.phoneError)
+  },[state.UsersList.phoneError])
+
+  useEffect(()=>{
+    setemailIdError(state.UsersList.emailError)
+  },[state.UsersList.emailError])
+
+  const validateField = (value, fieldName) => {
+    if (!value || value.trim() === '') {
+      switch (fieldName) {
+        case 'First Name':
+          setFirstnameError('First Name is required');
+          break;
+        case 'Phone Number':
+          setPhoneError('Phone Number is required');
+          break;
+        case 'Email':
+          setEmailError('Email is required');
+          break;
+        case 'Address':
+          setAddressError('Address is required');
+          break;
+        case 'Hostel ID':
+          setHostelIdError('Hostel ID is required');
+          break;
+        default:
+          break;
+      }
+      return false;
+    }
+    return true;
+  };
+
+  // const validateField = (value, fieldName) => {
+  //   if (!value || value.trim() === '') {
+  //     // Show inline error for first name
+  //     if (fieldName === 'First Name') {
+  //       setFirstnameError('First Name is required');
+  //     }
+  //     return false;
+  //   } else {
+  //     // Clear the error if field is valid
+  //     if (fieldName === 'First Name') {
+  //       setFirstnameError('');
+  //     }
+  //   }
+  //   return true;
+  // };
   const handleLastName = (e) => {
     setLastname(e.target.value)
   }
@@ -200,6 +265,8 @@ function UserlistForm(props) {
     }
   }
 
+
+
   // const handlePhone = (e) => {
   //   setPhone(e.target.value)
   //   const pattern = new RegExp(/^\d{1,10}$/);
@@ -212,35 +279,82 @@ function UserlistForm(props) {
   //   }
   // }
 
+  // const handlePhone = (e) => {
+  //   setPhone(e.target.value);
+  //   const pattern = new RegExp(/^\d{1,10}$/);
+  //   const isValidMobileNo = pattern.test(e.target.value);
+  //   const errorElement = document.getElementById('MobileNumberError');
+
+  //   if (errorElement) {
+  //     if (isValidMobileNo && e.target.value.length === 10) {
+  //       errorElement.innerHTML = '';
+  //     } else {
+  //       errorElement.innerHTML = 'Invalid mobile number *';
+  //     }
+  //   }
+  // }
   const handlePhone = (e) => {
     setPhone(e.target.value);
-    const pattern = new RegExp(/^\d{1,10}$/);
+    const pattern = /^\d{1,10}$/;
     const isValidMobileNo = pattern.test(e.target.value);
-    const errorElement = document.getElementById('MobileNumberError');
-  
-    if (errorElement) {
-      if (isValidMobileNo && e.target.value.length === 10) {
-        errorElement.innerHTML = '';
-      } else {
-        errorElement.innerHTML = 'Invalid mobile number *';
-      }
+
+    if (isValidMobileNo && e.target.value.length === 10) {
+      setPhoneError('');
+    } else {
+      setPhoneError('Invalid mobile number *');
     }
-  }
+    setPhoneErrorMessage('')
+    dispatch({ type: 'CLEAR_PHONE_ERROR' })
+    
+  };
+
+  // const handleEmail = (e) => {
+  //   setEmail(e.target.value)
+  //   const email = e.target.value
+  //   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  //   const isValidEmail = emailRegex.test(email);
+  //   if (isValidEmail) {
+  //     document.getElementById('emailIDError').innerHTML = ''
+  //   }
+  //   else {
+  //     document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *'
+  //   }
+  // }
+  // const handleEmail = (e) => {
+  //   setEmail(e.target.value);
+  //   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  //   const isValidEmail = emailRegex.test(e.target.value);
+
+  //   if (isValidEmail) {
+  //     setEmailError('');
+  //   } else {
+  //     setEmailError('Invalid Email Id *');
+  //   }
+  // };
+
+
 
   const handleEmail = (e) => {
-    setEmail(e.target.value)
-    const email = e.target.value
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const isValidEmail = emailRegex.test(email);
+    setEmail(e.target.value);
+
+    // Updated regex to allow only lowercase letters, numbers, and periods before the @
+    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+    // Check if the input email matches the regex
+    const isValidEmail = emailRegex.test(e.target.value);
+
     if (isValidEmail) {
-      document.getElementById('emailIDError').innerHTML = ''
+      setEmailError('');
+    } else {
+      setEmailError('Invalid Email Id *');
     }
-    else {
-      document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *'
-    }
-  }
+    emailErrorMessage('')
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' })
+  };
   const handleAddress = (e) => {
     setAddress(e.target.value)
+    setAddressError('')
+   
   }
 
   const handleIsActiveUser = (e) => {
@@ -262,16 +376,50 @@ function UserlistForm(props) {
     setFloor("")
     setRooms("")
     setBed("")
+    setHostelIdError('');
   }
+const [floorError,setfloorError] =useState('')
+const [roomError,setRoomError] =useState('')
+const [bedError,setBedError] =useState('')
+const [advanceAmountError,setAdvanceAmountError] =useState('')
+const [roomrentError,setRoomRentError] = useState('')
+
+
+  const validateAssignField = (value, fieldName) => {
+    if (!value || value.trim() === '') {
+      switch (fieldName) {
+        case 'Floor':
+          setfloorError('Floor required');
+          break;
+        case 'Room':
+          setRoomError('Room is required');
+          break;
+        case 'Bed':
+          setBedError('Bed is required');
+          break;
+        case 'AdvanceAmount':
+          setAdvanceAmountError('AdvanceAmount is required');
+          break;
+        case 'RoomRent':
+          setRoomRentError('roomrent ID is required');
+          break;
+        default:
+          break;
+      }
+      return false;
+    }
+    return true;
+  };
   const handleFloor = (e) => {
     setFloor(e.target.value)
     setRooms("")
     setBed("")
+    setfloorError('')
   }
   const handleRooms = (e) => {
     setRooms(e.target.value);
     dispatch({ type: 'BEDNUMBERDETAILS', payload: { hostel_id: hostel_Id, floor_id: Floor, room_id: e.target.value } })
-
+setRoomError('')
 
   }
 
@@ -279,13 +427,14 @@ function UserlistForm(props) {
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     setRoomRent(roomRentValue);
-
+setRoomRentError('')
   }
 
 
 
   const handleBed = (e) => {
     setBed(e.target.value);
+    setBedError('')
 
   };
 
@@ -297,6 +446,7 @@ function UserlistForm(props) {
   const handleAdvanceAmount = (e) => {
     const advanceAmount = e.target.value;
     setAdvanceAmount(advanceAmount)
+    setAdvanceAmountError('')
 
   }
 
@@ -406,65 +556,49 @@ function UserlistForm(props) {
   }, [])
 
 
-//  const MobileNumber = `${countryCode}${Phone}`
- const MobileNumber = `${countryCode}${Phone}`
- const handleSaveUserlist = () => {
-  console.log("check");
+  //  const MobileNumber = `${countryCode}${Phone}`
+  const MobileNumber = `${countryCode}${Phone}`
 
-  // Common validation function
-  const validateField = (value, fieldName) => {
-      if (!value || value.trim() === '') {
-          Swal.fire({
-              icon: 'warning',
-              title: `Please enter a valid ${fieldName}`,
-          });
-          return false;
-      }
-      return true;
-  };
 
-  // Validate fields
-  if (!validateField(firstname, 'First Name')) return;
-  if (!validateField(Phone, 'Phone Number')) return;
-  if (!validateField(Email, 'Email')) return;
-  if (!validateField(Address, 'Address')) return;
-  if (!validateField(hostel_Id, 'Hostel ID')) return;
 
-  // Error checks for email and mobile number
-  const emailElement = document.getElementById('emailIDError');
-  const emailError = emailElement ? emailElement.innerHTML : '';
-  const phoneNumberError = document.getElementById('MobileNumberError');
-  const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
 
-  if (emailError === 'Invalid Email Id *') {
-      Swal.fire({
-          icon: 'warning',
-          title: 'Please enter a valid email address',
-          confirmButtonText: 'Ok',
-      });
+
+  const handleSaveUserlist = () => {
+    console.log("check");
+  
+    // Validate fields
+    if (!validateField(firstname, 'First Name')) return;
+    if (!validateField(Phone, 'Phone Number')) return;
+    if (!validateField(Email, 'Email')) return;
+    if (!validateField(Address, 'Address')) return;
+    if (!validateField(hostel_Id, 'Hostel ID')) return;
+  
+    // Check for email and phone errors from state
+    if (emailError === 'Invalid Email Id *') {
+      setEmailErrorMessage('Please enter a valid email address');
       return;
-  }
+    } else {
+      setEmailErrorMessage(''); // Clear the error if validation passes
+    }
 
-  if (mobileError === 'Invalid mobile number *') {
-      Swal.fire({
-          icon: 'warning',
-          title: 'Please enter a valid 10-digit phone number',
-          confirmButtonText: 'Ok',
-      });
+    // Check for phone errors
+    if (phoneError === 'Invalid mobile number *') {
+      setPhoneErrorMessage('Please enter a valid 10-digit phone number');
       return;
-  }
-
-  // Capitalize the first letter of firstname and lastname
-  const capitalizeFirstLetter = (str) => {
+    } else {
+      setPhoneErrorMessage(''); // Clear the error if validation passes
+    }
+    // Capitalize the first letter of firstname and lastname
+    const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  };
-
-  const capitalizedFirstname = capitalizeFirstLetter(firstname);
-  const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-  // Prepare payload
-  const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
-  const payload = {
+    };
+  
+    const capitalizedFirstname = capitalizeFirstLetter(firstname);
+    const capitalizedLastname = capitalizeFirstLetter(lastname);
+  
+    // Prepare payload
+    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
+    const payload = {
       profile: file,
       firstname: capitalizedFirstname,
       lastname: capitalizedLastname,
@@ -486,64 +620,360 @@ function UserlistForm(props) {
       paid_advance: paid_advance,
       paid_rent: paid_rent,
       payable_rent: payableamount,
-  };
-
-  if (props.edit === 'Edit') {
+    };
+  
+    if (props.edit === 'Edit') {
       payload.ID = id; // Include the ID if editing an existing user
-  }
-
-  // Dispatch action
-  dispatch({
+    }
+  
+    // Dispatch action
+    dispatch({
       type: 'ADDUSER',
       payload: payload,
-  });
-
-  // Additional actions after edit (optional)
-  props.AfterEditHostels(hostel_Id);
-  props.AfterEditFloors(Floor);
-  props.AfterEditRoomses(Rooms);
-  props.AfterEditBeds(Bed);
-
-  // Close the form
+    });
   
-};
+    // Additional actions after edit (optional)
+    props.AfterEditHostels(hostel_Id);
+    props.AfterEditFloors(Floor);
+    props.AfterEditRoomses(Rooms);
+    props.AfterEditBeds(Bed);
+  
+    // Close the form
+  };
+  
+
+
+  // const handleSaveUserlist = () => {
+  //   console.log("check");
+
+  //   // Validate fields
+  //   if (!validateField(firstname, 'First Name')) return;
+  //   if (!validateField(Phone, 'Phone Number')) return;
+  //   if (!validateField(Email, 'Email')) return;
+  //   if (!validateField(Address, 'Address')) return;
+  //   if (!validateField(hostel_Id, 'Hostel ID')) return;
+
+  //   // Check for email and phone errors from state
+  //   if (emailError === 'Invalid Email Id *') {
+  //     toast.warn('Please enter a valid email address', {
+  //       // position: "top-center",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       style: {
+  //         position: 'fixed',
+  //         display: 'flex',
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //         top: '50%',
+  //         left: '50%',
+  //         transform: 'translate(-50%, -50%)',
+  //         zIndex: 9999 // To ensure it appears above other elements
+  //       },
+  //     });
+  //     return;
+  //   }
+
+  //   if (phoneError === 'Invalid mobile number *') {
+  //     toast.warn('Please enter a valid 10-digit phone number', {
+  //       // position: "top-center",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       style: {
+  //         position: 'fixed',
+  //         display: 'flex',
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //         top: '50%',
+  //         left: '50%',
+  //         transform: 'translate(-50%, -50%)',
+  //         zIndex: 9999,
+  //         // backgroundColor: 'red', // Background color red
+  //         // color: 'white' // To ensure it appears above other elements
+  //       },
+  //     });
+  //     return;
+  //   }
+
+  //   // Capitalize the first letter of firstname and lastname
+  //   const capitalizeFirstLetter = (str) => {
+  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  //   };
+
+  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
+  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
+
+  //   // Prepare payload
+  //   const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
+  //   const payload = {
+  //     profile: file,
+  //     firstname: capitalizedFirstname,
+  //     lastname: capitalizedLastname,
+  //     Phone: MobileNumber,
+  //     Email: Email,
+  //     Address: Address,
+  //     AadharNo: AadharNo,
+  //     PancardNo: PancardNo,
+  //     licence: licence,
+  //     HostelName: HostelName,
+  //     hostel_Id: hostel_Id,
+  //     Floor: Floor,
+  //     Rooms: Rooms,
+  //     Bed: Bed,
+  //     AdvanceAmount: AdvanceAmount,
+  //     RoomRent: RoomRent,
+  //     BalanceDue: BalanceDue,
+  //     PaymentType: PaymentType,
+  //     paid_advance: paid_advance,
+  //     paid_rent: paid_rent,
+  //     payable_rent: payableamount,
+  //   };
+
+  //   if (props.edit === 'Edit') {
+  //     payload.ID = id; // Include the ID if editing an existing user
+  //   }
+
+  //   // Dispatch action
+  //   dispatch({
+  //     type: 'ADDUSER',
+  //     payload: payload,
+  //   });
+
+  //   // Additional actions after edit (optional)
+  //   props.AfterEditHostels(hostel_Id);
+  //   props.AfterEditFloors(Floor);
+  //   props.AfterEditRoomses(Rooms);
+  //   props.AfterEditBeds(Bed);
+
+  //   // Close the form
+  // };
+
+  //  const handleSaveUserlist = () => {
+  //   console.log("check");
+
+  //   // Validate fields
+  //   if (!validateField(firstname, 'First Name')) return;
+  //   if (!validateField(Phone, 'Phone Number')) return;
+  //   if (!validateField(Email, 'Email')) return;
+  //   if (!validateField(Address, 'Address')) return;
+  //   if (!validateField(hostel_Id, 'Hostel ID')) return;
+
+  //   // Error checks for email and mobile number
+  //   const emailElement = document.getElementById('emailIDError');
+  //   const emailError = emailElement ? emailElement.innerHTML : '';
+  //   const phoneNumberError = document.getElementById('MobileNumberError');
+  //   const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+
+  //   if (emailError === 'Invalid Email Id *') {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Please enter a valid email address',
+  //       confirmButtonText: 'Ok',
+  //     });
+  //     return;
+  //   }
+
+  //   if (mobileError === 'Invalid mobile number *') {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Please enter a valid 10-digit phone number',
+  //       confirmButtonText: 'Ok',
+  //     });
+  //     return;
+  //   }
+
+  //   // Capitalize the first letter of firstname and lastname
+  //   const capitalizeFirstLetter = (str) => {
+  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  //   };
+
+  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
+  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
+
+  //   // Prepare payload
+  //   const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
+  //   const payload = {
+  //     profile: file,
+  //     firstname: capitalizedFirstname,
+  //     lastname: capitalizedLastname,
+  //     Phone: MobileNumber,
+  //     Email: Email,
+  //     Address: Address,
+  //     AadharNo: AadharNo,
+  //     PancardNo: PancardNo,
+  //     licence: licence,
+  //     HostelName: HostelName,
+  //     hostel_Id: hostel_Id,
+  //     Floor: Floor,
+  //     Rooms: Rooms,
+  //     Bed: Bed,
+  //     AdvanceAmount: AdvanceAmount,
+  //     RoomRent: RoomRent,
+  //     BalanceDue: BalanceDue,
+  //     PaymentType: PaymentType,
+  //     paid_advance: paid_advance,
+  //     paid_rent: paid_rent,
+  //     payable_rent: payableamount,
+  //   };
+
+  //   if (props.edit === 'Edit') {
+  //     payload.ID = id; // Include the ID if editing an existing user
+  //   }
+
+  //   // Dispatch action
+  //   dispatch({
+  //     type: 'ADDUSER',
+  //     payload: payload,
+  //   });
+
+  //   // Additional actions after edit (optional)
+  //   props.AfterEditHostels(hostel_Id);
+  //   props.AfterEditFloors(Floor);
+  //   props.AfterEditRoomses(Rooms);
+  //   props.AfterEditBeds(Bed);
+
+  //   // Close the form
+  // };
+
+
+
+
+
+
+  //hhjh
+  //  const handleSaveUserlist = () => {
+  //   console.log("check");
+
+  //   // Common validation function
+  //   const validateField = (value, fieldName) => {
+  //       if (!value || value.trim() === '') {
+  //           Swal.fire({
+  //               icon: 'warning',
+  //               title: `Please enter a valid ${fieldName}`,
+  //           });
+  //           return false;
+  //       }
+  //       return true;
+  //   };
+
+  //   // Validate fields
+  //   if (!validateField(firstname, 'First Name')) return;
+  //   if (!validateField(Phone, 'Phone Number')) return;
+  //   if (!validateField(Email, 'Email')) return;
+  //   if (!validateField(Address, 'Address')) return;
+  //   if (!validateField(hostel_Id, 'Hostel ID')) return;
+
+  //   // Error checks for email and mobile number
+  //   const emailElement = document.getElementById('emailIDError');
+  //   const emailError = emailElement ? emailElement.innerHTML : '';
+  //   const phoneNumberError = document.getElementById('MobileNumberError');
+  //   const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+
+  //   if (emailError === 'Invalid Email Id *') {
+  //       Swal.fire({
+  //           icon: 'warning',
+  //           title: 'Please enter a valid email address',
+  //           confirmButtonText: 'Ok',
+  //       });
+  //       return;
+  //   }
+
+  //   if (mobileError === 'Invalid mobile number *') {
+  //       Swal.fire({
+  //           icon: 'warning',
+  //           title: 'Please enter a valid 10-digit phone number',
+  //           confirmButtonText: 'Ok',
+  //       });
+  //       return;
+  //   }
+
+  //   // Capitalize the first letter of firstname and lastname
+  //   const capitalizeFirstLetter = (str) => {
+  //       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  //   };
+
+  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
+  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
+
+  //   // Prepare payload
+  //   const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
+  //   const payload = {
+  //       profile: file,
+  //       firstname: capitalizedFirstname,
+  //       lastname: capitalizedLastname,
+  //       Phone: MobileNumber,
+  //       Email: Email,
+  //       Address: Address,
+  //       AadharNo: AadharNo,
+  //       PancardNo: PancardNo,
+  //       licence: licence,
+  //       HostelName: HostelName,
+  //       hostel_Id: hostel_Id,
+  //       Floor: Floor,
+  //       Rooms: Rooms,
+  //       Bed: Bed,
+  //       AdvanceAmount: AdvanceAmount,
+  //       RoomRent: RoomRent,
+  //       BalanceDue: BalanceDue,
+  //       PaymentType: PaymentType,
+  //       paid_advance: paid_advance,
+  //       paid_rent: paid_rent,
+  //       payable_rent: payableamount,
+  //   };
+
+  //   if (props.edit === 'Edit') {
+  //       payload.ID = id; // Include the ID if editing an existing user
+  //   }
+
+  //   // Dispatch action
+  //   dispatch({
+  //       type: 'ADDUSER',
+  //       payload: payload,
+  //   });
+
+  //   // Additional actions after edit (optional)
+  //   props.AfterEditHostels(hostel_Id);
+  //   props.AfterEditFloors(Floor);
+  //   props.AfterEditRoomses(Rooms);
+  //   props.AfterEditBeds(Bed);
+
+  //   // Close the form
+
+  // };
 
   const handleSaveUserlistAddUser = () => {
-    const validateField = (value, fieldName) => {
-      if (!value || value.trim() === '') {
-          Swal.fire({
-              icon: 'warning',
-              title: `Please enter a valid ${fieldName}`,
-          });
-          return false;
-      }
-      return true;
-  };
+   
 
-  // Validate fields
-  if (!validateField(Floor, 'Floor')) return;
-  if (!validateField(Rooms, 'Rooms')) return;
-  if (!validateField(Bed, 'Bed')) return;
-  if (!validateField(AdvanceAmount, 'AdvanceAmount')) return;
-  if (!validateField(RoomRent, 'RoomRent')) return;
+    // Validate fields
+    if (!validateAssignField(Floor, 'Floor')) return;
+    if (!validateAssignField(Rooms, 'Room')) return;
+    if (!validateAssignField(Bed, 'Bed')) return;
+    if (!validateAssignField(AdvanceAmount, 'AdvanceAmount')) return;
+    if (!validateAssignField(RoomRent, 'RoomRent')) return;
 
 
 
-  if (Number(RoomRent) <= 0) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Room Rent must be greater than 0',
-    });
-    return;
-}
+    if (Number(RoomRent) <= 0) {
+      setRoomRentError('Room Rent must be greater than 0');
+      return;
+    } else {
+      setRoomRentError(''); // Clear the error if validation passes
+    }
 
-if (Number(AdvanceAmount) <= 0) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Advance Amount must be greater than 0',
-    });
-    return;
-}
+    if (Number(AdvanceAmount) <= 0) {
+      setAdvanceAmountError('Advance Amount must be greater than 0');
+      return;
+    } else {
+      setAdvanceAmountError(''); // Clear the error if validation passes
+    }
+
     if (Floor && Rooms && Bed) {
       dispatch({
         type: 'ADDUSER',
@@ -579,15 +1009,15 @@ if (Number(AdvanceAmount) <= 0) {
       props.AfterEditBeds(Bed)
       handleClose();
     }
-    else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Fields',
-        confirmButtonText: 'Ok',
-       
-      });
+    // else {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Please Enter All Fields',
+    //     confirmButtonText: 'Ok',
 
-    }
+    //   });
+
+    // }
 
     dispatch({ type: 'INVOICELIST' })
   }
@@ -708,6 +1138,7 @@ if (Number(AdvanceAmount) <= 0) {
                           style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         />
                       </Form.Group>
+                      {firstnameError && <div style={{ color: 'red' }}> <MdError style={{width:20,height:20}} />{firstnameError}</div>}
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                       <Form.Group className="mb-3">
@@ -740,84 +1171,88 @@ if (Number(AdvanceAmount) <= 0) {
                       </Form.Group>
                     </div> */}
 
-<Form.Group  className='col-lg-6 col-md-6 col-sm-12 col-xs-12' controlId="exampleForm.ControlInput1">
-            <Form.Label style={{ 
-              fontSize: 14, 
-              color: "#222222", 
-              fontFamily: "Gilroy",
-              fontWeight: 500 
-            }}>
-              Mobile number
-            </Form.Label>
+                    <Form.Group className='col-lg-6 col-md-6 col-sm-12 col-xs-12' controlId="exampleForm.ControlInput1">
+                      <Form.Label style={{
+                        fontSize: 14,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500
+                      }}>
+                        Mobile number
+                      </Form.Label>
 
-            <InputGroup>
-              <Form.Select
-                value={countryCode}
-                id="vendor-select-pg"
-                onChange={handleCountryCodeChange}
-                style={{
-                  border: "1px solid #D9D9D9",
-                 
-                  borderRadius: "8px 0 0 8px",
-                  height: 50,
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: countryCode ? 600 : 500,
-                  boxShadow: "none",
-                  backgroundColor: "#fff",
-                  maxWidth:90,
-                  paddingRight:10
-                }}
-              >
-               
-                {
-                  state.UsersList?.countrycode?.country_codes?.map((item)=>{
-                    console.log("itemImage",item);
-                    
-                    return(
-                      console.log("item.country_flag",item.country_flag),
+                      <InputGroup>
+                        <Form.Select
+                          value={countryCode}
+                          id="vendor-select-pg"
+                          onChange={handleCountryCodeChange}
+                          style={{
+                            border: "1px solid #D9D9D9",
+
+                            borderRadius: "8px 0 0 8px",
+                            height: 50,
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: countryCode ? 600 : 500,
+                            boxShadow: "none",
+                            backgroundColor: "#fff",
+                            maxWidth: 90,
+                            paddingRight: 10
+                          }}
+                        >
+
+                          {
+                            state.UsersList?.countrycode?.country_codes?.map((item) => {
+                              console.log("itemImage", item);
+
+                              return (
+                                console.log("item.country_flag", item.country_flag),
+
+                                <>
+
+                                  <option value={item.country_code}>
+                                    +{item.country_code}
+                                    {/* {item.country_flag} */}
+                                    {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
+                                  </option>
+                                  {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
+                                  {/* {item.country_code} */}
+                                </>
+                              )
+                            })
+                          }
+
+
+
+                        </Form.Select>
+                        <Form.Control
+                          value={Phone}
+                          onChange={handlePhone}
+                          type="text"
+                          placeholder="9876543210"
+                          maxLength={10}
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: Phone ? 600 : 500,
+                            boxShadow: "none",
+                            borderLeft: "unset",
+                            borderRight: "1px solid #D9D9D9",
+                            borderTop: "1px solid #D9D9D9",
+                            borderBottom: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: "0 8px 8px 0",
+                          }}
+                        />
+                      </InputGroup>
+                      <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                      {phoneError && <div style={{ color: 'red' }}><MdError />{phoneError}</div>}
+                      {phonenumError && <div style={{ color: 'red' }}><MdError />{phonenumError}</div>}
+                      {phoneErrorMessage && <div style={{ color: 'red' }}><MdError />{phoneErrorMessage}</div>}
                       
-                      <>
-                     
-                      <option value={item.country_code}>
-                        +{item.country_code}
-                        {/* {item.country_flag} */}
-                        {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
-                        </option>
-                        {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
-                      {/* {item.country_code} */}
-                      </>
-                    )
-                  })
-                }
-               
-
-       
-              </Form.Select>
-              <Form.Control
-                value={Phone}
-                onChange={handlePhone}
-                type="text"
-                placeholder="9876543210"
-                maxLength={10}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: Phone ? 600 : 500,
-                  boxShadow: "none",
-                  borderLeft: "unset",
-                  borderRight: "1px solid #D9D9D9",
-                  borderTop: "1px solid #D9D9D9",
-                  borderBottom: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: "0 8px 8px 0",
-                }}
-              />
-            </InputGroup>
-            <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-          </Form.Group> 
+                    </Form.Group>
                     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                       <Form.Group className="mb-3">
                         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email Id</Form.Label>
@@ -831,6 +1266,10 @@ if (Number(AdvanceAmount) <= 0) {
                           style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         />
                         <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                        {emailError && <div style={{ color: 'red' }}><MdError />{emailError}</div>}
+                        {emailIdError && <div style={{ color: 'red' }}><MdError />{emailIdError}</div>}
+                        {emailErrorMessage && <div style={{ color: 'red' }}><MdError />{emailErrorMessage}</div>}
+
                       </Form.Group>
                     </div>
 
@@ -847,6 +1286,7 @@ if (Number(AdvanceAmount) <= 0) {
                           // style={bottomBorderStyle}
                           style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         />
+                        {addressError && <div style={{ color: 'red' }}><MdError />{addressError}</div>}
                       </Form.Group>
                     </div>
 
@@ -865,12 +1305,13 @@ if (Number(AdvanceAmount) <= 0) {
                           <option key={item.id} value={item.id}>{item.Name}</option>
                         ))}
                       </Form.Select>
+                      {hostelIdError && <div style={{ color: 'red' }}><MdError />{hostelIdError}</div>}
                     </div>
                   </div>
 
 
                   <Button className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat", marginTop: 20 }} onClick={handleSaveUserlist}>
-                   Add an Customer
+                    Add an Customer
                   </Button>
                 </div>
                 :
@@ -932,6 +1373,7 @@ if (Number(AdvanceAmount) <= 0) {
                             </option>
                           ))}
                       </Form.Select>
+                      {floorError && <div style={{ color: 'red' }}><MdError />{floorError}</div>}
                     </div>
 
                     <div className='col-12 mt-1'>
@@ -962,6 +1404,7 @@ if (Number(AdvanceAmount) <= 0) {
 
                         }
                       </Form.Select>
+                      {roomError && <div style={{ color: 'red' }}><MdError />{roomError}</div>}
                     </div>
 
                     <div className='col-12 mt-3 mb-3'>
@@ -983,6 +1426,7 @@ if (Number(AdvanceAmount) <= 0) {
                           <option key={item.bed_no} value={item.bed_no}>{item.bed_no}</option>
                         ))}
                       </Form.Select>
+                      {bedError && <div style={{ color: 'red' }}><MdError />{bedError}</div>}
                     </div>
 
                     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -997,6 +1441,7 @@ if (Number(AdvanceAmount) <= 0) {
                           style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         />
                       </Form.Group>
+                      {advanceAmountError && <div style={{ color: 'red' }}><MdError />{advanceAmountError}</div>}
                     </div>
 
                     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -1011,6 +1456,7 @@ if (Number(AdvanceAmount) <= 0) {
                           style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         />
                       </Form.Group>
+                      {roomrentError && <div style={{ color: 'red' }}><MdError />{roomrentError}</div>}
                     </div>
                   </div>
 

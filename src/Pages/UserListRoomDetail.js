@@ -272,6 +272,7 @@ function UserListRoomDetail(props) {
 
     const handleFirstName = (e) => {
         setFirstname(e.target.value)
+        setFirstnameError('');
         //    handleInputChange()
     }
     const handleLastName = (e) => {
@@ -320,35 +321,66 @@ function UserListRoomDetail(props) {
             setPaidrent(e.target.value)
         }
     }
-
     const handlePhone = (e) => {
-        // handleInputChange()
-        setPhone(e.target.value)
-        const pattern = new RegExp(/^\d{1,10}$/);
-        const isValidMobileNo = pattern.test(e.target.value)
+        setPhone(e.target.value);
+        const pattern = /^\d{1,10}$/;
+        const isValidMobileNo = pattern.test(e.target.value);
+    
         if (isValidMobileNo && e.target.value.length === 10) {
-            document.getElementById('MobileNumberError').innerHTML = ''
+          setPhoneError('');
+        } else {
+          setPhoneError('Invalid mobile number *');
         }
-        else {
-            document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
-        }
-    }
+        setPhoneErrorMessage('')
+        dispatch({ type: 'CLEAR_PHONE_ERROR' })
+        
+      };
+    // const handlePhone = (e) => {
+    //     // handleInputChange()
+    //     setPhone(e.target.value)
+    //     const pattern = new RegExp(/^\d{1,10}$/);
+    //     const isValidMobileNo = pattern.test(e.target.value)
+    //     if (isValidMobileNo && e.target.value.length === 10) {
+    //         document.getElementById('MobileNumberError').innerHTML = ''
+    //     }
+    //     else {
+    //         document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
+    //     }
+    // }
+    // const handleEmail = (e) => {
+    //     // handleInputChange()
+    //     setEmail(e.target.value)
+    //     const email = e.target.value
+    //     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    //     const isValidEmail = emailRegex.test(email);
+    //     if (isValidEmail) {
+    //         document.getElementById('emailIDError').innerHTML = ''
+    //     }
+    //     else {
+    //         document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *'
+    //     }
+    // }
     const handleEmail = (e) => {
-        // handleInputChange()
-        setEmail(e.target.value)
-        const email = e.target.value
-        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-        const isValidEmail = emailRegex.test(email);
+        setEmail(e.target.value);
+    
+        // Updated regex to allow only lowercase letters, numbers, and periods before the @
+        const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    
+        // Check if the input email matches the regex
+        const isValidEmail = emailRegex.test(e.target.value);
+    
         if (isValidEmail) {
-            document.getElementById('emailIDError').innerHTML = ''
+          setEmailError('');
+        } else {
+          setEmailError('Invalid Email Id *');
         }
-        else {
-            document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *'
-        }
-    }
+        emailErrorMessage('')
+        dispatch({ type: 'CLEAR_EMAIL_ERROR' })
+      };
     const handleAddress = (e) => {
         // handleInputChange()
         setAddress(e.target.value)
+        setAddressError('')
     }
 
     const handleIsActiveUser = (e) => {
@@ -396,6 +428,7 @@ function UserListRoomDetail(props) {
         setFloor("")
         setRooms("")
         setBed("")
+        setHostelIdError('')
     }
     const handleFloor = (e) => {
         setFloor(e.target.value)
@@ -592,8 +625,69 @@ function UserListRoomDetail(props) {
     //     setFormShow(false)
     //     // handleCloseEditcustomer();
     //   };
+    const [firstnameError, setFirstnameError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [addressError, setAddressError] = useState('');
+  const [hostelIdError, setHostelIdError] = useState('');
+  const [phonenumError,setphonenumError] = useState('')
+  const [emailIdError,setemailIdError] = useState('')
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
+const validateField = (value, fieldName) => {
+    // Ensure value is a string before using trim
+    const stringValue = String(value).trim();
+  
+    if (!stringValue) {
+      switch (fieldName) {
+        case 'First Name':
+          setFirstnameError('First Name is required');
+          break;
+        case 'Phone Number':
+          setPhoneError('Phone Number is required');
+          break;
+        case 'Email':
+          setEmailError('Email is required');
+          break;
+        case 'Address':
+          setAddressError('Address is required');
+          break;
+        case 'Hostel ID':
+          setHostelIdError('Hostel ID is required');
+          break;
+        default:
+          break;
+      }
+      return false;
+    }
+    return true;
+  };
 
-
+    // const validateField = (value, fieldName) => {
+    //     if (!value || value.trim() === '') {
+    //       switch (fieldName) {
+    //         case 'First Name':
+    //           setFirstnameError('First Name is required');
+    //           break;
+    //         case 'Phone Number':
+    //           setPhoneError('Phone Number is required');
+    //           break;
+    //         case 'Email':
+    //           setEmailError('Email is required');
+    //           break;
+    //         case 'Address':
+    //           setAddressError('Address is required');
+    //           break;
+    //         case 'Hostel ID':
+    //           setHostelIdError('Hostel ID is required');
+    //           break;
+    //         default:
+    //           break;
+    //       }
+    //       return false;
+    //     }
+    //     return true;
+    //   };
 
 
     const handleSaveUserlist = () => {
@@ -602,39 +696,9 @@ function UserListRoomDetail(props) {
         const phoneNumberError = document.getElementById('MobileNumberError');
         const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
 
-        if (emailError === 'Invalid Email Id *') {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please enter a valid email address',
-                confirmButtonText: 'Ok',
+     
 
-            });
-            return;
-        }
-
-        if (mobileError === 'Invalid mobile number *') {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please enter a valid 10-digit phone number',
-                confirmButtonText: 'Ok',
-
-            });
-            return;
-        }
-
-        const validateField = (value, fieldName) => {
-            // Convert the value to a string and trim it, or directly check if it's a non-empty string
-            const stringValue = typeof value === 'string' ? value.trim() : String(value).trim();
-
-            if (!stringValue) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: `Please enter a valid ${fieldName}`,
-                });
-                return false;
-            }
-            return true;
-        };
+       
 
         // Validate fields
         if (!validateField(firstname, 'First Name')) return;
@@ -642,6 +706,20 @@ function UserListRoomDetail(props) {
         if (!validateField(Email, 'Email')) return;
         if (!validateField(Address, 'Address')) return;
         if (!validateField(hostel_Id, 'Hostel ID')) return;
+        if (emailError === 'Invalid Email Id *') {
+            setEmailErrorMessage('Please enter a valid email address');
+            return;
+          } else {
+            setEmailErrorMessage(''); // Clear the error if validation passes
+          }
+      
+          // Check for phone errors
+          if (phoneError === 'Invalid mobile number *') {
+            setPhoneErrorMessage('Please enter a valid 10-digit phone number');
+            return;
+          } else {
+            setPhoneErrorMessage(''); // Clear the error if validation passes
+          }
 
         const isChanged = (
             (firstname == initialState.firstname) &&
@@ -650,7 +728,7 @@ function UserListRoomDetail(props) {
             (Email == initialState.Email) &&
             (Address == initialState.Address) &&
             (hostel_Id == initialState.hostel_Id) &&
-            (file) == (initialState.file) 
+            (file) == (initialState.file)
         )
 
         if (isChanged == true) {
@@ -1192,6 +1270,7 @@ function UserListRoomDetail(props) {
                                                                                             style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                                                                                         />
                                                                                     </Form.Group>
+                                                                                    {firstnameError && <div style={{ color: 'red' }}> <MdError style={{width:20,height:20}} />{firstnameError}</div>}
                                                                                 </div>
                                                                                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                                                                     <Form.Group className="mb-3">
