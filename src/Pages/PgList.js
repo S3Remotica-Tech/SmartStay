@@ -276,10 +276,23 @@ function PgList() {
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
+      setShowDelete(false)
+
+      toast.success('Floor has been successfully deleted!', {
+        position: 'top-center',
+        autoClose: 2000, 
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle
+      });
+
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_FLOOR' })
-      }, 2000)
+      }, 4000)
       setFloorClick('')
     }
   }, [state.UsersList.deleteFloorSuccessStatusCode])

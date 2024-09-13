@@ -35,11 +35,11 @@ function* handleAddAsset(action) {
 
     }
     else {
-      Swal.fire({
-         text: `${response.data.message}`,
-         icon: "warning",
+   //    Swal.fire({
+   //       text: `${response.data.message}`,
+   //       icon: "warning",
         
-     });
+   //   });
       //  yield put ({type:'ERROR', payload:response.data.message})
     }
     if(response){

@@ -521,7 +521,7 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                   <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Last Name</Form.Label>
+                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Last Name <span  style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
                     <Form.Control
                     value={lastName}
                     onChange={(e)=>{handleLastName(e)}}

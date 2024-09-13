@@ -186,18 +186,19 @@ function* handleDeleteBed(action) {
    console.log("response delete Bed", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_BED', payload: { response: response.data, statusCode: response.status || response.statusCode} })
-      Swal.fire({
-         icon: 'success',
-         title: "Bed Deleted successfully",
-     })
+   //    Swal.fire({
+   //       icon: 'success',
+   //       title: "Bed Deleted successfully",
+   //   })
    }
    else if (response.status === 201 || response.statusCode === 201) {
-       Swal.fire({
-         icon: 'warning',
-         title: response.data.message,
-         // timer: 1000,
-         // showConfirmButton: false,
-              });
+      yield put({ type: 'DELETE_BED_ERROR', payload: response.data.message })
+      //  Swal.fire({
+      //    icon: 'warning',
+      //    title: response.data.message,
+      //    // timer: 1000,
+      //    // showConfirmButton: false,
+      //         });
    }
    if(response){
       refreshToken(response)

@@ -131,7 +131,9 @@ useEffect(() => {
             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
           </div>
           <div >
-            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.vendor && props.vendor.Vendor_Email}</label>
+          <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
+  {props.vendor && props.vendor.Vendor_Email && props.vendor.Vendor_Email !== "undefined" ? props.vendor.Vendor_Email : ''}
+</label>
           </div>
 
         </div>

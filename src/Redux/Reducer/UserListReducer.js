@@ -36,7 +36,8 @@ const initialState = {
     countrycode: [],
     noHosteListStatusCode: 0,
     alreadyFloorHere:'',
-
+    deleteFloorError:'',
+deleteRoomError:'',
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -138,6 +139,18 @@ const UserListReducer = (state = initialState, action) => {
             return {...state, alreadyFloorHere:action.payload}
             case 'CLEAR_ALREADY_FLOOR_ERROR' : 
             return {...state, alreadyFloorHere:''}
+            
+            case 'DELETE_FLOOR_ERROR' : 
+            return {...state, deleteFloorError:action.payload}
+            case 'CLEAR_DELETE_FLOOR_ERROR' : 
+            return {...state, deleteFloorError:''}
+
+           
+
+            case 'DELETE_ROOM_ERROR' : 
+            return {...state, deleteRoomError:action.payload}
+            case 'CLEAR_ DELETE_ROOM_ERROR' : 
+            return {...state, deleteRoomError:''}
 
         case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {

@@ -60,16 +60,16 @@ function* handleAddVendor(action) {
  console.log("response", response)
    if (response.statusCode === 200 || response.status === 200){
       yield put ({type : 'ADD_VENDOR' , payload:{response:response.data, statusCode:response.statusCode || response.status}})
-      Swal.fire({
-         text: response.message,
-         icon: "success",
-         // timer: 2000,
-         // showConfirmButton: false,
-     });
+   //    Swal.fire({
+   //       text: response.message,
+   //       icon: "success",
+   //       // timer: 2000,
+   //       // showConfirmButton: false,
+   //   });
    }
    else if(response.statusCode === 202 || response.status === 202) {
       
-      yield put ({type:'ALREADY_VENDOR_ERROR', payload:response.data.message})
+      yield put ({type:'ALREADY_VENDOR_ERROR', payload:response.message})
 
    //    Swal.fire({
    //       text: response.message,

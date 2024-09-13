@@ -8,6 +8,7 @@ const initialState = {
     addVendorSuccessStatusCode: 0,
     getVendorStatusCode: 0,
     deleteVendorStatusCode: 0,
+    alreadyVendorHere: '',
 
 }
 
@@ -36,6 +37,11 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, deleteVendorStatusCode: action.payload.statusCode }
         case 'CLEAR_DELETE_VENDOR_STATUS_CODE':
             return { ...state, deleteVendorStatusCode: 0 }
+           
+            case 'ALREADY_VENDOR_ERROR':
+                return { ...state, alreadyVendorHere: action.payload }
+            case 'CLEAR_ALREADY_VENDOR_ERROR':
+                return { ...state, alreadyVendorHere: '' }
     }
     return state;
 }

@@ -18,6 +18,8 @@ import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import AddVendor from './AddVendor';
 import Spinner from 'react-bootstrap/Spinner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Vendor() {
@@ -50,7 +52,12 @@ function Vendor() {
     }
   }, [state.ComplianceList.getVendorStatusCode])
 
-
+  const toastStyle = {
+   
+    backgroundColor: 'green', 
+    color: 'white', 
+    width:"100%"
+  };
 
   useEffect(() => {
     if (state.ComplianceList.addVendorSuccessStatusCode === 200 || state.ComplianceList.deleteVendorStatusCode === 200) {
@@ -58,6 +65,21 @@ function Vendor() {
      
       setTimeout(() => {
         dispatch({ type: 'VENDORLIST' })
+        toast.success('Succsessfully added  a new hostel', {
+          position: 'top-center',
+          autoClose: 2000, 
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: toastStyle
+        });
+
+
+
+
+
         console.log("get vendor list executed")
       }, 100)
       setTimeout(() => {
@@ -245,6 +267,11 @@ useEffect(() => {
   return (
 
     <div style={{ width: "100%", fontFamily: "Gilroy" }} className=''>
+
+<ToastContainer />
+
+
+
       <div className='m-4'>
         {/* <div className='d-flex justify-content-end align-items-center mb-4'>
 

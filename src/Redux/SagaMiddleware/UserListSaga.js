@@ -204,22 +204,23 @@ function* handleAddUser(datum) {
       if(response.status === 200 || response.statusCode === 200){
          yield put({ type: 'DELETE_FLOOR', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
     
-         Swal.fire({
-            icon: 'success',
-         text: 'Floor Delete Successfully',
-      //   timer: 2000,
-      //   showConfirmButton: false,
-      });
+      //    Swal.fire({
+      //       icon: 'success',
+      //    text: 'Floor Delete Successfully',
+      // //   timer: 2000,
+      // //   showConfirmButton: false,
+      // });
      
      
       }
       else if(response.status === 201 || response.statusCode === 201){
-         Swal.fire({
-            icon: 'warning',
-         text: 'Please delete rooms before deleting the floor',
-      //   timer: 2000,
-      //   showConfirmButton: false,
-      });
+         yield put({ type: 'DELETE_FLOOR_ERROR', payload: response.data.message })
+      //    Swal.fire({
+      //       icon: 'warning',
+      //    text: 'Please delete rooms before deleting the floor',
+      // //   timer: 2000,
+      // //   showConfirmButton: false,
+      // });
       }
       if(response){
          refreshToken(response)
@@ -239,10 +240,11 @@ function* handleDeleteRoom(roomDetails){
  
    }
    else  if(response.status === 201 || response.statusCode === 201) {
-      Swal.fire({
-         icon: 'warning',
-      text: `Please delete the bed before deleting the room`,
-     });
+      yield put({ type: 'DELETE_ROOM_ERROR', payload: response.data.message })
+   //    Swal.fire({
+   //       icon: 'warning',
+   //    text: `Please delete the bed before deleting the room`,
+   //   });
    }
    if(response){
       refreshToken(response)

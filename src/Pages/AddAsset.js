@@ -164,22 +164,22 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handleAddAsset = () => {
 
-if(!assetName && !vendorName && !brandName && !serialNumber && !productCount && !selectedDate && !price && !productName){
-    Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Fields',
+// if(!assetName && !vendorName && !brandName && !serialNumber && !productCount && !selectedDate && !price && !productName){
+//     Swal.fire({
+//         icon: 'warning',
+//         title: 'Please Enter All Fields',
        
-    });
-    return;
-}
+//     });
+//     return;
+// }
 
-if (!assetName) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter a Valid Asset Name',
-    });
-    return;
-}
+// if (!assetName) {
+//     Swal.fire({
+//         icon: 'warning',
+//         title: 'Please Enter a Valid Asset Name',
+//     });
+//     return;
+// }
 if (!productName) {
     Swal.fire({
         icon: 'warning',
@@ -187,21 +187,21 @@ if (!productName) {
     });
     return;
 }
-if (!vendorName) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter a Valid Vendor Name',
-    });
-    return;
-}
+// if (!vendorName) {
+//     Swal.fire({
+//         icon: 'warning',
+//         title: 'Please Enter a Valid Vendor Name',
+//     });
+//     return;
+// }
 
-if (!brandName) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter a Valid Brand Name',
-    });
-    return;
-}
+// if (!brandName) {
+//     Swal.fire({
+//         icon: 'warning',
+//         title: 'Please Enter a Valid Brand Name',
+//     });
+//     return;
+// }
 
 if (!serialNumber) {
     Swal.fire({
@@ -211,13 +211,13 @@ if (!serialNumber) {
     return;
 }
 
-if (!productCount || isNaN(productCount) || productCount <= 0) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter a Valid Product Count',
-    });
-    return;
-}
+// if (!productCount || isNaN(productCount) || productCount <= 0) {
+//     Swal.fire({
+//         icon: 'warning',
+//         title: 'Please Enter a Valid Product Count',
+//     });
+//     return;
+// }
 
 if (!selectedDate) {
     Swal.fire({
@@ -266,11 +266,11 @@ if (!price || isNaN(price) || price <= 0) {
 
 
 
-        if (assetName && vendorName && brandName && serialNumber && productCount && selectedDate && price && productName) {
+        if (productName    && serialNumber  && selectedDate && price  ) {
 
             const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
             
-            dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, product_name: productName,vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: productCount, purchase_date: formattedDate, price: price, id: id } })
+            dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, product_name: productName,vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: 1 , purchase_date: formattedDate, price: price, id: id } })
 
 
           
@@ -384,10 +384,7 @@ const [formattedDate, setFormattedDate] = useState('')
 
 
 
-              console.log('Initial State:', initialState);
-              console.log('Current State:', {
-                  assetName, vendorName, brandName, serialNumber, productCount, selectedDate, price, productName
-              });
+             
 
 
 
@@ -449,9 +446,9 @@ const [formattedDate, setFormattedDate] = useState('')
                         <div className='row mt-1'>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name <span  style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
-                                        value={assetName}
+                                        value={assetName} 
                                         onChange={handleAssetNameChange}
                                         type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: assetName ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
@@ -459,7 +456,7 @@ const [formattedDate, setFormattedDate] = useState('')
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Product Name</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Product Name <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
                                         value={productName}
                                         onChange={handleProductNameChange}
@@ -485,7 +482,7 @@ const [formattedDate, setFormattedDate] = useState('')
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Brand Name</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Brand Name  <span  style={{ color: 'white', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
                                         value={brandName}
                                         onChange={handleBrandNameChange}
@@ -495,7 +492,7 @@ const [formattedDate, setFormattedDate] = useState('')
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Serial Number</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Serial Number <span  style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
                                         value={serialNumber}
                                         onChange={handleSerialNumberChange}
@@ -504,7 +501,7 @@ const [formattedDate, setFormattedDate] = useState('')
 
                             </div>
 
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Product Count</Form.Label>
                                     <Form.Control
@@ -513,13 +510,13 @@ const [formattedDate, setFormattedDate] = useState('')
                                         type="text" placeholder="Enter count" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: productCount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
-                            </div>
+                            </div> */}
 
 
 
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Purchase Date</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Purchase Date <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     {/* <Form.Control
                                         value={purchaseDate}
                                         onChange={handlePurchaseDateChange}
@@ -530,7 +527,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                             style={{
                                                 border: "1px solid #D9D9D9",
                                                 borderRadius: 8,
-                                                padding: 7,
+                                                padding: 12,
                                                 fontSize: 14,
                                                 fontFamily: "Gilroy",
                                                 fontWeight: selectedDate ? 600 : 500,
@@ -554,7 +551,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                             value={selectedDate}
                                             onChange={handleDateChange}
                                             style={{
-                                                padding: 10,
+                                                padding: 15,
                                                 fontSize: 16,
                                                 width: "100%",
                                                 borderRadius: 8,
@@ -575,7 +572,7 @@ const [formattedDate, setFormattedDate] = useState('')
 
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Price</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Price <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
                                         value={price}
                                         onChange={handlePriceChange}
@@ -583,7 +580,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                 </Form.Group>
 
                             </div>
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Total Price</Form.Label>
                                     <Form.Control
@@ -592,7 +589,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                         type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 600, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
-                            </div>
+                            </div> */}
                         </div>
 
                     </Modal.Body>
