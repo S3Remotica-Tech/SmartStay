@@ -17,6 +17,9 @@ import { Eye, EyeSlash } from 'iconsax-react';
 import ForgotOtp from '../Pages/ForgotOtp'
 import { IoIosCheckmark } from "react-icons/io";
 // import { ClipLoader } from 'react-spinners';
+import { MdError } from "react-icons/md";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function ForgetPasswordPage() {
@@ -42,10 +45,13 @@ function ForgetPasswordPage() {
 
   const handleEmailid = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
+  
     setEmail(e.target.value);
+    setEmailError('')
+    setSendMailError('')
   };
 
-
+console.log("email***********",email)
 
   // const handlePassword = (e) => {
   //   setPassword(e.target.value);
@@ -62,7 +68,12 @@ function ForgetPasswordPage() {
 
 
 console.log("state forgot", state)
-
+ const toastStyle = {
+   
+    backgroundColor: 'green', 
+    color: 'white', 
+    width:"100%"
+  };
 
   useEffect(() => {
     if (state.NewPass?.status_codes === 200) {
@@ -73,6 +84,19 @@ setConfirmPassword('')
 setIsPasswordLongEnough(false)
  setLowerCaseEnough(false)
  setNumericEnough(false)
+
+
+
+toast.success('New password updated successfully', {
+  position: 'top-center',
+  autoClose: 1000, 
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  style: toastStyle
+});
 
       if (inputRefs) {
         inputRefs.forEach(ref => {
@@ -101,34 +125,44 @@ setIsPasswordLongEnough(false)
   }, [state.NewPass?.status_codes]);
 
 
+const [allError, setAllError] = useState('')
+
+const [confirmationError, setConfirmationError] = useState('')
 
   const handlePasswordReset = () => {
     // setShowOtpVerification(true)
 
 
-    if (passwordError) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Invalid Password',
-        text: passwordError,
-        confirmButtonText: 'Ok'
-      });
+    // if (passwordError) {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Invalid Password',
+    //     text: passwordError,
+    //     confirmButtonText: 'Ok'
+    //   });
+    //   return;
+    // }
+
+
+if(!password && !confirmpassword){
+setAllError('Please Enter  password  and confirm password ')
+}
+
+
+
+if (password !== confirmpassword) {
+
+      setConfirmationError('Please Enter Confirm Password Same as Password')
+      // Swal.fire({
+      //   icon: 'warning',
+      //   title: 'Please Enter Confirm Password Same as Password',
+      //   confirmButtonText: 'Ok'
+      // });
       return;
     }
 
 
-
-    if (password == !confirmpassword) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter Confirm Password Same as Password',
-        confirmButtonText: 'Ok'
-      });
-      return;
-    }
-
-
-    if (password && confirmpassword) {
+    if (password && confirmpassword && email) {
       dispatch({ type: 'FORGETPAGE', payload: { NewPassword: password, email: email, confirm_password: confirmpassword } });
       inputRefs && inputRefs.forEach(ref => {
         if (ref.current) {
@@ -139,12 +173,11 @@ setIsPasswordLongEnough(false)
 
     } else {
 
-      // setShowOtpVerification(false);
-      Swal.fire({
-        icon: 'error',
-        title: 'Please Enter All Fields',
+      //   Swal.fire({
+      //   icon: 'error',
+      //   title: 'Please Enter All Fields',
 
-      });
+      // });
 
     }
   };
@@ -187,6 +220,21 @@ console.log("NewPass",state)
     }
 
   }, [state.NewPass?.sendEmailStatusCode, state.NewPass?.EmailErrorStatusCode])
+
+const [emailError, setEmailError] = useState('')
+const [sendEmailError, setSendMailError ] = useState('')
+
+  useEffect(() => {
+    if (state.NewPass?.sendEmailStatusCode == 203 || state.NewPass?.EmailErrorStatusCode == 201) {
+     
+      setEmailError(state.NewPass?.emailError)
+      setSendMailError(state.NewPass?.sendEmailError)
+
+    
+    }
+  }, [state.NewPass?.sendEmailStatusCode, state.NewPass?.EmailErrorStatusCode])
+
+
 
 
 
@@ -294,6 +342,7 @@ console.log("NewPass",state)
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
+    setAllError('')
     const password = e.target.value;
     let errorMessage = '';
 
@@ -335,6 +384,7 @@ console.log("NewPass",state)
 
   const handleConfirmPassword = (e) => {
     setConfirmPassword(e.target.value)
+    setAllError('')
   }
 
   const toggleConfirmPasswordVisibility = () => {
@@ -367,10 +417,14 @@ useEffect(() => {
   })
 });
 
+
+
+console.log("confirmationError",confirmationError)
+
   return (
 
     <div style={{ width: "100%", height: "100vh", fontFamily: "Gilroy", backgroundColor: "" }}>
-     
+       <ToastContainer />
       {
         showEmailSend && <>
           <div className="ms-5 mb-5">
@@ -391,14 +445,35 @@ useEffect(() => {
               
                   <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 " >
                     <Form.Group controlId="formGridEmail" className='mt-4 mb-3'>
-                      <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
+                      <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <Form.Control size="lg"
                       disabled={disabledButton}
                         value={email} onChange={(e) => handleEmailid(e)}
                         type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight:email ? 600 :  500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
-                      <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div>
+                      {/* <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div> */}
                     </Form.Group>
+
+
+<div className="mb-1 p-1"> {emailError  ? <div className='d-flex align-items-center p-1'>
+  <MdError style={{ color: "red" , marginRight: '5px'}} />
+  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</label>
+</div>
+  : null}</div>
+
+
+<div className="mb-1 p-1"> {sendEmailError  ? <div className='d-flex align-items-center p-1'>
+  <MdError style={{ color: "red" , marginRight: '5px'}} />
+  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{sendEmailError}</label>
+</div>
+  : null}</div>
+
+
+
+
+
+
+
                   </div>
 
 
@@ -474,7 +549,7 @@ useEffect(() => {
               <div className="row row-gap-3 mt-4">
 
                 <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12">
-                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
+                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <InputGroup>
                     <Form.Control
                       size="lg"
@@ -506,7 +581,7 @@ useEffect(() => {
                 </div>
 
                 <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12">
-                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password</Form.Label>
+                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <InputGroup>
                     <Form.Control
                       size="lg"
@@ -561,7 +636,31 @@ useEffect(() => {
                   }
                 </div>
 
+               
 
+                {passwordError && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {passwordError}
+                  </label>
+                </div>
+              )}
+
+{allError && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {allError}
+                  </label>
+                </div>
+              )}
+
+<div className="mb-1 p-1"> {confirmationError  ? <div className='d-flex align-items-center p-1'>
+  <MdError style={{ color: "red" , marginRight: '5px'}} />
+  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{confirmationError}</label>
+</div>
+  : null}</div>
 
                 <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-2 mb-1" >
                   <Button
@@ -581,14 +680,6 @@ useEffect(() => {
 
 
           </div>
-
-
-
-
-
-
-
-
         </div>
 
       </>

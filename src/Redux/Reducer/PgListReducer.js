@@ -38,6 +38,8 @@ const initialState = {
     statusCodeDeleteBed: 0,
     AddEBstatusCode: 0,
     deletePgSuccessStatusCode:0,
+    alreadyRoomHere:' ',
+    eletePgError: ''
 }
 const PgListReducer = (state = initialState, action) => {
     console.log("action.payload", action.payload);
@@ -65,7 +67,7 @@ const PgListReducer = (state = initialState, action) => {
             return {...state, deletePgSuccessStatusCode:0}
 
         case 'CREATE_ROOM':
-            return { ...state, roomCreationSuccess: true, floor_Id: action.payload.floorId, room_Id: action.payload.roomId, number_Of_Bed: action.payload.number_of_beds, statusCodeCreateRoom: action.payload.statusCode }
+            return { ...state, roomCreationSuccess: true, floor_Id: action.payload.floorId, room_Id: action.payload.roomId, number_Of_Bed: action.payload.number_of_beds, statusCodeCreateRoom: action.payload.statusCode,}
         case 'CLEAR_CREATE_ROOM_STATUS_CODE':
             return { ...state, statusCodeCreateRoom: 0 }
         case 'CHECK_ROOM':
@@ -81,6 +83,12 @@ const PgListReducer = (state = initialState, action) => {
         case 'EB_STARTMETER_LIST':
             console.log("EB_STARTMETER_LIST", action.payload)
             return { ...state, EB_startmeterlist: action.payload }
+case 'ALREADY_ROOM_ERROR':
+    return { ...state, alreadyRoomHere: action.payload }
+    case 'CLEAR_ALREADY_ROOM_ERROR':
+        return { ...state, alreadyRoomHere: '' }
+
+
         case 'ERROR':
             if (state.roomCount.length > 0) {
                 let index = state.roomCount.findIndex((item) => {
@@ -123,8 +131,14 @@ const PgListReducer = (state = initialState, action) => {
 
 
         case 'ALREADY_BED':
-            return { ...state, alreadyBedAvailable: action.payload.statusCode }
-
+            return { ...state, alreadyBedAvailable: action.payload.response }
+            case 'CLEAR_ALREADY_BED':
+                return { ...state, alreadyBedAvailable: ''}
+                
+                case 'DELETE_PG_ERROR':
+                    return { ...state, deletePgError: action.payload }
+                    case 'CLEAR_DELETE_PG_ERROR':
+                        return { ...state, deletePgError: ''}
 
         //         case 'ROOM_COUNT':
         // console.log("action.payload.response",action.payload.response)

@@ -41,10 +41,7 @@ useEffect(() => {
               roomNo: deleteRoomDetails.Room_Id,
             },
           });
-          // Swal.fire({
-          //   icon: 'success',
-          //   title: 'Room deleted Successfully',
-          // })
+        
           handleClose()
   
   }

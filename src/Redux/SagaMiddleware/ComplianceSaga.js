@@ -68,12 +68,18 @@ function* handleAddVendor(action) {
      });
    }
    else if(response.statusCode === 202 || response.status === 202) {
-      Swal.fire({
-         text: response.message,
-         icon: "warning",
-         // timer: 2000,
-         // showConfirmButton: false,
-     });
+      
+      yield put ({type:'ALREADY_VENDOR_ERROR', payload:response.data.message})
+
+   //    Swal.fire({
+   //       text: response.message,
+   //       icon: "warning",
+   //       // timer: 2000,
+   //       // showConfirmButton: false,
+   //   });
+
+
+
    }
    if(response){
       refreshToken(response)

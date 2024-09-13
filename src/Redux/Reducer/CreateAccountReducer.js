@@ -14,7 +14,11 @@ const initialState = {
    toTriggerProfile:false,
    statusCodeForAccountList:0,
    statuscodeforUpdateprofile:0,
-   message:''
+   message:'',
+   emailError:'',
+   mobileError:'',
+   email_mobile_Error:'',
+   passwordDoesnotMatchError: '',
 
 }
 const CreateAccountReducer = (state = initialState, action) => {
@@ -49,6 +53,28 @@ const CreateAccountReducer = (state = initialState, action) => {
   
   case 'CLEAR_ACCOUNT_STATUS_CODE':
    return {...state, statusCodeForAccountList:0}
+
+case 'EMAIL_ERROR' : 
+ return {...state,  emailError:action.payload}
+
+ case 'CLEAR_EMAIL_ERROR':
+   return {...state, emailError:''}
+
+   case 'MOBILE_ERROR':
+      return {...state, mobileError:action.payload}
+
+      case 'CLEAR_MOBILE_ERROR':
+         return {...state, mobileError:''}
+         case 'EMAIL_MOBILE_ERROR':
+            return {...state, email_mobile_Error:action.payload}
+   
+            case 'CLEAR_EMAIL_MOBILE_ERROR':
+               return {...state, email_mobile_Error:''}
+
+               case 'PASSWORD_DOESNT_ERROR':
+                  return{...state, passwordDoesnotMatchError:action.payload}
+                  case 'CLEAR_PASSWORD_DOESNT_ERROR':
+                     return{...state, passwordDoesnotMatchError:''}
                }
 
    return state

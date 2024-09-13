@@ -20,7 +20,6 @@ import Spinner from 'react-bootstrap/Spinner';
 import KYC from './Pages/KycValidation'
 import { Circles } from 'react-loader-spinner';
 
-
 function App() {
   const cookies = new Cookies();
   const dispatch = useDispatch();
@@ -39,6 +38,17 @@ function App() {
             dispatch({ type: 'LOG_OUT' });
             setData(false);
             cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
+
+            localStorage.setItem("loginId", '')
+            localStorage.setItem("NameId", '')
+            localStorage.setItem("phoneId", '')
+            localStorage.setItem("emilidd", '')
+            localStorage.setItem("Password", '');
+            localStorage.setItem("login", '')
+
+
+
+
           }, 100);
         } else if (login) {
           const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
@@ -96,6 +106,7 @@ function App() {
             {/* <Route path="/bed" element={<BedDetails />} />
             <Route path="/roomList" element={<DashboardRoomList />} /> */}
             <Route path="*" element={<Navigate to="/Hostel-Management" replace />} />
+           
           </>
         ) : (
           <>
@@ -104,6 +115,7 @@ function App() {
             <Route path="/create-account" element={<CreateAccount />} />
             <Route path="/forget-password" element={<ForgetPassword />} />
             <Route path="*" element={<Navigate to="/" replace />} />
+            
           </>
         )}
       </Routes>

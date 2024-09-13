@@ -83,21 +83,21 @@ function* handleCreateFloor(data) {
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATE_FLOOR', payload: {response:response.data, statusCode:response.status || response.statusCode} })
       // yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
-      Swal.fire({
-         icon: 'success',
-         title: `${response.data.message}`,
-               //   timer:1000,
-               //   showConfirmButton: false,
-       })
+      // Swal.fire({
+      //    icon: 'success',
+      //    title: `${response.data.message}`,
+      //          //   timer:1000,
+      //          //   showConfirmButton: false,
+      //  })
    }
    else if(response.status === 202 || response.statusCode === 202) {
-      Swal.fire({
-         icon: 'warning',
-        title: 'Error',
-        html: `<span style="color: red">${response.data.message }</span> `,
+      // Swal.fire({
+      //    icon: 'warning',
+      //   title: 'Error',
+      //   html: `<span style="color: red">${response.data.message }</span> `,
         
-      });
-      yield put({ type: 'ERROR', payload: response.data.message })
+      // });
+      yield put({ type: 'ALREADY_FLOOR_ERROR', payload: response.data.message })
 
    }
    if(response){
@@ -230,10 +230,10 @@ function* handleDeleteRoom(roomDetails){
    const response = yield call(deleteRoom,roomDetails.payload)
    if(response.status === 200 || response.statusCode === 200){
       yield put({ type: 'DELETE_ROOM', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
-      Swal.fire({
-         icon: 'success',
-      text: 'Room Delete Successfully',
-     });
+   //    Swal.fire({
+   //       icon: 'success',
+   //    text: 'Room Delete Successfully',
+   //   });
  
  
  

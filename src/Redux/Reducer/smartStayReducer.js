@@ -14,7 +14,8 @@ const initialState = {
    OtpVerifyStatusCode: 0,
    JWTtoken:'',
    Notification:[],
-   UpdateNotificationMessage:''
+   UpdateNotificationMessage:'',
+   twoStepOtpError: ''
    
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -52,6 +53,12 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, UpdateNotificationMessage: action.payload.response}
          case 'AFTER_UPDATE_NOTIFICATION':
             return { ...state, UpdateNotificationMessage: action.message}
+
+            case 'ERROR_OTP_CODE' :
+               return { ...state, twoStepOtpError: action.payload}
+               case 'CLEAR_ERROR_OTP_CODE' :
+               return { ...state, twoStepOtpError: ''}
+
 
    }
 

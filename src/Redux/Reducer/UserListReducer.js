@@ -34,7 +34,9 @@ const initialState = {
     kycValidateOtpVerifySuccess: 0,
     createFloorSuccessStatusCode: 0,
     countrycode: [],
-    noHosteListStatusCode: 0
+    noHosteListStatusCode: 0,
+    alreadyFloorHere:'',
+
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -131,6 +133,11 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, checkOutStatusCode: 0 }
         case 'COUNTRY_LIST':
             return { ...state, countrycode: action.payload };
+
+            case 'ALREADY_FLOOR_ERROR' : 
+            return {...state, alreadyFloorHere:action.payload}
+            case 'CLEAR_ALREADY_FLOOR_ERROR' : 
+            return {...state, alreadyFloorHere:''}
 
         case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {

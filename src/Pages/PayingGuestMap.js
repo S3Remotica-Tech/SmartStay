@@ -8,7 +8,8 @@ import Vendors from '../Assets/Images/New_images/profile-picture.png';
 import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
 import Swal from 'sweetalert2';
-
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -104,7 +105,8 @@ function PayingGuestMap(props) {
     
 
 
-    return (
+    return (<>
+    
         <Card className="h-100 fade-in" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }} >
             <Card.Body style={{ padding: 20 }}>
                 <div className="d-flex justify-content-between align-items-center flex-wrap" >
@@ -202,6 +204,39 @@ function PayingGuestMap(props) {
             </Card.Body>
 
         </Card>
+
+
+
+        <Modal show={show} onHide={handleClose} centered backdrop="static">
+    <Modal.Header closeButton>
+      <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>Delete room ?</Modal.Title>
+    </Modal.Header>
+
+      <Modal.Body style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>
+        {/* {numberOfBeds[0]?.bed_details.length > 0 && numberOfBeds[0]?.bed_details.length > 0
+        ? 'Please delete the bed before deleting the room.'
+        : 'Are you sure you want to delete the room?'} */}
+        Are you sure you want to delete the room?
+        
+        </Modal.Body>
+
+  
+    <Modal.Footer className='d-flex justify-content-center' style={{border:"none"}}>
+    <Button  onClick={handleClose} style={{width:160,height:52,borderRadius:8, padding:"16px, 45px, 16px, 45px",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"#FFF",color:"rgba(36, 0, 255, 1)",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
+            Cancel
+          </Button>
+          {/* {numberOfBeds[0]?.bed_details.length > 0 && numberOfBeds[0]?.bed_details.length > 0? 
+
+          ""
+          : */}
+
+          <Button style={{width:160,height:52,borderRadius:8, padding:"16px, 45px, 16px, 45px",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} onClick={handleDeleteRoomConfirm}>
+            Delete
+          </Button>
+{/* } */}
+    </Modal.Footer>
+  </Modal>
+        </>
     )
 }
 

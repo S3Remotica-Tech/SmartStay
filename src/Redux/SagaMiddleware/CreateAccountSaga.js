@@ -12,42 +12,51 @@ function* CreateNewAccount(args) {
       if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode} });
 
-      Swal.fire({
-        icon: 'success',
-        text: response.data.message,
-        // timer: 1000,
-        // showConfirmButton: false,
-      });
+      // Swal.fire({
+      //   icon: 'success',
+      //   text: response.data.message,
+      //   // timer: 1000,
+      //   // showConfirmButton: false,
+      // });
     } else if (response.status === 210 || response.statusCode === 210) {
-      Swal.fire({
-       icon: 'warning',
-       title: 'Error',
-       html: ` This ${response.data.message}`,
-       confirmButtonText: 'Ok',
+
+      yield put({ type: 'PASSWORD_DOESNT_ERROR', payload: response.data.message });
+    //   Swal.fire({
+    //    icon: 'warning',
+    //    title: 'Error',
+    //    html: ` This ${response.data.message}`,
+    //    confirmButtonText: 'Ok',
        
-     });
+    //  });
     }
     else if (response.status === 201 || response.statusCode === 201) {
-       Swal.fire({
-        icon: 'warning',
-        title: 'Error',
-        html: `<span style="color: red">${args.payload.emailId}</span> This ${response.data.message}`,
-        confirmButtonText: 'Ok'
-      });
+
+      yield put({ type: 'EMAIL_ERROR', payload: response.data.message });
+
+      //  Swal.fire({
+      //   icon: 'warning',
+      //   title: 'Error',
+      //   html: `<span style="color: red">${args.payload.emailId}</span> This ${response.data.message}`,
+      //   confirmButtonText: 'Ok'
+      // });
     } else if (response.status === 202 || response.statusCode === 202) {
-     Swal.fire({
-        icon: 'warning',
-        title: 'Error',
-        html: `<span style="color: red">${args.payload.mobileNo}</span> This ${response.data.message}`,
-        confirmButtonText: 'Ok'
-      });
+      yield put({ type: 'MOBILE_ERROR', payload: response.data.message });
+
+    //  Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Error',
+    //     html: `<span style="color: red">${args.payload.mobileNo}</span> This ${response.data.message}`,
+    //     confirmButtonText: 'Ok'
+    //   });
     } else if (response.status === 203 || response.statusCode === 203) {
-     Swal.fire({
-        icon: 'warning',
-        title: 'Error',
-        html: `<span style="color: red">${args.payload.mobileNo} & ${args.payload.emailId}</span> This ${response.data.message}`,
-        confirmButtonText: 'Ok'
-      });
+      yield put({ type: 'EMAIL_MOBILE_ERROR', payload: response.data.message });
+
+    //  Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Error',
+    //     html: `<span style="color: red">${args.payload.mobileNo} & ${args.payload.emailId}</span> This ${response.data.message}`,
+    //     confirmButtonText: 'Ok'
+    //   });
     }
     if(response){
       refreshToken(response)
@@ -225,6 +234,7 @@ function refreshToken(response){
   }else if (response.status === 206) {
     const message = response.status
     const cookies = new Cookies()
+    
     cookies.set('access-denied', message, { path: '/' });
   
  }

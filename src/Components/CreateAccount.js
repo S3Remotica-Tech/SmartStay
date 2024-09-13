@@ -20,6 +20,9 @@ import OpenEye from '../Assets/Images/New_images/eye.png'
 import { InputGroup } from 'react-bootstrap';
 import { Eye, EyeSlash } from 'iconsax-react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { MdError } from "react-icons/md";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -50,15 +53,15 @@ const handleCountryCodeChange = (e) => {
 
 const  handleFirstName = (e) => {
   const value = e.target.value;
+  setFirstNameError('')
   
-  // Allow empty value (e.g., when clearing the field)
   if (value === "") {
     setFirstName(value);
       setErrors(prevErrors => ({ ...prevErrors, first_Name: "First name cannot be empty or spaces only" }));
       return;
   }
 
-  // If not empty and contains text, update the value and clear errors
+ 
   if (value.trim() !== "") {
     setFirstName(value);
       setErrors(prevErrors => ({ ...prevErrors, first_Name: "" }));
@@ -94,21 +97,46 @@ const handleLastName = (e) => {
 
 const handleConfirmPassword = (e) =>{
   setConfirmPassword(e.target.value)
+  setConfirmPasswordError('');
+  dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR'})
 }
 
 const toggleConfirmPasswordVisibility = () => {
   setShowConfirmPassword(!showConfirmPassword)
 }
 
+
+const toastStyle = {
+   
+  backgroundColor: 'green', 
+  color: 'white', 
+  width:"100%"
+};
+
   useEffect(() => {
     if (state.createAccount.statusCodeCreateAccount === 200) {
-      navigate('/login-Page')
+     
       setFirstName('')
       setLastName('')
       setPhoneNo('');
       setEmailID('');
       setPassword('');
       setConfirmPassword('')
+
+
+      toast.success('Account created successfully', {
+  position: 'top-center',
+  autoClose: 1000, 
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  style: toastStyle
+});
+      setTimeout(() => {
+        navigate('/login-Page');  
+      }, 1000);
 
 setTimeout(()=>{
 dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
@@ -119,6 +147,9 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
 
   const handlePhoneNo = (e) => {
     setPhoneNo(e.target.value);
+    setPhoneError('')
+    dispatch({ type: 'CLEAR_MOBILE_ERROR'})
+    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR'})
     const pattern = new RegExp(/^\d{1,10}$/);
     const isValidMobileNo = pattern.test(e.target.value);
     const mobileNumberError = document.getElementById('MobileNumberError');
@@ -132,12 +163,51 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
   };
   
  
+//   const handleEmailID = (e) => {
+//     setEmailID(e.target.value);
+//     setEmailError('')
+// dispatch({ type: 'CLEAR_EMAIL_ERROR'})
+// dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR'})
+
+//     const email = e.target.value;
+//     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+//     const isValidEmail = emailRegex.test(email);
+//     const emailIDError = document.getElementById('emailIDError');
+//     if (emailIDError) {
+//       if (isValidEmail) {
+//         emailIDError.innerHTML = '';
+//       } else {
+//         emailIDError.innerHTML = 'Invalid Email Id *';
+//       }
+//     }
+//   };
+
+
+  // const handlePassword = (e) => {
+  //   setPassword(e.target.value);
+  //   };
+
   const handleEmailID = (e) => {
-    setEmailID(e.target.value);
-    const email = e.target.value;
+    const emailInput = e.target.value;
+    setEmailID(emailInput); 
+  
+    setEmailError('');
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+  
+  
+    const hasUpperCase = /[A-Z]/.test(emailInput);
+  
+    if (hasUpperCase) {
+      setEmailError('Email address cannot contain uppercase letters');
+      return;
+    }
+  
+  
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-    const isValidEmail = emailRegex.test(email);
+    const isValidEmail = emailRegex.test(emailInput);
     const emailIDError = document.getElementById('emailIDError');
+    
     if (emailIDError) {
       if (isValidEmail) {
         emailIDError.innerHTML = '';
@@ -146,11 +216,8 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
       }
     }
   };
+  
 
-
-  // const handlePassword = (e) => {
-  //   setPassword(e.target.value);
-  //   };
 
 
   const [passwordError, setPasswordError] = useState('');
@@ -159,6 +226,8 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
+    setPasswordErrors('')
+    dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR'})
     const password = e.target.value;
     let errorMessage = '';
   
@@ -192,125 +261,182 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
     navigate('/login-Page')
   }
 
+  const [firstNameError, setFirstNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('')
+   const [passwordErrors, setPasswordErrors] = useState('');
+   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+const [allError, setAllError] = useState('')
+const [countryCodeError, setCountryCodeError] = useState('')
+const [bothPasswordError, setBothPasswordError] = useState('')
+
+
+
+
   const handleCreateAccount = async () => {
     const emailElement = document.getElementById('emailIDError');
     const emailError = emailElement ? emailElement.innerHTML : '';
 
+
+
+    // setEmailError('');
+    // setPasswordError('');
+    // setFirstNameError('');
+    // setConfirmPasswordError('');
+    // setPasswordErrors('')
+    // setPhoneError('')
+    // setAllError('')
+    // setBothPasswordError('')
+
+
+
+
+
     if (!firstName && !phoneNo && !emailID && !password && !confirmpassword && !countryCode) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Fields',
-        confirmButtonText: 'Ok'
-      });
+setAllError('Please enter all fields')
+
+      // Swal.fire({
+      //   icon: 'warning',
+      //   title: 'Please Enter All Fields',
+      //   confirmButtonText: 'Ok'
+      // });
       return;
     }
 
     if (!firstName) {
-      Swal.fire({
-          icon: 'warning',
-          title: 'Error',
-          text: 'Enter First Name',
-          confirmButtonText: 'Ok'
-      });
+
+      setFirstNameError('Please enter first name')
+      // Swal.fire({
+      //     icon: 'warning',
+      //     title: 'Error',
+      //     text: 'Enter First Name',
+      //     confirmButtonText: 'Ok'
+      // });
       return;
   }
 
   if (!emailID) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Error',
-        text: 'Enter Email ID',
-        confirmButtonText: 'Ok'
-    });
+
+    setEmailError('Please enter email id')
+  
+    // Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Error',
+    //     text: 'Enter Email ID',
+    //     confirmButtonText: 'Ok'
+    // });
     return;
 }
+
+
+
+if (emailError === 'Invalid Email Id *') {
+
+  setEmailError('Please enter a valid email address')
+
+  // Swal.fire({
+  //   icon: 'warning',
+  //   title: 'Please enter a valid email address',
+  //   confirmButtonText: 'Ok',
+   
+    
+  // });
+  return;
+}
+
 if (!countryCode) {
-  Swal.fire({
-      icon: 'warning',
-      title: 'Error',
-      text: 'Select CountryCode',
-      confirmButtonText: 'Ok'
-  });
+
+  setCountryCodeError('Please select country code')
+
+  // Swal.fire({
+  //     icon: 'warning',
+  //     title: 'Error',
+  //     text: 'Select CountryCode',
+  //     confirmButtonText: 'Ok'
+  // });
   return;
 }
 
   if (!phoneNo) {
-      Swal.fire({
-          icon: 'warning',
-          title: 'Error',
-          text: 'Enter Phone Number',
-          confirmButtonText: 'Ok'
-      });
+
+
+
+    setPhoneError('Please enter mobile no.')
+      // Swal.fire({
+      //     icon: 'warning',
+      //     title: 'Error',
+      //     text: 'Enter Phone Number',
+      //     confirmButtonText: 'Ok'
+      // });
       return;
   }
 
- 
+  const phoneNumber = parseInt(phoneNo, 10);
+  const phonePattern = new RegExp(/^\d{10}$/);
+  const isValidMobileNo = phonePattern.test(phoneNo);
+
+  if (!isValidMobileNo) {
+    setPhoneError('Please enter a valid 10-digit mobile number')
+    // Swal.fire({
+    //   icon: 'warning',
+    //   title: 'Invalid mobile number. Please Enter a valid 10-digit mobile number.',
+    //   confirmButtonText: 'Ok'
+    // });
+    return;
+  }
+
 
   if (!password) {
-      Swal.fire({
-          icon: 'warning',
-          title: 'Error',
-          text: 'Enter Password',
-          confirmButtonText: 'Ok'
-      });
+    setPasswordErrors('Please enter password')
+      // Swal.fire({
+      //     icon: 'warning',
+      //     title: 'Error',
+      //     text: 'Enter Password',
+      //     confirmButtonText: 'Ok'
+      // });
       return;
   }
-
+  if (passwordError) {
+    // Swal.fire({
+    //   icon: 'warning',
+    //   title: 'Invalid Password',
+    //   text: passwordError,
+    //   confirmButtonText: 'Ok'
+    // });
+    return;
+  }
   if (!confirmpassword) {
-      Swal.fire({
-          icon: 'warning',
-          title: 'Error',
-          text: 'Confirm Your Password',
-          confirmButtonText: 'Ok'
-      });
+
+    setConfirmPasswordError('Please enter confirm password');
+
+      // Swal.fire({
+      //     icon: 'warning',
+      //     title: 'Error',
+      //     text: 'Confirm Your Password',
+      //     confirmButtonText: 'Ok'
+      // });
       return;
   }
 
 
-    if (emailError === 'Invalid Email Id *') {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please enter a valid email address',
-        confirmButtonText: 'Ok',
-       
-        
-      });
-      return;
-    }
+    
 
-    const phoneNumber = parseInt(phoneNo, 10);
-    const phonePattern = new RegExp(/^\d{10}$/);
-    const isValidMobileNo = phonePattern.test(phoneNo);
-
-    if (!isValidMobileNo) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Invalid mobile number. Please Enter a valid 10-digit mobile number.',
-        confirmButtonText: 'Ok'
-      });
-      return;
-    }
+    
 
 
-
-    if (passwordError) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Invalid Password',
-        text: passwordError,
-        confirmButtonText: 'Ok'
-      });
-      return;
-    }
+   
 
 
 
 if(password ==! confirmpassword){
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please Enter Confirm Password Same as Password',
-    confirmButtonText: 'Ok'
-  });
+
+  setBothPasswordError('Please Enter Confirm Password Same as Password')
+
+  // Swal.fire({
+  //   icon: 'warning',
+  //   title: 'Please Enter Confirm Password Same as Password',
+  //   confirmButtonText: 'Ok'
+  // });
   return;
 }
 
@@ -323,14 +449,7 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
     payload: { first_name: firstName, last_name: lastName, mobileNo:mobileNumber, emailId: emailID, password: password,confirm_password: confirmpassword }
   });
 }
-   
-    // setFirstName('')
-    // setLastName('')
-    // setPhoneNo('');
-    // setEmailID('');
-    // setPassword('');
-    // setConfirmPassword('')
-  };
+   };
 
 
 
@@ -358,7 +477,9 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
 
   return (
     <>
+    <ToastContainer />
          <div style={{ width: "100%", height:"100vh" ,fontFamily: "Gilroy" , backgroundColor:""}}>
+         
         <div className=" ms-5 mb-5">
 
           <div className="row g-0 coumn-gap-1 row-gap-4 fade-in">
@@ -376,12 +497,27 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
               <div className="row row-gap-3 mt-5 me-2">
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                   <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>First Name</Form.Label>
+                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>First Name <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                     <Form.Control
                     value={firstName}
                     onChange={(e)=>{handleFirstName(e)}}
                     size="lg" type="text" placeholder="First name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: firstName ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group>
+              
+
+
+                  {firstNameError && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {firstNameError}
+                  </label>
+                </div>
+              )}
+
+
+
+
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                   <Form.Group controlId="formGridEmail">
@@ -394,14 +530,31 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                   <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
+                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                     <Form.Control size="lg"
                       value={emailID} onChange={(e) => { handleEmailID(e) }}
                       type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: emailID ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                 
-                <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div>
+                {/* <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div> */}
                   </Form.Group>
+
+                  {emailError && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {emailError}
+                  </label>
                 </div>
+              )}
+
+
+                   {state.createAccount?.emailError ?  <div className='d-flex align-items-center p-1'>
+                    <MdError style={{ color: "red" , marginRight: '5px'}} />
+                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.emailError}</label>
+                  </div>
+                    : null}
+                </div>
+               
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                   {/* <Form.Group controlId="formGridEmail">
                     <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Mobile number</Form.Label>
@@ -410,14 +563,14 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
                       maxLength={10}
                       type="text" placeholder="Enter Mobile no." style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight:phoneNo ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group> */}
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Group  controlId="exampleForm.ControlInput1">
             <Form.Label style={{ 
               fontSize: 14, 
               color: "#222222", 
               fontFamily: "Gilroy", 
               fontWeight: 500 
             }}>
-              Mobile number
+              Mobile number <span style={{ color: 'red', fontSize: '20px' }}>*</span>
             </Form.Label>
 
             <InputGroup >
@@ -472,11 +625,39 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
             </InputGroup>
           </Form.Group> 
               
-              
-              
+          {phoneError && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {phoneError}
+                  </label>
+                </div>
+              )}
+
+
+
+{countryCodeError && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {countryCodeError}
+                  </label>
+                </div>
+              )}
+
+
+           {state.createAccount?.mobileError ?  <div className='d-flex align-items-center p-1'>
+                    <MdError style={{ color: "red" , marginRight: '5px'}} />
+                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.mobileError}</label>
+                  </div>
+                    : null}
+
+
+
+                   
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
+                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <InputGroup >
                     <Form.Control
                       size="lg"
@@ -505,10 +686,36 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
                     </InputGroup.Text>
 
                   </InputGroup>
+
+
+                  {passwordErrors && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {passwordErrors}
+                  </label>
+                </div>
+              )}
+
+
+
+                  {passwordError && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {passwordError}
+                  </label>
+                </div>
+              )}
+
+
+
+
+
                 </div>
 
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password</Form.Label>
+                  <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <InputGroup>
                     <Form.Control
                       size="lg"
@@ -537,7 +744,67 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
                     </InputGroup.Text>
 
                   </InputGroup>
+
+                  {confirmPasswordError && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {confirmPasswordError}
+                  </label>
                 </div>
+              )}
+
+
+                </div>
+
+                
+                
+
+                {allError && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {allError}
+                  </label>
+                </div>
+              )}
+
+
+              
+                {bothPasswordError && (
+                <div className="d-flex align-items-center p-1">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {bothPasswordError}
+                  </label>
+                </div>
+              )}
+
+
+
+
+
+<div className="mb-1 p-1"> {state.createAccount?.passwordDoesnotMatchError ?  <div className='d-flex align-items-center p-1'>
+                    <MdError style={{ color: "red" , marginRight: '5px'}} />
+                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.passwordDoesnotMatchError}</label>
+                  </div>
+                    : null}</div>
+
+                  <div className="mb-1 p-1"> {state.createAccount?.email_mobile_Error ?  <div className='d-flex align-items-center p-1'>
+                    <MdError style={{ color: "red" , marginRight: '5px'}} />
+                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.email_mobile_Error}</label>
+                  </div>
+                    : null}</div>
+
+
+
+
+
+
+
+
+
+
                
                 <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1" >
                   <Button onClick={handleCreateAccount} className="w-100" style={{ backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50 ,fontWeight:600}}>Create account</Button>

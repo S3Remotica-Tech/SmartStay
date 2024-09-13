@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import { MdError } from "react-icons/md";
 
 function AddBed( {show, handleClose ,currentItem}) {
   
@@ -22,16 +23,23 @@ function AddBed( {show, handleClose ,currentItem}) {
 
   const handleBedNoChange = (e) => {
     setBedNo(e.target.value);
+    setGeneralError('');
+    setBedError('');
+    dispatch({ type: 'CLEAR_ALREADY_BED'})
   };
 
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
+    setGeneralError('');
+    setAmountError(''); 
   };
 
 
   console.log("add bed state", state)
   
-      
+  useEffect(()=>{
+    dispatch({ type: 'CLEAR_ALREADY_BED'})
+  },[])    
     
       useEffect(() => {
         const closeButton = document.querySelector('button[aria-label="close-button"]');
@@ -63,39 +71,47 @@ function AddBed( {show, handleClose ,currentItem}) {
 //   }
 // }, [state.PgList.statusCodeCreateRoom])
 
+const [bedError, setBedError] = useState('');
+const [amountError, setAmountError] = useState('');
+const [generalError, setGeneralError] = useState('');
+
+
+
 
 const handleSubmit =() =>{
 
-  if (!bedNo || !/^[1-9]\d*$/.test(bedNo)) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Please enter a valid bed no.',
-    });
+  if (!bedNo && !amount) {
+    setGeneralError('Please enter all required fields.');
     return;
+  } else {
+    setGeneralError('');
+  }
+
+
+  if (!bedNo || !/^[1-9]\d*$/.test(bedNo)) {
+    setBedError('Please enter a valid bed number.');
+    return;
+  } else {
+    setBedError(''); 
   }
   
 
   if (!amount || isNaN(amount) || amount <= 0) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter a Valid amount',
-    });
+    setAmountError('Please enter a valid amount.');
     return;
-}
+  } else {
+    setAmountError(''); 
+  }
 
 
   if(currentItem.item.hostel_Id && currentItem.item.floorID && currentItem.Room_Id && bedNo && amount){
     dispatch({ type: 'CREATEBED', payload:{ hostel_id: currentItem.item.hostel_Id,floor_id:currentItem.item.floorID,room_id: currentItem.Room_Id, bed_no:bedNo, amount: amount}})
  
-    // handleClose()
+    
+    setGeneralError('');
    
   }else{
-    Swal.fire({
-      icon: 'warning',
-      title: 'Please Enter All Fields',
-
-    
-    });
+    setGeneralError('Please enter all required fields.');
   }
 }
 
@@ -127,7 +143,7 @@ useEffect(() => {
           <div className='row mt-2'>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Bed no.</Form.Label>
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Bed no. <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                 <Form.Control 
  value={bedNo}
  onChange={handleBedNoChange}
@@ -137,7 +153,7 @@ useEffect(() => {
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Amount</Form.Label>
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Amount <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                 <Form.Control 
                  value={amount}
                  onChange={handleAmountChange}
@@ -149,6 +165,47 @@ useEffect(() => {
           </div>
 
         </Modal.Body>
+
+
+        {bedError && (
+    <div className="d-flex align-items-center p-1 mb-2">
+      <MdError style={{ color: "red", marginRight: '5px' }} />
+      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+        {bedError}
+      </label>
+    </div>
+  )}
+
+
+  {amountError && (
+    <div className="d-flex align-items-center p-1 mb-2">
+      <MdError style={{ color: "red", marginRight: '5px' }} />
+      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+        {amountError}
+      </label>
+    </div>
+  )}
+
+
+  {generalError && (
+    <div className="d-flex align-items-center p-1 mb-2">
+      <MdError style={{ color: "red", marginRight: '5px' }} />
+      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+        {generalError}
+      </label>
+    </div>
+  )}
+
+
+
+{state.PgList && state.PgList?.alreadyBedAvailable && (
+    <div className="d-flex align-items-center p-1 mb-2">
+      <MdError style={{ color: "red", marginRight: '5px' }} />
+      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+        {state.PgList?.alreadyBedAvailable}
+      </label>
+    </div>
+  )}
         <Modal.Footer style={{ border: "none" }}>
 
           <Button 

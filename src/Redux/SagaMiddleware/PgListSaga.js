@@ -8,17 +8,17 @@ function* handlePgList(datum) {
 console.log("response PG",response)
    if (response.statusCode === 200 || response.status === 200 ) {
       yield put({ type: 'PG_LIST', payload:{response: response.data , statusCode: response.statusCode ||  response.status}})
-          Swal.fire({
-         icon: 'success',
-         title: response.message,
-      });
+      //     Swal.fire({
+      //    icon: 'success',
+      //    title: response.message,
+      // });
 
    }
    else if(response && response.statusCode === 201 || response.status === 201){
-          Swal.fire({
-         icon: 'warning',
-         title: 'Hostel name already exist' ,
-                      });
+         //  Swal.fire({
+         // icon: 'warning',
+         // title: 'Hostel name already exist' ,
+         //              });
         }else {
       console.log('Unhandled status code:', response.statusCode); 
    }
@@ -34,17 +34,19 @@ console.log("response createroom",response)
       yield put({ type: 'CREATE_ROOM', payload: { response: response.data, statusCode: response.status || response.statusCode} })
       yield put({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: 'CREATED SUCCESSFULLY' })
 
-      Swal.fire({
-         icon: 'success',
-         title: "Room created successfully",
-     })
+   //    Swal.fire({
+   //       icon: 'success',
+   //       title: "Room created successfully",
+   //   })
 
    }
    else if(response.status === 201 || response.statusCode === 201) {
-      Swal.fire({
-         icon: 'warning',
-         title: response.data.message,
-                    });
+      yield put({ type: 'ALREADY_ROOM_ERROR', payload: response.data.message })
+
+      // Swal.fire({
+      //    icon: 'warning',
+      //    title: response.data.message,
+      //               });
    }
    if(response){
       refreshToken(response)
@@ -158,19 +160,19 @@ function* handleCreateBed(action) {
    console.log("response create Bed", response.status)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATE_BED', payload: { response: response.data, statusCode: response.status || response.statusCode} })
-      Swal.fire({
-         icon: 'success',
-         title: "Bed created successfully",
-     })
+   //    Swal.fire({
+   //       icon: 'success',
+   //       title: "Bed created successfully",
+   //   })
    }
    else if (response.status === 201 || response.statusCode === 201) {
-      // yield put({ type: 'ALREADY_BED', payload: { response: response.data.message, statusCode: response.status } })
-        Swal.fire({
-         icon: 'warning',
-         title: response.data.message,
-         // timer: 1000,
-         // showConfirmButton: false,
-              });
+      yield put({ type: 'ALREADY_BED', payload: { response: response.data.message, statusCode: response.status } })
+      //   Swal.fire({
+      //    icon: 'warning',
+      //    title: response.data.message,
+      //    // timer: 1000,
+      //    // showConfirmButton: false,
+      //         });
    }
    if(response){
       refreshToken(response)
@@ -207,17 +209,19 @@ function* handleDeletePG(action) {
    console.log("response delete PG", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_PG', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-      Swal.fire({
-         icon: 'success',
-         title: "Hostel deleted successfully",
-     })
+   //    Swal.fire({
+   //       icon: 'success',
+   //       title: "Hostel deleted successfully",
+   //   })
    }
    else if (response.status === 201 || response.statusCode === 201) {
-       Swal.fire({
-         icon: 'warning',
-         title: response.data.message,
+
+      yield put({ type: 'DELETE_PG_ERROR', payload: response.data.message })
+      //  Swal.fire({
+      //    icon: 'warning',
+      //    title: response.data.message,
        
-              });
+      //         });
    }
    if(response){
       refreshToken(response)
