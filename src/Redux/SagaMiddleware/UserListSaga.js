@@ -310,7 +310,7 @@ function* handleAddUser(datum) {
 
       // Use the toast with the defined style
       toast.success(response.message, {
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

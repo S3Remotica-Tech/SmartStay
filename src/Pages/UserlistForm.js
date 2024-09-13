@@ -332,25 +332,54 @@ const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
   //   }
   // };
 
-
-
   const handleEmail = (e) => {
-    setEmail(e.target.value);
-
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+  
     // Updated regex to allow only lowercase letters, numbers, and periods before the @
+    const hasUpperCase = /[A-Z]/.test(emailValue);
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-
+  
     // Check if the input email matches the regex
-    const isValidEmail = emailRegex.test(e.target.value);
-
-    if (isValidEmail) {
-      setEmailError('');
-    } else {
+    const isValidEmail = emailRegex.test(emailValue);
+  
+    if (hasUpperCase) {
+      setEmailErrorMessage('Email should be in lowercase *');
       setEmailError('Invalid Email Id *');
+    } else if (!isValidEmail) {
+      setEmailErrorMessage('');
+      setEmailError('Invalid Email Id *');
+    } else {
+      setEmailError('');
+      setEmailErrorMessage('');
     }
-    emailErrorMessage('')
-    dispatch({ type: 'CLEAR_EMAIL_ERROR' })
+  
+    // Assuming you want to clear email error regardless of the current input state
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' });
   };
+  
+
+  // const handleEmail = (e) => {
+  //   setEmail(e.target.value);
+
+  //   // Updated regex to allow only lowercase letters, numbers, and periods before the @
+  //   const hasUpperCase = /[A-Z]/.test(email);
+  //   const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+  //   // Check if the input email matches the regex
+  //   const isValidEmail = emailRegex.test(e.target.value);
+  //   if (hasUpperCase) {
+  //     setEmailErrorMessage('Email should be in lowercase *');
+  //   }
+  //   if (isValidEmail) {
+  //     setEmailError('');
+  //     setEmailErrorMessage('')
+  //   } else {
+  //     setEmailError('Invalid Email Id *');
+  //   }
+    
+  //   dispatch({ type: 'CLEAR_EMAIL_ERROR' })
+  // };
   const handleAddress = (e) => {
     setAddress(e.target.value)
     setAddressError('')
@@ -362,22 +391,37 @@ const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
   }
 
 
-
-
   const handleHostelId = (e) => {
-
     const selectedHostelId = e.target.value;
+    // handleInputChange()
     const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter(item => item.id == e.target.value);
     setHostel_Id(selectedHostelId);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : '');
-    console.log("selectedHostelId", selectedHostelId)
-    console.log("selectedHostel", selectedHostel);
-
+    if (selectedHostelId === 'Select a PG') {
+        setHostelIdError('Please select a valid PG');
+    } else {
+        setHostelIdError('');
+    }
     setFloor("")
     setRooms("")
     setBed("")
-    setHostelIdError('');
-  }
+    setHostelIdError('')
+}
+
+  // const handleHostelId = (e) => {
+
+  //   const selectedHostelId = e.target.value;
+  //   const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter(item => item.id == e.target.value);
+  //   setHostel_Id(selectedHostelId);
+  //   setHostelName(selectedHostel ? selectedHostel[0]?.Name : '');
+  //   console.log("selectedHostelId", selectedHostelId)
+  //   console.log("selectedHostel", selectedHostel);
+
+  //   setFloor("")
+  //   setRooms("")
+  //   setBed("")
+  //   setHostelIdError('');
+  // }
 const [floorError,setfloorError] =useState('')
 const [roomError,setRoomError] =useState('')
 const [bedError,setBedError] =useState('')
@@ -489,7 +533,7 @@ setRoomRentError('')
     // props.setShowMenu(true)
     if (props.edit === 'Edit') {
       props.OnShowTable(true);
-      props.setRoomDetail(true)
+      // props.setRoomDetail(true)
       console.log('edit close button called...1');
 
     } else {
@@ -573,6 +617,10 @@ setRoomRentError('')
     if (!validateField(Address, 'Address')) return;
     if (!validateField(hostel_Id, 'Hostel ID')) return;
   
+    if (hostel_Id === 'Select a PG' || hostelIdError) {
+      setHostelIdError('Please select a valid PG'); // Set the error message if not already set
+      return; // Prevent save
+  }
     // Check for email and phone errors from state
     if (emailError === 'Invalid Email Id *') {
       setEmailErrorMessage('Please enter a valid email address');
