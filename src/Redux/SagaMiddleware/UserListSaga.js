@@ -538,7 +538,7 @@ function* handleDeleteRoom(roomDetails){
          color: 'white',
        };
  
-       toast.success(response.data.message, {
+       toast.error(response.data.message, {
          autoClose: 3000,
          hideProgressBar: false,
          closeOnClick: true,
