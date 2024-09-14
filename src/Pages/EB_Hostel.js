@@ -20,6 +20,7 @@ import Swal from 'sweetalert2';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { MdError } from "react-icons/md";
 
 
 function EB_Hostel() {
@@ -103,6 +104,7 @@ function EB_Hostel() {
     setSelectedHostel(e.target.value)
     setFloor("")
     setRooms("")
+    setHostelIdError('')
   };
   const handleFloor = (e) => {
     setFloor(e.target.value)
@@ -110,10 +112,12 @@ function EB_Hostel() {
     console.log("filteredRooms", filteredRooms)
     setRoomsByFloor(filteredRooms);
     setRooms("")
+    setfloorError('')
   };
 
   const handleRoom = (e) => {
     setRooms(e.target.value)
+    setRoomError('')
   };
 
 
@@ -161,6 +165,7 @@ function EB_Hostel() {
     }
     else {
       setaddEbDetail(false)
+
     }
 
   }
@@ -178,6 +183,7 @@ function EB_Hostel() {
 
   const handleendmeter = (e) => {
     setEndmeter(e.target.value)
+    setendMeterError('')
   }
 
   const handleamount = (e) => {
@@ -212,19 +218,7 @@ function EB_Hostel() {
   const totalAmountRead = (unitAmount ? parseFloat(unitAmount) : 0) * (totalMeterReading || 0);
   console.log("totalAmountRead", totalAmountRead)
 
-  // const handleEdit = (v) =>{
-  //   console.log("handleEditv",v)
-  //   setEdit('Edit')
-  //   setaddEbDetail(true)
-  //   setStartmeter(v.start_Meter_Reading)
-  //     setEndmeter(v.end_Meter_Reading)
-  //     setSelectedHostel(v.hostel_Id)
-  //     setFloor(v.Floor)
-  //     setRooms(v.Room)
-  //     setId(v.eb_Id);
-
-
-  // }
+ 
   useEffect(() => {
     if (state.PgList.AddEBstatusCode === 200) {
       dispatch({ type: 'EBSTARTMETERLIST' })
@@ -234,58 +228,159 @@ function EB_Hostel() {
       }, 200)
     }
   }, [state.PgList.AddEBstatusCode])
+  const [hostelIdError, setHostelIdError] = useState("");
+  const [floorError, setfloorError] = useState("");
+  const [roomError, setRoomError] = useState("");
+  const [bedError, setBedError] = useState("");
+  const [endMeterError, setendMeterError] = useState("");
+  const [startMeterError, setstartMeterError] = useState("");
+
+  const validateAssignField = (value, fieldName) => {
+    // Check if the value is empty or invalid
+    if (
+      !value ||
+      value === "Select PG" ||
+      value === "Select Floor" ||
+      value === "Select a Room" 
+     
+    ) {
+      switch (fieldName) {
+
+        case "Hostel ID":
+          setHostelIdError("Hostel ID is required");
+          break;
+        case "Floor":
+          setfloorError("Floor is required");
+          break;
+        case "Rooms":
+          setRoomError("Room is required");
+          break;
+        case "startmeter":
+          setstartMeterError("startmeter is required");
+          break;
+        case "endmeter":
+          setendMeterError("endMeter is required");
+          break;
+        default:
+          break;
+      }
+      return false;
+    } else {
+      // Clear the error if validation passes
+      switch (fieldName) {
+
+        case "Hostel ID":
+          setHostelIdError("");
+        case "Floor":
+          setfloorError("");
+          break;
+        case "Rooms":
+          setRoomError("");
+          break;
+        case "Bed":
+          setBedError("");
+          break;
+        case "startmeter":
+          setstartMeterError("");
+          break;
+        case "endmeter":
+          setendMeterError("");
+          break;
+        default:
+          break;
+      }
+      return true;
+    }
+  };
+
+  // const handleSaveEbBill = () => {
+  //   if (selectedHostel && Floor && Rooms && endmeter) {
+  //     dispatch({ type: 'CREATEEB', payload: { Hostel_Id: selectedHostel, Floor: Floor, Room: Rooms, end_Meter_Reading: endmeter, EbAmount: totalAmountRead } });
+
+  //     setaddEbDetail(false)
+  //     setSelectedHostel('')
+  //     setFloor('')
+  //     setRooms('')
+  //     setEndmeter('')
+  //     setAmount('')
+  //     setSelectedDate('')
+  //   }
+  //   else if (selectedHostel && endmeter) {
+  //     dispatch({ type: 'CREATEEB', payload: { Hostel_Id: selectedHostel, end_Meter_Reading: endmeter, EbAmount: totalAmountRead } });
+  //     setEndmeter('')
+  //     setAmount('')
+    
+  //     setaddEbDetail(false)
+  //     setSelectedHostel('')
+  //     setFloor('')
+  //     setRooms('')
+  //     setEndmeter('')
+  //     setAmount('')
+  //     setSelectedDate('')
+
+  //   }
+  //   else {
+  //     Swal.fire({
+  //       icon: "warning",
+  //       title: 'Please Enter All Fields',
+  //       confirmButtonText: "ok"
+  //     }).then((result) => {
+  //       // Handle confirmation if needed
+  //     });
+  //   }
+  // }
+
+const handleClose=()=>{
+  setaddEbDetail(false)
+  setHostelIdError('')
+  setfloorError('')
+  setRoomError('')
+  setendMeterError('')
+}
 
   const handleSaveEbBill = () => {
+    // Validate each field before proceeding
+    const isHostelValid = validateAssignField(selectedHostel, 'Hostel ID');
+    const isFloorValid = validateAssignField(Floor, 'Floor');
+    const isRoomValid = validateAssignField(Rooms, 'Rooms');
+    const isEndMeterValid = validateAssignField(endmeter, 'endmeter');
+ 
+    if (!isHostelValid || !isEndMeterValid || (!isFloorValid && !isRoomValid)) {
+        return; 
+    }
+
+    // Dispatch based on whether or not floor and room values exist
     if (selectedHostel && Floor && Rooms && endmeter) {
-      dispatch({ type: 'CREATEEB', payload: { Hostel_Id: selectedHostel, Floor: Floor, Room: Rooms, end_Meter_Reading: endmeter, EbAmount: totalAmountRead } });
+        dispatch({ 
+            type: 'CREATEEB', 
+            payload: { 
+                Hostel_Id: selectedHostel, 
+                Floor: Floor, 
+                Room: Rooms, 
+                end_Meter_Reading: endmeter, 
+                EbAmount: totalAmountRead 
+            } 
+        });
+    } else if (selectedHostel && endmeter) {
+        dispatch({ 
+            type: 'CREATEEB', 
+            payload: { 
+                Hostel_Id: selectedHostel, 
+                end_Meter_Reading: endmeter, 
+                EbAmount: totalAmountRead 
+            } 
+        });
+    }
 
-      Swal.fire({
-        icon: "success",
-        title: 'EB Added successfully',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
-      setaddEbDetail(false)
-      setSelectedHostel('')
-      setFloor('')
-      setRooms('')
-      setEndmeter('')
-      setAmount('')
-      setSelectedDate('')
-    }
-    else if (selectedHostel && endmeter) {
-      dispatch({ type: 'CREATEEB', payload: { Hostel_Id: selectedHostel, end_Meter_Reading: endmeter, EbAmount: totalAmountRead } });
-      setEndmeter('')
-      setAmount('')
-      Swal.fire({
-        icon: "success",
-        title: 'EB Added successfully',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
-      setaddEbDetail(false)
-      setSelectedHostel('')
-      setFloor('')
-      setRooms('')
-      setEndmeter('')
-      setAmount('')
-      setSelectedDate('')
-
-    }
-    else {
-      Swal.fire({
-        icon: "warning",
-        title: 'Please Enter All Fields',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        // Handle confirmation if needed
-      });
-    }
-  }
+    // Reset fields after successful save
+    setaddEbDetail(false);
+    setSelectedHostel('');
+    setFloor('');
+    setRooms('');
+    setEndmeter('');
+    setAmount('');
+    setSelectedDate('');
+};
 
   const electricityrowsPerPage = 10;
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
@@ -936,7 +1031,7 @@ function EB_Hostel() {
 
 
       {!transactionshow && (
-        <Modal show={addEbDetail} onHide={() => setaddEbDetail(false)} backdrop="static" centered>
+        <Modal show={addEbDetail} onHide={() => handleClose()} backdrop="static" centered>
           <Modal.Header closeButton className="text-center">
             <Modal.Title style={{ fontSize: 18 }} className="text-center">Add a transaction</Modal.Title>
           </Modal.Header>
@@ -955,6 +1050,12 @@ function EB_Hostel() {
                   ))}
 
                 </Form.Select>
+                {hostelIdError && (
+                                          <div style={{ color: "red" }}>
+                                            <MdError />
+                                            {hostelIdError}
+                                          </div>
+                                        )}
                 {unitAmount && unitAmount?.length === 0 && selectedHostel != '' && <>
 
                   <label className="pb-1" style={{ fontSize: 12, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'ebUnitAmount in Settings'</label>
@@ -980,6 +1081,12 @@ function EB_Hostel() {
                   ))}
 
                 </Form.Select>
+                {floorError && (
+                                          <div style={{ color: "red" }}>
+                                            <MdError />
+                                            {floorError}
+                                          </div>
+                                        )}
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Room</Form.Label>
@@ -997,6 +1104,12 @@ function EB_Hostel() {
                       <option key={item.Room_Id} value={item.Room_Id} >{item.Room_Id}</option></>
                   ))}
                 </Form.Select>
+                {roomError && (
+                                          <div style={{ color: "red" }}>
+                                            <MdError />
+                                            {roomError}
+                                          </div>
+                                        )}
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3">
@@ -1024,6 +1137,12 @@ function EB_Hostel() {
                     style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                   />
                 </Form.Group>
+                {endMeterError && (
+                                          <div style={{ color: "red" }}>
+                                            <MdError />
+                                            {endMeterError}
+                                          </div>
+                                        )}
               </div>
               {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 }}>Date</Form.Label>

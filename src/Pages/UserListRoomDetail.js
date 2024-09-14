@@ -92,7 +92,7 @@ function UserListRoomDetail(props) {
   const handleChanges = (event, newValue) => {
     setValue(newValue);
   };
-  const [hasChanges, setHasChanges] = useState(false);
+  
 
   const handleShowEditBed = (item) => {
     if (item[0].ID) {
@@ -162,73 +162,11 @@ function UserListRoomDetail(props) {
         AdvanceAmount: item[0].AdvanceAmount || "",
         RoomRent: item[0].RoomRent || "",
       });
-      //   setHasChanges(false);
+      
     }
   };
 
-  //   const handleInputChange = (e) => {
-  //     setHasChanges(true);
-
-  //   };
-
-  //   const handleEditUser = (item) => {
-  //     if (item[0].ID) {
-  //       if (item) {
-  //         dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: item[0].Hostel_Id } });
-  //         dispatch({ type: 'ROOMDETAILS', payload: { hostel_Id: item[0].Hostel_Id, floor_Id: item[0].Floor } });
-  //         dispatch({ type: 'BEDNUMBERDETAILS', payload: { hostel_id: item[0].Hostel_Id, floor_id: item[0].Floor, room_id: item[0].Rooms } });
-  //       }
-  //       setBednum(item);
-  //       seteditBed('editbeddet');
-  //       setcustomerAsignBed(false);
-  //       setcustomerdetailShow(true);
-  //       setFormShow(true);
-  //       setFormShow(true);
-
-  //       setId(item[0].ID);
-  //       setFile(item[0].profile === '0' ? null : item[0].profile);
-
-  //       if (item[0].Name) {
-  //         let value = item[0].Name.split(" ");
-  //         setFirstname(value[0]);
-  //         console.log("value[0]",value[0])
-  //         setLastname(value[1]);
-  //       } else {
-  //         setFirstname("");
-  //         setLastname("");
-  //       }
-
-  //       setAddress(item[0].Address || "");
-  //       setAadharNo(item[0].AadharNo || "");
-  //       setPancardNo(item[0].PancardNo || "");
-  //       setLicence(item[0].licence || "");
-  //       setPhone(item[0].Phone || "");
-  //       setEmail(item[0].Email || "");
-  //       setHostelName(item[0].HostelName || "");
-  //       setHostel_Id(item[0].Hostel_Id || "");
-  //       setFloor(item[0].Floor || "");
-  //       setRooms(item[0].Rooms || "");
-  //       setBed(item[0].Bed || "");
-  //       setAdvanceAmount(item[0].AdvanceAmount || "");
-  //       setRoomRent(item[0].RoomRent || "");
-  //       setPaymentType(item[0].PaymentType || "");
-  //       setBalanceDue(item[0].BalanceDue || "");
-  //       setPaidAdvance(item[0].paid_advance || "");
-  //       setPaidrent(item[0].paid_rent || "");
-
-  //       setInitialState({
-  //         firstname: value[0] || "",
-  //         lastname: value[1] || "",
-  //         Phone: item[0].Phone || "",
-  //         Email: item[0].Email || "",
-  //         Address: item[0].Address || "",
-  //         hostel_Id: item[0].Hostel_Id || "",
-  //         file: item[0].profile ? item[0].profile : null
-  //       });
-
-  //     //   setHasChanges(false);
-  //     }
-  //   }
+ 
   const MobileNumber = `${countryCode}${Phone}`;
   const handleEditUser = (item) => {
     console.log("item...", item);
@@ -372,31 +310,7 @@ function UserListRoomDetail(props) {
     setFormError("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
-  // const handlePhone = (e) => {
-  //     // handleInputChange()
-  //     setPhone(e.target.value)
-  //     const pattern = new RegExp(/^\d{1,10}$/);
-  //     const isValidMobileNo = pattern.test(e.target.value)
-  //     if (isValidMobileNo && e.target.value.length === 10) {
-  //         document.getElementById('MobileNumberError').innerHTML = ''
-  //     }
-  //     else {
-  //         document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
-  //     }
-  // }
-  // const handleEmail = (e) => {
-  //     // handleInputChange()
-  //     setEmail(e.target.value)
-  //     const email = e.target.value
-  //     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  //     const isValidEmail = emailRegex.test(email);
-  //     if (isValidEmail) {
-  //         document.getElementById('emailIDError').innerHTML = ''
-  //     }
-  //     else {
-  //         document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *'
-  //     }
-  // }
+  
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const handleEmail = (e) => {
@@ -593,111 +507,6 @@ function UserListRoomDetail(props) {
     setPhoneError("");
   };
 
-  //   const handleSaveUserlist = () => {
-
-  //     const emailElement = document.getElementById('emailIDError');
-  //     const emailError = emailElement ? emailElement.innerHTML : '';
-  //     const phoneNumberError = document.getElementById('MobileNumberError');
-  //     const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
-
-  //     if (emailError === 'Invalid Email Id *') {
-  //       Swal.fire({
-  //         icon: 'warning',
-  //         title: 'Please enter a valid email address',
-  //         confirmButtonText: 'Ok',
-  //         timer: 1000
-  //       });
-  //       return;
-  //     }
-
-  //     if (mobileError === 'Invalid mobile number *') {
-  //       Swal.fire({
-  //         icon: 'warning',
-  //         title: 'Please enter a valid 10-digit phone number',
-  //         confirmButtonText: 'Ok',
-  //         timer: 1000
-  //       });
-  //       return;
-  //     }
-
-  //     if (!firstname || !Phone || !Email || !Address || !hostel_Id) {
-  //       Swal.fire({
-  //         icon: 'warning',
-  //         title: 'Please fill in all required fields',
-  //         confirmButtonText: 'Ok',
-  //         timer: 1000
-  //       });
-  //       return;
-  //     }
-  //     const isChanged =
-  //     firstname !== initialState.firstname ||
-  //     lastname !== initialState.lastname ||
-  //     Phone !== initialState.Phone ||
-  //     Email !== initialState.Email ||
-  //     Address !== initialState.Address ||
-  //     hostel_Id !== initialState.hostel_Id ||
-  //     file !== initialState.file;
-
-  //     console.log('Current state:', { firstname, lastname, Phone, Email, Address, hostel_Id, file });
-  //     console.log('Initial state:', initialState);
-  //     console.log('Is changed:', isChanged);
-
-  // if (!isChanged) {
-  //     Swal.fire({
-  //         icon: 'warning',
-  //         title: 'No changes detected',
-  //         timer: 1000
-  //     });
-  //     return;
-  // }
-
-  //     // Prepare payload
-  //     const capitalizeFirstLetter = (str) => {
-  //       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  //     };
-
-  //     const capitalizedFirstname = capitalizeFirstLetter(firstname);
-  //     const capitalizedLastname = capitalizeFirstLetter(lastname);
-  //     const payload = {
-  //       profile: file,
-  //       firstname: capitalizedFirstname,
-  //       lastname: capitalizedLastname,
-  //       Phone: Phone,
-  //       Email: Email,
-  //       Address: Address,
-  //       AadharNo: AadharNo,
-  //       PancardNo: PancardNo,
-  //       licence: licence,
-  //       HostelName: HostelName,
-  //       hostel_Id: hostel_Id,
-  //       Floor: Floor,
-  //       Rooms: Rooms,
-  //       Bed: Bed,
-  //       AdvanceAmount: AdvanceAmount,
-  //       RoomRent: RoomRent,
-  //       BalanceDue: BalanceDue,
-  //       PaymentType: PaymentType,
-  //       paid_advance: paid_advance,
-  //       paid_rent: paid_rent,
-  //       payable_rent: payableamount,
-  //       ID: id
-  //     };
-
-  //     dispatch({
-  //       type: 'ADDUSER',
-  //       payload: payload
-  //     });
-
-  //     // Additional actions after edit (optional)
-
-  //     props.AfterEditHostels(hostel_Id);
-  //     props.AfterEditFloors(Floor);
-  //     props.AfterEditRoomses(Rooms);
-  //     props.AfterEditBeds(Bed);
-
-  //     setFormShow(false)
-  //     // handleCloseEditcustomer();
-  //   };
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -735,34 +544,8 @@ function UserListRoomDetail(props) {
     return true;
   };
 
-  // const validateField = (value, fieldName) => {
-  //     if (!value || value.trim() === '') {
-  //       switch (fieldName) {
-  //         case 'First Name':
-  //           setFirstnameError('First Name is required');
-  //           break;
-  //         case 'Phone Number':
-  //           setPhoneError('Phone Number is required');
-  //           break;
-  //         case 'Email':
-  //           setEmailError('Email is required');
-  //           break;
-  //         case 'Address':
-  //           setAddressError('Address is required');
-  //           break;
-  //         case 'Hostel ID':
-  //           setHostelIdError('Hostel ID is required');
-  //           break;
-  //         default:
-  //           break;
-  //       }
-  //       return false;
-  //     }
-  //     return true;
-  //   };
 
   const handleSaveUserlist = () => {
-    // Validate fields
     if (!validateField(firstname, "First Name")) return;
     if (!validateField(Phone, "Phone Number")) return;
     if (!validateField(Email, "Email")) return;
