@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
-
+import { MdError } from "react-icons/md"; 
 
 
 const ExpencesSettings = () => {
@@ -15,20 +15,16 @@ const ExpencesSettings = () => {
     console.log("state", state);
 
     const [type, setType] = useState('');
-    // console.log("type",type);
     const [subType, setSubType] = useState('');
-    // console.log("subType",subType);
+    const [typeerrmsg, setTypeErrmsg] = useState('')   
 
     const [typeidname, setTypeIdName] = useState('')
-    // console.log("typeid", typeidname);
     const [types, setTypes] = useState([]);
     const [isSubCategory, setIsSubCategory] = useState(false);
-    // console.log("isSubCategory",isSubCategory);
     const [expences, setExpences] = useState([])
     console.log("expences", expences);
 
     const [namefilter, setNamefilter] = useState()
-    //    console.log("namefilter",namefilter);
 
     //    useEffect(() => {
     //     console.log("useEffect triggered");
@@ -49,53 +45,54 @@ const ExpencesSettings = () => {
     //     // }
     // }, [state.Settings.Expences.data, type]); 
 
+
+    const [cateogoryerrmsg, setCategoryErrmsg] = useState('')
+    const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('')
+
     const addType = () => {
+
+        if(!type || !namefilter){
+            setCategoryErrmsg('Please enter a category')
+           return;
+        }
+
+        if(!subType){
+            setSubCategoryErrmsg('Please enter a Sub-category')
+            return;
+         }
+
         if (type.trim()) {
             if (isSubCategory) {
                 if (subType.trim()) {
                     console.log("subexecuted");
                     // setTypes([...types, { category: type, subCategory: subType }]);
                     dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { id: type, category_Name: namefilter, sub_Category: subType } });
-                    // Swal.fire({
-                    //     icon: "success",
-                    //     title: 'Expenses Category Added successfully',
-                    //     confirmButtonText: "ok"
-                    // }).then((result) => {
-                    //     if (result.isConfirmed) {
-
-                    //     }
-                    // });
+             
                     setSubType('');
                     setType('');
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Please enter a sub-category',
-                        confirmButtonText: 'OK'
-                    });
-                }
+                } 
+                // else {
+                //     Swal.fire({
+                //         icon: 'warning',
+                //         title: 'Please enter a sub-category',
+                //         confirmButtonText: 'OK'
+                //     });
+                // }
             } else {
                 // setTypes([...types, { category: type, subCategory: '' }]);
                 dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { category_Name: type, sub_Category: '' } });
-                // Swal.fire({
-                //     icon: "success",
-                //     title: 'Expenses Category Added successfully',
-                //     confirmButtonText: "ok"
-                // }).then((result) => {
-                //     if (result.isConfirmed) {
-
-                //     }
-                // });
+            
                 setType('');
             }
-        } else {
-            console.log("Please enter a category");
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please enter a category',
-                confirmButtonText: 'OK'
-            });
-        }
+        } 
+        // else {
+        //     console.log("Please enter a category");
+        //     Swal.fire({
+        //         icon: 'warning',
+        //         title: 'Please enter a category',
+        //         confirmButtonText: 'OK'
+        //     });
+        // }
     };
 
 
@@ -152,10 +149,7 @@ const ExpencesSettings = () => {
                         },
                     });
                     console.log("deleteexecuted");
-                    // Swal.fire({
-                    //     icon: 'success',
-                    //     title: 'Expenses sub-Category deleted Successfully',
-                    // })
+                 
                 }
             });
 
@@ -178,10 +172,7 @@ const ExpencesSettings = () => {
                         },
                     });
                     console.log("deleteexecuted");
-                    // Swal.fire({
-                    //     icon: 'success',
-                    //     title: 'Expenses Category deleted Successfully',
-                    // })
+                 
                 }
             });
         }
@@ -190,6 +181,7 @@ const ExpencesSettings = () => {
     }
     const handleCategoryid = (e) => {
         setType(e.target.value)
+
         if (state.Settings.Expences.data && e.target.value !== undefined) {
             console.log("type", e.target.value);
             const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
@@ -201,7 +193,37 @@ const ExpencesSettings = () => {
 
             console.log("Typeidnamefilter", Typeidnamefilter);
         }
+
+        if(!e.target.value){
+            setCategoryErrmsg("Please Enter a Category")
+        }
+        else {
+            setCategoryErrmsg("")
+        }
     }
+
+    const handlecategoryAdd = (e) => {
+        setType(e.target.value)
+        if(!e.target.value){
+            setCategoryErrmsg("Please Enter a Category")
+        }
+        else {
+            setCategoryErrmsg("")
+        }
+    }
+
+
+    const handlesubcategoryAdd = (e) => {
+        setSubType(e.target.value)
+        if(!e.target.value){
+            setSubCategoryErrmsg("Please Enter a Sub-Category")
+        }
+        else {
+            setSubCategoryErrmsg("")
+        }
+    }
+
+
     return (
         <div>
             <div className='d-flex flex-column flex-sm-column flex-md-row  flex-lg-row'>
@@ -228,9 +250,18 @@ const ExpencesSettings = () => {
                                 type="text"
                                 placeholder="Enter Category"
                                 value={type}
-                                onChange={(e) => setType(e.target.value)}
+                                onChange={(e) => handlecategoryAdd(e)}
                             />
                         )}
+      
+
+{cateogoryerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {cateogoryerrmsg}
+    </p>
+  </div>
+)}
                     </Form.Group>
                 </div>
 
@@ -245,9 +276,18 @@ const ExpencesSettings = () => {
                             type="text"
                             placeholder="Enter sub-category"
                             value={subType}
-                            onChange={(e) => setSubType(e.target.value)}
+                            onChange={(e) => handlesubcategoryAdd(e)}
                             disabled={!isSubCategory}
                         />
+       
+
+{subcateogoryerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {subcateogoryerrmsg}
+    </p>
+  </div>
+)}
                     </Form.Group>
                 </div>
                 {/* )} */}

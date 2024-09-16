@@ -3,6 +3,8 @@ import {compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList} fr
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
  function* handlecompliancelist (action){
     const response = yield call (compliance, action.payload);
@@ -31,6 +33,30 @@ function* handleComplianceadd (params) {
  
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'COMPLIANCE_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
+      // Define the style
+      const toastStyle = {
+         position: 'fixed',
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'center',
+         top: '50%',
+         left: '50%',
+         transform: 'translate(-50%, -50%)',
+         zIndex: 9999, // To ensure it appears above other elements
+         backgroundColor: 'green', // Background color
+         color: 'white', // Text color
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+       })
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})

@@ -3,8 +3,7 @@ import { forgetpage, otpSend ,otpVerify,OTPverificationForForgotPassword} from "
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
-
-
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function* handleforgetpage(rpsd) {
@@ -20,16 +19,20 @@ function* handleforgetpage(rpsd) {
 
         if (response.status === 200 || response.statusCode === 200) {
             yield put({ type: 'NEWPASSWORD_LIST', payload:{ response:response.data,statusCode:response.status || response.statusCode} })
+
             toast.success('New password updated successfully', {
                 position: 'top-center',
                 autoClose: 1000, 
+
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
+
                 style: toastStyle
               });
+
 
         }
         else if (response.status === 203 || response.statusCode === 203) {

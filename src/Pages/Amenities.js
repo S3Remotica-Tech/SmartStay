@@ -14,6 +14,7 @@ import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } 
 import "./Amenities.css";
 import dottt from "../Assets/Images/Group 14.png"
 import Swal from 'sweetalert2';
+import { MdError } from "react-icons/md"; 
 
 function Amenities() {
 
@@ -47,6 +48,11 @@ function Amenities() {
   const [showTable, setShowTable] = useState(false)
   const [filteredamenities, setFilteredAmenities] = useState([])
 
+  const [hostelerrormsg, setHostelErrmsg] = useState('');
+  const [amenityerrormsg, setAmenityErrmsg] = useState('');
+  const [amounterrormsg, setAmountErrmsg] = useState('');
+  const [totalErrormsg ,setTotalErrmsg]= useState('')
+
   const handleHostelChange = (e) => {
     const selectedIndex = e.target.selectedIndex;
     setShowTable(true)
@@ -73,6 +79,11 @@ function Amenities() {
 
 
   const handleAmenitiesChange = (event, newValue) => {
+    if (!event.target.value) {
+      setAmenityErrmsg("Please Enter Amenity");
+    } else {
+      setAmenityErrmsg("");
+    }
     setAmenitiesName(event.target.value);
   };
 
@@ -84,6 +95,11 @@ function Amenities() {
 
 
   const handleAmountChange = (e) => {
+    if (!e.target.value) {
+      setAmountErrmsg("Please Enter Amount");
+    } else {
+      setAmountErrmsg("");
+    }
     setAmount(e.target.value)
 
   }
@@ -137,6 +153,11 @@ function Amenities() {
   console.log("selectedHostel", selectedhostel);
 
   const handleHostelClick = (e) => {
+    if (!e.target.value) {
+      setHostelErrmsg("Please Select Hostel");
+    } else {
+      setHostelErrmsg("");
+    }
     setSelecteDHostel(e.target.value)
   };
 
@@ -241,6 +262,14 @@ function Amenities() {
     //  else {
     // }
 
+    if (!selectedhostel ||!amenitiesName || !amount ) {
+      setTotalErrmsg('Please Enter All Field')
+      setTimeout(() => {
+        setTotalErrmsg('')
+      }, 2000);
+    return; 
+  }
+
     if (id && hasChanges) {
       dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: edithostelId } });
       handleClose()
@@ -261,16 +290,7 @@ function Amenities() {
       // setAsDefault('')
       setActive('');
     }
-    else {
-      Swal.fire({
-        icon: "warning",
-        title: 'Please Enter All  Field',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
-    }
+
 
     // setStatus('');
     // handleCloseModal();
@@ -397,6 +417,13 @@ function Amenities() {
                 ))}
 
               </Form.Select>
+              {hostelerrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {hostelerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {hostelerrormsg}
+    </p>
+  </div>
+)}
             </Form.Group>
 
           </div>
@@ -417,6 +444,13 @@ function Amenities() {
                     onChange={handleAmenitiesChange}
 
                   />
+                            {amenityerrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {amenityerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amenityerrormsg}
+    </p>
+  </div>
+)}
                 </Form.Group>
               </div>
 
@@ -434,6 +468,13 @@ function Amenities() {
                     onChange={(e) => handleAmountChange(e)}
 
                   />
+                            {amounterrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amounterrormsg}
+    </p>
+  </div>
+)}
                 </Form.Group>
               </div>
 
@@ -445,6 +486,13 @@ function Amenities() {
               </div>
 
             </div>
+            {totalErrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+    </p>
+  </div>
+)}
             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
               <Button className='col-lg-11 col-md-12 col-sm-12 col-xs-12' onClick={handleAmenitiesSetting} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12 }}>
                 Save Changes</Button>
@@ -708,6 +756,13 @@ function Amenities() {
                         onChange={(e) => handleAmountChange(e)}
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       />
+                                              {amounterrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amounterrormsg}
+    </p>
+  </div>
+)}
                     </Form.Group>
                   </div>
 

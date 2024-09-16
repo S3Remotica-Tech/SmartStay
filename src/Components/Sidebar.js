@@ -464,7 +464,7 @@ setCurrentPage('compliance')
 
 <div className="mr-3" style={{cursor:"pointer"}}>
   <Image 
-src={profile && profile != 0 ? profile : Profileimage}
+src={profile && profile != null ? Profileimage : profile}
   // src={profile && profile != 0  || profile !=null? profile : Profileimage}
    roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
 </div>
