@@ -34,7 +34,12 @@ const initialState = {
     kycValidateOtpVerifySuccess: 0,
     createFloorSuccessStatusCode: 0,
     countrycode: [],
-    noHosteListStatusCode: 0
+    noHosteListStatusCode: 0,
+    alreadyFloorHere:'',
+    deleteFloorError:'',
+deleteRoomError:'',
+    phoneError:'',
+    emailError:''
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -121,7 +126,7 @@ const UserListReducer = (state = initialState, action) => {
 
         case 'CLEAR_NO_HOSTEL_STATUS_CODE':
             return { ...state, noHosteListStatusCode: 0 }
-            
+
         case 'HOSTEL_DETAIL_LIST':
             console.log("HOSTEL_DETAIL_LIST", action.payload)
             return { ...state, hosteldetailslist: action.payload }

@@ -85,7 +85,7 @@
 
      .fade-in{
        opacity: 0;
-     }
+            }
      .fade-in.appear{
        opacity: 1;
        animation-duration: 1s;
@@ -95,6 +95,7 @@
        from {
            opacity: 0;
            transform: translateY(100%);
+           
        }
        to { opacity: 1 }
      }

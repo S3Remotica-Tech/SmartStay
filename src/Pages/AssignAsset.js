@@ -12,7 +12,7 @@ import moment from 'moment';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import Calendars from '../Assets/Images/New_images/calendar.png'
-
+import { MdError } from "react-icons/md";
 
 function StaticExample({ show, handleClose, currentItem }) {
 
@@ -72,6 +72,12 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [date, setDate] = useState('')
     const [Floor, setFloor] = useState('')
 
+    const [pglistError, setPglistError] = useState('');
+    const [roomError, setRoomError] = useState('');
+    const [dateError, setDateError] = useState('');
+    const [floorError, setFloorError] = useState('');
+    const [noChangeError, setNoChangeError] = useState('');
+    const [generalError, setGeneralError] = useState('');
 
     const [selectedDate, setSelectedDate] = useState(null);
     const calendarRef = useRef(null);
@@ -92,18 +98,30 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handlePgChange = (e) => {
         setPgList(e.target.value)
+        setGeneralError('')
+        setPglistError('')
+        setNoChangeError('');
     }
 
     const handleRoomChange = (e) => {
         setRoom(e.target.value)
+        setGeneralError('')
+        setRoomError('')
+        setNoChangeError('');
     }
 
     const handleDateChange = (selectedDates) => {
         setSelectedDate(selectedDates[0]); 
+        setGeneralError('')
+        setDateError('');
+        setNoChangeError('');
     }
 
    const handleFloor = (e) => {
     setFloor(e.target.value)
+    setGeneralError('')
+    setFloorError('')
+    setNoChangeError('');
    }
 
 
@@ -120,50 +138,61 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handleAddAssignAsset = () => {
 
+  setPglistError('');
+    setRoomError('');
+    setDateError('');
+    setFloorError('');
+    setNoChangeError('');
+
 
         if (!pglist && !room && !selectedDate && !Floor) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please Enter All Fields',
-
-            });
+            setGeneralError('Please enter all required fields')
             return;
         }
 
         if (!pglist) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please Select a PG List',
-            });
-            return;
-        }
-        
-        if (!room) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please Select a Room',
-            });
-            return;
-        }
-        
-        if (!selectedDate) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please Select a Date',
-            });
+            setPglistError('Please select a PG List');
             return;
         }
 
         if (!Floor) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please Select a Floor',
-            });
+            setFloorError('Please select a Floor');
+            return;
+        }
+        
+        if (!room) {
+            setRoomError('Please select a Room');
+            return;
+        }
+        
+        if (!selectedDate) {
+            setDateError('Please select a Date');
             return;
         }
 
-        const formattedSelectedDate = new Date(selectedDate).toISOString().split('T')[0]; 
-        const formattedInitialDate = new Date(initialState.selectedDate).toISOString().split('T')[0];
+       
+
+        let formattedSelectedDate;
+        let formattedInitialDate;
+    
+        if (selectedDate instanceof Date && !isNaN(selectedDate)) {
+                        const day = selectedDate.getDate().toString().padStart(2, '0');
+            const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0'); 
+            const year = selectedDate.getFullYear();
+            formattedSelectedDate = `${year}/${month}/${day}`;
+          } else {
+            setDateError('Invalid date');
+            return;
+          }
+        
+          if (initialState.selectedDate instanceof Date && !isNaN(initialState.selectedDate)) {
+            const day = initialState.selectedDate.getDate().toString().padStart(2, '0');
+            const month = (initialState.selectedDate.getMonth() + 1).toString().padStart(2, '0');
+            const year = initialState.selectedDate.getFullYear();
+            formattedInitialDate = `${year}/${month}/${day}`;
+          } else {
+            formattedInitialDate = '';  
+          }
     
         const isChanged = 
         Number(initialState.pglist) !== Number(pglist) ||
@@ -174,14 +203,11 @@ function StaticExample({ show, handleClose, currentItem }) {
 console.log("isChanged",isChanged, initialState, pglist, room,Floor, selectedDate)
 
         if (!isChanged) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'No changes detected',
-            });
+            setNoChangeError('No changes detected');
             return;
         }
         if (pglist && room && selectedDate && currentItem.id && Floor) {
-            dispatch({ type: 'ASSIGNASSET', payload: { asset_id: currentItem.id, hostel_id: pglist, room_id: room, asseign_date: selectedDate,
+            dispatch({ type: 'ASSIGNASSET', payload: { asset_id: currentItem.id, hostel_id: pglist, room_id: room, asseign_date: formattedSelectedDate,
                   floor_id: Floor
                  } })
            
@@ -230,12 +256,62 @@ console.log("isChanged",isChanged, initialState, pglist, room,Floor, selectedDat
                         <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem.hostel_id ? 'Reassign asset ' : 'Assign asset'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{ padding: 20 }}>
+                    {pglistError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {pglistError}
+    </label>
+  </div>
+)}
+{roomError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {roomError}
+    </label>
+  </div>
+)}
 
+{dateError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {dateError}
+    </label>
+  </div>
+)}
+
+{floorError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {floorError}
+    </label>
+  </div>
+)}
+
+{noChangeError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {noChangeError}
+    </label>
+  </div>
+)}
+{generalError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {generalError}
+    </label>
+  </div>
+)}
 
                         <div className='row mt-1'>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Select aria-label="Default select example" className='' id="vendor-select" value={pglist} onChange={handlePgChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: pglist ? 600 : 500 }}>
                                         <option value="" disabled>Select a PG</option>
                                         {
@@ -253,7 +329,7 @@ console.log("isChanged",isChanged, initialState, pglist, room,Floor, selectedDat
                             </div>
 
 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-<Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</Form.Label>
+<Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Floor <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <Form.Select
                         aria-label="Default select example"
                         placeholder='Select no. of floor'
@@ -275,7 +351,7 @@ console.log("isChanged",isChanged, initialState, pglist, room,Floor, selectedDat
 
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Select a room</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Select a room <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Select aria-label="Default select example" className='' id="vendor-select" value={room} onChange={handleRoomChange} style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: room ? 600 : 500 }}>
                                         <option value="" disabled>Select a room</option>
                                         {state.AssetList.GetRoomList && state.AssetList.GetRoomList.map((item) => {
@@ -293,12 +369,8 @@ console.log("isChanged",isChanged, initialState, pglist, room,Floor, selectedDat
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Date</Form.Label>
-                                    {/* <Form.Control className="custom-date-input"
-                                        value={date}
-                                        onChange={handleDateChange}
-                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: date ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} /> */}
-                              
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Date <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                                   
                               <div style={{ position: 'relative' }}>
                                         <label
                                             htmlFor="date-input"
@@ -328,6 +400,7 @@ console.log("isChanged",isChanged, initialState, pglist, room,Floor, selectedDat
                                             options={options}
                                             value={selectedDate}
                                             onChange={handleDateChange}
+                                            className='d-none d-sm-none d-md-none'
                                             style={{
                                                 padding: 10,
                                                 fontSize: 16,

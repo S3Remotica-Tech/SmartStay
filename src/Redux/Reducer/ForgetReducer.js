@@ -14,6 +14,7 @@ const initialState = {
     EmailErrorStatusCode: 0,
     otpVerify:'',
     statusCodeForgotOtp:0,
+    otpInvalidError: '',
 }
 
 const ForgetReducer = (state = initialState, action) => {
@@ -38,19 +39,25 @@ const ForgetReducer = (state = initialState, action) => {
         case 'CLEAR_OTP_STATUS_CODE':
             return { ...state, statusCode: 0 }
         case 'EMAIL_ERROR':
-            return { ...state, emailError: action.payload, EmailErrorStatusCode: action.payload.statusCode }
+            return { ...state, emailError: action.payload.response, EmailErrorStatusCode: action.payload.statusCode }
         case 'CLEAR_EMAIL_ERROR':
-            return { ...state, EmailErrorStatusCode: 0 }
+            return { ...state, EmailErrorStatusCode: 0, }
         case 'OTP_ERROR':
             return { ...state, OtpError: action.payload }
         case 'SEND_EMAIL_ERROR':
-            return { ...state, sendEmailError: action.payload, sendEmailStatusCode: action.payload.statusCode }
+            return { ...state, sendEmailError: action.payload.response, sendEmailStatusCode: action.payload.statusCode }
         case 'CLEAR_SEND_EMAIL_ERROR':
-            return {...state, sendEmailStatusCode:0}
+            return {...state, sendEmailStatusCode:0, }
         case 'OTPVERIFY_FORGOT_PASSWORD':
             return {...state,otpVerify:action.payload,statusCodeForgotOtp: action.payload.statusCode }
             case 'REMOVE_OTPVERIFY_FORGOT_PASSWORD_STATUSCODE':
-                return {...state, statusCodeForgotOtp:0}
+                return {...state, statusCodeForgotOtp:0, otpVerify:''}
+case 'OTP_INVALID_ERROR':
+    return {...state, otpInvalidError:action.payload}
+    case 'CLEAR_OTP_INVALID_ERROR':
+        return {...state, otpInvalidError:''}
+
+
     }
 
     return state;

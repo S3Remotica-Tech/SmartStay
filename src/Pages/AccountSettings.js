@@ -557,14 +557,7 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
         title: 'No Changes Detected',
         confirmButtonText: 'Ok'
       });
-    } 
-    // else {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Please Enter All Fields',
-    //     confirmButtonText: 'Ok'
-    //             });
-    // }
+
   };
 
 

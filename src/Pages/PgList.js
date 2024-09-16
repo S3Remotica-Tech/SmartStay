@@ -29,36 +29,70 @@ import Delete from '../Assets/Images/New_images/trash.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from './DeleteFloor';
 import Spinner from 'react-bootstrap/Spinner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// function getFloorName(floor_Id) {
+
+//   const numberToWord = {
+//     1: 'Ground',
+//     2: 'First',
+//     3: 'Second',
+//     4: 'Third',
+//     5: 'Fourth',
+//     6: 'Fifth',
+//     7: 'Sixth',
+//     8: 'Seventh',
+//     9: 'Eighth',
+//     10: 'Ninth',
+//     11: 'Tenth',
+//     12: 'Eleventh',
+//     13: 'Twelfth',
+//     14: 'Thirteenth',
+//   };
+
+//   if (floor_Id === 1) {
+//     return 'Ground Floor';
+//   } else if (numberToWord[floor_Id]) {
+//     return `${numberToWord[floor_Id]} Floor`;
+//   } else {
+
+//     const lastDigit = floor_Id % 10;
+//     let suffix = 'th';
+
+//     if (floor_Id % 100 < 11 || floor_Id % 100 > 13) {
+//       switch (lastDigit) {
+//         case 1:
+//           suffix = 'st';
+//           break;
+//         case 2:
+//           suffix = 'nd';
+//           break;
+//         case 3:
+//           suffix = 'rd';
+//           break;
+//       }
+//     }
+
+//     return `${floor_Id}${suffix} Floor`;
+//   }
+// }
 
 function getFloorName(floor_Id) {
-  
-  const numberToWord = {
-    1: 'Ground',  
-    2: 'First',
-    3: 'Second',
-    4: 'Third',
-    5: 'Fourth',
-    6: 'Fifth',
-    7: 'Sixth',
-    8: 'Seventh',
-    9: 'Eighth',
-    10: 'Ninth',
-    11: 'Tenth',
-    12: 'Eleventh',
-    13: 'Twelfth',
-    14: 'Thirteenth',
-  };
 
-  if (floor_Id === 1) {
+  
+  const adjustedFloorNumber = floor_Id - 1;
+
+ 
+  if (adjustedFloorNumber === 0) {
     return 'Ground Floor';
-  } else if (numberToWord[floor_Id]) { 
-    return `${numberToWord[floor_Id]} Floor`;
   } else {
    
-    const lastDigit = floor_Id % 10;
+    const lastDigit = adjustedFloorNumber % 10;
     let suffix = 'th';
 
-    if (floor_Id % 100 < 11 || floor_Id % 100 > 13) {
+   
+    if (adjustedFloorNumber % 100 < 11 || adjustedFloorNumber % 100 > 13) {
       switch (lastDigit) {
         case 1:
           suffix = 'st';
@@ -72,7 +106,7 @@ function getFloorName(floor_Id) {
       }
     }
 
-    return `${floor_Id}${suffix} Floor`;
+    return `${adjustedFloorNumber}${suffix} Floor`;
   }
 }
 
@@ -122,11 +156,24 @@ function PgList() {
 
   const [filteredData, setFilteredData] = useState([])
 
-const [ loader, setLoader] = useState(true)
+  const [loader, setLoader] = useState(true)
+
+  const toastStyle = {
+   
+    backgroundColor: 'green', 
+    color: 'white', 
+    width:"100%"
+  };
+
+
 
   useEffect(() => {
     if (state.UsersList?.hosteListStatusCode == 200) {
       setFilteredData(state.UsersList.hostelList)
+
+     
+
+
       setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
@@ -136,11 +183,11 @@ const [ loader, setLoader] = useState(true)
   }, [state.UsersList?.hosteListStatusCode])
 
 
-  
+
 
   useEffect(() => {
     if (state.UsersList?.noHosteListStatusCode == 201) {
-           setLoader(false)
+      setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NO_HOSTEL_STATUS_CODE' })
       }, 1000)
@@ -207,43 +254,55 @@ const [ loader, setLoader] = useState(true)
     if (state.UsersList.createFloorSuccessStatusCode == 200) {
 
       dispatch({ type: 'HOSTELLIST' })
+      
       setShowFloor(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_FLOOR_STATUS_CODE' })
-      }, 1000)
+      }, 4000)
     }
 
   }, [state.UsersList.createFloorSuccessStatusCode])
 
 
-useEffect(()=>{
-if(state.UsersList.deleteFloorSuccessStatusCode == 200){
-  dispatch({ type: 'HOSTELLIST' })
+  useEffect(() => {
+    if (state.UsersList.deleteFloorSuccessStatusCode == 200) {
+      dispatch({ type: 'HOSTELLIST' })
+      setShowDelete(false)
 
-  setTimeout(()=>{
-dispatch({ type: 'CLEAR_DELETE_FLOOR'})
-  },2000)
-  setFloorClick('')
-}
-},[state.UsersList.deleteFloorSuccessStatusCode])
+     
 
-useEffect(()=>{
-  if(state.PgList.deletePgSuccessStatusCode == 200){
-    dispatch({ type: 'HOSTELLIST' })
-    setTimeout(()=>{
-dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
-    },1000)
-  }
 
-},[state.PgList.deletePgSuccessStatusCode])
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_FLOOR' })
+      }, 4000)
+      setFloorClick('')
+    }
+  }, [state.UsersList.deleteFloorSuccessStatusCode])
+
+  useEffect(() => {
+    if (state.PgList.deletePgSuccessStatusCode == 200) {
+      dispatch({ type: 'HOSTELLIST' })
+
+    
+
+
+
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE' })
+      }, 4000)
+    }
+
+  }, [state.PgList.deletePgSuccessStatusCode])
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
+     
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PG_STATUS_CODE' })
-      }, 1000);
+      }, 4000);
 
 
       setPgList({
@@ -251,7 +310,7 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
         phoneNumber: '',
         email_Id: '',
         location: '',
-      
+
       });
 
 
@@ -323,7 +382,7 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
     ) {
       Swal.fire({
         icon: 'warning',
-        title: 'Please Enter All Fields',
+        title: 'Please Enter All Required Fields',
       });
     } else if (pgList.phoneNumber.length !== 10) {
       Swal.fire({
@@ -351,7 +410,7 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
           // created_by: decrypt
         }
       });
-     
+
       handlecloseHostelForm()
 
 
@@ -610,8 +669,8 @@ dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE'})
   }
 
 
-console.log("currentItems",currentItems)
-console.log("filteredData",filteredData)
+  console.log("currentItems", currentItems)
+  console.log("filteredData", filteredData)
 
   const renderPagination = () => {
     const pageNumbers = [];
@@ -661,6 +720,7 @@ console.log("filteredData",filteredData)
   const handleAddFloors = (hostel_Id) => {
     setShowFloor(true)
     setHostelFloor(hostel_Id)
+
   }
 
   const handleCloseFloor = () => {
@@ -684,6 +744,14 @@ console.log("filteredData",filteredData)
     setHidePgList(true);
     setFloorClick(1)
   }
+
+
+  const handleDIsplayFloorClick = (floorNo) => {
+    setFloorClick(floorNo)
+  }
+
+
+
 
   const stateAccount = useSelector(state => state.createAccount)
 
@@ -762,17 +830,22 @@ console.log("filteredData",filteredData)
   };
 
   const handleFloorClick = (floorNumber) => {
-    console.log("floorNumber",floorNumber)
+    console.log("floorNumber", floorNumber)
     setFloorClick(floorNumber);
     setKey(floorNumber.toString());
   };
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom == 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id} })
-         setTimeout(() => {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id } })
+    
+    
+    
+    
+    
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_ROOM' })
-      }, 1000);
+      }, 4000);
     }
   }, [state.PgList.statusCodeForDeleteRoom])
 
@@ -782,10 +855,10 @@ console.log("filteredData",filteredData)
 
   useEffect(() => {
 
-    if (state.PgList.statusCodeCreateRoom === 200 ) {
-       setShowRoom(false)
+    if (state.PgList.statusCodeCreateRoom === 200) {
+      setShowRoom(false)
     }
-  }, [state.PgList.statusCodeCreateRoom])  
+  }, [state.PgList.statusCodeCreateRoom])
 
 
   const handleShowDots = (id) => {
@@ -798,7 +871,7 @@ console.log("filteredData",filteredData)
 
   //   if (state.PgList.createRoomMessage != null && state.PgList.createRoomMessage != "") {
   //       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-  
+
   //       setTimeout(() => {
   //           dispatch({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: null })
   //       }, 100)
@@ -809,44 +882,45 @@ console.log("filteredData",filteredData)
 
 
   const [showDelete, setShowDelete] = useState(false);
-  const [deleteFloor, setDeleteFloor] = useState({floor_Id: null, hostel_Id : null})
+  const [deleteFloor, setDeleteFloor] = useState({ floor_Id: null, hostel_Id: null })
 
   const handleCloseDelete = () => setShowDelete(false);
 
   const handleShowDelete = (FloorNumber, hostel_Id) => {
     setShowDelete(true)
-    setDeleteFloor({floor_Id: FloorNumber, hostel_Id : hostel_Id })
+    setDeleteFloor({ floor_Id: FloorNumber, hostel_Id: hostel_Id })
     // setFloorClick(1)
-    
+
   }
 
-console.log("key",key)
-useEffect(() => {
-  const appearOptions = {
-    threshold : 0.5
-  };
-  const faders = document.querySelectorAll('.fade-in'); 
-  const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
-    entries.forEach(entry =>{
-      if(!entry.isIntersecting){
-        return;
-      }
-      else{
-        entry.target.classList.add('appear');
-        appearOnScro1l.unobserve(entry.target);
-      }
+  console.log("key", key)
+  useEffect(() => {
+    const appearOptions = {
+      threshold: 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+        else {
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader => {
+      appearOnScro1l.observe(fader);
     })
-  }, appearOptions)
-  faders.forEach(fader =>{
-    appearOnScro1l.observe(fader);
-  })
-});
+  });
 
   return (
     <>
 
+
       <div className='m-4'>
-      
+
         {/* <div className='d-flex justify-content-end align-items-center m-4'>
 
        <div>
@@ -892,7 +966,7 @@ useEffect(() => {
             </div>
           </div>
 
-         
+
 
 
           <div className='row row-gap-3'>
@@ -907,33 +981,33 @@ useEffect(() => {
 
             {!loader && filteredData.length == 0 &&
 
-<div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+              <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
-<div>
+                <div>
 
-  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No hostel available</div>
-  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are currently no hostels available</div>
-  <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
-    onClick={handleShowAddPg}
-  > + Add PG</Button>
-  </div>
-</div>
-<div>
+                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No hostel available</div>
+                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are currently no hostels available</div>
+                  <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
+                    onClick={handleShowAddPg}
+                  > + Add PG</Button>
+                  </div>
+                </div>
+                <div>
 
-</div>
-</div>
+                </div>
+              </div>
             }
 
 
 
-<div className='mt-2 mb-2 d-flex justify-content-center w-100'>
-        {loader && 
-        //  <Spinner animation="grow" variant="primary" size="sm" />
-        
-        <div className="d-flex justify-content-center align-items-start gap-3" style={{height:"100%"}}><Spinner animation="grow" style={{color:"rgb(30, 69, 225)"}} /> <div style={{color:"rgb(30, 69, 225)", fontWeight:600}}>Loading.....</div></div> 
+            <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+              {loader &&
+                //  <Spinner animation="grow" variant="primary" size="sm" />
 
-        }
-      </div>
+                <div className="d-flex justify-content-center align-items-start gap-3" style={{ height: "100%" }}><Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} /> <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>Loading.....</div></div>
+
+              }
+            </div>
 
 
           </div>
@@ -981,8 +1055,8 @@ useEffect(() => {
             <div className="d-flex justify-content-between align-items-center mb-3">
 
               <div className='d-flex align-items-center' >
-                <ArrowLeft size="32" color="#222222" onClick={handlebackToPG}  style={{cursor:"pointer"}}/>
-               
+                <ArrowLeft size="32" color="#222222" onClick={handlebackToPG} style={{ cursor: "pointer" }} />
+
                 <label className='ms-4' style={{ fontSize: 20, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>{showHostelDetails.Name}</label>
               </div>
 
@@ -999,92 +1073,105 @@ useEffect(() => {
 
             {
               showHostelDetails?.floorDetails?.length > 0 ?
-          
+
 
                 <Tab.Container activeKey={key} onSelect={(k) => setKey(k)} id="vertical-tabs-example">
-                <Row className="g-0">
-                  <Col sm={12} xs={12} md={2} lg={2} className='d-flex justify-content-start'>
-                    <div>
-                      <div className='d-flex justify-content-center'>
-                        <div onClick={handlePrev} disabled={visibleRange[0] === 0 } style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, cursor: 'pointer', padding: 3 }}>
-                          <ArrowUp2 size="32" color={visibleRange[0] === 0 ? "rgba(156, 156, 156, 1)" : "#000000"} variant="Bold" />
-                        </div>
-                      </div>
-
-                      <Nav variant="" className="flex-column">
-                      {showHostelDetails.floorDetails.map((floor, index) => (
-                             index >= visibleRange[0] && index <= visibleRange[1] &&
-                          <Nav.Item
-                          key={floor.floor_id}
-                          onClick={() => handleFloorClick(floor.floor_id)}
-                          className={`mb-3 mt-2 d-flex justify-content-center align-items-center Navs-Item ${floorClick === floor.floor_id ? 'active-floor' : 'Navs-Item'}`}
-                            style={{ border: "1px solid rgba(156, 156, 156, 1)", borderRadius: 16, height: 92, width: 95, padding: "8px, 16px, 8px, 16px" }}
-                          >
-                            <Nav.Link style={{}} className='text-center'>
-                            <div className={floorClick === floor.floor_id ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600 }}>
-                         {floor.floor_id === 1 ? 'G': floor.floor_id - 1}
-                       </div>
-                      <div className={floorClick === floor.floor_id ? 'ActiveFloortext' : 'UnActiveFloortext'} style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(floor.floor_id)}</div>
-                            </Nav.Link>
-                          </Nav.Item>
-                        ))}
-                      </Nav>
-
-                      <div className='d-flex justify-content-center'>
-                        <div onClick={handleNext} disabled={key === (showHostelDetails.number_Of_Floor - 1).toString()} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, padding: 3 }}>
-                          <ArrowDown2 size="32" color={visibleRange[1] === numberOfFloors - 1 ?  "rgba(156, 156, 156, 1)" : "#000000"} variant="Bold" />
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col sm={12} xs={12} md={10} lg={10}>
-                  {
-                    floorClick &&
-               
-                    <div className='d-flex justify-content-between align-items-center'>
-                      <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(floorClick)}</div>
+                  <Row className="g-0">
+                    <Col sm={12} xs={12} md={2} lg={2} className='d-flex justify-content-start'>
                       <div>
-                        <div style={{
-                          cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative",
-                          zIndex: showDots ? 1000 : 'auto'
-                        }}
-                          onClick={() => handleShowDots()}>
-                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                        <div className='d-flex justify-content-center'>
+                          <div onClick={handlePrev} disabled={visibleRange[0] === 0} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, cursor: 'pointer', padding: 3 }}>
+                            <ArrowUp2 size="32" color={visibleRange[0] === 0 ? "rgba(156, 156, 156, 1)" : "#000000"} variant="Bold" />
+                          </div>
+                        </div>
 
-                          {showDots && <>
-                            <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                        <Nav variant="" className="flex-column">
+                          {showHostelDetails.floorDetails.map((floor, index) => (
+                            index >= visibleRange[0] && index <= visibleRange[1] &&
+                            <Nav.Item
+                              key={floor.floor_id}
+                              onClick={() => handleFloorClick(floor.floor_id)}
+                              className={`mb-3 mt-2 d-flex justify-content-center align-items-center Navs-Item ${floorClick === floor.floor_id ? 'active-floor' : 'Navs-Item'}`}
+                              style={{ border: "1px solid rgba(156, 156, 156, 1)", borderRadius: 16, height: 92, width: 95, padding: "8px, 16px, 8px, 16px" }}
+                            >
+                              <Nav.Link style={{}} className='text-center'>
+                                <div className={floorClick === floor.floor_id ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600 }}>
+                                  {floor.floor_id === 1 ? 'G' : floor.floor_id - 1}
+                                </div>
+                                <div
+                                  className={floorClick === floor.floor_id ? 'ActiveFloortext' : 'UnActiveFloortext'}
+                                  style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, textTransform: "capitalize" }}
+                                >
+                                  {floor.floor_id === 1
+                                    ? "Ground Floor"
+                                    : (!floor.floor_name || floor.floor_name.trim() === "" || floor.floor_name === "null")
+                                      ? getFloorName(floor.floor_id)
+                                      : floor.floor_name}
+                                </div>
 
 
 
-                              <div onClick={() => handleShowDelete(floorClick,showHostelDetails.id,showHostelDetails )}>
-                                <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
-                              </div>
+                                {/* <div className={floorClick === floor.floor_id ? 'ActiveFloortext' : 'UnActiveFloortext'} style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, textTransform:"capitalize" }}>{floor.floor_id ==  1  ? "Ground Floor" :  floor.floor_name ? floor.floor_name : getFloorName(floor.floor_id)}</div> */}
+                              </Nav.Link>
+                            </Nav.Item>
+                          ))}
+                        </Nav>
+
+                        <div className='d-flex justify-content-center'>
+                          <div onClick={handleNext} disabled={key === (showHostelDetails.number_Of_Floor - 1).toString()} style={{ border: "1px solid rgba(239, 239, 239, 1)", width: "fit-content", borderRadius: 50, padding: 3 }}>
+                            <ArrowDown2 size="32" color={visibleRange[1] === numberOfFloors - 1 ? "rgba(156, 156, 156, 1)" : "#000000"} variant="Bold" />
+                          </div>
+                        </div>
+                      </div>
+                    </Col>
+                    <Col sm={12} xs={12} md={10} lg={10}>
+                      {
+                        floorClick &&
+
+                        <div className='d-flex justify-content-between align-items-center'>
+                          <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(floorClick)}</div>
+                          <div>
+                            <div style={{
+                              cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative",
+                              zIndex: showDots ? 1000 : 'auto'
+                            }}
+                              onClick={() => handleShowDots()}>
+                              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                              {showDots && <>
+                                <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+
+
+
+                                  <div onClick={() => handleShowDelete(floorClick, showHostelDetails.id, showHostelDetails)}>
+                                    <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
+                                  </div>
+
+                                </div>
+
+
+                              </>}
 
                             </div>
-
-
-                          </>}
-
+                          </div>
                         </div>
-                      </div>
-                    </div>
-}
+                      }
 
-                    <Tab.Content>
-                      <ParticularHostelDetails
-                        floorID={floorClick}
-                        hostel_Id={showHostelDetails.id}
-                        phoneNumber={showHostelDetails.hostel_PhoneNo}
+                      <Tab.Content>
+                        <ParticularHostelDetails
+                          floorID={floorClick}
+                          hostel_Id={showHostelDetails.id}
+                          phoneNumber={showHostelDetails.hostel_PhoneNo}
 
-                      />
-
-                     
+                        />
 
 
-                    </Tab.Content>
-                  </Col>
-                </Row>
-              </Tab.Container>
+
+
+                      </Tab.Content>
+                    </Col>
+                  </Row>
+                </Tab.Container>
                 :
 
                 <div className='d-flex align-items-center justify-content-center' style={{ width: "100%", height: 350, margin: "0px auto" }}>
@@ -1105,18 +1192,18 @@ useEffect(() => {
 
             }
 
-         
+
           </div>
         )}
-       
 
 
 
 
 
-      {showAddPg && <AddPg show={showAddPg} handleClose={handleCloses} currentItem={editHostelDetails} /> }
-{showDelete && <DeleteFloor show={showDelete} handleClose={handleCloseDelete} currentItem={deleteFloor} />}
-        {showFloor && <AddFloor show={showFloor} handleClose={handleCloseFloor} hostelFloor={hostelFloor} />}
+
+        {showAddPg && <AddPg show={showAddPg} handleClose={handleCloses} currentItem={editHostelDetails} />}
+        {showDelete && <DeleteFloor show={showDelete} handleClose={handleCloseDelete} currentItem={deleteFloor} />}
+        {showFloor && <AddFloor show={showFloor} handleClose={handleCloseFloor} hostelFloor={hostelFloor} openFloor={handleDIsplayFloorClick} />}
         {showRoom && <AddRoom show={showRoom} handleClose={handlecloseRoom} hostelDetails={hostelDetails} />}
       </div>
     </>

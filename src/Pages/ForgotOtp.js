@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import CryptoJS from "crypto-js";
 
 import Cookies from 'universal-cookie';
-
+import { MdError } from "react-icons/md";
 
 const OtpVerificationModal = ({ show, handleClose , Email_Id}) => {
   
@@ -29,6 +29,10 @@ console.log("state for opt verification",state)
 
 
   const handleOtpInputChange = (e, index) => {
+
+    setOtpErrors('')
+    dispatch({ type: 'CLEAR_OTP_INVALID_ERROR'})
+
     if (e.target.value.length === 1 && index < inputRefs.length - 1) {
       inputRefs[index + 1].current.focus();
     }
@@ -38,19 +42,23 @@ console.log("state for opt verification",state)
 
 
 
-
+const[ otpErrors, setOtpErrors] = useState('')
 
 
   const handleOtpVerify = () => {
 
+    if(!otpValue){
+      setOtpErrors('Please enter valid otp')
+    }
+
     if(otpValue){
       dispatch({ type: 'OTPVERIFYFORGOTPASSWORD', payload: {Email_Id:  Email_Id, OTP: otpValue} })
     }else{
-         Swal.fire({
-          icon: 'warning',
-          title: 'Error',
-          text: 'Enter Valid Otp',
-        });
+        //  Swal.fire({
+        //   icon: 'warning',
+        //   title: 'Error',
+        //   text: 'Enter Valid Otp',
+        // });
     }
     inputRefs && inputRefs.forEach(ref => {
       ref.current.value = null;
@@ -83,6 +91,24 @@ console.log("state for opt verification",state)
                         ))}
         </div>
       </Modal.Body>
+      
+       {otpErrors ? <div className='d-flex align-items-center p-1'>
+  <MdError style={{ color: "red" , marginRight: '5px'}} />
+  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{otpErrors}</label>
+</div>
+  : null}
+
+
+
+{state.NewPass?.otpInvalidError ? <div className='d-flex align-items-center p-1'>
+  <MdError style={{ color: "red" , marginRight: '5px'}} />
+  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.NewPass?.otpInvalidError}</label>
+</div>
+  : null}
+
+
+
+
       <Modal.Footer>
         {/* <Button variant="secondary" onClick={handleClose}>
           Close

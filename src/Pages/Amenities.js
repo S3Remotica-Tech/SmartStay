@@ -290,7 +290,7 @@ function Amenities() {
       // setAsDefault('')
       setActive('');
     }
- 
+
 
     // setStatus('');
     // handleCloseModal();
