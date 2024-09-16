@@ -172,20 +172,41 @@ function AddVendor({ show, handleClose, currentItem }) {
 
 
 
+  // const handleEmailChange = (e) => {
+  //   const email = e.target.value;
+  //   setEmail_Id(email);
+  //   setGeneralError('');
+  //   setIsChangedError('');
+  //   setEmailError('');
+  //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  //   const isValidEmail = emailRegex.test(email);
+  //   if (isValidEmail) {
+  //     setErrors(prevErrors => ({ ...prevErrors, email_Id: '' }));
+  //   } else {
+  //     setErrors(prevErrors => ({ ...prevErrors, email_Id: 'Invalid Email Id *' }));
+  //   }
+  // }
+
   const handleEmailChange = (e) => {
     const email = e.target.value;
     setEmail_Id(email);
-    setGeneralError('');
-    setIsChangedError('');
+    setGeneralError(''); 
+    setIsChangedError(''); 
     setEmailError('');
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-    const isValidEmail = emailRegex.test(email);
-    if (isValidEmail) {
-      setErrors(prevErrors => ({ ...prevErrors, email_Id: '' }));
-    } else {
-      setErrors(prevErrors => ({ ...prevErrors, email_Id: 'Invalid Email Id *' }));
+
+    if (email) { 
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+      const isValidEmail = emailRegex.test(email);
+      if (isValidEmail) {
+        setEmailError(''); 
+      } else {
+        setEmailError('Invalid Email Id *'); 
+      }
     }
-  }
+  };
+
+
+
 
   console.log("file", file)
 
@@ -195,21 +216,24 @@ function AddVendor({ show, handleClose, currentItem }) {
     const emailInvalid = errors.email_Id === 'Invalid Email Id *';
     const mobileInvalid = errors.vendor_Mobile === 'Invalid mobile number *';
 
-    if (!first_Name && !vendor_Mobile && !email_Id && !address && !business_Name && !countryCode) {
+    if (!first_Name && !vendor_Mobile &&  !address && !business_Name && !countryCode) {
       setGeneralError('Please fill in all the required fields.');
       return;
     }
 
     if (!first_Name) {
       setFirstNameError('Please enter First Name');
+      return;
     }
 
     if (!countryCode) {
       setCountryCodeError('Please select a country code');
+      return;
     }
 
     if (!vendor_Mobile) {
       setMobileError('Please enter a mobile number');
+      return;
     }
 
     // if (!email_Id) {
@@ -218,6 +242,7 @@ function AddVendor({ show, handleClose, currentItem }) {
 
     if (!address) {
       setAddressError('Please enter an address');
+      return;
     }
 
     if (!business_Name) {
@@ -328,6 +353,10 @@ function AddVendor({ show, handleClose, currentItem }) {
     file: null
   });
 
+
+console.log("initial state",initialState)
+
+
   useEffect(() => {
     dispatch({ type: 'COUNTRYLIST' })
   }, [])
@@ -376,7 +405,8 @@ function AddVendor({ show, handleClose, currentItem }) {
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
       const mobileNumber = phoneNumber.slice(-10);
 
-
+      const emailValue = currentItem.Vendor_Email;
+      const normalizedEmail = (emailValue === 'undefined' || emailValue === null || emailValue === undefined) ? '' : emailValue;
 
       setCheck('EDIT');
       setFirst_Name(firstName);
@@ -384,7 +414,9 @@ function AddVendor({ show, handleClose, currentItem }) {
       setVendor_Mobile(mobileNumber);
       setCountryCode(countryCode)
       setAddress(currentItem.Vendor_Address);
-      setEmail_Id(currentItem.Vendor_Email);
+     
+      setEmail_Id(normalizedEmail);
+      // setEmail_Id(currentItem.Vendor_Email ? currentItem.Vendor_Email : '');
       setBusiness_Name(currentItem.Business_Name);
       setId(currentItem.id);
       setVendor_Id(currentItem.Vendor_Id);
@@ -397,7 +429,7 @@ function AddVendor({ show, handleClose, currentItem }) {
         vendor_Mobile: mobileNumber,
         countryCode: countryCode,
         address: currentItem.Vendor_Address,
-        email_Id: currentItem.Vendor_Email,
+        email_Id:  normalizedEmail,
         business_Name: currentItem.Business_Name,
         file: currentItem.Vendor_profile ? currentItem.Vendor_profile : null
       });

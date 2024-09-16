@@ -7,11 +7,13 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import AssignAsset from './AssignAsset'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function AssetListTable(props) {
 
-
+console.log("props asste",props)
 
     const state = useSelector(state => state)
   const dispatch = useDispatch();
@@ -49,35 +51,107 @@ props.OnEditAsset(item)
 
       }
 
-      const handleDelete = (item) =>{
-        console.log("delete item",item)
-    if(item){
-        Swal.fire({
-          icon: 'warning',
-          title: 'Do you want to delete the asset ?',
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          showCancelButton: true,
-      }).then((result) => {
-          if (result.isConfirmed) {
-              dispatch({
-                  type: 'DELETEASSET',
-                  payload: {
-                    asset_id: item.id,
-                    },
-              });
-              Swal.fire({
-                  icon: 'success',
-                  title: 'Asset deleted Successfully',
-              })
-          }
+    //   const handleDelete = (item) =>{
+    //     console.log("delete item",item)
+    // if(item){
+    //     Swal.fire({
+    //       icon: 'warning',
+    //       title: 'Do you want to delete the asset ?',
+    //       confirmButtonText: 'Yes',
+    //       cancelButtonText: 'No',
+    //       showCancelButton: true,
+    //   }).then((result) => {
+    //       if (result.isConfirmed) {
+    //           dispatch({
+    //               type: 'DELETEASSET',
+    //               payload: {
+    //                 asset_id: item.id,
+    //                 },
+    //           });
+    //           Swal.fire({
+    //               icon: 'success',
+    //               title: 'Asset deleted Successfully',
+    //           })
+    //       }
           
-      });
+    //   });
     
-    }
+    // }
     
+    //   }
+    
+
+    const handleDelete = (item) => {
+      console.log("delete item", item);
+    
+      if (item) {
+        toast(
+          ({ closeToast }) => (
+            <div>
+              <p style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                Do you want to delete the asset?
+              </p>
+              <div className='w-100 d-flex justify-content-center'>
+                <button
+                  style={{
+                    marginRight: '10px',
+                    backgroundColor: '#1E45E1',
+                    color: '#fff',
+                    border: 'none',
+                    padding: '5px 10px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: 500
+                  }}
+                  onClick={() => {
+                    dispatch({
+                      type: 'DELETEASSET',
+                      payload: {
+                        asset_id: item.id,
+                      },
+                    });
+                    
+                    
+    
+                    closeToast(); // Close the confirmation toast after clicking 'Yes'
+                  }}
+                >
+                  Yes
+                </button>
+             
+                {/* <button
+                  style={{
+                    backgroundColor: '#f44336',
+                    color: '#fff',
+                    border: 'none',
+                    padding: '5px 10px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: 500
+                  }}
+                  onClick={closeToast} 
+                >
+                  No
+                </button> */}
+              </div>
+            </div>
+          ),
+          {
+            position: 'top-center',
+            autoClose: false,
+            closeOnClick: false,
+            hideProgressBar: true,
+            draggable: false,
+          }
+        );
       }
+    };
     
+
 const handleAssignAsset = (item) => {
 setShowAssignAssetModal(true)
 setAssign(item)
@@ -126,7 +200,7 @@ useEffect(() => {
     <td style={{ color: "", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center", border: "none"}}>
       <input type='checkbox' className="custom-checkbox" style={customCheckboxStyle} />
     </td>
-    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.asset_name}</td>
+    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.product_name}</td>
 
     {/* <td style={{border: "none"}}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: "between", flex:"wrap", gap:2, width:"100%" }}>
@@ -137,12 +211,12 @@ useEffect(() => {
     <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.serial_number}</td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' ,border: "none"}}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500,width:120,  padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.brand_name}</div>
+        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500,width:120,  padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.brand_name ? props.item.brand_name : "None" }</div>
       </div>
     </td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' ,border: "none"}}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: 120, padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center",fontFamily: "Gilroy" }}>{props.item.product_name}</div>
+        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: 120, padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center",fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "None"}</div>
       </div>
     </td>
     <td style={{ border: "none" , textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>{props.item.product_count}</td>

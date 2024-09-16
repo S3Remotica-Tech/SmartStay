@@ -254,16 +254,7 @@ function PgList() {
     if (state.UsersList.createFloorSuccessStatusCode == 200) {
 
       dispatch({ type: 'HOSTELLIST' })
-      toast.success('Floor has been successfully created!', {
-        position: 'top-center',
-        autoClose: 2000, 
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle
-      });
+      
       setShowFloor(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_FLOOR_STATUS_CODE' })
@@ -278,16 +269,7 @@ function PgList() {
       dispatch({ type: 'HOSTELLIST' })
       setShowDelete(false)
 
-      toast.success('Floor has been successfully deleted!', {
-        position: 'top-center',
-        autoClose: 2000, 
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle
-      });
+     
 
 
       setTimeout(() => {
@@ -301,16 +283,7 @@ function PgList() {
     if (state.PgList.deletePgSuccessStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
 
-      toast.success('Paying guest has been successfully deleted!', {
-        position: 'top-center',
-        autoClose: 2000, 
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle
-      });
+    
 
 
 
@@ -325,16 +298,7 @@ function PgList() {
   useEffect(() => {
     if (state.PgList.createPgStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
-      toast.success('Succsessfully added  a new hostel', {
-        position: 'top-center',
-        autoClose: 2000, 
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle
-      });
+     
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PG_STATUS_CODE' })
@@ -418,7 +382,7 @@ function PgList() {
     ) {
       Swal.fire({
         icon: 'warning',
-        title: 'Please Enter All Fields',
+        title: 'Please Enter All Required Fields',
       });
     } else if (pgList.phoneNumber.length !== 10) {
       Swal.fire({
@@ -875,16 +839,7 @@ function PgList() {
     if (state.PgList.statusCodeForDeleteRoom == 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id } })
     
-      toast.success('Room has been successfully deleted!', {
-        position: 'top-center',
-        autoClose: 2000, 
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle
-      });
+    
     
     
     
@@ -963,7 +918,7 @@ function PgList() {
   return (
     <>
 
-<ToastContainer /> 
+
       <div className='m-4'>
 
         {/* <div className='d-flex justify-content-end align-items-center m-4'>

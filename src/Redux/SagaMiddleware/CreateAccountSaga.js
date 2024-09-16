@@ -2,6 +2,7 @@ import { call, takeEvery, put } from 'redux-saga/effects';
 import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,GetAllNotification,UpdateNotification , UpdateProfile , UpdatePassword} from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
+import { toast } from 'react-toastify';
 
 
 
@@ -9,15 +10,26 @@ function* CreateNewAccount(args) {
   try {
     const response = yield call(Addaccount, args.payload);
     console.log("response",response)
+    var toastStyle = {
+   
+      backgroundColor: 'green', 
+      color: 'white', 
+      width:"100%"
+    };
+   
       if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode} });
 
-      // Swal.fire({
-      //   icon: 'success',
-      //   text: response.data.message,
-      //   // timer: 1000,
-      //   // showConfirmButton: false,
-      // });
+      toast.success('Account created successfully', {
+        position: 'top-center',
+        autoClose: 1000, 
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle
+      });
     } else if (response.status === 210 || response.statusCode === 210) {
 
       yield put({ type: 'PASSWORD_DOESNT_ERROR', payload: response.data.message });

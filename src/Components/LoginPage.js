@@ -144,13 +144,16 @@ const MyComponent = () => {
     if (!email_Id && !password) {
       setEmailError('Please enter email id');
       setPasswordError('Please enter password');
+      return
       hasError = true;
     } else if (!email_Id) {
       setEmailError('Please enter email id');
       hasError = true;
+      return
     } else if (!password) {
       setPasswordError('Please enter password');
       hasError = true;
+      return
     }
 
 

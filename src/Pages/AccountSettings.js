@@ -567,7 +567,7 @@ if(!currentpassword){
     } else {
       Swal.fire({
         icon: 'warning',
-        title: 'Please Enter All Fields',
+        title: 'Please Enter All  Fields',
         confirmButtonText: 'Ok'
         // timer: 1000
                 });

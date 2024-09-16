@@ -15,6 +15,7 @@ import { InputGroup, FormControl } from 'react-bootstrap';
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
+import { MdError } from "react-icons/md";
 
 
 function StaticExample({ show, handleClose, currentItem }) {
@@ -44,68 +45,95 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [initialState, setInitialState] = useState({
         assetName: '',
         vendorName: '',
-        brandName:  '',
+        brandName: '',
         serialNumber: '',
         productCount: '',
-        selectedDate:  null,
+        selectedDate: null,
         price: '',
-        productName:  '',
-            });
+        productName: '',
+    });
 
-            const handleAssetNameChange = (e) => {
-                const value = e.target.value;
-                if (value === "") {
-                    setAssetName(value);
-                    setErrors(prevErrors => ({ ...prevErrors, assetName: "Asset name cannot be empty or spaces only" }));
-                    return;
-                }
-                       
-                if (value.trim() !== "") {
-                    setAssetName(value);
-                    setErrors(prevErrors => ({ ...prevErrors, assetName: "" }));
-                }
-            };
-            
+
+
+
+    const [productNameError, setProductNameError] = useState('');
+    const [serialNumberError, setSerialNumberError] = useState('');
+    const [selectedDateError, setSelectedDateError] = useState('');
+    const [priceError, setPriceError] = useState('');
+    const [isChangedError, setIsChangedError] = useState('');
+    const [generalError, setGeneralError] = useState('');
+
+
+
+
+
+
+
+
+
+    const handleAssetNameChange = (e) => {
+        setGeneralError('')
+        const value = e.target.value;
+
+        dispatch({ type: 'CLEAR_SERIAL_NUMBER_ERROR'})
+        setIsChangedError('')
+
+        if (value === "") {
+            setAssetName(value);
+            setErrors(prevErrors => ({ ...prevErrors, assetName: "Asset name cannot be empty or spaces only" }));
+            return;
+        }
+
+        if (value.trim() !== "") {
+            setAssetName(value);
+            setErrors(prevErrors => ({ ...prevErrors, assetName: "" }));
+        }
+    };
+
 
     const handleVendorNameChange = (e) => {
         setVendorName(e.target.value);
+        setIsChangedError('')
+        setGeneralError('')
 
     }
 
     const handleBrandNameChange = (e) => {
         const value = e.target.value;
-    
- 
+        setIsChangedError('')
+        setGeneralError('')
+
         if (value === "") {
             setBrandName(value);
             setErrors(prevErrors => ({ ...prevErrors, brandName: "Brand name cannot be empty or spaces only" }));
             return;
         }
-    
-    
+
+
         if (value.trim() !== "") {
             setBrandName(value);
             setErrors(prevErrors => ({ ...prevErrors, brandName: "" }));
         }
     };
-    
+
 
     const handleSerialNumberChange = (e) => {
         const value = e.target.value;
-    
-      
+        setSerialNumberError('');
+        setIsChangedError('')
+        setGeneralError('')
         if (value === "") {
             setSerialNumber(value);
             setErrors(prevErrors => ({ ...prevErrors, serial_Number: "Serial number cannot be empty or spaces only" }));
             return;
         }
-    
+
         if (value.trim() !== "") {
             setSerialNumber(value);
             setErrors(prevErrors => ({ ...prevErrors, serial_Number: "" }));
         }
     };
-    
+
 
 
 
@@ -119,6 +147,9 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handlePriceChange = (e) => {
         setPrice(e.target.value);
+        setPriceError('');
+        setIsChangedError('')
+        setGeneralError('')
 
 
     }
@@ -129,21 +160,23 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handleProductNameChange = (e) => {
         const value = e.target.value;
-    
-  
+        setGeneralError('')
+        setProductNameError('')
+        setIsChangedError('')
+
         if (value === "") {
             setProductName(value);
             setErrors(prevErrors => ({ ...prevErrors, productName: "Product name cannot be empty or spaces only" }));
             return;
         }
-    
- 
+
+
         if (value.trim() !== "") {
             setProductName(value);
             setErrors(prevErrors => ({ ...prevErrors, productName: "" }));
         }
     };
-    
+
     useEffect(() => {
         dispatch({ type: 'VENDORLIST' })
     }, [])
@@ -161,79 +194,77 @@ function StaticExample({ show, handleClose, currentItem }) {
         }
     }, []);
 
+    const cleanSerialNumber = (serialNumber) => {
+        return serialNumber
+          .trim()
+          .replace(/[\t\n\r]+/g, ''); 
+      };
+      
+
 
     const handleAddAsset = () => {
 
-// if(!assetName && !vendorName && !brandName && !serialNumber && !productCount && !selectedDate && !price && !productName){
-//     Swal.fire({
-//         icon: 'warning',
-//         title: 'Please Enter All Fields',
-       
-//     });
-//     return;
-// }
 
-// if (!assetName) {
-//     Swal.fire({
-//         icon: 'warning',
-//         title: 'Please Enter a Valid Asset Name',
-//     });
-//     return;
-// }
-if (!productName) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter a Valid Product Name',
-    });
-    return;
-}
-// if (!vendorName) {
-//     Swal.fire({
-//         icon: 'warning',
-//         title: 'Please Enter a Valid Vendor Name',
-//     });
-//     return;
-// }
 
-// if (!brandName) {
-//     Swal.fire({
-//         icon: 'warning',
-//         title: 'Please Enter a Valid Brand Name',
-//     });
-//     return;
-// }
+        const cleanedSerialNumber = cleanSerialNumber(serialNumber);
 
-if (!serialNumber) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter a Valid Serial Number',
-    });
-    return;
-}
 
-// if (!productCount || isNaN(productCount) || productCount <= 0) {
-//     Swal.fire({
-//         icon: 'warning',
-//         title: 'Please Enter a Valid Product Count',
-//     });
-//     return;
-// }
 
-if (!selectedDate) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Please Select a Valid Date',
-    });
-    return;
-}
+        if( !productName && !serialNumber &&  !selectedDate && !price ){
+            setGeneralError('Please enter all mandatory fields')
+            return;
+        }
 
-if (!price || isNaN(price) || price <= 0) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter a Valid Price',
-    });
-    return;
-}
+        // if (!assetName) {
+        //     Swal.fire({
+        //         icon: 'warning',
+        //         title: 'Please Enter a Valid Asset Name',
+        //     });
+        //     return;
+        // }
+        if (!productName) {
+            setProductNameError('Please Enter a Valid Product Name');
+
+            return;
+        }
+        // if (!vendorName) {
+        //     Swal.fire({
+        //         icon: 'warning',
+        //         title: 'Please Enter a Valid Vendor Name',
+        //     });
+        //     return;
+        // }
+
+        // if (!brandName) {
+        //     Swal.fire({
+        //         icon: 'warning',
+        //         title: 'Please Enter a Valid Brand Name',
+        //     });
+        //     return;
+        // }
+
+        if (!cleanedSerialNumber) {
+            setSerialNumberError('Please Enter a Valid Serial Number');
+            return;
+        }
+
+        // if (!productCount || isNaN(productCount) || productCount <= 0) {
+        //     Swal.fire({
+        //         icon: 'warning',
+        //         title: 'Please Enter a Valid Product Count',
+        //     });
+        //     return;
+        // }
+
+        if (!selectedDate) {
+            setSelectedDateError('Please Select a Valid Date');
+            return;
+        }
+
+        if (!price || isNaN(price) || price <= 0) {
+            setPriceError('Please Enter a Valid Price');
+            return;
+        }
 
 
 
@@ -241,39 +272,34 @@ if (!price || isNaN(price) || price <= 0) {
 
 
         const isChanged = initialState.assetName !== assetName ||
-        initialState.vendorName !== vendorName ||
-        initialState.brandName !== brandName ||
-        initialState.serialNumber !== serialNumber ||
-        Number(initialState.productCount) !== Number(productCount) ||
-        (initialState.selectedDate && selectedDate && initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
-        Number(initialState.price) !== Number(price) ||
-        initialState.productName !== productName
+            initialState.vendorName !== vendorName ||
+            initialState.brandName !== brandName ||
+            initialState.serialNumber !== serialNumber ||
+            Number(initialState.productCount) !== Number(productCount) ||
+            (initialState.selectedDate && selectedDate && initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
+            Number(initialState.price) !== Number(price) ||
+            initialState.productName !== productName
 
-        console.log("isChanged",isChanged)
+        console.log("isChanged", isChanged)
 
 
- if (!isChanged) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'No changes detected',
-        text: 'Please make some changes before saving.',
-   
-      });
-      return;
-    }
+        if (!isChanged) {
+            setIsChangedError('No changes detected. Please make some changes before saving.');
+            return;
+        }
 
 
 
 
 
-        if (productName    && serialNumber  && selectedDate && price  ) {
+        if (productName && serialNumber && selectedDate && price) {
 
             const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
-            
-            dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, product_name: productName,vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: 1 , purchase_date: formattedDate, price: price, id: id } })
+
+            dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, product_name: productName, vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: 1, purchase_date: formattedDate, price: price, id: id } })
 
 
-          
+
             // setAssetName('');
             // setVendorName('');
             // setBrandName('');
@@ -286,7 +312,7 @@ if (!price || isNaN(price) || price <= 0) {
 
 
         } else {
-           
+
         }
     }
 
@@ -306,8 +332,8 @@ if (!price || isNaN(price) || price <= 0) {
     //     }
     // }, [currentItem]);
 
-   
-    
+
+
 
 
     useEffect(() => {
@@ -334,11 +360,11 @@ if (!price || isNaN(price) || price <= 0) {
                 selectedDate: currentItem.purchase_date ? moment(currentItem.purchase_date).toDate() : null,
                 price: currentItem.price || '',
                 productName: currentItem.product_name || '',
-                            })
-           
+            })
+
         }
     }, [currentItem]);
-    
+
 
     console.log("currentItem", currentItem)
 
@@ -346,7 +372,7 @@ if (!price || isNaN(price) || price <= 0) {
     const calendarRef = useRef(null);
 
 
-  
+
 
 
 
@@ -366,48 +392,49 @@ if (!price || isNaN(price) || price <= 0) {
         if (!date) return null;
         const offset = date.getTimezoneOffset();
         date.setMinutes(date.getMinutes() - offset);
-        return date.toISOString().split('T')[0]; 
-      };
-    
-
-const [formattedDate, setFormattedDate] = useState('')
+        return date.toISOString().split('T')[0];
+    };
 
 
-      const handleDateChange = (selectedDates) => {
-       
-    //    const date = selectedDates[0];
-    // const formatedDate = formatDateForPayload(date);
-    setSelectedDate(selectedDates[0]); 
- 
-              };
-              console.log("selectedDate", selectedDate,formattedDate)
+    const [formattedDate, setFormattedDate] = useState('')
 
 
+    const handleDateChange = (selectedDates) => {
+        setSelectedDateError('')
+        setIsChangedError('')
+        //    const date = selectedDates[0];
+        // const formatedDate = formatDateForPayload(date);
+        setSelectedDate(selectedDates[0]);
 
-             
+    };
+    console.log("selectedDate", selectedDate, formattedDate)
 
 
 
 
-              useEffect(() => {
-                if (state.AssetList.addAssetStatusCode == 200) {
-               
-                    setAssetName('');
-                    setVendorName('');
-                    setBrandName('');
-                    setSerialNumber('');
-                    setProductCount('');
-                    setPurchaseDate('');
-                    setPrice('');
-                    setTotalPrice('');
-                    handleClose()
 
 
-                    
-                }
-            
-              }, [state.AssetList.addAssetStatusCode])
-            
+
+
+    useEffect(() => {
+        if (state.AssetList.addAssetStatusCode == 200) {
+
+            setAssetName('');
+            setVendorName('');
+            setBrandName('');
+            setSerialNumber('');
+            setProductCount('');
+            setPurchaseDate('');
+            setPrice('');
+            setTotalPrice('');
+            handleClose()
+
+
+
+        }
+
+    }, [state.AssetList.addAssetStatusCode])
+
 
 
 
@@ -440,15 +467,32 @@ const [formattedDate, setFormattedDate] = useState('')
                     <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
                         <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? 'Edit an asset' : 'Add an asset'}</Modal.Title>
                     </Modal.Header>
+
+                    {isChangedError && (
+                        <div className="d-flex align-items-center p-1 mt-4">
+                            <MdError style={{ color: "red", marginRight: '5px' }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                {isChangedError}
+                            </label>
+                        </div>
+                    )}
+ {generalError && (
+    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+        <MdError style={{ color: "red", marginRight: '5px' }} />
+        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+            {generalError}
+        </label>
+    </div>
+)}
                     <Modal.Body style={{ padding: 20 }}>
 
 
                         <div className='row mt-1'>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name <span  style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name <span style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
-                                        value={assetName} 
+                                        value={assetName}
                                         onChange={handleAssetNameChange}
                                         type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: assetName ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
@@ -460,14 +504,26 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={productName}
                                         onChange={handleProductNameChange}
-                                        type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:productName ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: productName ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
+
+
+
+                                {productNameError && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {productNameError}
+                                        </label>
+                                    </div>
+                                )}
+
 
                             </div>
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Vendor Name</Form.Label>
-                                    <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{fontWeight:vendorName ? 600 : 500}}>
+                                    <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{ fontWeight: vendorName ? 600 : 500 }}>
                                         <option>Select a vendor</option>
                                         {state.ComplianceList.VendorList && state.ComplianceList.VendorList.map((view) => (
                                             <>
@@ -479,25 +535,52 @@ const [formattedDate, setFormattedDate] = useState('')
                                     </Form.Select>
                                 </Form.Group>
 
+
+
+
+
+
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Brand Name  <span  style={{ color: 'white', fontSize: '20px' }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Brand Name  <span style={{ color: 'white', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
                                         value={brandName}
                                         onChange={handleBrandNameChange}
-                                        type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:brandName ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: brandName ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Serial Number <span  style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Serial Number <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
                                         value={serialNumber}
                                         onChange={handleSerialNumberChange}
                                         type="text" placeholder="Enter number" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: serialNumber ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
+
+
+                                {serialNumberError && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {serialNumberError}
+                                        </label>
+                                    </div>
+                                )}
+
+
+
+{state.AssetList?.alreadySerialNumberHere && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {state.AssetList?.alreadySerialNumberHere}
+                                        </label>
+                                    </div>
+                                )}
+
 
                             </div>
 
@@ -542,7 +625,7 @@ const [formattedDate, setFormattedDate] = useState('')
                                                 }
                                             }}
                                         >
-                                            {selectedDate instanceof Date && !isNaN(selectedDate) ?  selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
+                                            {selectedDate instanceof Date && !isNaN(selectedDate) ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
                                             <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
                                         </label>
                                         <Flatpickr
@@ -566,7 +649,14 @@ const [formattedDate, setFormattedDate] = useState('')
                                     </div>
                                 </Form.Group>
 
-
+                                {selectedDateError && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {selectedDateError}
+                                        </label>
+                                    </div>
+                                )}
 
                             </div>
 
@@ -576,9 +666,16 @@ const [formattedDate, setFormattedDate] = useState('')
                                     <Form.Control
                                         value={price}
                                         onChange={handlePriceChange}
-                                        type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:price ? 600 :  500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: price ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
-
+                                {priceError && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {priceError}
+                                        </label>
+                                    </div>
+                                )}
                             </div>
                             {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">

@@ -171,23 +171,27 @@ function AddPg({ show, handleClose, currentItem }) {
 
     if (!pgName) {
       setPgNameError('Please enter PG name');
-
+      return;
     }
 
     if (!countryCode) {
       setCountryCodeError('Please select country code');
+      return;
     }
 
     if (!mobile) {
       setMobileError('Please enter mobile number');
+      return;
     }
 
     if (!email) {
       setEmailError('Please enter email');
+      return;
     }
 
     if (!location) {
       setLocationError('Please enter address');
+      return;
     }
 
 

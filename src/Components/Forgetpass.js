@@ -18,8 +18,6 @@ import ForgotOtp from '../Pages/ForgotOtp'
 import { IoIosCheckmark } from "react-icons/io";
 // import { ClipLoader } from 'react-spinners';
 import { MdError } from "react-icons/md";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
 function ForgetPasswordPage() {
@@ -45,7 +43,7 @@ function ForgetPasswordPage() {
 
   const handleEmailid = (e) => {
     dispatch({ type: 'CLEAR_ERROR' })
-  
+    setGeneralError('')
     setEmail(e.target.value);
     setEmailError('')
     setSendMailError('')
@@ -87,16 +85,7 @@ setIsPasswordLongEnough(false)
 
 
 
-toast.success('New password updated successfully', {
-  position: 'top-center',
-  autoClose: 1000, 
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-  style: toastStyle
-});
+
 
       if (inputRefs) {
         inputRefs.forEach(ref => {
@@ -183,7 +172,12 @@ if (password !== confirmpassword) {
   };
 
 
+// useEffect(()=>{
+//   if(!showOtpVerification){
+//     setDisabledButton(false)
+//   }
 
+// },[showOtpVerification])
 
 
 console.log("NewPass",state)
@@ -222,6 +216,7 @@ console.log("NewPass",state)
   }, [state.NewPass?.sendEmailStatusCode, state.NewPass?.EmailErrorStatusCode])
 
 const [emailError, setEmailError] = useState('')
+const [generalError, setGeneralError] = useState('')
 const [sendEmailError, setSendMailError ] = useState('')
 
   useEffect(() => {
@@ -239,26 +234,22 @@ const [sendEmailError, setSendMailError ] = useState('')
 
 
   const handleAccountVerification = () => {
+    
     if (email) {
       dispatch({ type: 'OTPSEND', payload: { email: email } });
       setShowLoader(true)
      
     }
     else {
-      let errorMessage = "";
-      if (email === '') {
-        errorMessage = "Please Enter Email";
-      }
-      else {
-        errorMessage = "Please Enter Email and Valid Password";
-      }
-      Swal.fire({
-        icon: 'error',
-        title: 'Please Enter All Fields',
-        text: errorMessage,
-      });
+     
+      setGeneralError('Please Enter All Mandatory Fields')
+      // Swal.fire({
+      //   icon: 'error',
+      //   title: 'Please Enter All Mandatory Fields',
+      //   text: errorMessage,
+      // });
 
-      dispatch({ type: 'ERROR', payload: errorMessage });
+      // dispatch({ type: 'ERROR', payload: errorMessage });
     }
 
   };
@@ -424,7 +415,7 @@ console.log("confirmationError",confirmationError)
   return (
 
     <div style={{ width: "100%", height: "100vh", fontFamily: "Gilroy", backgroundColor: "" }}>
-       <ToastContainer />
+       
       {
         showEmailSend && <>
           <div className="ms-5 mb-5">
@@ -453,7 +444,13 @@ console.log("confirmationError",confirmationError)
 
                       {/* <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div> */}
                     </Form.Group>
+                   
 
+                    <div className="mb-1 p-1"> {generalError  ? <div className='d-flex align-items-center p-1'>
+  <MdError style={{ color: "red" , marginRight: '5px'}} />
+  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{generalError}</label>
+</div>
+  : null}</div>
 
 <div className="mb-1 p-1"> {emailError  ? <div className='d-flex align-items-center p-1'>
   <MdError style={{ color: "red" , marginRight: '5px'}} />

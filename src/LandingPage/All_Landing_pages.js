@@ -137,7 +137,7 @@ console.log("activeLink",activeLink)
     return (
         <>
             <div>
-                <Navbar collapseOnSelect expand="lg" className="" style={{ backgroundColor: "#FFFFFF" }} transparent>
+                <Navbar collapseOnSelect expand="lg"  fixed="top" className="" style={{ backgroundColor: "#FFFFFF" }} transparent>
                     <Container>
                         <Navbar.Brand><img src={Logo} style={{ height: 33, width: 33 }} /> <img src={Smart} style={{ height: 20, width: 133 }} /></Navbar.Brand>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -213,7 +213,7 @@ console.log("activeLink",activeLink)
                     </Container>
                 </Navbar>
             </div>
-            <Element name="firstPage">
+            <Element name="firstPage" style={{ paddingTop: "70px" }}>
                 <FirstPage />
             </Element>
             <Element name="keyFeature">

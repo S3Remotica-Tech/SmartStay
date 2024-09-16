@@ -264,7 +264,7 @@ function Amenities() {
     else {
       Swal.fire({
         icon: "warning",
-        title: 'Please Enter All Field',
+        title: 'Please Enter All  Field',
         confirmButtonText: "ok"
       }).then((result) => {
         if (result.isConfirmed) {

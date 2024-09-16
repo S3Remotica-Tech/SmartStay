@@ -3,7 +3,7 @@ import {GetExpenseCatogory,AddExpense, GetExpense, DeleteExpense,transactionHist
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 
-
+import { toast } from 'react-toastify';
 
 
 function* handleGetCategory() {
@@ -37,15 +37,26 @@ function* handleGetExpenses(action) {
  }
 function* handleAddExpense(action) {
     const response = yield call (AddExpense, action.payload);
+
+    var toastStyle = {
+      backgroundColor: 'green',
+      color: 'white',
+      width: "100%"
+   };
+
     console.log("response",response)
     if (response.status === 200 || response.statusCode === 200){
        yield put ({type : 'ADD_EXPENSE' , payload:{response:response.data.data, statusCode:response.status || response.statusCode}})
-       Swal.fire({
-        text: `${response.data.message}`,
-        icon: "success",
-      //   timer: 1000,
-      //   showConfirmButton: false,
-    });
+       toast.success(`${response.data.message}`, {
+         position: 'top-center',
+         autoClose: 2000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+      });
 
 
  
@@ -61,9 +72,28 @@ function* handleAddExpense(action) {
  function* handleDeleteExpense(action) {
     const response = yield call ( DeleteExpense, action.payload);
     console.log("response",response)
+    var toastStyle = {
+      backgroundColor: 'green',
+      color: 'white',
+      width: "100%"
+   };
+
     if (response.status === 200 || response.statusCode === 200){
        yield put ({type : 'DELETE_EXPENSE' , payload:{response:response.data.data, statusCode:response.status || response.statusCode}})
-         
+     
+       toast.success('Expense has been successfully deleted!', {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
+       
+
+
       }
     else {
        yield put ({type:'ERROR', payload:response.data.message})

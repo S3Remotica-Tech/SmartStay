@@ -83,7 +83,7 @@ useEffect(() => {
 
 
   return (
-    <Card className="h-100 fade-in" key={props.vendor && props.vendor.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
+    <Card className="h-100 animated-text" key={props.vendor && props.vendor.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
     <Card.Body style={{ padding: 20 }}>
       <div className="d-flex justify-content-between align-items-center flex-wrap" >
         <div className='d-flex gap-2'>

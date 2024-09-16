@@ -192,16 +192,7 @@ function ParticularHostelDetails(props) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowRoom(false)
 
-      toast.success('Room has been successfully created!', {
-        position: 'top-center',
-        autoClose: 2000, 
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle
-      });
+   
 
 
       setTimeout(() => {
@@ -225,16 +216,7 @@ function ParticularHostelDetails(props) {
 
       
 
-      toast.success('Bed has been successfully created!', {
-        position: 'top-center',
-        autoClose: 2000, 
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle
-      });
+     
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
@@ -414,7 +396,7 @@ function ParticularHostelDetails(props) {
 
 
   return (
-    <> <ToastContainer />
+    <> 
  
     <div className=''>
  

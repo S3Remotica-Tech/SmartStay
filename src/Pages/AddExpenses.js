@@ -13,6 +13,7 @@ import moment from 'moment';
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
+import { MdError } from "react-icons/md";
 
 
 
@@ -40,7 +41,16 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [hostelName, setHostelName] = useState('')
 
 
-
+    const [hostelError, setHostelError] = useState('');
+    const [vendorError, setVendorError] = useState('');
+    const [assetError, setAssetError] = useState('');
+    const [categoryError, setCategoryError] = useState('');
+    const [dateError, setDateError] = useState('');
+    const [countError, setCountError] = useState('');
+    const [priceError, setPriceError] = useState('');
+    const [paymentError, setPaymentError] = useState('');
+    const [generalError, setGeneralError] = useState('');
+    const [isChangedError, setIsChangedError] = useState('')
 
     const [initialState, setInitialState] = useState({
 
@@ -60,12 +70,18 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handleHostelNameChange = (e) => {
         setHostelName(e.target.value)
+        setGeneralError('')
+        setHostelError('');
+        setIsChangedError('')
     }
 
     const [errors, setErrors] = useState({});
 
 
     const handleCountChange = (e) => {
+        setGeneralError('')
+        setCountError('');
+        setIsChangedError('')
         const value = e.target.value;
         if (/^\d*$/.test(value)) {
             setCount(value);
@@ -74,14 +90,23 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handleAssetNameChange = (e) => {
         setAssetName(e.target.value);
+        setGeneralError('')
+        setAssetError('');
+        setIsChangedError('')
     };
 
     const handleVendorNameChange = (e) => {
         setVendorName(e.target.value);
+        setGeneralError('')
+        setVendorError('');
+        setIsChangedError('')
     };
 
     const handleCategoryChange = (e) => {
         setCategory(e.target.value);
+        setGeneralError('')
+        setCategoryError('');
+        setIsChangedError('')
     };
 
 
@@ -90,14 +115,22 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handleModeOfPaymentChange = (e) => {
         setModeOfPayment(e.target.value);
+        setGeneralError('')
+        setPaymentError('');
+        setIsChangedError('')
     };
 
     const handlePurchaseDateChange = (e) => {
         setPurchaseDate(e.target.value);
+        setGeneralError('')
+        setIsChangedError('')
     };
 
     const handlePriceChange = (e) => {
         const value = e.target.value;
+        setGeneralError('')
+        setPriceError('');
+        setIsChangedError('')
         if (/^\d*$/.test(value)) {
             setPrice(value);
         }
@@ -105,25 +138,26 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handleDescriptionChange = (e) => {
         const value = e.target.value;
-    
-        
+        setIsChangedError('')
+        setGeneralError('')
+
         if (value === "") {
             setDescription(value);
             setErrors(prevErrors => ({ ...prevErrors, Description: "Description cannot be empty or spaces only" }));
             return;
         }
-    
-     
+
+
         if (value.trim() !== "") {
             setDescription(value);
             setErrors(prevErrors => ({ ...prevErrors, Description: "" }));
         } else {
-          
+
             setDescription(value);
             setErrors(prevErrors => ({ ...prevErrors, Description: "Description cannot be empty or spaces only" }));
         }
     };
-    
+
 
 
 
@@ -186,12 +220,20 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const handleAddExpenses = () => {
 
+        setHostelError('');
+        setVendorError('');
+        setAssetError('');
+        setCategoryError('');
+        setDateError('');
+        setCountError('');
+        setPriceError('');
+        setPaymentError('');
 
-        if (!hostelName && !vendorName && !category && !selectedDate && !count && !price && !modeOfPayment) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Please Enter All Fields',
-            });
+
+        if (!category && !selectedDate && !count && !price && !modeOfPayment) {
+            setGeneralError('Please enter all mandatory fields')
+
+
             return;
         }
 
@@ -210,54 +252,50 @@ function StaticExample({ show, handleClose, currentItem }) {
 
         console.log("isChanged", isChanged);
         if (!isChanged) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'No changes detected',
-                text: 'Please make some changes before saving.',
-
-            });
+            setIsChangedError('Please make some changes before saving.')
             return;
         }
 
-        if (!hostelName) {
-            Swal.fire('Error', 'Please select a hostel name', 'error');
-            return;
-            
-        }
-        if (!vendorName) {
-            Swal.fire('Error', 'Please select a vendor', 'error');
-            return;
-        }
-        if (!assetName) {
-            Swal.fire('Error', 'Please select a asset name', 'error');
-            return;
-            
-        }
+        // if (!hostelName) {
+        //      setHostelError('Please select a hostel name');
+        // return;
+
+
+        // }
+        // if (!vendorName) {
+        //     setVendorError('Please select a vendor');
+        //     return;
+        // }
+        // if (!assetName) {
+        //     setAssetError('Please select an asset name');
+        //     return;
+
+        // }
 
 
 
 
-      
 
-     
+
+
         if (!category) {
-            Swal.fire('Error', 'Please select a category', 'error');
+            setCategoryError('Please select a category');
             return;
         }
         if (!selectedDate) {
-            Swal.fire('Error', 'Please select a purchase date', 'error');
+            setDateError('Please select a purchase date');
             return;
         }
         if (!count || isNaN(count) || count <= 0) {
-            Swal.fire('Error', 'Please enter a valid unit count', 'error');
+            setCountError('Please enter a valid unit count');
             return;
         }
         if (!price || isNaN(price) || price <= 0) {
-            Swal.fire('Error', 'Please enter a  valid price', 'error');
+            setPriceError('Please enter a valid price');
             return;
         }
         if (!modeOfPayment) {
-            Swal.fire('Error', 'Please enter a mode of payment', 'error');
+            setPaymentError('Please enter a mode of payment');
             return;
         }
 
@@ -278,7 +316,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             }
         });
 
-        handleClose();
+        // handleClose();
     };
 
 
@@ -314,12 +352,14 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     const handleDateChange = (selectedDates) => {
-
+        setDateError('');
+        setGeneralError('')
+        setIsChangedError('')
         setSelectedDate(selectedDates[0]);
 
     };
 
-console.log("assetName",assetName)
+    console.log("assetName", assetName)
     return (
         <div
             className="modal show"
@@ -332,6 +372,28 @@ console.log("assetName",assetName)
                     <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
                         <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? 'Edit an expense' : 'Add an expense'}</Modal.Title>
                     </Modal.Header>
+                   
+
+                    { isChangedError
+ && (
+                        <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                            <MdError style={{ color: "red", marginRight: '5px' }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                {isChangedError}
+                            </label>
+                        </div>
+                    )}
+
+                    {generalError && (
+                        <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                            <MdError style={{ color: "red", marginRight: '5px' }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                {generalError}
+                            </label>
+                        </div>
+                    )}
+
+
                     <Modal.Body style={{ padding: 20 }}>
 
 
@@ -351,10 +413,20 @@ console.log("assetName",assetName)
                                     </Form.Select>
                                 </Form.Group>
 
+                                {hostelError && (
+                                    <div className="d-flex align-items-center p-1 mb-2">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {hostelError}
+                                        </label>
+                                    </div>
+                                )}
+
+
                             </div>
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Vendor Name <span style={{ color: "#FF0000", display: vendorName ? "none" : "inline-block" }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Vendor Name <span style={{ color: "#fff", display: vendorName ? "none" : "inline-block" }}>*</span></Form.Label>
                                     <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: vendorName ? 600 : 500 }}>
                                         <option>Select a vendor</option>
                                         {state.ComplianceList.VendorList && state.ComplianceList.VendorList.map((view) => (
@@ -366,6 +438,16 @@ console.log("assetName",assetName)
                                         ))}
                                     </Form.Select>
                                 </Form.Group>
+
+                                {vendorError && (
+                                    <div className="d-flex align-items-center p-1 mb-2">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {vendorError}
+                                        </label>
+                                    </div>
+                                )}
+
 
                             </div>
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
@@ -391,13 +473,20 @@ console.log("assetName",assetName)
                                     >
                                         <option>Select an asset</option>
                                         {state.AssetList.assetList &&
-                                    [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
+                                            [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
                                                 <option key={view.asset_id} value={view.asset_id}>{view.asset_name}</option>
                                             ))
                                         }
                                     </Form.Select>
                                 </Form.Group>
-
+                                {assetError && (
+                                    <div className="d-flex align-items-center p-1 mb-2">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {assetError}
+                                        </label>
+                                    </div>
+                                )}
                             </div>
                             {state.ExpenseList.categoryList && state.ExpenseList.categoryList.length == 0 &&
                                 <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}> Please add a 'Category' option in Settings, accessible after adding an expense.</label>}
@@ -405,7 +494,7 @@ console.log("assetName",assetName)
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Category <span style={{ color: "#FF0000", display: category ? "none" : "inline-block" }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Category <span style={{ color: "#FF0000", display:  "inline-block" }}>*</span></Form.Label>
 
 
                                     <Form.Select aria-label="Default select example"
@@ -424,7 +513,14 @@ console.log("assetName",assetName)
                                     </Form.Select>
 
                                 </Form.Group>
-
+                                {categoryError && (
+                                    <div className="d-flex align-items-center p-1 mb-2">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {categoryError}
+                                        </label>
+                                    </div>
+                                )}
                             </div>
 
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -483,7 +579,14 @@ console.log("assetName",assetName)
 
 
                                 </Form.Group>
-
+                                {dateError && (
+                                    <div className="d-flex align-items-center p-1 mb-2">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {dateError}
+                                        </label>
+                                    </div>
+                                )}
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
@@ -493,6 +596,14 @@ console.log("assetName",assetName)
                                         onChange={handleCountChange}
                                         type="text" placeholder="Enter unit count" maxLength={10} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: count ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
+                                {countError && (
+                                    <div className="d-flex align-items-center p-1 mb-2">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {countError}
+                                        </label>
+                                    </div>
+                                )}
 
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -503,7 +614,14 @@ console.log("assetName",assetName)
                                         onChange={handlePriceChange}
                                         type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: price ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
-
+                                {priceError && (
+                                    <div className="d-flex align-items-center p-1 mb-2">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {priceError}
+                                        </label>
+                                    </div>
+                                )}
                             </div>
 
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -529,7 +647,14 @@ console.log("assetName",assetName)
                                         <option value="Net Banking">Net Banking</option>
                                     </Form.Select>
                                 </Form.Group>
-
+                                {paymentError && (
+                                    <div className="d-flex align-items-center p-1 mb-2">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {paymentError}
+                                        </label>
+                                    </div>
+                                )}
                             </div>
                             <div className='col-lg-12 col-md-12  col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">

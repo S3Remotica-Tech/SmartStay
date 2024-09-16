@@ -21,8 +21,7 @@ import { InputGroup } from 'react-bootstrap';
 import { Eye, EyeSlash } from 'iconsax-react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 import { MdError } from "react-icons/md";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -106,12 +105,7 @@ const toggleConfirmPasswordVisibility = () => {
 }
 
 
-const toastStyle = {
-   
-  backgroundColor: 'green', 
-  color: 'white', 
-  width:"100%"
-};
+
 
   useEffect(() => {
     if (state.createAccount.statusCodeCreateAccount === 200) {
@@ -124,16 +118,7 @@ const toastStyle = {
       setConfirmPassword('')
 
 
-      toast.success('Account created successfully', {
-  position: 'top-center',
-  autoClose: 1000, 
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-  style: toastStyle
-});
+     
       setTimeout(() => {
         navigate('/login-Page');  
       }, 1000);
@@ -293,7 +278,7 @@ const [bothPasswordError, setBothPasswordError] = useState('')
 
 
     if (!firstName && !phoneNo && !emailID && !password && !confirmpassword && !countryCode) {
-setAllError('Please enter all fields')
+setAllError('Please enter all mandatory fields')
 
       // Swal.fire({
       //   icon: 'warning',
@@ -477,7 +462,7 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
 
   return (
     <>
-    <ToastContainer />
+   
          <div style={{ width: "100%", height:"100vh" ,fontFamily: "Gilroy" , backgroundColor:""}}>
          
         <div className=" ms-5 mb-5">

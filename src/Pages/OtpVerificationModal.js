@@ -58,7 +58,7 @@ useEffect(()=>{
     const cookies = new Cookies()
     cookies.set('token', token, { path: '/' });
 
-    console.log("tokenverification",token)
+    // console.log("tokenverification",token)
 
     // dispatch({ type: 'ACCOUNTDETAILS'})
     //   console.log("executed account details")

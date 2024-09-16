@@ -19,6 +19,10 @@ import Cookies from 'universal-cookie';
 import Spinner from 'react-bootstrap/Spinner';
 import KYC from './Pages/KycValidation'
 import { Circles } from 'react-loader-spinner';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 function App() {
   const cookies = new Cookies();
@@ -98,6 +102,8 @@ function App() {
   }
 
   return (
+    <> <ToastContainer />
+   
     <Router>
       <Routes>
         {data || state.login?.isLoggedIn ? (
@@ -120,6 +126,7 @@ function App() {
         )}
       </Routes>
     </Router>
+    </>
   );
 }
 

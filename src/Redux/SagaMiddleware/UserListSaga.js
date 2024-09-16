@@ -3,6 +3,8 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import {KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
+import { toast } from 'react-toastify';
+
 
 function* handleuserlist(user) {
    const response = yield call(userlist,user.payload);
@@ -80,15 +82,27 @@ function* handleUserBillPaymentHistory(){
 function* handleCreateFloor(data) {
    const response = yield call(createFloor,data.payload);
   console.log("response floor", response)
+
+  var toastStyle = {
+   backgroundColor: 'green', 
+color: 'white', 
+width:"100%"
+};
+
+
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATE_FLOOR', payload: {response:response.data, statusCode:response.status || response.statusCode} })
-      // yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
-      // Swal.fire({
-      //    icon: 'success',
-      //    title: `${response.data.message}`,
-      //          //   timer:1000,
-      //          //   showConfirmButton: false,
-      //  })
+     
+      toast.success('Floor has been successfully created!', {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
    }
    else if(response.status === 202 || response.statusCode === 202) {
       // Swal.fire({
@@ -201,15 +215,25 @@ function* handleAddUser(datum) {
    function* handleDeleteFloor(hosteID){
       const response = yield call(deleteFloor,hosteID.payload)
       console.log("response",response);
+
+      var toastStyle = {
+         backgroundColor: 'green', 
+      color: 'white', 
+      width:"100%"
+      };
       if(response.status === 200 || response.statusCode === 200){
          yield put({ type: 'DELETE_FLOOR', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
     
-      //    Swal.fire({
-      //       icon: 'success',
-      //    text: 'Floor Delete Successfully',
-      // //   timer: 2000,
-      // //   showConfirmButton: false,
-      // });
+         toast.success('Floor has been successfully deleted!', {
+            position: 'top-center',
+            autoClose: 2000, 
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+          });
      
      
       }
@@ -229,12 +253,26 @@ function* handleAddUser(datum) {
 
 function* handleDeleteRoom(roomDetails){
    const response = yield call(deleteRoom,roomDetails.payload)
+
+
+   var toastStyle = {
+      backgroundColor: 'green', 
+   color: 'white', 
+   width:"100%"
+   };
+
    if(response.status === 200 || response.statusCode === 200){
       yield put({ type: 'DELETE_ROOM', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
-   //    Swal.fire({
-   //       icon: 'success',
-   //    text: 'Room Delete Successfully',
-   //   });
+      toast.success('Room has been successfully deleted!', {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
  
  
  

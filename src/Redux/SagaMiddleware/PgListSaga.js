@@ -2,16 +2,32 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import {DeletePG, DeleteBed, createBed,createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails } from "../Action/PgListAction"
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
+import { toast } from 'react-toastify';
+
+
 
 function* handlePgList(datum) {
    const response = yield call(createPgList, datum.payload);
 console.log("response PG",response)
+
+var toastStyle = {
+   backgroundColor: 'green', 
+color: 'white', 
+width:"100%"
+};
+
    if (response.statusCode === 200 || response.status === 200 ) {
       yield put({ type: 'PG_LIST', payload:{response: response.data , statusCode: response.statusCode ||  response.status}})
-      //     Swal.fire({
-      //    icon: 'success',
-      //    title: response.message,
-      // });
+      toast.success(`${response.message}`, {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
 
    }
    else if(response && response.statusCode === 201 || response.status === 201){
@@ -30,14 +46,25 @@ console.log("response PG",response)
 function* handleCreateRoom(datum) {
    const response = yield call(createRoom, datum.payload);
 console.log("response createroom",response)
+var toastStyle = {
+      backgroundColor: 'green', 
+   color: 'white', 
+   width:"100%"
+ };
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATE_ROOM', payload: { response: response.data, statusCode: response.status || response.statusCode} })
       yield put({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: 'CREATED SUCCESSFULLY' })
 
-   //    Swal.fire({
-   //       icon: 'success',
-   //       title: "Room created successfully",
-   //   })
+      toast.success('Room has been successfully created!', {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
 
    }
    else if(response.status === 201 || response.statusCode === 201) {
@@ -158,12 +185,26 @@ function* handleCheckBedDetails(action) {
 function* handleCreateBed(action) {
    const response = yield call(createBed, action.payload);
    console.log("response create Bed", response.status)
+
+   var toastStyle = {
+      backgroundColor: 'green', 
+   color: 'white', 
+   width:"100%"
+ };
+
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATE_BED', payload: { response: response.data, statusCode: response.status || response.statusCode} })
-   //    Swal.fire({
-   //       icon: 'success',
-   //       title: "Bed created successfully",
-   //   })
+    
+      toast.success('Bed has been successfully created!', {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'ALREADY_BED', payload: { response: response.data.message, statusCode: response.status } })
@@ -184,12 +225,25 @@ function* handleCreateBed(action) {
 function* handleDeleteBed(action) {
    const response = yield call(DeleteBed, action.payload);
    console.log("response delete Bed", response)
+
+   var toastStyle = {
+      backgroundColor: 'green', 
+   color: 'white', 
+   width:"100%"
+ };
+
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_BED', payload: { response: response.data, statusCode: response.status || response.statusCode} })
-   //    Swal.fire({
-   //       icon: 'success',
-   //       title: "Bed Deleted successfully",
-   //   })
+      toast.success('Bed has been successfully deleted!', {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'DELETE_BED_ERROR', payload: response.data.message })
@@ -208,12 +262,23 @@ function* handleDeleteBed(action) {
 function* handleDeletePG(action) {
    const response = yield call(DeletePG, action.payload);
    console.log("response delete PG", response)
+   var toastStyle = {
+      backgroundColor: 'green', 
+   color: 'white', 
+   width:"100%"
+ };
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_PG', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-   //    Swal.fire({
-   //       icon: 'success',
-   //       title: "Hostel deleted successfully",
-   //   })
+    toast.success('Paying guest has been successfully deleted!', {
+        position: 'top-center',
+        autoClose: 2000, 
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle
+      });
    }
    else if (response.status === 201 || response.statusCode === 201) {
 
