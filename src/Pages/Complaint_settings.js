@@ -4,60 +4,55 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
 import Swal from 'sweetalert2';
+import { MdError } from "react-icons/md"; 
 
-const ComplaintSettings = () => {
 
-  const state = useSelector(state => state)
-  const dispatch = useDispatch()
 
-  console.log("state", state);
+   const ComplaintSettings = () => {
+
+      const state = useSelector(state => state)
+      const dispatch = useDispatch()
+
+      console.log("state", state);
 
   const [type, setType] = useState('');
+  const [typeerrmsg, setTypeErrmsg] = useState('')
+
   const [types, setTypes] = useState([]);
 
+
+  const handleType = (e) => {
+    setType(e.target.value)
+    if(!e.target.value){
+      setTypeErrmsg("Please Enter a complaint Type")
+    }
+    else {
+      setTypeErrmsg('')
+    }
+  }
+
   const addType = () => {
+
+    if (!type){
+      setTypeErrmsg("Please Enter  a complaint Type")
+      return;
+    }
+
     if (type !== '') {
       if (type.trim()) {
         setTypes([...types, type]);
         dispatch({ type: 'COMPLAINT-TYPE-ADD', payload: { complaint_name: type } })
-        // Swal.fire({
-        //   icon: "success",
-        //   title: 'Complaint Type Added successfully',
-        //   confirmButtonText: "ok"
-        // }).then((result) => {
-        //   if (result.isConfirmed) {
-        //   }
-        // });
         setType('');
       }
     }
-    else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please enter a complaint type',
-        confirmButtonText: 'OK'
-      });
-    }
+
+    
 
   };
 
-  // const deleteType = (index) => {
-  //   Swal.fire({
-  //     title: 'Are you sure?',
-  //     text: "You want to delete this!",
-  //     type: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Yes, delete it!'
-  // }).then((result) => {
-  //     if (result.value) {
-  //       const newTypes = types.filter((_, i) => i !== index);
-  //       setTypes(newTypes);
-  //     }
-  // })
+  
+  
 
-  // };
 
 
   useEffect(() => {
@@ -94,10 +89,7 @@ const ComplaintSettings = () => {
             },
           });
           console.log("deleteexecuted");
-          // Swal.fire({
-          //   icon: 'success',
-          //   title: 'Complaint Type deleted Successfully',
-          // })
+       
         }
       });
 
@@ -134,8 +126,16 @@ const ComplaintSettings = () => {
             type="text"
             placeholder="Enter a complaint type"
             value={type}
-            onChange={(e) => setType(e.target.value)}
+            onChange={(e) => handleType(e)}
           />
+
+            {typeerrmsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {typeerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {typeerrmsg}
+    </p>
+  </div>
+)}
         </Form.Group>
       </div>
       <div style={{ marginTop: '30px' }}>

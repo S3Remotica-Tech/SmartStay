@@ -61,6 +61,7 @@
     "react-spinners": "^0.14.1",
     "react-to-pdf": "^1.0.1",
     "react-to-print": "^2.15.1",
+    "react-toastify": "^10.0.5",
     "recharts": "^2.12.7",
     "redux": "^4.2.1",
     "redux-saga": "^1.2.3",

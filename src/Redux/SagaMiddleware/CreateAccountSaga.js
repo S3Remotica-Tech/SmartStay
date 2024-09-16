@@ -2,7 +2,8 @@ import { call, takeEvery, put } from 'redux-saga/effects';
 import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,GetAllNotification,UpdateNotification , UpdateProfile , UpdatePassword} from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function* CreateNewAccount(args) {
@@ -90,10 +91,34 @@ function* ProfileUpdate(action) {
     if (response.statusCode === 200 || response.status === 200) {
       yield put({
         type: 'PROFILEUPDATE',
-        payload: { response: response.data, statusCode: response.statusCode || response.status }
-
+        payload: { response: response.data, statusCode: response.statusCode || response.status }  
       });
-     
+
+
+        // Define the style
+      const toastStyle = {
+        position: 'fixed',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 9999, // To ensure it appears above other elements
+        backgroundColor: 'green', // Background color
+        color: 'white', // Text color
+      };
+
+      // Use the toast with the defined style
+      toast.success(response.message, {
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      })
     }
     if(response){
       refreshToken(response)
@@ -142,14 +167,30 @@ function* HandleTwoStepVerification(action) {
  
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-    Swal.fire({
-      icon: 'success',
-      text: 'Updated successfully',
-      confirmButtonText: 'Ok'
-    }).then((result) => {
-      if (result.isConfirmed) {
-      }
-    });
+       // Define the style
+       const toastStyle = {
+        position: 'fixed',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 9999, // To ensure it appears above other elements
+        backgroundColor: 'green', // Background color
+        color: 'white', // Text color
+      };
+
+      // Use the toast with the defined style
+      toast.success(response.data.message, {
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      })
   }
   else {
     yield put({ type: 'ERROR', payload: response.data.message })

@@ -2,19 +2,38 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import { forgetpage, otpSend ,otpVerify,OTPverificationForForgotPassword} from "../Action/ForgetAction";
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function* handleforgetpage(rpsd) {
     try {
         const response = yield call(forgetpage, rpsd.payload)
         if (response.status === 200 || response.statusCode === 200) {
             yield put({ type: 'NEWPASSWORD_LIST', payload:{ response:response.data,statusCode:response.status || response.statusCode} })
-            Swal.fire({
-                title: "Good job!",
-                text: "NewPassword is Updated",
-                icon: "success",
-                // timer: 1000,
-                // showConfirmButton: false,
-            });
+          
+            const toastStyle = {
+                position: 'fixed',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: 9999, // To ensure it appears above other elements
+                backgroundColor: 'green', // Background color
+                color: 'white', // Text color
+              };
+        
+              // Use the toast with the defined style
+              toast.success(response.message, {
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                style: toastStyle,
+              })
 
         }
         else if (response.status === 203 || response.statusCode === 203) {

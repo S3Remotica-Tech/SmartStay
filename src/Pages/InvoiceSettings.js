@@ -12,7 +12,7 @@ import dottt from "../Assets/Images/Group 14.png";
 import {  ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import InvoiceSettingsList from './InvoicesettingsList';
 import Modal from 'react-bootstrap/Modal';
-
+import { MdError } from "react-icons/md"; 
 
 
 
@@ -29,7 +29,7 @@ function InvoiceSettings() {
     // useEffect(() => {
     //     dispatch({ type: 'HOSTELLIST' })
     // }, [])
-
+    const [hostelerrormsg, setHostelErrmsg] = useState('');
 
     const handleHostelChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
@@ -38,6 +38,12 @@ function InvoiceSettings() {
             id: e.target.value,
             name: e.target.options[selectedIndex].text
         });
+
+        if (!e) {
+            setHostelErrmsg("Please Select Hostel");
+          } else {
+            setHostelErrmsg("");
+          }
     };
 
 
@@ -63,16 +69,30 @@ function InvoiceSettings() {
 
     const [prefix, setPrefix] = useState("")
     const [startNumber, setStartNumber] = useState('')
+   
+    const [prefixerrormsg, setPrefixErrmsg] = useState('');
+    const [suffixerrormsg, setSuffixfixErrmsg] = useState('');
+    const [totalErrormsg ,setTotalErrmsg]= useState('')
 
     const handlePrefix = (e) => {
         setPrefix(e.target.value)
+        if (!e.target.value) {
+            setPrefixErrmsg("Please Enter Prefix");
+          } else {
+            setPrefixErrmsg("");
+          }
     }
 
-    const handleStartingNumber = (e) => {
+    const handleSuffix = (e) => {
         const value = e.target.value;
         if (/^\d*$/.test(value)) {
             setStartNumber(value);
         }
+        if (!e.target.value) {
+            setSuffixfixErrmsg("Please Enter suffix");
+          } else {
+            setSuffixfixErrmsg("");
+          }
     }
 
     const initialValuesRef = useRef({});
@@ -138,10 +158,14 @@ function InvoiceSettings() {
         const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== '';
         const isSelectedImageValid = selectedImage !== undefined && selectedImage !== null;
 
-        console.log("isPrefixValid:", isPrefixValid);
-        console.log("isStartNumberValid:", isStartNumberValid);
-        console.log("isSelectedImageValid:", isSelectedImageValid);
 
+        if(!isPrefixValid || !isStartNumberValid || !selectedHostel.id){
+            setTotalErrmsg('Please enter all field')
+            setTimeout(()=> {
+                setTotalErrmsg('')
+              },2000)
+            return;
+        }
 
         if (isPrefixValid && isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
 
@@ -154,13 +178,7 @@ function InvoiceSettings() {
                     profile: selectedImage
                 }
             });
-            // Swal.fire({
-            //     text: "Prefix, Suffix, Profile Update successfully",
-            //     icon: "success",
-
-            //     confirmButtonText: 'Ok'
-            //     // timer: 1000,
-            // }).then(() => {
+          
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
@@ -177,20 +195,13 @@ function InvoiceSettings() {
                     profile: selectedImage
                 }
             });
-            // Swal.fire({
-            //     text: "Profile Update successfully",
-            //     icon: "success",
-
-            //     confirmButtonText: 'Ok'
-            //     // timer: 1000,
-            // }).then(() => {
+        
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
                 setStartNumber('');
                 setSelectedImage('');
 
-            // });
         } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid && selectedHostel.id) {
 
             dispatch({
@@ -201,30 +212,14 @@ function InvoiceSettings() {
                     suffix: startNumber
                 }
             });
-            // Swal.fire({
-            //     text: "Prefix, Suffix Update successfully",
-            //     icon: "success",
-
-            //     confirmButtonText: 'Ok'
-            //     // timer: 1000,
-
-            // }).then(() => {
+       
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
                 setStartNumber('');
                 setSelectedImage('');
-            // });
-        } else {
-            Swal.fire({
-                icon: "warning",
-                title: 'Please Enter All Field',
-                confirmButtonText: "ok"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                }
-            });
-        }
+        } 
+    
     };
 
 
@@ -385,6 +380,15 @@ function InvoiceSettings() {
                             ))}
 
                         </Form.Select>
+       
+
+                   {hostelerrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {hostelerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {hostelerrormsg}
+    </p>
+  </div>
+)}
                     </Form.Group>
 
                 </div>
@@ -433,6 +437,15 @@ function InvoiceSettings() {
                                 // readOnly
                                 // style={inputStyle}
                                 />
+        
+
+{prefixerrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {prefixerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {prefixerrormsg}
+    </p>
+  </div>
+)}
                             </Form.Group>
                         </div>
 
@@ -447,9 +460,18 @@ function InvoiceSettings() {
                                     type="text"
                                     placeholder="suffix"
                                     value={startNumber}
-                                    onChange={(e) => handleStartingNumber(e)}
+                                    onChange={(e) => handleSuffix(e)}
                                 // readOnly
                                 />
+
+{suffixerrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {suffixerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {suffixerrormsg}
+    </p>
+  </div>
+)}
+        
                             </Form.Group>
                         </div>
                     </div>
@@ -472,6 +494,14 @@ function InvoiceSettings() {
                             />
                         </Form.Group>
                     </div>
+                    {totalErrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+    </p>
+  </div>
+)}
+        
                     <div style={{ marginTop: '20px' }} className='col-lg-12 col-md-10 col-sm-12 col-xs-12' >
 
                         <Button className='col-lg-10 col-md-10 col-sm-11 col-xs-9 mb-2 me-sm-2' onClick={handleInvoiceSettings} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", letterSpacing: 1, borderRadius: 12, padding: "10px" }}> Save </Button>

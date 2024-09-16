@@ -2,6 +2,8 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import { AddExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit } from "../Action/SettingsAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function* handleCategorylist(action) {
@@ -31,15 +33,30 @@ function* handleCategoryAdd(params) {
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EXPENCES_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
-      Swal.fire({
-         icon: 'success',
-         title: response.data.message,
-         // text: response.data.message,
-         confirmButtonText: 'Ok'
-       }).then((result) => {
-         if (result.isConfirmed) {
-         }
-       });
+      
+      const toastStyle = {
+         position: 'fixed',
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'center',
+         top: '50%',
+         left: '50%',
+         transform: 'translate(-50%, -50%)',
+         zIndex: 9999, // To ensure it appears above other elements
+         backgroundColor: 'green', // Background color
+         color: 'white', // Text color
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+       })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -56,15 +73,30 @@ function* handleDeleteExpencescategory(action) {
    console.log(" response", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_EXPENCES', payload: { response: response.data, statusCode: response.status ||  response.statusCode } })
-      Swal.fire({
-         icon: 'success',
-         title:  response.data.message,
-         // text: response.data.message,
-         confirmButtonText: 'Ok'
-       }).then((result) => {
-         if (result.isConfirmed) {
-         }
-       });
+     
+      const toastStyle = {
+         position: 'fixed',
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'center',
+         top: '50%',
+         left: '50%',
+         transform: 'translate(-50%, -50%)',
+         zIndex: 9999, // To ensure it appears above other elements
+         backgroundColor: 'green', // Background color
+         color: 'white', // Text color
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+       })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -104,15 +136,30 @@ function* handleComplaintTypeAdd(params) {
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'COMPLAINT_TYPE_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
-      Swal.fire({
-         icon: 'success',
-         title: response.data.message,
-         // text: response.data.message,
-         confirmButtonText: 'Ok'
-       }).then((result) => {
-         if (result.isConfirmed) {
-         }
-       });
+     
+      const toastStyle = {
+         position: 'fixed',
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'center',
+         top: '50%',
+         left: '50%',
+         transform: 'translate(-50%, -50%)',
+         zIndex: 9999, // To ensure it appears above other elements
+         backgroundColor: 'green', // Background color
+         color: 'white', // Text color
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+       })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -129,15 +176,30 @@ function* handleDeleteComplainttype(action) {
    console.log(" response", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_COMPLAINT_TYPE', payload: { response: response.data, statusCode: response.status || response.statusCode  } })
-      Swal.fire({
-         icon: 'success',
-         title: response.data.message,
-         // text: response.data.message,
-         confirmButtonText: 'Ok'
-       }).then((result) => {
-         if (result.isConfirmed) {
-         }
-       });
+     
+      const toastStyle = {
+         position: 'fixed',
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'center',
+         top: '50%',
+         left: '50%',
+         transform: 'translate(-50%, -50%)',
+         zIndex: 9999, // To ensure it appears above other elements
+         backgroundColor: 'green', // Background color
+         color: 'white', // Text color
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+       })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -155,14 +217,30 @@ function* handleEBBillingUnitAdd(params) {
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
-      // Swal.fire({
-      //    icon: 'success',
-      //    text: response.data.message,
-      //    confirmButtonText: 'Ok'
-      //  }).then((result) => {
-      //    if (result.isConfirmed) {
-      //    }
-      //  });
+    
+      const toastStyle = {
+         position: 'fixed',
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'center',
+         top: '50%',
+         left: '50%',
+         transform: 'translate(-50%, -50%)',
+         zIndex: 9999, // To ensure it appears above other elements
+         backgroundColor: 'green', // Background color
+         color: 'white', // Text color
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+       })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
