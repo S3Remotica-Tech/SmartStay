@@ -38,6 +38,8 @@ const initialState = {
     alreadyFloorHere:'',
     deleteFloorError:'',
 deleteRoomError:'',
+    phoneError:'',
+    emailError:''
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -124,7 +126,7 @@ const UserListReducer = (state = initialState, action) => {
 
         case 'CLEAR_NO_HOSTEL_STATUS_CODE':
             return { ...state, noHosteListStatusCode: 0 }
-            
+
         case 'HOSTEL_DETAIL_LIST':
             console.log("HOSTEL_DETAIL_LIST", action.payload)
             return { ...state, hosteldetailslist: action.payload }
@@ -134,23 +136,6 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, checkOutStatusCode: 0 }
         case 'COUNTRY_LIST':
             return { ...state, countrycode: action.payload };
-
-            case 'ALREADY_FLOOR_ERROR' : 
-            return {...state, alreadyFloorHere:action.payload}
-            case 'CLEAR_ALREADY_FLOOR_ERROR' : 
-            return {...state, alreadyFloorHere:''}
-            
-            case 'DELETE_FLOOR_ERROR' : 
-            return {...state, deleteFloorError:action.payload}
-            case 'CLEAR_DELETE_FLOOR_ERROR' : 
-            return {...state, deleteFloorError:''}
-
-           
-
-            case 'DELETE_ROOM_ERROR' : 
-            return {...state, deleteRoomError:action.payload}
-            case 'CLEAR_ DELETE_ROOM_ERROR' : 
-            return {...state, deleteRoomError:''}
 
         case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {

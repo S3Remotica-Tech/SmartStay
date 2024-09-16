@@ -3,8 +3,7 @@ import {DeletePG, DeleteBed, createBed,createPgList, createRoom, CheckRoomId, Ch
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
-
-
+import 'react-toastify/dist/ReactToastify.css';
 
 function* handlePgList(datum) {
    const response = yield call(createPgList, datum.payload);
@@ -139,9 +138,32 @@ function* handleCheckEB(action) {
 
 function* handleCreateEB(action) {
    const response = yield call(CreateEbbill, action.payload);
+   console.log("responseEb",response)
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATE_EB', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      const toastStyle = {
+         position: 'fixed',
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'center',
+         top: '50%',
+         left: '50%',
+         transform: 'translate(-50%, -50%)',
+         zIndex: 9999, 
+         backgroundColor: 'green',
+         color: 'white',
+       };
+ 
+       toast.success(response.data.message, {
+         autoClose: 3000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+       })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

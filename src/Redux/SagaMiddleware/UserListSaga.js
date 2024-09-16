@@ -4,7 +4,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import {KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
-
+import 'react-toastify/dist/ReactToastify.css';
 
 function* handleuserlist(user) {
    const response = yield call(userlist,user.payload);
@@ -135,41 +135,220 @@ function* handleRoomsDetails(ID) {
 
 
 
+// function* handleAddUser(datum) {
+//    try {
+//      const response = yield call(addUser, datum.payload);
+//      console.log("Response:", response);
+ 
+//      // Define toastStyle within the try block to ensure it is accessible where needed
+//      const toastStyle = {
+//        position: 'fixed',
+//        display: 'flex',
+//        alignItems: 'center',
+//        justifyContent: 'center',
+//        top: '50%',
+//        left: '50%',
+//        transform: 'translate(-50%, -50%)',
+//        zIndex: 9999, // Ensures it appears above other elements
+//        backgroundColor: 'green', // Background color red
+//        color: 'white', // Text color white
+//      };
+ 
+//      if (response.statusCode === 200 || response.status === 200) {
+//        yield put({
+//          type: 'ADD_USER',
+//          payload: { response: response.message, statusCode: response.statusCode || response.status },
+//        });
+//        console.log("datum.payload..?", datum.payload);
+ 
+//        toast.success(response.message, {
+//          position: "top-right",
+//          autoClose: 5000, // Duration in milliseconds
+//          hideProgressBar: false,
+//          closeOnClick: true,
+//          pauseOnHover: true,
+//          draggable: true,
+//          progress: undefined,
+//          style: toastStyle, // Applying the defined style
+//        });
+ 
+//      } else if (response.statusCode === 202) {
+//        toast.warn(`Phone number ${datum.payload.Phone} already exists in the database`, {
+//          position: "top-right",
+//          autoClose: 5000,
+//          hideProgressBar: false,
+//          closeOnClick: true,
+//          pauseOnHover: true,
+//          draggable: true,
+//          progress: undefined,
+//          style: toastStyle, // Applying the defined style
+//        });
+ 
+//      } else if (response.statusCode === 203) {
+//        toast.warn(`Email ${datum.payload.Email} already exists in the database`, {
+//          position: "top-right",
+//          autoClose: 5000,
+//          hideProgressBar: false,
+//          closeOnClick: true,
+//          pauseOnHover: true,
+//          draggable: true,
+//          progress: undefined,
+//          style: toastStyle, // Applying the defined style
+//        });
+//      }
+ 
+//      // Handle token refresh if needed
+//      if (response) {
+//        refreshToken(response);
+//      }
+ 
+//    } catch (error) {
+//      console.error("Error adding user:", error);
+//      toast.error("An error occurred while adding the user.", {
+//        position: "top-right",
+//        autoClose: 5000,
+//        hideProgressBar: false,
+//        closeOnClick: true,
+//        pauseOnHover: true,
+//        draggable: true,
+//        progress: undefined,
+//        style: {
+//          position: 'fixed',
+//          display: 'flex',
+//          alignItems: 'center',
+//          justifyContent: 'center',
+//          top: '50%',
+//          left: '50%',
+//          transform: 'translate(-50%, -50%)',
+//          zIndex: 9999, // Ensures it appears above other elements
+//          backgroundColor: 'red', // Background color red
+//          color: 'white', // Text color white
+//        },
+//      });
+//    }
+//  }
+
+
+
+
+// function* handleAddUser(datum) {
+//    try {
+//      const response = yield call(addUser, datum.payload);
+//      console.log("Response:", response);
+ 
+//      if (response.statusCode === 200 || response.status === 200) {
+//        yield put({
+//          type: 'ADD_USER',
+//          payload: { response: response.message, statusCode: response.statusCode || response.status },
+//        });
+//        console.log("datum.payload..?", datum.payload);
+ 
+//        toast.success(response.message, {
+//          position: "top-right",
+//          autoClose: 5000, // You can set your desired duration
+//          hideProgressBar: false,
+//          closeOnClick: true,
+//          pauseOnHover: true,
+//          draggable: true,
+//          progress: undefined,
+//        });
+ 
+//      } else if (response.statusCode === 202) {
+//        toast.warn(`Phone number ${datum.payload.Phone} is already exist in the database`, {
+//          position: "top-right",
+//          autoClose: 5000,
+//          hideProgressBar: false,
+//          closeOnClick: true,
+//          pauseOnHover: true,
+//          draggable: true,
+//          progress: undefined,
+//        });
+ 
+//      } else if (response.statusCode === 203) {
+//        toast.warn(`Email ${datum.payload.Email} is already exist in the database`, {
+//          position: "top-right",
+//          autoClose: 5000,
+//          hideProgressBar: false,
+//          closeOnClick: true,
+//          pauseOnHover: true,
+//          draggable: true,
+//          progress: undefined,
+//        });
+//      }
+ 
+//      // Handle token refresh if needed
+//      if (response) {
+//        refreshToken(response);
+//      }
+ 
+//    } catch (error) {
+//      console.error("Error adding user:", error);
+//      toast.error("An error occurred while adding the user.", {
+//        position: "top-right",
+//        autoClose: 5000,
+//        hideProgressBar: false,
+//        closeOnClick: true,
+//        pauseOnHover: true,
+//        draggable: true,
+//        progress: undefined,
+//      });
+//    }
+//  }
+
 function* handleAddUser(datum) {
       const response = yield call(addUser, datum.payload);
       console.log("responsetytytyytyyy",response);
-      if (response.statusCode === 200 || response.status === 200) {
-         
-         yield put({ type: 'ADD_USER',payload:{response: response.message, statusCode:response.statusCode || response.status}})
-            console.log("datum.payload..?",datum.payload)
-            Swal.fire({
-               icon: 'success',
-               title: `${response.message}`,
-               confirmButtonText: 'Ok',
-               // timer:1000,
+     
+    if (response.statusCode === 200 || response.status === 200) {
+      yield put({
+        type: 'ADD_USER',
+        payload: { response: response.message, statusCode: response.statusCode || response.status },
+      });
+      console.log("datum.payload..?", datum.payload);
 
+      // Define the style
+      const toastStyle = {
+        position: 'fixed',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 9999, // To ensure it appears above other elements
+        backgroundColor: 'green', // Background color
+        color: 'white', // Text color
+      };
 
-               // showConfirmButton: false,
-
-             })
-    
-      }
-
+      // Use the toast with the defined style
+      toast.success(response.message, {
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      })}
       else if(response.statusCode === 202) {
-         Swal.fire({
-            icon: 'warning',
-           title: 'Error',
-           html: `<span style="color: red">${datum.payload.Phone}</span> is already exist in the database`,
+         // Swal.fire({
+         //    icon: 'warning',
+         //   title: 'Error',
+         //   html: `<span style="color: red">${datum.payload.Phone}</span> is already exist in the database`,
            
-         });
+         // });
+         yield put({ type: 'PHONE_ERROR', payload: response.message });
       }
       else if(response.statusCode === 203) {
-         Swal.fire({
-           icon: 'warning',
-           title: 'Error',
-           html: `<span style="color: red">${datum.payload.Email}</span> is already exist in the database`,
-         });
+         // Swal.fire({
+         //   icon: 'warning',
+         //   title: 'Error',
+         //   html: `<span style="color: red">${datum.payload.Email}</span> is already exist in the database`,
+         // });
+         yield put({ type: 'EMAIL_ERROR', payload: response.message });
       }
+
+
       if(response){
          refreshToken(response)
       }
@@ -358,17 +537,54 @@ function* handleDeleteRoom(roomDetails){
       console.log("response...?",response)
       if(response.status == 200 || response.statusCode === 200){
          yield put({ type: 'ADD_USER_AMENITIES', payload: {message:response.data.message,statusCode:response.status || response.statusCode} })
-         Swal.fire({
-            icon: "success",
-            text: response.data.message,
-          });
+         const toastStyle = {
+            position: 'fixed',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 9999, 
+            backgroundColor: 'green',
+            color: 'white',
+          };
+    
+          toast.success(response.data.message, {
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+          })
+      
       }
       else if(response.status === 201 || response.statusCode === 201){
-         Swal.fire({
-          text:response.data.message,
-            icon: "warning",
-            
-        });
+     
+      const toastStyle = {
+         position: 'fixed',
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'center',
+         top: '50%',
+         left: '50%',
+         transform: 'translate(-50%, -50%)',
+         zIndex: 9999, 
+         backgroundColor: 'red',
+         color: 'white',
+       };
+ 
+       toast.error(response.data.message, {
+         autoClose: 3000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+       })
       }   
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
