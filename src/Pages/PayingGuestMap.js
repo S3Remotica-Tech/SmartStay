@@ -1,4 +1,4 @@
-import React, { useState, useEffect , useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Edit from '../Assets/Images/New_images/edit.png';
 import Delete from '../Assets/Images/New_images/trash.png';
 import { PiDotsThreeCircleVerticalThin } from "react-icons/pi";
@@ -8,8 +8,10 @@ import Vendors from '../Assets/Images/New_images/profile-picture.png';
 import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
 import Swal from 'sweetalert2';
-
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
+import { MdError } from "react-icons/md";
 
 
 
@@ -23,12 +25,12 @@ function PayingGuestMap(props) {
     const [activeHostel, setActiveHostel] = useState(null);
 
     const popupRef = useRef(null);
-   
-    
-    
+
+
+
     console.log("popupRef", popupRef)
 
-    
+
 
 
     const handleEdit = (item) => {
@@ -38,22 +40,12 @@ function PayingGuestMap(props) {
 
 
 
-    const handleDelete = (item) => {
+    const handleDeletePG = (item) => {
         console.log("item", item)
         if (item) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Do you want to delete the hostel?',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                showCancelButton: true,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    dispatch({ type: 'DELETEPG', payload: { hostel_Id: item.id } })
-                }
-            });
-
+            dispatch({ type: 'DELETEPG', payload: { hostel_Id: item.id } })
         }
+
     }
 
     const handleSelectedHostel = (selectedHostel) => {
@@ -83,29 +75,59 @@ function PayingGuestMap(props) {
 
     useEffect(() => {
         const appearOptions = {
-          threshold : 0.5
+            threshold: 0.5
         };
-        const faders = document.querySelectorAll('.fade-in'); 
-        const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
-          entries.forEach(entry =>{
-            if(!entry.isIntersecting){
-              return;
-            }
-            else{
-              entry.target.classList.add('appear');
-              appearOnScro1l.unobserve(entry.target);
-            }
-          })
+        const faders = document.querySelectorAll('.fade-in');
+        const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+                else {
+                    entry.target.classList.add('appear');
+                    appearOnScro1l.unobserve(entry.target);
+                }
+            })
         }, appearOptions)
-        faders.forEach(fader =>{
-          appearOnScro1l.observe(fader);
+        faders.forEach(fader => {
+            appearOnScro1l.observe(fader);
         })
-      });
+    });
+
+    const [show, setShow] = useState(false)
+
+    const handleDelete = () => {
+        setShow(true)
+        
+
+    }
+
+
+
+
+
+    const handleClose = () => {
+        setShow(false)
+    }
+
+
+    useEffect(() => {
+        if (state.PgList.deletePgSuccessStatusCode == 200) {
+            setShow(false)
+        }
+    }, [state.PgList.deletePgSuccessStatusCode])
+
     
+    useEffect(() => {
+        if (state.PgList?.deletePgError) {
+          setTimeout(() => {
+            dispatch({ type: 'CLEAR_DELETE_PG_ERROR' })
+          }, 3000);    
+        }
+      }, [state.PgList?.deletePgError]);
+    return (<>
 
-
-    return (
-        <Card className="h-100 fade-in" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }} >
+        <Card className="h-100 animated-text" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }} >
             <Card.Body style={{ padding: 20 }}>
                 <div className="d-flex justify-content-between align-items-center flex-wrap" >
                     <div className='d-flex gap-2'>
@@ -122,29 +144,30 @@ function PayingGuestMap(props) {
                         </div>
                     </div>
 
-                    <div  
+                    <div
                     //  onMouseEnter={handleMouseEnter}
                     //         onMouseLeave={handleMouseLeave}
-                            >
+                    >
                         <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
                             onClick={handleDotsClick}
-                            // onClick={() => handleDotsClick(props.hostel.id)}
+                        // onClick={() => handleDotsClick(props.hostel.id)}
                         >
                             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                             {showDots && <>
 
-                                <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top:50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                                <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                     <div >
                                         <div className='mb-2'
                                             onClick={() => handleEdit(props.hostel)}
                                         >
-                                            <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ cursor:"pointer",fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222", cursor: "pointer" }} >Edit</label>
+                                            <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222", cursor: "pointer" }} >Edit</label>
                                         </div>
                                         <div
                                             onClick={() => handleDelete(props.hostel)}
                                         >
-                                            <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ cursor:"pointer",fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
+
+                                            <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
                                         </div>
                                     </div>
                                 </div>
@@ -202,6 +225,41 @@ function PayingGuestMap(props) {
             </Card.Body>
 
         </Card>
+
+
+        {show &&
+            <Modal show={show} onHide={handleClose} centered backdrop="static">
+                <Modal.Header closeButton>
+                    <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete PG ?</Modal.Title>
+                </Modal.Header>
+
+                {state.PgList?.deletePgError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {state.PgList?.deletePgError}
+                        </label>
+                    </div>
+                )}
+
+                <Modal.Body style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>
+                    Are you sure you want to delete the Paying Guest?
+                </Modal.Body>
+
+
+                <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
+                    <Button onClick={handleClose} style={{ width: 160, height: 52, borderRadius: 8, padding: "16px, 45px, 16px, 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                        Cancel
+                    </Button>
+                    <Button style={{ width: 160, height: 52, borderRadius: 8, padding: "16px, 45px, 16px, 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
+                        onClick={() => handleDeletePG(props.hostel)}
+                    >
+                        Delete
+                    </Button>
+
+                </Modal.Footer>
+            </Modal>}
+    </>
     )
 }
 

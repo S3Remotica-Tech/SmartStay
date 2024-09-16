@@ -35,6 +35,9 @@ const initialState = {
     createFloorSuccessStatusCode: 0,
     countrycode: [],
     noHosteListStatusCode: 0,
+    alreadyFloorHere:'',
+    deleteFloorError:'',
+deleteRoomError:'',
     phoneError:'',
     emailError:''
 }
@@ -133,20 +136,6 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, checkOutStatusCode: 0 }
         case 'COUNTRY_LIST':
             return { ...state, countrycode: action.payload };
-
-
-
-        case 'PHONE_ERROR':
-            return { ...state, phoneError: action.payload }
-
-        case 'CLEAR_PHONE_ERROR':
-            return { ...state, phoneError: '' }
-
-            case 'EMAIL_ERROR':
-                return { ...state, emailError: action.payload }
-    
-            case 'CLEAR_EMAIL_ERROR':
-                return { ...state, emailError: '' }
 
         case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {

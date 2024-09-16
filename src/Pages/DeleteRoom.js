@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { MdError } from "react-icons/md";
 
 
 
@@ -41,15 +41,26 @@ useEffect(() => {
               roomNo: deleteRoomDetails.Room_Id,
             },
           });
-          // Swal.fire({
-          //   icon: 'success',
-          //   title: 'Room deleted Successfully',
-          // })
-          handleClose()
+        
+          
   
   }
 
+  useEffect(() => {
+    if (state.UsersList?.deleteRoomError) {
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_ DELETE_ROOM_ERROR' });
+      }, 3000);    
+    }
+  }, [state.UsersList?.deleteRoomError]);
 
+
+
+  useEffect(() => {
+    if (state.PgList.statusCodeForDeleteRoom == 200) {
+     handleClose()
+    }
+  }, [state.PgList.statusCodeForDeleteRoom])
 
   return (
     <div>  
@@ -57,6 +68,17 @@ useEffect(() => {
     <Modal.Header closeButton>
       <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>Delete room ?</Modal.Title>
     </Modal.Header>
+
+   
+
+    {state.UsersList?.deleteRoomError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {state.UsersList?.deleteRoomError}
+                        </label>
+                    </div>
+                )}
 
       <Modal.Body style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>
         {/* {numberOfBeds[0]?.bed_details.length > 0 && numberOfBeds[0]?.bed_details.length > 0

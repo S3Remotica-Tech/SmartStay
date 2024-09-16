@@ -23,6 +23,9 @@ import DeleteBed from './DeleteBed';
 import OccupiedCustomer from './OccupiedCustomer'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 function getFormattedRoomId(floor_Id, room_Id) {
@@ -64,6 +67,9 @@ function getFloorAbbreviation(floor_Id) {
 
 
 function ParticularHostelDetails(props) {
+
+
+
   console.log("Props", props)
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -72,6 +78,13 @@ function ParticularHostelDetails(props) {
   const [showBed, setShowBed] = useState(false)
   const [showFloor, setShowFloor] = useState(false)
   const [details, setDetails] = useState('')
+
+  const toastStyle = {
+    background: '#28a745',
+    color: '#fff',
+    fontSize: '14px'
+  };
+
 
 
   useEffect(() => {
@@ -178,9 +191,13 @@ function ParticularHostelDetails(props) {
     if (state.PgList.statusCodeCreateRoom === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowRoom(false)
+
+   
+
+
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
-      }, 100)
+      }, 4000)
     }
   }, [state.PgList.statusCodeCreateRoom])
 
@@ -194,9 +211,16 @@ function ParticularHostelDetails(props) {
     if (state.PgList.createBedStatusCode == 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowBed(false)
+
+   
+
+      
+
+     
+
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
-      }, 1000)
+      }, 4000)
     }
   }, [state.PgList.createBedStatusCode])
 
@@ -348,13 +372,34 @@ function ParticularHostelDetails(props) {
 
   
 
-
-
+  useEffect(() => {
+    const appearOptions = {
+      threshold : 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in'); 
+    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+      entries.forEach(entry =>{
+        if(!entry.isIntersecting){
+          return;
+        }
+        else{
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader =>{
+      appearOnScro1l.observe(fader);
+    })
+  });
+ 
 
 
   return (
+    <> 
+ 
     <div className=''>
-
+ 
       <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
         {loader &&  <Spinner animation="grow" variant="primary" size="sm" />}
       </div>
@@ -366,7 +411,7 @@ function ParticularHostelDetails(props) {
 
             <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
 
-              <Card className="h-100" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 200 }}>
+              <Card className="h-100 fade-in" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 200 }}>
                 <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
                   <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>
                     Room no. <span>{getFormattedRoomId(room.Floor_Id, room.Room_Id)}</span>
@@ -443,7 +488,7 @@ function ParticularHostelDetails(props) {
 {
 
 !loader && currentItems.length === 0 && 
-          <div className='d-flex align-items-center justify-content-center' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+          <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
             {/* <Alert variant="warning" >
           Currently, no rooms are available.
         </Alert> */}
@@ -516,6 +561,7 @@ function ParticularHostelDetails(props) {
       }
 
     </div>
+    </>
   )
 }
 

@@ -27,6 +27,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { AllInbox, TextDecreaseRounded } from '@mui/icons-material';
 import { TruckRemove } from 'iconsax-react';
 import { format } from 'date-fns';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Expenses() {
 
@@ -260,7 +262,7 @@ function Expenses() {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
       setTimeout(() => {
         setGetData(state.ExpenseList.expenseList)
-
+      
         setLoading(false)
 
 
@@ -299,6 +301,7 @@ function Expenses() {
   useEffect(() => {
     if (state.ExpenseList.StatusCodeForAddExpenseSuccess == 200 || state.ExpenseList.deleteExpenseStatusCode == 200) {
       dispatch({ type: 'EXPENSELIST' })
+      setShowModal(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_EXPENSE' })
       }, 2000)
@@ -441,35 +444,99 @@ function Expenses() {
 
 
 
+  // const handleDeleteExpense = (id) => {
+  //   if (id) {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Do you want to delete the expense?',
+  //       confirmButtonText: 'Yes',
+  //       cancelButtonText: 'No',
+  //       showCancelButton: true,
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         dispatch({
+  //           type: 'DELETEEXPENSE',
+  //           payload: {
+  //             id: id,
+  //           },
+  //         });
+  //         Swal.fire({
+  //           icon: 'success',
+  //           title: 'Expense deleted Successfully',
+  //         })
+  //       }
+
+  //     });
+
+  //     setCurrentPage(1)
+  //   }
+
+  // }
   const handleDeleteExpense = (id) => {
-    if (id) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Do you want to delete the expense?',
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-        showCancelButton: true,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch({
-            type: 'DELETEEXPENSE',
-            payload: {
-              id: id,
-            },
-          });
-          Swal.fire({
-            icon: 'success',
-            title: 'Expense deleted Successfully',
-          })
-        }
-
-      });
-
-      setCurrentPage(1)
-    }
-
-  }
-
+    if (!id) return; 
+  
+    toast(
+      ({ closeToast }) => (
+        <div>
+          <p style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+            Do you want to delete the expense?
+          </p>
+          <div className='w-100 d-flex justify-content-center'>
+            <button
+              style={{
+                marginRight: '10px',
+                backgroundColor: '#1E45E1',
+                color: '#fff',
+                border: 'none',
+                padding: '5px 10px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: 14,
+                fontFamily: "Gilroy",
+                fontWeight: 500
+              }}
+              onClick={() => {
+                dispatch({
+                  type: 'DELETEEXPENSE',
+                  payload: {
+                    id: id,
+                  },
+                });
+                closeToast();               }}
+            >
+              Yes
+            </button>
+            <button
+              style={{
+                backgroundColor: '#f44336',
+                color: '#fff',
+                border: 'none',
+                padding: '5px 10px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: 14,
+                fontFamily: "Gilroy",
+                fontWeight: 500
+              }}
+              onClick={closeToast} 
+            >
+              No
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        position: 'top-center',
+        autoClose: false,
+        closeOnClick: false,
+        hideProgressBar: true,
+        draggable: false,
+      }
+    );
+  
+    setCurrentPage(1); 
+  };
+  
 
 
   const stateAccount = useSelector(state => state.createAccount)

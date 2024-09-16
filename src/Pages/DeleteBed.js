@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import Nav from 'react-bootstrap/Nav';
 import AddCustomer from './AddCustomerPG';
-
+import { MdError } from "react-icons/md";
 
 
 function DeleteBed({ show, handleClose,deleteBedDetails}) {
@@ -46,7 +46,6 @@ const handleDeleteBed = () =>{
         dispatch({ type: 'DELETEBED', payload:{  hostelId:room.Hostel_Id , floorId : room.Floor_Id, roomNo :room.Room_Id, bed_id :bed.bed_no }})
      
     
-    handleClose()
     
     
     }
@@ -63,9 +62,22 @@ const handleDeleteBed = () =>{
     setActionType(type);
     };
 
+    useEffect(() => {
+      if (state.PgList?.deleteBedError) {
+        setTimeout(() => {
+          dispatch({ type: 'CLEAR_DELETE_BED_ERROR' });
+        }, 3000);    
+      }
+    }, [state.PgList?.deleteBedError]);
   
 
-
+    useEffect(() => {
+      if (state.PgList.statusCodeDeleteBed == 200) {
+        handleClose()
+    
+      }
+  
+    }, [state.PgList.statusCodeDeleteBed])
 
   return (
     <div>  
@@ -83,6 +95,16 @@ const handleDeleteBed = () =>{
     </Nav>
             </div>
         
+           
+
+            {state.PgList?.deleteBedError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {state.PgList?.deleteBedError}
+                        </label>
+                    </div>
+                )}
       <Modal.Body style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}> {actionType === 'addCustomer' ? 'Are you sure you want to add this customer?' : `Are you sure you want to delete the bed ${deleteBedDetails.bed.bed_no}?`}</Modal.Body>
 
    

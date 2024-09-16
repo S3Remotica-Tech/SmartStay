@@ -4,6 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import CryptoJS from "crypto-js";
+import { MdError } from "react-icons/md";
 
 import Cookies from 'universal-cookie';
 
@@ -34,6 +35,9 @@ console.log("state for opt verification",state)
     }
     const updatedOtpValue = inputRefs.map(ref => ref.current.value).join('');
      setOtpValue(updatedOtpValue);
+     setOtpErrors('')
+dispatch({ type: 'CLEAR_ERROR_OTP_CODE'})
+
   };
 
 // i am command this line step :1
@@ -45,14 +49,16 @@ console.log("state for opt verification",state)
 
 useEffect(()=>{
   if(state.login.OtpVerifyStatusCode == 200){
-    console.log("executed mathu")
+
+
+
     dispatch({ type: 'LOGIN-SUCCESS' })
 
     const token = state.login.JWTtoken
     const cookies = new Cookies()
     cookies.set('token', token, { path: '/' });
 
-    console.log("tokenverification",token)
+    // console.log("tokenverification",token)
 
     // dispatch({ type: 'ACCOUNTDETAILS'})
     //   console.log("executed account details")
@@ -74,17 +80,22 @@ useEffect(()=>{
   const otp = otpResponse?.otp
 
 
+  const[ otpErrors, setOtpErrors] = useState('')
 
   const handleOtpVerify = () => {
+    if(!otpValue){
+      setOtpErrors('Please enter valid otp')
+    }
+
 
     if(otpValue){
       dispatch({ type: 'OTPVERIFY', payload: {Email_Id:  Email_Id, OTP: otpValue} })
     } else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Error',
-        text: 'Enter Valid Otp',
-      })
+      // Swal.fire({
+      //   icon: 'warning',
+      //   title: 'Error',
+      //   text: 'Enter Valid Otp',
+      // })
     }
     inputRefs && inputRefs.forEach(ref => {
       ref.current.value = null;
@@ -125,6 +136,19 @@ useEffect(()=>{
                         ))}
         </div>
       </Modal.Body>
+
+      {otpErrors ? <div className='d-flex align-items-center p-1'>
+  <MdError style={{ color: "red" , marginRight: '5px'}} />
+  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{otpErrors}</label>
+</div>
+  : null}
+
+{state.login?.twoStepOtpError ? <div className='d-flex align-items-center p-1'>
+  <MdError style={{ color: "red" , marginRight: '5px'}} />
+  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login?.twoStepOtpError}</label>
+</div>
+  : null}
+
       <Modal.Footer>
         {/* <Button variant="secondary" onClick={handleClose}>
           Close

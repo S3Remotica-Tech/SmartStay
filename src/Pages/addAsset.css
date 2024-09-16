@@ -66,3 +66,6 @@
   border-collapse: separate;
   border-spacing: 0;
   }
+  .flatpickr-input .flatpickr-mobile {
+    display: none !important;
+  }

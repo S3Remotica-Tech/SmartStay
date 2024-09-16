@@ -18,6 +18,8 @@ import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import AddVendor from './AddVendor';
 import Spinner from 'react-bootstrap/Spinner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Vendor() {
@@ -50,7 +52,12 @@ function Vendor() {
     }
   }, [state.ComplianceList.getVendorStatusCode])
 
-
+  const toastStyle = {
+   
+    backgroundColor: 'green', 
+    color: 'white', 
+    width:"100%"
+  };
 
   useEffect(() => {
     if (state.ComplianceList.addVendorSuccessStatusCode === 200 || state.ComplianceList.deleteVendorStatusCode === 200) {
@@ -58,6 +65,12 @@ function Vendor() {
      
       setTimeout(() => {
         dispatch({ type: 'VENDORLIST' })
+      
+
+
+
+
+
         console.log("get vendor list executed")
       }, 100)
       setTimeout(() => {
@@ -171,35 +184,93 @@ function Vendor() {
   };
 
 
-  const handleDeleteVendor = (item) =>{
-    console.log("delete item",item)
-if(item){
-    Swal.fire({
-      icon: 'warning',
-      title: 'Do you want to delete the Vendor ?',
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'No',
-      showCancelButton: true,
-  }).then((result) => {
-      if (result.isConfirmed) {
-          dispatch({
-              type: 'DELETEVENDOR',
-              payload: {
-                  id: item.id,
-                  Status: 0
-              },
-          });
-          Swal.fire({
-              icon: 'success',
-              title: 'Vendor deleted Successfully',
-          })
+//   const handleDeleteVendor = (item) =>{
+//     console.log("delete item",item)
+// if(item){
+//     Swal.fire({
+//       icon: 'warning',
+//       title: 'Do you want to delete the Vendor ?',
+//       confirmButtonText: 'Yes',
+//       cancelButtonText: 'No',
+//       showCancelButton: true,
+//   }).then((result) => {
+//       if (result.isConfirmed) {
+//           dispatch({
+//               type: 'DELETEVENDOR',
+//               payload: {
+//                   id: item.id,
+//                   Status: 0
+//               },
+//           });
+//           Swal.fire({
+//               icon: 'success',
+//               title: 'Vendor deleted Successfully',
+//           })
+//       }
+//       setCurrentPage(1);
+//   });
+
+// }
+
+//   }
+
+
+
+const handleDeleteVendor = (item) => {
+  console.log("delete item", item);
+ 
+  if (item) {
+    toast(
+      ({ closeToast }) => (
+        <div >
+          <p style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Do you want to delete the Vendor?</p>
+          <div className='w-100 d-flex justify-content-center'>
+            <button
+              style={{ marginRight: '10px', backgroundColor: '#1E45E1', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer',fontSize: 14, color: "#fff", fontFamily: "Gilroy", fontWeight: 500 }}
+              onClick={() => {
+               
+                dispatch({
+                  type: 'DELETEVENDOR',
+                  payload: {
+                    id: item.id,
+                    Status: 0,
+                  },
+                });
+               
+                setCurrentPage(1); 
+                closeToast(); 
+              }}
+            >
+              Yes
+            </button>
+            {/* <button
+              style={{ backgroundColor: '#5bc0de', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer' }}
+              onClick={() => {
+                // Cancel deletion
+                // toast.info("Vendor deletion canceled", {
+                //   position: 'top-center',
+                //   autoClose: 1000,
+                // });
+                closeToast(); 
+              }}
+            >
+              Cancel
+            </button> */}
+          </div>
+        </div>
+      ),
+      {
+        position: 'top-center',
+        autoClose: false,
+        closeOnClick: false,
+        hideProgressBar: true,
+        draggable: false,
+        // style:toastStyle
       }
-      setCurrentPage(1);
-  });
-
-}
-
+    );
   }
+};
+
 
 
   const stateAccount= useSelector(state => state.createAccount)
@@ -245,6 +316,11 @@ useEffect(() => {
   return (
 
     <div style={{ width: "100%", fontFamily: "Gilroy" }} className=''>
+
+
+
+
+
       <div className='m-4'>
         {/* <div className='d-flex justify-content-end align-items-center mb-4'>
 
