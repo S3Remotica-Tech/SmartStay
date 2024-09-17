@@ -84,6 +84,33 @@ const Accountsettings = () => {
   const [displayPassword, setDisplayPassword] = useState(false)
   const [totalErrormsg ,setTotalErrmsg]= useState('')
 
+
+  
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowpassword] = useState(false);
+  const [confirmpassword, setConfirmPassword] = useState('')
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showCurrentPassword, setShowCurrentpassword] = useState(false)
+
+
+  const [passwordError, setPasswordError] = useState('');
+  const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(false);
+  const [isLowerCaseEnough, setLowerCaseEnough] = useState(false);
+  const [isNumericEnough, setNumericEnough] = useState(false);
+
+
+  const inputRefs = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+  ];
+
+
+ 
+
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
   };
@@ -355,6 +382,8 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
     }
   }, [state.createAccount?.statuscodeforUpdateprofile])
 
+  const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
+
 
   useEffect(() => {
     if (state.NewPass?.status_codes === 200) {
@@ -500,39 +529,44 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
     selectedImage !== initialValuesRef.current.Profile
 
 
+
+    useEffect(() => {
+      const appearOptions = {
+        threshold: 0.5
+      };
+  
+      const faders = document.querySelectorAll('.fade-in'); 
+      const appearOnScroll = new IntersectionObserver(function(entries, observer){
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            return;
+          } else {
+            entry.target.classList.add('appear');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, appearOptions);
+  
+      faders.forEach(fader => {
+        appearOnScroll.observe(fader);
+      });
+  
+      // Cleanup the observer when the component unmounts
+      return () => {
+        faders.forEach(fader => {
+          appearOnScroll.unobserve(fader);
+        });
+      };
+    }, []);
+
   const handleSaveUpdate = () => {
 
-
-    // const emailElement = document.getElementById('emailIDError');
-    // const emailError = emailElement ? emailElement.innerHTML : '';
-    // const emailcapitalelement = document.getElementById('emailIDError');
-    // const emailCapitalError = emailcapitalelement ? emailcapitalelement.innerHTML : '';
-    // const phoneNumberError = document.getElementById('MobileNumberError');
-    // const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
-
-
-    // if (emailError === 'Invalid Email Id *' || emailCapitalError === 'Email should be in lowercase *') {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Please enter a valid email address',
-    //     confirmButtonText: 'Ok',
-    //   });
-    //   return;
-    // }
-
-    // if (mobileError === 'Invalid mobile number *') {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Please enter a valid 10-digit phone number',
-    //     confirmButtonText: 'Ok',
-    //   });
-    //   return;
-    // }
-
-
-    if (emailerrorMessage || mobilenoError || firstNameError || addresserrmsg) {
+    if (!firstname || !MobileNumber || !email || !Address) {
 
       setTotalErrmsg('Please correct the highlighted errors before saving.')
+      setTimeout(() => {
+        setTotalErrmsg('')
+      }, 2000);
       return; // Exit the function, prevent saving
     }
     
@@ -542,31 +576,18 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
         type: 'PROFILE-UPDATE',
         payload: { first_name: firstname, last_name: lastname, phone: MobileNumber, email_id: email, address: Address, id: id, profile: selectedImage }
       });
-      // Swal.fire({
-      //   icon: 'success',
-      //   text: "Profile Updated successfully",
-      //   confirmButtonText: 'Ok'
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      //   }
-      // });
+   
     } 
     else if (!hasChanges) {
-      Swal.fire({
-        icon: 'info',
-        title: 'No Changes Detected',
-        confirmButtonText: 'Ok'
-      });
+      setTotalErrmsg('No changes deducted.')
+      setTimeout(() => {
+        setTotalErrmsg('')
+      }, 2000);
+      return;
 
   };
 
 
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowpassword] = useState(false);
-  const [confirmpassword, setConfirmPassword] = useState('')
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
-  const [showCurrentPassword, setShowCurrentpassword] = useState(false)
 
   // const encryptedPassword = localStorage.getItem("Password");
 
@@ -580,11 +601,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
 
 
 
-  const [passwordError, setPasswordError] = useState('');
-  const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(false);
-  const [isLowerCaseEnough, setLowerCaseEnough] = useState(false);
-  const [isNumericEnough, setNumericEnough] = useState(false);
-
+ 
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -633,14 +650,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
     setShowConfirmPassword(!showConfirmPassword)
   }
 
-  const inputRefs = [
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-  ];
+ 
 
   const handlePasswordchange = () => {
 
@@ -702,26 +712,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
   };
 
  
-  useEffect(() => {
-    const appearOptions = {
-      threshold : 0.5
-    };
-    const faders = document.querySelectorAll('.fade-in'); 
-    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
-      entries.forEach(entry =>{
-        if(!entry.isIntersecting){
-          return;
-        }
-        else{
-          entry.target.classList.add('appear');
-          appearOnScro1l.unobserve(entry.target);
-        }
-      })
-    }, appearOptions)
-    faders.forEach(fader =>{
-      appearOnScro1l.observe(fader);
-    })
-  });
+ 
 
 
   return (
