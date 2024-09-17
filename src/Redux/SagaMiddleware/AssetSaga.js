@@ -47,10 +47,12 @@ function* handleAddAsset(action) {
       });
 
    }
-   else  if (response.status === 201 || response.statusCode === 201) {
+   else  if(response.status === 201 || response.statusCode === 201) {
+            yield put ({type:'SERIAL_NUMBER_ERROR', payload:response.data.message})
+   } else  if(response.status === 202 || response.statusCode === 202) {
      
-       yield put ({type:'SERIAL_NUMBER_ERROR', payload:response.data.message})
-   }
+      yield put ({type:'ASSET_NAME_ERROR', payload:response.data.message})
+  }
    if (response) {
       refreshToken(response)
    }

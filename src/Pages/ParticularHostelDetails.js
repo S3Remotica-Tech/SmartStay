@@ -150,13 +150,16 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.PgList.roomCountStatusCode == 200) {
-      setRoomCountData(state.PgList.roomCount)
+      setTimeout(() => {
+        setRoomCountData(state.PgList.roomCount)
+      }, 100)
+      
       setTimeout(() => {
         setLoader(false)
-      }, 100)
+      }, 1000)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
-      }, 100);
+      }, 3000);
     }
   }, [state.PgList.roomCountStatusCode])
 
