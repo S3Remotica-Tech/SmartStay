@@ -80,20 +80,12 @@ function EB_Hostel() {
           item.Floor == Floor &&
           item.Room == Rooms
     );
-    console.log("filter", filteredstartmeter);
-    // const lastItem = filteredstartmeter[filteredstartmeter?.length - 1];
+
     const lastItem =
       filteredstartmeter?.length > 0
         ? filteredstartmeter[filteredstartmeter.length - 1]
         : null;
-    console.log("lastItem", lastItem);
     setStartmeter(lastItem);
-    // if ( lastItem && lastItem.length >0) {
-    //   setStartmeter(lastItem[0].end_Meter_Reading);
-    // }
-    // else{
-    //   setStartmeter(0)
-    // }
   }, [selectedHostel, state.PgList?.EB_startmeterlist, Floor, Rooms]);
 
   const options = {
@@ -138,20 +130,12 @@ function EB_Hostel() {
 
   useEffect(() => {
     if (startmeter && startmeter.end_Meter_Reading) {
-      setStartmeterValue(startmeter.end_Meter_Reading); // Set the start meter value
-      setstartMeterError(""); // Clear the error message if a valid value exists
+      setStartmeterValue(startmeter.end_Meter_Reading);
+      setstartMeterError("");
     } else {
-      setStartmeterValue(""); // Set default empty value
+      setStartmeterValue("");
     }
   }, [startmeter]);
-
-  // useEffect(() => {
-  //   if (startmeter && startmeter.end_Meter_Reading) {
-  //     setStartmeterValue(startmeter.end_Meter_Reading); // Set with actual value if exists
-  //   } else {
-  //     setStartmeterValue(""); // Default to 0 when no valid data is present
-  //   }
-  // }, [startmeter]); // Re-run when `startmeter` changes
 
   useEffect(() => {
     if (selectedHostel && Floor) {
@@ -161,10 +145,6 @@ function EB_Hostel() {
       });
     }
   }, [Floor]);
-
-  // useEffect(() => {
-  //   dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: selectedHostel}})
-  // }, [selectedHostel]);
 
   useEffect(() => {
     dispatch({
@@ -202,14 +182,10 @@ function EB_Hostel() {
     setebshow(false);
   };
 
-  // const handlestartmeter = (e) => {
-  //   setStartmeterValue(e.target.value);
-  //   setstartMeterError('')
-  // };
   const handlestartmeter = (e) => {
-    setStartmeterValue(e.target.value); // Update the start meter value
+    setStartmeterValue(e.target.value);
     if (e.target.value) {
-      setstartMeterError(""); // Clear the error if a value is entered
+      setstartMeterError("");
     }
   };
 
@@ -226,9 +202,6 @@ function EB_Hostel() {
     settransactionshow(false);
   };
   useEffect(() => {
-    // const FilterEbAmount = state.Settings?.EBBillingUnitlist?.eb_settings?.filter((item) => {
-    //   return item.hostel_id == selectedHostel;
-    // });
     const FilterEbAmount = state.Settings.EBBillingUnitlist.eb_settings?.filter(
       (item) => item.hostel_id == selectedHostel
     );
@@ -270,7 +243,6 @@ function EB_Hostel() {
   const [startMeterError, setstartMeterError] = useState("");
 
   const validateAssignField = (value, fieldName) => {
-    // Check if the value is empty or invalid
     if (
       !value ||
       value === "Select PG" ||
@@ -298,7 +270,6 @@ function EB_Hostel() {
       }
       return false;
     } else {
-      // Clear the error if validation passes
       switch (fieldName) {
         case "Hostel ID":
           setHostelIdError("");
@@ -325,49 +296,13 @@ function EB_Hostel() {
   };
   const validateStartMeter = () => {
     if (!startmeterValue || startmeterValue === 0) {
-      setstartMeterError('Start meter is required'); 
+      setstartMeterError("Start meter is required");
       return false;
     } else {
-      setstartMeterError(''); // Clear error if value is present
+      setstartMeterError(""); // Clear error if value is present
       return true;
     }
   };
-  // const handleSaveEbBill = () => {
-  //   if (selectedHostel && Floor && Rooms && endmeter) {
-  //     dispatch({ type: 'CREATEEB', payload: { Hostel_Id: selectedHostel, Floor: Floor, Room: Rooms, end_Meter_Reading: endmeter, EbAmount: totalAmountRead } });
-
-  //     setaddEbDetail(false)
-  //     setSelectedHostel('')
-  //     setFloor('')
-  //     setRooms('')
-  //     setEndmeter('')
-  //     setAmount('')
-  //     setSelectedDate('')
-  //   }
-  //   else if (selectedHostel && endmeter) {
-  //     dispatch({ type: 'CREATEEB', payload: { Hostel_Id: selectedHostel, end_Meter_Reading: endmeter, EbAmount: totalAmountRead } });
-  //     setEndmeter('')
-  //     setAmount('')
-
-  //     setaddEbDetail(false)
-  //     setSelectedHostel('')
-  //     setFloor('')
-  //     setRooms('')
-  //     setEndmeter('')
-  //     setAmount('')
-  //     setSelectedDate('')
-
-  //   }
-  //   else {
-  //     Swal.fire({
-  //       icon: "warning",
-  //       title: 'Please Enter All Fields',
-  //       confirmButtonText: "ok"
-  //     }).then((result) => {
-  //       // Handle confirmation if needed
-  //     });
-  //   }
-  // }
 
   const handleClose = () => {
     setaddEbDetail(false);
@@ -381,7 +316,7 @@ function EB_Hostel() {
     setSelectedHostel("");
     setRooms("");
     setFloor("");
-    setstartMeterError('')
+    setstartMeterError("");
   };
 
   const handleSaveEbBill = () => {
@@ -389,12 +324,17 @@ function EB_Hostel() {
     const isHostelValid = validateAssignField(selectedHostel, "Hostel ID");
     const isFloorValid = validateAssignField(Floor, "Floor");
     const isRoomValid = validateAssignField(Rooms, "Rooms");
-    const isStartMeterValid = validateAssignField(startmeterValue, "startmeter");
+    const isStartMeterValid = validateAssignField(
+      startmeterValue,
+      "startmeter"
+    );
     const isEndMeterValid = validateAssignField(endmeter, "endmeter");
 
-   
-    
-    if (!isHostelValid || !isEndMeterValid || (!isFloorValid && !isRoomValid && !isStartMeterValid)) {
+    if (
+      !isHostelValid ||
+      !isEndMeterValid ||
+      (!isFloorValid && !isRoomValid && !isStartMeterValid)
+    ) {
       return;
     }
 
@@ -425,10 +365,10 @@ function EB_Hostel() {
     // Reset fields after successful save
   };
   useEffect(() => {
-    if (state.PgList?.AddEBstatusCode === 200) { 
-      handleClose()
+    if (state.PgList?.AddEBstatusCode === 200) {
+      handleClose();
     }
-  }, [state.PgList?.AddEBstatusCode])
+  }, [state.PgList?.AddEBstatusCode]);
 
   const electricityrowsPerPage = 10;
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
@@ -591,46 +531,6 @@ function EB_Hostel() {
 
   return (
     <div style={{ width: "100%", padding: 20 }}>
-      {/* {
-      isvisible ?
-       <Roombased visibility={handleback} hosteldetails = {hosteldetails}/> :
-       <div className='row mt-4 ms-4 me-4'>
-        <h4 style={{fontSize:16,fontWeight:600}}>EB Plan</h4>
-        <p style={{fontSize:13}}>Manage your account settings</p>
-      
-        {state.hostelList.length > 0 && state.hostelList.map((hostel) => (
-      
-        <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12  mt-3'>
-       
-        <Card style={{height:"auto",backgroundColor:"#F6F7FB"}} onClick={()=>{handleEbbill(hostel)}}>
-            <Card.Body>
-              <div className='row d-flex align-items-center justify-content-center' >
-              <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 col-12" style={{ border: "1px solid lightgray", display: "flex", alignItems: "center", justifyContent: "center", width:55, height:55, borderRadius: 100, padding:20 }}>
-                      <Image src={hostel.profile == null ? Logo : hostel.profile} roundedCircle
-                          style={{
-                              height: 50,
-                              width: 50,
-                              borderRadius: '50%',
-                             
-                          }} />
-      
-                      </div>
-                      <div className="col-lg-8 col-md-4 col-xs-12 col-sm-12 col-12">
-                        <h6>{hostel.Name}</h6>
-                      </div>
-              </div>
-           
-                      
-            </Card.Body>
-          </Card>
-       
-        </div>
-         ))}
-      
-         
-        </div>
-      }  */}
-
       <div className="d-flex justify-content-between align-items-center ms-3 mb-3">
         <div>
           <label
@@ -674,7 +574,6 @@ function EB_Hostel() {
             >
               + Add transaction
             </Button>
-            {/* <Button style={{ fontFamily: "Montserrat", fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 184, height: 56, padding: "18px, 20px, 18px, 20px" }} onClick={handleAddEbDetails}> + Add transaction</Button> */}
           </div>
         </div>
       </div>
@@ -784,17 +683,6 @@ function EB_Hostel() {
               </tr>
             </thead>
             <tbody style={{ height: "50px", fontSize: "11px" }}>
-              {/* {currentRowTransaction.map((v) => { */}
-              {/* let Dated = new Date(v.created_at);
-                            console.log("Dated..?", Dated);
-
-                            let day = Dated.getDate();
-                            let month = Dated.getMonth() + 1; // Months are zero-based
-                            let year = Dated.getFullYear();
-
-                            let formattedDate = `${day}/${month}/${year}`;
-                            console.log("Formatted Date:", formattedDate); */}
-              {/* return ( */}
               {currentRowtransaction &&
                 currentRowtransaction.map((v, i) => {
                   return (
@@ -847,7 +735,6 @@ function EB_Hostel() {
                           {v.date}
                         </span>
                       </td>
-                      {/* <td>₹{view.BalanceDue}</td> */}
                       <td
                         style={{
                           fontSize: "16px",
@@ -900,25 +787,6 @@ function EB_Hostel() {
                     </tr>
                   );
                 })}
-              {/* <tr>
-
-                <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>Name</td>
-                <td ><span style={{ backgroundColor: "#FFEFCF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>type</span></td>
-                <td><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>date</span></td>
-                <td>₹{view.BalanceDue}</td>
-                <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>₹amount</td>
-                <td><span style={{ backgroundColor: "#D9E9FF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>payment</span></td>
-                <td>  <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
-                  <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                </div>
-                </td>
-
-
-              </tr> */}
-
-              {/* ) */}
-
-              {/* })} */}
               {currentRowtransaction.length === 0 && (
                 <tr>
                   <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
@@ -962,18 +830,7 @@ function EB_Hostel() {
                   >
                     {" "}
                     <ArrowLeft2 size="16" color="#1E45E1" />
-                    {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
                   </button>
-                  {/* <span
-                                onClick={() => handleElectricityPageChange(electricitycurrentPage - 1)}
-                                style={{
-                                  marginTop: '20px',
-                                  cursor: electricitycurrentPage === 1 ? 'not-allowed' : 'pointer',
-                                  color: electricitycurrentPage === 1 ? '#ccc' : '#007bff'
-                                }}
-                              >
-                                Previous
-                              </span> */}
                 </li>
                 {tranactioncurrentPage > 3 && (
                   <li style={{ margin: "0 5px" }}>
@@ -1025,16 +882,6 @@ function EB_Hostel() {
                   </li>
                 )}
                 <li style={{ margin: "0 5px" }}>
-                  {/* <span
-                                onClick={() => handleElectricityPageChange(electricitycurrentPage + 1)}
-                                style={{
-                                  marginTop: '20px',
-                                  cursor: electricitycurrentPage === totalPagesinvoice ? 'not-allowed' : 'pointer',
-                                  color: electricitycurrentPage === totalPagesinvoice ? '#ccc' : '#007bff'
-                                }}
-                              >
-                                Next
-                              </span> */}
                   <button
                     style={{
                       padding: "5px 10px",
@@ -1059,7 +906,6 @@ function EB_Hostel() {
                     }
                     disabled={tranactioncurrentPage === totalPagestransaction}
                   >
-                    {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
                     <ArrowRight2 size="16" color="#1E45E1" />
                   </button>
                 </li>
@@ -1381,18 +1227,7 @@ function EB_Hostel() {
                   >
                     {" "}
                     <ArrowLeft2 size="16" color="#1E45E1" />
-                    {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
                   </button>
-                  {/* <span
-                                onClick={() => handleElectricityPageChange(electricitycurrentPage - 1)}
-                                style={{
-                                  marginTop: '20px',
-                                  cursor: electricitycurrentPage === 1 ? 'not-allowed' : 'pointer',
-                                  color: electricitycurrentPage === 1 ? '#ccc' : '#007bff'
-                                }}
-                              >
-                                Previous
-                              </span> */}
                 </li>
                 {electricitycurrentPage > 3 && (
                   <li style={{ margin: "0 5px" }}>
@@ -1444,16 +1279,6 @@ function EB_Hostel() {
                   </li>
                 )}
                 <li style={{ margin: "0 5px" }}>
-                  {/* <span
-                                onClick={() => handleElectricityPageChange(electricitycurrentPage + 1)}
-                                style={{
-                                  marginTop: '20px',
-                                  cursor: electricitycurrentPage === totalPagesinvoice ? 'not-allowed' : 'pointer',
-                                  color: electricitycurrentPage === totalPagesinvoice ? '#ccc' : '#007bff'
-                                }}
-                              >
-                                Next
-                              </span> */}
                   <button
                     style={{
                       padding: "5px 10px",
@@ -1478,7 +1303,6 @@ function EB_Hostel() {
                     }
                     disabled={electricitycurrentPage === totalPagesinvoice}
                   >
-                    {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
                     <ArrowRight2 size="16" color="#1E45E1" />
                   </button>
                 </li>
@@ -1682,23 +1506,7 @@ function EB_Hostel() {
                   </div>
                 )}
               </div>
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3">
-                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Start meter</Form.Label>
-                  <FormControl
-                    id="form-controls"
-                    placeholder='6542310'
-                    type="text"
-                    // value={startmeter}
-                    // value={startmeter ? startmeter.end_Meter_Reading : 0}
-                    // onChange={(e) => handlestartmeter(e)}
-                    value={startmeterValue} // Controlled input
-  onChange={(e) => handlestartmeter(e)} // Allow typing only if falsey
-  disabled={startmeter && startmeter.end_Meter_Reading} // Disable if startmeter is truthy
-                    style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                  />
-                </Form.Group>
-              </div> */}
+
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group className="mb-3">
                   <Form.Label
@@ -1715,13 +1523,13 @@ function EB_Hostel() {
                     id="form-controls"
                     placeholder={
                       !(startmeter && startmeter.end_Meter_Reading)
-                        ? "Please enter start meter value"
+                        ? "Please enter startmeter "
                         : ""
                     }
                     type="text"
-                    value={startmeterValue} // Controlled input
-                    onChange={handlestartmeter} // Allow typing only when falsey
-                    disabled={!!(startmeter && startmeter.end_Meter_Reading)}  // Disable if startmeter is truthy
+                    value={startmeterValue}
+                    onChange={handlestartmeter}
+                    disabled={!!(startmeter && startmeter.end_Meter_Reading)}
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -1778,71 +1586,6 @@ function EB_Hostel() {
                   </div>
                 )}
               </div>
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 }}>Date</Form.Label>
-
-                <div style={{ position: 'relative' }}>
-                  <label
-                    htmlFor="date-input"
-                    style={{
-                      border: "1px solid #D9D9D9",
-                      borderRadius: 8,
-                      padding: 11,
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      color: "#222222",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between", // Ensure space between text and icon
-                      cursor: "pointer"
-                    }}
-                    onClick={() => {
-                      if (calendarRef.current) {
-                        calendarRef.current.flatpickr.open();
-                      }
-                    }}
-                  >
-                    {selectedDate ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                    <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                  </label>
-                  <Flatpickr
-                    ref={calendarRef}
-                    options={options}
-                    value={selectedDate}
-                    onChange={(selectedDates) => {
-                      setSelectedDate(selectedDates[0]);
-                    }}
-                    style={{
-                      padding: 10,
-                      fontSize: 16,
-                      width: "100%",
-                      borderRadius: 8,
-                      border: "1px solid #D9D9D9",
-                      position: 'absolute',
-                      top: 100,
-                      left: 100,
-                      zIndex: 1000,
-                      display: "none"
-                    }}
-                  />
-                </div>
-
-
-              </div> */}
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3">
-                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Date</Form.Label>
-                  <FormControl
-                    type="phone"
-                    id="form-controls"
-                    placeholder='Select Date'
-                    maxLength={10}
-                    style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                  />
-                  <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                </Form.Group>
-              </div> */}
             </div>
           </Modal.Body>
           <Modal.Footer className="d-flex justify-content-center">
