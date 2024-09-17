@@ -42,7 +42,7 @@ const initialState = {
     alreadyRoomHere: ' ',
     deletePgError: '',
     deleteBedError: '',
-  ebError:''
+ 
 
 }
 const PgListReducer = (state = initialState, action) => {
