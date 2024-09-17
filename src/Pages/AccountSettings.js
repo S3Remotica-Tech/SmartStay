@@ -1106,4 +1106,5 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
 
   )
 }
+}
 export default Accountsettings;
