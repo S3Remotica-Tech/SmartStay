@@ -9,9 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import './addAsset.css'
 import moment from 'moment';
+import { MdError } from "react-icons/md";
 
 
-function StaticExample({ show, handleClose, hostelFloor }) {
+function StaticExample({ show, handleClose, hostelFloor ,openFloor}) {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -22,12 +23,18 @@ function StaticExample({ show, handleClose, hostelFloor }) {
 
 
 const [floorNo, setFloorNo] = useState('')
+const [floorName, setFloorName] = useState('')
 
 
 const handleFloorChange = (e) =>{
     setFloorNo(e.target.value)
+    dispatch({ type: 'CLEAR_ALREADY_FLOOR_ERROR'})
 }
 
+
+const handleFloorNameChange = (e) =>{
+    setFloorName(e.target.value)
+}
 
     useEffect(() => {
         const closeButton = document.querySelector('button[aria-label="close-button"]');
@@ -42,23 +49,34 @@ const handleFloorChange = (e) =>{
     }, []);
 
 
+const [floorError, setFloorError] = useState('')
+
 
     const handleCreateFloor = () => {
 
 
         if (!floorNo || !/^[1-9]\d*$/.test(floorNo)) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Please enter a valid Floor no.(must be a positive number greater than 0)',
-            });
+                       setFloorError('Please enter a valid Floor no.(must be a positive number greater than 0)')
             return;
           }
           
 
+        // if (!floorNo) {
+        //     Swal.fire({
+        //       icon: 'warning',
+        //       title: 'Please enter at least  Floor no or name',
+        //     });
+        //     return;
+        //   }
+
 
 if(floorNo){
-    dispatch({ type: 'CREATEFLOOR', payload:{hostel_Id : hostelFloor, floor_Id : floorNo }})
+    dispatch({ type: 'CREATEFLOOR', payload:{hostel_Id : hostelFloor, floor_Id : floorNo , 
+        floor_Name: floorName
+    }})
     //  handleClose();
+openFloor(floorNo)
+
 }
 
 
@@ -113,15 +131,24 @@ if(floorNo){
 
 
                         <div className='row mt-1'>
-                            <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 600 }}>Floor</Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 600 }}>Floor no <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
                                          value={floorNo}
                                          onChange={handleFloorChange}
                                         type="text" placeholder="Enter floor no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: floorNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
+                            </div>
+                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Floor name <span  style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
+                                    <Form.Control
+                                         value={floorName}
+                                         onChange={handleFloorNameChange}
+                                        type="text" placeholder="Enter floor name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: floorNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                </Form.Group>
                             </div>
                             {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
@@ -145,6 +172,24 @@ if(floorNo){
                         </div>
 
                     </Modal.Body>
+                   
+                    {floorError && (
+                <div className="d-flex align-items-center p-1 mb-2">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {floorError}
+                  </label>
+                </div>
+              )}
+ {state.UsersList?.alreadyFloorHere  && (
+                <div className="d-flex align-items-center p-1 mb-2">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {state.UsersList.alreadyFloorHere}
+                  </label>
+                </div>
+              )}
+
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
                         <Button onClick={handleCreateFloor} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} >

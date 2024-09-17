@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import { MdError } from "react-icons/md";
 
 function AddRoom( {show, handleClose ,hostelDetails,editRoom}) {
   
@@ -20,12 +21,16 @@ console.log("state add room",state)
 const[room, setRoom] = useState('')
 const [alreadyRoom,setAlreadyRoom] = useState(false)
 const [errorMessage, setErrorMessage] = useState('');
+const [roomError, setRoomError] = useState('')
+
+const [floorError, setFloorError] = useState('')
 
 const [initialState, setInitialState] = useState({});
 
 const handleRoomChange = (e) => {
   const Room_Id = e.target.value
-
+  setRoomError('')
+dispatch({ type: 'CLEAR_ALREADY_ROOM_ERROR'})
 
   if (!/^\d*$/.test(Room_Id)) {
     setErrorMessage('Please enter a valid  number.');
@@ -50,6 +55,12 @@ const handleRoomChange = (e) => {
 
 
 useEffect(()=>{
+  dispatch({ type: 'CLEAR_ALREADY_ROOM_ERROR'})
+},[])
+
+
+
+useEffect(()=>{
 if(editRoom){
   setRoom(editRoom.room_Id ? editRoom.room_Id : '')
   setInitialState({
@@ -58,7 +69,10 @@ if(editRoom){
 }
 },[editRoom])
 
-console.log("room@",room)
+
+
+
+
 
     const handleCreateRoom = () => {
       const floorId = hostelDetails.floor_Id.toString();
@@ -67,22 +81,27 @@ console.log("room@",room)
 console.log("floorId",floorId,hostel_Id )
 
 if (!room || !/^[1-9]\d*$/.test(room)) {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
-  });
+
+setRoomError('Please enter a valid Room no. (must be a positive number greater than 0)')
+
+  // Swal.fire({
+  //   icon: 'warning',
+  //   title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
+  // });
   return;
 }
 
 
 
-if(!floorId){
-  Swal.fire({
-    icon: 'warning',
-    title: 'Please select floor',
-  });
+if (!floorId) {
+  setFloorError('Please select floor');
+    setTimeout(() => {
+    setFloorError('');
+  }, 2000); 
+  
   return;
 }
+
 
 
     // if (alreadyRoom) {
@@ -115,10 +134,10 @@ if(!floorId){
              
           }
        else {
-          Swal.fire({
-              icon: 'warning',
-              title: 'Please enter Room no.',
-          });
+          // Swal.fire({
+          //     icon: 'warning',
+          //     title: 'Please enter Room no.',
+          // });
       }
       
   };
@@ -126,6 +145,8 @@ if(!floorId){
   const isEditing = !!editRoom && !!editRoom.room_Id;
   const modalTitle = isEditing ? 'Edit Room' : 'Add Room';
 
+
+  console.log("state.PgList?.alreadyRoomHere",state.PgList?.alreadyRoomHere,roomError)
 
   return (
     <div
@@ -152,7 +173,7 @@ if(!floorId){
             </div>} */}
             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Room</Form.Label>
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Room <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                 <Form.Control 
                 value={room}
                 onChange={handleRoomChange}
@@ -164,6 +185,33 @@ if(!floorId){
           </div>
 
         </Modal.Body>
+
+        {roomError && (
+                <div className="d-flex align-items-center p-1 mb-2">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {roomError}
+                  </label>
+                </div>
+              )}
+ {floorError && (
+                <div className="d-flex align-items-center p-1 mb-2">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {floorError}
+                  </label>
+                </div>
+              )}
+
+{state.PgList && state.PgList?.alreadyRoomHere && (
+                <div className="d-flex align-items-center p-1 mb-2">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {state.PgList?.alreadyRoomHere}
+                  </label>
+                </div>
+              )}
+
         <Modal.Footer style={{ border: "none" }}>
 
           <Button onClick={handleCreateRoom} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}>

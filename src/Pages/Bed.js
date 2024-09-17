@@ -668,7 +668,7 @@ console.log("props",props);
     } else {
       Swal.fire({
         icon: 'warning',
-        title: 'Please Enter All Fields',
+        title: 'Please Enter All required Fields',
         confirmButtonText: 'Ok',
       });
     }

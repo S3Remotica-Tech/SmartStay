@@ -45,6 +45,7 @@ import squre from '../Assets/Images/New_images/minus-square.png';
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
+import { MdError } from "react-icons/md";
 
 
 
@@ -129,6 +130,11 @@ const InvoicePage = () => {
   const [isUserClicked, setUserClicked] = useState(true);
   const [invoiceDetail, setInvoiceDetails] = useState(false)
   const [invoiceValue, setInvoiceValue] = useState("")
+
+  const [paymodeerrormsg, setPaymodeErrmsg] = useState('');
+  const [amounterrormsg, setAmountErrmsg] = useState('');
+  const [dateerrmsg, setDateErrmsg] = useState('')
+  const [totalErrormsg ,setTotalErrmsg]= useState('')
 
   const [file, setFile] = useState(null)
   const d = new Date();
@@ -711,6 +717,12 @@ const InvoicePage = () => {
  
 
   const handleAmount = (e) => {
+
+    if (!e.target.value) {
+      setAmountErrmsg("Please Enter Amount");
+    } else {
+      setAmountErrmsg("");
+    }
     const AmountValue = e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
     console.log("AmountValue", AmountValue);
     const selectedDate = new Date(invoiceList.date);
@@ -858,6 +870,15 @@ const InvoicePage = () => {
 
   const handleSaveInvoiceList = () => {
 
+     
+    if(!invoiceList.payableAmount || !formattedDate || !invoiceList.transaction ){
+      setTotalErrmsg('Please enter All field')
+      setTimeout(()=> {
+        setTotalErrmsg('')
+      },2000)
+      return;
+  }
+
     const invoiceNo = randomNumberInRange(invoiceList.hostel_Name, 1, new Date())
     const CheckInvoiceNo = state.InvoiceList?.Invoice.some(item =>
       item.User_Id === selectedUserId && item.Invoices !== undefined
@@ -876,33 +897,9 @@ const InvoicePage = () => {
           payment_date: formattedDate
         }
       });
-
-      setTimeout(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Update Successfully",
-          // confirmButtonText: "ok"
-        });
-      }, 300);
+   
       setShowform(false);
-
-      // setShowMenu(false);
-      // setShowForm(false);
     }
-
-
-    else {
-      Swal.fire({
-        icon: "warning",
-        title: 'Please Enter All Field',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
-    }
-
-
   }
 
 
@@ -1030,6 +1027,11 @@ const [formattedDate, setFormattedDate] = useState('')
   
 
     const handleDateChange = (selectedDates) => {
+      if (!selectedDates) {
+        setDateErrmsg("Please Select Date");
+      } else {
+        setDateErrmsg("");
+      }
     const date = selectedDates[0];
     setSelectedDate(date); 
 
@@ -1636,6 +1638,13 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
                               onChange={(e) => { handleAmount(e) }}
 
                             />
+                           {amounterrormsg.trim() !== "" && (
+                 <div>
+               <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+               {amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amounterrormsg}
+                  </p>
+                      </div>
+                       )}
                           </Form.Group>
                         </div>
 
@@ -1705,7 +1714,13 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
                                         />
                                     </div>
 
-
+                                    {dateerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {dateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
+    </p>
+  </div>
+)}
                           
                           </div>
 
@@ -1729,10 +1744,18 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
                               <option value="Credit Card">Credit Card</option>
                               <option value="UPI">UPI</option>
                             </Form.Select>
+
                           </Form.Group>
                         </div>
 
                       </div>
+                      {totalErrormsg.trim() !== "" && (
+                 <div>
+               <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+               {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+                  </p>
+                      </div>
+                       )}
                     </Modal.Body>
                     <Modal.Footer style={{ border: "none" }}>
                       <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}

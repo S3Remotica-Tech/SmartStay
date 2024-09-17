@@ -83,7 +83,7 @@ useEffect(() => {
 
 
   return (
-    <Card className="h-100 fade-in" key={props.vendor && props.vendor.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
+    <Card className="h-100 animated-text" key={props.vendor && props.vendor.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
     <Card.Body style={{ padding: 20 }}>
       <div className="d-flex justify-content-between align-items-center flex-wrap" >
         <div className='d-flex gap-2'>
@@ -131,7 +131,9 @@ useEffect(() => {
             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
           </div>
           <div >
-            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.vendor && props.vendor.Vendor_Email}</label>
+          <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
+  {props.vendor && props.vendor.Vendor_Email && props.vendor.Vendor_Email !== "undefined" ? props.vendor.Vendor_Email : ''}
+</label>
           </div>
 
         </div>

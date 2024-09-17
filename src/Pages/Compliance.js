@@ -50,10 +50,12 @@ import Calendor from '../Assets/Images/calendar.png';
 import Badge from 'react-bootstrap/Badge';
 import { Description, Room } from '@material-ui/icons';
 import ComplianceList from './ComplianceList';
+import { MdError } from "react-icons/md";
 // import Image from 'react-bootstrap/Image';
 
 
 const Compliance = () => {
+
   const state = useSelector(state => state)
   const dispatch = useDispatch()
   const [data, setData] = useState(state.ComplianceList.Compliance);
@@ -100,9 +102,10 @@ const Compliance = () => {
 
   const options = {
     dateFormat: 'd/m/Y',
-    defaultDate: selectedDate,
-    maxDate: new Date(),
-    minDate:new Date() 
+  defaultDate: null,
+  // defaultDate: selectedDate,
+  maxDate: new Date(),           
+  minDate: null, 
   };
 
  
@@ -160,29 +163,18 @@ const Compliance = () => {
 
 
 
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-
-
-
-  //  command line
-  // useEffect(() => {
-  //   dispatch({ type: 'HOSTELDETAILLIST', payload: { hostel_Id: hostel_Id } })
-  // }, [hostel_Id]);
-
-
 
   const [hostelname, setHostelName] = useState('')
   console.log("hostelname", hostelname);
-  // const handleHostelId = (e) => {
-  //   console.log("e.target.value", e.target.value);
-  //   const selectedHostelId = e.target.value;
-  //   const selectedHostel = state.UsersList?.hostelList?.find(item => item.id == selectedHostelId);
-  //   setHostel_Id(selectedHostelId);
-  //   console.log("selectedHostel", selectedHostel);
-  //   setHostelName(selectedHostel ? selectedHostel.Name : '');
-  // };
+
+
+  const [assignerrormsg, setAssignErrmsg] = useState('');
+  const [statsuserrormsg, setStatusErrmsg] = useState('');
+  const [dateerrmsg , setDateErrmsg] = useState('')
+  const [totalErrormsg ,setTotalErrmsg]= useState('')
+
+
 
   const handleImageChange = (event) => {
     const fileimgage = event.target.files[0];
@@ -195,6 +187,7 @@ const Compliance = () => {
     setFiltericon(!filtericon)
     setSearchicon(false)
   }
+
   const handleStatusFilter = (e) => {
     const searchTerm = e.target.value;
     setStatusfilter(searchTerm)
@@ -214,30 +207,6 @@ const Compliance = () => {
     setUserClicked(true);
   };
 
-
-  // const handleClose = () => {
-  //   setShowMenu(false);
-  //   setUserClicked(false);
-  //   setShowForm(false);
-  //   setId('')
-  //   setName('')
-  //   setPhone('')
-  //   setComplainttype('')
-  //   setAssign('')
-  //   setDescription('')
-  //   setDate('')
-  //   setHostel_Id('')
-  //   setFloor('')
-  //   setRooms('')
-  //   setStatus('')
-  // };
-
-  // const handleShow = () => {
-  //   handleMenuClick();
-  //   setShowMenu(true);
-  //   setEditbtn(false)
-  //   setSelectedUserId('');
-  // };
 
   const handleFormclose = () => {
     handleMenuClick();
@@ -265,66 +234,7 @@ const Compliance = () => {
   }
 
 
-  // const handleEdit = (item) => {
-  //   if (item) {
-  //     setEditbtn(true)
-  //     setSelectedUserId(item.User_id);
-  //     setId(item.ID)
-  //     setName(item.Name)
-  //     setPhone(item.Phone)
-  //     setComplainttype(item.Complainttype)
-  //     setAssign(item.Assign)
-  //     setDescription(item.Description)
-  //     setDate(format(new Date(item.date), 'yyyy-MM-dd'))
-  //     setStatus(item.Status)
-  //     setHostel_Id(item.Hostel_id)
-  //     setHostelName(item.hostelname)
-  //     setFloor(item.Floor_id)
-  //     setRooms(item.Room)
-  //     handleMenuClick();
-  //     setShowMenu(true);
-  //   }
-
-  // }
-
-  // const handleSubmit = () => {
-  //   if (Name && Phone && Complainttype && Assign && description && Status && date && hostel_Id && Floor && Rooms) {
-  //     dispatch({ type: 'COMPLIANCE-ADD', payload: { User_id: selectedUserId, Name: Name, Phone: Phone, Complainttype: Complainttype, Assign: Assign, Description: description, Status: Status, date: date, id: editbtn ? id : '', Hostel_id: hostel_Id, Floor_id: Floor, Room: Rooms, hostelname: hostelname } })
-  //     setId('')
-  //     setName('')
-  //     setPhone('')
-  //     setComplainttype('')
-  //     setAssign('')
-  //     setDescription('')
-  //     setDate('')
-  //     setStatus('')
-  //     setHostel_Id('')
-  //     setFloor('')
-  //     setRooms('')
-  //     setBeds('')
-
-  //     setShowMenu(false);
-  //     Swal.fire({
-  //       icon: "success",
-  //       title: editbtn ? 'Complaince Updated successfully' : 'Complaince Added successfully',
-  //       confirmButtonText: "ok"
-  //     }).then((result) => {
-
-  //       if (result.isConfirmed) {
-  //       }
-  //     });
-  //   }
-  //   else {
-  //     Swal.fire({
-  //       icon: "warning",
-  //       title: 'Please Enter All Field',
-  //       confirmButtonText: "ok"
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //       }
-  //     });
-  //   }
-  // }
+ 
 
   const handleInputChange = (e) => {
     const searchTerm = e.target.value;
@@ -492,13 +402,39 @@ const Compliance = () => {
   const [edit, setEdit] = useState(false)
 
  
+  const handleAssign = (e) =>{
+    setAssign(e.target.value)
+    if (!e.target.value) {
+      setAssignErrmsg("Please Enter Assign");
+    } else {
+      setAssignErrmsg("");
+    }
+  }
+
+  const handleStatus = (e) => {
+    setStatus(e.target.value)
+    if (!e.target.value) {
+      setStatusErrmsg("Please Enter Status");
+    } else {
+      setStatusErrmsg("");
+    }
+  }
 
 
   const handleAddcomplaint = () => {
 
+    
+    if(!Complainttype || !selectedDate || !Assign || !selectedUsername ){
+      setTotalErrmsg('Please enter All field')
+      setTimeout(()=> {
+        setTotalErrmsg('')
+      },2000)
+      return;
+  }
+
     setEdit(false)
 
-    if (Complainttype && description && selectedDate && hostelname && beds && Rooms) {
+    if (Complainttype  && selectedDate && hostelname && beds && Rooms) {
       // console.log();
       const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
       if (id && hasChanges) {
@@ -534,23 +470,9 @@ const Compliance = () => {
         setHostel_Id('')
       }
 
-      Swal.fire({
-        icon: "success",
-        title: edit ? 'Complaince Updated successfully' : 'Complaince Added successfully',
-        confirmButtonText: "ok"
-      }).then((result) => {
-
-        if (result.isConfirmed) {
-        }
-      });
+    
     }
-    else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Fields',
-         confirmButtonText: "ok"
-      });
-    }
+   
   }
 
 
@@ -917,7 +839,7 @@ const Compliance = () => {
                         className='border'
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         value={Assign}
-                        onChange={(e) => { setAssign(e.target.value) }}
+                        onChange={(e) =>  handleAssign(e) }
                       >
                         {edit ? (
                           <option selected value={Assign}>{Assign}</option>
@@ -929,6 +851,13 @@ const Compliance = () => {
                           </>
                         )}
                       </Form.Select>
+                      {assignerrormsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {assignerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {assignerrormsg}
+    </p>
+  </div>
+)}
                     </Form.Group>
                   </div>
 
@@ -941,7 +870,7 @@ const Compliance = () => {
                         className='border'
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         value={Status}
-                        onChange={(e) => { setStatus(e.target.value) }}
+                        onChange={(e) =>  handleStatus(e)}
                       >
                         {/* {edit ? (
           <option selected value={Status}>{Status}</option>
@@ -955,6 +884,15 @@ const Compliance = () => {
                         {/* </> */}
                         {/* )} */}
                       </Form.Select>
+    
+
+{statsuserrormsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {statsuserrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {statsuserrormsg}
+    </p>
+  </div>
+)}
                     </Form.Group>
                   </div>
                   {/* )} */}
@@ -1080,6 +1018,15 @@ const Compliance = () => {
                 </div>
 
               </Modal.Body>
+
+      {totalErrormsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+    </p>
+  </div>
+)}
+
               <Modal.Footer style={{ border: "none" }}>
 
                 <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}

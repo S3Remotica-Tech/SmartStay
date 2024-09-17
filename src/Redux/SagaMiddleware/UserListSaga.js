@@ -82,24 +82,36 @@ function* handleUserBillPaymentHistory(){
 function* handleCreateFloor(data) {
    const response = yield call(createFloor,data.payload);
   console.log("response floor", response)
+
+  var toastStyle = {
+   backgroundColor: 'green', 
+color: 'white', 
+width:"100%"
+};
+
+
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATE_FLOOR', payload: {response:response.data, statusCode:response.status || response.statusCode} })
-      // yield put({ type: 'UPDATE_MESSAGE_FLOOR', message: 'CREATED SUCCESSFULLY'})
-      Swal.fire({
-         icon: 'success',
-         title: `${response.data.message}`,
-               //   timer:1000,
-               //   showConfirmButton: false,
-       })
+     
+      toast.success('Floor has been successfully created!', {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
    }
    else if(response.status === 202 || response.statusCode === 202) {
-      Swal.fire({
-         icon: 'warning',
-        title: 'Error',
-        html: `<span style="color: red">${response.data.message }</span> `,
+      // Swal.fire({
+      //    icon: 'warning',
+      //   title: 'Error',
+      //   html: `<span style="color: red">${response.data.message }</span> `,
         
-      });
-      yield put({ type: 'ERROR', payload: response.data.message })
+      // });
+      yield put({ type: 'ALREADY_FLOOR_ERROR', payload: response.data.message })
 
    }
    if(response){
@@ -382,25 +394,36 @@ function* handleAddUser(datum) {
    function* handleDeleteFloor(hosteID){
       const response = yield call(deleteFloor,hosteID.payload)
       console.log("response",response);
+
+      var toastStyle = {
+         backgroundColor: 'green', 
+      color: 'white', 
+      width:"100%"
+      };
       if(response.status === 200 || response.statusCode === 200){
          yield put({ type: 'DELETE_FLOOR', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
     
-         Swal.fire({
-            icon: 'success',
-         text: 'Floor Delete Successfully',
-      //   timer: 2000,
-      //   showConfirmButton: false,
-      });
+         toast.success('Floor has been successfully deleted!', {
+            position: 'top-center',
+            autoClose: 2000, 
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+          });
      
      
       }
       else if(response.status === 201 || response.statusCode === 201){
-         Swal.fire({
-            icon: 'warning',
-         text: 'Please delete rooms before deleting the floor',
-      //   timer: 2000,
-      //   showConfirmButton: false,
-      });
+         yield put({ type: 'DELETE_FLOOR_ERROR', payload: response.data.message })
+      //    Swal.fire({
+      //       icon: 'warning',
+      //    text: 'Please delete rooms before deleting the floor',
+      // //   timer: 2000,
+      // //   showConfirmButton: false,
+      // });
       }
       if(response){
          refreshToken(response)
@@ -409,21 +432,36 @@ function* handleAddUser(datum) {
 
 function* handleDeleteRoom(roomDetails){
    const response = yield call(deleteRoom,roomDetails.payload)
+
+
+   var toastStyle = {
+      backgroundColor: 'green', 
+   color: 'white', 
+   width:"100%"
+   };
+
    if(response.status === 200 || response.statusCode === 200){
       yield put({ type: 'DELETE_ROOM', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
-      Swal.fire({
-         icon: 'success',
-      text: 'Room Delete Successfully',
-     });
+      toast.success('Room has been successfully deleted!', {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
  
  
  
    }
    else  if(response.status === 201 || response.statusCode === 201) {
-      Swal.fire({
-         icon: 'warning',
-      text: `Please delete the bed before deleting the room`,
-     });
+      yield put({ type: 'DELETE_ROOM_ERROR', payload: response.data.message })
+   //    Swal.fire({
+   //       icon: 'warning',
+   //    text: `Please delete the bed before deleting the room`,
+   //   });
    }
    if(response){
       refreshToken(response)

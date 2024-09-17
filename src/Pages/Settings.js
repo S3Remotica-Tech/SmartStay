@@ -36,7 +36,7 @@ import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } 
 import EBBillingUnitlist from './EBUnitsettingsList';
 import Modal from 'react-bootstrap/Modal';
 import UserSettings from './UserSettings';
-
+import { MdError } from "react-icons/md";  
 
 
 function Settings() {
@@ -172,9 +172,6 @@ function Settings() {
   }
 
 
-  // useEffect(()=>{
-  //   setIsChecked(isEnableCheck === '1');
-  // },[])
 
 
   const [isChecked, setIsChecked] = useState(null);
@@ -232,30 +229,6 @@ function Settings() {
   }, [state.createAccount.accountList]);
 
 
-
-
-  // useEffect(() => {
-  //   const UserIsEnable = state.createAccount.accountList[0]?.user_details.isEnable
-
-
-  //   if (UserIsEnable === 1) {
-  //     setIsChecked(true);
-
-  //     localStorage.setItem("IsEnable", '');
-
-
-  //   } else {
-  //     setIsChecked(false);
-  //   }
-  // }, [state.createAccount.accountList])
-
-
-
-  // useEffect(()=>{
-  //     dispatch({ type: 'ACCOUNTDETAILS' })
-  //    },[])
-
-
   const [selectedImage, setSelectedImage] = useState(null);
   const [profilePicture, setProfilePicture] = useState('');
 
@@ -279,63 +252,7 @@ function Settings() {
 
 
 
-  // useEffect(()=>{
-  //      const FIlteredProfile = state.createAccount?.accountList[0]?.user_details
-  //        if(FIlteredProfile.profile){
-  //         const ProfileImage = FIlteredProfile.profile
-  //     const CustomerName = FIlteredProfile.Name
-  //     const PhoneNUmber = FIlteredProfile.mobileNo
-  //     const UserEmail = FIlteredProfile.email_Id
-
-  //     setName(CustomerName)
-  //     setPhone(PhoneNUmber)
-  //     setEmail(UserEmail)
-
-  //     setProfilePicture(ProfileImage)
-  //     }else{
-  //       setProfilePicture(Men)
-  //     }
-
-  // },[state.createAccount?.accountList])
-
-  // useEffect(() => {
-  //   const FIlteredProfile = state.createAccount?.accountList[0].user_details
-  //   console.log("FIlteredProfile",FIlteredProfile);
-  //   if (FIlteredProfile.profile) {
-  //       const ProfileImage = FIlteredProfile.profile
-  //       const CustomerFirstName = FIlteredProfile.first_name
-  //       const CustomerLastName = FIlteredProfile.last_name
-  //       const PhoneNUmber = FIlteredProfile.mobileNo
-  //       const UserEmail = FIlteredProfile.email_Id
-  //       const UserAddress = FIlteredProfile.Address
-  //       const CustomerId = FIlteredProfile.id
-
-  //       setId(CustomerId)
-  //       setFirstName(CustomerFirstName)
-  //       setLastName(CustomerLastName)
-  //       setPhone(PhoneNUmber)
-  //       setEmail(UserEmail)
-  //       setAddress(UserAddress)
-
-  //       setProfilePicture(ProfileImage)
-  //   } else {
-  //     const CustomerFirstName = FIlteredProfile.first_name
-  //     const CustomerLastName = FIlteredProfile.last_name
-  //     const PhoneNUmber = FIlteredProfile.mobileNo
-  //     const UserEmail = FIlteredProfile.email_Id
-  //     const UserAddress = FIlteredProfile.Address
-  //     const CustomerId = FIlteredProfile.id
-
-  //     setId(CustomerId)
-  //     setFirstName(CustomerFirstName)
-  //     setLastName(CustomerLastName)
-  //     setPhone(PhoneNUmber)
-  //     setEmail(UserEmail)
-  //     setAddress(UserAddress)
-  //       setProfilePicture(Men)
-  //   }
-
-  // }, [state.createAccount?.accountList])
+ 
 
 
 
@@ -349,7 +266,7 @@ function Settings() {
   const [editHostel, setEditHostel] = useState({ id: '', name: '' })
   console.log("editHostel", editHostel);
   const [isModified, setIsModified] = useState(false);
-
+  const [editamounterrormsg,setEditAmountErrmsg] = useState('')
   const [show, setShow] = useState(false);
 
 
@@ -376,25 +293,30 @@ function Settings() {
   
   const handleAmountChange = (e) => {
     const newValue = e.target.value;
+   
     if (newValue !== editamount) {
       setEditAmount(newValue);
       setIsModified(true);
     }
+    if(!e.target.value){
+      setEditAmountErrmsg("Please enter amount")
+    }
+    else {
+      setEditAmountErrmsg("")
+    }
   };
 
   const handleUpdateEB = () => {
+
+    if(!editamount){
+      setEditAmountErrmsg("Please enter a Amount")
+      return;
+    }
+
     if (editHostel && editamount && editunit && isModified) {
       dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: editHostel.id, unit: editunit, amount: editamount } })
-      Swal.fire({
-        icon: "success",
-        title: 'EB Billings Updated successfully',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-        dispatch({ type: 'EB-BILLING-UNIT-LIST' })
-
-      });
+    
+      dispatch({ type: 'EB-BILLING-UNIT-LIST' })
       handleClose();
       setEditHostel({ id: '', name: '' })
       setEditUnit('');
@@ -433,62 +355,57 @@ function Settings() {
   const [amount, setAmount] = useState(0)
   console.log("selectedHostel", selectedHostel);
 
+  const [hostelerrormsg, setHostelErrmsg] = useState('');
+  const [amounterrormsg, setAmountErrmsg] = useState('');
+  const [totalErrormsg ,setTotalErrmsg]= useState('')
   const [data, setData] = useState([])
 
   const handleHostelChange = (e) => {
     setSelectedHostel(e.target.value)
+
+    if (!e.target.value) {
+      setHostelErrmsg("Please Select Hostel");
+    } else {
+      setHostelErrmsg("");
+    }
   };
+
+  const handleAmount = (e) => {
+    setAmount(e.target.value)
+    if (!e.target.value) {
+      setAmountErrmsg("Please Enter Amount");
+    } else {
+      setAmountErrmsg("");
+    }
+  }
 
   useEffect(() => {
     dispatch({ type: 'EB-BILLING-UNIT-LIST' })
   }, [])
 
-
   useEffect(() => {
     // dispatch({type:'EB-BILLING-UNIT-LIST'})
-    setData(state.Settings.EBBillingUnitlist.eb_settings)
+    setData(state.Settings.EBBillingUnitlist.eb_settings)   
   }, [state?.Settings?.EBBillingUnitlist?.eb_settings])
 
 
   const handlesaveEbbill = () => {
 
-    if (selectedHostel && amount && unit) {
-      dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit: unit, amount: amount } })
-      Swal.fire({
-        icon: "success",
-        title: 'EB Billings Added successfully',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-        dispatch({ type: 'EB-BILLING-UNIT-LIST' })
+    if (!selectedHostel || !amount ) {
+        setTotalErrmsg('Please Enter All Field')
+        setTimeout(() => {
+          setTotalErrmsg('')
+        }, 2000);
+        // 
+      return; 
+    }
 
-      });
+   else if (selectedHostel && amount && unit) {
+      dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit: unit, amount: amount } })
+      dispatch({ type: 'EB-BILLING-UNIT-LIST' })
       setSelectedHostel('')
-      // setUnit('');
       setAmount('')
     }
-    else if (!selectedHostel || selectedHostel === '') {
-      Swal.fire({
-        icon: "warning",
-        title: 'Please Enter a hostel',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
-    }
-    else if (!amount) {
-      Swal.fire({
-        icon: "warning",
-        title: 'Please Enter a Amount',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
-    }
-
   }
 
 
@@ -669,6 +586,14 @@ function Settings() {
                     ))}
 
                   </Form.Select>
+    
+            {hostelerrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {hostelerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {hostelerrormsg}
+    </p>
+  </div>
+)}
                 </Form.Group>
 
               </div>
@@ -702,17 +627,35 @@ function Settings() {
                         type="text"
                         placeholder="Amount"
                         value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                      />
+                        onChange={handleAmount}
+                      />   
+
+          {amounterrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amounterrormsg}
+    </p>
+  </div>
+)}
                     </Form.Group>
                   </div>
                 </div>
+      
+
+           {totalErrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+    </p>
+  </div>
+)}
                 <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                   <Button className='col-lg-11 col-md-12 col-sm-12 col-xs-12' onClick={handlesaveEbbill} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12 }}>
                     Save Changes</Button>
                 </div>
 
               </div>
+      
             </div>
 
             <hr style={{ border: '1px solid #ced4da', transform: 'rotate(180deg)' }} />
@@ -945,6 +888,11 @@ function Settings() {
                               onChange={handleAmountChange}
                               style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                             />
+                                                       {editamounterrormsg && (
+        <div >
+           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {editamounterrormsg}</p>
+        </div>
+      )}
                           </Form.Group>
                         </div>
 

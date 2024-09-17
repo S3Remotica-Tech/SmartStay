@@ -18,6 +18,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Eye, EyeSlash } from 'iconsax-react';
 import Logout from '../Assets/Images/LogoutCurve-Linear-32px.png'
 import bcrypt from 'bcryptjs';
+import { MdError } from "react-icons/md";  
 import { style } from "@mui/system";
 
 const Accountsettings = () => {
@@ -72,7 +73,7 @@ const Accountsettings = () => {
   // const [Address, setAddress] = useState(initialValues.Address);
 
 
-  const [firstNameError, setFirstNameError] = useState(false);
+  const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState(false);
   const [EmailError, setEmailError] = useState(false);
   const [mobilenoError, setMobileNoError] = useState(false);
@@ -80,8 +81,8 @@ const Accountsettings = () => {
   const [error, setError] = useState(false)
   const [value, setValue] = React.useState('1');
   const [countryCode, setCountryCode] = useState('91');
-const [displayPassword, setDisplayPassword] = useState(false)
-
+  const [displayPassword, setDisplayPassword] = useState(false)
+  const [totalErrormsg ,setTotalErrmsg]= useState('')
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
@@ -100,13 +101,11 @@ const [displayPassword, setDisplayPassword] = useState(false)
 
 
   const handleName = (e) => {
-    const value = e.target.value;
-    if (value.trim() === '') {
-      setFirstNameError(true);
-      setFirstName('');
+    setFirstName(e.target.value)
+    if (!e.target.value) {
+      setFirstNameError("Please Enter First Name");
     } else {
-      setFirstNameError(false);
-      setFirstName(value);
+      setFirstNameError("");
     }
   };
 
@@ -121,6 +120,8 @@ const [displayPassword, setDisplayPassword] = useState(false)
     }
   }
 
+  const [emailerrorMessage, setEmailErrorMessage] = useState('');
+
   const handleEmailId = (e) => {
     setEmail(e.target.value);
     const email = e.target.value;
@@ -131,44 +132,63 @@ const [displayPassword, setDisplayPassword] = useState(false)
 
 
     if (hasUpperCase) {
-      document.getElementById('emailIDError').innerHTML = 'Email should be in lowercase *';
+      setEmailErrorMessage('Email should be in lowercase *');
     } else if (isValidEmail) {
-      document.getElementById('emailIDError').innerHTML = '';
+      setEmailErrorMessage('');
+    } else if (!email) {
+      setEmailErrorMessage('Please Enter Email');
     } else {
-      document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *';
+      setEmailErrorMessage('Invalid Email Id *');
     }
   };
 
 
   const handlePhone = (e) => {
-
     setPhone(e.target.value);
     const pattern = new RegExp(/^\d{1,10}$/);
     const isValidMobileNo = pattern.test(e.target.value);
-    const errorElement = document.getElementById('MobileNumberError');
-  
-    if (errorElement) {
-      if (isValidMobileNo && e.target.value.length === 10) {
-        errorElement.innerHTML = '';
-      } else {
-        errorElement.innerHTML = 'Invalid mobile number *';
-      }
+    // const errorElement = document.getElementById('MobileNumberError');
+
+    if (isValidMobileNo && e.target.value.length === 10){
+      setMobileNoError("");
     }
+   else if (!e.target.value) {
+      setMobileNoError("Please Enter Phone number");
+    } 
+    else if (e.target.value.length < 10){
+      setMobileNoError("Invalid mobile number");
+    }
+    else {
+      setMobileNoError("");
+    }
+  
+    // if (errorElement) {
+    //   if (isValidMobileNo && e.target.value.length === 10) {
+    //     errorElement.innerHTML = '';
+    //   }
+    //   else if (!e.target.value){
+    //     errorElement.innerHTML = 'Please Enter mobile number *';
+    //   }
+    //   else {
+    //     errorElement.innerHTML = 'Invalid mobile number *';
+    //   }
+    // }
 
 
   };
 
 
 
+const [addresserrmsg, setAddressErrMsg] = useState('')
 
   const handleAddress = (e) => {
-    const value = e.target.value;
-    if (value.trim() === '') {
-      setAddressError(true);
-      setAddress('');
+    setAddress(e.target.value);
+    // const value = e.target.value;
+ 
+    if (!e.target.value) {
+      setAddressErrMsg("Please Enter Address");
     } else {
-      setAddressError(false);
-      setAddress(value);
+      setAddressErrMsg("");
     }
   }
 
@@ -375,61 +395,32 @@ const [displayPassword, setDisplayPassword] = useState(false)
    const [inputdisable, setInputDisable] = useState('')
 
   const Passwordverify = async () => {
+
     var plainPassword=currentpassword;
     var storedHashPassword=currentpasswordfilter;
+    const errorElement = document.getElementById('Passverify');
 
-if(!currentpassword){
+    if (errorElement) {
 
-  Swal.fire({
-    icon: 'warning',
-       text: 'Enter Current Password',
-    confirmButtonText: 'Ok'
-  })
-
-
-  return
-}
-
-
-
-
-  try {
-    // Compare the plain password with the stored hashed password
+      try {
     const isMatch = await bcrypt.compare(plainPassword, storedHashPassword);
     setInputDisable(isMatch)
      
     if (isMatch) {
-      Swal.fire({
-        icon: 'success',
-        // title: "C",
-        text: 'Password matches!',
-        confirmButtonText: 'Ok'
-      }).then((result) => {
-        if (result.isConfirmed) {
+      document.getElementById('Passverify').innerHTML = 'Password Matches!';
 
+    } 
+   else if(!currentpassword){
+      document.getElementById('Passverify').innerHTML ='Please Enter Email';
+         }
+    else {
+      document.getElementById('Passverify').innerHTML = ' Password does not match!';
 
-          setDisplayPassword(true)
-          setHideCurrentPassword(false)
-
-        }
-      });
-        console.log('Password matches!');
-        // Proceed with login
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: 'Password does not match!',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
-        console.log('Password does not match!');
-        // Handle failed login
     }
 } catch (error) {
     console.error('Error comparing passwords:', error);
 }
+ }
   }
 
   useEffect(() => {
@@ -512,66 +503,61 @@ if(!currentpassword){
   const handleSaveUpdate = () => {
 
 
-    const emailElement = document.getElementById('emailIDError');
-    const emailError = emailElement ? emailElement.innerHTML : '';
-    const emailcapitalelement = document.getElementById('emailIDError');
-    const emailCapitalError = emailcapitalelement ? emailcapitalelement.innerHTML : '';
-    // document.getElementById('emailIDError').innerHTML = 'Email should be in lowercase *';
-    const phoneNumberError = document.getElementById('MobileNumberError');
-    const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+    // const emailElement = document.getElementById('emailIDError');
+    // const emailError = emailElement ? emailElement.innerHTML : '';
+    // const emailcapitalelement = document.getElementById('emailIDError');
+    // const emailCapitalError = emailcapitalelement ? emailcapitalelement.innerHTML : '';
+    // const phoneNumberError = document.getElementById('MobileNumberError');
+    // const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
 
 
-    if (emailError === 'Invalid Email Id *' || emailCapitalError === 'Email should be in lowercase *') {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please enter a valid email address',
-        confirmButtonText: 'Ok',
-        // timer: 1000
-      });
-      return;
+    // if (emailError === 'Invalid Email Id *' || emailCapitalError === 'Email should be in lowercase *') {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Please enter a valid email address',
+    //     confirmButtonText: 'Ok',
+    //   });
+    //   return;
+    // }
+
+    // if (mobileError === 'Invalid mobile number *') {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Please enter a valid 10-digit phone number',
+    //     confirmButtonText: 'Ok',
+    //   });
+    //   return;
+    // }
+
+
+    if (emailerrorMessage || mobilenoError || firstNameError || addresserrmsg) {
+
+      setTotalErrmsg('Please correct the highlighted errors before saving.')
+      return; // Exit the function, prevent saving
     }
-
-    if (mobileError === 'Invalid mobile number *') {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please enter a valid 10-digit phone number',
-        confirmButtonText: 'Ok',
-        // timer: 1000
-      });
-      return;
-    }
+    
 
     if (hasChanges && firstname && MobileNumber && email && Address) {
       dispatch({
         type: 'PROFILE-UPDATE',
         payload: { first_name: firstname, last_name: lastname, phone: MobileNumber, email_id: email, address: Address, id: id, profile: selectedImage }
       });
-      Swal.fire({
-        icon: 'success',
-        text: "Profile Updated successfully",
-        confirmButtonText: 'Ok'
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
+      // Swal.fire({
+      //   icon: 'success',
+      //   text: "Profile Updated successfully",
+      //   confirmButtonText: 'Ok'
+      // }).then((result) => {
+      //   if (result.isConfirmed) {
+      //   }
+      // });
     } 
     else if (!hasChanges) {
       Swal.fire({
         icon: 'info',
         title: 'No Changes Detected',
-
         confirmButtonText: 'Ok'
-        // timer: 1000
-
       });
-    } else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Fields',
-        confirmButtonText: 'Ok'
-        // timer: 1000
-                });
-    }
+
   };
 
 
@@ -657,29 +643,41 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
   ];
 
   const handlePasswordchange = () => {
-    // setShowOtpVerification(true)
+
+    const errorElement = document.getElementById('Passchange');
+     if (errorElement){
+      if(passwordError){
+        document.getElementById('Passchange').innerHTML = 'Invalid Password';
+      }
+     else if (password == !confirmpassword) {
+        document.getElementById('Passchange').innerHTML = 'Please Enter Confirm Password Same as Password';
+      }
+      else{
+        document.getElementById('Passchange').innerHTML = 'Please Enter  Password';
+
+      }
+     }
+
+    // if (passwordError) {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Invalid Password',
+    //     text: passwordError,
+    //     confirmButtonText: 'Ok'
+    //   });
+    //   return;
+    // }
 
 
-    if (passwordError) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Invalid Password',
-        text: passwordError,
-        confirmButtonText: 'Ok'
-      });
-      return;
-    }
 
-
-
-    if (password == !confirmpassword) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter Confirm Password Same as Password',
-        confirmButtonText: 'Ok'
-      });
-      return;
-    }
+    // if (password == !confirmpassword) {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Please Enter Confirm Password Same as Password',
+    //     confirmButtonText: 'Ok'
+    //   });
+    //   return;
+    // }
 
 
     if (password && confirmpassword) {
@@ -694,16 +692,13 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
       setPassword('');
       setConfirmPassword('');
 
-    } else {
-
-      // setShowOtpVerification(false);
-      Swal.fire({
-        icon: 'error',
-        title: 'Please Enter All Fields',
-
-      });
-
-    }
+    } 
+    // else {
+    //   Swal.fire({
+    //     icon: 'error',
+    //     title: 'Please Enter All Fields',
+    //   });
+    // }
   };
 
  
@@ -789,14 +784,19 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                       padding: '20px', marginTop: '10px', fontSize: 16,
                       fontWeight: 500,
                       color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy", borderColor: firstNameError ? 'red' : ''
+                      fontFamily: "Gilroy"
                     }}
                     type="text"
                     placeholder='Enter your name'
-                    value={firstNameError ? '' : firstname}
+                    value={firstname}
                     onChange={handleName}
                   />
-                  {firstNameError && <p style={{ fontSize: '12px', color: 'red' }}>* First Name is Required</p>}
+                  
+                  {firstNameError && (
+        <div  >
+           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {firstNameError}</p>
+        </div>
+      )}
                 </Form.Group>
               </div>
 
@@ -829,15 +829,18 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                       padding: '20px', marginTop: '10px', fontSize: 16,
                       fontWeight: 500,
                       color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy", borderColor: EmailError ? 'red' : ''
+                      fontFamily: "Gilroy"
                     }}
                     type="text"
                     placeholder="Enter email"
-                    value={EmailError ? '' : email}
+                    value={ email}
                     onChange={handleEmailId}
                   />
-                  <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                  {EmailError && <p style={{ fontSize: '12px', color: 'red' }}>*Email is Required</p>}
+               {emailerrorMessage && (
+        <div id="emailIDError" >
+           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {emailerrorMessage}</p>
+        </div>
+      )}
                 </Form.Group>
               </div>
 
@@ -894,7 +897,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                       padding: '20px', marginTop: '10px', fontSize: 16,
                       fontWeight: 500,
                       color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy", borderColor: mobilenoError ? 'red' : ''
+                      fontFamily: "Gilroy"
                     }}
                     type="text"
                     placeholder="Enter phone"
@@ -904,8 +907,11 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                    
                   />
                   </InputGroup>
-                  <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                  {mobilenoError && <p style={{ fontSize: '12px', color: 'red' }}>* Mobile Number is Required</p>}
+                  {mobilenoError && (
+        <div >
+           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {mobilenoError}</p>
+        </div>
+      )}
                 </Form.Group>
               </div>
             </div>
@@ -918,14 +924,20 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                     padding: '20px', marginTop: '10px', fontSize: 16,
                     fontWeight: 500,
                     color: "rgba(34, 34, 34, 1)",
-                    fontFamily: "Gilroy", borderColor: AddressError ? 'red' : ''
+                    fontFamily: "Gilroy"
                   }}
                   type="text"
                   placeholder="Enter Address"
-                  value={AddressError ? '' : Address}
+                  value={ Address}
                   onChange={handleAddress}
                 />
-                {AddressError && <p style={{ fontSize: '12px', color: 'red' }}>* Address is Required</p>}
+                
+                {addresserrmsg && (
+        <div >
+           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {addresserrmsg}</p>
+        </div>
+      )}
+
               </Form.Group>
             </div>
 
@@ -934,7 +946,12 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
               <Button onClick={handleSaveUpdate} disabled={!hasChanges} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
                 Save Changes</Button>
             </div>
-
+            
+                {totalErrormsg && (
+        <div >
+           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {totalErrormsg}</p>
+        </div>
+      )}
             <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleLogout}>
 
               <div> <img src={Logout} height={20} width={20} /> </div>
@@ -992,6 +1009,9 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
             <Button onClick={Passwordverify}  style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 40, letterSpacing: 1, borderRadius: 12, width: 80, padding: "4px  4px" }}>
             Verify</Button>
             </div>
+
+            </div>
+            <div > <p style={{ color: 'red', fontSize: 14, marginTop: 5 }} id="Passverify"> </p>
             </div>
             </>
 }
@@ -1069,6 +1089,8 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
               </InputGroup>
             </div>
           </div>
+          <p id="Passchange" style={{ color: 'red', fontSize: 14, marginTop: 5 }}></p>
+
           <div style={{ marginTop: '30px' }}>
             <Button onClick={handlePasswordchange}  disabled={!inputdisable} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
               Save Changes</Button>

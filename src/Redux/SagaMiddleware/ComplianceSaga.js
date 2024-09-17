@@ -2,6 +2,8 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import {compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList} from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
  function* handlecompliancelist (action){
@@ -31,6 +33,30 @@ function* handleComplianceadd (params) {
  
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'COMPLIANCE_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
+      // Define the style
+      const toastStyle = {
+         position: 'fixed',
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'center',
+         top: '50%',
+         left: '50%',
+         transform: 'translate(-50%, -50%)',
+         zIndex: 9999, // To ensure it appears above other elements
+         backgroundColor: 'green', // Background color
+         color: 'white', // Text color
+       };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+       })
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
@@ -58,22 +84,39 @@ function* handleVendorGet(action) {
 function* handleAddVendor(action) {
    const response = yield call (addVendor,action.payload);
  console.log("response", response)
+
+ var toastStyle = {
+      backgroundColor: 'green', 
+   color: 'white', 
+   width:"100%"
+ };
+
    if (response.statusCode === 200 || response.status === 200){
       yield put ({type : 'ADD_VENDOR' , payload:{response:response.data, statusCode:response.statusCode || response.status}})
-      Swal.fire({
-         text: response.message,
-         icon: "success",
-         // timer: 2000,
-         // showConfirmButton: false,
-     });
+      toast.success(`${response.message}`, {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
    }
    else if(response.statusCode === 202 || response.status === 202) {
-      Swal.fire({
-         text: response.message,
-         icon: "warning",
-         // timer: 2000,
-         // showConfirmButton: false,
-     });
+      
+      yield put ({type:'ALREADY_VENDOR_ERROR', payload:response.message})
+
+   //    Swal.fire({
+   //       text: response.message,
+   //       icon: "warning",
+   //       // timer: 2000,
+   //       // showConfirmButton: false,
+   //   });
+
+
+
    }
    if(response){
       refreshToken(response)
@@ -86,14 +129,25 @@ function* handleAddVendor(action) {
 function* handleDeleteVendor(action) {
    const response = yield call (DeleteVendorList,action.payload);
  console.log(" response", response)
+
+ var toastStyle = {
+   backgroundColor: 'green', 
+color: 'white', 
+width:"100%"
+};
+
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'DELETE_VENDOR' , payload:{response:response.data, statusCode:response.status || response.statusCode}})
-      Swal.fire({
-         text: "To delete a Vendor is Successfully!",
-         icon: "success",
-         // timer: 1000,
-         // showConfirmButton: false,
-     });
+      toast.success('Vendor has been successfully deleted!', {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       });
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
