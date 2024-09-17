@@ -18,8 +18,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Eye, EyeSlash } from 'iconsax-react';
 import Logout from '../Assets/Images/LogoutCurve-Linear-32px.png'
 import bcrypt from 'bcryptjs';
-import { MdError } from "react-icons/md";  
 import { style } from "@mui/system";
+import { MdError } from "react-icons/md";
 
 const Accountsettings = () => {
 
@@ -73,7 +73,7 @@ const Accountsettings = () => {
   // const [Address, setAddress] = useState(initialValues.Address);
 
 
-  const [firstNameError, setFirstNameError] = useState("");
+  const [firstNameError, setFirstNameError] = useState(false);
   const [lastNameError, setLastNameError] = useState(false);
   const [EmailError, setEmailError] = useState(false);
   const [mobilenoError, setMobileNoError] = useState(false);
@@ -81,35 +81,8 @@ const Accountsettings = () => {
   const [error, setError] = useState(false)
   const [value, setValue] = React.useState('1');
   const [countryCode, setCountryCode] = useState('91');
-  const [displayPassword, setDisplayPassword] = useState(false)
-  const [totalErrormsg ,setTotalErrmsg]= useState('')
+const [displayPassword, setDisplayPassword] = useState(false)
 
-
-  
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowpassword] = useState(false);
-  const [confirmpassword, setConfirmPassword] = useState('')
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [showCurrentPassword, setShowCurrentpassword] = useState(false)
-
-
-  const [passwordError, setPasswordError] = useState('');
-  const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(false);
-  const [isLowerCaseEnough, setLowerCaseEnough] = useState(false);
-  const [isNumericEnough, setNumericEnough] = useState(false);
-
-
-  const inputRefs = [
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-  ];
-
-
- 
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
@@ -128,11 +101,13 @@ const Accountsettings = () => {
 
 
   const handleName = (e) => {
-    setFirstName(e.target.value)
-    if (!e.target.value) {
-      setFirstNameError("Please Enter First Name");
+    const value = e.target.value;
+    if (value.trim() === '') {
+      setFirstNameError(true);
+      setFirstName('');
     } else {
-      setFirstNameError("");
+      setFirstNameError(false);
+      setFirstName(value);
     }
   };
 
@@ -147,8 +122,6 @@ const Accountsettings = () => {
     }
   }
 
-  const [emailerrorMessage, setEmailErrorMessage] = useState('');
-
   const handleEmailId = (e) => {
     setEmail(e.target.value);
     const email = e.target.value;
@@ -159,63 +132,44 @@ const Accountsettings = () => {
 
 
     if (hasUpperCase) {
-      setEmailErrorMessage('Email should be in lowercase *');
+      document.getElementById('emailIDError').innerHTML = 'Email should be in lowercase *';
     } else if (isValidEmail) {
-      setEmailErrorMessage('');
-    } else if (!email) {
-      setEmailErrorMessage('Please Enter Email');
+      document.getElementById('emailIDError').innerHTML = '';
     } else {
-      setEmailErrorMessage('Invalid Email Id *');
+      document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *';
     }
   };
 
 
   const handlePhone = (e) => {
+
     setPhone(e.target.value);
     const pattern = new RegExp(/^\d{1,10}$/);
     const isValidMobileNo = pattern.test(e.target.value);
-    // const errorElement = document.getElementById('MobileNumberError');
-
-    if (isValidMobileNo && e.target.value.length === 10){
-      setMobileNoError("");
-    }
-   else if (!e.target.value) {
-      setMobileNoError("Please Enter Phone number");
-    } 
-    else if (e.target.value.length < 10){
-      setMobileNoError("Invalid mobile number");
-    }
-    else {
-      setMobileNoError("");
-    }
+    const errorElement = document.getElementById('MobileNumberError');
   
-    // if (errorElement) {
-    //   if (isValidMobileNo && e.target.value.length === 10) {
-    //     errorElement.innerHTML = '';
-    //   }
-    //   else if (!e.target.value){
-    //     errorElement.innerHTML = 'Please Enter mobile number *';
-    //   }
-    //   else {
-    //     errorElement.innerHTML = 'Invalid mobile number *';
-    //   }
-    // }
+    if (errorElement) {
+      if (isValidMobileNo && e.target.value.length === 10) {
+        errorElement.innerHTML = '';
+      } else {
+        errorElement.innerHTML = 'Invalid mobile number *';
+      }
+    }
 
 
   };
 
 
 
-const [addresserrmsg, setAddressErrMsg] = useState('')
 
   const handleAddress = (e) => {
-    setAddress(e.target.value);
-    // const value = e.target.value;
- 
-    if (!e.target.value) {
-      setAddressErrMsg("Please Enter Address");
+    const value = e.target.value;
+    if (value.trim() === '') {
+      setAddressError(true);
+      setAddress('');
     } else {
-      setAddressErrMsg("");
+      setAddressError(false);
+      setAddress(value);
     }
   }
 
@@ -382,8 +336,6 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
     }
   }, [state.createAccount?.statuscodeforUpdateprofile])
 
-  const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
-
 
   useEffect(() => {
     if (state.NewPass?.status_codes === 200) {
@@ -424,32 +376,61 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
    const [inputdisable, setInputDisable] = useState('')
 
   const Passwordverify = async () => {
-
     var plainPassword=currentpassword;
     var storedHashPassword=currentpasswordfilter;
-    const errorElement = document.getElementById('Passverify');
 
-    if (errorElement) {
+if(!currentpassword){
 
-      try {
+  Swal.fire({
+    icon: 'warning',
+       text: 'Enter Current Password',
+    confirmButtonText: 'Ok'
+  })
+
+
+  return
+}
+
+
+
+
+  try {
+    // Compare the plain password with the stored hashed password
     const isMatch = await bcrypt.compare(plainPassword, storedHashPassword);
     setInputDisable(isMatch)
      
     if (isMatch) {
-      document.getElementById('Passverify').innerHTML = 'Password Matches!';
+      Swal.fire({
+        icon: 'success',
+        // title: "C",
+        text: 'Password matches!',
+        confirmButtonText: 'Ok'
+      }).then((result) => {
+        if (result.isConfirmed) {
 
-    } 
-   else if(!currentpassword){
-      document.getElementById('Passverify').innerHTML ='Please Enter Email';
-         }
-    else {
-      document.getElementById('Passverify').innerHTML = ' Password does not match!';
 
+          setDisplayPassword(true)
+          setHideCurrentPassword(false)
+
+        }
+      });
+        console.log('Password matches!');
+        // Proceed with login
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: 'Password does not match!',
+        confirmButtonText: "ok"
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
+        console.log('Password does not match!');
+        // Handle failed login
     }
 } catch (error) {
     console.error('Error comparing passwords:', error);
 }
- }
   }
 
   useEffect(() => {
@@ -527,49 +508,29 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
     email !== initialValuesRef.current.email ||
     Address !== initialValuesRef.current.Address  ||
     selectedImage !== initialValuesRef.current.Profile
+    const [totalErrormsg ,setTotalErrmsg]= useState('')
 
-
-
-    useEffect(() => {
-      const appearOptions = {
-        threshold: 0.5
-      };
-  
-      const faders = document.querySelectorAll('.fade-in'); 
-      const appearOnScroll = new IntersectionObserver(function(entries, observer){
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) {
-            return;
-          } else {
-            entry.target.classList.add('appear');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, appearOptions);
-  
-      faders.forEach(fader => {
-        appearOnScroll.observe(fader);
-      });
-  
-      // Cleanup the observer when the component unmounts
-      return () => {
-        faders.forEach(fader => {
-          appearOnScroll.unobserve(fader);
-        });
-      };
-    }, []);
 
   const handleSaveUpdate = () => {
 
-    if (!firstname || !MobileNumber || !email || !Address) {
 
-      setTotalErrmsg('Please correct the highlighted errors before saving.')
-      setTimeout(() => {
+    const emailElement = document.getElementById('emailIDError');
+    const emailError = emailElement ? emailElement.innerHTML : '';
+    const emailcapitalelement = document.getElementById('emailIDError');
+    const emailCapitalError = emailcapitalelement ? emailcapitalelement.innerHTML : '';
+    // document.getElementById('emailIDError').innerHTML = 'Email should be in lowercase *';
+    const phoneNumberError = document.getElementById('MobileNumberError');
+    const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
+
+   if (!firstname || !MobileNumber || !email || !Address){
+    setTotalErrmsg('Please enter all field')
+    setTimeout(()=> {
         setTotalErrmsg('')
-      }, 2000);
-      return; // Exit the function, prevent saving
-    }
-    
+      },2000)
+    return;
+   }
+
+   
 
     if (hasChanges && firstname && MobileNumber && email && Address) {
       dispatch({
@@ -579,15 +540,25 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
    
     } 
     else if (!hasChanges) {
-      setTotalErrmsg('No changes deducted.')
-      setTimeout(() => {
-        setTotalErrmsg('')
-      }, 2000);
-      return;
+      Swal.fire({
+        icon: 'info',
+        title: 'No Changes Detected',
 
+        confirmButtonText: 'Ok'
+        // timer: 1000
+
+      });
+    }
+ 
   };
 
 
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowpassword] = useState(false);
+  const [confirmpassword, setConfirmPassword] = useState('')
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
+  const [showCurrentPassword, setShowCurrentpassword] = useState(false)
 
   // const encryptedPassword = localStorage.getItem("Password");
 
@@ -601,7 +572,11 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
 
 
 
- 
+  const [passwordError, setPasswordError] = useState('');
+  const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(false);
+  const [isLowerCaseEnough, setLowerCaseEnough] = useState(false);
+  const [isNumericEnough, setNumericEnough] = useState(false);
+
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -650,44 +625,39 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
     setShowConfirmPassword(!showConfirmPassword)
   }
 
- 
+  const inputRefs = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+  ];
 
   const handlePasswordchange = () => {
+    // setShowOtpVerification(true)
 
-    const errorElement = document.getElementById('Passchange');
-     if (errorElement){
-      if(passwordError){
-        document.getElementById('Passchange').innerHTML = 'Invalid Password';
-      }
-     else if (password == !confirmpassword) {
-        document.getElementById('Passchange').innerHTML = 'Please Enter Confirm Password Same as Password';
-      }
-      else{
-        document.getElementById('Passchange').innerHTML = 'Please Enter  Password';
 
-      }
-     }
-
-    // if (passwordError) {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Invalid Password',
-    //     text: passwordError,
-    //     confirmButtonText: 'Ok'
-    //   });
-    //   return;
-    // }
+    if (passwordError) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Invalid Password',
+        text: passwordError,
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
 
 
 
-    // if (password == !confirmpassword) {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Please Enter Confirm Password Same as Password',
-    //     confirmButtonText: 'Ok'
-    //   });
-    //   return;
-    // }
+    if (password == !confirmpassword) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Enter Confirm Password Same as Password',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
 
 
     if (password && confirmpassword) {
@@ -702,17 +672,39 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
       setPassword('');
       setConfirmPassword('');
 
-    } 
-    // else {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Please Enter All Fields',
-    //   });
-    // }
+    } else {
+
+      // setShowOtpVerification(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Please Enter All Fields',
+
+      });
+
+    }
   };
 
  
- 
+  useEffect(() => {
+    const appearOptions = {
+      threshold : 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in'); 
+    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
+      entries.forEach(entry =>{
+        if(!entry.isIntersecting){
+          return;
+        }
+        else{
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader =>{
+      appearOnScro1l.observe(fader);
+    })
+  });
 
 
   return (
@@ -775,19 +767,14 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
                       padding: '20px', marginTop: '10px', fontSize: 16,
                       fontWeight: 500,
                       color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy"
+                      fontFamily: "Gilroy", borderColor: firstNameError ? 'red' : ''
                     }}
                     type="text"
                     placeholder='Enter your name'
-                    value={firstname}
+                    value={firstNameError ? '' : firstname}
                     onChange={handleName}
                   />
-                  
-                  {firstNameError && (
-        <div  >
-           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {firstNameError}</p>
-        </div>
-      )}
+                  {firstNameError && <p style={{ fontSize: '12px', color: 'red' }}>* First Name is Required</p>}
                 </Form.Group>
               </div>
 
@@ -820,18 +807,15 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
                       padding: '20px', marginTop: '10px', fontSize: 16,
                       fontWeight: 500,
                       color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy"
+                      fontFamily: "Gilroy", borderColor: EmailError ? 'red' : ''
                     }}
                     type="text"
                     placeholder="Enter email"
-                    value={ email}
+                    value={EmailError ? '' : email}
                     onChange={handleEmailId}
                   />
-               {emailerrorMessage && (
-        <div id="emailIDError" >
-           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {emailerrorMessage}</p>
-        </div>
-      )}
+                  <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                  {EmailError && <p style={{ fontSize: '12px', color: 'red' }}>*Email is Required</p>}
                 </Form.Group>
               </div>
 
@@ -888,7 +872,7 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
                       padding: '20px', marginTop: '10px', fontSize: 16,
                       fontWeight: 500,
                       color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy"
+                      fontFamily: "Gilroy", borderColor: mobilenoError ? 'red' : ''
                     }}
                     type="text"
                     placeholder="Enter phone"
@@ -898,11 +882,8 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
                    
                   />
                   </InputGroup>
-                  {mobilenoError && (
-        <div >
-           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {mobilenoError}</p>
-        </div>
-      )}
+                  <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                  {mobilenoError && <p style={{ fontSize: '12px', color: 'red' }}>* Mobile Number is Required</p>}
                 </Form.Group>
               </div>
             </div>
@@ -915,34 +896,29 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
                     padding: '20px', marginTop: '10px', fontSize: 16,
                     fontWeight: 500,
                     color: "rgba(34, 34, 34, 1)",
-                    fontFamily: "Gilroy"
+                    fontFamily: "Gilroy", borderColor: AddressError ? 'red' : ''
                   }}
                   type="text"
                   placeholder="Enter Address"
-                  value={ Address}
+                  value={AddressError ? '' : Address}
                   onChange={handleAddress}
                 />
-                
-                {addresserrmsg && (
-        <div >
-           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {addresserrmsg}</p>
-        </div>
-      )}
-
+                {AddressError && <p style={{ fontSize: '12px', color: 'red' }}>* Address is Required</p>}
               </Form.Group>
             </div>
 
-
+            {totalErrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+    </p>
+  </div>
+)}
             <div style={{ marginTop: '30px' }}>
               <Button onClick={handleSaveUpdate} disabled={!hasChanges} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
                 Save Changes</Button>
             </div>
-            
-                {totalErrormsg && (
-        <div >
-           <p style={{ fontSize: '15px', color: 'red' ,marginTop:'3px'}}><MdError style={{ fontSize: '15px', color: 'red' }} /> {totalErrormsg}</p>
-        </div>
-      )}
+
             <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleLogout}>
 
               <div> <img src={Logout} height={20} width={20} /> </div>
@@ -1000,9 +976,6 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
             <Button onClick={Passwordverify}  style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 40, letterSpacing: 1, borderRadius: 12, width: 80, padding: "4px  4px" }}>
             Verify</Button>
             </div>
-
-            </div>
-            <div > <p style={{ color: 'red', fontSize: 14, marginTop: 5 }} id="Passverify"> </p>
             </div>
             </>
 }
@@ -1080,8 +1053,6 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
               </InputGroup>
             </div>
           </div>
-          <p id="Passchange" style={{ color: 'red', fontSize: 14, marginTop: 5 }}></p>
-
           <div style={{ marginTop: '30px' }}>
             <Button onClick={handlePasswordchange}  disabled={!inputdisable} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
               Save Changes</Button>
@@ -1096,6 +1067,5 @@ const [addresserrmsg, setAddressErrMsg] = useState('')
     </div>
 
   )
-}
 }
 export default Accountsettings;
