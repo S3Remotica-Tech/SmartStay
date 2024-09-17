@@ -142,27 +142,21 @@ function* handleCreateEB(action) {
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATE_EB', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-      const toastStyle = {
-         position: 'fixed',
-         display: 'flex',
-         alignItems: 'center',
-         justifyContent: 'center',
-         top: '50%',
-         left: '50%',
-         transform: 'translate(-50%, -50%)',
-         zIndex: 9999, 
-         backgroundColor: 'green',
-         color: 'white',
-       };
+      var toastStyle = {
+      backgroundColor: 'green', 
+   color: 'white', 
+   width:"100%"
+ };
  
        toast.success(response.data.message, {
-         autoClose: 3000,
+         position: 'top-center',
+         autoClose: 2000, 
          hideProgressBar: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle,
+         style: toastStyle
        })
    }
    else {

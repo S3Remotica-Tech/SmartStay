@@ -148,6 +148,8 @@ const UserListReducer = (state = initialState, action) => {
         
                 case 'CLEAR_EMAIL_ERROR':
                     return { ...state, emailError: '' }
+
+
     
                     case 'DELETE_FLOOR_ERROR':
                         return { ...state, deleteFloorError: action.payload }
@@ -166,6 +168,7 @@ const UserListReducer = (state = initialState, action) => {
                     
                             case 'CLEAR_ALREADY_FLOOR_ERROR':
                                 return { ...state, alreadyFloorHere: '' }
+
 
 
         case 'ROOM_FULL':

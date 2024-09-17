@@ -332,6 +332,31 @@ const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
   //   }
   // };
 
+  // const handleEmail = (e) => {
+  //   const emailValue = e.target.value;
+  //   setEmail(emailValue);
+  
+  //   // Updated regex to allow only lowercase letters, numbers, and periods before the @
+  //   const hasUpperCase = /[A-Z]/.test(emailValue);
+  //   const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  
+  //   // Check if the input email matches the regex
+  //   const isValidEmail = emailRegex.test(emailValue);
+  
+  //   if (hasUpperCase) {
+  //     setEmailErrorMessage('Email should be in lowercase *');
+  //     setEmailError('Invalid Email Id *');
+  //   } else if (!isValidEmail) {
+  //     setEmailErrorMessage('');
+  //     setEmailError('Invalid Email Id *');
+  //   } else {
+  //     setEmailError('');
+  //     setEmailErrorMessage('');
+  //   }
+  
+  //   // Assuming you want to clear email error regardless of the current input state
+  //   dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+  // };
   const handleEmail = (e) => {
     const emailValue = e.target.value;
     setEmail(emailValue);
@@ -343,19 +368,23 @@ const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
     // Check if the input email matches the regex
     const isValidEmail = emailRegex.test(emailValue);
   
-    if (hasUpperCase) {
-      setEmailErrorMessage('Email should be in lowercase *');
-      setEmailError('Invalid Email Id *');
+    // If email field is empty, reset the error messages
+    if (!emailValue) {
+      setEmailError("");
+      setEmailErrorMessage("");
+    } else if (hasUpperCase) {
+      setEmailErrorMessage("Email should be in lowercase *");
+      setEmailError("Invalid Email Id *");
     } else if (!isValidEmail) {
-      setEmailErrorMessage('');
-      setEmailError('Invalid Email Id *');
+      setEmailErrorMessage("");
+      setEmailError("Invalid Email Id *");
     } else {
-      setEmailError('');
-      setEmailErrorMessage('');
+      setEmailError("");
+      setEmailErrorMessage("");
     }
   
-    // Assuming you want to clear email error regardless of the current input state
-    dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+    // Clear email error on input change
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
   
 
@@ -609,34 +638,24 @@ setRoomRentError('')
 
   const handleSaveUserlist = () => {
     console.log("check");
-  
-    // Validate fields
+ 
     if (!validateField(firstname, 'First Name')) return;
     if (!validateField(Phone, 'Phone Number')) return;
-    if (!validateField(Email, 'Email')) return;
+  
     if (!validateField(Address, 'Address')) return;
     if (!validateField(hostel_Id, 'Hostel ID')) return;
   
     if (hostel_Id === 'Select a PG' || hostelIdError) {
-      setHostelIdError('Please select a valid PG'); // Set the error message if not already set
+      setHostelIdError('Please select a valid PG'); 
       return; // Prevent save
   }
-    // Check for email and phone errors from state
-    if (emailError === 'Invalid Email Id *') {
-      setEmailErrorMessage('Please enter a valid email address');
-      return;
-    } else {
-      setEmailErrorMessage(''); // Clear the error if validation passes
-    }
-
-    // Check for phone errors
+   
     if (phoneError === 'Invalid mobile number *') {
       setPhoneErrorMessage('Please enter a valid 10-digit phone number');
       return;
     } else {
       setPhoneErrorMessage(''); // Clear the error if validation passes
     }
-    // Capitalize the first letter of firstname and lastname
     const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     };
@@ -671,335 +690,23 @@ setRoomRentError('')
     };
   
     if (props.edit === 'Edit') {
-      payload.ID = id; // Include the ID if editing an existing user
+      payload.ID = id; 
     }
   
-    // Dispatch action
     dispatch({
       type: 'ADDUSER',
       payload: payload,
     });
   
-    // Additional actions after edit (optional)
     props.AfterEditHostels(hostel_Id);
     props.AfterEditFloors(Floor);
     props.AfterEditRoomses(Rooms);
     props.AfterEditBeds(Bed);
   
-    // Close the form
   };
   
-
-
-  // const handleSaveUserlist = () => {
-  //   console.log("check");
-
-  //   // Validate fields
-  //   if (!validateField(firstname, 'First Name')) return;
-  //   if (!validateField(Phone, 'Phone Number')) return;
-  //   if (!validateField(Email, 'Email')) return;
-  //   if (!validateField(Address, 'Address')) return;
-  //   if (!validateField(hostel_Id, 'Hostel ID')) return;
-
-  //   // Check for email and phone errors from state
-  //   if (emailError === 'Invalid Email Id *') {
-  //     toast.warn('Please enter a valid email address', {
-  //       // position: "top-center",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //       style: {
-  //         position: 'fixed',
-  //         display: 'flex',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //         top: '50%',
-  //         left: '50%',
-  //         transform: 'translate(-50%, -50%)',
-  //         zIndex: 9999 // To ensure it appears above other elements
-  //       },
-  //     });
-  //     return;
-  //   }
-
-  //   if (phoneError === 'Invalid mobile number *') {
-  //     toast.warn('Please enter a valid 10-digit phone number', {
-  //       // position: "top-center",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //       style: {
-  //         position: 'fixed',
-  //         display: 'flex',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //         top: '50%',
-  //         left: '50%',
-  //         transform: 'translate(-50%, -50%)',
-  //         zIndex: 9999,
-  //         // backgroundColor: 'red', // Background color red
-  //         // color: 'white' // To ensure it appears above other elements
-  //       },
-  //     });
-  //     return;
-  //   }
-
-  //   // Capitalize the first letter of firstname and lastname
-  //   const capitalizeFirstLetter = (str) => {
-  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  //   };
-
-  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
-  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-  //   // Prepare payload
-  //   const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
-  //   const payload = {
-  //     profile: file,
-  //     firstname: capitalizedFirstname,
-  //     lastname: capitalizedLastname,
-  //     Phone: MobileNumber,
-  //     Email: Email,
-  //     Address: Address,
-  //     AadharNo: AadharNo,
-  //     PancardNo: PancardNo,
-  //     licence: licence,
-  //     HostelName: HostelName,
-  //     hostel_Id: hostel_Id,
-  //     Floor: Floor,
-  //     Rooms: Rooms,
-  //     Bed: Bed,
-  //     AdvanceAmount: AdvanceAmount,
-  //     RoomRent: RoomRent,
-  //     BalanceDue: BalanceDue,
-  //     PaymentType: PaymentType,
-  //     paid_advance: paid_advance,
-  //     paid_rent: paid_rent,
-  //     payable_rent: payableamount,
-  //   };
-
-  //   if (props.edit === 'Edit') {
-  //     payload.ID = id; // Include the ID if editing an existing user
-  //   }
-
-  //   // Dispatch action
-  //   dispatch({
-  //     type: 'ADDUSER',
-  //     payload: payload,
-  //   });
-
-  //   // Additional actions after edit (optional)
-  //   props.AfterEditHostels(hostel_Id);
-  //   props.AfterEditFloors(Floor);
-  //   props.AfterEditRoomses(Rooms);
-  //   props.AfterEditBeds(Bed);
-
-  //   // Close the form
-  // };
-
-  //  const handleSaveUserlist = () => {
-  //   console.log("check");
-
-  //   // Validate fields
-  //   if (!validateField(firstname, 'First Name')) return;
-  //   if (!validateField(Phone, 'Phone Number')) return;
-  //   if (!validateField(Email, 'Email')) return;
-  //   if (!validateField(Address, 'Address')) return;
-  //   if (!validateField(hostel_Id, 'Hostel ID')) return;
-
-  //   // Error checks for email and mobile number
-  //   const emailElement = document.getElementById('emailIDError');
-  //   const emailError = emailElement ? emailElement.innerHTML : '';
-  //   const phoneNumberError = document.getElementById('MobileNumberError');
-  //   const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
-
-  //   if (emailError === 'Invalid Email Id *') {
-  //     Swal.fire({
-  //       icon: 'warning',
-  //       title: 'Please enter a valid email address',
-  //       confirmButtonText: 'Ok',
-  //     });
-  //     return;
-  //   }
-
-  //   if (mobileError === 'Invalid mobile number *') {
-  //     Swal.fire({
-  //       icon: 'warning',
-  //       title: 'Please enter a valid 10-digit phone number',
-  //       confirmButtonText: 'Ok',
-  //     });
-  //     return;
-  //   }
-
-  //   // Capitalize the first letter of firstname and lastname
-  //   const capitalizeFirstLetter = (str) => {
-  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  //   };
-
-  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
-  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-  //   // Prepare payload
-  //   const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
-  //   const payload = {
-  //     profile: file,
-  //     firstname: capitalizedFirstname,
-  //     lastname: capitalizedLastname,
-  //     Phone: MobileNumber,
-  //     Email: Email,
-  //     Address: Address,
-  //     AadharNo: AadharNo,
-  //     PancardNo: PancardNo,
-  //     licence: licence,
-  //     HostelName: HostelName,
-  //     hostel_Id: hostel_Id,
-  //     Floor: Floor,
-  //     Rooms: Rooms,
-  //     Bed: Bed,
-  //     AdvanceAmount: AdvanceAmount,
-  //     RoomRent: RoomRent,
-  //     BalanceDue: BalanceDue,
-  //     PaymentType: PaymentType,
-  //     paid_advance: paid_advance,
-  //     paid_rent: paid_rent,
-  //     payable_rent: payableamount,
-  //   };
-
-  //   if (props.edit === 'Edit') {
-  //     payload.ID = id; // Include the ID if editing an existing user
-  //   }
-
-  //   // Dispatch action
-  //   dispatch({
-  //     type: 'ADDUSER',
-  //     payload: payload,
-  //   });
-
-  //   // Additional actions after edit (optional)
-  //   props.AfterEditHostels(hostel_Id);
-  //   props.AfterEditFloors(Floor);
-  //   props.AfterEditRoomses(Rooms);
-  //   props.AfterEditBeds(Bed);
-
-  //   // Close the form
-  // };
-
-
-
-
-
-
-  //hhjh
-  //  const handleSaveUserlist = () => {
-  //   console.log("check");
-
-  //   // Common validation function
-  //   const validateField = (value, fieldName) => {
-  //       if (!value || value.trim() === '') {
-  //           Swal.fire({
-  //               icon: 'warning',
-  //               title: `Please enter a valid ${fieldName}`,
-  //           });
-  //           return false;
-  //       }
-  //       return true;
-  //   };
-
-  //   // Validate fields
-  //   if (!validateField(firstname, 'First Name')) return;
-  //   if (!validateField(Phone, 'Phone Number')) return;
-  //   if (!validateField(Email, 'Email')) return;
-  //   if (!validateField(Address, 'Address')) return;
-  //   if (!validateField(hostel_Id, 'Hostel ID')) return;
-
-  //   // Error checks for email and mobile number
-  //   const emailElement = document.getElementById('emailIDError');
-  //   const emailError = emailElement ? emailElement.innerHTML : '';
-  //   const phoneNumberError = document.getElementById('MobileNumberError');
-  //   const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
-
-  //   if (emailError === 'Invalid Email Id *') {
-  //       Swal.fire({
-  //           icon: 'warning',
-  //           title: 'Please enter a valid email address',
-  //           confirmButtonText: 'Ok',
-  //       });
-  //       return;
-  //   }
-
-  //   if (mobileError === 'Invalid mobile number *') {
-  //       Swal.fire({
-  //           icon: 'warning',
-  //           title: 'Please enter a valid 10-digit phone number',
-  //           confirmButtonText: 'Ok',
-  //       });
-  //       return;
-  //   }
-
-  //   // Capitalize the first letter of firstname and lastname
-  //   const capitalizeFirstLetter = (str) => {
-  //       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  //   };
-
-  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
-  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-  //   // Prepare payload
-  //   const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, '');
-  //   const payload = {
-  //       profile: file,
-  //       firstname: capitalizedFirstname,
-  //       lastname: capitalizedLastname,
-  //       Phone: MobileNumber,
-  //       Email: Email,
-  //       Address: Address,
-  //       AadharNo: AadharNo,
-  //       PancardNo: PancardNo,
-  //       licence: licence,
-  //       HostelName: HostelName,
-  //       hostel_Id: hostel_Id,
-  //       Floor: Floor,
-  //       Rooms: Rooms,
-  //       Bed: Bed,
-  //       AdvanceAmount: AdvanceAmount,
-  //       RoomRent: RoomRent,
-  //       BalanceDue: BalanceDue,
-  //       PaymentType: PaymentType,
-  //       paid_advance: paid_advance,
-  //       paid_rent: paid_rent,
-  //       payable_rent: payableamount,
-  //   };
-
-  //   if (props.edit === 'Edit') {
-  //       payload.ID = id; // Include the ID if editing an existing user
-  //   }
-
-  //   // Dispatch action
-  //   dispatch({
-  //       type: 'ADDUSER',
-  //       payload: payload,
-  //   });
-
-  //   // Additional actions after edit (optional)
-  //   props.AfterEditHostels(hostel_Id);
-  //   props.AfterEditFloors(Floor);
-  //   props.AfterEditRoomses(Rooms);
-  //   props.AfterEditBeds(Bed);
-
-  //   // Close the form
-
-  // };
-
   const handleSaveUserlistAddUser = () => {
-   
 
-    // Validate fields
     if (!validateAssignField(Floor, 'Floor')) return;
     if (!validateAssignField(Rooms, 'Room')) return;
     if (!validateAssignField(Bed, 'Bed')) return;
@@ -1012,14 +719,14 @@ setRoomRentError('')
       setRoomRentError('Room Rent must be greater than 0');
       return;
     } else {
-      setRoomRentError(''); // Clear the error if validation passes
+      setRoomRentError(''); 
     }
 
     if (Number(AdvanceAmount) <= 0) {
       setAdvanceAmountError('Advance Amount must be greater than 0');
       return;
     } else {
-      setAdvanceAmountError(''); // Clear the error if validation passes
+      setAdvanceAmountError('');
     }
 
     if (Floor && Rooms && Bed) {
@@ -1057,16 +764,6 @@ setRoomRentError('')
       props.AfterEditBeds(Bed)
       handleClose();
     }
-    // else {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Please Enter All Fields',
-    //     confirmButtonText: 'Ok',
-
-    //   });
-
-    // }
-
     dispatch({ type: 'INVOICELIST' })
   }
   console.log("state.UsersList?.statusCodeForAddUser", state.UsersList.statusCodeForAddUser)
@@ -1093,7 +790,7 @@ setRoomRentError('')
   console.log("props.displayDetail", props.displayDetail)
   const countries = [
     { value: 'IN', label: <><img src="https://www.worldometers.info/img/flags/in-flag.gif" alt="India Flag" style={{ height: '20px', width: '20px', marginRight: '5px' }} /> </> }
-    // Add more countries here
+
   ];
 
   return (
@@ -1202,23 +899,6 @@ setRoomRentError('')
                       </Form.Group>
                     </div>
 
-
-                    {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                      <Form.Group className="mb-3">
-                        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Phone Number</Form.Label>
-                        <FormControl
-                          type="phone"
-                          id="form-controls"
-                          placeholder='Enter mobile Number'
-                          maxLength={10}
-                          value={Phone}
-                          onChange={(e) => handlePhone(e)}
-                          style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                        />
-                        <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                      </Form.Group>
-                    </div> */}
-
                     <Form.Group className='col-lg-6 col-md-6 col-sm-12 col-xs-12' controlId="exampleForm.ControlInput1">
                       <Form.Label style={{
                         fontSize: 14,
@@ -1261,11 +941,7 @@ setRoomRentError('')
 
                                   <option value={item.country_code}>
                                     +{item.country_code}
-                                    {/* {item.country_flag} */}
-                                    {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
                                   </option>
-                                  {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
-                                  {/* {item.country_code} */}
                                 </>
                               )
                             })
@@ -1310,10 +986,8 @@ setRoomRentError('')
                           placeholder='Enter email address'
                           value={Email}
                           onChange={(e) => handleEmail(e)}
-                          // style={bottomBorderStyle}
                           style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         />
-                        <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
                         {emailError && <div style={{ color: 'red' }}><MdError />{emailError}</div>}
                         {emailIdError && <div style={{ color: 'red' }}><MdError />{emailIdError}</div>}
                         {emailErrorMessage && <div style={{ color: 'red' }}><MdError />{emailErrorMessage}</div>}
@@ -1331,7 +1005,6 @@ setRoomRentError('')
                           value={Address}
                           placeholder='Enter address'
                           onChange={(e) => handleAddress(e)}
-                          // style={bottomBorderStyle}
                           style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         />
                         {addressError && <div style={{ color: 'red' }}><MdError />{addressError}</div>}
@@ -1343,7 +1016,6 @@ setRoomRentError('')
                       <Form.Select
                         aria-label="Default select example"
                         className='border'
-                        // style={{ backgroundColor: "#f8f9fa", padding: 10, border: "none", boxShadow: "none", width: "100%", fontSize: 12, fontWeight: 700, textTransform: "capitalize" }}
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         value={hostel_Id}
                         onChange={(e) => handleHostelId(e)}
@@ -1435,12 +1107,8 @@ setRoomRentError('')
                         id="form-selects"
                         onChange={(e) => handleRooms(e)}
                       >
-                        {/* {
-         state.UsersList.roomdetails.length ==0 ?
-         <option>Selected Room</option>
-         : */}
                         <option>Selected Room</option>
-                        {/* } */}
+                        
 
                         {
                           state.UsersList?.roomdetails &&

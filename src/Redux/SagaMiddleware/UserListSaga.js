@@ -307,28 +307,23 @@ function* handleAddUser(datum) {
       console.log("datum.payload..?", datum.payload);
 
       // Define the style
-      const toastStyle = {
-        position: 'fixed',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 9999, // To ensure it appears above other elements
-        backgroundColor: 'green', // Background color
-        color: 'white', // Text color
+      var toastStyle = {
+         backgroundColor: 'green',
+         color: 'white',
+         width: "100%",
+        
       };
 
       // Use the toast with the defined style
       toast.success(response.message, {
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
+          position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
       })}
       else if(response.statusCode === 202) {
          // Swal.fire({
@@ -537,47 +532,34 @@ function* handleDeleteRoom(roomDetails){
       console.log("response...?",response)
       if(response.status == 200 || response.statusCode === 200){
          yield put({ type: 'ADD_USER_AMENITIES', payload: {message:response.data.message,statusCode:response.status || response.statusCode} })
-         const toastStyle = {
-            position: 'fixed',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 9999, 
-            backgroundColor: 'green',
-            color: 'white',
-          };
-    
-          toast.success(response.data.message, {
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle,
-          })
+         var toastStyle = {
+            backgroundColor: 'green', 
+         color: 'white', 
+         width:"100%"
+       };
+       toast.success(response.data.message, {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
       
       }
       else if(response.status === 201 || response.statusCode === 201){
      
-      const toastStyle = {
-         position: 'fixed',
-         display: 'flex',
-         alignItems: 'center',
-         justifyContent: 'center',
-         top: '50%',
-         left: '50%',
-         transform: 'translate(-50%, -50%)',
-         zIndex: 9999, 
-         backgroundColor: 'red',
-         color: 'white',
+         var toastStyle = {
+            backgroundColor: 'red', 
+         color: 'white', 
+         width:"100%"
        };
  
        toast.error(response.data.message, {
-         autoClose: 3000,
+         position: 'top-center',
+         autoClose: 2000, 
          hideProgressBar: false,
          closeOnClick: true,
          pauseOnHover: true,

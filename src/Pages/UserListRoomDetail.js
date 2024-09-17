@@ -92,7 +92,6 @@ function UserListRoomDetail(props) {
   const handleChanges = (event, newValue) => {
     setValue(newValue);
   };
-  
 
   const handleShowEditBed = (item) => {
     if (item[0].ID) {
@@ -162,11 +161,9 @@ function UserListRoomDetail(props) {
         AdvanceAmount: item[0].AdvanceAmount || "",
         RoomRent: item[0].RoomRent || "",
       });
-      
     }
   };
 
- 
   const MobileNumber = `${countryCode}${Phone}`;
   const handleEditUser = (item) => {
     console.log("item...", item);
@@ -310,17 +307,25 @@ function UserListRoomDetail(props) {
     setFormError("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
-  
+
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const handleEmail = (e) => {
     const emailValue = e.target.value;
     setEmail(emailValue);
-    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+    // Updated regex to allow only lowercase letters, numbers, and periods before the @
     const hasUpperCase = /[A-Z]/.test(emailValue);
+    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+    // Check if the input email matches the regex
     const isValidEmail = emailRegex.test(emailValue);
 
-    if (hasUpperCase) {
+    // If email field is empty, reset the error messages
+    if (!emailValue) {
+      setEmailError("");
+      setEmailErrorMessage("");
+    } else if (hasUpperCase) {
       setEmailErrorMessage("Email should be in lowercase *");
       setEmailError("Invalid Email Id *");
     } else if (!isValidEmail) {
@@ -329,12 +334,33 @@ function UserListRoomDetail(props) {
     } else {
       setEmailError("");
       setEmailErrorMessage("");
-      setFormError("");
     }
 
-    // Assuming you want to clear email error regardless of the current input state
+    // Clear email error on input change
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
+  // const handleEmail = (e) => {
+  //   const emailValue = e.target.value;
+  //   setEmail(emailValue);
+  //   const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  //   const hasUpperCase = /[A-Z]/.test(emailValue);
+  //   const isValidEmail = emailRegex.test(emailValue);
+
+  //   if (hasUpperCase) {
+  //     setEmailErrorMessage("Email should be in lowercase *");
+  //     setEmailError("Invalid Email Id *");
+  //   } else if (!isValidEmail) {
+  //     setEmailErrorMessage("");
+  //     setEmailError("Invalid Email Id *");
+  //   } else {
+  //     setEmailError("");
+  //     setEmailErrorMessage("");
+  //     setFormError("");
+  //   }
+
+  //   // Assuming you want to clear email error regardless of the current input state
+  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
+  // };
 
   const handleAddress = (e) => {
     // handleInputChange()
@@ -544,52 +570,36 @@ function UserListRoomDetail(props) {
     return true;
   };
 
-
   const handleSaveUserlist = () => {
     if (!validateField(firstname, "First Name")) return;
     if (!validateField(Phone, "Phone Number")) return;
-    if (!validateField(Email, "Email")) return;
     if (!validateField(Address, "Address")) return;
     if (!validateField(hostel_Id, "Hostel ID")) return;
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a valid PG"); // Set the error message if not already set
-      return; // Prevent save
+      return;
     }
-
-    // Check for email errors
-    if (emailError === "Invalid Email Id *") {
-      setEmailErrorMessage("Please enter a valid email address");
-      return; // Prevent save
-    } else {
-      setEmailErrorMessage(""); // Clear the error if validation passes
-    }
-
-    // Check for phone errors
     if (phoneError === "Invalid mobile number *") {
       setPhoneErrorMessage("Please enter a valid 10-digit phone number");
-      return; // Prevent save
+      return;
     } else {
-      setPhoneErrorMessage(""); // Clear the error if validation passes
+      setPhoneErrorMessage("");
     }
-
-    // Check if there are any changes
     const isChanged = !(
       firstname === initialState.firstname &&
       lastname === initialState.lastname &&
       Number(countryCode + Phone) === Number(initialState.Phone) &&
       Email === initialState.Email &&
       Address === initialState.Address &&
-      String(hostel_Id) === String(initialState.hostel_Id) && // Ensuring both are strings
+      String(hostel_Id) === String(initialState.hostel_Id) &&
       file === initialState.file
     );
-
-    // Check for changes and set form error if none detected
     if (!isChanged) {
-      setFormError("No changes detected."); // Set the error message in state
+      setFormError("No changes detected.");
       return;
     } else {
-      setFormError(""); // Clear the error if changes are detected
+      setFormError("");
     }
     const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -597,8 +607,6 @@ function UserListRoomDetail(props) {
 
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-    // Prepare payload
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
     const payload = {
       profile: file,
@@ -624,20 +632,16 @@ function UserListRoomDetail(props) {
       payable_rent: payableamount,
       ID: id,
     };
-
-    // Dispatch action to add or edit user
     dispatch({
       type: "ADDUSER",
       payload: payload,
     });
 
-    // Additional actions after edit (optional)
     props.AfterEditHostels(hostel_Id);
     props.AfterEditFloors(Floor);
     props.AfterEditRoomses(Rooms);
     props.AfterEditBeds(Bed);
 
-    // Close the form or handle any other closing logic
     setFormShow(false);
   };
 
@@ -718,50 +722,19 @@ function UserListRoomDetail(props) {
     }
   };
 
-  // const validateAssignField = (value, fieldName) => {
-  //     if (!value || typeof value !== 'string' || value.trim() === '') {
-  //         switch (fieldName) {
-  //             case 'Floor':
-  //                 setfloorError('Floor is required');
-  //                 break;
-  //             case 'Room':
-  //                 setRoomError('Room is required');
-  //                 break;
-  //             case 'Bed':
-  //                 setBedError('Bed is required');
-  //                 break;
-  //             case 'AdvanceAmount':
-  //                 setAdvanceAmountError('Advance Amount is required');
-  //                 break;
-  //             case 'RoomRent':
-  //                 setRoomRentError('Room rent is required');
-  //                 break;
-  //             default:
-  //                 break;
-  //         }
-  //         return false;
-  //     }
-  //     return true;
-  // };
-
   const handleSaveUserlistAddUser = () => {
-    // Validate required fields first
-
-    // Exit if any required field is invalid
     if (Floor === "Selected Floor" || floorError) {
-      setfloorError("Please select a valid PG"); // Set the error message if not already set
-      return; // Prevent save
+      setfloorError("Please select a valid PG");
+      return;
     }
     if (Rooms === "Selected Room" || roomError) {
-      setRoomError("Please select a valid PG"); // Set the error message if not already set
-      return; // Prevent save
+      setRoomError("Please select a valid PG");
+      return;
     }
     if (Bed === "Selected Bed" || bedError) {
-      setBedError("Please select a valid PG"); // Set the error message if not already set
-      return; // Prevent save
+      setBedError("Please select a valid PG");
+      return;
     }
-
-    // Check if values have changed compared to initial state
     const isChangedBed =
       Number(Floor) !== Number(initialStateAssign.Floor) ||
       Number(Rooms) !== Number(initialStateAssign.Rooms) ||
@@ -769,18 +742,11 @@ function UserListRoomDetail(props) {
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
-    // if (!isChangedBed) {
-    //     Swal.fire({
-    //         icon: 'warning',
-    //         title: 'No changes detected',
-    //     });
-    //     return;
-    // }
     if (!isChangedBed) {
-      setFormError("No changes detected."); // Set the error message in state
+      setFormError("No changes detected.");
       return;
     } else {
-      setFormError(""); // Clear the error if changes are detected
+      setFormError("");
     }
 
     const isFloorValid = validateAssignField(Floor, "Floor");
@@ -843,18 +809,12 @@ function UserListRoomDetail(props) {
         ID: id,
       },
     });
-
-    // Call callback functions to update other components or states
     props.AfterEditHostels(hostel_Id);
     props.AfterEditFloors(Floor);
     props.AfterEditRoomses(Rooms);
     props.AfterEditBeds(Bed);
 
     setFormShow(false);
-
-    // handleClose();
-
-    // Dispatch invoice list action
     dispatch({ type: "INVOICELIST" });
   };
 
@@ -962,9 +922,6 @@ function UserListRoomDetail(props) {
                           </p>
                         </div>
                       </div>
-                      {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
-<PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-</div> */}
                     </div>
                   </div>
 
@@ -1887,19 +1844,6 @@ function UserListRoomDetail(props) {
                                         className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
                                         controlId="exampleForm.ControlInput1"
                                       >
-                                        {/* <Form.Group className="mb-3">
-                                                                        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Phone Number</Form.Label>
-                                                                        <FormControl
-                                                                            type="phone"
-                                                                            id="form-controls"
-                                                                            placeholder='Enter mobile Number'
-                                                                            maxLength={10}
-                                                                            value={Phone}
-                                                                            onChange={(e) => handlePhone(e)}
-                                                                            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                                                                        />
-                                                                        <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                                                                    </Form.Group> */}
                                         <Form.Group>
                                           <Form.Label
                                             style={{
@@ -1953,24 +1897,12 @@ function UserListRoomDetail(props) {
                                                           }
                                                         >
                                                           +{item.country_code}
-                                                          {/* {item.country_flag} */}
-                                                          {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
                                                         </option>
-                                                        {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
-                                                        {/* {item.country_code} */}
                                                       </>
                                                     )
                                                   );
                                                 }
                                               )}
-                                              {/* <option value="91">+91</option>
-                                                                                <option value="1">+1</option>
-                                                                                <option value="44">+44</option>
-                                                                                <option value="61">+61</option>
-                                                                                <option value="49">+49</option>
-                                                                                <option value="33">+33</option>
-                                                                                <option value="55">+55</option>
-                                                                                <option value="7">+7</option> */}
                                             </Form.Select>
                                             <Form.Control
                                               value={Phone}
@@ -2053,14 +1985,7 @@ function UserListRoomDetail(props) {
                                               borderRadius: 8,
                                             }}
                                           />
-                                          <p
-                                            id="emailIDError"
-                                            style={{
-                                              color: "red",
-                                              fontSize: 11,
-                                              marginTop: 5,
-                                            }}
-                                          ></p>
+
                                           {emailError && (
                                             <div style={{ color: "red" }}>
                                               <MdError />
