@@ -49,7 +49,7 @@ useEffect(() => {
   useEffect(() => {
     if (state.UsersList?.deleteRoomError) {
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_ DELETE_ROOM_ERROR' });
+        dispatch({ type: 'CLEAR_DELETE_ROOM_ERROR' });
       }, 3000);    
     }
   }, [state.UsersList?.deleteRoomError]);
