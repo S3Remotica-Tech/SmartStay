@@ -506,7 +506,7 @@ function Expenses() {
             >
               Yes
             </button>
-            <button
+            {/* <button
               style={{
                 backgroundColor: '#f44336',
                 color: '#fff',
@@ -521,7 +521,7 @@ function Expenses() {
               onClick={closeToast} 
             >
               No
-            </button>
+            </button> */}
           </div>
         </div>
       ),
@@ -887,7 +887,7 @@ function Expenses() {
                 </th>
 
 
-                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Name</th>
+                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th>
                 <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
                 <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
                 <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Expense Date</th>

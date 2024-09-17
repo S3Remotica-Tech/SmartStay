@@ -6,7 +6,8 @@ const initialState = {
     deleteAssetStatusCode: 0,
     GetRoomList: [],
     addAssignAssetStatusCode: 0,
-    alreadySerialNumberHere: ''
+    alreadySerialNumberHere: '',
+    alreadyAssetNameHere: '',
 }
 
 const AssetReducer = (state = initialState, action) => {
@@ -35,6 +36,11 @@ const AssetReducer = (state = initialState, action) => {
             return { ...state, alreadySerialNumberHere: action.payload }
         case 'CLEAR_SERIAL_NUMBER_ERROR':
             return { ...state, alreadySerialNumberHere: '' }
+          
+            case 'ASSET_NAME_ERROR':
+                return { ...state, alreadyAssetNameHere: action.payload }
+            case 'CLEAR_ASSET_NAME_ERROR':
+                return { ...state, alreadyAssetNameHere: '' }
     }
     return state;
 }

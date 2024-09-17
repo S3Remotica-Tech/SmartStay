@@ -115,7 +115,7 @@ function PgList() {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-
+  const [showHostelDetails, setShowHostelDetails] = useState('')
 
   console.log("state for pgList", state)
 
@@ -165,19 +165,25 @@ function PgList() {
     width:"100%"
   };
 
+  useEffect(()=>{
 
+    setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
+
+  },[showHostelDetails])
 
   useEffect(() => {
     if (state.UsersList?.hosteListStatusCode == 200) {
-      setFilteredData(state.UsersList.hostelList)
-
-     
-
-
       setLoader(false)
-      setTimeout(() => {
+      
+        setFilteredData(state.UsersList.hostelList)
+     
+          setTimeout(()=>{
+            setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
+          },2000)
+       
+         setTimeout(() => {
         dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
-      }, 1000)
+      }, 4000)
     }
 
   }, [state.UsersList?.hosteListStatusCode])
@@ -215,6 +221,8 @@ function PgList() {
 
   const LoginId = localStorage.getItem("loginId")
 
+
+  console.log("@@@@@@@@@@@@@@@@@@PMJ",state.UsersList?.hostelList)
 
 
   useEffect(() => {
@@ -255,13 +263,18 @@ function PgList() {
 
       dispatch({ type: 'HOSTELLIST' })
       
+    
+
       setShowFloor(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_FLOOR_STATUS_CODE' })
       }, 4000)
+      
     }
 
   }, [state.UsersList.createFloorSuccessStatusCode])
+
+
 
 
   useEffect(() => {
@@ -269,13 +282,13 @@ function PgList() {
       dispatch({ type: 'HOSTELLIST' })
       setShowDelete(false)
 
-     
+      // setFloorClick(showHostelDetails?.floorDetails?.[0])
 
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_FLOOR' })
       }, 4000)
-      setFloorClick('')
+      
     }
   }, [state.UsersList.deleteFloorSuccessStatusCode])
 
@@ -625,7 +638,7 @@ function PgList() {
   };
 
   //  new Ui changes 
-  const [showHostelDetails, setShowHostelDetails] = useState('')
+ 
   console.log("showHostelDetails", showHostelDetails)
 
   const handleSelectedHostel = (selectedHostelId) => {
@@ -669,8 +682,14 @@ function PgList() {
   }
 
 
-  console.log("currentItems", currentItems)
-  console.log("filteredData", filteredData)
+  console.log("@@@@@@@@@@MATHU", showHostelDetails?.floorDetails?.[0])
+  console.log("filteredData", filteredData )
+
+
+
+
+
+
 
   const renderPagination = () => {
     const pageNumbers = [];
@@ -737,17 +756,24 @@ function PgList() {
     setShowRoom(false)
   }
 
-  const [floorClick, setFloorClick] = useState(1)
+  const [floorClick, setFloorClick] = useState('')
+
+
+
+
+
+  console.log("floorClick&&&&&&&&&&&",showHostelDetails?.floorDetails?.[0])
 
   const handlebackToPG = () => {
     setSelectedHostel(false)
     setHidePgList(true);
-    setFloorClick(1)
+    setFloorClick(showHostelDetails?.floorDetails?.[0])
   }
 
 
   const handleDIsplayFloorClick = (floorNo) => {
-    setFloorClick(floorNo)
+    setFloorClick(showHostelDetails?.floorDetails?.[0])
+     
   }
 
 
@@ -813,6 +839,10 @@ function PgList() {
 
 
   const [visibleRange, setVisibleRange] = useState([0, 3]);
+
+
+console.log("showHostelDetails",showHostelDetails)
+
 
   const numberOfFloors = showHostelDetails && showHostelDetails?.floorDetails?.length;
   const floorsPerPage = 5;

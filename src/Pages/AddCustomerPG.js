@@ -11,7 +11,7 @@ import imageCompression from 'browser-image-compression';
 import Image from 'react-bootstrap/Image';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 
-
+import { MdError } from 'react-icons/md';
 
 function AddCustomer({ show, handleClosing, currentItem }) {
   const state = useSelector(state => state)
@@ -46,11 +46,19 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   // const handleFirstName = (e) => setFirstname(e.target.value);
   // const handleLastName = (e) => setLastname(e.target.value);
-
+  const [generalError, setGeneralError] = useState('');
+  const [firstNameError, setFirstNameError] = useState('');
+  const [countryCodeError, setCountryCodeError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [advanceAmountError, setAdvanceAmountError] = useState('');
+  const [roomRentError, setRoomRentError] = useState('');
+  const [addressError, setAddressError] = useState('');
+  
 
   const handleFirstName = (e) => {
     const value = e.target.value;
-
+    setGeneralError('')
+    setFirstNameError('')
     // Allow empty value (e.g., when clearing the field)
     if (value === "") {
       setFirstname(value);
@@ -68,7 +76,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   const handleLastName = (e) => {
     const value = e.target.value;
-
+    setGeneralError('')
 
     if (value === "") {
       setLastname(value);
@@ -87,6 +95,9 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
 
   const handlePhone = (e) => {
+    setGeneralError('')
+    setPhoneError('')
+    dispatch({ type: 'CLEAR_PHONE_ERROR'})
     const value = e.target.value;
     if (/^\d*$/.test(value) && value.length <= 10) {
       setPhone(value);
@@ -100,6 +111,8 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
+    setGeneralError('')
+    setCountryCodeError('')
   };
 
 
@@ -108,7 +121,8 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const handleEmail = (e) => {
     const email = e.target.value;
     setEmail(email);
-
+    setGeneralError('')
+dispatch({ type: 'CLEAR_EMAIL_ERROR'})
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const isValidEmail = emailRegex.test(email);
 
@@ -116,6 +130,10 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       setEmailError('');
     } else {
       setEmailError('Invalid Email Id *');
+    }
+
+    if(!email){
+      setEmailError('');
     }
   };
 
@@ -125,8 +143,8 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const handleAddress = (e) => {
 
     const value = e.target.value;
-
-
+    setGeneralError('')
+setAddressError('')
     if (value === "") {
       setAddress(value);
       setErrors(prevErrors => ({ ...prevErrors, last_Name: "Last name cannot be empty or spaces only" }));
@@ -171,90 +189,59 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     })
     // console.log("filterData_Hostel_Name[0]?.Name", filterData_Hostel_Name[0]?.Name)
 
-    if (!firstname && !phone && !email && !AdvanceAmount && !RoomRent && !address && !countryCode) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please enter all fields',
-
-      });
-      return
+    if (!firstname && !phone && !AdvanceAmount && !RoomRent && !address ) {
+      setGeneralError('Please fill in all the required fields.');
+      return;
     }
 
     if (!firstname) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter First Name',
-      });
+      setFirstNameError('Please enter First Name');
       return;
     }
 
     if (!countryCode) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter Country code',
-      });
+      setCountryCodeError('Please enter Country Code');
       return;
     }
 
     if (!phone) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter Phone Number',
-      });
+      setPhoneError('Please enter Phone Number');
       return;
     }
 
     if (phone.length < 10) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Phone number must be 10 digits long',
-      });
+      setPhoneError('Phone number must be 10 digits long');
       return;
     }
 
-    if (!email) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter Email',
-      });
-      return;
-    }
+    // if (!email) {
+    //   setEmailError('Please enter Email');
+    //   return;
+    // }
 
     if (emailError) {
-      Swal.fire({
-        icon: 'warning',
-        title: emailError,
-      });
+      setEmailError(emailError);
       return;
     }
 
+   
+
+    if (!address) {
+      setAddressError('Please enter Address');
+      return;
+    }
     if (!AdvanceAmount || isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter Valid Advance Amount',
-      });
+      setAdvanceAmountError('Please enter a valid Advance Amount');
       return;
     }
 
     if (!RoomRent || isNaN(RoomRent) || RoomRent <= 0) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter Valid Room Rent',
-      });
+      setRoomRentError('Please enter a valid Room Rent');
       return;
     }
-
-    if (!address) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter Address',
-      });
-      return;
-    }
-
     const mobileNumber = `${countryCode}${phone}`
 
-    if (firstname && mobileNumber && email && AdvanceAmount && RoomRent && address) {
+    if (firstname && phone && AdvanceAmount && RoomRent && address && countryCode) {
       dispatch({
         type: 'ADDUSER',
         payload: {
@@ -319,7 +306,8 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     const roomRentValue = e.target.value;
     // handleInputChange()
     setRoomRent(roomRentValue);
-
+    setGeneralError('')
+    setRoomRentError('')
   }
 
 
@@ -327,6 +315,9 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     // handleInputChange()
     const advanceAmount = e.target.value;
     setAdvanceAmount(advanceAmount)
+    setAdvanceAmountError('')
+      setGeneralError('')
+    
 
   }
 
@@ -342,6 +333,9 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       <Modal show={show} onHide={handleClosing} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
 
+      
+      
+      
           <Modal.Body>
 
             <div className='d-flex align-items-center'>
@@ -414,6 +408,24 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                 </div>
 
                 <div className='row mt-4'>
+                {generalError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {generalError}
+    </label>
+  </div>
+)}
+
+{state.UsersList.phoneError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {state.UsersList.phoneError
+      }
+    </label>
+  </div>
+)}
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3">
@@ -427,6 +439,15 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: firstname ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       />
                     </Form.Group>
+                    {firstNameError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {firstNameError}
+    </label>
+  </div>
+)}
+
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3">
@@ -523,6 +544,25 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         />
                       </InputGroup>
                     </Form.Group>
+
+                    {phoneError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {phoneError}
+    </label>
+  </div>
+)}
+
+{countryCodeError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {countryCodeError}
+    </label>
+  </div>
+)}
+
                   </div>
 
 
@@ -538,8 +578,28 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: email ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       />
-                      <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                      {/* <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p> */}
                     </Form.Group>
+
+                   
+
+                    {emailError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {emailError}
+    </label>
+  </div>
+)}
+{state.UsersList.emailError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {state.UsersList.emailError}
+    </label>
+  </div>
+)}
+
                   </div>
 
 
@@ -555,6 +615,19 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: address ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       />
                     </Form.Group>
+
+                   
+                    {addressError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {addressError}
+    </label>
+  </div>
+)}
+
+
+
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="">
@@ -568,6 +641,18 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: AdvanceAmount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       />
                     </Form.Group>
+                    
+
+                    {advanceAmountError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {advanceAmountError}
+    </label>
+  </div>
+)}
+
+
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3">
@@ -581,6 +666,15 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: RoomRent ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       />
                     </Form.Group>
+                                        {roomRentError && (
+  <div className="d-flex align-items-center p-1 mb-2">
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {roomRentError}
+    </label>
+  </div>
+)}
+
                   </div>
                 </div>
 
