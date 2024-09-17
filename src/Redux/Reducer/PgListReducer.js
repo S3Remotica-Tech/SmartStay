@@ -37,10 +37,13 @@ const initialState = {
     statusCodeForDeleteRoom: 0,
     statusCodeDeleteBed: 0,
     AddEBstatusCode: 0,
+    ebError:'',
     deletePgSuccessStatusCode: 0,
     alreadyRoomHere: ' ',
     deletePgError: '',
     deleteBedError: '',
+  ebError:''
+
 }
 const PgListReducer = (state = initialState, action) => {
     console.log("action.payload", action.payload);
@@ -84,10 +87,20 @@ const PgListReducer = (state = initialState, action) => {
         case 'EB_STARTMETER_LIST':
             console.log("EB_STARTMETER_LIST", action.payload)
             return { ...state, EB_startmeterlist: action.payload }
+
+
+            case 'EB_ERROR':
+                return { ...state, ebError: action.payload }
+    
+            case 'CLEAR_EB_ERROR':
+                return { ...state, ebError: '' }
+
+
         case 'ALREADY_ROOM_ERROR':
             return { ...state, alreadyRoomHere: action.payload }
         case 'CLEAR_ALREADY_ROOM_ERROR':
             return { ...state, alreadyRoomHere: '' }
+
 
 
         case 'ERROR':

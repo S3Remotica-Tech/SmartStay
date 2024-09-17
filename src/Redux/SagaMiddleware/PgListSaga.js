@@ -166,7 +166,7 @@ function* handleCreateEB(action) {
        })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'EB_ERROR', payload: response.data.message })
    }
    if(response){
       refreshToken(response)
