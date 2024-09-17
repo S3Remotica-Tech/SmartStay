@@ -303,15 +303,15 @@ function StaticExample({ show, handleClose, currentItem }) {
         dispatch({
             type: 'ADDEXPENSE',
             payload: {
-                vendor_id: vendorName,
-                asset_id: assetName,
-                category_id: category,
+                vendor_id: vendorName || '',
+                asset_id: assetName || '', 
+                category_id: category ,
                 purchase_date: formattedDate,
                 unit_count: count,
                 unit_amount: price,
                 description: description,
                 payment_mode: modeOfPayment,
-                hostel_id: hostelName,
+                hostel_id: hostelName || '',
                 id: currentItem ? currentItem.id : null
             }
         });

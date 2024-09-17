@@ -62,7 +62,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [priceError, setPriceError] = useState('');
     const [isChangedError, setIsChangedError] = useState('');
     const [generalError, setGeneralError] = useState('');
-
+const [assetError, setAssetError] = useState('')
 
 
 
@@ -74,10 +74,11 @@ function StaticExample({ show, handleClose, currentItem }) {
     const handleAssetNameChange = (e) => {
         setGeneralError('')
         const value = e.target.value;
-
-        dispatch({ type: 'CLEAR_SERIAL_NUMBER_ERROR'})
+        setAssetError('')
+       
         setIsChangedError('')
-
+        
+        dispatch({ type: 'CLEAR_ASSET_NAME_ERROR'})
         if (value === "") {
             setAssetName(value);
             setErrors(prevErrors => ({ ...prevErrors, assetName: "Asset name cannot be empty or spaces only" }));
@@ -120,6 +121,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     const handleSerialNumberChange = (e) => {
         const value = e.target.value;
         setSerialNumberError('');
+        dispatch({ type: 'CLEAR_SERIAL_NUMBER_ERROR'})
         setIsChangedError('')
         setGeneralError('')
         if (value === "") {
@@ -210,18 +212,19 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
 
-        if( !productName && !serialNumber &&  !selectedDate && !price ){
+        if( !productName && !serialNumber &&  !selectedDate && !price && !assetName ){
             setGeneralError('Please enter all mandatory fields')
             return;
         }
 
-        // if (!assetName) {
-        //     Swal.fire({
-        //         icon: 'warning',
-        //         title: 'Please Enter a Valid Asset Name',
-        //     });
-        //     return;
-        // }
+        if (!assetName) {
+            setAssetError('Please Enter a Valid Asset Name')
+            // Swal.fire({
+            //     icon: 'warning',
+            //     title: 'Please Enter a Valid Asset Name',
+            // });
+            return;
+        }
         if (!productName) {
             setProductNameError('Please Enter a Valid Product Name');
 
@@ -292,28 +295,13 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
 
-        if (productName && serialNumber && selectedDate && price) {
+        if (productName && serialNumber && selectedDate && price && assetName) {
 
             const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
 
             dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, product_name: productName, vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: 1, purchase_date: formattedDate, price: price, id: id } })
 
-
-
-            // setAssetName('');
-            // setVendorName('');
-            // setBrandName('');
-            // setSerialNumber('');
-            // setProductCount('');
-            // setPurchaseDate('');
-            // setPrice('');
-            // setTotalPrice('');
-
-
-
-        } else {
-
-        }
+       } 
     }
 
 
@@ -484,13 +472,25 @@ function StaticExample({ show, handleClose, currentItem }) {
         </label>
     </div>
 )}
+
+
+
+
+{state.AssetList?.alreadyAssetNameHere && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {state.AssetList?.alreadyAssetNameHere}
+                                        </label>
+                                    </div>
+                                )}
                     <Modal.Body style={{ padding: 20 }}>
 
 
                         <div className='row mt-1'>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name <span style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
                                         value={assetName}
                                         onChange={handleAssetNameChange}
