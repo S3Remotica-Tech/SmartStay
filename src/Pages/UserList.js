@@ -838,7 +838,7 @@ console.log("item",item)
                           {user.Name}
                         </span>
                       </td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Email}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Email !== 'undefined' && user.Email !== null && user.Email !== '' ? user.Email : 'null'}</td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>+{user && String(user.Phone).slice(0, String(user.Phone).length - 10)}
                                 {' '}
                                 {user && String(user.Phone).slice(-10)}</td>

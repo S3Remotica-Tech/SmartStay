@@ -575,19 +575,19 @@ const InvoicePage = () => {
   };
 
   const [searchItem, setSearchItem] = useState('')
-  const handleInputChange = (e) => {
-    const searchTerm = e.target.value;
-    setSearchItem(searchTerm)
-    if (searchItem != '') {
-      const filteredItems = state.InvoiceList.Invoice.filter((user) =>
-        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setData(filteredItems.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice))
-    }
-    else {
-      setData(state.InvoiceList.Invoice)
-    }
-  }
+  // const handleInputChange = (e) => {
+  //   const searchTerm = e.target.value;
+  //   setSearchItem(searchTerm)
+  //   if (searchItem != '') {
+  //     const filteredItems = state.InvoiceList.Invoice.filter((user) =>
+  //       user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //     setData(filteredItems.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice))
+  //   }
+  //   else {
+  //     setData(state.InvoiceList.Invoice)
+  //   }
+  // }
 
   const [searchicon, setSearchicon] = useState(false);
 

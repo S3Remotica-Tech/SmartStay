@@ -22,10 +22,6 @@ function UserListTransaction(props){
       const transactionrowsPerPage = 10;
   const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
-
-
-
-
   const indexOfLastRowTransaction = transactioncurrentPage * transactionrowsPerPage;
   const indexOfFirstRowTransaction = indexOfLastRowTransaction - transactionrowsPerPage;
   const currentRowTransaction = transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
