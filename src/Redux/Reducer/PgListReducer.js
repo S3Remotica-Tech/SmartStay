@@ -38,6 +38,7 @@ const initialState = {
     statusCodeDeleteBed: 0,
     AddEBstatusCode: 0,
     deletePgSuccessStatusCode:0,
+    ebError:''
 }
 const PgListReducer = (state = initialState, action) => {
     console.log("action.payload", action.payload);
@@ -81,6 +82,15 @@ const PgListReducer = (state = initialState, action) => {
         case 'EB_STARTMETER_LIST':
             console.log("EB_STARTMETER_LIST", action.payload)
             return { ...state, EB_startmeterlist: action.payload }
+
+            case 'EB_ERROR':
+                return { ...state, ebError: action.payload }
+    
+            case 'CLEAR_EB_ERROR':
+                return { ...state, ebError: '' }
+
+
+
         case 'ERROR':
             if (state.roomCount.length > 0) {
                 let index = state.roomCount.findIndex((item) => {
