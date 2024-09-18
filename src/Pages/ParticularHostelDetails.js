@@ -148,20 +148,25 @@ function ParticularHostelDetails(props) {
 
   const [loader, setLoader] = useState(true)
 
+
+console.log("roomCountData",roomCountData)
+
+
   useEffect(() => {
     if (state.PgList.roomCountStatusCode == 200) {
-      setTimeout(() => {
-        setRoomCountData(state.PgList.roomCount)
-      }, 100)
-      
-      setTimeout(() => {
-        setLoader(false)
-      }, 1000)
+      setTimeout(()=>{
+        setRoomCountData(state.PgList?.roomCount);  
+      },100)
+                                  
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
-      }, 3000);
+      }, 1000);
     }
   }, [state.PgList.roomCountStatusCode])
+
+
+
+
 
   useEffect(() => {
     if (state.PgList.noRoomsInFloorStatusCode === 201) {
@@ -176,7 +181,7 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      dispatch({ type: '', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
       }, 2000)
@@ -214,12 +219,7 @@ function ParticularHostelDetails(props) {
     if (state.PgList.createBedStatusCode == 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowBed(false)
-
    
-
-      
-
-     
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
@@ -241,9 +241,26 @@ function ParticularHostelDetails(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(4);
 
+  const [currentItems, setCurrentItems] = useState([]); 
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
+
+
+  useEffect(()=>{
+    if(roomCountData){
+      setLoader(false)
+      const slicedItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
+      setCurrentItems(slicedItems);
+      }
+  
+  },[roomCountData])
+
+
+console.log("currentItems Room", currentItems);
+
+
 
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
 
@@ -489,8 +506,8 @@ function ParticularHostelDetails(props) {
 
       }
 {
-
-!loader && currentItems.length === 0 && 
+ 
+(!loader && currentItems.length === 0) && 
           <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
             {/* <Alert variant="warning" >
           Currently, no rooms are available.
