@@ -249,10 +249,13 @@ console.log("roomCountData",roomCountData)
 
 
   useEffect(()=>{
-    if(roomCountData){
+    if(roomCountData.length > 0 ){
       setLoader(false)
       const slicedItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
       setCurrentItems(slicedItems);
+      }else{
+        setLoader(false);
+    setCurrentItems([]); 
       }
   
   },[roomCountData])
