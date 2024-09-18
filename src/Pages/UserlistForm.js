@@ -873,7 +873,7 @@ setRoomRentError('')
 
                     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                       <Form.Group className="mb-3">
-                        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>First Name</Form.Label>
+                        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>First Name <span style={{ color: 'red', fontSize: '20px' }}> * </span></Form.Label>
                         <FormControl
                           id="form-controls"
                           placeholder='Enter name'
@@ -906,7 +906,7 @@ setRoomRentError('')
                         fontFamily: "Gilroy",
                         fontWeight: 500
                       }}>
-                        Mobile number
+                       Mobile number <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                       </Form.Label>
 
                       <InputGroup>
@@ -998,7 +998,7 @@ setRoomRentError('')
 
                     <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                       <Form.Group className="mb-3">
-                        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address</Form.Label>
+                        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address<span style={{ color: 'red', fontSize: '20px' }}> * </span></Form.Label>
                         <FormControl
                           type="text"
                           id="form-controls"
@@ -1012,7 +1012,7 @@ setRoomRentError('')
                     </div>
 
                     <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest</Form.Label>
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest<span style={{ color: 'red', fontSize: '20px' }}> * </span></Form.Label>
                       <Form.Select
                         aria-label="Default select example"
                         className='border'
@@ -1075,7 +1075,7 @@ setRoomRentError('')
 
                   <div className='row mb-3'>
                     <div className='col-12'>
-                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</Form.Label>
+                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Floor <span style={{ color: 'red', fontSize: '20px' }}> * </span></Form.Label>
                       <Form.Select
                         aria-label="Default select example"
                         placeholder='Select no. of floor'
@@ -1097,7 +1097,7 @@ setRoomRentError('')
                     </div>
 
                     <div className='col-12 mt-1'>
-                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Room</Form.Label>
+                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Room <span style={{ color: 'red', fontSize: '20px' }}> * </span></Form.Label>
                       <Form.Select
                         aria-label='Default select example'
                         placeholder='Select no. of rooms'
@@ -1124,7 +1124,7 @@ setRoomRentError('')
                     </div>
 
                     <div className='col-12 mt-3 mb-3'>
-                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Bed</Form.Label>
+                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Bed <span style={{ color: 'red', fontSize: '20px' }}> * </span></Form.Label>
                       <Form.Select
                         aria-label='Default select example'
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
@@ -1147,7 +1147,7 @@ setRoomRentError('')
 
                     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                       <Form.Group className="">
-                        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</Form.Label>
+                        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount <span style={{ color: 'red', fontSize: '20px' }}> * </span></Form.Label>
                         <FormControl
                           type="text"
                           id="form-controls"
@@ -1162,7 +1162,7 @@ setRoomRentError('')
 
                     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                       <Form.Group className="mb-3">
-                        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Rental Amount</Form.Label>
+                        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Rental Amount <span style={{ color: 'red', fontSize: '20px' }}> * </span></Form.Label>
                         <FormControl
                           type="text"
                           id="form-controls"

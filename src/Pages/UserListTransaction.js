@@ -109,7 +109,7 @@ function UserListTransaction(props){
                           </tr>
                         </thead>
                         <tbody style={{ height: "50px", fontSize: "11px" }}>
-                          {currentRowTransaction.map((v) => {
+                          {currentRowTransaction?.map((v) => {
                             let Dated = new Date(v.created_at);
                             console.log("Dated..?", Dated);
 
@@ -140,7 +140,7 @@ function UserListTransaction(props){
                             )
 
                           })}
-                          {currentRowTransaction.length === 0 && (
+                          {currentRowTransaction?.length === 0 && (
                             <tr>
                               <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
                             </tr>
@@ -150,7 +150,7 @@ function UserListTransaction(props){
                       </Table>
 
 
-                      {currentRowTransaction.length > 0 && (
+                      {currentRowTransaction?.length > 0 && (
                         <nav>
                           <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
                             <li style={{ margin: '0 5px' }}>

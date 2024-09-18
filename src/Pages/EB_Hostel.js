@@ -628,7 +628,7 @@ function EB_Hostel() {
                     textAlign: "center",
                   }}
                 >
-                  Name
+                  Name 
                 </th>
                 <th
                   style={{
@@ -937,7 +937,7 @@ function EB_Hostel() {
                       textAlign: "center",
                     }}
                   >
-                    Paying Guest
+                    Paying Guest 
                   </th>
                   <th
                     style={{
@@ -949,7 +949,7 @@ function EB_Hostel() {
                       paddingBottom: "10px",
                     }}
                   >
-                    Floor
+                    Floor 
                   </th>
                   <th
                     style={{
@@ -961,7 +961,7 @@ function EB_Hostel() {
                       paddingBottom: "10px",
                     }}
                   >
-                    Room no
+                    Room no 
                   </th>
                   <th
                     style={{
@@ -973,7 +973,7 @@ function EB_Hostel() {
                       paddingBottom: "10px",
                     }}
                   >
-                    Start meter
+                    Start meter 
                   </th>
                   <th
                     style={{
@@ -985,7 +985,7 @@ function EB_Hostel() {
                       paddingBottom: "10px",
                     }}
                   >
-                    End meter
+                    End meter 
                   </th>
                   <th
                     style={{
@@ -997,7 +997,7 @@ function EB_Hostel() {
                       paddingBottom: "10px",
                     }}
                   >
-                    Dated
+                    Dated 
                   </th>
                   <th
                     style={{
@@ -1021,7 +1021,7 @@ function EB_Hostel() {
                       paddingBottom: "10px",
                     }}
                   >
-                    Amount
+                    Amount 
                   </th>
                   <th></th>
                 </tr>
@@ -1341,7 +1341,7 @@ function EB_Hostel() {
                     fontWeight: 500,
                   }}
                 >
-                  Paying Guest
+                  Paying Guest<span style={{ color: 'red', fontSize: '20px' }}> * </span>
                 </Form.Label>
                 <Form.Select
                   aria-label="Default select example"
@@ -1365,7 +1365,7 @@ function EB_Hostel() {
                     selected
                     value=""
                   >
-                    Select PG
+                    Select PG 
                   </option>
                   {state.UsersList?.hostelList &&
                     state.UsersList?.hostelList.map((item) => (
@@ -1411,7 +1411,7 @@ function EB_Hostel() {
                     fontWeight: 500,
                   }}
                 >
-                  Floor
+                  Floor <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                 </Form.Label>
                 <Form.Select
                   aria-label="Default select example"
@@ -1439,7 +1439,7 @@ function EB_Hostel() {
                     selected
                     value=""
                   >
-                    Select Floor
+                    Select Floor 
                   </option>
                   {state?.UsersList?.hosteldetailslist &&
                     state?.UsersList?.hosteldetailslist.map((item) => (
@@ -1466,7 +1466,7 @@ function EB_Hostel() {
                     fontWeight: 500,
                   }}
                 >
-                  Room
+                  Room <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                 </Form.Label>
                 <Form.Select
                   aria-label="Default select example"
@@ -1517,7 +1517,7 @@ function EB_Hostel() {
                       fontWeight: 500,
                     }}
                   >
-                    Start meter
+                    Start meter <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                   </Form.Label>
                   <FormControl
                     id="form-controls"
@@ -1559,7 +1559,7 @@ function EB_Hostel() {
                       fontWeight: 500,
                     }}
                   >
-                    End meter
+                    End meter <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                   </Form.Label>
                   <FormControl
                     type="text"

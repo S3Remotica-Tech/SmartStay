@@ -415,7 +415,7 @@ function UserListAmenities(props) {
                                         )}
           <div className="mb-3 ps-2 pe-2">
             <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
-              Hostel_Name
+              Hostel_Name 
             </label>
             <Form.Control
               placeholder="HostelName"
