@@ -211,7 +211,7 @@ useEffect(() => {
     <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.serial_number}</td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' ,border: "none"}}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500,width:120,  padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.brand_name ? props.item.brand_name : "None" }</div>
+        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500,width:120,  padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.brand_name ? props.item.brand_name : "Not Available" }</div>
       </div>
     </td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' ,border: "none"}}>
@@ -219,7 +219,7 @@ useEffect(() => {
         <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: 120, padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center",fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "None"}</div>
       </div>
     </td>
-    <td style={{ border: "none" , textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>{props.item.product_count}</td>
+    {/* <td style={{ border: "none" , textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>{props.item.product_count}</td> */}
     <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>₹{props.item.price.toLocaleString('en-IN')}</td>
     <td style={{border: "none", textAlign: 'center', verticalAlign: 'middle' }}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
@@ -229,7 +229,7 @@ useEffect(() => {
       </div>
 
     </td>
-    <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>₹{props.item.total_price.toLocaleString('en-IN')}</td>
+    {/* <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>₹{props.item.total_price.toLocaleString('en-IN')}</td> */}
     <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle' }}>
       <div style={{width:"100%" , display:"flex", justifyContent:"center"}}>
       <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position:"relative"}}  onClick={() => handleShowDots(props.item.id)}  >

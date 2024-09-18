@@ -168,6 +168,7 @@ function PgList() {
   useEffect(()=>{
 
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
+    setFloorName(showHostelDetails?.floorDetails?.[0]?.floor_name)
 
   },[showHostelDetails])
 
@@ -756,23 +757,26 @@ function PgList() {
     setShowRoom(false)
   }
 
-  const [floorClick, setFloorClick] = useState('')
+  const [floorClick, setFloorClick] = useState(showHostelDetails?.floorDetails?.[0]?.floor_id)
+
+const [floorName, setFloorName] = useState(showHostelDetails?.floorDetails?.[0]?.floor_name)
 
 
 
-
-
-  console.log("floorClick&&&&&&&&&&&",showHostelDetails?.floorDetails?.[0])
+  console.log("floorClick& floorName", floorClick, floorName)
+  console.log("showHostelDetails?.floorDetails?.[0]?.floor_name",showHostelDetails?.floorDetails?.[0]?.floor_name);
+  
 
   const handlebackToPG = () => {
     setSelectedHostel(false)
+    setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
     setHidePgList(true);
-    setFloorClick(showHostelDetails?.floorDetails?.[0])
+   
   }
 
 
   const handleDIsplayFloorClick = (floorNo) => {
-    setFloorClick(showHostelDetails?.floorDetails?.[0])
+    setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
      
   }
 
@@ -859,19 +863,22 @@ console.log("showHostelDetails",showHostelDetails)
     }
   };
 
-  const handleFloorClick = (floorNumber) => {
-    console.log("floorNumber", floorNumber)
+  const handleFloorClick = (floorNumber, floorName) => {
+    console.log("floorNumber", floorNumber, floorName)
     setFloorClick(floorNumber);
     setKey(floorNumber.toString());
+    setFloorName(floorName)
   };
+
+
+console.log("floorName", floorName)
+
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom == 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id } })
     
-    
-    
-    
+        
     
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_ROOM' })
@@ -1003,7 +1010,7 @@ console.log("showHostelDetails",showHostelDetails)
             {currentItems.length > 0 && currentItems.map((hostel) => {
               return (<>
                 <div key={hostel.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-                  <PayingGuest hostel={hostel} OnSelectHostel={handleSelectedHostel} onRowVisiblity={handleDisplayPgList} OnEditHostel={handleEditHostel} />
+                  <PayingGuest hostel={hostel} key={hostel.id} OnSelectHostel={handleSelectedHostel} onRowVisiblity={handleDisplayPgList} OnEditHostel={handleEditHostel} />
                 </div>
               </>)
             })}
@@ -1117,19 +1124,20 @@ console.log("showHostelDetails",showHostelDetails)
 
                         <Nav variant="" className="flex-column">
                           {showHostelDetails.floorDetails.map((floor, index) => (
+                            
                             index >= visibleRange[0] && index <= visibleRange[1] &&
                             <Nav.Item
                               key={floor.floor_id}
-                              onClick={() => handleFloorClick(floor.floor_id)}
-                              className={`mb-3 mt-2 d-flex justify-content-center align-items-center Navs-Item ${floorClick === floor.floor_id ? 'active-floor' : 'Navs-Item'}`}
+                              onClick={() => handleFloorClick(floor.floor_id, floor.floor_name)}
+                              className={`mb-3 mt-2 d-flex justify-content-center align-items-center  ${Number(floorClick) == Number(floor.floor_id) ? 'active-floor' : 'Navs-Item'}`}
                               style={{ border: "1px solid rgba(156, 156, 156, 1)", borderRadius: 16, height: 92, width: 95, padding: "8px, 16px, 8px, 16px" }}
                             >
                               <Nav.Link style={{}} className='text-center'>
-                                <div className={floorClick === floor.floor_id ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600 }}>
-                                  {floor.floor_id === 1 ? 'G' : floor.floor_id - 1}
+                                <div className={Number(floorClick) == Number(floor.floor_id) ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600 }}>
+                                  {floor.floor_id == 1 ? 'G' : floor.floor_id - 1}
                                 </div>
                                 <div
-                                  className={floorClick === floor.floor_id ? 'ActiveFloortext' : 'UnActiveFloortext'}
+                                  className={Number(floorClick) == Number(floor.floor_id) ? 'ActiveFloortext' : 'UnActiveFloortext'}
                                   style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, textTransform: "capitalize" }}
                                 >
                                   {floor.floor_id === 1
@@ -1155,11 +1163,11 @@ console.log("showHostelDetails",showHostelDetails)
                       </div>
                     </Col>
                     <Col sm={12} xs={12} md={10} lg={10}>
-                      {
-                        floorClick &&
+                      {/* {
+                        floorClick && */}
 
                         <div className='d-flex justify-content-between align-items-center'>
-                          <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{getFloorName(floorClick)}</div>
+                          <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{floorName !== null || floorName !== undefined || floorName.trim() !== '' ? floorName : getFloorName(floorClick)}</div>
                           <div>
                             <div style={{
                               cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative",
@@ -1185,7 +1193,7 @@ console.log("showHostelDetails",showHostelDetails)
                             </div>
                           </div>
                         </div>
-                      }
+                      {/* } */}
 
                       <Tab.Content>
                         <ParticularHostelDetails

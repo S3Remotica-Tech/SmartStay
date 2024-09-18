@@ -690,7 +690,7 @@ console.log("props",props);
 
   useEffect(() => {
     if (state.PgList.deleteRoom != null && state.PgList.deleteRoom != "") {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorId, hostel_Id: Hostel_Id } })
+      dispatch({ type: '', payload: { floor_Id: floorId, hostel_Id: Hostel_Id } })
       props.handleBackToFloors()
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_ROOM', message: null })

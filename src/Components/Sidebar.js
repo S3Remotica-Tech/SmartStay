@@ -270,6 +270,9 @@ function Sidebar() {
         const FilteredProfile = stateData.accountList[0]?.user_details
 
         const profilePictures = FilteredProfile.profile;
+
+
+
         const profileName = FilteredProfile.Name;
         setProfiles(profilePictures);
         setProfileArray(profileName);
@@ -282,6 +285,10 @@ function Sidebar() {
     }
 
   }, [stateData.accountList, state.hostelList, stateData.statusCodeForAccount])
+
+
+console.log("profile*****", profiles)
+
 
   const [selectedHostel, setSelectedHostel] = useState(null);
 
@@ -464,7 +471,7 @@ setCurrentPage('compliance')
 
 <div className="mr-3" style={{cursor:"pointer"}}>
   <Image 
-src={profile && profile != null ? Profileimage : profile}
+src={profiles && profiles != null ?   profiles : Profileimage}
   // src={profile && profile != 0  || profile !=null? profile : Profileimage}
    roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
 </div>
