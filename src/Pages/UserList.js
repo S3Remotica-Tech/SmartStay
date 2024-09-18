@@ -28,16 +28,8 @@ function UserList() {
 
   useEffect(() => {
     setLoading(true)
-    if (state?.UsersList?.Users) {
-      setTimeout(() => {
-        dispatch({ type: 'USERLIST' })
-        dispatch({ type: 'INVOICELIST' })
-        setLoading(false);
-      }, 800);
-    }
-    else {
-      setLoading(true)
-    }
+    dispatch({ type: 'USERLIST' })
+    
   }, [])
 
 
@@ -93,20 +85,21 @@ function UserList() {
   const [EditObj, setEditObj] = useState('')
   const [addBasicDetail, setAddBasicDetail] = useState('')
   const [filteredDatas, setFilteredDatas] = useState([]);
+  const [filteredDataPagination, setfilteredDataPagination] = useState([]);
  
 
-  const rowsPerPage = 10;
+  const rowsPerPage = 2;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow);
+  const currentRows = filteredDataPagination.slice(indexOfFirstRow, indexOfLastRow);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+  const totalPages = Math.ceil(filteredDataPagination.length / rowsPerPage);
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -163,10 +156,10 @@ function UserList() {
   };
 
 
-  const itemsPerPage = 1;
+  const itemsPerPage = 2;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredDataPagination.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -187,9 +180,21 @@ function UserList() {
   console.log("state", state)
 
 
+  // useEffect(() => {
+  //   setFilteredData(state.UsersList.Users);
+  // }, [state.UsersList.Users])
   useEffect(() => {
-    setFilteredData(state.UsersList.Users);
-  }, [state.UsersList.Users])
+    //  dispatch({ type: 'INVOICELIST' })
+    if (state.UsersList?.UserListStatusCode == 200) {
+      console.log("invoice added executed");
+      
+      setfilteredDataPagination(state.UsersList.Users)
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_STATUS_CODE_USER' });
+      }, 1000);
+    }
+  }, [state.UsersList?.UserListStatusCode])
 
 
   const generatepagenumbers = () => {
@@ -814,7 +819,7 @@ console.log("item",item)
                   </tr>
                 ))
               ) : (
-                currentRows.map((user) => {
+                currentItems.map((user) => {
                   console.log("userrr",user)
                   const imageUrl = user.profile || Profile;;
                   return (
