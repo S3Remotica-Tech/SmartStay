@@ -85,10 +85,11 @@ function UserList() {
   const [EditObj, setEditObj] = useState('')
   const [addBasicDetail, setAddBasicDetail] = useState('')
   const [filteredDatas, setFilteredDatas] = useState([]);
+  const [originalData, setOriginalData] = useState([]);  // Store original data from API
   const [filteredDataPagination, setfilteredDataPagination] = useState([]);
  
 
-  const rowsPerPage = 2;
+  const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -99,67 +100,37 @@ function UserList() {
     setCurrentPage(pageNumber);
   };
 
-  const totalPages = Math.ceil(filteredDataPagination.length / rowsPerPage);
-
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    let startPage = currentPage - 1;
-    let endPage = currentPage + 1;
-
-    if (currentPage === 1) {
-      startPage = 1;
-      endPage = 3;
-    }
-
-    if (currentPage === totalPages) {
-      startPage = totalPages - 2;
-      endPage = totalPages;
-    }
-
-    if (currentPage === 2) {
-      startPage = 1;
-      endPage = 3;
-    }
-
-    if (currentPage === totalPages - 1) {
-      startPage = totalPages - 2;
-      endPage = totalPages;
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      if (i > 0 && i <= totalPages) {
-        pageNumbers.push(
-          <li key={i} style={{ margin: '0 5px' }}>
-            <button
-              style={{
-                padding: '5px 10px',
-                textDecoration: 'none',
-                color: i === currentPage ? '#007bff' : '#000000',
-                cursor: 'pointer',
-                borderRadius: '5px',
-                display: 'inline-block',
-                minWidth: '30px',
-                textAlign: 'center',
-                backgroundColor: i === currentPage ? 'transparent' : 'transparent',
-                border: i === currentPage ? '1px solid #ddd' : 'none'
-              }}
-              onClick={() => handlePageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
-
-    return pageNumbers;
-  };
-
-
-  const itemsPerPage = 2;
+  const itemsPerPage = 5;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredDataPagination.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredDataPagination.length / itemsPerPage);
+
+  const renderPageNumbers = () => {
+    
+    const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(
+      <li key={i} style={{ margin: '0 5px' }}>
+        <button
+          style={{
+            padding: '5px 10px',
+            color: i === currentPage ? '#007bff' : '#000',
+            cursor: 'pointer',
+            border: i === currentPage ? '1px solid #ddd' : 'none',
+            backgroundColor: i === currentPage ? 'transparent' : 'transparent'
+          }}
+          onClick={() => handlePageChange(i)}
+        >
+          {i}
+        </button>
+      </li>
+    );
+  }
+  return pageNumbers;
+};
+
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -180,13 +151,19 @@ function UserList() {
   console.log("state", state)
 
 
-  // useEffect(() => {
-  //   setFilteredData(state.UsersList.Users);
-  // }, [state.UsersList.Users])
+  
   useEffect(() => {
-    //  dispatch({ type: 'INVOICELIST' })
+    
     if (state.UsersList?.UserListStatusCode == 200) {
       console.log("invoice added executed");
+
+      setOriginalData(state.UsersList.Users);
+
+      const uniqueUsersList = state.UsersList.Users.filter((user, index, self) =>
+        index === self.findIndex((u) => u.Email === user.Email)
+      );
+  
+      console.log("Filtered Unique Data:", uniqueUsersList);  
       
       setfilteredDataPagination(state.UsersList.Users)
       setLoading(false);
@@ -334,23 +311,12 @@ function UserList() {
   console.log("userDetails", userDetails)
 
   console.log("bedIds", bedIds, hostelIds, floorIds,roomsIds)
-// item.Email == email_id
-
-
-
   useEffect(() => {
     const ParticularUserDetails = state.UsersList?.Users?.filter(item => {
 
 console.log("item",item)
       
       return item.User_Id == customerUser_Id
-
-      
-      // item.Bed == bedIds &&
-      //   item.Hostel_Id == hostelIds &&
-      //   item.Floor == floorIds &&
-      //   item.Rooms == Number(roomsIds) 
-        
     }
 
     );
@@ -823,7 +789,7 @@ console.log("item",item)
                   console.log("userrr",user)
                   const imageUrl = user.profile || Profile;;
                   return (
-                    <tr key={user.Email} style={{ fontSize: "16px", fontWeight: 600, textAlign: "center", marginTop: 10 }}>
+                    <tr key={user.ID} style={{ fontSize: "16px", fontWeight: 600, textAlign: "center", marginTop: 10 }}>
                       <td style={{ padding: "10px", border: "none" }}>
                         <img src={squre} height={20} width={20} />
                       </td>
@@ -835,15 +801,15 @@ console.log("item",item)
                           roundedCircle
                           style={{ height: "40px", width: "40px", marginRight: "10px" }}
                           onError={(e) => {
-                            e.target.onerror = null; // Prevents infinite loop
-                            e.target.src = Profile; // Fallback to default image
+                            e.target.onerror = null; 
+                            e.target.src = Profile; 
                           }}
                         />
                         <span className="Customer_Name_Hover" style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", color: "#1E45E1", cursor: "pointer" }} onClick={() => handleRoomDetailsPage(user)}>
                           {user.Name}
                         </span>
                       </td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Email !== 'undefined' && user.Email !== null && user.Email !== '' ? user.Email : 'null'}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Email}</td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>+{user && String(user.Phone).slice(0, String(user.Phone).length - 10)}
                                 {' '}
                                 {user && String(user.Phone).slice(-10)}</td>

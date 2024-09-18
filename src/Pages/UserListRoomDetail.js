@@ -1778,7 +1778,7 @@ function UserListRoomDetail(props) {
                                               fontWeight: 500,
                                             }}
                                           >
-                                            First Name
+                                            First Name <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                           </Form.Label>
                                           <FormControl
                                             id="form-controls"
@@ -1853,7 +1853,7 @@ function UserListRoomDetail(props) {
                                               fontWeight: 500,
                                             }}
                                           >
-                                            Mobile number
+                                            Mobile number <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                           </Form.Label>
 
                                           <InputGroup>
@@ -2017,7 +2017,7 @@ function UserListRoomDetail(props) {
                                               fontWeight: 500,
                                             }}
                                           >
-                                            Address
+                                            Address <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                           </Form.Label>
                                           <FormControl
                                             type="text"
@@ -2055,7 +2055,7 @@ function UserListRoomDetail(props) {
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Paying Guest
+                                          Paying Guest <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                         </Form.Label>
                                         <Form.Select
                                           aria-label="Default select example"
@@ -2182,7 +2182,7 @@ function UserListRoomDetail(props) {
                                             fontFamily: "Gilroy",
                                           }}
                                         >
-                                          Floor
+                                          Floor <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                         </Form.Label>
                                         <Form.Select
                                           aria-label="Default select example"
@@ -2227,7 +2227,7 @@ function UserListRoomDetail(props) {
                                             fontFamily: "Gilroy",
                                           }}
                                         >
-                                          Room
+                                          Room<span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                         </Form.Label>
                                         <Form.Select
                                           aria-label="Default select example"
@@ -2275,7 +2275,7 @@ function UserListRoomDetail(props) {
                                             fontFamily: "Gilroy",
                                           }}
                                         >
-                                          Bed
+                                          Bed<span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                         </Form.Label>
                                         <Form.Select
                                           aria-label="Default select example"
@@ -2335,7 +2335,7 @@ function UserListRoomDetail(props) {
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                            Advance Amount
+                                            Advance Amount <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                           </Form.Label>
                                           <FormControl
                                             type="text"
@@ -2373,7 +2373,7 @@ function UserListRoomDetail(props) {
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                            Rental Amount
+                                            Rental Amount <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                           </Form.Label>
                                           <FormControl
                                             type="text"
