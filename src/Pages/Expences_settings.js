@@ -24,6 +24,16 @@ const ExpencesSettings = () => {
     const [expences, setExpences] = useState([])
     console.log("expences", expences);
 
+
+
+     const uniqueExpences = expences.filter((expence, index, self) =>
+        index === self.findIndex((e) => e.category_Id === expence.category_Id)
+      );
+     
+console.log("uniqueExpences",uniqueExpences);
+
+      
+
     const [namefilter, setNamefilter] = useState()
 
     //    useEffect(() => {
@@ -46,24 +56,31 @@ const ExpencesSettings = () => {
     // }, [state.Settings.Expences.data, type]); 
 
 
-    const [cateogoryerrmsg, setCategoryErrmsg] = useState('')
-    const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('')
+    const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
+    const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
+    const [totalErrormsg,setTotalErrmsg]= useState('');
 
     const addType = () => {
 
-        if(!type || !namefilter){
-            setCategoryErrmsg('Please enter a category')
+        if( !type ){
+            setTotalErrmsg('Please enter All Field')
+            setTimeout(() => {
+                setTotalErrmsg('')
+            }, 2000);
            return;
         }
 
-        if(!subType){
-            setSubCategoryErrmsg('Please enter a Sub-category')
-            return;
-         }
 
         if (type.trim()) {
             if (isSubCategory) {
-                if (subType.trim()) {
+                if( !subType || !namefilter){
+                    setTotalErrmsg('Please enter All Field')
+                    setTimeout(() => {
+                        setTotalErrmsg('')
+                    }, 2000);
+                   return;
+                }
+              else  if (subType.trim()) {
                     console.log("subexecuted");
                     // setTypes([...types, { category: type, subCategory: subType }]);
                     dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { id: type, category_Name: namefilter, sub_Category: subType } });
@@ -79,10 +96,21 @@ const ExpencesSettings = () => {
                 //     });
                 // }
             } else {
+
+                if( !type ){
+                    setTotalErrmsg('Please enter All Field')
+                    setTimeout(() => {
+                        setTotalErrmsg('')
+                    }, 2000);
+                   return;
+                }
+
+                else{
+                    dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { category_Name: type, sub_Category: '' } });
+                    setType('');
+                }
                 // setTypes([...types, { category: type, subCategory: '' }]);
-                dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { category_Name: type, sub_Category: '' } });
-            
-                setType('');
+              
             }
         } 
         // else {
@@ -238,7 +266,7 @@ const ExpencesSettings = () => {
                                 onChange={(e) => handleCategoryid(e)}
                             >
                                 <option value="">Select Category</option>
-                                {expences.map((category, index) => (
+                                {uniqueExpences.length > 0 && uniqueExpences.map((category, index) => (
                                     <option key={index} value={category.category_Id}>
                                         {category.category_Name}
                                     </option>
@@ -303,6 +331,13 @@ const ExpencesSettings = () => {
                 <p className='mt-1' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}>Make sub-category</p>
             </div>
 
+            {totalErrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+    </p>
+  </div>
+)}
             <div style={{ marginTop: '30px', fontSize: 14, fontWeight: 600 }}>
                 <Button
                     style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200 }}
@@ -314,7 +349,7 @@ const ExpencesSettings = () => {
                 <div className="mt-3">
                     <h5 style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Existing categories</h5>
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                        {expences.length > 0 && expences.map((t, index) => (
+                        {uniqueExpences.length > 0 && uniqueExpences.map((t, index) => (
                             <p key={index} className='m-1' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>
                                 <span style={{ backgroundColor: '#FFEFCF', padding: '8px 12px', color: '#222222', borderRadius: '14px' }}>
                                     {t.category_Name}

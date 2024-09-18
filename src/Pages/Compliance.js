@@ -733,7 +733,7 @@ const Compliance = () => {
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Customer
+                        Customer <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
                       <Form.Select className='border'
                         value={selectedUsername}
@@ -761,7 +761,7 @@ const Compliance = () => {
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Complaint Type
+                        Complaint Type <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
                       <Form.Select className='border'
                         selected
@@ -798,7 +798,7 @@ const Compliance = () => {
                         //  style={labelStyle}
                         style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
                       >
-                        Paying Guests
+                        Paying Guests<span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
                       <Form.Control
                         type="text"
@@ -817,7 +817,7 @@ const Compliance = () => {
                         style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
                       // style={labelStyle}
                       >
-                        Beds
+                        Beds<span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
                       <Form.Control
                         type="text"
@@ -833,7 +833,7 @@ const Compliance = () => {
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Assignee
+                        Assignee<span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
                       <Form.Select
                         className='border'
@@ -864,7 +864,7 @@ const Compliance = () => {
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Status
+                        Status<span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
                       <Form.Select
                         className='border'
@@ -904,7 +904,7 @@ const Compliance = () => {
                       <Form.Label
                         style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
                       >
-                        Room no
+                        Room no<span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
                       <Form.Control
                         type="text"
@@ -919,7 +919,7 @@ const Compliance = () => {
 
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Complaint date</Form.Label>
+                    <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Complaint date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
 
                     {/* <div className="rectangle-group">
                   <div className="frame-child1" />
