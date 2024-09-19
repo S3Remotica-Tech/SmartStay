@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {DeletePG, DeleteBed, createBed,createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails } from "../Action/PgListAction"
+import {UpdateFloor, DeletePG, DeleteBed, createBed,createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails } from "../Action/PgListAction"
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
@@ -310,6 +310,39 @@ function* handleDeletePG(action) {
    }
 }
 
+function* handleUpdateFloor(action) {
+   const response = yield call(UpdateFloor, action.payload);
+   console.log("response update floor", response)
+   var toastStyle = {
+      backgroundColor: 'green', 
+   color: 'white', 
+   width:"100%"
+ };
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'UPDATE_FLOOR', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+    toast.success('Floor has been successfully updated!', {
+        position: 'top-center',
+        autoClose: 2000, 
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle
+      });
+   }
+   else if (response.status === 202 || response.statusCode === 202) {
+
+      yield put({ type: 'UPDATE_FLOOR_ERROR', payload: response.data.message })
+       }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+
+
 
 function refreshToken(response) {
    if (response.data && response.data.refresh_token) {
@@ -341,5 +374,6 @@ function* PgListSaga() {
    yield takeEvery('CREATEBED',handleCreateBed)
    yield takeEvery('DELETEBED',handleDeleteBed)
    yield takeEvery('DELETEPG',handleDeletePG)
+   yield takeEvery('UPDATEFLOOR',handleUpdateFloor)
 }
 export default PgListSaga;

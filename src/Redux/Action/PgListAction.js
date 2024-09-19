@@ -106,7 +106,6 @@ import AxiosConfig from "../../WebService/AxiosConfig"
     })
   }
 
-
   
 
 
@@ -127,3 +126,11 @@ import AxiosConfig from "../../WebService/AxiosConfig"
 
 
  
+  
+
+
+  export async function UpdateFloor(datum){
+    return await AxiosConfig.post('/update_floor',datum,{
+      data:datum
+    })
+  }

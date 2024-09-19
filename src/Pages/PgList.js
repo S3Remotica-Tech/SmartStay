@@ -31,6 +31,10 @@ import DeleteFloor from './DeleteFloor';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Edit from '../Assets/Images/New_images/edit.png';
+
+
+
 
 // function getFloorName(floor_Id) {
 
@@ -80,18 +84,18 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function getFloorName(floor_Id) {
 
-  
+
   const adjustedFloorNumber = floor_Id - 1;
 
- 
+
   if (adjustedFloorNumber === 0) {
     return 'Ground Floor';
   } else {
-   
+
     const lastDigit = adjustedFloorNumber % 10;
     let suffix = 'th';
 
-   
+
     if (adjustedFloorNumber % 100 < 11 || adjustedFloorNumber % 100 > 13) {
       switch (lastDigit) {
         case 1:
@@ -159,30 +163,30 @@ function PgList() {
   const [loader, setLoader] = useState(true)
 
   const toastStyle = {
-   
-    backgroundColor: 'green', 
-    color: 'white', 
-    width:"100%"
+
+    backgroundColor: 'green',
+    color: 'white',
+    width: "100%"
   };
 
-  useEffect(()=>{
+  useEffect(() => {
 
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
     setFloorName(showHostelDetails?.floorDetails?.[0]?.floor_name)
 
-  },[showHostelDetails])
+  }, [showHostelDetails])
 
   useEffect(() => {
     if (state.UsersList?.hosteListStatusCode == 200) {
       setLoader(false)
-      
-        setFilteredData(state.UsersList.hostelList)
-     
-          setTimeout(()=>{
-            setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
-          },2000)
-       
-         setTimeout(() => {
+
+      setFilteredData(state.UsersList.hostelList)
+
+      setTimeout(() => {
+        setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
+      }, 2000)
+
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
       }, 4000)
     }
@@ -223,7 +227,7 @@ function PgList() {
   const LoginId = localStorage.getItem("loginId")
 
 
-  console.log("@@@@@@@@@@@@@@@@@@PMJ",state.UsersList?.hostelList)
+  console.log("@@@@@@@@@@@@@@@@@@PMJ", state.UsersList?.hostelList)
 
 
   useEffect(() => {
@@ -260,20 +264,16 @@ function PgList() {
 
 
   useEffect(() => {
-    if (state.UsersList.createFloorSuccessStatusCode == 200) {
-
+    if (state.UsersList.createFloorSuccessStatusCode == 200 || state.PgList.updateFloorSuccessStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
-      
-    
-
       setShowFloor(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_FLOOR_STATUS_CODE' })
+        dispatch({ type: 'CLEAR_UPDATE_FLOOR_STATUS_CODE' })
       }, 4000)
-      
     }
 
-  }, [state.UsersList.createFloorSuccessStatusCode])
+  }, [state.UsersList.createFloorSuccessStatusCode, state.PgList.updateFloorSuccessStatusCode])
 
 
 
@@ -289,7 +289,7 @@ function PgList() {
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_FLOOR' })
       }, 4000)
-      
+
     }
   }, [state.UsersList.deleteFloorSuccessStatusCode])
 
@@ -297,7 +297,7 @@ function PgList() {
     if (state.PgList.deletePgSuccessStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
 
-    
+
 
 
 
@@ -312,7 +312,7 @@ function PgList() {
   useEffect(() => {
     if (state.PgList.createPgStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
-     
+
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PG_STATUS_CODE' })
@@ -639,7 +639,7 @@ function PgList() {
   };
 
   //  new Ui changes 
- 
+
   console.log("showHostelDetails", showHostelDetails)
 
   const handleSelectedHostel = (selectedHostelId) => {
@@ -684,7 +684,7 @@ function PgList() {
 
 
   console.log("@@@@@@@@@@MATHU", showHostelDetails?.floorDetails?.[0])
-  console.log("filteredData", filteredData )
+  console.log("filteredData", filteredData)
 
 
 
@@ -736,11 +736,12 @@ function PgList() {
   const [showRoom, setShowRoom] = useState(false)
   const [hostelFloor, setHostelFloor] = useState('')
   const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
+  const [editFloor, setEditFloor] = useState({ hostel_Id: null, floor_Id: null });
 
   const handleAddFloors = (hostel_Id) => {
     setShowFloor(true)
     setHostelFloor(hostel_Id)
-
+    setUpdate(false)
   }
 
   const handleCloseFloor = () => {
@@ -759,25 +760,25 @@ function PgList() {
 
   const [floorClick, setFloorClick] = useState(showHostelDetails?.floorDetails?.[0]?.floor_id)
 
-const [floorName, setFloorName] = useState(showHostelDetails?.floorDetails?.[0]?.floor_name)
+  const [floorName, setFloorName] = useState(showHostelDetails?.floorDetails?.[0]?.floor_name)
 
 
 
   console.log("floorClick& floorName", floorClick, floorName)
-  console.log("showHostelDetails?.floorDetails?.[0]?.floor_name",showHostelDetails?.floorDetails?.[0]?.floor_name);
-  
+  console.log("showHostelDetails?.floorDetails?.[0]?.floor_name", showHostelDetails?.floorDetails?.[0]?.floor_name);
+
 
   const handlebackToPG = () => {
     setSelectedHostel(false)
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
     setHidePgList(true);
-   
+
   }
 
 
   const handleDIsplayFloorClick = (floorNo) => {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
-     
+
   }
 
 
@@ -845,7 +846,7 @@ const [floorName, setFloorName] = useState(showHostelDetails?.floorDetails?.[0]?
   const [visibleRange, setVisibleRange] = useState([0, 3]);
 
 
-console.log("showHostelDetails",showHostelDetails)
+  console.log("showHostelDetails", showHostelDetails)
 
 
   const numberOfFloors = showHostelDetails && showHostelDetails?.floorDetails?.length;
@@ -871,15 +872,15 @@ console.log("showHostelDetails",showHostelDetails)
   };
 
 
-console.log("floorName", floorName)
+  console.log("floorName", floorName)
 
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom == 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id } })
-    
-        
-    
+
+
+
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_ROOM' })
       }, 4000);
@@ -929,6 +930,22 @@ console.log("floorName", floorName)
     // setFloorClick(1)
 
   }
+
+
+  const [update, setUpdate] = useState(false)
+
+
+  const handleEditFloor = (floor_Id, hostel_Id) => {
+
+    setShowFloor(true)
+    setEditFloor({ hostel_Id, floor_Id })
+    setUpdate(true)
+
+  }
+
+
+
+
 
   console.log("key", key)
   useEffect(() => {
@@ -1124,7 +1141,7 @@ console.log("floorName", floorName)
 
                         <Nav variant="" className="flex-column">
                           {showHostelDetails.floorDetails.map((floor, index) => (
-                            
+
                             index >= visibleRange[0] && index <= visibleRange[1] &&
                             <Nav.Item
                               key={floor.floor_id}
@@ -1140,11 +1157,19 @@ console.log("floorName", floorName)
                                   className={Number(floorClick) == Number(floor.floor_id) ? 'ActiveFloortext' : 'UnActiveFloortext'}
                                   style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, textTransform: "capitalize" }}
                                 >
-                                  {floor.floor_id === 1
+                                  {/* {floor.floor_id === 1
                                     ? "Ground Floor"
                                     : (!floor.floor_name || floor.floor_name.trim() === "" || floor.floor_name === "null")
                                       ? getFloorName(floor.floor_id)
-                                      : floor.floor_name}
+                                      : floor.floor_name} */}
+                                  {
+                                    floor.floor_name && floor.floor_name.trim() !== "" && floor.floor_name !== "null"
+                                      ? floor.floor_name
+                                      : floor.floor_id === 1
+                                        ? "Ground Floor"
+                                        : getFloorName(floor.floor_id)
+                                  }
+
                                 </div>
 
 
@@ -1166,33 +1191,39 @@ console.log("floorName", floorName)
                       {/* {
                         floorClick && */}
 
-                        <div className='d-flex justify-content-between align-items-center'>
-                          <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{floorName !== null || floorName !== undefined || floorName.trim() !== '' ? floorName : getFloorName(floorClick)}</div>
-                          <div>
-                            <div style={{
-                              cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative",
-                              zIndex: showDots ? 1000 : 'auto'
-                            }}
-                              onClick={() => handleShowDots()}>
-                              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                      <div className='d-flex justify-content-between align-items-center'>
+                        <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{floorName !== null || floorName !== undefined || floorName.trim() !== '' ? floorName : getFloorName(floorClick)}</div>
+                        <div>
+                          <div style={{
+                            cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative",
+                            zIndex: showDots ? 1000 : 'auto'
+                          }}
+                            onClick={() => handleShowDots()}>
+                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-                              {showDots && <>
-                                <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                            {showDots && <>
+                              <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                                <div>
 
 
-
-                                  <div onClick={() => handleShowDelete(floorClick, showHostelDetails.id, showHostelDetails)}>
-                                    <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
+                                  <div className='mb-2'
+                                    onClick={() => handleEditFloor(floorClick, showHostelDetails.id, showHostelDetails)}
+                                  >
+                                    <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222", cursor: "pointer" }}>Edit</label>
                                   </div>
 
+                                  <div onClick={() => handleShowDelete(floorClick, showHostelDetails.id, showHostelDetails)}>
+                                    <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
+                                  </div>
                                 </div>
+                              </div>
 
 
-                              </>}
+                            </>}
 
-                            </div>
                           </div>
                         </div>
+                      </div>
                       {/* } */}
 
                       <Tab.Content>
@@ -1241,7 +1272,7 @@ console.log("floorName", floorName)
 
         {showAddPg && <AddPg show={showAddPg} handleClose={handleCloses} currentItem={editHostelDetails} />}
         {showDelete && <DeleteFloor show={showDelete} handleClose={handleCloseDelete} currentItem={deleteFloor} />}
-        {showFloor && <AddFloor show={showFloor} handleClose={handleCloseFloor} hostelFloor={hostelFloor} openFloor={handleDIsplayFloorClick} />}
+        {showFloor && <AddFloor updateFloor={update} show={showFloor} handleClose={handleCloseFloor} hostelFloor={hostelFloor} openFloor={handleDIsplayFloorClick} editFloor={editFloor} />}
         {showRoom && <AddRoom show={showRoom} handleClose={handlecloseRoom} hostelDetails={hostelDetails} />}
       </div>
     </>

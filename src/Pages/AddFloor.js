@@ -12,7 +12,7 @@ import moment from 'moment';
 import { MdError } from "react-icons/md";
 
 
-function StaticExample({ show, handleClose, hostelFloor, openFloor }) {
+function StaticExample({ show, handleClose, hostelFloor, openFloor , editFloor, updateFloor}) {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -20,7 +20,7 @@ function StaticExample({ show, handleClose, hostelFloor, openFloor }) {
 
     console.log("state", state)
 
-
+console.log(" editFloor", editFloor, updateFloor)
 
     const [floorNo, setFloorNo] = useState('')
     const [floorName, setFloorName] = useState('')
@@ -29,6 +29,7 @@ function StaticExample({ show, handleClose, hostelFloor, openFloor }) {
     const handleFloorChange = (e) => {
         setFloorNo(e.target.value)
         dispatch({ type: 'CLEAR_ALREADY_FLOOR_ERROR' })
+        dispatch({ type: 'CLEAR_UPDATE_FLOOR_ERROR' })
     }
 
 
@@ -76,13 +77,15 @@ function StaticExample({ show, handleClose, hostelFloor, openFloor }) {
 
 
         if (floorNo) {
-            dispatch({
-                type: 'CREATEFLOOR', payload: {
-                    hostel_Id: hostelFloor, floor_Id: floorNo,
-                    // floor_Name: floorName
-                }
-            })
-            //  handleClose();
+
+if(updateFloor){
+    dispatch({ type: 'UPDATEFLOOR', payload:{ floor_Id:floorNo, hostel_Id: editFloor.hostel_Id,id: editFloor.floor_Id }})
+
+}else{
+    dispatch({type: 'CREATEFLOOR', payload: {hostel_Id: hostelFloor, floor_Id: floorNo}})
+}
+    
+          
            
 
         }
@@ -129,6 +132,7 @@ function StaticExample({ show, handleClose, hostelFloor, openFloor }) {
     //   }, [state.UsersList.createFloorSuccessStatusCode])
 
 
+
     return (
         <div
             className="modal show"
@@ -139,7 +143,7 @@ function StaticExample({ show, handleClose, hostelFloor, openFloor }) {
             <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
                     <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Add floor</Modal.Title>
+                        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>{updateFloor ? ' Edit Floor' : 'Add floor'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{ padding: 20 }}>
 
@@ -147,11 +151,11 @@ function StaticExample({ show, handleClose, hostelFloor, openFloor }) {
                         <div className='row mt-1'>
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 600 }}>Floor no <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 600 }}>Floor name or no.<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
                                         value={floorNo}
                                         onChange={handleFloorChange}
-                                        type="text" placeholder="Enter floor no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: floorNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                                        type="text" placeholder="Enter floor name or no" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: floorNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
 
                             </div>
@@ -203,11 +207,22 @@ function StaticExample({ show, handleClose, hostelFloor, openFloor }) {
                             </label>
                         </div>
                     )}
+{state.PgList?.alreadyfloorNameHere && (
+                        <div className="d-flex align-items-center p-1 mb-2">
+                            <MdError style={{ color: "red", marginRight: '5px' }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                {state.PgList?.alreadyfloorNameHere}
+                            </label>
+                        </div>
+                    )}
+
+
+
 
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
                         <Button onClick={handleCreateFloor} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} >
-                            Add floor
+                        {updateFloor ? 'Save' : 'Add floor'}
                         </Button>
                     </Modal.Footer>
                 </Modal.Dialog>
