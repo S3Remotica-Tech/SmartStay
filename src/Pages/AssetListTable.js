@@ -197,9 +197,9 @@ useEffect(() => {
     <>
     <tr style={{ fontFamily: "Gilroy"}} key={props.item.id}>
 
-    <td style={{ color: "", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center", border: "none"}}>
+    {/* <td style={{ color: "", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center", border: "none"}}>
       <input type='checkbox' className="custom-checkbox" style={customCheckboxStyle} />
-    </td>
+    </td> */}
     <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.product_name}</td>
 
     {/* <td style={{border: "none"}}>
@@ -229,7 +229,14 @@ useEffect(() => {
       </div>
 
     </td>
+
     {/* <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>₹{props.item.total_price.toLocaleString('en-IN')}</td> */}
+    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.hostel_id || "Not assigned"}</td>
+    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.room_id || "Not assigned"}</td>
+    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.floor_id || "Not assigned"}</td>
+
+
+
     <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle' }}>
       <div style={{width:"100%" , display:"flex", justifyContent:"center"}}>
       <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position:"relative"}}  onClick={() => handleShowDots(props.item.id)}  >

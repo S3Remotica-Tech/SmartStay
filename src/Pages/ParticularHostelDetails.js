@@ -181,7 +181,7 @@ console.log("roomCountData",roomCountData)
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: '', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
       }, 2000)

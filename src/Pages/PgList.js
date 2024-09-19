@@ -179,19 +179,21 @@ function PgList() {
   useEffect(() => {
     if (state.UsersList?.hosteListStatusCode == 200) {
       setLoader(false)
-
       setFilteredData(state.UsersList.hostelList)
-
-      setTimeout(() => {
-        setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
-      }, 2000)
-
-      setTimeout(() => {
+         setTimeout(() => {
         dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
       }, 4000)
     }
 
   }, [state.UsersList?.hosteListStatusCode])
+
+
+
+useEffect(()=>{
+if(filteredData){
+  setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
+  }
+  },[filteredData])
 
 
 
@@ -764,7 +766,7 @@ function PgList() {
 
 
 
-  console.log("floorClick& floorName", floorClick, floorName)
+  console.log("floorClick& floorName", floorClick)
   console.log("showHostelDetails?.floorDetails?.[0]?.floor_name", showHostelDetails?.floorDetails?.[0]?.floor_name);
 
 
@@ -1224,7 +1226,7 @@ function PgList() {
                           </div>
                         </div>
                       </div>
-                      {/* } */}
+                       {/* }  */}
 
                       <Tab.Content>
                         <ParticularHostelDetails
