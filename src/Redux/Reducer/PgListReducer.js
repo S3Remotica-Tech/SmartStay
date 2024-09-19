@@ -37,12 +37,13 @@ const initialState = {
     statusCodeForDeleteRoom: 0,
     statusCodeDeleteBed: 0,
     AddEBstatusCode: 0,
-    ebError:'',
+    ebError: '',
     deletePgSuccessStatusCode: 0,
     alreadyRoomHere: ' ',
     deletePgError: '',
     deleteBedError: '',
- 
+    updateFloorSuccessStatusCode: 0,
+    alreadyfloorNameHere: ''
 
 }
 const PgListReducer = (state = initialState, action) => {
@@ -89,11 +90,11 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, EB_startmeterlist: action.payload }
 
 
-            case 'EB_ERROR':
-                return { ...state, ebError: action.payload }
-    
-            case 'CLEAR_EB_ERROR':
-                return { ...state, ebError: '' }
+        case 'EB_ERROR':
+            return { ...state, ebError: action.payload }
+
+        case 'CLEAR_EB_ERROR':
+            return { ...state, ebError: '' }
 
 
         case 'ALREADY_ROOM_ERROR':
@@ -158,6 +159,24 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, deleteBedError: action.payload }
         case 'CLEAR_DELETE_BED_ERROR':
             return { ...state, deleteBedError: '' }
+
+
+// UPDATE FLOOR
+
+        case 'UPDATE_FLOOR':
+            return { ...state, updateFloorSuccessStatusCode: action.payload.statusCode }
+
+        case 'CLEAR_UPDATE_FLOOR_STATUS_CODE':
+            return { ...state, updateFloorSuccessStatusCode: 0 }
+
+        case 'UPDATE_FLOOR_ERROR':
+            return { ...state, alreadyfloorNameHere: action.payload }
+        case 'CLEAR_UPDATE_FLOOR_ERROR':
+            return { ...state, alreadyfloorNameHere: '' }
+
+// ///////////////////////////////////////////////
+
+
 
 
         //         case 'ROOM_COUNT':
