@@ -132,7 +132,7 @@ useEffect(() => {
           </div>
           <div >
           <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
-  {props.vendor && props.vendor.Vendor_Email && props.vendor.Vendor_Email !== "undefined" ? props.vendor.Vendor_Email : ''}
+  {props.vendor && props.vendor.Vendor_Email && props.vendor.Vendor_Email !== "undefined" ? props.vendor.Vendor_Email : 'N/A'}
 </label>
           </div>
 

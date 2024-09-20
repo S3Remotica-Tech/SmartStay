@@ -71,7 +71,7 @@ console.log("props ##############",props)
     <td style={{border: "none"}}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: "between", flex:"wrap", gap:2, width:"100%" }}>
        <Image src={props.item.Vendor_profile ? props.item.Vendor_profile : Profile} roundedCircle style={{height:40, width:40}}/>
-        <div style={{ fontSize: 16, fontWeight: 600, color: "#222222" ,fontFamily: "Gilroy"}}>{props.item.Vendor_Name || "Not Available"}</div>
+        <div style={{ fontSize: 16, fontWeight: 600, color: "#222222" ,fontFamily: "Gilroy"}}>{props.item.Vendor_Name || "N/A"}</div>
       </div>
     </td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle',border: "none" }}>
@@ -79,7 +79,7 @@ console.log("props ##############",props)
         <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", width: "fit-content",fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
       </div>
     </td>
-    <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>{props.item.asset_id || "Not Available"}</td>
+    <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>{props.item.asset_id || "N/A"}</td>
    
     <td style={{ textAlign: 'center', verticalAlign: 'middle',border: "none" }}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
