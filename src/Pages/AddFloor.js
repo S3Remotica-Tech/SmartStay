@@ -26,6 +26,15 @@ console.log(" editFloor", editFloor, updateFloor)
     const [floorName, setFloorName] = useState('')
 
 
+useEffect(()=>{
+    if(editFloor){
+         setFloorNo(editFloor.floorName)
+    }
+    
+},[editFloor])
+
+
+
     const handleFloorChange = (e) => {
         setFloorNo(e.target.value)
         dispatch({ type: 'CLEAR_ALREADY_FLOOR_ERROR' })
@@ -67,7 +76,7 @@ const [floorId, setFloorId] = useState('')
             return;
         }
 
-        if (!editFloor.floor_Id) {
+        if (updateFloor && !editFloor.floor_Id) {
            setFloorId('Please Select Floor')
             return;
           }

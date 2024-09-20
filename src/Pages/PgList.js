@@ -738,7 +738,7 @@ if(filteredData){
   const [showRoom, setShowRoom] = useState(false)
   const [hostelFloor, setHostelFloor] = useState('')
   const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
-  const [editFloor, setEditFloor] = useState({ hostel_Id: null, floor_Id: null });
+  const [editFloor, setEditFloor] = useState({ hostel_Id: null, floor_Id: null , floorName: null});
 
   const handleAddFloors = (hostel_Id) => {
     setShowFloor(true)
@@ -937,10 +937,10 @@ if(filteredData){
   const [update, setUpdate] = useState(false)
 
 
-  const handleEditFloor = (floor_Id, hostel_Id) => {
+  const handleEditFloor = (floor_Id, hostel_Id, floorName) => {
 
     setShowFloor(true)
-    setEditFloor({ hostel_Id, floor_Id })
+    setEditFloor({ hostel_Id, floor_Id , floorName})
     setUpdate(true)
 
   }
@@ -1209,7 +1209,7 @@ if(filteredData){
 
 
                                   <div className='mb-2'
-                                    onClick={() => handleEditFloor(floorClick, showHostelDetails.id, showHostelDetails)}
+                                    onClick={() => handleEditFloor(floorClick, showHostelDetails.id, floorName)}
                                   >
                                     <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222", cursor: "pointer" }}>Edit</label>
                                   </div>
