@@ -289,13 +289,6 @@ function Sidebar() {
 
 console.log("profile*****", profiles)
 
-  if((profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '')){
-    setProfiles(0)
-  }
-
-  console.log("?????????????????????",profiles);
-  
-
 
   const [selectedHostel, setSelectedHostel] = useState(null);
 
@@ -310,7 +303,7 @@ console.log("profile*****", profiles)
 
 
   const [activePage, setActivePage] = useState(true);
-  const [currentPage, setCurrentPage] = useState(localStorage.getItem('currentPage') || 'dashboard');
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
   console.log("currentPage",currentPage)
 
@@ -325,18 +318,10 @@ console.log("profile*****", profiles)
   })
 
 
-  useEffect(() => {
-   
-    setActivePage(currentPage !== 'dashboard');
-  }, [currentPage]);
-
-
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
     setActivePage(false);
-
-    localStorage.setItem('currentPage', page);
   };
 
 
@@ -486,8 +471,7 @@ setCurrentPage('compliance')
 
 <div className="mr-3" style={{cursor:"pointer"}}>
   <Image 
-src={ profiles == 0 ? Profileimage : profiles} alt='profile-image'
-
+src={profiles && profiles != null ?   profiles : Profileimage}
   // src={profile && profile != 0  || profile !=null? profile : Profileimage}
    roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
 </div>
