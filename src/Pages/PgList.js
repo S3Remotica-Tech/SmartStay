@@ -180,7 +180,7 @@ function PgList() {
     if (state.UsersList?.hosteListStatusCode == 200) {
       setLoader(false)
       setFilteredData(state.UsersList.hostelList)
-         setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
       }, 4000)
     }
@@ -189,11 +189,11 @@ function PgList() {
 
 
 
-useEffect(()=>{
-if(filteredData){
-  setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
-  }
-  },[filteredData])
+  useEffect(() => {
+    if (filteredData) {
+      setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
+    }
+  }, [filteredData])
 
 
 
@@ -738,7 +738,7 @@ if(filteredData){
   const [showRoom, setShowRoom] = useState(false)
   const [hostelFloor, setHostelFloor] = useState('')
   const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
-  const [editFloor, setEditFloor] = useState({ hostel_Id: null, floor_Id: null , floorName: null});
+  const [editFloor, setEditFloor] = useState({ hostel_Id: null, floor_Id: null, floorName: null });
 
   const handleAddFloors = (hostel_Id) => {
     setShowFloor(true)
@@ -940,7 +940,7 @@ if(filteredData){
   const handleEditFloor = (floor_Id, hostel_Id, floorName) => {
 
     setShowFloor(true)
-    setEditFloor({ hostel_Id, floor_Id , floorName})
+    setEditFloor({ hostel_Id, floor_Id, floorName })
     setUpdate(true)
 
   }
@@ -1164,13 +1164,25 @@ if(filteredData){
                                     : (!floor.floor_name || floor.floor_name.trim() === "" || floor.floor_name === "null")
                                       ? getFloorName(floor.floor_id)
                                       : floor.floor_name} */}
-                                  {
+                                  {/* {
                                     floor.floor_name && floor.floor_name.trim() !== "" && floor.floor_name !== "null"
                                       ? floor.floor_name
                                       : floor.floor_id === 1
                                         ? "Ground Floor"
                                         : getFloorName(floor.floor_id)
+                                  } */}
+
+                                  {
+                                    typeof floor.floor_name === "string" && floor.floor_name.trim() !== "" && floor.floor_name !== "null"
+                                      ? isNaN(floor.floor_name)
+                                        ? floor.floor_name
+                                        : getFloorName(Number(floor.floor_name))
+                                      : floor.floor_id === 1
+                                        ? "Ground Floor"
+                                        : getFloorName(floor.floor_id)
                                   }
+
+
 
                                 </div>
 
@@ -1194,7 +1206,14 @@ if(filteredData){
                         floorClick && */}
 
                       <div className='d-flex justify-content-between align-items-center'>
-                        <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{floorName !== null || floorName !== undefined || floorName.trim() !== '' ? floorName : getFloorName(floorClick)}</div>
+                        <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{
+                          floorName !== null && floorName !== undefined && floorName.trim() !== ""
+                            ? isNaN(floorName)
+                              ? floorName
+                              : getFloorName(Number(floorName))
+                            : getFloorName(floorClick)
+                        }
+                        </div>
                         <div>
                           <div style={{
                             cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative",
@@ -1226,7 +1245,7 @@ if(filteredData){
                           </div>
                         </div>
                       </div>
-                       {/* }  */}
+                      {/* }  */}
 
                       <Tab.Content>
                         <ParticularHostelDetails
