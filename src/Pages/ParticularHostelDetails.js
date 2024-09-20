@@ -137,7 +137,7 @@ function ParticularHostelDetails(props) {
 
     if (props.floorID && props.hostel_Id) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-
+      setLoader(true)
     }
   }, [props.hostel_Id, props.floorID])
 
@@ -416,7 +416,7 @@ console.log("currentItems Room", currentItems);
     })
   });
  
-
+console.log("loader",loader)
 
   return (
     <> 
@@ -424,7 +424,7 @@ console.log("currentItems Room", currentItems);
     <div className=''>
  
       <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
-        {loader &&  <Spinner animation="grow" variant="primary" size="sm" />}
+        { loader &&  <Spinner animation="grow" variant="primary" size="sm" />}
       </div>
 
 
