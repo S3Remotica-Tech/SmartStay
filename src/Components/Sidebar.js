@@ -303,7 +303,7 @@ console.log("profile*****", profiles)
 
 
   const [activePage, setActivePage] = useState(true);
-  const [currentPage, setCurrentPage] = useState('dashboard');
+  const [currentPage, setCurrentPage] = useState(localStorage.getItem('currentPage') || 'dashboard');
 
   console.log("currentPage",currentPage)
 
@@ -318,10 +318,18 @@ console.log("profile*****", profiles)
   })
 
 
+  useEffect(() => {
+   
+    setActivePage(currentPage !== 'dashboard');
+  }, [currentPage]);
+
+
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
     setActivePage(false);
+
+    localStorage.setItem('currentPage', page);
   };
 
 
