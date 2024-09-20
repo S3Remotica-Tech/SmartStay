@@ -42,9 +42,11 @@ dispatch({ type: 'CLEAR_ALREADY_ROOM_ERROR'})
 
 
   setRoom(Room_Id)
-  const floorId = hostelDetails.floor_Id.toString();
-      const hostel_Id = hostelDetails.hostel_Id.toString();
-
+  // const floorId = hostelDetails.floor_Id.toString();
+  //     const hostel_Id = hostelDetails.hostel_Id.toString();
+  const floorId = hostelDetails?.floor_Id ? hostelDetails.floor_Id.toString() : '';
+  const hostel_Id = hostelDetails?.hostel_Id ? hostelDetails.hostel_Id.toString() : '';
+  
 
    setAlreadyRoom(state.PgList.roomCount.some((item)=>{
     return item.Room_Id == Room_Id && item.Floor_Id == floorId && item.Hostel_Id == hostel_Id

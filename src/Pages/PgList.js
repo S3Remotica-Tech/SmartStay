@@ -179,19 +179,21 @@ function PgList() {
   useEffect(() => {
     if (state.UsersList?.hosteListStatusCode == 200) {
       setLoader(false)
-
       setFilteredData(state.UsersList.hostelList)
-
-      setTimeout(() => {
-        setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
-      }, 2000)
-
-      setTimeout(() => {
+         setTimeout(() => {
         dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
       }, 4000)
     }
 
   }, [state.UsersList?.hosteListStatusCode])
+
+
+
+useEffect(()=>{
+if(filteredData){
+  setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
+  }
+  },[filteredData])
 
 
 
@@ -736,7 +738,7 @@ function PgList() {
   const [showRoom, setShowRoom] = useState(false)
   const [hostelFloor, setHostelFloor] = useState('')
   const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
-  const [editFloor, setEditFloor] = useState({ hostel_Id: null, floor_Id: null });
+  const [editFloor, setEditFloor] = useState({ hostel_Id: null, floor_Id: null , floorName: null});
 
   const handleAddFloors = (hostel_Id) => {
     setShowFloor(true)
@@ -764,7 +766,7 @@ function PgList() {
 
 
 
-  console.log("floorClick& floorName", floorClick, floorName)
+  console.log("floorClick& floorName", floorClick)
   console.log("showHostelDetails?.floorDetails?.[0]?.floor_name", showHostelDetails?.floorDetails?.[0]?.floor_name);
 
 
@@ -935,10 +937,10 @@ function PgList() {
   const [update, setUpdate] = useState(false)
 
 
-  const handleEditFloor = (floor_Id, hostel_Id) => {
+  const handleEditFloor = (floor_Id, hostel_Id, floorName) => {
 
     setShowFloor(true)
-    setEditFloor({ hostel_Id, floor_Id })
+    setEditFloor({ hostel_Id, floor_Id , floorName})
     setUpdate(true)
 
   }
@@ -1207,7 +1209,7 @@ function PgList() {
 
 
                                   <div className='mb-2'
-                                    onClick={() => handleEditFloor(floorClick, showHostelDetails.id, showHostelDetails)}
+                                    onClick={() => handleEditFloor(floorClick, showHostelDetails.id, floorName)}
                                   >
                                     <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222", cursor: "pointer" }}>Edit</label>
                                   </div>
@@ -1224,7 +1226,7 @@ function PgList() {
                           </div>
                         </div>
                       </div>
-                      {/* } */}
+                       {/* }  */}
 
                       <Tab.Content>
                         <ParticularHostelDetails

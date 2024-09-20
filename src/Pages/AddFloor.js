@@ -26,6 +26,15 @@ console.log(" editFloor", editFloor, updateFloor)
     const [floorName, setFloorName] = useState('')
 
 
+useEffect(()=>{
+    if(editFloor){
+         setFloorNo(editFloor.floorName)
+    }
+    
+},[editFloor])
+
+
+
     const handleFloorChange = (e) => {
         setFloorNo(e.target.value)
         dispatch({ type: 'CLEAR_ALREADY_FLOOR_ERROR' })
@@ -51,11 +60,11 @@ console.log(" editFloor", editFloor, updateFloor)
 
 
     const [floorError, setFloorError] = useState('')
-
+const [floorId, setFloorId] = useState('')
 
     const handleCreateFloor = () => {
 
-
+        setFloorId('')
         // if (!floorNo || !/^[1-9]\d*$/.test(floorNo)) {
         //                setFloorError('Please enter a valid Floor no.(must be a positive number greater than 0)')
         //     return;
@@ -67,13 +76,13 @@ console.log(" editFloor", editFloor, updateFloor)
             return;
         }
 
-        // if (!floorNo) {
-        //     Swal.fire({
-        //       icon: 'warning',
-        //       title: 'Please enter at least  Floor no or name',
-        //     });
-        //     return;
-        //   }
+        if (updateFloor && !editFloor.floor_Id) {
+           setFloorId('Please Select Floor')
+            return;
+          }
+
+
+
 
 
         if (floorNo) {
@@ -190,6 +199,17 @@ if(updateFloor){
                         </div>
 
                     </Modal.Body>
+                  
+
+                    {floorId && (
+                        <div className="d-flex align-items-center p-1 mb-2">
+                            <MdError style={{ color: "red", marginRight: '5px' }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                {floorId}
+                            </label>
+                        </div>
+                    )}
+
 
                     {floorError && (
                         <div className="d-flex align-items-center p-1 mb-2">
