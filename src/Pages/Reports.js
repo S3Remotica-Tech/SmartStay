@@ -42,7 +42,7 @@ function Reports() {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedReport, setSelectedReport] = useState(null);
   const [showReport, setShowReport] = useState(true)
-  const [profile, setProfile] = useState(state.accountList[0].user_details.profile)
+  const [profile, setProfile] = useState(state.accountList[0]?.user_details.profile)
   const [searchQuery, setSearchQuery] = useState("");
 
 
