@@ -241,21 +241,21 @@ console.log("roomCountData",roomCountData)
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(4);
 
-  const [currentItems, setCurrentItems] = useState([]); 
+  // const [currentItems, setCurrentItems] = useState([]); 
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
 
 
   useEffect(()=>{
     if(roomCountData.length > 0 ){
       setLoader(false)
-      const slicedItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
-      setCurrentItems(slicedItems);
+      // const slicedItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem);
+      // setCurrentItems(slicedItems);
       }else{
         setLoader(false);
-    setCurrentItems([]); 
+    // setCurrentItems([]); 
       }
   
   },[roomCountData])
