@@ -73,11 +73,11 @@ const Accountsettings = () => {
   // const [Address, setAddress] = useState(initialValues.Address);
 
 
-  const [firstNameError, setFirstNameError] = useState(false);
-  const [lastNameError, setLastNameError] = useState(false);
-  const [EmailError, setEmailError] = useState(false);
-  const [mobilenoError, setMobileNoError] = useState(false);
-  const [AddressError, setAddressError] = useState(false);
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
+  const [EmailError, setEmailError] = useState('');
+  const [mobilenoError, setMobileNoError] = useState('');
+  const [AddressError, setAddressError] = useState('');
   const [error, setError] = useState(false)
   const [value, setValue] = React.useState('1');
   const [countryCode, setCountryCode] = useState('91');
@@ -101,42 +101,53 @@ const [displayPassword, setDisplayPassword] = useState(false)
 
 
   const handleName = (e) => {
-    const value = e.target.value;
-    if (value.trim() === '') {
-      setFirstNameError(true);
-      setFirstName('');
+    setFirstName(e.target.value);
+    // const value = e.target.value;
+    if (e.target.value.trim() === '') {
+      setFirstNameError('Please Enter FirstName');
     } else {
-      setFirstNameError(false);
-      setFirstName(value);
+      setFirstNameError('');
+      
     }
   };
 
   const handlelastName = (e) => {
     const value = e.target.value;
     if (value.trim() === '') {
-      setLastNameError(true);
+      // setLastNameError(true);
       setLastName('');
     } else {
-      setLastNameError(false);
+      // setLastNameError(false);
       setLastName(value);
     }
   }
 
   const handleEmailId = (e) => {
     setEmail(e.target.value);
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+
     const email = e.target.value;
-
+    setEmailError('');
+    
     const hasUpperCase = /[A-Z]/.test(email);
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
-    const isValidEmail = emailRegex.test(email);
-
-
+  
     if (hasUpperCase) {
-      document.getElementById('emailIDError').innerHTML = 'Email should be in lowercase *';
-    } else if (isValidEmail) {
-      document.getElementById('emailIDError').innerHTML = '';
-    } else {
-      document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *';
+      setEmailError('Email address cannot contain uppercase letters');
+      return;
+    }
+  
+  
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    const isValidEmail = emailRegex.test(email);
+    const emailIDError = document.getElementById('emailIDError');
+    
+    if (emailIDError) {
+      if (isValidEmail) {
+        emailIDError.innerHTML = '';
+      } else {
+        emailIDError.innerHTML = 'Invalid Email Id *';
+      }
     }
   };
 
@@ -144,17 +155,32 @@ const [displayPassword, setDisplayPassword] = useState(false)
   const handlePhone = (e) => {
 
     setPhone(e.target.value);
+
+    dispatch({ type: 'CLEAR_MOBILE_ERROR'})
+    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR'})
+
+    const phoneNumber = parseInt(phone, 10);
     const pattern = new RegExp(/^\d{1,10}$/);
     const isValidMobileNo = pattern.test(e.target.value);
-    const errorElement = document.getElementById('MobileNumberError');
-  
-    if (errorElement) {
-      if (isValidMobileNo && e.target.value.length === 10) {
-        errorElement.innerHTML = '';
-      } else {
-        errorElement.innerHTML = 'Invalid mobile number *';
-      }
+     console.log("isValidMobileNo",isValidMobileNo);
+     
+    if (e.target.value.trim() === '') {
+      setMobileNoError('Please Enter phone');
+    } 
+    // else if (e.target.value > 10){
+    //   setMobileNoError('Invalid mobile number '); 
+    // }
+     else {
+      setMobileNoError('');    
     }
+  
+    // if (errorElement) {
+    //   if (isValidMobileNo && e.target.value.length === 10) {
+    //     errorElement.innerHTML = '';
+    //   } else {
+    //     errorElement.innerHTML = 'Invalid mobile number *';
+    //   }
+    // }
 
 
   };
@@ -163,13 +189,13 @@ const [displayPassword, setDisplayPassword] = useState(false)
 
 
   const handleAddress = (e) => {
-    const value = e.target.value;
-    if (value.trim() === '') {
-      setAddressError(true);
-      setAddress('');
+    setAddress(e.target.value);
+
+    // const value = e.target.value;
+    if (e.target.value.trim() === '') {
+      setAddressError("Please Enter Address");
     } else {
-      setAddressError(false);
-      setAddress(value);
+      setAddressError('');
     }
   }
 
@@ -372,7 +398,6 @@ const [displayPassword, setDisplayPassword] = useState(false)
     setCurrentpassword(e.target.value);
   }
 
-
    const [inputdisable, setInputDisable] = useState('')
 
   const Passwordverify = async () => {
@@ -511,26 +536,61 @@ if(!currentpassword){
     const [totalErrormsg ,setTotalErrmsg]= useState('')
 
 
-  const handleSaveUpdate = () => {
+         const handleSaveUpdate = () => {
 
 
-    const emailElement = document.getElementById('emailIDError');
-    const emailError = emailElement ? emailElement.innerHTML : '';
+    // const emailElement = document.getElementById('emailIDError');
+    // const emailError = emailElement ? emailElement.innerHTML : '';
     const emailcapitalelement = document.getElementById('emailIDError');
     const emailCapitalError = emailcapitalelement ? emailcapitalelement.innerHTML : '';
-    // document.getElementById('emailIDError').innerHTML = 'Email should be in lowercase *';
     const phoneNumberError = document.getElementById('MobileNumberError');
     const mobileError = phoneNumberError ? phoneNumberError.innerHTML : '';
 
+    const emailElement = document.getElementById('emailIDError');
+    const emailError = emailElement ? emailElement.innerHTML : '';
+
+   const phoneNumber = parseInt(phone, 10);
+   const phonePattern = new RegExp(/^\d{10}$/);
+   const isValidMobileNo = phonePattern.test(phone);
+
    if (!firstname || !MobileNumber || !email || !Address){
-    setTotalErrmsg('Please enter all field')
+    setTotalErrmsg('Please enter All field')
     setTimeout(()=> {
         setTotalErrmsg('')
       },2000)
     return;
    }
 
-   
+   if (!firstname) {
+    setFirstNameError('Please enter first name')
+    return;
+   }
+
+   if (!email) {
+    setEmailError('Please Enter Email id')
+    return;
+     }
+   if (emailError === 'Invalid Email Id *') {
+    setEmailError('Please Enter a valid Email address')
+    return;
+  }
+ 
+  if(!MobileNumber){
+    setMobileNoError('Please enter  mobile number')
+    return;
+  }
+   if (!isValidMobileNo) {
+     setMobileNoError('Please enter a valid 10-digit mobile number')
+     return;
+   }
+
+   if(!Address){
+    setAddressError('Please enter Address')
+    return;
+  }
+
+
+  
 
     if (hasChanges && firstname && MobileNumber && email && Address) {
       dispatch({
@@ -767,20 +827,27 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                       padding: '20px', marginTop: '10px', fontSize: 16,
                       fontWeight: 500,
                       color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy", borderColor: firstNameError ? 'red' : ''
+                      fontFamily: "Gilroy"
                     }}
                     type="text"
                     placeholder='Enter your name'
-                    value={firstNameError ? '' : firstname}
+                    value={firstname}
                     onChange={handleName}
                   />
-                  {firstNameError && <p style={{ fontSize: '12px', color: 'red' }}>* First Name is Required</p>}
+                                          {firstNameError.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {firstNameError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {firstNameError}
+    </p>
+  </div>
+)}
+                  {/* {firstNameError && <p style={{ fontSize: '12px', color: 'red' }}>* First Name is Required</p>} */}
                 </Form.Group>
               </div>
 
               <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Last Name *(optional)</Form.Label>
+                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Last Name </Form.Label>
                   <Form.Control
                     style={{
                       padding: '20px', marginTop: '10px', fontSize: 16,
@@ -811,12 +878,24 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                     }}
                     type="text"
                     placeholder="Enter email"
-                    value={EmailError ? '' : email}
+                    value={email}
                     onChange={handleEmailId}
                   />
-                  <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                  {EmailError && <p style={{ fontSize: '12px', color: 'red' }}>*Email is Required</p>}
+                                 {EmailError.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {EmailError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {EmailError}
+    </p>
+  </div>
+)}
+                  {/* <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+                  {EmailError && <p style={{ fontSize: '12px', color: 'red' }}>*Email is Required</p>} */}
                 </Form.Group>
+                {state.createAccount?.emailError ?  <div className='d-flex align-items-center p-1'>
+                    <MdError style={{ color: "red" , marginRight: '5px'}} />
+                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.emailError}</label>
+                  </div>
+                    : null}
               </div>
 
 
@@ -872,7 +951,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                       padding: '20px', marginTop: '10px', fontSize: 16,
                       fontWeight: 500,
                       color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy", borderColor: mobilenoError ? 'red' : ''
+                      fontFamily: "Gilroy"
                     }}
                     type="text"
                     placeholder="Enter phone"
@@ -882,8 +961,15 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                    
                   />
                   </InputGroup>
-                  <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                  {mobilenoError && <p style={{ fontSize: '12px', color: 'red' }}>* Mobile Number is Required</p>}
+                  {mobilenoError.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {mobilenoError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {mobilenoError}
+    </p>
+  </div>
+)}
+                  {/* <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p> */}
+                  {/* {mobilenoError && <p style={{ fontSize: '12px', color: 'red' }}>* Mobile Number is Required</p>} */}
                 </Form.Group>
               </div>
             </div>
@@ -896,14 +982,21 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                     padding: '20px', marginTop: '10px', fontSize: 16,
                     fontWeight: 500,
                     color: "rgba(34, 34, 34, 1)",
-                    fontFamily: "Gilroy", borderColor: AddressError ? 'red' : ''
+                    fontFamily: "Gilroy"
                   }}
                   type="text"
                   placeholder="Enter Address"
-                  value={AddressError ? '' : Address}
+                  value={ Address}
                   onChange={handleAddress}
                 />
-                {AddressError && <p style={{ fontSize: '12px', color: 'red' }}>* Address is Required</p>}
+                        {AddressError.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {AddressError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {AddressError}
+    </p>
+  </div>
+)}
+
               </Form.Group>
             </div>
 
