@@ -289,6 +289,13 @@ function Sidebar() {
 
 console.log("profile*****", profiles)
 
+  if((profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '')){
+    setProfiles(0)
+  }
+
+  console.log("?????????????????????",profiles);
+  
+
 
   const [selectedHostel, setSelectedHostel] = useState(null);
 
@@ -471,7 +478,8 @@ setCurrentPage('compliance')
 
 <div className="mr-3" style={{cursor:"pointer"}}>
   <Image 
-src={profiles && profiles != null ?   profiles : Profileimage}
+src={ profiles == 0 ? Profileimage : profiles} alt='profile-image'
+
   // src={profile && profile != 0  || profile !=null? profile : Profileimage}
    roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
 </div>
