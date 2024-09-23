@@ -187,7 +187,8 @@ function PayingGuestMap(props) {
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
                         </div>
                         <div >
-                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.hostel && props.hostel.email_id}</label>
+                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.hostel.email_id && props.hostel.email_id !== "undefined" ? props.hostel.email_id : "N/A"}
+                            </label>
                         </div>
 
                     </div>

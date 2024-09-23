@@ -110,10 +110,10 @@ function App() {
       <Routes>
         {data || state.login?.isLoggedIn ? (
           <>
-            <Route path="/Hostel-Management" element={<Hostel />} />
+            <Route path="/" element={<Hostel />} />
             {/* <Route path="/bed" element={<BedDetails />} />
             <Route path="/roomList" element={<DashboardRoomList />} /> */}
-            <Route path="*" element={<Navigate to="/Hostel-Management" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
            
           </>
         ) : (
