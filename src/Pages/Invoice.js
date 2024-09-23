@@ -870,7 +870,14 @@ const InvoicePage = () => {
 
   const handleSaveInvoiceList = () => {
 
-     
+     if(!invoiceList.payableAmount) {
+      setAmountErrmsg('Please Enter Amount')
+     }
+
+    if(!invoiceList.transaction) {
+      setAmountErrmsg('Please Enter Paymode Type')
+     }
+
     if(!invoiceList.payableAmount || !formattedDate || !invoiceList.transaction ){
       setTotalErrmsg('Please enter All field')
       setTimeout(()=> {

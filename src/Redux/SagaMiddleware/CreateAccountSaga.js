@@ -116,29 +116,22 @@ function* ProfileUpdate(action) {
       });
 
 
-        // Define the style
-      const toastStyle = {
-        position: 'fixed',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 9999, // To ensure it appears above other elements
-        backgroundColor: 'green', // Background color
-        color: 'white', // Text color
-      };
+      var toastStyle = {
+        backgroundColor: 'green', 
+     color: 'white', 
+     width:"100%"
+   };
 
       // Use the toast with the defined style
       toast.success(response.message, {
-        autoClose: 5000,
+        position: 'top-center',
+        autoClose: 2000, 
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        style: toastStyle,
+        style: toastStyle
       })
     }
     if(response){
@@ -163,14 +156,33 @@ function* handlepasswordUpdate(action) {
         payload: { response: response.data, statusCode: response.statusCode || response.status, message : response.data.message }
 
       });
-      Swal.fire({
-        icon: 'success',
-        text: response.data.message,
-        confirmButtonText: 'Ok'
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
+
+      var toastStyle = {
+        backgroundColor: 'green', 
+     color: 'white', 
+     width:"100%"
+   };
+
+   toast.success(response.data.message, {
+    position: 'top-center',
+    autoClose: 2000, 
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    style: toastStyle
+  })
+
+
+      // Swal.fire({
+      //   icon: 'success',
+      //   text: response.data.message,
+      //   confirmButtonText: 'Ok'
+      // }).then((result) => {
+      //   if (result.isConfirmed) {
+      //   }
+      // });
      
     }
     if(response){
@@ -188,29 +200,23 @@ function* HandleTwoStepVerification(action) {
  
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-       // Define the style
-       const toastStyle = {
-        position: 'fixed',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 9999, // To ensure it appears above other elements
-        backgroundColor: 'green', // Background color
-        color: 'white', // Text color
-      };
+    var toastStyle = {
+      backgroundColor: 'green',
+      color: 'white',
+      width: "100%",
+     
+   };
 
       // Use the toast with the defined style
       toast.success(response.data.message, {
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
+        position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
       })
   }
   else {

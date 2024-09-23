@@ -34,28 +34,23 @@ function* handleCategoryAdd(params) {
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EXPENCES_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
       
-      const toastStyle = {
-         position: 'fixed',
-         display: 'flex',
-         alignItems: 'center',
-         justifyContent: 'center',
-         top: '50%',
-         left: '50%',
-         transform: 'translate(-50%, -50%)',
-         zIndex: 9999, // To ensure it appears above other elements
-         backgroundColor: 'green', // Background color
-         color: 'white', // Text color
-       };
+      var toastStyle = {
+         backgroundColor: 'green',
+         color: 'white',
+         width: "100%",
+        
+      };
  
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         autoClose: 5000,
+         position: 'top-center',
+         autoClose: 2000, 
          hideProgressBar: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle,
+         style: toastStyle
        })
    }
    else {
@@ -74,29 +69,23 @@ function* handleDeleteExpencescategory(action) {
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_EXPENCES', payload: { response: response.data, statusCode: response.status ||  response.statusCode } })
      
-      const toastStyle = {
-         position: 'fixed',
-         display: 'flex',
-         alignItems: 'center',
-         justifyContent: 'center',
-         top: '50%',
-         left: '50%',
-         transform: 'translate(-50%, -50%)',
-         zIndex: 9999, // To ensure it appears above other elements
-         backgroundColor: 'green', // Background color
-         color: 'white', // Text color
-       };
+      var toastStyle = {
+         backgroundColor: 'green',
+         color: 'white',
+         width: "100%",
+        
+      };
  
-       // Use the toast with the defined style
-       toast.success(response.data.message, {
-         autoClose: 5000,
+      toast.success(response.data.message, {
+         position: 'top-center',
+         autoClose: 2000, 
          hideProgressBar: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle,
-       })
+         style: toastStyle
+       });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -137,28 +126,24 @@ function* handleComplaintTypeAdd(params) {
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'COMPLAINT_TYPE_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
      
-      const toastStyle = {
-         position: 'fixed',
-         display: 'flex',
-         alignItems: 'center',
-         justifyContent: 'center',
-         top: '50%',
-         left: '50%',
-         transform: 'translate(-50%, -50%)',
-         zIndex: 9999, // To ensure it appears above other elements
-         backgroundColor: 'green', // Background color
-         color: 'white', // Text color
-       };
+     
+      var toastStyle = {
+         backgroundColor: 'green',
+         color: 'white',
+         width: "100%",
+        
+      };
  
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         autoClose: 5000,
+         position: 'top-center',
+         autoClose: 2000, 
          hideProgressBar: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle,
+         style: toastStyle
        })
    }
    else {
@@ -177,29 +162,25 @@ function* handleDeleteComplainttype(action) {
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_COMPLAINT_TYPE', payload: { response: response.data, statusCode: response.status || response.statusCode  } })
      
-      const toastStyle = {
-         position: 'fixed',
-         display: 'flex',
-         alignItems: 'center',
-         justifyContent: 'center',
-         top: '50%',
-         left: '50%',
-         transform: 'translate(-50%, -50%)',
-         zIndex: 9999, // To ensure it appears above other elements
-         backgroundColor: 'green', // Background color
-         color: 'white', // Text color
-       };
+        
+      var toastStyle = {
+         backgroundColor: 'green',
+         color: 'white',
+         width: "100%",
+        
+      };
  
        // Use the toast with the defined style
-       toast.success(response.data.message, {
-         autoClose: 5000,
+       toast.success('ComplaintType has been successfully deleted!', {
+         position: 'top-center',
+         autoClose: 2000, 
          hideProgressBar: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle,
-       })
+         style: toastStyle
+       });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -218,28 +199,24 @@ function* handleEBBillingUnitAdd(params) {
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
     
-      const toastStyle = {
-         position: 'fixed',
-         display: 'flex',
-         alignItems: 'center',
-         justifyContent: 'center',
-         top: '50%',
-         left: '50%',
-         transform: 'translate(-50%, -50%)',
-         zIndex: 9999, // To ensure it appears above other elements
-         backgroundColor: 'green', // Background color
-         color: 'white', // Text color
-       };
+        
+      var toastStyle = {
+         backgroundColor: 'green',
+         color: 'white',
+         width: "100%",
+        
+      };
  
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         autoClose: 5000,
+         position: 'top-center',
+         autoClose: 2000, 
          hideProgressBar: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle,
+         style: toastStyle
        })
    }
    else {
