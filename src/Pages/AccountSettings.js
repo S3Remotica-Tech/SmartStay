@@ -20,6 +20,8 @@ import Logout from '../Assets/Images/LogoutCurve-Linear-32px.png'
 import bcrypt from 'bcryptjs';
 import { style } from "@mui/system";
 import { MdError } from "react-icons/md";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Accountsettings = () => {
 
@@ -393,9 +395,16 @@ const [displayPassword, setDisplayPassword] = useState(false)
 
   const [currentpassword, setCurrentpassword] = useState('');
   console.log("currentpassword", currentpassword);
+  const [passworderrmsg , setPasswordErrormsg] = useState('')
   
   const handlecurrentpassword = (e) => {
     setCurrentpassword(e.target.value);
+    if(!e.target.value){
+      setPasswordErrormsg('Please Enter password')
+    }
+    else{
+      setPasswordErrormsg('')
+    }
   }
 
    const [inputdisable, setInputDisable] = useState('')
@@ -405,12 +414,12 @@ const [displayPassword, setDisplayPassword] = useState(false)
     var storedHashPassword=currentpasswordfilter;
 
 if(!currentpassword){
-
-  Swal.fire({
-    icon: 'warning',
-       text: 'Enter Current Password',
-    confirmButtonText: 'Ok'
-  })
+  setPasswordErrormsg("Enter Current Password'")
+  // Swal.fire({
+  //   icon: 'warning',
+  //      text: 'Enter Current Password',
+  //   confirmButtonText: 'Ok'
+  // })
 
 
   return
@@ -423,33 +432,43 @@ if(!currentpassword){
     // Compare the plain password with the stored hashed password
     const isMatch = await bcrypt.compare(plainPassword, storedHashPassword);
     setInputDisable(isMatch)
+    var toastStyle = {
+      backgroundColor: 'green',
+      color: 'white',
+      width: "100%",
+     
+   };
      
     if (isMatch) {
-      Swal.fire({
-        icon: 'success',
-        // title: "C",
-        text: 'Password matches!',
-        confirmButtonText: 'Ok'
-      }).then((result) => {
-        if (result.isConfirmed) {
+        toast.success('Password matches!', {
+          position: 'top-center',
+          autoClose: 2000, 
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: toastStyle
+        })
 
-
+       
           setDisplayPassword(true)
           setHideCurrentPassword(false)
 
-        }
-      });
+      //   }
+      // });
         console.log('Password matches!');
         // Proceed with login
     } else {
-      Swal.fire({
-        icon: "warning",
-        title: 'Password does not match!',
-        confirmButtonText: "ok"
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
+      // Swal.fire({
+      //   icon: "warning",
+      //   title: 'Password does not match!',
+      //   confirmButtonText: "ok"
+      // }).then((result) => {
+      //   if (result.isConfirmed) {
+      //   }
+      // });
+      setPasswordErrormsg('Password does not match!')
         console.log('Password does not match!');
         // Handle failed login
     }
@@ -1062,6 +1081,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                     <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
                   )}
                 </InputGroup.Text>
+     
 
               </InputGroup>
             </div>
@@ -1071,6 +1091,13 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
             Verify</Button>
             </div>
             </div>
+            {passworderrmsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {passworderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {passworderrmsg}
+    </p>
+  </div>
+)}
             </>
 }
 {

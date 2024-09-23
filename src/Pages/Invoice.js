@@ -872,10 +872,15 @@ const InvoicePage = () => {
 
      if(!invoiceList.payableAmount) {
       setAmountErrmsg('Please Enter Amount')
+      return;
      }
 
     if(!invoiceList.transaction) {
-      setAmountErrmsg('Please Enter Paymode Type')
+      setPaymodeErrmsg('Please select Paymode Type')
+      setTimeout(()=> {
+        setPaymodeErrmsg('')
+      },3000)
+      return;
      }
 
     if(!invoiceList.payableAmount || !formattedDate || !invoiceList.transaction ){
@@ -891,7 +896,7 @@ const InvoicePage = () => {
       item.User_Id === selectedUserId && item.Invoices !== undefined
     );
 
-    if (invoiceList.InvoiceId && invoiceList.payableAmount && invoiceList.transaction) {
+    if (invoiceList.InvoiceId && invoiceList.payableAmount && invoiceList.transaction && formattedDate) {
       dispatch({
         type: 'UPDATEINVOICEDETAILS',
         payload: {
@@ -1751,7 +1756,13 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
                               <option value="Credit Card">Credit Card</option>
                               <option value="UPI">UPI</option>
                             </Form.Select>
-
+                            {paymodeerrormsg.trim() !== "" && (
+                 <div>
+               <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+               {paymodeerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {paymodeerrormsg}
+                  </p>
+                      </div>
+                       )}
                           </Form.Group>
                         </div>
 

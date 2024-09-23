@@ -445,19 +445,23 @@ const Compliance = () => {
 
   if(!selectedUsername){
     setUserErrmsg('Please Select  Customer')
+    return;
   }
 
   if(!Complainttype){
     setComplaintTypeErrmsg('Please Select  Complaint Type')
+    return;
   }
  
 
   if(!Assign){
     setAssignErrmsg('Please Select Assign')
+    return;
   }
 
   if (!Status){
     setStatusErrmsg('Please Select status')
+    return;
   }
 
   if(!selectedUsername ||!Complainttype || !selectedDate || !Assign ||  !Status){
