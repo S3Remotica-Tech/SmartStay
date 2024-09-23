@@ -332,6 +332,11 @@ console.log("currentPage",localStorage.getItem("currentPage"))
   };
 
 
+useEffect(()=>{
+if(state.login?.isLoggedIn){
+  setCurrentPage('dashboard')
+}
+},[state.login?.isLoggedIn])
 
 
 
