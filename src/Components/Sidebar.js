@@ -241,7 +241,7 @@ function Sidebar() {
 
   // const [filterhostellist, setFilterhostellist] = useState([]);
   // const [loginCustomerid, setLoginCustomerId] = useState('')
-  const [profiles, setProfiles] = useState('')
+  const [profiles, setProfiles] = useState(null)
   const [profileArray, setProfileArray] = useState('')
 
 
@@ -290,7 +290,12 @@ function Sidebar() {
 console.log("profile*****", profiles)
 
 
-  const [selectedHostel, setSelectedHostel] = useState(null);
+
+// if((profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '')){
+//   setProfiles(0)
+// }
+ 
+const [selectedHostel, setSelectedHostel] = useState(null);
 
   const handleHostelSelect = (hostelName) => {
     const selected = state.hostelList.find((item) => {
@@ -471,7 +476,7 @@ setCurrentPage('compliance')
 
 <div className="mr-3" style={{cursor:"pointer"}}>
   <Image 
-src={profiles && profiles != null ?   profiles : Profileimage}
+src={ (profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '') ? Profileimage : profiles} alt='profile-image'
   // src={profile && profile != 0  || profile !=null? profile : Profileimage}
    roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
 </div>
