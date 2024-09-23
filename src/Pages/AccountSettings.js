@@ -522,6 +522,7 @@ if(!currentpassword){
         localStorage.setItem("NameId", '')
         localStorage.setItem("phoneId", '')
         localStorage.setItem("emilidd", '')
+        // localStorage.setItem('currentPage', 'dashboard');
       }
     })
   }

@@ -309,6 +309,7 @@ const [selectedHostel, setSelectedHostel] = useState(null);
 
   const [activePage, setActivePage] = useState(true);
   const [currentPage, setCurrentPage] = useState('dashboard');
+ 
 
   console.log("currentPage",currentPage)
 
@@ -323,13 +324,24 @@ const [selectedHostel, setSelectedHostel] = useState(null);
   })
 
 
+  useEffect(() => {
+    setCurrentPage(localStorage.getItem('currentPage'));
+  }, [currentPage]);
+
+console.log("currentPage",localStorage.getItem("currentPage"))
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
     setActivePage(false);
+    localStorage.setItem('currentPage', page);
   };
 
 
+useEffect(()=>{
+if(state.login?.isLoggedIn){
+  setCurrentPage('dashboard')
+}
+},[state.login?.isLoggedIn])
 
 
 
