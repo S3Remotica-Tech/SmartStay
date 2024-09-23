@@ -429,7 +429,7 @@ setAddressError('')
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>First Name</Form.Label>
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>First Name <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <FormControl
                         id="form-controls"
                         placeholder='Enter name'
@@ -491,7 +491,7 @@ setAddressError('')
                         fontFamily: "Gilroy",
                         fontWeight: 500
                       }}>
-                        Mobile no.
+                        Mobile no. <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
 
                       <InputGroup>
@@ -605,7 +605,7 @@ setAddressError('')
 
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address</Form.Label>
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address  <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <FormControl
                         type="text"
                         id="form-controls"
@@ -631,7 +631,7 @@ setAddressError('')
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="">
-                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</Form.Label>
+                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <FormControl
                         type="text"
                         id="form-controls"
@@ -656,7 +656,7 @@ setAddressError('')
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Rental Amount</Form.Label>
+                      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Rental Amount  <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <FormControl
                         type="text"
                         id="form-controls"
