@@ -402,7 +402,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Hostel Name</Form.Label>
                                     <Form.Select aria-label="Default select example" value={hostelName} onChange={handleHostelNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: hostelName ? 600 : 500 }}>
-                                        <option>Select an hostel</option>
+                                        <option value="" disabled>Select an hostel</option>
                                         {state.UsersList.hostelList && state.UsersList.hostelList.map((view) => (
                                             <>
 
@@ -428,7 +428,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Vendor Name <span style={{ color: "#fff", display: vendorName ? "none" : "inline-block" }}>*</span></Form.Label>
                                     <Form.Select aria-label="Default select example" value={vendorName} onChange={handleVendorNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: vendorName ? 600 : 500 }}>
-                                        <option>Select a vendor</option>
+                                        <option value="" disabled>Select a vendor</option>
                                         {state.ComplianceList.VendorList && state.ComplianceList.VendorList.map((view) => (
                                             <>
 
@@ -453,17 +453,17 @@ function StaticExample({ show, handleClose, currentItem }) {
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Asset Name</Form.Label>
-                                    {/* <Form.Select aria-label="Default select example" value={assetName} onChange={handleAssetNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: assetName ? 600 : 500 }}>
-                                        <option>Select an asset</option>
+                                    <Form.Select aria-label="Default select example" value={assetName || ''} onChange={handleAssetNameChange} className='' id="vendor-select" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: assetName ? 600 : 500 }}>
+                                        <option value="" disabled>Select an asset</option>
                                         {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
                                             <>
 
-                                                <option key={view.asset_id} value={view.asset_id}>{view.asset_name}</option>
+                                                <option key={view.Asset_id} value={view.Asset_id}>{view.asset_name }</option>
 
                                             </>
                                         ))}
-                                    </Form.Select> */}
-                                    <Form.Select
+                                    </Form.Select>
+                                    {/* <Form.Select
                                         aria-label="Default select example"
                                         value={assetName}
                                         onChange={handleAssetNameChange}
@@ -477,7 +477,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                                 <option key={view.asset_id} value={view.asset_id}>{view.asset_name}</option>
                                             ))
                                         }
-                                    </Form.Select>
+                                    </Form.Select> */}
                                 </Form.Group>
                                 {assetError && (
                                     <div className="d-flex align-items-center p-1 mb-2">
