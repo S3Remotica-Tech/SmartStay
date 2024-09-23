@@ -388,6 +388,7 @@ if(state.login?.isLoggedIn){
 
  const handledisplaycompliace =(compliance)=>{
 setCurrentPage('compliance')
+localStorage.setItem('currentPage','compliance');
  }
   return (
     <>
