@@ -304,6 +304,7 @@ console.log("profile*****", profiles)
 
   const [activePage, setActivePage] = useState(true);
   const [currentPage, setCurrentPage] = useState('dashboard');
+ 
 
   console.log("currentPage",currentPage)
 
@@ -327,7 +328,6 @@ console.log("currentPage",localStorage.getItem("currentPage"))
   const handlePageClick = (page) => {
     setCurrentPage(page);
     setActivePage(false);
-
     localStorage.setItem('currentPage', page);
   };
 

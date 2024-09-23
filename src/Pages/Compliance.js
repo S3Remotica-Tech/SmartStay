@@ -1070,14 +1070,15 @@ const Compliance = () => {
                         style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       >
                         <option value="">Select Assignee</option>
-
-                        {
+                        <option>John</option>
+                        <option>Ruban</option>
+                        {/* {
                           state.UsersList?.Users.map((u, index) => (
                             <option key={index} value={u.id}>{u.Name}</option>
                           )
 
                           )
-                        }
+                        } */}
 
 
                       </Form.Select>
