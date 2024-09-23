@@ -184,10 +184,10 @@ function AddPg({ show, handleClose, currentItem }) {
       return;
     }
 
-    if (!email) {
-      setEmailError('Please enter email');
-      return;
-    }
+    // if (!email) {
+    //   setEmailError('Please enter email');
+    //   return;
+    // }
 
     if (!location) {
       setLocationError('Please enter address');
@@ -237,7 +237,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
     console.log("MobileNumber", MobileNumber)
 
-    if (pgName && MobileNumber && email && location && countryCode) {
+    if (pgName && MobileNumber  && location && countryCode) {
       dispatch({ type: 'PGLIST', payload: { profile: file, name: pgName, phoneNo: MobileNumber, email_Id: email, location: location, id: currentItem.id } })
       // handleClose()
       setFile('')
@@ -507,7 +507,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email ID <span style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
                   <Form.Control
                     value={email}
                     onChange={handleEmailChange}
