@@ -171,7 +171,9 @@ const Compliance = () => {
 
   const [assignerrormsg, setAssignErrmsg] = useState('');
   const [statsuserrormsg, setStatusErrmsg] = useState('');
-  const [dateerrmsg , setDateErrmsg] = useState('')
+  const [dateerrmsg , setDateErrmsg] = useState('');
+  const [usererrmsg , setUserErrmsg] = useState('');
+  const [complaint_typeerrmsg , setComplaintTypeErrmsg] = useState('')
   const [totalErrormsg ,setTotalErrmsg]= useState('')
 
 
@@ -362,6 +364,12 @@ const Compliance = () => {
   const handleCheckoutChange = (event, newValue) => {
     console.log("clickeduser", event.target.value);
     setSelectedUserName(event.target.value);
+    if(!event.target.value){
+      setUserErrmsg("Please Select Name")
+    }
+    else{
+      setUserErrmsg('')
+    }
   };
 
 
@@ -401,6 +409,15 @@ const Compliance = () => {
 
   const [edit, setEdit] = useState(false)
 
+
+  const handleComplaintType = (e) => {
+    setComplainttype(e.target.value)
+    if (!e.target.value) {
+      setComplaintTypeErrmsg("Please Select ComplaintType");
+    } else {
+      setComplaintTypeErrmsg("");
+    }
+  }
  
   const handleAssign = (e) =>{
     setAssign(e.target.value)
@@ -424,13 +441,32 @@ const Compliance = () => {
   const handleAddcomplaint = () => {
 
     
-    if(!Complainttype || !selectedDate || !Assign || !selectedUsername ){
-      setTotalErrmsg('Please enter All field')
-      setTimeout(()=> {
-        setTotalErrmsg('')
-      },2000)
-      return;
+  
+
+  if(!selectedUsername){
+    setUserErrmsg('Please Select  Customer')
   }
+
+  if(!Complainttype){
+    setComplaintTypeErrmsg('Please Select  Complaint Type')
+  }
+ 
+
+  if(!Assign){
+    setAssignErrmsg('Please Select Assign')
+  }
+
+  if (!Status){
+    setStatusErrmsg('Please Select status')
+  }
+
+  if(!selectedUsername ||!Complainttype || !selectedDate || !Assign ||  !Status){
+    setTotalErrmsg('Please Enter All field')
+    setTimeout(()=> {
+      setTotalErrmsg('')
+    },2000)
+    return;
+}
 
     setEdit(false)
 
@@ -753,6 +789,13 @@ const Compliance = () => {
 
 
                       </Form.Select>
+                      {usererrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {usererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {usererrmsg}
+    </p>
+  </div>
+)}
                     </Form.Group>
 
 
@@ -766,7 +809,7 @@ const Compliance = () => {
                       <Form.Select className='border'
                         selected
                         value={Complainttype}
-                        onChange={(e) => { setComplainttype(e.target.value) }}
+                        onChange={(e) =>  handleComplaintType(e) }
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       >
                         {
@@ -785,6 +828,13 @@ const Compliance = () => {
 
 
                       </Form.Select>
+                      {complaint_typeerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {complaint_typeerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {complaint_typeerrmsg}
+    </p>
+  </div>
+)}
                     </Form.Group>
 
                   </div>
@@ -985,7 +1035,13 @@ const Compliance = () => {
                       />
                     </div>
 
-
+                    {/* {dateerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {dateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
+    </p>
+  </div>
+)} */}
                   </div>
 
                   {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
