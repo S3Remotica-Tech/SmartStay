@@ -85,7 +85,7 @@ import Edit from '../Assets/Images/New_images/edit.png';
 function getFloorName(floor_Id) {
 
 
-  const adjustedFloorNumber = floor_Id - 1;
+  const adjustedFloorNumber = floor_Id;
 
 
   if (adjustedFloorNumber === 0) {
@@ -1153,7 +1153,8 @@ function PgList() {
                             >
                               <Nav.Link style={{}} className='text-center'>
                                 <div className={Number(floorClick) == Number(floor.floor_id) ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600 }}>
-                                  {floor.floor_id == 1 ? 'G' : floor.floor_id - 1}
+                                  {/* {floor.floor_id == 1 ? 'G' : floor.floor_id - 1} */}
+                                  {(floor.floor_name ? floor.floor_name.charAt(0) : floor.floor.id)}
                                 </div>
                                 <div
                                   className={Number(floorClick) == Number(floor.floor_id) ? 'ActiveFloortext' : 'UnActiveFloortext'}
@@ -1172,16 +1173,23 @@ function PgList() {
                                         : getFloorName(floor.floor_id)
                                   } */}
 
-                                  {
+                                  {/* {
                                     typeof floor.floor_name === "string" && floor.floor_name.trim() !== "" && floor.floor_name !== "null"
                                       ? isNaN(floor.floor_name)
                                         ? floor.floor_name
                                         : getFloorName(Number(floor.floor_name))
-                                      : floor.floor_id === 1
-                                        ? "Ground Floor"
-                                        : getFloorName(floor.floor_id)
-                                  }
+                                      : floor.floor_id
+                                  } */}
 
+                                  {
+                                    typeof floor.floor_name === "string" &&
+                                      floor.floor_name.trim() !== "" &&
+                                      floor.floor_name !== "null"
+                                      ? isNaN(floor.floor_name)
+                                        ? floor.floor_name
+                                        : floor.floor_name
+                                      : floor.floor_id
+                                  }
 
 
                                 </div>
@@ -1210,8 +1218,8 @@ function PgList() {
                           floorName !== null && floorName !== undefined && floorName.trim() !== ""
                             ? isNaN(floorName)
                               ? floorName
-                              : getFloorName(Number(floorName))
-                            : getFloorName(floorClick)
+                              : floorName
+                            : floorClick
                         }
                         </div>
                         <div>
