@@ -242,7 +242,8 @@ function Sidebar() {
   // const [filterhostellist, setFilterhostellist] = useState([]);
   // const [loginCustomerid, setLoginCustomerId] = useState('')
   const [profiles, setProfiles] = useState(null)
-  const [profileArray, setProfileArray] = useState('')
+  const [profilename, setProfileArray] = useState('')
+
 
 
 
@@ -273,9 +274,10 @@ function Sidebar() {
 
 
 
-        const profileName = FilteredProfile.Name;
+        const profileName = FilteredProfile.first_name;
         setProfiles(profilePictures);
         setProfileArray(profileName);
+        console.log("profileName", profileName);
       }
 
       catch (error) {
@@ -434,7 +436,7 @@ localStorage.setItem('currentPage','compliance');
 
                 <img src={currentPage === 'invoice' ? Invoice2 : Invo} style={{ fontSize: '13px' }} />
 
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Invoice</span></li>
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Bills</span></li>
 
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage == 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" ,backgroundColor: currentPage === 'asset' ? '#FFFFFF' : 'inherit',color: currentPage === 'asset' ? 'rgba(30, 69, 225, 1)' : 'inherit'}}>
@@ -466,6 +468,20 @@ localStorage.setItem('currentPage','compliance');
                 <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} />
                 <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Settings</span>
                 </li>
+
+                <li className={`p-2 mb-2 mt-5 align-items-center list-Item ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageClick('profile')} style={{ listStyleType: "none", display: "flex" }}>
+                {/* <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} /> */}
+                <div className="mr-3" style={{cursor:"pointer"}}>
+              <Image 
+             src={ (profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '' ||(profiles == 0 || profiles == "0")) ? Profileimage : profiles} alt='profile-image'
+            roundedCircle style={{ height: "40px", width: "40px" }} onClick={() => handlePageClick('profile')}/>
+                </div>
+                <div style={{display:'flex',flexDirection:'column'}}>
+                <span className="ms-3 Title" style={{ fontSize: 19, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>{profilename}</span>
+                <span className="ms-3 Title" style={{ fontSize: 13, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy",color:'blue' }}>Admin</span>
+                </div>
+   
+                </li>
             </ul>
            
           </Col>
@@ -483,19 +499,14 @@ localStorage.setItem('currentPage','compliance');
     />
   </InputGroup> */}
 </div>
-<div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
+{/* <div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
   <img src={Notify} alt="notification" />
+</div> */}
+
+
 </div>
 
-<div className="mr-3" style={{cursor:"pointer"}}>
-  <Image 
-src={ (profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '' ||(profiles == 0 || profiles == "0")) ? Profileimage : profiles} alt='profile-image'
-  // src={profile && profile != 0  || profile !=null? profile : Profileimage}
-   roundedCircle style={{ height: "60px", width: "60px" }} onClick={() => handlePageClick('profile')}/>
-</div>
-</div>
-
-<Offcanvas placement="end" show={show} onHide={handleClosepopup} style={{ width: "69vh" }}>
+{/* <Offcanvas placement="end" show={show} onHide={handleClosepopup} style={{ width: "69vh" }}>
               <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Notification</Offcanvas.Title>
               <Offcanvas.Body style={{ maxHeight: 'calc(100vh - 35px)', overflowY: 'auto' }}>
                 <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
@@ -525,7 +536,7 @@ src={ (profiles == 'null' || profiles == null) || (profiles == undefined || prof
                 </div>
 
               </Offcanvas.Body>
-            </Offcanvas>
+            </Offcanvas> */}
                 
             {currentPage === 'dashboard' && <Dashboards  displayCompliance={handledisplaycompliace}/>}
             {currentPage === 'pg-list' && < PgLists />}

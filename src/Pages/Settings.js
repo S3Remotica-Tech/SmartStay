@@ -509,7 +509,7 @@ function Settings() {
               <Tab label="Expences" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Complaint type" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Amenities" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              {/* <Tab label="Users" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
+              <Tab label="Users" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
 
             </TabList>
           </Box>
@@ -918,7 +918,7 @@ function Settings() {
         <TabPanel value="4"><ExpencesSettings /> </TabPanel>
         <TabPanel value="5"><Complaintsettings /> </TabPanel>
         <TabPanel value="6"><Amenities /> </TabPanel>
-        {/* <TabPanel value="7"><UserSettings /> </TabPanel> */}
+        <TabPanel value="7"><UserSettings /> </TabPanel>
       </TabContext>
 
       {/* <div className='mt-0 ' style={{}}>

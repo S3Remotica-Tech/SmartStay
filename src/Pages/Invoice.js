@@ -39,14 +39,19 @@ import leftArrow from '../Assets/Images/New_images/left-arrow.png'
 import rightarrow from '../Assets/Images/New_images/right-arrow.png'
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
-
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 import squre from '../Assets/Images/New_images/minus-square.png';
-
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import { MdError } from "react-icons/md";
-
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import Emptystate from '../Assets/Images/Empty-State.jpg'
 
 
 const InvoicePage = () => {
@@ -575,19 +580,19 @@ const InvoicePage = () => {
   };
 
   const [searchItem, setSearchItem] = useState('')
-  // const handleInputChange = (e) => {
-  //   const searchTerm = e.target.value;
-  //   setSearchItem(searchTerm)
-  //   if (searchItem != '') {
-  //     const filteredItems = state.InvoiceList.Invoice.filter((user) =>
-  //       user.Name.toLowerCase().includes(searchTerm.toLowerCase())
-  //     );
-  //     setData(filteredItems.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice))
-  //   }
-  //   else {
-  //     setData(state.InvoiceList.Invoice)
-  //   }
-  // }
+  const handleInputChange = (e) => {
+    const searchTerm = e.target.value;
+    setSearchItem(searchTerm)
+    if (searchItem != '') {
+      const filteredItems = state.InvoiceList.Invoice.filter((user) =>
+        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setData(filteredItems.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice))
+    }
+    else {
+      setData(state.InvoiceList.Invoice)
+    }
+  }
 
   const [searchicon, setSearchicon] = useState(false);
 
@@ -1168,13 +1173,95 @@ const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
+const [value, setValue] = React.useState('1');
+
+  const handleChanges = (event, newValue) => {
+    setValue(newValue);
+  }
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 
   return (
     <>
+    
+    
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} className='container ms-3 me-3'>
 
 
-      {invoiceDetail ?
+<p style={{ fontSize: "23px", fontFamily: 'Gilroy', fontWeight: 600, color: '#222' }}>Bills</p>
+
+
+<div >
+
+
+  {showLoader && <LoaderComponent />}
+
+  <div style={{ display: 'flex', flexDirection: 'row' }}>
+
+  {
+      searchicon &&
+      <>
+        <input
+          type="text"
+          value={searchItem}
+          onChange={(e) => handleInputChange(e)}
+          placeholder='Search By Name'
+          class="form-control ps-4 pe-1 mt-4  searchinput"
+          style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
+
+        />
+      </>
+    }
+    <BsSearch class=" me-4 mt-4" onClick={handleiconshow} />
+    {
+      filtericon &&
+      <>
+       <Form.Select aria-label="Default select example" value={statusfilter} onChange={(e) => handleStatusFilter(e)} 
+        id="vendor-select" className='ps-3 mt-3'
+        style={{ marginRight: '20px',fontFamily:"Gilroy", fontSize: "16px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #dcdcdc", height: "35px" }}
+        >
+        
+          <option  id="vendor-select"  selected value="ALL"> ALL</option>
+          <option   id="vendor-select" value="Success">Success</option>
+          <option  id="vendor-select" value="Pending">Pending</option>
+       
+        </Form.Select>
+      </>
+    }
+    <div className='me-3 mt-3'>
+    <Image  src={Sort}  roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
+    </div>
+    <div className='me-4'>
+<Button
+  // onClick={handleShow}
+  style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment</Button>
+</div>
+  </div>
+</div>
+</div>
+
+    <TabContext value={value}>
+        <div >
+          <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
+            <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
+              <Tab label="All Bills" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Recurring Bills" value="2" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              {/* <Tab label="Invoice" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Expences" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Complaint type" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Amenities" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
+              {/* <Tab label="Users" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
+
+            </TabList>
+          </Box>
+        </div>
+
+        <TabPanel value="1">
+          <>
+
+          {invoiceDetail ?
         <>
 
           <InvoiceDetail sendInvoiceDetail={invoicePage} handleInvoiceback={handleInvoiceback} />
@@ -1233,51 +1320,7 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
           </div>
         </div> */}
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-
-
-              <p style={{ fontSize: "23px", fontFamily: 'Gilroy', fontWeight: 600, color: '#222' }}>Invoice</p>
-
-
-              <div >
-
-
-                {showLoader && <LoaderComponent />}
-                {/* {
-                    searchicon &&
-                    <>
-                      <input
-                        type="text"
-                        value={searchItem}
-                        onChange={(e) => handleInputChange(e)}
-                        placeholder='Search By Name'
-                        class="form-control ps-4 pe-1   searchinput"
-                        style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
-
-                      />
-                    </>
-                  }
-                  <BsSearch class=" me-4" onClick={handleiconshow} /> */}
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  {
-                    filtericon &&
-                    <>
-                     <Form.Select aria-label="Default select example" value={statusfilter} onChange={(e) => handleStatusFilter(e)} 
-                      id="vendor-select" className='ps-3'
-                      style={{ marginRight: '20px',fontFamily:"Gilroy", fontSize: "16px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #dcdcdc", height: "35px" }}
-                      >
-                      
-                        <option  id="vendor-select"  selected value="ALL"> ALL</option>
-                        <option   id="vendor-select" value="Success">Success</option>
-                        <option  id="vendor-select" value="Pending">Pending</option>
-                     
-                      </Form.Select>
-                    </>
-                  }
-                  <img class=" me-4" onClick={handleFiltershow} src={Sort} />
-                </div>
-              </div>
-            </div>
+           
 
             <Offcanvas placement="end" show={show} onHide={handleClosepopup} style={{ width: "69vh" }}>
               <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Notification</Offcanvas.Title>
@@ -1788,6 +1831,8 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
               </div>
             }
 
+
+{currentItems.length > 0 &&
             <Table className="ebtable mt-3" responsive >
               <thead  style={{backgroundColor:"#E7F1FF"}}>
                 <tr >
@@ -1838,16 +1883,28 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
                 )}
             
 
-            {currentItems.length === 0 && (
-                    <tr>
-                      <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
-                    </tr>
-                  )}
+        
               </tbody>
             </Table>
+}
 
            
-
+            {currentItems.length === 0 && (
+                   <div  >
+                   <div>
+                        <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
+                     <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
+                     <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no bills added </div>
+                    
+                     <div style={{ textAlign: "center"}} className='mt-2'>
+                                 <Button
+                                   style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment</Button>
+                               </div>
+                   </div>
+                 
+                    </div> 
+                   
+                  )}
 
             {currentItems.length > 0 && (
           <nav>
@@ -1984,6 +2041,33 @@ const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
         </>
 
       }
+
+
+
+          </>
+        </TabPanel>
+
+        <TabPanel value="2">
+
+
+        <div  >
+                   <div>
+                        <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
+                     <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No recurring bills available </div>
+                     <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no recurring bills added </div>
+                    
+                     <div style={{ textAlign: "center"}} className='mt-2'>
+                                 <Button
+                                   style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment</Button>
+                               </div>
+                   </div>
+                 
+                    </div> 
+        </TabPanel>
+
+        </TabContext>
+
+     
 
 
 
