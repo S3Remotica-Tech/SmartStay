@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import Calendars from '../Assets/Images/New_images/calendar.png'
+import Emptystate from '../Assets/Images/Empty-State.jpg'
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import { Table, Dropdown } from 'react-bootstrap';
@@ -655,6 +656,22 @@ const Compliance = () => {
 
           <div className="d-flex justify-content-between align-items-center">
 
+
+          {
+                    searchicon &&
+                    <>
+                      <input
+                        type="text"
+                        value={searchItem}
+                        onChange={(e) => handleInputChange(e)}
+                        placeholder='Search By Name'
+                        class="form-control ps-4 pe-1   searchinput"
+                        style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
+
+                      />
+                    </>
+                  }
+                  <BsSearch class=" me-4" onClick={handleiconshow} /> 
             {
               filtericon &&
               <>
@@ -680,7 +697,7 @@ const Compliance = () => {
         </div>
 
         <div className='row row-gap-3'>
-          {data && data.map((complaints) => (
+          {data.length > 0 && data.map((complaints) => (
             <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
               <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} />
             </div>
@@ -691,12 +708,16 @@ const Compliance = () => {
           {data.length == 0 &&
 
 <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
-
 <div>
-
-  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No complaint available</div>
-  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are currently no complaints available</div>
+     <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
+  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active complaint </div>
+  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active complaints </div>
  
+  <div style={{ textAlign: "center"}}>
+              <Button
+                onClick={handleShow}
+                style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Complaint</Button>
+            </div>
 </div>
 <div>
 
@@ -821,7 +842,7 @@ const Compliance = () => {
                             <>
                               <option selected value="">Select a type</option>
                               {
-                                complainttypelist && complainttypelist.map((u, index) => (
+                                complainttypelist.length > 0 && complainttypelist.map((u, index) => (
                                   <option selected value={u.id}>{u.complaint_name}</option>
                                 )
 
@@ -843,7 +864,7 @@ const Compliance = () => {
 
                   </div>
 
-                  {state.Settings?.Complainttypelist && state.Settings?.Complainttypelist?.complaint_types.length == 0 && <><label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>* Please add a 'ComplaintType' option in Settings, accessible after  adding an Complaints.</label></>}
+                  {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types.length == 0 && <><label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>* Please add a 'ComplaintType' option in Settings, accessible after  adding an Complaints.</label></>}
 
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
