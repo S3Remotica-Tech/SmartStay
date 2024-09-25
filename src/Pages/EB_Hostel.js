@@ -18,6 +18,8 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import Swal from "sweetalert2";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
+import emptyimg from '../Assets/Images/New_images/empty_image.png';
+import down from '../Assets/Images/New_images/down.png';
 import {
   Autobrightness,
   Call,
@@ -170,11 +172,12 @@ function EB_Hostel() {
     setISVisible(false);
   };
   const handleAddEbDetails = () => {
-    if (ebShow) {
-      setaddEbDetail(true);
-    } else {
-      setaddEbDetail(false);
-    }
+    // if (ebShow) {
+    //   setaddEbDetail(true);
+    // } else {
+    //   setaddEbDetail(false);
+    // }
+    setaddEbDetail(true);
   };
 
   const handleTransactionsShow = () => {
@@ -541,25 +544,25 @@ function EB_Hostel() {
               fontFamily: "Gilroy",
             }}
           >
-            Transactions
+            Electricity
           </label>
         </div>
 
         <div className="d-flex justify-content-between align-items-center">
-          <div className="me-3">
+          {/* <div className="me-3">
             <Image
               src={Filter}
               roundedCircle
               style={{ height: "30px", width: "30px" }}
             />
-          </div>
+          </div> */}
 
           <div>
             <Button
               style={{
                 fontFamily: "Montserrat",
                 fontSize: 16,
-                backgroundColor: transactionshow ? "#ccc" : "#1E45E1",
+                backgroundColor: "#1E45E1",
                 color: "white",
                 height: 56,
                 fontWeight: 600,
@@ -567,356 +570,24 @@ function EB_Hostel() {
                 width: 184,
                 padding: "18px, 20px, 18px, 20px",
                 border: "none",
-                cursor: transactionshow ? "not-allowed" : "pointer",
+                cursor: 'pointer',
               }}
               onClick={handleAddEbDetails}
-              disabled={transactionshow}
+              // disabled={transactionshow}
             >
-              + Add transaction
+              + Record Reading
             </Button>
           </div>
         </div>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <div
-          className={`tab-path ${transactionshow ? "active" : ""}`}
-          onClick={handleTransactionsShow}
-          style={{
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-            fontSize: 16,
-            marginLeft: 5,
-          }}
-        >
-          General
-        </div>
+     
 
-        <div
-          className={`tab-path ${ebShow ? "active" : ""}`}
-          onClick={handleebViewShow}
-          style={{
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-            fontSize: 16,
-            marginLeft: 10,
-          }}
-        >
-          Electricity Bill
-        </div>
-      </div>
-
-      {transactionshow && (
-        <div style={{ padding: 15 }}>
-          <Table className="ebtable mt-3" responsive>
-            <thead
-              style={{
-                color: "gray",
-                fontSize: "11px",
-                backgroundColor: "#E7F1FF",
-              }}
-            >
-              <tr className="" style={{ height: "30px" }}>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  Name 
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  category
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  Date
-                </th>
-
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  Amount
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  Made of pyment
-                </th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody style={{ height: "50px", fontSize: "11px" }}>
-              {currentRowtransaction &&
-                currentRowtransaction.map((v, i) => {
-                  return (
-                    <tr>
-                      <td
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "center",
-                        }}
-                      >
-                        {v.hostel_Name}
-                      </td>
-                      <td>
-                        <span
-                          style={{
-                            backgroundColor: "#FFEFCF",
-                            paddingTop: "3px",
-                            paddingLeft: "10px",
-                            paddingRight: "10px",
-                            paddingBottom: "3px",
-                            borderRadius: "10px",
-                            lineHeight: "1.5em",
-                            margin: "0",
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          {v.category_Name}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          style={{
-                            backgroundColor: "#EBEBEB",
-                            paddingTop: "3px",
-                            paddingLeft: "10px",
-                            paddingRight: "10px",
-                            paddingBottom: "3px",
-                            borderRadius: "10px",
-                            lineHeight: "1.5em",
-                            margin: "0",
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          {v.date}
-                        </span>
-                      </td>
-                      <td
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        {v.credit}
-                      </td>
-                      <td>
-                        <span
-                          style={{
-                            backgroundColor: "#D9E9FF",
-                            paddingTop: "3px",
-                            paddingLeft: "10px",
-                            paddingRight: "10px",
-                            paddingBottom: "3px",
-                            borderRadius: "10px",
-                            lineHeight: "1.5em",
-                            margin: "0",
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          {v.payment_type}
-                        </span>
-                      </td>
-                      <td>
-                        {" "}
-                        <div
-                          style={{
-                            cursor: "pointer",
-                            height: 40,
-                            width: 40,
-                            borderRadius: 100,
-                            border: "1px solid #EFEFEF",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative",
-                            zIndex: 1000,
-                          }}
-                        >
-                          <PiDotsThreeOutlineVerticalFill
-                            style={{ height: 20, width: 20 }}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              {currentRowtransaction.length === 0 && (
-                <tr>
-                  <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
-                    No data found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-
-          {currentRowtransaction.length > 0 && (
-            <nav>
-              <ul
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  listStyleType: "none",
-                  padding: 0,
-                  justifyContent: "end",
-                }}
-              >
-                <li style={{ margin: "0 5px" }}>
-                  <button
-                    style={{
-                      padding: "5px 10px",
-                      textDecoration: "none",
-                      color: tranactioncurrentPage === 1 ? "#ccc" : "#007bff",
-                      cursor:
-                        tranactioncurrentPage === 1 ? "not-allowed" : "pointer",
-                      borderRadius: "5px",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() =>
-                      handleTransactionPageChange(tranactioncurrentPage - 1)
-                    }
-                    disabled={tranactioncurrentPage === 1}
-                  >
-                    {" "}
-                    <ArrowLeft2 size="16" color="#1E45E1" />
-                  </button>
-                </li>
-                {tranactioncurrentPage > 3 && (
-                  <li style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        textDecoration: "none",
-                        color: "white",
-                        cursor: "pointer",
-                        borderRadius: "5px",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handleTransactionPageChange(1)}
-                    >
-                      1
-                    </button>
-                  </li>
-                )}
-                {tranactioncurrentPage > 3 && <span>...</span>}
-                {renderPageNumberstransaction()}
-                {tranactioncurrentPage < totalPagestransaction - 2 && (
-                  <span>...</span>
-                )}
-                {tranactioncurrentPage < totalPagestransaction - 2 && (
-                  <li style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        textDecoration: "none",
-
-                        cursor: "pointer",
-                        borderRadius: "5px",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() =>
-                        handleTransactionPageChange(totalPagestransaction)
-                      }
-                    >
-                      {totalPagestransaction}
-                    </button>
-                  </li>
-                )}
-                <li style={{ margin: "0 5px" }}>
-                  <button
-                    style={{
-                      padding: "5px 10px",
-                      textDecoration: "none",
-                      color:
-                        tranactioncurrentPage === tranactioncurrentPage
-                          ? "#ccc"
-                          : "#007bff",
-                      cursor:
-                        tranactioncurrentPage === tranactioncurrentPage
-                          ? "not-allowed"
-                          : "pointer",
-                      borderRadius: "5px",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() =>
-                      handleTransactionPageChange(tranactioncurrentPage + 1)
-                    }
-                    disabled={tranactioncurrentPage === totalPagestransaction}
-                  >
-                    <ArrowRight2 size="16" color="#1E45E1" />
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
-        </div>
-      )}
-      {ebShow && (
+      
+      {/* {ebShow && ( */}
         <>
           <div style={{ padding: 15 }}>
+          {currentRowelectricity.length > 0 && (
             <Table className="ebtable mt-3" responsive>
               <thead
                 style={{
@@ -1169,8 +840,8 @@ function EB_Hostel() {
                               zIndex: 1000,
                             }}
                           >
-                            <PiDotsThreeOutlineVerticalFill
-                              style={{ height: 20, width: 20 }}
+                            <img src={down}
+                              style={{ height:15, width:15}}
                             />
                           </div>
                         </td>
@@ -1178,19 +849,28 @@ function EB_Hostel() {
                     );
                   })}
 
-                {currentRowelectricity?.length === 0 && (
-                  <tr>
-                    <td
-                      colSpan="6"
-                      style={{ textAlign: "center", color: "red" }}
-                    >
-                      No data found
-                    </td>
-                  </tr>
-                )}
+                
               </tbody>
+             
             </Table>
+
+                )}
+            {state.PgList?.EB_startmeterlist?.length === 0 && (
+                      <div>
+                      <div style={{ textAlign: "center"}}> <img src={emptyimg} alt="emptystate" /></div> 
+                   <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active Electricity </div>
+                   <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active Electricity </div>
+                  
+                   <div style={{ textAlign: "center"}}>
+                               <Button
+                                 onClick={handleAddEbDetails}
+                                 style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Reading</Button>
+                             </div>
+                 </div>  
+                )}
+
           </div>
+         
 
           {currentRowelectricity.length > 0 && (
             <nav>
@@ -1310,9 +990,9 @@ function EB_Hostel() {
             </nav>
           )}
         </>
-      )}
+      {/* )} */}
 
-      {!transactionshow && (
+      {/* {!transactionshow && ( */}
         <Modal
           show={addEbDetail}
           onHide={() => handleClose()}
@@ -1326,7 +1006,7 @@ function EB_Hostel() {
           </Modal.Header>
           <Modal.Body>
             <div className="row ">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 {ebErrorunit && (
                   <div style={{ color: "red" }}>
                     <MdError />
@@ -1507,49 +1187,57 @@ function EB_Hostel() {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-3">
-                  <Form.Label
+              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500 }}>Date</Form.Label>
+
+                <div style={{ position: 'relative' }}>
+                  <label
+                    htmlFor="date-input"
                     style={{
+                      border: "1px solid #D9D9D9",
+                      borderRadius: 8,
+                      padding: 11,
                       fontSize: 14,
-                      color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      color: "#222222",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between", // Ensure space between text and icon
+                      cursor: "pointer"
+                    }}
+                    onClick={() => {
+                      if (calendarRef.current) {
+                        calendarRef.current.flatpickr.open();
+                      }
                     }}
                   >
-                    Start meter <span style={{ color: 'red', fontSize: '20px' }}> * </span>
-                  </Form.Label>
-                  <FormControl
-                    id="form-controls"
-                    placeholder={
-                      !(startmeter && startmeter.end_Meter_Reading)
-                        ? "Please enter startmeter "
-                        : ""
-                    }
-                    type="text"
-                    value={startmeterValue}
-                    onChange={handlestartmeter}
-                    disabled={!!(startmeter && startmeter.end_Meter_Reading)}
+                    {selectedDate ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
+                    <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
+                  </label>
+                  <Flatpickr
+                    ref={calendarRef}
+                    options={options}
+                    value={selectedDate}
+                    onChange={(selectedDates) => {
+                      setSelectedDate(selectedDates[0]);
+                    }}
                     style={{
+                      padding: 10,
                       fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
+                      width: "100%",
                       borderRadius: 8,
+                      border: "1px solid #D9D9D9",
+                      position: 'absolute',
+                      top: 100,
+                      left: 100,
+                      zIndex: 1000,
+                      display: "none"
                     }}
                   />
-                </Form.Group>
-                {startMeterError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {startMeterError}
-                  </div>
-                )}
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                </div>
+                </div>
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group className="mb-3">
                   <Form.Label
                     style={{
@@ -1559,7 +1247,7 @@ function EB_Hostel() {
                       fontWeight: 500,
                     }}
                   >
-                    End meter <span style={{ color: 'red', fontSize: '20px' }}> * </span>
+                    Reading <span style={{ color: 'red', fontSize: '20px' }}> * </span>
                   </Form.Label>
                   <FormControl
                     type="text"
@@ -1606,7 +1294,7 @@ function EB_Hostel() {
             </Button>
           </Modal.Footer>
         </Modal>
-      )}
+      {/* )} */}
     </div>
   );
 }

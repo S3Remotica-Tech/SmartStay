@@ -448,7 +448,7 @@ localStorage.setItem('currentPage','compliance');
             
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex" }}>
                 <img src={currentPage === 'eb' ? Eb2 : Eb} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Transactions</span>
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Electricity</span>
                 </li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex" }}>
