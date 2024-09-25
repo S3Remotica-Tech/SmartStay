@@ -1173,10 +1173,17 @@ const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
+
+
+
 const [value, setValue] = React.useState('1');
+
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
+    console.log("newValue", newValue )
+
+
   }
 
   const theme = useTheme();
@@ -1234,9 +1241,19 @@ const [value, setValue] = React.useState('1');
     <Image  src={Sort}  roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
     </div>
     <div className='me-4'>
+      {value == 1 ? 
 <Button
   // onClick={handleShow}
-  style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment</Button>
+  style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment
+  </Button>
+  :
+  <Button
+  // onClick={handleShow}
+  style={{ fontSize: 16, backgroundColor: "green", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment
+  </Button>
+  
+  
+  }
 </div>
   </div>
 </div>
