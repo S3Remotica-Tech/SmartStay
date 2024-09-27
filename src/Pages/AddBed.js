@@ -88,7 +88,7 @@ const handleSubmit =() =>{
   }
 
 
-  if (!bedNo || !/^[1-9]\d*$/.test(bedNo)) {
+  if (!bedNo) {
     setBedError('Please enter a valid bed number.');
     return;
   } else {

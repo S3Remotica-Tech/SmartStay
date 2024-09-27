@@ -82,17 +82,29 @@ if(editRoom){
 
 console.log("floorId",floorId,hostel_Id )
 
-if (!room || !/^[1-9]\d*$/.test(room)) {
+// if (!room || !/^[1-9]\d*$/.test(room)) {
 
-setRoomError('Please enter a valid Room no. (must be a positive number greater than 0)')
+// setRoomError('Please enter a valid Room no. (must be a positive number greater than 0)')
 
-  // Swal.fire({
-  //   icon: 'warning',
-  //   title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
-  // });
-  return;
-}
+//   // Swal.fire({
+//   //   icon: 'warning',
+//   //   title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
+//   // });
+//   return;
+// }
 
+
+
+if (!room) {
+
+  setRoomError('Please enter a valid Room no. (must be a positive number greater than 0)')
+  
+    // Swal.fire({
+    //   icon: 'warning',
+    //   title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
+    // });
+    return;
+  }
 
 
 if (!floorId) {

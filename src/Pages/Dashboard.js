@@ -302,7 +302,7 @@ function Dashboard(props) {
       <div className="row carddesign">
         <div className="col-lg-4 col-md-12 col-sm-12 col-xl-3 mb-3">
           <Card
-            className="fade-in"
+            className="animated-text"
             style={{ height: "auto", width: "100%", borderRadius: "20px" }}
           >
             <Card.Body>
@@ -336,7 +336,7 @@ function Dashboard(props) {
 
         <div className="col-lg-3 col-md-6 col-sm-12 mb-3">
           <Card
-            className="fade-in"
+            className="animated-text"
             style={{ height: "auto", width: "100%", borderRadius: "20px" }}
           >
             <Card.Body>
@@ -370,7 +370,7 @@ function Dashboard(props) {
 
         <div className="col-lg-3 col-md-6 col-sm-12 mb-3">
           <Card
-            className="fade-in"
+            className="animated-text"
             style={{ height: "auto", width: "100%", borderRadius: "20px" }}
           >
             <Card.Body>
@@ -404,7 +404,7 @@ function Dashboard(props) {
 
         <div className="col-lg-3 col-md-6 col-sm-12 mb-3">
           <Card
-            className="fade-in"
+            className="animated-text"
             style={{ height: "auto", width: "100%", borderRadius: "20px" }}
           >
             <Card.Body>
@@ -438,7 +438,7 @@ function Dashboard(props) {
       </div>
 
       <div className="circulardes">
-        <div className="w-full fade-in" style={{ flex: 1 }}>
+        <div className="w-full animated-text" style={{ flex: 1 }}>
           <div
             className="crddesg w-full"
             style={{
@@ -636,7 +636,7 @@ function Dashboard(props) {
           </div>
 
           <Card
-            className="fade-in"
+            className="animated-text"
             style={{
               marginTop: 15,
               height: "auto",
@@ -739,7 +739,7 @@ function Dashboard(props) {
         </div>
 
         <div style={{ flex: 1 }}>
-          <div className="expenses-container fade-in">
+          <div className="expenses-container animated-text">
             <div className="headertwo">
               <p
                 style={{
@@ -804,7 +804,7 @@ function Dashboard(props) {
               </div>
             </div>
           </div>
-          <div className="complaints-container fade-in">
+          <div className="complaints-container animated-text">
             <div className="header">
               <p
                 style={{
