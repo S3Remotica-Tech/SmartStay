@@ -19,8 +19,14 @@ import squre from '../Assets/Images/New_images/minus-square.png';
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import TabPanel from "@mui/lab/TabPanel";
+import TabContext from "@mui/lab/TabContext";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Search from '../Assets/Images/search-normal.png';
 
-function UserList() {
+
+function UserList(props) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
   const selectRef = useRef('select');
@@ -145,6 +151,12 @@ function UserList() {
     setemail_id(u.Email)
     console.log("u.Email...r?", u.Email)
 
+  };
+
+  const [value, setValue] = React.useState("1"); 
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
 
@@ -744,6 +756,9 @@ console.log("item",item)
           </div>
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">
+          <div>
+          <Image src={Search} roundedCircle style={{height:26,width:24,color:"#222222",marginRight:"20px"}}  />
+          </div>
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} />
             </div>
@@ -753,6 +768,33 @@ console.log("item",item)
             </div>
           </div>
         </div>
+                            {/*  */}
+                            <div className="pl-4" style={{paddingLeft:"10px",fontFamily:"Gilroy",fontSize:16,fontWeight:500,textAlign:"left"}} >
+        <TabContext value={value}>
+          <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="" >
+            <Tab className="tab-label" style={{textTransform:"capitalize"}} label="All Customers" value="1" />
+            <Tab className="tab-label" style={{textTransform:"capitalize"}} label="Bookings" value="2" />
+            <Tab className="tab-label" style={{textTransform:"capitalize"}} label="Check-out" value="3" />
+            <Tab className="tab-label" style={{textTransform:"capitalize"}} label="Walk-in" value="4" />
+          </Tabs>
+
+          <TabPanel value="1">
+            {/* <AllCustomer id={props.id} /> */}
+          </TabPanel>
+          <TabPanel value="2">
+            {/* <Bookings id={props.id} /> */}
+          </TabPanel>
+          <TabPanel value="3">
+            {/* <Checkout id={props.id} /> */}
+          </TabPanel>
+          <TabPanel value="4">
+            {/* <Walkin id={props.id} /> */}
+          </TabPanel>
+        </TabContext>
+      </div>
+
+                            {/*  */}
+
 
         <div className="p-4" style={{ paddingBottom: "20px" }} >
 
