@@ -19,6 +19,8 @@ import squre from '../Assets/Images/New_images/minus-square.png';
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import emptyimg from '../Assets/Images/New_images/empty_image.png';
+import searchteam from '../Assets/Images/New_images/searchss.png';
 
 function UserList() {
   const state = useSelector(state => state)
@@ -35,6 +37,8 @@ function UserList() {
 
   const [showLoader, setShowLoader] = useState(false)
   const [selectedItems, setSelectedItems] = useState('')
+  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
+  const [userDetails, setUserDetails] = useState([])
 
 
   useEffect(() => {
@@ -71,7 +75,7 @@ function UserList() {
       console.log("to trigger pdf is false so pdf not working");
     }
   }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
-
+console.log("state",state)
 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -87,7 +91,7 @@ function UserList() {
   const [filteredDatas, setFilteredDatas] = useState([]);
   const [originalData, setOriginalData] = useState([]);  // Store original data from API
   const [filteredDataPagination, setfilteredDataPagination] = useState([]);
- 
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -103,9 +107,9 @@ function UserList() {
   const itemsPerPage = 5;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredDataPagination.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(filteredDataPagination.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
   const renderPageNumbers = () => {
     
@@ -143,27 +147,18 @@ function UserList() {
     setAddBasicDetail(true)
     setEditObj(u)
     setemail_id(u.Email)
-    console.log("u.Email...r?", u.Email)
 
   };
 
 
-  console.log("state", state)
-
-
-  
   useEffect(() => {
     
     if (state.UsersList?.UserListStatusCode == 200) {
-      console.log("invoice added executed");
-
       setOriginalData(state.UsersList.Users);
 
       const uniqueUsersList = state.UsersList.Users.filter((user, index, self) =>
         index === self.findIndex((u) => u.Email === user.Email)
       );
-  
-      console.log("Filtered Unique Data:", uniqueUsersList);  
       
       setfilteredDataPagination(state.UsersList.Users)
       setLoading(false);
@@ -228,7 +223,8 @@ function UserList() {
   const [filterStatus, setFilterStatus] = useState(false)
   const [filterByStatus, setFilterByStatus] = useState('ALL')
 
-
+  const [filterInput,setFilterInput] =useState('')
+  
   const [hostel, sethostel] = useState('')
   const [floors_Id, setFloors_Id] = useState('')
   const [rooms_id, setRoomsId] = useState('')
@@ -243,7 +239,6 @@ function UserList() {
   const handleRoomDetailsPage = (userData) => {
 
     const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
-    console.log("userData", userData)
     setHostelIds(userData.Hostel_Id)
     setBedIds(userData.Bed)
     setFloorIds(userData.Floor)
@@ -260,15 +255,11 @@ function UserList() {
   }
   const handleShowAddBed = (u) => {
     setEdit('Edit')
-
-    console.log("u for assign bed", u)
     handleMenuClick();
     setShowMenu(true);
     setAddBasicDetail(false)
     setEditObj(u)
-    console.log("uu", u)
     setemail_id(u.Email)
-    console.log("u.Email", u.Email)
 
   };
 
@@ -306,21 +297,14 @@ function UserList() {
 
 
 
-  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
-  const [userDetails, setUserDetails] = useState([])
-  console.log("userDetails", userDetails)
-
-  console.log("bedIds", bedIds, hostelIds, floorIds,roomsIds)
+ 
   useEffect(() => {
     const ParticularUserDetails = state.UsersList?.Users?.filter(item => {
-
-console.log("item",item)
       
       return item.User_Id == customerUser_Id
     }
 
     );
-    console.log("ParticularUserDetails", ParticularUserDetails)
 
     setUserDetails(ParticularUserDetails);
 
@@ -334,6 +318,10 @@ console.log("item",item)
     }
 
   }, [roomDetail, state.UsersList?.Users, hostelIds, bedIds, floorIds, roomsIds, email_id]);
+
+
+
+
 
   const customCheckboxStyle = {
     appearance: 'none',
@@ -370,7 +358,6 @@ console.log("item",item)
 
 
   const Amenitiesname = state.UsersList?.customerdetails?.data?.amentites
-  console.log("amenties", Amenitiesname);
 
   const billPaymentHistory = state.UsersList.billPaymentHistory;
   const invoicePhones = billPaymentHistory.map((item) => item.invoicePhone);
@@ -379,21 +366,7 @@ console.log("item",item)
 
   
 
-  useEffect(() => {
-    if (state.InvoiceList?.Invoice && filteredDataForUser.length > 0) {
-      let filteredData = [...filteredDataForUser];
-
-      if (filterByStatus !== 'ALL') {
-        filteredData = filteredData.filter((item) => item.Status === filterByStatus);
-      }
-
-      if (filterByInvoice) {
-        filteredData = filteredData.filter((item) => item.Invoices.toLowerCase().includes(filterByInvoice.toLowerCase()));
-      }
-
-      setFilteredDatas(filteredData);
-    }
-  }, [filterByStatus, filterByInvoice, filteredDataForUser, state.InvoiceList?.Invoice]);
+ 
 
   const getFloorName = (Floor) => {
     if (Floor === 1) {
@@ -478,6 +451,26 @@ console.log("item",item)
     setFilterStatus(!filterStatus)
     setSearch(false)
   }
+ const handlefilterInput =(e)=>{
+  setFilterInput(e.target.value)
+  console.log("e,,,,",e.target.value)
+ }
+ useEffect(() => {
+  // Filter users as the filterInput changes
+  const FilterUser = state.UsersList.Users.filter((item) => {
+    return item.Name.toLowerCase().includes(filterInput.toLowerCase());
+  });
+
+  setFilteredUsers(FilterUser);
+  console.log("FilterUser",FilterUser)
+}, [filterInput, state.UsersList.Users]); 
+
+// useEffect(()=>{
+//   const FilterUser = state.UsersList.Users.filter((item)=>{
+//     return item.Name === filterInput
+//   })
+//   console.log("FilterUser",FilterUser)
+// })
 
   const handleStatusFilterChange = (e) => {
     const selectedStatus = e.target.value;
@@ -489,49 +482,39 @@ console.log("item",item)
       dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } })
       // setAmnityuserdetail(state.UsersList?.customerdetail.all_amenities)
     }
-    console.log("userIduserId", id)
   }, [id]);
   useEffect(() => {
     if (id) {
-      console.log("user_id", id)
       dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } })
-      // setAmnnityhistory(state.UsersList?.amnetieshistory)
     }
-    console.log("userIduserId....?", id)
   }, [id]);
 
 
   const [selectAmneties, setselectAmneties] = useState("")
   const [selectedAmenityName, setSelectedAmenityName] = useState([]);
-  console.log("selectedAmenityName", selectedAmenityName)
   const [addamenityShow, setaddamenityShow] = useState(false)
   const [active, setActive] = useState(false)
   const [status, setStatus] = useState('')
   const [createby, setcreateby] = useState('')
   const [amnityEdit, setamnityEdit] = useState('')
-  console.log("createby", createby)
 
   const handleselect = (e) => {
     const value = e.target.value;
     setselectAmneties(value);
     setamnitytableshow(true);
-    console.log("e.target.value", value);
 
     const amenitiesHistory = state.UsersList.amnetieshistory.filter((item) => {
       return item.amenity_Id == value
     });
-    console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
 
     if (amenitiesHistory && amenitiesHistory.length > 0) {
-      if (amenitiesHistory && amenitiesHistory[0].status == 0) {
-        console.log("Status is 0, setting add amenity show to true");
+      if (amenitiesHistory && amenitiesHistory[0].status == 0) {;
         setaddamenityShow(true);
         setstatusShow(false);
 
       }
 
     } else {
-      console.log("else");
       setaddamenityShow(true);
       setstatusShow(false);
       setSelectedAmenityName([]);
@@ -539,13 +522,10 @@ console.log("item",item)
   };
   useEffect(() => {
     if (state.UsersList.customerdetails.all_amenities && state.UsersList.customerdetails.all_amenities.length > 0 && selectAmneties) {
-
-      console.log("state.UsersList.customerdetails.all_amenities", state.UsersList.customerdetails.all_amenities);
       const AmnitiesNamelist = state.UsersList.customerdetails.all_amenities.filter((item) => {
         return item.Amnities_Id == selectAmneties
 
       })
-      console.log("AmnitiesNamelist", AmnitiesNamelist)
       setcreateby(AmnitiesNamelist)
     }
   }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties])
@@ -593,7 +573,6 @@ console.log("item",item)
   const [amnitynotshow, setamnitynotshow] = useState([])
   const handleStatusAmnities = (e) => {
     setStatusAmni(e.target.value)
-    console.log("eee.ttt.v", e.target.value)
   }
 
   const handleAddUserAmnities = () => {
@@ -623,9 +602,7 @@ console.log("item",item)
       setselectAmneties('')
     }
   };
-  console.log("state.UsersList?.customerdetails?.all_amenities?", state.UsersList?.customerdetails?.all_amenities);
-
-  console.log("state.UsersList?.statusCustomerAddUser", state.UsersList.statusCustomerAddUser)
+ 
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200) {
       setaddamenityShow(false)
@@ -643,10 +620,7 @@ console.log("item",item)
     }
   }, [state.UsersList.statusCustomerAddUser])
 
-  console.log("state For Add userAminity", state);
   const handleEdit = (v) => {
-    console.log("vvv", v)
-
     setamnityEdit(v)
     setaddamenityShow(true);
     setstatusShow(true)
@@ -666,8 +640,6 @@ console.log("item",item)
   const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
   const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
   const currentRowAmnities = amnitiesFilterddata?.slice(indexOfFirstRowamnities, indexOfLastRowamneties);
-  console.log("currentRowAmnities", currentRowAmnities)
-
   const [showOtpValidation, setShowOtpValidation] = useState(false)
   const [showValidate, setShowValidate] = useState(true)
   const [aadhaarNo, setAdhaarNo] = useState('')
@@ -732,7 +704,7 @@ console.log("item",item)
     setKycOtpValue(e.target.value)
   }
 
-
+ 
   return (
     <div className=' p-2' >
 
@@ -744,8 +716,34 @@ console.log("item",item)
           </div>
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">
+{
+  search ? <>
+     <div className="input-group" style={{ maxWidth: '300px',marginRight:20 }}>
+      <span className="input-group-text bg-white border-end-0">
+        {/* <i className="bi bi-search"></i> */}
+        <Image src={searchteam} roundedCircle style={{ height: "30px", width: "30px" }} />
+      </span>
+      <input
+        type="text"
+        className="form-control border-start-0"
+        placeholder="Search"
+        aria-label="Search"
+        style={{ boxShadow: 'none', outline: 'none',borderColor:"rgb(207,213,219)" }}
+        value={filterInput}
+        onChange={(e)=>handlefilterInput(e)}
+      />
+    </div>
+  </>
+  :<>
+   <div className='me-3'>
+              <Image src={searchteam} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleSearch}/>
+            </div>
+  </>
+}
+       
+         
             <div className='me-3'>
-              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} />
+              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleSearch} />
             </div>
 
             <div>
@@ -755,7 +753,20 @@ console.log("item",item)
         </div>
 
         <div className="p-4" style={{ paddingBottom: "20px" }} >
-
+        {state?.UsersList?.Users && state?.UsersList?.Users.length === 0 && 
+                  <div>
+                  <div style={{ textAlign: "center"}}> <img src={emptyimg} alt="emptystate" /></div> 
+               <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active customer </div>
+               <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active customer </div>
+              
+               <div style={{ textAlign: "center"}}>
+                           <Button
+                             onClick={handleShow}
+                             style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Customer</Button>
+                         </div>
+             </div>    
+                  }
+        {currentItems && currentItems.length > 0 && (
           <Table className="ebtable" responsive  >
             <thead style={{ backgroundColor: "#E7F1FF" }}>
               <tr>
@@ -786,7 +797,6 @@ console.log("item",item)
                 ))
               ) : (
                 currentItems.map((user) => {
-                  console.log("userrr",user)
                   const imageUrl = user.profile || Profile;;
                   return (
                     <tr key={user.ID} style={{ fontSize: "16px", fontWeight: 600, textAlign: "center", marginTop: 10 }}>
@@ -849,13 +859,11 @@ console.log("item",item)
               )}
             
 
-          {currentItems.length === 0 && (
-                    <tr>
-                      <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
-                    </tr>
-                  )}
+        
             </tbody>
           </Table>
+)}
+
 
         
         </div>

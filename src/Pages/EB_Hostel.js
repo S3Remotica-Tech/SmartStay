@@ -18,6 +18,9 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import Swal from "sweetalert2";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
+import emptyimg from "../Assets/Images/New_images/empty_image.png";
+import down from "../Assets/Images/New_images/down.png";
+import squre from '../Assets/Images/New_images/minus-square.png';
 import {
   Autobrightness,
   Call,
@@ -29,6 +32,7 @@ import {
 } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { MdError } from "react-icons/md";
+import { set } from "date-fns";
 
 function EB_Hostel() {
   const dispatch = useDispatch();
@@ -51,7 +55,7 @@ function EB_Hostel() {
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [roomsByFloor, setRoomsByFloor] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
   const [startmeterdata, setStartmeterData] = useState([]);
   console.log("startmeterdata", startmeterdata);
   const [startmeter, setStartmeter] = useState([]);
@@ -89,9 +93,10 @@ function EB_Hostel() {
   }, [selectedHostel, state.PgList?.EB_startmeterlist, Floor, Rooms]);
 
   const options = {
-    dateFormat: "d/m/Y",
+    dateFormat: "Y/m/d",
     defaultDate: selectedDate || new Date(),
   };
+
   useEffect(() => {
     setEbErrorunit(state.PgList.ebError);
   }, [state.PgList.ebError]);
@@ -128,14 +133,14 @@ function EB_Hostel() {
   };
   const [startmeterValue, setStartmeterValue] = useState("");
 
-  useEffect(() => {
-    if (startmeter && startmeter.end_Meter_Reading) {
-      setStartmeterValue(startmeter.end_Meter_Reading);
-      setstartMeterError("");
-    } else {
-      setStartmeterValue("");
-    }
-  }, [startmeter]);
+  // useEffect(() => {
+  //   if (startmeter && startmeter.end_Meter_Reading) {
+  //     setStartmeterValue(startmeter.end_Meter_Reading);
+  //     setstartMeterError("");
+  //   } else {
+  //     setStartmeterValue("");
+  //   }
+  // }, [startmeter]);
 
   useEffect(() => {
     if (selectedHostel && Floor) {
@@ -170,11 +175,12 @@ function EB_Hostel() {
     setISVisible(false);
   };
   const handleAddEbDetails = () => {
-    if (ebShow) {
-      setaddEbDetail(true);
-    } else {
-      setaddEbDetail(false);
-    }
+    // if (ebShow) {
+    //   setaddEbDetail(true);
+    // } else {
+    //   setaddEbDetail(false);
+    // }
+    setaddEbDetail(true);
   };
 
   const handleTransactionsShow = () => {
@@ -182,12 +188,12 @@ function EB_Hostel() {
     setebshow(false);
   };
 
-  const handlestartmeter = (e) => {
-    setStartmeterValue(e.target.value);
-    if (e.target.value) {
-      setstartMeterError("");
-    }
-  };
+  // const handlestartmeter = (e) => {
+  //   setStartmeterValue(e.target.value);
+  //   if (e.target.value) {
+  //     setstartMeterError("");
+  //   }
+  // };
 
   const handleendmeter = (e) => {
     setEndmeter(e.target.value);
@@ -240,7 +246,8 @@ function EB_Hostel() {
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
   const [endMeterError, setendMeterError] = useState("");
-  const [startMeterError, setstartMeterError] = useState("");
+  // const [startMeterError, setstartMeterError] = useState("");
+  const [dateError, setDateError] = useState("");
 
   const validateAssignField = (value, fieldName) => {
     if (
@@ -259,9 +266,12 @@ function EB_Hostel() {
         case "Rooms":
           setRoomError("Room is required");
           break;
-        case "startmeter":
-          setstartMeterError("startmeter is required");
+        case "selectedDate":
+          setDateError("date is required");
           break;
+        // case "startmeter":
+        //   setstartMeterError("startmeter is required");
+        //   break;
         case "endmeter":
           setendMeterError("endMeter is required");
           break;
@@ -282,8 +292,8 @@ function EB_Hostel() {
         case "Bed":
           setBedError("");
           break;
-        case "startmeter":
-          setstartMeterError("");
+        case "dateError":
+          setDateError("");
           break;
         case "endmeter":
           setendMeterError("");
@@ -294,15 +304,19 @@ function EB_Hostel() {
       return true;
     }
   };
-  const validateStartMeter = () => {
-    if (!startmeterValue || startmeterValue === 0) {
-      setstartMeterError("Start meter is required");
-      return false;
-    } else {
-      setstartMeterError(""); // Clear error if value is present
-      return true;
-    }
-  };
+  // const validateStartMeter = () => {
+  //   if (!startmeterValue || startmeterValue === 0) {
+  //     setstartMeterError("Start meter is required");
+  //     return false;
+  //   } else {
+  //     setstartMeterError(""); // Clear error if value is present
+  //     return true;
+  //   }
+  // };
+  const handleDate =(selectedDates)=>{
+    setSelectedDate(selectedDates[0])
+    setDateError('')
+  }
 
   const handleClose = () => {
     setaddEbDetail(false);
@@ -316,7 +330,10 @@ function EB_Hostel() {
     setSelectedHostel("");
     setRooms("");
     setFloor("");
-    setstartMeterError("");
+    setSelectedDate("");
+    setDateError("")
+
+    // setstartMeterError("");
   };
 
   const handleSaveEbBill = () => {
@@ -324,31 +341,34 @@ function EB_Hostel() {
     const isHostelValid = validateAssignField(selectedHostel, "Hostel ID");
     const isFloorValid = validateAssignField(Floor, "Floor");
     const isRoomValid = validateAssignField(Rooms, "Rooms");
-    const isStartMeterValid = validateAssignField(
-      startmeterValue,
-      "startmeter"
-    );
+    // const isStartMeterValid = validateAssignField(
+    //   startmeterValue,
+    //   "startmeter"
+    // );
     const isEndMeterValid = validateAssignField(endmeter, "endmeter");
+    const isDatevalid = validateAssignField(selectedDate, "selectedDate");
 
     if (
       !isHostelValid ||
       !isEndMeterValid ||
-      (!isFloorValid && !isRoomValid && !isStartMeterValid)
+      (!isFloorValid && !isRoomValid && !isDatevalid)
     ) {
       return;
     }
 
     // Dispatch based on whether or not floor and room values exist
-    if (selectedHostel && Floor && Rooms && endmeter) {
+    if (selectedHostel && Floor && Rooms && endmeter && selectedDate) {
+      const formattedDate = selectedDate.toISOString().split("T")[0];
       dispatch({
         type: "CREATEEB",
         payload: {
           Hostel_Id: selectedHostel,
           Floor: Floor,
           Room: Rooms,
-          startMeterReading: startmeterValue,
+          date: formattedDate,
+          // startMeterReading: startmeterValue,
           end_Meter_Reading: endmeter,
-          EbAmount: totalAmountRead,
+          // EbAmount: totalAmountRead,
         },
       });
     } else if (selectedHostel && endmeter) {
@@ -357,7 +377,8 @@ function EB_Hostel() {
         payload: {
           Hostel_Id: selectedHostel,
           end_Meter_Reading: endmeter,
-          EbAmount: totalAmountRead,
+          // EbAmount: totalAmountRead,
+          date: selectedDate,
         },
       });
     }
@@ -370,7 +391,7 @@ function EB_Hostel() {
     }
   }, [state.PgList?.AddEBstatusCode]);
 
-  const electricityrowsPerPage = 10;
+  const electricityrowsPerPage = 5;
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const [electricityFilterddata, setelectricityFilterddata] = useState([]);
   const indexOfLastRowelectricity =
@@ -541,25 +562,25 @@ function EB_Hostel() {
               fontFamily: "Gilroy",
             }}
           >
-            Transactions
+            Electricity
           </label>
         </div>
 
         <div className="d-flex justify-content-between align-items-center">
-          <div className="me-3">
+          {/* <div className="me-3">
             <Image
               src={Filter}
               roundedCircle
               style={{ height: "30px", width: "30px" }}
             />
-          </div>
+          </div> */}
 
           <div>
             <Button
               style={{
                 fontFamily: "Montserrat",
                 fontSize: 16,
-                backgroundColor: transactionshow ? "#ccc" : "#1E45E1",
+                backgroundColor: "#1E45E1",
                 color: "white",
                 height: 56,
                 fontWeight: 600,
@@ -567,255 +588,432 @@ function EB_Hostel() {
                 width: 184,
                 padding: "18px, 20px, 18px, 20px",
                 border: "none",
-                cursor: transactionshow ? "not-allowed" : "pointer",
+                cursor: "pointer",
               }}
               onClick={handleAddEbDetails}
-              disabled={transactionshow}
+              // disabled={transactionshow}
             >
-              + Add transaction
+              + Record Reading
             </Button>
           </div>
         </div>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <div
-          className={`tab-path ${transactionshow ? "active" : ""}`}
-          onClick={handleTransactionsShow}
+      {/* {ebShow && ( */}
+      <>
+      <div style={{ padding: 15 }}>
+      {currentRowelectricity.length > 0 && (
+  <Table
+    className="ebtable mt-3"
+    responsive
+    style={{
+      tableLayout: "fixed", // Ensures uniform column widths
+      width: "100%",
+    }}
+  >
+    <thead
+      style={{
+        color: "gray",
+        fontSize: "11px",
+        backgroundColor: "#E7F1FF",
+      }}
+    >
+      <tr style={{ height: "30px" }}>
+        <th
           style={{
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-            fontSize: 16,
-            marginLeft: 5,
+            textAlign: "center",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            paddingRight: "10px",
           }}
         >
-          General
-        </div>
+          <img src={squre} height={20} width={20} />
+        </th>
+        <th
+          style={{
+            color: "#939393",
+            fontWeight: 500,
+            fontSize: "14px",
+            fontFamily: "Gilroy",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            textAlign: "center",
+          }}
+        >
+          Paying Guest
+        </th>
+        <th
+          style={{
+            color: "#939393",
+            fontWeight: 500,
+            fontSize: "14px",
+            fontFamily: "Gilroy",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            textAlign: "center",
+          }}
+        >
+          Floor
+        </th>
+        <th
+          style={{
+            color: "#939393",
+            fontWeight: 500,
+            fontSize: "14px",
+            fontFamily: "Gilroy",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            textAlign: "center",
+          }}
+        >
+          Room no
+        </th>
+        <th
+          style={{
+            color: "#939393",
+            fontWeight: 500,
+            fontSize: "14px",
+            fontFamily: "Gilroy",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            textAlign: "center",
+          }}
+        >
+          Previous
+        </th>
+        <th
+          style={{
+            color: "#939393",
+            fontWeight: 500,
+            fontSize: "14px",
+            fontFamily: "Gilroy",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            textAlign: "center",
+          }}
+        >
+          Current
+        </th>
+        <th
+          style={{
+            color: "#939393",
+            fontWeight: 500,
+            fontSize: "14px",
+            fontFamily: "Gilroy",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            textAlign: "center",
+          }}
+        >
+          Dated
+        </th>
+        <th
+          style={{
+            color: "#939393",
+            fontWeight: 500,
+            fontSize: "14px",
+            fontFamily: "Gilroy",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            textAlign: "center",
+          }}
+        >
+          Units
+        </th>
+        <th
+          style={{
+            color: "#939393",
+            fontWeight: 500,
+            fontSize: "14px",
+            fontFamily: "Gilroy",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            textAlign: "center",
+          }}
+        >
+          Amount
+        </th>
+      </tr>
+    </thead>
+    <tbody style={{ fontSize: "12px" }}>
+      {currentRowelectricity &&
+        currentRowelectricity.map((v) => {
+          const imageUrl = v.profile || Profile;
+          let Dated = new Date(v.createAt);
+          let day = Dated.getDate();
+          let month = Dated.getMonth() + 1;
+          let year = Dated.getFullYear();
+          let formattedDate = `${day}/${month}/${year}`;
 
-        <div
-          className={`tab-path ${ebShow ? "active" : ""}`}
-          onClick={handleebViewShow}
-          style={{
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-            fontSize: 16,
-            marginLeft: 10,
-          }}
-        >
-          Electricity Bill
-        </div>
+          return (
+            <tr key={v.id}>
+              <td
+                style={{
+                  padding: "10px",
+                  border: "none",
+                  textAlign: "center",
+                  verticalAlign: "middle", // Center vertically
+                }}
+              >
+                <img src={squre} height={20} width={20} />
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  padding: "10px",
+                  textAlign: "center",
+                  verticalAlign: "middle", // Center vertically
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Image
+                    src={imageUrl}
+                    alt={v.hoatel_Name || "Default Profile"}
+                    roundedCircle
+                    style={{
+                      height: "40px",
+                      width: "40px",
+                      marginRight: "10px",
+                    }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = Profile;
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    {v.hoatel_Name}
+                  </span>
+                </div>
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle", // Center vertically
+                }}
+              >
+                {v.Floor}
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle", // Center vertically
+                }}
+              >
+                {v.Room}
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle", // Center vertically
+                }}
+              >
+                {v.start_Meter_Reading}
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle", // Center vertically
+                }}
+              >
+                {v.end_Meter_Reading}
+              </td>
+              <td
+                style={{
+                  textAlign: "center",
+                  verticalAlign: "middle", // Center vertically
+                }}
+              >
+                <span
+                  style={{
+                    backgroundColor: "#EBEBEB",
+                    paddingTop: "5px",
+                    paddingLeft: "16px",
+                    paddingRight: "16px",
+                    paddingBottom: "5px",
+                    borderRadius: "60px",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  {formattedDate}
+                </span>
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle", // Center vertically
+                }}
+              >
+                {v.Eb_Unit}
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle", // Center vertically
+                }}
+              >
+                {v.EbAmount}
+              </td>
+            </tr>
+          );
+        })}
+    </tbody>
+  </Table>
+)}
+
+  {state.PgList?.EB_startmeterlist?.length === 0 && (
+    <div>
+      <div style={{ textAlign: "center" }}>
+        <img src={emptyimg} alt="emptystate" />
+      </div>
+      <div
+        className="pb-1"
+        style={{
+          textAlign: "center",
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          fontSize: 24,
+          color: "rgba(75, 75, 75, 1)",
+        }}
+      >
+        No Active Electricity{" "}
+      </div>
+      <div
+        className="pb-1"
+        style={{
+          textAlign: "center",
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          fontSize: 20,
+          color: "rgba(75, 75, 75, 1)",
+        }}
+      >
+        There are no active Electricity{" "}
       </div>
 
-      {transactionshow && (
-        <div style={{ padding: 15 }}>
-          <Table className="ebtable mt-3" responsive>
-            <thead
+      <div style={{ textAlign: "center" }}>
+        <Button
+          onClick={handleAddEbDetails}
+          style={{
+            fontSize: 16,
+            backgroundColor: "#1E45E1",
+            color: "white",
+            height: 56,
+            fontWeight: 600,
+            borderRadius: 12,
+            width: 200,
+            padding: "18px, 20px, 18px, 20px",
+            fontFamily: "Montserrat",
+          }}
+        >
+          + Record Reading
+        </Button>
+      </div>
+    </div>
+  )}
+</div>
+
+
+        {currentRowelectricity.length > 0 && (
+          <nav>
+            <ul
               style={{
-                color: "gray",
-                fontSize: "11px",
-                backgroundColor: "#E7F1FF",
+                display: "flex",
+                alignItems: "center",
+                listStyleType: "none",
+                padding: 0,
+                justifyContent: "end",
               }}
             >
-              <tr className="" style={{ height: "30px" }}>
-                <th
+              <li style={{ margin: "0 5px" }}>
+                <button
                   style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                    padding: "5px 10px",
+                    textDecoration: "none",
+                    color: electricitycurrentPage === 1 ? "#ccc" : "#007bff",
+                    cursor:
+                      electricitycurrentPage === 1 ? "not-allowed" : "pointer",
+                    borderRadius: "5px",
+                    display: "inline-block",
+                    minWidth: "30px",
                     textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
                   }}
+                  onClick={() =>
+                    handleElectricityPageChange(electricitycurrentPage - 1)
+                  }
+                  disabled={electricitycurrentPage === 1}
                 >
-                  Name 
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  category
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  Date
-                </th>
-
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  Amount
-                </th>
-                <th
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  Made of pyment
-                </th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody style={{ height: "50px", fontSize: "11px" }}>
-              {currentRowtransaction &&
-                currentRowtransaction.map((v, i) => {
-                  return (
-                    <tr>
-                      <td
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "center",
-                        }}
-                      >
-                        {v.hostel_Name}
-                      </td>
-                      <td>
-                        <span
-                          style={{
-                            backgroundColor: "#FFEFCF",
-                            paddingTop: "3px",
-                            paddingLeft: "10px",
-                            paddingRight: "10px",
-                            paddingBottom: "3px",
-                            borderRadius: "10px",
-                            lineHeight: "1.5em",
-                            margin: "0",
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          {v.category_Name}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          style={{
-                            backgroundColor: "#EBEBEB",
-                            paddingTop: "3px",
-                            paddingLeft: "10px",
-                            paddingRight: "10px",
-                            paddingBottom: "3px",
-                            borderRadius: "10px",
-                            lineHeight: "1.5em",
-                            margin: "0",
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          {v.date}
-                        </span>
-                      </td>
-                      <td
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        {v.credit}
-                      </td>
-                      <td>
-                        <span
-                          style={{
-                            backgroundColor: "#D9E9FF",
-                            paddingTop: "3px",
-                            paddingLeft: "10px",
-                            paddingRight: "10px",
-                            paddingBottom: "3px",
-                            borderRadius: "10px",
-                            lineHeight: "1.5em",
-                            margin: "0",
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          {v.payment_type}
-                        </span>
-                      </td>
-                      <td>
-                        {" "}
-                        <div
-                          style={{
-                            cursor: "pointer",
-                            height: 40,
-                            width: 40,
-                            borderRadius: 100,
-                            border: "1px solid #EFEFEF",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative",
-                            zIndex: 1000,
-                          }}
-                        >
-                          <PiDotsThreeOutlineVerticalFill
-                            style={{ height: 20, width: 20 }}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              {currentRowtransaction.length === 0 && (
-                <tr>
-                  <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
-                    No data found
-                  </td>
-                </tr>
+                  {" "}
+                  <ArrowLeft2 size="16" color="#1E45E1" />
+                </button>
+              </li>
+              {electricitycurrentPage > 3 && (
+                <li style={{ margin: "0 5px" }}>
+                  <button
+                    style={{
+                      padding: "5px 10px",
+                      textDecoration: "none",
+                      color: "white",
+                      cursor: "pointer",
+                      borderRadius: "5px",
+                      display: "inline-block",
+                      minWidth: "30px",
+                      textAlign: "center",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                    onClick={() => handleElectricityPageChange(1)}
+                  >
+                    1
+                  </button>
+                </li>
               )}
-            </tbody>
-          </Table>
-
-          {currentRowtransaction.length > 0 && (
-            <nav>
-              <ul
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  listStyleType: "none",
-                  padding: 0,
-                  justifyContent: "end",
-                }}
-              >
+              {electricitycurrentPage > 3 && <span>...</span>}
+              {renderPageNumberselectricity()}
+              {electricitycurrentPage < totalPagesinvoice - 2 && (
+                <span>...</span>
+              )}
+              {electricitycurrentPage < totalPagesinvoice - 2 && (
                 <li style={{ margin: "0 5px" }}>
                   <button
                     style={{
                       padding: "5px 10px",
                       textDecoration: "none",
-                      color: tranactioncurrentPage === 1 ? "#ccc" : "#007bff",
-                      cursor:
-                        tranactioncurrentPage === 1 ? "not-allowed" : "pointer",
+
+                      cursor: "pointer",
                       borderRadius: "5px",
                       display: "inline-block",
                       minWidth: "30px",
@@ -824,789 +1022,370 @@ function EB_Hostel() {
                       border: "none",
                     }}
                     onClick={() =>
-                      handleTransactionPageChange(tranactioncurrentPage - 1)
+                      handleElectricityPageChange(totalPagesinvoice)
                     }
-                    disabled={tranactioncurrentPage === 1}
                   >
-                    {" "}
-                    <ArrowLeft2 size="16" color="#1E45E1" />
+                    {totalPagesinvoice}
                   </button>
                 </li>
-                {tranactioncurrentPage > 3 && (
-                  <li style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        textDecoration: "none",
-                        color: "white",
-                        cursor: "pointer",
-                        borderRadius: "5px",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handleTransactionPageChange(1)}
-                    >
-                      1
-                    </button>
-                  </li>
-                )}
-                {tranactioncurrentPage > 3 && <span>...</span>}
-                {renderPageNumberstransaction()}
-                {tranactioncurrentPage < totalPagestransaction - 2 && (
-                  <span>...</span>
-                )}
-                {tranactioncurrentPage < totalPagestransaction - 2 && (
-                  <li style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        textDecoration: "none",
-
-                        cursor: "pointer",
-                        borderRadius: "5px",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() =>
-                        handleTransactionPageChange(totalPagestransaction)
-                      }
-                    >
-                      {totalPagestransaction}
-                    </button>
-                  </li>
-                )}
-                <li style={{ margin: "0 5px" }}>
-                  <button
-                    style={{
-                      padding: "5px 10px",
-                      textDecoration: "none",
-                      color:
-                        tranactioncurrentPage === tranactioncurrentPage
-                          ? "#ccc"
-                          : "#007bff",
-                      cursor:
-                        tranactioncurrentPage === tranactioncurrentPage
-                          ? "not-allowed"
-                          : "pointer",
-                      borderRadius: "5px",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() =>
-                      handleTransactionPageChange(tranactioncurrentPage + 1)
-                    }
-                    disabled={tranactioncurrentPage === totalPagestransaction}
-                  >
-                    <ArrowRight2 size="16" color="#1E45E1" />
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
-        </div>
-      )}
-      {ebShow && (
-        <>
-          <div style={{ padding: 15 }}>
-            <Table className="ebtable mt-3" responsive>
-              <thead
-                style={{
-                  color: "gray",
-                  fontSize: "11px",
-                  backgroundColor: "#E7F1FF",
-                }}
-              >
-                <tr className="" style={{ height: "30px" }}>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                      textAlign: "center",
-                    }}
-                  >
-                    Paying Guest 
-                  </th>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Floor 
-                  </th>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Room no 
-                  </th>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Start meter 
-                  </th>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    End meter 
-                  </th>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Dated 
-                  </th>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Units
-                  </th>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Amount 
-                  </th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody style={{ height: "50px", fontSize: "11px" }}>
-                {currentRowelectricity &&
-                  currentRowelectricity.map((v) => {
-                    const imageUrl = v.profile || Profile;
-                    let Dated = new Date(v.createAt);
-                    console.log("Dated..?", Dated);
-
-                    let day = Dated.getDate();
-                    let month = Dated.getMonth() + 1;
-                    let year = Dated.getFullYear();
-
-                    let formattedDate = `${day}/${month}/${year}`;
-                    console.log("Formatted Date:", formattedDate);
-                    return (
-                      <tr>
-                        <td
-                          style={{
-                            border: "none",
-                            display: "flex",
-                            padding: "10px",
-                          }}
-                        >
-                          <Image
-                            src={imageUrl}
-                            alt={v.hoatel_Name || "Default Profile"}
-                            roundedCircle
-                            style={{
-                              height: "40px",
-                              width: "40px",
-                              marginRight: "10px",
-                            }}
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = Profile;
-                            }}
-                          />
-                          <span
-                            style={{
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            {v.hoatel_Name}
-                          </span>
-                        </td>
-                        {/* <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>{v.hoatel_Name}</td> */}
-                        <td
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            textAlign: "start",
-                          }}
-                        >
-                          {v.Floor}
-                        </td>
-                        <td
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            textAlign: "start",
-                          }}
-                        >
-                          {v.Room}
-                        </td>
-                        <td
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            textAlign: "start",
-                          }}
-                        >
-                          {v.start_Meter_Reading}
-                        </td>
-                        <td
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            textAlign: "start",
-                          }}
-                        >
-                          {v.end_Meter_Reading}
-                        </td>
-                        {/* <td>₹{view.BalanceDue}</td> */}
-
-                        <td>
-                          <span
-                            style={{
-                              backgroundColor: "#EBEBEB",
-                              paddingTop: "5px",
-                              paddingLeft: "16px",
-                              paddingRight: "16px",
-                              paddingBottom: "5px",
-                              borderRadius: "60px",
-                              lineHeight: "1.5em",
-                              margin: "0",
-                              fontSize: "14px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            {formattedDate}
-                          </span>
-                        </td>
-                        <td
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            textAlign: "start",
-                          }}
-                        >
-                          {v.Eb_Unit}
-                        </td>
-                        <td
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            textAlign: "start",
-                          }}
-                        >
-                          {v.EbAmount}
-                        </td>
-                        <td>
-                          <div
-                            style={{
-                              cursor: "pointer",
-                              height: 40,
-                              width: 40,
-                              borderRadius: 100,
-                              border: "1px solid #EFEFEF",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              position: "relative",
-                              zIndex: 1000,
-                            }}
-                          >
-                            <PiDotsThreeOutlineVerticalFill
-                              style={{ height: 20, width: 20 }}
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-
-                {currentRowelectricity?.length === 0 && (
-                  <tr>
-                    <td
-                      colSpan="6"
-                      style={{ textAlign: "center", color: "red" }}
-                    >
-                      No data found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
-          </div>
-
-          {currentRowelectricity.length > 0 && (
-            <nav>
-              <ul
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  listStyleType: "none",
-                  padding: 0,
-                  justifyContent: "end",
-                }}
-              >
-                <li style={{ margin: "0 5px" }}>
-                  <button
-                    style={{
-                      padding: "5px 10px",
-                      textDecoration: "none",
-                      color: electricitycurrentPage === 1 ? "#ccc" : "#007bff",
-                      cursor:
-                        electricitycurrentPage === 1
-                          ? "not-allowed"
-                          : "pointer",
-                      borderRadius: "5px",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() =>
-                      handleElectricityPageChange(electricitycurrentPage - 1)
-                    }
-                    disabled={electricitycurrentPage === 1}
-                  >
-                    {" "}
-                    <ArrowLeft2 size="16" color="#1E45E1" />
-                  </button>
-                </li>
-                {electricitycurrentPage > 3 && (
-                  <li style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        textDecoration: "none",
-                        color: "white",
-                        cursor: "pointer",
-                        borderRadius: "5px",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handleElectricityPageChange(1)}
-                    >
-                      1
-                    </button>
-                  </li>
-                )}
-                {electricitycurrentPage > 3 && <span>...</span>}
-                {renderPageNumberselectricity()}
-                {electricitycurrentPage < totalPagesinvoice - 2 && (
-                  <span>...</span>
-                )}
-                {electricitycurrentPage < totalPagesinvoice - 2 && (
-                  <li style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        textDecoration: "none",
-
-                        cursor: "pointer",
-                        borderRadius: "5px",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() =>
-                        handleElectricityPageChange(totalPagesinvoice)
-                      }
-                    >
-                      {totalPagesinvoice}
-                    </button>
-                  </li>
-                )}
-                <li style={{ margin: "0 5px" }}>
-                  <button
-                    style={{
-                      padding: "5px 10px",
-                      textDecoration: "none",
-                      color:
-                        electricitycurrentPage === electricitycurrentPage
-                          ? "#ccc"
-                          : "#007bff",
-                      cursor:
-                        electricitycurrentPage === electricitycurrentPage
-                          ? "not-allowed"
-                          : "pointer",
-                      borderRadius: "5px",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() =>
-                      handleElectricityPageChange(electricitycurrentPage + 1)
-                    }
-                    disabled={electricitycurrentPage === totalPagesinvoice}
-                  >
-                    <ArrowRight2 size="16" color="#1E45E1" />
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
-        </>
-      )}
-
-      {!transactionshow && (
-        <Modal
-          show={addEbDetail}
-          onHide={() => handleClose()}
-          backdrop="static"
-          centered
-        >
-          <Modal.Header closeButton className="text-center">
-            <Modal.Title style={{ fontSize: 18 }} className="text-center">
-              Add a transaction
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="row ">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                {ebErrorunit && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {ebErrorunit}
-                  </div>
-                )}
-                <Form.Label
+              )}
+              <li style={{ margin: "0 5px" }}>
+                <button
                   style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
+                    padding: "5px 10px",
+                    textDecoration: "none",
+                    color:
+                      electricitycurrentPage === electricitycurrentPage
+                        ? "#ccc"
+                        : "#007bff",
+                    cursor:
+                      electricitycurrentPage === electricitycurrentPage
+                        ? "not-allowed"
+                        : "pointer",
+                    borderRadius: "5px",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
                   }}
+                  onClick={() =>
+                    handleElectricityPageChange(electricitycurrentPage + 1)
+                  }
+                  disabled={electricitycurrentPage === totalPagesinvoice}
                 >
-                  Paying Guest<span style={{ color: 'red', fontSize: '20px' }}> * </span>
-                </Form.Label>
-                <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  value={selectedHostel}
-                  onChange={(e) => handleHostelChange(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    lineHeight: "18.83px",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
+                  <ArrowRight2 size="16" color="#1E45E1" />
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
+      </>
+      {/* )} */}
+
+      {/* {!transactionshow && ( */}
+      <Modal
+        show={addEbDetail}
+        onHide={() => handleClose()}
+        backdrop="static"
+        centered
+      >
+        <Modal.Header closeButton className="text-center">
+          <Modal.Title style={{ fontSize: 18 }} className="text-center">
+            Add a Reading
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row ">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              {ebErrorunit && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {ebErrorunit}
+                </div>
+              )}
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Paying Guest
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                className="border"
+                value={selectedHostel}
+                onChange={(e) => handleHostelChange(e)}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  lineHeight: "18.83px",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: 8,
+                }}
+              >
+                <option
+                  style={{ fontSize: 14, fontWeight: 600 }}
+                  selected
+                  value=""
                 >
-                  <option
-                    style={{ fontSize: 14, fontWeight: 600 }}
-                    selected
-                    value=""
-                  >
-                    Select PG 
-                  </option>
-                  {state.UsersList?.hostelList &&
-                    state.UsersList?.hostelList.map((item) => (
-                      <>
-                        <option key={item.id} value={item.id}>
-                          {item.Name}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select>
-                {hostelIdError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {hostelIdError}
-                  </div>
-                )}
-                {unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel != "" && (
+                  Select PG
+                </option>
+                {state.UsersList?.hostelList &&
+                  state.UsersList?.hostelList.map((item) => (
                     <>
-                      <label
-                        className="pb-1"
-                        style={{
-                          fontSize: 12,
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {" "}
-                        Please add a 'ebUnitAmount in Settings'
-                      </label>
+                      <option key={item.id} value={item.id}>
+                        {item.Name}
+                      </option>
                     </>
-                  )}
-              </div>
-
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Floor <span style={{ color: 'red', fontSize: '20px' }}> * </span>
-                </Form.Label>
-                <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  disabled={
-                    unitAmount &&
-                    unitAmount?.length === 0 &&
-                    selectedHostel != ""
-                  }
-                  value={Floor}
-                  onChange={(e) => handleFloor(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                >
-                  <option
-                    style={{ fontSize: 14, fontWeight: 600 }}
-                    selected
-                    value=""
-                  >
-                    Select Floor 
-                  </option>
-                  {state?.UsersList?.hosteldetailslist &&
-                    state?.UsersList?.hosteldetailslist.map((item) => (
-                      <>
-                        <option key={item.floor_id} value={item.floor_id}>
-                          {item.floor_id}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select>
-                {floorError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {floorError}
-                  </div>
+                  ))}
+              </Form.Select>
+              {hostelIdError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {hostelIdError}
+                </div>
+              )}
+              {unitAmount &&
+                unitAmount?.length === 0 &&
+                selectedHostel != "" && (
+                  <>
+                    <label
+                      className="pb-1"
+                      style={{
+                        fontSize: 12,
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {" "}
+                      Please add a 'ebUnitAmount in Settings'
+                    </label>
+                  </>
                 )}
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Room <span style={{ color: 'red', fontSize: '20px' }}> * </span>
-                </Form.Label>
-                <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  disabled={
-                    unitAmount &&
-                    unitAmount?.length === 0 &&
-                    selectedHostel != ""
-                  }
-                  value={Rooms}
-                  onChange={(e) => handleRoom(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                >
-                  <option>Select a Room</option>
-                  {state.UsersList?.roomdetails &&
-                    state.UsersList?.roomdetails.map((item) => (
-                      <>
-                        <option key={item.Room_Id} value={item.Room_Id}>
-                          {item.Room_Id}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select>
-                {roomError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {roomError}
-                  </div>
-                )}
-              </div>
-
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-3">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Start meter <span style={{ color: 'red', fontSize: '20px' }}> * </span>
-                  </Form.Label>
-                  <FormControl
-                    id="form-controls"
-                    placeholder={
-                      !(startmeter && startmeter.end_Meter_Reading)
-                        ? "Please enter startmeter "
-                        : ""
-                    }
-                    type="text"
-                    value={startmeterValue}
-                    onChange={handlestartmeter}
-                    disabled={!!(startmeter && startmeter.end_Meter_Reading)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  />
-                </Form.Group>
-                {startMeterError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {startMeterError}
-                  </div>
-                )}
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-3">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    End meter <span style={{ color: 'red', fontSize: '20px' }}> * </span>
-                  </Form.Label>
-                  <FormControl
-                    type="text"
-                    id="form-controls"
-                    placeholder="6542310"
-                    value={endmeter}
-                    onChange={(e) => handleendmeter(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  />
-                </Form.Group>
-                {endMeterError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {endMeterError}
-                  </div>
-                )}
-              </div>
             </div>
-          </Modal.Body>
-          <Modal.Footer className="d-flex justify-content-center">
-            <Button
-              className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-              style={{
-                backgroundColor: "#1E45E1",
-                fontWeight: 600,
-                height: 50,
-                borderRadius: 12,
-                fontSize: 16,
-                fontFamily: "Montserrat, sans-serif",
-                marginTop: 20,
-              }}
-              onClick={handleSaveEbBill}
-            >
-              Add transaction
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Floor{" "}
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                className="border"
+                disabled={
+                  unitAmount && unitAmount?.length === 0 && selectedHostel != ""
+                }
+                value={Floor}
+                onChange={(e) => handleFloor(e)}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: 8,
+                }}
+              >
+                <option
+                  style={{ fontSize: 14, fontWeight: 600 }}
+                  selected
+                  value=""
+                >
+                  Select Floor
+                </option>
+                {state?.UsersList?.hosteldetailslist &&
+                  state?.UsersList?.hosteldetailslist.map((item) => (
+                    <>
+                      <option key={item.floor_id} value={item.floor_id}>
+                        {item.floor_id}
+                      </option>
+                    </>
+                  ))}
+              </Form.Select>
+              {floorError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {floorError}
+                </div>
+              )}
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Room <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                className="border"
+                disabled={
+                  unitAmount && unitAmount?.length === 0 && selectedHostel != ""
+                }
+                value={Rooms}
+                onChange={(e) => handleRoom(e)}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: 8,
+                }}
+              >
+                <option>Select a Room</option>
+                {state.UsersList?.roomdetails &&
+                  state.UsersList?.roomdetails.map((item) => (
+                    <>
+                      <option key={item.Room_Id} value={item.Room_Id}>
+                        {item.Room_Id}
+                      </option>
+                    </>
+                  ))}
+              </Form.Select>
+              {roomError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {roomError}
+                </div>
+              )}
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222",
+                  fontFamily: "'Gilroy'",
+                  fontWeight: 500,
+                }}
+              >
+                Date  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+
+              <div style={{ position: "relative" }}>
+                <label
+                  htmlFor="date-input"
+                  style={{
+                    border: "1px solid #D9D9D9",
+                    borderRadius: 8,
+                    padding: 11,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    color: "#222222",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between", // Ensure space between text and icon
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    if (calendarRef.current) {
+                      calendarRef.current.flatpickr.open();
+                    }
+                  }}
+                >
+                  {selectedDate
+                    ? selectedDate.toLocaleDateString("en-GB")
+                    : "YYYY/MM/DD"}
+                  <img
+                    src={Calendars}
+                    style={{ height: 24, width: 24, marginLeft: 10 }}
+                    alt="Calendar"
+                  />
+                </label>
+                <Flatpickr
+                  ref={calendarRef}
+                  options={options}
+                  value={selectedDate}
+                  onChange={(selectedDates)=> handleDate(selectedDates)}
+                    
+                  
+                  style={{
+                    padding: 10,
+                    fontSize: 16,
+                    width: "100%",
+                    borderRadius: 8,
+                    border: "1px solid #D9D9D9",
+                    position: "absolute",
+                    top: 100,
+                    left: 100,
+                    zIndex: 1000,
+                    display: "none",
+                  }}
+                />
+              </div>
+              {dateError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {dateError}
+                </div>
+              )}
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <Form.Group className="mb-3">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Reading{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="6542310"
+                  value={endmeter}
+                  onChange={(e) => handleendmeter(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+              {endMeterError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {endMeterError}
+                </div>
+              )}
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <Button
+            className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+            style={{
+              backgroundColor: "#1E45E1",
+              fontWeight: 600,
+              height: 50,
+              borderRadius: 12,
+              fontSize: 16,
+              fontFamily: "Montserrat, sans-serif",
+              marginTop: 20,
+            }}
+            onClick={handleSaveEbBill}
+          >
+            Add Reading
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* )} */}
     </div>
   );
 }
