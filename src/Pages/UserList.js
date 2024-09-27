@@ -24,6 +24,9 @@ import TabContext from "@mui/lab/TabContext";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Search from '../Assets/Images/search-normal.png';
+import UserlistBookings from './UserlistBookings';
+import UserlistCheckout from './UserlistCheckout';
+import UserlistWalkin from './UserlistWalkin';
 
 
 function UserList(props) {
@@ -782,13 +785,13 @@ console.log("item",item)
             {/* <AllCustomer id={props.id} /> */}
           </TabPanel>
           <TabPanel value="2">
-            {/* <Bookings id={props.id} /> */}
+            <UserlistBookings id={props.id} />
           </TabPanel>
           <TabPanel value="3">
-            {/* <Checkout id={props.id} /> */}
+            <UserlistCheckout id={props.id} />
           </TabPanel>
           <TabPanel value="4">
-            {/* <Walkin id={props.id} /> */}
+            <UserlistWalkin id={props.id} />
           </TabPanel>
         </TabContext>
       </div>
