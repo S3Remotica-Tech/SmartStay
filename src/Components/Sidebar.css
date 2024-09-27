@@ -7,9 +7,12 @@
   border-radius: 6px;
 }
 
-
-
-
+.sidebar::-webkit-scrollbar {
+  display: none !important;
+}
+.main-content::-webkit-scrollbar {
+  display: none !important;
+}
 .container {
   width: 100%;
   display: block;

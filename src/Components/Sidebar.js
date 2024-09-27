@@ -400,7 +400,7 @@ localStorage.setItem('currentPage','compliance');
       <Container fluid className='p-0'>
 
         <Row className='g-0 m-0'  >
-          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block " style={{ cursor: "pointer", backgroundColor: '#E0ECFF',  position: "fixed", overflowY:"auto", height: "100vh"}} >
+          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block  sidebar" style={{ cursor: "pointer", backgroundColor: '#E0ECFF',  position: "fixed", overflowY:"auto", height: "100vh"}} >
             <div className="d-flex align-items-center m-3 gap-1 justify-content-center">
 
               <img src={Smartstay} style={{ fontSize: '15px' }} />
@@ -485,7 +485,7 @@ localStorage.setItem('currentPage','compliance');
             </ul>
            
           </Col>
-          <Col lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} className="bg-white">
+          <Col className="bg-white main-content" lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} >
 
             <div className='container d-flex justify-content-end align-items-center mr-3' style={{ marginTop:'30px'}}>
 

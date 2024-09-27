@@ -1,6 +1,16 @@
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     display: none;
+} */
+* {
+  scrollbar-width: none;
 }
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+
 
 
  @font-face {
