@@ -1570,8 +1570,8 @@ const InvoicePage = () => {
                               {data.map((item) => (
 
                                 <>
-                                  <div className="" style={{}}>
-                                    <div className="d-flex  align-items-center justify-content-between w-100 "  >
+                                  {/* <div className="" style={{}}>
+                                    <div className="d-flex  align-items-center justify-content-evenly w-100 "  >
 
 
                                       <div >
@@ -1581,30 +1581,133 @@ const InvoicePage = () => {
 
                                       <div className=''>
 
-                                        <div className="d-flex justify-content-between gap-5 align-items-center w-100 mb-2">
+                                        <div className="d-flex justify-content-between  align-items-center w-100 mb-2">
 
-                                          <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '15px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer" }} onClick={() => handleDisplayInvoiceDownload(true, item)} >{item.Name}</div>
-                                          <div style={{ fontFamily: 'Gilroy', fontSize: '15px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>{item.Amount}</div>
+                                          <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '14px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer" }} onClick={() => handleDisplayInvoiceDownload(true, item)} >{item.Name}</div>
+                                          <div style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>{item.Amount}</div>
 
                                         </div>
 
                                         <div className="d-flex justify-content-between gap-3 align-items-center w-100 mb-2 mt-2" style={{ backgroundColor: "" }}>
 
-                                          <div style={{ fontFamily: 'Gilroy', fontSize: '15px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>#{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</div>
-                                          <div className="" style={{ fontFamily: 'Gilroy', fontSize: '15px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>{moment(item.Date).format("DD MMM YYYY")}</div>
+                                          <div style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>#{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</div>
+                                          <div className="" style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>{moment(item.Date).format("DD MMM YYYY")}</div>
 
                                         </div>
 
                                         <div className='mb-2 mt-2'>
-                                          {item.BalanceDue === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
+                                          {item.BalanceDue === 0 ? <span style={{ fontSize: '10px',backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
 
-                                            style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}
+                                            style={{ cursor: 'pointer',fontSize: '10px', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}
                                         </div>
 
                                       </div>
 
                                     </div>
+                                  </div> */}
+                                  <div className="" style={{}}>
+                                    <div className="d-flex align-items-start justify-content-between w-100 p-2">
+
+
+                                      <div>
+                                        <span>
+                                          <img src={User} style={{ height: 40, width: 40 }} alt="User" />
+                                        </span>
+                                      </div>
+
+
+                                      <div className="flex-grow-1 ms-2">
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                          <div
+                                            className="Invoice_Name"
+                                            style={{
+                                              fontFamily: 'Gilroy',
+                                              fontSize: '14px',
+                                              wordWrap: 'break-word',
+                                              color: "#222",
+                                              fontStyle: 'normal',
+                                              lineHeight: 'normal',
+                                              fontWeight: 600,
+                                              cursor: "pointer"
+                                            }}
+                                            onClick={() => handleDisplayInvoiceDownload(true, item)}
+                                          >
+                                            {item.Name}
+                                          </div>
+                                          <div
+                                            style={{
+                                              fontFamily: 'Gilroy',
+                                              fontSize: '12px',
+                                              wordWrap: 'break-word',
+                                              color: "#222",
+                                              fontStyle: 'normal',
+                                              lineHeight: 'normal',
+                                              fontWeight: 600
+                                            }}
+                                          >
+                                            {item.Amount}
+                                          </div>
+                                        </div>
+
+                                        <div className="d-flex justify-content-between gap-3 mb-2">
+                                          <div
+                                            style={{
+                                              fontFamily: 'Gilroy',
+                                              fontSize: '12px',
+                                              wordWrap: 'break-word',
+                                              color: "#222",
+                                              fontStyle: 'normal',
+                                              lineHeight: 'normal',
+                                              fontWeight: 600
+                                            }}
+                                          >
+                                            {item.Invoices == null || item.Invoices === '' ? '0.00' : item.Invoices}
+                                          </div>
+                                          <div
+                                            style={{
+                                              fontFamily: 'Gilroy',
+                                              fontSize: '12px',
+                                              wordWrap: 'break-word',
+                                              color: "#222",
+                                              fontStyle: 'normal',
+                                              lineHeight: 'normal',
+                                              fontWeight: 600
+                                            }}
+                                          >
+                                            {moment(item.Date).format("DD MMM YYYY")}
+                                          </div>
+                                        </div>
+
+                                        <div className='mb-2'>
+                                          {item.BalanceDue === 0 ? (
+                                            <span style={{
+                                              fontSize: '10px',
+                                              backgroundColor: '#D9FFD9',
+                                              color: '#000',
+                                              borderRadius: '14px',
+                                              fontFamily: 'Gilroy',
+                                              padding: "8px 12px"
+                                            }}>
+                                              Paid
+                                            </span>
+                                          ) : (
+                                            <span style={{
+                                              cursor: 'pointer',
+                                              fontSize: '10px',
+                                              backgroundColor: '#FFD9D9',
+                                              fontFamily: 'Gilroy',
+                                              color: '#000',
+                                              borderRadius: '14px',
+                                              padding: "8px 12px"
+                                            }}>
+                                              Unpaid
+                                            </span>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
+
                                   <hr />
 
                                 </>
