@@ -20,6 +20,7 @@ import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, M
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import emptyimg from '../Assets/Images/New_images/empty_image.png';
+import searchteam from '../Assets/Images/New_images/Search Team.png';
 
 function UserList() {
   const state = useSelector(state => state)
@@ -36,6 +37,8 @@ function UserList() {
 
   const [showLoader, setShowLoader] = useState(false)
   const [selectedItems, setSelectedItems] = useState('')
+  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
+  const [userDetails, setUserDetails] = useState([])
 
 
   useEffect(() => {
@@ -72,7 +75,7 @@ function UserList() {
       console.log("to trigger pdf is false so pdf not working");
     }
   }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
-
+console.log("state",state)
 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -88,7 +91,7 @@ function UserList() {
   const [filteredDatas, setFilteredDatas] = useState([]);
   const [originalData, setOriginalData] = useState([]);  // Store original data from API
   const [filteredDataPagination, setfilteredDataPagination] = useState([]);
- 
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -104,9 +107,9 @@ function UserList() {
   const itemsPerPage = 5;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredDataPagination.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(filteredDataPagination.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
   const renderPageNumbers = () => {
     
@@ -220,7 +223,8 @@ function UserList() {
   const [filterStatus, setFilterStatus] = useState(false)
   const [filterByStatus, setFilterByStatus] = useState('ALL')
 
-
+  const [filterInput,setFilterInput] =useState('')
+  
   const [hostel, sethostel] = useState('')
   const [floors_Id, setFloors_Id] = useState('')
   const [rooms_id, setRoomsId] = useState('')
@@ -293,8 +297,7 @@ function UserList() {
 
 
 
-  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
-  const [userDetails, setUserDetails] = useState([])
+ 
   useEffect(() => {
     const ParticularUserDetails = state.UsersList?.Users?.filter(item => {
       
@@ -315,6 +318,10 @@ function UserList() {
     }
 
   }, [roomDetail, state.UsersList?.Users, hostelIds, bedIds, floorIds, roomsIds, email_id]);
+
+
+
+
 
   const customCheckboxStyle = {
     appearance: 'none',
@@ -359,21 +366,7 @@ function UserList() {
 
   
 
-  useEffect(() => {
-    if (state.InvoiceList?.Invoice && filteredDataForUser.length > 0) {
-      let filteredData = [...filteredDataForUser];
-
-      if (filterByStatus !== 'ALL') {
-        filteredData = filteredData.filter((item) => item.Status === filterByStatus);
-      }
-
-      if (filterByInvoice) {
-        filteredData = filteredData.filter((item) => item.Invoices.toLowerCase().includes(filterByInvoice.toLowerCase()));
-      }
-
-      setFilteredDatas(filteredData);
-    }
-  }, [filterByStatus, filterByInvoice, filteredDataForUser, state.InvoiceList?.Invoice]);
+ 
 
   const getFloorName = (Floor) => {
     if (Floor === 1) {
@@ -458,6 +451,26 @@ function UserList() {
     setFilterStatus(!filterStatus)
     setSearch(false)
   }
+ const handlefilterInput =(e)=>{
+  setFilterInput(e.target.value)
+  console.log("e,,,,",e.target.value)
+ }
+ useEffect(() => {
+  // Filter users as the filterInput changes
+  const FilterUser = state.UsersList.Users.filter((item) => {
+    return item.Name.toLowerCase().includes(filterInput.toLowerCase());
+  });
+
+  setFilteredUsers(FilterUser);
+  console.log("FilterUser",FilterUser)
+}, [filterInput, state.UsersList.Users]); 
+
+// useEffect(()=>{
+//   const FilterUser = state.UsersList.Users.filter((item)=>{
+//     return item.Name === filterInput
+//   })
+//   console.log("FilterUser",FilterUser)
+// })
 
   const handleStatusFilterChange = (e) => {
     const selectedStatus = e.target.value;
@@ -691,7 +704,7 @@ function UserList() {
     setKycOtpValue(e.target.value)
   }
 
-
+ 
   return (
     <div className=' p-2' >
 
@@ -703,8 +716,34 @@ function UserList() {
           </div>
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">
+{
+  search ? <>
+     <div className="input-group" style={{ maxWidth: '300px',marginRight:20 }}>
+      <span className="input-group-text bg-white border-end-0">
+        {/* <i className="bi bi-search"></i> */}
+        <Image src={searchteam} roundedCircle style={{ height: "30px", width: "30px" }} />
+      </span>
+      <input
+        type="text"
+        className="form-control border-start-0"
+        placeholder="Search"
+        aria-label="Search"
+        style={{ boxShadow: 'none', outline: 'none',borderColor:"rgb(207,213,219)" }}
+        value={filterInput}
+        onChange={(e)=>handlefilterInput(e)}
+      />
+    </div>
+  </>
+  :<>
+   <div className='me-3'>
+              <Image src={searchteam} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleSearch}/>
+            </div>
+  </>
+}
+       
+         
             <div className='me-3'>
-              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} />
+              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleSearch} />
             </div>
 
             <div>
