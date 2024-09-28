@@ -74,6 +74,7 @@ function UserListRoomDetail(props) {
   const [bedArray, setBedArray] = useState("");
   const [Arrayset, setArrayset] = useState([]);
   const [Bednum, setBednum] = useState("");
+  console.log("Bednum",Bednum)
   const [payableamount, setPayableamount] = useState("");
   const [formshow, setFormShow] = useState(false);
   const [customerdetailShow, setcustomerdetailShow] = useState(false);
@@ -400,6 +401,7 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostel_Id } });
   }, [hostel_Id]);
+  console.log("state.UsersList?.bednumberdetails?.bed_details",state.UsersList?.bednumberdetails?.bed_details);
 
   const handleHostelId = (e) => {
     const selectedHostelId = e.target.value;
@@ -442,6 +444,11 @@ function UserListRoomDetail(props) {
   }, [Rooms]);
   const handleRooms = (e) => {
     setRooms(e.target.value);
+
+    dispatch({
+      type: "BEDNUMBERDETAILS",
+      payload: { hostel_id: hostel_Id, floor_id: Floor, room_id: e.target.value },
+    });
     if (e.target.value === "Selected Room") {
       setRoomError("Please select a valid Room");
     } else {
@@ -897,8 +904,8 @@ function UserListRoomDetail(props) {
                                 fontFamily: "Gilroy",
                               }}
                             >
-                              {props.getFormattedRoomId(item.Floor, item.Rooms)}{" "}
-                              - Bed {item.Bed}
+ 
+                         Room: {item.Rooms && item.Rooms !== 0 && item.Rooms !== '' && item.Rooms !== 'undefined' ? item.Rooms : 'N/A'}    - Bed: {item.Bed && item.Bed !== 'undefined' && item.Bed !== 0 && item.Bed !== '' ? item.Bed : 'N/A'}
                             </span>
 
                             <span
@@ -917,7 +924,8 @@ function UserListRoomDetail(props) {
                                 fontFamily: "Gilroy",
                               }}
                             >
-                              {props.getFloorName(item.Floor)}
+                            Floor -  {item.Floor && item.Floor !== 0 && item.Floor !== '' &&  item.Floor !== 'undefined'? item.Floor : 'N/A'}
+                              {/* {props.getFloorName(item.Floor && item.Floor !== 0 && item.Floor !== '' &&  item.Floor !== 'undefined'? item.Floor : 'N/A')} */}
                             </span>
                           </p>
                         </div>
@@ -1117,11 +1125,8 @@ function UserListRoomDetail(props) {
                                           cursor: "pointer",
                                         }}
                                       >
-                                        {props.getFormattedRoomId(
-                                          item.Floor,
-                                          item.Rooms
-                                        )}{" "}
-                                        - Bed {item.Bed}
+                                      {item.Rooms === 'undefined' || item.Rooms === 0 || item.Rooms === '' ? 'N/A' : item.Rooms}
+                                        - {item.Bed === 'undefined' || item.Bed === 0 || item.Bed === '' ? 'N/A' : item.Bed}
                                       </span>
                                     </p>
                                   </div>
@@ -2277,48 +2282,51 @@ function UserListRoomDetail(props) {
                                         >
                                           Bed<span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                         </Form.Label>
-                                        <Form.Select
-                                          aria-label="Default select example"
-                                          style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                          }}
-                                          value={Bed}
-                                          className="border"
-                                          placeholder="Select a bed"
-                                          id="form-selects"
-                                          onChange={(e) => handleBed(e)}
-                                        >
-                                          <option>Selected Bed</option>
-                                          {Editbed === "editbeddet" &&
-                                            Bednum &&
-                                            Bednum[0].Bed && (
-                                              <option
-                                                value={Bednum[0].Bed}
-                                                selected
-                                              >
-                                                {Bednum[0].Bed}
-                                              </option>
-                                            )}
-                                          {state.UsersList?.bednumberdetails
-                                            ?.bed_details?.length > 0 &&
-                                            state.UsersList.bednumberdetails.bed_details.map(
-                                              (item) => (
-                                                <option
-                                                  key={item.bed_no}
-                                                  value={item.bed_no}
-                                                >
-                                                  {item.bed_no}
-                                                </option>
-                                              )
-                                            )}
-                                        </Form.Select>
+                                    
+                               <Form.Select
+  aria-label="Default select example"
+  style={{
+    fontSize: 16,
+    color: "#4B4B4B",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    boxShadow: "none",
+    border: "1px solid #D9D9D9",
+    height: 50,
+    borderRadius: 8,
+  }}
+  value={Bed} 
+  className="border"
+  placeholder="Select a bed"
+  id="form-selects"
+  onChange={(e) => handleBed(e)}
+>
+  
+  <option>Select a Bed</option>
+
+  
+  {Editbed === "editbeddet" && Bednum && Bednum[0]?.Bed &&  Bednum[0]?.Bed !== "undefined" && Bednum[0]?.Bed !== ''(
+    <option value={Bednum[0].Bed} selected>
+      {Bednum[0].Bed}
+    </option>
+  )}
+
+ 
+  {state.UsersList?.bednumberdetails?.bed_details?.length > 0 &&
+    state.UsersList.bednumberdetails.bed_details.map((item) => (
+      
+      item.bed_no && item.bed_no !== "undefined" && (
+        <option key={item.bed_no} value={item.bed_no}>
+          {item.bed_no}
+        </option>
+      )
+    ))}
+</Form.Select>
+
+
+
+
+
                                         {bedError && (
                                           <div style={{ color: "red" }}>
                                             <MdError />

@@ -881,7 +881,7 @@ console.log("state",state)
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>
                         <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{user.HostelName}</span>
                       </td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Rooms}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}> {(!user.Rooms ||  user.Rooms === 'undefined'|| user.Rooms === '0' || user.Rooms === '') ? '-' : user.Rooms}</td>
                       {/* <td
                         className={user.Bed === 0 ? 'assign-bed' : ''}
                         onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
@@ -904,13 +904,13 @@ console.log("state",state)
                           padding: "10px",
                           border: "none",
                           cursor:"pointer",
-                          color: user.Bed === 0 ? "blue" : "inherit",
-                          textDecoration: user.Bed === 0 ? "none" : "initial",
+                          color: user.Bed === 'undefined' ? "blue" : "inherit",
+                          textDecoration: user.Bed === 'undefined' ? "none" : "initial",
                           textAlign: "start",
                           fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy"
                         }}
                       >
-                        {user.Bed === 0 ? '-' : user.Bed}
+                       {(user.Bed === 'undefined' || user.Bed === 0 || user.Bed === '') ? '-' : user.Bed}
                       </td>
                       <td style={{ padding: "10px", border: "none" }}>
                         {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
@@ -920,12 +920,12 @@ console.log("state",state)
                           {activeRow === user.ID && <>
                                     <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 50, top: 20, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
                                         <div style={{ backgroundColor: "#fff" }} className=''>
-                                        {user.Bed === 0 && (
+                                        {user.Bed === 'undefined' && (
         <div 
           className='mb-3 d-flex justify-content-start align-items-center gap-2'
           // onClick={() => handleInvoicepdf(user)}
           style={{ backgroundColor: "#fff" }}
-        >
+          onClick={ () => handleShowAddBed(user)}>
           <img src={Download} style={{ height: 16, width: 16 }} /> 
           <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >
             Assign Bed
@@ -1132,4 +1132,4 @@ console.log("state",state)
   )
 }
 
-export default UserList
+export default UserList;
