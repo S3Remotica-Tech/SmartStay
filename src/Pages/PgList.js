@@ -23,7 +23,7 @@ import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle ,SearchNormal1, Sort} from 'iconsax-react';
 import { Tab, Row, Col } from 'react-bootstrap';
 import Delete from '../Assets/Images/New_images/trash.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -881,7 +881,7 @@ function PgList() {
     if (state.PgList.statusCodeForDeleteRoom == 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id } })
 
-
+      dispatch({ type: 'HOSTELLIST' })
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_ROOM' })
@@ -923,6 +923,17 @@ function PgList() {
 
   const [showDelete, setShowDelete] = useState(false);
   const [deleteFloor, setDeleteFloor] = useState({ floor_Id: null, hostel_Id: null })
+  const[ showFilter, setShowFilter] = useState(false)
+
+
+const handleShowSearch = () =>{
+  setShowFilter(!showFilter)
+}
+
+const handleCloseSearch = () =>{
+  setShowFilter(false)
+}
+
 
   const handleCloseDelete = () => setShowDelete(false);
 
@@ -974,33 +985,7 @@ function PgList() {
   return (
     <>
 
-
       <div className='m-4'>
-
-        {/* <div className='d-flex justify-content-end align-items-center m-4'>
-
-       <div>
-  <InputGroup>
-    <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
-      <CiSearch style={{ fontSize: 20 }} />
-    </InputGroup.Text>
-    <FormControl size="lg" 
-    value={searchQuery}
-    onChange={handleInputChange}
-    
-    style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
-      placeholder="Search..."
-    />
-  </InputGroup>
-</div>
-<div className="mr-3">
-  <img src={Notify} alt="notification" />
-</div>
-
-<div className="mr-3">
-  <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
-</div>
-</div> */}
 
         {hidePgList && <>
           <div className="d-flex justify-content-between align-items-center ms-4 mb-3">
@@ -1010,8 +995,45 @@ function PgList() {
             </div>
 
             <div className="d-flex justify-content-between align-items-center">
+              {
+                !showFilter &&
+              
+              <div className='me-3' onClick={handleShowSearch}>
+             <SearchNormal1
+ size="26"
+ color="#222"
+/>
+              </div>
+              }
+         {
+          showFilter &&
+          <div className='me-3'> 
+          <InputGroup>
+    
+    <FormControl size="lg" 
+    value={searchQuery}
+    onChange={handleInputChange}
+    
+    style={{ boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+      placeholder="Search..."
+    /><InputGroup.Text style={{ backgroundColor: "#ffffff",  }}>
+    <CloseCircle size="24" color="#222" onClick={handleCloseSearch}/>
+    </InputGroup.Text>
+  </InputGroup>
+            
+          
+        </div>
+
+
+         }
+
+             
+
               <div className='me-3'>
-                <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} />
+              <Sort
+              Size="24"
+ color="#222"
+/>
               </div>
 
               <div>

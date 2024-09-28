@@ -180,7 +180,34 @@ function PayingGuestMap(props) {
                 </div>
                 <hr style={{ border: "1px solid #E7E7E7" }} />
 
-                <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+<div className='row g-2 d-flex justify-content-between m-0'>
+    <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
+<Card className='p-1 m-0' style={{border: "1px solid  rgba(220, 220, 220, 1)",borderRadius:12}}>
+    <label style={{ color: "#222", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", textAlign:"center" }}>Available Beds</label>
+    <div className='text-center'>
+        <label style={{ color: "#222222", fontSize: 24, fontWeight: 600, fontFamily: "Gilroy", textAlign:"center" }}>{props.hostel && props.hostel.Bed}</label>
+    </div>
+</Card>
+    </div>
+    <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
+    <Card className='p-1 m-0'>
+    <label style={{ color: "#222", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", textAlign:"center" }}>Total Rooms</label>
+    <div className='text-center'>
+        <label style={{ color: "#222222", fontSize: 24, fontWeight: 600, fontFamily: "Gilroy", textAlign:"center" }}>{props.hostel && props.hostel.roomCount}</label>
+    </div>
+</Card>
+    </div>
+    <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
+    <Card className='p-1 m-0'>
+    <label style={{ color: "#222", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", textAlign:"center" }}>Occupied Beds</label>
+    <div className='text-center'>
+        <label style={{ color: "#222222", fontSize: 24, fontWeight: 600, fontFamily: "Gilroy", textAlign:"center" }}> {props.hostel && props.hostel.occupied_Bed}</label>
+    </div>
+</Card>
+    </div>
+</div>
+
+                <div className="d-flex justify-content-between align-items-center mb-1 flex-wrap">
 
                     <div className='mb-2'>
                         <div className='mb-1'>
@@ -192,6 +219,18 @@ function PayingGuestMap(props) {
                         </div>
 
                     </div>
+
+                    <div className='mb-2'>
+                        <div className='mb-1'>
+                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</label>
+                        </div>
+                        <div className='text-center' >
+                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}> {props.hostel && props.hostel.floorcount}
+                            </label>
+                        </div>
+
+                    </div>
+
                     <div className='mb-2'>
                         <div className='mb-1'>
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Contact Number</label>

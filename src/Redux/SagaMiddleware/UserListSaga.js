@@ -84,24 +84,32 @@ function* handleCreateFloor(data) {
   console.log("response floor", response)
 
   var toastStyle = {
-   backgroundColor: 'green', 
-color: 'white', 
-width:"100%"
-};
+   backgroundColor: "#E6F6E6",
+   color: "black",
+   width: "100%",
+   borderRadius: "60px",
+   height: "20px",
+   fontFamily: "Gilroy",
+   fontWeight: 600,
+   fontSize: 14,
+   textAlign: "center",
+  
+ };
 
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATE_FLOOR', payload: {response:response.data, statusCode:response.status || response.statusCode} })
      
-      toast.success('Floor has been successfully created!', {
-         position: 'top-center',
-         autoClose: 2000, 
-         hideProgressBar: false,
+      toast.success('Created successfully!', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle
+         style: toastStyle,
        });
    }
    else if(response.status === 202 || response.statusCode === 202) {
@@ -391,22 +399,30 @@ function* handleAddUser(datum) {
       console.log("response",response);
 
       var toastStyle = {
-         backgroundColor: 'green', 
-      color: 'white', 
-      width:"100%"
-      };
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "center",
+        
+       };
       if(response.status === 200 || response.statusCode === 200){
          yield put({ type: 'DELETE_FLOOR', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
     
-         toast.success('Floor has been successfully deleted!', {
-            position: 'top-center',
-            autoClose: 2000, 
-            hideProgressBar: false,
+         toast.success('Deleted successfully!', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            style: toastStyle
+            style: toastStyle,
           });
      
      
@@ -430,22 +446,30 @@ function* handleDeleteRoom(roomDetails){
 
 
    var toastStyle = {
-      backgroundColor: 'green', 
-   color: 'white', 
-   width:"100%"
-   };
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "center",
+     
+    };
 
    if(response.status === 200 || response.statusCode === 200){
       yield put({ type: 'DELETE_ROOM', payload:{message: response.data.message, statusCode:response.status || response.statusCode} })
-      toast.success('Room has been successfully deleted!', {
-         position: 'top-center',
-         autoClose: 2000, 
-         hideProgressBar: false,
+      toast.success('Deleted successfully!', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle
+         style: toastStyle,
        });
  
  

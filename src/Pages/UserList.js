@@ -20,7 +20,7 @@ import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, M
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import emptyimg from '../Assets/Images/New_images/empty_image.png';
-import searchteam from '../Assets/Images/New_images/searchss.png';
+import searchteam from '../Assets/Images/Search.png';
 
 function UserList() {
   const state = useSelector(state => state)
@@ -721,7 +721,7 @@ console.log("state",state)
      <div className="input-group" style={{ maxWidth: '300px',marginRight:20 }}>
       <span className="input-group-text bg-white border-end-0">
         {/* <i className="bi bi-search"></i> */}
-        <Image src={searchteam} roundedCircle style={{ height: "30px", width: "30px" }} />
+        <Image src={searchteam}  style={{ height: 20, width:20 }} />
       </span>
       <input
         type="text"

@@ -21,31 +21,58 @@ function AddBed({ show, handleClose, currentItem }) {
     const dispatch = useDispatch();
 
 
-    console.log("currentItem", currentItem)
+    console.log("currentItem Occupied", currentItem)
 
     console.log("add bed state", state)
 
     const [customer, setCustomer] = useState('')
 
 
+    // useEffect(() => {
+    //     if (currentItem) {
+
+    //         const Hostel_Id = currentItem.room.Hostel_Id
+    //         const Floor_Id = currentItem.room.Floor_Id
+    //         const Bed_Id = currentItem.bed.bed_no
+    //         const Room_Id = currentItem.room.Room_Id
+    //         const FilteredCustomer = state.UsersList.Users.filter((view) => {
+    //             return view.Hostel_Id === Number(Hostel_Id) && view.Floor === Number(Floor_Id) && view.Rooms === Number(Room_Id) && view.Bed === Number(Bed_Id)
+    //         })
+
+    //         console.log("FilteredCustomer", FilteredCustomer)
+    //         setCustomer(FilteredCustomer)
+
+    //     }
+    // }, [currentItem,show])
+
     useEffect(() => {
         if (currentItem) {
-
-            const Hostel_Id = currentItem.room.Hostel_Id
-            const Floor_Id = currentItem.room.Floor_Id
-            const Bed_Id = currentItem.bed.bed_no
-            const Room_Id = currentItem.room.Room_Id
+            const Hostel_Id = currentItem.room.Hostel_Id;
+            const Floor_Id = currentItem.room.Floor_Id;
+            const Bed_Id = currentItem.bed.bed_no;
+            const Room_Id = currentItem.room.Room_Id;
+    
+            console.log("Math", Hostel_Id, Floor_Id, Room_Id ,Bed_Id,)
             const FilteredCustomer = state.UsersList.Users.filter((view) => {
-                return view.Hostel_Id === Number(Hostel_Id) && view.Floor === Number(Floor_Id) && view.Rooms === Number(Room_Id) && view.Bed === Number(Bed_Id)
-            })
 
-            console.log("FilteredCustomer", FilteredCustomer)
-            setCustomer(FilteredCustomer)
+console.log("view",view.Hostel_Id,view.Floor , view.Rooms,view.Bed)
 
+                return (
+                    view.Hostel_Id == Hostel_Id && 
+                    view.Floor == Floor_Id && 
+                    view.Rooms == Room_Id &&  
+                    view.Bed == Bed_Id        
+                );
+            });
+         
+            
+            
+    
+            console.log("FilteredCustomer", FilteredCustomer);
+            setCustomer(FilteredCustomer);
         }
-    }, [currentItem,show])
-
-
+    }, [currentItem, show]);
+    
     useEffect(() => {
         const closeButton = document.querySelector('button[aria-label="close-button"]');
         if (closeButton) {
