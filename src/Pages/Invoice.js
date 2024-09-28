@@ -19,7 +19,7 @@ import Plus from '../Assets/Images/Create-button.png';
 import Calendor from '../Assets/Images/calendar.png';
 // import Profile from '../Assets/Images/Profile.jpg';
 import Dots from '../Assets/Images/more.png';
-import User from '../Assets/Images/Ellipse 1.png';
+import User from '../Assets/Images/New_images/profile-picture.png';
 import NotificationIcon from '../Assets/Images/Notification.png'
 import rectangle from '../Assets/Images/Rectangle 2.png'
 import { useDispatch, useSelector } from 'react-redux';
@@ -344,7 +344,7 @@ const InvoicePage = () => {
       console.log("statuscode_number", state.InvoiceList.UpdateInvoiceStatusCode);
       dispatch({ type: 'INVOICELIST' })
       setData(state.InvoiceList.Invoice)
-      setLoading(true)
+      // setLoading(true)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
       }, 100);
@@ -1208,7 +1208,8 @@ const InvoicePage = () => {
   }
 
   const handleClosePdfModal = () => {
-    setShowPdfModal(false)
+    // setShowPdfModal(false)
+    setDownloadInvoice(false)
   }
 
 
@@ -1282,7 +1283,7 @@ const InvoicePage = () => {
         </div>
       </div>
 
-      <TabContext value={value} style={{ position: "fixed" }}>
+      <TabContext value={value}>
         <div >
           <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
             <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
@@ -1553,8 +1554,8 @@ const InvoicePage = () => {
               }
 
 
-              {currentItems.length > 0 &&
-                <>
+              {/* {currentItems.length > 0 && */}
+                {/* <> */}
 
                   <Container fluid className='p-0'>
                     <Row className={` ${DownloadInvoice ? 'm-0 g-2 d-flex justify-content-between' : 'm-0 g-0'}`}>
@@ -1611,7 +1612,9 @@ const InvoicePage = () => {
 
                                       <div>
                                         <span>
-                                          <img src={User} style={{ height: 40, width: 40 }} alt="User" />
+                                          <img src={ item.user_profile && item.user_profile !== "0"
+                                        ? item.user_profile
+                                        : User} style={{ height: 40, width: 40 }} alt="User" />
                                         </span>
                                       </div>
 
@@ -1930,7 +1933,7 @@ const InvoicePage = () => {
                           borderLeft: DownloadInvoice ? '1px solid #ccc' : 'none',
                         }}>
 
-                            <BillPdfModal show={showPdfModal} handleClose={handleClosePdfModal} rowData={rowData} />
+                            <BillPdfModal show={showPdfModal} handleClosed={handleClosePdfModal} rowData={rowData} />
 
                             {/* <label className=" m-5" onClick={handleBackClose}>Back</label> */}
                           </Col>
@@ -1945,8 +1948,8 @@ const InvoicePage = () => {
 
 
 
-                </>
-              }
+                {/* </> */}
+              {/* } */}
 
 
 
@@ -1956,7 +1959,7 @@ const InvoicePage = () => {
 
 
 
-              {currentItems.length === 0 && (
+              {!loading && currentItems.length === 0 && (
                 <div  >
                   <div>
                     <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
