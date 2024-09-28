@@ -10,12 +10,12 @@
 .table-scrollbar::-webkit-scrollbar {
   display: flex !important; 
 }
-.table-cells {
+/* .table-cells {
   white-space: normal;
   word-break: break-word;
   overflow-wrap: break-word;
-  /* max-width: 150px; */
-}
+  max-width: 150px;
+} */
 
 
 .table-scrollbar {
