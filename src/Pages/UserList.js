@@ -20,7 +20,7 @@ import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, M
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import emptyimg from '../Assets/Images/New_images/empty_image.png';
-import searchteam from '../Assets/Images/Search.png';
+import searchteam from '../Assets/Images/New_images/Search Team.png';
 
 import Edit from '../Assets/Images/Edit-Linear-32px.png';
 import Delete from '../Assets/Images/Trash-Linear-32px.png';
