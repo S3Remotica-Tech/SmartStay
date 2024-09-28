@@ -2282,8 +2282,7 @@ function UserListRoomDetail(props) {
                                         >
                                           Bed<span style={{ color: 'red', fontSize: '20px' }}> * </span>
                                         </Form.Label>
-                                    
-                               <Form.Select
+                                        <Form.Select
   aria-label="Default select example"
   style={{
     fontSize: 16,
@@ -2301,21 +2300,19 @@ function UserListRoomDetail(props) {
   id="form-selects"
   onChange={(e) => handleBed(e)}
 >
+  <option value="" disabled>Select a Bed</option> {/* Use empty string to disable the option */}
   
-  <option>Select a Bed</option>
-
-  
-  {Editbed === "editbeddet" && Bednum && Bednum[0]?.Bed &&  Bednum[0]?.Bed !== "undefined" && Bednum[0]?.Bed !== ''(
+  {/* Check if in edit mode and Bednum[0]?.Bed is valid */}
+  {Editbed === "editbeddet" && Bednum && Bednum[0]?.Bed !== 'undefined' && Bednum[0]?.Bed !== '' && (
     <option value={Bednum[0].Bed} selected>
       {Bednum[0].Bed}
     </option>
   )}
 
- 
+  {/* Populate the dropdown with bed numbers from the state */}
   {state.UsersList?.bednumberdetails?.bed_details?.length > 0 &&
     state.UsersList.bednumberdetails.bed_details.map((item) => (
-      
-      item.bed_no && item.bed_no !== "undefined" && (
+      item.bed_no && item.bed_no !== 'undefined' && item.bed_no !== 0 && (
         <option key={item.bed_no} value={item.bed_no}>
           {item.bed_no}
         </option>
