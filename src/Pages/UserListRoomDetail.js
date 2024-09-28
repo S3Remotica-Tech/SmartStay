@@ -743,9 +743,17 @@ function UserListRoomDetail(props) {
       return;
     }
     const isChangedBed =
-      Number(Floor) !== Number(initialStateAssign.Floor) ||
-      Number(Rooms) !== Number(initialStateAssign.Rooms) ||
-      Number(Bed) !== Number(initialStateAssign.Bed) ||
+    (isNaN(Floor) 
+    ? String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase() 
+    : Number(Floor) !== Number(initialStateAssign.Floor)) ||
+  
+  (isNaN(Rooms) 
+    ? String(Rooms).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase() 
+    : Number(Rooms) !== Number(initialStateAssign.Rooms)) ||
+  
+  (isNaN(Bed) 
+    ? String(Bed).toLowerCase() !== String(initialStateAssign.Bed).toLowerCase() 
+    : Number(Bed) !== Number(initialStateAssign.Bed)) ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
