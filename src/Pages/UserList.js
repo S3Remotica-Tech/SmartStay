@@ -22,6 +22,12 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import emptyimg from '../Assets/Images/New_images/empty_image.png';
 import searchteam from '../Assets/Images/Search.png';
 
+import Edit from '../Assets/Images/Edit-Linear-32px.png';
+import Delete from '../Assets/Images/Trash-Linear-32px.png';
+import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png'
+import Download from '../Assets/Images/New_images/download.png';
+
+
 function UserList() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
@@ -703,8 +709,46 @@ console.log("state",state)
   const handleKycOtpChange = (e) => {
     setKycOtpValue(e.target.value)
   }
+  const [showDots, setShowDots] = useState('')
+  const [activeRow, setActiveRow] = useState(null);
 
- 
+    // const handleShowDots = () => {
+    //     setShowDots(!showDots)
+    // }
+    const handleShowDots = (id) => {
+      if (activeRow === id) {
+        setActiveRow(null); // Close if the same row is clicked again
+      } else {
+        setActiveRow(id); // Open dropdown for the clicked row
+      }
+    };
+    const popupRef = useRef(null);
+    const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setShowDots(false);
+        }
+      };
+      // useEffect(() => {
+      //   document.addEventListener('mousedown', handleClickOutside);
+      //   return () => {
+      //       document.removeEventListener('mousedown', handleClickOutside);
+      //   };
+      // }, []);
+
+
+      useEffect(() => {
+        function handleClickOutside(event) {
+          if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setShowDots(false);
+          }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, [popupRef]);
+  
+      
   return (
     <div className=' p-2' >
 
@@ -767,7 +811,14 @@ console.log("state",state)
              </div>    
                   }
         {currentItems && currentItems.length > 0 && (
-          <Table className="ebtable" responsive  >
+          <Table   responsive="md"
+          className='Table_Design'
+          style={{
+            height: "auto",
+            overflow: "visible",
+            tableLayout: "auto",
+            borderRadius: "24px",
+            border: "1px solid #DCDCDC",}}  >
             <thead style={{ backgroundColor: "#E7F1FF" }}>
               <tr>
                 <th style={{ textAlign: "center", padding: "10px" }}>
@@ -779,7 +830,11 @@ console.log("state",state)
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Paying Guest</th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Room</th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Bed</th>
-                <th style={{ textAlign: "start", padding: "10px" }}></th>
+                <th style={{ textAlign: "start", padding: "10px" }}>
+                         {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                        </div> */}
+                        </th>
               </tr>
             </thead>
             <tbody style={{ textAlign: "center" }}>
@@ -827,7 +882,7 @@ console.log("state",state)
                         <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{user.HostelName}</span>
                       </td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Rooms}</td>
-                      <td
+                      {/* <td
                         className={user.Bed === 0 ? 'assign-bed' : ''}
                         onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
                         style={{
@@ -841,16 +896,76 @@ console.log("state",state)
                         }}
                       >
                         {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
+                      </td> */}
+                      <td
+                        // className={user.Bed === 0 ? 'assign-bed' : ''}
+                        // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
+                        style={{
+                          padding: "10px",
+                          border: "none",
+                          cursor:"pointer",
+                          color: user.Bed === 0 ? "blue" : "inherit",
+                          textDecoration: user.Bed === 0 ? "none" : "initial",
+                          textAlign: "start",
+                          fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy"
+                        }}
+                      >
+                        {user.Bed === 0 ? '-' : user.Bed}
                       </td>
                       <td style={{ padding: "10px", border: "none" }}>
-                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/> */}
+                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                        {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                         <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} onClick={()=>handleShowDots(user.ID)}>
                           <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                        </div> */}
+                          {activeRow === user.ID && <>
+                                    <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 50, top: 20, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
+                                        <div style={{ backgroundColor: "#fff" }} className=''>
+                                        {user.Bed === 0 && (
+        <div 
+          className='mb-3 d-flex justify-content-start align-items-center gap-2'
+          // onClick={() => handleInvoicepdf(user)}
+          style={{ backgroundColor: "#fff" }}
+        >
+          <img src={Download} style={{ height: 16, width: 16 }} /> 
+          <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >
+            Assign Bed
+          </label>
+        </div>
+      )}
+                                        <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                                style={{ backgroundColor: "#fff" }}
+                                                onClick={() => handleRoomDetailsPage(user)} >
+                                                <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Edit</label>
+                                            </div>
+                                          
+                                            {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                                onClick={() => { handleShowform(props) }}
+                                                style={{ backgroundColor: "#fff" }}
+                                            >
+                                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
+
+                                            </div> */}
+
+                                           
+                                            <div className='mb-2 d-flex justify-content-start align-items-center gap-2'
+                                                style={{ backgroundColor: "#fff" }}
+                                            >
+                                                <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000", cursor: 'pointer' }}>Delete</label>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
+
+                                </>}
+                        </div>
+
 
                         {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
                       </td>
+                     
                     </tr>
 
                   )
@@ -980,8 +1095,16 @@ console.log("state",state)
           </nav>
         )}
 
+
+
+
+
       </>
       }
+
+
+
+
       {
         roomDetail == true ? <UserListRoomDetail
           AfterEditHostels={AfterEditHostel}
