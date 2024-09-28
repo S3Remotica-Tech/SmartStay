@@ -1,0 +1,13 @@
+.table{
+    border: 1px solid #DCDCDC;
+    border-radius: 16px;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    
+   }
+  
+   .table td{
+    border: none;
+   }
