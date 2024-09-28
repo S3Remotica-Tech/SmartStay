@@ -35,9 +35,16 @@ function* handlePgList(datum) {
   console.log("response PG", response);
 
   var toastStyle = {
-    backgroundColor: "green",
-    color: "white",
+    backgroundColor: "#E6F6E6",
+    color: "black",
     width: "100%",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "center",
+   
   };
 
   if (response.statusCode === 200 || response.status === 200) {
@@ -49,9 +56,10 @@ function* handlePgList(datum) {
       },
     });
     toast.success(`${response.message}`, {
-      position: "top-center",
+      position: "bottom-center",
       autoClose: 2000,
-      hideProgressBar: false,
+      hideProgressBar: true,
+      closeButton: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
@@ -78,10 +86,16 @@ function* handleCreateRoom(datum) {
   const response = yield call(createRoom, datum.payload);
   console.log("response createroom", response);
   var toastStyle = {
-    backgroundColor: "green",
-    color: "white",
+    backgroundColor: "#E6F6E6",
+    color: "black",
     width: "100%",
-  };
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "center",
+     };
   if (response.status === 200 || response.statusCode === 200) {
     yield put({
       type: "CREATE_ROOM",
@@ -95,10 +109,11 @@ function* handleCreateRoom(datum) {
       message: "CREATED SUCCESSFULLY",
     });
 
-    toast.success("Room has been successfully created!", {
-      position: "top-center",
+    toast.success("Created successfully ", {
+      position: "bottom-center",
       autoClose: 2000,
-      hideProgressBar: false,
+      hideProgressBar: true,
+      closeButton: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
@@ -305,9 +320,16 @@ function* handleCreateBed(action) {
   console.log("response create Bed", response.status);
 
   var toastStyle = {
-    backgroundColor: "green",
-    color: "white",
+    backgroundColor: "#E6F6E6",
+    color: "black",
     width: "100%",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "center",
+   
   };
 
   if (response.status === 200 || response.statusCode === 200) {
@@ -319,10 +341,11 @@ function* handleCreateBed(action) {
       },
     });
 
-    toast.success("Bed has been successfully created!", {
-      position: "top-center",
+    toast.success("Created successfully", {
+      position: "bottom-center",
       autoClose: 2000,
-      hideProgressBar: false,
+      hideProgressBar: true,
+      closeButton: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
@@ -351,9 +374,16 @@ function* handleDeleteBed(action) {
   console.log("response delete Bed", response);
 
   var toastStyle = {
-    backgroundColor: "green",
-    color: "white",
+    backgroundColor: "#E6F6E6",
+    color: "black",
     width: "100%",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "center",
+   
   };
 
   if (response.status === 200 || response.statusCode === 200) {
@@ -364,10 +394,11 @@ function* handleDeleteBed(action) {
         statusCode: response.status || response.statusCode,
       },
     });
-    toast.success("Bed has been successfully deleted!", {
-      position: "top-center",
+    toast.success("Deleted successfully", {
+      position: "bottom-center",
       autoClose: 2000,
-      hideProgressBar: false,
+      hideProgressBar: true,
+      closeButton: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
@@ -392,9 +423,16 @@ function* handleDeletePG(action) {
   const response = yield call(DeletePG, action.payload);
   console.log("response delete PG", response);
   var toastStyle = {
-    backgroundColor: "green",
-    color: "white",
+    backgroundColor: "#E6F6E6",
+    color: "black",
     width: "100%",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "center",
+   
   };
   if (response.status === 200 || response.statusCode === 200) {
     yield put({
@@ -404,10 +442,11 @@ function* handleDeletePG(action) {
         statusCode: response.status || response.statusCode,
       },
     });
-    toast.success("Paying guest has been successfully deleted!", {
-      position: "top-center",
+    toast.success("Deleted successfully", {
+      position: "bottom-center",
       autoClose: 2000,
-      hideProgressBar: false,
+      hideProgressBar: true,
+      closeButton: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
@@ -431,9 +470,16 @@ function* handleUpdateFloor(action) {
   const response = yield call(UpdateFloor, action.payload);
   console.log("response update floor", response);
   var toastStyle = {
-    backgroundColor: "green",
-    color: "white",
+    backgroundColor: "#E6F6E6",
+    color: "black",
     width: "100%",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "center",
+   
   };
   if (response.status === 200 || response.statusCode === 200) {
     yield put({
@@ -443,10 +489,11 @@ function* handleUpdateFloor(action) {
         statusCode: response.status || response.statusCode,
       },
     });
-    toast.success("Floor has been successfully updated!", {
-      position: "top-center",
+    toast.success("Updated successfully ", {
+      position: "bottom-center",
       autoClose: 2000,
-      hideProgressBar: false,
+      hideProgressBar: true,
+      closeButton: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,

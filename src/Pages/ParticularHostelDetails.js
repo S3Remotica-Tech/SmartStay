@@ -182,6 +182,7 @@ console.log("roomCountData",roomCountData)
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
       }, 2000)
@@ -199,8 +200,7 @@ console.log("roomCountData",roomCountData)
     if (state.PgList.statusCodeCreateRoom === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowRoom(false)
-
-   
+      dispatch({ type: 'HOSTELLIST' })
 
 
       setTimeout(() => {
@@ -217,6 +217,7 @@ console.log("roomCountData",roomCountData)
 
   useEffect(() => {
     if (state.PgList.createBedStatusCode == 200) {
+      dispatch({ type: 'HOSTELLIST' })
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowBed(false)
    
@@ -386,6 +387,7 @@ console.log("currentItems Room", currentItems);
   useEffect(() => {
     if (state.PgList.statusCodeDeleteBed == 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_BED_STATUS_CODE' })
       }, 2000)
@@ -484,7 +486,7 @@ console.log("loader",loader)
                             />
                           </OverlayTrigger>
 
-                          <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }} >Bed {bed.bed_no}</div>
+                          <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }} >{bed.bed_no}</div>
                         </div>
                       </div>
                     ))}
