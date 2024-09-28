@@ -2295,26 +2295,26 @@ function UserListRoomDetail(props) {
     height: 50,
     borderRadius: 8,
   }}
-  value={Bed} // Make sure Bed is populated from state or props correctly
+  value={Bed} 
   className="border"
   placeholder="Select a bed"
   id="form-selects"
   onChange={(e) => handleBed(e)}
 >
-  {/* Default option */}
+  
   <option>Select a Bed</option>
 
-  {/* If in edit mode, show the selected bed */}
-  {Editbed === "editbeddet" && Bednum && Bednum[0]?.Bed && (
+  
+  {Editbed === "editbeddet" && Bednum && Bednum[0]?.Bed &&  Bednum[0]?.Bed !== "undefined" && Bednum[0]?.Bed !== ''(
     <option value={Bednum[0].Bed} selected>
       {Bednum[0].Bed}
     </option>
   )}
 
-  {/* Populate the dropdown with bed numbers from the state */}
+ 
   {state.UsersList?.bednumberdetails?.bed_details?.length > 0 &&
     state.UsersList.bednumberdetails.bed_details.map((item) => (
-      // Ensure valid bed numbers are displayed
+      
       item.bed_no && item.bed_no !== "undefined" && (
         <option key={item.bed_no} value={item.bed_no}>
           {item.bed_no}
@@ -2322,6 +2322,9 @@ function UserListRoomDetail(props) {
       )
     ))}
 </Form.Select>
+
+
+
 
 
                                         {bedError && (
