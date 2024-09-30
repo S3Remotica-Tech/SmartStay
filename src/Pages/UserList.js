@@ -26,6 +26,7 @@ import Edit from '../Assets/Images/Edit-Linear-32px.png';
 import Delete from '../Assets/Images/Trash-Linear-32px.png';
 import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png'
 import Download from '../Assets/Images/New_images/download.png';
+import addcircle from '../Assets/Images/New_images/add-circle.png';
 
 
 function UserList() {
@@ -811,17 +812,29 @@ console.log("state",state)
              </div>    
                   }
         {currentItems && currentItems.length > 0 && (
-          <Table   responsive="md"
+          <Table   responsive ="md"
           className='Table_Design'
           style={{
             height: "auto",
             overflow: "visible",
             tableLayout: "auto",
             borderRadius: "24px",
-            border: "1px solid #DCDCDC",}}  >
-            <thead style={{ backgroundColor: "#E7F1FF" }}>
+            border: "1px solid #DCDCDC",
+
+          }}  >
+            <thead  style={{
+      backgroundColor: "#E7F1FF"
+      
+      }} >
               <tr>
-                <th style={{ textAlign: "center", padding: "10px" }}>
+                <th style={{
+                                      textAlign: "center",
+                                      fontFamily: "Gilroy",
+                                      color: "rgba(34, 34, 34, 1)",
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      borderTopLeftRadius: 24
+                                    }}>
                   <img src={squre} height={20} width={20} />
                 </th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Name</th>
@@ -830,7 +843,14 @@ console.log("state",state)
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Paying Guest</th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Room</th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Bed</th>
-                <th style={{ textAlign: "start", padding: "10px" }}>
+                <th style={{
+                                      textAlign: "center",
+                                      fontFamily: "Gilroy",
+                                      color: "rgba(34, 34, 34, 1)",
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      borderTopRightRadius: 24
+                                    }}>
                          {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
                           <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                         </div> */}
@@ -881,7 +901,7 @@ console.log("state",state)
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>
                         <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{user.HostelName}</span>
                       </td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}> {(!user.Rooms ||  user.Rooms === 'undefined'|| user.Rooms === '0' || user.Rooms === '') ? '-' : user.Rooms}</td>
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}> {(!user.Rooms ||  user.Rooms === 'undefined'|| user.Rooms === '0' || user.Rooms === ''  || user.Rooms === 'null') ? '-' : user.Rooms}</td>
                       {/* <td
                         className={user.Bed === 0 ? 'assign-bed' : ''}
                         onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
@@ -910,7 +930,7 @@ console.log("state",state)
                           fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy"
                         }}
                       >
-                       {(user.Bed === 'undefined' || user.Bed === 0 || user.Bed === '') ? '-' : user.Bed}
+                       {(user.Bed === 'undefined' || user.Bed === '0' || user.Bed === '' || user.Bed === 'null') ? '-' : user.Bed}
                       </td>
                       <td style={{ padding: "10px", border: "none" }}>
                         {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
@@ -920,13 +940,13 @@ console.log("state",state)
                           {activeRow === user.ID && <>
                                     <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 50, top: 20, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
                                         <div style={{ backgroundColor: "#fff" }} className=''>
-                                        {user.Bed === 'undefined' && (
+                                        {(user.Bed === 'undefined' || user.Bed === 'null' || user.Bed === '0' || user.Bed === '')  && (
         <div 
           className='mb-3 d-flex justify-content-start align-items-center gap-2'
           // onClick={() => handleInvoicepdf(user)}
           style={{ backgroundColor: "#fff" }}
           onClick={ () => handleShowAddBed(user)}>
-          <img src={Download} style={{ height: 16, width: 16 }} /> 
+          <img src={addcircle} style={{ height: 16, width: 16 }} /> 
           <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >
             Assign Bed
           </label>

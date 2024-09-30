@@ -8,6 +8,13 @@
 text-decoration: underline;
 
 }
+.Table_Design_user{
+  border: 1px solid #DCDCDC;
+  border-radius: 24px;
+  /* width: 100%; */
+  border-collapse: separate;
+  border-spacing: 0;
+  }
 .custom-table thead {
   background-color: #F6F7FB;
   font-size: 14px;
