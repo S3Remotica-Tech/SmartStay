@@ -14,7 +14,7 @@ import Image from 'react-bootstrap/Image';
 import UserlistForm from "./UserlistForm";
 import UserListRoomDetail from "./UserListRoomDetail";
 import CryptoJS from "crypto-js";
-import Filter from '../Assets/Images/New_images/Group 13.png';
+import Filters from '../Assets/Images/Filters.svg';
 import squre from '../Assets/Images/New_images/minus-square.png';
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
@@ -24,6 +24,7 @@ import TabContext from "@mui/lab/TabContext";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Search from '../Assets/Images/search-normal.png';
+import Close from '../Assets/Images/close.svg';
 import UserlistBookings from './UserlistBookings';
 import UserlistCheckout from './UserlistCheckout';
 import UserlistWalkin from './UserlistWalkin';
@@ -157,10 +158,24 @@ function UserList(props) {
   };
 
   const [value, setValue] = React.useState("1"); 
+  const [showInput, setShowInput] = useState(false); 
+  const [searchValue, setSearchValue] = useState(''); 
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleSearchClick = () => {
+    setShowInput(true); 
+  };
+
+  const handleCloseClick = () => {
+    setSearchValue(''); 
+    setShowInput(false); 
+  };
+
+
 
 
   console.log("state", state)
@@ -759,16 +774,66 @@ console.log("item",item)
           </div>
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">
-          <div>
-          <Image src={Search} roundedCircle style={{height:26,width:24,color:"#222222",marginRight:"20px"}}  />
+         
+           <div style={{ display: 'flex', alignItems: 'center' }}>
+      {!showInput && (
+        <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+          <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
+        </div>
+      )}
+      
+      {showInput && (
+        <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px',marginRight:"20px" }}>
+          <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
+          <input
+            type="text"
+            placeholder="Search"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            style={{ border: 'none', outline: 'none', width: '200px' }}
+          />
+          <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+            <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
           </div>
+        </div>
+      )}
+    </div>
             <div className='me-3'>
-              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} />
+              <Image src={Filters} roundedCircle style={{ height: "50px", width: "50px" }} />
             </div>
 
+            <div className="buttons" >
             <div>
+           
+            {value === "1" && (
+              <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
+                + Add Customer
+              </Button>
+            )}
+            {value === "2" && (
+              <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
+                + Add Bookings
+              </Button>
+            )}
+            {value === "3" && (
+              <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
+                + Add Checkout
+              </Button>
+            )}
+            {value === "4" && (
+              <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
+                + Add Walkin
+              </Button>
+            )}
+          </div>
+              {/* <div>
               <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}> + Add Customer</Button>
+              </div> */}
+             
+
+
             </div>
+            
           </div>
         </div>
                             {/*  */}
