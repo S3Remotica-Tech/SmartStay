@@ -3,6 +3,7 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import dots from "../Assets/Images/New_images/Group 14.png"
 import {
   Autobrightness,
   Call,
@@ -913,7 +914,7 @@ function UserListRoomDetail(props) {
                               }}
                             >
  
-                         Room: {item.Rooms && item.Rooms !== 0 && item.Rooms !== '' && item.Rooms !== 'undefined' ? item.Rooms : 'N/A'}    - Bed: {item.Bed && item.Bed !== 'undefined' && item.Bed !== 0 && item.Bed !== '' ? item.Bed : 'N/A'}
+                         Room: {item.Rooms && item.Rooms !== '0' && item.Rooms !== '' && item.Rooms !== 'undefined' && item.Rooms !== 'null' ? item.Rooms : 'N/A'}    - Bed: {item.Bed && item.Bed !== 'undefined' && item.Bed !== '0' && item.Bed !== '' && item.Bed !== 'null'? item.Bed : 'N/A'}
                             </span>
 
                             <span
@@ -932,12 +933,15 @@ function UserListRoomDetail(props) {
                                 fontFamily: "Gilroy",
                               }}
                             >
-                            Floor -  {item.Floor && item.Floor !== 0 && item.Floor !== '' &&  item.Floor !== 'undefined'? item.Floor : 'N/A'}
+                            Floor -  {item.Floor && item.Floor !== '0' && item.Floor !== '' &&  item.Floor !== 'undefined' && item.Floor !== 'null'? item.Floor : 'N/A'}
                               {/* {props.getFloorName(item.Floor && item.Floor !== 0 && item.Floor !== '' &&  item.Floor !== 'undefined'? item.Floor : 'N/A')} */}
                             </span>
                           </p>
                         </div>
                       </div>
+                      <div onClick={() => {
+                                        handleShowEditBed(props.userDetails);
+                                      }}><img src={dots} width={40} height={40}/></div>
                     </div>
                   </div>
 
@@ -980,7 +984,7 @@ function UserListRoomDetail(props) {
                             }}
                           />
                           <Tab
-                            label="Invoice"
+                            label="Bill"
                             value="3"
                             style={{
                               fontSize: 16,
@@ -1005,7 +1009,7 @@ function UserListRoomDetail(props) {
                               textTransform: "none",
                             }}
                           />
-                          <Tab
+                          {/* <Tab
                             label="Transactions"
                             value="5"
                             style={{
@@ -1017,7 +1021,7 @@ function UserListRoomDetail(props) {
                               fontWeight: 500,
                               textTransform: "none",
                             }}
-                          />
+                          /> */}
                         </TabList>
                       </Box>
                     </div>
@@ -1133,8 +1137,8 @@ function UserListRoomDetail(props) {
                                           cursor: "pointer",
                                         }}
                                       >
-                                      {item.Rooms === 'undefined' || item.Rooms === 0 || item.Rooms === '' ? 'N/A' : item.Rooms}
-                                        - {item.Bed === 'undefined' || item.Bed === 0 || item.Bed === '' ? 'N/A' : item.Bed}
+                                      {item.Rooms === 'undefined' || item.Rooms === '0' || item.Rooms === ''|| item.Rooms === 'null'  ? 'N/A' : item.Rooms}
+                                        - {item.Bed === 'undefined' || item.Bed === '0' || item.Bed === '' || item.Bed === 'null'  ? 'N/A' : item.Bed}
                                       </span>
                                     </p>
                                   </div>
@@ -2308,10 +2312,10 @@ function UserListRoomDetail(props) {
   id="form-selects"
   onChange={(e) => handleBed(e)}
 >
-  <option value="" disabled>Select a Bed</option> {/* Use empty string to disable the option */}
+  <option value="">Select a Bed</option> {/* Use empty string to disable the option */}
   
   {/* Check if in edit mode and Bednum[0]?.Bed is valid */}
-  {Editbed === "editbeddet" && Bednum && Bednum[0]?.Bed !== 'undefined' && Bednum[0]?.Bed !== '' && (
+  {Editbed === "editbeddet" && Bednum && Bednum[0]?.Bed !== 'undefined' && Bednum[0]?.Bed !== '' && Bednum[0]?.Bed !== 'null' && Bednum[0]?.Bed !== '0' && (
     <option value={Bednum[0].Bed} selected>
       {Bednum[0].Bed}
     </option>
@@ -2320,7 +2324,7 @@ function UserListRoomDetail(props) {
   {/* Populate the dropdown with bed numbers from the state */}
   {state.UsersList?.bednumberdetails?.bed_details?.length > 0 &&
     state.UsersList.bednumberdetails.bed_details.map((item) => (
-      item.bed_no && item.bed_no !== 'undefined' && item.bed_no !== 0 && (
+      item.bed_no && item.bed_no !== 'undefined' && item.bed_no !== '0' && item.bed_no !== '' && item.bed_no !== 'null' && (
         <option key={item.bed_no} value={item.bed_no}>
           {item.bed_no}
         </option>
@@ -2466,9 +2470,9 @@ function UserListRoomDetail(props) {
                         statusAmni={props.statusAmni}
                       />
                     </TabPanel>
-                    <TabPanel value="5">
+                    {/* <TabPanel value="5">
                       <UserListTransaction id={props.id} />
-                    </TabPanel>
+                    </TabPanel> */}
                   </TabContext>
                 </div>
               );

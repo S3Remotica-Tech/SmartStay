@@ -452,10 +452,13 @@ function UserlistForm(props) {
   const [roomrentError, setRoomRentError] = useState("");
 
   const validateAssignField = (value, fieldName) => {
-    if (!value || value.trim() === "") {
+    // If the value is a string, trim it, otherwise check for non-empty or valid number
+    const isValueEmpty = (typeof value === "string" && value.trim() === "") || value === 'undefined' || value === 'null' || value === '0';
+  
+    if (isValueEmpty) {
       switch (fieldName) {
         case "Floor":
-          setfloorError("Floor required");
+          setfloorError("Floor is required");
           break;
         case "Room":
           setRoomError("Room is required");
@@ -464,18 +467,41 @@ function UserlistForm(props) {
           setBedError("Bed is required");
           break;
         case "AdvanceAmount":
-          setAdvanceAmountError("AdvanceAmount is required");
+          setAdvanceAmountError("Advance Amount is required");
           break;
         case "RoomRent":
-          setRoomRentError("roomrent ID is required");
+          setRoomRentError("Room Rent is required");
           break;
         default:
           break;
       }
       return false;
     }
+  
+    // Clear errors if the value is valid
+    switch (fieldName) {
+      case "Floor":
+        setfloorError("");
+        break;
+      case "Room":
+        setRoomError("");
+        break;
+      case "Bed":
+        setBedError("");
+        break;
+      case "AdvanceAmount":
+        setAdvanceAmountError("");
+        break;
+      case "RoomRent":
+        setRoomRentError("");
+        break;
+      default:
+        break;
+    }
+  
     return true;
   };
+  
   const handleFloor = (e) => {
     setFloor(e.target.value);
     setRooms("");
@@ -1434,46 +1460,46 @@ function UserlistForm(props) {
                         ))}
                       </Form.Select> */}
 
-                      <Form.Select
-                        aria-label="Default select example"
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
-                        }}
-                        value={Bed}
-                        className="border"
-                        placeholder="Select a bed"
-                        id="form-selects"
-                        onChange={(e) => handleBed(e)}
-                      >
-                        <option>Select a Bed</option>
+<Form.Select
+  aria-label="Default select example"
+  style={{
+    fontSize: 16,
+    color: "#4B4B4B",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    boxShadow: "none",
+    border: "1px solid #D9D9D9",
+    height: 50,
+    borderRadius: 8,
+  }}
+  value={Bed}
+  className="border"
+  placeholder="Select a bed"
+  id="form-selects"
+  onChange={(e) => handleBed(e)}
+>
+  <option>Select a Bed</option>
 
-                        {props.edit === "Edit" &&
-                          Bednum &&
-                          Bednum.Bed &&
-                          Bednum.Bed !== "undefined" && (
-                            <option value={Bednum.Bed} selected>
-                              {Bednum.Bed}
-                            </option>
-                          )}
+  {props.edit === "Edit" &&
+    Bednum &&
+    Bednum.Bed &&
+    Bednum.Bed !== "undefined" &&  Bednum.Bed !== "" &&  Bednum.Bed !== "null" &&  Bednum.Bed !== "0" && (
+      <option value={Bednum.Bed} selected>
+        {Bednum.Bed}
+      </option>
+    )}
 
-                        {state.UsersList?.bednumberdetails?.bed_details &&
-                          state.UsersList?.bednumberdetails?.bed_details.map(
-                            (item) =>
-                              item.bed_no &&
-                              item.bed_no !== "undefined" && (
-                                <option key={item.bed_no} value={item.bed_no}>
-                                  {item.bed_no}
-                                </option>
-                              )
-                          )}
-                      </Form.Select>
+  {state.UsersList?.bednumberdetails?.bed_details &&
+    state.UsersList?.bednumberdetails?.bed_details
+      .filter(item => item.bed_no !== "0" && item.bed_no !== "undefined" && item.bed_no !== "" && item.bed_no !== "null")
+      .map((item) => (
+        <option key={item.bed_no} value={item.bed_no}>
+          {item.bed_no}
+        </option>
+      ))}
+</Form.Select>
+
+
                       {bedError && (
                         <div style={{ color: "red" }}>
                           <MdError />
