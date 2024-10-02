@@ -29,6 +29,7 @@ import UserlistBookings from './UserlistBookings';
 import UserlistCheckout from './UserlistCheckout';
 import UserlistWalkin from './UserlistWalkin';
 import Addbooking from './Addbookingform';
+import CheckOutForm from './UserListCheckoutForm';
 
 function UserList(props) {
   const state = useSelector(state => state)
@@ -768,17 +769,27 @@ console.log("item",item)
   const closeModal = () => {
     setShowbookingForm(false);
   };
-
+  //checkout form
+  const [checkoutForm, setcheckoutForm] = useState(false)
+  const checkOutForm = () => {
+    setcheckoutForm(!checkoutForm);
+  };
+  const checkoutcloseModal = () => {
+    setcheckoutForm(false);
+  };
+  
   return (
     <div className=' p-2' >
        <Addbooking show={showbookingForm} handleClose={closeModal} />
 
+<CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal}/>
 
       {userList && <>
 
         <div className="customer p-4" >
           <div className="cuslable">
-            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginTop: 20, fontFamily: "Gilroy" }}>Customers</label>
+            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginTop: 20, fontFamily: "Gilroy" }}>
+              Customers</label>
           </div>
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">
@@ -824,8 +835,8 @@ console.log("item",item)
               </Button>
             )}
             {value === "3" && (
-              <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
-                + Add Checkout
+              <Button onClick={checkOutForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
+                + Add Check-out
               </Button>
             )}
             {value === "4" && (
