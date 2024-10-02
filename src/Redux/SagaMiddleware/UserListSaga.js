@@ -92,7 +92,10 @@ function* handleCreateFloor(data) {
    fontFamily: "Gilroy",
    fontWeight: 600,
    fontSize: 14,
-   textAlign: "center",
+   textAlign: "start",
+   display: "flex",
+   alignItems: "center", 
+   padding: "10px",
   
  };
 
@@ -413,7 +416,10 @@ function* handleAddUser(datum) {
          fontFamily: "Gilroy",
          fontWeight: 600,
          fontSize: 14,
-         textAlign: "center",
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
         
        };
       if(response.status === 200 || response.statusCode === 200){
@@ -460,7 +466,10 @@ function* handleDeleteRoom(roomDetails){
       fontFamily: "Gilroy",
       fontWeight: 600,
       fontSize: 14,
-      textAlign: "center",
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
      
     };
 

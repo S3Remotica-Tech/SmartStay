@@ -191,7 +191,7 @@ if (!floorId) {
                 <Form.Control 
                 value={room}
                 onChange={handleRoomChange}
-                 type="text" placeholder="Enter Room no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:room ? 600 :  500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                 type="text" placeholder="Enter Room name or no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:room ? 600 :  500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>
