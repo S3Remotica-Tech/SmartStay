@@ -5,10 +5,12 @@ import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import Calendars from '../Assets/Images/New_images/calendar.png';
 import { CloseCircle } from 'iconsax-react';
+
+
 function Addbooking({ show, handleClose }) {
   const calendarRef = useRef(null);
 
-  // Separate state variables for new booking
+ 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [joiningDate, setJoiningDate] = useState(null);
@@ -16,18 +18,11 @@ function Addbooking({ show, handleClose }) {
   const [comments, setComments] = useState('');
 
   const handleSave = () => {
-   
-
-  
-
-    // Reset form fields
-    setFirstName('');
+   setFirstName('');
     setLastName('');
     setJoiningDate(null);
     setAmount('');
     setComments('');
-
-    // Close the modal
     handleClose();
   };
 
@@ -74,7 +69,7 @@ function Addbooking({ show, handleClose }) {
                 </Form.Label>
 
                 <div style={{ position: 'relative' }}>
-                  {/* Label acting as a custom input */}
+               
                   <label
                     htmlFor="new-joining-date-input"
                     style={{
@@ -97,12 +92,12 @@ function Addbooking({ show, handleClose }) {
                     }}
                   >
                     {joiningDate instanceof Date && !isNaN(joiningDate)
-                      ? joiningDate.toLocaleDateString('en-GB') // Formats date as DD/MM/YYYY
+                      ? joiningDate.toLocaleDateString('en-GB') 
                       : 'DD/MM/YYYY'}
                     <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
                   </label>
 
-                  {/* Flatpickr component */}
+                
                   <Flatpickr
                     ref={calendarRef}
                     value={joiningDate}

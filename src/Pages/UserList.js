@@ -28,7 +28,7 @@ import Close from '../Assets/Images/close.svg';
 import UserlistBookings from './UserlistBookings';
 import UserlistCheckout from './UserlistCheckout';
 import UserlistWalkin from './UserlistWalkin';
-
+import Addbooking from './Addbookingform';
 
 function UserList(props) {
   const state = useSelector(state => state)
@@ -761,10 +761,18 @@ console.log("item",item)
   const handleKycOtpChange = (e) => {
     setKycOtpValue(e.target.value)
   }
-
+  const [showbookingForm, setShowbookingForm] = useState(false);
+  const toggleForm = () => {
+    setShowbookingForm(!showbookingForm);
+  };
+  const closeModal = () => {
+    setShowbookingForm(false);
+  };
 
   return (
     <div className=' p-2' >
+       <Addbooking show={showbookingForm} handleClose={closeModal} />
+
 
       {userList && <>
 
@@ -811,7 +819,7 @@ console.log("item",item)
               </Button>
             )}
             {value === "2" && (
-              <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
+              <Button onClick={toggleForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
                 + Add Bookings
               </Button>
             )}
