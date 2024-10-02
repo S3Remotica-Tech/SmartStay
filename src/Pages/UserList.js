@@ -21,12 +21,13 @@ import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import emptyimg from '../Assets/Images/New_images/empty_image.png';
 import searchteam from '../Assets/Images/New_images/Search Team.png';
-
+import { FaSearch } from 'react-icons/fa';
 import Edit from '../Assets/Images/Edit-Linear-32px.png';
 import Delete from '../Assets/Images/Trash-Linear-32px.png';
 import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png'
 import Download from '../Assets/Images/New_images/download.png';
 import addcircle from '../Assets/Images/New_images/add-circle.png';
+
 
 
 function UserList() {
@@ -154,6 +155,7 @@ console.log("state",state)
     setAddBasicDetail(true)
     setEditObj(u)
     setemail_id(u.Email)
+    setSearch(false)
 
   };
 
@@ -258,6 +260,7 @@ console.log("state",state)
     setRoomDetail(true)
     setUserList(false)
     setClickedUserData(clickedUserDataArray);
+    setSearch(false)
 
   }
   const handleShowAddBed = (u) => {
@@ -371,7 +374,7 @@ console.log("state",state)
   const [filterByInvoice, setFilterByInvoice] = useState('');
 
 
-  
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
 
  
 
@@ -459,8 +462,9 @@ console.log("state",state)
     setSearch(false)
   }
  const handlefilterInput =(e)=>{
-  setFilterInput(e.target.value)
-  console.log("e,,,,",e.target.value)
+  setFilterInput(e.target.value);
+    console.log("e,,,,", e.target.value);
+    setDropdownVisible(e.target.value.length > 0);
  }
  useEffect(() => {
   // Filter users as the filterInput changes
@@ -722,6 +726,7 @@ console.log("state",state)
       } else {
         setActiveRow(id); // Open dropdown for the clicked row
       }
+      setSearch(false)
     };
     const popupRef = useRef(null);
     const handleClickOutside = (event) => {
@@ -748,8 +753,21 @@ console.log("state",state)
           document.removeEventListener("mousedown", handleClickOutside);
         };
       }, [popupRef]);
+      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+      // const handleUserSelect = (user) => {
+        
+      //   setFilterInput(user.Name); 
+      //   setFilteredUsers([]); 
+      //   console.log("User selected:", user);
+      // };
   
-      
+      const handleUserSelect = (user) => {
+        // Set the selected user's name in the search bar
+        setFilterInput(user.Name);
+        setFilteredUsers([]); // Optionally clear the dropdown after selection
+        setDropdownVisible(false); // Close the dropdown after selection
+        console.log("User selected:", user);
+      };    
   return (
     <div className=' p-2' >
 
@@ -763,9 +781,9 @@ console.log("state",state)
           <div className="customerfilling d-flex justify-content-between align-items-center ">
 {
   search ? <>
-     <div className="input-group" style={{ maxWidth: '300px',marginRight:20 }}>
+     {/* <div className="input-group" style={{ maxWidth: '300px',marginRight:20 }}>
       <span className="input-group-text bg-white border-end-0">
-        {/* <i className="bi bi-search"></i> */}
+        
         <Image src={searchteam}  style={{ height: 20, width:20 }} />
       </span>
       <input
@@ -777,11 +795,152 @@ console.log("state",state)
         value={filterInput}
         onChange={(e)=>handlefilterInput(e)}
       />
+    </div> */}
+    {/* <div style={{ position: 'relative', width: '100%' }}> 
+  <input
+    type="text"
+    className="form-control"
+    value={filterInput}
+    onChange={(e) => handlefilterInput(e)} 
+    placeholder="Search"
+    style={{ width: '100%' }} 
+  />
+  
+ 
+  {filterInput && filteredUsers.length > 0 && (
+    <ul
+      className="list-group"
+      style={{
+        position: 'absolute',
+        zIndex: 1000,
+        width: '100%', 
+        maxHeight: '200px',
+        overflowY: 'auto',
+        marginTop: '5px',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        backgroundColor: '#fff',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', 
+        padding: 0,
+      }}
+    >
+      {filteredUsers.map((user, index) => {
+        const imagedrop = user.profile || Profile;
+        return (
+          <li
+            key={index}
+            className="list-group-item d-flex align-items-center"
+            style={{
+              cursor: 'pointer',
+              padding: '10px 15px',
+              borderBottom: index !== filteredUsers.length - 1 ? '1px solid #eee' : 'none',
+            }}
+            onClick={() => handleUserSelect(user)}
+          >
+            <Image
+              src={imagedrop}
+              alt={user.Name || "Default Profile"}
+              roundedCircle
+              style={{ height: "30px", width: "30px", marginRight: "10px" }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = Profile;
+              }}
+            />
+            <span>{user.Name}</span>
+          </li>
+        );
+      })}
+    </ul>
+  )}
+</div> */}
+
+
+<div style={{ position: 'relative', width: '100%' ,marginRight:20 }}>
+
+   
+         <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+         <Image
+          src={searchteam} // Use your search image here
+          alt="Search"
+          style={{
+            position: 'absolute',
+            left: '10px', 
+            width: '24px', 
+            height: '24px', 
+            pointerEvents: 'none',
+          }}
+        />
+        <input
+          type="text"
+          className="form-control"
+          value={filterInput}
+          onChange={(e) => handlefilterInput(e)}
+          placeholder="Search"
+          style={{
+            width: '100%',
+            paddingLeft: '35px', // Adjust padding to make space for the icon
+            boxShadow: 'none',
+            outline: 'none',
+            borderColor: 'rgb(207,213,219)',
+          }}
+        />
+      </div>
+
+      {isDropdownVisible && filteredUsers.length > 0 && (
+        <ul
+          className="list-group"
+          style={{
+            position: 'absolute',
+            zIndex: 1000,
+            width: '100%',
+            maxHeight: '200px',
+            overflowY: 'auto',
+            marginTop: '5px',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            backgroundColor: 'none',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            padding: 0,
+          }}
+        >
+          {filteredUsers.map((user, index) => {
+            const imagedrop = user.profile || Profile;
+            return (
+              <li
+                key={index}
+                className="list-group-item d-flex align-items-center"
+                style={{
+                  cursor: 'pointer',
+                  padding: '10px 15px',
+                  borderBottom: index !== filteredUsers.length - 1 ? '1px solid #eee' : 'none',
+                 
+                }}
+                onClick={() => handleUserSelect(user)}
+              >
+                <Image
+                  src={imagedrop}
+                  alt={user.Name || "Default Profile"}
+                  roundedCircle
+                  style={{ height: "30px", width: "30px", marginRight: "10px" }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = Profile;
+                  }}
+                />
+                <span>{user.Name}</span>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
+
+
   </>
   :<>
    <div className='me-3'>
-              <Image src={searchteam} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleSearch}/>
+              <Image src={searchteam} roundedCircle style={{ height: "24px", width: "24px" }} onClick={handleSearch}/>
             </div>
   </>
 }
@@ -872,7 +1031,7 @@ console.log("state",state)
                 ))
               ) : (
                 currentItems.map((user) => {
-                  const imageUrl = user.profile || Profile;;
+                  const imageUrl = user.profile || Profile;
                   return (
                     <tr key={user.ID} style={{ fontSize: "16px", fontWeight: 600, textAlign: "center", marginTop: 10 }}>
                       <td style={{ padding: "10px", border: "none" }}>
@@ -1144,7 +1303,7 @@ console.log("state",state)
           AfterEditRoomses={AfterEditRooms}
           AfterEditBeds={AfterEditBed}
 
-          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer} /> : null
+          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer} setSearch ={setSearch} /> : null
       }
      
     </div>
