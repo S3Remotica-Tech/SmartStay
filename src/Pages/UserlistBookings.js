@@ -39,7 +39,7 @@ const initialCustomers = [
 
 function Booking() {
 
-  const [showForm, setShowForm] = useState(false);
+  const [showbookingForm, setShowbookingForm] = useState(false);
   const [activeDotsId, setActiveDotsId] = useState(null);
   const [modalType, setModalType] = useState(null); 
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -49,11 +49,11 @@ function Booking() {
   const calendarRef = useRef(null);
 
   const toggleForm = () => {
-    setShowForm(!showForm);
+    setShowbookingForm(!showbookingForm);
   };
 
   const closeModal = () => {
-    setShowForm(false);
+    setShowbookingForm(false);
   };
 
   const handleDotsClick = (id) => {
@@ -111,40 +111,11 @@ function Booking() {
   }, []);
 
   return (
-    <Container>
-      <div>
-        <div className="customer p-4">
-          <div className="d-flex justify-content-end">
-            <div className="p-2">
-              <Image src={Vector1} roundedCircle style={{ height: "30px", width: "30px", marginTop: "12px" }} alt="User Icon" />
-            </div>
-            <div className="p-2">
-            <Image src={Filters} roundedCircle style={{ height: "30px", width: "30px", marginTop: "12px" }} />
-            </div>
-            <div className="p-2">
-              <Button
-                style={{
-                  fontSize: 16,
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  height: 56,
-                  fontWeight: 600,
-                  borderRadius: 12,
-                  width: 171,
-                  padding: "18px 20px",
-                  fontFamily: "Gilroy"
-                }}
-                onClick={toggleForm}
-              >
-                + New Booking
-              </Button>
-            </div>
-          </div>
-        </div>
+  <>
+      <div className='p-10'>
 
-        <Addbooking show={showForm} handleClose={closeModal} />
-
-        <Table className="table" responsive>
+<div className='p-10' style={{ paddingBottom: "20px"}}  >
+        <Table className="table" responsive >
         <thead style={{ border: "none"}}>
             <tr>
               <th style={{ textAlign: "center", padding: "10px", background: "#E7F1FF", border: "none" }}>
@@ -162,8 +133,8 @@ function Booking() {
           <tbody>
             {customers.map((customer) => (
               <tr key={customer.id} className="customer-row">
-                <td>
-                  <img src={minus} height={20} width={20} alt="minus icon"style={{marginLeft:"20px"}}  />
+                <td style={{ textAlign: "center", padding: "10px", border: "none" }}>
+                  <img src={minus} height={20} width={20} alt="minus icon"  />
                 </td>
                 <td>
                   <div className="d-flex align-items-center">
@@ -336,7 +307,7 @@ function Booking() {
           </tbody>
         </Table>
       </div>
-
+</div>
      
     {/* Edit Modal */}
     <Modal show={modalType === 'edit'}  centered backdrop="static">
@@ -374,45 +345,14 @@ function Booking() {
 
         <Row>
         <Col md={6}>
-  {/* <Form.Group controlId="formJoiningDate" className="mb-3" style={{ position: 'relative' }}>
-    <Form.Label>Joining Date</Form.Label>
-    
-    <Flatpickr
-      className="form-control"
-      placeholder="DD-MM-YYYY"
-      value={selectedCustomer.joiningDate}
-      onChange={([date]) => setSelectedCustomer({ ...selectedCustomer, joiningDate: date })}
-      options={{
-        dateFormat: 'Y-m-d',  
-        altInput: true,       
-        altFormat: 'd-m-Y',   
-        defaultDate: null,    
-      }}
-      style={{ paddingRight: '40px' }} 
-    />
 
-  
-    <img
-      src={Calendars}
-      alt="Calendar"
-      style={{
-        position: 'absolute',
-        top: '70%',
-        right: '10px',
-        transform: 'translateY(-50%)',
-        height: 24,
-        width: 24,
-        pointerEvents: 'none', 
-      }}
-    />
-  </Form.Group> */}
   <Form.Group className="mb-2" controlId="formJoiningDate">
   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
     Joining Date 
   </Form.Label>
 
   <div style={{ position: 'relative',}}>
-    {/* Label for the input field styled like a button with the calendar icon */}
+ 
     <label
       htmlFor="date-input"
       style={{
@@ -429,18 +369,18 @@ function Booking() {
       }}
       onClick={() => {
         if (calendarRef.current) {
-          calendarRef.current.flatpickr.open(); // Opens the calendar on click
+          calendarRef.current.flatpickr.open(); 
         }
       }}
     >
-      {/* Displaying the selected date or placeholder text */}
+    
       {selectedCustomer.joiningDate instanceof Date && !isNaN(selectedCustomer.joiningDate)
-        ? selectedCustomer.joiningDate.toLocaleDateString('en-GB') // Formats date as DD/MM/YYYY
+        ? selectedCustomer.joiningDate.toLocaleDateString('en-GB') 
         : 'DD/MM/YYYY'}
       <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
     </label>
 
-    {/* Flatpickr component with custom options */}
+   
     <Flatpickr
       ref={calendarRef}
       value={selectedCustomer.joiningDate}
@@ -471,7 +411,7 @@ function Booking() {
               <Form.Label>Amount</Form.Label>
               <Form.Control
                 type="text"
-                value={selectedCustomer.amount}
+                // value={selectedCustomer.amount}
                 style={{height:"50px"}}
                 onChange={(e) => setSelectedCustomer({ ...selectedCustomer, amount: e.target.value })}
               />
@@ -503,10 +443,7 @@ function Booking() {
   </Modal.Footer>
 </Modal>
 
-
-
-      {/* Delete Confirmation Modal */}
-      <Modal show={modalType === 'delete'} onHide={handleModalClose}>
+<Modal show={modalType === 'delete'} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>Delete Booking?</Modal.Title>
         </Modal.Header>
@@ -535,7 +472,7 @@ function Booking() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </Container>
+    </>
   );
 }
 
