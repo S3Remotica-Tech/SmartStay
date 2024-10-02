@@ -1,3 +1,5 @@
+import { OccupiedCustomer } from "../Action/PgListAction";
+
 const initialState = {
     Name: '',
     phoneNumber: '',
@@ -43,7 +45,9 @@ const initialState = {
     deletePgError: '',
     deleteBedError: '',
     updateFloorSuccessStatusCode: 0,
-    alreadyfloorNameHere: ''
+    alreadyfloorNameHere: '',
+    OccupiedCustomer:[],
+    OccupiedCustomerGetStatusCode:0,
 
 }
 const PgListReducer = (state = initialState, action) => {
@@ -53,6 +57,14 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, deleteFloor: action.payload.message }
         case 'CLEAR_DELETE_FLOOR':
             return { ...state, deleteFloor: action.message }
+
+case 'OCCUPIED_CUSTOMER':
+    return {...state, OccupiedCustomer:action.payload.response , OccupiedCustomerGetStatusCode:action.payload.statusCode}
+
+case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
+    return {...state, OccupiedCustomerGetStatusCode: 0}
+
+
         case 'DELETE_ROOM':
             return { ...state, deleteRoom: action.payload, statusCodeForDeleteRoom: action.payload.statusCode }
         case 'CLEAR_DELETE_ROOM':

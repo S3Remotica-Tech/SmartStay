@@ -401,7 +401,7 @@ localStorage.setItem('currentPage','compliance');
 
         <Row className='g-0 m-0'  >
           <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block  sidebar" style={{ cursor: "pointer", backgroundColor: '#E0ECFF',  position: "fixed", overflowY:"auto", height: "100vh"}} >
-            <div className="d-flex align-items-center m-3 gap-1 justify-content-center">
+            <div className="d-flex align-items-center m-3 mt-4 gap-1 justify-content-center">
 
               <img src={Smartstay} style={{ fontSize: '15px' }} />
               <div><label className='Title' style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", fontSize:24 }}>Smartstay</label></div>
@@ -487,7 +487,7 @@ localStorage.setItem('currentPage','compliance');
           </Col>
           <Col className="bg-white main-content" lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} >
 
-            <div className='container d-flex justify-content-end align-items-center mr-3' style={{ marginTop:'30px'}}>
+            <div className='container d-flex justify-content-end align-items-center mr-3' style={{ marginTop:'20px'}}>
 
 <div >
   {/* <InputGroup>

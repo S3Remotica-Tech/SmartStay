@@ -43,7 +43,7 @@ function KeyFeature() {
 
 
   return (
-    <div style={{ width: "100%" }}>
+    <div className='' style={{ width: "100%" }}>
       <div className='row row-gap-5 ps-5 pe-5 pb-5'>
 
         <div className='mt-4 mb-4'>

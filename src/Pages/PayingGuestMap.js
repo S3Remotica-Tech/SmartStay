@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Edit from '../Assets/Images/New_images/edit.png';
+// import Edit from '../Assets/Images/New_images/edit.png';
 import Delete from '../Assets/Images/New_images/trash.png';
 import { PiDotsThreeCircleVerticalThin } from "react-icons/pi";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
+import { Edit, Trash } from 'iconsax-react';
 
 
 
@@ -98,7 +99,7 @@ function PayingGuestMap(props) {
 
     const handleDelete = () => {
         setShow(true)
-        
+
 
     }
 
@@ -117,20 +118,20 @@ function PayingGuestMap(props) {
         }
     }, [state.PgList.deletePgSuccessStatusCode])
 
-    
+
     useEffect(() => {
         if (state.PgList?.deletePgError) {
-          setTimeout(() => {
-            dispatch({ type: 'CLEAR_DELETE_PG_ERROR' })
-          }, 3000);    
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_DELETE_PG_ERROR' })
+            }, 3000);
         }
-      }, [state.PgList?.deletePgError]);
+    }, [state.PgList?.deletePgError]);
     return (<>
 
         <Card className="h-100 animated-text" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }} >
             <Card.Body style={{ padding: 20 }}>
                 <div className="d-flex justify-content-between align-items-center flex-wrap" >
-                    <div className='d-flex gap-2'>
+                    <div className='d-flex gap-2 align-items-center'>
                         <div className="">
                             <Image src={props.hostel && props.hostel.profile ? props.hostel.profile : Vendors} roundedCircle style={{ height: "60px", width: "60px" }} />
                         </div>
@@ -156,18 +157,30 @@ function PayingGuestMap(props) {
 
                             {showDots && <>
 
-                                <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                                <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 0, top: 50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                     <div >
-                                        <div className='mb-2'
+                                        <div className='d-flex gap-2 mb-2 align-items-center'
                                             onClick={() => handleEdit(props.hostel)}
                                         >
-                                            <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222", cursor: "pointer" }} >Edit</label>
+                                            {/* <img src={Edit} style={{ height: 16, width: 16 }} />  */}
+                                            <div><Edit size="16" color="#1E45E1" />
+                                            </div>
+                                            <div>
+                                                <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222", cursor: "pointer" }} >Edit</label>
+
+                                            </div>
                                         </div>
-                                        <div
+                                        <div className='d-flex gap-2 mb-2 align-items-center'
                                             onClick={() => handleDelete(props.hostel)}
                                         >
 
-                                            <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
+                                            <div><Trash size="16"
+                                                color="red"
+                                            /></div> 
+                                            <div>
+                                            <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -180,37 +193,37 @@ function PayingGuestMap(props) {
                 </div>
                 <hr style={{ border: "1px solid #E7E7E7" }} />
 
-<div className='row g-2 d-flex justify-content-between m-0'>
-    <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
-<Card className='p-1 m-0' style={{border: "1px solid  rgba(220, 220, 220, 1)",borderRadius:12}}>
-    <label style={{ color: "#222", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", textAlign:"center" }}>Available Beds</label>
-    <div className='text-center'>
-        <label style={{ color: "#222222", fontSize: 24, fontWeight: 600, fontFamily: "Gilroy", textAlign:"center" }}>{props.hostel && props.hostel.Bed}</label>
-    </div>
-</Card>
-    </div>
-    <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
-    <Card className='p-1 m-0'>
-    <label style={{ color: "#222", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", textAlign:"center" }}>Total Rooms</label>
-    <div className='text-center'>
-        <label style={{ color: "#222222", fontSize: 24, fontWeight: 600, fontFamily: "Gilroy", textAlign:"center" }}>{props.hostel && props.hostel.roomCount}</label>
-    </div>
-</Card>
-    </div>
-    <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
-    <Card className='p-1 m-0'>
-    <label style={{ color: "#222", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", textAlign:"center" }}>Occupied Beds</label>
-    <div className='text-center'>
-        <label style={{ color: "#222222", fontSize: 24, fontWeight: 600, fontFamily: "Gilroy", textAlign:"center" }}> {props.hostel && props.hostel.occupied_Bed}</label>
-    </div>
-</Card>
-    </div>
-</div>
+                <div className='row g-2  d-flex justify-content-between m-0'>
+                    <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
+                        <Card className='pt-2 ps-3  m-0' style={{ border: "1px solid  rgba(220, 220, 220, 1)", borderRadius: 12 }}>
+                            <label style={{ color: "#222", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Available Beds</label>
+                            <div className=''>
+                                <label style={{ color: "#222222", fontSize: 24, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center" }}>{props.hostel && props.hostel.Bed}</label>
+                            </div>
+                        </Card>
+                    </div>
+                    <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
+                        <Card className='pt-2 ps-3 m-0' style={{ border: "1px solid  rgba(220, 220, 220, 1)", borderRadius: 12 }}>
+                            <label style={{ color: "#222", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", }}>Total Rooms</label>
+                            <div className=''>
+                                <label style={{ color: "#222222", fontSize: 24, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center" }}>{props.hostel && props.hostel.roomCount}</label>
+                            </div>
+                        </Card>
+                    </div>
+                    <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
+                        <Card className='pt-2 ps-3 m-0' style={{ border: "1px solid  rgba(220, 220, 220, 1)", borderRadius: 12 }}>
+                            <label style={{ color: "#222", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", }}>Occupied Beds</label>
+                            <div className=''>
+                                <label style={{ color: "#222222", fontSize: 24, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center" }}> {props.hostel && props.hostel.occupied_Bed}</label>
+                            </div>
+                        </Card>
+                    </div>
+                </div>
 
                 <div className="d-flex justify-content-between align-items-center mb-1 flex-wrap">
 
-                    <div className='mb-2'>
-                        <div className='mb-1'>
+                    <div className='mb-1'>
+                        <div className=''>
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
                         </div>
                         <div >
@@ -220,8 +233,8 @@ function PayingGuestMap(props) {
 
                     </div>
 
-                    <div className='mb-2'>
-                        <div className='mb-1'>
+                    <div className='mb-1'>
+                        <div className=''>
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</label>
                         </div>
                         <div className='text-center' >
@@ -231,8 +244,8 @@ function PayingGuestMap(props) {
 
                     </div>
 
-                    <div className='mb-2'>
-                        <div className='mb-1'>
+                    <div className='mb-1'>
+                        <div className=''>
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Contact Number</label>
                         </div>
                         <div>
@@ -247,8 +260,8 @@ function PayingGuestMap(props) {
                     </div>
                 </div>
 
-                <div className='mb-2'>
-                    <div className='mb-1'>
+                <div className='mb-1'>
+                    <div className=''>
                         <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}> Address</label>
 
                     </div>

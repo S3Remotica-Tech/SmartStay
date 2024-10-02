@@ -20,18 +20,30 @@ function StaticExample({ show, handleClose, hostelFloor, openFloor , editFloor, 
 
     console.log("state", state)
 
-console.log(" editFloor", editFloor, updateFloor)
+console.log(" edit floor:", editFloor, "update Floor:" ,updateFloor,"hostelFloor:", hostelFloor)
 
     const [floorNo, setFloorNo] = useState('')
     const [floorName, setFloorName] = useState('')
+    const [isChangedError, setIsChangedError] = useState('');
+    const [initialState, setInitialState] = useState({
+        floorNo: '',
+    });
+
+console.log("floorNo",floorNo)
 
 
-useEffect(()=>{
-    if(editFloor){
-         setFloorNo(editFloor.floorName)
-    }
-    
-},[editFloor])
+    useEffect(() => {
+        if (editFloor) {
+            setFloorNo(editFloor.floorName);
+            setInitialState({
+                floorNo: editFloor.floorName || '',
+            });
+        }else{
+            setFloorNo('')
+        }
+    }, [editFloor]);
+
+
 
 
 
@@ -39,6 +51,7 @@ useEffect(()=>{
         setFloorNo(e.target.value)
         dispatch({ type: 'CLEAR_ALREADY_FLOOR_ERROR' })
         dispatch({ type: 'CLEAR_UPDATE_FLOOR_ERROR' })
+        setIsChangedError('');
     }
 
 
@@ -69,10 +82,20 @@ const [floorId, setFloorId] = useState('')
         //                setFloorError('Please enter a valid Floor no.(must be a positive number greater than 0)')
         //     return;
         //   }
+        const isChanged = floorNo !== initialState.floorNo;
+
+      
+
 
 
         if (!floorNo) {
             setFloorError('Please enter a valid Floor name or no.')
+            return;
+        }
+
+
+        if (!isChanged) {
+            setIsChangedError('No changes detected');
             return;
         }
 
@@ -132,13 +155,13 @@ if(updateFloor){
 
     };
 
-    // useEffect(() => {
-    //     if (state.UsersList.createFloorSuccessStatusCode == 200) {
-    //         openFloor(floorNo)
+    useEffect(() => {
+        if (state.UsersList.createFloorSuccessStatusCode == 200) {
+            setFloorNo('')
          
-    //     }
+        }
     
-    //   }, [state.UsersList.createFloorSuccessStatusCode])
+      }, [state.UsersList.createFloorSuccessStatusCode])
 
 
 
@@ -237,7 +260,14 @@ if(updateFloor){
                     )}
 
 
-
+{isChangedError && (
+                        <div className="d-flex align-items-center p-1 mb-2">
+                            <MdError style={{ color: "red", marginRight: '5px' }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontWeight: 500 }}>
+                                {isChangedError}
+                            </label>
+                        </div>
+                    )}
 
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 

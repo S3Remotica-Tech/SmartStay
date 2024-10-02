@@ -143,11 +143,11 @@ useEffect(() => {
           <div className='row mt-2'>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Bed no. <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Bed name or no. <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                 <Form.Control 
  value={bedNo}
  onChange={handleBedNoChange}
-                 type="text" placeholder="Enter bed no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:bedNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                 type="text" placeholder="Enter bed name or no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:bedNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>

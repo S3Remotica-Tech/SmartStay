@@ -13,6 +13,7 @@ import {
   EB_Customerlist,
   EB_startmeterlist,
   createAllPGDetails,
+  OccupiedCustomer,
 } from "../Action/PgListAction";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
@@ -43,7 +44,10 @@ function* handlePgList(datum) {
     fontFamily: "Gilroy",
     fontWeight: 600,
     fontSize: 14,
-    textAlign: "center",
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
    
   };
 
@@ -94,8 +98,12 @@ function* handleCreateRoom(datum) {
     fontFamily: "Gilroy",
     fontWeight: 600,
     fontSize: 14,
-    textAlign: "center",
-     };
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
+   
+  };
   if (response.status === 200 || response.statusCode === 200) {
     yield put({
       type: "CREATE_ROOM",
@@ -204,7 +212,10 @@ function* handleCreateEB(action) {
       fontFamily: "Gilroy",
       fontWeight: 600,
       fontSize: 14,
-      textAlign: "center",
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
      
     };
 
@@ -328,7 +339,10 @@ function* handleCreateBed(action) {
     fontFamily: "Gilroy",
     fontWeight: 600,
     fontSize: 14,
-    textAlign: "center",
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
    
   };
 
@@ -382,7 +396,10 @@ function* handleDeleteBed(action) {
     fontFamily: "Gilroy",
     fontWeight: 600,
     fontSize: 14,
-    textAlign: "center",
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
    
   };
 
@@ -431,7 +448,10 @@ function* handleDeletePG(action) {
     fontFamily: "Gilroy",
     fontWeight: 600,
     fontSize: 14,
-    textAlign: "center",
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
    
   };
   if (response.status === 200 || response.statusCode === 200) {
@@ -478,7 +498,10 @@ function* handleUpdateFloor(action) {
     fontFamily: "Gilroy",
     fontWeight: 600,
     fontSize: 14,
-    textAlign: "center",
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
    
   };
   if (response.status === 200 || response.statusCode === 200) {
@@ -508,6 +531,33 @@ function* handleUpdateFloor(action) {
   }
 }
 
+
+function* handleOccupiedCustomer(action) {
+  const response = yield call(OccupiedCustomer, action.payload);
+  console.log("response update floor", response);
+ 
+  if (response.status === 200 || response.statusCode === 200) {
+    yield put({
+      type: "OCCUPIED_CUSTOMER",
+      payload: {
+        response: response.data.user_details,
+        statusCode: response.status || response.statusCode,
+      },
+    });
+   
+  } else {
+    yield put({ type: "ERROR", payload: response.data.message });
+  }
+  if (response) {
+    refreshToken(response);
+  }
+}
+
+
+
+
+
+
 function refreshToken(response) {
   if (response.data && response.data.refresh_token) {
     const refreshTokenGet = response.data.refresh_token;
@@ -535,5 +585,8 @@ function* PgListSaga() {
   yield takeEvery("DELETEBED", handleDeleteBed);
   yield takeEvery("DELETEPG", handleDeletePG);
   yield takeEvery("UPDATEFLOOR", handleUpdateFloor);
+  yield takeEvery("OCCUPIEDCUSTOMER", handleOccupiedCustomer);
+
+
 }
 export default PgListSaga;

@@ -25,7 +25,34 @@ function AddBed({ show, handleClose, currentItem }) {
 
     console.log("add bed state", state)
 
-    const [customer, setCustomer] = useState('')
+    const [customer, setCustomer] = useState([])
+
+    useEffect(()=>{
+
+           const Hostel_Id = currentItem.room.Hostel_Id;
+            const Floor_Id = currentItem.room.Floor_Id;
+            const Bed_Id = currentItem.bed.bed_no;
+            const Room_Id = currentItem.room.Room_Id;
+
+if(Hostel_Id && Floor_Id && Bed_Id && Room_Id){
+        dispatch({ type: 'OCCUPIEDCUSTOMER', payload:{ hostel_id: Hostel_Id, floor_id : Floor_Id ,room_id:Room_Id, bed :Bed_Id}})
+}
+    },[currentItem])
+
+
+useEffect(()=>{
+    if(state.PgList.OccupiedCustomerGetStatusCode == 200){
+        setCustomer(state.PgList.OccupiedCustomer)
+        setTimeout(()=>{
+dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE'})
+        },2000)
+    }
+    
+
+},[state.PgList.OccupiedCustomerGetStatusCode])
+
+
+
 
 
     // useEffect(() => {
@@ -45,33 +72,33 @@ function AddBed({ show, handleClose, currentItem }) {
     //     }
     // }, [currentItem,show])
 
-    useEffect(() => {
-        if (currentItem) {
-            const Hostel_Id = currentItem.room.Hostel_Id;
-            const Floor_Id = currentItem.room.Floor_Id;
-            const Bed_Id = currentItem.bed.bed_no;
-            const Room_Id = currentItem.room.Room_Id;
+//     useEffect(() => {
+//         if (currentItem) {
+//             const Hostel_Id = currentItem.room.Hostel_Id;
+//             const Floor_Id = currentItem.room.Floor_Id;
+//             const Bed_Id = currentItem.bed.bed_no;
+//             const Room_Id = currentItem.room.Room_Id;
     
-            console.log("Math", Hostel_Id, Floor_Id, Room_Id ,Bed_Id,)
-            const FilteredCustomer = state.UsersList.Users.filter((view) => {
+//             console.log("Math", Hostel_Id, Floor_Id, Room_Id ,Bed_Id,)
+//             const FilteredCustomer = state.UsersList.Users.filter((view) => {
 
-console.log("view",view.Hostel_Id,view.Floor , view.Rooms,view.Bed)
+// console.log("view",view.Hostel_Id,view.Floor , view.Rooms,view.Bed)
 
-                return (
-                    view.Hostel_Id == Hostel_Id && 
-                    view.Floor == Floor_Id && 
-                    view.Rooms == Room_Id &&  
-                    view.Bed == Bed_Id        
-                );
-            });
+//                 return (
+//                     view.Hostel_Id == Hostel_Id && 
+//                     view.Floor == Floor_Id && 
+//                     view.Rooms == Room_Id &&  
+//                     view.Bed == Bed_Id        
+//                 );
+//             });
          
             
             
     
-            console.log("FilteredCustomer", FilteredCustomer);
-            setCustomer(FilteredCustomer);
-        }
-    }, [currentItem, show]);
+//             console.log("FilteredCustomer", FilteredCustomer);
+//             setCustomer(FilteredCustomer);
+//         }
+//     }, [currentItem, show]);
     
     useEffect(() => {
         const closeButton = document.querySelector('button[aria-label="close-button"]');
@@ -111,7 +138,7 @@ console.log("view",view.Hostel_Id,view.Floor , view.Rooms,view.Bed)
                             <div key={custom.id} className="p-0 m-0"  style={{}}>
 
                                 <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                                    <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Bed {custom.Bed}</Modal.Title>
+                                    <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Bed {currentItem.bed.bed_no}</Modal.Title>
                                 </Modal.Header>
 
                                 <Modal.Body >
