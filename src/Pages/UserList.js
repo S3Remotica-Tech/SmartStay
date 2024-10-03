@@ -157,6 +157,9 @@ console.log("state",state)
     setEditObj(u)
     setemail_id(u.Email)
     setSearch(false)
+    setFilterInput('')
+ 
+  
 
   };
 
@@ -735,12 +738,6 @@ console.log("state",state)
             setShowDots(false);
         }
       };
-      // useEffect(() => {
-      //   document.addEventListener('mousedown', handleClickOutside);
-      //   return () => {
-      //       document.removeEventListener('mousedown', handleClickOutside);
-      //   };
-      // }, []);
 
 
       useEffect(() => {
@@ -755,18 +752,12 @@ console.log("state",state)
         };
       }, [popupRef]);
       const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-      // const handleUserSelect = (user) => {
-        
-      //   setFilterInput(user.Name); 
-      //   setFilteredUsers([]); 
-      //   console.log("User selected:", user);
-      // };
   
       const handleUserSelect = (user) => {
-        // Set the selected user's name in the search bar
+       
         setFilterInput(user.Name);
-        setFilteredUsers([]); // Optionally clear the dropdown after selection
-        setDropdownVisible(false); // Close the dropdown after selection
+        setFilteredUsers([]); 
+        setDropdownVisible(false); 
         console.log("User selected:", user);
       };  
       
@@ -786,79 +777,7 @@ console.log("state",state)
           <div className="customerfilling d-flex justify-content-between align-items-center ">
 {
   search ? <>
-     {/* <div className="input-group" style={{ maxWidth: '300px',marginRight:20 }}>
-      <span className="input-group-text bg-white border-end-0">
-        
-        <Image src={searchteam}  style={{ height: 20, width:20 }} />
-      </span>
-      <input
-        type="text"
-        className="form-control border-start-0"
-        placeholder="Search"
-        aria-label="Search"
-        style={{ boxShadow: 'none', outline: 'none',borderColor:"rgb(207,213,219)" }}
-        value={filterInput}
-        onChange={(e)=>handlefilterInput(e)}
-      />
-    </div> */}
-    {/* <div style={{ position: 'relative', width: '100%' }}> 
-  <input
-    type="text"
-    className="form-control"
-    value={filterInput}
-    onChange={(e) => handlefilterInput(e)} 
-    placeholder="Search"
-    style={{ width: '100%' }} 
-  />
-  
- 
-  {filterInput && filteredUsers.length > 0 && (
-    <ul
-      className="list-group"
-      style={{
-        position: 'absolute',
-        zIndex: 1000,
-        width: '100%', 
-        maxHeight: '200px',
-        overflowY: 'auto',
-        marginTop: '5px',
-        border: '1px solid #ccc',
-        borderRadius: '4px',
-        backgroundColor: '#fff',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', 
-        padding: 0,
-      }}
-    >
-      {filteredUsers.map((user, index) => {
-        const imagedrop = user.profile || Profile;
-        return (
-          <li
-            key={index}
-            className="list-group-item d-flex align-items-center"
-            style={{
-              cursor: 'pointer',
-              padding: '10px 15px',
-              borderBottom: index !== filteredUsers.length - 1 ? '1px solid #eee' : 'none',
-            }}
-            onClick={() => handleUserSelect(user)}
-          >
-            <Image
-              src={imagedrop}
-              alt={user.Name || "Default Profile"}
-              roundedCircle
-              style={{ height: "30px", width: "30px", marginRight: "10px" }}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = Profile;
-              }}
-            />
-            <span>{user.Name}</span>
-          </li>
-        );
-      })}
-    </ul>
-  )}
-</div> */}
+
 
 
 <div style={{ position: 'relative', width: '100%' ,marginRight:20 }}>
@@ -876,7 +795,7 @@ console.log("state",state)
             pointerEvents: 'none',
           }}
         />
-         <div className="input-group" style={{ maxWidth: '300px',marginRight:20 }}>
+         <div className="input-group" style={{marginRight:20,height:50,width:280 }}>
       <span className="input-group-text bg-white border-end-0">
         
         <Image src={searchteam}  style={{ height: 20, width:20 }} />
@@ -890,17 +809,15 @@ console.log("state",state)
         value={filterInput}
         onChange={(e)=>handlefilterInput(e)}
       />
+ 
 
-<InputGroup.Text style={{ backgroundColor: "#ffffff",borderLeft:"none" }}>
-                      <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-                    </InputGroup.Text>
     </div>
       
       </div>
 
       {isDropdownVisible && filteredUsers.length > 0 && (
   <div
-  style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff", width:"94%", }}
+  style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 60, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff", width:"94%", }}
   >
     <ul
       className='show-scroll p-0'
@@ -996,6 +913,7 @@ console.log("state",state)
             tableLayout: "auto",
             borderRadius: "24px",
             border: "1px solid #DCDCDC",
+            
 
           }}  >
             <thead  style={{

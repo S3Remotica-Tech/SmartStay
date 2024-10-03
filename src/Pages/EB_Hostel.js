@@ -599,12 +599,17 @@ console.log("selectedDate",selectedDate)
       <div style={{ padding: 15 }}>
       {currentRowelectricity.length > 0 && (
   <Table
-    className="ebtable mt-3"
-    responsive
-    style={{
-      tableLayout: "fixed", // Ensures uniform column widths
-      width: "100%",
-    }}
+  responsive ="md"
+  className='Table_Design'
+  style={{
+    height: "auto",
+    overflow: "visible",
+    tableLayout: "auto",
+    borderRadius: "24px",
+    border: "1px solid #DCDCDC",
+    
+
+  }} 
   >
     <thead
       style={{
@@ -617,9 +622,11 @@ console.log("selectedDate",selectedDate)
         <th
           style={{
             textAlign: "center",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            paddingRight: "10px",
+            fontFamily: "Gilroy",
+            color: "rgba(34, 34, 34, 1)",
+            fontSize: 14,
+            fontWeight: 600,
+            borderTopLeftRadius: 24
           }}
         >
           <img src={squre} height={20} width={20} />
@@ -717,13 +724,12 @@ console.log("selectedDate",selectedDate)
         </th>
         <th
           style={{
-            color: "#939393",
-            fontWeight: 500,
-            fontSize: "14px",
-            fontFamily: "Gilroy",
-            paddingTop: "10px",
-            paddingBottom: "10px",
             textAlign: "center",
+            fontFamily: "Gilroy",
+            color: "rgba(34, 34, 34, 1)",
+            fontSize: 14,
+            fontWeight: 600,
+            borderTopRightRadius: 24
           }}
         >
           Amount
@@ -798,7 +804,8 @@ console.log("selectedDate",selectedDate)
                   fontWeight: 500,
                   fontFamily: "Gilroy",
                   textAlign: "center",
-                  verticalAlign: "middle", // Center vertically
+                  verticalAlign: "middle",
+                  borderBottom:"none"
                 }}
               >
                 {v.Floor}
@@ -809,7 +816,8 @@ console.log("selectedDate",selectedDate)
                   fontWeight: 500,
                   fontFamily: "Gilroy",
                   textAlign: "center",
-                  verticalAlign: "middle", // Center vertically
+                  verticalAlign: "middle",
+                  borderBottom:"none" 
                 }}
               >
                 {v.Room}
@@ -820,7 +828,8 @@ console.log("selectedDate",selectedDate)
                   fontWeight: 500,
                   fontFamily: "Gilroy",
                   textAlign: "center",
-                  verticalAlign: "middle", // Center vertically
+                  verticalAlign: "middle",
+                   borderBottom:"none"
                 }}
               >
                 {v.start_Meter_Reading}
@@ -831,7 +840,8 @@ console.log("selectedDate",selectedDate)
                   fontWeight: 500,
                   fontFamily: "Gilroy",
                   textAlign: "center",
-                  verticalAlign: "middle", // Center vertically
+                  verticalAlign: "middle", 
+                   borderBottom:"none"
                 }}
               >
                 {v.end_Meter_Reading}
@@ -840,6 +850,7 @@ console.log("selectedDate",selectedDate)
                 style={{
                   textAlign: "center",
                   verticalAlign: "middle", // Center vertically
+                   borderBottom:"none"
                 }}
               >
                 <span
@@ -865,6 +876,7 @@ console.log("selectedDate",selectedDate)
                   fontFamily: "Gilroy",
                   textAlign: "center",
                   verticalAlign: "middle", // Center vertically
+                   borderBottom:"none"
                 }}
               >
                 {v.Eb_Unit}
@@ -875,7 +887,8 @@ console.log("selectedDate",selectedDate)
                   fontWeight: 500,
                   fontFamily: "Gilroy",
                   textAlign: "center",
-                  verticalAlign: "middle", // Center vertically
+                  verticalAlign: "middle", 
+                   borderBottom:"none"
                 }}
               >
                 {v.EbAmount}

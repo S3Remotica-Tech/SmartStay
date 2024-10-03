@@ -741,7 +741,18 @@ function UserlistForm(props) {
     } else {
       setAdvanceAmountError("");
     }
-
+    if (Floor === 'Selected Floor' || floorError) {
+      setfloorError('Please select a valid PG'); 
+      return; // Prevent save
+  }
+  if (Rooms === 'Selected Room' || roomError) {
+    setRoomError('Please select a valid PG'); 
+    return; // Prevent save
+}
+if (Bed === 'Selected Bed' || bedError) {
+  setBedError('Please select a valid PG'); 
+  return; // Prevent save
+}
     if (Floor && Rooms && Bed) {
       dispatch({
         type: "ADDUSER",
@@ -1478,7 +1489,7 @@ function UserlistForm(props) {
   id="form-selects"
   onChange={(e) => handleBed(e)}
 >
-  <option>Select a Bed</option>
+  <option>Selected Bed</option>
 
   {props.edit === "Edit" &&
     Bednum &&
