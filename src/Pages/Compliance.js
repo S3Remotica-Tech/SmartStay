@@ -455,17 +455,17 @@ const Compliance = () => {
   }
  
 
-  if(!Assign){
-    setAssignErrmsg('Please Select Assign')
-    return;
-  }
+  // if(!Assign){
+  //   setAssignErrmsg('Please Select Assign')
+  //   return;
+  // }
 
   if (!Status){
     setStatusErrmsg('Please Select status')
     return;
   }
 
-  if(!selectedUsername ||!Complainttype || !selectedDate || !Assign ||  !Status){
+  if(!selectedUsername || !Complainttype || !selectedDate  ||  !Status){
     setTotalErrmsg('Please Enter All field')
     setTimeout(()=> {
       setTotalErrmsg('')
@@ -908,7 +908,7 @@ const Compliance = () => {
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Assignee<span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                        Assignee<span style={{ color: 'transparent', fontSize: '20px' }}>*</span>
                       </Form.Label>
                       <Form.Select
                         className='border'
