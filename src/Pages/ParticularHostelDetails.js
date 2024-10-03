@@ -317,6 +317,8 @@ console.log("currentItems Room", currentItems);
     setShowRoom(true)
     console.log("add room", floor_Id, hostel_Id)
     setHostelDetails({ hostel_Id, floor_Id });
+    setEditRoom({ hostel_Id: null, floor_Id: null, room_Id: null })
+
   }
   const handlecloseRoom = () => {
     setShowRoom(false)
@@ -342,6 +344,7 @@ console.log("currentItems Room", currentItems);
   const handleEditRoom = (Hostel_Id, Floor_Id, Room_Id) => {
     setShowRoom(true)
     setEditRoom({ hostel_Id: Hostel_Id, floor_Id: Floor_Id, room_Id: Room_Id })
+    setHostelDetails({ room: null, selectedFloor: null })
   }
 
 

@@ -139,7 +139,7 @@ console.log("activeLink",activeLink)
     return (
         <>
             <div>
-                <Navbar collapseOnSelect expand="lg"  fixed="top" className="" style={{ backgroundColor: "#FFFFFF", top:10 }} transparent>
+                <Navbar collapseOnSelect expand="lg"  fixed="top" className="" style={{ backgroundColor: "#FFFFFF",  }} transparent>
                     <Container>
                         <Navbar.Brand><img src={Logo} style={{ width: 176.45, height:33}} /> 
                         {/* <img src={Smart} style={{ height: 20, width: 133 }} /> */}
