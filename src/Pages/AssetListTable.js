@@ -232,9 +232,9 @@ useEffect(() => {
 
     {/* <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>₹{props.item.total_price.toLocaleString('en-IN')}</td> */}
    
-    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 14, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.hostel_Name || "N/A"}</td>
-    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 14, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.floor_name || "N/A"}</td>
-    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 14, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.room_id || "N/A"}</td>
+    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 14, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.hostel_Name || "-"}</td>
+    {/* <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 14, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.floor_name || "N/A"}</td>
+    <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 14, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.room_id || "N/A"}</td> */}
 
 
 
@@ -246,28 +246,28 @@ useEffect(() => {
      
 {showDots  && <>
 <div ref={popupRef} 
-style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", 
+style={{cursor:"pointer",backgroundColor: "#EBEBEB", position: "absolute", 
   right: 40, top:10, width: 163, height:"auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center" ,zIndex: 1000}}
 
 
 >
-<div  style={{backgroundColor: "#fff"}} className=''>
+<div  style={{backgroundColor: "#EBEBEB"}} className=''>
 
 <div className='mb-2 d-flex justify-content-start align-items-center gap-2' 
   onClick={()=>handleAssignAsset(props.item)}
-  style={{backgroundColor: "#fff", cursor:"pointer"}}
+  style={{backgroundColor: "#EBEBEB", cursor:"pointer"}}
    >
     <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{cursor:"pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" ,cursor:"pointer"}} >{props.item.hostel_id  ? 'Reassign asset':'Assign asset'}</label>
   </div>
  
   <div className='mb-2 d-flex justify-content-start align-items-center gap-2' 
   onClick={()=>handleEdit(props.item)}
-  style={{backgroundColor: "#fff",cursor:"pointer"}}
+  style={{backgroundColor: "#EBEBEB",cursor:"pointer"}}
    >
     <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222",cursor:"pointer" }} >Edit</label>
   </div>
   <div   className='mb-1 d-flex justify-content-start align-items-center gap-2'
-  style={{backgroundColor: "#fff", cursor:props.item.hostel_id  ? "not-allowed": "pointer"  }}
+  style={{backgroundColor: "#EBEBEB", cursor:props.item.hostel_id  ? "not-allowed": "pointer"  }}
   onClick={() => !props.item.hostel_id && handleDelete(props.item)}
   > 
     <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" ,cursor:props.item.hostel_id  ? "not-allowed": "pointer"}}>Delete</label>

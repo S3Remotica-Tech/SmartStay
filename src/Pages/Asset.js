@@ -12,7 +12,7 @@ import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
 import AssetListTable from './AssetListTable'
-
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 
 function Asset() {
@@ -353,9 +353,9 @@ function Asset() {
                 <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Price</th>
                 <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Purchase Date</th>
                 {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Price</th> */}
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Paying Guest</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Floor Name</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Room</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Assigned</th>
+                {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Floor Name</th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Room</th> */}
 
 
 
@@ -374,26 +374,32 @@ function Asset() {
           <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
           <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
           <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          {/* <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
           <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td> */}
         </tr>
       </>
-    ) : (
-      currentItems && currentItems.length > 0 ? (
+    ) 
+    
+    
+    
+    : (
+      currentItems && currentItems.length > 0 && (
         <>
           {currentItems.map((item) => (
             <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} />
           ))}
         </>
-      ) : (
-        <tr style={{border:"none"}}>
-        <td colSpan="10" style={{ textAlign: "center", padding: "20px", color: "red",border:"none" }}>
-          <h5 style={{ fontSize: 14 }}>No Asset Found</h5>
-        </td>
-      </tr>
+      ) 
+      
+      // : (
+      //   <tr style={{border:"none"}}>
+      //   <td colSpan="10" style={{ textAlign: "center", padding: "20px", color: "red",border:"none" }}>
+      //     <h5 style={{ fontSize: 14 }}>No Asset Found</h5>
+      //   </td>
+      // </tr>
         
-      )
+      // )
     )
   }
 </tbody>
@@ -437,7 +443,27 @@ function Asset() {
           </Table>
 
 
+{
+ currentItems && currentItems.length < 0 && 
 
+ <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+
+ <div>
+   <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+   <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
+   <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
+   <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
+   onClick={handleShow}
+   > + Add an asset</Button>
+   </div>
+ </div>
+ <div>
+
+ </div>
+</div>
+
+
+}
         
 
 
