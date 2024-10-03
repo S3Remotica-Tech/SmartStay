@@ -304,19 +304,14 @@ function EB_Hostel() {
       return true;
     }
   };
-  // const validateStartMeter = () => {
-  //   if (!startmeterValue || startmeterValue === 0) {
-  //     setstartMeterError("Start meter is required");
-  //     return false;
-  //   } else {
-  //     setstartMeterError(""); // Clear error if value is present
-  //     return true;
-  //   }
-  // };
+  
   const handleDate =(selectedDates)=>{
     setSelectedDate(selectedDates[0])
     setDateError('')
+    console.log("selectedDates",selectedDates)
   }
+
+
 
   const handleClose = () => {
     setaddEbDetail(false);
@@ -332,8 +327,6 @@ function EB_Hostel() {
     setFloor("");
     setSelectedDate("");
     setDateError("")
-
-    // setstartMeterError("");
   };
 
   const handleSaveEbBill = () => {
@@ -341,10 +334,7 @@ function EB_Hostel() {
     const isHostelValid = validateAssignField(selectedHostel, "Hostel ID");
     const isFloorValid = validateAssignField(Floor, "Floor");
     const isRoomValid = validateAssignField(Rooms, "Rooms");
-    // const isStartMeterValid = validateAssignField(
-    //   startmeterValue,
-    //   "startmeter"
-    // );
+   
     const isEndMeterValid = validateAssignField(endmeter, "endmeter");
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
 
@@ -355,10 +345,15 @@ function EB_Hostel() {
     ) {
       return;
     }
-
-    // Dispatch based on whether or not floor and room values exist
+console.log("selectedDate",selectedDate)
     if (selectedHostel && Floor && Rooms && endmeter && selectedDate) {
-      const formattedDate = selectedDate.toISOString().split("T")[0];
+      const incrementDateAndFormat = (date) => {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + 1); 
+    
+        return newDate.toISOString().split("T")[0]; 
+    };
+    const formattedDate = selectedDate ? incrementDateAndFormat(selectedDate) : '';
       dispatch({
         type: "CREATEEB",
         payload: {

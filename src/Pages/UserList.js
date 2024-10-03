@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import "./UserList.css";
-import { Dropdown, Table } from 'react-bootstrap';
+import { Dropdown, Table,FormControl, InputGroup, } from 'react-bootstrap';
 import { Button, Offcanvas, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Plus from '../Assets/Images/Create-button.png';
@@ -27,6 +27,7 @@ import Delete from '../Assets/Images/Trash-Linear-32px.png';
 import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png'
 import Download from '../Assets/Images/New_images/download.png';
 import addcircle from '../Assets/Images/New_images/add-circle.png';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort } from 'iconsax-react';
 
 
 
@@ -767,7 +768,11 @@ console.log("state",state)
         setFilteredUsers([]); // Optionally clear the dropdown after selection
         setDropdownVisible(false); // Close the dropdown after selection
         console.log("User selected:", user);
-      };    
+      };  
+      
+  const handleCloseSearch = () => {
+   setSearch(false)
+  }  
   return (
     <div className=' p-2' >
 
@@ -861,7 +866,7 @@ console.log("state",state)
    
          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
          <Image
-          src={searchteam} // Use your search image here
+          src={searchteam}
           alt="Search"
           style={{
             position: 'absolute',
@@ -871,69 +876,81 @@ console.log("state",state)
             pointerEvents: 'none',
           }}
         />
-        <input
-          type="text"
-          className="form-control"
-          value={filterInput}
-          onChange={(e) => handlefilterInput(e)}
-          placeholder="Search"
-          style={{
-            width: '100%',
-            paddingLeft: '35px', // Adjust padding to make space for the icon
-            boxShadow: 'none',
-            outline: 'none',
-            borderColor: 'rgb(207,213,219)',
-          }}
-        />
+         <div className="input-group" style={{ maxWidth: '300px',marginRight:20 }}>
+      <span className="input-group-text bg-white border-end-0">
+        
+        <Image src={searchteam}  style={{ height: 20, width:20 }} />
+      </span>
+      <input
+        type="text"
+        className="form-control border-start-0"
+        placeholder="Search"
+        aria-label="Search"
+        style={{ boxShadow: 'none', outline: 'none',borderColor:"rgb(207,213,219)" }}
+        value={filterInput}
+        onChange={(e)=>handlefilterInput(e)}
+      />
+
+<InputGroup.Text style={{ backgroundColor: "#ffffff",borderLeft:"none" }}>
+                      <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                    </InputGroup.Text>
+    </div>
+      
       </div>
 
       {isDropdownVisible && filteredUsers.length > 0 && (
-        <ul
-          className="list-group"
-          style={{
-            position: 'absolute',
-            zIndex: 1000,
-            width: '100%',
-            maxHeight: '200px',
-            overflowY: 'auto',
-            marginTop: '5px',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
-            backgroundColor: 'none',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-            padding: 0,
-          }}
-        >
-          {filteredUsers.map((user, index) => {
-            const imagedrop = user.profile || Profile;
-            return (
-              <li
-                key={index}
-                className="list-group-item d-flex align-items-center"
-                style={{
-                  cursor: 'pointer',
-                  padding: '10px 15px',
-                  borderBottom: index !== filteredUsers.length - 1 ? '1px solid #eee' : 'none',
-                 
-                }}
-                onClick={() => handleUserSelect(user)}
-              >
-                <Image
-                  src={imagedrop}
-                  alt={user.Name || "Default Profile"}
-                  roundedCircle
-                  style={{ height: "30px", width: "30px", marginRight: "10px" }}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = Profile;
-                  }}
-                />
-                <span>{user.Name}</span>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+  <div
+  style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff", width:"94%", }}
+  >
+    <ul
+      className='show-scroll p-0'
+      style={{
+       
+        backgroundColor: '#fff',
+        borderRadius: '4px',
+        // maxHeight: 174,
+        maxHeight: filteredUsers.length > 1 ? '174px' : 'auto',
+        minHeight: 100,
+        overflowY: filteredUsers.length > 1 ? 'auto' : 'hidden',
+      
+        margin: '0',
+        listStyleType: 'none',
+        borderRadius: 8,
+        boxSizing: 'border-box',
+      }}
+    >
+      {filteredUsers.map((user, index) => {
+        const imagedrop = user.profile || Profile;
+        return (
+          <li
+            key={index}
+            className="list-group-item d-flex align-items-center"
+            style={{
+              cursor: 'pointer',
+              padding: '10px 5px',
+              borderBottom:
+                index !== filteredUsers.length - 1 ? '1px solid #eee' : 'none',
+            }}
+            onClick={() => handleUserSelect(user)}
+          >
+            <Image
+              src={imagedrop}
+              alt={user.Name || 'Default Profile'}
+              roundedCircle
+              style={{ height: '30px', width: '30px', marginRight: '10px' }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = Profile;
+              }}
+            />
+            <span>{user.Name}</span>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+)}
+
     </div>
 
 

@@ -1060,7 +1060,8 @@ const handleDropDown = (value)=>{
                         //  '::placeholder': { color: "#222", fontWeight: 500 } 
                         }}
                       placeholder="Search..."
-                    /><InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
+                    />
+                    <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
                       <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
                     </InputGroup.Text>
                   </InputGroup>
