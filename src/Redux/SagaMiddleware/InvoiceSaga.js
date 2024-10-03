@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice} from "../Action/InvoiceAction"
+import {invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,ManualInvoiceNumber} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
@@ -239,6 +239,108 @@ function* handleManualInvoice() {
       refreshToken(response)
    }
 }
+function* handleManualInvoiceNumber(params) {
+   const response = yield call(ManualInvoiceNumber , params.payload)
+   console.log("response",response);
+   
+  
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'MANUAL_INVOICE_NUMBER_GET' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
+      console.log("MANUAL_INVOICE_NUMBER_GET success");
+      
+      // Define the style
+      var toastStyle = {
+         backgroundColor: 'green',
+         color: 'white',
+         width: "100%",
+        
+      };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         position: 'top-center',
+         autoClose: 1000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+function* handleManualInvoiceGetData(params) {
+   const response = yield call(ManualInvoiceUserData , params.payload)
+  
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'MANUAL_INVOICE_AMOUNT_GET' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
+      // Define the style
+      var toastStyle = {
+         backgroundColor: 'green',
+         color: 'white',
+         width: "100%",
+        
+      };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         position: 'top-center',
+         autoClose: 1000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+function* handleManualInvoiceAdd (params) {
+   const response = yield call (AddManualInvoiceBill,params.payload);
+ 
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'MANUAL_INVOICE_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
+      // Define the style
+      var toastStyle = {
+         backgroundColor: 'green',
+         color: 'white',
+         width: "100%",
+        
+      };
+ 
+       // Use the toast with the defined style
+       toast.success(response.data.message, {
+         position: 'top-center',
+         autoClose: 2000, 
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
 
 function refreshToken(response){
    if(response.data && response.data.refresh_token){
@@ -266,5 +368,8 @@ function* InvoiceSaga() {
     yield takeEvery('AMENITIESLIST',handleGetAmenities)
     yield takeEvery('AMENITIESUPDATE',handleUpdateAmenities)
    yield takeEvery('MANUALINVOICE',handleManualInvoice)
+   yield takeEvery('MANUAL-INVOICE-NUMBER-GET',handleManualInvoiceNumber)
+   yield takeEvery('GET-MANUAL-INVOICE-AMOUNTS',handleManualInvoiceGetData)
+   yield takeEvery('MANUAL-INVOICE-ADD',handleManualInvoiceAdd)
 }
 export default InvoiceSaga;

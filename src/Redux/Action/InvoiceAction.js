@@ -24,6 +24,23 @@ export async function UpdateInvoice(datum) {
     return await AxiosConfig.get('/manual/manual-invoice',{
     })
   }
+  export async function ManualInvoiceNumber(invoicenumber) {
+    return await AxiosConfig.post('/get_invoice_id',invoicenumber,{ //manual invoice number
+    data: invoicenumber
+    })
+  }
+  
+  export async function ManualInvoiceUserData(amountdata) {
+    return await AxiosConfig.post('/get_user_amounts',amountdata ,{ // table amount data
+     data : amountdata
+    })
+  }
+
+  export async function AddManualInvoiceBill(manualinvoice) {
+    return await AxiosConfig.post('/compliance/add-details', manualinvoice, { // create new bill
+      data: manualinvoice
+    })
+  }
 
   export async function InvoicePDf(datum) {
     return await AxiosConfig.post('/invoice/invoice-list-pdf',datum, {
