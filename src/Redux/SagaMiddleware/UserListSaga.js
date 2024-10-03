@@ -327,7 +327,10 @@ function* handleAddUser(datum) {
          fontFamily: "Gilroy",
          fontWeight: 600,
          fontSize: 14,
-         textAlign: "center",
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
         
        };
    
