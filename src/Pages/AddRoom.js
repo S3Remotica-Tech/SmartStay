@@ -15,7 +15,8 @@ function AddRoom( {show, handleClose ,hostelDetails,editRoom}) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-    console.log("hostelDetails",hostelDetails, editRoom)
+    console.log("hostelDetails",hostelDetails, "editRoom",editRoom )
+
 console.log("state add room",state)
 
 const[room, setRoom] = useState('')
@@ -77,10 +78,25 @@ if(editRoom){
 
 
     const handleCreateRoom = () => {
-      const floorId = hostelDetails.floor_Id.toString();
-      const hostel_Id = hostelDetails.hostel_Id.toString();
 
-console.log("floorId",floorId,hostel_Id )
+      let floorId, hostel_Id, room_Id;
+
+if(isEditing){
+
+  floorId = editRoom?.floor_Id ? editRoom.floor_Id.toString() : '';
+  hostel_Id = editRoom?.hostel_Id ? editRoom.hostel_Id.toString() : '';
+ room_Id = editRoom?.room_Id ? editRoom?.room_Id.toString(): '';
+
+
+
+ 
+
+}else{
+ floorId = hostelDetails?.floor_Id ? hostelDetails.floor_Id.toString() : '';
+ hostel_Id = hostelDetails?.hostel_Id ? hostelDetails.hostel_Id.toString() : '';
+}
+
+   
 
 // if (!room || !/^[1-9]\d*$/.test(room)) {
 

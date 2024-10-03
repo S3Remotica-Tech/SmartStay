@@ -24,10 +24,12 @@ function PayingGuestMap(props) {
     const [showDots, setShowDots] = useState(false);
 
     const [activeHostel, setActiveHostel] = useState(null);
-
+const [hoverPgCard, setHoverPgCard] = useState(false)
     const popupRef = useRef(null);
 
-
+    const [selectedHostel, setSelectedHostel] = useState(null);
+    const [selectedHostelHover, setSelectedHostelHover] = useState(false)
+    const [SaveHostel, setSaveHostel] = useState([])
 
     console.log("popupRef", popupRef)
 
@@ -58,7 +60,8 @@ function PayingGuestMap(props) {
         setShowDots(!showDots);
     };
 
-
+    
+    
     const handleClickOutside = (event) => {
         if (popupRef.current && !popupRef.current.contains(event.target)) {
             setShowDots(false);
@@ -126,9 +129,69 @@ function PayingGuestMap(props) {
             }, 3000);
         }
     }, [state.PgList?.deletePgError]);
+
+
+const handleMouseEnter = () =>{
+    setHoverPgCard(true)
+}
+
+const handleMouseLeave = () =>{
+    setHoverPgCard(false)
+}
+
+
+const handleSelectCard = (hostel) => {
+ 
+    console.log("Selected hostel:", hostel);
+  
+ 
+    setSelectedHostel(hostel); 
+  
+   
+    setSaveHostel((prevHostel) => {
+     
+      const isHostelAlreadyAdded = prevHostel.some((h) => h.id === hostel.id);
+  
+    
+      if (!isHostelAlreadyAdded) {
+        return [...prevHostel, hostel]; 
+      }
+  
+     
+      return prevHostel;
+    });
+  
+  
+    setSelectedHostelHover(true);
+  };
+  
+
+
+console.log("SaveHostel",SaveHostel)
+
+
+
+
+
+
+
+
     return (<>
 
-        <Card className="h-100 animated-text" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border: "1px solid #E6E6E6" }} >
+
+
+
+
+
+
+
+        <Card className="h-100 animated-text" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease"  }}
+        
+         onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            // onClick={() => handleSelectCard(props.hostel)}
+        
+        >
             <Card.Body style={{ padding: 20 }}>
                 <div className="d-flex justify-content-between align-items-center flex-wrap" >
                     <div className='d-flex gap-2 align-items-center'>
@@ -146,11 +209,10 @@ function PayingGuestMap(props) {
                     </div>
 
                     <div
-                    //  onMouseEnter={handleMouseEnter}
-                    //         onMouseLeave={handleMouseLeave}
+                    
                     >
                         <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
-                            onClick={handleDotsClick}
+                           onClick={handleDotsClick}
                         // onClick={() => handleDotsClick(props.hostel.id)}
                         >
                             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
