@@ -297,6 +297,9 @@ const Compliance = () => {
 
 
 
+  console.log("state.UsersList?.Users",state.UsersList?.Users);
+  
+
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
       const uniqueOptions = Array.from(new Set(state.UsersList?.Users.map((item) => item.User_Id)));
@@ -455,17 +458,17 @@ const Compliance = () => {
   }
  
 
-  if(!Assign){
-    setAssignErrmsg('Please Select Assign')
-    return;
-  }
+  // if(!Assign){
+  //   setAssignErrmsg('Please Select Assign')
+  //   return;
+  // }
 
   if (!Status){
     setStatusErrmsg('Please Select status')
     return;
   }
 
-  if(!selectedUsername ||!Complainttype || !selectedDate || !Assign ||  !Status){
+  if(!selectedUsername ||!Complainttype || !selectedDate  ||  !Status){
     setTotalErrmsg('Please Enter All field')
     setTimeout(()=> {
       setTotalErrmsg('')
@@ -805,12 +808,17 @@ const Compliance = () => {
                         <option value="">Select a customer</option>
 
                         {
-                          state.UsersList?.Users.map((u, index) => (
-                            <option selected value={u.Name}>{u.Name}</option>
-                          )
+  state.UsersList?.Users
+    .filter(u => u.Bed !== 'undefined' && u.Bed !== '0' && u.Bed.trim() !== '' && u.Rooms !== 'undefined' && u.Rooms !== '0' && u.Rooms.trim() !== '') // Exclude "undefined" and "0" strings, as well as empty values
+    .map((u, index) => (
+      <option key={index} value={u.Name}>{u.Name}</option>
+    ))
+}
 
-                          )
-                        }
+
+
+
+
 
 
                       </Form.Select>
@@ -840,9 +848,9 @@ const Compliance = () => {
                         {
                           edit ? <option selected value={Complainttype}>{editcomplainttype}</option> :
                             <>
-                              <option selected value="">Select a type</option>
+                              <option  value="">Select a type</option>
                               {
-                                complainttypelist.length > 0 && complainttypelist.map((u, index) => (
+                               complainttypelist && complainttypelist.length > 0 && complainttypelist.map((u, index) => (
                                   <option selected value={u.id}>{u.complaint_name}</option>
                                 )
 
@@ -905,7 +913,7 @@ const Compliance = () => {
                     </Form.Group>
                   </div>
                   {/* {!edit &&  Assign == !null( */}
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                  {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
                         Assignee<span style={{ color: 'red', fontSize: '20px' }}>*</span>
@@ -934,7 +942,7 @@ const Compliance = () => {
   </div>
 )}
                     </Form.Group>
-                  </div>
+                  </div> */}
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
