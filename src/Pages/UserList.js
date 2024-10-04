@@ -30,6 +30,7 @@ import UserlistCheckout from './UserlistCheckout';
 import UserlistWalkin from './UserlistWalkin';
 import Addbooking from './Addbookingform';
 import CheckOutForm from './UserListCheckoutForm';
+import UserlistWalkinForm from './UserlistWalkinForm'
 
 function UserList(props) {
   const state = useSelector(state => state)
@@ -40,7 +41,7 @@ function UserList(props) {
   useEffect(() => {
     setLoading(true)
     dispatch({ type: 'USERLIST' })
-    
+
   }, [])
 
 
@@ -98,7 +99,7 @@ function UserList(props) {
   const [filteredDatas, setFilteredDatas] = useState([]);
   const [originalData, setOriginalData] = useState([]);  // Store original data from API
   const [filteredDataPagination, setfilteredDataPagination] = useState([]);
- 
+
 
   const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -119,28 +120,28 @@ function UserList(props) {
   const totalPages = Math.ceil(filteredDataPagination.length / itemsPerPage);
 
   const renderPageNumbers = () => {
-    
+
     const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(
-      <li key={i} style={{ margin: '0 5px' }}>
-        <button
-          style={{
-            padding: '5px 10px',
-            color: i === currentPage ? '#007bff' : '#000',
-            cursor: 'pointer',
-            border: i === currentPage ? '1px solid #ddd' : 'none',
-            backgroundColor: i === currentPage ? 'transparent' : 'transparent'
-          }}
-          onClick={() => handlePageChange(i)}
-        >
-          {i}
-        </button>
-      </li>
-    );
-  }
-  return pageNumbers;
-};
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <li key={i} style={{ margin: '0 5px' }}>
+          <button
+            style={{
+              padding: '5px 10px',
+              color: i === currentPage ? '#007bff' : '#000',
+              cursor: 'pointer',
+              border: i === currentPage ? '1px solid #ddd' : 'none',
+              backgroundColor: i === currentPage ? 'transparent' : 'transparent'
+            }}
+            onClick={() => handlePageChange(i)}
+          >
+            {i}
+          </button>
+        </li>
+      );
+    }
+    return pageNumbers;
+  };
 
 
   const handleMenuClick = () => {
@@ -158,9 +159,9 @@ function UserList(props) {
 
   };
 
-  const [value, setValue] = React.useState("1"); 
-  const [showInput, setShowInput] = useState(false); 
-  const [searchValue, setSearchValue] = useState(''); 
+  const [value, setValue] = React.useState("1");
+  const [showInput, setShowInput] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
 
   const handleChange = (event, newValue) => {
@@ -168,12 +169,12 @@ function UserList(props) {
   };
 
   const handleSearchClick = () => {
-    setShowInput(true); 
+    setShowInput(true);
   };
 
   const handleCloseClick = () => {
-    setSearchValue(''); 
-    setShowInput(false); 
+    setSearchValue('');
+    setShowInput(false);
   };
 
 
@@ -182,9 +183,9 @@ function UserList(props) {
   console.log("state", state)
 
 
-  
+
   useEffect(() => {
-    
+
     if (state.UsersList?.UserListStatusCode == 200) {
       console.log("invoice added executed");
 
@@ -193,9 +194,9 @@ function UserList(props) {
       const uniqueUsersList = state.UsersList.Users.filter((user, index, self) =>
         index === self.findIndex((u) => u.Email === user.Email)
       );
-  
-      console.log("Filtered Unique Data:", uniqueUsersList);  
-      
+
+      console.log("Filtered Unique Data:", uniqueUsersList);
+
       setfilteredDataPagination(state.UsersList.Users)
       setLoading(false);
       setTimeout(() => {
@@ -341,12 +342,12 @@ function UserList(props) {
   const [userDetails, setUserDetails] = useState([])
   console.log("userDetails", userDetails)
 
-  console.log("bedIds", bedIds, hostelIds, floorIds,roomsIds)
+  console.log("bedIds", bedIds, hostelIds, floorIds, roomsIds)
   useEffect(() => {
     const ParticularUserDetails = state.UsersList?.Users?.filter(item => {
 
-console.log("item",item)
-      
+      console.log("item", item)
+
       return item.User_Id == customerUser_Id
     }
 
@@ -408,7 +409,7 @@ console.log("item",item)
   const [filterByInvoice, setFilterByInvoice] = useState('');
 
 
-  
+
 
   useEffect(() => {
     if (state.InvoiceList?.Invoice && filteredDataForUser.length > 0) {
@@ -689,7 +690,7 @@ console.log("item",item)
     setUserList(isVisible)
     setRoomDetail(false)
   }
-  
+
 
   const amentiesrowsPerPage = 10;
   const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
@@ -777,12 +778,22 @@ console.log("item",item)
   const checkoutcloseModal = () => {
     setcheckoutForm(false);
   };
-  
+  // walkin from 
+  const [walkInForm, setWalkinForm] = useState(false)
+  const walkinForm = () => {
+    setWalkinForm(!checkoutForm);
+  };
+  const walkinFormcloseModal = () => {
+    setWalkinForm(false);
+  };
+
   return (
     <div className=' p-2' >
-       <Addbooking show={showbookingForm} handleClose={closeModal} />
+      <Addbooking show={showbookingForm} handleClose={closeModal} />
 
-<CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal}/>
+      <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} />
+
+      <UserlistWalkinForm show={walkInForm} handleClose={walkinFormcloseModal} />
 
       {userList && <>
 
@@ -793,30 +804,30 @@ console.log("item",item)
           </div>
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">
-         
-           <div style={{ display: 'flex', alignItems: 'center' }}>
-      {!showInput && (
-        <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
-          <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
-        </div>
-      )}
-      
-      {showInput && (
-        <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px',marginRight:"20px" }}>
-          <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
-          <input
-            type="text"
-            placeholder="Search"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            style={{ border: 'none', outline: 'none', width: '200px' }}
-          />
-          <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
-            <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
-          </div>
-        </div>
-      )}
-    </div>
+
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {!showInput && (
+                <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+                  <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
+                </div>
+              )}
+
+              {showInput && (
+                <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px', marginRight: "20px" }}>
+                  <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    style={{ border: 'none', outline: 'none', width: '200px' }}
+                  />
+                  <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                    <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
+                  </div>
+                </div>
+              )}
+            </div>
             <div className='me-3'>
               <Image src={Filters} roundedCircle style={{ height: "50px", width: "50px" }} />
             </div>
@@ -840,47 +851,48 @@ console.log("item",item)
               </Button>
             )}
             {value === "4" && (
-              <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy"}}>
+              <Button onClick={walkinForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
                 + Add Walkin
               </Button>
             )}
+         
           </div>
               {/* <div>
               <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}> + Add Customer</Button>
               </div> */}
-             
+
 
 
             </div>
-            
+
           </div>
         </div>
-                            {/*  */}
-                            <div className="pl-4" style={{paddingLeft:"10px",fontFamily:"Gilroy",fontSize:16,fontWeight:500,textAlign:"left"}} >
-        <TabContext value={value}>
-          <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="" >
-            <Tab className="tab-label" style={{textTransform:"capitalize"}} label="All Customers" value="1" />
-            <Tab className="tab-label" style={{textTransform:"capitalize"}} label="Bookings" value="2" />
-            <Tab className="tab-label" style={{textTransform:"capitalize"}} label="Check-out" value="3" />
-            <Tab className="tab-label" style={{textTransform:"capitalize"}} label="Walk-in" value="4" />
-          </Tabs>
+        {/*  */}
+        <div className="pl-4" style={{ paddingLeft: "10px", fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, textAlign: "left" }} >
+          <TabContext value={value}>
+            <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="" >
+              <Tab className="tab-label" style={{ textTransform: "capitalize" }} label="All Customers" value="1" />
+              <Tab className="tab-label" style={{ textTransform: "capitalize" }} label="Bookings" value="2" />
+              <Tab className="tab-label" style={{ textTransform: "capitalize" }} label="Check-out" value="3" />
+              <Tab className="tab-label" style={{ textTransform: "capitalize" }} label="Walk-in" value="4" />
+            </Tabs>
 
-          <TabPanel value="1">
-            {/* <AllCustomer id={props.id} /> */}
-          </TabPanel>
-          <TabPanel value="2">
-            <UserlistBookings id={props.id} />
-          </TabPanel>
-          <TabPanel value="3">
-            <UserlistCheckout id={props.id} />
-          </TabPanel>
-          <TabPanel value="4">
-            <UserlistWalkin id={props.id} />
-          </TabPanel>
-        </TabContext>
-      </div>
+            <TabPanel value="1">
+              {/* <AllCustomer id={props.id} /> */}
+            </TabPanel>
+            <TabPanel value="2">
+              <UserlistBookings id={props.id} />
+            </TabPanel>
+            <TabPanel value="3">
+              <UserlistCheckout id={props.id} />
+            </TabPanel>
+            <TabPanel value="4">
+              <UserlistWalkin id={props.id} />
+            </TabPanel>
+          </TabContext>
+        </div>
 
-                            {/*  */}
+        {/*  */}
 
 
         <div className="p-4" style={{ paddingBottom: "20px" }} >
@@ -915,7 +927,7 @@ console.log("item",item)
                 ))
               ) : (
                 currentItems.map((user) => {
-                  console.log("userrr",user)
+                  console.log("userrr", user)
                   const imageUrl = user.profile || Profile;;
                   return (
                     <tr key={user.ID} style={{ fontSize: "16px", fontWeight: 600, textAlign: "center", marginTop: 10 }}>
@@ -930,8 +942,8 @@ console.log("item",item)
                           roundedCircle
                           style={{ height: "40px", width: "40px", marginRight: "10px" }}
                           onError={(e) => {
-                            e.target.onerror = null; 
-                            e.target.src = Profile; 
+                            e.target.onerror = null;
+                            e.target.src = Profile;
                           }}
                         />
                         <span className="Customer_Name_Hover" style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", color: "#1E45E1", cursor: "pointer" }} onClick={() => handleRoomDetailsPage(user)}>
@@ -940,8 +952,8 @@ console.log("item",item)
                       </td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Email}</td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>+{user && String(user.Phone).slice(0, String(user.Phone).length - 10)}
-                                {' '}
-                                {user && String(user.Phone).slice(-10)}</td>
+                        {' '}
+                        {user && String(user.Phone).slice(-10)}</td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>
                         <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{user.HostelName}</span>
                       </td>
@@ -952,7 +964,7 @@ console.log("item",item)
                         style={{
                           padding: "10px",
                           border: "none",
-                          cursor:"pointer",
+                          cursor: "pointer",
                           color: user.Bed === 0 ? "blue" : "inherit",
                           textDecoration: user.Bed === 0 ? "none" : "initial",
                           textAlign: "start",
@@ -976,17 +988,17 @@ console.log("item",item)
 
                 })
               )}
-            
 
-          {currentItems.length === 0 && (
-                    <tr>
-                      <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
-                    </tr>
-                  )}
+
+              {currentItems.length === 0 && (
+                <tr>
+                  <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
+                </tr>
+              )}
             </tbody>
           </Table>
 
-        
+
         </div>
         {currentItems.length > 0 && (
           <nav>
@@ -1111,8 +1123,8 @@ console.log("item",item)
           AfterEditBeds={AfterEditBed}
 
           showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer} userDetails={userDetails} handleBack={handleBack} getFormattedRoomId={getFormattedRoomId} getFloorName={getFloorName} id={id} aadhaarNo={aadhaarNo}
-          handleValidateAadhaar={handleValidateAadhaar} showOtpValidation={showOtpValidation} kycOtpValue={kycOtpValue} handleKycOtpChange={handleKycOtpChange} showValidate={showValidate} handleVerifyOtp={handleVerifyOtp}   selectAmneties={selectAmneties} handleselect={handleselect}  hostelName={hostelName} createby={createby} statusShow={statusShow} customerUser_Id={customerUser_Id} hostelIds={hostelIds}
-          statusAmni={statusAmni} handleStatusAmnities={handleStatusAmnities} handleAddUserAmnities={handleAddUserAmnities} currentRowAmnities={currentRowAmnities} amnitiescurrentPage={amnitiescurrentPage} handleAdhaarChange={handleAdhaarChange}  /> : null
+          handleValidateAadhaar={handleValidateAadhaar} showOtpValidation={showOtpValidation} kycOtpValue={kycOtpValue} handleKycOtpChange={handleKycOtpChange} showValidate={showValidate} handleVerifyOtp={handleVerifyOtp} selectAmneties={selectAmneties} handleselect={handleselect} hostelName={hostelName} createby={createby} statusShow={statusShow} customerUser_Id={customerUser_Id} hostelIds={hostelIds}
+          statusAmni={statusAmni} handleStatusAmnities={handleStatusAmnities} handleAddUserAmnities={handleAddUserAmnities} currentRowAmnities={currentRowAmnities} amnitiescurrentPage={amnitiescurrentPage} handleAdhaarChange={handleAdhaarChange} /> : null
       }
 
       {
@@ -1124,7 +1136,7 @@ console.log("item",item)
 
           showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer} /> : null
       }
-     
+
     </div>
 
   )
