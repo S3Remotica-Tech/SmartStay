@@ -126,18 +126,21 @@ function All_landing_pages() {
 console.log("activeLink",activeLink)
 
 
+
     const linkStyle = (isActive) => ({
         cursor: "pointer",
         fontSize: 16,
-        fontWeight: isActive ? 700 : 600,
-        color: isActive ? "rgba(30, 69, 225, 1)" : "rgba(0, 0, 0, 1)",
-        fontFamily: "Montserrat"
+        fontWeight: isActive ? 700 : 500,
+        color: isActive ? "rgba(30, 69, 225, 1)" : "#000",
+        fontFamily: "Montserrat",
+        padding:'10px 25px'
+        
     });
 
     return (
         <>
             <div>
-                <Navbar collapseOnSelect expand="lg"  fixed="top" className="" style={{ backgroundColor: "#FFFFFF" }} transparent>
+                <Navbar collapseOnSelect expand="lg"  fixed="top" className="" style={{ backgroundColor: "#FFFFFF",marginTop:"24px"}} transparent>
                     <Container>
                         <Navbar.Brand><img src={Logo} style={{ height: 33, width: 33 }} /> <img src={Smart} style={{ height: 20, width: 133 }} /></Navbar.Brand>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -201,19 +204,20 @@ console.log("activeLink",activeLink)
                                 </Nav.Link>
                             </Nav>
                             <Nav className=' justi-content-end'>
-                                <div className='d-lg-flex  d-sm-block d-md-block align-items-center'>
+                                <div className='d-lg-flex d-sm-block d-md-block align-items-center gap-3'>
 
                               
                                 <Nav.Link style={{ fontSize: 16, fontWeight: 600, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat" }} onClick={handleSignIn}>Sign in</Nav.Link>
-                                <Button onClick={handleSignUp} variant="" style={{ backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontWeight: 600, fontSize: 16, fontFamily: "Montserrat", width: 161, height: 60, borderRadius: 16, padding: "20px 24px 20px 24px" }}>Get Started</Button>
+                                <Button onClick={handleSignUp} variant="" style={{ backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontWeight: 600, fontSize: 16, fontFamily: "Montserrat", width: 161, height: 60, borderRadius: 16, padding: "20px 24px 20px 24px",gap:"10px" }}>Get Started</Button>
                                 </div>
+                                
                          
                             </Nav>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
             </div>
-            <Element name="firstPage" style={{ paddingTop: "70px" }}>
+            <Element name="firstPage" style={{ paddingTop: "120px" }}>
                 <FirstPage />
             </Element>
             <Element name="keyFeature">
