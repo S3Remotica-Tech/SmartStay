@@ -841,12 +841,12 @@ function UserList(props) {
               </Button>
             )}
             {value === "2" && (
-              <Button onClick={toggleForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
+              <Button onClick={toggleForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
                 + Add Bookings
               </Button>
             )}
             {value === "3" && (
-              <Button onClick={checkOutForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
+              <Button onClick={checkOutForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
                 + Add Check-out
               </Button>
             )}
