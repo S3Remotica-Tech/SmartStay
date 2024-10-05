@@ -6,12 +6,12 @@ import {
   FormSelect,
 } from "react-bootstrap";
 import moment from "moment";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback,useRef } from "react";
 import "../Pages/UserList.css";
 // import Plus from '../Assets/Images/Create-button.png';
 // import Profile from '../Assets/Images/Profile.jpg';
 import Swal from "sweetalert2";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { FaPlusCircle } from "react-icons/fa";
 import { InputGroup, Pagination } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
@@ -22,6 +22,8 @@ import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import User from "../Assets/Images/Ellipse 1.png";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
+import Calendars from "../Assets/Images/New_images/calendar.png";
+import Flatpickr from "react-flatpickr";
 import {
   Autobrightness,
   Call,
@@ -89,6 +91,7 @@ function UserlistForm(props) {
   const [createdat, setCreatedAt] = useState("");
   const [payableamount, setPayableamount] = useState("");
   const [countryCode, setCountryCode] = useState("91");
+  const [selectedDate, setSelectedDate] = useState("");
   console.log("countryCode", countryCode);
 
   const handleCountryCodeChange = (e) => {
@@ -97,10 +100,13 @@ function UserlistForm(props) {
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const calendarRef = useRef(null);
   console.log("state", state);
 
+  
   const [profilePicture, setProfilePicture] = useState("");
   const [filteredProfile, setFilteredProfile] = useState(null);
+  const [dateError, setDateError] = useState("");
 
   console.log("state for userList form", state);
 
@@ -120,6 +126,22 @@ function UserlistForm(props) {
       }
     }
   };
+
+  const options = {
+    dateFormat: "Y/m/d",
+    defaultDate: selectedDate || new Date(),
+  };
+  useEffect(() => {
+    if (calendarRef.current) {
+      calendarRef.current.flatpickr.set(options);
+    }
+  }, [selectedDate]);
+  const handleDate =(selectedDates)=>{
+    setSelectedDate(selectedDates[0])
+    setDateError('')
+    console.log("selectedDates",selectedDates)
+  }
+
 
   useEffect(() => {
     dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostel_Id } });
@@ -190,21 +212,6 @@ function UserlistForm(props) {
     return true;
   };
 
-  // const validateField = (value, fieldName) => {
-  //   if (!value || value.trim() === '') {
-  //     // Show inline error for first name
-  //     if (fieldName === 'First Name') {
-  //       setFirstnameError('First Name is required');
-  //     }
-  //     return false;
-  //   } else {
-  //     // Clear the error if field is valid
-  //     if (fieldName === 'First Name') {
-  //       setFirstnameError('');
-  //     }
-  //   }
-  //   return true;
-  // };
   const handleLastName = (e) => {
     setLastname(e.target.value);
   };
@@ -263,32 +270,7 @@ function UserlistForm(props) {
     }
   };
 
-  // const handlePhone = (e) => {
-  //   setPhone(e.target.value)
-  //   const pattern = new RegExp(/^\d{1,10}$/);
-  //   const isValidMobileNo = pattern.test(e.target.value)
-  //   if (isValidMobileNo && e.target.value.length === 10) {
-  //     document.getElementById('MobileNumberError').innerHTML = ''
-  //   }
-  //   else {
-  //     document.getElementById('MobileNumberError').innerHTML = 'Invalid mobile number *'
-  //   }
-  // }
-
-  // const handlePhone = (e) => {
-  //   setPhone(e.target.value);
-  //   const pattern = new RegExp(/^\d{1,10}$/);
-  //   const isValidMobileNo = pattern.test(e.target.value);
-  //   const errorElement = document.getElementById('MobileNumberError');
-
-  //   if (errorElement) {
-  //     if (isValidMobileNo && e.target.value.length === 10) {
-  //       errorElement.innerHTML = '';
-  //     } else {
-  //       errorElement.innerHTML = 'Invalid mobile number *';
-  //     }
-  //   }
-  // }
+  
   const handlePhone = (e) => {
     setPhone(e.target.value);
     const pattern = /^\d{1,10}$/;
@@ -466,6 +448,9 @@ function UserlistForm(props) {
         case "Bed":
           setBedError("Bed is required");
           break;
+          case "selectedDate":
+            setDateError("date is required");
+            break;
         case "AdvanceAmount":
           setAdvanceAmountError("Advance Amount is required");
           break;
@@ -489,6 +474,9 @@ function UserlistForm(props) {
       case "Bed":
         setBedError("");
         break;
+        case "selectedDate":
+          setDateError("");
+          break;
       case "AdvanceAmount":
         setAdvanceAmountError("");
         break;
@@ -697,6 +685,7 @@ function UserlistForm(props) {
       Floor: Floor,
       Rooms: Rooms,
       Bed: Bed,
+      joining_date: selectedDate,
       AdvanceAmount: AdvanceAmount,
       RoomRent: RoomRent,
       BalanceDue: BalanceDue,
@@ -725,6 +714,8 @@ function UserlistForm(props) {
     if (!validateAssignField(Floor, "Floor")) return;
     if (!validateAssignField(Rooms, "Room")) return;
     if (!validateAssignField(Bed, "Bed")) return;
+    if (!validateAssignField(selectedDate, "selectedDate")) return;
+    // const isDatevalid = validateAssignField(selectedDate, "selectedDate");
     if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) return;
     if (!validateAssignField(RoomRent, "RoomRent")) return;
 
@@ -754,6 +745,15 @@ if (Bed === 'Selected Bed' || bedError) {
   return; // Prevent save
 }
     if (Floor && Rooms && Bed) {
+      const incrementDateAndFormat = (date) => {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + 1); 
+    
+        return newDate.toISOString().split("T")[0]; 
+    };
+    console.log("selectedDate",selectedDate)
+    const formattedDate = selectedDate ? incrementDateAndFormat(selectedDate) : '';
+    console.log("formattedDate",formattedDate)
       dispatch({
         type: "ADDUSER",
         payload: {
@@ -771,6 +771,7 @@ if (Bed === 'Selected Bed' || bedError) {
           Floor: Floor,
           Rooms: Rooms,
           Bed: Bed,
+          joining_date: formattedDate,
           AdvanceAmount: AdvanceAmount,
           RoomRent: RoomRent,
           BalanceDue: BalanceDue,
@@ -1381,7 +1382,7 @@ if (Bed === 'Selected Bed' || bedError) {
                       >
                         <option>Selected Floor</option>
                         {state.UsersList?.hosteldetailslist?.map((u) => (
-                          <option key={u.floor_id}>{u.floor_id}</option>
+                          <option key={u.floor_id} value={u.floor_id}>{u.floor_name}</option>
                         ))}
                       </Form.Select>
                       {floorError && (
@@ -1439,7 +1440,7 @@ if (Bed === 'Selected Bed' || bedError) {
                       )}
                     </div>
 
-                    <div className="col-12 mt-3 mb-3">
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -1453,23 +1454,7 @@ if (Bed === 'Selected Bed' || bedError) {
                           *{" "}
                         </span>
                       </Form.Label>
-                      {/* <Form.Select
-                        aria-label='Default select example'
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                        value={Bed}
-                        className='border'
-                        placeholder='Select a bed'
-                        id="form-selects"
-                        onChange={(e) => handleBed(e)}
-                      >
-                        <option>Selected Bed</option>
-                        {props.edit === 'Edit' && Bednum && Bednum.Bed && (
-                          <option value={Bednum.Bed} selected>{Bednum.Bed}</option>
-                        )}
-                        {state.UsersList?.bednumberdetails?.bed_details && state.UsersList?.bednumberdetails?.bed_details.map((item) => (
-                          <option key={item.bed_no} value={item.bed_no}>{item.bed_no}</option>
-                        ))}
-                      </Form.Select> */}
+                    
 
 <Form.Select
   aria-label="Default select example"
@@ -1518,6 +1503,77 @@ if (Bed === 'Selected Bed' || bedError) {
                         </div>
                       )}
                     </div>
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222",
+                  fontFamily: "'Gilroy'",
+                  fontWeight: 500,
+                }}
+              >
+                Date  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+
+              <div style={{ position: "relative" }}>
+                <label
+                  htmlFor="date-input"
+                  style={{
+                    border: "1px solid #D9D9D9",
+                    borderRadius: 8,
+                    padding: 11,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    color: "#222222",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between", // Ensure space between text and icon
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    if (calendarRef.current) {
+                      calendarRef.current.flatpickr.open();
+                    }
+                  }}
+                >
+                  {selectedDate
+                    ? selectedDate.toLocaleDateString("en-GB")
+                    : "YYYY/MM/DD"}
+                  <img
+                    src={Calendars}
+                    style={{ height: 24, width: 24, marginLeft: 10 }}
+                    alt="Calendar"
+                  />
+                </label>
+                <Flatpickr
+                  ref={calendarRef}
+                  options={options}
+                  value={selectedDate}
+                  onChange={(selectedDates)=> handleDate(selectedDates)}
+                    
+                  
+                  style={{
+                    padding: 10,
+                    fontSize: 16,
+                    width: "100%",
+                    borderRadius: 8,
+                    border: "1px solid #D9D9D9",
+                    position: "absolute",
+                    top: 100,
+                    left: 100,
+                    zIndex: 1000,
+                    display: "none",
+                  }}
+                />
+              </div>
+              {dateError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {dateError}
+                </div>
+              )}
+            </div>
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="">

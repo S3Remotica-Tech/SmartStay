@@ -23,7 +23,7 @@ export async function addUser(params) {
   if (params.Email) formData.append("Email", params.Email)
     if (params.Phone) formData.append("Phone", params.Phone)
       if (params.HostelName) formData.append("HostelName", params.HostelName)
-    
+        if (params.joining_date) formData.append("joining_date", params.joining_date)
       if(params.Floor) formData.append("Floor" ,params.Floor)
         if(params.Rooms) formData.append("Rooms" ,params.Rooms)
           if(params.Bed) formData.append("Bed" ,params.Bed)

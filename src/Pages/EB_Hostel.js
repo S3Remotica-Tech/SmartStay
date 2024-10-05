@@ -98,8 +98,8 @@ function EB_Hostel() {
   };
 
   useEffect(() => {
-    setEbErrorunit(state.PgList.ebError);
-  }, [state.PgList.ebError]);
+    setEbErrorunit(state?.PgList?.ebError);
+  }, [state?.PgList?.ebError]);
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -337,6 +337,20 @@ function EB_Hostel() {
    
     const isEndMeterValid = validateAssignField(endmeter, "endmeter");
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
+    if (Floor === 'Select Floor' || !isFloorValid) {
+      setfloorError('Please select a valid Floor'); 
+      return; // Prevent save
+    } else {
+      setfloorError(""); // Clear the error if valid
+    }
+  
+    // Validate Room field
+    if (Rooms === 'Select Room' || !isRoomValid) {
+      setRoomError('Please select a valid Room'); 
+      return; // Prevent save
+    } else {
+      setRoomError(""); // Clear the error if valid
+    }
 
     if (
       !isHostelValid ||
@@ -372,6 +386,7 @@ console.log("selectedDate",selectedDate)
         payload: {
           Hostel_Id: selectedHostel,
           end_Meter_Reading: endmeter,
+          
           // EbAmount: totalAmountRead,
           date: selectedDate,
         },
@@ -1204,7 +1219,7 @@ console.log("selectedDate",selectedDate)
                   state?.UsersList?.hosteldetailslist.map((item) => (
                     <>
                       <option key={item.floor_id} value={item.floor_id}>
-                        {item.floor_id}
+                        {item.floor_name}
                       </option>
                     </>
                   ))}
