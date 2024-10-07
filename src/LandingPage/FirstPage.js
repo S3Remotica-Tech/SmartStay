@@ -7,16 +7,9 @@ import Spring2 from '../Assets/Images/New_images/image 23.png';
 import { useNavigate } from "react-router-dom";
 import CountUp from 'react-countup';
 
-
-
-
-
-
 function FirstPage() {
 
-
-
-    useEffect(() => {
+      useEffect(() => {
         window.scrollTo(0, 0);
       }, []);
 
@@ -90,19 +83,19 @@ height: 29
 </div>
 
 
-<div className='d-flex justify-content-center  mt-3  '>
-<Button onClick={handleStartNow} variant="" style={{backgroundColor:"rgba(30, 69, 225, 1)", color:"rgba(255, 255, 255, 1)", fontWeight:600, fontSize:16, fontFamily:"Montserrat", width:220,height:70, borderRadius:16, padding:"24px 32px 24px 32px"}}>Get Started</Button>
+<div className='d-flex justify-content-center mt-3 '>
+<Button onClick={handleStartNow} variant="" style={{backgroundColor:"rgba(30, 69, 225, 1)", color:"rgba(255, 255, 255, 1)", fontWeight:600, fontSize:16, fontFamily:"Montserrat", width:320,height:70, borderRadius:16, padding:"24px 32px 24px 32px"}}>Get Started</Button>
 
 </div>
 
-<div className='row d-flex justify-content-center mt-3' style={{position:"relative", backgroundColor:""}}>
-       <img src={Desktop } className='img-fluid' style={{height:776, width:1000}}/>
-       <img src={Spring1}  style={{position:"absolute", left:0,  bottom:0, width:220, height:219 ,display:isMobile ? "none": "flex",transform: "rotate(360deg)"}}/>
+<div className='row d-flex justify-content-center mt-4' style={{position:"relative", backgroundColor:""}}>
+       <img src={Desktop} className='img-fluid' style={{height:776, width:1000}}/>
+       <img src={Spring1}  style={{position:"absolute", left:0, bottom:0, width:220, height:219 ,display:isMobile ? "none": "flex",transform: "rotate(360deg)"}}/>
        <img src={Spring2}   style={{position:"absolute", top:0, right:0, width:220, height:219,display:isMobile ? "none": "flex"}} />
 
 </div>
 
-<div className="d-flex justify-content-around flex-wrap mt-5 mb-5" style={{backgroundColor:"rgba(250, 249, 255, 1)",padding:"50px 30px"}}>
+<div className="d-flex justify-content-around flex-wrap mt-5 mb-5" style={{backgroundColor:"rgba(250, 249, 255, 1)",padding:"20px 10px"}}>
 
 <div className='text-center'>
     <div style={{fontSize:60,fontWeight:700,fontFamily:"Montserrat",color:"rgba(30, 69, 225, 1)"}}> <CountUp start={1} end={200} delay={2}/>K</div>
