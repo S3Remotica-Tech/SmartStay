@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,ManualInvoiceNumber} from "../Action/InvoiceAction"
+import {invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,ManualInvoiceNumber,GetManualInvoices} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
@@ -42,29 +42,33 @@ function* handleAddInvoiceDetails (param){
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'UPDATEINVOICE_DETAILS', payload: response,statusCode:response.status || response.statusCode })
    
-        // Define the style
-        const toastStyle = {
-         position: 'fixed',
-         display: 'flex',
-         alignItems: 'center',
-         justifyContent: 'center',
-         top: '50%',
-         left: '50%',
-         transform: 'translate(-50%, -50%)',
-         zIndex: 9999, // To ensure it appears above other elements
-         backgroundColor: 'green', // Background color
-         color: 'white', // Text color
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
        };
  
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         autoClose: 5000,
-         hideProgressBar: false,
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle,
+         style: toastStyle
        })
    }
    else {
@@ -97,13 +101,15 @@ function* handleInvoiceSettings(param){
     
           // Use the toast with the defined style
           toast.success(response.data.message, {
-            autoClose: 5000,
-            hideProgressBar: false,
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            style: toastStyle,
+            style: toastStyle
           })
 
      
@@ -140,16 +146,27 @@ function* handleAmenitiesSettings(action){
   
 
       var toastStyle = {
-         backgroundColor: 'green', 
-      color: 'white', 
-      width:"100%"
-    };
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
 
     // Use the toast with the defined style
     toast.success(response.data.message, {
-      position: 'top-center',
-      autoClose: 2000, 
-      hideProgressBar: false,
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
@@ -197,16 +214,26 @@ function* handleUpdateAmenities(action) {
      
   
       var toastStyle = {
-         backgroundColor: 'green', 
-      color: 'white', 
-      width:"100%"
-    };
-   
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         position: 'top-center',
-         autoClose: 2000, 
-         hideProgressBar: false,
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
@@ -250,17 +277,27 @@ function* handleManualInvoiceNumber(params) {
       
       // Define the style
       var toastStyle = {
-         backgroundColor: 'green',
-         color: 'white',
+         backgroundColor: "#E6F6E6",
+         color: "black",
          width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
         
-      };
+       };
  
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         position: 'top-center',
-         autoClose: 1000, 
-         hideProgressBar: false,
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
@@ -283,17 +320,27 @@ function* handleManualInvoiceGetData(params) {
       yield put ({type : 'MANUAL_INVOICE_AMOUNT_GET' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
       // Define the style
       var toastStyle = {
-         backgroundColor: 'green',
-         color: 'white',
+         backgroundColor: "#E6F6E6",
+         color: "black",
          width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
         
-      };
+       };
  
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         position: 'top-center',
-         autoClose: 1000, 
-         hideProgressBar: false,
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
@@ -316,17 +363,27 @@ function* handleManualInvoiceAdd (params) {
       yield put ({type : 'MANUAL_INVOICE_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
       // Define the style
       var toastStyle = {
-         backgroundColor: 'green',
-         color: 'white',
+         backgroundColor: "#E6F6E6",
+         color: "black",
          width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
         
-      };
+       };
  
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         position: 'top-center',
-         autoClose: 2000, 
-         hideProgressBar: false,
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
@@ -336,6 +393,21 @@ function* handleManualInvoiceAdd (params) {
    }
    else {
       yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+function* handleGetManualInvoice() {
+   const response = yield call(GetManualInvoices)
+   
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'MANUAL_INVOICES_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
    }
    if(response){
       refreshToken(response)
@@ -371,5 +443,6 @@ function* InvoiceSaga() {
    yield takeEvery('MANUAL-INVOICE-NUMBER-GET',handleManualInvoiceNumber)
    yield takeEvery('GET-MANUAL-INVOICE-AMOUNTS',handleManualInvoiceGetData)
    yield takeEvery('MANUAL-INVOICE-ADD',handleManualInvoiceAdd)
+   yield takeEvery('MANUAL-INVOICES-LIST',handleGetManualInvoice)
 }
 export default InvoiceSaga;

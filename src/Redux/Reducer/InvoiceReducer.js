@@ -1,3 +1,5 @@
+import { ManualInvoice } from "../Action/InvoiceAction";
+
 const initialState = {
     Invoice: [],
     message: '',
@@ -20,10 +22,11 @@ const initialState = {
     manualInvoiceStatusCode: 0,
     UpdateInvoiceStatusCode:0,
     ManualInvoiceNUmber : [],
+    ManualInvoices:[],
+    ManualInvoicesgetstatuscode : 0,
     Manulainvoicenumberstatuscode:0,
-    // manualInvoiceStatusCode: 0,
-    manualInvoiceUpadteStatusCode: 0,
-    // UpdateInvoiceStatusCode:0
+    manualInvoiceAddStatusCode: 0,
+
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -70,10 +73,14 @@ const InvoiceReducer = (state = initialState, action) => {
               return { ...state, manualInvoiceStatusCode: 0 } 
 
         case 'MANUAL_INVOICE_ADD':
-              return { ...state, ManualInvoice: action.payload, manualInvoiceUpadteStatusCode:action.payload.statusCode}
+              return { ...state, ManualInvoice: action.payload, manualInvoiceAddStatusCode:action.payload.statusCode}
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD':
-              return { ...state, manualInvoiceUpadteStatusCode: 0 }
-    }
+              return { ...state, manualInvoiceAddStatusCode: 0 }
+        // case 'MANUAL_INVOICES_LIST' :
+        //     return { ...state, ManualInvoices: action.payload, ManualInvoicesgetstatuscode:action.payload.statusCode}
+        //     case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST':
+        //         return { ...state, ManualInvoicesgetstatuscode: 0 }
+        }
     
     return state;
 }

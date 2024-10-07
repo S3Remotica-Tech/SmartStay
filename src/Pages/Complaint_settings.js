@@ -74,6 +74,8 @@ import { MdError } from "react-icons/md";
   const handleDeleteType = (item) => {
     console.log("deleteitem", item)
     if (item) {
+
+
       Swal.fire({
         icon: 'warning',
         title: 'Do you want to delete the ComplaintType ?',
@@ -88,6 +90,10 @@ import { MdError } from "react-icons/md";
               id: item.id
             },
           });
+        //   Swal.fire({
+        //     icon: 'success',
+        //     title: 'ComplaintType deleted Successfully',
+        // })
           console.log("deleteexecuted");
        
         }

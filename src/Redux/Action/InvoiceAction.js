@@ -37,8 +37,13 @@ export async function UpdateInvoice(datum) {
   }
 
   export async function AddManualInvoiceBill(manualinvoice) {
-    return await AxiosConfig.post('/compliance/add-details', manualinvoice, { // create new bill
+    return await AxiosConfig.post('/add_manual_invoice', manualinvoice, { // create new bill
       data: manualinvoice
+    })
+  }
+
+  export async function GetManualInvoices() {
+    return await AxiosConfig.get('/get_bill_details',{
     })
   }
 

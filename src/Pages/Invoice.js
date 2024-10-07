@@ -152,6 +152,14 @@ const InvoicePage = () => {
 
   const handleBackBill = () => {
     setShowManualInvoice(true)
+    setCustomerName('');
+    setInvoiceNumber('');
+    setStartDate('');
+    setEndDate('');
+    setInvoiceDate('');
+    setInvoiceDueDate('');
+    setSelectedData('');
+    setAvailableOptions('');
   }
 
   const [file, setFile] = useState(null)
@@ -1114,24 +1122,17 @@ const InvoicePage = () => {
   //   }
 
   const [customername , setCustomerName] =  useState ('');
-
   const [invoicenumber , setInvoiceNumber] =  useState ('');
-  console.log("invoicenumber",invoicenumber);
   const [startdate , setStartDate] =  useState (null);
-  console.log("startdate",startdate);
-  
   const [enddate , setEndDate] =  useState (null);
   const [invoicedate , setInvoiceDate] =  useState (null);
   const [invoiceduedate , setInvoiceDueDate] =  useState (null);
 
   const [formatstartdate, setFormatStartDate] = useState(null)
-  console.log("formattedsatrtDate",formatstartdate);
   const [formatenddate, setFormatEndDate] = useState(null)
-  console.log("formatenddate",formatenddate);
   const [formatinvoicedate, setFormatInvoiceDate] = useState(null)
-  console.log("formatinvoicedate",formatinvoicedate);
   const [formatduedate, setFormatDueDate] = useState(null)
-  console.log("formatduedate",formatduedate);
+  
 
   const [invoicetotalamounts,setInvoiceTotalAmount] = useState([])
 
@@ -1160,6 +1161,10 @@ const InvoicePage = () => {
     console.log("selectedcustomer",e.target.value);
     
     setCustomerName(e.target.value)
+    setStartDate('');
+    setEndDate('');
+    setSelectedData('');
+    setAvailableOptions('');
   }
 
   console.log("state.UsersList.Users",state.UsersList.Users);
@@ -1190,7 +1195,7 @@ const InvoicePage = () => {
   const [dataFetched, setDataFetched] = useState(false);
 
   useEffect(() => {
-    if (!dataFetched) { // Only dispatch if data hasn't been fetched yet
+    if (!dataFetched) {
       dispatch({
         type: 'GET-MANUAL-INVOICE-AMOUNTS',
         payload: {
@@ -1200,23 +1205,52 @@ const InvoicePage = () => {
         }
       });
 
-      const totalArray = state?.InvoiceList?.ManualInvoice?.total_array;
-      console.log("totalArray",totalArray);
-      
-      if (totalArray) {
-        setInvoiceTotalAmount(totalArray); // Safely set the state only if data exists
-      }
+    
 
       if (state.InvoiceList.manualInvoiceStatusCode === 200) {
-        setDataFetched(true); // Set the flag to true after successful fetch
+        const totalArray = state?.InvoiceList?.ManualInvoice?.total_array;
+        console.log("totalArray",totalArray);
+        
+        if (totalArray) {
+          setInvoiceTotalAmount(totalArray); 
+        }
+        setDataFetched(true); 
         setTimeout(() => {
           dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_AMOUNT_GET' });
         }, 1000);
       }
     }
-  }, [customername, formatstartdate, formatenddate, dataFetched]);
+  }, [customername, formatstartdate, formatenddate, dataFetched, state.InvoiceList.manualInvoiceStatusCode , state.InvoiceList.ManualInvoice.total_array]);
+
+  const [bills , setBills] = useState([])
+
+        // useEffect(()=> {
+        //  dispatch({type:'MANUAL_INVOICES_LIST'})
+        //  },[])
+
+        // useEffect(()=> {
+        //   if(state.InvoiceList.ManualInvoicesgetstatuscode === 200){
+        //     setBills(state.InvoiceList.ManualInvoices)
+
+        // setTimeout(() => {
+        //   dispatch({type:'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST'})
+        //    }, 100);
+        //     }
+        // },[state.InvoiceList.ManualInvoicesgetstatuscode === 200])
 
 
+        // useEffect(()=> {
+        //    if(state.InvoiceList.manualInvoiceAddStatusCode === 200){
+         
+        //     setTimeout(() => {
+        //       dispatch({type:'MANUAL_INVOICES_LIST'})
+        //     }, 100);
+
+        //     setTimeout(() => {
+        //       dispatch({type:'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD'})
+        //     }, 1000);
+        //    }
+        // },[state.InvoiceList.manualInvoiceAddStatusCode === 200])
 
 
   const formatDateForPayloadmanualinvoice = (date) => {
@@ -1231,9 +1265,7 @@ const InvoicePage = () => {
    const date = selectedDates[0];
     setStartDate(date);
 
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    
-    
+    const formattedDate = formatDateForPayloadmanualinvoice(date);    
     setFormatStartDate(formattedDate)
 
   }
@@ -1313,31 +1345,78 @@ const handleDeletebilldata = (itemToDelete) => {
 
 
 // Calculate the total amount
-const totalAmount = selectedData.reduce((sum, field) => sum + parseFloat(field.amount || 0), 0);
 
 
 
-  const handleCreateBill = () => {
-   
-    console.log("bill created");
-    var toastStyle = {
-    backgroundColor: 'green', 
-    color: 'white', 
-    width:"100%"
- };
+const [ebamount, setEBAmount] = useState('')
+const [rentamount , setRentAmount] = useState('')
+const [amenityDetail , setAmenityDetails] = useState([])
+console.log("amenityDetail",amenityDetail);
 
- toast.success("Bill Created Successfully", {
-  position: 'bottom-center',
-  autoClose: 2000, 
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-  style: toastStyle
-});
+const [totalAmount , setTotalAmount] = useState('')
+
+
+
+useEffect(()=> {
+
+  if(selectedData && selectedData.length > 0){
+
+  
+  const  EbAmount = selectedData && selectedData.length > 0 && selectedData.find(item => item.id == 10);// EB Amount with id 10 
+  const  RoomRentItem = selectedData && selectedData.length > 0 && selectedData.find(item => item.id == 50); // Room Rent with id 50
+   setEBAmount(EbAmount)
+   setRentAmount(RoomRentItem)
+
+ var  amenities = selectedData && selectedData.length > 0 && selectedData.filter(item => item.id != 10 && item.id != 50);
+  console.log("amenities",amenities);
+
+  const AmenityDetails = amenities.map(item => ({
+    am_name: item.description,   
+    amount: item.amount
+  }));
+  setAmenityDetails(AmenityDetails)
+  
+
+
+ const  totalAmount = (
+    parseFloat(EbAmount?.amount || 0) +
+    parseFloat(RoomRentItem?.amount || 0) +
+    AmenityDetails.reduce((sum, amenity) => sum + parseFloat(amenity.amount || 0), 0)
+  );
+  setTotalAmount(totalAmount)
+}
+},[selectedData])
+
+
+
+
+   const handleCreateBill = () => {
+
+    const amenityArray = amenityDetail.map(detail => ({
+      am_name: detail.am_name,
+      amount: detail.amount
+    })).filter(detail => detail.am_name && detail.amount);
+
+  dispatch({
+    type: 'MANUAL-INVOICE-ADD',
+    payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
+    invoice_id: invoicenumber, room_rent : rentamount.amount , eb_amount :ebamount.amount || '', total_amount : totalAmount , 
+    amenity: amenityArray.length > 0 ? amenityArray : []
+    }
+  });
+ 
+  console.log("bill created");
+
 setShowManualInvoice(true)
-  }
+setCustomerName('');
+setInvoiceNumber('');
+setStartDate('');
+setEndDate('');
+setInvoiceDate('')
+setInvoiceDueDate('')
+setSelectedData('')
+setAvailableOptions('');
+}
 
 
   const rowsPerPage = 20;
@@ -2278,13 +2357,12 @@ setShowManualInvoice(true)
         height: 38, 
         borderRadius: 8 
       }}>
-      <option value=''>Select Customer</option>
-      {state.UsersList.Users && state.UsersList.Users.map((item) => {
-        console.log("item",item);  // Log each item to check the structure
-        return (
-          <option  value={item.ID}>{item.Name}</option>
-        );
-      })}
+        <option value=''>Select Customer</option>
+         {state.UsersList?.Users.filter(u => u.Bed !== 'undefined' && u.Bed !== '0' && u.Bed.trim() !== '' && u.Rooms !== 'undefined' && u.Rooms !== '0' && u.Rooms.trim() !== '') 
+          .map((u) => (
+          <option  value={u.ID}>{u.Name}</option>
+    ))
+}
     </Form.Select>
   </Form.Group>
 </div>
