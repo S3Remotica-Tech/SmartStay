@@ -1512,7 +1512,7 @@ if (Bed === 'Selected Bed' || bedError) {
                   fontWeight: 500,
                 }}
               >
-                Date  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                Joining_Date  <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
 
               <div style={{ position: "relative" }}>
