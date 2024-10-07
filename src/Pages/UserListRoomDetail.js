@@ -51,7 +51,6 @@ function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
-  console.log("state", state);
   const initialvalue = useRef();
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
@@ -78,7 +77,6 @@ function UserListRoomDetail(props) {
   const [bedArray, setBedArray] = useState("");
   const [Arrayset, setArrayset] = useState([]);
   const [Bednum, setBednum] = useState("");
-  console.log("Bednum", Bednum);
   const [payableamount, setPayableamount] = useState("");
   const [formshow, setFormShow] = useState(false);
   const [customerdetailShow, setcustomerdetailShow] = useState(false);
@@ -91,7 +89,6 @@ function UserListRoomDetail(props) {
   const [formError, setFormError] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [dateError, setDateError] = useState("");
-console.log("selectedDate",selectedDate)
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
   };
@@ -108,28 +105,21 @@ console.log("selectedDate",selectedDate)
       calendarRef.current.flatpickr.set(options);
     }
   }, [selectedDate]);
-  // const handleDate =(selectedDates)=>{
-  //   setSelectedDate(selectedDates[0])
-  //   setDateError('')
-  //   console.log("selectedDates",selectedDates)
-  // }
-  // const handleDate = (selectedDates) => {
-  //   if (selectedDates.length > 0) {
-  //     setSelectedDate(selectedDates.map((date) => new Date(date))); // Ensure Date object
-  //   }
-  //   setFormError("");
-  // };
+
   const handleDate = (selectedDates) => {
     if (selectedDates.length > 0) {
-    
-      const localDate = new Date(selectedDates[0].getTime() - selectedDates[0].getTimezoneOffset() * 60000)
+      const localDate = new Date(
+        selectedDates[0].getTime() -
+          selectedDates[0].getTimezoneOffset() * 60000
+      )
         .toISOString()
-        .split('T')[0];
-  
+        .split("T")[0];
+
       setSelectedDate(localDate);
+      setDateError("");
+      setFormError("");
     }
   };
- 
 
   const handleShowEditBed = (item) => {
     console.log("itemitem", item);
@@ -186,17 +176,7 @@ console.log("selectedDate",selectedDate)
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
       setBed(item[0].Bed || "");
-      // setSelectedDate(item[0].joining_Date || "");
-      // Format the date to YYYY/MM/DD
-      if (item[0].joining_Date) {
-        
-        const formattedDate = new Date(item[0].joining_Date)
-          .toISOString()
-          .split('T')[0];  
-        setSelectedDate(formattedDate);
-      } else {
-        setSelectedDate("");  // If no joining_Date is provided
-      }
+      setSelectedDate(item[0].user_join_date || "");
       setAdvanceAmount(item[0].AdvanceAmount || "");
       setRoomRent(item[0].RoomRent || "");
       setPaymentType(item[0].PaymentType || "");
@@ -208,7 +188,7 @@ console.log("selectedDate",selectedDate)
         Floor: item[0].Floor || "",
         Rooms: item[0].Rooms || "",
         Bed: item[0].Bed || "",
-        selectedDate: item[0].joining_date || "",
+        selectedDate: item[0].user_join_date || "",
         AdvanceAmount: item[0].AdvanceAmount || "",
         RoomRent: item[0].RoomRent || "",
       });
@@ -265,16 +245,8 @@ console.log("selectedDate",selectedDate)
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
       setBed(item[0].Bed || "");
-      // setSelectedDate(item[0].joining_Date || "");
-      const joiningDate = item[0].joining_Date
-        ? new Date(item[0].joining_Date)
-        : null;
-      console.log("item[0].joining_Date", item[0].joining_Date);
-      if (joiningDate && !isNaN(joiningDate.getTime())) {
-        setSelectedDate(joiningDate.toISOString().substring(0, 10)); // format as YYYY-MM-DD
-      } else {
-        setSelectedDate("");
-      }
+      setSelectedDate(item[0].user_join_date || "");
+
       setAdvanceAmount(item[0].AdvanceAmount || "");
       setRoomRent(item[0].RoomRent || "");
       setPaymentType(item[0].PaymentType || "");
@@ -538,7 +510,7 @@ console.log("selectedDate",selectedDate)
   const handleBed = (e) => {
     // handleInputChange()
     setBed(e.target.value);
-    if (e.target.value === "Selected Bed") {
+    if (e.target.value === "Selected a Bed") {
       setBedError("Please select a valid Bed");
     } else {
       setBedError("");
@@ -746,13 +718,14 @@ console.log("selectedDate",selectedDate)
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomrentError, setRoomRentError] = useState("");
   const validateAssignField = (value, fieldName) => {
-    // Check if the value is empty or invalid
-    if (
-      !value ||
-      value === "Select a Floor" ||
-      value === "Select a Room" ||
-      value === "Select a Bed"
-    ) {
+    // If the value is a string, trim it, otherwise check for non-empty or valid number
+    const isValueEmpty =
+      (typeof value === "string" && value.trim() === "") ||
+      value === "undefined" ||
+      value === "null" ||
+      value === "0";
+
+    if (isValueEmpty) {
       switch (fieldName) {
         case "Floor":
           setfloorError("Floor is required");
@@ -770,110 +743,48 @@ console.log("selectedDate",selectedDate)
           setAdvanceAmountError("Advance Amount is required");
           break;
         case "RoomRent":
-          setRoomRentError("Room rent is required");
+          setRoomRentError("Room Rent is required");
           break;
         default:
           break;
       }
       return false;
-    } else {
-      // Clear the error if validation passes
-      switch (fieldName) {
-        case "Floor":
-          setfloorError("");
-          break;
-        case "Room":
-          setRoomError("");
-          break;
-        case "Bed":
-          setBedError("");
-          break;
-        case "selectedDate":
-          setDateError("");
-          break;
-        case "AdvanceAmount":
-          setAdvanceAmountError("");
-          break;
-        case "RoomRent":
-          setRoomRentError("");
-          break;
-        default:
-          break;
-      }
-      return true;
     }
+
+    // Clear errors if the value is valid
+    switch (fieldName) {
+      case "Floor":
+        setfloorError("");
+        break;
+      case "Room":
+        setRoomError("");
+        break;
+      case "Bed":
+        setBedError("");
+        break;
+      case "selectedDate":
+        setDateError("");
+        break;
+      case "AdvanceAmount":
+        setAdvanceAmountError("");
+        break;
+      case "RoomRent":
+        setRoomRentError("");
+        break;
+      default:
+        break;
+    }
+
+    return true;
   };
 
   const handleSaveUserlistAddUser = () => {
-    console.log("Submitting Values:", {
-      Floor,
-      Rooms,
-      Bed,
-      AdvanceAmount,
-      RoomRent,
-      selectedDate,
-      initialSelectedDate: initialStateAssign.selectedDate,
-    });
-    if (Floor === "Selected Floor" || floorError) {
-      setfloorError("Please select a valid PG");
-      return;
-    }
-    if (Rooms === "Selected Room" || roomError) {
-      setRoomError("Please select a valid PG");
-      return;
-    }
-    if (Bed === "Selected Bed" || bedError) {
-      setBedError("Please select a valid PG");
-      return;
-    }
-
-    const isChangedBed =
-      (isNaN(Floor)
-        ? String(Floor).toLowerCase() !==
-          String(initialStateAssign.Floor).toLowerCase()
-        : Number(Floor) !== Number(initialStateAssign.Floor)) ||
-      (isNaN(Rooms)
-        ? String(Rooms).toLowerCase() !==
-          String(initialStateAssign.Rooms).toLowerCase()
-        : Number(Rooms) !== Number(initialStateAssign.Rooms)) ||
-      (isNaN(Bed)
-        ? String(Bed).toLowerCase() !==
-          String(initialStateAssign.Bed).toLowerCase()
-        : Number(Bed) !== Number(initialStateAssign.Bed)) ||
-      Number(selectedDate) !== Number(initialStateAssign.selectedDate) ||
-      Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
-      Number(RoomRent) !== Number(initialStateAssign.RoomRent);
-
-    console.log("Change Detected:", isChangedBed);
-
-    if (!isChangedBed) {
-      setFormError("No changes detected.");
-
-      return; // Early exit if no changes
-    } else {
-      setFormError(""); // Clear any previous error
-    }
-    const isFloorValid = validateAssignField(Floor, "Floor");
-    const isRoomValid = validateAssignField(Rooms, "Room");
-    const isBedValid = validateAssignField(Bed, "Bed");
-    const isDateValid = validateAssignField(selectedDate, "selectedDate");
-
-    const isAdvanceAmountValid = validateAssignField(
-      AdvanceAmount,
-      "AdvanceAmount"
-    );
-    const isRoomRentValid = validateAssignField(RoomRent, "RoomRent");
-
-    if (
-      !isFloorValid ||
-      !isRoomValid ||
-      !isBedValid ||
-      !isDateValid ||
-      !isAdvanceAmountValid ||
-      !isRoomRentValid
-    ) {
-      return;
-    }
+    if (!validateAssignField(Floor, "Floor")) return;
+    if (!validateAssignField(Rooms, "Room")) return;
+    if (!validateAssignField(Bed, "Bed")) return;
+    if (!validateAssignField(selectedDate, "selectedDate")) return;
+    if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) return;
+    if (!validateAssignField(RoomRent, "RoomRent")) return;
 
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Room Rent must be greater than 0");
@@ -888,7 +799,53 @@ console.log("selectedDate",selectedDate)
     } else {
       setAdvanceAmountError("");
     }
-   
+    if (Floor === "Selected Floor" || floorError) {
+      setfloorError("Please select a valid PG");
+      return;
+    }
+    if (Rooms === "Selected Room" || roomError) {
+      setRoomError("Please select a valid PG");
+      return;
+    }
+    if (Bed === "Select a Bed" || bedError) {
+      setBedError("Please select a valid PG");
+      return;
+    }
+    const isValidDate = (date) => {
+      return !isNaN(Date.parse(date));
+    };
+
+    const isChangedBed =
+      (isNaN(Floor)
+        ? String(Floor).toLowerCase() !==
+          String(initialStateAssign.Floor).toLowerCase()
+        : Number(Floor) !== Number(initialStateAssign.Floor)) ||
+      (isNaN(Rooms)
+        ? String(Rooms).toLowerCase() !==
+          String(initialStateAssign.Rooms).toLowerCase()
+        : Number(Rooms) !== Number(initialStateAssign.Rooms)) ||
+      (isNaN(Bed)
+        ? String(Bed).toLowerCase() !==
+          String(initialStateAssign.Bed).toLowerCase()
+        : Number(Bed) !== Number(initialStateAssign.Bed)) ||
+      (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
+        ? new Date(selectedDate).toISOString().split("T")[0] !==
+          new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
+        : selectedDate !== initialStateAssign.selectedDate) ||
+      Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
+      Number(RoomRent) !== Number(initialStateAssign.RoomRent);
+
+    // If no changes detected
+    if (!isChangedBed) {
+      setFormError("No changes detected.");
+      return;
+    } else {
+      setFormError("");
+    }
+    const formattedDate = selectedDate
+      ? new Date(selectedDate).toISOString().split("T")[0]
+      : null;
+
     dispatch({
       type: "ADDUSER",
       payload: {
@@ -906,7 +863,7 @@ console.log("selectedDate",selectedDate)
         Floor: Floor,
         Rooms: Rooms,
         Bed: Bed,
-        joining_date: selectedDate,
+        joining_date: formattedDate,
         AdvanceAmount: AdvanceAmount,
         RoomRent: RoomRent,
         BalanceDue: BalanceDue,
@@ -917,6 +874,7 @@ console.log("selectedDate",selectedDate)
         ID: id,
       },
     });
+
     props.AfterEditHostels(hostel_Id);
     props.AfterEditFloors(Floor);
     props.AfterEditRoomses(Rooms);
@@ -1443,19 +1401,6 @@ console.log("selectedDate",selectedDate)
                                       >
                                         Amenities
                                       </strong>
-
-                                      {/* <div class="d-flex flex-wrap mt-2">
-                                                                        <div  style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>Amnities_Name</div> 
-                                                                            {
-                                                                            g?.amentites?.length > 0 && g?.amentites.map((p) => {
-                                                                                console.log("p,,,",p)
-                                                                                return (
-                                                                                    <div key={p.Amnities_Name} style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>{p.Amnities_Name}</div>
-
-                                                                                )
-                                                                            })
-                                                                        } 
-                                                                    </div> */}
                                     </div>
                                   </div>
                                 </div>
@@ -1556,7 +1501,6 @@ console.log("selectedDate",selectedDate)
                                             <div class="d-flex flex-wrap mt-2">
                                               {g?.amentites?.length > 0 &&
                                                 g?.amentites.map((p) => {
-                                                  console.log("p,,,", p);
                                                   return (
                                                     <div
                                                       key={p.Amnities_Name}
@@ -2506,9 +2450,8 @@ console.log("selectedDate",selectedDate)
                                           id="form-selects"
                                           onChange={(e) => handleBed(e)}
                                         >
-                                          <option value="">Select a Bed</option>{" "}
-                                          {/* Use empty string to disable the option */}
-                                          {/* Check if in edit mode and Bednum[0]?.Bed is valid */}
+                                          <option>Select a Bed</option>
+
                                           {Editbed === "editbeddet" &&
                                             Bednum &&
                                             Bednum[0]?.Bed !== "undefined" &&
@@ -2522,7 +2465,7 @@ console.log("selectedDate",selectedDate)
                                                 {Bednum[0].Bed}
                                               </option>
                                             )}
-                                          {/* Populate the dropdown with bed numbers from the state */}
+
                                           {state.UsersList?.bednumberdetails
                                             ?.bed_details?.length > 0 &&
                                             state.UsersList.bednumberdetails.bed_details.map(
@@ -2549,195 +2492,92 @@ console.log("selectedDate",selectedDate)
                                           </div>
                                         )}
                                       </div>
-                                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222",
-                  fontFamily: "'Gilroy'",
-                  fontWeight: 500,
-                }}
-              >
-                Date  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
 
-              <div style={{ position: "relative" }}>
-                <label
-                  htmlFor="date-input"
-                  style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 11,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    color: "#222222",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between", // Ensure space between text and icon
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    if (calendarRef.current) {
-                      calendarRef.current.flatpickr.open();
-                    }
-                  }}
-                >
-                 {selectedDate instanceof Date && !isNaN(selectedDate) 
-    ? selectedDate.toLocaleDateString("en-GB") 
-    : "YYYY-MM-DD"}
-  
-    
-                  <img
-                    src={Calendars}
-                    style={{ height: 24, width: 24, marginLeft: 10 }}
-                    alt="Calendar"
-                  />
-                </label>
-                <Flatpickr
-                  ref={calendarRef}
-                  options={options}
-                  value={selectedDate}
-                  onChange={(selectedDates)=> handleDate(selectedDates)}
-                    
-                  
-                  style={{
-                    padding: 10,
-                    fontSize: 16,
-                    width: "100%",
-                    borderRadius: 8,
-                    border: "1px solid #D9D9D9",
-                    position: "absolute",
-                    top: 100,
-                    left: 100,
-                    zIndex: 1000,
-                    display: "none",
-                  }}
-                />
-              </div>
-              {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {dateError}
-                </div>
-              )}
-            </div> */}
+                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <Form.Label
+                                          style={{
+                                            fontSize: 14,
+                                            color: "#222",
+                                            fontFamily: "'Gilroy'",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          Joining_Date{" "}
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            *{" "}
+                                          </span>
+                                        </Form.Label>
 
-<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-  <Form.Label
-    style={{
-      fontSize: 14,
-      color: "#222",
-      fontFamily: "'Gilroy'",
-      fontWeight: 500,
-    }}
-  >
-    Joining_Date{" "}
-    <span
-      style={{
-        color: "red",
-        fontSize: "20px",
-      }}
-    >
-      *{" "}
-    </span>
-  </Form.Label>
+                                        <div style={{ position: "relative" }}>
+                                          <label
+                                            htmlFor="date-input"
+                                            style={{
+                                              border: "1px solid #D9D9D9",
+                                              borderRadius: 8,
+                                              padding: 11,
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              color: "#222222",
+                                              display: "flex",
+                                              alignItems: "center",
+                                              justifyContent: "space-between",
+                                              cursor: "pointer",
+                                            }}
+                                            onClick={() => {
+                                              if (calendarRef.current) {
+                                                calendarRef.current.flatpickr.open(); // Open Flatpickr on click
+                                              }
+                                            }}
+                                          >
+                                            {/* {selectedDate ? selectedDate : 'YYYY-MM-DD'} Show selectedDate */}
+                                            <span>
+                                              {selectedDate === "0000-00-00" ||
+                                              !selectedDate
+                                                ? "YYYY-MM-DD"
+                                                : selectedDate}
+                                            </span>
+                                            <img
+                                              src={Calendars}
+                                              style={{
+                                                height: 24,
+                                                width: 24,
+                                                marginLeft: 10,
+                                              }}
+                                              alt="Calendar"
+                                            />
+                                          </label>
 
-  {/* <div style={{ position: "relative" }}>
-    <label
-      htmlFor="date-input"
-      style={{
-        border: "1px solid #D9D9D9",
-        borderRadius: 8,
-        padding: 11,
-        fontSize: 14,
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        color: "#222222",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        cursor: "pointer",
-      }}
-      onClick={() => {
-        if (calendarRef.current) {
-          calendarRef.current.flatpickr.open(); // Ensure this opens Flatpickr
-        }
-      }}
-    >
-      {selectedDate
-        ? new Date(selectedDate).toLocaleDateString("en-CA")
-        : "YYYY/MM/DD"}
-      <img
-        src={Calendars}
-        style={{
-          height: 24,
-          width: 24,
-          marginLeft: 10,
-        }}
-        alt="Calendar"
-      />
-    </label>
+                                          <Flatpickr
+                                            ref={calendarRef}
+                                            options={{
+                                              dateFormat: "Y-m-d",
+                                            }}
+                                            value={
+                                              selectedDate
+                                                ? new Date(selectedDate)
+                                                : new Date()
+                                            }
+                                            onChange={(selectedDates) =>
+                                              handleDate(selectedDates)
+                                            }
+                                            style={{
+                                              display: "none",
+                                            }}
+                                          />
+                                        </div>
 
-    <Flatpickr
-  ref={calendarRef}
-  options={{
-    dateFormat: "YYYY-MM-DD", // This should match your display format
-  }}
-  value={selectedDate} // Ensure selectedDate is properly formatted
-  onChange={(selectedDates) => handleDate(selectedDates)}
-/>
-  </div> */}
- <div style={{ position: 'relative' }}>
-  <label
-    htmlFor="date-input"
-    style={{
-      border: '1px solid #D9D9D9',
-      borderRadius: 8,
-      padding: 11,
-      fontSize: 14,
-      fontWeight: 500,
-      color: '#222222',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      cursor: 'pointer',
-    }}
-    onClick={() => {
-      if (calendarRef.current) {
-        calendarRef.current.flatpickr.open(); // Open Flatpickr on click
-      }
-    }}
-  >
-    {selectedDate ? selectedDate : 'YYYY-MM-DD'} {/* Show selectedDate */}
-    <img
-      src={Calendars}
-      style={{ height: 24, width: 24, marginLeft: 10 }}
-      alt="Calendar"
-    />
-  </label>
-
-  <Flatpickr
-  ref={calendarRef}
-  options={{
-    dateFormat: 'Y-m-d',  // Ensures the date is displayed as YYYY-MM-DD
-  }}
-  value={selectedDate}
-  onChange={(selectedDates) => handleDate(selectedDates)}
-  style={{
-    display: 'none',
-  }}
-/>
-</div>
-
-  {dateError && (
-    <div style={{ color: "red" }}>
-      <MdError />
-      {dateError}
-    </div>
-  )}
-</div>
-
+                                        {dateError && (
+                                          <div style={{ color: "red" }}>
+                                            <MdError />
+                                            {dateError}
+                                          </div>
+                                        )}
+                                      </div>
 
                                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                         <Form.Group className="">
