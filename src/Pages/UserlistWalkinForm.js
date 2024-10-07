@@ -6,7 +6,7 @@ import Calendars from '../Assets/Images/New_images/calendar.png'; // Ensure the 
 import { toast } from 'react-toastify';
 import { CloseCircle } from 'iconsax-react';
 
-function CustomerForm({ show, handleClose, initialData, modalType }) {
+function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [mobile, setMobile] = useState('');
@@ -28,15 +28,15 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
         if (initialData) {
             setName(initialData.name || '');
             setEmail(initialData.email || '');
-           
+
             const mobileParts = initialData.mobile.split(' ');
             setCountryCode(mobileParts[0].replace('+', '') || '91');
             setMobile(mobileParts[1] || '');
-          
+
             setWalkInDate(initialData.walkInDate ? new Date(initialData.walkInDate) : null);
             setComments(initialData.comments || '');
         } else {
-            
+
             setName('');
             setEmail('');
             setCountryCode('91');
@@ -45,6 +45,8 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
             setComments('');
         }
     }, [initialData, show]);
+
+
 
     useEffect(() => {
         // Check if all required fields are filled and valid
@@ -56,6 +58,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
         setIsFormValid(isNameValid && isEmailValid && isMobileValid && isDateValid && isCommentsValid);
     }, [name, email, mobile, walkInDate, comments]);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -78,8 +81,15 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
             comments
         };
 
+        // Debug: Log the data being submitted
+        console.log('Submitting Customer Data:', updatedCustomer);
+
         // Submit the updated data
-        onSubmit(updatedCustomer);
+        if (onSubmit) {
+            onSubmit(updatedCustomer);
+        } else {
+            console.error('onSubmit prop is not provided.');
+        }
 
         // Optionally, reset form fields if adding a new walk-in
         if (modalType === 'add') {
