@@ -91,7 +91,7 @@ function UserListRoomDetail(props) {
   const [formError, setFormError] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [dateError, setDateError] = useState("");
-
+console.log("selectedDate",selectedDate)
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
   };
@@ -100,7 +100,7 @@ function UserListRoomDetail(props) {
     setValue(newValue);
   };
   const options = {
-    dateFormat: "Y/m/d",
+    dateFormat: "YYYY-MM-DD",
     defaultDate: selectedDate || new Date(),
   };
   useEffect(() => {
@@ -119,99 +119,101 @@ function UserListRoomDetail(props) {
   //   }
   //   setFormError("");
   // };
-  const handleDate = (event) => {
-    const newDate = event.target.value; // This should ideally be "YYYY-MM-DD"
-    setSelectedDate(newDate); // Update the state
-    console.log("Selected Date:", newDate); // Log for debugging
-    setFormError("");
-};
+  const handleDate = (selectedDates) => {
+    if (selectedDates.length > 0) {
+    
+      const localDate = new Date(selectedDates[0].getTime() - selectedDates[0].getTimezoneOffset() * 60000)
+        .toISOString()
+        .split('T')[0];
+  
+      setSelectedDate(localDate);
+    }
+  };
+ 
 
   const handleShowEditBed = (item) => {
     console.log("itemitem", item);
 
     if (item[0].ID) {
-        if (item) {
-            dispatch({
-                type: "HOSTELDETAILLIST",
-                payload: { hostel_Id: item[0].Hostel_Id },
-            });
-            dispatch({
-                type: "ROOMDETAILS",
-                payload: { hostel_Id: item[0].Hostel_Id, floor_Id: item[0].Floor },
-            });
-            dispatch({
-                type: "BEDNUMBERDETAILS",
-                payload: {
-                    hostel_id: item[0].Hostel_Id,
-                    floor_id: item[0].Floor,
-                    room_id: item[0].Rooms,
-                },
-            });
-        }
-        setBednum(item);
-        seteditBed("editbeddet");
-        setcustomerAsignBed(true);
-        setcustomerdetailShow(false);
-        setFormShow(true);
-        setId(item[0].ID);
-
-        if (item[0].profile === 0) {
-            setFile(null);
-        } else {
-            setFile(item[0].profile);
-        }
-
-        if (item[0].Name) {
-            let value = item[0].Name.split(" ");
-            setFirstname(value[0]);
-            setLastname(value[1]);
-        } else {
-            setFirstname("");
-            setLastname("");
-        }
-
-        setAddress(item[0].Address || "");
-        setAadharNo(item[0].AadharNo || "");
-        setPancardNo(item[0].PancardNo || "");
-        setLicence(item[0].licence || "");
-        setPhone(item[0].Phone || "");
-        setEmail(item[0].Email || "");
-        setHostelName(item[0].HostelName || "");
-        setHostel_Id(item[0].Hostel_Id || "");
-        setFloor(item[0].Floor || "");
-        setRooms(item[0].Rooms || "");
-        setBed(item[0].Bed || "");
-
-        // Format the date to YYYY/MM/DD
-        const joiningDate = item[0].joining_Date ? new Date(item[0].joining_Date) : null;
-        if (joiningDate && !isNaN(joiningDate.getTime())) {
-            // Add 1 day to the existing joining date
-            joiningDate.setDate(joiningDate.getDate() + 1);
-            let isoDate = joiningDate.toISOString().substring(0, 10); // Format as YYYY-MM-DD
-            let [year, month, day] = isoDate.split("-");
-            day = parseInt(day).toString(); // Remove leading zero from the day if needed
-            setSelectedDate(`${year}/${month}/${day}`); // Set in YYYY/MM/DD format
-        } else {
-            setSelectedDate("");
-        }
-        setAdvanceAmount(item[0].AdvanceAmount || "");
-        setRoomRent(item[0].RoomRent || "");
-        setPaymentType(item[0].PaymentType || "");
-        setBalanceDue(item[0].BalanceDue || "");
-        setPaidAdvance(item[0].paid_advance || "");
-        setPaidrent(item[0].paid_rent || "");
-
-        setInitialStateAssign({
-            Floor: item[0].Floor || "",
-            Rooms: item[0].Rooms || "",
-            Bed: item[0].Bed || "",
-            selectedDate: item[0].joining_date || "",
-            AdvanceAmount: item[0].AdvanceAmount || "",
-            RoomRent: item[0].RoomRent || "",
+      if (item) {
+        dispatch({
+          type: "HOSTELDETAILLIST",
+          payload: { hostel_Id: item[0].Hostel_Id },
         });
-    }
-};
+        dispatch({
+          type: "ROOMDETAILS",
+          payload: { hostel_Id: item[0].Hostel_Id, floor_Id: item[0].Floor },
+        });
+        dispatch({
+          type: "BEDNUMBERDETAILS",
+          payload: {
+            hostel_id: item[0].Hostel_Id,
+            floor_id: item[0].Floor,
+            room_id: item[0].Rooms,
+          },
+        });
+      }
+      setBednum(item);
+      seteditBed("editbeddet");
+      setcustomerAsignBed(true);
+      setcustomerdetailShow(false);
+      setFormShow(true);
+      setId(item[0].ID);
 
+      if (item[0].profile === 0) {
+        setFile(null);
+      } else {
+        setFile(item[0].profile);
+      }
+
+      if (item[0].Name) {
+        let value = item[0].Name.split(" ");
+        setFirstname(value[0]);
+        setLastname(value[1]);
+      } else {
+        setFirstname("");
+        setLastname("");
+      }
+
+      setAddress(item[0].Address || "");
+      setAadharNo(item[0].AadharNo || "");
+      setPancardNo(item[0].PancardNo || "");
+      setLicence(item[0].licence || "");
+      setPhone(item[0].Phone || "");
+      setEmail(item[0].Email || "");
+      setHostelName(item[0].HostelName || "");
+      setHostel_Id(item[0].Hostel_Id || "");
+      setFloor(item[0].Floor || "");
+      setRooms(item[0].Rooms || "");
+      setBed(item[0].Bed || "");
+      // setSelectedDate(item[0].joining_Date || "");
+      // Format the date to YYYY/MM/DD
+      if (item[0].joining_Date) {
+        
+        const formattedDate = new Date(item[0].joining_Date)
+          .toISOString()
+          .split('T')[0];  
+        setSelectedDate(formattedDate);
+      } else {
+        setSelectedDate("");  // If no joining_Date is provided
+      }
+      setAdvanceAmount(item[0].AdvanceAmount || "");
+      setRoomRent(item[0].RoomRent || "");
+      setPaymentType(item[0].PaymentType || "");
+      setBalanceDue(item[0].BalanceDue || "");
+      setPaidAdvance(item[0].paid_advance || "");
+      setPaidrent(item[0].paid_rent || "");
+
+      setInitialStateAssign({
+        Floor: item[0].Floor || "",
+        Rooms: item[0].Rooms || "",
+        Bed: item[0].Bed || "",
+        selectedDate: item[0].joining_date || "",
+        AdvanceAmount: item[0].AdvanceAmount || "",
+        RoomRent: item[0].RoomRent || "",
+      });
+    }
+  };
 
   const MobileNumber = `${countryCode}${Phone}`;
   const handleEditUser = (item) => {
@@ -264,8 +266,10 @@ function UserListRoomDetail(props) {
       setRooms(item[0].Rooms || "");
       setBed(item[0].Bed || "");
       // setSelectedDate(item[0].joining_Date || "");
-      const joiningDate = item[0].joining_Date ? new Date(item[0].joining_Date) : null;
-      console.log("item[0].joining_Date",item[0].joining_Date)
+      const joiningDate = item[0].joining_Date
+        ? new Date(item[0].joining_Date)
+        : null;
+      console.log("item[0].joining_Date", item[0].joining_Date);
       if (joiningDate && !isNaN(joiningDate.getTime())) {
         setSelectedDate(joiningDate.toISOString().substring(0, 10)); // format as YYYY-MM-DD
       } else {
@@ -731,7 +735,7 @@ function UserListRoomDetail(props) {
     Floor: "",
     Rooms: "",
     Bed: "",
-    selectedDate:"",
+    selectedDate: "",
     AdvanceAmount: "",
     RoomRent: "",
   });
@@ -808,8 +812,8 @@ function UserListRoomDetail(props) {
       AdvanceAmount,
       RoomRent,
       selectedDate,
-      initialSelectedDate: initialStateAssign.selectedDate
-  });
+      initialSelectedDate: initialStateAssign.selectedDate,
+    });
     if (Floor === "Selected Floor" || floorError) {
       setfloorError("Please select a valid PG");
       return;
@@ -823,32 +827,32 @@ function UserListRoomDetail(props) {
       return;
     }
 
-  
-
-  const isChangedBed =
-     
-      (isNaN(Floor) 
-          ? String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase()
-          : Number(Floor) !== Number(initialStateAssign.Floor)) ||
-      (isNaN(Rooms) 
-          ? String(Rooms).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase()
-          : Number(Rooms) !== Number(initialStateAssign.Rooms)) ||
-      (isNaN(Bed) 
-          ? String(Bed).toLowerCase() !== String(initialStateAssign.Bed).toLowerCase()
-          : Number(Bed) !== Number(initialStateAssign.Bed)) ||
-          Number(selectedDate) !== Number(initialStateAssign.selectedDate) ||
+    const isChangedBed =
+      (isNaN(Floor)
+        ? String(Floor).toLowerCase() !==
+          String(initialStateAssign.Floor).toLowerCase()
+        : Number(Floor) !== Number(initialStateAssign.Floor)) ||
+      (isNaN(Rooms)
+        ? String(Rooms).toLowerCase() !==
+          String(initialStateAssign.Rooms).toLowerCase()
+        : Number(Rooms) !== Number(initialStateAssign.Rooms)) ||
+      (isNaN(Bed)
+        ? String(Bed).toLowerCase() !==
+          String(initialStateAssign.Bed).toLowerCase()
+        : Number(Bed) !== Number(initialStateAssign.Bed)) ||
+      Number(selectedDate) !== Number(initialStateAssign.selectedDate) ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
-  console.log("Change Detected:", isChangedBed);
-  
-  if (!isChangedBed) {
+    console.log("Change Detected:", isChangedBed);
+
+    if (!isChangedBed) {
       setFormError("No changes detected.");
-      
+
       return; // Early exit if no changes
-  } else {
+    } else {
       setFormError(""); // Clear any previous error
-  }
+    }
     const isFloorValid = validateAssignField(Floor, "Floor");
     const isRoomValid = validateAssignField(Rooms, "Room");
     const isBedValid = validateAssignField(Bed, "Bed");
@@ -884,18 +888,7 @@ function UserListRoomDetail(props) {
     } else {
       setAdvanceAmountError("");
     }
-    const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
-
-      return newDate.toISOString().split("T")[0];
-    };
-    console.log("selectedDate", selectedDate);
-    const formattedDate = selectedDate
-      ? incrementDateAndFormat(selectedDate)
-      : "";
-    console.log("formattedDate", formattedDate);
-
+   
     dispatch({
       type: "ADDUSER",
       payload: {
@@ -913,7 +906,7 @@ function UserListRoomDetail(props) {
         Floor: Floor,
         Rooms: Rooms,
         Bed: Bed,
-        joining_date: formattedDate,
+        joining_date: selectedDate,
         AdvanceAmount: AdvanceAmount,
         RoomRent: RoomRent,
         BalanceDue: BalanceDue,
@@ -2556,8 +2549,81 @@ function UserListRoomDetail(props) {
                                           </div>
                                         )}
                                       </div>
+                                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222",
+                  fontFamily: "'Gilroy'",
+                  fontWeight: 500,
+                }}
+              >
+                Date  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
 
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div style={{ position: "relative" }}>
+                <label
+                  htmlFor="date-input"
+                  style={{
+                    border: "1px solid #D9D9D9",
+                    borderRadius: 8,
+                    padding: 11,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    color: "#222222",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between", // Ensure space between text and icon
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    if (calendarRef.current) {
+                      calendarRef.current.flatpickr.open();
+                    }
+                  }}
+                >
+                 {selectedDate instanceof Date && !isNaN(selectedDate) 
+    ? selectedDate.toLocaleDateString("en-GB") 
+    : "YYYY-MM-DD"}
+  
+    
+                  <img
+                    src={Calendars}
+                    style={{ height: 24, width: 24, marginLeft: 10 }}
+                    alt="Calendar"
+                  />
+                </label>
+                <Flatpickr
+                  ref={calendarRef}
+                  options={options}
+                  value={selectedDate}
+                  onChange={(selectedDates)=> handleDate(selectedDates)}
+                    
+                  
+                  style={{
+                    padding: 10,
+                    fontSize: 16,
+                    width: "100%",
+                    borderRadius: 8,
+                    border: "1px solid #D9D9D9",
+                    position: "absolute",
+                    top: 100,
+                    left: 100,
+                    zIndex: 1000,
+                    display: "none",
+                  }}
+                />
+              </div>
+              {dateError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {dateError}
+                </div>
+              )}
+            </div> */}
+
+<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
   <Form.Label
     style={{
       fontSize: 14,
@@ -2566,7 +2632,7 @@ function UserListRoomDetail(props) {
       fontWeight: 500,
     }}
   >
-    Date{" "}
+    Joining_Date{" "}
     <span
       style={{
         color: "red",
@@ -2577,7 +2643,7 @@ function UserListRoomDetail(props) {
     </span>
   </Form.Label>
 
-  <div style={{ position: "relative" }}>
+  {/* <div style={{ position: "relative" }}>
     <label
       htmlFor="date-input"
       style={{
@@ -2590,18 +2656,17 @@ function UserListRoomDetail(props) {
         color: "#222222",
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between", // Ensure space between text and icon
+        justifyContent: "space-between",
         cursor: "pointer",
       }}
       onClick={() => {
         if (calendarRef.current) {
-          calendarRef.current.flatpickr.open();
+          calendarRef.current.flatpickr.open(); // Ensure this opens Flatpickr
         }
       }}
     >
-      {/* Display the selected date in YYYY/MM/DD format */}
       {selectedDate
-        ? new Date(selectedDate).toLocaleDateString("en-CA") // Ensure correct date format: YYYY-MM-DD
+        ? new Date(selectedDate).toLocaleDateString("en-CA")
         : "YYYY/MM/DD"}
       <img
         src={Calendars}
@@ -2614,30 +2679,57 @@ function UserListRoomDetail(props) {
       />
     </label>
 
-    {/* Flatpickr component for date selection */}
     <Flatpickr
-      ref={calendarRef}
-      options={{
-        dateFormat: "Y/m/d", // Force the format as YYYY/MM/DD
-      }}
-      value={selectedDate}
-      onChange={(selectedDates) => handleDate(selectedDates)}
-      style={{
-        padding: 10,
-        fontSize: 16,
-        width: "100%",
-        borderRadius: 8,
-        border: "1px solid #D9D9D9",
-        position: "absolute",
-        top: 100,
-        left: 100,
-        zIndex: 1000,
-        display: "none", // Hide flatpickr input
-      }}
+  ref={calendarRef}
+  options={{
+    dateFormat: "YYYY-MM-DD", // This should match your display format
+  }}
+  value={selectedDate} // Ensure selectedDate is properly formatted
+  onChange={(selectedDates) => handleDate(selectedDates)}
+/>
+  </div> */}
+ <div style={{ position: 'relative' }}>
+  <label
+    htmlFor="date-input"
+    style={{
+      border: '1px solid #D9D9D9',
+      borderRadius: 8,
+      padding: 11,
+      fontSize: 14,
+      fontWeight: 500,
+      color: '#222222',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      cursor: 'pointer',
+    }}
+    onClick={() => {
+      if (calendarRef.current) {
+        calendarRef.current.flatpickr.open(); // Open Flatpickr on click
+      }
+    }}
+  >
+    {selectedDate ? selectedDate : 'YYYY-MM-DD'} {/* Show selectedDate */}
+    <img
+      src={Calendars}
+      style={{ height: 24, width: 24, marginLeft: 10 }}
+      alt="Calendar"
     />
-  </div>
+  </label>
 
-  {/* Error message for date */}
+  <Flatpickr
+  ref={calendarRef}
+  options={{
+    dateFormat: 'Y-m-d',  // Ensures the date is displayed as YYYY-MM-DD
+  }}
+  value={selectedDate}
+  onChange={(selectedDates) => handleDate(selectedDates)}
+  style={{
+    display: 'none',
+  }}
+/>
+</div>
+
   {dateError && (
     <div style={{ color: "red" }}>
       <MdError />
@@ -2645,6 +2737,7 @@ function UserListRoomDetail(props) {
     </div>
   )}
 </div>
+
 
                                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                         <Form.Group className="">
