@@ -228,7 +228,7 @@ console.log("SaveHostel",SaveHostel)
                                             <div><Edit size="16" color="#1E45E1" />
                                             </div>
                                             <div>
-                                                <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222", cursor: "pointer" }} >Edit</label>
+                                                <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", color: "#222222", cursor: "pointer" }} >Edit</label>
 
                                             </div>
                                         </div>
@@ -240,7 +240,7 @@ console.log("SaveHostel",SaveHostel)
                                                 color="red"
                                             /></div> 
                                             <div>
-                                            <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
+                                            <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
 
                                             </div>
                                         </div>

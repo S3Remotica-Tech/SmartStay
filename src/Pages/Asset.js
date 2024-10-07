@@ -13,7 +13,8 @@ import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
 import AssetListTable from './AssetListTable'
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+import Spinner from 'react-bootstrap/Spinner';
 
 function Asset() {
 
@@ -197,8 +198,42 @@ function Asset() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
+
+  const [showDropDown, setShowDropDown] = useState(false)
+  const [showFilterData, setShowFilterData] = useState(false)
+
+
+  const handleShowSearch = () => {
+    setShowFilterData(!showFilterData)
+  }
+
+  const handleCloseSearch = () => {
+    setShowFilterData(false)
+    setGetData(state.AssetList.assetList)
+    setSearchQuery('');
+  }
+
   const handleInputChange = (e) => {
     const searchItem = e.target.value
+    setSearchQuery(searchItem);
+    if (searchItem != '') {
+      const filteredItems = state.AssetList.assetList && state.AssetList.assetList.filter((user) =>
+        user.asset_name && user.asset_name.toLowerCase().includes(searchItem.toLowerCase())
+      );
+
+      setGetData(filteredItems);
+      setShowDropDown(true)
+    }
+    else {
+      setGetData(state.AssetList.assetList)
+    }
+    setCurrentPage(1);
+  };
+
+
+
+  const handleDropDown = (value)=>{
+    const searchItem = value;
     setSearchQuery(searchItem);
     if (searchItem != '') {
       const filteredItems = state.AssetList.assetList && state.AssetList.assetList.filter((user) =>
@@ -211,7 +246,10 @@ function Asset() {
       setGetData(state.AssetList.assetList)
     }
     setCurrentPage(1);
-  };
+    setShowDropDown(false)
+  }
+
+
 
 
   const stateAccount = useSelector(state => state.createAccount)
@@ -258,47 +296,141 @@ function Asset() {
     })
   });
 
+
+
+
   return (
     <>
-      <div style={{ width: "100%" }} >
-        <div className='m-4'>
+      <div className='container' style={{ width: "100%" }} >
+        {/* <div className='m-4'> */}
 
 
-          {/* <div className='d-flex justify-content-end align-items-center m-4'>
-
-            <div>
-              <InputGroup>
-                <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
-                  <CiSearch style={{ fontSize: 20 }} />
-                </InputGroup.Text>
-                <FormControl size="lg"
-                  value={searchQuery}
-                  onChange={handleInputChange}
-                  style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
-                  placeholder="Search..."
-                />
-              </InputGroup>
-            </div>
-            <div className="mr-3">
-              <img src={Notify} alt="notification" />
-            </div>
-
-            <div className="mr-3">
-              <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
-            </div>
-          </div> */}
+        
 
           <div className="d-flex justify-content-between align-items-center  ms-3 mb-3">
             <div>
-              <label style={{ fontSize: 24, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Assets</label>
+              <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Assets</label>
             </div>
 
             <div className="d-flex justify-content-between align-items-center">
-              <div className='me-3'>
-                <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px", cursor: "pointer" }} onClick={handleFilterByPrice} />
+
+            {
+                !showFilterData &&
+
+                <div className='me-3' onClick={handleShowSearch}>
+                  <SearchNormal1
+                    size="26"
+                    color="#222"
+                  />
+                </div>
+              }
+              {
+                showFilterData &&
+                <div className='me-3 'style={{position:'relative'}}>
+                  <InputGroup>
+
+                    <FormControl size="lg"
+                      value={searchQuery}
+                      onChange={handleInputChange}
+
+                      style={{width:235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500,color: "#222",
+                        //  '::placeholder': { color: "#222", fontWeight: 500 } 
+                        }}
+                      placeholder="Search..."
+                    />
+                    <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
+                      <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                    </InputGroup.Text>
+                  </InputGroup>
 
 
+
+                  {
+            getData.length > 0 && searchQuery !== '' && showDropDown && (
+            
+                          <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                            <ul className='show-scroll' style={{
+                              // position: 'absolute',
+                              // top: '50px',
+                              // left: 0,
+                              width: 260,
+                              backgroundColor: '#fff',
+                              // border: '1px solid #D9D9D9',
+                              borderRadius: '4px',
+                              maxHeight: 174,
+                              minHeight: 100,
+                              overflowY: 'auto',
+                              padding: '5px 10px',
+                              margin: '0',
+                              listStyleType: 'none',
+
+                              borderRadius: 8,
+                              boxSizing: 'border-box'
+                            }}>
+                              {
+                                getData.map((user, index) => (
+                                  <li
+                                    key={index}
+                                    onClick={() => {
+                                      handleDropDown(user.asset_name);
+
+                                    }}
+                                    style={{
+                                      padding: '10px',
+                                      cursor: 'pointer',
+                                      borderBottom: '1px solid #dcdcdc',
+                                      fontSize: '14px',
+                                      fontFamily: 'Gilroy',
+                                      fontWeight: 500,
+
+                                    }}
+                                  >
+                                    {user.asset_name}
+                                  </li>
+                                ))
+                              }
+                            </ul>
+                          </div>
+                        )
+          }
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+              }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+
+                <div className='me-3' onClick={handleFilterByPrice}>
+                <Sort
+                  Size="24"
+                  color="#222"
+                   variant="Outline"
+                />
               </div>
+       
               {
                 showFilter &&
 
@@ -316,7 +448,7 @@ function Asset() {
                 </div>
               }
               <div>
-                <Button onClick={handleShow} style={{ fontFamily: "Montserrat", fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 500, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add an asset</Button>
+                <Button onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",  fontWeight: 500, borderRadius: 12,  padding: "16px 24px" }}> + Add an asset</Button>
               </div>
             </div>
           </div>
@@ -325,6 +457,41 @@ function Asset() {
           {/* <div className='table-responsive' 
           style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "visible", height:"auto"}}
            >  */}
+
+
+{searchQuery && (
+        <div  className='container mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+          {getData.length > 0 ? (
+            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+              {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+            </span>
+          ) : (
+            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+          )}
+        </div>
+      )}
+
+
+
+
+
+
+{loading &&
+<div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+             
+          
+
+                <div className="d-flex justify-content-center align-items-start gap-3" style={{ height: "100%" }}><Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} /> <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>Loading.....</div></div>
+
+            
+            </div>
+  }
+
+
+
+
+
+{currentItems && currentItems.length > 0 && (
           <Table
             responsive="md"
             className='Table_Design'
@@ -337,6 +504,7 @@ function Asset() {
             }}
           // className="Table_Design w-100" style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}}
           >
+           
             <thead style={{ borderRadius: "24px", fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
               <tr>
                 {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", borderTopLeftRadius: 24, }}>
@@ -404,55 +572,20 @@ function Asset() {
   }
 </tbody>
 
-            {/* <tbody>
-            {
-                  loading ? <>
-                   <tr>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle,width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle,width: '100%' }}></div></td>
-      <td><div style={{ ...skeletonStyle,width: '100%' }}></div></td>
-    </tr>
-                  
-                  </>
-
-                : <>
-                
-              {currentItems && currentItems.map((item) => (
-                <AssetListTable item={item} OnEditAsset={handleEditAsset} />
-
-              ))}
-              </>
-              :
-              <>
-                           <div className="d-flex justify-content-center" style={{ width: "100%" }}>
-              {
-                !loading && currentItems.length === 0 && <h5 style={{ fontSize: 12, color: "red" }}>No Asset Found</h5>
-              }
-   
-            </div>
-            </>
-            }
-            </tbody> */}
+           
           </Table>
 
-
+)}
 {
- currentItems && currentItems.length < 0 && 
+  !loading && currentItems && currentItems.length === 0 &&
 
  <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
  <div>
    <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-   <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
-   <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
-   <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
+   <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
+   <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
+   <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12,  padding: "20px 40px", fontFamily: "Gilroy" }}
    onClick={handleShow}
    > + Add an asset</Button>
    </div>
@@ -489,7 +622,7 @@ function Asset() {
           }
 
 
-        </div>
+        {/* </div> */}
       </div>
       {show && <AddAsset show={show} handleClose={handleClose} currentItem={currentItem} />}
 

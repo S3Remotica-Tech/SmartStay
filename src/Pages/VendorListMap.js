@@ -1,5 +1,5 @@
 import React, { useState, useEffect ,useRef} from 'react';
-import Edit from '../Assets/Images/New_images/edit.png';
+// import Edit from '../Assets/Images/New_images/edit.png';
 import Delete from '../Assets/Images/New_images/trash.png';
 import { PiDotsThreeCircleVerticalThin } from "react-icons/pi";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card';
 import Vendors from '../Assets/Images/New_images/profile-picture.png';
 import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash,ProfileAdd} from 'iconsax-react';
 
 
 function VendorListMap(props) {
@@ -104,20 +105,80 @@ useEffect(() => {
           <div style={{ cursor:"pointer",height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" ,  zIndex: showDots  ? 1000 : 'auto' }} onClick={()=>handleShowDots(props.vendor.id)}>
             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-            {showDots && <>
-              <div  ref={popupRef} style={{cursor:"pointer",backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height:92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
-                <div >
-                  <div className='mb-2' onClick={()=>handleEdit(props.vendor)} >
-                    <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ cursor:"pointer",fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" }} >Edit</label>
-                  </div>
-                  <div  onClick={()=>handleDelete(props.vendor)}> 
-                    <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{cursor:"pointer", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
-                  </div>
-                </div>
-              </div>
+            {showDots && (
+  <div
+    ref={popupRef}
+    style={{
+      cursor: "pointer",
+      backgroundColor: "#F9F9F9",
+      position: "absolute",
+      right: 0,
+      top: 50,
+      width: 163,
+      height: 92,
+      border: "1px solid #EBEBEB",
+      borderRadius: 10,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      padding: "15px",
+      alignItems: "flex-start"
+    }}
+  >
+    <div
+      className="mb-2 gap-2"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "20px", 
+        cursor: "pointer"
+      }}
+      onClick={() => handleEdit(props.vendor)}
+    >
+      <Edit size="16" color="#1E45E1" />
+      <label
+        style={{
+          fontSize: 14,
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          color: "#222222",
+          cursor: "pointer"
+        }}
+      >
+        Edit
+      </label>
+    </div>
+    
+    <div
+      className="mb-2 gap-2"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "10px", 
+        cursor: "pointer"
+      }}
+      onClick={() => handleDelete(props.vendor)}
+    >
+      <img
+        src={Delete}
+        alt="Delete"
+        style={{ height: 16, width: 16 }}
+      />
+      <label
+        style={{
+          fontSize: 14,
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          color: "#FF0000",
+          cursor: "pointer"
+        }}
+      >
+        Delete
+      </label>
+    </div>
+  </div>
+)}
 
-
-            </>}
 
           </div>
         </div>

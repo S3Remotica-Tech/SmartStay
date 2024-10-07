@@ -339,7 +339,7 @@ function AddPg({ show, handleClose, currentItem }) {
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
           <Modal.Header closeButton closeLabel="close-button" style={{}}>
-            <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? "Edit Paying Guest" : "Add Paying Guest"}</Modal.Title>
+            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? "Edit Paying Guest" : "Add Paying Guest"}</Modal.Title>
           </Modal.Header>
           {generalError && (
             <div className="d-flex align-items-center p-1 mt-2 mb-2">
@@ -554,7 +554,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
           <Modal.Footer style={{ border: "none" }}>
 
-            <Button onClick={handleCreatePayingGuest} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}>
+            <Button onClick={handleCreatePayingGuest} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Montserrat", padding:"20px 40px" }}>
               {currentItem ? "Save" : "Add Paying Guest"}
             </Button>
           </Modal.Footer>

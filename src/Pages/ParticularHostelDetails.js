@@ -136,8 +136,12 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
 
     if (props.floorID && props.hostel_Id) {
+      setTimeout(()=>{
+        setLoader(true)
+      },100)
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      setLoader(true)
+     
+      
     }
   }, [props.hostel_Id, props.floorID])
 
@@ -459,7 +463,7 @@ useEffect(() => {
               <Card  className="h-100 fade-in" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 200 }}>
                 <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
                   <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>
-                    Room no. {room.Room_Id}
+                    Room no. {room.Room_Name}
                     {/* <span>{getFormattedRoomId(room.Floor_Id, room.Room_Id)}</span> */}
                   </div>
                   <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
@@ -546,15 +550,15 @@ useEffect(() => {
 {
  
 (!loader && currentItems.length === 0) && 
-          <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+          <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", margin: "0px auto" }}>
             {/* <Alert variant="warning" >
           Currently, no rooms are available.
         </Alert> */}
             <div>
             <div className='d-flex  justify-content-center'><img src={EmptyState}  style={{height:240, width:240}} alt="Empty state" /></div>
-              <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
-              <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
-              <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}> + Add room</Button>
+              <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
+              <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
+              <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}> + Add room</Button>
               </div>
             </div>
             <div>
