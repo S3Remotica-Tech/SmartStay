@@ -35,17 +35,27 @@ function* handleComplianceadd (params) {
       yield put ({type : 'COMPLIANCE_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
       // Define the style
       var toastStyle = {
-         backgroundColor: 'green',
-         color: 'white',
+         backgroundColor: "#E6F6E6",
+         color: "black",
          width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
         
-      };
+       };
  
        // Use the toast with the defined style
        toast.success(response.data.message, {
-         position: 'top-center',
-         autoClose: 2000, 
-         hideProgressBar: false,
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
