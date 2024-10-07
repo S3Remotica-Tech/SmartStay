@@ -1,7 +1,6 @@
-
 import React, { useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Table, Container } from 'react-bootstrap';
+import { Table, Container, Modal, Button } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import './UserlistWalkin.css';
 import minus from '../Assets/Images/New_images/minus-square.png';
@@ -18,53 +17,74 @@ import Ellipse10 from '../Assets/Images/Ellipse 1 (8).png';
 import { PiDotsThreeOutlineVerticalFill } from 'react-icons/pi';
 import Delete from '../Assets/Images/New_images/trash.png';
 import Edit from '../Assets/Images/New_images/edit.png';
-import CustomerForm from './UserlistWalkinForm'; // Import CustomerForm
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast
+import CustomerForm from './UserlistWalkinForm'; 
+import { ToastContainer, toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
+import { color } from '@mui/system';
 
 const initialCustomers = [
-    { id: 1, name: "Kellie Turcotte", email: "kellie@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", Comments: "smartstay", avatar: Ellipse1 },
-    { id: 2, name: "Tatiana Rosser", email: "tatiana@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse2, Comments: "smartstay" },
-    { id: 3, name: "Esther Williamson", email: "esther@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse3, Comments: "smartstay" },
-    { id: 4, name: "Kaylynn Kenter", email: "kaylynn@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse4, Comments: "smartstay" },
-    { id: 5, name: "Sabrina Gleason", email: "sabrina@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse5, Comments: "smartstay" },
-    { id: 6, name: "Tatiana Rosser", email: "tatiana@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse6, Comments: "smartstay" },
-    { id: 7, name: "Homer Renner", email: "homer@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse7, Comments: "smartstay" },
-    { id: 8, name: "Kaylynn Kenter", email: "kaylynn@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse8, Comments: "smartstay" },
-    { id: 9, name: "Emmett Cormier III", email: "emmett@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse9, Comments: "smartstay" },
-    { id: 10, name: "Tatiana Rosser", email: "tatiana@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse10, Comments: "smartstay" },
+    { id: 1, name: "Kellie Turcotte", email: "kellie@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", comments: "smartstay", avatar: Ellipse1 },
+    { id: 2, name: "Tatiana Rosser", email: "tatiana@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse2, comments: "smartstay" },
+    { id: 3, name: "Esther Williamson", email: "esther@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse3, comments: "smartstay" },
+    { id: 4, name: "Kaylynn Kenter", email: "kaylynn@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse4, comments: "smartstay" },
+    { id: 5, name: "Sabrina Gleason", email: "sabrina@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse5, comments: "smartstay" },
+    { id: 6, name: "Tatiana Rosser", email: "tatiana@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse6, comments: "smartstay" },
+    { id: 7, name: "Homer Renner", email: "homer@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse7, comments: "smartstay" },
+    { id: 8, name: "Kaylynn Kenter", email: "kaylynn@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse8, comments: "smartstay" },
+    { id: 9, name: "Emmett Cormier III", email: "emmett@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse9, comments: "smartstay" },
+    { id: 10, name: "Tatiana Rosser", email: "tatiana@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse10, comments: "smartstay" },
 ];
 
 function UserlistWalkin() {
-    const [customers, setCustomers] = useState(initialCustomers); // Manage customers with state
+    const [customers, setCustomers] = useState(initialCustomers);
     const [showForm, setShowForm] = useState(false);
-    const [dotsButton, setDotsButton] = useState(null);
     const [modalType, setModalType] = useState(null);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [dotsButton, setDotsButton] = useState(null);
 
     const popupRef = useRef(null);
 
+    // delete
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [customerToDelete, setCustomerToDelete] = useState(null);
+
+   ;
     const handleDotsClick = (id) => {
         setDotsButton(prevId => (prevId === id ? null : id));
     };
+
+    const handleDelete = (customer) => {
+        setCustomerToDelete(customer);
+        setShowDeleteModal(true);
+        setDotsButton(null);
+    };
+
+
+    const confirmDelete = () => {
+        if (customerToDelete) {
+            setCustomers(customers.filter((item) => item.id !== customerToDelete.id));
+            toast.success('Deleted successfully!');
+            setShowDeleteModal(false);
+            setCustomerToDelete(null);
+        }
+    };
+
+
+    const cancelDelete = () => {
+        setShowDeleteModal(false);
+        setCustomerToDelete(null);
+    };
+
+
 
     const handleEdit = (customer) => {
         setSelectedCustomer(customer);
         setShowForm(true);
         setDotsButton(null);
+        setModalType("edit");
     };
 
-    const handleDelete = (customer) => {
-        // Ask for confirmation before deletion
-        const confirmDelete = window.confirm(`Are you sure you want to delete ${customer.name}?`);
-        if (confirmDelete) {
-            // Remove customer from the list
-            setCustomers(customers.filter((item) => item.id !== customer.id));
-            toast.success(`${customer.name} has been deleted successfully!`);
-        }
-        setDotsButton(null);
-    };
 
 
     const handleFormClose = () => {
@@ -73,11 +93,27 @@ function UserlistWalkin() {
         setModalType(null);
     };
 
-    // const handleFormSubmit = () => {
-        
-    // }
-
-
+    const handleFormSubmit = (data) => {
+        if (modalType === "edit") {
+            //edit customer
+            setCustomers(customers.map((customer) =>
+                customer.id === data.id ? { ...customer, ...data } : customer
+            ));
+           
+            toast.success('Changes saved successfully!');
+        } else {
+            // Add a new customer
+            const newCustomer = {
+                ...data,
+                id: customers.length + 1,
+                avatar: Ellipse1
+            };
+            setCustomers([...customers, newCustomer]);
+            // toast.success);
+            toast.success('Walk-in added successfully!!');
+        }
+        handleFormClose();
+    };
 
     return (
         <>
@@ -118,10 +154,8 @@ function UserlistWalkin() {
                                             {customer.walkInDate}
                                         </span>
                                     </td>
-                                    <td style={dataStyle}>{customer.Comments}</td>
+                                    <td style={dataStyle}>{customer.comments}</td>
                                     <td>
-
-                                       
 
                                         <div
                                             style={dotsStyle(dotsButton === customer.id)}
@@ -143,6 +177,7 @@ function UserlistWalkin() {
                                                             Edit
                                                         </label>
                                                     </div>
+
                                                     <div
                                                         className="d-flex align-items-center"
                                                         onClick={() => handleDelete(customer)}
@@ -156,7 +191,6 @@ function UserlistWalkin() {
                                                 </div>
                                             )}
                                         </div>
-
                                     </td>
                                 </tr>
                             ))}
@@ -168,18 +202,62 @@ function UserlistWalkin() {
             <CustomerForm
                 show={showForm}
                 handleClose={handleFormClose}
-                // onSubmit={handleFormSubmit}
+                onSubmit={handleFormSubmit}
                 initialData={selectedCustomer}
                 modalType={modalType}
             />
 
-            {/* Toast Notifications */}
-            <ToastContainer />
+            {/* Delete  Modal */}
+            <Modal show={showDeleteModal} onHide={cancelDelete} centered style={{ margin: "40px" }}>
+               
+                <Modal.Title style={{ fontFamily: "Gilroy", fontWeight: 600, fontSize: "18px", textAlign: "center", color: "#222222", paddingTop: "20px" }}>
+                    Delete walk-in?</Modal.Title>
+               
+                {customerToDelete && (
+                    <p style={{ color: "#646464", fontFamily: "Gilroy", fontWeight: 500, textAlign: "center", fontSize: "14px", paddingTop: "20px" }}>Are you sure you want to delete this walk-in?</p>
+                )}
+               
+
+              
+                <div class="d-flex justify-content-evenly" style={{ margin: "20px" }}>
+                    <button style={{
+                        fontFamily: "Gilroy", fontWeight: 600, fontSize: "14px", width: "160px", height: "52px"
+
+                    }} type="button" className="btn btn-outline-primary hover-text-white"
+                        onClick={cancelDelete}>Cancel</button>
+
+                    <button style={{ fontFamily: "Gilroy", fontWeight: 600, fontSize: "14px", width: "160px", height: "52px" }} type="button" className="btn btn-outline-primary hover-text-white"
+                        onClick={confirmDelete}>Delete</button>
+                </div>
+              
+
+            </Modal>
+            
+            <ToastContainer
+                position="bottom-center"
+                autoClose={3000} 
+                hideProgressBar={true} 
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                toastStyle={{
+                    backgroundColor: "#EBF5FF", 
+                    color: "#222222", 
+                    borderRadius: "60px", 
+                    fontFamily: "Gilroy", 
+                    fontWeight: 600,
+                    fontSize: "16px"
+                }}
+            />
+
         </>
     );
 }
 
-// Styles (for cleaner code)
+// Styles
 const headerStyle = {
     textAlign: "start",
     padding: "10px",
@@ -283,6 +361,12 @@ const deleteLabelStyle = {
 };
 
 export default UserlistWalkin;
+
+
+
+
+
+
 
 
 
