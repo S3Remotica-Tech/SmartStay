@@ -842,9 +842,14 @@ function UserListRoomDetail(props) {
     } else {
       setFormError("");
     }
-    const formattedDate = selectedDate
-      ? new Date(selectedDate).toISOString().split("T")[0]
-      : null;
+    let formattedDate = null;
+    try {
+      formattedDate = new Date(selectedDate).toISOString().split("T")[0];
+    } catch (error) {
+      setDateError("date is required.");
+      console.error(error);
+      return;
+    }
 
     dispatch({
       type: "ADDUSER",
