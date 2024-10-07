@@ -805,36 +805,116 @@ function UserList(props) {
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">
 
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {!showInput && (
-                <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
-                  <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
-                </div>
-              )}
+           <div style={{ display: 'flex', alignItems: 'center' }}>
+           {value === "1" && (
+               <div style={{ display: 'flex', alignItems: 'center' }}>
+               {!showInput && (
+                 <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+                   <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
+                 </div>
+               )}
+ 
+               {showInput && (
+                 <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px', marginRight: "20px" }}>
+                   <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
+                   <input
+                     type="text"
+                     placeholder="Search"
+                     value={searchValue}
+                     onChange={(e) => setSearchValue(e.target.value)}
+                     style={{ border: 'none', outline: 'none', width: '200px' }}
+                   />
+                   <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                     <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
+                   </div>
+                 </div>
+               )}
+             </div>
+            )}
+           {value === "2" && (
+               <div style={{ display: 'flex', alignItems: 'center' }}>
+               {!showInput && (
+                 <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+                   <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
+                 </div>
+               )}
+ 
+               {showInput && (
+                 <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px', marginRight: "20px" }}>
+                   <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
+                   <input
+                     type="text"
+                     placeholder="Search"
+                     value={searchValue}
+                     onChange={(e) => setSearchValue(e.target.value)}
+                     style={{ border: 'none', outline: 'none', width: '200px' }}
+                   />
+                   <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                     <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
+                   </div>
+                 </div>
+               )}
+             </div>
+            )}
+              {value === "3" && (
+               <div style={{ display: 'flex', alignItems: 'center' }}>
+               {!showInput && (
+                 <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+                   <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
+                 </div>
+               )}
+ 
+               {showInput && (
+                 <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px', marginRight: "20px" }}>
+                   <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
+                   <input
+                     type="text"
+                     placeholder="Search"
+                     value={searchValue}
+                     onChange={(e) => setSearchValue(e.target.value)}
+                     style={{ border: 'none', outline: 'none', width: '200px' }}
+                   />
+                   <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                     <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
+                   </div>
+                 </div>
+               )}
+             </div>
+            )}
+              {value === "4" && (
+               <div style={{ display: 'flex', alignItems: 'center' }}>
+               {!showInput && (
+                 <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+                   <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
+                 </div>
+               )}
+ 
+               {showInput && (
+                 <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px', marginRight: "20px" }}>
+                   <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
+                   <input
+                     type="text"
+                     placeholder="Search"
+                     value={searchValue}
+                     onChange={(e) => setSearchValue(e.target.value)}
+                     style={{ border: 'none', outline: 'none', width: '200px' }}
+                   />
+                   <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                     <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
+                   </div>
+                 </div>
+               )}
+             </div>
+            )}
+              
+            </div> 
 
-              {showInput && (
-                <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px', marginRight: "20px" }}>
-                  <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    style={{ border: 'none', outline: 'none', width: '200px' }}
-                  />
-                  <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
-                    <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
-                  </div>
-                </div>
-              )}
-            </div>
             <div className='me-3'>
               <Image src={Filters} roundedCircle style={{ height: "50px", width: "50px" }} />
             </div>
 
             <div className="buttons" >
-            <div>
-           
+
             {value === "1" && (
               <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
                 + Add Customer
@@ -855,19 +935,13 @@ function UserList(props) {
                 + Add Walkin
               </Button>
             )}
-         
-          </div>
-              {/* <div>
-              <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}> + Add Customer</Button>
-              </div> */}
-
-
-
+          
             </div>
 
           </div>
         </div>
-        {/*  */}
+       
+
         <div className="pl-4" style={{ paddingLeft: "10px", fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, textAlign: "left" }} >
           <TabContext value={value}>
             <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="" >
