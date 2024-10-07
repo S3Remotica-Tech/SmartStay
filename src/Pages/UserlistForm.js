@@ -59,8 +59,6 @@ function UserlistForm(props) {
     padding: "3px",
   };
 
-  console.log("props for UserListform", props);
-
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
@@ -68,7 +66,6 @@ function UserlistForm(props) {
   const [Phone, setPhone] = useState("");
   const [hostel_Id, setHostel_Id] = useState("");
   const [HostelName, setHostelName] = useState("");
-  console.log("HostelName", HostelName);
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
@@ -92,7 +89,6 @@ function UserlistForm(props) {
   const [payableamount, setPayableamount] = useState("");
   const [countryCode, setCountryCode] = useState("91");
   const [selectedDate, setSelectedDate] = useState("");
-  console.log("countryCode", countryCode);
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
@@ -101,14 +97,10 @@ function UserlistForm(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
-  console.log("state", state);
-
   
   const [profilePicture, setProfilePicture] = useState("");
   const [filteredProfile, setFilteredProfile] = useState(null);
   const [dateError, setDateError] = useState("");
-
-  console.log("state for userList form", state);
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -139,14 +131,12 @@ function UserlistForm(props) {
   const handleDate =(selectedDates)=>{
     setSelectedDate(selectedDates[0])
     setDateError('')
-    console.log("selectedDates",selectedDates)
   }
 
 
   useEffect(() => {
     dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostel_Id } });
   }, [hostel_Id]);
-  console.log("hostel_Id", hostel_Id);
 
   useEffect(() => {
     if (hostel_Id && Floor) {
@@ -226,7 +216,6 @@ function UserlistForm(props) {
   useEffect(() => {
     const currentDate = moment().format("YYYY-MM-DD");
     const joinDate = moment(currentDate).format("YYYY-MM-DD");
-    console.log("joindate", joinDate);
     const currentMonth = moment(currentDate).month() + 1;
     const currentYear = moment(currentDate).year();
     const createdAtMonth = moment(joinDate).month() + 1;
@@ -241,26 +230,23 @@ function UserlistForm(props) {
         .startOf("month")
         .format("YYYY-MM-DD");
     }
-    console.log("due_date", dueDate);
-    console.log("invoiceDate", invoiceDate);
+    
 
     const formattedJoinDate = moment(invoiceDate).format("YYYY-MM-DD");
     const formattedDueDate = moment(dueDate).format("YYYY-MM-DD");
     const numberOfDays =
       moment(formattedDueDate).diff(moment(formattedJoinDate), "days") + 1;
-    console.log("numberOfDays", numberOfDays);
+    
 
     const totalDaysInCurrentMonth = moment(currentDate).daysInMonth();
-    console.log("Total days in current month:", totalDaysInCurrentMonth);
 
     const oneday_amount = RoomRent / totalDaysInCurrentMonth;
-    console.log("oneday_amount", oneday_amount);
 
     const payableamount = oneday_amount * numberOfDays;
     const This_month_payableamount = Math.round(payableamount);
     setPayableamount(This_month_payableamount);
 
-    console.log("This_month_payableamount", This_month_payableamount);
+   
   }, [RoomRent]);
 
   const handlePaidrent = (e) => {
@@ -285,67 +271,13 @@ function UserlistForm(props) {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
 
-  // const handleEmail = (e) => {
-  //   setEmail(e.target.value)
-  //   const email = e.target.value
-  //   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  //   const isValidEmail = emailRegex.test(email);
-  //   if (isValidEmail) {
-  //     document.getElementById('emailIDError').innerHTML = ''
-  //   }
-  //   else {
-  //     document.getElementById('emailIDError').innerHTML = 'Invalid Email Id *'
-  //   }
-  // }
-  // const handleEmail = (e) => {
-  //   setEmail(e.target.value);
-  //   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  //   const isValidEmail = emailRegex.test(e.target.value);
-
-  //   if (isValidEmail) {
-  //     setEmailError('');
-  //   } else {
-  //     setEmailError('Invalid Email Id *');
-  //   }
-  // };
-
-  // const handleEmail = (e) => {
-  //   const emailValue = e.target.value;
-  //   setEmail(emailValue);
-
-  //   // Updated regex to allow only lowercase letters, numbers, and periods before the @
-  //   const hasUpperCase = /[A-Z]/.test(emailValue);
-  //   const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-
-  //   // Check if the input email matches the regex
-  //   const isValidEmail = emailRegex.test(emailValue);
-
-  //   if (hasUpperCase) {
-  //     setEmailErrorMessage('Email should be in lowercase *');
-  //     setEmailError('Invalid Email Id *');
-  //   } else if (!isValidEmail) {
-  //     setEmailErrorMessage('');
-  //     setEmailError('Invalid Email Id *');
-  //   } else {
-  //     setEmailError('');
-  //     setEmailErrorMessage('');
-  //   }
-
-  //   // Assuming you want to clear email error regardless of the current input state
-  //   dispatch({ type: 'CLEAR_EMAIL_ERROR' });
-  // };
+  
   const handleEmail = (e) => {
     const emailValue = e.target.value;
     setEmail(emailValue);
-
-    // Updated regex to allow only lowercase letters, numbers, and periods before the @
     const hasUpperCase = /[A-Z]/.test(emailValue);
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-
-    // Check if the input email matches the regex
     const isValidEmail = emailRegex.test(emailValue);
-
-    // If email field is empty, reset the error messages
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
@@ -359,32 +291,10 @@ function UserlistForm(props) {
       setEmailError("");
       setEmailErrorMessage("");
     }
-
-    // Clear email error on input change
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
-  // const handleEmail = (e) => {
-  //   setEmail(e.target.value);
-
-  //   // Updated regex to allow only lowercase letters, numbers, and periods before the @
-  //   const hasUpperCase = /[A-Z]/.test(email);
-  //   const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-
-  //   // Check if the input email matches the regex
-  //   const isValidEmail = emailRegex.test(e.target.value);
-  //   if (hasUpperCase) {
-  //     setEmailErrorMessage('Email should be in lowercase *');
-  //   }
-  //   if (isValidEmail) {
-  //     setEmailError('');
-  //     setEmailErrorMessage('')
-  //   } else {
-  //     setEmailError('Invalid Email Id *');
-  //   }
-
-  //   dispatch({ type: 'CLEAR_EMAIL_ERROR' })
-  // };
+ 
   const handleAddress = (e) => {
     setAddress(e.target.value);
     setAddressError("");
@@ -396,7 +306,6 @@ function UserlistForm(props) {
 
   const handleHostelId = (e) => {
     const selectedHostelId = e.target.value;
-    // handleInputChange()
     const selectedHostel =
       state.UsersList.hostelList &&
       state.UsersList.hostelList.filter((item) => item.id == e.target.value);
@@ -413,20 +322,7 @@ function UserlistForm(props) {
     setHostelIdError("");
   };
 
-  // const handleHostelId = (e) => {
-
-  //   const selectedHostelId = e.target.value;
-  //   const selectedHostel = state.UsersList.hostelList && state.UsersList.hostelList.filter(item => item.id == e.target.value);
-  //   setHostel_Id(selectedHostelId);
-  //   setHostelName(selectedHostel ? selectedHostel[0]?.Name : '');
-  //   console.log("selectedHostelId", selectedHostelId)
-  //   console.log("selectedHostel", selectedHostel);
-
-  //   setFloor("")
-  //   setRooms("")
-  //   setBed("")
-  //   setHostelIdError('');
-  // }
+  
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
@@ -564,15 +460,13 @@ function UserlistForm(props) {
     props.setUserClicked(false);
     props.setShowForm(false);
     props.OnShowTable(true);
-    // props.setShowMenu(true)
     if (props.edit === "Edit") {
       props.OnShowTable(true);
-      // props.setRoomDetail(true)
-      console.log("edit close button called...1");
+     
     } else {
       // props.setUserList(true);
       props.setRoomDetail(false);
-      console.log("add close button called...2");
+      
     }
   };
 
@@ -596,11 +490,10 @@ function UserlistForm(props) {
       openingBalance: 2500,
     },
   ]);
-  console.log("props#########", props);
+ 
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {
-      console.log("props.EditObj", props.EditObj);
       props.setEdit("Edit");
       setBednum(props.EditObj);
       setId(props.EditObj.ID);
@@ -608,9 +501,8 @@ function UserlistForm(props) {
       else {
         setFile(props.EditObj.profile);
       }
-      // setFile(props.EditObj.profile)
+      
       let value = props.EditObj.Name.split(" ");
-      console.log("value,,,", value);
       setFirstname(value[0]);
       setLastname(value[1]);
       setAddress(props.EditObj.Address);
@@ -629,20 +521,15 @@ function UserlistForm(props) {
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
       setPaidAdvance(props.EditObj.paid_advance);
-      console.log("props.EditObj.paid_advance", props.EditObj.paid_advance);
       setPaidrent(props.EditObj.paid_rent);
-      // setCreatedAt(props.EditObj.createdAt)
-      // setIsActive(props.EditObj.isActive)
     } else {
       props.setEdit("Add");
     }
   }, []);
-
-  //  const MobileNumber = `${countryCode}${Phone}`
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleSaveUserlist = () => {
-    console.log("check");
+    
 
     if (!validateField(firstname, "First Name")) return;
     if (!validateField(Phone, "Phone Number")) return;
@@ -652,14 +539,14 @@ function UserlistForm(props) {
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a valid PG");
-      return; // Prevent save
+      return; 
     }
 
     if (phoneError === "Invalid mobile number *") {
       setPhoneErrorMessage("Please enter a valid 10-digit phone number");
       return;
     } else {
-      setPhoneErrorMessage(""); // Clear the error if validation passes
+      setPhoneErrorMessage(""); 
     }
     const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -667,8 +554,6 @@ function UserlistForm(props) {
 
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-    // Prepare payload
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
     const payload = {
       profile: file,
@@ -715,7 +600,6 @@ function UserlistForm(props) {
     if (!validateAssignField(Rooms, "Room")) return;
     if (!validateAssignField(Bed, "Bed")) return;
     if (!validateAssignField(selectedDate, "selectedDate")) return;
-    // const isDatevalid = validateAssignField(selectedDate, "selectedDate");
     if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) return;
     if (!validateAssignField(RoomRent, "RoomRent")) return;
 
@@ -734,15 +618,15 @@ function UserlistForm(props) {
     }
     if (Floor === 'Selected Floor' || floorError) {
       setfloorError('Please select a valid PG'); 
-      return; // Prevent save
+      return; 
   }
   if (Rooms === 'Selected Room' || roomError) {
     setRoomError('Please select a valid PG'); 
-    return; // Prevent save
+    return;
 }
 if (Bed === 'Selected Bed' || bedError) {
   setBedError('Please select a valid PG'); 
-  return; // Prevent save
+  return; 
 }
     if (Floor && Rooms && Bed) {
       const incrementDateAndFormat = (date) => {
@@ -751,9 +635,8 @@ if (Bed === 'Selected Bed' || bedError) {
     
         return newDate.toISOString().split("T")[0]; 
     };
-    console.log("selectedDate",selectedDate)
     const formattedDate = selectedDate ? incrementDateAndFormat(selectedDate) : '';
-    console.log("formattedDate",formattedDate)
+    
       dispatch({
         type: "ADDUSER",
         payload: {
@@ -779,7 +662,6 @@ if (Bed === 'Selected Bed' || bedError) {
           paid_advance: paid_advance,
           paid_rent: paid_rent,
           payable_rent: payableamount,
-          // isActive:isActive,
           ID: props.edit === "Edit" ? id : "",
         },
       });
@@ -791,28 +673,24 @@ if (Bed === 'Selected Bed' || bedError) {
     }
     dispatch({ type: "INVOICELIST" });
   };
-  console.log(
-    "state.UsersList?.statusCodeForAddUser",
-    state.UsersList.statusCodeForAddUser
-  );
+ 
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
       if (props.edit === "Edit") {
-        // props.setUserList(false);
+       ;
         props.setRoomDetail(true);
         props.OnShowTable(true);
-        console.log("edit close button called...1");
+        
       } else {
-        // props.setUserList(true);
         props.setRoomDetail(false);
-        console.log("add close button called...2");
+       
       }
       handleClose();
     }
   }, [state.UsersList?.statusCodeForAddUser]);
 
-  console.log("props.displayDetail", props.displayDetail);
+
   const countries = [
     {
       value: "IN",
@@ -1081,7 +959,7 @@ if (Bed === 'Selected Bed' || bedError) {
                         >
                           {state.UsersList?.countrycode?.country_codes?.map(
                             (item) => {
-                              console.log("itemImage", item);
+                              
 
                               return (
                                 console.log(
