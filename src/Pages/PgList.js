@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Plus from '../Assets/Images/Create-button.png';
 import Image from 'react-bootstrap/Image';
@@ -23,7 +23,7 @@ import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort } from 'iconsax-react';
 import { Tab, Row, Col } from 'react-bootstrap';
 import Delete from '../Assets/Images/New_images/trash.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -31,10 +31,10 @@ import DeleteFloor from './DeleteFloor';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Edit from '../Assets/Images/New_images/edit.png';
+// import Edit from '../Assets/Images/New_images/edit.png';
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
-
-
+import { Edit, Trash} from 'iconsax-react';
 
 // function getFloorName(floor_Id) {
 
@@ -123,6 +123,7 @@ function PgList() {
 
   console.log("state for pgList", state)
 
+  const popupRef = useRef(null);
 
 
   const [pgList, setPgList] = useState({
@@ -195,7 +196,18 @@ function PgList() {
     }
   }, [filteredData])
 
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowDots(false);
+    }
+};
 
+useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+    };
+}, []);
 
 
   useEffect(() => {
@@ -744,10 +756,13 @@ function PgList() {
     setShowFloor(true)
     setHostelFloor(hostel_Id)
     setUpdate(false)
+    setEditFloor({ hostel_Id: null, floor_Id: null, floorName: null })
+
   }
 
   const handleCloseFloor = () => {
     setShowFloor(false)
+
   }
 
   const handleShowAddRoom = (room, selectedFloor) => {
@@ -804,6 +819,9 @@ function PgList() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
+const [showDropDown, setShowDropDown] = useState(false)
+
+console.log("filteredData *********", filteredData)
 
 
   const handleInputChange = (e) => {
@@ -815,12 +833,33 @@ function PgList() {
       );
 
       setFilteredData(filteredItems);
+      setShowDropDown(true)
     }
     else {
       setFilteredData(state.UsersList.hostelList)
     }
     setCurrentPage(1);
   };
+
+
+
+const handleDropDown = (value)=>{
+  const searchItem = value;
+  setSearchQuery(searchItem);
+  if (searchItem != '') {
+    const filteredItems = state.UsersList.hostelList && state.UsersList.hostelList.filter((user) =>
+      user.Name && user.Name.toLowerCase().includes(searchItem.toLowerCase())
+    );
+
+    setFilteredData(filteredItems);
+    setShowDropDown(true)
+  }
+  else {
+    setFilteredData(state.UsersList.hostelList)
+  }
+  setCurrentPage(1);
+  setShowDropDown(false)
+}
 
 
   const [showMore, setShowMore] = useState(false);
@@ -831,8 +870,8 @@ function PgList() {
   const visibleFloors = showHostelDetails.number_Of_Floor > 5 ? 5 : showHostelDetails.number_Of_Floor;
   const remainingFloors = showHostelDetails.number_Of_Floor - visibleFloors;
 
-  console.log("visiblefloor", visibleFloors)
-  console.log("remainingFloors", remainingFloors)
+  // console.log("visiblefloor", visibleFloors)
+  // console.log("remainingFloors", remainingFloors)
 
   const handleEditHostel = (hostelDetails) => {
     setShowAddPg(true);
@@ -881,7 +920,7 @@ function PgList() {
     if (state.PgList.statusCodeForDeleteRoom == 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id } })
 
-
+      dispatch({ type: 'HOSTELLIST' })
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_ROOM' })
@@ -923,6 +962,19 @@ function PgList() {
 
   const [showDelete, setShowDelete] = useState(false);
   const [deleteFloor, setDeleteFloor] = useState({ floor_Id: null, hostel_Id: null })
+  const [showFilter, setShowFilter] = useState(false)
+
+
+  const handleShowSearch = () => {
+    setShowFilter(!showFilter)
+  }
+
+  const handleCloseSearch = () => {
+    setShowFilter(false)
+    setFilteredData(state.UsersList.hostelList)
+    setSearchQuery('');
+  }
+
 
   const handleCloseDelete = () => setShowDelete(false);
 
@@ -974,57 +1026,142 @@ function PgList() {
   return (
     <>
 
-
-      <div className='m-4'>
-
-        {/* <div className='d-flex justify-content-end align-items-center m-4'>
-
-       <div>
-  <InputGroup>
-    <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
-      <CiSearch style={{ fontSize: 20 }} />
-    </InputGroup.Text>
-    <FormControl size="lg" 
-    value={searchQuery}
-    onChange={handleInputChange}
-    
-    style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
-      placeholder="Search..."
-    />
-  </InputGroup>
-</div>
-<div className="mr-3">
-  <img src={Notify} alt="notification" />
-</div>
-
-<div className="mr-3">
-  <Image src={profile ? profile : Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
-</div>
-</div> */}
+      <div className='container'>
 
         {hidePgList && <>
+        <div className='container'>
           <div className="d-flex justify-content-between align-items-center ms-4 mb-3">
 
             <div>
-              <label style={{ fontSize: 24, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Paying Guest</label>
+              <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Paying Guest</label>
             </div>
 
             <div className="d-flex justify-content-between align-items-center">
+              {
+                !showFilter &&
+
+                <div className='me-3' onClick={handleShowSearch}>
+                  <SearchNormal1
+                    size="26"
+                    color="#222"
+                  />
+                </div>
+              }
+              {
+                showFilter &&
+                <div className='me-3 'style={{position:'relative'}}>
+                  <InputGroup>
+
+                    <FormControl size="lg"
+                      value={searchQuery}
+                      onChange={handleInputChange}
+
+                      style={{width:235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500,color: "#222",
+                        //  '::placeholder': { color: "#222", fontWeight: 500 } 
+                        }}
+                      placeholder="Search..."
+                    />
+                    <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
+                      <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                    </InputGroup.Text>
+                  </InputGroup>
+
+
+
+                  {
+            filteredData.length > 0 && searchQuery !== '' && showDropDown && (
+            
+                          <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                            <ul className='show-scroll' style={{
+                              // position: 'absolute',
+                              // top: '50px',
+                              // left: 0,
+                              width: 260,
+                              backgroundColor: '#fff',
+                              // border: '1px solid #D9D9D9',
+                              borderRadius: '4px',
+                              maxHeight: 174,
+                              minHeight: 100,
+                              overflowY: 'auto',
+                              padding: '5px 10px',
+                              margin: '0',
+                              listStyleType: 'none',
+
+                              borderRadius: 8,
+                              boxSizing: 'border-box'
+                            }}>
+                              {
+                                filteredData.map((user, index) => (
+                                  <li
+                                    key={index}
+                                    onClick={() => {
+                                      handleDropDown(user.Name);
+
+                                    }}
+                                    style={{
+                                      padding: '10px',
+                                      cursor: 'pointer',
+                                      borderBottom: '1px solid #dcdcdc',
+                                      fontSize: '14px',
+                                      fontFamily: 'Gilroy',
+                                      fontWeight: 500,
+
+                                    }}
+                                  >
+                                    {user.Name}
+                                  </li>
+                                ))
+                              }
+                            </ul>
+                          </div>
+                        )
+          }
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+              }
+
+
+
               <div className='me-3'>
-                <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} />
+                <Sort
+                  Size="24"
+                  color="#222"
+                   variant="Outline"
+                />
               </div>
 
               <div>
                 <Button
                   onClick={handleShowAddPg}
-                  style={{ fontFamily: "'Montserrat'", fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 151, padding: "18px, 20px, 18px, 20px" }}> + Add new PG</Button>
+                  style={{ fontFamily: "'Montserrat'", fontSize: 14, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 8,  padding: "16px 20px 16px 20px" }}> + Add new PG</Button>
               </div>
             </div>
           </div>
+          </div>
 
-
-
-
+          {searchQuery && (
+        <div  className='container ms-4 mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+          {filteredData.length > 0 ? (
+            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+              {filteredData.length} result{filteredData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+            </span>
+          ) : (
+            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+          )}
+        </div>
+      )}
+<div className='container'>
           <div className='row row-gap-3'>
             {currentItems.length > 0 && currentItems.map((hostel) => {
               return (<>
@@ -1040,9 +1177,9 @@ function PgList() {
               <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
                 <div>
-
-                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No hostel available</div>
-                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are currently no hostels available</div>
+                  <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Paying Guest available</div>
+                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no Paying Guest added.</div>
                   <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
                     onClick={handleShowAddPg}
                   > + Add PG</Button>
@@ -1067,7 +1204,7 @@ function PgList() {
 
 
           </div>
-
+          </div>
           {
             currentItems.length > 0 &&
             <Pagination className="mt-4 d-flex justify-content-end align-items-center">
@@ -1106,7 +1243,7 @@ function PgList() {
         </>}
 
         {selectedHostel && (
-          <div className=''>
+          <div className='container'>
 
             <div className="d-flex justify-content-between align-items-center mb-3">
 
@@ -1118,11 +1255,16 @@ function PgList() {
 
               <div className="d-flex justify-content-between align-items-center">
                 <div className='me-3'>
-                  <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} />
+                <Sort
+                  Size="24"
+                  color="#222"
+                   variant="Outline"
+                />
+                  {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
                 </div>
 
                 <div>
-                  <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }} onClick={() => handleAddFloors(showHostelDetails.id)}>+ Create a floor</Button>
+                  <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }} onClick={() => handleAddFloors(showHostelDetails.id)}>+ Add  floor</Button>
                 </div>
               </div>
             </div>
@@ -1148,17 +1290,35 @@ function PgList() {
                             <Nav.Item
                               key={floor.floor_id}
                               onClick={() => handleFloorClick(floor.floor_id, floor.floor_name)}
-                              className={`mb-3 mt-2 d-flex justify-content-center align-items-center  ${Number(floorClick) == Number(floor.floor_id) ? 'active-floor' : 'Navs-Item'}`}
-                              style={{ border: "1px solid rgba(156, 156, 156, 1)", borderRadius: 16, height: 92, width: 95, padding: "8px, 16px, 8px, 16px" }}
+                              className={`mb-3 mt-2 d-flex justify-content-center a
+                                lign-items-center  ${Number(floorClick) == Number(floor.floor_id) ? 'active-floor' : 'Navs-Item'}`}
+                              style={{
+                                border: "1px solid rgba(156, 156, 156, 1)", borderRadius: 16, height: 95, width: 95,
+                                overflowY: 'auto',
+                              }}
+
+
+
+
                             >
-                              <Nav.Link style={{}} className='text-center'>
-                                <div className={Number(floorClick) == Number(floor.floor_id) ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600 }}>
+                              <Nav.Link className='text-center Paying-Guest' style={{padding:"unset"}}>
+                                <div className={Number(floorClick) == Number(floor.floor_id) ? 'ActiveNumberFloor' : 'UnActiveNumberFloor'} style={{ fontSize: 32, fontFamily: "Gilroy", fontWeight: 600, textTransform: "capitalize", height: "fit-content" }}>
                                   {/* {floor.floor_id == 1 ? 'G' : floor.floor_id - 1} */}
                                   {(floor.floor_name ? floor.floor_name.charAt(0) : floor.floor.id)}
                                 </div>
                                 <div
                                   className={Number(floorClick) == Number(floor.floor_id) ? 'ActiveFloortext' : 'UnActiveFloortext'}
-                                  style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, textTransform: "capitalize" }}
+                                  style={{
+                                    fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, textTransform: "capitalize",
+                                    wordBreak: "break-word",
+                                    whiteSpace: "normal",
+                                    overflowWrap: "break-word",
+                                    width: "100%",
+                                    textAlign: "center",
+                                    padding: "1px 16px "
+
+
+                                  }}
                                 >
                                   {/* {floor.floor_id === 1
                                     ? "Ground Floor"
@@ -1210,11 +1370,10 @@ function PgList() {
                       </div>
                     </Col>
                     <Col sm={12} xs={12} md={10} lg={10}>
-                      {/* {
-                        floorClick && */}
-
+                     
+<div className='container'>
                       <div className='d-flex justify-content-between align-items-center'>
-                        <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>{
+                        <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 , textTransform:'capitalize'}}>{
                           floorName !== null && floorName !== undefined && floorName.trim() !== ""
                             ? isNaN(floorName)
                               ? floorName
@@ -1231,18 +1390,32 @@ function PgList() {
                             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                             {showDots && <>
-                              <div style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 0, top: 50, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                              <div ref={popupRef}  style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 50, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                 <div>
 
 
-                                  <div className='mb-2'
+                                  <div className='d-flex gap-2 mb-2 align-items-center'
                                     onClick={() => handleEditFloor(floorClick, showHostelDetails.id, floorName)}
                                   >
-                                    <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222", cursor: "pointer" }}>Edit</label>
+                                    <div><Edit size="16" color="#1E45E1" />
+                                    </div>
+                                    <div>
+                                    <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222", cursor: "pointer" }}>Edit</label>
+
+                                    </div>
+                                    
                                   </div>
 
-                                  <div onClick={() => handleShowDelete(floorClick, showHostelDetails.id, showHostelDetails)}>
-                                    <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
+                                  <div className='d-flex gap-2 mb-2 align-items-center' onClick={() => handleShowDelete(floorClick, showHostelDetails.id, showHostelDetails)}>
+                                   
+                                  <div><Trash size="16"
+                                                color="red"
+                                            /></div> 
+                                   <div>
+                                   <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
+
+                                   </div>
+                                   
                                   </div>
                                 </div>
                               </div>
@@ -1253,8 +1426,8 @@ function PgList() {
                           </div>
                         </div>
                       </div>
-                      {/* }  */}
-
+                    
+                      </div>
                       <Tab.Content>
                         <ParticularHostelDetails
                           floorID={floorClick}
@@ -1272,10 +1445,10 @@ function PgList() {
                 </Tab.Container>
                 :
 
-                <div className='d-flex align-items-center justify-content-center' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+                <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
                   <div>
-
+                    <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
                     <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No floors available</div>
                     <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There is no floor added to this paying guest.</div>
                     <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}

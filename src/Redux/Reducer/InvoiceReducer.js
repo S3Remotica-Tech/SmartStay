@@ -1,3 +1,5 @@
+import { ManualInvoice } from "../Action/InvoiceAction";
+
 const initialState = {
     Invoice: [],
     message: '',
@@ -18,7 +20,13 @@ const initialState = {
     AmenitiesUpdateStatusCode: 0,
     ManualInvoice: [],
     manualInvoiceStatusCode: 0,
-    UpdateInvoiceStatusCode:0
+    UpdateInvoiceStatusCode:0,
+    ManualInvoiceNUmber : [],
+    ManualInvoices:[],
+    ManualInvoicesgetstatuscode : 0,
+    Manulainvoicenumberstatuscode:0,
+    manualInvoiceAddStatusCode: 0,
+
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -52,9 +60,28 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, AmenitiesUpdate: action.payload, AmenitiesUpdateStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_AMENITIES_UPDATE':
             return { ...state, AmenitiesUpdateStatusCode: 0 }
-        case 'MANUAL_INVOICE':
+        case 'MANUAL_INVOICE': //manual invoice
             return { ...state, ManualInvoice: action.payload, manualInvoiceStatusCode: action.payload.statusCode }
-    }
+            case 'MANUAL_INVOICE_NUMBER_GET':
+             return { ...state, ManualInvoiceNUmber: action.payload.response, Manulainvoicenumberstatuscode: action.payload.statusCode }
+        case 'REMOVE_MANUAL_INVOICE_NUMBER_GET': 
+        return { ...state, Manulainvoicenumberstatuscode: 0 } 
+
+        case 'MANUAL_INVOICE_AMOUNT_GET':
+              return { ...state, ManualInvoice: action.payload.response, manualInvoiceStatusCode: action.payload.statusCode }
+        case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_AMOUNT_GET':
+              return { ...state, manualInvoiceStatusCode: 0 } 
+
+        case 'MANUAL_INVOICE_ADD':
+              return { ...state, ManualInvoice: action.payload, manualInvoiceAddStatusCode:action.payload.statusCode}
+        case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD':
+              return { ...state, manualInvoiceAddStatusCode: 0 }
+        // case 'MANUAL_INVOICES_LIST' :
+        //     return { ...state, ManualInvoices: action.payload, ManualInvoicesgetstatuscode:action.payload.statusCode}
+        //     case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST':
+        //         return { ...state, ManualInvoicesgetstatuscode: 0 }
+        }
+    
     return state;
 }
 export default InvoiceReducer;

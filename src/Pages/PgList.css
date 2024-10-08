@@ -21,6 +21,20 @@
     color: rgba(156, 156, 156, 1) !important;
 }
 
+/* .Paying-Guest .nav-link {
+    display: block;
+    padding: unset !important;
+    font-size: var(--bs-nav-link-font-size);
+    font-weight: var(--bs-nav-link-font-weight);
+    color: var(--bs-nav-link-color);
+    text-decoration: none;
+    background: 0 0;
+    border: 0;
+
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+} */
+
+
 .hover-hostel-name:hover{
 text-decoration: underline;
 color:#1E45E1 !important;

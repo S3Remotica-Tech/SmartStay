@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import "./UserList.css";
-import { Dropdown, Table } from 'react-bootstrap';
+import { Dropdown, Table,FormControl, InputGroup, } from 'react-bootstrap';
 import { Button, Offcanvas, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Plus from '../Assets/Images/Create-button.png';
@@ -19,6 +19,7 @@ import squre from '../Assets/Images/New_images/minus-square.png';
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
 import Tabs from '@mui/material/Tabs';
@@ -33,6 +34,21 @@ import CheckOutForm from './UserListCheckoutForm';
 import UserlistWalkinForm from './UserlistWalkinForm'
 
 function UserList(props) {
+
+import emptyimg from '../Assets/Images/New_images/empty_image.png';
+import searchteam from '../Assets/Images/New_images/Search Team.png';
+import { FaSearch } from 'react-icons/fa';
+import Edit from '../Assets/Images/Edit-Linear-32px.png';
+import Delete from '../Assets/Images/Trash-Linear-32px.png';
+import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png'
+import Download from '../Assets/Images/New_images/download.png';
+import addcircle from '../Assets/Images/New_images/add-circle.png';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort } from 'iconsax-react';
+
+
+
+function UserList() {
+
   const state = useSelector(state => state)
   const dispatch = useDispatch();
   const selectRef = useRef('select');
@@ -47,6 +63,8 @@ function UserList(props) {
 
   const [showLoader, setShowLoader] = useState(false)
   const [selectedItems, setSelectedItems] = useState('')
+  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
+  const [userDetails, setUserDetails] = useState([])
 
 
   useEffect(() => {
@@ -83,7 +101,7 @@ function UserList(props) {
       console.log("to trigger pdf is false so pdf not working");
     }
   }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
-
+console.log("state",state)
 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -115,9 +133,9 @@ function UserList(props) {
   const itemsPerPage = 5;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredDataPagination.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(filteredDataPagination.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
   const renderPageNumbers = () => {
 
@@ -155,7 +173,10 @@ function UserList(props) {
     setAddBasicDetail(true)
     setEditObj(u)
     setemail_id(u.Email)
-    console.log("u.Email...r?", u.Email)
+    setSearch(false)
+    setFilterInput('')
+ 
+  
 
   };
 
@@ -180,22 +201,15 @@ function UserList(props) {
 
 
 
-  console.log("state", state)
-
-
 
   useEffect(() => {
 
     if (state.UsersList?.UserListStatusCode == 200) {
-      console.log("invoice added executed");
-
       setOriginalData(state.UsersList.Users);
 
       const uniqueUsersList = state.UsersList.Users.filter((user, index, self) =>
         index === self.findIndex((u) => u.Email === user.Email)
       );
-
-      console.log("Filtered Unique Data:", uniqueUsersList);
 
       setfilteredDataPagination(state.UsersList.Users)
       setLoading(false);
@@ -260,7 +274,8 @@ function UserList(props) {
   const [filterStatus, setFilterStatus] = useState(false)
   const [filterByStatus, setFilterByStatus] = useState('ALL')
 
-
+  const [filterInput,setFilterInput] =useState('')
+  
   const [hostel, sethostel] = useState('')
   const [floors_Id, setFloors_Id] = useState('')
   const [rooms_id, setRoomsId] = useState('')
@@ -275,7 +290,6 @@ function UserList(props) {
   const handleRoomDetailsPage = (userData) => {
 
     const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
-    console.log("userData", userData)
     setHostelIds(userData.Hostel_Id)
     setBedIds(userData.Bed)
     setFloorIds(userData.Floor)
@@ -288,19 +302,16 @@ function UserList(props) {
     setRoomDetail(true)
     setUserList(false)
     setClickedUserData(clickedUserDataArray);
+    setSearch(false)
 
   }
   const handleShowAddBed = (u) => {
     setEdit('Edit')
-
-    console.log("u for assign bed", u)
     handleMenuClick();
     setShowMenu(true);
     setAddBasicDetail(false)
     setEditObj(u)
-    console.log("uu", u)
     setemail_id(u.Email)
-    console.log("u.Email", u.Email)
 
   };
 
@@ -338,21 +349,22 @@ function UserList(props) {
 
 
 
+
   const [filteredDataForUser, setFilteredDataForUser] = useState([]);
   const [userDetails, setUserDetails] = useState([])
   console.log("userDetails", userDetails)
 
   console.log("bedIds", bedIds, hostelIds, floorIds, roomsIds)
+ 
+ 
   useEffect(() => {
     const ParticularUserDetails = state.UsersList?.Users?.filter(item => {
-
-      console.log("item", item)
+      
 
       return item.User_Id == customerUser_Id
     }
 
     );
-    console.log("ParticularUserDetails", ParticularUserDetails)
 
     setUserDetails(ParticularUserDetails);
 
@@ -366,6 +378,10 @@ function UserList(props) {
     }
 
   }, [roomDetail, state.UsersList?.Users, hostelIds, bedIds, floorIds, roomsIds, email_id]);
+
+
+
+
 
   const customCheckboxStyle = {
     appearance: 'none',
@@ -402,7 +418,6 @@ function UserList(props) {
 
 
   const Amenitiesname = state.UsersList?.customerdetails?.data?.amentites
-  console.log("amenties", Amenitiesname);
 
   const billPaymentHistory = state.UsersList.billPaymentHistory;
   const invoicePhones = billPaymentHistory.map((item) => item.invoicePhone);
@@ -411,21 +426,15 @@ function UserList(props) {
 
 
 
+
   useEffect(() => {
     if (state.InvoiceList?.Invoice && filteredDataForUser.length > 0) {
       let filteredData = [...filteredDataForUser];
 
-      if (filterByStatus !== 'ALL') {
-        filteredData = filteredData.filter((item) => item.Status === filterByStatus);
-      }
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
 
-      if (filterByInvoice) {
-        filteredData = filteredData.filter((item) => item.Invoices.toLowerCase().includes(filterByInvoice.toLowerCase()));
-      }
 
-      setFilteredDatas(filteredData);
-    }
-  }, [filterByStatus, filterByInvoice, filteredDataForUser, state.InvoiceList?.Invoice]);
+ 
 
   const getFloorName = (Floor) => {
     if (Floor === 1) {
@@ -510,6 +519,27 @@ function UserList(props) {
     setFilterStatus(!filterStatus)
     setSearch(false)
   }
+ const handlefilterInput =(e)=>{
+  setFilterInput(e.target.value);
+    console.log("e,,,,", e.target.value);
+    setDropdownVisible(e.target.value.length > 0);
+ }
+ useEffect(() => {
+  // Filter users as the filterInput changes
+  const FilterUser = state.UsersList.Users.filter((item) => {
+    return item.Name.toLowerCase().includes(filterInput.toLowerCase());
+  });
+
+  setFilteredUsers(FilterUser);
+  console.log("FilterUser",FilterUser)
+}, [filterInput, state.UsersList.Users]); 
+
+// useEffect(()=>{
+//   const FilterUser = state.UsersList.Users.filter((item)=>{
+//     return item.Name === filterInput
+//   })
+//   console.log("FilterUser",FilterUser)
+// })
 
   const handleStatusFilterChange = (e) => {
     const selectedStatus = e.target.value;
@@ -521,49 +551,39 @@ function UserList(props) {
       dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } })
       // setAmnityuserdetail(state.UsersList?.customerdetail.all_amenities)
     }
-    console.log("userIduserId", id)
   }, [id]);
   useEffect(() => {
     if (id) {
-      console.log("user_id", id)
       dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } })
-      // setAmnnityhistory(state.UsersList?.amnetieshistory)
     }
-    console.log("userIduserId....?", id)
   }, [id]);
 
 
   const [selectAmneties, setselectAmneties] = useState("")
   const [selectedAmenityName, setSelectedAmenityName] = useState([]);
-  console.log("selectedAmenityName", selectedAmenityName)
   const [addamenityShow, setaddamenityShow] = useState(false)
   const [active, setActive] = useState(false)
   const [status, setStatus] = useState('')
   const [createby, setcreateby] = useState('')
   const [amnityEdit, setamnityEdit] = useState('')
-  console.log("createby", createby)
 
   const handleselect = (e) => {
     const value = e.target.value;
     setselectAmneties(value);
     setamnitytableshow(true);
-    console.log("e.target.value", value);
 
     const amenitiesHistory = state.UsersList.amnetieshistory.filter((item) => {
       return item.amenity_Id == value
     });
-    console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
 
     if (amenitiesHistory && amenitiesHistory.length > 0) {
-      if (amenitiesHistory && amenitiesHistory[0].status == 0) {
-        console.log("Status is 0, setting add amenity show to true");
+      if (amenitiesHistory && amenitiesHistory[0].status == 0) {;
         setaddamenityShow(true);
         setstatusShow(false);
 
       }
 
     } else {
-      console.log("else");
       setaddamenityShow(true);
       setstatusShow(false);
       setSelectedAmenityName([]);
@@ -571,13 +591,10 @@ function UserList(props) {
   };
   useEffect(() => {
     if (state.UsersList.customerdetails.all_amenities && state.UsersList.customerdetails.all_amenities.length > 0 && selectAmneties) {
-
-      console.log("state.UsersList.customerdetails.all_amenities", state.UsersList.customerdetails.all_amenities);
       const AmnitiesNamelist = state.UsersList.customerdetails.all_amenities.filter((item) => {
         return item.Amnities_Id == selectAmneties
 
       })
-      console.log("AmnitiesNamelist", AmnitiesNamelist)
       setcreateby(AmnitiesNamelist)
     }
   }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties])
@@ -625,7 +642,6 @@ function UserList(props) {
   const [amnitynotshow, setamnitynotshow] = useState([])
   const handleStatusAmnities = (e) => {
     setStatusAmni(e.target.value)
-    console.log("eee.ttt.v", e.target.value)
   }
 
   const handleAddUserAmnities = () => {
@@ -655,9 +671,7 @@ function UserList(props) {
       setselectAmneties('')
     }
   };
-  console.log("state.UsersList?.customerdetails?.all_amenities?", state.UsersList?.customerdetails?.all_amenities);
-
-  console.log("state.UsersList?.statusCustomerAddUser", state.UsersList.statusCustomerAddUser)
+ 
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200) {
       setaddamenityShow(false)
@@ -675,10 +689,7 @@ function UserList(props) {
     }
   }, [state.UsersList.statusCustomerAddUser])
 
-  console.log("state For Add userAminity", state);
   const handleEdit = (v) => {
-    console.log("vvv", v)
-
     setamnityEdit(v)
     setaddamenityShow(true);
     setstatusShow(true)
@@ -698,8 +709,6 @@ function UserList(props) {
   const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
   const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
   const currentRowAmnities = amnitiesFilterddata?.slice(indexOfFirstRowamnities, indexOfLastRowamneties);
-  console.log("currentRowAmnities", currentRowAmnities)
-
   const [showOtpValidation, setShowOtpValidation] = useState(false)
   const [showValidate, setShowValidate] = useState(true)
   const [aadhaarNo, setAdhaarNo] = useState('')
@@ -763,6 +772,7 @@ function UserList(props) {
   const handleKycOtpChange = (e) => {
     setKycOtpValue(e.target.value)
   }
+
   const [showbookingForm, setShowbookingForm] = useState(false);
   const toggleForm = () => {
     setShowbookingForm(!showbookingForm);
@@ -787,6 +797,53 @@ function UserList(props) {
     setWalkinForm(false);
   };
 
+  const [showDots, setShowDots] = useState('')
+  const [activeRow, setActiveRow] = useState(null);
+
+    // const handleShowDots = () => {
+    //     setShowDots(!showDots)
+    // }
+    const handleShowDots = (id) => {
+      if (activeRow === id) {
+        setActiveRow(null); // Close if the same row is clicked again
+      } else {
+        setActiveRow(id); // Open dropdown for the clicked row
+      }
+      setSearch(false)
+    };
+    const popupRef = useRef(null);
+    const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setShowDots(false);
+        }
+      };
+
+
+
+      useEffect(() => {
+        function handleClickOutside(event) {
+          if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setShowDots(false);
+          }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, [popupRef]);
+      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+      const handleUserSelect = (user) => {
+       
+        setFilterInput(user.Name);
+        setFilteredUsers([]); 
+        setDropdownVisible(false); 
+        console.log("User selected:", user);
+      };  
+      
+  const handleCloseSearch = () => {
+   setSearch(false)
+  }  
   return (
     <div className=' p-2' >
       <Addbooking show={showbookingForm} handleClose={closeModal} />
@@ -804,6 +861,7 @@ function UserList(props) {
           </div>
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">
+
 
            <div style={{ display: 'flex', alignItems: 'center' }}>
            {value === "1" && (
@@ -911,6 +969,115 @@ function UserList(props) {
 
             <div className='me-3'>
               <Image src={Filters} roundedCircle style={{ height: "50px", width: "50px" }} />
+
+{
+  search ? <>
+
+
+
+<div style={{ position: 'relative', width: '100%' ,marginRight:20 }}>
+
+   
+         <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+         <Image
+          src={searchteam}
+          alt="Search"
+          style={{
+            position: 'absolute',
+            left: '10px', 
+            width: '24px', 
+            height: '24px', 
+            pointerEvents: 'none',
+          }}
+        />
+         <div className="input-group" style={{marginRight:20,height:50,width:280 }}>
+      <span className="input-group-text bg-white border-end-0">
+        
+        <Image src={searchteam}  style={{ height: 20, width:20 }} />
+      </span>
+      <input
+        type="text"
+        className="form-control border-start-0"
+        placeholder="Search"
+        aria-label="Search"
+        style={{ boxShadow: 'none', outline: 'none',borderColor:"rgb(207,213,219)" }}
+        value={filterInput}
+        onChange={(e)=>handlefilterInput(e)}
+      />
+ 
+
+    </div>
+      
+      </div>
+
+      {isDropdownVisible && filteredUsers.length > 0 && (
+  <div
+  style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 60, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff", width:"94%", }}
+  >
+    <ul
+      className='show-scroll p-0'
+      style={{
+       
+        backgroundColor: '#fff',
+        borderRadius: '4px',
+        // maxHeight: 174,
+        maxHeight: filteredUsers.length > 1 ? '174px' : 'auto',
+        minHeight: 100,
+        overflowY: filteredUsers.length > 1 ? 'auto' : 'hidden',
+      
+        margin: '0',
+        listStyleType: 'none',
+        borderRadius: 8,
+        boxSizing: 'border-box',
+      }}
+    >
+      {filteredUsers.map((user, index) => {
+        const imagedrop = user.profile || Profile;
+        return (
+          <li
+            key={index}
+            className="list-group-item d-flex align-items-center"
+            style={{
+              cursor: 'pointer',
+              padding: '10px 5px',
+              borderBottom:
+                index !== filteredUsers.length - 1 ? '1px solid #eee' : 'none',
+            }}
+            onClick={() => handleUserSelect(user)}
+          >
+            <Image
+              src={imagedrop}
+              alt={user.Name || 'Default Profile'}
+              roundedCircle
+              style={{ height: '30px', width: '30px', marginRight: '10px' }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = Profile;
+              }}
+            />
+            <span>{user.Name}</span>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+)}
+
+    </div>
+
+
+  </>
+  :<>
+   <div className='me-3'>
+              <Image src={searchteam} roundedCircle style={{ height: "24px", width: "24px" }} onClick={handleSearch}/>
+            </div>
+  </>
+}
+       
+         
+            <div className='me-3'>
+              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleSearch} />
+
             </div>
 
             <div className="buttons" >
@@ -970,11 +1137,44 @@ function UserList(props) {
 
 
         <div className="p-4" style={{ paddingBottom: "20px" }} >
+        {state?.UsersList?.Users && state?.UsersList?.Users.length === 0 && 
+                  <div>
+                  <div style={{ textAlign: "center"}}> <img src={emptyimg} alt="emptystate" /></div> 
+               <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active customer </div>
+               <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active customer </div>
+              
+               <div style={{ textAlign: "center"}}>
+                           <Button
+                             onClick={handleShow}
+                             style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Customer</Button>
+                         </div>
+             </div>    
+                  }
+        {currentItems && currentItems.length > 0 && (
+          <Table   responsive ="md"
+          className='Table_Design'
+          style={{
+            height: "auto",
+            overflow: "visible",
+            tableLayout: "auto",
+            borderRadius: "24px",
+            border: "1px solid #DCDCDC",
+            
 
-          <Table className="ebtable" responsive  >
-            <thead style={{ backgroundColor: "#E7F1FF" }}>
+          }}  >
+            <thead  style={{
+      backgroundColor: "#E7F1FF"
+      
+      }} >
               <tr>
-                <th style={{ textAlign: "center", padding: "10px" }}>
+                <th style={{
+                                      textAlign: "center",
+                                      fontFamily: "Gilroy",
+                                      color: "rgba(34, 34, 34, 1)",
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      borderTopLeftRadius: 24
+                                    }}>
                   <img src={squre} height={20} width={20} />
                 </th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Name</th>
@@ -983,7 +1183,18 @@ function UserList(props) {
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Paying Guest</th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Room</th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Bed</th>
-                <th style={{ textAlign: "start", padding: "10px" }}></th>
+                <th style={{
+                                      textAlign: "center",
+                                      fontFamily: "Gilroy",
+                                      color: "rgba(34, 34, 34, 1)",
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      borderTopRightRadius: 24
+                                    }}>
+                         {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                        </div> */}
+                        </th>
               </tr>
             </thead>
             <tbody style={{ textAlign: "center" }}>
@@ -1001,8 +1212,11 @@ function UserList(props) {
                 ))
               ) : (
                 currentItems.map((user) => {
+
                   console.log("userrr", user)
                   const imageUrl = user.profile || Profile;;
+
+               
                   return (
                     <tr key={user.ID} style={{ fontSize: "16px", fontWeight: 600, textAlign: "center", marginTop: 10 }}>
                       <td style={{ padding: "10px", border: "none" }}>
@@ -1031,8 +1245,8 @@ function UserList(props) {
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>
                         <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{user.HostelName}</span>
                       </td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Rooms}</td>
-                      <td
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}> {(!user.Rooms ||  user.Rooms === 'undefined'|| user.Rooms === '0' || user.Rooms === ''  || user.Rooms === 'null') ? '-' : user.Rooms}</td>
+                      {/* <td
                         className={user.Bed === 0 ? 'assign-bed' : ''}
                         onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
                         style={{
@@ -1046,16 +1260,76 @@ function UserList(props) {
                         }}
                       >
                         {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
+                      </td> */}
+                      <td
+                        // className={user.Bed === 0 ? 'assign-bed' : ''}
+                        // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
+                        style={{
+                          padding: "10px",
+                          border: "none",
+                          cursor:"pointer",
+                          color: user.Bed === 'undefined' ? "blue" : "inherit",
+                          textDecoration: user.Bed === 'undefined' ? "none" : "initial",
+                          textAlign: "start",
+                          fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy"
+                        }}
+                      >
+                       {(user.Bed === 'undefined' || user.Bed === '0' || user.Bed === '' || user.Bed === 'null') ? '-' : user.Bed}
                       </td>
                       <td style={{ padding: "10px", border: "none" }}>
-                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/> */}
+                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                        {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                         <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} onClick={()=>handleShowDots(user.ID)}>
                           <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                        </div> */}
+                          {activeRow === user.ID && <>
+                                    <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 50, top: 20, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
+                                        <div style={{ backgroundColor: "#fff" }} className=''>
+                                        {(user.Bed === 'undefined' || user.Bed === 'null' || user.Bed === '0' || user.Bed === '')  && (
+        <div 
+          className='mb-3 d-flex justify-content-start align-items-center gap-2'
+          // onClick={() => handleInvoicepdf(user)}
+          style={{ backgroundColor: "#fff" }}
+          onClick={ () => handleShowAddBed(user)}>
+          <img src={addcircle} style={{ height: 16, width: 16 }} /> 
+          <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >
+            Assign Bed
+          </label>
+        </div>
+      )}
+                                        <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                                style={{ backgroundColor: "#fff" }}
+                                                onClick={() => handleRoomDetailsPage(user)} >
+                                                <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Edit</label>
+                                            </div>
+                                          
+                                            {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                                onClick={() => { handleShowform(props) }}
+                                                style={{ backgroundColor: "#fff" }}
+                                            >
+                                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
+
+                                            </div> */}
+
+                                           
+                                            <div className='mb-2 d-flex justify-content-start align-items-center gap-2'
+                                                style={{ backgroundColor: "#fff" }}
+                                            >
+                                                <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000", cursor: 'pointer' }}>Delete</label>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
+
+                                </>}
+                        </div>
+
 
                         {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
                       </td>
+                     
                     </tr>
 
                   )
@@ -1064,13 +1338,17 @@ function UserList(props) {
               )}
 
 
+
               {currentItems.length === 0 && (
                 <tr>
                   <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
                 </tr>
               )}
+
             </tbody>
           </Table>
+)}
+
 
 
         </div>
@@ -1187,8 +1465,16 @@ function UserList(props) {
           </nav>
         )}
 
+
+
+
+
       </>
       }
+
+
+
+
       {
         roomDetail == true ? <UserListRoomDetail
           AfterEditHostels={AfterEditHostel}
@@ -1208,7 +1494,7 @@ function UserList(props) {
           AfterEditRoomses={AfterEditRooms}
           AfterEditBeds={AfterEditBed}
 
-          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer} /> : null
+          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer} setSearch ={setSearch} /> : null
       }
 
     </div>
@@ -1216,4 +1502,4 @@ function UserList(props) {
   )
 }
 
-export default UserList
+export default UserList;

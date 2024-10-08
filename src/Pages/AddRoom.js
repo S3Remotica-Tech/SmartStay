@@ -15,7 +15,8 @@ function AddRoom( {show, handleClose ,hostelDetails,editRoom}) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-    console.log("hostelDetails",hostelDetails, editRoom)
+    console.log("hostelDetails",hostelDetails, "editRoom",editRoom )
+
 console.log("state add room",state)
 
 const[room, setRoom] = useState('')
@@ -77,22 +78,49 @@ if(editRoom){
 
 
     const handleCreateRoom = () => {
-      const floorId = hostelDetails.floor_Id.toString();
-      const hostel_Id = hostelDetails.hostel_Id.toString();
 
-console.log("floorId",floorId,hostel_Id )
+      let floorId, hostel_Id, room_Id;
 
-if (!room || !/^[1-9]\d*$/.test(room)) {
+if(isEditing){
 
-setRoomError('Please enter a valid Room no. (must be a positive number greater than 0)')
+  floorId = editRoom?.floor_Id ? editRoom.floor_Id.toString() : '';
+  hostel_Id = editRoom?.hostel_Id ? editRoom.hostel_Id.toString() : '';
+ room_Id = editRoom?.room_Id ? editRoom?.room_Id.toString(): '';
 
-  // Swal.fire({
-  //   icon: 'warning',
-  //   title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
-  // });
-  return;
+
+
+ 
+
+}else{
+ floorId = hostelDetails?.floor_Id ? hostelDetails.floor_Id.toString() : '';
+ hostel_Id = hostelDetails?.hostel_Id ? hostelDetails.hostel_Id.toString() : '';
 }
 
+   
+
+// if (!room || !/^[1-9]\d*$/.test(room)) {
+
+// setRoomError('Please enter a valid Room no. (must be a positive number greater than 0)')
+
+//   // Swal.fire({
+//   //   icon: 'warning',
+//   //   title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
+//   // });
+//   return;
+// }
+
+
+
+if (!room) {
+
+  setRoomError('Please enter a valid Room no. (must be a positive number greater than 0)')
+  
+    // Swal.fire({
+    //   icon: 'warning',
+    //   title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
+    // });
+    return;
+  }
 
 
 if (!floorId) {
@@ -179,7 +207,7 @@ if (!floorId) {
                 <Form.Control 
                 value={room}
                 onChange={handleRoomChange}
-                 type="text" placeholder="Enter Room no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:room ? 600 :  500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                 type="text" placeholder="Enter Room name or no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:room ? 600 :  500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
             </div>

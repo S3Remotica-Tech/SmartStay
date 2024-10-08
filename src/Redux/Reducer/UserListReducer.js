@@ -111,6 +111,7 @@ const UserListReducer = (state = initialState, action) => {
         case 'REMOVE_STATUS_CODE_USER':
             return { ...state, UserListStatusCode: 0 }
         case 'ADD_USER':
+            console.log("ADD_USER",action.payload)
             return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
             return { ...state, statusCodeForAddUser: 0 }

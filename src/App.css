@@ -1,6 +1,20 @@
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     display: none;
+} */
+
+
+
+
+ /* * {
+  scrollbar-width: none;
+}  */
+
+ ::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
+
+
 
 
  @font-face {
@@ -118,3 +132,25 @@
          opacity: 1;
        }
      }
+
+
+
+     @font-face {
+      font-family: 'Kalam';
+      src: url('/src/Assets/kalamFont/Kalam-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Kalam';
+      src: url('/src/Assets/kalamFont/Kalam-Light.ttf') format('truetype');
+      font-weight: 300;
+      font-style: normal;
+    }
+    
+    @font-face {
+      font-family: 'Kalam';
+      src: url('/src/Assets/kalamFont/Kalam-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }

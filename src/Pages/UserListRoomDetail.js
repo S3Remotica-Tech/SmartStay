@@ -3,6 +3,9 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import dots from "../Assets/Images/New_images/Group 14.png";
+import Calendars from "../Assets/Images/New_images/calendar.png";
+import Flatpickr from "react-flatpickr";
 import {
   Autobrightness,
   Call,
@@ -47,7 +50,7 @@ import { Room } from "@material-ui/icons";
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  console.log("state", state);
+  const calendarRef = useRef(null);
   const initialvalue = useRef();
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
@@ -84,7 +87,8 @@ function UserListRoomDetail(props) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [formError, setFormError] = useState("");
-
+  const [selectedDate, setSelectedDate] = useState("");
+  const [dateError, setDateError] = useState("");
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
   };
@@ -92,8 +96,34 @@ function UserListRoomDetail(props) {
   const handleChanges = (event, newValue) => {
     setValue(newValue);
   };
+  const options = {
+    dateFormat: "YYYY-MM-DD",
+    defaultDate: selectedDate || new Date(),
+  };
+  useEffect(() => {
+    if (calendarRef.current) {
+      calendarRef.current.flatpickr.set(options);
+    }
+  }, [selectedDate]);
+
+  const handleDate = (selectedDates) => {
+    if (selectedDates.length > 0) {
+      const localDate = new Date(
+        selectedDates[0].getTime() -
+          selectedDates[0].getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
+
+      setSelectedDate(localDate);
+      setDateError("");
+      setFormError("");
+    }
+  };
 
   const handleShowEditBed = (item) => {
+    console.log("itemitem", item);
+
     if (item[0].ID) {
       if (item) {
         dispatch({
@@ -117,7 +147,6 @@ function UserListRoomDetail(props) {
       seteditBed("editbeddet");
       setcustomerAsignBed(true);
       setcustomerdetailShow(false);
-      setFormShow(true);
       setFormShow(true);
       setId(item[0].ID);
 
@@ -147,6 +176,7 @@ function UserListRoomDetail(props) {
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
       setBed(item[0].Bed || "");
+      setSelectedDate(item[0].user_join_date || "");
       setAdvanceAmount(item[0].AdvanceAmount || "");
       setRoomRent(item[0].RoomRent || "");
       setPaymentType(item[0].PaymentType || "");
@@ -158,6 +188,7 @@ function UserListRoomDetail(props) {
         Floor: item[0].Floor || "",
         Rooms: item[0].Rooms || "",
         Bed: item[0].Bed || "",
+        selectedDate: item[0].user_join_date || "",
         AdvanceAmount: item[0].AdvanceAmount || "",
         RoomRent: item[0].RoomRent || "",
       });
@@ -214,6 +245,8 @@ function UserListRoomDetail(props) {
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
       setBed(item[0].Bed || "");
+      setSelectedDate(item[0].user_join_date || "");
+
       setAdvanceAmount(item[0].AdvanceAmount || "");
       setRoomRent(item[0].RoomRent || "");
       setPaymentType(item[0].PaymentType || "");
@@ -400,6 +433,10 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostel_Id } });
   }, [hostel_Id]);
+  console.log(
+    "state.UsersList?.bednumberdetails?.bed_details",
+    state.UsersList?.bednumberdetails?.bed_details
+  );
 
   const handleHostelId = (e) => {
     const selectedHostelId = e.target.value;
@@ -442,6 +479,15 @@ function UserListRoomDetail(props) {
   }, [Rooms]);
   const handleRooms = (e) => {
     setRooms(e.target.value);
+
+    dispatch({
+      type: "BEDNUMBERDETAILS",
+      payload: {
+        hostel_id: hostel_Id,
+        floor_id: Floor,
+        room_id: e.target.value,
+      },
+    });
     if (e.target.value === "Selected Room") {
       setRoomError("Please select a valid Room");
     } else {
@@ -464,7 +510,7 @@ function UserListRoomDetail(props) {
   const handleBed = (e) => {
     // handleInputChange()
     setBed(e.target.value);
-    if (e.target.value === "Selected Bed") {
+    if (e.target.value === "Selected a Bed") {
       setBedError("Please select a valid Bed");
     } else {
       setBedError("");
@@ -623,6 +669,7 @@ function UserListRoomDetail(props) {
       Floor: Floor,
       Rooms: Rooms,
       Bed: Bed,
+      joining_date: selectedDate,
       AdvanceAmount: AdvanceAmount,
       RoomRent: RoomRent,
       BalanceDue: BalanceDue,
@@ -660,6 +707,7 @@ function UserListRoomDetail(props) {
     Floor: "",
     Rooms: "",
     Bed: "",
+    selectedDate: "",
     AdvanceAmount: "",
     RoomRent: "",
   });
@@ -670,13 +718,14 @@ function UserListRoomDetail(props) {
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomrentError, setRoomRentError] = useState("");
   const validateAssignField = (value, fieldName) => {
-    // Check if the value is empty or invalid
-    if (
-      !value ||
-      value === "Select a Floor" ||
-      value === "Select a Room" ||
-      value === "Select a Bed"
-    ) {
+    // If the value is a string, trim it, otherwise check for non-empty or valid number
+    const isValueEmpty =
+      (typeof value === "string" && value.trim() === "") ||
+      value === "undefined" ||
+      value === "null" ||
+      value === "0";
+
+    if (isValueEmpty) {
       switch (fieldName) {
         case "Floor":
           setfloorError("Floor is required");
@@ -687,86 +736,55 @@ function UserListRoomDetail(props) {
         case "Bed":
           setBedError("Bed is required");
           break;
+        case "selectedDate":
+          setDateError("date is required");
+          break;
         case "AdvanceAmount":
           setAdvanceAmountError("Advance Amount is required");
           break;
         case "RoomRent":
-          setRoomRentError("Room rent is required");
+          setRoomRentError("Room Rent is required");
           break;
         default:
           break;
       }
       return false;
-    } else {
-      // Clear the error if validation passes
-      switch (fieldName) {
-        case "Floor":
-          setfloorError("");
-          break;
-        case "Room":
-          setRoomError("");
-          break;
-        case "Bed":
-          setBedError("");
-          break;
-        case "AdvanceAmount":
-          setAdvanceAmountError("");
-          break;
-        case "RoomRent":
-          setRoomRentError("");
-          break;
-        default:
-          break;
-      }
-      return true;
     }
+
+    // Clear errors if the value is valid
+    switch (fieldName) {
+      case "Floor":
+        setfloorError("");
+        break;
+      case "Room":
+        setRoomError("");
+        break;
+      case "Bed":
+        setBedError("");
+        break;
+      case "selectedDate":
+        setDateError("");
+        break;
+      case "AdvanceAmount":
+        setAdvanceAmountError("");
+        break;
+      case "RoomRent":
+        setRoomRentError("");
+        break;
+      default:
+        break;
+    }
+
+    return true;
   };
 
   const handleSaveUserlistAddUser = () => {
-    if (Floor === "Selected Floor" || floorError) {
-      setfloorError("Please select a valid PG");
-      return;
-    }
-    if (Rooms === "Selected Room" || roomError) {
-      setRoomError("Please select a valid PG");
-      return;
-    }
-    if (Bed === "Selected Bed" || bedError) {
-      setBedError("Please select a valid PG");
-      return;
-    }
-    const isChangedBed =
-      Number(Floor) !== Number(initialStateAssign.Floor) ||
-      Number(Rooms) !== Number(initialStateAssign.Rooms) ||
-      Number(Bed) !== Number(initialStateAssign.Bed) ||
-      Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
-      Number(RoomRent) !== Number(initialStateAssign.RoomRent);
-
-    if (!isChangedBed) {
-      setFormError("No changes detected.");
-      return;
-    } else {
-      setFormError("");
-    }
-
-    const isFloorValid = validateAssignField(Floor, "Floor");
-    const isRoomValid = validateAssignField(Rooms, "Room");
-    const isBedValid = validateAssignField(Bed, "Bed");
-    const isAdvanceAmountValid = validateAssignField(
-      AdvanceAmount,
-      "AdvanceAmount"
-    );
-    const isRoomRentValid = validateAssignField(RoomRent, "RoomRent");
-
-    if (
-      !isFloorValid ||
-      !isRoomValid ||
-      !isBedValid ||
-      !isAdvanceAmountValid ||
-      !isRoomRentValid
-    ) {
-      return;
-    }
+    if (!validateAssignField(Floor, "Floor")) return;
+    if (!validateAssignField(Rooms, "Room")) return;
+    if (!validateAssignField(Bed, "Bed")) return;
+    if (!validateAssignField(selectedDate, "selectedDate")) return;
+    if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) return;
+    if (!validateAssignField(RoomRent, "RoomRent")) return;
 
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Room Rent must be greater than 0");
@@ -780,6 +798,57 @@ function UserListRoomDetail(props) {
       return;
     } else {
       setAdvanceAmountError("");
+    }
+    if (Floor === "Selected Floor" || floorError) {
+      setfloorError("Please select a valid PG");
+      return;
+    }
+    if (Rooms === "Selected Room" || roomError) {
+      setRoomError("Please select a valid PG");
+      return;
+    }
+    if (Bed === "Select a Bed" || bedError) {
+      setBedError("Please select a valid PG");
+      return;
+    }
+    const isValidDate = (date) => {
+      return !isNaN(Date.parse(date));
+    };
+
+    const isChangedBed =
+      (isNaN(Floor)
+        ? String(Floor).toLowerCase() !==
+          String(initialStateAssign.Floor).toLowerCase()
+        : Number(Floor) !== Number(initialStateAssign.Floor)) ||
+      (isNaN(Rooms)
+        ? String(Rooms).toLowerCase() !==
+          String(initialStateAssign.Rooms).toLowerCase()
+        : Number(Rooms) !== Number(initialStateAssign.Rooms)) ||
+      (isNaN(Bed)
+        ? String(Bed).toLowerCase() !==
+          String(initialStateAssign.Bed).toLowerCase()
+        : Number(Bed) !== Number(initialStateAssign.Bed)) ||
+      (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
+        ? new Date(selectedDate).toISOString().split("T")[0] !==
+          new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
+        : selectedDate !== initialStateAssign.selectedDate) ||
+      Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
+      Number(RoomRent) !== Number(initialStateAssign.RoomRent);
+
+    // If no changes detected
+    if (!isChangedBed) {
+      setFormError("No changes detected.");
+      return;
+    } else {
+      setFormError("");
+    }
+    let formattedDate = null;
+    try {
+      formattedDate = new Date(selectedDate).toISOString().split("T")[0];
+    } catch (error) {
+      setDateError("date is required.");
+      console.error(error);
+      return;
     }
 
     dispatch({
@@ -799,6 +868,7 @@ function UserListRoomDetail(props) {
         Floor: Floor,
         Rooms: Rooms,
         Bed: Bed,
+        joining_date: formattedDate,
         AdvanceAmount: AdvanceAmount,
         RoomRent: RoomRent,
         BalanceDue: BalanceDue,
@@ -809,6 +879,7 @@ function UserListRoomDetail(props) {
         ID: id,
       },
     });
+
     props.AfterEditHostels(hostel_Id);
     props.AfterEditFloors(Floor);
     props.AfterEditRoomses(Rooms);
@@ -897,8 +968,22 @@ function UserListRoomDetail(props) {
                                 fontFamily: "Gilroy",
                               }}
                             >
-                              {props.getFormattedRoomId(item.Floor, item.Rooms)}{" "}
-                              - Bed {item.Bed}
+                              Room:{" "}
+                              {item.Rooms &&
+                              item.Rooms !== "0" &&
+                              item.Rooms !== "" &&
+                              item.Rooms !== "undefined" &&
+                              item.Rooms !== "null"
+                                ? item.Rooms
+                                : "N/A"}{" "}
+                              - Bed:{" "}
+                              {item.Bed &&
+                              item.Bed !== "undefined" &&
+                              item.Bed !== "0" &&
+                              item.Bed !== "" &&
+                              item.Bed !== "null"
+                                ? item.Bed
+                                : "N/A"}
                             </span>
 
                             <span
@@ -917,10 +1002,25 @@ function UserListRoomDetail(props) {
                                 fontFamily: "Gilroy",
                               }}
                             >
-                              {props.getFloorName(item.Floor)}
+                              Floor -{" "}
+                              {item.Floor &&
+                              item.Floor !== "0" &&
+                              item.Floor !== "" &&
+                              item.Floor !== "undefined" &&
+                              item.Floor !== "null"
+                                ? item.Floor
+                                : "N/A"}
+                              {/* {props.getFloorName(item.Floor && item.Floor !== 0 && item.Floor !== '' &&  item.Floor !== 'undefined'? item.Floor : 'N/A')} */}
                             </span>
                           </p>
                         </div>
+                      </div>
+                      <div
+                        onClick={() => {
+                          handleShowEditBed(props.userDetails);
+                        }}
+                      >
+                        <img src={dots} width={40} height={40} />
                       </div>
                     </div>
                   </div>
@@ -964,7 +1064,7 @@ function UserListRoomDetail(props) {
                             }}
                           />
                           <Tab
-                            label="Invoice"
+                            label="Bill"
                             value="3"
                             style={{
                               fontSize: 16,
@@ -989,7 +1089,7 @@ function UserListRoomDetail(props) {
                               textTransform: "none",
                             }}
                           />
-                          <Tab
+                          {/* <Tab
                             label="Transactions"
                             value="5"
                             style={{
@@ -1001,7 +1101,7 @@ function UserListRoomDetail(props) {
                               fontWeight: 500,
                               textTransform: "none",
                             }}
-                          />
+                          /> */}
                         </TabList>
                       </Box>
                     </div>
@@ -1117,11 +1217,19 @@ function UserListRoomDetail(props) {
                                           cursor: "pointer",
                                         }}
                                       >
-                                        {props.getFormattedRoomId(
-                                          item.Floor,
-                                          item.Rooms
-                                        )}{" "}
-                                        - Bed {item.Bed}
+                                        {item.Rooms === "undefined" ||
+                                        item.Rooms === "0" ||
+                                        item.Rooms === "" ||
+                                        item.Rooms === "null"
+                                          ? "N/A"
+                                          : item.Rooms}
+                                        -{" "}
+                                        {item.Bed === "undefined" ||
+                                        item.Bed === "0" ||
+                                        item.Bed === "" ||
+                                        item.Bed === "null"
+                                          ? "N/A"
+                                          : item.Bed}
                                       </span>
                                     </p>
                                   </div>
@@ -1298,19 +1406,6 @@ function UserListRoomDetail(props) {
                                       >
                                         Amenities
                                       </strong>
-
-                                      {/* <div class="d-flex flex-wrap mt-2">
-                                                                        <div  style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>Amnities_Name</div> 
-                                                                            {
-                                                                            g?.amentites?.length > 0 && g?.amentites.map((p) => {
-                                                                                console.log("p,,,",p)
-                                                                                return (
-                                                                                    <div key={p.Amnities_Name} style={{ backgroundColor: "#E0ECFF", borderRadius: "10px", paddingLeft: "12px", paddingRight: "12px", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500, paddingTop: "2px", paddingBottom: "3px", margin: "10px" }}>{p.Amnities_Name}</div>
-
-                                                                                )
-                                                                            })
-                                                                        } 
-                                                                    </div> */}
                                     </div>
                                   </div>
                                 </div>
@@ -1411,7 +1506,6 @@ function UserListRoomDetail(props) {
                                             <div class="d-flex flex-wrap mt-2">
                                               {g?.amentites?.length > 0 &&
                                                 g?.amentites.map((p) => {
-                                                  console.log("p,,,", p);
                                                   return (
                                                     <div
                                                       key={p.Amnities_Name}
@@ -1778,7 +1872,16 @@ function UserListRoomDetail(props) {
                                               fontWeight: 500,
                                             }}
                                           >
-                                            First Name <span style={{ color: 'red', fontSize: '20px' }}> * </span>
+                                            First Name{" "}
+                                            <span
+                                              style={{
+                                                color: "red",
+                                                fontSize: "20px",
+                                              }}
+                                            >
+                                              {" "}
+                                              *{" "}
+                                            </span>
                                           </Form.Label>
                                           <FormControl
                                             id="form-controls"
@@ -1853,7 +1956,16 @@ function UserListRoomDetail(props) {
                                               fontWeight: 500,
                                             }}
                                           >
-                                            Mobile number <span style={{ color: 'red', fontSize: '20px' }}> * </span>
+                                            Mobile number{" "}
+                                            <span
+                                              style={{
+                                                color: "red",
+                                                fontSize: "20px",
+                                              }}
+                                            >
+                                              {" "}
+                                              *{" "}
+                                            </span>
                                           </Form.Label>
 
                                           <InputGroup>
@@ -2017,7 +2129,16 @@ function UserListRoomDetail(props) {
                                               fontWeight: 500,
                                             }}
                                           >
-                                            Address <span style={{ color: 'red', fontSize: '20px' }}> * </span>
+                                            Address{" "}
+                                            <span
+                                              style={{
+                                                color: "red",
+                                                fontSize: "20px",
+                                              }}
+                                            >
+                                              {" "}
+                                              *{" "}
+                                            </span>
                                           </Form.Label>
                                           <FormControl
                                             type="text"
@@ -2055,7 +2176,16 @@ function UserListRoomDetail(props) {
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Paying Guest <span style={{ color: 'red', fontSize: '20px' }}> * </span>
+                                          Paying Guest{" "}
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            {" "}
+                                            *{" "}
+                                          </span>
                                         </Form.Label>
                                         <Form.Select
                                           aria-label="Default select example"
@@ -2182,7 +2312,16 @@ function UserListRoomDetail(props) {
                                             fontFamily: "Gilroy",
                                           }}
                                         >
-                                          Floor <span style={{ color: 'red', fontSize: '20px' }}> * </span>
+                                          Floor{" "}
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            {" "}
+                                            *{" "}
+                                          </span>
                                         </Form.Label>
                                         <Form.Select
                                           aria-label="Default select example"
@@ -2205,7 +2344,10 @@ function UserListRoomDetail(props) {
                                           <option>Selected Floor</option>
                                           {state.UsersList?.hosteldetailslist?.map(
                                             (u) => (
-                                              <option key={u.floor_id}>
+                                              <option
+                                                key={u.floor_id}
+                                                value={u.floor_id}
+                                              >
                                                 {u.floor_id}
                                               </option>
                                             )
@@ -2227,7 +2369,16 @@ function UserListRoomDetail(props) {
                                             fontFamily: "Gilroy",
                                           }}
                                         >
-                                          Room<span style={{ color: 'red', fontSize: '20px' }}> * </span>
+                                          Room
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            {" "}
+                                            *{" "}
+                                          </span>
                                         </Form.Label>
                                         <Form.Select
                                           aria-label="Default select example"
@@ -2267,7 +2418,7 @@ function UserListRoomDetail(props) {
                                         )}
                                       </div>
 
-                                      <div className="col-12 mt-3 mb-3">
+                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                         <Form.Label
                                           style={{
                                             fontSize: 14,
@@ -2275,7 +2426,16 @@ function UserListRoomDetail(props) {
                                             fontFamily: "Gilroy",
                                           }}
                                         >
-                                          Bed<span style={{ color: 'red', fontSize: '20px' }}> * </span>
+                                          Bed
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            {" "}
+                                            *{" "}
+                                          </span>
                                         </Form.Label>
                                         <Form.Select
                                           aria-label="Default select example"
@@ -2295,10 +2455,14 @@ function UserListRoomDetail(props) {
                                           id="form-selects"
                                           onChange={(e) => handleBed(e)}
                                         >
-                                          <option>Selected Bed</option>
+                                          <option>Select a Bed</option>
+
                                           {Editbed === "editbeddet" &&
                                             Bednum &&
-                                            Bednum[0].Bed && (
+                                            Bednum[0]?.Bed !== "undefined" &&
+                                            Bednum[0]?.Bed !== "" &&
+                                            Bednum[0]?.Bed !== "null" &&
+                                            Bednum[0]?.Bed !== "0" && (
                                               <option
                                                 value={Bednum[0].Bed}
                                                 selected
@@ -2306,19 +2470,26 @@ function UserListRoomDetail(props) {
                                                 {Bednum[0].Bed}
                                               </option>
                                             )}
+
                                           {state.UsersList?.bednumberdetails
                                             ?.bed_details?.length > 0 &&
                                             state.UsersList.bednumberdetails.bed_details.map(
-                                              (item) => (
-                                                <option
-                                                  key={item.bed_no}
-                                                  value={item.bed_no}
-                                                >
-                                                  {item.bed_no}
-                                                </option>
-                                              )
+                                              (item) =>
+                                                item.bed_no &&
+                                                item.bed_no !== "undefined" &&
+                                                item.bed_no !== "0" &&
+                                                item.bed_no !== "" &&
+                                                item.bed_no !== "null" && (
+                                                  <option
+                                                    key={item.bed_no}
+                                                    value={item.bed_no}
+                                                  >
+                                                    {item.bed_no}
+                                                  </option>
+                                                )
                                             )}
                                         </Form.Select>
+
                                         {bedError && (
                                           <div style={{ color: "red" }}>
                                             <MdError />
@@ -2326,6 +2497,93 @@ function UserListRoomDetail(props) {
                                           </div>
                                         )}
                                       </div>
+
+                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <Form.Label
+                                          style={{
+                                            fontSize: 14,
+                                            color: "#222",
+                                            fontFamily: "'Gilroy'",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          Joining_Date{" "}
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            *{" "}
+                                          </span>
+                                        </Form.Label>
+
+                                        <div style={{ position: "relative" }}>
+                                          <label
+                                            htmlFor="date-input"
+                                            style={{
+                                              border: "1px solid #D9D9D9",
+                                              borderRadius: 8,
+                                              padding: 11,
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              color: "#222222",
+                                              display: "flex",
+                                              alignItems: "center",
+                                              justifyContent: "space-between",
+                                              cursor: "pointer",
+                                            }}
+                                            onClick={() => {
+                                              if (calendarRef.current) {
+                                                calendarRef.current.flatpickr.open(); // Open Flatpickr on click
+                                              }
+                                            }}
+                                          >
+                                            {/* {selectedDate ? selectedDate : 'YYYY-MM-DD'} Show selectedDate */}
+                                            <span>
+                                              {selectedDate === "0000-00-00" ||
+                                              !selectedDate
+                                                ? "YYYY-MM-DD"
+                                                : selectedDate}
+                                            </span>
+                                            <img
+                                              src={Calendars}
+                                              style={{
+                                                height: 24,
+                                                width: 24,
+                                                marginLeft: 10,
+                                              }}
+                                              alt="Calendar"
+                                            />
+                                          </label>
+
+                                          <Flatpickr
+                                            ref={calendarRef}
+                                            options={{
+                                              dateFormat: "Y-m-d",
+                                            }}
+                                            value={
+                                              selectedDate
+                                                ? new Date(selectedDate)
+                                                : new Date()
+                                            }
+                                            onChange={(selectedDates) =>
+                                              handleDate(selectedDates)
+                                            }
+                                            style={{
+                                              display: "none",
+                                            }}
+                                          />
+                                        </div>
+
+                                        {dateError && (
+                                          <div style={{ color: "red" }}>
+                                            <MdError />
+                                            {dateError}
+                                          </div>
+                                        )}
+                                      </div>
+
                                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                         <Form.Group className="">
                                           <Form.Label
@@ -2335,7 +2593,16 @@ function UserListRoomDetail(props) {
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                            Advance Amount <span style={{ color: 'red', fontSize: '20px' }}> * </span>
+                                            Advance Amount{" "}
+                                            <span
+                                              style={{
+                                                color: "red",
+                                                fontSize: "20px",
+                                              }}
+                                            >
+                                              {" "}
+                                              *{" "}
+                                            </span>
                                           </Form.Label>
                                           <FormControl
                                             type="text"
@@ -2373,7 +2640,16 @@ function UserListRoomDetail(props) {
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                            Rental Amount <span style={{ color: 'red', fontSize: '20px' }}> * </span>
+                                            Rental Amount{" "}
+                                            <span
+                                              style={{
+                                                color: "red",
+                                                fontSize: "20px",
+                                              }}
+                                            >
+                                              {" "}
+                                              *{" "}
+                                            </span>
                                           </Form.Label>
                                           <FormControl
                                             type="text"
@@ -2453,9 +2729,9 @@ function UserListRoomDetail(props) {
                         statusAmni={props.statusAmni}
                       />
                     </TabPanel>
-                    <TabPanel value="5">
+                    {/* <TabPanel value="5">
                       <UserListTransaction id={props.id} />
-                    </TabPanel>
+                    </TabPanel> */}
                   </TabContext>
                 </div>
               );

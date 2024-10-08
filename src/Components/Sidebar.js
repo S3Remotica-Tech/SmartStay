@@ -400,8 +400,8 @@ localStorage.setItem('currentPage','compliance');
       <Container fluid className='p-0'>
 
         <Row className='g-0 m-0'  >
-          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block " style={{ cursor: "pointer", backgroundColor: '#E0ECFF',  position: "fixed", overflowY:"auto", height: "100vh"}} >
-            <div className="d-flex align-items-center m-3 gap-1 justify-content-center">
+          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block  sidebar" style={{ cursor: "pointer", backgroundColor: '#E0ECFF',  position: "fixed", overflowY:"auto", height: "100vh"}} >
+            <div className="d-flex align-items-center m-3 mt-4 gap-1 justify-content-center">
 
               <img src={Smartstay} style={{ fontSize: '15px' }} />
               <div><label className='Title' style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", fontSize:24 }}>Smartstay</label></div>
@@ -448,7 +448,7 @@ localStorage.setItem('currentPage','compliance');
             
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex" }}>
                 <img src={currentPage === 'eb' ? Eb2 : Eb} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Transactions</span>
+                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Electricity</span>
                 </li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex" }}>
@@ -485,9 +485,9 @@ localStorage.setItem('currentPage','compliance');
             </ul>
            
           </Col>
-          <Col lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} className="bg-white">
+          <Col className="bg-white main-content" lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} >
 
-            <div className='container d-flex justify-content-end align-items-center mr-3' style={{ marginTop:'30px'}}>
+            <div className='container d-flex justify-content-end align-items-center mr-3' style={{ marginTop:'20px'}}>
 
 <div >
   {/* <InputGroup>
