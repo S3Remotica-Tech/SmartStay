@@ -71,10 +71,17 @@ const InvoicePage = () => {
 
   const [loading, setLoading] = useState(false)
 
+  // useEffect(() => {
+  //   setLoading(true)
+  //   dispatch({ type: 'INVOICELIST' })
+  // }, [])
+
   useEffect(() => {
-    setLoading(true)
-    dispatch({ type: 'INVOICELIST' })
+    // setLoading(true)
+    dispatch({ type: 'MANUAL-INVOICES-LIST' })
   }, [])
+
+
 
 
   const customStyle = {
@@ -150,17 +157,7 @@ const InvoicePage = () => {
     setShowManualInvoice(false)
   }
 
-  const handleBackBill = () => {
-    setShowManualInvoice(true)
-    setCustomerName('');
-    setInvoiceNumber('');
-    setStartDate('');
-    setEndDate('');
-    setInvoiceDate('');
-    setInvoiceDueDate('');
-    setSelectedData('');
-    setAvailableOptions('');
-  }
+  
 
   const [file, setFile] = useState(null)
   const d = new Date();
@@ -335,42 +332,7 @@ const InvoicePage = () => {
     }
   }, [state.login.UpdateNotificationMessage])
 
-  useEffect(() => {
-    //  dispatch({ type: 'INVOICELIST' })
-    if (state.InvoiceList?.InvoiceListStatusCode == 200) {
-      console.log("invoice added executed");
-
-      setData(state.InvoiceList.Invoice)
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_INVOICE_LIST' });
-      }, 1000);
-    }
-  }, [state.InvoiceList?.InvoiceListStatusCode])
-
-
-
-
-
-
-
-  console.log("InvoiceList", state.InvoiceList);
-  console.log("DATA", data)
-
-  useEffect(() => {
-    console.log("statuscode", state.InvoiceList.message);
-    if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
-      console.log("statuscode_number", state.InvoiceList.UpdateInvoiceStatusCode);
-      dispatch({ type: 'INVOICELIST' })
-      setData(state.InvoiceList.Invoice)
-      // setLoading(true)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
-      }, 100);
-
-
-    }
-  }, [state.InvoiceList])
+ 
 
 
   useEffect(() => {
@@ -1121,6 +1083,11 @@ const InvoicePage = () => {
   //     }));
   //   }
 
+
+  useEffect(()=> {
+    dispatch({type: "USERLIST"})
+  },[])
+
   const [customername , setCustomerName] =  useState ('');
   const [invoicenumber , setInvoiceNumber] =  useState ('');
   const [startdate , setStartDate] =  useState (null);
@@ -1131,15 +1098,106 @@ const InvoicePage = () => {
   const [formatstartdate, setFormatStartDate] = useState(null)
   const [formatenddate, setFormatEndDate] = useState(null)
   const [formatinvoicedate, setFormatInvoiceDate] = useState(null)
-  const [formatduedate, setFormatDueDate] = useState(null)
   
+  
+  const [formatduedate, setFormatDueDate] = useState(null)
+  console.log("formatinvoicedate",formatduedate);
 
   const [invoicetotalamounts,setInvoiceTotalAmount] = useState([])
+  const [billamounts, setBillAmounts] = useState([])
+
+
+  
+const [ebamount, setEBAmount] = useState('')
+const [rentamount , setRentAmount] = useState('')
+const [amenityDetail , setAmenityDetails] = useState([])
+console.log("amenityDetail",amenityDetail);
+
+const [totalAmount , setTotalAmount] = useState('')
+
+const [selectedData, setSelectedData] = useState([]);
+console.log("selectedData",selectedData)
+const [availableOptions, setAvailableOptions] = useState([]);
+console.log("availableOptions",availableOptions)
 
   const startRef = useRef(null);
   const endRef = useRef(null);
   const invoiceRef = useRef(null);
   const dueRef = useRef(null);
+
+
+  const [bills , setBills] = useState([])
+  console.log("bills",bills);
+  
+
+  // useEffect(()=> {
+  //  dispatch({type:'MANUAL-INVOICES-LIST'})
+  //  },[])
+
+  useEffect(() => {
+    if (state.InvoiceList.ManualInvoicesgetstatuscode === 200 && !loading) {
+      // dispatch({ type: 'MANUAL-INVOICES-LIST' });
+      setBills(state.InvoiceList.ManualInvoices);
+      setLoading(true); 
+  
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST' });
+        setLoading(false); 
+      }, 100);
+    }
+  }, [state.InvoiceList.ManualInvoicesgetstatuscode]); 
+  
+  useEffect(() => {
+    if (state.InvoiceList.manualInvoiceAddStatusCode === 200 && !loading) {
+      // dispatch({ type: 'MANUAL-INVOICES-LIST' });
+      setLoading(true); 
+  
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD' });
+        setLoading(false); 
+      }, 1000);
+    }
+  }, [state.InvoiceList.manualInvoiceAddStatusCode]); // Add `loading` to the dependency array
+  
+
+
+  useEffect(() => {
+    console.log("invoice added executed");
+    //  dispatch({ type: 'INVOICELIST' })
+    if (state.InvoiceList?.InvoiceListStatusCode == 200) {
+     
+      dispatch({type:'MANUAL-INVOICES-LIST'})
+      setBills(state.InvoiceList.ManualInvoices)
+      // setLoading(true);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_INVOICE_LIST' });
+      }, 1000);
+    }
+  }, [state.InvoiceList?.InvoiceListStatusCode])
+
+
+
+
+
+
+
+  // console.log("InvoiceList", state.InvoiceList);
+ 
+
+  useEffect(() => {
+    console.log("statuscode", state.InvoiceList.message);
+    if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
+      console.log("statuscode_number", state.InvoiceList.UpdateInvoiceStatusCode);
+      dispatch({type:'MANUAL-INVOICES-LIST'})
+      setBills(state.InvoiceList.ManualInvoices)
+      // setLoading(true)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
+      }, 100);
+
+
+    }
+  }, [state.InvoiceList])
 
   useEffect(() => {
     if (startRef.current) {
@@ -1165,9 +1223,27 @@ const InvoicePage = () => {
     setEndDate('');
     setSelectedData('');
     setAvailableOptions('');
+    setBillAmounts('')
+    setTotalAmount('')
   }
 
   console.log("state.UsersList.Users",state.UsersList.Users);
+
+
+  const handleBackBill = () => {
+    setShowManualInvoice(true)
+    setCustomerName('');
+    setInvoiceNumber('');
+    setStartDate('');
+    setEndDate('');
+    setInvoiceDate('');
+    setInvoiceDueDate('');
+    setSelectedData('');
+    setAvailableOptions('');
+    setBillAmounts('')
+    setTotalAmount('')
+    
+  }
   
 
   useEffect(() => {
@@ -1222,35 +1298,7 @@ const InvoicePage = () => {
     }
   }, [customername, formatstartdate, formatenddate, dataFetched, state.InvoiceList.manualInvoiceStatusCode , state.InvoiceList.ManualInvoice.total_array]);
 
-  const [bills , setBills] = useState([])
-
-        // useEffect(()=> {
-        //  dispatch({type:'MANUAL_INVOICES_LIST'})
-        //  },[])
-
-        // useEffect(()=> {
-        //   if(state.InvoiceList.ManualInvoicesgetstatuscode === 200){
-        //     setBills(state.InvoiceList.ManualInvoices)
-
-        // setTimeout(() => {
-        //   dispatch({type:'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST'})
-        //    }, 100);
-        //     }
-        // },[state.InvoiceList.ManualInvoicesgetstatuscode === 200])
-
-
-        // useEffect(()=> {
-        //    if(state.InvoiceList.manualInvoiceAddStatusCode === 200){
-         
-        //     setTimeout(() => {
-        //       dispatch({type:'MANUAL_INVOICES_LIST'})
-        //     }, 100);
-
-        //     setTimeout(() => {
-        //       dispatch({type:'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD'})
-        //     }, 1000);
-        //    }
-        // },[state.InvoiceList.manualInvoiceAddStatusCode === 200])
+    
 
 
   const formatDateForPayloadmanualinvoice = (date) => {
@@ -1296,15 +1344,12 @@ const InvoicePage = () => {
   
   
 
-  const [selectedData, setSelectedData] = useState([]);
-  console.log("selectedData",selectedData)
-  const [availableOptions, setAvailableOptions] = useState([]);
-  console.log("availableOptions",availableOptions)
+ 
 
 
   useEffect(() => {
     if (invoicetotalamounts && invoicetotalamounts.length > 0) {
-      setAvailableOptions(invoicetotalamounts);
+      setBillAmounts(invoicetotalamounts);
     } else {
       console.error("No data from API or empty array");
     }
@@ -1331,16 +1376,16 @@ const handleSelectChange = (e) => {
 // };
 
 const handleAmountChange = (index, value) => {
-  const updatedData = [...selectedData];
+  const updatedData = [...billamounts];
   updatedData[index] = { ...updatedData[index], amount: value };  // update 'amount'
-  setSelectedData(updatedData);                                  //selectedData[index].Amount
+  setBillAmounts(updatedData);                                  //selectedData[index].Amount
 };
 
 
 
 const handleDeletebilldata = (itemToDelete) => {
-  setSelectedData(selectedData.filter(item => item !== itemToDelete));
-  setAvailableOptions([...availableOptions, itemToDelete]);
+  setBillAmounts(billamounts.filter(item => item !== itemToDelete));
+  // setAvailableOptions([...availableOptions, itemToDelete]);
 };
 
 
@@ -1348,26 +1393,26 @@ const handleDeletebilldata = (itemToDelete) => {
 
 
 
-const [ebamount, setEBAmount] = useState('')
-const [rentamount , setRentAmount] = useState('')
-const [amenityDetail , setAmenityDetails] = useState([])
-console.log("amenityDetail",amenityDetail);
-
-const [totalAmount , setTotalAmount] = useState('')
 
 
 
 useEffect(()=> {
 
-  if(selectedData && selectedData.length > 0){
+  if(billamounts && billamounts.length > 0){
+
+    console.log("billamounts",billamounts);
+    
 
   
-  const  EbAmount = selectedData && selectedData.length > 0 && selectedData.find(item => item.id == 10);// EB Amount with id 10 
-  const  RoomRentItem = selectedData && selectedData.length > 0 && selectedData.find(item => item.id == 50); // Room Rent with id 50
+  const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 10);// EB Amount with id 10 
+  const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 50); 
+  console.log("RoomRentItem",RoomRentItem);
+  
+  // Room Rent with id 50
    setEBAmount(EbAmount)
    setRentAmount(RoomRentItem)
 
- var  amenities = selectedData && selectedData.length > 0 && selectedData.filter(item => item.id != 10 && item.id != 50);
+ var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 10 && item.id != 50);
   console.log("amenities",amenities);
 
   const AmenityDetails = amenities.map(item => ({
@@ -1385,7 +1430,7 @@ useEffect(()=> {
   );
   setTotalAmount(totalAmount)
 }
-},[selectedData])
+},[billamounts])
 
 
 
@@ -1400,7 +1445,7 @@ useEffect(()=> {
   dispatch({
     type: 'MANUAL-INVOICE-ADD',
     payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
-    invoice_id: invoicenumber, room_rent : rentamount.amount , eb_amount :ebamount.amount || '', total_amount : totalAmount , 
+    invoice_id: invoicenumber, room_rent : rentamount.amount , eb_amount : '', total_amount : totalAmount , 
     amenity: amenityArray.length > 0 ? amenityArray : []
     }
   });
@@ -1416,6 +1461,8 @@ setInvoiceDate('')
 setInvoiceDueDate('')
 setSelectedData('')
 setAvailableOptions('');
+// setInvoiceTotalAmount('')
+setBillAmounts('');
 }
 
 
@@ -1489,7 +1536,7 @@ setAvailableOptions('');
   const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
 
 
 
@@ -1589,7 +1636,7 @@ setAvailableOptions('');
         :
         <Button
           // onClick={handleShow}
-          style={{ fontSize: 16, backgroundColor: "green", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment
+          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment
         </Button>
 
 
@@ -1603,14 +1650,8 @@ setAvailableOptions('');
 <div >
   <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
     <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
-      <Tab label="All Bills" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+      <Tab label="Bills" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
       <Tab label="Recurring Bills" value="2" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-      {/* <Tab label="Invoice" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-      <Tab label="Expences" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-      <Tab label="Complaint type" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-      <Tab label="Amenities" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
-      {/* <Tab label="Users" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
-
     </TabList>
   </Box>
 </div>
@@ -2076,49 +2117,55 @@ setAvailableOptions('');
 
 
                         </thead>
-                        <tbody style={{ fontSize: "10px", }}>
-                          {loading ? (
-                            Array.from({ length: 5 }).map((_, index) => (
-                              <tr key={index}>
-                                <td
-                                // style={{
-                                //   padding: "10px",
-                                //   border: "none",
-                                //   wordBreak: "break-word", 
-                                //   whiteSpace: "normal",    
-                                //   maxWidth: "150px",       
-                                // }}
+                        <tbody style={{ fontSize: "10px" }}>
+  {loading ? (
+    // Display skeleton placeholders when loading is true
+    Array.from({ length: 5 }).map((_, index) => (
+      <tr key={index}>
+        <td>
+          <div className="d-flex">
+            <span className="i-circle">
+              <Skeleton circle width={24} height={24} style={{ padding: "10px", border: "none" }} />
+            </span>
+            <div>
+              <Skeleton width={80} style={{ padding: "5px", border: "none" }} />
+            </div>
+          </div>
+        </td>
+        <td style={{ padding: "10px", border: "none" }}>
+          <Skeleton width={100} />
+        </td>
+        <td style={{ padding: "10px", border: "none" }}>
+          <Skeleton width={100} />
+        </td>
+        <td style={{ padding: "10px", border: "none" }}>
+          <Skeleton width={50} />
+        </td>
+        <td style={{ padding: "10px", border: "none" }}>
+          <Skeleton width={50} />
+        </td>
+        <td style={{ padding: "10px", border: "none" }}>
+          <Skeleton width={100} />
+        </td>
+        <td style={{ padding: "10px", border: "none" }}>
+          <Skeleton width={100} />
+        </td>
+      </tr>
+    ))
+  ) :
+    // Display table rows with actual data when loading is false
+    currentItems.map((item) => (
+      <InvoiceTable
+        key={item.id}
+        item={item}
+        OnHandleshowform={handleShowForm}
+        OnHandleshowInvoicePdf={handleInvoiceDetail}
+        DisplayInvoice={handleDisplayInvoiceDownload}
+      />
+    ))
+  }
+</tbody>
 
-
-                                >
-                                  <div className="d-flex">
-                                    <span className="i-circle">
-                                      <Skeleton circle width={24} height={24} style={{ padding: "10px", border: "none" }} />
-                                    </span>
-                                    <div>
-                                      <Skeleton width={80} style={{ padding: "5px", border: "none" }} />
-                                    </div>
-                                  </div>
-                                </td>
-                                <td style={{ padding: "10px", border: "none" }}><Skeleton width={100} /></td>
-                                <td style={{ padding: "10px", border: "none" }}><Skeleton width={100} /></td>
-                                <td style={{ padding: "10px", border: "none" }}><Skeleton width={50} /></td>
-                                <td style={{ padding: "10px", border: "none" }}><Skeleton width={50} /></td>
-                                <td style={{ padding: "10px", border: "none" }}><Skeleton width={100} /></td>
-                                <td style={{ padding: "10px", border: "none" }}><Skeleton width={100} /></td>
-                              </tr>
-                            ))
-                          ) : (
-                            currentItems.map((item) => (
-                              <InvoiceTable
-                                item={item}
-                                OnHandleshowform={handleShowForm}
-                                OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                DisplayInvoice={handleDisplayInvoiceDownload}
-                              />
-                            ))
-                          )}
-                        </tbody>
                       </Table>
 
 
@@ -2613,7 +2660,7 @@ setAvailableOptions('');
           </thead>
           <tbody>
 
-{selectedData && selectedData.length > 0 && selectedData.map((u, index) => (
+{billamounts && billamounts.length > 0 && billamounts.map((u, index) => (
 <tr key={index}>
 <td>
 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{paddingTop:'35px',paddingLeft:'10px'}}>
@@ -2659,8 +2706,54 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
 </tr>
 ))}
 
+{/* {selectedData && selectedData.length > 0 && selectedData.map((u, index) => (
+<tr key={index}>
+<td>
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{paddingTop:'35px',paddingLeft:'10px'}}>
+<p>{u.description}</p>
+</div>
+</td>
+<td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.used_unit ? u.used_unit : '-' }</td>
+<td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.per_unit_amount != null && u.per_unit_amount != '' && u.per_unit_amount != undefined ? u.per_unit_amount : '-' }</td>
+<td>
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+<Form.Group controlId={`actualAmount-${index}`}>
+<Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
+<Form.Control
+style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
+type="text"
+placeholder="Enter actual amount"
+value={u.total_amount ?? 0}  // using nullish coalescing for safer default value
+// onChange={(e) => handleActualAmountChange(index, e.target.value)} 
+/>
+</Form.Group>
+</div>
+</td>
+<td>
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+<Form.Group controlId={`amount-${index}`}>
+<Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
+<Form.Control
+style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
+type="text"
+placeholder="Enter total amount"
+value={u.amount !== undefined ? Math.floor(u.amount) : 0} 
+onChange={(e) => handleAmountChange(index, e.target.value)} 
+/>
+</Form.Group>
+</div>
+</td>
 
-  <tr>
+<td style={{ paddingTop: '35px' }}>
+<span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeletebilldata(u)}>
+<img src={Closebtn} height={15} width={15} alt="delete" />
+</span>
+</td>
+</tr>
+))} */}
+
+
+  {/* <tr>
 
   <div className='col-lg-12 col-md-5 col-sm-12 col-xs-12 mt-1'>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -2683,7 +2776,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
       </Form.Group>
 
     </div>
-    </tr>
+    </tr> */}
 </tbody>
        
         </Table>
