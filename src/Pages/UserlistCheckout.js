@@ -12,25 +12,33 @@ import DatePicker from 'react-datepicker';
 import { Modal, Button } from 'react-bootstrap';
 import Closecircle from '../Assets/Images/close-circle.svg';
 
-
 function CheckOut() {
-
-
   const [activeDotsId, setActiveDotsId] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [checkOutDate, setCheckOutDate] = useState(new Date());
   const [selectedCustomer, setSelectedCustomer] = useState("Customer 1");
+  const [modalType, setModalType] = useState(null);
   const datePickerRef = useRef(null);
 
   const handleEdit = (id) => {
     console.log('Edit clicked for card', id);
     setActiveDotsId(null);
-    setShowForm(true); 
+    setShowForm(true);
   };
 
   const handleDelete = (id) => {
     console.log('Delete clicked for card', id);
     setActiveDotsId(null);
+    setModalType('delete');
+  };
+
+  const confirmDelete = () => {
+    console.log('Confirmed deletion');
+    setModalType(null); 
+  };
+
+  const handleModalClose = () => {
+    setModalType(null);
   };
 
   const toggleMoreOptions = (id) => {
@@ -77,7 +85,6 @@ function CheckOut() {
             </p>
           </div>
 
-          
           <img
             src={More}
             alt="More Icon"
@@ -179,15 +186,13 @@ function CheckOut() {
         {Array.from({ length: 6 }).map((_, index) => renderCard(index))}
       </div>
 
-
       <Modal show={showForm} onHide={handleClose} centered>
         <Modal.Header>
           <Modal.Title style={{ fontWeight: '600', fontSize: '16px' }}>Edit Check-out</Modal.Title>
-          
           <img src={Closecircle} alt="Close Icon" onClick={handleClose} style={{ cursor: 'pointer' }} />
         </Modal.Header>
         <Modal.Body>
-          <form className="space-y-4">
+        <form className="space-y-4">
             <div className="form-group">
               <label  style={{ fontSize: '14px',fontWeight:'500' }}>Paying Guest</label>
               <div className="input-group d-flex position-relative">
@@ -296,6 +301,80 @@ function CheckOut() {
           </form>
         </Modal.Body>
       </Modal>
+
+<Modal
+  show={modalType === 'delete'}
+  onHide={handleModalClose}
+  centered
+  backdrop="static"
+  style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }} 
+>
+  <Modal.Header style={{ borderBottom: 'none' }}> 
+    <Modal.Title 
+      style={{
+        fontSize: '18px',
+        fontFamily: 'Gilroy',
+        textAlign: 'center',
+        fontWeight: 600,
+        color: '#222222',
+        flex: 1
+      }}
+    >
+      Delete Check-out?
+    </Modal.Title>
+  </Modal.Header>
+  
+  <Modal.Body
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: 'Gilroy',
+      color: '#646464',
+      textAlign: 'center',
+      marginTop: '-20px'
+    }}
+  >
+    Are you sure you want to delete this check-out?
+  </Modal.Body>
+  
+  <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}> 
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 8,
+        padding: '12px 20px',
+        background: '#fff',
+        color: '#1E45E1',
+        border: '1px solid #1E45E1',
+        fontWeight: 600,
+        fontFamily: 'Gilroy',
+        fontSize: '14px',
+        marginRight: 10
+      }}
+      onClick={handleModalClose}
+    >
+      Cancel
+    </Button>
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 8,
+        padding: '12px 20px',
+        background: '#1E45E1',
+        color: '#FFFFFF',
+        fontWeight: 600,
+        fontFamily: 'Gilroy',
+        fontSize: '14px'
+      }}
+      onClick={confirmDelete}
+    >
+      Delete
+    </Button>
+  </Modal.Footer>
+</Modal>
+
     </div>
   );
 }
