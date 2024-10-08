@@ -37,7 +37,7 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'CLEAR_INVOICE_LIST':
             return { ...state, InvoiceListStatusCode: 0, toTriggerPDF: true }
         case 'UPDATEINVOICE_DETAILS':
-            return { ...state, message: action.payload.data.message, UpdateInvoiceStatusCode:action.payload.status }
+            return { ...state, message: action.payload.data.message, UpdateInvoiceStatusCode:action.payload.statusCode }
             case 'CLEAR_INVOICE_UPDATE_LIST':
                 return { ...state, UpdateInvoiceStatusCode: 0,message:null }
         case 'INVOICE_SETTINGS':
@@ -73,13 +73,13 @@ const InvoiceReducer = (state = initialState, action) => {
               return { ...state, manualInvoiceStatusCode: 0 } 
 
         case 'MANUAL_INVOICE_ADD':
-              return { ...state, ManualInvoice: action.payload, manualInvoiceAddStatusCode:action.payload.statusCode}
+              return { ...state,  manualInvoiceAddStatusCode:action.payload.statusCode}
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD':
               return { ...state, manualInvoiceAddStatusCode: 0 }
-        // case 'MANUAL_INVOICES_LIST' :
-        //     return { ...state, ManualInvoices: action.payload, ManualInvoicesgetstatuscode:action.payload.statusCode}
-        //     case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST':
-        //         return { ...state, ManualInvoicesgetstatuscode: 0 }
+        case 'MANUAL_INVOICES_LIST' :
+            return { ...state, ManualInvoices: action.payload.response ? action.payload.response : [], ManualInvoicesgetstatuscode:action.payload.statusCode}
+            case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST':
+                return { ...state, ManualInvoicesgetstatuscode: 0 }
         }
     
     return state;
