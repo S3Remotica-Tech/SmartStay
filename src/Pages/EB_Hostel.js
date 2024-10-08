@@ -21,6 +21,14 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import down from "../Assets/Images/New_images/down.png";
 import squre from '../Assets/Images/New_images/minus-square.png';
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import Box from "@mui/material/Box";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import EBRoomReading from "./EBRoomReading";
 import {
   Autobrightness,
   Call,
@@ -38,6 +46,8 @@ function EB_Hostel() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   console.log("state", state);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [loginid, setLoginid] = useState();
   const loginId = localStorage.getItem("loginId");
@@ -67,6 +77,10 @@ function EB_Hostel() {
   const [id, setId] = useState("");
   const [edit, setEdit] = useState("");
   const [ebErrorunit, setEbErrorunit] = useState("");
+  const [value, setValue] = React.useState("1");
+  const handleChanges = (event, newValue) => {
+    setValue(newValue);
+  };
 
   console.log("selectedDate", selectedDate);
   const calendarRef = useRef(null);
@@ -273,7 +287,7 @@ function EB_Hostel() {
         //   setstartMeterError("startmeter is required");
         //   break;
         case "endmeter":
-          setendMeterError("endMeter is required");
+          setendMeterError("Reading is required");
           break;
         default:
           break;
@@ -374,10 +388,8 @@ console.log("selectedDate",selectedDate)
           Hostel_Id: selectedHostel,
           Floor: Floor,
           Room: Rooms,
-          date: formattedDate,
-          // startMeterReading: startmeterValue,
+          date: formattedDate, 
           end_Meter_Reading: endmeter,
-          // EbAmount: totalAmountRead,
         },
       });
     } else if (selectedHostel && endmeter) {
@@ -559,11 +571,12 @@ console.log("selectedDate",selectedDate)
   useEffect(() => {
     seteleTransactionFilterddata(state.ExpenseList.transactionHistory);
   }, [state.ExpenseList.transactionHistory]);
+  const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <div style={{ width: "100%", padding: 20 }}>
+    <div style={{ padding: 15 }}>
       <div className="d-flex justify-content-between align-items-center ms-3 mb-3">
-        <div>
+        <div style={{padding:15}}>
           <label
             style={{
               fontSize: 24,
@@ -576,7 +589,7 @@ console.log("selectedDate",selectedDate)
           </label>
         </div>
 
-        <div className="d-flex justify-content-between align-items-center">
+        <div className="d-flex justify-content-between align-items-center" style={{paddingRight:25}}>
           {/* <div className="me-3">
             <Image
               src={Filter}
@@ -585,7 +598,7 @@ console.log("selectedDate",selectedDate)
             />
           </div> */}
 
-          <div>
+          <div >
             <Button
               style={{
                 fontFamily: "Montserrat",
@@ -601,17 +614,63 @@ console.log("selectedDate",selectedDate)
                 cursor: "pointer",
               }}
               onClick={handleAddEbDetails}
+              disabled={value === "2"}
+             
               // disabled={transactionshow}
             >
-              + Record Reading
+              + Add Reading
             </Button>
           </div>
         </div>
       </div>
 
-      {/* {ebShow && ( */}
-      <>
-      <div style={{ padding: 15 }}>
+
+      <TabContext value={value}>
+                    <div>
+                      <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+                        <TabList
+                          orientation={
+                            isSmallScreen ? "vertical" : "horizontal"
+                          }
+                          onChange={handleChanges}
+                          aria-label="lab API tabs example"
+                          style={{ marginLeft: "20px" }}
+                          className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+                        >
+                          <Tab
+                            label="Customer Reading"
+                            value="1"
+                            style={{
+                              fontSize: 16,
+                              fontFamily: "Gilroy",
+                              color: "#4B4B4B",
+                              lineHeight: "normal",
+                              fontStyle: "normal",
+                              fontWeight: 500,
+                              textTransform: "none",
+                            }}
+                          />
+                          <Tab
+                            label="Room Reading"
+                            value="2"
+                            style={{
+                              fontSize: 16,
+                              fontFamily: "Gilroy",
+                              color: "#4B4B4B",
+                              lineHeight: "normal",
+                              fontStyle: "normal",
+                              fontWeight: 500,
+                              textTransform: "none",
+                            }}
+                          />
+                        
+                        
+                        </TabList>
+                      </Box>
+                    </div>
+                    <TabPanel value="1">
+                    <>
+      <div >
       {currentRowelectricity.length > 0 && (
   <Table
   responsive ="md"
@@ -741,14 +800,22 @@ console.log("selectedDate",selectedDate)
           style={{
             textAlign: "center",
             fontFamily: "Gilroy",
-            color: "rgba(34, 34, 34, 1)",
+            color: "#939393",
             fontSize: 14,
             fontWeight: 600,
-            borderTopRightRadius: 24
+            // borderTopRightRadius: 24
           }}
         >
           Amount
         </th>
+        <th  style={{
+            textAlign: "center",
+            fontFamily: "Gilroy",
+            color: "rgba(34, 34, 34, 1)",
+            fontSize: 14,
+            fontWeight: 600,
+            borderTopRightRadius: 24
+          }}> </th>
       </tr>
     </thead>
     <tbody style={{ fontSize: "12px" }}>
@@ -1084,9 +1151,7 @@ console.log("selectedDate",selectedDate)
           </nav>
         )}
       </>
-      {/* )} */}
-
-      {/* {!transactionshow && ( */}
+     
       <Modal
         show={addEbDetail}
         onHide={() => handleClose()}
@@ -1100,7 +1165,7 @@ console.log("selectedDate",selectedDate)
         </Modal.Header>
         <Modal.Body>
           <div className="row ">
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               {ebErrorunit && (
                 <div style={{ color: "red" }}>
                   <MdError />
@@ -1280,6 +1345,45 @@ console.log("selectedDate",selectedDate)
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group className="mb-3">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Reading{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="6542310"
+                  value={endmeter}
+                  onChange={(e) => handleendmeter(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+              {endMeterError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {endMeterError}
+                </div>
+              )}
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Label
                 style={{
                   fontSize: 14,
@@ -1350,49 +1454,12 @@ console.log("selectedDate",selectedDate)
                 </div>
               )}
             </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Reading{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="6542310"
-                  value={endmeter}
-                  onChange={(e) => handleendmeter(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                />
-              </Form.Group>
-              {endMeterError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {endMeterError}
-                </div>
-              )}
-            </div>
+        
           </div>
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center">
           <Button
-            className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+            className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
               fontWeight: 600,
@@ -1408,7 +1475,15 @@ console.log("selectedDate",selectedDate)
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* )} */}
+                    </TabPanel>
+                    <TabPanel value="2">
+                      <EBRoomReading  />
+                    </TabPanel>
+                   
+                  </TabContext>
+
+    
+    
     </div>
   );
 }
