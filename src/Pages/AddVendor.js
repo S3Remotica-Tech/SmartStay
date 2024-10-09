@@ -697,7 +697,7 @@ console.log("initial state",initialState)
 
           <Modal.Footer style={{ border: "none" }}>
 
-            <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",  padding:16  }} onClick={handleAddVendor}>
+            <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",  padding:12  }} onClick={handleAddVendor}>
               {check === 'EDIT' ? 'Save Changes' : 'Add  vendor'}
             </Button>
           </Modal.Footer>

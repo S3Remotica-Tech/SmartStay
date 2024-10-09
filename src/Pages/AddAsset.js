@@ -697,7 +697,7 @@ const [assetError, setAssetError] = useState('')
                     </Modal.Body>
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
-                        <Button onClick={handleAddAsset} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding:16 }} >
+                        <Button onClick={handleAddAsset} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding:12 }} >
                             {currentItem ? 'Save Changes' : 'Add  asset'}
                         </Button>
                     </Modal.Footer>

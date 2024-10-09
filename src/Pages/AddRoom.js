@@ -252,7 +252,7 @@ if (!floorId) {
 
         <Modal.Footer style={{ border: "none" }}>
 
-          <Button onClick={handleCreateRoom} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding:16  }}>
+          <Button onClick={handleCreateRoom} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding:12  }}>
           {modalTitle}
           </Button>
         </Modal.Footer>
