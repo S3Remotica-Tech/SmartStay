@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import "./UserList.css";
-import { Dropdown, Table,FormControl, InputGroup, } from 'react-bootstrap';
+import { Dropdown, Table } from 'react-bootstrap';
 import { Button, Offcanvas, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Plus from '../Assets/Images/Create-button.png';
@@ -14,24 +14,25 @@ import Image from 'react-bootstrap/Image';
 import UserlistForm from "./UserlistForm";
 import UserListRoomDetail from "./UserListRoomDetail";
 import CryptoJS from "crypto-js";
-import Filter from '../Assets/Images/New_images/Group 13.png';
+import Filters from '../Assets/Images/Filters.svg';
 import squre from '../Assets/Images/New_images/minus-square.png';
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import emptyimg from '../Assets/Images/New_images/empty_image.png';
-import searchteam from '../Assets/Images/New_images/Search Team.png';
-import { FaSearch } from 'react-icons/fa';
-import Edit from '../Assets/Images/Edit-Linear-32px.png';
-import Delete from '../Assets/Images/Trash-Linear-32px.png';
-import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png'
-import Download from '../Assets/Images/New_images/download.png';
-import addcircle from '../Assets/Images/New_images/add-circle.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort } from 'iconsax-react';
+import TabPanel from "@mui/lab/TabPanel";
+import TabContext from "@mui/lab/TabContext";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Search from '../Assets/Images/search-normal.png';
+import Close from '../Assets/Images/close.svg';
+import UserlistBookings from './UserlistBookings';
+import UserlistCheckout from './UserlistCheckout';
+import UserlistWalkin from './UserlistWalkin';
+import Addbooking from './Addbookingform';
+import CheckOutForm from './UserListCheckoutForm';
+import UserlistWalkinForm from './UserlistWalkinForm'
 
-
-
-function UserList() {
+function UserList(props) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
   const selectRef = useRef('select');
@@ -40,14 +41,12 @@ function UserList() {
   useEffect(() => {
     setLoading(true)
     dispatch({ type: 'USERLIST' })
-    
+
   }, [])
 
 
   const [showLoader, setShowLoader] = useState(false)
   const [selectedItems, setSelectedItems] = useState('')
-  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
-  const [userDetails, setUserDetails] = useState([])
 
 
   useEffect(() => {
@@ -84,7 +83,7 @@ function UserList() {
       console.log("to trigger pdf is false so pdf not working");
     }
   }, [state.InvoiceList?.Invoice, state.InvoiceList?.toTriggerPDF]);
-console.log("state",state)
+
 
   const [showMenu, setShowMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -100,7 +99,7 @@ console.log("state",state)
   const [filteredDatas, setFilteredDatas] = useState([]);
   const [originalData, setOriginalData] = useState([]);  // Store original data from API
   const [filteredDataPagination, setfilteredDataPagination] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
+
 
   const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -116,33 +115,33 @@ console.log("state",state)
   const itemsPerPage = 5;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredDataPagination.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredDataPagination.length / itemsPerPage);
 
   const renderPageNumbers = () => {
-    
+
     const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(
-      <li key={i} style={{ margin: '0 5px' }}>
-        <button
-          style={{
-            padding: '5px 10px',
-            color: i === currentPage ? '#007bff' : '#000',
-            cursor: 'pointer',
-            border: i === currentPage ? '1px solid #ddd' : 'none',
-            backgroundColor: i === currentPage ? 'transparent' : 'transparent'
-          }}
-          onClick={() => handlePageChange(i)}
-        >
-          {i}
-        </button>
-      </li>
-    );
-  }
-  return pageNumbers;
-};
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <li key={i} style={{ margin: '0 5px' }}>
+          <button
+            style={{
+              padding: '5px 10px',
+              color: i === currentPage ? '#007bff' : '#000',
+              cursor: 'pointer',
+              border: i === currentPage ? '1px solid #ddd' : 'none',
+              backgroundColor: i === currentPage ? 'transparent' : 'transparent'
+            }}
+            onClick={() => handlePageChange(i)}
+          >
+            {i}
+          </button>
+        </li>
+      );
+    }
+    return pageNumbers;
+  };
 
 
   const handleMenuClick = () => {
@@ -156,23 +155,48 @@ console.log("state",state)
     setAddBasicDetail(true)
     setEditObj(u)
     setemail_id(u.Email)
-    setSearch(false)
-    setFilterInput('')
- 
-  
+    console.log("u.Email...r?", u.Email)
 
   };
 
+  const [value, setValue] = React.useState("1");
+  const [showInput, setShowInput] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleSearchClick = () => {
+    setShowInput(true);
+  };
+
+  const handleCloseClick = () => {
+    setSearchValue('');
+    setShowInput(false);
+  };
+
+
+
+
+  console.log("state", state)
+
+
 
   useEffect(() => {
-    
+
     if (state.UsersList?.UserListStatusCode == 200) {
+      console.log("invoice added executed");
+
       setOriginalData(state.UsersList.Users);
 
       const uniqueUsersList = state.UsersList.Users.filter((user, index, self) =>
         index === self.findIndex((u) => u.Email === user.Email)
       );
-      
+
+      console.log("Filtered Unique Data:", uniqueUsersList);
+
       setfilteredDataPagination(state.UsersList.Users)
       setLoading(false);
       setTimeout(() => {
@@ -236,8 +260,7 @@ console.log("state",state)
   const [filterStatus, setFilterStatus] = useState(false)
   const [filterByStatus, setFilterByStatus] = useState('ALL')
 
-  const [filterInput,setFilterInput] =useState('')
-  
+
   const [hostel, sethostel] = useState('')
   const [floors_Id, setFloors_Id] = useState('')
   const [rooms_id, setRoomsId] = useState('')
@@ -252,6 +275,7 @@ console.log("state",state)
   const handleRoomDetailsPage = (userData) => {
 
     const clickedUserDataArray = Array.isArray(userData) ? userData : [userData];
+    console.log("userData", userData)
     setHostelIds(userData.Hostel_Id)
     setBedIds(userData.Bed)
     setFloorIds(userData.Floor)
@@ -264,16 +288,19 @@ console.log("state",state)
     setRoomDetail(true)
     setUserList(false)
     setClickedUserData(clickedUserDataArray);
-    setSearch(false)
 
   }
   const handleShowAddBed = (u) => {
     setEdit('Edit')
+
+    console.log("u for assign bed", u)
     handleMenuClick();
     setShowMenu(true);
     setAddBasicDetail(false)
     setEditObj(u)
+    console.log("uu", u)
     setemail_id(u.Email)
+    console.log("u.Email", u.Email)
 
   };
 
@@ -311,14 +338,21 @@ console.log("state",state)
 
 
 
- 
+  const [filteredDataForUser, setFilteredDataForUser] = useState([]);
+  const [userDetails, setUserDetails] = useState([])
+  console.log("userDetails", userDetails)
+
+  console.log("bedIds", bedIds, hostelIds, floorIds, roomsIds)
   useEffect(() => {
     const ParticularUserDetails = state.UsersList?.Users?.filter(item => {
-      
+
+      console.log("item", item)
+
       return item.User_Id == customerUser_Id
     }
 
     );
+    console.log("ParticularUserDetails", ParticularUserDetails)
 
     setUserDetails(ParticularUserDetails);
 
@@ -332,10 +366,6 @@ console.log("state",state)
     }
 
   }, [roomDetail, state.UsersList?.Users, hostelIds, bedIds, floorIds, roomsIds, email_id]);
-
-
-
-
 
   const customCheckboxStyle = {
     appearance: 'none',
@@ -372,15 +402,30 @@ console.log("state",state)
 
 
   const Amenitiesname = state.UsersList?.customerdetails?.data?.amentites
+  console.log("amenties", Amenitiesname);
 
   const billPaymentHistory = state.UsersList.billPaymentHistory;
   const invoicePhones = billPaymentHistory.map((item) => item.invoicePhone);
   const [filterByInvoice, setFilterByInvoice] = useState('');
 
 
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
 
- 
+
+  useEffect(() => {
+    if (state.InvoiceList?.Invoice && filteredDataForUser.length > 0) {
+      let filteredData = [...filteredDataForUser];
+
+      if (filterByStatus !== 'ALL') {
+        filteredData = filteredData.filter((item) => item.Status === filterByStatus);
+      }
+
+      if (filterByInvoice) {
+        filteredData = filteredData.filter((item) => item.Invoices.toLowerCase().includes(filterByInvoice.toLowerCase()));
+      }
+
+      setFilteredDatas(filteredData);
+    }
+  }, [filterByStatus, filterByInvoice, filteredDataForUser, state.InvoiceList?.Invoice]);
 
   const getFloorName = (Floor) => {
     if (Floor === 1) {
@@ -465,27 +510,6 @@ console.log("state",state)
     setFilterStatus(!filterStatus)
     setSearch(false)
   }
- const handlefilterInput =(e)=>{
-  setFilterInput(e.target.value);
-    console.log("e,,,,", e.target.value);
-    setDropdownVisible(e.target.value.length > 0);
- }
- useEffect(() => {
-  // Filter users as the filterInput changes
-  const FilterUser = state.UsersList.Users.filter((item) => {
-    return item.Name.toLowerCase().includes(filterInput.toLowerCase());
-  });
-
-  setFilteredUsers(FilterUser);
-  console.log("FilterUser",FilterUser)
-}, [filterInput, state.UsersList.Users]); 
-
-// useEffect(()=>{
-//   const FilterUser = state.UsersList.Users.filter((item)=>{
-//     return item.Name === filterInput
-//   })
-//   console.log("FilterUser",FilterUser)
-// })
 
   const handleStatusFilterChange = (e) => {
     const selectedStatus = e.target.value;
@@ -497,39 +521,49 @@ console.log("state",state)
       dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: id } })
       // setAmnityuserdetail(state.UsersList?.customerdetail.all_amenities)
     }
+    console.log("userIduserId", id)
   }, [id]);
   useEffect(() => {
     if (id) {
+      console.log("user_id", id)
       dispatch({ type: 'AMENITESHISTORY', payload: { user_id: id } })
+      // setAmnnityhistory(state.UsersList?.amnetieshistory)
     }
+    console.log("userIduserId....?", id)
   }, [id]);
 
 
   const [selectAmneties, setselectAmneties] = useState("")
   const [selectedAmenityName, setSelectedAmenityName] = useState([]);
+  console.log("selectedAmenityName", selectedAmenityName)
   const [addamenityShow, setaddamenityShow] = useState(false)
   const [active, setActive] = useState(false)
   const [status, setStatus] = useState('')
   const [createby, setcreateby] = useState('')
   const [amnityEdit, setamnityEdit] = useState('')
+  console.log("createby", createby)
 
   const handleselect = (e) => {
     const value = e.target.value;
     setselectAmneties(value);
     setamnitytableshow(true);
+    console.log("e.target.value", value);
 
     const amenitiesHistory = state.UsersList.amnetieshistory.filter((item) => {
       return item.amenity_Id == value
     });
+    console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
 
     if (amenitiesHistory && amenitiesHistory.length > 0) {
-      if (amenitiesHistory && amenitiesHistory[0].status == 0) {;
+      if (amenitiesHistory && amenitiesHistory[0].status == 0) {
+        console.log("Status is 0, setting add amenity show to true");
         setaddamenityShow(true);
         setstatusShow(false);
 
       }
 
     } else {
+      console.log("else");
       setaddamenityShow(true);
       setstatusShow(false);
       setSelectedAmenityName([]);
@@ -537,10 +571,13 @@ console.log("state",state)
   };
   useEffect(() => {
     if (state.UsersList.customerdetails.all_amenities && state.UsersList.customerdetails.all_amenities.length > 0 && selectAmneties) {
+
+      console.log("state.UsersList.customerdetails.all_amenities", state.UsersList.customerdetails.all_amenities);
       const AmnitiesNamelist = state.UsersList.customerdetails.all_amenities.filter((item) => {
         return item.Amnities_Id == selectAmneties
 
       })
+      console.log("AmnitiesNamelist", AmnitiesNamelist)
       setcreateby(AmnitiesNamelist)
     }
   }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties])
@@ -588,6 +625,7 @@ console.log("state",state)
   const [amnitynotshow, setamnitynotshow] = useState([])
   const handleStatusAmnities = (e) => {
     setStatusAmni(e.target.value)
+    console.log("eee.ttt.v", e.target.value)
   }
 
   const handleAddUserAmnities = () => {
@@ -617,7 +655,9 @@ console.log("state",state)
       setselectAmneties('')
     }
   };
- 
+  console.log("state.UsersList?.customerdetails?.all_amenities?", state.UsersList?.customerdetails?.all_amenities);
+
+  console.log("state.UsersList?.statusCustomerAddUser", state.UsersList.statusCustomerAddUser)
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser == 200) {
       setaddamenityShow(false)
@@ -635,7 +675,10 @@ console.log("state",state)
     }
   }, [state.UsersList.statusCustomerAddUser])
 
+  console.log("state For Add userAminity", state);
   const handleEdit = (v) => {
+    console.log("vvv", v)
+
     setamnityEdit(v)
     setaddamenityShow(true);
     setstatusShow(true)
@@ -647,7 +690,7 @@ console.log("state",state)
     setUserList(isVisible)
     setRoomDetail(false)
   }
-  
+
 
   const amentiesrowsPerPage = 10;
   const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
@@ -655,6 +698,8 @@ console.log("state",state)
   const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
   const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
   const currentRowAmnities = amnitiesFilterddata?.slice(indexOfFirstRowamnities, indexOfLastRowamneties);
+  console.log("currentRowAmnities", currentRowAmnities)
+
   const [showOtpValidation, setShowOtpValidation] = useState(false)
   const [showValidate, setShowValidate] = useState(true)
   const [aadhaarNo, setAdhaarNo] = useState('')
@@ -718,217 +763,222 @@ console.log("state",state)
   const handleKycOtpChange = (e) => {
     setKycOtpValue(e.target.value)
   }
-  const [showDots, setShowDots] = useState('')
-  const [activeRow, setActiveRow] = useState(null);
+  // Add form
+  const [showbookingForm, setShowbookingForm] = useState(false);
+  const toggleForm = () => {
+    setShowbookingForm(!showbookingForm);
+  };
+  const closeModal = () => {
+    setShowbookingForm(false);
+  };
+  //checkout form
+  const [checkoutForm, setcheckoutForm] = useState(false)
+  const checkOutForm = () => {
+    setcheckoutForm(!checkoutForm);
+  };
+  const checkoutcloseModal = () => {
+    setcheckoutForm(false);
+  };
+  // walkin from 
+  const [walkInForm, setWalkinForm] = useState(false)
+  const walkinForm = () => {
+    setWalkinForm(!checkoutForm);
+  };
+  const walkinFormcloseModal = () => {
+    setWalkinForm(false);
+  };
 
-    // const handleShowDots = () => {
-    //     setShowDots(!showDots)
-    // }
-    const handleShowDots = (id) => {
-      if (activeRow === id) {
-        setActiveRow(null); // Close if the same row is clicked again
-      } else {
-        setActiveRow(id); // Open dropdown for the clicked row
-      }
-      setSearch(false)
-    };
-    const popupRef = useRef(null);
-    const handleClickOutside = (event) => {
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setShowDots(false);
-        }
-      };
-
-
-      useEffect(() => {
-        function handleClickOutside(event) {
-          if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setShowDots(false);
-          }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-          document.removeEventListener("mousedown", handleClickOutside);
-        };
-      }, [popupRef]);
-      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
-      const handleUserSelect = (user) => {
-       
-        setFilterInput(user.Name);
-        setFilteredUsers([]); 
-        setDropdownVisible(false); 
-        console.log("User selected:", user);
-      };  
-      
-  const handleCloseSearch = () => {
-   setSearch(false)
-  }  
   return (
     <div className=' p-2' >
+      <Addbooking show={showbookingForm} handleClose={closeModal} />
+
+      <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} />
+
+      <UserlistWalkinForm show={walkInForm} handleClose={walkinFormcloseModal} />
 
       {userList && <>
 
         <div className="customer p-4">
           <div className="cuslable">
+
             <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Customers</label>
+
+           
+
           </div>
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">
-{
-  search ? <>
 
-
-
-<div style={{ position: 'relative', width: '100%' ,marginRight:20 }}>
-
-   
-         <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
-         <Image
-          src={searchteam}
-          alt="Search"
-          style={{
-            position: 'absolute',
-            left: '10px', 
-            width: '24px', 
-            height: '24px', 
-            pointerEvents: 'none',
-          }}
-        />
-         <div className="input-group" style={{marginRight:20,height:50,width:280 }}>
-      <span className="input-group-text bg-white border-end-0">
-        
-        <Image src={searchteam}  style={{ height: 20, width:20 }} />
-      </span>
-      <input
-        type="text"
-        className="form-control border-start-0"
-        placeholder="Search"
-        aria-label="Search"
-        style={{ boxShadow: 'none', outline: 'none',borderColor:"rgb(207,213,219)" }}
-        value={filterInput}
-        onChange={(e)=>handlefilterInput(e)}
-      />
+           <div style={{ display: 'flex', alignItems: 'center' }}>
+           {value === "1" && (
+               <div style={{ display: 'flex', alignItems: 'center' }}>
+               {!showInput && (
+                 <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+                   <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
+                 </div>
+               )}
  
+               {showInput && (
+                 <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px', marginRight: "20px" }}>
+                   <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
+                   <input
+                     type="text"
+                     placeholder="Search"
+                     value={searchValue}
+                     onChange={(e) => setSearchValue(e.target.value)}
+                     style={{ border: 'none', outline: 'none', width: '200px' }}
+                   />
+                   <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                     <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
+                   </div>
+                 </div>
+               )}
+             </div>
+            )}
+           {value === "2" && (
+               <div style={{ display: 'flex', alignItems: 'center' }}>
+               {!showInput && (
+                 <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+                   <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
+                 </div>
+               )}
+ 
+               {showInput && (
+                 <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px', marginRight: "20px" }}>
+                   <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
+                   <input
+                     type="text"
+                     placeholder="Search"
+                     value={searchValue}
+                     onChange={(e) => setSearchValue(e.target.value)}
+                     style={{ border: 'none', outline: 'none', width: '200px' }}
+                   />
+                   <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                     <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
+                   </div>
+                 </div>
+               )}
+             </div>
+            )}
+              {value === "3" && (
+               <div style={{ display: 'flex', alignItems: 'center' }}>
+               {!showInput && (
+                 <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+                   <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
+                 </div>
+               )}
+ 
+               {showInput && (
+                 <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px', marginRight: "20px" }}>
+                   <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
+                   <input
+                     type="text"
+                     placeholder="Search"
+                     value={searchValue}
+                     onChange={(e) => setSearchValue(e.target.value)}
+                     style={{ border: 'none', outline: 'none', width: '200px' }}
+                   />
+                   <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                     <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
+                   </div>
+                 </div>
+               )}
+             </div>
+            )}
+              {value === "4" && (
+               <div style={{ display: 'flex', alignItems: 'center' }}>
+               {!showInput && (
+                 <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+                   <Image src={Search} roundedCircle style={{ height: 26, width: 24, color: '#222222', marginRight: '10px' }} />
+                 </div>
+               )}
+ 
+               {showInput && (
+                 <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ccc', padding: '5px', borderRadius: '5px', marginRight: "20px" }}>
+                   <Image src={Search} roundedCircle style={{ height: 20, width: 20, color: '#222222', marginRight: '5px' }} />
+                   <input
+                     type="text"
+                     placeholder="Search"
+                     value={searchValue}
+                     onChange={(e) => setSearchValue(e.target.value)}
+                     style={{ border: 'none', outline: 'none', width: '200px' }}
+                   />
+                   <div onClick={handleCloseClick} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                     <Image src={Close} roundedCircle style={{ height: 20, width: 20, color: '#222222' }} />
+                   </div>
+                 </div>
+               )}
+             </div>
+            )}
+              
+            </div> 
 
-    </div>
-      
-      </div>
-
-      {isDropdownVisible && filteredUsers.length > 0 && (
-  <div
-  style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 60, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff", width:"94%", }}
-  >
-    <ul
-      className='show-scroll p-0'
-      style={{
-       
-        backgroundColor: '#fff',
-        borderRadius: '4px',
-        // maxHeight: 174,
-        maxHeight: filteredUsers.length > 1 ? '174px' : 'auto',
-        minHeight: 100,
-        overflowY: filteredUsers.length > 1 ? 'auto' : 'hidden',
-      
-        margin: '0',
-        listStyleType: 'none',
-        borderRadius: 8,
-        boxSizing: 'border-box',
-      }}
-    >
-      {filteredUsers.map((user, index) => {
-        const imagedrop = user.profile || Profile;
-        return (
-          <li
-            key={index}
-            className="list-group-item d-flex align-items-center"
-            style={{
-              cursor: 'pointer',
-              padding: '10px 5px',
-              borderBottom:
-                index !== filteredUsers.length - 1 ? '1px solid #eee' : 'none',
-            }}
-            onClick={() => handleUserSelect(user)}
-          >
-            <Image
-              src={imagedrop}
-              alt={user.Name || 'Default Profile'}
-              roundedCircle
-              style={{ height: '30px', width: '30px', marginRight: '10px' }}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = Profile;
-              }}
-            />
-            <span>{user.Name}</span>
-          </li>
-        );
-      })}
-    </ul>
-  </div>
-)}
-
-    </div>
-
-
-  </>
-  :<>
-   <div className='me-3'>
-              <Image src={searchteam} roundedCircle style={{ height: "24px", width: "24px" }} onClick={handleSearch}/>
-            </div>
-  </>
-}
-       
-         
             <div className='me-3'>
-              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleSearch} />
+              <Image src={Filters} roundedCircle style={{ height: "50px", width: "50px" }} />
             </div>
 
-            <div>
-              <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}> + Add Customer</Button>
+            <div className="buttons" >
+
+            {value === "1" && (
+              <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
+                + Add Customer
+              </Button>
+            )}
+            {value === "2" && (
+              <Button onClick={toggleForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
+                + Add Bookings
+              </Button>
+            )}
+            {value === "3" && (
+              <Button onClick={checkOutForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
+                + Add Check-out
+              </Button>
+            )}
+            {value === "4" && (
+              <Button onClick={walkinForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
+                + Add Walkin
+              </Button>
+            )}
+          
             </div>
+
           </div>
         </div>
+       
+
+        <div className="pl-4" style={{ paddingLeft: "10px", fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, textAlign: "left" }} >
+          <TabContext value={value}>
+            <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="" >
+              <Tab className="tab-label" style={{ textTransform: "capitalize" }} label="All Customers" value="1" />
+              <Tab className="tab-label" style={{ textTransform: "capitalize" }} label="Bookings" value="2" />
+              <Tab className="tab-label" style={{ textTransform: "capitalize" }} label="Check-out" value="3" />
+              <Tab className="tab-label" style={{ textTransform: "capitalize" }} label="Walk-in" value="4" />
+            </Tabs>
+
+            <TabPanel value="1">
+              {/* <AllCustomer id={props.id} /> */}
+            </TabPanel>
+            <TabPanel value="2">
+              <UserlistBookings id={props.id} />
+            </TabPanel>
+            <TabPanel value="3">
+              <UserlistCheckout id={props.id} />
+            </TabPanel>
+            <TabPanel value="4">
+              <UserlistWalkin id={props.id} />
+            </TabPanel>
+          </TabContext>
+        </div>
+
+        {/*  */}
+
 
         <div className="p-4" style={{ paddingBottom: "20px" }} >
-        {state?.UsersList?.Users && state?.UsersList?.Users.length === 0 && 
-                  <div>
-                  <div style={{ textAlign: "center"}}> <img src={emptyimg} alt="emptystate" /></div> 
-               <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active customer </div>
-               <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active customer </div>
-              
-               <div style={{ textAlign: "center"}}>
-                           <Button
-                             onClick={handleShow}
-                             style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Customer</Button>
-                         </div>
-             </div>    
-                  }
-        {currentItems && currentItems.length > 0 && (
-          <Table   responsive ="md"
-          className='Table_Design'
-          style={{
-            height: "auto",
-            overflow: "visible",
-            tableLayout: "auto",
-            borderRadius: "24px",
-            border: "1px solid #DCDCDC",
-            
 
-          }}  >
-            <thead  style={{
-      backgroundColor: "#E7F1FF"
-      
-      }} >
+          <Table className="ebtable" responsive  >
+            <thead style={{ backgroundColor: "#E7F1FF" }}>
               <tr>
-                <th style={{
-                                      textAlign: "center",
-                                      fontFamily: "Gilroy",
-                                      color: "rgba(34, 34, 34, 1)",
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      borderTopLeftRadius: 24
-                                    }}>
+                <th style={{ textAlign: "center", padding: "10px" }}>
                   <img src={squre} height={20} width={20} />
                 </th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Name</th>
@@ -937,18 +987,7 @@ console.log("state",state)
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Paying Guest</th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Room</th>
                 <th style={{ textAlign: "start", padding: "10px", color: "#939393", fontSize: "14px", fontWeight: 600, fontFamily: "Gilroy" }}>Bed</th>
-                <th style={{
-                                      textAlign: "center",
-                                      fontFamily: "Gilroy",
-                                      color: "rgba(34, 34, 34, 1)",
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      borderTopRightRadius: 24
-                                    }}>
-                         {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
-                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                        </div> */}
-                        </th>
+                <th style={{ textAlign: "start", padding: "10px" }}></th>
               </tr>
             </thead>
             <tbody style={{ textAlign: "center" }}>
@@ -966,7 +1005,8 @@ console.log("state",state)
                 ))
               ) : (
                 currentItems.map((user) => {
-                  const imageUrl = user.profile || Profile;
+                  console.log("userrr", user)
+                  const imageUrl = user.profile || Profile;;
                   return (
                     <tr key={user.ID} style={{ fontSize: "16px", fontWeight: 600, textAlign: "center", marginTop: 10 }}>
                       <td style={{ padding: "10px", border: "none" }}>
@@ -980,8 +1020,8 @@ console.log("state",state)
                           roundedCircle
                           style={{ height: "40px", width: "40px", marginRight: "10px" }}
                           onError={(e) => {
-                            e.target.onerror = null; 
-                            e.target.src = Profile; 
+                            e.target.onerror = null;
+                            e.target.src = Profile;
                           }}
                         />
                         <span className="Customer_Name_Hover" style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", color: "#1E45E1", cursor: "pointer" }} onClick={() => handleRoomDetailsPage(user)}>
@@ -990,19 +1030,19 @@ console.log("state",state)
                       </td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Email}</td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>+{user && String(user.Phone).slice(0, String(user.Phone).length - 10)}
-                                {' '}
-                                {user && String(user.Phone).slice(-10)}</td>
+                        {' '}
+                        {user && String(user.Phone).slice(-10)}</td>
                       <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>
                         <span style={{ paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "60px", backgroundColor: "#FFEFCF", textAlign: "start", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{user.HostelName}</span>
                       </td>
-                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}> {(!user.Rooms ||  user.Rooms === 'undefined'|| user.Rooms === '0' || user.Rooms === ''  || user.Rooms === 'null') ? '-' : user.Rooms}</td>
-                      {/* <td
+                      <td style={{ padding: "10px", border: "none", textAlign: "start", fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy" }}>{user.Rooms}</td>
+                      <td
                         className={user.Bed === 0 ? 'assign-bed' : ''}
                         onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
                         style={{
                           padding: "10px",
                           border: "none",
-                          cursor:"pointer",
+                          cursor: "pointer",
                           color: user.Bed === 0 ? "blue" : "inherit",
                           textDecoration: user.Bed === 0 ? "none" : "initial",
                           textAlign: "start",
@@ -1010,91 +1050,33 @@ console.log("state",state)
                         }}
                       >
                         {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
-                      </td> */}
-                      <td
-                        // className={user.Bed === 0 ? 'assign-bed' : ''}
-                        // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
-                        style={{
-                          padding: "10px",
-                          border: "none",
-                          cursor:"pointer",
-                          color: user.Bed === 'undefined' ? "blue" : "inherit",
-                          textDecoration: user.Bed === 'undefined' ? "none" : "initial",
-                          textAlign: "start",
-                          fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy"
-                        }}
-                      >
-                       {(user.Bed === 'undefined' || user.Bed === '0' || user.Bed === '' || user.Bed === 'null') ? '-' : user.Bed}
                       </td>
                       <td style={{ padding: "10px", border: "none" }}>
-                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
+                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/> */}
 
-                         <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} onClick={()=>handleShowDots(user.ID)}>
+                        {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
                           <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                          {activeRow === user.ID && <>
-                                    <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 50, top: 20, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
-                                        <div style={{ backgroundColor: "#fff" }} className=''>
-                                        {(user.Bed === 'undefined' || user.Bed === 'null' || user.Bed === '0' || user.Bed === '')  && (
-        <div 
-          className='mb-3 d-flex justify-content-start align-items-center gap-2'
-          // onClick={() => handleInvoicepdf(user)}
-          style={{ backgroundColor: "#fff" }}
-          onClick={ () => handleShowAddBed(user)}>
-          <img src={addcircle} style={{ height: 16, width: 16 }} /> 
-          <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >
-            Assign Bed
-          </label>
-        </div>
-      )}
-                                        <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                                style={{ backgroundColor: "#fff" }}
-                                                onClick={() => handleRoomDetailsPage(user)} >
-                                                <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Edit</label>
-                                            </div>
-                                          
-                                            {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                                onClick={() => { handleShowform(props) }}
-                                                style={{ backgroundColor: "#fff" }}
-                                            >
-                                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
-
-                                            </div> */}
-
-                                           
-                                            <div className='mb-2 d-flex justify-content-start align-items-center gap-2'
-                                                style={{ backgroundColor: "#fff" }}
-                                            >
-                                                <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000", cursor: 'pointer' }}>Delete</label>
-                                            </div>
-
-
-
-                                        </div>
-                                    </div>
-
-
-                                </>}
-                        </div>
-
+                        </div> */}
 
                         {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
                       </td>
-                     
                     </tr>
 
                   )
 
                 })
               )}
-            
 
-        
+
+              {currentItems.length === 0 && (
+                <tr>
+                  <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
+                </tr>
+              )}
             </tbody>
           </Table>
-)}
 
 
-        
         </div>
         {currentItems.length > 0 && (
           <nav>
@@ -1209,16 +1191,8 @@ console.log("state",state)
           </nav>
         )}
 
-
-
-
-
       </>
       }
-
-
-
-
       {
         roomDetail == true ? <UserListRoomDetail
           AfterEditHostels={AfterEditHostel}
@@ -1227,8 +1201,8 @@ console.log("state",state)
           AfterEditBeds={AfterEditBed}
 
           showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer} userDetails={userDetails} handleBack={handleBack} getFormattedRoomId={getFormattedRoomId} getFloorName={getFloorName} id={id} aadhaarNo={aadhaarNo}
-          handleValidateAadhaar={handleValidateAadhaar} showOtpValidation={showOtpValidation} kycOtpValue={kycOtpValue} handleKycOtpChange={handleKycOtpChange} showValidate={showValidate} handleVerifyOtp={handleVerifyOtp}   selectAmneties={selectAmneties} handleselect={handleselect}  hostelName={hostelName} createby={createby} statusShow={statusShow} customerUser_Id={customerUser_Id} hostelIds={hostelIds}
-          statusAmni={statusAmni} handleStatusAmnities={handleStatusAmnities} handleAddUserAmnities={handleAddUserAmnities} currentRowAmnities={currentRowAmnities} amnitiescurrentPage={amnitiescurrentPage} handleAdhaarChange={handleAdhaarChange}  /> : null
+          handleValidateAadhaar={handleValidateAadhaar} showOtpValidation={showOtpValidation} kycOtpValue={kycOtpValue} handleKycOtpChange={handleKycOtpChange} showValidate={showValidate} handleVerifyOtp={handleVerifyOtp} selectAmneties={selectAmneties} handleselect={handleselect} hostelName={hostelName} createby={createby} statusShow={statusShow} customerUser_Id={customerUser_Id} hostelIds={hostelIds}
+          statusAmni={statusAmni} handleStatusAmnities={handleStatusAmnities} handleAddUserAmnities={handleAddUserAmnities} currentRowAmnities={currentRowAmnities} amnitiescurrentPage={amnitiescurrentPage} handleAdhaarChange={handleAdhaarChange} /> : null
       }
 
       {
@@ -1238,12 +1212,12 @@ console.log("state",state)
           AfterEditRoomses={AfterEditRooms}
           AfterEditBeds={AfterEditBed}
 
-          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer} setSearch ={setSearch} /> : null
+          showMenu={showMenu} displayDetail={addBasicDetail} setShowMenu={setShowMenu} handleShow={handleShow} edit={edit} setEdit={setEdit} EditObj={EditObj} setEditObj={setEditObj} handleMenuClick={handleMenuClick} setShowForm={setShowForm} showForm={showForm} setUserClicked={setUserClicked} handleEdit={handleEdit} handleShowAddBed={handleShowAddBed} roomDetail={roomDetail} setRoomDetail={setRoomDetail} userList={userList} setUserList={setUserList} OnShowTable={OnShowTableForCustomer} /> : null
       }
-     
+
     </div>
 
   )
 }
 
-export default UserList;
+export default UserList

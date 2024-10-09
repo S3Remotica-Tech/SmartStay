@@ -37,7 +37,7 @@ function GetAnswer() {
     <div className='mt-3 mb-3'>
 
 <div className='d-flex justify-content-center mt-3 mb-5'>
-    <label style={{fontFamily:"Gilroy", fontWeight:700, fontSize:56}}>Get answers to some <span style={{color:"rgba(30, 69, 225, 1)"}}>FAQs</span></label>
+    <label style={{fontFamily:"Gilroy", fontWeight:700, fontSize:60}}>Get answers to some <span style={{color:"rgba(30, 69, 225, 1)"}}>FAQs</span></label>
 </div>
 
 <div className='d-flex justify-content-center mt-3 mb-5'>
@@ -149,7 +149,7 @@ function GetAnswer() {
 </div>
 
 <div className='mb-2 d-flex justify-content-center mt-4'>
-    <Button className="w-25" style={{height:62, color:"rgba(30, 69, 225, 1)", borderRadius:16, fontSize:16, fontWeight:600, fontFamily:"Montserrat", backgroundColor:"#FFF"}}>Get Started</Button>
+    <Button className="w-25" style={{height:62, color:"rgba(30, 69, 225, 1)", borderRadius:16, fontSize:18, fontWeight:600, fontFamily:"Montserrat", backgroundColor:"#FFF"}}>Get Started</Button>
  </div>
 
       </Card.Body>
