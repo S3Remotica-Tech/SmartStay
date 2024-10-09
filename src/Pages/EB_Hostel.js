@@ -713,17 +713,7 @@ function EB_Hostel() {
                       >
                         <img src={squre} height={20} width={20} />
                       </th>
-                      <th
-                        style={{
-                          textAlign: "center",
-                          fontFamily: "Gilroy",
-                          color: "rgba(34, 34, 34, 1)",
-                          fontSize: 14,
-                          fontWeight: 600,
-                        }}
-                      >
-                        {/* <img src={squre} height={20} width={20} /> */}
-                      </th>
+                    
 
                       <th
                         style={{
@@ -864,6 +854,7 @@ function EB_Hostel() {
                         let month = Dated.getMonth() + 1;
                         let year = Dated.getFullYear();
                         let formattedDate = `${day}/${month}/${year}`;
+                       
 
                         return (
                           <tr key={v.id}>
@@ -877,41 +868,23 @@ function EB_Hostel() {
                             >
                               <img src={squre} height={20} width={20} />
                             </td>
-                            <td
-                              style={{
-                                border: "none",
-                                padding: "10px",
-                                textAlign: "center",
-                                verticalAlign: "middle", // Center vertically
-                              }}
-                            >
-                              <Image
-                                src={imageUrl}
-                                alt={v.hoatel_Name || "Default Profile"}
-                                roundedCircle
-                                style={{
-                                  height: "40px",
-                                  width: "40px",
-                                  marginRight: "10px",
-                                }}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = Profile;
-                                }}
-                              />
-                            </td>
-                            <td
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                textAlign: "center",
-                                verticalAlign: "middle",
-                                borderBottom: "none",
-                              }}
-                            >
-                              {v.Name}
-                            </td>
+                            <td style={{ border: "none", display: "flex", padding: "10px" }}>
+
+                        <Image
+                          src={imageUrl}
+                          alt={v.Name || "Default Profile"}
+                          roundedCircle
+                          style={{ height: "40px", width: "40px", marginRight: "10px" }}
+                          onError={(e) => {
+                            e.target.onerror = null; 
+                            e.target.src = Profile; 
+                           
+                          }}
+                        />
+                        <span  style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", cursor: "pointer" }} >
+                          {v.Name}
+                        </span>
+                      </td>
 
                             <td
                               style={{
@@ -1027,7 +1000,7 @@ function EB_Hostel() {
                 </Table>
               )}
 
-              {state.PgList?.EB_startmeterlist?.length === 0 && (
+              {state.PgList.EB_customerTable.eb_details?.length === 0 &&  (
                 <div>
                   <div style={{ textAlign: "center" }}>
                     <img src={emptyimg} alt="emptystate" />
