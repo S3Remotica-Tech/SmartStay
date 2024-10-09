@@ -79,7 +79,7 @@ const InvoicePage = () => {
   useEffect(() => {
     // setLoading(true)
     dispatch({ type: 'MANUAL-INVOICES-LIST' })
-    console.log("ManualInvoices",state.InvoiceList.ManualInvoices);
+    console.log("MAnual");
     
     setBills(state.InvoiceList.ManualInvoices);
   }, [])
@@ -1101,20 +1101,23 @@ console.log("newRows",newRows);
 
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200 && !loading) {
-      // dispatch({ type: 'MANUAL-INVOICES-LIST' });
+     
       setBills(state.InvoiceList.ManualInvoices);
       setLoading(true); 
-  
+      console.log("MAnual invoice get status code");
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST' });
         setLoading(false); 
-      }, 100);
+      }, 1000);
     }
-  }, [state.InvoiceList.ManualInvoicesgetstatuscode]); 
+  }, [state.InvoiceList.ManualInvoices]); 
   
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200 && !loading) {
+  
+      
       dispatch({ type: 'MANUAL-INVOICES-LIST' });
+      console.log("MAnual invoice add status code");
       setBills(state.InvoiceList.ManualInvoices);
       setLoading(true); 
   
@@ -1132,6 +1135,7 @@ console.log("newRows",newRows);
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
      
       dispatch({type:'MANUAL-INVOICES-LIST'})
+      console.log("MAnual invoice status code");
       setBills(state.InvoiceList.ManualInvoices)
       // setLoading(true);
       setTimeout(() => {
@@ -1154,6 +1158,7 @@ console.log("newRows",newRows);
     if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
       console.log("statuscode_number", state.InvoiceList.UpdateInvoiceStatusCode);
       dispatch({type:'MANUAL-INVOICES-LIST'})
+      console.log("MAnual invoice update status code");
       setBills(state.InvoiceList.ManualInvoices)
       // setLoading(true)
       setTimeout(() => {
@@ -2195,6 +2200,21 @@ setShowAllBill(true)
                     </div>
                     :
                     <>
+
+{state?.InvoiceList?.ManualInvoices && state?.InvoiceList?.ManualInvoices.length === 0 && !loading &&
+                  <div>
+                  <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
+                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
+                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no bills added </div>
+              
+               <div style={{ textAlign: "center"}}>
+                           <Button
+                            //  onClick={handleShow}
+                             style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment</Button>
+                         </div>
+             </div>    
+                  }
+                   {currentItems && currentItems.length > 0 && (
                       <Table
                         responsive="md"
                         className='Table_Design'
@@ -2286,7 +2306,7 @@ setShowAllBill(true)
 </tbody>
 
                       </Table>
-
+)}
 
 
                       {currentItems.length > 0 && (
@@ -2441,7 +2461,7 @@ setShowAllBill(true)
 
 
 
-      {!loading && currentItems.length === 0 && (
+      {/* {!loading && currentItems.length === 0 && (
         <div  >
           <div>
             <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
@@ -2456,7 +2476,7 @@ setShowAllBill(true)
 
         </div>
 
-      )}
+      )} */}
 
 
     </div>
