@@ -196,13 +196,8 @@ function Reports() {
 
     <div className='container' style={{ width: "100%" }}>
 
-      <Row>
-
-        <Col lg={showReport ? 4 : 12} md={showReport ? 4 : 12} style={{ borderRight: showReport && "1px solid #E7F1FF" }}>
-
-          <div className='container show-scroll' style={{ maxHeight: showReport ? 560 : 'unset', overflowY: showReport ? 'auto' : "unset", backgroundColor: "" }}>
-
-            <div className="d-flex justify-content-between ">
+<div className='container'>
+<div className="d-flex justify-content-between mb-2">
               <div>
                 <label style={{ color: "#222222", fontWeight: 600, fontSize: 18, fontFamily: "Gilroy" }}>Reports</label>
 
@@ -299,8 +294,21 @@ function Reports() {
 
 
             </div>
+            </div>
 
-            <Row className='mt-3 mb-3 g-0 column-gap-1'  >
+
+
+
+
+      <Row>
+
+        <Col lg={showReport ? 4 : 12} md={showReport ? 4 : 12} style={{ borderRight: showReport && "1px solid #E7F1FF" }}>
+
+          <div className='container show-scroll' style={{ maxHeight: showReport ? 560 : 'unset', overflowY: showReport ? 'auto' : "unset", backgroundColor: "" }}>
+
+            
+
+            <Row className='mt-3 mb-3 g-2'  >
               {filteredReports && filteredReports.map((report) => (
                 <Col key={report.id} className='show-scroll mb-3' lg={showReport ? 12 : 4} md={showReport ? 12 : 4} >
 
@@ -328,16 +336,14 @@ function Reports() {
 
         </Col>
 
-        {/* {showReport && 
-<Col lg={1} md={1} className='d-flex justify-content-center d-sm-none d-md-flex'>
-  <div style={{width:2,height:"100vh", border:"1px solid red", backgroundColor:"red"}}></div>
-  </Col>
-} */}
-        <Col lg={showReport ? 7 : 12} md={showReport ? 7 : 12}>
+             <Col lg={showReport ? 7 : 12} md={showReport ? 7 : 12}>
           {selectedReport === 1 ? <HostelRentProjection isVisible={handleBack} /> : ''}
         </Col>
       </Row>
-    </div>
+
+      </div>
+
+
 
 
   )
