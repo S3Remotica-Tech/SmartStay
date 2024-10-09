@@ -198,6 +198,8 @@ function StaticExample({ show, handleClose, currentItem }) {
         } else {
             formattedInitialDate = '';
         }
+        console.log("initialState",initialState);
+        
 
         const isChanged =
             Number(initialState.pglist) !== Number(pglist) ||
@@ -369,7 +371,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                         {state.AssetList.GetRoomList && state.AssetList.GetRoomList.map((item) => {
                                             return (
                                                 <>
-                                                    <option key={item.Room_Id} value={item.Room_Id} >
+                                                    <option key={item.id} value={item.id} >
                                                         {item.Room_Id}</option>
                                                 </>
                                             )
