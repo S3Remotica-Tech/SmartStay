@@ -2481,8 +2481,8 @@ function UserListRoomDetail(props) {
                                                 item.bed_no !== "" &&
                                                 item.bed_no !== "null" && (
                                                   <option
-                                                    key={item.bed_no}
-                                                    value={item.bed_no}
+                                                    key={item.id}
+                                                    value={item.id}
                                                   >
                                                     {item.bed_no}
                                                   </option>
