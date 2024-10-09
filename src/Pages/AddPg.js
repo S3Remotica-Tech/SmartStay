@@ -557,7 +557,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
           <Modal.Footer style={{ border: "none" }}>
 
-            <Button onClick={handleCreatePayingGuest} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",  padding:16  }}>
+            <Button onClick={handleCreatePayingGuest} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",  padding:12 }}>
               {currentItem ? "Save Changes" : "Add Paying Guest"}
             </Button>
           </Modal.Footer>
