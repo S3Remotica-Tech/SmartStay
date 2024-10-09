@@ -5,7 +5,7 @@ import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
 import Share from '../Assets/Images/New_images/share-07.png'
 import Close from '../Assets/Images/New_images/circlie.png'
-import Logo from '../Assets/Images/New_images/Group.png'
+import Logo from '../Assets/Images/Logo-Icon.png'
 import { ImportCurve, CloseCircle, Call, Location, ArrowCircleLeft2, ArrowLeft } from 'iconsax-react';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -227,8 +227,22 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                                 <tbody>
 
                                     <tr >
-                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>{rowData.invoice_type == 1 ? "Room rent" : " Advance amount"}</td>
-                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>{rowData.Amount}</td>
+                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
+                                            {rowData.invoice_type == 1 ? "Room rent" : " Advance amount"}
+                                            </td>
+                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>{rowData.RoomRent}</td>
+                                    </tr>
+                                    <tr >
+                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
+                                        EbAmount
+                                            </td>
+                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>{rowData.EbAmount}</td>
+                                    </tr>
+                                    <tr >
+                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
+                                        Amenity
+                                            </td>
+                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>{rowData.Amnities_deduction_Amount}</td>
                                     </tr>
 
                                 </tbody>

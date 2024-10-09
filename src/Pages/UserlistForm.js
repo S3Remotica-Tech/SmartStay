@@ -1307,7 +1307,7 @@ if (Bed === 'Selected Bed' || bedError) {
 
                         {state.UsersList?.roomdetails &&
                           state.UsersList.roomdetails.map((item) => (
-                            <option key={item.Room_Id}>{item.Room_Id}</option>
+                            <option key={item.Room_Id} value={item.Room_Id}>{item.Room_Name}</option>
                           ))}
                       </Form.Select>
                       {roomError && (
@@ -1367,7 +1367,7 @@ if (Bed === 'Selected Bed' || bedError) {
     state.UsersList?.bednumberdetails?.bed_details
       .filter(item => item.bed_no !== "0" && item.bed_no !== "undefined" && item.bed_no !== "" && item.bed_no !== "null")
       .map((item) => (
-        <option key={item.bed_no} value={item.bed_no}>
+        <option key={item.id} value={item.id}>
           {item.bed_no}
         </option>
       ))}

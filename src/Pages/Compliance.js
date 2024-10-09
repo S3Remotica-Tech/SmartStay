@@ -342,7 +342,7 @@ const Compliance = () => {
         setHostelName(firstFilteredDetail.HostelName || '');
         setFloor(firstFilteredDetail.Floor || '');
         setBeds(firstFilteredDetail.Bed || '');
-        setRooms(firstFilteredDetail.Rooms || '');
+        setRooms(firstFilteredDetail.Room_Id || '');
         setUser_Id(firstFilteredDetail.User_Id || '');
 
       } else {

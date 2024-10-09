@@ -28,22 +28,33 @@ function* handleAddAsset(action) {
    console.log("response add", response)
 
    var toastStyle = {
-      backgroundColor: 'green',
-      color: 'white',
-      width: "100%"
-   };
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
+     
+    };
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ADD_ASSET', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
       toast.success(`${response.data.message}`, {
-         position: 'top-center',
+         position: "bottom-center",
          autoClose: 2000,
-         hideProgressBar: false,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle
+         style: toastStyle,
       });
 
    }
@@ -63,22 +74,33 @@ function* handleDeleteAsset(action) {
    const response = yield call(DeleteAssetList, action.payload);
    console.log(" response", response)
    var toastStyle = {
-      backgroundColor: 'green',
-      color: 'white',
-      width: "100%"
-   };
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
+     
+    };
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_ASSET', payload: { response: response.data, statusCode: response.status || response.statusCode } })
   
-      toast.success('Asset has been successfully deleted!', {
-         position: 'top-center',
-         autoClose: 2000, 
-         hideProgressBar: false,
+      toast.success('Deleted successfully!', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle
+         style: toastStyle,
        });
   
   
@@ -116,23 +138,34 @@ function* handleAssignAsset(action) {
    console.log(" response", response)
 
    var toastStyle = {
-      backgroundColor: 'green',
-      color: 'white',
-      width: "100%"
-   };
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
+     
+    };
 
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ASSIGN_ASSET', payload: { response: response.data, statusCode: response.status || response.statusCode } })
       toast.success(`${response.data.message}`, {
-         position: 'top-center',
-         autoClose: 2000, 
-         hideProgressBar: false,
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle
+         style: toastStyle,
        });
 
    }

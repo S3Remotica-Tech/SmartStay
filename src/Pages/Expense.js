@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { FormControl, InputGroup, Pagination, Table, Form } from 'react-bootstrap';
+import { FormControl, InputGroup, Pagination, Table, Form ,Modal} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Swal from 'sweetalert2';
 import AddExpenses from './AddExpenses';
 import Profile from '../Assets/Images/New_images/profile-picture.png'
-import Edit from '../Assets/Images/New_images/edit.png';
+// import Edit from '../Assets/Images/New_images/edit.png';
 import Delete from '../Assets/Images/New_images/trash.png';
 import ExpensesListTable from './ExpensesListTable';
 import DatePicker from 'react-datepicker';
@@ -29,6 +29,11 @@ import { TruckRemove } from 'iconsax-react';
 import { format } from 'date-fns';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import Spinner from 'react-bootstrap/Spinner';
+
+
 
 function Expenses() {
 
@@ -302,6 +307,7 @@ function Expenses() {
     if (state.ExpenseList.StatusCodeForAddExpenseSuccess == 200 || state.ExpenseList.deleteExpenseStatusCode == 200) {
       dispatch({ type: 'EXPENSELIST' })
       setShowModal(false);
+      setShowExpenseDelete(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_EXPENSE' })
       }, 2000)
@@ -360,7 +366,7 @@ function Expenses() {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   let filteredData = [];
@@ -472,72 +478,36 @@ function Expenses() {
   //   }
 
   // }
+
+  const [showExpenseDelete , setShowExpenseDelete] = useState(false)
+const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
+
+
   const handleDeleteExpense = (id) => {
     if (!id) return; 
-  
-    toast(
-      ({ closeToast }) => (
-        <div>
-          <p style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-            Do you want to delete the expense?
-          </p>
-          <div className='w-100 d-flex justify-content-center'>
-            <button
-              style={{
-                marginRight: '10px',
-                backgroundColor: '#1E45E1',
-                color: '#fff',
-                border: 'none',
-                padding: '5px 10px',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                fontSize: 14,
-                fontFamily: "Gilroy",
-                fontWeight: 500
-              }}
-              onClick={() => {
-                dispatch({
-                  type: 'DELETEEXPENSE',
-                  payload: {
-                    id: id,
-                  },
-                });
-                closeToast();               }}
-            >
-              Yes
-            </button>
-            {/* <button
-              style={{
-                backgroundColor: '#f44336',
-                color: '#fff',
-                border: 'none',
-                padding: '5px 10px',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                fontSize: 14,
-                fontFamily: "Gilroy",
-                fontWeight: 500
-              }}
-              onClick={closeToast} 
-            >
-              No
-            </button> */}
-          </div>
-        </div>
-      ),
-      {
-        position: 'top-center',
-        autoClose: false,
-        closeOnClick: false,
-        hideProgressBar: true,
-        draggable: false,
-      }
-    );
-  
-    setCurrentPage(1); 
+    setShowExpenseDelete(true)
+    setDeleteExpenseRowData(id)
+     
   };
   
 
+  const handleCloseForDeleteExpense = () =>{
+    setShowExpenseDelete(false)
+  }
+
+
+ const  ConfirmDeleteExpense = () =>{
+  if(deleteExpenseRowData){
+    console.log("deleteExpenseRowData",deleteExpenseRowData)
+    dispatch({
+      type: 'DELETEEXPENSE',
+      payload: {
+        id: deleteExpenseRowData,
+      },
+    });
+     setCurrentPage(1); 
+  }
+ }
 
   const stateAccount = useSelector(state => state.createAccount)
 
@@ -610,60 +580,87 @@ function Expenses() {
 
 
 
+  const [showFilterExpense, setShowFilterExpense] = useState(false)
 
 
+  const handleShowSearch = () => {
+    setShowFilterExpense(!showFilterExpense)
+  }
 
+  const handleCloseSearch = () => {
+    setShowFilterExpense(false)
+    setGetData(state.ExpenseList.expenseList)
+    setSearchQuery('');
+  }
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [showDropDown, setShowDropDown] = useState(false)
+  
+  
+  
+    const handleInputChange = (e) => {
+      const searchItem = e.target.value
+      setSearchQuery(searchItem);
+      if (searchItem != '') {
+        const filteredItems = state.ExpenseList.expenseList && state.ExpenseList.expenseList.filter((user) =>
+          user.category_Name && user.category_Name.toLowerCase().includes(searchItem.toLowerCase())
+        );
+  
+        setGetData(filteredItems);
+        setShowDropDown(true)
+      }
+      else {
+        setGetData(state.ExpenseList.expenseList)
+      }
+      setCurrentPage(1);
+    };
+  
+  
+  
+  const handleDropDown = (value)=>{
+    const searchItem = value;
+    setSearchQuery(searchItem);
+    if (searchItem != '') {
+      const filteredItems = state.ExpenseList.expenseList && state.ExpenseList.expenseList.filter((user) =>
+        user.category_Name && user.category_Name.toLowerCase().includes(searchItem.toLowerCase())
+      );
+  
+      setGetData(filteredItems);
+      setShowDropDown(true)
+    }
+    else {
+      setGetData(state.ExpenseList.expenseList)
+    }
+    setCurrentPage(1);
+    setShowDropDown(false)
+  }
+  
 
 
 
 
   return (
     <>
-      <div style={{ width: "100%" }} >
-        <div className='m-4'>
+      <div className='container' style={{ width: "100%" }} >
 
-          {/* <div className='d-flex justify-content-end align-items-center m-4'>
-
-            <div>
-              <InputGroup>
-                <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
-                  <CiSearch style={{ fontSize: 20 }} />
-                </InputGroup.Text>
-                <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
-                  placeholder="Search..."
-                />
-              </InputGroup>
-            </div>
-            <div className="mr-3">
-              <img src={Notify} alt="notification" />
-            </div>
-
-            <div className="mr-3">
-              <Image src={profile ? profile : Profiles} roundedCircle style={{ height: "60px", width: "60px" }} />
-            </div>
-          </div> */}
+        <div className='container'>
 
 
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <div>
-              <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
-            </div>
-
-            <div className="d-flex justify-content-between align-items-center">
+            <div className='d-flex align-items-center'>
+              <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
+          
 
 
-
-
-
-
-              <div style={{ margin: 20, position: 'relative' }}>
+            <div style={{ margin: 20, position: 'relative' }}>
                 <label
                   htmlFor="date-input"
                   style={{
                     border: "1px solid #D9D9D9",
                     borderRadius: 8,
                     padding: 10,
-                    fontSize: 14,
+                    fontSize: 12,
                     fontFamily: "Gilroy",
                     fontWeight: 500,
                     color: "#222222",
@@ -689,7 +686,7 @@ function Expenses() {
                   placeholder="Select Date"
                   style={{
                     padding: 10,
-                    fontSize: 16,
+                    fontSize: 14,
                     width: "100%",
                     borderRadius: 8,
                     border: "1px solid #D9D9D9",
@@ -702,9 +699,103 @@ function Expenses() {
                   onClose={() => { }}
                 />
               </div>
+              </div>
+            <div className="d-flex justify-content-between align-items-center">
+
+             
+            {
+                !showFilterExpense &&
+
+                <div className='me-3' onClick={handleShowSearch}>
+                  <SearchNormal1
+                    size="26"
+                    color="#222"
+                  />
+                </div>
+              }
+              {
+                showFilterExpense &&
+                <div className='me-3 'style={{position:'relative'}}>
+                  <InputGroup>
+
+                    <FormControl size="lg"
+                      value={searchQuery}
+                      onChange={handleInputChange}
+
+                      style={{width:235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500,color: "#222",
+                        //  '::placeholder': { color: "#222", fontWeight: 500 } 
+                        }}
+                      placeholder="Search..."
+                    />
+                    <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
+                      <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                    </InputGroup.Text>
+                  </InputGroup>
+
+
+
+                  {
+            getData.length > 0 && searchQuery !== '' && showDropDown && (
+            
+                          <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                            <ul className='show-scroll' style={{
+                              // position: 'absolute',
+                              // top: '50px',
+                              // left: 0,
+                              width: 260,
+                              backgroundColor: '#fff',
+                              // border: '1px solid #D9D9D9',
+                              borderRadius: '4px',
+                              maxHeight: 174,
+                              minHeight: 100,
+                              overflowY: 'auto',
+                              padding: '5px 10px',
+                              margin: '0',
+                              listStyleType: 'none',
+
+                              borderRadius: 8,
+                              boxSizing: 'border-box'
+                            }}>
+                              {
+                                getData.map((user, index) => (
+                                  <li
+                                    key={index}
+                                    onClick={() => {
+                                      handleDropDown(user.category_Name);
+
+                                    }}
+                                    style={{
+                                      padding: '10px',
+                                      cursor: 'pointer',
+                                      borderBottom: '1px solid #dcdcdc',
+                                      fontSize: '14px',
+                                      fontFamily: 'Gilroy',
+                                      fontWeight: 500,
+
+                                    }}
+                                  >
+                                    {user.category_Name}
+                                  </li>
+                                ))
+                              }
+                            </ul>
+                          </div>
+                        )
+          }
+
+                </div>
+
+
+              }
 
               <div className='me-3' style={{ position: 'relative' }}>
-                <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px", cursor: "pointer" }} onClick={handleFilterByPrice} />
+                               <Sort
+                  Size="24"
+                  color="#222"
+                  style={{ cursor: "pointer" }}
+                   variant="Outline"
+                   onClick={handleFilterByPrice}
+                />
 
                 {showFilter &&
                   <ListGroup style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
@@ -862,17 +953,42 @@ function Expenses() {
 
 
               <div>
-                <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: "fit-content", padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}> + Add an expense</Button>
+                <Button onClick={handleShow} style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "16px 24px", fontFamily: "Gilroy" }}> + Add an expense</Button>
               </div>
             </div>
           </div>
 
+        </div>
 
 
-          {/* <div className='table-responsive' style={{ border: "1px solid #DCDCDC", borderRadius: "24px", }}> */}
+
+        {searchQuery && (
+        <div  className='container mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+          {getData.length > 0 ? (
+            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+              {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+            </span>
+          ) : (
+            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+          )}
+        </div>
+      )}
+
+
+        {loading &&
+          <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+            <div className="d-flex justify-content-center align-items-start gap-3" style={{ height: "100%" }}><Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} /> <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>Loading.....</div></div>
+          </div>
+        }
+
+
+
+{currentItems && currentItems.length > 0 && (
+
+        <div className='container' >
           <Table responsive="md"
             className='Table_Design'
-           
+
             style={{
               height: "auto",
               tableLayout: "auto",
@@ -882,10 +998,10 @@ function Expenses() {
             }} >
             <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor: "rgba(231, 241, 255, 1)" }}>
               <tr>
-                {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", , }}>
+                <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center",  borderTopLeftRadius: 24  }}>
                   <input type='checkbox' style={customCheckboxStyle} />
-                </th> */}
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 ,borderTopLeftRadius: 24}}>Date</th>
+                </th>
+                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 700 }}>Date</th>
 
                 {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th> */}
                 <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
@@ -899,7 +1015,7 @@ function Expenses() {
                 <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
               </tr>
             </thead>
-                       {/* <tbody>
+            {/* <tbody>
               {
                 loading ? <>
                   <tr>
@@ -936,33 +1052,35 @@ function Expenses() {
 
             </tbody> */}
             <tbody>
-  {
-    loading ? (
-      <>
-        <tr>
-          <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-        </tr>
-      </>
-    ) : currentItems && currentItems.length > 0 ? (
-      currentItems.map((item) => (
-        <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
-      ))
-    ) : (
-      <tr style={{border:"none"}}>
-        <td colSpan="8" style={{ textAlign: "center", padding: "20px", color: "red",border:"none" }}>
-          <h5 style={{ fontSize: 14 }}>No Expense Found</h5>
-        </td>
-      </tr>
-    )
-  }
-</tbody>
+              {
+                loading ? (
+                  <>
+                    <tr>
+                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    </tr>
+                  </>
+                ) : currentItems && currentItems.length > 0 && (
+                  currentItems.map((item) => (
+                    <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
+                  ))
+                ) 
+                
+                // : (
+                //   <tr style={{ border: "none" }}>
+                //     <td colSpan="8" style={{ textAlign: "center", padding: "20px", color: "red", border: "none" }}>
+                //       <h5 style={{ fontSize: 14 }}>No Expense Found</h5>
+                //     </td>
+                //   </tr>
+                // )
+              }
+            </tbody>
 
           </Table>
 
@@ -970,7 +1088,44 @@ function Expenses() {
 
          
 
-          {/* </div> */}
+          </div>
+)}
+
+
+
+
+{
+          !loading && currentItems && currentItems.length === 0 &&
+
+          <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+
+            <div>
+              <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+              <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No expenses available</div>
+              <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no expenses available.</div>
+              <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
+                onClick={handleShow}
+              > + Add an expense</Button>
+              </div>
+            </div>
+            <div>
+
+            </div>
+          </div>
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
           {/*  Pagination code */}
           {currentItems.length > 0 &&
             <Pagination className="mt-4 d-flex justify-content-end align-items-center">
@@ -987,9 +1142,54 @@ function Expenses() {
               />
             </Pagination>
           }
-        </div>
+        
       </div>
       {showModal && <AddExpenses show={showModal} handleClose={handleClose} currentItem={currentItem} />}
+
+
+
+      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} centered backdrop="static">
+<Modal.Header style={{display:"flex", justifyContent:"center"}} >
+  <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy",textAlign:"center", }}>Delete expense?</Modal.Title>
+  {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
+</Modal.Header>
+
+
+
+
+  <Modal.Body style={{fontSize:14,fontWeight:500, fontFamily:"Gilroy", textAlign:"center"}}>
+  Are you sure you want to delete this expense?
+            </Modal.Body>
+
+
+<Modal.Footer className='d-flex justify-content-center' style={{border:"none"}}>
+<Button  onClick={handleCloseForDeleteExpense} style={{borderRadius:8, padding:"16px 45px",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"#FFF",color:"rgba(36, 0, 255, 1)",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
+        Cancel
+      </Button>
+     
+      <Button style={{borderRadius:8, padding:"16px 45px ",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} onClick={ConfirmDeleteExpense}>
+        Delete
+      </Button>
+
+</Modal.Footer>
+</Modal>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </>
   )
 }

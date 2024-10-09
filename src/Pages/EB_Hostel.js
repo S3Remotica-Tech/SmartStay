@@ -20,8 +20,9 @@ import Swal from "sweetalert2";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import down from "../Assets/Images/New_images/down.png";
-import squre from '../Assets/Images/New_images/minus-square.png';
+import squre from "../Assets/Images/New_images/minus-square.png";
 import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -29,6 +30,7 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import EBRoomReading from "./EBRoomReading";
+
 import {
   Autobrightness,
   Call,
@@ -77,9 +79,15 @@ function EB_Hostel() {
   const [id, setId] = useState("");
   const [edit, setEdit] = useState("");
   const [ebErrorunit, setEbErrorunit] = useState("");
+  const [buttonShow, setbuttonShow] = useState(false);
   const [value, setValue] = React.useState("1");
+  // const handleChanges = (event, newValue) => {
+  //   setValue(newValue);
+
+  // };
   const handleChanges = (event, newValue) => {
     setValue(newValue);
+    setaddEbDetail(false); // Reset the addEbDetail state when switching tabs
   };
 
   console.log("selectedDate", selectedDate);
@@ -88,6 +96,7 @@ function EB_Hostel() {
   useEffect(() => {
     dispatch({ type: "EBLIST" });
     dispatch({ type: "EBSTARTMETERLIST" });
+    dispatch({ type: "CUSTOMEREBLIST" });
   }, []);
 
   useEffect(() => {
@@ -188,13 +197,17 @@ function EB_Hostel() {
     setBackbtn(isShow);
     setISVisible(false);
   };
+
   const handleAddEbDetails = () => {
-    // if (ebShow) {
-    //   setaddEbDetail(true);
-    // } else {
-    //   setaddEbDetail(false);
-    // }
     setaddEbDetail(true);
+    console.log("addEbDetail", addEbDetail);
+    // if (value === "1") {
+    //   setaddEbDetail(true);
+    //   console.log("Customer Reading Add Reading");
+    // } else if (value === "2") {
+    //   setaddEbDetail(true);
+    //   console.log("Room Reading Add Reading");
+    // }
   };
 
   const handleTransactionsShow = () => {
@@ -318,14 +331,12 @@ function EB_Hostel() {
       return true;
     }
   };
-  
-  const handleDate =(selectedDates)=>{
-    setSelectedDate(selectedDates[0])
-    setDateError('')
-    console.log("selectedDates",selectedDates)
-  }
 
-
+  const handleDate = (selectedDates) => {
+    setSelectedDate(selectedDates[0]);
+    setDateError("");
+    console.log("selectedDates", selectedDates);
+  };
 
   const handleClose = () => {
     setaddEbDetail(false);
@@ -340,7 +351,7 @@ function EB_Hostel() {
     setRooms("");
     setFloor("");
     setSelectedDate("");
-    setDateError("")
+    setDateError("");
   };
 
   const handleSaveEbBill = () => {
@@ -348,19 +359,19 @@ function EB_Hostel() {
     const isHostelValid = validateAssignField(selectedHostel, "Hostel ID");
     const isFloorValid = validateAssignField(Floor, "Floor");
     const isRoomValid = validateAssignField(Rooms, "Rooms");
-   
+
     const isEndMeterValid = validateAssignField(endmeter, "endmeter");
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
-    if (Floor === 'Select Floor' || !isFloorValid) {
-      setfloorError('Please select a valid Floor'); 
+    if (Floor === "Select Floor" || !isFloorValid) {
+      setfloorError("Please select a valid Floor");
       return; // Prevent save
     } else {
       setfloorError(""); // Clear the error if valid
     }
-  
+
     // Validate Room field
-    if (Rooms === 'Select Room' || !isRoomValid) {
-      setRoomError('Please select a valid Room'); 
+    if (Rooms === "Select Room" || !isRoomValid) {
+      setRoomError("Please select a valid Room");
       return; // Prevent save
     } else {
       setRoomError(""); // Clear the error if valid
@@ -373,43 +384,47 @@ function EB_Hostel() {
     ) {
       return;
     }
-console.log("selectedDate",selectedDate)
+    console.log("selectedDate", selectedDate);
     if (selectedHostel && Floor && Rooms && endmeter && selectedDate) {
       const incrementDateAndFormat = (date) => {
         const newDate = new Date(date);
-        newDate.setDate(newDate.getDate() + 1); 
-    
-        return newDate.toISOString().split("T")[0]; 
-    };
-    const formattedDate = selectedDate ? incrementDateAndFormat(selectedDate) : '';
+        newDate.setDate(newDate.getDate() + 1);
+
+        return newDate.toISOString().split("T")[0];
+      };
+      const formattedDate = selectedDate
+        ? incrementDateAndFormat(selectedDate)
+        : "";
       dispatch({
         type: "CREATEEB",
         payload: {
           Hostel_Id: selectedHostel,
           Floor: Floor,
           Room: Rooms,
-          date: formattedDate, 
+          date: formattedDate,
           end_Meter_Reading: endmeter,
-        },
-      });
-    } else if (selectedHostel && endmeter) {
-      dispatch({
-        type: "CREATEEB",
-        payload: {
-          Hostel_Id: selectedHostel,
-          end_Meter_Reading: endmeter,
-          
-          // EbAmount: totalAmountRead,
-          date: selectedDate,
         },
       });
     }
+    // else if (selectedHostel && endmeter) {
+    //   dispatch({
+    //     type: "CREATEEB",
+    //     payload: {
+    //       Hostel_Id: selectedHostel,
+    //       end_Meter_Reading: endmeter,
+
+    //       // EbAmount: totalAmountRead,
+    //       date: selectedDate,
+    //     },
+    //   });
+    // }
 
     // Reset fields after successful save
   };
   useEffect(() => {
     if (state.PgList?.AddEBstatusCode === 200) {
       handleClose();
+      dispatch({ type: "CUSTOMEREBLIST" });
     }
   }, [state.PgList?.AddEBstatusCode]);
 
@@ -490,8 +505,8 @@ console.log("selectedDate",selectedDate)
   };
 
   useEffect(() => {
-    setelectricityFilterddata(state.PgList?.EB_startmeterlist);
-  }, [state.PgList?.EB_startmeterlist]);
+    setelectricityFilterddata(state.PgList?.EB_customerTable?.eb_details);
+  }, [state.PgList?.EB_customerTable?.eb_details]);
 
   const transactionrowsPerPage = 10;
   const [tranactioncurrentPage, settranactioncurrentPage] = useState(1);
@@ -576,7 +591,7 @@ console.log("selectedDate",selectedDate)
   return (
     <div style={{ padding: 15 }}>
       <div className="d-flex justify-content-between align-items-center ms-3 mb-3">
-        <div style={{padding:15}}>
+        <div style={{ padding: 15 }}>
           <label
             style={{
               fontSize: 24,
@@ -589,7 +604,10 @@ console.log("selectedDate",selectedDate)
           </label>
         </div>
 
-        <div className="d-flex justify-content-between align-items-center" style={{paddingRight:25}}>
+        <div
+          className="d-flex justify-content-between align-items-center"
+          style={{ paddingRight: 25 }}
+        >
           {/* <div className="me-3">
             <Image
               src={Filter}
@@ -598,7 +616,7 @@ console.log("selectedDate",selectedDate)
             />
           </div> */}
 
-          <div >
+          <div>
             <Button
               style={{
                 fontFamily: "Montserrat",
@@ -614,9 +632,6 @@ console.log("selectedDate",selectedDate)
                 cursor: "pointer",
               }}
               onClick={handleAddEbDetails}
-              disabled={value === "2"}
-             
-              // disabled={transactionshow}
             >
               + Add Reading
             </Button>
@@ -624,728 +639,559 @@ console.log("selectedDate",selectedDate)
         </div>
       </div>
 
-
       <TabContext value={value}>
-                    <div>
-                      <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
-                        <TabList
-                          orientation={
-                            isSmallScreen ? "vertical" : "horizontal"
-                          }
-                          onChange={handleChanges}
-                          aria-label="lab API tabs example"
-                          style={{ marginLeft: "20px" }}
-                          className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
-                        >
-                          <Tab
-                            label="Customer Reading"
-                            value="1"
-                            style={{
-                              fontSize: 16,
-                              fontFamily: "Gilroy",
-                              color: "#4B4B4B",
-                              lineHeight: "normal",
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                              textTransform: "none",
-                            }}
-                          />
-                          <Tab
-                            label="Room Reading"
-                            value="2"
-                            style={{
-                              fontSize: 16,
-                              fontFamily: "Gilroy",
-                              color: "#4B4B4B",
-                              lineHeight: "normal",
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                              textTransform: "none",
-                            }}
-                          />
-                        
-                        
-                        </TabList>
-                      </Box>
-                    </div>
-                    <TabPanel value="1">
-                    <>
-      <div >
-      {currentRowelectricity.length > 0 && (
-  <Table
-  responsive ="md"
-  className='Table_Design'
-  style={{
-    height: "auto",
-    overflow: "visible",
-    tableLayout: "auto",
-    borderRadius: "24px",
-    border: "1px solid #DCDCDC",
-    
-
-  }} 
-  >
-    <thead
-      style={{
-        color: "gray",
-        fontSize: "11px",
-        backgroundColor: "#E7F1FF",
-      }}
-    >
-      <tr style={{ height: "30px" }}>
-        <th
-          style={{
-            textAlign: "center",
-            fontFamily: "Gilroy",
-            color: "rgba(34, 34, 34, 1)",
-            fontSize: 14,
-            fontWeight: 600,
-            borderTopLeftRadius: 24
-          }}
-        >
-          <img src={squre} height={20} width={20} />
-        </th>
-        <th
-          style={{
-            color: "#939393",
-            fontWeight: 500,
-            fontSize: "14px",
-            fontFamily: "Gilroy",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            textAlign: "center",
-          }}
-        >
-          Paying Guest
-        </th>
-        <th
-          style={{
-            color: "#939393",
-            fontWeight: 500,
-            fontSize: "14px",
-            fontFamily: "Gilroy",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            textAlign: "center",
-          }}
-        >
-          Floor
-        </th>
-        <th
-          style={{
-            color: "#939393",
-            fontWeight: 500,
-            fontSize: "14px",
-            fontFamily: "Gilroy",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            textAlign: "center",
-          }}
-        >
-          Room no
-        </th>
-        <th
-          style={{
-            color: "#939393",
-            fontWeight: 500,
-            fontSize: "14px",
-            fontFamily: "Gilroy",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            textAlign: "center",
-          }}
-        >
-          Previous
-        </th>
-        <th
-          style={{
-            color: "#939393",
-            fontWeight: 500,
-            fontSize: "14px",
-            fontFamily: "Gilroy",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            textAlign: "center",
-          }}
-        >
-          Current
-        </th>
-        <th
-          style={{
-            color: "#939393",
-            fontWeight: 500,
-            fontSize: "14px",
-            fontFamily: "Gilroy",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            textAlign: "center",
-          }}
-        >
-          Dated
-        </th>
-        <th
-          style={{
-            color: "#939393",
-            fontWeight: 500,
-            fontSize: "14px",
-            fontFamily: "Gilroy",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            textAlign: "center",
-          }}
-        >
-          Units
-        </th>
-        <th
-          style={{
-            textAlign: "center",
-            fontFamily: "Gilroy",
-            color: "#939393",
-            fontSize: 14,
-            fontWeight: 600,
-            // borderTopRightRadius: 24
-          }}
-        >
-          Amount
-        </th>
-        <th  style={{
-            textAlign: "center",
-            fontFamily: "Gilroy",
-            color: "rgba(34, 34, 34, 1)",
-            fontSize: 14,
-            fontWeight: 600,
-            borderTopRightRadius: 24
-          }}> </th>
-      </tr>
-    </thead>
-    <tbody style={{ fontSize: "12px" }}>
-      {currentRowelectricity &&
-        currentRowelectricity.map((v) => {
-          const imageUrl = v.profile || Profile;
-          let Dated = new Date(v.createAt);
-          let day = Dated.getDate();
-          let month = Dated.getMonth() + 1;
-          let year = Dated.getFullYear();
-          let formattedDate = `${day}/${month}/${year}`;
-
-          return (
-            <tr key={v.id}>
-              <td
+        <div>
+          <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+            <TabList
+              orientation={isSmallScreen ? "vertical" : "horizontal"}
+              onChange={handleChanges}
+              aria-label="lab API tabs example"
+              style={{ marginLeft: "20px" }}
+              className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+            >
+              <Tab
+                label="Customer Reading"
+                value="1"
                 style={{
-                  padding: "10px",
-                  border: "none",
-                  textAlign: "center",
-                  verticalAlign: "middle", // Center vertically
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  color: "#4B4B4B",
+                  lineHeight: "normal",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  textTransform: "none",
                 }}
-              >
-                <img src={squre} height={20} width={20} />
-              </td>
-              <td
+              />
+              <Tab
+                label="Room Reading"
+                value="2"
                 style={{
-                  border: "none",
-                  padding: "10px",
-                  textAlign: "center",
-                  verticalAlign: "middle", // Center vertically
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  color: "#4B4B4B",
+                  lineHeight: "normal",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  textTransform: "none",
                 }}
-              >
-                <div
+              />
+            </TabList>
+          </Box>
+        </div>
+        <TabPanel value="1">
+          <>
+            <div>
+              {currentRowelectricity?.length > 0 && (
+                <Table
+                  responsive="md"
+                  className="Table_Design"
+                  style={{
+                    height: "auto",
+                    overflow: "visible",
+                    tableLayout: "auto",
+                    borderRadius: "24px",
+                    border: "1px solid #DCDCDC",
+                  }}
+                >
+                  <thead
+                    style={{
+                      color: "gray",
+                      fontSize: "11px",
+                      backgroundColor: "#E7F1FF",
+                    }}
+                  >
+                    <tr style={{ height: "30px" }}>
+                      <th
+                        style={{
+                          textAlign: "center",
+                          fontFamily: "Gilroy",
+                          color: "rgba(34, 34, 34, 1)",
+                          fontSize: 14,
+                          fontWeight: 600,
+                          borderTopLeftRadius: 24,
+                        }}
+                      >
+                        <img src={squre} height={20} width={20} />
+                      </th>
+                    
+
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Name
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Paying Guest
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Floor
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Room
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Previous
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Current
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Date
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Units
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "center",
+                          fontFamily: "Gilroy",
+                          color: "#939393",
+                          fontSize: 14,
+                          fontWeight: 600,
+                          // borderTopRightRadius: 24
+                        }}
+                      >
+                        Amount
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "center",
+                          fontFamily: "Gilroy",
+                          color: "rgba(34, 34, 34, 1)",
+                          fontSize: 14,
+                          fontWeight: 600,
+                          borderTopRightRadius: 24,
+                        }}
+                      >
+                        {" "}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody style={{ fontSize: "12px" }}>
+                    {currentRowelectricity &&
+                      currentRowelectricity.map((v) => {
+                        const imageUrl = v.profile || Profile;
+                        let Dated = new Date(v.createAt);
+                        let day = Dated.getDate();
+                        let month = Dated.getMonth() + 1;
+                        let year = Dated.getFullYear();
+                        let formattedDate = `${day}/${month}/${year}`;
+                       
+
+                        return (
+                          <tr key={v.id}>
+                            <td
+                              style={{
+                                padding: "10px",
+                                border: "none",
+                                textAlign: "center",
+                                verticalAlign: "middle", // Center vertically
+                              }}
+                            >
+                              <img src={squre} height={20} width={20} />
+                            </td>
+                            <td style={{ border: "none", display: "flex", padding: "10px" }}>
+
+                        <Image
+                          src={imageUrl}
+                          alt={v.Name || "Default Profile"}
+                          roundedCircle
+                          style={{ height: "40px", width: "40px", marginRight: "10px" }}
+                          onError={(e) => {
+                            e.target.onerror = null; 
+                            e.target.src = Profile; 
+                           
+                          }}
+                        />
+                        <span  style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", cursor: "pointer" }} >
+                          {v.Name}
+                        </span>
+                      </td>
+
+                            <td
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                textAlign: "center",
+                                verticalAlign: "middle",
+                                borderBottom: "none",
+                              }}
+                            >
+                              {v.HostelName}
+                            </td>
+                            <td
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                textAlign: "center",
+                                verticalAlign: "middle",
+                                borderBottom: "none",
+                              }}
+                            >
+                              {v.Floor}
+                            </td>
+                            <td
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                textAlign: "center",
+                                verticalAlign: "middle",
+                                borderBottom: "none",
+                              }}
+                            >
+                              {v.Rooms}
+                            </td>
+                            <td
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                textAlign: "center",
+                                verticalAlign: "middle",
+                                borderBottom: "none",
+                              }}
+                            >
+                              {v.start_meter}
+                            </td>
+                            <td
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                textAlign: "center",
+                                verticalAlign: "middle",
+                                borderBottom: "none",
+                              }}
+                            >
+                              {v.end_meter}
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "center",
+                                verticalAlign: "middle", // Center vertically
+                                borderBottom: "none",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  backgroundColor: "#EBEBEB",
+                                  paddingTop: "5px",
+                                  paddingLeft: "16px",
+                                  paddingRight: "16px",
+                                  paddingBottom: "5px",
+                                  borderRadius: "60px",
+                                  fontSize: "14px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                {new Date(v.date).toISOString().split('T')[0]} 
+                              </span>
+                            </td>
+                            <td
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                textAlign: "center",
+                                verticalAlign: "middle", // Center vertically
+                                borderBottom: "none",
+                              }}
+                            >
+                              {v.unit}
+                            </td>
+                            <td
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                textAlign: "center",
+                                verticalAlign: "middle",
+                                borderBottom: "none",
+                              }}
+                            >
+                              {v.amount}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </Table>
+              )}
+
+              {state.PgList.EB_customerTable.eb_details?.length === 0 &&  (
+                <div>
+                  <div style={{ textAlign: "center" }}>
+                    <img src={emptyimg} alt="emptystate" />
+                  </div>
+                  <div
+                    className="pb-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: 24,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    No Active Electricity{" "}
+                  </div>
+                  <div
+                    className="pb-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      fontSize: 20,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    There are no active Electricity{" "}
+                  </div>
+
+                  <div style={{ textAlign: "center" }}>
+                    <Button
+                      onClick={handleAddEbDetails}
+                      style={{
+                        fontSize: 16,
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        height: 56,
+                        fontWeight: 600,
+                        borderRadius: 12,
+                        width: 200,
+                        padding: "18px, 20px, 18px, 20px",
+                        fontFamily: "Montserrat",
+                      }}
+                    >
+                      + Record Reading
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {currentRowelectricity?.length > 0 && (
+              <nav>
+                <ul
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
+                    listStyleType: "none",
+                    padding: 0,
+                    justifyContent: "end",
                   }}
                 >
-                  <Image
-                    src={imageUrl}
-                    alt={v.hoatel_Name || "Default Profile"}
-                    roundedCircle
-                    style={{
-                      height: "40px",
-                      width: "40px",
-                      marginRight: "10px",
-                    }}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = Profile;
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {v.hoatel_Name}
-                  </span>
-                </div>
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  borderBottom:"none"
-                }}
-              >
-                {v.Floor}
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  borderBottom:"none" 
-                }}
-              >
-                {v.Room}
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                   borderBottom:"none"
-                }}
-              >
-                {v.start_Meter_Reading}
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle", 
-                   borderBottom:"none"
-                }}
-              >
-                {v.end_Meter_Reading}
-              </td>
-              <td
-                style={{
-                  textAlign: "center",
-                  verticalAlign: "middle", // Center vertically
-                   borderBottom:"none"
-                }}
-              >
-                <span
-                  style={{
-                    backgroundColor: "#EBEBEB",
-                    paddingTop: "5px",
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                    paddingBottom: "5px",
-                    borderRadius: "60px",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  {formattedDate}
-                </span>
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle", // Center vertically
-                   borderBottom:"none"
-                }}
-              >
-                {v.Eb_Unit}
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle", 
-                   borderBottom:"none"
-                }}
-              >
-                {v.EbAmount}
-              </td>
-            </tr>
-          );
-        })}
-    </tbody>
-  </Table>
-)}
-
-  {state.PgList?.EB_startmeterlist?.length === 0 && (
-    <div>
-      <div style={{ textAlign: "center" }}>
-        <img src={emptyimg} alt="emptystate" />
-      </div>
-      <div
-        className="pb-1"
-        style={{
-          textAlign: "center",
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-          fontSize: 24,
-          color: "rgba(75, 75, 75, 1)",
-        }}
-      >
-        No Active Electricity{" "}
-      </div>
-      <div
-        className="pb-1"
-        style={{
-          textAlign: "center",
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-          fontSize: 20,
-          color: "rgba(75, 75, 75, 1)",
-        }}
-      >
-        There are no active Electricity{" "}
-      </div>
-
-      <div style={{ textAlign: "center" }}>
-        <Button
-          onClick={handleAddEbDetails}
-          style={{
-            fontSize: 16,
-            backgroundColor: "#1E45E1",
-            color: "white",
-            height: 56,
-            fontWeight: 600,
-            borderRadius: 12,
-            width: 200,
-            padding: "18px, 20px, 18px, 20px",
-            fontFamily: "Montserrat",
-          }}
-        >
-          + Record Reading
-        </Button>
-      </div>
-    </div>
-  )}
-</div>
-
-
-        {currentRowelectricity.length > 0 && (
-          <nav>
-            <ul
-              style={{
-                display: "flex",
-                alignItems: "center",
-                listStyleType: "none",
-                padding: 0,
-                justifyContent: "end",
-              }}
-            >
-              <li style={{ margin: "0 5px" }}>
-                <button
-                  style={{
-                    padding: "5px 10px",
-                    textDecoration: "none",
-                    color: electricitycurrentPage === 1 ? "#ccc" : "#007bff",
-                    cursor:
-                      electricitycurrentPage === 1 ? "not-allowed" : "pointer",
-                    borderRadius: "5px",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() =>
-                    handleElectricityPageChange(electricitycurrentPage - 1)
-                  }
-                  disabled={electricitycurrentPage === 1}
-                >
-                  {" "}
-                  <ArrowLeft2 size="16" color="#1E45E1" />
-                </button>
-              </li>
-              {electricitycurrentPage > 3 && (
-                <li style={{ margin: "0 5px" }}>
-                  <button
-                    style={{
-                      padding: "5px 10px",
-                      textDecoration: "none",
-                      color: "white",
-                      cursor: "pointer",
-                      borderRadius: "5px",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() => handleElectricityPageChange(1)}
-                  >
-                    1
-                  </button>
-                </li>
-              )}
-              {electricitycurrentPage > 3 && <span>...</span>}
-              {renderPageNumberselectricity()}
-              {electricitycurrentPage < totalPagesinvoice - 2 && (
-                <span>...</span>
-              )}
-              {electricitycurrentPage < totalPagesinvoice - 2 && (
-                <li style={{ margin: "0 5px" }}>
-                  <button
-                    style={{
-                      padding: "5px 10px",
-                      textDecoration: "none",
-
-                      cursor: "pointer",
-                      borderRadius: "5px",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() =>
-                      handleElectricityPageChange(totalPagesinvoice)
-                    }
-                  >
-                    {totalPagesinvoice}
-                  </button>
-                </li>
-              )}
-              <li style={{ margin: "0 5px" }}>
-                <button
-                  style={{
-                    padding: "5px 10px",
-                    textDecoration: "none",
-                    color:
-                      electricitycurrentPage === electricitycurrentPage
-                        ? "#ccc"
-                        : "#007bff",
-                    cursor:
-                      electricitycurrentPage === electricitycurrentPage
-                        ? "not-allowed"
-                        : "pointer",
-                    borderRadius: "5px",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() =>
-                    handleElectricityPageChange(electricitycurrentPage + 1)
-                  }
-                  disabled={electricitycurrentPage === totalPagesinvoice}
-                >
-                  <ArrowRight2 size="16" color="#1E45E1" />
-                </button>
-              </li>
-            </ul>
-          </nav>
-        )}
-      </>
-     
-      <Modal
-        show={addEbDetail}
-        onHide={() => handleClose()}
-        backdrop="static"
-        centered
-      >
-        <Modal.Header closeButton className="text-center">
-          <Modal.Title style={{ fontSize: 18 }} className="text-center">
-            Add a Reading
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="row ">
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {ebErrorunit && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {ebErrorunit}
-                </div>
-              )}
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Paying Guest
-                <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                className="border"
-                value={selectedHostel}
-                onChange={(e) => handleHostelChange(e)}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  lineHeight: "18.83px",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-              >
-                <option
-                  style={{ fontSize: 14, fontWeight: 600 }}
-                  selected
-                  value=""
-                >
-                  Select PG
-                </option>
-                {state.UsersList?.hostelList &&
-                  state.UsersList?.hostelList.map((item) => (
-                    <>
-                      <option key={item.id} value={item.id}>
-                        {item.Name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select>
-              {hostelIdError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {hostelIdError}
-                </div>
-              )}
-              {unitAmount &&
-                unitAmount?.length === 0 &&
-                selectedHostel != "" && (
-                  <>
-                    <label
-                      className="pb-1"
+                  <li style={{ margin: "0 5px" }}>
+                    <button
                       style={{
-                        fontSize: 12,
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
+                        padding: "5px 10px",
+                        textDecoration: "none",
+                        color:
+                          electricitycurrentPage === 1 ? "#ccc" : "#007bff",
+                        cursor:
+                          electricitycurrentPage === 1
+                            ? "not-allowed"
+                            : "pointer",
+                        borderRadius: "5px",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
                       }}
+                      onClick={() =>
+                        handleElectricityPageChange(electricitycurrentPage - 1)
+                      }
+                      disabled={electricitycurrentPage === 1}
                     >
                       {" "}
-                      Please add a 'ebUnitAmount in Settings'
-                    </label>
-                  </>
+                      <ArrowLeft2 size="16" color="#1E45E1" />
+                    </button>
+                  </li>
+                  {electricitycurrentPage > 3 && (
+                    <li style={{ margin: "0 5px" }}>
+                      <button
+                        style={{
+                          padding: "5px 10px",
+                          textDecoration: "none",
+                          color: "white",
+                          cursor: "pointer",
+                          borderRadius: "5px",
+                          display: "inline-block",
+                          minWidth: "30px",
+                          textAlign: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                        onClick={() => handleElectricityPageChange(1)}
+                      >
+                        1
+                      </button>
+                    </li>
+                  )}
+                  {electricitycurrentPage > 3 && <span>...</span>}
+                  {renderPageNumberselectricity()}
+                  {electricitycurrentPage < totalPagesinvoice - 2 && (
+                    <span>...</span>
+                  )}
+                  {electricitycurrentPage < totalPagesinvoice - 2 && (
+                    <li style={{ margin: "0 5px" }}>
+                      <button
+                        style={{
+                          padding: "5px 10px",
+                          textDecoration: "none",
+
+                          cursor: "pointer",
+                          borderRadius: "5px",
+                          display: "inline-block",
+                          minWidth: "30px",
+                          textAlign: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                        onClick={() =>
+                          handleElectricityPageChange(totalPagesinvoice)
+                        }
+                      >
+                        {totalPagesinvoice}
+                      </button>
+                    </li>
+                  )}
+                  <li style={{ margin: "0 5px" }}>
+                    <button
+                      style={{
+                        padding: "5px 10px",
+                        textDecoration: "none",
+                        color:
+                          electricitycurrentPage === electricitycurrentPage
+                            ? "#ccc"
+                            : "#007bff",
+                        cursor:
+                          electricitycurrentPage === electricitycurrentPage
+                            ? "not-allowed"
+                            : "pointer",
+                        borderRadius: "5px",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() =>
+                        handleElectricityPageChange(electricitycurrentPage + 1)
+                      }
+                      disabled={electricitycurrentPage === totalPagesinvoice}
+                    >
+                      <ArrowRight2 size="16" color="#1E45E1" />
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            )}
+          </>
+        </TabPanel>
+        <Modal
+          show={addEbDetail}
+          onHide={() => handleClose()}
+          backdrop="static"
+          centered
+        >
+          <Modal.Header closeButton className="text-center">
+            <Modal.Title style={{ fontSize: 18 }} className="text-center">
+              Add a Reading
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="row ">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                {ebErrorunit && (
+                  <div style={{ color: "red" }}>
+                    <MdError />
+                    {ebErrorunit}
+                  </div>
                 )}
-            </div>
-
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Floor{" "}
-                <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                className="border"
-                disabled={
-                  unitAmount && unitAmount?.length === 0 && selectedHostel != ""
-                }
-                value={Floor}
-                onChange={(e) => handleFloor(e)}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-              >
-                <option
-                  style={{ fontSize: 14, fontWeight: 600 }}
-                  selected
-                  value=""
-                >
-                  Select Floor
-                </option>
-                {state?.UsersList?.hosteldetailslist &&
-                  state?.UsersList?.hosteldetailslist.map((item) => (
-                    <>
-                      <option key={item.floor_id} value={item.floor_id}>
-                        {item.floor_name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select>
-              {floorError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {floorError}
-                </div>
-              )}
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Room <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                className="border"
-                disabled={
-                  unitAmount && unitAmount?.length === 0 && selectedHostel != ""
-                }
-                value={Rooms}
-                onChange={(e) => handleRoom(e)}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-              >
-                <option>Select a Room</option>
-                {state.UsersList?.roomdetails &&
-                  state.UsersList?.roomdetails.map((item) => (
-                    <>
-                      <option key={item.Room_Id} value={item.Room_Id}>
-                        {item.Room_Id}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select>
-              {roomError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {roomError}
-                </div>
-              )}
-            </div>
-
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1354,15 +1200,90 @@ console.log("selectedDate",selectedDate)
                     fontWeight: 500,
                   }}
                 >
-                  Reading{" "}
+                  Paying Guest
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="6542310"
-                  value={endmeter}
-                  onChange={(e) => handleendmeter(e)}
+                <Form.Select
+                  aria-label="Default select example"
+                  className="border"
+                  value={selectedHostel}
+                  onChange={(e) => handleHostelChange(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    lineHeight: "18.83px",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                >
+                  <option
+                    style={{ fontSize: 14, fontWeight: 600 }}
+                    selected
+                    value=""
+                  >
+                    Select PG
+                  </option>
+                  {state.UsersList?.hostelList &&
+                    state.UsersList?.hostelList.map((item) => (
+                      <>
+                        <option key={item.id} value={item.id}>
+                          {item.Name}
+                        </option>
+                      </>
+                    ))}
+                </Form.Select>
+                {hostelIdError && (
+                  <div style={{ color: "red" }}>
+                    <MdError />
+                    {hostelIdError}
+                  </div>
+                )}
+                {unitAmount &&
+                  unitAmount?.length === 0 &&
+                  selectedHostel != "" && (
+                    <>
+                      <label
+                        className="pb-1"
+                        style={{
+                          fontSize: 12,
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {" "}
+                        Please add a 'ebUnitAmount in Settings'
+                      </label>
+                    </>
+                  )}
+              </div>
+
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Floor{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  className="border"
+                  disabled={
+                    unitAmount &&
+                    unitAmount?.length === 0 &&
+                    selectedHostel != ""
+                  }
+                  value={Floor}
+                  onChange={(e) => handleFloor(e)}
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -1373,117 +1294,217 @@ console.log("selectedDate",selectedDate)
                     height: 50,
                     borderRadius: 8,
                   }}
-                />
-              </Form.Group>
-              {endMeterError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {endMeterError}
-                </div>
-              )}
-            </div>
-
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222",
-                  fontFamily: "'Gilroy'",
-                  fontWeight: 500,
-                }}
-              >
-                Date  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-
-              <div style={{ position: "relative" }}>
-                <label
-                  htmlFor="date-input"
+                >
+                  <option
+                    style={{ fontSize: 14, fontWeight: 600 }}
+                    selected
+                    value=""
+                  >
+                    Select Floor
+                  </option>
+                  {state?.UsersList?.hosteldetailslist &&
+                    state?.UsersList?.hosteldetailslist.map((item) => (
+                      <>
+                        <option key={item.floor_id} value={item.floor_id}>
+                          {item.floor_name}
+                        </option>
+                      </>
+                    ))}
+                </Form.Select>
+                {floorError && (
+                  <div style={{ color: "red" }}>
+                    <MdError />
+                    {floorError}
+                  </div>
+                )}
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Label
                   style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 11,
                     fontSize: 14,
+                    color: "#222222",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
-                    color: "#222222",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between", // Ensure space between text and icon
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    if (calendarRef.current) {
-                      calendarRef.current.flatpickr.open();
-                    }
                   }}
                 >
-                  {selectedDate
-                    ? selectedDate.toLocaleDateString("en-GB")
-                    : "YYYY/MM/DD"}
-                  <img
-                    src={Calendars}
-                    style={{ height: 24, width: 24, marginLeft: 10 }}
-                    alt="Calendar"
-                  />
-                </label>
-                <Flatpickr
-                  ref={calendarRef}
-                  options={options}
-                  value={selectedDate}
-                  onChange={(selectedDates)=> handleDate(selectedDates)}
-                    
-                  
+                  Room{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  className="border"
+                  disabled={
+                    unitAmount &&
+                    unitAmount?.length === 0 &&
+                    selectedHostel != ""
+                  }
+                  value={Rooms}
+                  onChange={(e) => handleRoom(e)}
                   style={{
-                    padding: 10,
                     fontSize: 16,
-                    width: "100%",
-                    borderRadius: 8,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
                     border: "1px solid #D9D9D9",
-                    position: "absolute",
-                    top: 100,
-                    left: 100,
-                    zIndex: 1000,
-                    display: "none",
+                    height: 50,
+                    borderRadius: 8,
                   }}
-                />
+                >
+                  <option>Select a Room</option>
+                  {state.UsersList?.roomdetails &&
+                    state.UsersList?.roomdetails.map((item) => (
+                      <>
+                        <option key={item.Room_Id} value={item.Room_Id}>
+                          {item.Room_Name}
+                        </option>
+                      </>
+                    ))}
+                </Form.Select>
+                {roomError && (
+                  <div style={{ color: "red" }}>
+                    <MdError />
+                    {roomError}
+                  </div>
+                )}
               </div>
-              {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {dateError}
-                </div>
-              )}
-            </div>
-        
-          </div>
-        </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-center">
-          <Button
-            className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              height: 50,
-              borderRadius: 12,
-              fontSize: 16,
-              fontFamily: "Montserrat, sans-serif",
-              marginTop: 20,
-            }}
-            onClick={handleSaveEbBill}
-          >
-            Add Reading
-          </Button>
-        </Modal.Footer>
-      </Modal>
-                    </TabPanel>
-                    <TabPanel value="2">
-                      <EBRoomReading  />
-                    </TabPanel>
-                   
-                  </TabContext>
 
-    
-    
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Group className="mb-3">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Reading{" "}
+                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  </Form.Label>
+                  <FormControl
+                    type="text"
+                    id="form-controls"
+                    placeholder="6542310"
+                    value={endmeter}
+                    onChange={(e) => handleendmeter(e)}
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                  />
+                </Form.Group>
+                {endMeterError && (
+                  <div style={{ color: "red" }}>
+                    <MdError />
+                    {endMeterError}
+                  </div>
+                )}
+              </div>
+
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222",
+                    fontFamily: "'Gilroy'",
+                    fontWeight: 500,
+                  }}
+                >
+                  Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+
+                <div style={{ position: "relative" }}>
+                  <label
+                    htmlFor="date-input"
+                    style={{
+                      border: "1px solid #D9D9D9",
+                      borderRadius: 8,
+                      padding: 11,
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      color: "#222222",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between", // Ensure space between text and icon
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      if (calendarRef.current) {
+                        calendarRef.current.flatpickr.open();
+                      }
+                    }}
+                  >
+                    {selectedDate
+                      ? selectedDate.toLocaleDateString("en-GB")
+                      : "YYYY/MM/DD"}
+                    <img
+                      src={Calendars}
+                      style={{ height: 24, width: 24, marginLeft: 10 }}
+                      alt="Calendar"
+                    />
+                  </label>
+                  <Flatpickr
+                    ref={calendarRef}
+                    options={options}
+                    value={selectedDate}
+                    onChange={(selectedDates) => handleDate(selectedDates)}
+                    style={{
+                      padding: 10,
+                      fontSize: 16,
+                      width: "100%",
+                      borderRadius: 8,
+                      border: "1px solid #D9D9D9",
+                      position: "absolute",
+                      top: 100,
+                      left: 100,
+                      zIndex: 1000,
+                      display: "none",
+                    }}
+                  />
+                </div>
+                {dateError && (
+                  <div style={{ color: "red" }}>
+                    <MdError />
+                    {dateError}
+                  </div>
+                )}
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer className="d-flex justify-content-center">
+            <Button
+              className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+              style={{
+                backgroundColor: "#1E45E1",
+                fontWeight: 600,
+                height: 50,
+                borderRadius: 12,
+                fontSize: 16,
+                fontFamily: "Montserrat, sans-serif",
+                marginTop: 20,
+              }}
+              onClick={handleSaveEbBill}
+            >
+              Add Reading
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <TabPanel value="2">
+          <EBRoomReading
+            handleAddEbDetails={handleAddEbDetails}
+            setaddEbDetail={setaddEbDetail}
+          />
+        </TabPanel>
+      </TabContext>
     </div>
   );
 }

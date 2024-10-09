@@ -1,15 +1,19 @@
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
 import moment from 'moment';
-import React, { useState, useEffect, useCallback } from "react";
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaPlusCircle } from "react-icons/fa";
 import { InputGroup, Pagination } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
-import Plus from '../Assets/Images/New_images/add-circle.png'
+import Plus from '../Assets/Images/New_images/addplus-circle.svg'
 import imageCompression from 'browser-image-compression';
 import Image from 'react-bootstrap/Image';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_blue.css';
+import Calendars from '../Assets/Images/New_images/calendar.png'
 
 import { MdError } from 'react-icons/md';
 
@@ -53,7 +57,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const [advanceAmountError, setAdvanceAmountError] = useState('');
   const [roomRentError, setRoomRentError] = useState('');
   const [addressError, setAddressError] = useState('');
-  
+  const [dateError, setDateError] = useState('');
 
   const handleFirstName = (e) => {
     const value = e.target.value;
@@ -97,7 +101,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const handlePhone = (e) => {
     setGeneralError('')
     setPhoneError('')
-    dispatch({ type: 'CLEAR_PHONE_ERROR'})
+    dispatch({ type: 'CLEAR_PHONE_ERROR' })
     const value = e.target.value;
     if (/^\d*$/.test(value) && value.length <= 10) {
       setPhone(value);
@@ -122,7 +126,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     const email = e.target.value;
     setEmail(email);
     setGeneralError('')
-dispatch({ type: 'CLEAR_EMAIL_ERROR'})
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' })
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const isValidEmail = emailRegex.test(email);
 
@@ -132,35 +136,51 @@ dispatch({ type: 'CLEAR_EMAIL_ERROR'})
       setEmailError('Invalid Email Id *');
     }
 
-    if(!email){
+    if (!email) {
       setEmailError('');
     }
   };
 
+  const [selectedDate, setSelectedDate] = useState(null);
+  const calendarRef = useRef(null);
 
+  const options = {
+      dateFormat: 'd/m/Y',
+      defaultDate: selectedDate || new Date(),
+      maxDate: 'today',
+  };
+
+  useEffect(() => {
+      if (calendarRef.current) {
+          calendarRef.current.flatpickr.set(options);
+      }
+  }, [selectedDate])
+
+
+
+  const handleDateChange = (selectedDates) => {
+    setSelectedDate(selectedDates[0]);
+    setGeneralError('')
+    setDateError('');
+     
+}
 
 
   const handleAddress = (e) => {
-
     const value = e.target.value;
     setGeneralError('')
-setAddressError('')
+    setAddressError('')
     if (value === "") {
       setAddress(value);
       setErrors(prevErrors => ({ ...prevErrors, last_Name: "Last name cannot be empty or spaces only" }));
       return;
     }
-
-
     if (value.trim() !== "") {
       setAddress(value);
       setErrors(prevErrors => ({ ...prevErrors, last_Name: "" }));
     }
-
-
-
-
   }
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -182,14 +202,14 @@ setAddressError('')
     const Hostel_Id = currentItem.room.Hostel_Id
     const Floor_Id = currentItem.room.Floor_Id
     const Room_Id = currentItem.room.Room_Id
-    const Bed_Id = currentItem.bed.bed_no
+    const Bed_Id = currentItem.bed.id
 
     const filterData_Hostel_Name = state.UsersList.hostelList.filter((view) => {
       return view.id == Hostel_Id
     })
     // console.log("filterData_Hostel_Name[0]?.Name", filterData_Hostel_Name[0]?.Name)
 
-    if (!firstname && !phone && !AdvanceAmount && !RoomRent && !address ) {
+    if (!firstname && !phone && !AdvanceAmount && !RoomRent && !address && !selectedDate) {
       setGeneralError('Please fill in all the required fields.');
       return;
     }
@@ -224,12 +244,20 @@ setAddressError('')
       return;
     }
 
-   
+
 
     if (!address) {
       setAddressError('Please enter Address');
       return;
     }
+
+    if (!selectedDate) {
+      setDateError('Please select a Date');
+      return;
+  }
+
+
+
     if (!AdvanceAmount || isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
       setAdvanceAmountError('Please enter a valid Advance Amount');
       return;
@@ -241,7 +269,22 @@ setAddressError('')
     }
     const mobileNumber = `${countryCode}${phone}`
 
-    if (firstname && phone && AdvanceAmount && RoomRent && address && countryCode) {
+
+    let formattedSelectedDate;
+ 
+
+    if (selectedDate instanceof Date && !isNaN(selectedDate)) {
+        const day = selectedDate.getDate().toString().padStart(2, '0');
+        const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+        const year = selectedDate.getFullYear();
+        formattedSelectedDate = `${year}/${month}/${day}`;
+    } else {
+        setDateError('Invalid date');
+        return;
+    }
+
+
+    if (firstname && phone && AdvanceAmount && RoomRent && address && countryCode && selectedDate) {
       dispatch({
         type: 'ADDUSER',
         payload: {
@@ -258,6 +301,7 @@ setAddressError('')
           HostelName: filterData_Hostel_Name[0]?.Name,
           AdvanceAmount: AdvanceAmount,
           RoomRent: RoomRent,
+          joining_date: formattedSelectedDate,
         }
       })
 
@@ -288,20 +332,6 @@ setAddressError('')
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     // handleInputChange()
@@ -316,8 +346,8 @@ setAddressError('')
     const advanceAmount = e.target.value;
     setAdvanceAmount(advanceAmount)
     setAdvanceAmountError('')
-      setGeneralError('')
-    
+    setGeneralError('')
+
 
   }
 
@@ -333,47 +363,13 @@ setAddressError('')
       <Modal show={show} onHide={handleClosing} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
 
-      
-      
-      
-          <Modal.Body>
-
+         <Modal.Body>
             <div className='d-flex align-items-center'>
-
-
-
               <div>
 
                 <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
-                  <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Add an customer</div>
-                  <button
-                    type="button"
-                    className="close"
-                    aria-label="Close"
-                    onClick={handleClosing}
-                    style={{
-                      position: 'absolute',
-                      right: '10px',
-                      top: '16px',
-                      border: '1px solid black',
-                      background: 'transparent',
-                      cursor: 'pointer',
-                      padding: '0',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: '32px',
-                      height: '32px',
-                      borderRadius: '50%',
-
-                    }}
-                  >
-                    <span aria-hidden="true" style={{
-                      fontSize: '30px',
-                      paddingBottom: "6px"
-
-                    }}>&times;</span>
-                  </button>
+                  <div style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Add an customer</div>
+                                   <CloseCircle size="24" color="#000"  onClick={handleClosing}/>
                 </Modal.Header>
 
                 <div className='d-flex align-items-center'>
@@ -408,24 +404,24 @@ setAddressError('')
                 </div>
 
                 <div className='row mt-4'>
-                {generalError && (
-  <div className="d-flex align-items-center p-1 mb-2">
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {generalError}
-    </label>
-  </div>
-)}
+                  {generalError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        {generalError}
+                      </label>
+                    </div>
+                  )}
 
-{state.UsersList.phoneError && (
-  <div className="d-flex align-items-center p-1 mb-2">
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {state.UsersList.phoneError
-      }
-    </label>
-  </div>
-)}
+                  {state.UsersList.phoneError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        {state.UsersList.phoneError
+                        }
+                      </label>
+                    </div>
+                  )}
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3">
@@ -440,18 +436,18 @@ setAddressError('')
                       />
                     </Form.Group>
                     {firstNameError && (
-  <div className="d-flex align-items-center p-1 mb-2">
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {firstNameError}
-    </label>
-  </div>
-)}
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {firstNameError}
+                        </label>
+                      </div>
+                    )}
 
                   </div>
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Last Name</Form.Label>
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Last Name <span style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
                       <FormControl
                         type="text"
                         id="form-controls"
@@ -546,29 +542,29 @@ setAddressError('')
                     </Form.Group>
 
                     {phoneError && (
-  <div className="d-flex align-items-center p-1 mb-2">
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {phoneError}
-    </label>
-  </div>
-)}
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {phoneError}
+                        </label>
+                      </div>
+                    )}
 
-{countryCodeError && (
-  <div className="d-flex align-items-center p-1 mb-2">
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {countryCodeError}
-    </label>
-  </div>
-)}
+                    {countryCodeError && (
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {countryCodeError}
+                        </label>
+                      </div>
+                    )}
 
                   </div>
 
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email Id</Form.Label>
+                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Email Id <span style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
                       <FormControl
                         type="text"
                         id="form-controls"
@@ -578,32 +574,32 @@ setAddressError('')
 
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: email ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       />
-                      {/* <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p> */}
+                   
                     </Form.Group>
 
-                   
+
 
                     {emailError && (
-  <div className="d-flex align-items-center p-1 mb-2">
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {emailError}
-    </label>
-  </div>
-)}
-{state.UsersList.emailError && (
-  <div className="d-flex align-items-center p-1 mb-2">
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {state.UsersList.emailError}
-    </label>
-  </div>
-)}
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {emailError}
+                        </label>
+                      </div>
+                    )}
+                    {state.UsersList.emailError && (
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {state.UsersList.emailError}
+                        </label>
+                      </div>
+                    )}
 
                   </div>
 
 
-                  <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Address  <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <FormControl
@@ -616,19 +612,84 @@ setAddressError('')
                       />
                     </Form.Group>
 
-                   
+
                     {addressError && (
-  <div className="d-flex align-items-center p-1 mb-2">
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {addressError}
-    </label>
-  </div>
-)}
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {addressError}
+                        </label>
+                      </div>
+                    )}
 
 
 
                   </div>
+
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Joining_Date<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+
+                                    <div style={{ position: 'relative' }}>
+                                        <label
+                                            htmlFor="date-input"
+                                            style={{
+                                                border: "1px solid #D9D9D9",
+                                                borderRadius: 8,
+                                                padding: 12,
+                                                fontSize: 14,
+                                                fontFamily: "Gilroy",
+                                                fontWeight: selectedDate ? 600 : 500,
+                                                color: "#222222",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                            }}
+                                            onClick={() => {
+                                                if (calendarRef.current) {
+                                                    calendarRef.current.flatpickr.open();
+                                                }
+                                            }}
+                                        >
+                                            {selectedDate instanceof Date && !isNaN(selectedDate) ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
+                                            <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
+                                        </label>
+                                        <Flatpickr
+                                            ref={calendarRef}
+                                            options={options}
+                                            value={selectedDate}
+                                            onChange={handleDateChange}
+                                            className='d-none d-sm-none d-md-none'
+                                            style={{
+                                                padding: 10,
+                                                fontSize: 16,
+                                                width: "100%",
+                                                borderRadius: 8,
+                                                border: "1px solid #D9D9D9",
+                                                position: 'absolute',
+                                                top: 100,
+                                                left: 100,
+                                                zIndex: 1000,
+                                                display: "none"
+                                            }}
+                                        />
+                                    </div>
+                                </Form.Group>
+                            
+                               
+                            
+                                { dateError && (
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          { dateError}
+                        </label>
+                      </div>
+                    )}
+                            
+                            </div>
+
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="">
                       <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
@@ -641,16 +702,16 @@ setAddressError('')
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: AdvanceAmount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       />
                     </Form.Group>
-                    
+
 
                     {advanceAmountError && (
-  <div className="d-flex align-items-center p-1 mb-2">
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {advanceAmountError}
-    </label>
-  </div>
-)}
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {advanceAmountError}
+                        </label>
+                      </div>
+                    )}
 
 
                   </div>
@@ -666,20 +727,20 @@ setAddressError('')
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: RoomRent ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                       />
                     </Form.Group>
-                                        {roomRentError && (
-  <div className="d-flex align-items-center p-1 mb-2">
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {roomRentError}
-    </label>
-  </div>
-)}
+                    {roomRentError && (
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {roomRentError}
+                        </label>
+                      </div>
+                    )}
 
                   </div>
                 </div>
 
 
-                <Button onClick={handleAddCustomerDetails} className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat", marginTop: 20 }} >
+                <Button onClick={handleAddCustomerDetails} className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", marginTop: 20, padding: 12 }} >
                   Add an customer
                 </Button>
               </div>
