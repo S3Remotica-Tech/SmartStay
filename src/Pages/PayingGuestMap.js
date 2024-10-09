@@ -12,7 +12,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
-import { Edit, Trash } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
 
 
 
@@ -185,7 +185,7 @@ console.log("SaveHostel",SaveHostel)
 
 
 
-        <Card className="h-100 animated-text" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease"  }}
+        <Card className="h-100 animated-text ms-0" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease"  }}
         
          onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
@@ -344,8 +344,11 @@ console.log("SaveHostel",SaveHostel)
 
         {show &&
             <Modal show={show} onHide={handleClose} centered backdrop="static">
-                <Modal.Header closeButton>
-                    <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete PG ?</Modal.Title>
+                <Modal.Header style={{display:"flex", justifyContent:"center"}}>
+                    <Modal.Title style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Delete paying guest?</Modal.Title>
+                
+                
+                    {/* <CloseCircle size="24" color="#000"  onClick={handleClose}/> */}
                 </Modal.Header>
 
                 {state.PgList?.deletePgError && (
@@ -357,16 +360,16 @@ console.log("SaveHostel",SaveHostel)
                     </div>
                 )}
 
-                <Modal.Body style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>
-                    Are you sure you want to delete the Paying Guest?
+                <Modal.Body style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", textAlign:"center" }}>
+                Are you sure you want to delete this paying guest?
                 </Modal.Body>
 
 
                 <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-                    <Button onClick={handleClose} style={{ width: 160, height: 52, borderRadius: 8, padding: "16px, 45px, 16px, 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                    <Button onClick={handleClose} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
                         Cancel
                     </Button>
-                    <Button style={{ width: 160, height: 52, borderRadius: 8, padding: "16px, 45px, 16px, 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
+                    <Button style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
                         onClick={() => handleDeletePG(props.hostel)}
                     >
                         Delete

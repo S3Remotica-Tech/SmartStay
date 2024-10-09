@@ -13,7 +13,7 @@ import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
 import AssetListTable from './AssetListTable'
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 import Spinner from 'react-bootstrap/Spinner';
 
 function Asset() {
@@ -232,7 +232,7 @@ function Asset() {
 
 
 
-  const handleDropDown = (value)=>{
+  const handleDropDown = (value) => {
     const searchItem = value;
     setSearchQuery(searchItem);
     if (searchItem != '') {
@@ -277,21 +277,21 @@ function Asset() {
 
   useEffect(() => {
     const appearOptions = {
-      threshold : 0.5
+      threshold: 0.5
     };
-    const faders = document.querySelectorAll('.fade-in'); 
-    const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
-      entries.forEach(entry =>{
-        if(!entry.isIntersecting){
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
           return;
         }
-        else{
+        else {
           entry.target.classList.add('appear');
           appearOnScro1l.unobserve(entry.target);
         }
       })
     }, appearOptions)
-    faders.forEach(fader =>{
+    faders.forEach(fader => {
       appearOnScro1l.observe(fader);
     })
   });
@@ -305,16 +305,18 @@ function Asset() {
         {/* <div className='m-4'> */}
 
 
-        
 
-          <div className="d-flex justify-content-between align-items-center  ms-3 mb-3">
+        <div className='container'>
+
+
+          <div className="d-flex justify-content-between align-items-center mb-3">
             <div>
               <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Assets</label>
             </div>
 
             <div className="d-flex justify-content-between align-items-center">
 
-            {
+              {
                 !showFilterData &&
 
                 <div className='me-3' onClick={handleShowSearch}>
@@ -326,16 +328,17 @@ function Asset() {
               }
               {
                 showFilterData &&
-                <div className='me-3 'style={{position:'relative'}}>
+                <div className='me-3 ' style={{ position: 'relative' }}>
                   <InputGroup>
 
                     <FormControl size="lg"
                       value={searchQuery}
                       onChange={handleInputChange}
 
-                      style={{width:235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500,color: "#222",
+                      style={{
+                        width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
                         //  '::placeholder': { color: "#222", fontWeight: 500 } 
-                        }}
+                      }}
                       placeholder="Search..."
                     />
                     <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
@@ -346,53 +349,53 @@ function Asset() {
 
 
                   {
-            getData.length > 0 && searchQuery !== '' && showDropDown && (
-            
-                          <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                            <ul className='show-scroll' style={{
-                              // position: 'absolute',
-                              // top: '50px',
-                              // left: 0,
-                              width: 260,
-                              backgroundColor: '#fff',
-                              // border: '1px solid #D9D9D9',
-                              borderRadius: '4px',
-                              maxHeight: 174,
-                              minHeight: 100,
-                              overflowY: 'auto',
-                              padding: '5px 10px',
-                              margin: '0',
-                              listStyleType: 'none',
+                    getData.length > 0 && searchQuery !== '' && showDropDown && (
 
-                              borderRadius: 8,
-                              boxSizing: 'border-box'
-                            }}>
-                              {
-                                getData.map((user, index) => (
-                                  <li
-                                    key={index}
-                                    onClick={() => {
-                                      handleDropDown(user.asset_name);
+                      <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                        <ul className='show-scroll' style={{
+                          // position: 'absolute',
+                          // top: '50px',
+                          // left: 0,
+                          width: 260,
+                          backgroundColor: '#fff',
+                          // border: '1px solid #D9D9D9',
+                          borderRadius: '4px',
+                          maxHeight: 174,
+                          minHeight: 100,
+                          overflowY: 'auto',
+                          padding: '5px 10px',
+                          margin: '0',
+                          listStyleType: 'none',
 
-                                    }}
-                                    style={{
-                                      padding: '10px',
-                                      cursor: 'pointer',
-                                      borderBottom: '1px solid #dcdcdc',
-                                      fontSize: '14px',
-                                      fontFamily: 'Gilroy',
-                                      fontWeight: 500,
+                          borderRadius: 8,
+                          boxSizing: 'border-box'
+                        }}>
+                          {
+                            getData.map((user, index) => (
+                              <li
+                                key={index}
+                                onClick={() => {
+                                  handleDropDown(user.asset_name);
 
-                                    }}
-                                  >
-                                    {user.asset_name}
-                                  </li>
-                                ))
-                              }
-                            </ul>
-                          </div>
-                        )
-          }
+                                }}
+                                style={{
+                                  padding: '10px',
+                                  cursor: 'pointer',
+                                  borderBottom: '1px solid #dcdcdc',
+                                  fontSize: '14px',
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: 500,
+
+                                }}
+                              >
+                                {user.asset_name}
+                              </li>
+                            ))
+                          }
+                        </ul>
+                      </div>
+                    )
+                  }
 
 
 
@@ -421,16 +424,16 @@ function Asset() {
 
 
 
-          
 
-                <div className='me-3' onClick={handleFilterByPrice}>
+
+              <div className='me-3' onClick={handleFilterByPrice}>
                 <Sort
                   Size="24"
                   color="#222"
-                   variant="Outline"
+                  variant="Outline"
                 />
               </div>
-       
+
               {
                 showFilter &&
 
@@ -448,178 +451,176 @@ function Asset() {
                 </div>
               }
               <div>
-                <Button onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",  fontWeight: 500, borderRadius: 12,  padding: "16px 24px" }}> + Add an asset</Button>
+                <Button onClick={handleShow} style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 500, borderRadius: 12, padding: "16px 24px" }}> + Add an asset</Button>
               </div>
             </div>
           </div>
+        </div>
 
-
-          {/* <div className='table-responsive' 
+        {/* <div className='table-responsive' 
           style={{ border: "1px solid #DCDCDC", borderRadius: "24px", overflow: "visible", height:"auto"}}
            >  */}
 
 
-{searchQuery && (
-        <div  className='container mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
-          {getData.length > 0 ? (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-              {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
-            </span>
-          ) : (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
-          )}
-        </div>
-      )}
+        {searchQuery && (
+          <div className='container mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+            {getData.length > 0 ? (
+              <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+                {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+              </span>
+            ) : (
+              <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+            )}
+          </div>
+        )}
 
 
 
 
 
 
-{loading &&
-<div className='mt-2 mb-2 d-flex justify-content-center w-100'>
-             
-          
-
-                <div className="d-flex justify-content-center align-items-start gap-3" style={{ height: "100%" }}><Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} /> <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>Loading.....</div></div>
-
-            
-            </div>
-  }
+        {loading &&
+          <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+            <div className="d-flex justify-content-center align-items-start gap-3" style={{ height: "100%" }}><Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} /> <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>Loading.....</div></div>
+          </div>
+        }
 
 
 
 
 
-{currentItems && currentItems.length > 0 && (
-          <Table
-            responsive="md"
-            className='Table_Design'
-            style={{
-              height: "auto",
-              tableLayout: "auto",
-              overflow: "visible",
-              borderRadius: "24px",
-              border: "1px solid #DCDCDC"
-            }}
-          // className="Table_Design w-100" style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}}
-          >
-           
-            <thead style={{ borderRadius: "24px", fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
-              <tr>
-                {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", borderTopLeftRadius: 24, }}>
+        {currentItems && currentItems.length > 0 && (
+          <div className='container'>
+
+            <Table
+              responsive="md"
+              className='Table_Design'
+              style={{
+                height: "auto",
+                tableLayout: "auto",
+                overflow: "visible",
+                borderRadius: "24px",
+                border: "1px solid #DCDCDC"
+              }}
+            // className="Table_Design w-100" style={{ border: "1px solid #DCDCDC", borderRadius: "24px"}}
+            >
+
+              <thead style={{ borderRadius: "24px", fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>
+                <tr>
+                  {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center", borderTopLeftRadius: 24, }}>
                   <input type='checkbox' style={customCheckboxStyle} />
                 </th> */}
 
 
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 , borderTopLeftRadius: 24,paddingLeft:20}}>Product Name</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Serial Number</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Brand</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600, borderTopLeftRadius: 24, paddingLeft: 20 }}>Product Name</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Serial Number</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Brand</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th>
 
-                {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Count</th> */}
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Price</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Purchase Date</th>
-                {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Price</th> */}
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Assigned</th>
-                {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Floor Name</th>
+                  {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Count</th> */}
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Price</th>
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Purchase Date</th>
+                  {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Price</th> */}
+                  <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Assigned</th>
+                  {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Floor Name</th>
                 <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Room</th> */}
 
 
 
-                <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
-              </tr>
-            </thead>
-            <tbody>
-  {
-    loading ? (
-      <>
-        <tr>
-          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-          {/* <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                  <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  loading ? (
+                    <>
+                      <tr>
+                        <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                        <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                        <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                        <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                        <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                        <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                        <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                        {/* <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
           <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
           <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td> */}
-        </tr>
-      </>
-    ) 
-    
-    
-    
-    : (
-      currentItems && currentItems.length > 0 && (
-        <>
-          {currentItems.map((item) => (
-            <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} />
-          ))}
-        </>
-      ) 
-      
-      // : (
-      //   <tr style={{border:"none"}}>
-      //   <td colSpan="10" style={{ textAlign: "center", padding: "20px", color: "red",border:"none" }}>
-      //     <h5 style={{ fontSize: 14 }}>No Asset Found</h5>
-      //   </td>
-      // </tr>
-        
-      // )
-    )
-  }
-</tbody>
-
-           
-          </Table>
-
-)}
-{
-  !loading && currentItems && currentItems.length === 0 &&
-
- <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
-
- <div>
-   <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-   <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
-   <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
-   <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12,  padding: "20px 40px", fontFamily: "Gilroy" }}
-   onClick={handleShow}
-   > + Add an asset</Button>
-   </div>
- </div>
- <div>
-
- </div>
-</div>
+                      </tr>
+                    </>
+                  )
 
 
-}
-        
+
+                    : (
+                      currentItems && currentItems.length > 0 && (
+                        <>
+                          {currentItems.map((item) => (
+                            <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} />
+                          ))}
+                        </>
+                      )
+
+                      // : (
+                      //   <tr style={{border:"none"}}>
+                      //   <td colSpan="10" style={{ textAlign: "center", padding: "20px", color: "red",border:"none" }}>
+                      //     <h5 style={{ fontSize: 14 }}>No Asset Found</h5>
+                      //   </td>
+                      // </tr>
+
+                      // )
+                    )
+                }
+              </tbody>
 
 
+            </Table>
+          </div>
+
+        )}
+        {
+          !loading && currentItems && currentItems.length === 0 &&
+
+          <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+
+            <div>
+              <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+              <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
+              <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
+              <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
+                onClick={handleShow}
+              > + Add an asset</Button>
+              </div>
+            </div>
+            <div>
+
+            </div>
+          </div>
+
+
+        }
 
 
 
 
-          {/* </div>  */}
-          {/*  Pagination code */}
-          {currentItems.length > 0 &&
-            <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-              <Pagination.Prev style={{ visibility: "visible" }}
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-              />
-              {renderPagination()}
-              <Pagination.Next style={{ visibility: "visible" }}
-                onClick={() => paginate(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              />
-            </Pagination>
 
-          }
+
+
+        {/* </div>  */}
+        {/*  Pagination code */}
+        {currentItems.length > 0 &&
+          <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+            <Pagination.Prev style={{ visibility: "visible" }}
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+            {renderPagination()}
+            <Pagination.Next style={{ visibility: "visible" }}
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            />
+          </Pagination>
+
+        }
 
 
         {/* </div> */}

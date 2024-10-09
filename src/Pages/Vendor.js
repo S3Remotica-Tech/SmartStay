@@ -75,15 +75,9 @@ const [searchQuery, setSearchQuery] = useState('')
   useEffect(() => {
     if (state.ComplianceList.addVendorSuccessStatusCode === 200 || state.ComplianceList.deleteVendorStatusCode === 200) {
       setShow(false);
-
+      setShowDeleteVendor(false)
       setTimeout(() => {
         dispatch({ type: 'VENDORLIST' })
-
-
-
-
-
-
         console.log("get vendor list executed")
       }, 100)
       setTimeout(() => {
@@ -257,64 +251,82 @@ const [searchQuery, setSearchQuery] = useState('')
 
   //   }
 
-
+  const [showDeleteVendor, setShowDeleteVendor] = useState(false)
+  const [ showDeleteVendorDetails, setShowDeleteVendorDetails] = useState('')
 
   const handleDeleteVendor = (item) => {
     console.log("delete item", item);
+    setShowDeleteVendor(true)
+    setShowDeleteVendorDetails(item)
+    // if (item) {
+    //   toast(
+    //     ({ closeToast }) => (
+    //       <div >
+    //         <p style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Do you want to delete the Vendor?</p>
+    //         <div className='w-100 d-flex justify-content-center'>
+    //           <button
+    //             style={{ marginRight: '10px', backgroundColor: '#1E45E1', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer', fontSize: 14, color: "#fff", fontFamily: "Gilroy", fontWeight: 500 }}
+    //             onClick={() => {
 
-    if (item) {
-      toast(
-        ({ closeToast }) => (
-          <div >
-            <p style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Do you want to delete the Vendor?</p>
-            <div className='w-100 d-flex justify-content-center'>
-              <button
-                style={{ marginRight: '10px', backgroundColor: '#1E45E1', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer', fontSize: 14, color: "#fff", fontFamily: "Gilroy", fontWeight: 500 }}
-                onClick={() => {
+    //               dispatch({
+    //                 type: 'DELETEVENDOR',
+    //                 payload: {
+    //                   id: item.id,
+    //                   Status: 0,
+    //                 },
+    //               });
 
-                  dispatch({
-                    type: 'DELETEVENDOR',
-                    payload: {
-                      id: item.id,
-                      Status: 0,
-                    },
-                  });
-
-                  setCurrentPage(1);
-                  closeToast();
-                }}
-              >
-                Yes
-              </button>
-              {/* <button
-              style={{ backgroundColor: '#5bc0de', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer' }}
-              onClick={() => {
-                // Cancel deletion
-                // toast.info("Vendor deletion canceled", {
-                //   position: 'top-center',
-                //   autoClose: 1000,
-                // });
-                closeToast(); 
-              }}
-            >
-              Cancel
-            </button> */}
-            </div>
-          </div>
-        ),
-        {
-          position: 'top-center',
-          autoClose: false,
-          closeOnClick: false,
-          hideProgressBar: true,
-          draggable: false,
-          // style:toastStyle
-        }
-      );
-    }
+    //               setCurrentPage(1);
+    //               closeToast();
+    //             }}
+    //           >
+    //             Yes
+    //           </button>
+    //           {/* <button
+    //           style={{ backgroundColor: '#5bc0de', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer' }}
+    //           onClick={() => {
+    //             // Cancel deletion
+    //             // toast.info("Vendor deletion canceled", {
+    //             //   position: 'top-center',
+    //             //   autoClose: 1000,
+    //             // });
+    //             closeToast(); 
+    //           }}
+    //         >
+    //           Cancel
+    //         </button> */}
+    //         </div>
+    //       </div>
+    //     ),
+    //     {
+    //       position: 'top-center',
+    //       autoClose: false,
+    //       closeOnClick: false,
+    //       hideProgressBar: true,
+    //       draggable: false,
+    //       // style:toastStyle
+    //     }
+    //   );
+    // }
   };
 
-
+  const handleCloseForDeleteVendor = () =>{
+    setShowDeleteVendor(false)
+  }
+  
+  
+  const ConfirmDeleteVendor = () =>{
+  if(showDeleteVendorDetails){
+    dispatch({
+      type: 'DELETEVENDOR',
+      payload: {
+        id: showDeleteVendorDetails.id,
+        Status: 0,
+      },
+    });
+    setCurrentPage(1);
+  }
+  }
 
   const stateAccount = useSelector(state => state.createAccount)
 
@@ -360,8 +372,10 @@ const [searchQuery, setSearchQuery] = useState('')
 
     <div style={{ width: "100%", fontFamily: "Gilroy" }} className='container'>
      
+<div className='container'>
 
-      <div className="d-flex justify-content-between align-items-center ms-3 mb-3">
+
+      <div className=" d-flex justify-content-between align-items-center  mb-3">
         <div>
           <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendors</label>
         </div>
@@ -507,7 +521,7 @@ const [searchQuery, setSearchQuery] = useState('')
         </div>
       </div>
 
-
+      </div>
 
       {searchQuery && (
         <div  className='container mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
@@ -526,7 +540,9 @@ const [searchQuery, setSearchQuery] = useState('')
       <div className='row row-gap-3'>
         {currentItems && currentItems.map((vendor) => (
           <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-            <VendorListMap vendor={vendor} onEditVendor={handleEditVendor} onDeleteVendor={handleDeleteVendor} />
+            <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
+             onDeleteVendor={handleDeleteVendor}
+              />
           </div>
         ))
         }
@@ -597,7 +613,31 @@ const [searchQuery, setSearchQuery] = useState('')
 
 
 
+<Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor} centered backdrop="static">
+<Modal.Header style={{display:"flex", justifyContent:"center"}} >
+  <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy",textAlign:"center", }}>Delete Vendor?</Modal.Title>
+  {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
+</Modal.Header>
 
+
+
+
+  <Modal.Body style={{fontSize:14,fontWeight:500, fontFamily:"Gilroy", textAlign:"center"}}>
+  Are you sure you want to delete this vendor?
+            </Modal.Body>
+
+
+<Modal.Footer className='d-flex justify-content-center' style={{border:"none"}}>
+<Button  onClick={handleCloseForDeleteVendor} style={{borderRadius:8, padding:"16px 45px",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"#FFF",color:"rgba(36, 0, 255, 1)",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
+        Cancel
+      </Button>
+     
+      <Button style={{borderRadius:8, padding:"16px 45px ",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} onClick={ConfirmDeleteVendor}>
+        Delete
+      </Button>
+
+</Modal.Footer>
+</Modal>
 
     </div>
 

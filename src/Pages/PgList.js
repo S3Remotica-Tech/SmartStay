@@ -1042,7 +1042,7 @@ const handleDropDown = (value)=>{
 
         {hidePgList && <>
         <div className='container'>
-          <div className="d-flex justify-content-between align-items-center ms-4 mb-3">
+          <div className="d-flex justify-content-between align-items-center mb-3">
 
             <div>
               <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Paying Guest</label>

@@ -81,22 +81,33 @@ function* handleAddVendor(action) {
  console.log("response", response)
 
  var toastStyle = {
-      backgroundColor: 'green', 
-   color: 'white', 
-   width:"100%"
+   backgroundColor: "#E6F6E6",
+   color: "black",
+   width: "100%",
+   borderRadius: "60px",
+   height: "20px",
+   fontFamily: "Gilroy",
+   fontWeight: 600,
+   fontSize: 14,
+   textAlign: "start",
+   display: "flex",
+   alignItems: "center", 
+   padding: "10px",
+  
  };
 
    if (response.statusCode === 200 || response.status === 200){
       yield put ({type : 'ADD_VENDOR' , payload:{response:response.data, statusCode:response.statusCode || response.status}})
       toast.success(`${response.message}`, {
-         position: 'top-center',
-         autoClose: 2000, 
-         hideProgressBar: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle
+         position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
        });
    }
    else if(response.statusCode === 202 || response.status === 202) {
@@ -126,22 +137,33 @@ function* handleDeleteVendor(action) {
  console.log(" response", response)
 
  var toastStyle = {
-   backgroundColor: 'green', 
-color: 'white', 
-width:"100%"
-};
+   backgroundColor: "#E6F6E6",
+   color: "black",
+   width: "100%",
+   borderRadius: "60px",
+   height: "20px",
+   fontFamily: "Gilroy",
+   fontWeight: 600,
+   fontSize: 14,
+   textAlign: "start",
+   display: "flex",
+   alignItems: "center", 
+   padding: "10px",
+  
+ };
 
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'DELETE_VENDOR' , payload:{response:response.data, statusCode:response.status || response.statusCode}})
       toast.success('Vendor has been successfully deleted!', {
-         position: 'top-center',
-         autoClose: 2000, 
-         hideProgressBar: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle
+         position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
        });
    }
    else {

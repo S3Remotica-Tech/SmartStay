@@ -232,12 +232,12 @@ const handleCloseForDeleteAsset = () =>{
     <td style={{ border: "none",textAlign: 'center', verticalAlign: 'middle', fontSize: 14, fontWeight: 500, color: "#000000" ,fontFamily: "Gilroy"}}>{props.item.serial_number}</td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' ,border: "none"}}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500,width:120,  padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.brand_name ? props.item.brand_name : "N/A" }</div>
+        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500,width:120,  padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.brand_name ? props.item.brand_name : "-" }</div>
       </div>
     </td>
     <td style={{ textAlign: 'center', verticalAlign: 'middle' ,border: "none"}}>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: 120, padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center",fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "N/A"}</div>
+        <div style={{ backgroundColor: "#FFEFCF", fontWeight: 500, width: 120, padding: 8, borderRadius: 60, fontSize: 14, display: "flex", justifyContent: "center",fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
       </div>
     </td>
     {/* <td style={{ border: "none" , textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}>{props.item.product_count}</td> */}
@@ -318,14 +318,15 @@ style={{cursor:"pointer",backgroundColor: "#F9F9F9", position: "absolute",
 
 <div>  
         <Modal show={showDeleteAsset} onHide={handleCloseForDeleteAsset} centered backdrop="static">
-    <Modal.Header closeButton>
+    <Modal.Header style={{display:"flex", justifyContent:"center"}}>
       <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>Delete asset?</Modal.Title>
+      {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteAsset}/> */}
     </Modal.Header>
 
    
 
     
-      <Modal.Body style={{fontSize:14,fontWeight:500, fontFamily:"Gilroy"}}>
+      <Modal.Body style={{fontSize:14,fontWeight:500, fontFamily:"Gilroy", textAlign:"center"}}>
             Are you sure you want to delete this asset?
                 </Modal.Body>
 
@@ -335,7 +336,7 @@ style={{cursor:"pointer",backgroundColor: "#F9F9F9", position: "absolute",
             Cancel
           </Button>
          
-          <Button style={{borderRadius:8, padding:"16px 45px ",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} onClick={handleDelete}>
+          <Button style={{borderRadius:8, padding:"16px 45px" ,border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} onClick={handleDelete}>
             Delete
           </Button>
 

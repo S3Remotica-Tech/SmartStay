@@ -10,6 +10,8 @@ import Plus from '../Assets/Images/New_images/add-circle.png'
 import imageCompression from 'browser-image-compression';
 import Image from 'react-bootstrap/Image';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+
 
 import { MdError } from 'react-icons/md';
 
@@ -345,7 +347,7 @@ setAddressError('')
               <div>
 
                 <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
-                  <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Add an customer</div>
+                  <div style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>Add an customer</div>
                   <button
                     type="button"
                     className="close"
@@ -374,6 +376,7 @@ setAddressError('')
 
                     }}>&times;</span>
                   </button>
+                  {/* <CloseCircle size="24" color="#000"  onClick={handleClose}/> */}
                 </Modal.Header>
 
                 <div className='d-flex align-items-center'>
@@ -679,7 +682,7 @@ setAddressError('')
                 </div>
 
 
-                <Button onClick={handleAddCustomerDetails} className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat", marginTop: 20 }} >
+                <Button onClick={handleAddCustomerDetails} className=' col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", marginTop: 20, padding:16  }} >
                   Add an customer
                 </Button>
               </div>

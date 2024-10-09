@@ -130,7 +130,8 @@ function ParticularHostelDetails(props) {
 
   const handleShowDots = (roomId) => {
     setShowDots(!showDots)
-    setActiveRoomId(activeRoomId === roomId ? null : roomId);
+    setActiveRoomId(activeRoomId == roomId ? null : roomId);
+    console.log("roomId",roomId,activeRoomId)
   }
 
   useEffect(() => {
@@ -468,7 +469,7 @@ useEffect(() => {
                   </div>
                   <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
                     <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                    {activeRoomId === room.Room_Id && (
+                    {activeRoomId == room.Room_Id && (
                       <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 30, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                         <div>
                           <div className='d-flex gap-2 mb-2 align-items-center'
