@@ -57,7 +57,7 @@ import BillPdfModal from '../Pages/BillPdfModal'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
-
+import RecurringBill from '../Pages/RecurringBills';
 
 const InvoicePage = () => {
 
@@ -79,6 +79,9 @@ const InvoicePage = () => {
   useEffect(() => {
     // setLoading(true)
     dispatch({ type: 'MANUAL-INVOICES-LIST' })
+    console.log("ManualInvoices",state.InvoiceList.ManualInvoices);
+    
+    setBills(state.InvoiceList.ManualInvoices);
   }, [])
 
 
@@ -152,11 +155,20 @@ const InvoicePage = () => {
   const [amounterrormsg, setAmountErrmsg] = useState('');
   const [dateerrmsg, setDateErrmsg] = useState('')
   const [totalErrormsg, setTotalErrmsg] = useState('')
-  const [showmanualinvoice, setShowManualInvoice] = useState(true);
+  const [showmanualinvoice, setShowManualInvoice] = useState(false);
+  const [showRecurringBillForm, setShowRecurringBillForm] = useState(false)
+  const [showAllBill, setShowAllBill] = useState(true)
+
   const handleManualShow = () => {
-    setShowManualInvoice(false)
+    setShowAllBill(false)
+    setShowManualInvoice(true)
   }
 
+  const handleRecurrBillShow = () => {
+    setShowAllBill(false)
+    setShowRecurringBillForm(true)
+
+  }
   
 
   const [file, setFile] = useState(null)
@@ -912,78 +924,8 @@ const InvoicePage = () => {
   // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  const invoicerowsPerPage = 15;
-  const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
-  const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
+ 
 
-  const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
-  const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
-  const currentRowinvoice = data?.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice);
-
-
-
-
-  const handleInvoicePageChange = (InvoicepageNumber) => {
-    setinvoicecurrentPage(InvoicepageNumber);
-  };
-
-  const totalPagesinvoice = Math.ceil(data?.length / invoicerowsPerPage);
-  console.log("invoicedetails", data);
-
-
-  const renderPageNumbersInvoice = () => {
-    const pageNumbersInvoice = [];
-    let startPageInvoice = invoicecurrentPage - 1;
-    let endPageInvoice = invoicecurrentPage + 1;
-
-    if (invoicecurrentPage === 1) {
-      startPageInvoice = 1;
-      endPageInvoice = 3;
-    }
-
-    if (invoicecurrentPage === totalPagesinvoice) {
-      startPageInvoice = totalPagesinvoice - 2;
-      endPageInvoice = totalPagesinvoice;
-    }
-
-    if (invoicecurrentPage === 2) {
-      startPageInvoice = 1;
-      endPageInvoice = 3;
-    }
-
-    if (invoicecurrentPage === totalPagesinvoice - 1) {
-      startPageInvoice = totalPagesinvoice - 2;
-      endPageInvoice = totalPagesinvoice;
-    }
-
-    for (let i = startPageInvoice; i <= endPageInvoice; i++) {
-      if (i > 0 && i <= totalPagesinvoice) {
-        pageNumbersInvoice.push(
-          <li key={i} style={{ margin: '0 5px' }}>
-            <button
-              style={{
-                padding: '5px 10px',
-                textDecoration: 'none',
-                color: i === invoicecurrentPage ? '#007bff' : '#000000',
-                cursor: 'pointer',
-                borderRadius: '5px',
-                display: 'inline-block',
-                minWidth: '30px',
-                textAlign: 'center',
-                backgroundColor: i === invoicecurrentPage ? 'transparent' : 'transparent',
-                border: i === invoicecurrentPage ? '1px solid #ddd' : 'none'
-              }}
-              onClick={() => handleInvoicePageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
-
-    return pageNumbersInvoice;
-  };
   useEffect(() => {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details)
   }, [state.UsersList.customerdetails.invoice_details])
@@ -1105,7 +1047,8 @@ const InvoicePage = () => {
 
   const [invoicetotalamounts,setInvoiceTotalAmount] = useState([])
   const [billamounts, setBillAmounts] = useState([])
-
+  console.log("billamounts",billamounts);
+  console.log("invoicetotalamounts",invoicetotalamounts);
 
   
 const [ebamount, setEBAmount] = useState('')
@@ -1117,8 +1060,6 @@ const [totalAmount , setTotalAmount] = useState('')
 
 const [selectedData, setSelectedData] = useState([]);
 console.log("selectedData",selectedData)
-const [availableOptions, setAvailableOptions] = useState([]);
-console.log("availableOptions",availableOptions)
 
   const startRef = useRef(null);
   const endRef = useRef(null);
@@ -1128,8 +1069,32 @@ console.log("availableOptions",availableOptions)
 
   const [bills , setBills] = useState([])
   console.log("bills",bills);
+  const [availableOptions, setAvailableOptions] = useState(invoicetotalamounts);
   
 
+  const [newRows, setNewRows] = useState([]);
+
+const handleAddColumn = () => {
+  const newRow = {
+    description: '',
+    used_unit: '',
+    per_unit_amount: '',
+    total_amount: '',
+    amount: ''
+  };
+  setNewRows([...newRows, newRow]);
+};
+
+console.log("newRows",newRows);
+
+
+    const [customererrmsg , setCustomerErrmsg] = useState('')
+    const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
+    const [startdateerrmsg , setStartdateErrmsg] = useState('')
+    const [enddateerrmsg , setEnddateErrmsg] = useState('')
+    const [invoicedateerrmsg , setInvoiceDateErrmsg] = useState('')
+    const [invoiceduedateerrmsg , setInvoiceDueDateErrmsg] = useState('')
+    const [allfielderrmsg , setAllFieldErrmsg] = useState('')
   // useEffect(()=> {
   //  dispatch({type:'MANUAL-INVOICES-LIST'})
   //  },[])
@@ -1149,7 +1114,8 @@ console.log("availableOptions",availableOptions)
   
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200 && !loading) {
-      // dispatch({ type: 'MANUAL-INVOICES-LIST' });
+      dispatch({ type: 'MANUAL-INVOICES-LIST' });
+      setBills(state.InvoiceList.ManualInvoices);
       setLoading(true); 
   
       setTimeout(() => {
@@ -1163,7 +1129,6 @@ console.log("availableOptions",availableOptions)
 
   useEffect(() => {
     console.log("invoice added executed");
-    //  dispatch({ type: 'INVOICELIST' })
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
      
       dispatch({type:'MANUAL-INVOICES-LIST'})
@@ -1216,22 +1181,28 @@ console.log("availableOptions",availableOptions)
 
 
   const handleCustomerName = (e) => {
-    console.log("selectedcustomer",e.target.value);
-    
     setCustomerName(e.target.value)
+    if(!e.target.value){
+      setCustomerErrmsg("Please Select Name")
+    }
+    else{
+      setCustomerErrmsg('')
+    }
     setStartDate('');
     setEndDate('');
     setSelectedData('');
-    setAvailableOptions('');
+    // setAvailableOptions('');
     setBillAmounts('')
     setTotalAmount('')
   }
 
-  console.log("state.UsersList.Users",state.UsersList.Users);
+
 
 
   const handleBackBill = () => {
-    setShowManualInvoice(true)
+    setShowManualInvoice(false)
+    setShowRecurringBillForm(false)
+setShowAllBill(true)
     setCustomerName('');
     setInvoiceNumber('');
     setStartDate('');
@@ -1248,7 +1219,6 @@ console.log("availableOptions",availableOptions)
 
   useEffect(() => {
     if (customername) {
-      console.log("Dispatch called for customer:", customername);
       dispatch({ type: 'MANUAL-INVOICE-NUMBER-GET', payload: { user_id: customername } });
     }
   }, [customername]); 
@@ -1256,8 +1226,7 @@ console.log("availableOptions",availableOptions)
  
   useEffect(() => {
     if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
-      console.log("Invoice number received:", state.InvoiceList.ManualInvoiceNUmber.invoice_number);
-      
+
       setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
       setTimeout(() => {
         dispatch({ type: 'REMOVE_MANUAL_INVOICE_NUMBER_GET' });
@@ -1285,7 +1254,6 @@ console.log("availableOptions",availableOptions)
 
       if (state.InvoiceList.manualInvoiceStatusCode === 200) {
         const totalArray = state?.InvoiceList?.ManualInvoice?.total_array;
-        console.log("totalArray",totalArray);
         
         if (totalArray) {
           setInvoiceTotalAmount(totalArray); 
@@ -1310,35 +1278,62 @@ console.log("availableOptions",availableOptions)
 
 
   const handlestartDate = (selectedDates) => {
-   const date = selectedDates[0];
-    setStartDate(date);
+        const date = selectedDates[0];
+        setStartDate(date);
 
-    const formattedDate = formatDateForPayloadmanualinvoice(date);    
-    setFormatStartDate(formattedDate)
+           if(!selectedDates){
+            setStartdateErrmsg("Please Select Date")
+           }
+           else{
+            setStartdateErrmsg('')
+           }
+       
+       const formattedDate = formatDateForPayloadmanualinvoice(date);    
+       setFormatStartDate(formattedDate)
 
   }
 
   const handleEndDate = (selectedDates) => {
-    const date = selectedDates[0];
-    setEndDate(date);
+       const date = selectedDates[0];
+       setEndDate(date);
+       if(!selectedDates){
+        setEnddateErrmsg("Please Select Date")
+       }
+       else{
+        setEnddateErrmsg('')
+       }
 
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatEndDate(formattedDate)
+      const formattedDate = formatDateForPayloadmanualinvoice(date);
+      setFormatEndDate(formattedDate)
   }
 
   const handleInvoiceDate = (selectedDates) => {
-    const date = selectedDates[0];
-    setInvoiceDate(date);
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatInvoiceDate(formattedDate)
+       const date = selectedDates[0];
+       setInvoiceDate(date);
+       if(!selectedDates){
+        setInvoiceDateErrmsg("Please Select Date")
+       }
+       else{
+        setInvoiceDateErrmsg('')
+       }
+
+       const formattedDate = formatDateForPayloadmanualinvoice(date);
+       setFormatInvoiceDate(formattedDate)
   }
 
 
   const handleDueDate = (selectedDates) => {
-    const date = selectedDates[0];
-    setInvoiceDueDate(date);
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatDueDate(formattedDate)
+        const date = selectedDates[0];
+        setInvoiceDueDate(date);
+        if(!selectedDates){
+          setInvoiceDueDateErrmsg("Please Select Date")
+         }
+         else{
+          setInvoiceDueDateErrmsg('')
+         }
+
+        const formattedDate = formatDateForPayloadmanualinvoice(date);
+        setFormatDueDate(formattedDate)
   }
 
   
@@ -1347,123 +1342,247 @@ console.log("availableOptions",availableOptions)
  
 
 
-  useEffect(() => {
-    if (invoicetotalamounts && invoicetotalamounts.length > 0) {
-      setBillAmounts(invoicetotalamounts);
-    } else {
-      console.error("No data from API or empty array");
-    }
-  }, [invoicetotalamounts]);
+           useEffect(() => {
+                 if (invoicetotalamounts && invoicetotalamounts.length > 0) {
+                 setBillAmounts(invoicetotalamounts);
+                 } 
+                 else {
+                 console.error("No data from API or empty array");
+                      }
+       }, [invoicetotalamounts]);
 
  
 
 
 
 
-const handleSelectChange = (e) => {
-  const selectedOption = availableOptions.find(opt => opt.description === e.target.value);
+         const handleSelectChange = (e) => {
+               const selectedDescription = e.target.value;  
+               const selectedOption = invoicetotalamounts.find(opt => opt.description === selectedDescription);
   
-  if (selectedOption) {
-    setSelectedData([...selectedData, selectedOption]);
-    setAvailableOptions(availableOptions.filter(opt => opt.description !== e.target.value));
-  }
-};
-
-// const handleActualAmountChange = (index, value) => {
-//   const updatedData = [...selectedData];
-//   updatedData[index] = { ...updatedData[index], total_amount: value };  // update 'total_amount'
-//   setSelectedData(updatedData);                                         //selectedData[index].ActualAmount
-// };
-
-const handleAmountChange = (index, value) => {
-  const updatedData = [...billamounts];
-  updatedData[index] = { ...updatedData[index], amount: value };  // update 'amount'
-  setBillAmounts(updatedData);                                  //selectedData[index].Amount
-};
+               if (selectedOption) {
+                 setBillAmounts([...billamounts, selectedOption]);
+                 setAvailableOptions(availableOptions.filter(opt => opt.description !== selectedDescription));
+                   }
+              };
+  
 
 
 
-const handleDeletebilldata = (itemToDelete) => {
-  setBillAmounts(billamounts.filter(item => item !== itemToDelete));
-  // setAvailableOptions([...availableOptions, itemToDelete]);
-};
-
-
-// Calculate the total amount
-
+         const handleAmountChange = (index, value) => {
+              const updatedData = [...billamounts];
+              updatedData[index] = { ...updatedData[index], amount: value }; 
+              setBillAmounts(updatedData);                                  
+              };
 
 
 
+          const handleDelete = (item) => {
+             setBillAmounts(billamounts.filter(bill => bill.description !== item.description));
+             setAvailableOptions([...availableOptions, item]);
+              };
 
 
-useEffect(()=> {
 
-  if(billamounts && billamounts.length > 0){
+       useEffect(()=> {
 
-    console.log("billamounts",billamounts);
+          if(billamounts && billamounts.length > 0){
+              console.log("billamounts",billamounts);
     
-
+          const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 10);// EB Amount with id 10 
+          const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 50); // Room Rent with id 50
+           console.log("RoomRentItem",RoomRentItem);
   
-  const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 10);// EB Amount with id 10 
-  const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 50); 
-  console.log("RoomRentItem",RoomRentItem);
   
-  // Room Rent with id 50
-   setEBAmount(EbAmount)
-   setRentAmount(RoomRentItem)
+          setEBAmount(EbAmount)
+          setRentAmount(RoomRentItem)
 
- var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 10 && item.id != 50);
-  console.log("amenities",amenities);
+          var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 10 && item.id != 50);
+          console.log("amenities",amenities);
 
-  const AmenityDetails = amenities.map(item => ({
-    am_name: item.description,   
-    amount: item.amount
-  }));
-  setAmenityDetails(AmenityDetails)
+         const AmenityDetails = amenities.map(item => ({
+            am_name: item.description,   
+            amount: item.amount
+            }));
+            setAmenityDetails(AmenityDetails)
   
 
 
- const  totalAmount = (
-    parseFloat(EbAmount?.amount || 0) +
-    parseFloat(RoomRentItem?.amount || 0) +
-    AmenityDetails.reduce((sum, amenity) => sum + parseFloat(amenity.amount || 0), 0)
-  );
-  setTotalAmount(totalAmount)
-}
-},[billamounts])
+         const  totalAmount = (
+            parseFloat(EbAmount?.amount || 0) +
+            parseFloat(RoomRentItem?.amount || 0) +
+            AmenityDetails.reduce((sum, amenity) => sum + parseFloat(amenity.amount || 0), 0) );
+            setTotalAmount(totalAmount)
+
+                  }
+
+    },[billamounts])
+
+
+       const handleNewRowChange = (index, field, value) => {
+           const updatedRows = [...newRows];
+           updatedRows[index][field] = value;
+            setNewRows(updatedRows);
+           };
+
+
+       const handleDeleteNewRow = (index) => {
+             const updatedRows = newRows.filter((_, i) => i !== index);
+             setNewRows(updatedRows);
+            };
 
 
 
 
-   const handleCreateBill = () => {
 
-    const amenityArray = amenityDetail.map(detail => ({
-      am_name: detail.am_name,
-      amount: detail.amount
-    })).filter(detail => detail.am_name && detail.amount);
 
-  dispatch({
-    type: 'MANUAL-INVOICE-ADD',
-    payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
-    invoice_id: invoicenumber, room_rent : rentamount.amount , eb_amount : '', total_amount : totalAmount , 
-    amenity: amenityArray.length > 0 ? amenityArray : []
-    }
-  });
- 
-  console.log("bill created");
 
-setShowManualInvoice(true)
-setCustomerName('');
-setInvoiceNumber('');
-setStartDate('');
-setEndDate('');
-setInvoiceDate('')
-setInvoiceDueDate('')
-setSelectedData('')
-setAvailableOptions('');
-// setInvoiceTotalAmount('')
-setBillAmounts('');
-}
+      const handleCreateBill = () => {
+
+           const allRows = [...billamounts, ...newRows];
+
+           const amenityArray = amenityDetail.map(detail => ({
+              am_name: detail.am_name,
+              amount: detail.amount
+               })).filter(detail => detail.am_name && detail.amount);
+
+               if(!customername){
+                setCustomerErrmsg('Please Select  Customer')
+                return;
+               }
+               if(!invoicenumber){
+                  setInvoicenumberErrmsg("Please Update customer name")
+                  return;
+                }
+               
+
+               if(!startdate){
+                setStartdateErrmsg('Please Select  Date')
+                return;
+               }
+
+               if(!enddate){
+                setEnddateErrmsg('Please Select  Date')
+                return;
+               }
+
+               if(!formatinvoicedate){
+                setInvoiceDateErrmsg('Please Select  Date')
+                return;
+               }
+
+               if(!formatduedate){
+                setInvoiceDueDateErrmsg('Please Select  Date')
+                return;
+               }
+               if(!customername || !invoicenumber || !startdate || !enddate || !formatinvoicedate || !formatduedate){
+                setAllFieldErrmsg('Please Enter All Field')
+                setTimeout(()=> {
+                  setAllFieldErrmsg('')
+                },2000)
+                return;
+               }
+
+              
+               if(customername && invoicenumber && formatstartdate && formatenddate && formatinvoicedate && formatduedate){
+                dispatch({
+                  type: 'MANUAL-INVOICE-ADD',
+                  payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
+                  invoice_id: invoicenumber, room_rent : rentamount?.amount , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
+                  amenity: amenityArray.length > 0 ? amenityArray : []
+                  }
+                  });
+               }
+
+            setShowManualInvoice(true)
+            setCustomerName('');
+            setInvoiceNumber('');
+            setStartDate('');
+            setEndDate('');
+            setInvoiceDate('')
+            setInvoiceDueDate('')
+            setSelectedData('')
+            setAvailableOptions('');
+            setTotalAmount('')
+            setBillAmounts([]);
+            setNewRows([]);
+            }
+
+
+
+
+            const invoicerowsPerPage = 15;
+            const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
+            const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
+          
+            const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
+            const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
+            const currentRowinvoice = bills?.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice);
+          
+          
+          
+          
+            const handleInvoicePageChange = (InvoicepageNumber) => {
+              setinvoicecurrentPage(InvoicepageNumber);
+            };
+          
+            const totalPagesinvoice = Math.ceil(bills?.length / invoicerowsPerPage);
+            console.log("invoicedetails", bills);
+          
+          
+            const renderPageNumbersInvoice = () => {
+              const pageNumbersInvoice = [];
+              let startPageInvoice = invoicecurrentPage - 1;
+              let endPageInvoice = invoicecurrentPage + 1;
+          
+              if (invoicecurrentPage === 1) {
+                startPageInvoice = 1;
+                endPageInvoice = 3;
+              }
+          
+              if (invoicecurrentPage === totalPagesinvoice) {
+                startPageInvoice = totalPagesinvoice - 2;
+                endPageInvoice = totalPagesinvoice;
+              }
+          
+              if (invoicecurrentPage === 2) {
+                startPageInvoice = 1;
+                endPageInvoice = 3;
+              }
+          
+              if (invoicecurrentPage === totalPagesinvoice - 1) {
+                startPageInvoice = totalPagesinvoice - 2;
+                endPageInvoice = totalPagesinvoice;
+              }
+          
+              for (let i = startPageInvoice; i <= endPageInvoice; i++) {
+                if (i > 0 && i <= totalPagesinvoice) {
+                  pageNumbersInvoice.push(
+                    <li key={i} style={{ margin: '0 5px' }}>
+                      <button
+                        style={{
+                          padding: '5px 10px',
+                          textDecoration: 'none',
+                          color: i === invoicecurrentPage ? '#007bff' : '#000000',
+                          cursor: 'pointer',
+                          borderRadius: '5px',
+                          display: 'inline-block',
+                          minWidth: '30px',
+                          textAlign: 'center',
+                          backgroundColor: i === invoicecurrentPage ? 'transparent' : 'transparent',
+                          border: i === invoicecurrentPage ? '1px solid #ddd' : 'none'
+                        }}
+                        onClick={() => handleInvoicePageChange(i)}
+                      >
+                        {i}
+                      </button>
+                    </li>
+                  );
+                }
+              }
+          
+              return pageNumbersInvoice;
+            };
 
 
   const rowsPerPage = 20;
@@ -1471,13 +1590,13 @@ setBillAmounts('');
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
+  const currentRows = bills.slice(indexOfFirstRow, indexOfLastRow);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const totalPages = Math.ceil(bills.length / rowsPerPage);
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -1579,7 +1698,7 @@ setBillAmounts('');
 
   return (
     <>
-{showmanualinvoice ? 
+{showAllBill && 
 <div>
 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} className='container ms-3 me-3'>
 
@@ -1635,7 +1754,7 @@ setBillAmounts('');
         </Button>
         :
         <Button
-          // onClick={handleShow}
+          onClick={handleRecurrBillShow}
           style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment
         </Button>
 
@@ -1925,7 +2044,7 @@ setBillAmounts('');
 
                     <div className='show-scroll p-2' style={{ maxHeight: 700, overflowY: "auto" }}>
 
-                      {data.map((item) => (
+                      {bills.map((item) => (
 
                         <>
                           {/* <div className="" style={{}}>
@@ -2365,7 +2484,11 @@ setBillAmounts('');
 </TabPanel>
 
 </TabContext>
-</div>:
+</div>
+}
+
+
+{showmanualinvoice && 
 
 <div className='container ms-5 me-5'>
 
@@ -2411,6 +2534,13 @@ setBillAmounts('');
     ))
 }
     </Form.Select>
+    {customererrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {customererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {customererrmsg}
+    </p>
+  </div>
+)}
   </Form.Group>
 </div>
 
@@ -2425,7 +2555,13 @@ setBillAmounts('');
             placeholder="Enter invoice number"
             value={invoicenumber || ''} 
           />
-
+                   {invoicenumbererrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {invoicenumbererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicenumbererrmsg}
+    </p>
+  </div>
+)}
     
         </Form.Group>
       </div>
@@ -2478,7 +2614,13 @@ setBillAmounts('');
                         }}
                       />
                     </div>
-
+                    {startdateerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {startdateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {startdateerrmsg}
+    </p>
+  </div>
+)}
     
                   </div>
 
@@ -2530,7 +2672,13 @@ setBillAmounts('');
                       />
                     </div>
 
-    
+                    {enddateerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {enddateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {enddateerrmsg}
+    </p>
+  </div>
+)}
                   </div>
                   </div>
 
@@ -2583,7 +2731,13 @@ setBillAmounts('');
                         }}
                       />
                     </div>
-
+                    {invoicedateerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {invoicedateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicedateerrmsg}
+    </p>
+  </div>
+)}
     
                   </div>
 
@@ -2634,9 +2788,22 @@ setBillAmounts('');
                         }}
                       />
                     </div>
-
+                    {invoiceduedateerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {invoiceduedateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoiceduedateerrmsg}
+    </p>
+  </div>
+)}
     
                   </div> 
+                  {allfielderrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {allfielderrmsg}
+    </p>
+  </div>
+)}
                   </div>
 
 
@@ -2699,12 +2866,65 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
 </td>
 
 <td style={{ paddingTop: '35px' }}>
-<span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeletebilldata(u)}>
+<span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDelete(u)}>
 <img src={Closebtn} height={15} width={15} alt="delete" />
 </span>
 </td>
 </tr>
 ))}
+
+
+{newRows && newRows.length > 0 && newRows.map((u, index) => (
+    <tr key={`new-${index}`}>
+      <td>
+        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{alignItems:'center'}}>
+          <Form.Control
+            type="text"
+            placeholder="Enter description"
+            value={u.description}
+            onChange={(e) => handleNewRowChange(index, 'description', e.target.value)}
+          />
+        </div>
+      </td>
+      <td style={{alignItems:'center'}}>
+        <Form.Control
+          type="text"
+          placeholder="EB Unit"
+          value={u.used_unit}
+          onChange={(e) => handleNewRowChange(index, 'used_unit', e.target.value)}
+        />
+      </td>
+      <td style={{alignItems:'center'}}>
+        <Form.Control
+          type="text"
+          placeholder="Unit Price"
+          value={u.per_unit_amount}
+          onChange={(e) => handleNewRowChange(index, 'per_unit_amount', e.target.value)}
+        />
+      </td>
+      <td style={{alignItems:'center'}}>
+        <Form.Control
+          type="text"
+          placeholder="Enter actual amount"
+          value={u.total_amount}
+          onChange={(e) => handleNewRowChange(index, 'total_amount', e.target.value)}
+        />
+      </td>
+      <td style={{alignItems:'center'}}>
+        <Form.Control
+          type="text"
+          placeholder="Enter total amount"
+          value={u.amount}
+          onChange={(e) => handleNewRowChange(index, 'amount', e.target.value)}
+        />
+      </td>
+      <td style={{alignItems:'center'}}>
+        <span style={{cursor: 'pointer', color: 'red', marginLeft: '10px'}} onClick={() => handleDeleteNewRow(index)}>
+          <img src={Closebtn} height={15} width={15} alt="delete" />
+        </span>
+      </td>
+    </tr>
+  ))}
 
 {/* {selectedData && selectedData.length > 0 && selectedData.map((u, index) => (
 <tr key={index}>
@@ -2753,36 +2973,33 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
 ))} */}
 
 
-  {/* <tr>
+  <tr>
 
   <div className='col-lg-12 col-md-5 col-sm-12 col-xs-12 mt-1'>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
         <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>
         
         </Form.Label>
-        <Form.Select aria-label="Default select example" onChange={handleSelectChange}
-          className='border' style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 38, borderRadius: 8 }}>
-
-          <option style={{ fontSize: 14, fontWeight: 60, }} selected value=''>Select</option>
-          {availableOptions&& availableOptions.length > 0 &&availableOptions.map((option) => (
-  <option  value={option.description}>
-    {option.description}
-  </option>
-))}
-
-        </Form.Select>
+        <Form.Select aria-label="Default select example" onChange={handleSelectChange} className='border'>
+  <option value=''>Select</option>
+  {availableOptions && availableOptions.length > 0 && availableOptions.map((option, index) => (
+    <option key={index} value={option.description}>
+      {option.description}
+    </option>
+  ))}
+</Form.Select>
 
 
       </Form.Group>
 
     </div>
-    </tr> */}
+    </tr>
 </tbody>
        
         </Table>
       </div>
 
-      <div><p style={{color:'#1E45E1',fontSize:'14px',fontWeight:600}}> + Add new column</p></div>
+      <div><p style={{color:'#1E45E1',fontSize:'14px',fontWeight:600}} onClick={handleAddColumn}> + Add new column</p></div>
 
       <div style={{ float: 'right', marginRight: '130px' }}>
         <h5>Total Amount ₹{totalAmount}</h5>
@@ -2792,6 +3009,19 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
       </div>
     </div>
   
+}
+{
+  showRecurringBillForm && <>
+  
+ {/* <h5>Recurring bill</h5> */}
+ <div style={{display:'flex',flexDirection:'row',marginLeft:'60px'}} >
+  <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
+  <p className='mt-1'>New Bill</p>
+  </div>
+  <RecurringBill/>
+
+ </>
+
 }
 
 

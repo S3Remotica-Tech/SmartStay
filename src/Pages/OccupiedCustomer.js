@@ -32,7 +32,7 @@ function AddBed({ show, handleClose, currentItem }) {
 
            const Hostel_Id = currentItem.room.Hostel_Id;
             const Floor_Id = currentItem.room.Floor_Id;
-            const Bed_Id = currentItem.bed.bed_no;
+            const Bed_Id = currentItem.bed.id;
             const Room_Id = currentItem.room.Room_Id;
 
 if(Hostel_Id && Floor_Id && Bed_Id && Room_Id){
