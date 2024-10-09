@@ -769,9 +769,9 @@ console.log("state",state)
 
       {userList && <>
 
-        <div className="customer p-4" >
+        <div className="customer p-4">
           <div className="cuslable">
-            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginTop: 20, fontFamily: "Gilroy" }}>Customers</label>
+            <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Customers</label>
           </div>
 
           <div className="customerfilling d-flex justify-content-between align-items-center ">

@@ -71,6 +71,10 @@ import AxiosConfig from "../../WebService/AxiosConfig"
     return await AxiosConfig.get('/list/Ebstartmeter',{
     })
   }
+  export async function EB_CustomerListTable() {
+    return await AxiosConfig.get('/customer_readings',{
+    })
+  }
 
   export async function createRoom(datum){
     return await AxiosConfig.post('/room/create-room',datum,{

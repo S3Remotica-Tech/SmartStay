@@ -48,6 +48,7 @@ const initialState = {
     alreadyfloorNameHere: '',
     OccupiedCustomer:[],
     OccupiedCustomerGetStatusCode:0,
+    EB_customerTable:[]
 
 }
 const PgListReducer = (state = initialState, action) => {
@@ -100,6 +101,9 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
         case 'EB_STARTMETER_LIST':
             console.log("EB_STARTMETER_LIST", action.payload)
             return { ...state, EB_startmeterlist: action.payload }
+            case 'EB_CUSTOMER_EBLIST':
+                console.log("EB_CUSTOMER_EBLIST", action.payload)
+                return { ...state, EB_customerTable: action.payload }
 
 
         case 'EB_ERROR':

@@ -2404,7 +2404,7 @@ function UserListRoomDetail(props) {
                                           {state.UsersList?.roomdetails &&
                                             state.UsersList.roomdetails.map(
                                               (item) => (
-                                                <option key={item.Room_Id}>
+                                                <option key={item.Room_Id} value={item.Room_Id}>
                                                   {item.Room_Name}
                                                 </option>
                                               )
