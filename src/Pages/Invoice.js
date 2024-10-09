@@ -79,6 +79,9 @@ const InvoicePage = () => {
   useEffect(() => {
     // setLoading(true)
     dispatch({ type: 'MANUAL-INVOICES-LIST' })
+    console.log("ManualInvoices",state.InvoiceList.ManualInvoices);
+    
+    setBills(state.InvoiceList.ManualInvoices);
   }, [])
 
 
@@ -153,10 +156,14 @@ const InvoicePage = () => {
   const [dateerrmsg, setDateErrmsg] = useState('')
   const [totalErrormsg, setTotalErrmsg] = useState('')
   const [showmanualinvoice, setShowManualInvoice] = useState(true);
+
   const handleManualShow = () => {
     setShowManualInvoice(false)
   }
 
+  const handleRecurrBillShow = () => {
+    setShowManualInvoice(false)
+  }
   
 
   const [file, setFile] = useState(null)
@@ -912,78 +919,8 @@ const InvoicePage = () => {
   // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  const invoicerowsPerPage = 15;
-  const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
-  const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
+ 
 
-  const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
-  const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
-  const currentRowinvoice = data?.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice);
-
-
-
-
-  const handleInvoicePageChange = (InvoicepageNumber) => {
-    setinvoicecurrentPage(InvoicepageNumber);
-  };
-
-  const totalPagesinvoice = Math.ceil(data?.length / invoicerowsPerPage);
-  console.log("invoicedetails", data);
-
-
-  const renderPageNumbersInvoice = () => {
-    const pageNumbersInvoice = [];
-    let startPageInvoice = invoicecurrentPage - 1;
-    let endPageInvoice = invoicecurrentPage + 1;
-
-    if (invoicecurrentPage === 1) {
-      startPageInvoice = 1;
-      endPageInvoice = 3;
-    }
-
-    if (invoicecurrentPage === totalPagesinvoice) {
-      startPageInvoice = totalPagesinvoice - 2;
-      endPageInvoice = totalPagesinvoice;
-    }
-
-    if (invoicecurrentPage === 2) {
-      startPageInvoice = 1;
-      endPageInvoice = 3;
-    }
-
-    if (invoicecurrentPage === totalPagesinvoice - 1) {
-      startPageInvoice = totalPagesinvoice - 2;
-      endPageInvoice = totalPagesinvoice;
-    }
-
-    for (let i = startPageInvoice; i <= endPageInvoice; i++) {
-      if (i > 0 && i <= totalPagesinvoice) {
-        pageNumbersInvoice.push(
-          <li key={i} style={{ margin: '0 5px' }}>
-            <button
-              style={{
-                padding: '5px 10px',
-                textDecoration: 'none',
-                color: i === invoicecurrentPage ? '#007bff' : '#000000',
-                cursor: 'pointer',
-                borderRadius: '5px',
-                display: 'inline-block',
-                minWidth: '30px',
-                textAlign: 'center',
-                backgroundColor: i === invoicecurrentPage ? 'transparent' : 'transparent',
-                border: i === invoicecurrentPage ? '1px solid #ddd' : 'none'
-              }}
-              onClick={() => handleInvoicePageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
-
-    return pageNumbersInvoice;
-  };
   useEffect(() => {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details)
   }, [state.UsersList.customerdetails.invoice_details])
@@ -1118,8 +1055,6 @@ const [totalAmount , setTotalAmount] = useState('')
 
 const [selectedData, setSelectedData] = useState([]);
 console.log("selectedData",selectedData)
-// const [availableOptions, setAvailableOptions] = useState([]);
-// console.log("availableOptions",availableOptions)
 
   const startRef = useRef(null);
   const endRef = useRef(null);
@@ -1148,7 +1083,13 @@ const handleAddColumn = () => {
 console.log("newRows",newRows);
 
 
-
+    const [customererrmsg , setCustomerErrmsg] = useState('')
+    const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
+    const [startdateerrmsg , setStartdateErrmsg] = useState('')
+    const [enddateerrmsg , setEnddateErrmsg] = useState('')
+    const [invoicedateerrmsg , setInvoiceDateErrmsg] = useState('')
+    const [invoiceduedateerrmsg , setInvoiceDueDateErrmsg] = useState('')
+    const [allfielderrmsg , setAllFieldErrmsg] = useState('')
   // useEffect(()=> {
   //  dispatch({type:'MANUAL-INVOICES-LIST'})
   //  },[])
@@ -1168,7 +1109,8 @@ console.log("newRows",newRows);
   
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200 && !loading) {
-      // dispatch({ type: 'MANUAL-INVOICES-LIST' });
+      dispatch({ type: 'MANUAL-INVOICES-LIST' });
+      setBills(state.InvoiceList.ManualInvoices);
       setLoading(true); 
   
       setTimeout(() => {
@@ -1182,7 +1124,6 @@ console.log("newRows",newRows);
 
   useEffect(() => {
     console.log("invoice added executed");
-    //  dispatch({ type: 'INVOICELIST' })
     if (state.InvoiceList?.InvoiceListStatusCode == 200) {
      
       dispatch({type:'MANUAL-INVOICES-LIST'})
@@ -1236,10 +1177,16 @@ console.log("newRows",newRows);
 
   const handleCustomerName = (e) => {
     setCustomerName(e.target.value)
+    if(!e.target.value){
+      setCustomerErrmsg("Please Select Name")
+    }
+    else{
+      setCustomerErrmsg('')
+    }
     setStartDate('');
     setEndDate('');
     setSelectedData('');
-    setAvailableOptions('');
+    // setAvailableOptions('');
     setBillAmounts('')
     setTotalAmount('')
   }
@@ -1327,6 +1274,13 @@ console.log("newRows",newRows);
         const date = selectedDates[0];
         setStartDate(date);
 
+           if(!selectedDates){
+            setStartdateErrmsg("Please Select Date")
+           }
+           else{
+            setStartdateErrmsg('')
+           }
+       
        const formattedDate = formatDateForPayloadmanualinvoice(date);    
        setFormatStartDate(formattedDate)
 
@@ -1335,6 +1289,12 @@ console.log("newRows",newRows);
   const handleEndDate = (selectedDates) => {
        const date = selectedDates[0];
        setEndDate(date);
+       if(!selectedDates){
+        setEnddateErrmsg("Please Select Date")
+       }
+       else{
+        setEnddateErrmsg('')
+       }
 
       const formattedDate = formatDateForPayloadmanualinvoice(date);
       setFormatEndDate(formattedDate)
@@ -1343,6 +1303,12 @@ console.log("newRows",newRows);
   const handleInvoiceDate = (selectedDates) => {
        const date = selectedDates[0];
        setInvoiceDate(date);
+       if(!selectedDates){
+        setInvoiceDateErrmsg("Please Select Date")
+       }
+       else{
+        setInvoiceDateErrmsg('')
+       }
 
        const formattedDate = formatDateForPayloadmanualinvoice(date);
        setFormatInvoiceDate(formattedDate)
@@ -1352,6 +1318,12 @@ console.log("newRows",newRows);
   const handleDueDate = (selectedDates) => {
         const date = selectedDates[0];
         setInvoiceDueDate(date);
+        if(!selectedDates){
+          setInvoiceDueDateErrmsg("Please Select Date")
+         }
+         else{
+          setInvoiceDueDateErrmsg('')
+         }
 
         const formattedDate = formatDateForPayloadmanualinvoice(date);
         setFormatDueDate(formattedDate)
@@ -1370,7 +1342,7 @@ console.log("newRows",newRows);
                  else {
                  console.error("No data from API or empty array");
                       }
-  }, [invoicetotalamounts]);
+       }, [invoicetotalamounts]);
 
  
 
@@ -1405,7 +1377,7 @@ console.log("newRows",newRows);
 
 
 
-useEffect(()=> {
+       useEffect(()=> {
 
           if(billamounts && billamounts.length > 0){
               console.log("billamounts",billamounts);
@@ -1467,15 +1439,53 @@ useEffect(()=> {
               amount: detail.amount
                })).filter(detail => detail.am_name && detail.amount);
 
-           dispatch({
-             type: 'MANUAL-INVOICE-ADD',
-             payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
-             invoice_id: invoicenumber, room_rent : rentamount?.amount , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
-             amenity: amenityArray.length > 0 ? amenityArray : []
-             }
-             });
- 
-             console.log("bill created");
+               if(!customername){
+                setCustomerErrmsg('Please Select  Customer')
+                return;
+               }
+               if(!invoicenumber){
+                  setInvoicenumberErrmsg("Please Update customer name")
+                  return;
+                }
+               
+
+               if(!startdate){
+                setStartdateErrmsg('Please Select  Date')
+                return;
+               }
+
+               if(!enddate){
+                setEnddateErrmsg('Please Select  Date')
+                return;
+               }
+
+               if(!formatinvoicedate){
+                setInvoiceDateErrmsg('Please Select  Date')
+                return;
+               }
+
+               if(!formatduedate){
+                setInvoiceDueDateErrmsg('Please Select  Date')
+                return;
+               }
+               if(!customername || !invoicenumber || !startdate || !enddate || !formatinvoicedate || !formatduedate){
+                setAllFieldErrmsg('Please Enter All Field')
+                setTimeout(()=> {
+                  setAllFieldErrmsg('')
+                },2000)
+                return;
+               }
+
+              
+               if(customername && invoicenumber && formatstartdate && formatenddate && formatinvoicedate && formatduedate){
+                dispatch({
+                  type: 'MANUAL-INVOICE-ADD',
+                  payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
+                  invoice_id: invoicenumber, room_rent : rentamount?.amount , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
+                  amenity: amenityArray.length > 0 ? amenityArray : []
+                  }
+                  });
+               }
 
             setShowManualInvoice(true)
             setCustomerName('');
@@ -1492,18 +1502,94 @@ useEffect(()=> {
             }
 
 
+
+
+            const invoicerowsPerPage = 15;
+            const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
+            const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
+          
+            const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
+            const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
+            const currentRowinvoice = bills?.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice);
+          
+          
+          
+          
+            const handleInvoicePageChange = (InvoicepageNumber) => {
+              setinvoicecurrentPage(InvoicepageNumber);
+            };
+          
+            const totalPagesinvoice = Math.ceil(bills?.length / invoicerowsPerPage);
+            console.log("invoicedetails", bills);
+          
+          
+            const renderPageNumbersInvoice = () => {
+              const pageNumbersInvoice = [];
+              let startPageInvoice = invoicecurrentPage - 1;
+              let endPageInvoice = invoicecurrentPage + 1;
+          
+              if (invoicecurrentPage === 1) {
+                startPageInvoice = 1;
+                endPageInvoice = 3;
+              }
+          
+              if (invoicecurrentPage === totalPagesinvoice) {
+                startPageInvoice = totalPagesinvoice - 2;
+                endPageInvoice = totalPagesinvoice;
+              }
+          
+              if (invoicecurrentPage === 2) {
+                startPageInvoice = 1;
+                endPageInvoice = 3;
+              }
+          
+              if (invoicecurrentPage === totalPagesinvoice - 1) {
+                startPageInvoice = totalPagesinvoice - 2;
+                endPageInvoice = totalPagesinvoice;
+              }
+          
+              for (let i = startPageInvoice; i <= endPageInvoice; i++) {
+                if (i > 0 && i <= totalPagesinvoice) {
+                  pageNumbersInvoice.push(
+                    <li key={i} style={{ margin: '0 5px' }}>
+                      <button
+                        style={{
+                          padding: '5px 10px',
+                          textDecoration: 'none',
+                          color: i === invoicecurrentPage ? '#007bff' : '#000000',
+                          cursor: 'pointer',
+                          borderRadius: '5px',
+                          display: 'inline-block',
+                          minWidth: '30px',
+                          textAlign: 'center',
+                          backgroundColor: i === invoicecurrentPage ? 'transparent' : 'transparent',
+                          border: i === invoicecurrentPage ? '1px solid #ddd' : 'none'
+                        }}
+                        onClick={() => handleInvoicePageChange(i)}
+                      >
+                        {i}
+                      </button>
+                    </li>
+                  );
+                }
+              }
+          
+              return pageNumbersInvoice;
+            };
+
+
   const rowsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
+  const currentRows = bills.slice(indexOfFirstRow, indexOfLastRow);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const totalPages = Math.ceil(bills.length / rowsPerPage);
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -1559,7 +1645,7 @@ useEffect(()=> {
     return pageNumbers;
   };
 
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
@@ -1661,7 +1747,7 @@ useEffect(()=> {
         </Button>
         :
         <Button
-          // onClick={handleShow}
+          onClick={handleRecurrBillShow}
           style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment
         </Button>
 
@@ -2437,6 +2523,13 @@ useEffect(()=> {
     ))
 }
     </Form.Select>
+    {customererrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {customererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {customererrmsg}
+    </p>
+  </div>
+)}
   </Form.Group>
 </div>
 
@@ -2451,7 +2544,13 @@ useEffect(()=> {
             placeholder="Enter invoice number"
             value={invoicenumber || ''} 
           />
-
+                   {invoicenumbererrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {invoicenumbererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicenumbererrmsg}
+    </p>
+  </div>
+)}
     
         </Form.Group>
       </div>
@@ -2504,7 +2603,13 @@ useEffect(()=> {
                         }}
                       />
                     </div>
-
+                    {startdateerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {startdateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {startdateerrmsg}
+    </p>
+  </div>
+)}
     
                   </div>
 
@@ -2556,7 +2661,13 @@ useEffect(()=> {
                       />
                     </div>
 
-    
+                    {enddateerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {enddateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {enddateerrmsg}
+    </p>
+  </div>
+)}
                   </div>
                   </div>
 
@@ -2609,7 +2720,13 @@ useEffect(()=> {
                         }}
                       />
                     </div>
-
+                    {invoicedateerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {invoicedateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicedateerrmsg}
+    </p>
+  </div>
+)}
     
                   </div>
 
@@ -2660,9 +2777,22 @@ useEffect(()=> {
                         }}
                       />
                     </div>
-
+                    {invoiceduedateerrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {invoiceduedateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoiceduedateerrmsg}
+    </p>
+  </div>
+)}
     
                   </div> 
+                  {allfielderrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {allfielderrmsg}
+    </p>
+  </div>
+)}
                   </div>
 
 
@@ -2841,7 +2971,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
         </Form.Label>
         <Form.Select aria-label="Default select example" onChange={handleSelectChange} className='border'>
   <option value=''>Select</option>
-  {availableOptions.map((option, index) => (
+  {availableOptions && availableOptions.length > 0 && availableOptions.map((option, index) => (
     <option key={index} value={option.description}>
       {option.description}
     </option>
