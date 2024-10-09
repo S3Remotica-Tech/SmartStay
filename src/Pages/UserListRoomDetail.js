@@ -2405,7 +2405,7 @@ function UserListRoomDetail(props) {
                                             state.UsersList.roomdetails.map(
                                               (item) => (
                                                 <option key={item.Room_Id}>
-                                                  {item.Room_Id}
+                                                  {item.Room_Name}
                                                 </option>
                                               )
                                             )}

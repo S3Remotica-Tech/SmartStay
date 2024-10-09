@@ -1307,7 +1307,7 @@ if (Bed === 'Selected Bed' || bedError) {
 
                         {state.UsersList?.roomdetails &&
                           state.UsersList.roomdetails.map((item) => (
-                            <option key={item.Room_Id}>{item.Room_Id}</option>
+                            <option key={item.Room_Id}>{item.Room_Name}</option>
                           ))}
                       </Form.Select>
                       {roomError && (
