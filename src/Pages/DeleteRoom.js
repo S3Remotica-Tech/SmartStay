@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
 
 
 
@@ -65,8 +66,9 @@ useEffect(() => {
   return (
     <div>  
         <Modal show={show} onHide={handleClose} centered backdrop="static">
-    <Modal.Header closeButton>
+    <Modal.Header style={{display:"flex", justifyContent:"center"}} >
       <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>Delete room ?</Modal.Title>
+      {/* <CloseCircle size="24" color="#000"  onClick={handleClose}/> */}
     </Modal.Header>
 
    
@@ -80,7 +82,7 @@ useEffect(() => {
                     </div>
                 )}
 
-      <Modal.Body style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>
+      <Modal.Body style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy", textAlign:'center'}}>
         {/* {numberOfBeds[0]?.bed_details.length > 0 && numberOfBeds[0]?.bed_details.length > 0
         ? 'Please delete the bed before deleting the room.'
         : 'Are you sure you want to delete the room?'} */}
@@ -90,18 +92,13 @@ useEffect(() => {
 
   
     <Modal.Footer className='d-flex justify-content-center' style={{border:"none"}}>
-    <Button  onClick={handleClose} style={{width:160,height:52,borderRadius:8, padding:"16px, 45px, 16px, 45px",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"#FFF",color:"rgba(36, 0, 255, 1)",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
+    <Button  onClick={handleClose} style={{borderRadius:8, padding:"16px 45px",border:"1px solid #1E45E1",backgroundColor:"#FFF",color:"#1E45E1",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
             Cancel
           </Button>
-          {/* {numberOfBeds[0]?.bed_details.length > 0 && numberOfBeds[0]?.bed_details.length > 0? 
-
-          ""
-          : */}
-
-          <Button style={{width:160,height:52,borderRadius:8, padding:"16px, 45px, 16px, 45px",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} onClick={handleDeleteRoomConfirm}>
+        
+          <Button style={{borderRadius:8, padding:"16px 45px",border:"1px solid #1E45E1",backgroundColor:"#1E45E1",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} onClick={handleDeleteRoomConfirm}>
             Delete
           </Button>
-{/* } */}
     </Modal.Footer>
   </Modal>
   

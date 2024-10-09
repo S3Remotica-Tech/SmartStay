@@ -4,6 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import CryptoJS from "crypto-js";
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
 
 import Cookies from 'universal-cookie';
 import { MdError } from "react-icons/md";
@@ -67,8 +68,10 @@ const[ otpErrors, setOtpErrors] = useState('')
 
   return (
     <Modal show={show} onHide={handleClose} backdrop="static">
-      <Modal.Header closeButton>
-        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>OTP Verification</Modal.Title>
+      <Modal.Header >
+        <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>OTP Verification</Modal.Title>
+     
+        <CloseCircle size="24" color="#000"  onClick={handleClose}/>
       </Modal.Header>
       <Modal.Body>
         <div className='d-flex justify-content-start mb-3'>
@@ -113,7 +116,7 @@ const[ otpErrors, setOtpErrors] = useState('')
         {/* <Button variant="secondary" onClick={handleClose}>
           Close
         </Button> */}
-        <Button  onClick={handleOtpVerify} style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}>
+        <Button  onClick={handleOtpVerify} style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" }}>
           Verify
         </Button>
       </Modal.Footer>

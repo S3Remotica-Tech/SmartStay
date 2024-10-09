@@ -14,6 +14,7 @@ import Calendars from '../Assets/Images/New_images/calendar.png'
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import { MdError } from "react-icons/md";
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
 
 
 
@@ -369,8 +370,11 @@ function StaticExample({ show, handleClose, currentItem }) {
         >
             <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
-                    <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? 'Edit an expense' : 'Add an expense'}</Modal.Title>
+                    <Modal.Header  style={{ border: "1px solid #E7E7E7" }}>
+                        <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? 'Edit an expense' : 'Add an expense'}</Modal.Title>
+                   
+                        <CloseCircle size="24" color="#000"  onClick={handleClose}/>
+                   
                     </Modal.Header>
                    
 
@@ -674,8 +678,8 @@ function StaticExample({ show, handleClose, currentItem }) {
 
                     </Modal.Body>
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
-                        <Button onClick={handleAddExpenses} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }} >
-                            {currentItem ? 'Edit  expense' : 'Add  expense'}
+                        <Button onClick={handleAddExpenses} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily:"Gilroy", padding:16  }} >
+                            {currentItem ? 'Save Changes' : 'Add  expense'}
                         </Button>
                     </Modal.Footer>
                 </Modal.Dialog>

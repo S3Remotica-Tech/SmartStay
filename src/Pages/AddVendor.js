@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Profile2 from '../Assets/Images/New_images/profile-picture.png'
+// import Profile2 from '../Assets/Images/New_images/Empty_profile.svg'
 import Image from 'react-bootstrap/Image';
-import Plus from '../Assets/Images/New_images/add-circle.png'
+import Plus from '../Assets/Images/New_images/addplus-circle.svg'
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
@@ -10,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { InputGroup } from 'react-bootstrap';
 import { MdError } from "react-icons/md";
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
 
 
 function AddVendor({ show, handleClose, currentItem }) {
@@ -459,8 +461,12 @@ console.log("initial state",initialState)
       
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
-          <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-            <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{check === 'EDIT' ? 'Edit a vendor ' : 'Add a vendor'}</Modal.Title>
+          <Modal.Header  style={{ border: "1px solid #E7E7E7" }}>
+            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{check === 'EDIT' ? 'Edit a vendor ' : 'Add a vendor'}</Modal.Title>
+        
+        
+            <CloseCircle size="24" color="#000"  onClick={handleClose}/>
+        
           </Modal.Header>
 
 
@@ -488,7 +494,7 @@ console.log("initial state",initialState)
 
               <div className="" style={{ height: 100, width: 100, position: "relative" }}>
 
-                <Image src={file ? (typeof file === 'string' ? file : URL.createObjectURL(file)) : Profile2} roundedCircle style={{ height: 100, width: 100 }} />
+                <Image src={file ? (typeof file === 'string' ? file : URL.createObjectURL(file)) : Profile2} roundedCircle style={{ height: 100, width: 100 }}   onChange={handleImageChange}/>
                 <label htmlFor="imageInput" className='' >
                   <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
                   <input
@@ -691,8 +697,8 @@ console.log("initial state",initialState)
 
           <Modal.Footer style={{ border: "none" }}>
 
-            <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }} onClick={handleAddVendor}>
-              {check === 'EDIT' ? 'Save ' : 'Add  vendor'}
+            <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",  padding:16  }} onClick={handleAddVendor}>
+              {check === 'EDIT' ? 'Save Changes' : 'Add  vendor'}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

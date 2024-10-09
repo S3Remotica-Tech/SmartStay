@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Profile2 from '../Assets/Images/New_images/profile-picture.png'
 import Image from 'react-bootstrap/Image';
-import Plus from '../Assets/Images/New_images/add-circle.png'
+import Plus from '../Assets/Images/New_images/addplus-circle.svg'
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { InputGroup } from 'react-bootstrap';
 import { MdError } from "react-icons/md";
-
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
 
 function AddPg({ show, handleClose, currentItem }) {
 
@@ -152,10 +152,10 @@ function AddPg({ show, handleClose, currentItem }) {
     if (closeButton) {
       closeButton.style.backgroundColor = 'white';
       closeButton.style.borderRadius = '50%';
-      closeButton.style.width = '10px';
-      closeButton.style.height = '10px';
+      closeButton.style.width = '20px';
+      closeButton.style.height = '20px';
       closeButton.style.border = '1.5px solid #000000';
-      closeButton.style.padding = '9px';
+      closeButton.style.padding = '2px';
     }
   }, []);
 
@@ -338,8 +338,11 @@ function AddPg({ show, handleClose, currentItem }) {
     >
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
-          <Modal.Header closeButton closeLabel="close-button" style={{}}>
-            <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? "Edit Paying Guest" : "Add Paying Guest"}</Modal.Title>
+          <Modal.Header
+          // closeLabel="close-button" style={{}}
+          >
+            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? "Edit Paying Guest" : "Add Paying Guest"}</Modal.Title>
+            <CloseCircle size="24" color="#000"  onClick={handleClose}/>
           </Modal.Header>
           {generalError && (
             <div className="d-flex align-items-center p-1 mt-2 mb-2">
@@ -554,8 +557,8 @@ function AddPg({ show, handleClose, currentItem }) {
 
           <Modal.Footer style={{ border: "none" }}>
 
-            <Button onClick={handleCreatePayingGuest} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}>
-              {currentItem ? "Save" : "Add Paying Guest"}
+            <Button onClick={handleCreatePayingGuest} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",  padding:16  }}>
+              {currentItem ? "Save Changes" : "Add Paying Guest"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
