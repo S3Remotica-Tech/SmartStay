@@ -1027,7 +1027,7 @@ function EB_Hostel() {
                 </Table>
               )}
 
-              {state.PgList?.EB_startmeterlist?.length === 0 && (
+              {state.PgList.EB_customerTable.eb_details?.length === 0 &&  (
                 <div>
                   <div style={{ textAlign: "center" }}>
                     <img src={emptyimg} alt="emptystate" />
