@@ -14,6 +14,7 @@ import {
   EB_startmeterlist,
   createAllPGDetails,
   OccupiedCustomer,
+  EB_CustomerListTable
 } from "../Action/PgListAction";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
@@ -171,6 +172,18 @@ function* handleCheckEbStartmeterlist() {
   if (response.status === 200 || response.statusCode === 200) {
     console.log("....responsePG", response);
     yield put({ type: "EB_STARTMETER_LIST", payload: response.data.data });
+  } else {
+    yield put({ type: "ERROR", payload: response.data.message });
+  }
+  if (response) {
+    refreshToken(response);
+  }
+}
+function* handleCustomerEblist() {
+  const response = yield call(EB_CustomerListTable);
+  if (response.status === 200 || response.statusCode === 200) {
+    console.log("....responsecus", response);
+    yield put({ type: "EB_CUSTOMER_EBLIST", payload: response.data });
   } else {
     yield put({ type: "ERROR", payload: response.data.message });
   }
@@ -586,6 +599,7 @@ function* PgListSaga() {
   yield takeEvery("DELETEPG", handleDeletePG);
   yield takeEvery("UPDATEFLOOR", handleUpdateFloor);
   yield takeEvery("OCCUPIEDCUSTOMER", handleOccupiedCustomer);
+  yield takeEvery("CUSTOMEREBLIST", handleCustomerEblist);
 
 
 }
