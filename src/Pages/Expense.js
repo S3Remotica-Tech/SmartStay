@@ -487,66 +487,7 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
     if (!id) return; 
     setShowExpenseDelete(true)
     setDeleteExpenseRowData(id)
-    // toast(
-    //   ({ closeToast }) => (
-    //     <div>
-    //       <p style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-    //         Do you want to delete the expense?
-    //       </p>
-    //       <div className='w-100 d-flex justify-content-center'>
-    //         <button
-    //           style={{
-    //             marginRight: '10px',
-    //             backgroundColor: '#1E45E1',
-    //             color: '#fff',
-    //             border: 'none',
-    //             padding: '5px 10px',
-    //             borderRadius: '5px',
-    //             cursor: 'pointer',
-    //             fontSize: 14,
-    //             fontFamily: "Gilroy",
-    //             fontWeight: 500
-    //           }}
-    //           onClick={() => {
-    //             dispatch({
-    //               type: 'DELETEEXPENSE',
-    //               payload: {
-    //                 id: id,
-    //               },
-    //             });
-    //             closeToast();               }}
-    //         >
-    //           Yes
-    //         </button>
-    //         {/* <button
-    //           style={{
-    //             backgroundColor: '#f44336',
-    //             color: '#fff',
-    //             border: 'none',
-    //             padding: '5px 10px',
-    //             borderRadius: '5px',
-    //             cursor: 'pointer',
-    //             fontSize: 14,
-    //             fontFamily: "Gilroy",
-    //             fontWeight: 500
-    //           }}
-    //           onClick={closeToast} 
-    //         >
-    //           No
-    //         </button> */}
-    //       </div>
-    //     </div>
-    //   ),
-    //   {
-    //     position: 'top-center',
-    //     autoClose: false,
-    //     closeOnClick: false,
-    //     hideProgressBar: true,
-    //     draggable: false,
-    //   }
-    // );
-  
-    // setCurrentPage(1); 
+     
   };
   
 
@@ -564,23 +505,9 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
         id: deleteExpenseRowData,
       },
     });
+     setCurrentPage(1); 
   }
  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   const stateAccount = useSelector(state => state.createAccount)
 

@@ -456,7 +456,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                     </Modal.Body>
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
-                        <Button className='w-100' onClick={handleAddAssignAsset} style={{ backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding:16  }} >
+                        <Button className='w-100' onClick={handleAddAssignAsset} style={{ backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding:12  }} >
                             {currentItem.hostel_id ? 'Save Changes' : 'Assign asset'}
                         </Button>
                     </Modal.Footer>

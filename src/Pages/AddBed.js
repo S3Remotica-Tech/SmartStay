@@ -218,7 +218,7 @@ useEffect(() => {
 
           <Button 
           onClick={handleSubmit}
-           className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600,  padding:16 , borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" }}>
+           className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600,  padding:12 , borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" }}>
           Add bed
           </Button>
         </Modal.Footer>
