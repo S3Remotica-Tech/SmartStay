@@ -81,6 +81,8 @@ const handleDeleteBed = () =>{
 
   return (
     <div>  
+
+      
         
         <Modal show={show} onHide={handleClose} centered backdrop="static">
             <div>

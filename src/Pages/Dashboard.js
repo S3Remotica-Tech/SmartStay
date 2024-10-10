@@ -29,7 +29,15 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 import drop from "../Assets/Images/New_images/arrow-down.png";
 import { Offcanvas, Form, FormControl } from "react-bootstrap";
 import CountUp from "react-countup";
-
+import DashboardAnnouncement from "./DashboardAnnouncement";
+import DashboardUpdates from "./DashboardUpdates";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import Box from "@mui/material/Box";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 import {
   BarChart,
   Bar,
@@ -65,6 +73,13 @@ function Dashboard(props) {
   const [lablesdata, setLables] = useState([]);
   const [totalAmount, setTotalAmount] = useState([]);
   const [activecommpliance, setActivecommpliance] = useState([]);
+  const [value, setValue] = React.useState("1");
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleChanges = (event, newValue) => {
+    setValue(newValue);
+  };
   console.log("activecommpliance", activecommpliance);
 
   console.log("lablesdata", lablesdata);
@@ -299,7 +314,61 @@ function Dashboard(props) {
         </div>
       </div>
 
-      <div className="row carddesign">
+      <TabContext value={value}>
+        <div>
+          <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+            <TabList
+              orientation={isSmallScreen ? "vertical" : "horizontal"}
+              onChange={handleChanges}
+              aria-label="lab API tabs example"
+              style={{ marginLeft: "20px" }}
+              className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+            >
+              <Tab
+                label="Dashboard"
+                value="1"
+                style={{
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  color: "#4B4B4B",
+                  lineHeight: "normal",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  textTransform: "none",
+                }}
+              />
+              <Tab
+                label="Announcement"
+                value="2"
+                style={{
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  color: "#4B4B4B",
+                  lineHeight: "normal",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  textTransform: "none",
+                }}
+              />
+                <Tab
+                label="Updates"
+                value="3"
+                style={{
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  color: "#4B4B4B",
+                  lineHeight: "normal",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  textTransform: "none",
+                }}
+              />
+            </TabList>
+          </Box>
+        </div>
+        <TabPanel value="1">
+          <>
+          <div className="row carddesign">
         <div className="col-lg-4 col-md-12 col-sm-12 col-xl-3 mb-3">
           <Card
             className="animated-text"
@@ -924,6 +993,25 @@ function Dashboard(props) {
           </div>
         </div>
       </div>
+          </>
+        </TabPanel>
+        
+        <TabPanel value="2">
+          <DashboardAnnouncement
+           
+          />
+        </TabPanel>
+          
+        <TabPanel value="3">
+          <DashboardUpdates
+           
+          />
+        </TabPanel>
+      </TabContext>
+
+
+
+     
     </div>
   );
 }
