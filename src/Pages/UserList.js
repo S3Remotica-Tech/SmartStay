@@ -1643,28 +1643,7 @@ setDeleteShow(true)
                                             Delete
                                           </label>
                                         </div>
-=======
-                                      <div
-                                        className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                        style={{ backgroundColor: "#fff" }}
-                                      >
-                                        <img
-                                          src={Delete}
-                                          style={{ height: 16, width: 16 }}
-                                        />{" "}
-                                        <label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy,sans-serif",
-                                            color: "#FF0000",
-                                            cursor: "pointer",
-                                          }}
-                                        >
-                                          Delete
-                                        </label>
 
-                                      </div>
                                     </div>
                                   </div>
                                 </>
