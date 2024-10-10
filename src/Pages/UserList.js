@@ -177,6 +177,7 @@ function UserList(props) {
     setShowInput(false);
   };
 
+  
 
 
 
@@ -782,11 +783,19 @@ function UserList(props) {
   // walkin from 
   const [walkInForm, setWalkinForm] = useState(false)
   const walkinForm = () => {
-    setWalkinForm(!checkoutForm);
+    setWalkinForm(!walkInForm);
   };
   const walkinFormcloseModal = () => {
     setWalkinForm(false);
   };
+  // walkin search
+  const handleCloseClickWalk = () => {
+
+  }
+
+  const handleSearchClickWalk =()=>{
+
+  }
 
   return (
     <div className=' p-2' >
@@ -932,7 +941,7 @@ function UserList(props) {
               </Button>
             )}
             {value === "4" && (
-              <Button onClick={walkinForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}>
+              <Button onClick={walkinForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
                 + Add Walkin
               </Button>
             )}
