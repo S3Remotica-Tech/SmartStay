@@ -595,7 +595,7 @@ function UserList(props) {
   useEffect(() => {
     if (id) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
-      // setAmnityuserdetail(state.UsersList?.customerdetail.all_amenities)
+     
     }
     console.log("userIduserId", id);
   }, [id]);
