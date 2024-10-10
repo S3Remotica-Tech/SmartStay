@@ -126,6 +126,7 @@ function All_landing_pages() {
 console.log("activeLink",activeLink)
 
 
+
     const linkStyle = (isActive) => ({
         cursor: "pointer",
         fontSize: 16,
@@ -139,7 +140,9 @@ console.log("activeLink",activeLink)
     return (
         <>
             <div>
+
                 <Navbar collapseOnSelect expand="lg"  fixed="top" className="" style={{ backgroundColor: "#FFFFFF",  }} transparent>
+
                     <Container>
                         <Navbar.Brand><img src={Logo} style={{ width: 176.45, height:33}} /> 
                         {/* <img src={Smart} style={{ height: 20, width: 133 }} /> */}
@@ -205,19 +208,27 @@ console.log("activeLink",activeLink)
                                 </Nav.Link>
                             </Nav>
                             <Nav className=' justi-content-end'>
-                                <div className='d-lg-flex  d-sm-block d-md-block align-items-center'>
+                                <div className='d-lg-flex d-sm-block d-md-block align-items-center gap-3'>
 
                               
+
+                                
+                         
+
                                 <Nav.Link style={{ fontSize: 16, fontWeight: 500, color: "#000", fontFamily: "Montserrat", marginRight:20 }} onClick={handleSignIn}>Sign in</Nav.Link>
                                 <Button onClick={handleSignUp} variant="" style={{ backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontWeight: 600, fontSize: 16, fontFamily: "Montserrat", borderRadius: 16, padding: "20px 24px 20px 24px" }}>Get Started</Button>
                                 </div>
+
 
                             </Nav>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
             </div>
+
+
             <Element name="firstPage" style={{ paddingTop: "90px" }}>
+
                 <FirstPage />
             </Element>
             <Element name="keyFeature">
