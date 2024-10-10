@@ -80,6 +80,13 @@ function UserList(props) {
       setFilteredUsers(FilterUsertwo);
       console.log("FilterUsertwo", FilterUsertwo);
     }
+    if (value === "4") {
+      const FilterUsertwo = state.UsersList.hostelList.filter((item) => {
+        return item.Name.toLowerCase().includes(filterInput.toLowerCase());
+      });
+      setFilteredUsers(FilterUsertwo);
+      console.log("FilterUsertwo", FilterUsertwo);
+    }
   }, [filterInput, state.UsersList.Users, value]);
 
   // useEffect(() => {
@@ -595,7 +602,7 @@ function UserList(props) {
   useEffect(() => {
     if (id) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
-     
+
     }
     console.log("userIduserId", id);
   }, [id]);
@@ -1306,159 +1313,159 @@ function UserList(props) {
                 <tbody style={{ textAlign: "center" }}>
                   {loading
                     ? Array.from({ length: currentItems?.length || 5 }).map(
-                        (_, index) => (
-                          <tr key={index}>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton circle={true} height={40} width={40} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={80} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={120} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={120} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={120} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={50} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={50} />
-                            </td>
-                          </tr>
-                        )
+                      (_, index) => (
+                        <tr key={index}>
+                          <td style={{ padding: "10px", border: "none" }}>
+                            <Skeleton circle={true} height={40} width={40} />
+                          </td>
+                          <td style={{ padding: "10px", border: "none" }}>
+                            <Skeleton width={80} />
+                          </td>
+                          <td style={{ padding: "10px", border: "none" }}>
+                            <Skeleton width={120} />
+                          </td>
+                          <td style={{ padding: "10px", border: "none" }}>
+                            <Skeleton width={120} />
+                          </td>
+                          <td style={{ padding: "10px", border: "none" }}>
+                            <Skeleton width={120} />
+                          </td>
+                          <td style={{ padding: "10px", border: "none" }}>
+                            <Skeleton width={50} />
+                          </td>
+                          <td style={{ padding: "10px", border: "none" }}>
+                            <Skeleton width={50} />
+                          </td>
+                        </tr>
                       )
+                    )
                     : currentItems.map((user) => {
-                        const imageUrl = user.profile || Profile;
-                        return (
-                          <tr
-                            key={user.ID}
+                      const imageUrl = user.profile || Profile;
+                      return (
+                        <tr
+                          key={user.ID}
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: 600,
+                            textAlign: "center",
+                            marginTop: 10,
+                          }}
+                        >
+                          <td style={{ padding: "10px", border: "none" }}>
+                            <img src={squre} height={20} width={20} />
+                          </td>
+                          <td
                             style={{
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              textAlign: "center",
-                              marginTop: 10,
+                              border: "none",
+                              display: "flex",
+                              padding: "10px",
                             }}
                           >
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <img src={squre} height={20} width={20} />
-                            </td>
-                            <td
+                            <Image
+                              src={imageUrl}
+                              alt={user.Name || "Default Profile"}
+                              roundedCircle
                               style={{
-                                border: "none",
-                                display: "flex",
-                                padding: "10px",
+                                height: "40px",
+                                width: "40px",
+                                marginRight: "10px",
                               }}
-                            >
-                              <Image
-                                src={imageUrl}
-                                alt={user.Name || "Default Profile"}
-                                roundedCircle
-                                style={{
-                                  height: "40px",
-                                  width: "40px",
-                                  marginRight: "10px",
-                                }}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = Profile;
-                                }}
-                              />
-                              <span
-                                className="Customer_Name_Hover"
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  color: "#1E45E1",
-                                  cursor: "pointer",
-                                }}
-                                onClick={() => handleRoomDetailsPage(user)}
-                              >
-                                {user.Name}
-                              </span>
-                            </td>
-                            <td
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = Profile;
+                              }}
+                            />
+                            <span
+                              className="Customer_Name_Hover"
                               style={{
-                                padding: "10px",
-                                border: "none",
-                                textAlign: "start",
                                 fontSize: "16px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
+                                color: "#1E45E1",
+                                cursor: "pointer",
                               }}
+                              onClick={() => handleRoomDetailsPage(user)}
                             >
-                              {user.Email}
-                            </td>
-                            <td
+                              {user.Name}
+                            </span>
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px",
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            {user.Email}
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px",
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            +
+                            {user &&
+                              String(user.Phone).slice(
+                                0,
+                                String(user.Phone).length - 10
+                              )}{" "}
+                            {user && String(user.Phone).slice(-10)}
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px",
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            <span
                               style={{
-                                padding: "10px",
-                                border: "none",
+                                paddingTop: "3px",
+                                paddingLeft: "10px",
+                                paddingRight: "10px",
+                                paddingBottom: "3px",
+                                borderRadius: "60px",
+                                backgroundColor: "#FFEFCF",
                                 textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 600,
+                                fontSize: "14px",
+                                fontWeight: 500,
                                 fontFamily: "Gilroy",
                               }}
                             >
-                              +
-                              {user &&
-                                String(user.Phone).slice(
-                                  0,
-                                  String(user.Phone).length - 10
-                                )}{" "}
-                              {user && String(user.Phone).slice(-10)}
-                            </td>
-                            <td
-                              style={{
-                                padding: "10px",
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              <span
-                                style={{
-                                  paddingTop: "3px",
-                                  paddingLeft: "10px",
-                                  paddingRight: "10px",
-                                  paddingBottom: "3px",
-                                  borderRadius: "60px",
-                                  backgroundColor: "#FFEFCF",
-                                  textAlign: "start",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                {user.HostelName}
-                              </span>
-                            </td>
-                            <td
-                              style={{
-                                padding: "10px",
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              {" "}
-                              {!user.Rooms ||
+                              {user.HostelName}
+                            </span>
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px",
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            {" "}
+                            {!user.Rooms ||
                               user.Rooms === "undefined" ||
                               user.Rooms === "0" ||
                               user.Rooms === "" ||
                               user.Rooms === "null"
-                                ? "-"
-                                : user.Rooms}
-                            </td>
-                            {/* <td
+                              ? "-"
+                              : user.Rooms}
+                          </td>
+                          {/* <td
                         className={user.Bed === 0 ? 'assign-bed' : ''}
                         onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
                         style={{
@@ -1473,80 +1480,80 @@ function UserList(props) {
                       >
                         {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
                       </td> */}
-                            <td
-                              // className={user.Bed === 0 ? 'assign-bed' : ''}
-                              // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
-                              style={{
-                                padding: "10px",
-                                border: "none",
-                                cursor: "pointer",
-                                color:
-                                  user.Bed === "undefined" ? "blue" : "inherit",
-                                textDecoration:
-                                  user.Bed === "undefined" ? "none" : "initial",
-                                textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              {user.Bed === "undefined" ||
+                          <td
+                            // className={user.Bed === 0 ? 'assign-bed' : ''}
+                            // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
+                            style={{
+                              padding: "10px",
+                              border: "none",
+                              cursor: "pointer",
+                              color:
+                                user.Bed === "undefined" ? "blue" : "inherit",
+                              textDecoration:
+                                user.Bed === "undefined" ? "none" : "initial",
+                              textAlign: "start",
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            {user.Bed === "undefined" ||
                               user.Bed === "0" ||
                               user.Bed === "" ||
                               user.Bed === "null"
-                                ? "-"
-                                : user.Bed}
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
+                              ? "-"
+                              : user.Bed}
+                          </td>
+                          <td style={{ padding: "10px", border: "none" }}>
+                            {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                              <div
-                                style={{
-                                  cursor: "pointer",
-                                  height: 40,
-                                  width: 40,
-                                  borderRadius: 100,
-                                  border: "1px solid #EFEFEF",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  position: "relative",
-                                  zIndex: 1000,
-                                }}
-                                onClick={() => handleShowDots(user.ID)}
-                              >
-                                <PiDotsThreeOutlineVerticalFill
-                                  style={{ height: 20, width: 20 }}
-                                />
-                                {activeRow === user.ID && (
-                                  <>
+                            <div
+                              style={{
+                                cursor: "pointer",
+                                height: 40,
+                                width: 40,
+                                borderRadius: 100,
+                                border: "1px solid #EFEFEF",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                position: "relative",
+                                zIndex: 1000,
+                              }}
+                              onClick={() => handleShowDots(user.ID)}
+                            >
+                              <PiDotsThreeOutlineVerticalFill
+                                style={{ height: 20, width: 20 }}
+                              />
+                              {activeRow === user.ID && (
+                                <>
+                                  <div
+                                    ref={popupRef}
+                                    style={{
+                                      cursor: "pointer",
+                                      backgroundColor: "#fff",
+                                      position: "absolute",
+                                      right: 50,
+                                      top: 20,
+                                      width: 163,
+                                      height: "auto",
+                                      border: "1px solid #EBEBEB",
+                                      borderRadius: 10,
+                                      display: "flex",
+                                      justifyContent: "start",
+                                      padding: 10,
+                                      alignItems: "center",
+                                      zIndex: showDots ? 1000 : "auto",
+                                    }}
+                                  >
                                     <div
-                                      ref={popupRef}
-                                      style={{
-                                        cursor: "pointer",
-                                        backgroundColor: "#fff",
-                                        position: "absolute",
-                                        right: 50,
-                                        top: 20,
-                                        width: 163,
-                                        height: "auto",
-                                        border: "1px solid #EBEBEB",
-                                        borderRadius: 10,
-                                        display: "flex",
-                                        justifyContent: "start",
-                                        padding: 10,
-                                        alignItems: "center",
-                                        zIndex: showDots ? 1000 : "auto",
-                                      }}
+                                      style={{ backgroundColor: "#fff" }}
+                                      className=""
                                     >
-                                      <div
-                                        style={{ backgroundColor: "#fff" }}
-                                        className=""
-                                      >
-                                        {(user.Bed === "undefined" ||
-                                          user.Bed === "null" ||
-                                          user.Bed === "0" ||
-                                          user.Bed === "") && (
+                                      {(user.Bed === "undefined" ||
+                                        user.Bed === "null" ||
+                                        user.Bed === "0" ||
+                                        user.Bed === "") && (
                                           <div
                                             className="mb-3 d-flex justify-content-start align-items-center gap-2"
                                             // onClick={() => handleInvoicepdf(user)}
@@ -1572,31 +1579,31 @@ function UserList(props) {
                                             </label>
                                           </div>
                                         )}
-                                        <div
-                                          className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                          style={{ backgroundColor: "#fff" }}
-                                          onClick={() =>
-                                            handleRoomDetailsPage(user)
-                                          }
+                                      <div
+                                        className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                        style={{ backgroundColor: "#fff" }}
+                                        onClick={() =>
+                                          handleRoomDetailsPage(user)
+                                        }
+                                      >
+                                        <img
+                                          src={Edit}
+                                          style={{ height: 16, width: 16 }}
+                                        />{" "}
+                                        <label
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy,sans-serif",
+                                            color: "#222222",
+                                            cursor: "pointer",
+                                          }}
                                         >
-                                          <img
-                                            src={Edit}
-                                            style={{ height: 16, width: 16 }}
-                                          />{" "}
-                                          <label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy,sans-serif",
-                                              color: "#222222",
-                                              cursor: "pointer",
-                                            }}
-                                          >
-                                            Edit
-                                          </label>
-                                        </div>
+                                          Edit
+                                        </label>
+                                      </div>
 
-                                        {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                      {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                                                 onClick={() => { handleShowform(props) }}
                                                 style={{ backgroundColor: "#fff" }}
                                             >
@@ -1604,37 +1611,37 @@ function UserList(props) {
 
                                             </div> */}
 
-                                        <div
-                                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                          style={{ backgroundColor: "#fff" }}
+                                      <div
+                                        className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                                        style={{ backgroundColor: "#fff" }}
+                                      >
+                                        <img
+                                          src={Delete}
+                                          style={{ height: 16, width: 16 }}
+                                        />{" "}
+                                        <label
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy,sans-serif",
+                                            color: "#FF0000",
+                                            cursor: "pointer",
+                                          }}
                                         >
-                                          <img
-                                            src={Delete}
-                                            style={{ height: 16, width: 16 }}
-                                          />{" "}
-                                          <label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy,sans-serif",
-                                              color: "#FF0000",
-                                              cursor: "pointer",
-                                            }}
-                                          >
-                                            Delete
-                                          </label>
-                                        </div>
+                                          Delete
+                                        </label>
                                       </div>
                                     </div>
-                                  </>
-                                )}
-                              </div>
+                                  </div>
+                                </>
+                              )}
+                            </div>
 
-                              {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
-                            </td>
-                          </tr>
-                        );
-                      })}
+                            {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </Table>
             )}
