@@ -47,8 +47,8 @@ import { set } from "date-fns";
 function EB_Hostel() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log("state", state);
-  const theme = useTheme();
+  console.log("state", state); const theme = useTheme()
+ ;
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [loginid, setLoginid] = useState();
