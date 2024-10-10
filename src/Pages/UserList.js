@@ -3,7 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
 import { Dropdown, Table } from "react-bootstrap";
-import { Button, Offcanvas, Form } from "react-bootstrap";
+import { Button, Offcanvas, Form ,FormControl} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Plus from "../Assets/Images/Create-button.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,8 @@ import UserListRoomDetail from "./UserListRoomDetail";
 import CryptoJS from "crypto-js";
 import Filters from "../Assets/Images/Filters.svg";
 import squre from "../Assets/Images/New_images/minus-square.png";
+import Modal from "react-bootstrap/Modal";
+
 import {
   Autobrightness,
   Call,
@@ -616,6 +618,7 @@ function UserList(props) {
   const [status, setStatus] = useState("");
   const [createby, setcreateby] = useState("");
   const [amnityEdit, setamnityEdit] = useState("");
+  const [deleteShow,setDeleteShow] =useState(false)
   console.log("createby", createby);
 
   const handleselect = (e) => {
@@ -642,6 +645,14 @@ function UserList(props) {
       setSelectedAmenityName([]);
     }
   };
+const handleCloseDelete=() =>{
+setDeleteShow(false)
+}
+
+const handleDeleteShow = ()=>{
+setDeleteShow(true)
+}
+
   useEffect(() => {
     if (
       state.UsersList.customerdetails.all_amenities &&
@@ -1607,7 +1618,7 @@ function UserList(props) {
                                         <div
                                           className="mb-2 d-flex justify-content-start align-items-center gap-2"
                                           style={{ backgroundColor: "#fff" }}
-                                        >
+                                       onClick={handleDeleteShow} >
                                           <img
                                             src={Delete}
                                             style={{ height: 16, width: 16 }}
@@ -1762,6 +1773,66 @@ function UserList(props) {
           )}
         </>
       )}
+
+<Modal show={deleteShow} onHide={handleCloseDelete} backdrop="static" centered>
+  <Modal.Body style={{ padding: "20px", borderRadius: "30px" }}>
+    <div className="d-flex flex-column align-items-center">
+      <Modal.Header className="w-100" style={{ borderBottom: "none" }}>
+        <h5 style={{ width: "100%", textAlign: "center", margin: 0 }}>
+          Delete Customer?
+        </h5>
+      </Modal.Header>
+
+      <p className="mt-4" style={{ textAlign: "center" }}>
+        Are you sure you want to delete this customer?
+      </p>
+
+      <div
+        className="d-flex justify-content-between w-100"
+        style={{ marginTop: "20px", gap: "20px" }} // Adjusted gap between buttons
+      >
+        <Button
+          onClick={handleCloseDelete}
+          style={{
+            backgroundColor:"transparent",
+            color: "#1E45E1",
+            fontWeight: 600,
+            height: 50,
+            width: "100%", // Ensure buttons take equal space
+            borderRadius: 12,
+            fontSize: 16,
+            fontFamily: "Montserrat",
+            border: "1px solid #ccc", // Optional border for consistency
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={handleCloseDelete}
+          style={{
+            backgroundColor: "#1E45E1",
+            color: "#fff",
+            fontWeight: 600,
+            height: 50,
+            width: "100%", // Ensure buttons take equal space
+            borderRadius: 12,
+            fontSize: 16,
+            fontFamily: "Montserrat",
+          }}
+        >
+          Delete
+        </Button>
+      </div>
+    </div>
+  </Modal.Body>
+</Modal>
+
+
+
+
+
+
+
       {roomDetail == true ? (
         <UserListRoomDetail
           AfterEditHostels={AfterEditHostel}
