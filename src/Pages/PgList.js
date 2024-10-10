@@ -23,7 +23,7 @@ import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
 import { Tab, Row, Col } from 'react-bootstrap';
 import Delete from '../Assets/Images/New_images/trash.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -34,7 +34,6 @@ import 'react-toastify/dist/ReactToastify.css';
 // import Edit from '../Assets/Images/New_images/edit.png';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
-import { Edit, Trash} from 'iconsax-react';
 
 // function getFloorName(floor_Id) {
 
@@ -187,6 +186,19 @@ function PgList() {
     }
 
   }, [state.UsersList?.hosteListStatusCode])
+
+  
+
+useEffect(()=>{
+  if(state.UsersList?.noHosteListStatusCode == 201){
+    setFilteredData([])
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_NO_HOSTEL_STATUS_CODE' })
+    }, 4000)
+  }
+
+},[state.UsersList?.noHosteListStatusCode])
+
 
 
 
@@ -1030,7 +1042,7 @@ const handleDropDown = (value)=>{
 
         {hidePgList && <>
         <div className='container'>
-          <div className="d-flex justify-content-between align-items-center ms-4 mb-3">
+          <div className="d-flex justify-content-between align-items-center mb-3">
 
             <div>
               <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Paying Guest</label>
@@ -1144,7 +1156,7 @@ const handleDropDown = (value)=>{
               <div>
                 <Button
                   onClick={handleShowAddPg}
-                  style={{ fontFamily: "'Montserrat'", fontSize: 14, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 8,  padding: "16px 20px 16px 20px" }}> + Add new PG</Button>
+                  style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 8,  padding: "16px 20px 16px 20px" }}> + Add new PG</Button>
               </div>
             </div>
           </div>
@@ -1174,15 +1186,15 @@ const handleDropDown = (value)=>{
 
             {!loader && filteredData.length == 0 &&
 
-              <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+              <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%",margin: "0px auto", backgroundColor:"" }}>
 
                 <div>
                   <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Paying Guest available</div>
-                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no Paying Guest added.</div>
-                  <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
+                  <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Paying Guest available</div>
+                  <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Paying Guest added.</div>
+                  <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
                     onClick={handleShowAddPg}
-                  > + Add PG</Button>
+                  > + Add new PG</Button>
                   </div>
                 </div>
                 <div>
@@ -1250,7 +1262,7 @@ const handleDropDown = (value)=>{
               <div className='d-flex align-items-center' >
                 <ArrowLeft size="32" color="#222222" onClick={handlebackToPG} style={{ cursor: "pointer" }} />
 
-                <label className='ms-4' style={{ fontSize: 20, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>{showHostelDetails.Name}</label>
+                <label className='ms-4' style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>{showHostelDetails.Name}</label>
               </div>
 
               <div className="d-flex justify-content-between align-items-center">
@@ -1264,7 +1276,7 @@ const handleDropDown = (value)=>{
                 </div>
 
                 <div>
-                  <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }} onClick={() => handleAddFloors(showHostelDetails.id)}>+ Add  floor</Button>
+                  <Button style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 12,  padding: "16px 20px 16px 20px", fontFamily: "Gilroy"}} onClick={() => handleAddFloors(showHostelDetails.id)}>+ Add  floor</Button>
                 </div>
               </div>
             </div>
@@ -1445,13 +1457,13 @@ const handleDropDown = (value)=>{
                 </Tab.Container>
                 :
 
-                <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+                <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", margin: "0px auto", backgroundColor:"" }}>
 
                   <div>
                     <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                    <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No floors available</div>
-                    <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There is no floor added to this paying guest.</div>
-                    <div className='d-flex justify-content-center pb-1'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 155, padding: "18px, 20px, 18px, 20px", fontFamily: "Montserrat" }}
+                    <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No floors available</div>
+                    <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no floor added to this paying guest.</div>
+                    <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 12,  padding: "20px 40px", fontFamily: "Gilroy" }}
                       onClick={() => handleAddFloors(showHostelDetails.id)}
                     > + Add floor</Button>
                     </div>

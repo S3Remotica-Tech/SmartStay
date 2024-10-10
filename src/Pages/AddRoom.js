@@ -9,6 +9,9 @@ import imageCompression from 'browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { MdError } from "react-icons/md";
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+
+
 
 function AddRoom( {show, handleClose ,hostelDetails,editRoom}) {
   
@@ -187,10 +190,15 @@ if (!floorId) {
   >
     <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
-        <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-          <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>
+        <Modal.Header  style={{ border: "1px solid #E7E7E7" }}>
+          <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>
           {modalTitle}
             </Modal.Title>
+
+
+            <CloseCircle size="24" color="#000"  onClick={handleClose}/>
+
+            
         </Modal.Header>
 
         <Modal.Body>
@@ -244,7 +252,7 @@ if (!floorId) {
 
         <Modal.Footer style={{ border: "none" }}>
 
-          <Button onClick={handleCreateRoom} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}>
+          <Button onClick={handleCreateRoom} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding:12  }}>
           {modalTitle}
           </Button>
         </Modal.Footer>

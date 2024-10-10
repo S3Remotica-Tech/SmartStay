@@ -4,13 +4,112 @@ import {Table} from "react-bootstrap";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import squre from '../Assets/Images/New_images/minus-square.png';
 import Image from "react-bootstrap/Image";
+import emptyimg from "../Assets/Images/New_images/empty_image.png";
+import Button from "react-bootstrap/Button";
+import {
+    Autobrightness,
+    Call,
+    Sms,
+    House,
+    Buildings,
+    ArrowLeft2,
+    ArrowRight2,
+  } from "iconsax-react";
 
-function EBRoomReading() {
+function EBRoomReading(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+
+console.log("state",state)
+  useEffect(() => {
+    dispatch({ type: "EBLIST" });
+    dispatch({ type: "EBSTARTMETERLIST" });
+  }, []);
+  
+  const electricityrowsPerPage = 5;
+  const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
+  const [electricityFilterddata, setelectricityFilterddata] = useState([]);
+  const indexOfLastRowelectricity =
+    electricitycurrentPage * electricityrowsPerPage;
+  const indexOfFirstRowelectricity =
+    indexOfLastRowelectricity - electricityrowsPerPage;
+  const currentRowelectricity = electricityFilterddata?.slice(
+    indexOfFirstRowelectricity,
+    indexOfLastRowelectricity
+  );
+
+  const handleElectricityPageChange = (InvoicepageNumber) => {
+    setelectricitycurrentPage(InvoicepageNumber);
+  };
+
+  const totalPagesinvoice = Math.ceil(
+    electricityFilterddata?.length / electricityrowsPerPage
+  );
+
+  const renderPageNumberselectricity = () => {
+    const pageNumberselectricity = [];
+    let startPageelectricity = electricitycurrentPage - 1;
+    let endPageelectricity = electricitycurrentPage + 1;
+
+    if (electricitycurrentPage === 1) {
+      startPageelectricity = 1;
+      endPageelectricity = 3;
+    }
+
+    if (electricitycurrentPage === totalPagesinvoice) {
+      startPageelectricity = totalPagesinvoice - 2;
+      endPageelectricity = totalPagesinvoice;
+    }
+
+    if (electricitycurrentPage === 2) {
+      startPageelectricity = 1;
+      endPageelectricity = 3;
+    }
+
+    if (electricitycurrentPage === totalPagesinvoice - 1) {
+      startPageelectricity = totalPagesinvoice - 2;
+      endPageelectricity = totalPagesinvoice;
+    }
+
+    for (let i = startPageelectricity; i <= endPageelectricity; i++) {
+      if (i > 0 && i <= totalPagesinvoice) {
+        pageNumberselectricity.push(
+          <li key={i} style={{ margin: "0 5px" }}>
+            <button
+              style={{
+                padding: "5px 10px",
+                textDecoration: "none",
+                color: i === electricitycurrentPage ? "#007bff" : "#000000",
+                cursor: "pointer",
+                borderRadius: "5px",
+                display: "inline-block",
+                minWidth: "30px",
+                textAlign: "center",
+                backgroundColor:
+                  i === electricitycurrentPage ? "transparent" : "transparent",
+                border:
+                  i === electricitycurrentPage ? "1px solid #ddd" : "none",
+              }}
+              onClick={() => handleElectricityPageChange(i)}
+            >
+              {i}
+            </button>
+          </li>
+        );
+      }
+    }
+
+    return pageNumberselectricity;
+  };
+
+  useEffect(() => {
+    setelectricityFilterddata(state.PgList?.EB_startmeterlist);
+  }, [state.PgList?.EB_startmeterlist]);
   return (
-    <div>
-        <Table
+  <>
+    <div >
+      {currentRowelectricity.length > 0 && (
+  <Table
   responsive ="md"
   className='Table_Design'
   style={{
@@ -80,7 +179,7 @@ function EBRoomReading() {
             textAlign: "center",
           }}
         >
-          Room 
+          Room no
         </th>
         <th
           style={{
@@ -93,7 +192,7 @@ function EBRoomReading() {
             textAlign: "center",
           }}
         >
-          Date
+          Previous
         </th>
         <th
           style={{
@@ -106,7 +205,7 @@ function EBRoomReading() {
             textAlign: "center",
           }}
         >
-         Reading
+          Current
         </th>
         <th
           style={{
@@ -117,50 +216,57 @@ function EBRoomReading() {
             paddingTop: "10px",
             paddingBottom: "10px",
             textAlign: "center",
-            borderTopRightRadius: 24
+          }}
+        >
+          Dated
+        </th>
+        <th
+          style={{
+            color: "#939393",
+            fontWeight: 500,
+            fontSize: "14px",
+            fontFamily: "Gilroy",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            textAlign: "center",
           }}
         >
           Units
         </th>
-        {/* <th
-          style={{
-            color: "#939393",
-            fontWeight: 500,
-            fontSize: "14px",
-            fontFamily: "Gilroy",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            textAlign: "center",
-          }}
-        >
-          Units
-        </th>
         <th
           style={{
+            textAlign: "center",
+            fontFamily: "Gilroy",
+            color: "#939393",
+            fontSize: 14,
+            fontWeight: 600,
+            // borderTopRightRadius: 24
+          }}
+        >
+          Amount
+        </th>
+        <th  style={{
             textAlign: "center",
             fontFamily: "Gilroy",
             color: "rgba(34, 34, 34, 1)",
             fontSize: 14,
             fontWeight: 600,
             borderTopRightRadius: 24
-          }}
-        >
-          Amount
-        </th> */}
+          }}> </th>
       </tr>
     </thead>
     <tbody style={{ fontSize: "12px" }}>
-      {/* {currentRowelectricity &&
-        currentRowelectricity.map((v) => { */}
-          {/* const imageUrl = v.profile || Profile;
+      {currentRowelectricity &&
+        currentRowelectricity.map((v) => {
+          const imageUrl = v.profile || Profile;
           let Dated = new Date(v.createAt);
           let day = Dated.getDate();
           let month = Dated.getMonth() + 1;
           let year = Dated.getFullYear();
-          let formattedDate = `${day}/${month}/${year}`; */}
+          let formattedDate = `${day}/${month}/${year}`;
 
-          {/* return ( */}
-            <tr >
+          return (
+            <tr key={v.id}>
               <td
                 style={{
                   padding: "10px",
@@ -187,8 +293,8 @@ function EBRoomReading() {
                   }}
                 >
                   <Image
-                    src={Profile}
-                    // alt={v.hoatel_Name || "Default Profile"}
+                    src={imageUrl}
+                    alt={v.hoatel_Name || "Default Profile"}
                     roundedCircle
                     style={{
                       height: "40px",
@@ -207,7 +313,7 @@ function EBRoomReading() {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    {/* {v.hoatel_Name} */}HOSTEL
+                    {v.hoatel_Name}
                   </span>
                 </div>
               </td>
@@ -221,7 +327,7 @@ function EBRoomReading() {
                   borderBottom:"none"
                 }}
               >
-                {/* {v.Floor} */}FLOOR
+                {v.Floor}
               </td>
               <td
                 style={{
@@ -233,10 +339,32 @@ function EBRoomReading() {
                   borderBottom:"none" 
                 }}
               >
-                {/* {v.Room} */}ROOM
+                {v.Room}
               </td>
-
-
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                   borderBottom:"none"
+                }}
+              >
+                {v.start_Meter_Reading}
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle", 
+                   borderBottom:"none"
+                }}
+              >
+                {v.end_Meter_Reading}
+              </td>
               <td
                 style={{
                   textAlign: "center",
@@ -257,23 +385,9 @@ function EBRoomReading() {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  {/* {formattedDate} */}DATE
+                  {formattedDate}
                 </span>
               </td>
-             
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle", 
-                   borderBottom:"none"
-                }}
-              >
-                {/* {v.end_Meter_Reading} */}READING
-              </td>
-             
               <td
                 style={{
                   fontSize: "16px",
@@ -284,16 +398,195 @@ function EBRoomReading() {
                    borderBottom:"none"
                 }}
               >
-                {/* {v.Eb_Unit} */}UNIT
+                {v.Eb_Unit}
               </td>
-          
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle", 
+                   borderBottom:"none"
+                }}
+              >
+                {v.EbAmount}
+              </td>
             </tr>
-          {/* ); */}
-        {/* }) */}
-        {/* } */}
+          );
+        })}
     </tbody>
   </Table>
+)}
+
+  {state.PgList?.EB_startmeterlist?.length === 0 && (
+    <div>
+      <div style={{ textAlign: "center" }}>
+        <img src={emptyimg} alt="emptystate" />
+      </div>
+      <div
+        className="pb-1"
+        style={{
+          textAlign: "center",
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          fontSize: 24,
+          color: "rgba(75, 75, 75, 1)",
+        }}
+      >
+        No Active Electricity{" "}
+      </div>
+      <div
+        className="pb-1"
+        style={{
+          textAlign: "center",
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          fontSize: 20,
+          color: "rgba(75, 75, 75, 1)",
+        }}
+      >
+        There are no active Electricity{" "}
+      </div>
+
+      <div style={{ textAlign: "center" }}>
+        <Button
+          onClick={props.handleAddEbDetails}
+          style={{
+            fontSize: 16,
+            backgroundColor: "#1E45E1",
+            color: "white",
+            height: 56,
+            fontWeight: 600,
+            borderRadius: 12,
+            width: 200,
+            padding: "18px, 20px, 18px, 20px",
+            fontFamily: "Montserrat",
+          }}
+        >
+          + Record Reading
+        </Button>
+      </div>
     </div>
+  )}
+</div>
+
+
+        {currentRowelectricity.length > 0 && (
+          <nav>
+            <ul
+              style={{
+                display: "flex",
+                alignItems: "center",
+                listStyleType: "none",
+                padding: 0,
+                justifyContent: "end",
+              }}
+            >
+              <li style={{ margin: "0 5px" }}>
+                <button
+                  style={{
+                    padding: "5px 10px",
+                    textDecoration: "none",
+                    color: electricitycurrentPage === 1 ? "#ccc" : "#007bff",
+                    cursor:
+                      electricitycurrentPage === 1 ? "not-allowed" : "pointer",
+                    borderRadius: "5px",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  onClick={() =>
+                    handleElectricityPageChange(electricitycurrentPage - 1)
+                  }
+                  disabled={electricitycurrentPage === 1}
+                >
+                  {" "}
+                  <ArrowLeft2 size="16" color="#1E45E1" />
+                </button>
+              </li>
+              {electricitycurrentPage > 3 && (
+                <li style={{ margin: "0 5px" }}>
+                  <button
+                    style={{
+                      padding: "5px 10px",
+                      textDecoration: "none",
+                      color: "white",
+                      cursor: "pointer",
+                      borderRadius: "5px",
+                      display: "inline-block",
+                      minWidth: "30px",
+                      textAlign: "center",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                    onClick={() => handleElectricityPageChange(1)}
+                  >
+                    1
+                  </button>
+                </li>
+              )}
+              {electricitycurrentPage > 3 && <span>...</span>}
+              {renderPageNumberselectricity()}
+              {electricitycurrentPage < totalPagesinvoice - 2 && (
+                <span>...</span>
+              )}
+              {electricitycurrentPage < totalPagesinvoice - 2 && (
+                <li style={{ margin: "0 5px" }}>
+                  <button
+                    style={{
+                      padding: "5px 10px",
+                      textDecoration: "none",
+
+                      cursor: "pointer",
+                      borderRadius: "5px",
+                      display: "inline-block",
+                      minWidth: "30px",
+                      textAlign: "center",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                    onClick={() =>
+                      handleElectricityPageChange(totalPagesinvoice)
+                    }
+                  >
+                    {totalPagesinvoice}
+                  </button>
+                </li>
+              )}
+              <li style={{ margin: "0 5px" }}>
+                <button
+                  style={{
+                    padding: "5px 10px",
+                    textDecoration: "none",
+                    color:
+                      electricitycurrentPage === electricitycurrentPage
+                        ? "#ccc"
+                        : "#007bff",
+                    cursor:
+                      electricitycurrentPage === electricitycurrentPage
+                        ? "not-allowed"
+                        : "pointer",
+                    borderRadius: "5px",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  onClick={() =>
+                    handleElectricityPageChange(electricitycurrentPage + 1)
+                  }
+                  disabled={electricitycurrentPage === totalPagesinvoice}
+                >
+                  <ArrowRight2 size="16" color="#1E45E1" />
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}</>
   );
 }
 export default EBRoomReading;
