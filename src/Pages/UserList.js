@@ -255,7 +255,16 @@ function UserList(props) {
     setShowInput(false);
   };
 
-  console.log("state", state);
+
+  
+
+
+
+  console.log("state", state)
+
+
+
+
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode == 200) {
@@ -866,11 +875,19 @@ function UserList(props) {
   // walkin from
   const [walkInForm, setWalkinForm] = useState(false);
   const walkinForm = () => {
-    setWalkinForm(!checkoutForm);
+    setWalkinForm(!walkInForm);
   };
   const walkinFormcloseModal = () => {
     setWalkinForm(false);
   };
+  // walkin search
+  const handleCloseClickWalk = () => {
+
+  }
+
+  const handleSearchClickWalk =()=>{
+
+  }
 
   return (
     <div className=" p-2">
@@ -954,173 +971,29 @@ function UserList(props) {
                       </div>
                     </div>
 
-                    {isDropdownVisible && filteredUsers.length > 0 && (
-                      <div
-                        style={{
-                          border: "1px solid #d9d9d9 ",
-                          position: "absolute",
-                          top: 60,
-                          left: 0,
-                          zIndex: 1000,
-                          padding: 10,
-                          borderRadius: 8,
-                          backgroundColor: "#fff",
-                          width: "94%",
-                        }}
-                      >
-                        <ul
-                          className="show-scroll p-0"
-                          style={{
-                            backgroundColor: "#fff",
-                            borderRadius: "4px",
-                            // maxHeight: 174,
-                            maxHeight:
-                              filteredUsers.length > 1 ? "174px" : "auto",
-                            minHeight: 100,
-                            overflowY:
-                              filteredUsers.length > 1 ? "auto" : "hidden",
 
-                            margin: "0",
-                            listStyleType: "none",
-                            borderRadius: 8,
-                            boxSizing: "border-box",
-                          }}
-                        >
-                          {filteredUsers.map((user, index) => {
-                            const imagedrop = user.profile || Profile;
-                            return (
-                              <li
-                                key={index}
-                                className="list-group-item d-flex align-items-center"
-                                style={{
-                                  cursor: "pointer",
-                                  padding: "10px 5px",
-                                  borderBottom:
-                                    index !== filteredUsers.length - 1
-                                      ? "1px solid #eee"
-                                      : "none",
-                                }}
-                                onClick={() => handleUserSelect(user)}
-                              >
-                                <Image
-                                  src={imagedrop}
-                                  alt={user.Name || "Default Profile"}
-                                  roundedCircle
-                                  style={{
-                                    height: "30px",
-                                    width: "30px",
-                                    marginRight: "10px",
-                                  }}
-                                  onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = Profile;
-                                  }}
-                                />
-                                <span>{user.Name}</span>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="me-3">
-                    <Image
-                      src={searchteam}
-                      roundedCircle
-                      style={{ height: "24px", width: "24px" }}
-                      onClick={handleSearch}
-                    />
-                  </div>
-                </>
-              )}
+            {value === "1" && (
+              <Button onClick={handleShow} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
+                + Add Customer
+              </Button>
+            )}
+            {value === "2" && (
+              <Button onClick={toggleForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
+                + Add Bookings
+              </Button>
+            )}
+            {value === "3" && (
+              <Button onClick={checkOutForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
+                + Add Check-out
+              </Button>
+            )}
+            {value === "4" && (
+              <Button onClick={walkinForm} style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 171, padding: "18px, 20px, 18px, 20px", fontFamily: "Gilroy" }}>
+                + Add Walkin
+              </Button>
+            )}
+          
 
-              <div className="me-3">
-                <Image
-                  src={Filters}
-                  roundedCircle
-                  style={{ height: "50px", width: "50px" }}
-                  onClick={handleSearch}
-                />
-              </div>
-
-              <div className="buttons">
-                {value === "1" && (
-                  <Button
-                    onClick={handleShow}
-                    style={{
-                      fontSize: 16,
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      height: 56,
-                      fontWeight: 600,
-                      borderRadius: 12,
-                      width: 171,
-                      padding: "18px, 20px, 18px, 20px",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    + Add Customer
-                  </Button>
-                )}
-                {value === "2" && (
-                  <Button
-                    onClick={toggleForm}
-                    style={{
-                      fontSize: 16,
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      height: 56,
-                      fontWeight: 600,
-                      borderRadius: 12,
-                      width: 171,
-                      padding: "18px, 20px, 18px, 20px",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    + Add Bookings
-                  </Button>
-                )}
-                {value === "3" && (
-                  <Button
-                    onClick={checkOutForm}
-                    style={{
-                      fontSize: 16,
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      height: 56,
-                      fontWeight: 600,
-                      borderRadius: 12,
-                      width: 171,
-                      padding: "18px, 20px, 18px, 20px",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    + Add Check-out
-                  </Button>
-                )}
-                {value === "4" && (
-                  <Button
-                    onClick={walkinForm}
-                    style={{
-                      fontSize: 16,
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      height: 56,
-                      fontWeight: 600,
-                      borderRadius: 12,
-                      width: 171,
-                      padding: "18px, 20px, 18px, 20px",
-                      fontFamily: "Montserrat",
-                    }}
-                  >
-                    + Add Walkin
-                  </Button>
-                )}
-              </div>
             </div>
           </div>
 
