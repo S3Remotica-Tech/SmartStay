@@ -28,6 +28,8 @@ function AddVendor({ show, handleClose, currentItem }) {
   const [business_Name, setBusiness_Name] = useState('')
   const [id, setId] = useState('')
   const [vendor_Id, setVendor_Id] = useState('')
+const [country, setCountry] = useState('')
+const[pinCode, setPinCode] = useState('')
 
   const [check, setCheck] = useState(null)
   const [generalError, setGeneralError] = useState('');
@@ -38,8 +40,28 @@ function AddVendor({ show, handleClose, currentItem }) {
   const [addressError, setAddressError] = useState('');
   const [businessNameError, setBusinessNameError] = useState('');
   const [isChangedError, setIsChangedError] = useState('');
-
+  const [countryError, setCountryError] = useState('')
   const [countryCode, setCountryCode] = useState('91');
+const [pinCodeError, setPinCodeError] = useState('')
+
+
+  const handleCountryChange = (e) => {
+    setCountry(e.target.value);
+    setGeneralError('');
+    setIsChangedError('');
+    setCountryError('');
+
+  };
+
+
+const handlePinCodeChange = (e) => {
+  setPinCode(e.target.value);
+    setGeneralError('');
+    setIsChangedError('');
+    setPinCodeError('');
+}
+
+
 
 
   const handleCountryCodeChange = (e) => {
@@ -242,14 +264,29 @@ function AddVendor({ show, handleClose, currentItem }) {
     //   setEmailError('Please enter an email');
     // }
 
+    if (!business_Name) {
+      setBusinessNameError('Please enter a business name');
+      return;
+    }
+
     if (!address) {
       setAddressError('Please enter an address');
       return;
     }
 
-    if (!business_Name) {
-      setBusinessNameError('Please enter a business name');
+    
+
+    if (!country) {
+      setCountryError('Please enter a country');
+      return;
     }
+
+    if (!pinCode) {
+      setPinCodeError('Please enter a pin code');
+      return;
+    }
+   
+
 
     if (emailInvalid || mobileInvalid) {
       if (emailInvalid) {
@@ -682,6 +719,55 @@ console.log("initial state",initialState)
                 </Form.Group>
 
               </div>
+
+
+              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Country<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                  <Form.Control value={country} onChange={(e) => handleCountryChange(e)} type="text" placeholder="Enter country" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: address ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                  {countryError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        {countryError}
+                      </label>
+                    </div>
+                  )}
+
+
+                </Form.Group>
+
+              </div>
+
+              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Pin code<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                  <Form.Control value={pinCode} onChange={(e) => handlePinCodeChange(e)} type="text" placeholder="Enter Pin code" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: address ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                  {pinCodeError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        {pinCodeError}
+                      </label>
+                    </div>
+                  )}
+
+
+                </Form.Group>
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
 
           </Modal.Body>
