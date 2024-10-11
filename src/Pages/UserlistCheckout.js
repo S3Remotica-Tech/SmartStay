@@ -320,7 +320,7 @@ function CheckOut() {
         flex: 1
       }}
     >
-      Delete Check-out?
+      Delete Check-out
     </Modal.Title>
   </Modal.Header>
   
