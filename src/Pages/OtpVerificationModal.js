@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import CryptoJS from "crypto-js";
 import { MdError } from "react-icons/md";
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+
 
 import Cookies from 'universal-cookie';
 
@@ -112,8 +114,10 @@ useEffect(()=>{
 
   return (
     <Modal show={show} onHide={handleClose} backdrop="static">
-      <Modal.Header closeButton>
+      <Modal.Header >
         <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>OTP Verification</Modal.Title>
+      
+        <CloseCircle size="24" color="#000"  onClick={handleClose}/>
       </Modal.Header>
       <Modal.Body>
         <div className='d-flex justify-content-start mb-3'>
@@ -153,7 +157,7 @@ useEffect(()=>{
         {/* <Button variant="secondary" onClick={handleClose}>
           Close
         </Button> */}
-        <Button  onClick={handleOtpVerify} style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}>
+        <Button  onClick={handleOtpVerify} style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" }}>
           Verify
         </Button>
       </Modal.Footer>

@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import moment from 'moment';
 import { maxWidth } from '@mui/system';
-// import './occupiedCustom.css'
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+
 
 
 
@@ -31,7 +32,7 @@ function AddBed({ show, handleClose, currentItem }) {
 
            const Hostel_Id = currentItem.room.Hostel_Id;
             const Floor_Id = currentItem.room.Floor_Id;
-            const Bed_Id = currentItem.bed.bed_no;
+            const Bed_Id = currentItem.bed.id;
             const Room_Id = currentItem.room.Room_Id;
 
 if(Hostel_Id && Floor_Id && Bed_Id && Room_Id){
@@ -137,8 +138,11 @@ dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE'})
                         {customer && customer.map((custom) => (
                             <div key={custom.id} className="p-0 m-0"  style={{}}>
 
-                                <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
+                                <Modal.Header  style={{ border: "1px solid #E7E7E7" }}>
                                     <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Bed {currentItem.bed.bed_no}</Modal.Title>
+                               
+                                    <CloseCircle size="24" color="#000"  onClick={handleClose}/>
+                               
                                 </Modal.Header>
 
                                 <Modal.Body >

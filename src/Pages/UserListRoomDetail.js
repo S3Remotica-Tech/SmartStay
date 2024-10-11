@@ -367,6 +367,7 @@ function UserListRoomDetail(props) {
     } else {
       setEmailError("");
       setEmailErrorMessage("");
+      setFormError('')
     }
 
     // Clear email error on input change
@@ -2404,8 +2405,8 @@ function UserListRoomDetail(props) {
                                           {state.UsersList?.roomdetails &&
                                             state.UsersList.roomdetails.map(
                                               (item) => (
-                                                <option key={item.Room_Id}>
-                                                  {item.Room_Id}
+                                                <option key={item.Room_Id} value={item.Room_Id}>
+                                                  {item.Room_Name}
                                                 </option>
                                               )
                                             )}
@@ -2481,8 +2482,8 @@ function UserListRoomDetail(props) {
                                                 item.bed_no !== "" &&
                                                 item.bed_no !== "null" && (
                                                   <option
-                                                    key={item.bed_no}
-                                                    value={item.bed_no}
+                                                    key={item.id}
+                                                    value={item.id}
                                                   >
                                                     {item.bed_no}
                                                   </option>

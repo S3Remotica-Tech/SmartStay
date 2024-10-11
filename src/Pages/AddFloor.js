@@ -10,6 +10,10 @@ import Swal from 'sweetalert2';
 import './addAsset.css'
 import moment from 'moment';
 import { MdError } from "react-icons/md";
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+
+
+
 
 
 function StaticExample({ show, handleClose, hostelFloor, openFloor , editFloor, updateFloor}) {
@@ -174,8 +178,13 @@ if(updateFloor){
         >
             <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
-                    <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                        <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>{updateFloor ? ' Edit Floor' : 'Add floor'}</Modal.Title>
+                    <Modal.Header 
+                    // closeButton closeLabel="close-button" 
+                    style={{ border: "1px solid #E7E7E7" }}>
+                        <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{updateFloor ? ' Edit Floor' : 'Add floor'}</Modal.Title>
+                
+                
+                        <CloseCircle size="24" color="#000"  onClick={handleClose}/>
                     </Modal.Header>
                     <Modal.Body style={{ padding: 20 }}>
 
@@ -271,8 +280,8 @@ if(updateFloor){
 
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
 
-                        <Button onClick={handleCreateFloor} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }} >
-                        {updateFloor ? 'Save' : 'Add floor'}
+                        <Button onClick={handleCreateFloor} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600,  borderRadius: 12, fontSize: 16, fontFamily: "Gilroy",  padding:12  }} >
+                        {updateFloor ? 'Save Changes' : 'Add floor'}
                         </Button>
                     </Modal.Footer>
                 </Modal.Dialog>

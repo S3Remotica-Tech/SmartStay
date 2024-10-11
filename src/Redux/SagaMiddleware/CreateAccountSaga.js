@@ -12,24 +12,34 @@ function* CreateNewAccount(args) {
     const response = yield call(Addaccount, args.payload);
     console.log("response",response)
     var toastStyle = {
-   
-      backgroundColor: 'green', 
-      color: 'white', 
-      width:"100%"
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
+     
     };
    
       if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode} });
 
-      toast.success('Account created successfully', {
-        position: 'top-center',
-        autoClose: 1000, 
-        hideProgressBar: false,
+      toast.success('created successfully', {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        style: toastStyle
+        style: toastStyle,
       });
     } else if (response.status === 210 || response.statusCode === 210) {
 
@@ -201,22 +211,32 @@ function* HandleTwoStepVerification(action) {
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response.status || response.statusCode } })
     var toastStyle = {
-      backgroundColor: 'green',
-      color: 'white',
-      width: "100%",
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
      
-   };
+    };
 
       // Use the toast with the defined style
       toast.success(response.data.message, {
-        position: 'top-center',
-         autoClose: 2000, 
-         hideProgressBar: false,
+        position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-         style: toastStyle
+         style: toastStyle,
       })
   }
   else {

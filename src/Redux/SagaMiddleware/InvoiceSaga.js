@@ -127,6 +127,8 @@ function* handleInvoiceSettings(param){
 
 function* handleInvoicePdf(action) {
    const response = yield call(InvoicePDf, action.payload)
+   console.log("responseInvoice",response);
+   
      if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'INVOICE_PDF', payload: {response:response.data,statusCode:response.status || response.statusCode}})
    }
@@ -315,6 +317,7 @@ function* handleManualInvoiceNumber(params) {
 
 function* handleManualInvoiceGetData(params) {
    const response = yield call(ManualInvoiceUserData , params.payload)
+  console.log("response",response);
   
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'MANUAL_INVOICE_AMOUNT_GET' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
@@ -359,16 +362,13 @@ function* handleManualInvoiceGetData(params) {
 function* handleManualInvoiceAdd (params) {
    const response = yield call (AddManualInvoiceBill,params.payload);
  
+console.log("responseformanualinvoiceadd",response);
+
+
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'MANUAL_INVOICE_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
       // Define the style
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
+      var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
          fontWeight: 600,
          fontSize: 14,
          textAlign: "start",
@@ -402,9 +402,11 @@ function* handleManualInvoiceAdd (params) {
 
 function* handleGetManualInvoice() {
    const response = yield call(GetManualInvoices)
+   console.log("responseManual", response);
+   
    
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICES_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
+      yield put({ type: 'MANUAL_INVOICES_LIST', payload:{response: response.data.bill_details, statusCode:response.status || response.statusCode}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
