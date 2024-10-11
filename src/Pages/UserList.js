@@ -891,7 +891,7 @@ setDeleteShow(true)
   };
 
   return (
-    <div className=" p-2">
+    <div className="usercustomer p-2">
       <Addbooking show={showbookingForm} handleClose={closeModal} />
 
       <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} />
@@ -902,8 +902,8 @@ setDeleteShow(true)
       />
 
       {userList && (
-        <>
-          <div className="customer p-4">
+        <div style={{margin:"px"}}>
+          <div className="customer">
             <div className="cuslable">
               <label
                 style={{
@@ -1200,9 +1200,9 @@ setDeleteShow(true)
             </TabContext>
           </div>
 
-          {/*  */}
-
-          <div className="p-4" style={{ paddingBottom: "20px" }}>
+        
+<div style={{padding:20,marginTop:"-50px"}}>
+<div >
             {currentItems && currentItems.length > 0 && (
               <Table
                 responsive="md"
@@ -1213,6 +1213,8 @@ setDeleteShow(true)
                   tableLayout: "auto",
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
+                  
+
                 }}
               >
                 <thead
@@ -1473,24 +1475,13 @@ setDeleteShow(true)
                               user.Rooms === "0" ||
                               user.Rooms === "" ||
                               user.Rooms === "null"
-                              ? "-"
-                              : user.Rooms}
-                          </td>
-                          {/* <td
-                        className={user.Bed === 0 ? 'assign-bed' : ''}
-                        onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
-                        style={{
-                          padding: "10px",
-                          border: "none",
-                          cursor:"pointer",
-                          color: user.Bed === 0 ? "blue" : "inherit",
-                          textDecoration: user.Bed === 0 ? "none" : "initial",
-                          textAlign: "start",
-                          fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy"
-                        }}
-                      >
-                        {user.Bed === 0 ? '+ Assign Bed' : user.Bed}
-                      </td> */}
+
+                                ? "-"
+                                : user.Rooms}
+                            </td>
+                           
+                      
+                        
                           <td
                             // className={user.Bed === 0 ? 'assign-bed' : ''}
                             // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
@@ -1509,6 +1500,7 @@ setDeleteShow(true)
                             }}
                           >
                             {user.Bed === "undefined" ||
+
                               user.Bed === "0" ||
                               user.Bed === "" ||
                               user.Bed === "null"
@@ -1780,8 +1772,12 @@ setDeleteShow(true)
               </ul>
             </nav>
           )}
-        </>
+</div>
+        
+        </div>
+       
       )}
+      
 
 <Modal show={deleteShow} onHide={handleCloseDelete} backdrop="static" centered>
   <Modal.Body style={{ padding: "20px", borderRadius: "30px" }}>
