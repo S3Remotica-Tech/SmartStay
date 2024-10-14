@@ -57,6 +57,9 @@ function Settings() {
   const [login_Password, setLogin_Password] = useState("")
 
 
+
+  console.log("filterall",state.UsersList.hostelList);
+  
   const handleTabClick = (tabName) => {
     setSelectedTab(tabName);
   };
@@ -503,18 +506,18 @@ function Settings() {
         <div >
           <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
             <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
-              <Tab label="Security" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="EB Billing" value="2" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Invoice" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Expences" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Complaint type" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Amenities" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Users" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              {/* <Tab label="Security" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
+              <Tab label="EB Billing" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Invoice" value="2" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Expences" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Complaint type" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Amenities" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Users" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
 
             </TabList>
           </Box>
         </div>
-        <TabPanel value="1">
+        {/* <TabPanel value="1">
           <>
 
             <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
@@ -564,11 +567,11 @@ function Settings() {
 
 
           </>
-        </TabPanel>
+        </TabPanel> */}
 
 
 
-        <TabPanel value="2">
+        <TabPanel value="1">
           <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
             <div className='col-lg-4 col-md-5 col-sm-12 col-xs-12'>
               <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
@@ -580,10 +583,14 @@ function Settings() {
                     className='border' value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
 
                     <option style={{ fontSize: 14, fontWeight: 600, }} selected value=''>Select PG</option>
-                    {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
-                      <>
-                        <option key={item.id} value={item.id} >{item.Name}</option></>
-                    ))}
+                    {state.UsersList.hostelList && state.UsersList.hostelList
+  .filter(item => item.amount && item.unit)  // Filter out items with empty amount or unit
+  .map((item) => (
+    <option key={item.id} value={item.id}>
+      {item.Name}
+    </option>
+  ))}
+
 
                   </Form.Select>
     
@@ -914,11 +921,11 @@ function Settings() {
             }
           </div>
         </TabPanel>
-        <TabPanel value="3"><InvoiceSettings /> </TabPanel>
-        <TabPanel value="4"><ExpencesSettings /> </TabPanel>
-        <TabPanel value="5"><Complaintsettings /> </TabPanel>
-        <TabPanel value="6"><Amenities /> </TabPanel>
-        <TabPanel value="7"><UserSettings /> </TabPanel>
+        <TabPanel value="2"><InvoiceSettings /> </TabPanel>
+        <TabPanel value="3"><ExpencesSettings /> </TabPanel>
+        <TabPanel value="4"><Complaintsettings /> </TabPanel>
+        <TabPanel value="5"><Amenities /> </TabPanel>
+        <TabPanel value="6"><UserSettings /> </TabPanel>
       </TabContext>
 
       {/* <div className='mt-0 ' style={{}}>
