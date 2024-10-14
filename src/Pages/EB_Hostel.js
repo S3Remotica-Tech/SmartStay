@@ -595,7 +595,7 @@ function EB_Hostel() {
         <div style={{ padding: 15 }}>
           <label
             style={{
-              fontSize: 24,
+              fontSize: 18,
               color: "#000000",
               fontWeight: 600,
               fontFamily: "Gilroy",
@@ -621,14 +621,14 @@ function EB_Hostel() {
             <Button
               style={{
                 fontFamily: "Montserrat",
-                fontSize: 16,
+                fontSize: 14,
                 backgroundColor: "#1E45E1",
                 color: "white",
-                height: 56,
+                height: 52,
                 fontWeight: 600,
                 borderRadius: 12,
-                width: 184,
-                padding: "18px, 20px, 18px, 20px",
+                width: 140,
+                padding: "16px, 24px, 16px, 24px",
                 border: "none",
                 cursor: "pointer",
               }}

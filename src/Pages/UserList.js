@@ -200,7 +200,7 @@ function UserList(props) {
     setCurrentPage(pageNumber);
   };
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredUsers.slice(
@@ -892,7 +892,7 @@ setDeleteShow(true)
   };
 
   return (
-    <div className="usercustomer p-2">
+    <div className="usercustomer" style={{padding:10,marginLeft:20}}>
       <Addbooking show={showbookingForm} handleClose={closeModal} />
 
       <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} />
@@ -908,7 +908,7 @@ setDeleteShow(true)
             <div className="cuslable">
               <label
                 style={{
-                  fontSize: 24,
+                  fontSize: 18,
                   color: "#000000",
                   fontWeight: 600,
                   fontFamily: "Gilroy",
@@ -1071,14 +1071,14 @@ setDeleteShow(true)
                   <Button
                     onClick={handleShow}
                     style={{
-                      fontSize: 16,
+                      fontSize: 14,
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 56,
+                      height: 52,
                       fontWeight: 600,
                       borderRadius: 12,
-                      width: 171,
-                      padding: "18px, 20px, 18px, 20px",
+                      width: 152,
+                      padding: "16px, 24px, 16px, 24px",
                       fontFamily: "Gilroy",
                     }}
                   >
@@ -1146,11 +1146,12 @@ setDeleteShow(true)
           <div
             className="pl-4"
             style={{
-              paddingLeft: "10px",
+              paddingLeft: "20px",
               fontFamily: "Gilroy",
               fontSize: 16,
               fontWeight: 500,
               textAlign: "left",
+              marginTop:"-20px"
             }}
           >
             <TabContext value={value}>
@@ -1162,19 +1163,19 @@ setDeleteShow(true)
               >
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize" }}
+                  style={{ textTransform: "capitalize",fontSize:14,fontWeight:500,fontFamily:"Gilroy" }}
                   label="All Customers"
                   value="1"
                 />
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize" }}
+                  style={{ textTransform: "capitalize" ,fontSize:14}}
                   label="Bookings"
                   value="2"
                 />
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize" }}
+                  style={{ textTransform: "capitalize",fontSize:14 }}
                   label="Check-out"
                   value="3"
                 />
@@ -1186,7 +1187,7 @@ setDeleteShow(true)
                 />
               </Tabs>
 
-              <TabPanel value="1" style={{paddingLeft:10,paddingRight:20}}>
+              <TabPanel value="1" style={{paddingLeft:0}}>
 
               <div>
 <div >
@@ -1209,7 +1210,7 @@ setDeleteShow(true)
     }
 
             {currentItems && currentItems.length > 0 && (
-              <Table
+               <Table
                 responsive="md"
                 className="Table_Design"
                 style={{
@@ -1218,6 +1219,8 @@ setDeleteShow(true)
                   tableLayout: "auto",
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
+                  
+                  
                   
 
                 }}
@@ -1246,7 +1249,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1258,7 +1261,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1270,7 +1273,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1282,7 +1285,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1294,7 +1297,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1306,7 +1309,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1318,7 +1321,7 @@ setDeleteShow(true)
                         fontFamily: "Gilroy",
                         color: "rgba(34, 34, 34, 1)",
                         fontSize: 14,
-                        fontWeight: 600,
+                        fontWeight: 500,
                         borderTopRightRadius: 24,
                       }}
                     >
@@ -1331,237 +1334,241 @@ setDeleteShow(true)
                 <tbody style={{ textAlign: "center" }}>
                   {loading
                     ? Array.from({ length: currentItems?.length || 5 }).map(
-                      (_, index) => (
-                        <tr key={index}>
-                          <td style={{ padding: "10px", border: "none" }}>
-                            <Skeleton circle={true} height={40} width={40} />
-                          </td>
-                          <td style={{ padding: "10px", border: "none" }}>
-                            <Skeleton width={80} />
-                          </td>
-                          <td style={{ padding: "10px", border: "none" }}>
-                            <Skeleton width={120} />
-                          </td>
-                          <td style={{ padding: "10px", border: "none" }}>
-                            <Skeleton width={120} />
-                          </td>
-                          <td style={{ padding: "10px", border: "none" }}>
-                            <Skeleton width={120} />
-                          </td>
-                          <td style={{ padding: "10px", border: "none" }}>
-                            <Skeleton width={50} />
-                          </td>
-                          <td style={{ padding: "10px", border: "none" }}>
-                            <Skeleton width={50} />
-                          </td>
-                        </tr>
+                        (_, index) => (
+                          <tr key={index}>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton circle={true} height={40} width={40} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={80} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={120} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={120} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={120} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={50} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={50} />
+                            </td>
+                          </tr>
+                        )
                       )
-                    )
                     : currentItems.map((user) => {
-                      const imageUrl = user.profile || Profile;
-                      return (
-                        <tr
-                          key={user.ID}
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: 600,
-                            textAlign: "center",
-                            marginTop: 10,
-                          }}
-                        >
-                          <td style={{ padding: "10px", border: "none" }}>
-                            <img src={squre} height={20} width={20} />
-                          </td>
-                          <td
+                        const imageUrl = user.profile || Profile;
+                        return (
+                          <tr
+                            key={user.ID}
                             style={{
-                              border: "none",
-                              display: "flex",
-                              padding: "10px",
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              textAlign: "center",
+                              marginTop: 10,
                             }}
                           >
-                            <Image
-                              src={imageUrl}
-                              alt={user.Name || "Default Profile"}
-                              roundedCircle
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <img src={squre} height={20} width={20} style={{marginTop:10}} />
+                            </td>
+                            <td
                               style={{
-                                height: "40px",
-                                width: "40px",
-                                marginRight: "10px",
+                                border: "none",
+                                display: "flex",
+                                padding: "10px",
                               }}
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = Profile;
-                              }}
-                            />
-                            <span
-                              className="Customer_Name_Hover"
+                            >
+                              <Image
+                                src={imageUrl}
+                                alt={user.Name || "Default Profile"}
+                                roundedCircle
+                                style={{
+                                  height: "40px",
+                                  width: "40px",
+                                  marginRight: "10px",
+                                }}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = Profile;
+                                }}
+                              />
+                              <span
+                                className="Customer_Name_Hover"
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  color: "#1E45E1",
+                                  cursor: "pointer",
+                                  marginTop:10
+                                  
+                                }}
+                                onClick={() => handleRoomDetailsPage(user)}
+                              >
+                                {user.Name}
+                              </span>
+                            </td>
+                            <td
                               style={{
+                               
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                paddingTop:15
+                              }}
+                            >
+                              {user.Email}
+                            </td>
+                            <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                marginTop:10
+                              }}
+                            >
+                              +
+                              {user &&
+                                String(user.Phone).slice(
+                                  0,
+                                  String(user.Phone).length - 10
+                                )}{" "}
+                              {user && String(user.Phone).slice(-10)}
+                            </td>
+                            <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                marginTop:10
+                              }}
+                            >
+                              <span
+                                style={{
+                                  paddingTop: "3px",
+                                  paddingLeft: "10px",
+                                  paddingRight: "10px",
+                                  paddingBottom: "3px",
+                                  borderRadius: "60px",
+                                  backgroundColor: "#FFEFCF",
+                                  textAlign: "start",
+                                  fontSize: "14px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  
+                                }}
+                              >
+                                {user.HostelName}
+                              </span>
+                            </td>
+                            <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "start",
                                 fontSize: "16px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
-                                color: "#1E45E1",
-                                cursor: "pointer",
-                              }}
-                              onClick={() => handleRoomDetailsPage(user)}
-                            >
-                              {user.Name}
-                            </span>
-                          </td>
-                          <td
-                            style={{
-                              padding: "10px",
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            {user.Email}
-                          </td>
-                          <td
-                            style={{
-                              padding: "10px",
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            +
-                            {user &&
-                              String(user.Phone).slice(
-                                0,
-                                String(user.Phone).length - 10
-                              )}{" "}
-                            {user && String(user.Phone).slice(-10)}
-                          </td>
-                          <td
-                            style={{
-                              padding: "10px",
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            <span
-                              style={{
-                                paddingTop: "3px",
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
-                                paddingBottom: "3px",
-                                borderRadius: "60px",
-                                backgroundColor: "#FFEFCF",
-                                textAlign: "start",
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
+                               
                               }}
                             >
-                              {user.HostelName}
-                            </span>
-                          </td>
-                          <td
-                            style={{
-                              padding: "10px",
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            {" "}
-                            {!user.Rooms ||
+                              {" "}
+                              {!user.Rooms ||
                               user.Rooms === "undefined" ||
                               user.Rooms === "0" ||
                               user.Rooms === "" ||
                               user.Rooms === "null"
-
                                 ? "-"
                                 : user.Rooms}
                             </td>
                            
-                      
-                        
-                          <td
-                            // className={user.Bed === 0 ? 'assign-bed' : ''}
-                            // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
-                            style={{
-                              padding: "10px",
-                              border: "none",
-                              cursor: "pointer",
-                              color:
-                                user.Bed === "undefined" ? "blue" : "inherit",
-                              textDecoration:
-                                user.Bed === "undefined" ? "none" : "initial",
-                              textAlign: "start",
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            {user.Bed === "undefined" ||
-
+                            <td
+                              // className={user.Bed === 0 ? 'assign-bed' : ''}
+                              // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                cursor: "pointer",
+                                color:
+                                  user.Bed === "undefined" ? "blue" : "inherit",
+                                textDecoration:
+                                  user.Bed === "undefined" ? "none" : "initial",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                marginTop:10
+                              }}
+                            >
+                              {user.Bed === "undefined" ||
                               user.Bed === "0" ||
                               user.Bed === "" ||
                               user.Bed === "null"
-                              ? "-"
-                              : user.Bed}
-                          </td>
-                          <td style={{ padding: "10px", border: "none" }}>
-                            {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
+                                ? "-"
+                                : user.Bed}
+                            </td>
+                            <td style={{ paddingTop:12, border: "none" }}>
+                              {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                            <div
-                              style={{
-                                cursor: "pointer",
-                                height: 40,
-                                width: 40,
-                                borderRadius: 100,
-                                border: "1px solid #EFEFEF",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                position: "relative",
-                                zIndex: 1000,
-                              }}
-                              onClick={() => handleShowDots(user.ID)}
-                            >
-                              <PiDotsThreeOutlineVerticalFill
-                                style={{ height: 20, width: 20 }}
-                              />
-                              {activeRow === user.ID && (
-                                <>
-                                  <div
-                                    ref={popupRef}
-                                    style={{
-                                      cursor: "pointer",
-                                      backgroundColor: "#fff",
-                                      position: "absolute",
-                                      right: 50,
-                                      top: 20,
-                                      width: 163,
-                                      height: "auto",
-                                      border: "1px solid #EBEBEB",
-                                      borderRadius: 10,
-                                      display: "flex",
-                                      justifyContent: "start",
-                                      padding: 10,
-                                      alignItems: "center",
-                                      zIndex: showDots ? 1000 : "auto",
-                                    }}
-                                  >
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  height: 40,
+                                  width: 40,
+                                  borderRadius: 100,
+                                  border: "1px solid #EFEFEF",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  position: "relative",
+                                  zIndex: 1000,
+                                }}
+                                onClick={() => handleShowDots(user.ID)}
+                              >
+                                <PiDotsThreeOutlineVerticalFill
+                                  style={{ height: 20, width: 20 }}
+                                />
+                                {activeRow === user.ID && (
+                                  <>
                                     <div
-                                      style={{ backgroundColor: "#fff" }}
-                                      className=""
+                                      ref={popupRef}
+                                      style={{
+                                        cursor: "pointer",
+                                        backgroundColor: "#fff",
+                                        position: "absolute",
+                                        right: 50,
+                                        top: 20,
+                                        width: 163,
+                                        height: "auto",
+                                        border: "1px solid #EBEBEB",
+                                        borderRadius: 10,
+                                        display: "flex",
+                                        justifyContent: "start",
+                                        padding: 10,
+                                        alignItems: "center",
+                                        zIndex: showDots ? 1000 : "auto",
+                                      }}
                                     >
-                                      {(user.Bed === "undefined" ||
-                                        user.Bed === "null" ||
-                                        user.Bed === "0" ||
-                                        user.Bed === "") && (
+                                      <div
+                                        style={{ backgroundColor: "#fff" }}
+                                        className=""
+                                      >
+                                        {(user.Bed === "undefined" ||
+                                          user.Bed === "null" ||
+                                          user.Bed === "0" ||
+                                          user.Bed === "") && (
                                           <div
                                             className="mb-3 d-flex justify-content-start align-items-center gap-2"
                                             // onClick={() => handleInvoicepdf(user)}
@@ -1587,38 +1594,37 @@ setDeleteShow(true)
                                             </label>
                                           </div>
                                         )}
-                                      <div
-                                        className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                        style={{ backgroundColor: "#fff" }}
-                                        onClick={() =>
-                                          handleRoomDetailsPage(user)
-                                        }
-                                      >
-                                        <img
-                                          src={Edit}
-                                          style={{ height: 16, width: 16 }}
-                                        />{" "}
-                                        <label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy,sans-serif",
-                                            color: "#222222",
-                                            cursor: "pointer",
-                                          }}
+                                        <div
+                                          className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                          style={{ backgroundColor: "#fff" }}
+                                          onClick={() =>
+                                            handleRoomDetailsPage(user)
+                                          }
                                         >
-                                          Edit
-                                        </label>
-                                      </div>
+                                          <img
+                                            src={Edit}
+                                            style={{ height: 16, width: 16 }}
+                                          />{" "}
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy,sans-serif",
+                                              color: "#222222",
+                                              cursor: "pointer",
+                                            }}
+                                          >
+                                            Edit
+                                          </label>
+                                        </div>
 
-                                      {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                        {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                                                 onClick={() => { handleShowform(props) }}
                                                 style={{ backgroundColor: "#fff" }}
                                             >
                                                 <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
 
                                             </div> */}
-
 
                                         <div
                                           className="mb-2 d-flex justify-content-start align-items-center gap-2"
@@ -1640,18 +1646,17 @@ setDeleteShow(true)
                                             Delete
                                           </label>
                                         </div>
-
+                                      </div>
                                     </div>
-                                  </div>
-                                </>
-                              )}
-                            </div>
+                                  </>
+                                )}
+                              </div>
 
-                            {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
-                          </td>
-                        </tr>
-                      );
-                    })}
+                              {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+                            </td>
+                          </tr>
+                        );
+                      })}
                 </tbody>
               </Table>
             )}
@@ -1793,59 +1798,6 @@ setDeleteShow(true)
        
       )}
       
-
-{/* <Modal show={deleteShow} onHide={handleCloseDelete} backdrop="static" centered>
-  <Modal.Body style={{ padding: "20px", borderRadius: "30px" }}>
-    <div className="d-flex flex-column align-items-center">
-      <Modal.Header className="w-100" style={{ borderBottom: "none" }}>
-        <h5 style={{ width: "100%", textAlign: "center", margin: 0 }}>
-          Delete Customer?
-        </h5>
-      </Modal.Header>
-
-      <p className="mt-4" style={{ textAlign: "center" }}>
-        Are you sure you want to delete this customer?
-      </p>
-
-      <div
-        className="d-flex justify-content-between w-100"
-        style={{ marginTop: "20px", gap: "20px" }} // Adjusted gap between buttons
-      >
-        <Button
-          onClick={handleCloseDelete}
-          style={{
-            backgroundColor:"transparent",
-            color: "#1E45E1",
-            fontWeight: 600,
-            height: 50,
-            width: "100%", // Ensure buttons take equal space
-            borderRadius: 12,
-            fontSize: 16,
-            fontFamily: "Montserrat",
-            border: "1px solid #ccc", // Optional border for consistency
-          }}
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={handleCloseDelete}
-          style={{
-            backgroundColor: "#1E45E1",
-            color: "#fff",
-            fontWeight: 600,
-            height: 50,
-            width: "100%", // Ensure buttons take equal space
-            borderRadius: 12,
-            fontSize: 16,
-            fontFamily: "Montserrat",
-          }}
-        >
-          Delete
-        </Button>
-      </div>
-    </div>
-  </Modal.Body>
-</Modal> */}
 
 <Modal
   show={deleteShow}
