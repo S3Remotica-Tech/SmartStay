@@ -8,9 +8,9 @@ import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import { InputGroup } from 'react-bootstrap';
+import { InputGroup, Card } from 'react-bootstrap';
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash,AddCircle} from 'iconsax-react';
 
 function AddPg({ show, handleClose, currentItem }) {
 
@@ -336,8 +336,8 @@ function AddPg({ show, handleClose, currentItem }) {
         display: 'block', position: 'initial',
       }}
     >
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
-        <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
+      <Modal show={show} onHide={handleClose} centered backdrop="static" className="custom-modal-width">
+        {/* <Modal.Dialog style={{  width: '100%' }} className='Paying_guest_form m-0 p-0'> */}
           <Modal.Header
           // closeLabel="close-button" style={{}}
           >
@@ -550,6 +550,60 @@ function AddPg({ show, handleClose, currentItem }) {
               </div>
             </div>
 
+
+            {/* <div className='row'>
+     
+        <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12' >
+        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Images <span style={{ color: 'transparent', fontSize: '20px' }}>*</span></Form.Label>
+          <Card  style={{border:"1px solid #D9D9D9", borderRadius:8}}>
+                  <div className="d-flex justify-content-center">
+                    <AddCircle
+                      size="32"
+                      color="#FF8A65"
+                    />
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    <label>Add image</label>
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    <label>Max size 10 MB</label>
+                  </div>
+
+                </Card>
+              </div>
+
+              <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
+          <Card>
+           
+            helloe
+          </Card>
+          </div>
+    
+        <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
+          <Card>
+          
+            hai
+          </Card>
+        </div>
+       
+        <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
+        
+        <Card>
+
+
+
+        </Card>
+            
+          
+        </div>
+      </div> */}
+
+
+
+
+
+
+
           </Modal.Body>
 
 
@@ -561,7 +615,7 @@ function AddPg({ show, handleClose, currentItem }) {
               {currentItem ? "Save Changes" : "Add Paying Guest"}
             </Button>
           </Modal.Footer>
-        </Modal.Dialog>
+        {/* </Modal.Dialog> */}
       </Modal>
     </div>
   )
