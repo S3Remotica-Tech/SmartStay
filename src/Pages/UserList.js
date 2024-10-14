@@ -83,6 +83,13 @@ function UserList(props) {
       setFilteredUsers(FilterUsertwo);
       console.log("FilterUsertwo", FilterUsertwo);
     }
+    if (value === "4") {
+      const FilterUsertwo = state.UsersList.hostelList.filter((item) => {
+        return item.Name.toLowerCase().includes(filterInput.toLowerCase());
+      });
+      setFilteredUsers(FilterUsertwo);
+      console.log("FilterUsertwo", FilterUsertwo);
+    }
   }, [filterInput, state.UsersList.Users, value]);
 
   // useEffect(() => {
@@ -598,7 +605,7 @@ function UserList(props) {
   useEffect(() => {
     if (id) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
-      // setAmnityuserdetail(state.UsersList?.customerdetail.all_amenities)
+
     }
     console.log("userIduserId", id);
   }, [id]);
@@ -1203,7 +1210,7 @@ setDeleteShow(true)
     }
 
             {currentItems && currentItems.length > 0 && (
-              <Table
+               <Table
                 responsive="md"
                 className="Table_Design"
                 style={{
