@@ -3,9 +3,13 @@
   background-color:  #FFFFFF!important; 
   color: rgba(30, 69, 225, 1)!important; 
 }
-.list-Item{
-  border-radius: 6px;
+
+
+.list-Items.active {
+  background-color:  #FFFFFF!important; 
+  color: rgba(30, 69, 225, 1)!important; 
 }
+
 
 .sidebar::-webkit-scrollbar {
   display: none !important;
@@ -58,7 +62,14 @@ position:relative;
 position:absolute;
 margin-top:38px;
 }
-
+.list-Item{
+color: #4B4B4B !important;
+padding:8px 16px;
+width:200px !important;
+gap:10px !important;
+border-radius: 6px;
+margin-bottom: 2px;
+}
 
 .list-Item:hover{
   background-color: #FFFFFF !important;
@@ -69,6 +80,41 @@ margin-top:38px;
  
   color:white !important;
 }
+
+
+.list-Items{
+  color: #4B4B4B !important;
+padding:5px 10px;
+width:200px !important;
+border-radius: 6px;
+}
+.list-Items:hover{
+  background-color: #FFFFFF !important;
+  color:gray !important;
+}
+
+
+.list-sub-Item{
+  color: #4B4B4B !important;
+  padding:8px 16px;
+  width:180px !important;
+  gap:10px !important;
+  border-radius: 6px;
+  margin-bottom: 2px;
+}
+
+
+.list-sub-Item:hover{
+  background-color: #FFFFFF !important;
+  color:gray !important;
+}
+
+.list-sub-Item.active {
+  background-color:  #FFFFFF!important; 
+  color: rgba(30, 69, 225, 1)!important; 
+}
+
+
 
 
 

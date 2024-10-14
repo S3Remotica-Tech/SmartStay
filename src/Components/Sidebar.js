@@ -15,46 +15,22 @@ import Setting from '../Pages/Settings';
 import Supports from '../Pages/Support';
 import VendorComponent from '../Pages/Vendor';
 import { useDispatch, useSelector } from 'react-redux';
-import {  InputGroup,FormControl, Pagination } from 'react-bootstrap';
+import { InputGroup, FormControl, Pagination } from 'react-bootstrap';
 import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profileimage from '../Assets/Images/New_images/profile.png';
 import Image from 'react-bootstrap/Image';
-import { Offcanvas, Dropdown } from 'react-bootstrap';
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
-import { RiDashboard3Line } from "react-icons/ri";
-import { FaBuilding } from "react-icons/fa";
-import { LuUserCog } from "react-icons/lu";
-import { TbFileInvoice } from "react-icons/tb";
-import { GrCompliance } from "react-icons/gr";
-import { MdPayment } from "react-icons/md";
-import { FaUsersRectangle } from "react-icons/fa6";
-import { BiBarChartAlt } from "react-icons/bi";
-import { IoSettingsOutline } from "react-icons/io5";
-import { FaCircleExclamation } from "react-icons/fa6";
-import { FaCirclePlus } from "react-icons/fa6";
-import { CiViewList } from "react-icons/ci";
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Smart from "../Assets/Images/Logo-Icon-White.png";
-import Notification from '../Assets/Images/Notification.png';
-import Settings from '../Assets/Images/Settings.png';
-import Men from '../Assets/Images/men.jpg';
-import Logout from '../Assets/Images/turn-off.png';
-import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import { StaticDateTimePicker } from '@mui/x-date-pickers';
-import { BsClipboard2Check } from "react-icons/bs";
-import SmartLogo from '../Assets/Images/hostel.png'
 import Cookies from 'universal-cookie';
-import Smartstay from '../Assets/Images/GroupsmartIcon.png';
+import Smartstay from '../Assets/Images/New_images/LogoSmart.svg';
 import Smarts from '../Assets/Images/Smartstaysm1.png';
-import Dash from '../Assets/Images/New_images/category.png';
+import Dash from '../Assets/Images/New_images/home.svg';
+
+import Manage from '../Assets/Images/New_images/category.png';
+
 import Paying from '../Assets/Images/New_images/house.png';
 import Custom from '../Assets/Images/New_images/customers.png';
 import Vendor from '../Assets/Images/New_images/vendor.png';
@@ -79,6 +55,7 @@ import Expense2 from '../Assets/Images/New_images/coin.png';
 import Repo2 from '../Assets/Images/New_images/clipboard-text.png';
 import Sett2 from '../Assets/Images/New_images/setting-2.png';
 import Profilesettings from '../Pages/AccountSettings'
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 
 
 function Sidebar() {
@@ -89,7 +66,7 @@ function Sidebar() {
   const stateData = useSelector(state => state.createAccount)
   const stateLogin = useSelector(state => state.login)
 
-
+  const [manageOpen, setManageOpen] = useState(false)
   console.log("state for side bar", stateData)
 
 
@@ -198,38 +175,6 @@ function Sidebar() {
   }, [stateData.statusCodeForAccountList])
 
 
-  //  command but we need
-
-
-  // useEffect(() => {
-
-  //   console.log("executed")
-  //   const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-  //   const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-  //   const parsedData = decryptedString;
-
-
-  //   const IsEnableCheckState = stateData.accountList && stateData.accountList.filter((view => view.id == parsedData))
-
-  //   console.log("IsEnableCheckState", IsEnableCheckState)
-
-  //   const is_Enable = IsEnableCheckState[0]?.isEnable
-
-  //   console.log("is_Enable sidebar", is_Enable)
-
-  //   if (is_Enable == 1) {
-  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd');
-  //     console.log("encryptData", encryptData.toString());
-  //     localStorage.setItem("login", encryptData.toString());
-  //   } else {
-  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(true), 'abcd');
-  //     console.log("encryptData", encryptData.toString());
-  //     localStorage.setItem("login", encryptData.toString());
-
-  //   }
-
-
-  // }, [stateData.accountList, LoginId])
 
 
 
@@ -250,22 +195,6 @@ function Sidebar() {
   useEffect(() => {
     if (stateData.accountList.length > 0) {
       try {
-
-
-        // const decryptedData = CryptoJS.AES.decrypt(LoginId, 'abcd');
-        // const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-        // const parsedData = decryptedString;
-
-        // const filteredList = state.UsersList?.hostelList?.filter((view) => {
-        // console.log("parsedData",parsedData);
-        // console.log("created_By",view.created_By);
-        // console.log("view.created_By == parsedData",view.created_By == parsedData);
-        //   return view.created_By == parsedData;
-
-
-        // });
-        // console.log("topbar_filteredlist", filteredList);
-        // setFilterhostellist(filteredList)
 
 
         const FilteredProfile = stateData.accountList[0]?.user_details
@@ -289,15 +218,15 @@ function Sidebar() {
   }, [stateData.accountList, state.hostelList, stateData.statusCodeForAccount])
 
 
-console.log("profile*****", profiles)
+  console.log("profile*****", profiles)
 
 
 
-// if((profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '')){
-//   setProfiles(0)
-// }
- 
-const [selectedHostel, setSelectedHostel] = useState(null);
+  // if((profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '')){
+  //   setProfiles(0)
+  // }
+
+  const [selectedHostel, setSelectedHostel] = useState(null);
 
   const handleHostelSelect = (hostelName) => {
     const selected = state.hostelList.find((item) => {
@@ -311,9 +240,9 @@ const [selectedHostel, setSelectedHostel] = useState(null);
 
   const [activePage, setActivePage] = useState(true);
   const [currentPage, setCurrentPage] = useState('dashboard');
- 
 
-  console.log("currentPage",currentPage)
+
+  console.log("currentPage", currentPage)
 
   const [pgList, setPgList] = useState({
     Name: '',
@@ -330,7 +259,7 @@ const [selectedHostel, setSelectedHostel] = useState(null);
     setCurrentPage(localStorage.getItem('currentPage'));
   }, [currentPage]);
 
-console.log("currentPage",localStorage.getItem("currentPage"))
+  console.log("currentPage", localStorage.getItem("currentPage"))
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
@@ -339,11 +268,11 @@ console.log("currentPage",localStorage.getItem("currentPage"))
   };
 
 
-useEffect(()=>{
-if(state.login?.isLoggedIn){
-  setCurrentPage('dashboard')
-}
-},[state.login?.isLoggedIn])
+  useEffect(() => {
+    if (state.login?.isLoggedIn) {
+      setCurrentPage('dashboard')
+    }
+  }, [state.login?.isLoggedIn])
 
 
 
@@ -364,34 +293,34 @@ if(state.login?.isLoggedIn){
 
 
 
-  
 
-  const stateAccount= useSelector(state => state.createAccount)
+
+  const stateAccount = useSelector(state => state.createAccount)
 
 
   const [profile, setProfile] = useState(null)
-  
 
-  useEffect(()=> {
-   
+
+  useEffect(() => {
+
     const Filteredprofile = stateAccount?.accountList[0]?.user_details?.profile
     setProfile(Filteredprofile)
-  },[])
+  }, [])
 
 
-  
+
   useEffect(() => {
     if (stateAccount.statusCodeForAccountList == 200) {
       const loginProfile = stateAccount.accountList[0].user_details.profile
-          setProfile(loginProfile)
-        }
-  
+      setProfile(loginProfile)
+    }
+
   }, [stateAccount.statusCodeForAccountList])
 
- const handledisplaycompliace =(compliance)=>{
-setCurrentPage('compliance')
-localStorage.setItem('currentPage','compliance');
- }
+  const handledisplaycompliace = (compliance) => {
+    setCurrentPage('compliance')
+    localStorage.setItem('currentPage', 'compliance');
+  }
   return (
     <>
 
@@ -400,97 +329,160 @@ localStorage.setItem('currentPage','compliance');
       <Container fluid className='p-0'>
 
         <Row className='g-0 m-0'  >
-          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block  sidebar" style={{ cursor: "pointer", backgroundColor: '#E0ECFF',  position: "fixed", overflowY:"auto", height: "100vh"}} >
-            <div className="d-flex align-items-center m-3 mt-4 gap-1 justify-content-center">
+          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block  sidebar" style={{ cursor: "pointer", backgroundColor: '#E0ECFF', position: "fixed",
+             maxWidth: 240, width: "100%", height: "100%", maxHeight: 768 }} >
+            <div className='container' style={{ position: "relative" }}>
 
-              <img src={Smartstay} style={{ fontSize: '15px' }} />
-              <div><label className='Title' style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", fontSize:24 }}>Smartstay</label></div>
 
-              {/* <img src={Smarts} className='Title' style={{ fontSize: '15px' }} /> */}
-            </div>
+              <div className="d-flex align-items-center justify-content-start" style={{ padding: "16px 30px" }}>
+                <img src={Smartstay} style={{ height: 25.06, width: 134 }} />
+              </div>
 
-            <ul className="p-3 pt-0 mb-5">
-              <li className={`p-2 mb-2  align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
-                <div className='d-flex  align-items-center justify-content-between' >
-                  <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ fontSize: '13px' }} />
-                  <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Dashboard</span>
-                </div>
-              </li>
-              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", position: "", display: "flex" }}>
 
-                <img src={currentPage === 'pg-list' ? Paying2 : Paying} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Paying Guest</span>
+
+              <ul className="p-0" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+
+
+                <li className={`align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
+                  {/* <div className='d-flex  align-items-center justify-content-between' > */}
+                    <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ height: 20, width: 20 }} />
+                    <span className="Title" style={{ fontSize: 14, fontWeight: 500, display: "inline-block", fontFamily: "Gilroy" }}>Home</span>
+                  {/* </div> */}
+                </li>
+
+
+
+                <li className={`align-items-center list-Item ${currentPage === 'manage' ? 'active' : ''}`} onClick={() => setManageOpen(!manageOpen)} style={{ listStyleType: "none", display: "flex" }}>
+                  <img src={Manage} style={{ height: 20, width: 20 }} />
+                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Manage</span>
+                  <span className="ms-auto">{manageOpen ?
+                    <ArrowUp2
+                      size="16"
+                      color="#4B4B4B"
+                    /> :
+                    <ArrowDown2
+                      size="16"
+                      color="#4B4B4B"
+                    />
+                  }</span>
+                </li>
+
+
+                {manageOpen && (
+                  <ul className="p-1"style={{marginLeft:10}}>
+                    <li className={` align-items-center list-sub-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", display: "flex" }}>
+                      <img src={currentPage === 'pg-list' ? Paying2 : Paying} style={{ height: 20, width: 20 }} />
+                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Paying Guest</span>
+                    </li>
+                    <li className={`align-items-center list-sub-Item ${currentPage === 'user-list' ? 'active' : ''}`} onClick={() => handlePageClick('user-list')} style={{ listStyleType: "none", display: "flex" }}>
+                      <img src={currentPage === 'user-list' ? Custom2 : Custom} style={{ height: 20, width: 20 }} />
+                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Customers</span>
+                    </li>
+                    <li className={`align-items-center list-sub-Item ${currentPage === 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" }}>
+                      <img src={currentPage === 'asset' ? Asset2 : Asset} style={{ height: 20, width: 20 }} />
+                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Assets</span>
+                    </li>
+                    <li className={`align-items-center list-sub-Item ${currentPage === 'vendor' ? 'active' : ''}`} onClick={() => handlePageClick('vendor')} style={{ listStyleType: "none", display: "flex" }}>
+                      <img src={currentPage === 'vendor' ? Vendor2 : Vendor} style={{ height: 20, width: 20 }} />
+                      <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Vendor</span>
+                    </li>
+                  </ul>
+                )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+                {/* <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", position: "", display: "flex" }}>
+
+                <img src={currentPage === 'pg-list' ? Paying2 : Paying} style={{ height:20,width:20}} />
+                <span className="ms-3 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Paying Guest</span>
 
 
               </li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'user-list' ? 'active' : ''}`} onClick={() => handlePageClick('user-list')} style={{ listStyleType: "none", display: "flex" }}>
-                <img src={currentPage === 'user-list' ? Custom2 : Custom} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Customers</span></li>
+                <img src={currentPage === 'user-list' ? Custom2 : Custom} style={{ height:20,width:20}} />
+                <span className="ms-3 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Customers</span></li>
 
               <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'vendor' ? 'active' : ''}`} onClick={() => handlePageClick('vendor')} style={{ listStyleType: "none", display: "flex" }}>
-                <img src={currentPage === 'vendor' ? Vendor2 : Vendor} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Vendor</span></li>
+                <img src={currentPage === 'vendor' ? Vendor2 : Vendor} style={{ height:20,width:20}} />
+                <span className="ms-3 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Vendor</span></li> */}
 
-              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'invoice' ? 'active' : ''}`} onClick={() => handlePageClick('invoice')} style={{ listStyleType: "none", display: "flex" }}>
+                <li className={`align-items-center list-Item ${currentPage === 'invoice' ? 'active' : ''}`} onClick={() => handlePageClick('invoice')} style={{ listStyleType: "none", display: "flex" }}>
 
-                <img src={currentPage === 'invoice' ? Invoice2 : Invo} style={{ fontSize: '13px' }} />
+                  <img src={currentPage === 'invoice' ? Invoice2 : Invo} style={{ height: 20, width: 20 }} />
 
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Bills</span></li>
+                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Bills</span></li>
 
 
-              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage == 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" ,backgroundColor: currentPage === 'asset' ? '#FFFFFF' : 'inherit',color: currentPage === 'asset' ? 'rgba(30, 69, 225, 1)' : 'inherit'}}>
-                <img src={currentPage == 'asset' ? Asset2 : Asset} style={{ fontSize: '13px',color:currentPage == 'asset' && "rgba(30, 69, 225, 1)" }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Assets</span></li>
+                {/* <li className={`p-2 mb-2 align-items-center list-Item ${currentPage == 'asset' ? 'active' : ''}`} onClick={() => handlePageClick('asset')} style={{ listStyleType: "none", display: "flex" ,backgroundColor: currentPage === 'asset' ? '#FFFFFF' : 'inherit',color: currentPage === 'asset' ? 'rgba(30, 69, 225, 1)' : 'inherit'}}>
+                <img src={currentPage == 'asset' ? Asset2 : Asset} style={{ height:20,width:20 ,color:currentPage == 'asset' && "rgba(30, 69, 225, 1)" }} />
+                <span className="ms-3 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Assets</span></li> */}
 
-            
-            
-            
-              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex" }}>
-                <img src={currentPage === 'eb' ? Eb2 : Eb} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Electricity</span>
+
+
+
+                <li className={`align-items-center list-Item ${currentPage === 'eb' ? 'active' : ''}`} onClick={() => handlePageClick('eb')} style={{ listStyleType: "none", display: "flex" }}>
+                  <img src={currentPage === 'eb' ? Eb2 : Eb} style={{ height: 20, width: 20 }} />
+                  <span className="ms-1 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Electricity</span>
                 </li>
 
-              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex" }}>
-                <img src={currentPage === 'compliance' ? Compl2 : Compl} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Compliants</span></li>
-              <li className={`p-2  mb-2 align-items-center list-Item ${currentPage === 'expenses' ? 'active' : ''}`} onClick={() => handlePageClick('expenses')} style={{ listStyleType: "none", display: "flex" }}>
+                <li className={` align-items-center list-Item ${currentPage === 'compliance' ? 'active' : ''}`} onClick={() => handlePageClick('compliance')} style={{ listStyleType: "none", display: "flex" }}>
+                  <img src={currentPage === 'compliance' ? Compl2 : Compl} style={{ height: 20, width: 20 }} />
+                  <span className=" Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Compliants</span></li>
+                <li className={`align-items-center list-Item ${currentPage === 'expenses' ? 'active' : ''}`} onClick={() => handlePageClick('expenses')} style={{ listStyleType: "none", display: "flex" }}>
 
-                <img src={currentPage === 'expenses' ? Expense2 : Expense} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Expenses</span></li>
+                  <img src={currentPage === 'expenses' ? Expense2 : Expense} style={{ height: 20, width: 20 }} />
+                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Expenses</span></li>
 
-              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex" }}>
+                <li className={` align-items-center list-Item ${currentPage === 'reports' ? 'active' : ''}`} onClick={() => handlePageClick('reports')} style={{ listStyleType: "none", display: "flex" }}>
 
-                <img src={currentPage === 'reports' ? Repo2 : Repo} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: "16px", fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Reports</span></li>
+                  <img src={currentPage === 'reports' ? Repo2 : Repo} style={{ height: 20, width: 20 }} />
+                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Reports</span></li>
 
-              <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
-                <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} />
-                <span className="ms-3 Title" style={{ fontSize: 16, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Settings</span>
+                <li className={`align-items-center list-Item ${currentPage === 'settings' ? 'active' : ''}`} onClick={() => handlePageClick('settings')} style={{ listStyleType: "none", display: "flex" }}>
+                  <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ height: 20, width: 20 }} />
+                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Settings</span>
                 </li>
 
-                <li className={`p-2 mb-2 mt-5 align-items-center list-Item ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageClick('profile')} style={{ listStyleType: "none", display: "flex" }}>
+
+              </ul>
+
+
+
+
+
+            </div>
+            <ul className="p-0" style={{ position: "absolute", bottom: 0, left: 10, display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <li className={` align-items-center list-Items ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageClick('profile')} style={{ listStyleType: "none", display: "flex", width: 200 }}>
                 {/* <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} /> */}
-                <div className="mr-3" style={{cursor:"pointer"}}>
-              <Image 
-             src={ (profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '' ||(profiles == 0 || profiles == "0")) ? Profileimage : profiles} alt='profile-image'
-            roundedCircle style={{ height: "40px", width: "40px" }} onClick={() => handlePageClick('profile')}/>
+                <div className="mr-3" style={{ cursor: "pointer" }}>
+                  <Image
+                    src={(profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '' || (profiles == 0 || profiles == "0")) ? Profileimage : profiles} alt='profile-image'
+                    roundedCircle style={{ height: "40px", width: "40px" }} onClick={() => handlePageClick('profile')} />
                 </div>
-                <div style={{display:'flex',flexDirection:'column'}}>
-                <span className="ms-3 Title" style={{ fontSize: 19, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>{profilename}</span>
-                <span className="ms-3 Title" style={{ fontSize: 13, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy",color:'blue' }}>Admin</span>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span className="ms-3 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy", textTransform: "capitalize" }}>{profilename}</span>
+                  <span className="ms-3 Title" style={{ fontSize: 12, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy", color: 'blue' }}>Admin</span>
                 </div>
-   
-                </li>
+
+              </li>
             </ul>
-           
           </Col>
-          <Col className="bg-white main-content" lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} >
+          <Col className="bg-white main-content" lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} style={{ maxWidth: 1126, width: "100%" }}>
+            <div className='container d-flex justify-content-end align-items-center' style={{ marginTop: '20px' }}>
 
-            <div className='container d-flex justify-content-end align-items-center mr-3' style={{ marginTop:'20px'}}>
-
-<div >
-  {/* <InputGroup>
+              <div >
+                {/* <InputGroup>
     <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
       <CiSearch style={{ fontSize: 20 }} />
     </InputGroup.Text>
@@ -498,15 +490,15 @@ localStorage.setItem('currentPage','compliance');
       placeholder="Search..."
     />
   </InputGroup> */}
-</div>
-{/* <div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
+              </div>
+              {/* <div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
   <img src={Notify} alt="notification" />
 </div> */}
 
 
-</div>
+            </div>
 
-{/* <Offcanvas placement="end" show={show} onHide={handleClosepopup} style={{ width: "69vh" }}>
+            {/* <Offcanvas placement="end" show={show} onHide={handleClosepopup} style={{ width: "69vh" }}>
               <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Notification</Offcanvas.Title>
               <Offcanvas.Body style={{ maxHeight: 'calc(100vh - 35px)', overflowY: 'auto' }}>
                 <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
@@ -537,8 +529,8 @@ localStorage.setItem('currentPage','compliance');
 
               </Offcanvas.Body>
             </Offcanvas> */}
-                
-            {currentPage === 'dashboard' && <Dashboards  displayCompliance={handledisplaycompliace}/>}
+
+            {currentPage === 'dashboard' && <Dashboards displayCompliance={handledisplaycompliace} />}
             {currentPage === 'pg-list' && < PgLists />}
             {currentPage === 'user-list' && < UserLists />}
             {currentPage === 'invoice' && < Invoices />}
@@ -556,7 +548,7 @@ localStorage.setItem('currentPage','compliance');
       </Container>
 
 
-      
+
 
     </>
   );
