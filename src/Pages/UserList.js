@@ -193,7 +193,7 @@ function UserList(props) {
     setCurrentPage(pageNumber);
   };
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredUsers.slice(
@@ -885,7 +885,7 @@ setDeleteShow(true)
   };
 
   return (
-    <div className="usercustomer p-2">
+    <div className="usercustomer" style={{padding:10,marginLeft:20}}>
       <Addbooking show={showbookingForm} handleClose={closeModal} />
 
       <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} />
@@ -901,7 +901,7 @@ setDeleteShow(true)
             <div className="cuslable">
               <label
                 style={{
-                  fontSize: 24,
+                  fontSize: 18,
                   color: "#000000",
                   fontWeight: 600,
                   fontFamily: "Gilroy",
@@ -1064,14 +1064,14 @@ setDeleteShow(true)
                   <Button
                     onClick={handleShow}
                     style={{
-                      fontSize: 16,
+                      fontSize: 14,
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 56,
+                      height: 52,
                       fontWeight: 600,
                       borderRadius: 12,
-                      width: 171,
-                      padding: "18px, 20px, 18px, 20px",
+                      width: 152,
+                      padding: "16px, 24px, 16px, 24px",
                       fontFamily: "Gilroy",
                     }}
                   >
@@ -1139,11 +1139,12 @@ setDeleteShow(true)
           <div
             className="pl-4"
             style={{
-              paddingLeft: "10px",
+              paddingLeft: "20px",
               fontFamily: "Gilroy",
               fontSize: 16,
               fontWeight: 500,
               textAlign: "left",
+              marginTop:"-20px"
             }}
           >
             <TabContext value={value}>
@@ -1155,19 +1156,19 @@ setDeleteShow(true)
               >
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize" }}
+                  style={{ textTransform: "capitalize",fontSize:14,fontWeight:500,fontFamily:"Gilroy" }}
                   label="All Customers"
                   value="1"
                 />
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize" }}
+                  style={{ textTransform: "capitalize" ,fontSize:14}}
                   label="Bookings"
                   value="2"
                 />
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize" }}
+                  style={{ textTransform: "capitalize",fontSize:14 }}
                   label="Check-out"
                   value="3"
                 />
@@ -1179,7 +1180,7 @@ setDeleteShow(true)
                 />
               </Tabs>
 
-              <TabPanel value="1" style={{paddingLeft:10,paddingRight:20}}>
+              <TabPanel value="1" style={{paddingLeft:0}}>
 
               <div>
 <div >
@@ -1212,6 +1213,8 @@ setDeleteShow(true)
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
                   
+                  
+                  
 
                 }}
               >
@@ -1239,7 +1242,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1251,7 +1254,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1263,7 +1266,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1275,7 +1278,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1287,7 +1290,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1299,7 +1302,7 @@ setDeleteShow(true)
                         padding: "10px",
                         color: "#939393",
                         fontSize: "14px",
-                        fontWeight: 600,
+                        fontWeight: 500,
                         fontFamily: "Gilroy",
                       }}
                     >
@@ -1311,7 +1314,7 @@ setDeleteShow(true)
                         fontFamily: "Gilroy",
                         color: "rgba(34, 34, 34, 1)",
                         fontSize: 14,
-                        fontWeight: 600,
+                        fontWeight: 500,
                         borderTopRightRadius: 24,
                       }}
                     >
@@ -1363,7 +1366,7 @@ setDeleteShow(true)
                             }}
                           >
                             <td style={{ padding: "10px", border: "none" }}>
-                              <img src={squre} height={20} width={20} />
+                              <img src={squre} height={20} width={20} style={{marginTop:10}} />
                             </td>
                             <td
                               style={{
@@ -1394,6 +1397,8 @@ setDeleteShow(true)
                                   fontFamily: "Gilroy",
                                   color: "#1E45E1",
                                   cursor: "pointer",
+                                  marginTop:10
+                                  
                                 }}
                                 onClick={() => handleRoomDetailsPage(user)}
                               >
@@ -1402,24 +1407,26 @@ setDeleteShow(true)
                             </td>
                             <td
                               style={{
-                                padding: "10px",
+                               
                                 border: "none",
                                 textAlign: "start",
                                 fontSize: "16px",
-                                fontWeight: 600,
+                                fontWeight: 500,
                                 fontFamily: "Gilroy",
+                                paddingTop:15
                               }}
                             >
                               {user.Email}
                             </td>
                             <td
                               style={{
-                                padding: "10px",
+                                paddingTop:15,
                                 border: "none",
                                 textAlign: "start",
                                 fontSize: "16px",
-                                fontWeight: 600,
+                                fontWeight: 500,
                                 fontFamily: "Gilroy",
+                                marginTop:10
                               }}
                             >
                               +
@@ -1432,12 +1439,13 @@ setDeleteShow(true)
                             </td>
                             <td
                               style={{
-                                padding: "10px",
+                                paddingTop:15,
                                 border: "none",
                                 textAlign: "start",
                                 fontSize: "16px",
-                                fontWeight: 600,
+                                fontWeight: 500,
                                 fontFamily: "Gilroy",
+                                marginTop:10
                               }}
                             >
                               <span
@@ -1452,6 +1460,7 @@ setDeleteShow(true)
                                   fontSize: "14px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
+                                  
                                 }}
                               >
                                 {user.HostelName}
@@ -1459,12 +1468,13 @@ setDeleteShow(true)
                             </td>
                             <td
                               style={{
-                                padding: "10px",
+                                paddingTop:15,
                                 border: "none",
                                 textAlign: "start",
                                 fontSize: "16px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
+                               
                               }}
                             >
                               {" "}
@@ -1481,7 +1491,7 @@ setDeleteShow(true)
                               // className={user.Bed === 0 ? 'assign-bed' : ''}
                               // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
                               style={{
-                                padding: "10px",
+                                paddingTop:15,
                                 border: "none",
                                 cursor: "pointer",
                                 color:
@@ -1492,6 +1502,7 @@ setDeleteShow(true)
                                 fontSize: "16px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
+                                marginTop:10
                               }}
                             >
                               {user.Bed === "undefined" ||
@@ -1501,7 +1512,7 @@ setDeleteShow(true)
                                 ? "-"
                                 : user.Bed}
                             </td>
-                            <td style={{ padding: "10px", border: "none" }}>
+                            <td style={{ paddingTop:12, border: "none" }}>
                               {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
                               <div
@@ -1780,59 +1791,6 @@ setDeleteShow(true)
        
       )}
       
-
-{/* <Modal show={deleteShow} onHide={handleCloseDelete} backdrop="static" centered>
-  <Modal.Body style={{ padding: "20px", borderRadius: "30px" }}>
-    <div className="d-flex flex-column align-items-center">
-      <Modal.Header className="w-100" style={{ borderBottom: "none" }}>
-        <h5 style={{ width: "100%", textAlign: "center", margin: 0 }}>
-          Delete Customer?
-        </h5>
-      </Modal.Header>
-
-      <p className="mt-4" style={{ textAlign: "center" }}>
-        Are you sure you want to delete this customer?
-      </p>
-
-      <div
-        className="d-flex justify-content-between w-100"
-        style={{ marginTop: "20px", gap: "20px" }} // Adjusted gap between buttons
-      >
-        <Button
-          onClick={handleCloseDelete}
-          style={{
-            backgroundColor:"transparent",
-            color: "#1E45E1",
-            fontWeight: 600,
-            height: 50,
-            width: "100%", // Ensure buttons take equal space
-            borderRadius: 12,
-            fontSize: 16,
-            fontFamily: "Montserrat",
-            border: "1px solid #ccc", // Optional border for consistency
-          }}
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={handleCloseDelete}
-          style={{
-            backgroundColor: "#1E45E1",
-            color: "#fff",
-            fontWeight: 600,
-            height: 50,
-            width: "100%", // Ensure buttons take equal space
-            borderRadius: 12,
-            fontSize: 16,
-            fontFamily: "Montserrat",
-          }}
-        >
-          Delete
-        </Button>
-      </div>
-    </div>
-  </Modal.Body>
-</Modal> */}
 
 <Modal
   show={deleteShow}
