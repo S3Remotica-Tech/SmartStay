@@ -1163,25 +1163,25 @@ setDeleteShow(true)
               >
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize",fontSize:14,fontWeight:500,fontFamily:"Gilroy" }}
+                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy" }}
                   label="All Customers"
                   value="1"
                 />
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize" ,fontSize:14}}
+                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy" }}
                   label="Bookings"
                   value="2"
                 />
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize",fontSize:14 }}
+                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy" }}
                   label="Check-out"
                   value="3"
                 />
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize" }}
+                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy" }}
                   label="Walk-in"
                   value="4"
                 />
