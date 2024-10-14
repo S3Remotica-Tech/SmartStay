@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
 import Swal from 'sweetalert2';
 import { MdError } from "react-icons/md"; 
+import Modal from 'react-bootstrap/Modal';
 
 
 
@@ -71,37 +72,36 @@ import { MdError } from "react-icons/md";
     }
   }, [state.Settings.addComplaintSuccessStatusCode, state.Settings.deletecomplaintStatuscode])
 
+  const [deleteItem, setDeleteItem] = useState(null); 
+  const [deleteShow, setDeleteShow] = useState(false);
+  
+  const handleshow = () => {
+    setDeleteShow(true);
+  };
+  
+  const handleCloseDelete = () => {
+    setDeleteShow(false);
+    setDeleteItem(null); // Reset delete item when canceled
+  };
+  
   const handleDeleteType = (item) => {
-    console.log("deleteitem", item)
-    if (item) {
-
-
-      Swal.fire({
-        icon: 'warning',
-        title: 'Do you want to delete the ComplaintType ?',
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-        showCancelButton: true,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch({
-            type: 'DELETE-COMPLAINT-TYPE',
-            payload: {
-              id: item.id
-            },
-          });
-        //   Swal.fire({
-        //     icon: 'success',
-        //     title: 'ComplaintType deleted Successfully',
-        // })
-          console.log("deleteexecuted");
-       
+    setDeleteItem(item); // Store item to delete in state
+    setDeleteShow(true);  
+  };
+  
+  const confirmDelete = () => {
+    if (deleteItem) {
+      dispatch({
+        type: 'DELETE-COMPLAINT-TYPE',
+        payload: {
+          id: deleteItem.id
         }
       });
-
     }
-
-  }
+    setDeleteShow(false); // Close modal after delete
+    setDeleteItem(null);  
+  };
+  
 
   const [complainttypelist, setComplainttypelist] = useState([])
   console.log("complainttypelist", complainttypelist);
@@ -160,9 +160,84 @@ import { MdError } from "react-icons/md";
                   {item.complaint_name} <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDeleteType(item)}><img src={Closebtn} height={15} width={15} /></span>
                 </span>
               </p>
+              
             ))}
           </div>
         </div>
+
+        <Modal
+  show={deleteShow}
+  onHide={handleCloseDelete}
+  centered
+  backdrop="static"
+  style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }} 
+>
+  <Modal.Header style={{ borderBottom: 'none' }}> 
+    <Modal.Title 
+      style={{
+        fontSize: '18px',
+        fontFamily: 'Gilroy',
+        textAlign: 'center',
+        fontWeight: 600,
+        color: '#222222',
+        flex: 1
+      }}
+    >
+      Delete ComplaintType?
+    </Modal.Title>
+  </Modal.Header>
+  
+  <Modal.Body
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: 'Gilroy',
+      color: '#646464',
+      textAlign: 'center',
+      marginTop: '-20px'
+    }}
+  >
+    Are you sure you want to delete this Complaint-type?
+  </Modal.Body>
+  
+  <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}> 
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 8,
+        padding: '12px 20px',
+        background: '#fff',
+        color: '#1E45E1',
+        border: '1px solid #1E45E1',
+        fontWeight: 600,
+        fontFamily: 'Gilroy',
+        fontSize: '14px',
+        marginRight: 10
+      }}
+      onClick={handleCloseDelete}  // Cancel, close modal
+    >
+      Cancel
+    </Button>
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 8,
+        padding: '12px 20px',
+        background: '#1E45E1',
+        color: '#FFFFFF',
+        fontWeight: 600,
+        fontFamily: 'Gilroy',
+        fontSize: '14px'
+      }}
+      onClick={confirmDelete}  // Confirm delete, dispatch action
+    >
+      Delete
+    </Button>
+  </Modal.Footer>
+</Modal>
+
       </div>
     </div>
   );
