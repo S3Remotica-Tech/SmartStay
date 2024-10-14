@@ -9,6 +9,9 @@
 text-decoration: underline;
 
 }
+.buttons{
+  margin-right: 20px;
+}
 
 .Table_Design_user{
   border: 1px solid #DCDCDC;
@@ -145,7 +148,7 @@ text-decoration: underline;
   align-items: center;
   padding-left: 19px;
   padding-right: 19px;
-  margin-top: -20px;
+  margin-top: -25px;
 }
 .customerfill{
   display: flex;
