@@ -17,6 +17,7 @@ import CryptoJS from "crypto-js";
 import Filters from "../Assets/Images/Filters.svg";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import Modal from "react-bootstrap/Modal";
+import Emptystate from '../Assets/Images/Empty-State.jpg'
 
 import {
   Autobrightness,
@@ -1178,24 +1179,28 @@ setDeleteShow(true)
                 />
               </Tabs>
 
-              <TabPanel value="1">
-                {/* <AllCustomer id={props.id} /> */}
-              </TabPanel>
-              <TabPanel value="2">
-                <UserlistBookings id={props.id} />
-              </TabPanel>
-              <TabPanel value="3">
-                <UserlistCheckout id={props.id} />
-              </TabPanel>
-              <TabPanel value="4">
-                <UserlistWalkin id={props.id} />
-              </TabPanel>
-            </TabContext>
-          </div>
+              <TabPanel value="1" style={{paddingLeft:10,paddingRight:20}}>
 
-        
-<div style={{padding:20,marginTop:"-50px"}}>
+              <div>
 <div >
+
+
+    {currentItems.length == 0 && 
+
+<div>
+<div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div>
+<div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active Customer </div>
+  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active Customer </div>
+  <div style={{ textAlign: "center"}}>         
+        <Button
+               onClick={handleShow}
+               style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Customer</Button>
+           </div>
+</div>
+
+    
+    }
+
             {currentItems && currentItems.length > 0 && (
               <Table
                 responsive="md"
@@ -1666,19 +1671,10 @@ setDeleteShow(true)
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                   >
-                    {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                    
                     <ArrowLeft2 size="16" color="#1E45E1" />
                   </button>
-                  {/* <span
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  style={{
-                    marginTop: '20px',
-                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                    color: currentPage === 1 ? '#ccc' : '#007bff'
-                  }}
-                >
-                  Previous
-                </span> */}
+                 
                 </li>
                 {currentPage > 3 && (
                   <li style={{ margin: "0 5px" }}>
@@ -1725,16 +1721,7 @@ setDeleteShow(true)
                   </li>
                 )}
                 <li style={{ margin: "0 5px" }}>
-                  {/* <span
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  style={{
-                    marginTop: '20px',
-                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                    color: currentPage === totalPages ? '#ccc' : '#007bff'
-                  }}
-                >
-                  Next
-                </span> */}
+               
                   <button
                     style={{
                       padding: "5px 10px",
@@ -1752,15 +1739,43 @@ setDeleteShow(true)
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
                   >
-                    {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                 
                     <ArrowRight2 size="16" color="#1E45E1" />
                   </button>
                 </li>
               </ul>
             </nav>
           )}
+
+
+
+
+
 </div>
         
+
+
+
+              
+              </TabPanel>
+              <TabPanel value="2">
+                <UserlistBookings id={props.id} />
+              </TabPanel>
+              <TabPanel value="3">
+                <UserlistCheckout id={props.id} />
+              </TabPanel>
+              <TabPanel value="4">
+                <UserlistWalkin id={props.id} />
+              </TabPanel>
+            </TabContext>
+          </div>
+
+
+
+
+
+
+
         </div>
        
       )}
