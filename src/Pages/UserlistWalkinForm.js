@@ -481,8 +481,8 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                 });
             }
 
-           
-        } 
+
+        }
     };
 
     return (
@@ -733,6 +733,8 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                                 style={{
                                     fontFamily: 'Gilroy',
                                     fontWeight: 600,
+                                     background: "#1E45E1",
+                                     fontSize:"16px"
                                 }}
                             >
                                 {modalType === 'edit' ? 'Save Changes' : 'Add Walk-in'}
@@ -741,7 +743,7 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                     </Form>
                 </Modal.Body>
             </Modal>
-            
+
         </>
     );
 }

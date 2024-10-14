@@ -367,7 +367,9 @@ function UserListRoomDetail(props) {
     } else {
       setEmailError("");
       setEmailErrorMessage("");
-      setFormError("");
+
+      setFormError('')
+
     }
 
     // Clear email error on input change

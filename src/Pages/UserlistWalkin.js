@@ -149,7 +149,7 @@ function UserlistWalkin() {
 
     return (
         <>
-            {/* <Container> */}
+
             <div>
                 {customers.length > 0 ? (
                     <div className='p-10 walkin_table_custom'>
@@ -164,7 +164,8 @@ function UserlistWalkin() {
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
                                         background: "#E7F1FF",
-                                        border: "none"
+                                        border: "none",
+                                        borderTopLeftRadius: "24px"
                                     }}>
                                         <img src={minus} height={20} width={20} alt="minus icon" style={{ marginLeft: "10px", }} />
                                     </th>
@@ -190,7 +191,7 @@ function UserlistWalkin() {
                                     }}>Email ID</th>
 
                                     <th style={{
-                                        textAlign: "center",  // Change to center
+                                        textAlign: "center",
                                         padding: "10px",
                                         color: "#4B4B4B",
                                         fontSize: "14px",
@@ -201,7 +202,7 @@ function UserlistWalkin() {
                                     }}>Mobile no</th>
 
                                     <th style={{
-                                        textAlign: "center",  // Change to center
+                                        textAlign: "center",
                                         padding: "10px",
                                         color: "#4B4B4B",
                                         fontSize: "14px",
@@ -212,7 +213,7 @@ function UserlistWalkin() {
                                     }}>Walkin date</th>
 
                                     <th style={{
-                                        textAlign: "center",  // Change to center
+                                        textAlign: "center",
                                         padding: "10px",
                                         color: "#4B4B4B",
                                         fontSize: "14px",
@@ -222,6 +223,17 @@ function UserlistWalkin() {
                                         border: "none"
                                     }}>Comments</th>
 
+                                    <th style={{
+                                        textAlign: "center",
+                                        padding: "10px",
+                                        color: "#4B4B4B",
+                                        fontSize: "14px",
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        background: "#E7F1FF",
+                                        border: "none",
+                                        borderTopRightRadius: "24px"
+                                    }}></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -262,13 +274,13 @@ function UserlistWalkin() {
                                             fontWeight: 500,
                                             fontFamily: "Gilroy",
                                             color: "#000000",
-                                            textAlign: "center"  // Change to center
+                                            textAlign: "center"
                                         }}>{customer.mobile}</td>
 
                                         <td style={{
                                             padding: "10px",
                                             border: "none",
-                                            textAlign: "center",  // Already centered
+                                            textAlign: "center",
                                             fontSize: "16px",
                                             fontWeight: 600,
                                             fontFamily: "Gilroy"
@@ -291,14 +303,14 @@ function UserlistWalkin() {
                                             fontWeight: 500,
                                             fontFamily: "Gilroy",
                                             color: "#000000",
-                                            textAlign: "center"  // Change to center
+                                            textAlign: "center"
                                         }}>{customer.comments}</td>
 
 
                                         <td>
 
                                             <div
-                                                // style={dotsStyle(dotsButton === customer.id)}
+
                                                 style={{
                                                     cursor: "pointer",
                                                     height: 40,
@@ -420,7 +432,7 @@ function UserlistWalkin() {
 
                             <div className="no-data-container">
                                 <Image src={Emptystate} alt="No Data" />
-                                <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Walk-in available</div>
+                                <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)", paddingTop: "10px" }}>No Walk-in available</div>
                                 <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no Walk-in added. </div>
                             </div>
                             <div style={{ textAlign: "center" }}>
@@ -435,7 +447,8 @@ function UserlistWalkin() {
                                         borderRadius: 12,
                                         width: 200,
                                         padding: "18px 20px",
-                                        fontFamily: 'Montserrat'
+                                        fontFamily: 'Montserrat',
+                                        marginTop: "20px"
                                     }}
                                 >
                                     + Add Walk-in
@@ -449,7 +462,7 @@ function UserlistWalkin() {
                     </div>
                 )}
             </div>
-            {/* </Container> */}
+
 
             <CustomerForm
                 show={showForm}
@@ -471,16 +484,45 @@ function UserlistWalkin() {
 
 
 
+
                 <div class="d-flex justify-content-evenly" style={{ margin: "20px" }}>
-                    <button style={{
-                        fontFamily: "Gilroy", fontWeight: 600, fontSize: "14px", width: "160px", height: "52px"
+                    <button
+                        style={{
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                            width: "160px",
+                            height: "52px",
+                            borderColor: "#1E45E1",
+                            color: "#1E45E1",
+                            transition: "all 0.3s ease"
+                        }}
+                        type="button"
+                        className="btn hover-button"
+                        onClick={cancelDelete}
+                    >
+                        Cancel
+                    </button>
 
-                    }} type="button" className="btn btn-outline-primary hover-text-white"
-                        onClick={cancelDelete}>Cancel</button>
-
-                    <button style={{ fontFamily: "Gilroy", fontWeight: 600, fontSize: "14px", width: "160px", height: "52px" }} type="button" className="btn btn-outline-primary hover-text-white"
-                        onClick={confirmDelete}>Delete</button>
+                    <button
+                        style={{
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                            width: "160px",
+                            height: "52px",
+                            borderColor: "#1E45E1",
+                            color: "#1E45E1",
+                            transition: "all 0.3s ease"
+                        }}
+                        type="button"
+                        className="btn hover-button"
+                        onClick={confirmDelete}
+                    >
+                        Delete
+                    </button>
                 </div>
+
 
 
             </Modal>
