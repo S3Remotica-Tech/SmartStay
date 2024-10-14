@@ -575,19 +575,29 @@ const InvoicePage = () => {
   };
 
   const [searchItem, setSearchItem] = useState('')
-  const handleInputChange = (e) => {
-    const searchTerm = e.target.value;
-    setSearchItem(searchTerm)
-    if (searchItem != '') {
-      const filteredItems = state.InvoiceList.Invoice.filter((user) =>
-        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setData(filteredItems.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice))
-    }
-    else {
-      setData(state.InvoiceList.Invoice)
-    }
+
+  const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
+const invoicerowsPerPage = 15;
+
+ const handleInputChange = (e) => {
+  const searchTerm = e.target.value;
+  setSearchItem(searchTerm);
+
+  // Recalculate the pagination indexes
+  const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
+  const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
+
+  if (searchTerm !== '') {
+    const filteredItems = state.InvoiceList.Invoice.filter((user) =>
+      user.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setBills(filteredItems.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice));
+  } else {
+    // Show all data when search term is cleared
+    setBills(state.InvoiceList.Invoice.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice));
   }
+};
+
 
   const [searchicon, setSearchicon] = useState(false);
 
@@ -645,13 +655,13 @@ const InvoicePage = () => {
     const searchTerm = e.target.value;
     setStatusfilter(searchTerm)
     if (searchTerm == "ALL") {
-      setData(state.InvoiceList.Invoice.slice(indexOfFirstRow, indexOfLastRow))
+      setBills(state.InvoiceList.Invoice.slice(indexOfFirstRow, indexOfLastRow))
     }
     else {
       const filteredItems = state.InvoiceList.Invoice.filter((user) =>
         user.Status.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setData(filteredItems);
+      setBills(filteredItems);
     }
   }
 
@@ -924,7 +934,7 @@ const InvoicePage = () => {
   // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
 
- 
+   const [invoicefilterdata, setinvoiceFilterddata] = useState([])
 
   useEffect(() => {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details)
@@ -1514,153 +1524,55 @@ setShowAllBill(true)
             }
 
 
+            const rowsPerPage = 5;
+            const [currentPage, setCurrentPage] = useState(1);
+          
+            const indexOfLastRow = currentPage * rowsPerPage;
+            const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+            const currentRows = bills.slice(
+              indexOfFirstRow,
+              indexOfLastRow
+            );
 
-
-            const invoicerowsPerPage = 15;
-            const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
-            const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
-          
-            const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
-            const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
-            const currentRowinvoice = bills?.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice);
-          
-          
-          
-          
-            const handleInvoicePageChange = (InvoicepageNumber) => {
-              setinvoicecurrentPage(InvoicepageNumber);
+            const handlePageChange = (pageNumber) => {
+              setCurrentPage(pageNumber);
             };
           
-            const totalPagesinvoice = Math.ceil(bills?.length / invoicerowsPerPage);
-            console.log("invoicedetails", bills);
+            const itemsPerPage = 5;
+            const indexOfLastItem = currentPage * itemsPerPage;
+            const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+            const currentItems = bills.slice(
+              indexOfFirstItem,
+              indexOfLastItem
+            );
           
+            const totalPages = Math.ceil(bills.length / itemsPerPage);
           
-            const renderPageNumbersInvoice = () => {
-              const pageNumbersInvoice = [];
-              let startPageInvoice = invoicecurrentPage - 1;
-              let endPageInvoice = invoicecurrentPage + 1;
-          
-              if (invoicecurrentPage === 1) {
-                startPageInvoice = 1;
-                endPageInvoice = 3;
+            const renderPageNumbers = () => {
+              const pageNumbers = [];
+              for (let i = 1; i <= totalPages; i++) {
+                pageNumbers.push(
+                  <li key={i} style={{ margin: "0 5px" }}>
+                    <button
+                      style={{
+                        padding: "5px 10px",
+                        color: i === currentPage ? "#007bff" : "#000",
+                        cursor: "pointer",
+                        border: i === currentPage ? "1px solid #ddd" : "none",
+                        backgroundColor:
+                          i === currentPage ? "transparent" : "transparent",
+                      }}
+                      onClick={() => handlePageChange(i)}
+                    >
+                      {i}
+                    </button>
+                  </li>
+                );
               }
-          
-              if (invoicecurrentPage === totalPagesinvoice) {
-                startPageInvoice = totalPagesinvoice - 2;
-                endPageInvoice = totalPagesinvoice;
-              }
-          
-              if (invoicecurrentPage === 2) {
-                startPageInvoice = 1;
-                endPageInvoice = 3;
-              }
-          
-              if (invoicecurrentPage === totalPagesinvoice - 1) {
-                startPageInvoice = totalPagesinvoice - 2;
-                endPageInvoice = totalPagesinvoice;
-              }
-          
-              for (let i = startPageInvoice; i <= endPageInvoice; i++) {
-                if (i > 0 && i <= totalPagesinvoice) {
-                  pageNumbersInvoice.push(
-                    <li key={i} style={{ margin: '0 5px' }}>
-                      <button
-                        style={{
-                          padding: '5px 10px',
-                          textDecoration: 'none',
-                          color: i === invoicecurrentPage ? '#007bff' : '#000000',
-                          cursor: 'pointer',
-                          borderRadius: '5px',
-                          display: 'inline-block',
-                          minWidth: '30px',
-                          textAlign: 'center',
-                          backgroundColor: i === invoicecurrentPage ? 'transparent' : 'transparent',
-                          border: i === invoicecurrentPage ? '1px solid #ddd' : 'none'
-                        }}
-                        onClick={() => handleInvoicePageChange(i)}
-                      >
-                        {i}
-                      </button>
-                    </li>
-                  );
-                }
-              }
-          
-              return pageNumbersInvoice;
+              return pageNumbers;
             };
 
 
-  const rowsPerPage = 20;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = bills.slice(indexOfFirstRow, indexOfLastRow);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const totalPages = Math.ceil(bills.length / rowsPerPage);
-
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    let startPage = currentPage - 1;
-    let endPage = currentPage + 1;
-
-    if (currentPage === 1) {
-      startPage = 1;
-      endPage = 3;
-    }
-
-    if (currentPage === totalPages) {
-      startPage = totalPages - 2;
-      endPage = totalPages;
-    }
-
-    if (currentPage === 2) {
-      startPage = 1;
-      endPage = 3;
-    }
-
-    if (currentPage === totalPages - 1) {
-      startPage = totalPages - 2;
-      endPage = totalPages;
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      if (i > 0 && i <= totalPages) {
-        pageNumbers.push(
-          <li key={i} style={{ margin: '0 5px' }}>
-            <button
-              style={{
-                padding: '5px 10px',
-                textDecoration: 'none',
-                color: i === currentPage ? '#007bff' : '#000000',
-                cursor: 'pointer',
-                borderRadius: '5px',
-                display: 'inline-block',
-                minWidth: '30px',
-                textAlign: 'center',
-                backgroundColor: i === currentPage ? 'transparent' : 'transparent',
-                border: i === currentPage ? '1px solid #ddd' : 'none'
-              }}
-              onClick={() => handlePageChange(i)}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-    }
-
-    return pageNumbers;
-  };
-
-  const itemsPerPage = 10;
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
 
 
 
@@ -2309,101 +2221,110 @@ setShowAllBill(true)
 )}
 
 
-                      {currentItems.length > 0 && (
-                        <nav>
-                          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-                            <li style={{ margin: '0 5px' }}>
-                              <button
-                                style={{
-                                  padding: '5px 10px',
-                                  textDecoration: 'none',
-                                  color: currentPage === 1 ? '#ccc' : '#007bff',
-                                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                                  borderRadius: '5px',
-                                  display: 'inline-block',
-                                  minWidth: '30px',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  border: "none"
-                                }}
-                                onClick={() => handlePageChange(currentPage - 1)}
-                                disabled={currentPage === 1}
-                              >
+{currentItems.length > 0 && (
+  <nav>
+              <ul
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  listStyleType: "none",
+                  padding: 0,
+                  justifyContent: "end",
+                }}
+              >
+                <li style={{ margin: "0 5px" }}>
+                  <button
+                    style={{
+                      padding: "5px 10px",
+                      textDecoration: "none",
+                      color: currentPage === 1 ? "#ccc" : "#007bff",
+                      cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                      borderRadius: "5px",
+                      display: "inline-block",
+                      minWidth: "30px",
+                      textAlign: "center",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    
+                    <ArrowLeft2 size="16" color="#1E45E1" />
+                  </button>
+                 
+                </li>
+                {currentPage > 3 && (
+                  <li style={{ margin: "0 5px" }}>
+                    <button
+                      style={{
+                        padding: "5px 10px",
+                        textDecoration: "none",
+                        color: "white",
+                        cursor: "pointer",
+                        borderRadius: "5px",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(1)}
+                    >
+                      1
+                    </button>
+                  </li>
+                )}
+                {currentPage > 3 && <span>...</span>}
+                {renderPageNumbers()}
+                {currentPage < totalPages - 2 && <span>...</span>}
+                {currentPage < totalPages - 2 && (
+                  <li style={{ margin: "0 5px" }}>
+                    <button
+                      style={{
+                        padding: "5px 10px",
+                        textDecoration: "none",
+                        cursor: "pointer",
+                        borderRadius: "5px",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(totalPages)}
+                    >
+                      {totalPages}
+                    </button>
+                  </li>
+                )}
+                <li style={{ margin: "0 5px" }}>
+               
+                  <button
+                    style={{
+                      padding: "5px 10px",
+                      textDecoration: "none",
+                      color: currentPage === totalPages ? "#ccc" : "#007bff",
+                      cursor:
+                        currentPage === totalPages ? "not-allowed" : "pointer",
+                      borderRadius: "5px",
+                      display: "inline-block",
+                      minWidth: "30px",
+                      textAlign: "center",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                 
+                    <ArrowRight2 size="16" color="#1E45E1" />
+                  </button>
+                </li>
+              </ul>
+            </nav>
+)}
 
-                                <ArrowLeft2 size="16" color="#1E45E1" />
-                              </button>
-
-
-                            </li>
-                            {currentPage > 3 && (
-                              <li style={{ margin: '0 5px' }}>
-                                <button
-                                  style={{
-                                    padding: '5px 10px',
-                                    textDecoration: 'none',
-                                    color: 'white',
-                                    cursor: 'pointer',
-                                    borderRadius: '5px',
-                                    display: 'inline-block',
-                                    minWidth: '30px',
-                                    textAlign: 'center',
-                                    backgroundColor: 'transparent',
-                                    border: "none"
-                                  }}
-                                  onClick={() => handlePageChange(1)}
-                                >
-                                  1
-                                </button>
-                              </li>
-                            )}
-                            {currentPage > 3 && <span>...</span>}
-                            {renderPageNumbers()}
-                            {currentPage < totalPages - 2 && <span>...</span>}
-                            {currentPage < totalPages - 2 && (
-                              <li style={{ margin: '0 5px' }}>
-                                <button
-                                  style={{
-                                    padding: '5px 10px',
-                                    textDecoration: 'none',
-                                    cursor: 'pointer',
-                                    borderRadius: '5px',
-                                    display: 'inline-block',
-                                    minWidth: '30px',
-                                    textAlign: 'center',
-                                    backgroundColor: 'transparent',
-                                    border: "none"
-                                  }}
-                                  onClick={() => handlePageChange(totalPages)}
-                                >
-                                  {totalPages}
-                                </button>
-                              </li>
-                            )}
-                            <li style={{ margin: '0 5px' }}>
-
-                              <button
-                                style={{
-                                  padding: '5px 10px',
-                                  textDecoration: 'none',
-                                  color: currentPage === totalPages ? '#ccc' : '#007bff',
-                                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                                  borderRadius: '5px',
-                                  display: 'inline-block',
-                                  minWidth: '30px',
-                                  textAlign: 'center',
-                                  backgroundColor: 'transparent',
-                                  border: "none"
-                                }}
-                                onClick={() => handlePageChange(currentPage + 1)}
-                                disabled={currentPage === totalPages}
-                              >
-
-                                <ArrowRight2 size="16" color="#1E45E1" />
-                              </button>
-                            </li>
-                          </ul>
-                        </nav>
-                      )}
                     </>
 
                 }
