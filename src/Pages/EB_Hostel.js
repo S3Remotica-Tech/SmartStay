@@ -30,6 +30,7 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import EBRoomReading from "./EBRoomReading";
+import Emptystate from '../Assets/Images/Empty-State.jpg'
 
 import {
   Autobrightness,
@@ -435,7 +436,7 @@ function EB_Hostel() {
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = electricityFilterddata?.slice(
+  const currentRoomelectricity = electricityFilterddata?.slice(
     indexOfFirstRowelectricity,
     indexOfLastRowelectricity
   );
@@ -680,379 +681,384 @@ function EB_Hostel() {
         </div>
         <TabPanel value="1">
           <>
-            <div>
-              {currentRowelectricity?.length > 0 && (
-                <Table
-                  responsive="md"
-                  className="Table_Design"
+          <div>
+  {currentRoomelectricity?.length > 0 ? (
+    <Table
+      responsive="md"
+      className="Table_Design"
+      style={{
+        height: "auto",
+        overflow: "visible",
+        tableLayout: "auto",
+        borderRadius: "24px",
+        border: "1px solid #DCDCDC",
+      }}
+    >
+      <thead
+        style={{
+          color: "gray",
+          fontSize: "11px",
+          backgroundColor: "#E7F1FF",
+        }}
+      >
+        <tr style={{ height: "30px" }}>
+          <th
+            style={{
+              textAlign: "center",
+              fontFamily: "Gilroy",
+              color: "rgba(34, 34, 34, 1)",
+              fontSize: 14,
+              fontWeight: 600,
+              borderTopLeftRadius: 24,
+            }}
+          >
+            <img src={squre} height={20} width={20} />
+          </th>
+          <th
+            style={{
+              color: "#939393",
+              fontWeight: 500,
+              fontSize: "14px",
+              fontFamily: "Gilroy",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              textAlign: "center",
+            }}
+          >
+            Name
+          </th>
+          <th
+            style={{
+              color: "#939393",
+              fontWeight: 500,
+              fontSize: "14px",
+              fontFamily: "Gilroy",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              textAlign: "center",
+            }}
+          >
+            Paying Guest
+          </th>
+          <th
+            style={{
+              color: "#939393",
+              fontWeight: 500,
+              fontSize: "14px",
+              fontFamily: "Gilroy",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              textAlign: "center",
+            }}
+          >
+            Floor
+          </th>
+          <th
+            style={{
+              color: "#939393",
+              fontWeight: 500,
+              fontSize: "14px",
+              fontFamily: "Gilroy",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              textAlign: "center",
+            }}
+          >
+            Room
+          </th>
+          <th
+            style={{
+              color: "#939393",
+              fontWeight: 500,
+              fontSize: "14px",
+              fontFamily: "Gilroy",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              textAlign: "center",
+            }}
+          >
+            Previous
+          </th>
+          <th
+            style={{
+              color: "#939393",
+              fontWeight: 500,
+              fontSize: "14px",
+              fontFamily: "Gilroy",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              textAlign: "center",
+            }}
+          >
+            Current
+          </th>
+          <th
+            style={{
+              color: "#939393",
+              fontWeight: 500,
+              fontSize: "14px",
+              fontFamily: "Gilroy",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              textAlign: "center",
+            }}
+          >
+            Date
+          </th>
+          <th
+            style={{
+              color: "#939393",
+              fontWeight: 500,
+              fontSize: "14px",
+              fontFamily: "Gilroy",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              textAlign: "center",
+            }}
+          >
+            Units
+          </th>
+          <th
+            style={{
+              textAlign: "center",
+              fontFamily: "Gilroy",
+              color: "#939393",
+              fontSize: 14,
+              fontWeight: 600,
+            }}
+          >
+            Amount
+          </th>
+          <th
+            style={{
+              textAlign: "center",
+              fontFamily: "Gilroy",
+              color: "rgba(34, 34, 34, 1)",
+              fontSize: 14,
+              fontWeight: 600,
+              borderTopRightRadius: 24,
+            }}
+          >
+            {" "}
+          </th>
+        </tr>
+      </thead>
+      <tbody style={{ fontSize: "12px" }}>
+        {currentRoomelectricity.map((v) => {
+          const imageUrl = v.profile || Profile;
+          let Dated = new Date(v.createAt);
+          let day = Dated.getDate();
+          let month = Dated.getMonth() + 1;
+          let year = Dated.getFullYear();
+          let formattedDate = `${day}/${month}/${year}`;
+
+          return (
+            <tr key={v.id}>
+              <td
+                style={{
+                  padding: "10px",
+                  border: "none",
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                }}
+              >
+                <img src={squre} height={20} width={20} />
+              </td>
+              <td style={{ border: "none", display: "flex", padding: "10px" }}>
+                <Image
+                  src={imageUrl}
+                  alt={v.Name || "Default Profile"}
+                  roundedCircle
                   style={{
-                    height: "auto",
-                    overflow: "visible",
-                    tableLayout: "auto",
-                    borderRadius: "24px",
-                    border: "1px solid #DCDCDC",
+                    height: "40px",
+                    width: "40px",
+                    marginRight: "10px",
+                  }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = Profile;
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    cursor: "pointer",
                   }}
                 >
-                  <thead
-                    style={{
-                      color: "gray",
-                      fontSize: "11px",
-                      backgroundColor: "#E7F1FF",
-                    }}
-                  >
-                    <tr style={{ height: "30px" }}>
-                      <th
-                        style={{
-                          textAlign: "center",
-                          fontFamily: "Gilroy",
-                          color: "rgba(34, 34, 34, 1)",
-                          fontSize: 14,
-                          fontWeight: 600,
-                          borderTopLeftRadius: 24,
-                        }}
-                      >
-                        <img src={squre} height={20} width={20} />
-                      </th>
-                    
+                  {v.Name}
+                </span>
+              </td>
 
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        Name
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        Paying Guest
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        Floor
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        Room
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        Previous
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        Current
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        Date
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        Units
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "center",
-                          fontFamily: "Gilroy",
-                          color: "#939393",
-                          fontSize: 14,
-                          fontWeight: 600,
-                          // borderTopRightRadius: 24
-                        }}
-                      >
-                        Amount
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "center",
-                          fontFamily: "Gilroy",
-                          color: "rgba(34, 34, 34, 1)",
-                          fontSize: 14,
-                          fontWeight: 600,
-                          borderTopRightRadius: 24,
-                        }}
-                      >
-                        {" "}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody style={{ fontSize: "12px" }}>
-                    {currentRowelectricity &&
-                      currentRowelectricity.map((v) => {
-                        const imageUrl = v.profile || Profile;
-                        let Dated = new Date(v.createAt);
-                        let day = Dated.getDate();
-                        let month = Dated.getMonth() + 1;
-                        let year = Dated.getFullYear();
-                        let formattedDate = `${day}/${month}/${year}`;
-                       
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                }}
+              >
+                {v.HostelName}
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                }}
+              >
+                {v.Floor}
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                }}
+              >
+                {v.Rooms}
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                }}
+              >
+                {v.start_meter}
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                }}
+              >
+                {v.end_meter}
+              </td>
+              <td
+                style={{
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                }}
+              >
+                <span
+                  style={{
+                    backgroundColor: "#EBEBEB",
+                    paddingTop: "5px",
+                    paddingLeft: "16px",
+                    paddingRight: "16px",
+                    paddingBottom: "5px",
+                    borderRadius: "60px",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  {new Date(v.date).toISOString().split("T")[0]}
+                </span>
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                }}
+              >
+                {v.unit}
+              </td>
+              <td
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  borderBottom: "none",
+                }}
+              >
+                {v.amount}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </Table>
+  ) : (
+    <div>
+      <div style={{ textAlign: "center" }}>
+        <img src={emptyimg} alt="emptystate" />
+      </div>
+      <div
+        className="pb-1"
+        style={{
+          textAlign: "center",
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          fontSize: 24,
+          color: "rgba(75, 75, 75, 1)",
+        }}
+      >
+        No Active Electricity{" "}
+      </div>
+      <div
+        className="pb-1"
+        style={{
+          textAlign: "center",
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          fontSize: 20,
+          color: "rgba(75, 75, 75, 1)",
+        }}
+      >
+        There are no active Electricity{" "}
+      </div>
 
-                        return (
-                          <tr key={v.id}>
-                            <td
-                              style={{
-                                padding: "10px",
-                                border: "none",
-                                textAlign: "center",
-                                verticalAlign: "middle", // Center vertically
-                              }}
-                            >
-                              <img src={squre} height={20} width={20} />
-                            </td>
-                            <td style={{ border: "none", display: "flex", padding: "10px" }}>
+      <div style={{ textAlign: "center" }}>
+        <Button
+          onClick={handleAddEbDetails}
+          style={{
+            fontSize: 16,
+            backgroundColor: "#1E45E1",
+            color: "white",
+            height: 56,
+            fontWeight: 600,
+            borderRadius: 12,
+            width: 200,
+            padding: "18px, 20px, 18px, 20px",
+            fontFamily: "Montserrat",
+          }}
+        >
+          + Record Reading
+        </Button>
+      </div>
+    </div>
+  )}
+</div>
 
-                        <Image
-                          src={imageUrl}
-                          alt={v.Name || "Default Profile"}
-                          roundedCircle
-                          style={{ height: "40px", width: "40px", marginRight: "10px" }}
-                          onError={(e) => {
-                            e.target.onerror = null; 
-                            e.target.src = Profile; 
-                           
-                          }}
-                        />
-                        <span  style={{ fontSize: "16px", fontWeight: 600, fontFamily: "Gilroy", cursor: "pointer" }} >
-                          {v.Name}
-                        </span>
-                      </td>
+          
+               
 
-                            <td
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                textAlign: "center",
-                                verticalAlign: "middle",
-                                borderBottom: "none",
-                              }}
-                            >
-                              {v.HostelName}
-                            </td>
-                            <td
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                textAlign: "center",
-                                verticalAlign: "middle",
-                                borderBottom: "none",
-                              }}
-                            >
-                              {v.Floor}
-                            </td>
-                            <td
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                textAlign: "center",
-                                verticalAlign: "middle",
-                                borderBottom: "none",
-                              }}
-                            >
-                              {v.Rooms}
-                            </td>
-                            <td
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                textAlign: "center",
-                                verticalAlign: "middle",
-                                borderBottom: "none",
-                              }}
-                            >
-                              {v.start_meter}
-                            </td>
-                            <td
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                textAlign: "center",
-                                verticalAlign: "middle",
-                                borderBottom: "none",
-                              }}
-                            >
-                              {v.end_meter}
-                            </td>
-                            <td
-                              style={{
-                                textAlign: "center",
-                                verticalAlign: "middle", // Center vertically
-                                borderBottom: "none",
-                              }}
-                            >
-                              <span
-                                style={{
-                                  backgroundColor: "#EBEBEB",
-                                  paddingTop: "5px",
-                                  paddingLeft: "16px",
-                                  paddingRight: "16px",
-                                  paddingBottom: "5px",
-                                  borderRadius: "60px",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                {new Date(v.date).toISOString().split('T')[0]} 
-                              </span>
-                            </td>
-                            <td
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                textAlign: "center",
-                                verticalAlign: "middle", // Center vertically
-                                borderBottom: "none",
-                              }}
-                            >
-                              {v.unit}
-                            </td>
-                            <td
-                              style={{
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                textAlign: "center",
-                                verticalAlign: "middle",
-                                borderBottom: "none",
-                              }}
-                            >
-                              {v.amount}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </Table>
-              )}
-
-              {state.PgList.EB_customerTable.eb_details?.length === 0 &&  (
-                <div>
-                  <div style={{ textAlign: "center" }}>
-                    <img src={emptyimg} alt="emptystate" />
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 24,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    No Active Electricity{" "}
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 20,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    There are no active Electricity{" "}
-                  </div>
-
-                  <div style={{ textAlign: "center" }}>
-                    <Button
-                      onClick={handleAddEbDetails}
-                      style={{
-                        fontSize: 16,
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        height: 56,
-                        fontWeight: 600,
-                        borderRadius: 12,
-                        width: 200,
-                        padding: "18px, 20px, 18px, 20px",
-                        fontFamily: "Montserrat",
-                      }}
-                    >
-                      + Record Reading
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {currentRowelectricity?.length > 0 && (
+            {currentRoomelectricity?.length > 0 && (
               <nav>
                 <ul
                   style={{

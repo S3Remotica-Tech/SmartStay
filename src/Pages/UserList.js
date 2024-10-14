@@ -17,6 +17,7 @@ import CryptoJS from "crypto-js";
 import Filters from "../Assets/Images/Filters.svg";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import Modal from "react-bootstrap/Modal";
+import Emptystate from '../Assets/Images/Empty-State.jpg'
 
 import {
   Autobrightness,
@@ -1178,24 +1179,28 @@ setDeleteShow(true)
                 />
               </Tabs>
 
-              <TabPanel value="1">
-                {/* <AllCustomer id={props.id} /> */}
-              </TabPanel>
-              <TabPanel value="2">
-                <UserlistBookings id={props.id} />
-              </TabPanel>
-              <TabPanel value="3">
-                <UserlistCheckout id={props.id} />
-              </TabPanel>
-              <TabPanel value="4">
-                <UserlistWalkin id={props.id} />
-              </TabPanel>
-            </TabContext>
-          </div>
+              <TabPanel value="1" style={{paddingLeft:10,paddingRight:20}}>
 
-        
-<div style={{padding:20,marginTop:"-50px"}}>
+              <div>
 <div >
+
+
+    {currentItems.length == 0 && 
+
+<div>
+<div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div>
+<div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active Customer </div>
+  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active Customer </div>
+  <div style={{ textAlign: "center"}}>         
+        <Button
+               onClick={handleShow}
+               style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Customer</Button>
+           </div>
+</div>
+
+    
+    }
+
             {currentItems && currentItems.length > 0 && (
               <Table
                 responsive="md"
@@ -1666,19 +1671,10 @@ setDeleteShow(true)
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                   >
-                    {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                    
                     <ArrowLeft2 size="16" color="#1E45E1" />
                   </button>
-                  {/* <span
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  style={{
-                    marginTop: '20px',
-                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                    color: currentPage === 1 ? '#ccc' : '#007bff'
-                  }}
-                >
-                  Previous
-                </span> */}
+                 
                 </li>
                 {currentPage > 3 && (
                   <li style={{ margin: "0 5px" }}>
@@ -1725,16 +1721,7 @@ setDeleteShow(true)
                   </li>
                 )}
                 <li style={{ margin: "0 5px" }}>
-                  {/* <span
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  style={{
-                    marginTop: '20px',
-                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                    color: currentPage === totalPages ? '#ccc' : '#007bff'
-                  }}
-                >
-                  Next
-                </span> */}
+               
                   <button
                     style={{
                       padding: "5px 10px",
@@ -1752,21 +1739,49 @@ setDeleteShow(true)
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
                   >
-                    {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                 
                     <ArrowRight2 size="16" color="#1E45E1" />
                   </button>
                 </li>
               </ul>
             </nav>
           )}
+
+
+
+
+
 </div>
         
+
+
+
+              
+              </TabPanel>
+              <TabPanel value="2">
+                <UserlistBookings id={props.id} />
+              </TabPanel>
+              <TabPanel value="3">
+                <UserlistCheckout id={props.id} />
+              </TabPanel>
+              <TabPanel value="4">
+                <UserlistWalkin id={props.id} />
+              </TabPanel>
+            </TabContext>
+          </div>
+
+
+
+
+
+
+
         </div>
        
       )}
       
 
-<Modal show={deleteShow} onHide={handleCloseDelete} backdrop="static" centered>
+{/* <Modal show={deleteShow} onHide={handleCloseDelete} backdrop="static" centered>
   <Modal.Body style={{ padding: "20px", borderRadius: "30px" }}>
     <div className="d-flex flex-column align-items-center">
       <Modal.Header className="w-100" style={{ borderBottom: "none" }}>
@@ -1817,9 +1832,80 @@ setDeleteShow(true)
       </div>
     </div>
   </Modal.Body>
+</Modal> */}
+
+<Modal
+  show={deleteShow}
+  onHide={handleCloseDelete}
+  centered
+  backdrop="static"
+  style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }} 
+>
+  <Modal.Header style={{ borderBottom: 'none' }}> 
+    <Modal.Title 
+      style={{
+        fontSize: '18px',
+        fontFamily: 'Gilroy',
+        textAlign: 'center',
+        fontWeight: 600,
+        color: '#222222',
+        flex: 1
+      }}
+    >
+      Delete Check-out?
+    </Modal.Title>
+  </Modal.Header>
+  
+  <Modal.Body
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: 'Gilroy',
+      color: '#646464',
+      textAlign: 'center',
+      marginTop: '-20px'
+    }}
+  >
+    Are you sure you want to delete this check-out?
+  </Modal.Body>
+  
+  <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}> 
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 8,
+        padding: '12px 20px',
+        background: '#fff',
+        color: '#1E45E1',
+        border: '1px solid #1E45E1',
+        fontWeight: 600,
+        fontFamily: 'Gilroy',
+        fontSize: '14px',
+        marginRight: 10
+      }}
+      onClick={handleCloseDelete}
+    >
+      Cancel
+    </Button>
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 8,
+        padding: '12px 20px',
+        background: '#1E45E1',
+        color: '#FFFFFF',
+        fontWeight: 600,
+        fontFamily: 'Gilroy',
+        fontSize: '14px'
+      }}
+      onClick={handleCloseDelete}
+    >
+      Delete
+    </Button>
+  </Modal.Footer>
 </Modal>
-
-
 
 
 
