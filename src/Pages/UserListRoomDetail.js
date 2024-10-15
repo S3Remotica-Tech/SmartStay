@@ -250,6 +250,8 @@ function UserListRoomDetail(props) {
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
       setBed(item[0].Bed || "");
+      setRoomId(item[0].room_id || "")
+      setBedId(item[0].hstl_Bed || "")
       setSelectedDate(item[0].user_join_date || "");
 
       setAdvanceAmount(item[0].AdvanceAmount || "");
@@ -546,38 +548,38 @@ function UserListRoomDetail(props) {
     setFormError("");
   };
 
-  useEffect(() => {
-    if (props.userDetails && props.userDetails.ID) {
-      seteditBed("editbeddet");
-      setId(props.userDetails.ID);
-      if (props.userDetails.profile == 0) setFile(null);
-      else {
-        setFile(props.userDetails.profile);
-      }
-      let value = props.userDetails.Name.split(" ");
-      setFirstname(value[0]);
-      setLastname(value[1]);
-      setAddress(props.userDetails.Address);
-      setAadharNo(props.userDetails.AadharNo);
-      setPancardNo(props.userDetails.PancardNo);
-      setLicence(props.userDetails.licence);
-      setPhone(props.userDetails.Phone);
-      setEmail(props.userDetails.Email);
-      setHostelName(props.userDetails.HostelName);
-      setHostel_Id(props.userDetails.Hostel_Id);
-      setFloor(props.userDetails.Floor);
-      setRooms(props.userDetails.Rooms);
-      setBed(props.userDetails.Bed);
-      setAdvanceAmount(props.userDetails.AdvanceAmount);
-      setRoomRent(props.userDetails.RoomRent);
-      setPaymentType(props.userDetails.PaymentType);
-      setBalanceDue(props.userDetails.BalanceDue);
-      setPaidAdvance(props.userDetails.paid_advance);
-      setPaidrent(props.userDetails.paid_rent);
-    } else {
-      props.setEdit("Add");
-    }
-  }, [props.userDetails]);
+  // useEffect(() => {
+  //   if (props.userDetails && props.userDetails.ID) {
+  //     seteditBed("editbeddet");
+  //     setId(props.userDetails.ID);
+  //     if (props.userDetails.profile == 0) setFile(null);
+  //     else {
+  //       setFile(props.userDetails.profile);
+  //     }
+  //     let value = props.userDetails.Name.split(" ");
+  //     setFirstname(value[0]);
+  //     setLastname(value[1]);
+  //     setAddress(props.userDetails.Address);
+  //     setAadharNo(props.userDetails.AadharNo);
+  //     setPancardNo(props.userDetails.PancardNo);
+  //     setLicence(props.userDetails.licence);
+  //     setPhone(props.userDetails.Phone);
+  //     setEmail(props.userDetails.Email);
+  //     setHostelName(props.userDetails.HostelName);
+  //     setHostel_Id(props.userDetails.Hostel_Id);
+  //     setFloor(props.userDetails.Floor);
+  //     setRooms(props.userDetails.Rooms);
+  //     setBed(props.userDetails.Bed);
+  //     setAdvanceAmount(props.userDetails.AdvanceAmount);
+  //     setRoomRent(props.userDetails.RoomRent);
+  //     setPaymentType(props.userDetails.PaymentType);
+  //     setBalanceDue(props.userDetails.BalanceDue);
+  //     setPaidAdvance(props.userDetails.paid_advance);
+  //     setPaidrent(props.userDetails.paid_rent);
+  //   } else {
+  //     props.setEdit("Add");
+  //   }
+  // }, [props.userDetails]);
 
   const handleCloseEditcustomer = () => {
     setFormShow(false);
