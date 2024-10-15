@@ -1401,6 +1401,8 @@ console.log("newRows",newRows);
               };
 
   const [amenityArray,setamenityArray] = useState([])
+  console.log("amenityArray",amenityArray);
+  
 
        useEffect(()=> {
 
@@ -1422,28 +1424,37 @@ console.log("newRows",newRows);
             am_name: item.description,   
             amount: item.amount
             }));
+            console.log("AmenityDetails",AmenityDetails);
+            
             setAmenityDetails(AmenityDetails)
 
-            const allRows = [...newRows];
+            const allRows = newRows.map(detail => ({
+              am_name: detail.am_name, 
+              amount: detail.amount
+            })).filter(detail => detail.am_name && detail.amount); 
             console.log("allRows", allRows);
             
-            const amenityArray = amenityDetail.map(detail => ({
-              description: detail.am_name, 
+            const amenityArray = AmenityDetails.map(detail => ({
+              am_name: detail.am_name, 
               amount: detail.amount
-            })).filter(detail => detail.description && detail.amount); 
+            })).filter(detail => detail.am_name && detail.amount); 
+            console.log("amenityArray", amenityArray);
+            
             
             // Combine allRows and amenityArray
-            const combinedRows = [...amenityArray, ...allRows]; 
-            
+            const combinedRows = [...amenityArray, ...allRows];
+            console.log("combinedRows", combinedRows);
+          
             setamenityArray(combinedRows)
   
-
-
-         const  totalAmount = (
-            parseFloat(EbAmount?.amount || 0) +
-            parseFloat(RoomRentItem?.amount || 0) +
-            combinedRows.reduce((sum, amenity) => sum + parseFloat(amenity.amount || 0), 0) );
-            setTotalAmount(totalAmount)
+            const totalAmount = (
+              parseFloat(EbAmount?.amount || 0) +         // Add EB Amount
+              parseFloat(RoomRentItem?.amount || 0) +     // Add Room Rent
+              combinedRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) // Sum amounts from combinedRows
+            );
+            
+            setTotalAmount(totalAmount);  // Set the total amount in the state
+            console.log("TotalAmount:", totalAmount);
 
                   }
 
