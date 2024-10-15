@@ -590,7 +590,7 @@ function EB_Hostel() {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <div style={{ padding: 15 }}>
+    <div style={{ paddingLeft: 15,marginTop:"-10px"}}>
       <div className="d-flex justify-content-between align-items-center ms-3 mb-3">
         <div style={{ padding: 15 }}>
           <label
@@ -647,7 +647,7 @@ function EB_Hostel() {
               orientation={isSmallScreen ? "vertical" : "horizontal"}
               onChange={handleChanges}
               aria-label="lab API tabs example"
-              style={{ marginLeft: "20px" }}
+              style={{ marginLeft: "20px",marginTop:"-30px"}}
               className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
             >
               <Tab
@@ -913,7 +913,7 @@ function EB_Hostel() {
                   borderBottom: "none",
                 }}
               >
-                {v.Floor}
+                {v.floor_name}
               </td>
               <td
                 style={{
@@ -925,7 +925,7 @@ function EB_Hostel() {
                   borderBottom: "none",
                 }}
               >
-                {v.Rooms}
+                {v.Room_Id}
               </td>
               <td
                 style={{
