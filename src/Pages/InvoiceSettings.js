@@ -144,6 +144,7 @@ function InvoiceSettings() {
             // }).then(() => {
               
             // });
+            dispatch({ type: 'HOSTELLIST' })
             handleClose();
             setEditHostel({ id: '', name: '' });
             setEditPrefix('');
@@ -178,7 +179,7 @@ function InvoiceSettings() {
                     profile: selectedImage
                 }
             });
-          
+            dispatch({ type: 'HOSTELLIST' })
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
@@ -195,7 +196,7 @@ function InvoiceSettings() {
                     profile: selectedImage
                 }
             });
-        
+               dispatch({ type: 'HOSTELLIST' })
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
@@ -212,7 +213,7 @@ function InvoiceSettings() {
                     suffix: startNumber
                 }
             });
-       
+            dispatch({ type: 'HOSTELLIST' })
                 setShowTable(false);
                 setSelectedHostel({ id: '', name: '' });
                 setPrefix('');
@@ -374,7 +375,9 @@ function InvoiceSettings() {
                             className='border' value={selectedHostel.id} onChange={(e) => handleHostelChange(e)} style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
 
                             <option style={{ fontSize: 14, fontWeight: 600, fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }} >Select PG</option>
-                            {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
+                            {state.UsersList.hostelList && state.UsersList.hostelList
+                            .filter((item) => !item.prefix ||!item.suffix )
+                            .map((item) => (
                                 <>
                                     <option key={item.id} value={item.id} >{item.Name}</option></>
                             ))}

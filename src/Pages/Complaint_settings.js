@@ -16,10 +16,10 @@ import Modal from 'react-bootstrap/Modal';
 
       console.log("state", state);
 
-  const [type, setType] = useState('');
-  const [typeerrmsg, setTypeErrmsg] = useState('')
+    const [type, setType] = useState('');
+    const [typeerrmsg, setTypeErrmsg] = useState('')
 
-  const [types, setTypes] = useState([]);
+    const [types, setTypes] = useState([]);
 
 
   const handleType = (e) => {

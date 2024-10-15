@@ -23,8 +23,12 @@ import { MdError } from "react-icons/md";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Profile_Security from "./Profile_security";
+import Notify from '../Assets/Images/New_images/notify.png';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
 const Accountsettings = () => {
+
+  
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [profilePicture, setProfilePicture] = useState('');
@@ -102,6 +106,48 @@ const [displayPassword, setDisplayPassword] = useState(false)
     setValue(newValue);
   }
 
+
+  const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState([]);
+  console.log("notification", notification);
+
+  useEffect(() => {
+    dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+    setNotification(state.login.Notification)
+  }, [])
+
+
+
+  let newNotificationIDs = state.login.Notification && state.login.Notification?.length > 0 && state.login.Notification.filter(notification => notification.status === 1).map(notification => notification.id);
+
+
+  const newNotificationsCount = newNotificationIDs.length;
+  console.log("id", newNotificationIDs);
+
+
+  const handleClosepopup = () => setShow(false);
+
+  const handleShowpopup = () => {
+    setShow(true);
+    if (newNotificationIDs.length > 0 && newNotificationIDs != []) {
+      setTimeout(() => {
+        dispatch({ type: 'UPDATE-NOTIFICATION', payload: { id: newNotificationIDs } });
+      }, 1000)
+    }
+
+    // dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+  }
+
+
+  useEffect(() => {
+    if (state.login.UpdateNotificationMessage != null && state.login.UpdateNotificationMessage != '') {
+      dispatch({ type: 'ALL-NOTIFICATION-LIST' })
+      setTimeout(() => {
+        dispatch({ type: 'AFTER_UPDATE_NOTIFICATION', message: null })
+        newNotificationIDs = []
+      }, 100);
+    }
+  }, [state.login.UpdateNotificationMessage])
 
   const handleName = (e) => {
     setFirstName(e.target.value);
@@ -791,8 +837,43 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
   return (
 
     <div className="container fade-in" style={{ marginLeft: '30px' }}>
-      <h3 style={{ marginLeft: '10px', fontSize: 24, fontWeight: 600, fontFamily: "Gilroy" }}>Account Settings</h3>
+      <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+      <h3 style={{ marginLeft: '10px', fontSize: 24, fontWeight: 600, fontFamily: "Gilroy" }}>Profile</h3>
+      <div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
+      <img src={Notify} alt="notification" />
+      </div>
+      </div>
+      <Offcanvas placement="end" show={show} onHide={handleClosepopup} style={{ width: "69vh" }}>
+              <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Notification</Offcanvas.Title>
+              <Offcanvas.Body style={{ maxHeight: 'calc(100vh - 35px)', overflowY: 'auto' }}>
+                <div class="d-flex flex-row bd-highlight mb-3  item" style={{ marginTop: "-20px", fontSize: "15px" }}>
+                  <div class="p-1 bd-highlight user-menu">
+                    <div>
+                      {newNotificationsCount > 0 && <p style={{ marginTop: '10px' }}><span style={{ backgroundColor: '#DBE1FB', padding: '8px 12px', color: '#222222', borderRadius: '14px', fontWeight: 500 }}>{newNotificationsCount} new notifications</span></p>}
+                    </div>
+                    <div className='container' style={{ marginTop: "30px" }}>
+                      <>
+                        <div className='row mb-3'>
+                          {state.login.Notification && state.login.Notification?.length > 0 && state.login.Notification.map((val) => (
+                            <div key={val.id} className='border-bottom' style={{ marginBottom: '10px', display: 'flex', flexDirection: 'row', justifyContent: "space-between" }}>
+                              <p style={{ color: val.status === 1 ? 'black' : '#939393', width: '75%' }}>{val.message}</p>
+                              {val.status === 1 && <div style={{ width: '10px', height: '10px', backgroundColor: 'blue', borderRadius: '50%', marginTop: '5px' }}>
+                              </div>}
 
+
+                            </div>
+                          ))}
+
+                        </div>
+                      </>
+
+
+                    </div>
+                  </div>
+                </div>
+
+              </Offcanvas.Body>
+            </Offcanvas>
 
       <div className='d-flex justify-content-start gap-3 align-items-center '>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "auto", height: "auto", borderRadius: 100, padding: 5, marginBottom: '20px' }}>
