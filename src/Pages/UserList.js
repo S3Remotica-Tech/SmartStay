@@ -1271,6 +1271,18 @@ function UserList(props) {
                         fontFamily: "Gilroy",
                       }}
                     >
+                      Paying Guest
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
                       Email ID
                     </th>
                     <th
@@ -1283,20 +1295,9 @@ function UserList(props) {
                         fontFamily: "Gilroy",
                       }}
                     >
-                      Phone
+                      Mobile no
                     </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#939393",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Paying Guest
-                    </th>
+                 
                     <th
                       style={{
                         textAlign: "start",
@@ -1418,6 +1419,36 @@ function UserList(props) {
                                 {user.Name}
                               </span>
                             </td>
+
+                            <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                marginTop:10
+                              }}
+                            >
+                              <span
+                                style={{
+                                  paddingTop: "3px",
+                                  paddingLeft: "10px",
+                                  paddingRight: "10px",
+                                  paddingBottom: "3px",
+                                  borderRadius: "60px",
+                                  backgroundColor: "#FFEFCF",
+                                  textAlign: "start",
+                                  fontSize: "14px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  
+                                }}
+                              >
+                                {user.HostelName}
+                              </span>
+                            </td>
                             <td
                               style={{
                                
@@ -1450,35 +1481,7 @@ function UserList(props) {
                                 )}{" "}
                               {user && String(user.Phone).slice(-10)}
                             </td>
-                            <td
-                              style={{
-                                paddingTop:15,
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                marginTop:10
-                              }}
-                            >
-                              <span
-                                style={{
-                                  paddingTop: "3px",
-                                  paddingLeft: "10px",
-                                  paddingRight: "10px",
-                                  paddingBottom: "3px",
-                                  borderRadius: "60px",
-                                  backgroundColor: "#FFEFCF",
-                                  textAlign: "start",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  
-                                }}
-                              >
-                                {user.HostelName}
-                              </span>
-                            </td>
+                           
                             <td
                               style={{
                                 paddingTop:15,
