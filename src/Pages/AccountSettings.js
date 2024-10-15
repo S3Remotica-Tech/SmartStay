@@ -25,10 +25,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import Profile_Security from "./Profile_security";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { Dropdown, Table } from 'react-bootstrap';
+
 
 const Accountsettings = () => {
 
-  
+
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [profilePicture, setProfilePicture] = useState('');
@@ -1277,7 +1279,11 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
           <TabPanel value="4">
             <div>
               <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'246px'}}>
-             <p style={{paddingLeft:'10px',paddingTop:'20px', fontFamily: "Gilroy",fontSize: 16,fontWeight:600}}>Your plan is active</p>
+                <div style={{paddingLeft:'10px',paddingTop:'10px'}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M2 10.99V5.71c0-1.33.77-1.65 1.71-.71L6.3 7.59c.39.39 1.03.39 1.41 0L11.29 4a.996.996 0 0 1 1.41 0l3.59 3.59c.39.39 1.03.39 1.41 0L20.29 5c.94-.94 1.71-.62 1.71.71v9.59c0 3-2 5-5 5H7c-2.76 0-5-2.24-5-5" stroke="#1e45e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                </div>
+             <p style={{paddingLeft:'10px',paddingTop:'10px', fontFamily: "Gilroy",fontSize: 16,fontWeight:600}}>Your plan is active</p>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 }}>
               <p>Amount</p>
               <p><b>₹599</b></p>
@@ -1291,10 +1297,10 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
              <p>VISA ***60 </p>
              </div>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px'}}>
-             <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'1px solid #1E45E1', color: "#1E45E1", height: 50, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
+             <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'1px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
               Cancel Plan
               </Button>
-             <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 50, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
+             <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 40, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
               Manage Plan
               </Button>
              </div>
@@ -1305,16 +1311,21 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
 
 
           <TabPanel value="5">
+
           <div style={{display:'flex',flexDirection:'row'}}>
               <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px'}}>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
-              <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>sms</p>
-              <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
+              {/* <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>sms</p> */}
+              <img 
+  src={`data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none'><path d='M8.5 19H8c-4 0-6-1-6-6V8c0-4 2-6 6-6h8c4 0 6 2 6 6v5c0 4-2 6-6 6h-.5c-.31 0-.61.15-.8.4l-1.5 2c-.66.88-1.74.88-2.4 0l-1.5-2c-.16-.22-.53-.4-.8-.4Z' stroke='%231e45e1' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'></path><path d='M15.996 11h.01M11.995 11h.01M7.995 11h.008' stroke='%231e45e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'></path></svg>`} 
+  alt="Custom SVG"
+/>
+              <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 140, padding: "4px  4px" }}>
              + Buy Credits
               </Button>
              </div>
             
-             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 ,marginTop:'15px'}}>
              <p>SMS Credits</p>
            
              </div>
@@ -1324,13 +1335,16 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
               </div>
               <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px',marginLeft:'10px'}}>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
-              <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Whatsapp</p>
-              <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
+              {/* <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Whatsapp</p> */}
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none">
+    <path fill="#37d67a" d="M21.98 11.41c-.34-5.8-5.61-10.27-11.68-9.27-4.18.69-7.53 4.08-8.18 8.26-.38 2.42.12 4.71 1.21 6.6l-.89 3.31c-.2.75.49 1.43 1.23 1.22l3.26-.9c1.48.87 3.21 1.37 5.06 1.37 5.64 0 10.32-4.97 9.99-10.59zm-5.1 4.31a2.279 2.279 0 01-1.16 1.1c-.3.13-.63.19-.98.19-.51 0-1.06-.12-1.63-.37a9.16 9.16 0 01-1.72-.99c-.58-.42-1.12-.89-1.64-1.4-.52-.52-.98-1.07-1.4-1.64-.41-.57-.74-1.14-.98-1.71-.24-.57-.36-1.12-.36-1.64 0-.34.06-.67.18-.97.12-.31.31-.59.58-.84.32-.32.67-.47 1.04-.47.14 0 .28.03.41.09.13.06.25.15.34.28l1.16 1.64c.09.13.16.24.2.35.05.11.07.21.07.31 0 .12-.04.24-.11.36s-.16.24-.28.36l-.38.4c-.06.06-.08.12-.08.2 0 .04.01.08.02.12.02.04.03.07.04.1.09.17.25.38.47.64a13.482 13.482 0 001.53 1.53c.26.22.48.37.65.46.03.01.06.03.09.04.04.02.08.02.13.02.09 0 .15-.03.21-.09l.38-.38c.13-.13.25-.22.36-.28.12-.07.23-.11.36-.11.1 0 .2.02.31.07.11.05.23.11.35.2l1.66 1.18c.13.09.22.2.28.32.05.13.08.25.08.39-.06.17-.1.36-.18.54z"></path>
+  </svg>
+              <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 140, padding: "4px  4px" }}>
              + Buy Credits
               </Button>
              </div>
             
-             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 ,marginTop:'15px'}}>
              <p>Whatsapp Credits</p>
            
              </div>
@@ -1338,10 +1352,58 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
            <p>Take your customer interaction to the next level with whatsapp Credits, connect with your audience where they already are-on Whatsapp </p>
              </div>
               </div>
+              <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px',marginLeft:'10px'}}>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
+              {/* <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Whatsapp</p> */}
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM12 14.5c-5.01 0-9.09 3.36-9.09 7.5 0 .28.22.5.5.5h17.18c.28 0 .5-.22.5-.5 0-4.14-4.08-7.5-9.09-7.5Z" fill="#1e45e1"></path></svg>
+              <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 140, padding: "4px  4px" }}>
+             + Buy Credits
+              </Button>
+             </div>
+            
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 ,marginTop:'15px'}}>
+             <p>Kyc Credits</p>
+           
+             </div>
+             <div style={{paddingLeft:'10px',paddingRight:'10px', fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500,fontSize: 14 }}>
+           <p>Streamline your onboarding process with kyc credits .quickly and securely verify customer identities ensuring compliance and building trust  </p>
+             </div>
+              </div>
             </div>
           </TabPanel>
           <TabPanel value="6">
-            This is invoice page
+          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0">
+              <Table className="ebtable mt-3" responsive  >
+                <thead style={{ backgroundColor: "#E7F1FF" }}>
+                  <tr>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}></th>
+                    <th style={{ color: '#222',  fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal', paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Name</th>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal' }}>Invoicenumber</th>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal' }}>Amount </th>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}>Dueamount</th>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}>Invoice Date</th>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}>due Date</th>
+                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}>Status</th>
+
+{/* 
+                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>due Date</th>
+                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Invoice Date</th> */}
+
+                  </tr>
+                </thead>
+                <tbody style={{ height: "50px", fontSize: "11px" }}>
+
+                 
+                  
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
+                    </tr>
+                
+
+                </tbody>
+              </Table>
+            
+            </div>
           </TabPanel>
 
           <div style={{ marginTop: '50px',marginLeft:'30px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleLogout}>
