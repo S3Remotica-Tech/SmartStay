@@ -3,7 +3,7 @@ import { Modal, Form, Button, Row, Col, InputGroup } from 'react-bootstrap';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_green.css';
 import Calendars from '../Assets/Images/New_images/calendar.png';
-import { toast,ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { CloseCircle } from 'iconsax-react';
 
 function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
@@ -147,7 +147,7 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
     return (
         <>
             <Modal show={show} onHide={handleClose} centered>
-                <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginBottom: '30px', borderBottom: 'none' }}>
+                <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginLeft: '18px', marginRight: '18px', }}>
                     <div style={{ fontSize: 20, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
                         {modalType === 'edit' ? 'Edit Walk-in' : 'Add Walk-in'}
                     </div>
@@ -155,8 +155,8 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        <Row>
-                            <Col md={6}>
+                        <div className="row">
+                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <Form.Group controlId="formCustomerName" className="mb-3">
                                     <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
                                         Name
@@ -186,8 +186,8 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                                     />
                                     {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>}
                                 </Form.Group>
-                            </Col>
-                            <Col md={6}>
+                            </div>
+                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <Form.Group controlId="formCustomerEmail" className="mb-3">
                                     <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
                                         Email ID
@@ -220,11 +220,9 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                                     />
                                     {errors.email && <small style={{ color: 'red' }}>{errors.email}</small>}
                                 </Form.Group>
-                            </Col>
-                        </Row>
+                            </div>
 
-                        <Row>
-                            <Col md={6}>
+                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <Form.Group controlId="formCustomerMobile" className="mb-3">
                                     <Form.Label style={{
                                         fontSize: '14px',
@@ -281,8 +279,8 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                                     </InputGroup>
                                     {errors.mobile && <small style={{ color: 'red' }}>{errors.mobile}</small>}
                                 </Form.Group>
-                            </Col>
-                            <Col md={6}>
+                            </div>
+                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <Form.Group controlId="formWalkInDate" className="mb-3">
                                     <Form.Label style={{
                                         fontSize: '14px',
@@ -343,11 +341,9 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                                         {errors.walkInDate && <small style={{ color: 'red', position: 'absolute', top: '100%', left: '0' }}>{errors.walkInDate}</small>}
                                     </InputGroup>
                                 </Form.Group>
-                            </Col>
-                        </Row>
+                            </div>
 
-                        <Row>
-                            <Col md={12}>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <Form.Group controlId="formComments" className="mb-3">
                                     <Form.Label style={{
                                         fontSize: '14px',
@@ -382,23 +378,17 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                                     />
                                     {errors.comments && <small style={{ color: 'red' }}>{errors.comments}</small>}
                                 </Form.Group>
-                            </Col>
-                        </Row>
+                            </div>
 
-                        <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
-                            <Button
-                                type="submit"
-                                className='w-100'
-                                style={{
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 600,
-                                     background: "#1E45E1",
-                                     fontSize:"16px"
-                                }}
-                            >
-                                {modalType === 'edit' ? 'Save Changes' : 'Add Walk-in'}
-                            </Button>
-                        </Modal.Footer>
+
+
+                            <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
+
+                                <Button className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
+                                    {modalType === 'edit' ? 'Save Changes' : 'Add Walk-in'}
+                                </Button>
+                            </Modal.Footer>
+                        </div>
                     </Form>
                 </Modal.Body>
             </Modal>

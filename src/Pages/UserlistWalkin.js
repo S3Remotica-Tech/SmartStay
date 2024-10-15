@@ -46,7 +46,7 @@ function UserlistWalkin() {
     const [dotsButton, setDotsButton] = useState(null);
 
     const popupRef = useRef(null);
-    const itemsPerPage = 10;
+    const itemsPerPage = 5;
     // delete
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -116,7 +116,22 @@ function UserlistWalkin() {
             toast.success('Walk-in added successfully!!');
         }
         handleFormClose();
+        setDotsButton(null);
     };
+
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+                setDotsButton(null);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [popupRef]);
+
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -150,14 +165,14 @@ function UserlistWalkin() {
     return (
         <>
 
-            <div>
+            <div style={{marginLeft:"-20px"}}>
                 {customers.length > 0 ? (
-                    <div className='p-10 walkin_table_custom'>
-                        <Table className="table_walkin" responsive>
+                    <div className=' walkin_table_custom'>
+                        <Table responsive="md" className="table_walkin">
                             <thead style={{ border: "none" }}>
                                 <tr>
                                     <th style={{
-                                        textAlign: "start",
+                                        textAlign: "center",
                                         padding: "10px",
                                         color: "#4B4B4B",
                                         fontSize: "14px",
@@ -167,7 +182,7 @@ function UserlistWalkin() {
                                         border: "none",
                                         borderTopLeftRadius: "24px"
                                     }}>
-                                        <img src={minus} height={20} width={20} alt="minus icon" style={{ marginLeft: "10px", }} />
+                                        <img src={minus} height={20} width={20} alt="minus icon" style={{}} />
                                     </th>
                                     <th style={{
                                         textAlign: "start",
@@ -278,7 +293,7 @@ function UserlistWalkin() {
                                         }}>{customer.mobile}</td>
 
                                         <td style={{
-                                            padding: "10px",
+                                            padding: "8px",
                                             border: "none",
                                             textAlign: "center",
                                             fontSize: "16px",
@@ -286,11 +301,11 @@ function UserlistWalkin() {
                                             fontFamily: "Gilroy"
                                         }}>
                                             <span style={{
-                                                padding: "3px 10px",
+                                                padding: "3px 7px",
                                                 borderRadius: "60px",
                                                 backgroundColor: "#EBEBEB",
                                                 textAlign: "center",
-                                                fontSize: "14px",
+                                                fontSize: "16px",
                                                 fontWeight: 500,
                                                 fontFamily: "Gilroy"
                                             }}>
@@ -397,7 +412,7 @@ function UserlistWalkin() {
                         </Table>
 
 
-                        <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+                        <Pagination className=" d-flex justify-content-end align-items-center">
                             <Pagination.Prev
                                 onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
@@ -411,6 +426,9 @@ function UserlistWalkin() {
                                     key={idx + 1}
                                     active={idx + 1 === currentPage}
                                     onClick={() => handlePageChange(idx + 1)}
+                                    style={{
+                                        fontSize: '8px',
+                                    }}
                                 >
                                     {idx + 1}
                                 </Pagination.Item>
@@ -479,7 +497,7 @@ function UserlistWalkin() {
                     Delete walk-in?</Modal.Title>
 
                 {customerToDelete && (
-                    <p style={{ color: "#646464", fontFamily: "Gilroy", fontWeight: 500, textAlign: "center", fontSize: "14px", paddingTop: "20px" }}>Are you sure you want to delete this walk-in?</p>
+                    <p style={{ color: "#646464", fontFamily: "Gilroy", fontWeight: 500, textAlign: "center", fontSize: "16px", paddingTop: "20px" }}>Are you sure you want to delete this walk-in?</p>
                 )}
 
 
@@ -490,7 +508,7 @@ function UserlistWalkin() {
                         style={{
                             fontFamily: "Gilroy",
                             fontWeight: 600,
-                            fontSize: "14px",
+                            fontSize: "16px",
                             width: "160px",
                             height: "52px",
                             borderColor: "#1E45E1",
@@ -508,7 +526,7 @@ function UserlistWalkin() {
                         style={{
                             fontFamily: "Gilroy",
                             fontWeight: 600,
-                            fontSize: "14px",
+                            fontSize: "16px",
                             width: "160px",
                             height: "52px",
                             borderColor: "#1E45E1",
