@@ -998,21 +998,13 @@ function UserListRoomDetail(props) {
                               }}
                             >
                               Room:{" "}
-                              {item.Rooms &&
-                              item.Rooms !== "0" &&
-                              item.Rooms !== "" &&
-                              item.Rooms !== "undefined" &&
-                              item.Rooms !== "null"
-                                ? item.Rooms
-                                : "N/A"}{" "}
+                              {!item.Rooms 
+                                          ? "N/A"
+                                          : item.Rooms}{" "}
                               - Bed:{" "}
-                              {item.Bed &&
-                              item.Bed !== "undefined" &&
-                              item.Bed !== "0" &&
-                              item.Bed !== "" &&
-                              item.Bed !== "null"
-                                ? item.Bed
-                                : "N/A"}
+                              {!item.Bed 
+                                          ? "N/A"
+                                          : item.Bed}
                             </span>
 
                             <span
@@ -1032,13 +1024,9 @@ function UserListRoomDetail(props) {
                               }}
                             >
                               Floor -{" "}
-                              {item.Floor &&
-                              item.Floor !== "0" &&
-                              item.Floor !== "" &&
-                              item.Floor !== "undefined" &&
-                              item.Floor !== "null"
-                                ? item.Floor
-                                : "N/A"}
+                              {!item.Floor || item.Floor == "undefined" || item.Floor == 0 || item.Floor == 'null'
+                                          ? "N/A"
+                                          : item.Floor}
                               {/* {props.getFloorName(item.Floor && item.Floor !== 0 && item.Floor !== '' &&  item.Floor !== 'undefined'? item.Floor : 'N/A')} */}
                             </span>
                           </p>
@@ -1246,17 +1234,11 @@ function UserListRoomDetail(props) {
                                           cursor: "pointer",
                                         }}
                                       >
-                                        {item.Rooms === "undefined" ||
-                                        item.Rooms === "0" ||
-                                        item.Rooms === "" ||
-                                        item.Rooms === "null"
+                                        {!item.Rooms 
                                           ? "N/A"
                                           : item.Rooms}
                                         -{" "}
-                                        {item.Bed === "undefined" ||
-                                        item.Bed === "0" ||
-                                        item.Bed === "" ||
-                                        item.Bed === "null"
+                                        {!item.Bed 
                                           ? "N/A"
                                           : item.Bed}
                                       </span>
