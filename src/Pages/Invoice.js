@@ -76,13 +76,7 @@ const InvoicePage = () => {
   //   dispatch({ type: 'INVOICELIST' })
   // }, [])
 
-  useEffect(() => {
-    // setLoading(true)
-    dispatch({ type: 'MANUAL-INVOICES-LIST' })
-    console.log("MAnual");
-    
-    setBills(state.InvoiceList.ManualInvoices);
-  }, [])
+
 
 
 
@@ -1078,6 +1072,14 @@ console.log("selectedData",selectedData)
 
 
   const [bills , setBills] = useState([])
+
+  useEffect(() => {
+    // setLoading(true)
+    dispatch({ type: 'MANUAL-INVOICES-LIST' })
+    console.log("MAnual");
+    
+    setBills(state.InvoiceList.ManualInvoices);
+  }, [])
   console.log("bills",bills);
   const [availableOptions, setAvailableOptions] = useState(invoicetotalamounts);
   
@@ -1086,7 +1088,7 @@ console.log("selectedData",selectedData)
 
 const handleAddColumn = () => {
   const newRow = {
-    description: '',
+    am_name: '',
     used_unit: '',
     per_unit_amount: '',
     total_amount: '',
@@ -1123,20 +1125,21 @@ console.log("newRows",newRows);
   }, [state.InvoiceList.ManualInvoices]); 
   
   useEffect(() => {
-    if (state.InvoiceList.manualInvoiceAddStatusCode === 200 && !loading) {
+    if (state.InvoiceList.manualInvoiceAddStatusCode === 200 ) {
+        dispatch({ type: 'MANUAL-INVOICES-LIST' });
+        setLoading(true);
   
+        setTimeout(() => {
+          dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD' });
+          setLoading(false);
+          console.log("TimeOut",state.InvoiceList.ManualInvoices);
+          
+          setBills(state.InvoiceList.ManualInvoices);
+        }, 1000);
       
-      dispatch({ type: 'MANUAL-INVOICES-LIST' });
-      console.log("MAnual invoice add status code");
-      setBills(state.InvoiceList.ManualInvoices);
-      setLoading(true); 
-  
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD' });
-        setLoading(false); 
-      }, 1000);
     }
-  }, [state.InvoiceList.manualInvoiceAddStatusCode]); // Add `loading` to the dependency array
+  }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.ManualInvoices]);
+  // Add `loading` to the dependency array
   
 
 
@@ -1217,7 +1220,7 @@ console.log("newRows",newRows);
   const handleBackBill = () => {
     setShowManualInvoice(false)
     setShowRecurringBillForm(false)
-setShowAllBill(true)
+    setShowAllBill(true)
     setCustomerName('');
     setInvoiceNumber('');
     setStartDate('');
@@ -1397,7 +1400,9 @@ setShowAllBill(true)
              setAvailableOptions([...availableOptions, item]);
               };
 
-
+  const [amenityArray,setamenityArray] = useState([])
+  console.log("amenityArray",amenityArray);
+  
 
        useEffect(()=> {
 
@@ -1419,15 +1424,37 @@ setShowAllBill(true)
             am_name: item.description,   
             amount: item.amount
             }));
+            console.log("AmenityDetails",AmenityDetails);
+            
             setAmenityDetails(AmenityDetails)
+
+            const allRows = newRows.map(detail => ({
+              am_name: detail.am_name, 
+              amount: detail.amount
+            })).filter(detail => detail.am_name && detail.amount); 
+            console.log("allRows", allRows);
+            
+            const amenityArray = AmenityDetails.map(detail => ({
+              am_name: detail.am_name, 
+              amount: detail.amount
+            })).filter(detail => detail.am_name && detail.amount); 
+            console.log("amenityArray", amenityArray);
+            
+            
+            // Combine allRows and amenityArray
+            const combinedRows = [...amenityArray, ...allRows];
+            console.log("combinedRows", combinedRows);
+          
+            setamenityArray(combinedRows)
   
-
-
-         const  totalAmount = (
-            parseFloat(EbAmount?.amount || 0) +
-            parseFloat(RoomRentItem?.amount || 0) +
-            AmenityDetails.reduce((sum, amenity) => sum + parseFloat(amenity.amount || 0), 0) );
-            setTotalAmount(totalAmount)
+            const totalAmount = (
+              parseFloat(EbAmount?.amount || 0) +         // Add EB Amount
+              parseFloat(RoomRentItem?.amount || 0) +     // Add Room Rent
+              combinedRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) // Sum amounts from combinedRows
+            );
+            
+            setTotalAmount(totalAmount);  // Set the total amount in the state
+            console.log("TotalAmount:", totalAmount);
 
                   }
 
@@ -1449,17 +1476,14 @@ setShowAllBill(true)
 
 
 
-
+          
 
 
       const handleCreateBill = () => {
 
-           const allRows = [...billamounts, ...newRows];
+   
 
-           const amenityArray = amenityDetail.map(detail => ({
-              am_name: detail.am_name,
-              amount: detail.amount
-               })).filter(detail => detail.am_name && detail.amount);
+               
 
                if(!customername){
                 setCustomerErrmsg('Please Select  Customer')
@@ -1499,7 +1523,7 @@ setShowAllBill(true)
                }
 
               
-               if(customername && invoicenumber && formatstartdate && formatenddate && formatinvoicedate && formatduedate){
+               if(customername && invoicenumber && formatstartdate && formatenddate && formatinvoicedate && formatduedate && rentamount?.amount){
                 dispatch({
                   type: 'MANUAL-INVOICE-ADD',
                   payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
@@ -1509,7 +1533,10 @@ setShowAllBill(true)
                   });
                }
 
-            setShowManualInvoice(true)
+            // setShowManualInvoice(true)
+            setShowManualInvoice(false)
+            setShowRecurringBillForm(false)
+            setShowAllBill(true)
             setCustomerName('');
             setInvoiceNumber('');
             setStartDate('');
@@ -2822,8 +2849,8 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
           <Form.Control
             type="text"
             placeholder="Enter description"
-            value={u.description}
-            onChange={(e) => handleNewRowChange(index, 'description', e.target.value)}
+            value={u.am_name}
+            onChange={(e) => handleNewRowChange(index, 'am_name', e.target.value)}
           />
         </div>
       </td>
