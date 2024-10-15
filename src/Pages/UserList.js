@@ -1478,11 +1478,7 @@ setDeleteShow(true)
                               }}
                             >
                               {" "}
-                              {!user.Rooms ||
-                              user.Rooms === "undefined" ||
-                              user.Rooms === "0" ||
-                              user.Rooms === "" ||
-                              user.Rooms === "null"
+                              {!user.Rooms
                                 ? "-"
                                 : user.Rooms}
                             </td>
@@ -1494,10 +1490,6 @@ setDeleteShow(true)
                                 paddingTop:15,
                                 border: "none",
                                 cursor: "pointer",
-                                color:
-                                  user.Bed === "undefined" ? "blue" : "inherit",
-                                textDecoration:
-                                  user.Bed === "undefined" ? "none" : "initial",
                                 textAlign: "start",
                                 fontSize: "16px",
                                 fontWeight: 600,
@@ -1505,10 +1497,7 @@ setDeleteShow(true)
                                 marginTop:10
                               }}
                             >
-                              {user.Bed === "undefined" ||
-                              user.Bed === "0" ||
-                              user.Bed === "" ||
-                              user.Bed === "null"
+                              {! user.Bed
                                 ? "-"
                                 : user.Bed}
                             </td>
@@ -1558,10 +1547,7 @@ setDeleteShow(true)
                                         style={{ backgroundColor: "#fff" }}
                                         className=""
                                       >
-                                        {(user.Bed === "undefined" ||
-                                          user.Bed === "null" ||
-                                          user.Bed === "0" ||
-                                          user.Bed === "") && (
+                                        {(!user.Bed ) && (
                                           <div
                                             className="mb-3 d-flex justify-content-start align-items-center gap-2"
                                             // onClick={() => handleInvoicepdf(user)}
