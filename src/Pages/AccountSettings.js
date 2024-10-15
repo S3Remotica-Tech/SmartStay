@@ -22,6 +22,7 @@ import { style } from "@mui/system";
 import { MdError } from "react-icons/md";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Profile_Security from "./Profile_security";
 
 const Accountsettings = () => {
 
@@ -819,10 +820,10 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
           />
 
           <div style={{ marginLeft: '30px', marginTop: '10px' }}>
-            <h2 style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Profile Picture</h2>
+            {/* <h2 style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Profile Picture</h2> */}
             <input type="file" className="sr-only" accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} id="upload-photo" />
-            <p className="hover-text-underline" onClick={() => document.getElementById('upload-photo').click()} style={{ fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600, color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal',  cursor: "pointer","& :hover": {textDecoration: "underline"} }}>Update image</p>
-
+            <h2 className="hover-text-underline" onClick={() => document.getElementById('upload-photo').click()} style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600, color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal',  cursor: "pointer","& :hover": {textDecoration: "underline"} }}>Update image</h2>
+            <p style={{ fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600, color:'#4B4B4B' ,fontStyle: 'normal', lineHeight: 'normal' }}>Max image size 20MB</p>
           </div>
         </div>
       </div>
@@ -831,8 +832,13 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
       <TabContext value={value}>
         <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
           <TabList onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }}>
-            <Tab label="Edit profile" value="1" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            <Tab label="General " value="1" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
             <Tab label="Account setting" value="2" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            <Tab label="Security" value="3" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            <Tab label="Subsription" value="4" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            <Tab label="Integration" value="5" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            <Tab label="Invoice" value="6" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+
           </TabList>
         </Box>
         <TabPanel value="1">
@@ -988,8 +994,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
     </p>
   </div>
 )}
-                  {/* <p id="MobileNumberError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p> */}
-                  {/* {mobilenoError && <p style={{ fontSize: '12px', color: 'red' }}>* Mobile Number is Required</p>} */}
+
                 </Form.Group>
               </div>
             </div>
@@ -999,8 +1004,8 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
 
                 <Form.Control
                   style={{
-                    padding: '20px', marginTop: '10px', fontSize: 16,
-                    fontWeight: 500,
+                    padding: '10px', marginTop: '10px', fontSize: 16,
+                    fontWeight: 500,height:'150px',
                     color: "rgba(34, 34, 34, 1)",
                     fontFamily: "Gilroy"
                   }}
@@ -1032,11 +1037,11 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                 Save Changes</Button>
             </div>
 
-            <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleLogout}>
+            {/* <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleLogout}>
 
               <div> <img src={Logout} height={20} width={20} /> </div>
               <p style={{ color: 'red', fontWeight: 500, fontSize: '18px', paddingBottom: '5px', marginLeft: '5px' }}>Log out</p>
-            </div>
+            </div> */}
 
 
           </>
@@ -1180,7 +1185,89 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
           </div>
           </>
         }
+
+        <div style={{marginBottom:'100px'}}></div>
         </TabPanel>
+
+        <TabPanel value="3">
+          <Profile_Security/>
+          </TabPanel>
+
+          <TabPanel value="4">
+            <div>
+              <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'246px'}}>
+             <p style={{paddingLeft:'10px',paddingTop:'20px', fontFamily: "Gilroy",fontSize: 16,fontWeight:600}}>Your plan is active</p>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 }}>
+              <p>Amount</p>
+              <p><b>₹599</b></p>
+             </div>
+             <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 }}>
+             <p>Next payment</p>
+             <p>12 September 2024</p>
+             </div>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 }}>
+             <p>Payment Method</p>
+             <p>VISA ***60 </p>
+             </div>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px'}}>
+             <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'1px solid #1E45E1', color: "#1E45E1", height: 50, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
+              Cancel Plan
+              </Button>
+             <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 50, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
+              Manage Plan
+              </Button>
+             </div>
+              </div>
+            </div>
+          </TabPanel>
+
+
+
+          <TabPanel value="5">
+          <div style={{display:'flex',flexDirection:'row'}}>
+              <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px'}}>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
+              <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>sms</p>
+              <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
+             + Buy Credits
+              </Button>
+             </div>
+            
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>
+             <p>SMS Credits</p>
+           
+             </div>
+             <div style={{paddingLeft:'10px',paddingRight:'10px', fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,fontSize: 14}}>
+           <p>Enhance your customer communication with seamless sms integration.Instantly reach your audience with personalised messages alerts and updates all within platforms</p>
+             </div>
+              </div>
+              <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px',marginLeft:'10px'}}>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
+              <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Whatsapp</p>
+              <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
+             + Buy Credits
+              </Button>
+             </div>
+            
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>
+             <p>Whatsapp Credits</p>
+           
+             </div>
+             <div style={{paddingLeft:'10px',paddingRight:'10px', fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500,fontSize: 14 }}>
+           <p>Take your customer interaction to the next level with whatsapp Credits, connect with your audience where they already are-on Whatsapp </p>
+             </div>
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel value="6">
+            This is invoice page
+          </TabPanel>
+
+          <div style={{ marginTop: '50px',marginLeft:'30px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleLogout}>
+
+<div> <img src={Logout} height={20} width={20} /> </div>
+<p style={{ color: 'red', fontWeight: 500, fontSize: '18px', paddingBottom: '5px', marginLeft: '5px' }}>Log out</p>
+</div>
 
       </TabContext>
 

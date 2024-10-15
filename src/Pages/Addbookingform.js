@@ -363,12 +363,19 @@ const BookingModal = ({
        
           <Modal.Footer>
             <Button variant="primary" type="submit" className="w-100"
-            
-            style={{
-               opacity: isFormValid() ? 1 : 0.5,
-              cursor: isFormValid() ? 'pointer' : 'not-allowed',
+             style={{
+              borderRadius: 12,
+              padding: '12px',
+              border: '1px solid rgba(36, 0, 255, 1)',
+              backgroundColor: 'rgba(36, 0, 255, 1)',
+              color: '#fff',
+              fontSize: 16,
+              fontWeight: 600,
+              fontFamily: 'Gilroy',
               
-              }} disabled={!isFormValid()}>
+              
+            }}
+           >
                    
               {mode === 'edit' ? 'Save Changes' : 'New Booking'}
              
