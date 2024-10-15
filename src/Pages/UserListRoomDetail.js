@@ -191,8 +191,8 @@ function UserListRoomDetail(props) {
 
       setInitialStateAssign({
         Floor: item[0].Floor || "",
-        Rooms: item[0].Rooms || "",
-        Bed: item[0].Bed || "",
+        Rooms: item[0].room_id || "",
+        Bed: item[0].hstl_Bed || "",
         selectedDate: item[0].user_join_date || "",
         AdvanceAmount: item[0].AdvanceAmount || "",
         RoomRent: item[0].RoomRent || "",
@@ -250,6 +250,8 @@ function UserListRoomDetail(props) {
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
       setBed(item[0].Bed || "");
+      setRoomId(item[0].room_id || "")
+      setBedId(item[0].hstl_Bed || "")
       setSelectedDate(item[0].user_join_date || "");
 
       setAdvanceAmount(item[0].AdvanceAmount || "");
