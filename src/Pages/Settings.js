@@ -273,6 +273,51 @@ function Settings() {
   const [show, setShow] = useState(false);
 
 
+  useEffect(() => {
+    dispatch({ type: 'EB-BILLING-UNIT-LIST' })
+    
+  }, [])
+
+  useEffect(() => {
+    dispatch({ type: 'EB-BILLING-UNIT-LIST' })
+    setData(state.Settings.EBBillingUnitlist.eb_settings) 
+  }, [])
+
+  const [data, setData] = useState([])
+  console.log("dataforeb",data);
+  
+
+  useEffect(() => {
+    if (state.Settings.addEbbillingUnitStatuscode === 200) {
+      setTimeout(() => {
+        dispatch({ type: 'EB-BILLING-UNIT-LIST' })
+        setData(state.Settings.EBBillingUnitlist.eb_settings) 
+        console.log("get ebamount list executed",state.Settings.addEbbillingUnitStatuscode)
+      }, 100)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_ADD_EB_BILLING_STATUS_CODE' })
+      }, 1000)   
+    }
+  }, [state.Settings.addEbbillingUnitStatuscode])
+
+
+  // useEffect(() => {
+  //   if (state.Settings.getebStatuscode === 200) {
+  //     console.log("getexcuted");
+      
+  //     setData(state.Settings.EBBillingUnitlist.eb_settings) 
+  //     setTimeout(() => {
+  //       dispatch({ type: 'CLEAR_GET_EBBILLINGS_STATUS_CODE' })
+  //     }, 100)
+  //   }
+  // }, [state.Settings.getebStatuscode])
+
+
+  // useEffect(() => {
+  //   setData(state.Settings.EBBillingUnitlist.eb_settings)   
+  // }, [state?.Settings?.EBBillingUnitlist?.eb_settings])
+
+
   const handleEdit = (item) => {
     console.log("item", item);
     setShow(true);
@@ -316,10 +361,9 @@ function Settings() {
       return;
     }
 
-    if (editHostel && editamount && editunit && isModified) {
-      dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: editHostel.id, unit: editunit, amount: editamount } })
-    
-      dispatch({ type: 'EB-BILLING-UNIT-LIST' })
+    if (editHostel && editamount  && isModified) {
+      dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: editHostel.id, unit: 1, amount: editamount } })
+      // dispatch({ type: 'EB-BILLING-UNIT-LIST' })
       handleClose();
       setEditHostel({ id: '', name: '' })
       setEditUnit('');
@@ -361,7 +405,6 @@ function Settings() {
   const [hostelerrormsg, setHostelErrmsg] = useState('');
   const [amounterrormsg, setAmountErrmsg] = useState('');
   const [totalErrormsg ,setTotalErrmsg]= useState('')
-  const [data, setData] = useState([])
 
   const handleHostelChange = (e) => {
     setSelectedHostel(e.target.value)
@@ -382,14 +425,7 @@ function Settings() {
     }
   }
 
-  useEffect(() => {
-    dispatch({ type: 'EB-BILLING-UNIT-LIST' })
-  }, [])
 
-  useEffect(() => {
-    // dispatch({type:'EB-BILLING-UNIT-LIST'})
-    setData(state.Settings.EBBillingUnitlist.eb_settings)   
-  }, [state?.Settings?.EBBillingUnitlist?.eb_settings])
 
 
   const handlesaveEbbill = () => {
@@ -403,9 +439,9 @@ function Settings() {
       return; 
     }
 
-   else if (selectedHostel && amount && unit) {
-      dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit: unit, amount: amount } })
-      dispatch({ type: 'EB-BILLING-UNIT-LIST' })
+   else if (selectedHostel && amount ) {
+      dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit: 1, amount: amount } })
+      // dispatch({ type: 'EB-BILLING-UNIT-LIST' })
       setSelectedHostel('')
       setAmount('')
     }
@@ -484,6 +520,9 @@ function Settings() {
 
     return pageNumbers;
   };
+
+  console.log("state.UsersList.hostelList",state.Settings.EBBillingUnitlist.eb_settings);
+  
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -584,7 +623,7 @@ function Settings() {
 
                     <option style={{ fontSize: 14, fontWeight: 600, }} selected value=''>Select PG</option>
                     {state.UsersList.hostelList && state.UsersList.hostelList
-  .filter(item => item.amount && item.unit)  // Filter out items with empty amount or unit
+  .filter((item) => !item.eb_amount) // Exclude items with eb_amount
   .map((item) => (
     <option key={item.id} value={item.id}>
       {item.Name}
@@ -619,6 +658,7 @@ function Settings() {
                         placeholder="Unit"
                         value={unit}
                         onChange={(e) => setUnit(e.target.value)}
+                        disabled
                       />
                     </Form.Group>
                   </div>
@@ -683,7 +723,7 @@ function Settings() {
                 </thead>
                 <tbody style={{ height: "50px", fontSize: "11px" }}>
 
-                  {data && data.length > 0 && data.map((item) => (
+                  {state.Settings.EBBillingUnitlist.eb_settings && state.Settings.EBBillingUnitlist.eb_settings.length > 0 && state.Settings.EBBillingUnitlist.eb_settings.map((item) => (
                     <EBBillingUnitlist item={item} modalEditEbunit={handleEdit} />
 
 
