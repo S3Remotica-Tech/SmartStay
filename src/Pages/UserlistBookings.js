@@ -180,7 +180,7 @@ function Booking() {
 
   return (
     <>
-      <div className="p-10">
+      <div className="p-10" style={{marginLeft:"-20px"}}>
         <div>
 
           {customers.length > 0 ? (
@@ -190,7 +190,7 @@ function Booking() {
               <Table className="table-booking" responsive>
                 <thead>
                   <tr>
-                    <th style={{ textAlign: 'center', padding: '10px', background: '#E7F1FF', border: 'none' }}>
+                    <th style={{ textAlign: 'center', padding: '10px', background: '#E7F1FF', border: 'none', borderTopLeftRadius:'16px'}}>
                       <img src={minus} height={20} width={20} alt="minus icon" />
                     </th>
                     <th
@@ -203,6 +203,7 @@ function Booking() {
                         fontFamily: 'Gilroy',
                         background: '#E7F1FF',
                         border: 'none',
+                       
                       }}
                     >
                       Name
@@ -287,6 +288,7 @@ function Booking() {
                         fontFamily: 'Gilroy',
                         background: '#E7F1FF',
                         border: 'none',
+                         borderTopRightRadius:'16px'
                       }}
                     ></th>
                   </tr>
