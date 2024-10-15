@@ -376,18 +376,17 @@ const AssignBooking = ({
             type="submit"
             className="w-100"
             style={{
-              borderRadius: 8,
-              padding: '16px 45px',
+              borderRadius: 12,
+              padding: '12px',
               border: '1px solid rgba(36, 0, 255, 1)',
               backgroundColor: 'rgba(36, 0, 255, 1)',
               color: '#fff',
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: 600,
               fontFamily: 'Gilroy',
-              opacity: isFormValid() ? 1 : 0.5,
-              cursor: isFormValid() ? 'pointer' : 'not-allowed',
               
-            }} disabled={!isFormValid()}
+              
+            }} 
           >
             Assign Booking
           </Button>
