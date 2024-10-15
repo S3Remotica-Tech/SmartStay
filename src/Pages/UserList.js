@@ -1163,19 +1163,25 @@ function UserList(props) {
               >
                 <Tab
                   className="tab-label"
+
                   style={{ textTransform: "capitalize", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
+
                   label="All Customers"
                   value="1"
                 />
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize", fontSize: 14 }}
+
+                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy" }}
+
                   label="Bookings"
                   value="2"
                 />
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize", fontSize: 14 }}
+
+                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy" }}
+
                   label="Check-out"
                   value="3"
                 />
@@ -1210,415 +1216,401 @@ function UserList(props) {
                     }
 
                     {currentItems && currentItems.length > 0 && (
-                      <Table
-                        responsive="md"
-                        className="Table_Design"
-                        style={{
-                          height: "auto",
-                          overflow: "visible",
-                          tableLayout: "auto",
-                          borderRadius: "24px",
-                          border: "1px solid #DCDCDC",
+                     <Table
+                responsive="md"
+                className="Table_Design"
+                style={{
+                  height: "auto",
+                  overflow: "visible",
+                  tableLayout: "auto",
+                  borderRadius: "24px",
+                  border: "1px solid #DCDCDC",
+                  
+                  
+                  
 
-
-
-
-                        }}
-                      >
-                        <thead
-                          style={{
-                            backgroundColor: "#E7F1FF",
-                          }}
-                        >
-                          <tr>
-                            <th
-                              style={{
-                                textAlign: "center",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontWeight: 600,
-                                borderTopLeftRadius: 24,
-                              }}
-                            >
-                              <img src={squre} height={20} width={20} />
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                padding: "10px",
-                                color: "#939393",
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Name
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                padding: "10px",
-                                color: "#939393",
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Email ID
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                padding: "10px",
-                                color: "#939393",
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Phone
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                padding: "10px",
-                                color: "#939393",
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Paying Guest
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                padding: "10px",
-                                color: "#939393",
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Room
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                padding: "10px",
-                                color: "#939393",
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Bed
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "center",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontWeight: 500,
-                                borderTopRightRadius: 24,
-                              }}
-                            >
-                              {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                }}
+              >
+                <thead
+                  style={{
+                    backgroundColor: "#E7F1FF",
+                  }}
+                >
+                  <tr>
+                    <th
+                      style={{
+                        textAlign: "center",
+                        fontFamily: "Gilroy",
+                        color: "rgba(34, 34, 34, 1)",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        borderTopLeftRadius: 24,
+                      }}
+                    >
+                      <img src={squre} height={20} width={20} />
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Name
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Email ID
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Phone
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Paying Guest
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Room
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Bed
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "center",
+                        fontFamily: "Gilroy",
+                        color: "rgba(34, 34, 34, 1)",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        borderTopRightRadius: 24,
+                      }}
+                    >
+                      {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
                           <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                         </div> */}
-                            </th>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody style={{ textAlign: "center" }}>
+                  {loading
+                    ? Array.from({ length: currentItems?.length || 5 }).map(
+                        (_, index) => (
+                          <tr key={index}>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton circle={true} height={40} width={40} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={80} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={120} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={120} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={120} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={50} />
+                            </td>
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <Skeleton width={50} />
+                            </td>
                           </tr>
-                        </thead>
-                        <tbody style={{ textAlign: "center" }}>
-                          {loading
-                            ? Array.from({ length: currentItems?.length || 5 }).map(
-                              (_, index) => (
-                                <tr key={index}>
-                                  <td style={{ padding: "10px", border: "none" }}>
-                                    <Skeleton circle={true} height={40} width={40} />
-                                  </td>
-                                  <td style={{ padding: "10px", border: "none" }}>
-                                    <Skeleton width={80} />
-                                  </td>
-                                  <td style={{ padding: "10px", border: "none" }}>
-                                    <Skeleton width={120} />
-                                  </td>
-                                  <td style={{ padding: "10px", border: "none" }}>
-                                    <Skeleton width={120} />
-                                  </td>
-                                  <td style={{ padding: "10px", border: "none" }}>
-                                    <Skeleton width={120} />
-                                  </td>
-                                  <td style={{ padding: "10px", border: "none" }}>
-                                    <Skeleton width={50} />
-                                  </td>
-                                  <td style={{ padding: "10px", border: "none" }}>
-                                    <Skeleton width={50} />
-                                  </td>
-                                </tr>
-                              )
-                            )
-                            : currentItems.map((user) => {
-                              const imageUrl = user.profile || Profile;
-                              return (
-                                <tr
-                                  key={user.ID}
-                                  style={{
-                                    fontSize: "16px",
-                                    fontWeight: 600,
-                                    textAlign: "center",
-                                    marginTop: 10,
-                                  }}
-                                >
-                                  <td style={{ padding: "10px", border: "none" }}>
-                                    <img src={squre} height={20} width={20} style={{ marginTop: 10 }} />
-                                  </td>
-                                  <td
-                                    style={{
-                                      border: "none",
-                                      display: "flex",
-                                      padding: "10px",
-                                    }}
-                                  >
-                                    <Image
-                                      src={imageUrl}
-                                      alt={user.Name || "Default Profile"}
-                                      roundedCircle
-                                      style={{
-                                        height: "40px",
-                                        width: "40px",
-                                        marginRight: "10px",
-                                      }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
-                                      }}
-                                    />
-                                    <span
-                                      className="Customer_Name_Hover"
-                                      style={{
-                                        fontSize: "16px",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        color: "#1E45E1",
-                                        cursor: "pointer",
-                                        marginTop: 10
+                        )
+                      )
+                    : currentItems.map((user) => {
+                        const imageUrl = user.profile || Profile;
+                        return (
+                          <tr
+                            key={user.ID}
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              textAlign: "center",
+                              marginTop: 10,
+                            }}
+                          >
+                            <td style={{ padding: "10px", border: "none" }}>
+                              <img src={squre} height={20} width={20} style={{marginTop:10}} />
+                            </td>
+                            <td
+                              style={{
+                                border: "none",
+                                display: "flex",
+                                padding: "10px",
+                              }}
+                            >
+                              <Image
+                                src={imageUrl}
+                                alt={user.Name || "Default Profile"}
+                                roundedCircle
+                                style={{
+                                  height: "40px",
+                                  width: "40px",
+                                  marginRight: "10px",
+                                }}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = Profile;
+                                }}
+                              />
+                              <span
+                                className="Customer_Name_Hover"
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  color: "#1E45E1",
+                                  cursor: "pointer",
+                                  marginTop:10
+                                  
+                                }}
+                                onClick={() => handleRoomDetailsPage(user)}
+                              >
+                                {user.Name}
+                              </span>
+                            </td>
+                            <td
+                              style={{
+                               
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                paddingTop:15
+                              }}
+                            >
+                              {user.Email}
+                            </td>
+                            <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                marginTop:10
+                              }}
+                            >
+                              +
+                              {user &&
+                                String(user.Phone).slice(
+                                  0,
+                                  String(user.Phone).length - 10
+                                )}{" "}
+                              {user && String(user.Phone).slice(-10)}
+                            </td>
+                            <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                marginTop:10
+                              }}
+                            >
+                              <span
+                                style={{
+                                  paddingTop: "3px",
+                                  paddingLeft: "10px",
+                                  paddingRight: "10px",
+                                  paddingBottom: "3px",
+                                  borderRadius: "60px",
+                                  backgroundColor: "#FFEFCF",
+                                  textAlign: "start",
+                                  fontSize: "14px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  
+                                }}
+                              >
+                                {user.HostelName}
+                              </span>
+                            </td>
+                            <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                               
+                              }}
+                            >
+                              {" "}
+                              {!user.Rooms
+                                ? "-"
+                                : user.Rooms}
+                            </td>
+                           
+                            <td
+                              // className={user.Bed === 0 ? 'assign-bed' : ''}
+                              // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                cursor: "pointer",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                marginTop:10
+                              }}
+                            >
+                              {! user.Bed
+                                ? "-"
+                                : user.Bed}
+                            </td>
+                            <td style={{ paddingTop:12, border: "none" }}>
+                              {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                                      }}
-                                      onClick={() => handleRoomDetailsPage(user)}
-                                    >
-                                      {user.Name}
-                                    </span>
-                                  </td>
-                                  <td
-                                    style={{
-
-                                      border: "none",
-                                      textAlign: "start",
-                                      fontSize: "16px",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      paddingTop: 15
-                                    }}
-                                  >
-                                    {user.Email}
-                                  </td>
-                                  <td
-                                    style={{
-                                      paddingTop: 15,
-                                      border: "none",
-                                      textAlign: "start",
-                                      fontSize: "16px",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      marginTop: 10
-                                    }}
-                                  >
-                                    +
-                                    {user &&
-                                      String(user.Phone).slice(
-                                        0,
-                                        String(user.Phone).length - 10
-                                      )}{" "}
-                                    {user && String(user.Phone).slice(-10)}
-                                  </td>
-                                  <td
-                                    style={{
-                                      paddingTop: 15,
-                                      border: "none",
-                                      textAlign: "start",
-                                      fontSize: "16px",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      marginTop: 10
-                                    }}
-                                  >
-                                    <span
-                                      style={{
-                                        paddingTop: "3px",
-                                        paddingLeft: "10px",
-                                        paddingRight: "10px",
-                                        paddingBottom: "3px",
-                                        borderRadius: "60px",
-                                        backgroundColor: "#FFEFCF",
-                                        textAlign: "start",
-                                        fontSize: "14px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-
-                                      }}
-                                    >
-                                      {user.HostelName}
-                                    </span>
-                                  </td>
-                                  <td
-                                    style={{
-                                      paddingTop: 15,
-                                      border: "none",
-                                      textAlign: "start",
-                                      fontSize: "16px",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-
-                                    }}
-                                  >
-                                    {" "}
-                                    {!user.Rooms ||
-                                      user.Rooms === "undefined" ||
-                                      user.Rooms === "0" ||
-                                      user.Rooms === "" ||
-                                      user.Rooms === "null"
-                                      ? "-"
-                                      : user.Rooms}
-                                  </td>
-
-                                  <td
-                                    // className={user.Bed === 0 ? 'assign-bed' : ''}
-                                    // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
-                                    style={{
-                                      paddingTop: 15,
-                                      border: "none",
-                                      cursor: "pointer",
-                                      color:
-                                        user.Bed === "undefined" ? "blue" : "inherit",
-                                      textDecoration:
-                                        user.Bed === "undefined" ? "none" : "initial",
-                                      textAlign: "start",
-                                      fontSize: "16px",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      marginTop: 10
-                                    }}
-                                  >
-                                    {user.Bed === "undefined" ||
-                                      user.Bed === "0" ||
-                                      user.Bed === "" ||
-                                      user.Bed === "null"
-                                      ? "-"
-                                      : user.Bed}
-                                  </td>
-                                  <td style={{ paddingTop: 12, border: "none" }}>
-                                    {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
-
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  height: 40,
+                                  width: 40,
+                                  borderRadius: 100,
+                                  border: "1px solid #EFEFEF",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  position: "relative",
+                                  zIndex: 1000,
+                                }}
+                                onClick={() => handleShowDots(user.ID)}
+                              >
+                                <PiDotsThreeOutlineVerticalFill
+                                  style={{ height: 20, width: 20 }}
+                                />
+                                {activeRow === user.ID && (
+                                  <>
                                     <div
+                                      ref={popupRef}
                                       style={{
                                         cursor: "pointer",
-                                        height: 40,
-                                        width: 40,
-                                        borderRadius: 100,
-                                        border: "1px solid #EFEFEF",
+                                        backgroundColor: "#fff",
+                                        position: "absolute",
+                                        right: 50,
+                                        top: 20,
+                                        width: 163,
+                                        height: "auto",
+                                        border: "1px solid #EBEBEB",
+                                        borderRadius: 10,
                                         display: "flex",
-                                        justifyContent: "center",
+                                        justifyContent: "start",
+                                        padding: 10,
                                         alignItems: "center",
-                                        position: "relative",
-                                        zIndex: 1000,
+                                        zIndex: showDots ? 1000 : "auto",
                                       }}
-                                      onClick={() => handleShowDots(user.ID)}
                                     >
-                                      <PiDotsThreeOutlineVerticalFill
-                                        style={{ height: 20, width: 20 }}
-                                      />
-                                      {activeRow === user.ID && (
-                                        <>
+                                      <div
+                                        style={{ backgroundColor: "#fff" }}
+                                        className=""
+                                      >
+                                        {(!user.Bed ) && (
                                           <div
-                                            ref={popupRef}
+                                            className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                            // onClick={() => handleInvoicepdf(user)}
+                                            style={{ backgroundColor: "#fff" }}
+                                            onClick={() =>
+                                              handleShowAddBed(user)
+                                            }
+                                          >
+                                            <img
+                                              src={addcircle}
+                                              style={{ height: 16, width: 16 }}
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy,sans-serif",
+                                                color: "#222222",
+                                                cursor: "pointer",
+                                              }}
+                                            >
+                                              Assign Bed
+                                            </label>
+                                          </div>
+                                        )}
+                                        <div
+                                          className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                          style={{ backgroundColor: "#fff" }}
+                                          onClick={() =>
+                                            handleRoomDetailsPage(user)
+                                          }
+                                        >
+                                          <img
+                                            src={Edit}
+                                            style={{ height: 16, width: 16 }}
+                                          />{" "}
+                                          <label
                                             style={{
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy,sans-serif",
+                                              color: "#222222",
                                               cursor: "pointer",
-                                              backgroundColor: "#fff",
-                                              position: "absolute",
-                                              right: 50,
-                                              top: 20,
-                                              width: 163,
-                                              height: "auto",
-                                              border: "1px solid #EBEBEB",
-                                              borderRadius: 10,
-                                              display: "flex",
-                                              justifyContent: "start",
-                                              padding: 10,
-                                              alignItems: "center",
-                                              zIndex: showDots ? 1000 : "auto",
                                             }}
                                           >
-                                            <div
-                                              style={{ backgroundColor: "#fff" }}
-                                              className=""
-                                            >
-                                              {(user.Bed === "undefined" ||
-                                                user.Bed === "null" ||
-                                                user.Bed === "0" ||
-                                                user.Bed === "") && (
-                                                  <div
-                                                    className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                    // onClick={() => handleInvoicepdf(user)}
-                                                    style={{ backgroundColor: "#fff" }}
-                                                    onClick={() =>
-                                                      handleShowAddBed(user)
-                                                    }
-                                                  >
-                                                    <img
-                                                      src={addcircle}
-                                                      style={{ height: 16, width: 16 }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy,sans-serif",
-                                                        color: "#222222",
-                                                        cursor: "pointer",
-                                                      }}
-                                                    >
-                                                      Assign Bed
-                                                    </label>
-                                                  </div>
-                                                )}
-                                              <div
-                                                className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                style={{ backgroundColor: "#fff" }}
-                                                onClick={() =>
-                                                  handleRoomDetailsPage(user)
-                                                }
-                                              >
-                                                <img
-                                                  src={Edit}
-                                                  style={{ height: 16, width: 16 }}
-                                                />{" "}
-                                                <label
-                                                  style={{
-                                                    fontSize: 14,
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy,sans-serif",
-                                                    color: "#222222",
-                                                    cursor: "pointer",
-                                                  }}
-                                                >
-                                                  Edit
-                                                </label>
-                                              </div>
+                                            Edit
+                                          </label>
+                                        </div>
 
-                                              {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                        {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                                                 onClick={() => { handleShowform(props) }}
                                                 style={{ backgroundColor: "#fff" }}
                                             >
@@ -1626,39 +1618,39 @@ function UserList(props) {
 
                                             </div> */}
 
-                                              <div
-                                                className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                style={{ backgroundColor: "#fff" }}
-                                                onClick={handleDeleteShow} >
-                                                <img
-                                                  src={Delete}
-                                                  style={{ height: 16, width: 16 }}
-                                                />{" "}
-                                                <label
-                                                  style={{
-                                                    fontSize: 14,
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy,sans-serif",
-                                                    color: "#FF0000",
-                                                    cursor: "pointer",
-                                                  }}
-                                                >
-                                                  Delete
-                                                </label>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </>
-                                      )}
+                                        <div
+                                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                                          style={{ backgroundColor: "#fff" }}
+                                       onClick={handleDeleteShow} >
+                                          <img
+                                            src={Delete}
+                                            style={{ height: 16, width: 16 }}
+                                          />{" "}
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy,sans-serif",
+                                              color: "#FF0000",
+                                              cursor: "pointer",
+                                            }}
+                                          >
+                                            Delete
+                                          </label>
+                                        </div>
+                                      </div>
                                     </div>
+                                  </>
+                                )}
+                              </div>
 
-                                    {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                        </tbody>
-                      </Table>
+                              {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                </tbody>
+              </Table>
                     )}
                   </div>
                   {currentItems.length > 0 && (

@@ -25,16 +25,6 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} fr
 
 
 
-
-
-
-
-
-
-
-
-
-
 function Vendor() {
 
   const state = useSelector(state => state)

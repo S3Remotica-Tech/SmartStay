@@ -61,7 +61,9 @@ function UserListRoomDetail(props) {
   const [HostelName, setHostelName] = useState("");
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
+  const [RoomId, setRoomId] = useState("");
   const [Bed, setBed] = useState("");
+  const [BedId, setBedId] = useState("");
   const [RoomRent, setRoomRent] = useState("");
   const [BalanceDue, setBalanceDue] = useState("");
   const [PaymentType, setPaymentType] = useState("");
@@ -77,6 +79,7 @@ function UserListRoomDetail(props) {
   const [bedArray, setBedArray] = useState("");
   const [Arrayset, setArrayset] = useState([]);
   const [Bednum, setBednum] = useState("");
+  console.log("Bednum",Bednum)
   const [payableamount, setPayableamount] = useState("");
   const [formshow, setFormShow] = useState(false);
   const [customerdetailShow, setcustomerdetailShow] = useState(false);
@@ -176,6 +179,8 @@ function UserListRoomDetail(props) {
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
       setBed(item[0].Bed || "");
+      setRoomId(item[0].room_id || "")
+      setBedId(item[0].hstl_Bed || "")
       setSelectedDate(item[0].user_join_date || "");
       setAdvanceAmount(item[0].AdvanceAmount || "");
       setRoomRent(item[0].RoomRent || "");
@@ -459,6 +464,8 @@ function UserListRoomDetail(props) {
     setBed("");
     setHostelIdError("");
     setFormError("");
+    setRoomId("")
+    setBedId("")
   };
   const handleFloor = (e) => {
     setFloor(e.target.value);
@@ -473,15 +480,18 @@ function UserListRoomDetail(props) {
     setBed("");
     setfloorError("");
     setFormError("");
+    setRoomId("")
+    setBedId("")
   };
   useEffect(() => {
     dispatch({
       type: "BEDNUMBERDETAILS",
-      payload: { hostel_id: hostel_Id, floor_id: Floor, room_id: Rooms },
+      payload: { hostel_id: hostel_Id, floor_id: Floor, room_id: RoomId },
     });
   }, [Rooms]);
   const handleRooms = (e) => {
-    setRooms(e.target.value);
+    setRoomId(e.target.value);
+    console.log("e.target.value",e.target.value)
 
     dispatch({
       type: "BEDNUMBERDETAILS",
@@ -499,6 +509,7 @@ function UserListRoomDetail(props) {
     setBed("");
     setRoomError("");
     setFormError("");
+    setBedId("")
     // handleInputChange()
   };
 
@@ -512,7 +523,8 @@ function UserListRoomDetail(props) {
 
   const handleBed = (e) => {
     // handleInputChange()
-    setBed(e.target.value);
+    setBedId(e.target.value);
+    console.log("e.target.valuebed",e.target.value)
     if (e.target.value === "Selected a Bed") {
       setBedError("Please select a valid Bed");
     } else {
@@ -670,8 +682,8 @@ function UserListRoomDetail(props) {
       HostelName: HostelName,
       hostel_Id: hostel_Id,
       Floor: Floor,
-      Rooms: Rooms,
-      Bed: Bed,
+      Rooms: RoomId,
+      Bed: BedId,
       joining_date: selectedDate,
       AdvanceAmount: AdvanceAmount,
       RoomRent: RoomRent,
@@ -733,10 +745,10 @@ function UserListRoomDetail(props) {
         case "Floor":
           setfloorError("Floor is required");
           break;
-        case "Room":
+        case "RoomId":
           setRoomError("Room is required");
           break;
-        case "Bed":
+        case "BedId":
           setBedError("Bed is required");
           break;
         case "selectedDate":
@@ -759,10 +771,10 @@ function UserListRoomDetail(props) {
       case "Floor":
         setfloorError("");
         break;
-      case "Room":
+      case "RoomId":
         setRoomError("");
         break;
-      case "Bed":
+      case "BedId":
         setBedError("");
         break;
       case "selectedDate":
@@ -783,8 +795,8 @@ function UserListRoomDetail(props) {
 
   const handleSaveUserlistAddUser = () => {
     if (!validateAssignField(Floor, "Floor")) return;
-    if (!validateAssignField(Rooms, "Room")) return;
-    if (!validateAssignField(Bed, "Bed")) return;
+    if (!validateAssignField(RoomId, "RoomId")) return;
+    if (!validateAssignField(BedId, "BedId")) return;
     if (!validateAssignField(selectedDate, "selectedDate")) return;
     if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) return;
     if (!validateAssignField(RoomRent, "RoomRent")) return;
@@ -806,11 +818,11 @@ function UserListRoomDetail(props) {
       setfloorError("Please select a valid PG");
       return;
     }
-    if (Rooms === "Selected Room" || roomError) {
+    if (RoomId === "Selected Room" || roomError) {
       setRoomError("Please select a valid PG");
       return;
     }
-    if (Bed === "Select a Bed" || bedError) {
+    if (BedId === "Select a Bed" || bedError) {
       setBedError("Please select a valid PG");
       return;
     }
@@ -818,19 +830,31 @@ function UserListRoomDetail(props) {
       return !isNaN(Date.parse(date));
     };
 
+    console.log(initialStateAssign.Floor,"------------------------");
+    console.log(Floor,"------------------------");
+    
+
+    console.log(initialStateAssign.Rooms,"++++++++++++++++++++++++++++++++++");
+    console.log(Rooms,"------------------------");
+    console.log(RoomId,"Room Number");
+
+    console.log(initialStateAssign.Bed,"////////////////////////////////");
+    console.log(Bed,",,,,,,,,,,,,,,,,,,,");
+    console.log(BedId,"Bed Number");
+
     const isChangedBed =
       (isNaN(Floor)
         ? String(Floor).toLowerCase() !==
           String(initialStateAssign.Floor).toLowerCase()
         : Number(Floor) !== Number(initialStateAssign.Floor)) ||
-      (isNaN(Rooms)
-        ? String(Rooms).toLowerCase() !==
+      (isNaN(RoomId)
+        ? String(RoomId).toLowerCase() !==
           String(initialStateAssign.Rooms).toLowerCase()
-        : Number(Rooms) !== Number(initialStateAssign.Rooms)) ||
-      (isNaN(Bed)
-        ? String(Bed).toLowerCase() !==
+        : Number(RoomId) !== Number(initialStateAssign.Rooms)) ||
+      (isNaN(BedId)
+        ? String(BedId).toLowerCase() !==
           String(initialStateAssign.Bed).toLowerCase()
-        : Number(Bed) !== Number(initialStateAssign.Bed)) ||
+        : Number(BedId) !== Number(initialStateAssign.Bed)) ||
       (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
         ? new Date(selectedDate).toISOString().split("T")[0] !==
           new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
@@ -869,8 +893,8 @@ function UserListRoomDetail(props) {
         HostelName: HostelName,
         hostel_Id: hostel_Id,
         Floor: Floor,
-        Rooms: Rooms,
-        Bed: Bed,
+        Rooms: RoomId,
+        Bed: BedId,
         joining_date: formattedDate,
         AdvanceAmount: AdvanceAmount,
         RoomRent: RoomRent,
@@ -2351,7 +2375,7 @@ function UserListRoomDetail(props) {
                                                 key={u.floor_id}
                                                 value={u.floor_id}
                                               >
-                                                {u.floor_id}
+                                                {u.floor_name}
                                               </option>
                                             )
                                           )}
@@ -2396,7 +2420,7 @@ function UserListRoomDetail(props) {
                                             height: 50,
                                             borderRadius: 8,
                                           }}
-                                          value={Rooms}
+                                          value={RoomId}
                                           className="border"
                                           id="form-selects"
                                           onChange={(e) => handleRooms(e)}
@@ -2452,7 +2476,7 @@ function UserListRoomDetail(props) {
                                             height: 50,
                                             borderRadius: 8,
                                           }}
-                                          value={Bed}
+                                          value={BedId}
                                           className="border"
                                           placeholder="Select a bed"
                                           id="form-selects"
@@ -2460,29 +2484,21 @@ function UserListRoomDetail(props) {
                                         >
                                           <option>Select a Bed</option>
 
-                                          {Editbed === "editbeddet" &&
-                                            Bednum &&
-                                            Bednum[0]?.Bed !== "undefined" &&
-                                            Bednum[0]?.Bed !== "" &&
-                                            Bednum[0]?.Bed !== "null" &&
-                                            Bednum[0]?.Bed !== "0" && (
-                                              <option
-                                                value={Bednum[0].Bed}
-                                                selected
-                                              >
-                                                {Bednum[0].Bed}
-                                              </option>
-                                            )}
+                                          {Editbed == "editbeddet" && Bednum && Bednum[0]?.Bed && (
+                                            <option value={(Bednum[0].hstl_Bed)} selected>
+                                              {(Bednum[0].Bed)}
+                                            </option>
+                                          )}
 
                                           {state.UsersList?.bednumberdetails
                                             ?.bed_details?.length > 0 &&
                                             state.UsersList.bednumberdetails.bed_details.map(
                                               (item) =>
                                                 item.bed_no &&
-                                                item.bed_no !== "undefined" &&
+                                                !item.bed_no !== "undefined" &&
                                                 item.bed_no !== "0" &&
                                                 item.bed_no !== "" &&
-                                                item.bed_no !== "null" && (
+                                                item.bed_no !== null && (
                                                   <option
                                                     key={item.id}
                                                     value={item.id}
