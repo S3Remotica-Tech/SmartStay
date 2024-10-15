@@ -9,12 +9,14 @@ const initialState = {
     addComplaintSuccessStatusCode:0,
     deletecomplaintStatuscode :0,
     addEbbillingUnitStatuscode: 0,
-    EBBillingUnitlist:[]
+    EBBillingUnitlist:[],
+    getebStatuscode:0,
 }
 
 const SettingsReducer = (state = initialState, action) => {
      console.log("action for settings",action);
     switch (action.type) {
+        //Expenses category for settings ==>
         case 'EXPENCES_CATEGORY_LIST':
             return { ...state, Expences: action.payload.response , getExpensesStatuscode : action.payload.statusCode}
         case 'CLEAR_GET_EXPENSES_STATUS_CODE':
@@ -34,9 +36,6 @@ const SettingsReducer = (state = initialState, action) => {
                 case 'CLEAR_GET_COMPLAINTTYPE_STATUS_CODE':
                     return { ...state, getcomplainttypeStatuscode: 0 }
             case 'COMPLAINT_TYPE_ADD':
-
-
-            
                 return { ...state, message: action.payload.message ,addComplaintSuccessStatusCode :action.payload.statusCode}
                 case 'CLEAR_ADD_COMPLAINT_STATUS_CODE':
                     return { ...state, addComplaintSuccessStatusCode: 0 }
@@ -44,15 +43,16 @@ const SettingsReducer = (state = initialState, action) => {
                     return { ...state, deletecomplaintStatuscode: action.payload.statusCode }
             case 'CLEAR_DELETE_COMPLAINTTYPE_STATUS_CODE':
                     return { ...state, deletecomplaintStatuscode: 0 }
-//Expenses category for settings ==>
+//EbBillings for settings ==>
              case 'EB_BILLING_UNIT_ADD':
                 return { ...state, message: action.payload.message  , addEbbillingUnitStatuscode : action.payload.statusCode}
                 case 'CLEAR_ADD_EB_BILLING_STATUS_CODE':
                     return { ...state, addEbbillingUnitStatuscode: 0 }
 
                     case 'EB_BILLING_UNIT_LIST':
-                        return { ...state, EBBillingUnitlist: action.payload.response }
-                    
+                        return { ...state, EBBillingUnitlist: action.payload.response , getebStatuscode:action.payload.statusCode}
+                        case 'CLEAR_GET_EBBILLINGS_STATUS_CODE':
+                            return { ...state, getebStatuscode: 0 }
             }
     return state;
 }
