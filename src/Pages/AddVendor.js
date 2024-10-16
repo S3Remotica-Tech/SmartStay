@@ -306,7 +306,10 @@ const handlePinCodeChange = (e) => {
       email_Id !== initialState.email_Id ||
       business_Name !== initialState.business_Name ||
       file !== initialState.file ||
-      countryCode !== initialState.countryCode;
+      countryCode !== initialState.countryCode || 
+      country !== initialState.country ||
+      pinCode !== initialState.pinCode;
+   
 
     if (!isChanged) {
       setIsChangedError('No changes detected');
@@ -319,18 +322,18 @@ const handlePinCodeChange = (e) => {
 
     
 
-    if (first_Name && MobileNumber && address && countryCode && business_Name) {
+    if (first_Name && MobileNumber && address && countryCode && business_Name && country && pinCode) {
       if (check === 'EDIT') {
         dispatch({
           type: 'ADDVENDOR',
           payload:
-            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name, id: id }
+            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name, id: id, Country:country, Pincode:pinCode }
         })
       } else {
         dispatch({
           type: 'ADDVENDOR',
           payload:
-            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name }
+            { profile: file, first_Name: first_Name, Last_Name: last_Name, Vendor_Mobile: MobileNumber, Vendor_Email: email_Id, Vendor_Address: address, Business_Name: business_Name,Country:country, Pincode:pinCode }
         })
       }
 
@@ -389,7 +392,9 @@ const handlePinCodeChange = (e) => {
     address: '',
     email_Id: '',
     business_Name: '',
-    file: null
+    file: null,
+    country: '',
+    pinCode: ''
   });
 
 
@@ -460,7 +465,8 @@ console.log("initial state",initialState)
       setId(currentItem.id);
       setVendor_Id(currentItem.Vendor_Id);
       setFile(currentItem.Vendor_profile ? currentItem.Vendor_profile : null);
-
+  setCountry(currentItem.Country)
+    setPinCode(currentItem.Pincode)
 
       setInitialState({
         first_Name: firstName,
@@ -470,7 +476,10 @@ console.log("initial state",initialState)
         address: currentItem.Vendor_Address,
         email_Id:  normalizedEmail,
         business_Name: currentItem.Business_Name,
-        file: currentItem.Vendor_profile ? currentItem.Vendor_profile : null
+        file: currentItem.Vendor_profile ? currentItem.Vendor_profile : null,
+        country:currentItem.Country,
+        pinCode:currentItem.Pincode
+
       });
     }
   }, [currentItem]);
@@ -496,8 +505,8 @@ console.log("initial state",initialState)
       }}
     >
       
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
-        <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
+      <Modal show={show} onHide={handleClose} centered backdrop="static" className='custom-modal-width-vendor'>
+        <Modal.Dialog  className='m-0 p-0'>
           <Modal.Header  style={{ border: "1px solid #E7E7E7" }}>
             <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{check === 'EDIT' ? 'Edit a vendor ' : 'Add a vendor'}</Modal.Title>
         

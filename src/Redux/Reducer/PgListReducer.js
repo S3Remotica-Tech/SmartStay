@@ -48,7 +48,8 @@ const initialState = {
     alreadyfloorNameHere: '',
     OccupiedCustomer:[],
     OccupiedCustomerGetStatusCode:0,
-    EB_customerTable:[]
+    EB_customerTable:[],
+    dleteHostelImagesStatusCode:0,
 
 }
 const PgListReducer = (state = initialState, action) => {
@@ -58,6 +59,13 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, deleteFloor: action.payload.message }
         case 'CLEAR_DELETE_FLOOR':
             return { ...state, deleteFloor: action.message }
+
+case 'DELETE_HOSTEL_IMAGES' : 
+return { ...state, dleteHostelImagesStatusCode:action.payload.statusCode}
+
+case 'CLEAR_DELETE_HOSTEL_IMAGES':
+    return { ...state, dleteHostelImagesStatusCode:0}
+
 
 case 'OCCUPIED_CUSTOMER':
     return {...state, OccupiedCustomer:action.payload.response , OccupiedCustomerGetStatusCode:action.payload.statusCode}

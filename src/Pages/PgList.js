@@ -320,20 +320,19 @@ useEffect(() => {
   }, [state.UsersList.deleteFloorSuccessStatusCode])
 
   useEffect(() => {
-    if (state.PgList.deletePgSuccessStatusCode == 200) {
+    if (state.PgList.deletePgSuccessStatusCode == 200 || state.PgList.dleteHostelImagesStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
-
-
-
-
-
-
+      setShowAddPg(false);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_HOSTEL_IMAGES' })
+      }, 4000)
+    
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_PG_STATUS_CODE' })
       }, 4000)
     }
 
-  }, [state.PgList.deletePgSuccessStatusCode])
+  },[state.PgList.deletePgSuccessStatusCode, state.PgList.dleteHostelImagesStatusCode])
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode == 200) {
@@ -1041,8 +1040,8 @@ const handleDropDown = (value)=>{
       <div className='container'>
 
         {hidePgList && <>
-        <div className='container'>
-          <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className='container justify-content-between d-flex align-items-center' style={{height:83}}>
+          {/* <div className="d-flex justify-content-between align-items-center"> */}
 
             <div>
               <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>Paying Guest</label>
@@ -1159,7 +1158,7 @@ const handleDropDown = (value)=>{
                   style={{ fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 8,  padding: "16px 20px 16px 20px" }}> + Add new PG</Button>
               </div>
             </div>
-          </div>
+          {/* </div> */}
           </div>
 
           {searchQuery && (
@@ -1255,7 +1254,7 @@ const handleDropDown = (value)=>{
         </>}
 
         {selectedHostel && (
-          <div className='container'>
+          <div className='container mt-3'>
 
             <div className="d-flex justify-content-between align-items-center mb-3">
 

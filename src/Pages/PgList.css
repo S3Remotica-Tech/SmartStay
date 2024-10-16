@@ -109,7 +109,12 @@ cursor:pointer;
     border-radius: 5px !important;
 }
 
-/* .custom-modal-width .modal.show .modal-dialog {
-    transform: none;
-    max-width: 600px !important;
-} */
+.custom-modal-width .modal-dialog {
+    max-width: 600px; 
+    width: 100%;
+  }
+  
+  .custom-modal-width-vendor .modal-dialog {
+    max-width: 550px; 
+    width: 100%;
+  }

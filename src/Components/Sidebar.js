@@ -329,20 +329,17 @@ function Sidebar() {
       <Container fluid className='p-0'>
 
         <Row className='g-0 m-0'  >
-          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block  sidebar" style={{ cursor: "pointer", backgroundColor: '#E0ECFF', position: "fixed",
-             maxWidth: 240, width: "100%", height: "100%", maxHeight: 768 }} >
+          <Col lg={2} md={2} sm={2} xs={2} className="d-sm-block  sidebar h-100" style={{ cursor: "pointer", backgroundColor: '#E0ECFF', position: "fixed",
+            //  maxWidth: 240, width: "100%", height: "100%", maxHeight: 768
+             }}
+             
+             >
             <div className='container' style={{ position: "relative" }}>
-
-
-              <div className="d-flex align-items-center justify-content-start" style={{ padding: "16px 30px" }}>
-                <img src={Smartstay} style={{ height: 25.06, width: 134 }} />
+              <div className="d-flex align-items-center justify-content-start" style={{ padding: "16px 10px" }}>
+                <img src={Smartstay} style={{ height: 25.06, width: 134 }}  className="Title"/>
               </div>
-
-
-
-              <ul className="p-0" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-
-
+              
+              <ul className="p-0" style={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
                 <li className={`align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
                   {/* <div className='d-flex  align-items-center justify-content-between' > */}
                     <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ height: 20, width: 20 }} />
@@ -355,7 +352,7 @@ function Sidebar() {
                 <li className={`align-items-center list-Item ${currentPage === 'manage' ? 'active' : ''}`} onClick={() => setManageOpen(!manageOpen)} style={{ listStyleType: "none", display: "flex" }}>
                   <img src={Manage} style={{ height: 20, width: 20 }} />
                   <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Manage</span>
-                  <span className="ms-auto">{manageOpen ?
+                  <span className="ms-auto ">{manageOpen ?
                     <ArrowUp2
                       size="16"
                       color="#4B4B4B"
@@ -478,10 +475,15 @@ function Sidebar() {
               </li>
             </ul>
           </Col>
-          <Col className="bg-white main-content" lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} style={{ maxWidth: 1126, width: "100%" }}>
-            <div className='container d-flex justify-content-end align-items-center' style={{ marginTop: '20px' }}>
+          <Col className="bg-white main-content" lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} 
+          style={{ 
+            // maxWidth: 1126,
+            //  width: "100%"
 
-              <div >
+           }}>
+            {/* <div className='container d-flex justify-content-end align-items-center m-0' style={{ marginTop: '20px' }}>
+
+              <div > */}
                 {/* <InputGroup>
     <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
       <CiSearch style={{ fontSize: 20 }} />
@@ -490,13 +492,13 @@ function Sidebar() {
       placeholder="Search..."
     />
   </InputGroup> */}
-              </div>
+              {/* </div> */}
               {/* <div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
   <img src={Notify} alt="notification" />
 </div> */}
 
 
-            </div>
+            {/* </div> */}
 
             {/* <Offcanvas placement="end" show={show} onHide={handleClosepopup} style={{ width: "69vh" }}>
               <Offcanvas.Title style={{ background: "#2F74EB", color: "white", paddingLeft: "20px", height: "35px", fontSize: "16px", paddingTop: "5px" }} >Notification</Offcanvas.Title>
