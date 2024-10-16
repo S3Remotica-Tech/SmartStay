@@ -81,25 +81,27 @@ function* handleAddInvoiceDetails (param){
 
 function* handleInvoiceSettings(param){
        const response = yield call (InvoiceSettings,param.payload)
-   //   console.log("invoice response",response.statusCode === 200)
+     console.log("invoice response",response.data)
       if (response.statusCode === 200 || response.status === 200) {
          yield put({ type: 'INVOICE_SETTINGS',  payload:{response:response.data, statusCode: response.statusCode || response.status} })
          
          
-         const toastStyle = {
-            position: 'fixed',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 9999, // To ensure it appears above other elements
-            backgroundColor: 'green', // Background color
-            color: 'white', // Text color
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center", 
+            padding: "10px",
+           
           };
     
-          // Use the toast with the defined style
           toast.success(response.data.message, {
             position: "bottom-center",
             autoClose: 2000,

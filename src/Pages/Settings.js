@@ -658,7 +658,7 @@ function Settings() {
                         placeholder="Unit"
                         value={unit}
                         onChange={(e) => setUnit(e.target.value)}
-                        disabled
+                        readOnly
                       />
                     </Form.Group>
                   </div>

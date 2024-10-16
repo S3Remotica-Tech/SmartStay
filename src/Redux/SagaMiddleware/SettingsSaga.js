@@ -30,7 +30,7 @@ function* handleCategorylist(action) {
 function* handleCategoryAdd(params) {
    console.log("settings saga", params.payload);
    const response = yield call(AddExpencesCategory, params.payload);
-
+   
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EXPENCES_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
       
@@ -62,6 +62,13 @@ function* handleCategoryAdd(params) {
          progress: undefined,
          style: toastStyle
        })
+   }
+   else  if(response.status === 201 || response.statusCode === 201) {
+     
+      
+      yield put({ type: 'ALREADY_EXPENCE_CATEGORY_ERROR', payload: response.data.message })
+      
+      
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -175,6 +182,10 @@ function* handleComplaintTypeAdd(params) {
          progress: undefined,
          style: toastStyle
        })
+   }
+   else  if(response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'ALREADY_COMPLAINTTYPE_ERROR', payload: response.data.message })
+ 
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

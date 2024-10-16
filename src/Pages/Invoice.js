@@ -953,6 +953,8 @@ const invoicerowsPerPage = 15;
     minDate: null,
   };
 
+ 
+
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -1045,9 +1047,9 @@ const invoicerowsPerPage = 15;
   const [formatenddate, setFormatEndDate] = useState(null)
   const [formatinvoicedate, setFormatInvoiceDate] = useState(null)
   
-  
+  console.log("formatinvoicedate",formatinvoicedate);
   const [formatduedate, setFormatDueDate] = useState(null)
-  console.log("formatinvoicedate",formatduedate);
+  console.log("formatduedate",formatduedate);
 
   const [invoicetotalamounts,setInvoiceTotalAmount] = useState([])
   const [billamounts, setBillAmounts] = useState([])
@@ -1182,6 +1184,14 @@ console.log("newRows",newRows);
     }
   }, [state.InvoiceList])
 
+  const optionsone = {
+    dateFormat: 'd/m/Y',
+    defaultDate: null,
+    // defaultDate: selectedDate,
+    // maxDate: new Date(),
+    minDate: null,
+  };
+
   useEffect(() => {
     if (startRef.current) {
       startRef.current.flatpickr.set(options);
@@ -1193,7 +1203,7 @@ console.log("newRows",newRows);
       invoiceRef.current.flatpickr.set(options);
     }
     if (dueRef.current) {
-      dueRef.current.flatpickr.set(options);
+      dueRef.current.flatpickr.set(optionsone);
     }
 }, [startdate, enddate , invoicedate, invoiceduedate ])
 
@@ -1430,7 +1440,7 @@ console.log("newRows",newRows);
 
             const allRows = newRows.map(detail => ({
               am_name: detail.am_name, 
-              amount: detail.amount
+              amount: Number(detail.amount)
             })).filter(detail => detail.am_name && detail.amount); 
             console.log("allRows", allRows);
             
@@ -1458,7 +1468,7 @@ console.log("newRows",newRows);
 
                   }
 
-    },[billamounts])
+    },[billamounts,newRows])
 
 
        const handleNewRowChange = (index, field, value) => {
@@ -2496,11 +2506,20 @@ console.log("newRows",newRows);
         borderRadius: 8 
       }}>
         <option value=''>Select Customer</option>
-         {state.UsersList?.Users.filter(u => u.Bed !== 'undefined' && u.Bed !== '0' && u.Bed.trim() !== '' && u.Rooms !== 'undefined' && u.Rooms !== '0' && u.Rooms.trim() !== '') 
-          .map((u) => (
-          <option  value={u.ID}>{u.Name}</option>
-    ))
+        {state.UsersList?.Users && state.UsersList?.Users.length > 0 && state.UsersList?.Users?.filter(u => 
+            u.Bed !== 'undefined' && 
+            u.Bed !== '0' && 
+            typeof u.Bed === 'string' && 
+            u.Bed.trim() !== '' && 
+            u.Rooms !== 'undefined' && 
+            u.Rooms !== '0' && 
+            typeof u.Rooms === 'string' && 
+            u.Rooms.trim() !== '')
+  .map(u => (
+    <option value={u.ID} key={u.ID}>{u.Name}</option>
+  ))
 }
+
     </Form.Select>
     {customererrmsg.trim() !== "" && (
   <div>
@@ -2522,6 +2541,7 @@ console.log("newRows",newRows);
             type="text"
             placeholder="Enter invoice number"
             value={invoicenumber || ''} 
+            readOnly
           />
                    {invoicenumbererrmsg.trim() !== "" && (
   <div>
@@ -2739,7 +2759,7 @@ console.log("newRows",newRows);
                       </label>
                       <Flatpickr
                         ref={dueRef}
-                        options={options}
+                        optionsone={optionsone}
                         value={invoiceduedate}
                         onChange={handleDueDate}
                         style={{

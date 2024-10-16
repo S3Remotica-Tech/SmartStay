@@ -52,7 +52,13 @@ import Modal from 'react-bootstrap/Modal';
   };
 
   
-  
+  useEffect(() => {
+    if (state.Settings?.alreadytypeerror) {
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_ALREADY_COMPLAINTTYPE_ERROR' });
+      }, 3000);    
+    }
+  }, [state.Settings?.alreadytypeerror])
 
 
 
@@ -144,6 +150,15 @@ import Modal from 'react-bootstrap/Modal';
 )}
         </Form.Group>
       </div>
+
+      {state.Settings?.alreadytypeerror && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {state.Settings?.alreadytypeerror}
+                        </label>
+                    </div>
+                )}
       <div style={{ marginTop: '30px' }}>
         <Button
           style={{ fontSize: 16, fontFamily: 'Montserrat', backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 500, borderRadius: 12, width: 200 }}
@@ -164,6 +179,8 @@ import Modal from 'react-bootstrap/Modal';
             ))}
           </div>
         </div>
+
+     
 
         <Modal
   show={deleteShow}
