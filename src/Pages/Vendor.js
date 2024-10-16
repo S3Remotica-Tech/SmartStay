@@ -362,7 +362,7 @@ const [searchQuery, setSearchQuery] = useState('')
 
     <div style={{ width: "100%", fontFamily: "Gilroy" }} className='container'>
      
-<div className='container'>
+<div className='container mt-3'>
 
 
       <div className=" d-flex justify-content-between align-items-center  mb-3">

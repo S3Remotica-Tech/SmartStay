@@ -132,7 +132,7 @@ function Asset() {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(7);
 
   const [currentItem, setCurrentItem] = useState(null);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -301,12 +301,12 @@ function Asset() {
 
   return (
     <>
-      <div className='container' style={{ width: "100%" }} >
+      <div className='container ' style={{ width: "100%" }} >
         {/* <div className='m-4'> */}
 
 
 
-        <div className='container'>
+        <div className='container mt-3'>
 
 
           <div className="d-flex justify-content-between align-items-center mb-3">
