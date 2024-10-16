@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import { PinDropSharp } from "@material-ui/icons";
 import { propsToClassKey } from "@mui/styles";
 
-function UserListTransaction(props){
+function UserListCompliants(props){
     const state = useSelector(state => state)
   const dispatch = useDispatch();
     useEffect(() => {
@@ -98,12 +98,12 @@ function UserListTransaction(props){
                         <thead style={{ color: "gray", fontSize: "11px", backgroundColor: "#E7F1FF" }}>
                           <tr className="" style={{ height: "30px" }}>
 
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px", textAlign: "center" }}>Transaction ID</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Category</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px", textAlign: "center" }}>Request ID</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Compliant type</th>
                             <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Date</th>
 
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Amount</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Mode of Payment </th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Asigned to</th>
+                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Status</th>
                             <th ></th>
 
                           </tr>
@@ -275,4 +275,4 @@ function UserListTransaction(props){
 </>
     )
 }
-export default UserListTransaction;
+export default UserListCompliants;
