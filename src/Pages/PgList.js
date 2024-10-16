@@ -322,7 +322,7 @@ useEffect(() => {
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode == 200 || state.PgList.dleteHostelImagesStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
-      // setShowAddPg(false);
+      setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_HOSTEL_IMAGES' })
       }, 4000)
@@ -890,8 +890,17 @@ const handleDropDown = (value)=>{
   }
 
 
+  // useEffect(() => {
+  //   if (state.UsersList?.hosteListStatusCode == 200) {
+  //     setEditHostelDetails(editHostelDetails)
 
 
+  //   }
+
+  // }, [state.UsersList?.hosteListStatusCode])
+
+
+  
   const [key, setKey] = useState('1');
 
 

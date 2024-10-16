@@ -44,7 +44,7 @@ function AddPg({ show, handleClose, currentItem }) {
   }, [])
 
 
-
+console.log("currentItem",currentItem)
 
 
 
@@ -289,6 +289,9 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
 
+
+
+
   useEffect(() => {
     if (currentItem) {
       const phoneNumber = String(currentItem.hostel_PhoneNo || '');
@@ -348,67 +351,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
 
-  // const handleFileChange = (index) => (e) => {
-  //   const newFile = e.target.files[0];
-
-  //   if (newFile) {
-  //     setImages((prevImages) => {
-  //       const updatedImages = [...prevImages];
-  //       updatedImages[index] = { image: URL.createObjectURL(newFile) };
-  //       return updatedImages;
-  //     });
-  //   }
-
-
-
-
-
-  // };
-
-
-
-  // const handleFileChange = (index) => (e) => {
-  //   const newFile = e.target.files[0];
-    
-
-  //   if (newFile) {
-  //     setImages((prevImages) => {
-  //       const updatedImages = [...prevImages];
-  //       updatedImages[index] = {
-  //         name: `image${index + 1}`,
-  //         image: URL.createObjectURL(newFile),
-  //         isChanged: true
-  //       };
-  //       return updatedImages;
-  //     });
-  //   }
-  // };
-
-
-  // const handleFileChange = (index) => (e) => {
-  //   const newFile = e.target.files[0];
-  
-  //   if (newFile) {
-  //          setImages((prevImages) => {
-  //       const updatedImages = [...prevImages];
-    
-  //       if (updatedImages[index] && updatedImages[index].image) {
-  //         URL.revokeObjectURL(updatedImages[index].image);
-  //       }
-  
-        
-  //       updatedImages[index] = {
-  //         name: `image${index + 1}`,
-  //         image: URL.createObjectURL(newFile), 
-  //         isChanged: true
-  //       };
-  
-  //       return updatedImages;
-  //     });
-  
-  //         e.target.value = null;
-  //   }
-  // };
+ 
   
 
   const handleFileChange = (index) => (e) => {
@@ -428,7 +371,7 @@ function AddPg({ show, handleClose, currentItem }) {
   
           updatedImages[currentIndex] = {
             name: `image${currentIndex + 1}`,
-            image: URL.createObjectURL(file), 
+            image: file, 
             isChanged: true
           };
         });
@@ -470,15 +413,6 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
 
-  // useEffect(() => {
-  //   return () => {
-  //     images.forEach((img) => {
-  //       if (img.image && img.image.startsWith("blob:")) {
-  //         URL.revokeObjectURL(img.image); 
-  //       }
-  //     });
-  //   };
-  // }, [images]);
 
 
  
@@ -730,7 +664,7 @@ function AddPg({ show, handleClose, currentItem }) {
                       justifyContent: "center",
                       alignItems: "center",
                       cursor: "pointer",
-                      padding: 0,
+                      padding: 0
                     }}
                     className='m-0'
                   >
@@ -745,11 +679,13 @@ function AddPg({ show, handleClose, currentItem }) {
 
                           <Image 
                             className='img-fluid'
-                            src={imageSrc}
+                            // src={imageSrc}
+                            src={imageSrc && (typeof imageSrc === 'string' ? imageSrc : URL.createObjectURL(imageSrc))}
                             alt={`currentItem-image-${index}`}
                             onError={() => console.error(`Failed to load image for index: ${index}, ImageSrc: ${imageSrc}`)}
-                            style={{ objectFit: "cover", borderRadius: 5, height: 120, cursor: "pointer" }}
+                            style={{ objectFit:imageSrc && "cover", borderRadius: 5, height: 120, cursor: "pointer" }}
                           />
+
 
 
                           {displayLayer === index && (
