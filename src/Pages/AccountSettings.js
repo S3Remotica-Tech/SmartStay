@@ -907,11 +907,11 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
       <TabContext value={value}>
         <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
           <TabList onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }}>
-            <Tab label="General " value="1" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-            <Tab label="Account setting" value="2" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-            <Tab label="Security" value="3" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-            <Tab label="Subsription" value="4" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-            <Tab label="Integration" value="5" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            <Tab label="General " value="1" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "1" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            <Tab label="Account setting" value="2" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "2" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            <Tab label="Security" value="3" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "3" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            <Tab label="Subsription" value="4" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "4" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+            <Tab label="Integration" value="5" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "5" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
 
           </TabList>
         </Box>

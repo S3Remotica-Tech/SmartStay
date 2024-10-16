@@ -546,12 +546,12 @@ function Settings() {
           <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
             <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
               {/* <Tab label="Security" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
-              <Tab label="EB Billing" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Invoice" value="2" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Expences" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Complaint type" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Amenities" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Users" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="EB Billing" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "1" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Invoice" value="2" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "2" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Expences" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "3" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Complaint type" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "4" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Amenities" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "5" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Users" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "6" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
 
             </TabList>
           </Box>
