@@ -18,6 +18,8 @@ import Filters from "../Assets/Images/Filters.svg";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import Modal from "react-bootstrap/Modal";
 import Emptystate from '../Assets/Images/Empty-State.jpg'
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort , Trash} from 'iconsax-react';
+import closecircle from "../Assets/Images/New_images/close-circle.png";
 
 import {
   Autobrightness,
@@ -117,6 +119,7 @@ function UserList(props) {
 
   const handleCloseSearch = () => {
     setSearch(false);
+    setFilterInput("")
   };
   useEffect(() => {
     if (state.InvoiceList.statusCodeForPDf === 200) {
@@ -592,6 +595,8 @@ function UserList(props) {
     setSearch(!search);
     setFilterStatus(false);
   };
+  
+
   const handleFliterByStatus = () => {
     setFilterStatus(!filterStatus);
     setSearch(false);
@@ -949,7 +954,7 @@ function UserList(props) {
                       />
                       <div
                         className="input-group"
-                        style={{ marginRight: 20, height: 50, width: 280 }}
+                        style={{ marginRight: 20 }}
                       >
                         <span className="input-group-text bg-white border-end-0">
                           <Image
@@ -966,10 +971,17 @@ function UserList(props) {
                             boxShadow: "none",
                             outline: "none",
                             borderColor: "rgb(207,213,219)",
+                            borderRight:"none"
+                           
                           }}
                           value={filterInput}
                           onChange={(e) => handlefilterInput(e)}
                         />
+                        <span className="input-group-text bg-white border-start-0">
+                          <img src={closecircle} onClick={handleCloseSearch}
+                            style={{ height: 20, width: 20 }}
+                          />
+                        </span>
                       </div>
                     </div>
 
@@ -1142,7 +1154,17 @@ function UserList(props) {
               </div>
             </div>
           </div>
-
+          {filterInput && (
+        <div  className='container ms-4 mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+          {filteredUsers.length > 0 ? (
+            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+              {filteredUsers.length} result{filteredUsers.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{filterInput}"</span>
+            </span>
+          ) : (
+            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{filterInput}"</span></span>
+          )}
+        </div>
+      )}
           <div
             className="pl-4"
             style={{
@@ -1164,7 +1186,7 @@ function UserList(props) {
                 <Tab
                   className="tab-label"
 
-                  style={{ textTransform: "capitalize", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
+                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy",color: value === "1" ? "#222222" : "#4B4B4B"}}
 
                   label="All Customers"
                   value="1"
@@ -1172,7 +1194,7 @@ function UserList(props) {
                 <Tab
                   className="tab-label"
 
-                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy" }}
+                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy",color: value === "2" ? "#222222" : "#4B4B4B" }}
 
                   label="Bookings"
                   value="2"
@@ -1180,14 +1202,14 @@ function UserList(props) {
                 <Tab
                   className="tab-label"
 
-                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy" }}
+                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy",color: value === "3" ? "#222222" : "#4B4B4B" }}
 
                   label="Check-out"
                   value="3"
                 />
                 <Tab
                   className="tab-label"
-                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy" }}
+                  style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy",color: value === "4" ? "#222222" : "#4B4B4B" }}
                   label="Walk-in"
                   value="4"
                 />

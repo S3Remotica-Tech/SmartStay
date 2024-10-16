@@ -276,15 +276,15 @@ const handlePinCodeChange = (e) => {
 
     
 
-    if (!country) {
-      setCountryError('Please enter a country');
-      return;
-    }
+    // if (!country) {
+    //   setCountryError('Please enter a country');
+    //   return;
+    // }
 
-    if (!pinCode) {
-      setPinCodeError('Please enter a pin code');
-      return;
-    }
+    // if (!pinCode) {
+    //   setPinCodeError('Please enter a pin code');
+    //   return;
+    // }
    
 
 
@@ -721,7 +721,7 @@ console.log("initial state",initialState)
               </div>
 
 
-              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Country<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <Form.Control value={country} onChange={(e) => handleCountryChange(e)} type="text" placeholder="Enter country" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: address ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
@@ -755,7 +755,7 @@ console.log("initial state",initialState)
 
                 </Form.Group>
 
-              </div>
+              </div> */}
 
 
 
