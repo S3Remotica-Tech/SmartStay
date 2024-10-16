@@ -6,6 +6,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import dots from "../Assets/Images/New_images/Group 14.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import Flatpickr from "react-flatpickr";
+import verify from "../Assets/Images/verify.png";
 import {
   Autobrightness,
   Call,
@@ -40,7 +41,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import UserEb from "./UserListEb";
 import UserListInvoice from "./UserListInvoice";
 import UserListAmenities from "./UserListAmenities";
-import UserListTransaction from "./UserListTransaction";
+import UserListCompliants from "./UserListCompliants";
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
@@ -934,27 +935,27 @@ function UserListRoomDetail(props) {
             props.userDetails.map((item, index) => {
               const imageUrl = item.profile || Profile;
               return (
-                <div key={item.ID} className="container mt-2">
+                <div key={item.ID} className="container" style={{marginLeft:"-20px",marginTop:"-15px"}}>
                   <div style={{ marginLeft: 25, paddingBottom: 20 }}>
                     <img
-                      src={leftarrow}
+                      src={leftarrow} width={20} height={20}
                       onClick={props.handleBack}
                       style={{ cursor: "pointer" }}
                     />
                     <span
                       style={{
                         fontWeight: 600,
-                        fontSize: "20px",
+                        fontSize: "18px",
                         marginLeft: 15,
                         fontFamily: "Gilroy",
                       }}
                     >
-                      User Profile
+                    Cutomer Profile
                     </span>{" "}
                   </div>
                   <div
                     className="card"
-                    style={{ height: 130, borderRadius: "20px" }}
+                    style={{ height: 120, borderRadius: "24px" }}
                   >
                     <div className="card-body d-flex align-items-center justify-content-between">
                       <div className="d-flex align-items-center">
@@ -981,7 +982,7 @@ function UserListRoomDetail(props) {
                               fontFamily: "Gilroy",
                             }}
                           >
-                            {item.Name}
+                            {item.Name} <img src={verify} width={17} height={17} marginTop={-3}/>
                           </span>
                           <p style={{ marginTop: 10 }}>
                             <span
@@ -1060,7 +1061,7 @@ function UserListRoomDetail(props) {
                             style={{
                               fontSize: 16,
                               fontFamily: "Gilroy",
-                              color: "#4B4B4B",
+                              color: value === "1" ? "#222222" : "#4B4B4B",
                               lineHeight: "normal",
                               fontStyle: "normal",
                               fontWeight: 500,
@@ -1073,7 +1074,7 @@ function UserListRoomDetail(props) {
                             style={{
                               fontSize: 16,
                               fontFamily: "Gilroy",
-                              color: "#4B4B4B",
+                              color: value === "2" ? "#222222" : "#4B4B4B",
                               lineHeight: "normal",
                               fontStyle: "normal",
                               fontWeight: 500,
@@ -1086,7 +1087,20 @@ function UserListRoomDetail(props) {
                             style={{
                               fontSize: 16,
                               fontFamily: "Gilroy",
-                              color: "#4B4B4B",
+                              color: value === "3" ? "#222222" : "#4B4B4B",
+                              lineHeight: "normal",
+                              fontStyle: "normal",
+                              fontWeight: 500,
+                              textTransform: "none",
+                            }}
+                          />
+                           <Tab
+                            label="Compliants"
+                            value="4"
+                            style={{
+                              fontSize: 16,
+                              fontFamily: "Gilroy",
+                              color: value === "4" ? "#222222" : "#4B4B4B",
                               lineHeight: "normal",
                               fontStyle: "normal",
                               fontWeight: 500,
@@ -1095,37 +1109,25 @@ function UserListRoomDetail(props) {
                           />
                           <Tab
                             label="Amenities"
-                            value="4"
+                            value="5"
                             style={{
                               fontSize: 16,
                               fontFamily: "Gilroy",
-                              color: "#4B4B4B",
+                              color: value === "5" ? "#222222" : "#4B4B4B",
                               lineHeight: "normal",
                               fontStyle: "normal",
                               fontWeight: 500,
                               textTransform: "none",
                             }}
                           />
-                          {/* <Tab
-                            label="Transactions"
-                            value="5"
-                            style={{
-                              fontSize: 16,
-                              fontFamily: "Gilroy",
-                              color: "#4B4B4B",
-                              lineHeight: "normal",
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                              textTransform: "none",
-                            }}
-                          /> */}
+                         
                         </TabList>
                       </Box>
                     </div>
                     <TabPanel value="1">
                       <>
                         <div className="overdue mt-3">
-                          <div style={{ flex: 1 }}>
+                          <div style={{ width:"60%",marginLeft:"-23px" }}>
                             <div
                               class="card"
                               style={{
@@ -1333,7 +1335,7 @@ function UserListRoomDetail(props) {
                               </div>
                             </div>
                           </div>
-                          <div style={{ flex: 1 }}>
+                          <div style={{width:"60%" }}>
                             {state.UsersList?.customerdetails?.data?.length ===
                               0 || state.UsersList?.customerdetails == "" ? (
                               <div
@@ -1344,6 +1346,7 @@ function UserListRoomDetail(props) {
                                   paddingTop: 0,
                                   paddingRight: 20,
                                   paddingBottom: 5,
+
                                 }}
                               >
                                 <div
@@ -1435,6 +1438,7 @@ function UserListRoomDetail(props) {
                                         paddingTop: 0,
                                         paddingRight: 20,
                                         paddingBottom: 5,
+                                        width:"100%"
                                       }}
                                     >
                                       <div
@@ -1550,8 +1554,8 @@ function UserListRoomDetail(props) {
                           </div>
                         </div>
 
-                        <div
-                          class="card"
+                        <div 
+                          class="card "
                           style={{
                             borderRadius: "20px",
                             paddingLeft: 20,
@@ -1559,6 +1563,8 @@ function UserListRoomDetail(props) {
                             paddingRight: 20,
                             paddingBottom: 5,
                             marginTop: 30,
+                            marginLeft:"-1px",
+                            width:"50%"
                           }}
                         >
                           <div
@@ -2720,7 +2726,11 @@ function UserListRoomDetail(props) {
                     <TabPanel value="3">
                       <UserListInvoice id={props.id} />
                     </TabPanel>
+                  
                     <TabPanel value="4">
+                      <UserListCompliants id={props.id} />
+                    </TabPanel>
+                    <TabPanel value="5">
                       <UserListAmenities
                         id={props.id}
                         setcustomerUser_Id={props.setcustomerUser_Id}
@@ -2732,9 +2742,6 @@ function UserListRoomDetail(props) {
                         statusAmni={props.statusAmni}
                       />
                     </TabPanel>
-                    {/* <TabPanel value="5">
-                      <UserListTransaction id={props.id} />
-                    </TabPanel> */}
                   </TabContext>
                 </div>
               );
