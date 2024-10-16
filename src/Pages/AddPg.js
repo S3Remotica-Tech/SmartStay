@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { InputGroup, Card } from 'react-bootstrap';
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, AddCircle,Gallery } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash, AddCircle, Gallery } from 'iconsax-react';
 import { ImagesearchRollerOutlined } from '@mui/icons-material';
 
 function AddPg({ show, handleClose, currentItem }) {
@@ -26,7 +26,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [errors, setErrors] = useState({});
   const [errorsPG, setErrorsPG] = useState({});
   const [initialState, setInitialState] = useState({});
-const [displayLayer, setDisplayLayer] = useState(null)
+  const [displayLayer, setDisplayLayer] = useState(null)
 
 
   const [pgNameError, setPgNameError] = useState('');
@@ -223,11 +223,11 @@ const [displayLayer, setDisplayLayer] = useState(null)
     const arraysAreEqual = (arr1, arr2) => {
       if (arr1.length !== arr2.length) return false;
       for (let i = 0; i < arr1.length; i++) {
-             if (arr1[i].image !== arr2[i]?.image) return false;
+        if (arr1[i].image !== arr2[i]?.image) return false;
       }
       return true;
     };
-    
+
 
 
 
@@ -237,7 +237,7 @@ const [displayLayer, setDisplayLayer] = useState(null)
       email !== initialState.email ||
       location !== initialState.location ||
       file !== initialState.file ||
-      countryCode !== initialState.countryCode || 
+      countryCode !== initialState.countryCode ||
       !arraysAreEqual(images, initialState.imageUrls);
 
     if (!isChanged) {
@@ -302,11 +302,11 @@ const [displayLayer, setDisplayLayer] = useState(null)
         email: (currentItem.email_id && currentItem.email_id !== 'undefined') ? currentItem.email_id : '',
         location: currentItem.Address,
         file: currentItem.profile && typeof currentItem.profile === 'string' && currentItem.profile !== '0' ? currentItem.profile : null,
-                
-      
+
+
       };
 
-          setPgName(initialData.pgName);
+      setPgName(initialData.pgName);
       setMobile(initialData.mobile);
       setEmail(initialData.email);
       setLocation(initialData.location);
@@ -321,70 +321,123 @@ const [displayLayer, setDisplayLayer] = useState(null)
       const formattedImages = currentItem.image_list.map(img => ({
         name: img.image !== '0' && typeof img.image === 'string' ? img.name : '',
         image: img.image !== '0' && typeof img.image === 'string' ? img.image : null
-    }));
-    
-   
-
-  console.log("Formatted Images:", formattedImages);
+      }));
 
 
 
-    setImages(formattedImages);
-    setInitialState({...initialData, imageUrls: formattedImages});
-       
-   
-  
+      console.log("Formatted Images:", formattedImages);
+
+
+
+      setImages(formattedImages);
+      setInitialState({ ...initialData, imageUrls: formattedImages });
+
+
+
 
     }
   }, [currentItem]);
 
 
 
- 
-
-  const [images, setImages] = useState(Array(4).fill({ image: null })); 
 
 
- 
+  const [images, setImages] = useState(Array(4).fill({ image: null }));
+
+
+
+
+
+  // const handleFileChange = (index) => (e) => {
+  //   const newFile = e.target.files[0];
+
+  //   if (newFile) {
+  //     setImages((prevImages) => {
+  //       const updatedImages = [...prevImages];
+  //       updatedImages[index] = { image: URL.createObjectURL(newFile) };
+  //       return updatedImages;
+  //     });
+  //   }
+
+
+
+
+
+  // };
+
+
+
+  // const handleFileChange = (index) => (e) => {
+  //   const newFile = e.target.files[0];
+    
+
+  //   if (newFile) {
+  //     setImages((prevImages) => {
+  //       const updatedImages = [...prevImages];
+  //       updatedImages[index] = {
+  //         name: `image${index + 1}`,
+  //         image: URL.createObjectURL(newFile),
+  //         isChanged: true
+  //       };
+  //       return updatedImages;
+  //     });
+  //   }
+  // };
+
+
+  // const handleFileChange = (index) => (e) => {
+  //   const newFile = e.target.files[0];
+  
+  //   if (newFile) {
+  //          setImages((prevImages) => {
+  //       const updatedImages = [...prevImages];
+    
+  //       if (updatedImages[index] && updatedImages[index].image) {
+  //         URL.revokeObjectURL(updatedImages[index].image);
+  //       }
+  
+        
+  //       updatedImages[index] = {
+  //         name: `image${index + 1}`,
+  //         image: URL.createObjectURL(newFile), 
+  //         isChanged: true
+  //       };
+  
+  //       return updatedImages;
+  //     });
+  
+  //         e.target.value = null;
+  //   }
+  // };
   
 
-// const handleFileChange = (index) => (e) => {
-//   const newFile = e.target.files[0];
-
-//   if (newFile) {
-//     setImages((prevImages) => {
-//       const updatedImages = [...prevImages];
-//       updatedImages[index] = { image: URL.createObjectURL(newFile) };
-//       return updatedImages;
-//     });
-//   }
-
-
-
-
-
-// };
-
+  const handleFileChange = (index) => (e) => {
+    const selectedFiles = Array.from(e.target.files);
   
-
-const handleFileChange = (index) => (e) => {
-  const newFile = e.target.files[0];
-
-  if (newFile) {
-    setImages((prevImages) => {
-      const updatedImages = [...prevImages];
-      updatedImages[index] = { 
-        name: `image${index + 1}`, 
-        image: URL.createObjectURL(newFile), 
-        isChanged: true 
-      };
-      return updatedImages;
-    });
-  }
-};
-
-
-   
+    if (selectedFiles.length > 0) {
+      setImages((prevImages) => {
+        const updatedImages = [...prevImages];
+  
+        selectedFiles.forEach((file, i) => {
+          const currentIndex = index + i;
+  
+       
+          if (!updatedImages[currentIndex]) {
+            updatedImages[currentIndex] = {};
+          }
+  
+          updatedImages[currentIndex] = {
+            name: `image${currentIndex + 1}`,
+            image: URL.createObjectURL(file), 
+            isChanged: true
+          };
+        });
+  
+        return updatedImages;
+      });
+    }
+  };
+  
 
 
 
@@ -398,33 +451,37 @@ const handleFileChange = (index) => (e) => {
 
 
 
-console.log("images ************",images)
-console.log("file ************",file)
+  console.log("images ************", images)
+  console.log("file ************", file)
 
-const handleDeleteImages = (ImageName) => {
+  const handleDeleteImages = (ImageName) => {
 
-  console.log("Deleting image",ImageName)
- 
-  if(currentItem.id){
-    dispatch({ type: 'DELETEHOSTELIMAGES', payload: { hostel_id :currentItem.id, 
-      image_name: ImageName
-    }})
+    console.log("Deleting image", ImageName)
+
+    if (currentItem.id) {
+      dispatch({
+        type: 'DELETEHOSTELIMAGES', payload: {
+          hostel_id: currentItem.id,
+          image_name: ImageName
+        }
+      })
+    }
   }
-}
 
 
 
-// useEffect(() => {
-//   return () => {
-//     images.forEach((img) => {
-//       if (img.image && img.image.startsWith("blob:")) {
-//         URL.revokeObjectURL(img.image); 
-//       }
-//     });
-//   };
-// }, [images]);
+  // useEffect(() => {
+  //   return () => {
+  //     images.forEach((img) => {
+  //       if (img.image && img.image.startsWith("blob:")) {
+  //         URL.revokeObjectURL(img.image); 
+  //       }
+  //     });
+  //   };
+  // }, [images]);
 
 
+ 
 
 
   return (
@@ -653,113 +710,95 @@ const handleDeleteImages = (ImageName) => {
 
 
 
-              {images.map((img, index) => {
-
- 
-  console.log("Rendering image for index:", index, "Image object:", img);
-  const imageSrc = img.image;
-
- 
-
-      return (
-        <div key={index} className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
-          <Card
-            style={{
-              border: img.image ? "1px solid rgba(217, 217, 217, 0.5)" : "1px solid #D9D9D9",
-              borderRadius: 8,
-              height: 120,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              cursor: "pointer",
-              padding: 0,
-            }}
-            className='m-0'
-          >
+            {images.map((img, index) => {
 
 
-            { imageSrc && imageSrc !== '0' && imageSrc !== '' &&  imageSrc !== null ? 
-            (
+              console.log("Rendering image for index:", index, "Image object:", img);
+              const imageSrc = img.image;
 
 
-              <div style={{ position: "relative" }} onMouseEnter={() => handleMouseEnter(index)} onMouseLeave={handleMouseLeave}>
-                
 
-                <img
-        className='img-fluid'
-        src={imageSrc}
-                alt={`currentItem-image-${index}`}
-                onError={() => console.log("Error loading image for index:", index)} // Log error
-        style={{ objectFit: "cover", borderRadius: 5, height: 120, cursor: "pointer" }}
-      />
+              return (
+                <div key={index} className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
+                  <Card
+                    style={{
+                      border: img.image ? "1px solid rgba(217, 217, 217, 0.5)" : "1px solid #D9D9D9",
+                      borderRadius: 8,
+                      height: 120,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      padding: 0,
+                    }}
+                    className='m-0'
+                  >
 
 
-                {/* {
-                  img.image.image ?
-                  <img
-                  className='img-fluid'
-                  src={img.image?.image}
-                  // src={img.image}
-                  alt={`currentItem-image-${index}`}
-                  style={{ objectFit: "cover", borderRadius: 5, height: 120, cursor: "pointer" }}
-                />
-                :
-                <img
-                className='img-fluid'
-                // src={img.image?.image}
-                src={img.image}
-                alt={`currentItem-image-${index}`}
-                style={{ objectFit: "cover", borderRadius: 5, height: 120, cursor: "pointer" }}
-              />
-                } */}
-                
-                {displayLayer === index && (
-                  <div style={{
-                    borderRadius: 5, backgroundColor: "rgba(0, 0, 0, 0.5)", position: "absolute",
-                    top: 0, left: 0, height: 120, width: "100%", transition: "opacity 0.3s ease-in-out",
-                    display: "flex", alignItems: "center", justifyContent: "center", padding: 5
-                  }}>
-                    <div style={{
-                      display: "flex", justifyContent: "space-between", borderRadius: 100,
-                      backgroundColor: "rgba(255, 255, 255, 0.5)", padding: 5, width: "100%"
-                    }}>
-                      <label htmlFor={`imageUpload${index}`}>
-                        <Gallery size="24" color="#FFF" variant="Bold" style={{ cursor: "pointer" }} />
-                      </label>
-                      <div style={{ width: 2, backgroundColor: "#fff", height: 'auto', border: "1px solid #fff" }} />
-                      <Trash size="24" color="#FFF" style={{ cursor: "pointer" }}
-                       onClick={() => {handleDeleteImages(img.name);
-                      }} />
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <>
-                <label htmlFor={`imageUpload${index}`}>
-                  <AddCircle size="24" color="#1E45E1" style={{ cursor: "pointer" }} />
-                </label>
-                <label style={{ fontSize: 13, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>
-                  Add image
-                </label>
-                <label style={{ fontSize: 10, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  Max size 10 MB
-                </label>
-              </>
-            )}
-          </Card>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleFileChange(index)}
-            style={{ display: 'none' }}
-            id={`imageUpload${index}`}
-          />
-        </div>
-      );
-    })}
+                    {imageSrc  ?
+                      (
+
+
+                        <div style={{ position: "relative" }} onMouseEnter={() => handleMouseEnter(index)} onMouseLeave={handleMouseLeave}>
+
+
+                          <Image 
+                            className='img-fluid'
+                            src={imageSrc}
+                            alt={`currentItem-image-${index}`}
+                            onError={() => console.error(`Failed to load image for index: ${index}, ImageSrc: ${imageSrc}`)}
+                            style={{ objectFit: "cover", borderRadius: 5, height: 120, cursor: "pointer" }}
+                          />
+
+
+                          {displayLayer === index && (
+                            <div style={{
+                              borderRadius: 5, backgroundColor: "rgba(0, 0, 0, 0.5)", position: "absolute",
+                              top: 0, left: 0, height: 120, width: "100%", transition: "opacity 0.3s ease-in-out",
+                              display: "flex", alignItems: "center", justifyContent: "center", padding: 5
+                            }}>
+                              <div style={{
+                                display: "flex", justifyContent: "space-between", borderRadius: 100,
+                                backgroundColor: "rgba(255, 255, 255, 0.5)", padding: 5, width: "100%"
+                              }}>
+                                <label htmlFor={`imageUpload${index}`}>
+                                  <Gallery size="24" color="#FFF" variant="Bold" style={{ cursor: "pointer" }} />
+                                </label>
+                                <div style={{ width: 2, backgroundColor: "#fff", height: 'auto', border: "1px solid #fff" }} />
+                                <Trash size="24" color="#FFF" style={{ cursor: "pointer" }}
+                                  onClick={() => {
+                                    handleDeleteImages(img.name);
+                                  }} />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <>
+                          <label htmlFor={`imageUpload${index}`}>
+                            <AddCircle size="24" color="#1E45E1" style={{ cursor: "pointer" }} />
+                          </label>
+                          <label style={{ fontSize: 13, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>
+                            Add image
+                          </label>
+                          <label style={{ fontSize: 10, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            Max size 10 MB
+                          </label>
+                        </>
+                      )}
+                  </Card>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    // multiple
+                    onChange={handleFileChange(index)}
+                    style={{ display: 'none' }}
+                    id={`imageUpload${index}`}
+                  />
+                </div>
+              );
+            })}
 
 
 
