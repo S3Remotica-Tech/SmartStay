@@ -3,10 +3,12 @@ const initialState = {
     message: '',
     getExpensesStatuscode:0,
     addexpencesStatuscode: 0,
+    alreadycategoryerror:'',
     deleteexpencesStatusCode: 0,
     Complainttypelist :[],
     getcomplainttypeStatuscode:0,
     addComplaintSuccessStatusCode:0,
+    alreadytypeerror:'',
     deletecomplaintStatuscode :0,
     addEbbillingUnitStatuscode: 0,
     EBBillingUnitlist:[],
@@ -30,6 +32,12 @@ const SettingsReducer = (state = initialState, action) => {
         case 'CLEAR_DELETE_EXPENCES_STATUS_CODE':
             return { ...state, deleteexpencesStatusCode: 0 }
 
+        case 'ALREADY_EXPENCE_CATEGORY_ERROR':
+            return { ...state, alreadycategoryerror: action.payload }
+    
+        case 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR':
+            return { ...state, alreadycategoryerror: '' }
+
 //Complaint Type for settings ==>
             case 'COMPLAINT_TYPE_LIST':
                 return { ...state, Complainttypelist: action.payload.response ,getcomplainttypeStatuscode :action.payload.statusCode }
@@ -43,6 +51,12 @@ const SettingsReducer = (state = initialState, action) => {
                     return { ...state, deletecomplaintStatuscode: action.payload.statusCode }
             case 'CLEAR_DELETE_COMPLAINTTYPE_STATUS_CODE':
                     return { ...state, deletecomplaintStatuscode: 0 }
+
+                    case 'ALREADY_COMPLAINTTYPE_ERROR':
+                                return { ...state, alreadytypeerror: action.payload }
+                    
+                            case 'CLEAR_ALREADY_COMPLAINTTYPE_ERROR':
+                                return { ...state, alreadytypeerror: '' }
 //EbBillings for settings ==>
              case 'EB_BILLING_UNIT_ADD':
                 return { ...state, message: action.payload.message  , addEbbillingUnitStatuscode : action.payload.statusCode}
