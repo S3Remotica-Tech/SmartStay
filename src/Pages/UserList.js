@@ -3,7 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
 import { Dropdown, Table } from "react-bootstrap";
-import { Button, Offcanvas, Form ,FormControl} from "react-bootstrap";
+import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Plus from "../Assets/Images/Create-button.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -79,6 +79,13 @@ function UserList(props) {
       console.log("FilterUser", FilterUser);
     }
     if (value === "2") {
+      const FilterUsertwo = state.UsersList.hostelList.filter((item) => {
+        return item.Name.toLowerCase().includes(filterInput.toLowerCase());
+      });
+      setFilteredUsers(FilterUsertwo);
+      console.log("FilterUsertwo", FilterUsertwo);
+    }
+    if (value === "4") {
       const FilterUsertwo = state.UsersList.hostelList.filter((item) => {
         return item.Name.toLowerCase().includes(filterInput.toLowerCase());
       });
@@ -603,7 +610,7 @@ function UserList(props) {
   useEffect(() => {
     if (id) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
-      // setAmnityuserdetail(state.UsersList?.customerdetail.all_amenities)
+
     }
     console.log("userIduserId", id);
   }, [id]);
@@ -624,7 +631,7 @@ function UserList(props) {
   const [status, setStatus] = useState("");
   const [createby, setcreateby] = useState("");
   const [amnityEdit, setamnityEdit] = useState("");
-  const [deleteShow,setDeleteShow] =useState(false)
+  const [deleteShow, setDeleteShow] = useState(false)
   console.log("createby", createby);
 
   const handleselect = (e) => {
@@ -651,13 +658,13 @@ function UserList(props) {
       setSelectedAmenityName([]);
     }
   };
-const handleCloseDelete=() =>{
-setDeleteShow(false)
-}
+  const handleCloseDelete = () => {
+    setDeleteShow(false)
+  }
 
-const handleDeleteShow = ()=>{
-setDeleteShow(true)
-}
+  const handleDeleteShow = () => {
+    setDeleteShow(true)
+  }
 
   useEffect(() => {
     if (
@@ -890,7 +897,7 @@ setDeleteShow(true)
   };
 
   return (
-    <div className="usercustomer" style={{padding:10,marginLeft:20}}>
+    <div className="usercustomer" style={{ padding: 10, marginLeft: 20 }}>
       <Addbooking show={showbookingForm} handleClose={closeModal} />
 
       <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} />
@@ -901,7 +908,7 @@ setDeleteShow(true)
       />
 
       {userList && (
-        <div style={{margin:"px"}}>
+        <div style={{ margin: "px" }}>
           <div className="customer">
             <div className="cuslable">
               <label
@@ -1094,14 +1101,14 @@ setDeleteShow(true)
                   <Button
                     onClick={toggleForm}
                     style={{
-                      fontSize: 16,
+                      fontSize: 14,
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 56,
+                      height: 52,
                       fontWeight: 600,
                       borderRadius: 12,
-                      width: 171,
-                      padding: "18px, 20px, 18px, 20px",
+                      width: 152,
+                      padding: "16px, 24px, 16px, 24px",
                       fontFamily: "Gilroy",
                     }}
                   >
@@ -1130,15 +1137,15 @@ setDeleteShow(true)
                   <Button
                     onClick={walkinForm}
                     style={{
-                      fontSize: 16,
+                      fontSize: 14,
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 56,
+                      height: 52,
                       fontWeight: 600,
                       borderRadius: 12,
-                      width: 171,
-                      padding: "18px, 20px, 18px, 20px",
-                      fontFamily: "Montserrat",
+                      width: 152,
+                      padding: "16px, 24px, 16px, 24px",
+                      fontFamily: "Gilroy",
                     }}
                   >
                     + Add Walkin
@@ -1166,7 +1173,7 @@ setDeleteShow(true)
               fontSize: 16,
               fontWeight: 500,
               textAlign: "left",
-              marginTop:"-20px"
+              marginTop: "-20px"
             }}
           >
             <TabContext value={value}>
@@ -1178,19 +1185,25 @@ setDeleteShow(true)
               >
                 <Tab
                   className="tab-label"
+
                   style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy",color: value === "1" ? "#222222" : "#4B4B4B"}}
+
                   label="All Customers"
                   value="1"
                 />
                 <Tab
                   className="tab-label"
+
                   style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy",color: value === "2" ? "#222222" : "#4B4B4B" }}
+
                   label="Bookings"
                   value="2"
                 />
                 <Tab
                   className="tab-label"
+
                   style={{ textTransform: "capitalize",fontSize:16,fontWeight:500,fontFamily:"Gilroy",color: value === "3" ? "#222222" : "#4B4B4B" }}
+
                   label="Check-out"
                   value="3"
                 />
@@ -1202,30 +1215,30 @@ setDeleteShow(true)
                 />
               </Tabs>
 
-              <TabPanel value="1" style={{paddingLeft:0}}>
+              <TabPanel value="1" style={{ paddingLeft: 0 }}>
 
-              <div>
-<div >
+                <div>
+                  <div >
 
 
-    {currentItems.length == 0 && 
+                    {currentItems.length == 0 &&
 
-<div>
-<div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div>
-<div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active Customer </div>
-  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active Customer </div>
-  <div style={{ textAlign: "center"}}>         
-        <Button
-               onClick={handleShow}
-               style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Customer</Button>
-           </div>
-</div>
+                      <div>
+                        <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active Customer </div>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active Customer </div>
+                        <div style={{ textAlign: "center" }}>
+                          <Button
+                            onClick={handleShow}
+                            style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Customer</Button>
+                        </div>
+                      </div>
 
-    
-    }
 
-            {currentItems && currentItems.length > 0 && (
-              <Table
+                    }
+
+                    {currentItems && currentItems.length > 0 && (
+                     <Table
                 responsive="md"
                 className="Table_Design"
                 style={{
@@ -1663,122 +1676,122 @@ setDeleteShow(true)
                       })}
                 </tbody>
               </Table>
-            )}
-          </div>
-          {currentItems.length > 0 && (
-            <nav>
-              <ul
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  listStyleType: "none",
-                  padding: 0,
-                  justifyContent: "end",
-                }}
-              >
-                <li style={{ margin: "0 5px" }}>
-                  <button
-                    style={{
-                      padding: "5px 10px",
-                      textDecoration: "none",
-                      color: currentPage === 1 ? "#ccc" : "#007bff",
-                      cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                      borderRadius: "5px",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    
-                    <ArrowLeft2 size="16" color="#1E45E1" />
-                  </button>
-                 
-                </li>
-                {currentPage > 3 && (
-                  <li style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        textDecoration: "none",
-                        color: "white",
-                        cursor: "pointer",
-                        borderRadius: "5px",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(1)}
-                    >
-                      1
-                    </button>
-                  </li>
-                )}
-                {currentPage > 3 && <span>...</span>}
-                {renderPageNumbers()}
-                {currentPage < totalPages - 2 && <span>...</span>}
-                {currentPage < totalPages - 2 && (
-                  <li style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        textDecoration: "none",
-                        cursor: "pointer",
-                        borderRadius: "5px",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(totalPages)}
-                    >
-                      {totalPages}
-                    </button>
-                  </li>
-                )}
-                <li style={{ margin: "0 5px" }}>
-               
-                  <button
-                    style={{
-                      padding: "5px 10px",
-                      textDecoration: "none",
-                      color: currentPage === totalPages ? "#ccc" : "#007bff",
-                      cursor:
-                        currentPage === totalPages ? "not-allowed" : "pointer",
-                      borderRadius: "5px",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
-                 
-                    <ArrowRight2 size="16" color="#1E45E1" />
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
+                    )}
+                  </div>
+                  {currentItems.length > 0 && (
+                    <nav>
+                      <ul
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          listStyleType: "none",
+                          padding: 0,
+                          justifyContent: "end",
+                        }}
+                      >
+                        <li style={{ margin: "0 5px" }}>
+                          <button
+                            style={{
+                              padding: "5px 10px",
+                              textDecoration: "none",
+                              color: currentPage === 1 ? "#ccc" : "#007bff",
+                              cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                              borderRadius: "5px",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                          >
+
+                            <ArrowLeft2 size="16" color="#1E45E1" />
+                          </button>
+
+                        </li>
+                        {currentPage > 3 && (
+                          <li style={{ margin: "0 5px" }}>
+                            <button
+                              style={{
+                                padding: "5px 10px",
+                                textDecoration: "none",
+                                color: "white",
+                                cursor: "pointer",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                minWidth: "30px",
+                                textAlign: "center",
+                                backgroundColor: "transparent",
+                                border: "none",
+                              }}
+                              onClick={() => handlePageChange(1)}
+                            >
+                              1
+                            </button>
+                          </li>
+                        )}
+                        {currentPage > 3 && <span>...</span>}
+                        {renderPageNumbers()}
+                        {currentPage < totalPages - 2 && <span>...</span>}
+                        {currentPage < totalPages - 2 && (
+                          <li style={{ margin: "0 5px" }}>
+                            <button
+                              style={{
+                                padding: "5px 10px",
+                                textDecoration: "none",
+                                cursor: "pointer",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                minWidth: "30px",
+                                textAlign: "center",
+                                backgroundColor: "transparent",
+                                border: "none",
+                              }}
+                              onClick={() => handlePageChange(totalPages)}
+                            >
+                              {totalPages}
+                            </button>
+                          </li>
+                        )}
+                        <li style={{ margin: "0 5px" }}>
+
+                          <button
+                            style={{
+                              padding: "5px 10px",
+                              textDecoration: "none",
+                              color: currentPage === totalPages ? "#ccc" : "#007bff",
+                              cursor:
+                                currentPage === totalPages ? "not-allowed" : "pointer",
+                              borderRadius: "5px",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                          >
+
+                            <ArrowRight2 size="16" color="#1E45E1" />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  )}
 
 
 
 
 
-</div>
-        
+                </div>
 
 
 
-              
+
+
               </TabPanel>
               <TabPanel value="2">
                 <UserlistBookings id={props.id} />
@@ -1799,82 +1812,82 @@ setDeleteShow(true)
 
 
         </div>
-       
-      )}
-      
 
-<Modal
-  show={deleteShow}
-  onHide={handleCloseDelete}
-  centered
-  backdrop="static"
-  style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }} 
->
-  <Modal.Header style={{ borderBottom: 'none' }}> 
-    <Modal.Title 
-      style={{
-        fontSize: '18px',
-        fontFamily: 'Gilroy',
-        textAlign: 'center',
-        fontWeight: 600,
-        color: '#222222',
-        flex: 1
-      }}
-    >
-      Delete Check-out?
-    </Modal.Title>
-  </Modal.Header>
-  
-  <Modal.Body
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: 'Gilroy',
-      color: '#646464',
-      textAlign: 'center',
-      marginTop: '-20px'
-    }}
-  >
-    Are you sure you want to delete this check-out?
-  </Modal.Body>
-  
-  <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}> 
-    <Button
-      style={{
-        width: 160,
-        height: 52,
-        borderRadius: 8,
-        padding: '12px 20px',
-        background: '#fff',
-        color: '#1E45E1',
-        border: '1px solid #1E45E1',
-        fontWeight: 600,
-        fontFamily: 'Gilroy',
-        fontSize: '14px',
-        marginRight: 10
-      }}
-      onClick={handleCloseDelete}
-    >
-      Cancel
-    </Button>
-    <Button
-      style={{
-        width: 160,
-        height: 52,
-        borderRadius: 8,
-        padding: '12px 20px',
-        background: '#1E45E1',
-        color: '#FFFFFF',
-        fontWeight: 600,
-        fontFamily: 'Gilroy',
-        fontSize: '14px'
-      }}
-      onClick={handleCloseDelete}
-    >
-      Delete
-    </Button>
-  </Modal.Footer>
-</Modal>
+      )}
+
+
+      <Modal
+        show={deleteShow}
+        onHide={handleCloseDelete}
+        centered
+        backdrop="static"
+        style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
+      >
+        <Modal.Header style={{ borderBottom: 'none' }}>
+          <Modal.Title
+            style={{
+              fontSize: '18px',
+              fontFamily: 'Gilroy',
+              textAlign: 'center',
+              fontWeight: 600,
+              color: '#222222',
+              flex: 1
+            }}
+          >
+            Delete Check-out?
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: 'Gilroy',
+            color: '#646464',
+            textAlign: 'center',
+            marginTop: '-20px'
+          }}
+        >
+          Are you sure you want to delete this check-out?
+        </Modal.Body>
+
+        <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: '12px 20px',
+              background: '#fff',
+              color: '#1E45E1',
+              border: '1px solid #1E45E1',
+              fontWeight: 600,
+              fontFamily: 'Gilroy',
+              fontSize: '14px',
+              marginRight: 10
+            }}
+            onClick={handleCloseDelete}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: '12px 20px',
+              background: '#1E45E1',
+              color: '#FFFFFF',
+              fontWeight: 600,
+              fontFamily: 'Gilroy',
+              fontSize: '14px'
+            }}
+            onClick={handleCloseDelete}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
 
 

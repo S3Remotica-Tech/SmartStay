@@ -37,10 +37,10 @@ function GetAnswer() {
     <div className='mt-3 mb-3'>
 
 <div className='d-flex justify-content-center mt-3 mb-5'>
-    <label style={{fontFamily:"Gilroy", fontWeight:700, fontSize:60}}>Get answers to some <span style={{color:"rgba(30, 69, 225, 1)"}}>FAQs</span></label>
+    <label style={{fontFamily:"Gilroy", fontWeight:600, fontSize:60,lineHeight:"72px"}}>Get answers to some <span style={{color:"rgba(30, 69, 225, 1)"}}>FAQs</span></label>
 </div>
 
-<div className='d-flex justify-content-center mt-3 mb-5'>
+<div className='d-flex justify-content-center  mb-5'>
   <label style={{fontFamily:"Montserrat", fontWeight:400, fontSize:18, color:"rgba(34, 34, 34, 1)" }}>Take a look at our most Frequently Asked Questions</label>
   </div>
   <div className='row mb-5'>
@@ -51,7 +51,7 @@ function GetAnswer() {
 // defaultActiveKey="0"
  style={{backgroundColor:"", border:"1px solid rgba(30, 69, 225, 1)", borderRadius:24, padding:20}}>
       <Accordion.Item eventKey="0" style={{border:"none", borderBottom:"1px solid rgba(220, 220, 220, 1)", }}>
-        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
+        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight: "bold !important", fontSize:20 ,lineHeight:"32px"}}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
         <Accordion.Body  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -60,7 +60,7 @@ function GetAnswer() {
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="1" style={{border:"none", borderBottom:"1px solid rgba(220, 220, 220, 1)"}}>
-        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
+        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20,lineHeight:"32px" }}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
         <Accordion.Body  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -69,7 +69,7 @@ function GetAnswer() {
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="2" style={{border:"none", borderBottom:"1px solid rgba(220, 220, 220, 1)"}}>
-        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
+        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 ,lineHeight:"32px"}}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
         <Accordion.Body  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -78,7 +78,7 @@ function GetAnswer() {
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="3" style={{border:"none", borderBottom:"1px solid rgba(220, 220, 220, 1)"}}>
-        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
+        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20,lineHeight:"32px" }}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
         <Accordion.Body  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -87,7 +87,7 @@ function GetAnswer() {
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="4" style={{border:"none", borderBottom:"1px solid rgba(220, 220, 220, 1)"}}>
-        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
+        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 ,lineHeight:"32px"}}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
         <Accordion.Body  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -96,7 +96,7 @@ function GetAnswer() {
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="5" style={{border:"none"}}>
-        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
+        <Accordion.Header  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 ,lineHeight:"32px",color:'#000000'}}>The blue whale is the biggest animal to have ever lived</Accordion.Header>
         <Accordion.Body  style={{boxShadow:"none",fontFamily:"Gilroy", fontWeight:600, fontSize:20 }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
