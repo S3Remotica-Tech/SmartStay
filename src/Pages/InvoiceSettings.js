@@ -29,6 +29,11 @@ function InvoiceSettings() {
     // useEffect(() => {
     //     dispatch({ type: 'HOSTELLIST' })
     // }, [])
+
+    useEffect(() => {
+        dispatch({ type: 'HOSTELLIST' })
+    }, [])
+
     const [hostelerrormsg, setHostelErrmsg] = useState('');
 
     const handleHostelChange = (e) => {
@@ -144,7 +149,7 @@ function InvoiceSettings() {
             // }).then(() => {
               
             // });
-            dispatch({ type: 'HOSTELLIST' })
+            // dispatch({ type: 'HOSTELLIST' })
             handleClose();
             setEditHostel({ id: '', name: '' });
             setEditPrefix('');
@@ -236,22 +241,22 @@ function InvoiceSettings() {
 
 
     // console.log("state.InvoiceList?.invoiceSettingsStatusCode == 200", state.InvoiceList?.invoiceSettingsStatusCode === 200)
-    useEffect(() => {
-        dispatch({ type: 'HOSTELLIST' })
-    }, [])
+  
 
 
     useEffect(() => {
         if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
-            console.log("executed hostel list")
+            console.log("executed hostel list",state.InvoiceList?.invoiceSettingsStatusCode)
 
             dispatch({ type: 'HOSTELLIST' })
 
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_INVOICE_SETTINS_STATUSCODE' });
-            }, 2000);
+                console.log("clear",state.InvoiceList?.invoiceSettingsStatusCode);
+                
+            }, 1000);
         }
-    }, [state.InvoiceList?.invoiceSettingsStatusCode]);
+    }, [state.InvoiceList]);
 
 
 
@@ -491,7 +496,7 @@ function InvoiceSettings() {
                                 style={{ padding: '10px', marginTop: '10px', fontSize: 14, backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
                                 type="text"
                                 placeholder="preview"
-                                disabled
+                                readOnly
                                 value={prefix + startNumber}
                             // readOnly
                             />

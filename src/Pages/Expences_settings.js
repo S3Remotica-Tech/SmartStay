@@ -156,7 +156,14 @@ console.log("uniqueExpences",uniqueExpences);
     };
 
 
-
+    useEffect(() => {
+        if (state.Settings?.alreadycategoryerror) {
+            
+          setTimeout(() => {
+            dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
+          }, 3000);    
+        }
+      }, [state.Settings?.alreadycategoryerror])
 
     useEffect(() => {
         dispatch({ type: 'EXPENCES-CATEGORY-LIST' })
@@ -371,7 +378,16 @@ console.log("uniqueExpences",uniqueExpences);
     </p>
   </div>
 )}
-            <div style={{ marginTop: '30px', fontSize: 14, fontWeight: 600 }}>
+
+{state.Settings?.alreadycategoryerror && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {state.Settings?.alreadycategoryerror}
+                        </label>
+                    </div>
+                )}
+            <div style={{ marginTop: '20px', fontSize: 14, fontWeight: 600 }}>
                 <Button
                     style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200 }}
                     onClick={addType}

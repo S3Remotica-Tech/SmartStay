@@ -808,11 +808,17 @@ const Compliance = () => {
                       >
                         <option value="">Select a customer</option>
 
-                        {
-  state.UsersList?.Users
-    .filter(u => u.Bed !== 'undefined' && u.Bed !== '0' && u.Bed.trim() !== '' && u.Rooms !== 'undefined' && u.Rooms !== '0' && u.Rooms.trim() !== '') // Exclude "undefined" and "0" strings, as well as empty values
-    .map((u, index) => (
-      <option key={index} value={u.Name}>{u.Name}</option>
+                        {state.UsersList?.Users && state.UsersList?.Users.length > 0 && state.UsersList?.Users?.filter(u => 
+            u.Bed !== 'undefined' && 
+            u.Bed !== '0' && 
+            typeof u.Bed === 'string' && 
+            u.Bed.trim() !== '' && 
+            u.Rooms !== 'undefined' && 
+            u.Rooms !== '0' && 
+            typeof u.Rooms === 'string' && 
+            u.Rooms.trim() !== '')
+  .map(u => (
+      <option  value={u.Name}>{u.Name}</option>
     ))
 }
 

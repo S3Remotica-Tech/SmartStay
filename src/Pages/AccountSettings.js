@@ -17,6 +17,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Eye, EyeSlash } from 'iconsax-react';
 import Logout from '../Assets/Images/LogoutCurve-Linear-32px.png'
+import VISA from '../Assets/Images/visa.png'
 import bcrypt from 'bcryptjs';
 import { style } from "@mui/system";
 import { MdError } from "react-icons/md";
@@ -464,60 +465,51 @@ const [displayPassword, setDisplayPassword] = useState(false)
 
 if(!currentpassword){
   setPasswordErrormsg("Enter Current Password'")
-  // Swal.fire({
-  //   icon: 'warning',
-  //      text: 'Enter Current Password',
-  //   confirmButtonText: 'Ok'
-  // })
-
-
   return
 }
-
-
-
 
   try {
     // Compare the plain password with the stored hashed password
     const isMatch = await bcrypt.compare(plainPassword, storedHashPassword);
     setInputDisable(isMatch)
+
     var toastStyle = {
-      backgroundColor: 'green',
-      color: 'white',
+      backgroundColor: "#E6F6E6",
+      color: "black",
       width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
      
-   };
+    };
      
     if (isMatch) {
         toast.success('Password matches!', {
-          position: 'top-center',
-          autoClose: 2000, 
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          style: toastStyle
+          position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
         })
 
-       
           setDisplayPassword(true)
           setHideCurrentPassword(false)
-
-      //   }
-      // });
+     
         console.log('Password matches!');
         // Proceed with login
     } else {
-      // Swal.fire({
-      //   icon: "warning",
-      //   title: 'Password does not match!',
-      //   confirmButtonText: "ok"
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      //   }
-      // });
-      setPasswordErrormsg('Password does not match!')
+    
+      setPasswordErrormsg('Incorrect password! Please enter the correct password!')
         console.log('Password does not match!');
         // Handle failed login
     }
@@ -920,7 +912,6 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
             <Tab label="Security" value="3" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
             <Tab label="Subsription" value="4" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
             <Tab label="Integration" value="5" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-            <Tab label="Invoice" value="6" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
 
           </TabList>
         </Box>
@@ -1153,7 +1144,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                   style={{
                     position: "relative",
                     boxShadow: "none",
-                    border: "1px solid rgba(224, 236, 255, 1)",
+                    border:passworderrmsg ? "1px solid red" : "1px solid rgba(224, 236, 255, 1)",
                     fontSize: 16,
                     fontWeight: 500,
                     color: "rgba(34, 34, 34, 1)",
@@ -1161,7 +1152,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
                     // borderRight: "none"
                   }}
                 />
-               <InputGroup.Text onClick={togglePasswordVisibilitys} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
+               <InputGroup.Text onClick={togglePasswordVisibilitys} style={{ background: "transparent", border: passworderrmsg ? "1px solid red" : "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
                   {showCurrentPassword ? (
                     <Eye size="20" color="rgba(30, 69, 225, 1)" />
                   ) : (
@@ -1279,28 +1270,29 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
           <TabPanel value="4">
             <div>
               <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'246px'}}>
-                <div style={{paddingLeft:'10px',paddingTop:'10px'}}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M2 10.99V5.71c0-1.33.77-1.65 1.71-.71L6.3 7.59c.39.39 1.03.39 1.41 0L11.29 4a.996.996 0 0 1 1.41 0l3.59 3.59c.39.39 1.03.39 1.41 0L20.29 5c.94-.94 1.71-.62 1.71.71v9.59c0 3-2 5-5 5H7c-2.76 0-5-2.24-5-5" stroke="#1e45e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-
+                <div style={{marginLeft:'10px',marginTop:'10px',paddingLeft:'8px',paddingTop:'7px',height:40, width:40,borderRadius:'50%',backgroundColor:'#E7F1FF'}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M2 10.99V5.71c0-1.33.77-1.65 1.71-.71L6.3 7.59c.39.39 1.03.39 1.41 0L11.29 4a.996.996 0 0 1 1.41 0l3.59 3.59c.39.39 1.03.39 1.41 0L20.29 5c.94-.94 1.71-.62 1.71.71v9.59c0 3-2 5-5 5H7c-2.76 0-5-2.24-5-5" stroke="#1e45e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                 </div>
-             <p style={{paddingLeft:'10px',paddingTop:'10px', fontFamily: "Gilroy",fontSize: 16,fontWeight:600}}>Your plan is active</p>
-             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 }}>
-              <p>Amount</p>
-              <p><b>₹599</b></p>
+
+             <p style={{color:'#222222',paddingLeft:'10px',paddingTop:'10px', fontFamily: "Gilroy",fontSize: 14,fontWeight:600, lineHeight:'16.7px'}}>Your plan is active</p>
+
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' }}>
+              <p style={{fontSize: 14, fontFamily: "Gilroy", color: '#4B4B4B',  fontStyle: 'normal', fontWeight: 500, lineHeight:'19.2px'}}>Amount</p>
+              <p style={{fontSize: 14, fontFamily: "Gilroy", color: '#222222',  fontStyle: 'normal', fontWeight: 600, lineHeight:'19.2px'}}>₹599</p>
              </div>
-             <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 }}>
-             <p>Next payment</p>
-             <p>12 September 2024</p>
+             <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px'}}>
+             <p style={{fontSize: 14, fontFamily: "Gilroy", color: '#4B4B4B',  fontStyle: 'normal', fontWeight: 500, lineHeight:'19.2px'}}>Next payment</p>
+             <p style={{fontSize: 14, fontFamily: "Gilroy", color: '#222222',  fontStyle: 'normal', fontWeight: 600, lineHeight:'19.2px'}}>12 September 2024</p>
              </div>
-             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 }}>
-             <p>Payment Method</p>
-             <p>VISA ***60 </p>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' }}>
+             <p style={{fontSize: 14, fontFamily: "Gilroy", color: '#4B4B4B',  fontStyle: 'normal', fontWeight: 500, lineHeight:'19.2px'}}>Payment Method</p>
+             <p style={{fontSize: 14, fontFamily: "Gilroy", color: '#222222', fontStyle: 'normal', fontWeight: 600, lineHeight:'19.2px'}}><img className="mb-1 me-2" src={VISA} height={12} width={30} /> VISA ***60 </p>
              </div>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px'}}>
-             <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'1px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
+             <Button   style={{ fontFamily: 'Gilroy', fontSize: 13, fontWeight: 600 , lineHeight:'19.2px', backgroundColor:'white', border:'1px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 8, width: 161, padding: "4px  4px" }}>
               Cancel Plan
               </Button>
-             <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 40, letterSpacing: 1, borderRadius: 12, width: 170, padding: "4px  4px" }}>
+             <Button   style={{ fontFamily: 'Gilroy', fontSize: 13, fontWeight: 600, lineHeight:'19.2px', backgroundColor: "#1E45E1", color: "#ffffff", height: 40, letterSpacing: 1, borderRadius: 8, width: 161, padding: "4px  4px" }}>
               Manage Plan
               </Button>
              </div>
@@ -1316,95 +1308,68 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
               <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px'}}>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
               {/* <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>sms</p> */}
+              <div style={{marginLeft:'10px',paddingLeft:'10px',paddingTop:'10px',height:40, width:40,borderRadius:'50%',backgroundColor:'#E7F1FF'}}>
               <img 
-  src={`data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none'><path d='M8.5 19H8c-4 0-6-1-6-6V8c0-4 2-6 6-6h8c4 0 6 2 6 6v5c0 4-2 6-6 6h-.5c-.31 0-.61.15-.8.4l-1.5 2c-.66.88-1.74.88-2.4 0l-1.5-2c-.16-.22-.53-.4-.8-.4Z' stroke='%231e45e1' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'></path><path d='M15.996 11h.01M11.995 11h.01M7.995 11h.008' stroke='%231e45e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'></path></svg>`} 
-  alt="Custom SVG"
-/>
-              <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 140, padding: "4px  4px" }}>
+      src={`data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none'><path d='M8.5 19H8c-4 0-6-1-6-6V8c0-4 2-6 6-6h8c4 0 6 2 6 6v5c0 4-2 6-6 6h-.5c-.31 0-.61.15-.8.4l-1.5 2c-.66.88-1.74.88-2.4 0l-1.5-2c-.16-.22-.53-.4-.8-.4Z' stroke='%231e45e1' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'></path><path d='M15.996 11h.01M11.995 11h.01M7.995 11h.008' stroke='%231e45e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'></path></svg>`} 
+     alt="Custom SVG"
+          />
+          </div>
+              <Button   style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 140, padding: "4px  4px" }}>
              + Buy Credits
               </Button>
              </div>
             
-             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 ,marginTop:'15px'}}>
-             <p>SMS Credits</p>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',marginTop:'15px' }}>
+             <p style={{fontSize: 17, fontFamily: "Gilroy", color: 'black', lineHeight: '16.7px', fontStyle: 'normal', fontWeight: 600 }}>SMS Credits</p>
            
              </div>
-             <div style={{paddingLeft:'10px',paddingRight:'10px', fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,fontSize: 14}}>
+             <div style={{paddingLeft:'10px',paddingRight:'10px', fontFamily: "Gilroy",  color: '#4B4B4B', lineHeight: '19.2px', fontStyle: 'normal', fontWeight: 500 ,fontSize: 13}}>
            <p>Enhance your customer communication with seamless sms integration.Instantly reach your audience with personalised messages alerts and updates all within platforms</p>
              </div>
               </div>
               <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px',marginLeft:'10px'}}>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
+             
               {/* <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Whatsapp</p> */}
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none">
-    <path fill="#37d67a" d="M21.98 11.41c-.34-5.8-5.61-10.27-11.68-9.27-4.18.69-7.53 4.08-8.18 8.26-.38 2.42.12 4.71 1.21 6.6l-.89 3.31c-.2.75.49 1.43 1.23 1.22l3.26-.9c1.48.87 3.21 1.37 5.06 1.37 5.64 0 10.32-4.97 9.99-10.59zm-5.1 4.31a2.279 2.279 0 01-1.16 1.1c-.3.13-.63.19-.98.19-.51 0-1.06-.12-1.63-.37a9.16 9.16 0 01-1.72-.99c-.58-.42-1.12-.89-1.64-1.4-.52-.52-.98-1.07-1.4-1.64-.41-.57-.74-1.14-.98-1.71-.24-.57-.36-1.12-.36-1.64 0-.34.06-.67.18-.97.12-.31.31-.59.58-.84.32-.32.67-.47 1.04-.47.14 0 .28.03.41.09.13.06.25.15.34.28l1.16 1.64c.09.13.16.24.2.35.05.11.07.21.07.31 0 .12-.04.24-.11.36s-.16.24-.28.36l-.38.4c-.06.06-.08.12-.08.2 0 .04.01.08.02.12.02.04.03.07.04.1.09.17.25.38.47.64a13.482 13.482 0 001.53 1.53c.26.22.48.37.65.46.03.01.06.03.09.04.04.02.08.02.13.02.09 0 .15-.03.21-.09l.38-.38c.13-.13.25-.22.36-.28.12-.07.23-.11.36-.11.1 0 .2.02.31.07.11.05.23.11.35.2l1.66 1.18c.13.09.22.2.28.32.05.13.08.25.08.39-.06.17-.1.36-.18.54z"></path>
-  </svg>
-              <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 140, padding: "4px  4px" }}>
+              <div style={{marginLeft:'10px',paddingLeft:'10px',paddingTop:'8px',height:40, width:40,borderRadius:'50%',backgroundColor:'#E7F1FF'}}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path fill="#37d67a" d="M21.98 11.41c-.34-5.8-5.61-10.27-11.68-9.27-4.18.69-7.53 4.08-8.18 8.26-.38 2.42.12 4.71 1.21 6.6l-.89 3.31c-.2.75.49 1.43 1.23 1.22l3.26-.9c1.48.87 3.21 1.37 5.06 1.37 5.64 0 10.32-4.97 9.99-10.59zm-5.1 4.31a2.279 2.279 0 01-1.16 1.1c-.3.13-.63.19-.98.19-.51 0-1.06-.12-1.63-.37a9.16 9.16 0 01-1.72-.99c-.58-.42-1.12-.89-1.64-1.4-.52-.52-.98-1.07-1.4-1.64-.41-.57-.74-1.14-.98-1.71-.24-.57-.36-1.12-.36-1.64 0-.34.06-.67.18-.97.12-.31.31-.59.58-.84.32-.32.67-.47 1.04-.47.14 0 .28.03.41.09.13.06.25.15.34.28l1.16 1.64c.09.13.16.24.2.35.05.11.07.21.07.31 0 .12-.04.24-.11.36s-.16.24-.28.36l-.38.4c-.06.06-.08.12-.08.2 0 .04.01.08.02.12.02.04.03.07.04.1.09.17.25.38.47.64a13.482 13.482 0 001.53 1.53c.26.22.48.37.65.46.03.01.06.03.09.04.04.02.08.02.13.02.09 0 .15-.03.21-.09l.38-.38c.13-.13.25-.22.36-.28.12-.07.23-.11.36-.11.1 0 .2.02.31.07.11.05.23.11.35.2l1.66 1.18c.13.09.22.2.28.32.05.13.08.25.08.39-.06.17-.1.36-.18.54z"></path>
+            </svg></div>
+              <Button   style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 8, width: 140, padding: "4px  4px" }}>
              + Buy Credits
               </Button>
              </div>
             
-             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 ,marginTop:'15px'}}>
-             <p>Whatsapp Credits</p>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' ,marginTop:'15px'}}>
+             <p style={{fontSize: 17, fontFamily: "Gilroy", color: 'black', lineHeight: '16.7px', fontStyle: 'normal', fontWeight: 600 }}>Whatsapp Credits</p>
            
              </div>
-             <div style={{paddingLeft:'10px',paddingRight:'10px', fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500,fontSize: 14 }}>
+             <div style={{paddingLeft:'10px',paddingRight:'10px', fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: '19.2px', fontStyle: 'normal', fontWeight: 500,fontSize: 13 }}>
            <p>Take your customer interaction to the next level with whatsapp Credits, connect with your audience where they already are-on Whatsapp </p>
              </div>
               </div>
               <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px',marginLeft:'10px'}}>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
               {/* <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Whatsapp</p> */}
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM12 14.5c-5.01 0-9.09 3.36-9.09 7.5 0 .28.22.5.5.5h17.18c.28 0 .5-.22.5-.5 0-4.14-4.08-7.5-9.09-7.5Z" fill="#1e45e1"></path></svg>
-              <Button   style={{ fontFamily: 'Montserrat', fontSize: 13, fontWeight: 500,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 140, padding: "4px  4px" }}>
+              <div style={{marginLeft:'10px',paddingLeft:'10px',paddingTop:'8px',height:40, width:40,borderRadius:'50%',backgroundColor:'#E7F1FF'}}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM12 14.5c-5.01 0-9.09 3.36-9.09 7.5 0 .28.22.5.5.5h17.18c.28 0 .5-.22.5-.5 0-4.14-4.08-7.5-9.09-7.5Z" fill="#1e45e1"></path></svg>
+              </div>
+              <Button   style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600,backgroundColor:'white', border:'2px solid #1E45E1', color: "#1E45E1", height: 40, letterSpacing: 1, borderRadius: 12, width: 140, padding: "4px  4px" }}>
              + Buy Credits
               </Button>
              </div>
             
-             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px' , fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 ,marginTop:'15px'}}>
-             <p>Kyc Credits</p>
+             <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',marginTop:'15px'}}>
+             <p style={{fontSize: 17, fontFamily: "Gilroy", color: 'black', lineHeight: '16.7px', fontStyle: 'normal', fontWeight: 600 }}>Kyc Credits</p>
            
              </div>
-             <div style={{paddingLeft:'10px',paddingRight:'10px', fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500,fontSize: 14 }}>
+             <div style={{paddingLeft:'10px',paddingRight:'10px', fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: '19.2px', fontStyle: 'normal', fontWeight: 500,fontSize: 13 }}>
            <p>Streamline your onboarding process with kyc credits .quickly and securely verify customer identities ensuring compliance and building trust  </p>
              </div>
               </div>
             </div>
           </TabPanel>
-          <TabPanel value="6">
-          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0">
-              <Table className="ebtable mt-3" responsive  >
-                <thead style={{ backgroundColor: "#E7F1FF" }}>
-                  <tr>
-                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}></th>
-                    <th style={{ color: '#222',  fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal', paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Name</th>
-                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal' }}>Invoicenumber</th>
-                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal' }}>Amount </th>
-                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}>Dueamount</th>
-                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}>Invoice Date</th>
-                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}>due Date</th>
-                    <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}>Status</th>
-
-{/* 
-                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>due Date</th>
-                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Invoice Date</th> */}
-
-                  </tr>
-                </thead>
-                <tbody style={{ height: "50px", fontSize: "11px" }}>
-
-                 
-                  
-                    <tr>
-                      <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
-                    </tr>
-                
-
-                </tbody>
-              </Table>
-            
-            </div>
-          </TabPanel>
+          
 
           <div style={{ marginTop: '50px',marginLeft:'30px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleLogout}>
 
