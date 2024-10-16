@@ -890,8 +890,17 @@ const handleDropDown = (value)=>{
   }
 
 
+  // useEffect(() => {
+  //   if (state.UsersList?.hosteListStatusCode == 200) {
+  //     setEditHostelDetails(editHostelDetails)
 
 
+  //   }
+
+  // }, [state.UsersList?.hosteListStatusCode])
+
+
+  
   const [key, setKey] = useState('1');
 
 
