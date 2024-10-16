@@ -55,12 +55,23 @@ import {
   color,
   fontFamily,
   fontSize,
+  fontStyle,
   fontWeight,
+  lineHeight,
 } from "@mui/system";
 
 function Dashboard(props) {
   const formatYAxis = (tickItem) => {
     return `${tickItem}`;
+  };
+
+  const noDataStyle = {
+    color:  '#9C9C9C',
+fontFamily: 'Gilroy',
+fontSize: '16px',
+fontStyle: 'normal',
+fontWeight: '600',
+lineHeight: 'normal',
   };
 
   const state = useSelector((state) => state);
@@ -822,55 +833,94 @@ function Dashboard(props) {
             </div>
             <div className="content">
               <div className="chart">
-                <Doughnut
+                {/* <Doughnut
                   data={datum}
                   options={options}
                   style={{ width: 196, height: 196 }}
-                />
+                /> */}
+
+{totalAmount > 0 ? (
+      <Doughnut
+        data={datum}
+        options={options}
+        style={{ width: 196, height: 196 }}
+      />
+    ) : (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="196"
+        height="196"
+        viewBox="0 0 196 196"
+        fill="none"
+      >
+        <path
+          d="M196 98C196 152.124 152.124 196 98 196C43.8761 196 0 152.124 0 98C0 43.8761 43.8761 0 98 0C152.124 0 196 43.8761 196 98ZM29.4 98C29.4 135.887 60.1133 166.6 98 166.6C135.887 166.6 166.6 135.887 166.6 98C166.6 60.1133 135.887 29.4 98 29.4C60.1133 29.4 29.4 60.1133 29.4 98Z"
+          fill="#DCDCDC"
+        />
+      </svg>
+    )}
                 <p
-                  className="center-text"
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: 25,
-                    fontWeight: 600,
-                  }}
-                >
-                  ₹{totalAmount}
-                </p>
+  className="center-text"
+  style={{
+    fontFamily: "Gilroy",
+    fontSize: 25,
+    fontWeight: 600,
+  }}
+>
+  ₹{totalAmount > 0 ? totalAmount : 0}
+</p>
+
               </div>
               <div className="categories">
-                {lablesdata?.map((label, index) => (
-                  <div className="category" key={index}>
-                    <span
-                      className="dot"
-                      style={{
-                        backgroundColor: datasets[0].backgroundColor[index],
-                      }}
-                    ></span>
-                    <div className="text">
-                      <p
-                        style={{
-                          fontFamily: "Montserrat",
-                          fontSize: 12,
-                          fontWeight: 600,
-                          color: "#4B4B4B",
-                        }}
-                      >
-                        {label.category_Name}
-                      </p>
-                      <p
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: 16,
-                          fontWeight: 600,
-                        }}
-                      >
-                        ₹{label.purchase_amount}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+  {totalAmount > 0 ? (
+    lablesdata?.map((label, index) => (
+      <div className="category" key={index}>
+        <span
+          className="dot"
+          style={{
+            backgroundColor: datasets[0].backgroundColor[index],
+          }}
+        ></span>
+        <div className="text">
+          <p
+            style={{
+              fontFamily: "Montserrat",
+              fontSize: 12,
+              fontWeight: 600,
+              color: "#4B4B4B",
+            }}
+          >
+            {label.category_Name}
+          </p>
+          <p
+            style={{
+              fontFamily: "Gilroy",
+              fontSize: 16,
+              fontWeight: 600,
+            }}
+          >
+            ₹{label.purchase_amount}
+          </p>
+        </div>
+      </div>
+    ))
+  ) : (
+    <div className="no-data-category" style={noDataStyle}>
+      <p
+        style={{
+        
+          textAlign: "center",
+          width: "100%",
+          marginTop: "20px",
+          marginLeft:"50px"
+        }}
+      >
+        No Data
+      </p>
+    </div>
+  )}
+</div>
+
             </div>
           </div>
           <div className="complaints-container animated-text">
