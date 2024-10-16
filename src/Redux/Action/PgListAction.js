@@ -10,7 +10,7 @@ import AxiosConfig from "../../WebService/AxiosConfig"
 //   }
 
   export async function createPgList(params) {
-    console.log("param", params)
+    console.log("param pg List", params)
   
     const formData = new FormData();
     if (params.profile) formData.append("profile", params.profile);
@@ -19,8 +19,11 @@ import AxiosConfig from "../../WebService/AxiosConfig"
     if (params.email_Id) formData.append("email_Id", params.email_Id)
       if (params.location) formData.append("location", params.location)
         if(params.id) formData.append("id", params.id)
-  
-  
+          if(params.image1) formData.append("image1", params.image1)
+            if(params.image2) formData.append("image2", params.image2) 
+                if(params.image3) formData.append("image3", params.image3)
+                  if(params.image4) formData.append("image4", params.image4)
+   
     try {
       const response = await AxiosConfig.post('/add/new-hostel', formData, {
         headers: {
@@ -146,6 +149,16 @@ import AxiosConfig from "../../WebService/AxiosConfig"
 
   export async function OccupiedCustomer(datum){
     return await AxiosConfig.post('/get_beduser_details',datum,{
+      data:datum
+    })
+  }
+
+
+  
+
+
+  export async function deleteHostelImages(datum){
+    return await AxiosConfig.post('/delete_hostel_image',datum,{
       data:datum
     })
   }

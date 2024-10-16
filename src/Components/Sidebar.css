@@ -63,9 +63,11 @@ position:absolute;
 margin-top:38px;
 }
 .list-Item{
+ 
 color: #4B4B4B !important;
 padding:8px 16px;
-width:200px !important;
+max-width:200px !important;
+width:100%;
 gap:10px !important;
 border-radius: 6px;
 margin-bottom: 2px;
@@ -84,20 +86,26 @@ margin-bottom: 2px;
 
 .list-Items{
   color: #4B4B4B !important;
-padding:5px 10px;
-width:200px !important;
+padding:5px 16px;
+max-width:200px !important;
+width:100%;
 border-radius: 6px;
 }
 .list-Items:hover{
   background-color: #FFFFFF !important;
   color:gray !important;
 }
+/* .container{
+  margin-right: unset !important;
+    margin-left: unset !important;
 
+} */
 
 .list-sub-Item{
   color: #4B4B4B !important;
   padding:8px 16px;
-  width:180px !important;
+  max-width:180px !important;
+  width:100%;
   gap:10px !important;
   border-radius: 6px;
   margin-bottom: 2px;

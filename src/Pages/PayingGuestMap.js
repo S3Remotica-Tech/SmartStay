@@ -185,18 +185,25 @@ console.log("SaveHostel",SaveHostel)
 
 
 
-        <Card className="h-100 animated-text ms-0" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease"  }}
+        <Card className="animated-text ms-0" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease",
+            height:"auto",
+        }}
         
          onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                             // onClick={() => handleSelectCard(props.hostel)}
         
         >
-            <Card.Body style={{ padding: 20 }}>
+            <Card.Body style={{ padding: 10 }}>
                 <div className="d-flex justify-content-between align-items-center flex-wrap" >
                     <div className='d-flex gap-2 align-items-center'>
                         <div className="">
-                            <Image src={props.hostel && props.hostel.profile ? props.hostel.profile : Vendors} roundedCircle style={{ height: "60px", width: "60px" }} />
+                            <Image src={
+                                props.hostel && (props.hostel.profile !== undefined && props.hostel.profile !== null && props.hostel.profile !== "0")
+                                    ? props.hostel.profile
+                                    : Vendors
+                            } roundedCircle
+                                style={{ height: "60px", width: "60px" }} />
                         </div>
                         <div >
                             <div className='pb-2' onClick={() => handleSelectedHostel(props.hostel.id)} >
@@ -253,7 +260,7 @@ console.log("SaveHostel",SaveHostel)
                         </div>
                     </div>
                 </div>
-                <hr style={{ border: "1px solid #E7E7E7" }} />
+                <hr style={{ border: "1px solid #E7E7E7", margin:"0.5rem 0" }} />
 
                 <div className='row g-2  d-flex justify-content-between m-0'>
                     <div className='col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100'>
@@ -282,10 +289,10 @@ console.log("SaveHostel",SaveHostel)
                     </div>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center mb-1 flex-wrap">
+                <div className="d-flex justify-content-between align-items-center mb-1 mt-1 flex-wrap" >
 
-                    <div className='mb-1'>
-                        <div className=''>
+                    <div className='pb-1' style={{lineHeight:1}} >
+                        <div className='pb-1'>
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
                         </div>
                         <div >
@@ -295,7 +302,7 @@ console.log("SaveHostel",SaveHostel)
 
                     </div>
 
-                    <div className='mb-1'>
+                    <div className='pb-1' style={{lineHeight:1}}>
                         <div className=''>
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</label>
                         </div>
@@ -306,7 +313,7 @@ console.log("SaveHostel",SaveHostel)
 
                     </div>
 
-                    <div className='mb-1'>
+                    <div className='pb-1' style={{lineHeight:1}}>
                         <div className=''>
                             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Contact Number</label>
                         </div>
@@ -322,13 +329,13 @@ console.log("SaveHostel",SaveHostel)
                     </div>
                 </div>
 
-                <div className='mb-1'>
-                    <div className=''>
+                <div className='mb-1'  style={{lineHeight:1}}>
+                    <div className='' style={{ }}>
                         <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}> Address</label>
 
                     </div>
 
-                    <div>
+                    <div style={{ }}>
                         <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.hostel && props.hostel.Address}</label>
                     </div>
 

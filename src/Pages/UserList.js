@@ -908,7 +908,7 @@ function UserList(props) {
       />
 
       {userList && (
-        <div style={{ margin: "px" }}>
+        <div style={{ margin: "10px" }}>
           <div className="customer">
             <div className="cuslable">
               <label
@@ -1119,14 +1119,14 @@ function UserList(props) {
                   <Button
                     onClick={checkOutForm}
                     style={{
-                      fontSize: 16,
+                      fontSize: 14,
                       backgroundColor: "#1E45E1",
                       color: "white",
-                      height: 56,
+                      height: 52,
                       fontWeight: 600,
                       borderRadius: 12,
-                      width: 171,
-                      padding: "18px, 20px, 18px, 20px",
+                      width: 152,
+                      padding: "16px, 24px, 16px, 24px",
                       fontFamily: "Gilroy",
                     }}
                   >

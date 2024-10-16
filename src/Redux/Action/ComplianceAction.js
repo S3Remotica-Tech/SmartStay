@@ -34,10 +34,10 @@ export async function addVendor(params) {
     if (params.Business_Name) formData.append("Business_Name", params.Business_Name)
       if(params.Vendor_Id) formData.append("Vendor_Id" ,params.Vendor_Id)
         if(params.id) formData.append("id", params.id)
-          if(params.country) formData.append("country", params.country)
-            if(params.pinCode) formData.append("country", params.pinCode)
+          if(params.Country) formData.append("Country", params.Country)
+            if(params.Pincode) formData.append("Pincode", params.Pincode)
 
-
+              
   try {
     const response = await AxiosConfig.post('/add/update_vendor', formData, {
       headers: {

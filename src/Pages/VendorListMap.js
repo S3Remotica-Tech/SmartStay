@@ -108,7 +108,7 @@ useEffect(() => {
             <Image src={props.vendor && props.vendor.Vendor_profile ? props.vendor.Vendor_profile : Vendors} roundedCircle style={{ height: "60px", width: "60px" }} />
           </div>
           <div >
-            <div className='pb-2'>
+            <div className=''>
               <label style={{ fontSize: 16, color: "#222222", fontWeight: 600, fontFamily: "Gilroy"}} >{props.vendor && props.vendor.Vendor_Name}</label>
             </div>
             <div>
@@ -199,12 +199,12 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      <hr style={{ border: "1px solid #E7E7E7" }} />
+      <hr style={{ border: "1px solid #E7E7E7" , margin:"0.5rem 0"}}  />
 
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+      <div className="d-flex justify-content-between align-items-center flex-wrap">
 
-        <div className='mb-2'>
-          <div className='mb-1'>
+        <div className='mb-2' style={{lineHeight:1}}>
+          <div className='pb-1'>
             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
           </div>
           <div >
@@ -214,8 +214,8 @@ useEffect(() => {
           </div>
 
         </div>
-        <div className='mb-2'>
-          <div className='mb-1'>
+        <div className='mb-2'  style={{lineHeight:1}}>
+          <div className='pb-1'>
             <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Contact Number</label>
           </div>
           <div>
@@ -235,14 +235,14 @@ useEffect(() => {
         </div>
       </div>
 
-      <div className='mb-2'>
-        <div className='mb-1'>
+      <div className='mb-2'  style={{lineHeight:1}}>
+        <div className='pb-1'>
           <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}> Address</label>
 
         </div>
 
         <div>
-          <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.vendor && props.vendor.Vendor_Address}</label>
+          <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.vendor && props.vendor.Vendor_Address} {''} {props.vendor.Country} {''} {props.vendor.Pincode}</label>
         </div>
 
       </div>

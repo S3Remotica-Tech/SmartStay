@@ -935,7 +935,7 @@ function UserListRoomDetail(props) {
             props.userDetails.map((item, index) => {
               const imageUrl = item.profile || Profile;
               return (
-                <div key={item.ID} className="container" style={{marginLeft:"-20px",marginTop:"-15px"}}>
+                <div key={item.ID} className="container" style={{marginLeft:"-20px"}}>
                   <div style={{ marginLeft: 25, paddingBottom: 20 }}>
                     <img
                       src={leftarrow} width={20} height={20}
