@@ -121,7 +121,9 @@ function UserlistForm(props) {
 
   const options = {
     dateFormat: "Y/m/d",
-    defaultDate: selectedDate || new Date(),
+    // defaultDate: selectedDate || new Date(),
+    maxDate: new Date(),
+    minDate: null
   };
   useEffect(() => {
     if (calendarRef.current) {

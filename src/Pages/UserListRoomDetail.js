@@ -99,10 +99,13 @@ function UserListRoomDetail(props) {
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
+    setFormShow(false)
   };
   const options = {
-    dateFormat: "YYYY-MM-DD",
-    defaultDate: selectedDate || new Date(),
+    dateFormat: "Y/m/d",
+    // defaultDate: selectedDate || new Date(),
+    maxDate: new Date(),
+    minDate: null
   };
   useEffect(() => {
     if (calendarRef.current) {
@@ -1733,7 +1736,16 @@ function UserListRoomDetail(props) {
                           </div>
                         </div>
 
-                        <Modal
+                       
+                      </>
+
+
+
+
+                    </TabPanel>
+
+
+                    <Modal
                           show={formshow}
                           onHide={handleCloseEditcustomer}
                           backdrop="static"
@@ -2718,8 +2730,9 @@ function UserListRoomDetail(props) {
                             ></Modal.Footer>
                           </Modal.Dialog>
                         </Modal>
-                      </>
-                    </TabPanel>
+
+
+
                     <TabPanel value="2">
                       <UserEb id={props.id} />{" "}
                     </TabPanel>
