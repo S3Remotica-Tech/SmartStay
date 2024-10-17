@@ -47,6 +47,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import { Room } from "@material-ui/icons";
+import { style } from "@mui/system";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -80,7 +81,7 @@ function UserListRoomDetail(props) {
   const [bedArray, setBedArray] = useState("");
   const [Arrayset, setArrayset] = useState([]);
   const [Bednum, setBednum] = useState("");
-  console.log("Bednum",Bednum)
+  console.log("Bednum", Bednum);
   const [payableamount, setPayableamount] = useState("");
   const [formshow, setFormShow] = useState(false);
   const [customerdetailShow, setcustomerdetailShow] = useState(false);
@@ -99,10 +100,13 @@ function UserListRoomDetail(props) {
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
+    setFormShow(false);
   };
   const options = {
-    dateFormat: "YYYY-MM-DD",
-    defaultDate: selectedDate || new Date(),
+    dateFormat: "Y/m/d",
+    // defaultDate: selectedDate || new Date(),
+    maxDate: new Date(),
+    minDate: null,
   };
   useEffect(() => {
     if (calendarRef.current) {
@@ -180,8 +184,8 @@ function UserListRoomDetail(props) {
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
       setBed(item[0].Bed || "");
-      setRoomId(item[0].room_id || "")
-      setBedId(item[0].hstl_Bed || "")
+      setRoomId(item[0].room_id || "");
+      setBedId(item[0].hstl_Bed || "");
       setSelectedDate(item[0].user_join_date || "");
       setAdvanceAmount(item[0].AdvanceAmount || "");
       setRoomRent(item[0].RoomRent || "");
@@ -251,8 +255,8 @@ function UserListRoomDetail(props) {
       setFloor(item[0].Floor || "");
       setRooms(item[0].Rooms || "");
       setBed(item[0].Bed || "");
-      setRoomId(item[0].room_id || "")
-      setBedId(item[0].hstl_Bed || "")
+      setRoomId(item[0].room_id || "");
+      setBedId(item[0].hstl_Bed || "");
       setSelectedDate(item[0].user_join_date || "");
 
       setAdvanceAmount(item[0].AdvanceAmount || "");
@@ -376,8 +380,7 @@ function UserListRoomDetail(props) {
       setEmailError("");
       setEmailErrorMessage("");
 
-      setFormError('')
-
+      setFormError("");
     }
 
     // Clear email error on input change
@@ -467,8 +470,8 @@ function UserListRoomDetail(props) {
     setBed("");
     setHostelIdError("");
     setFormError("");
-    setRoomId("")
-    setBedId("")
+    setRoomId("");
+    setBedId("");
   };
   const handleFloor = (e) => {
     setFloor(e.target.value);
@@ -483,8 +486,8 @@ function UserListRoomDetail(props) {
     setBed("");
     setfloorError("");
     setFormError("");
-    setRoomId("")
-    setBedId("")
+    setRoomId("");
+    setBedId("");
   };
   useEffect(() => {
     dispatch({
@@ -494,7 +497,7 @@ function UserListRoomDetail(props) {
   }, [Rooms]);
   const handleRooms = (e) => {
     setRoomId(e.target.value);
-    console.log("e.target.value",e.target.value)
+    console.log("e.target.value", e.target.value);
 
     dispatch({
       type: "BEDNUMBERDETAILS",
@@ -512,7 +515,7 @@ function UserListRoomDetail(props) {
     setBed("");
     setRoomError("");
     setFormError("");
-    setBedId("")
+    setBedId("");
     // handleInputChange()
   };
 
@@ -527,7 +530,7 @@ function UserListRoomDetail(props) {
   const handleBed = (e) => {
     // handleInputChange()
     setBedId(e.target.value);
-    console.log("e.target.valuebed",e.target.value)
+    console.log("e.target.valuebed", e.target.value);
     if (e.target.value === "Selected a Bed") {
       setBedError("Please select a valid Bed");
     } else {
@@ -833,17 +836,16 @@ function UserListRoomDetail(props) {
       return !isNaN(Date.parse(date));
     };
 
-    console.log(initialStateAssign.Floor,"------------------------");
-    console.log(Floor,"------------------------");
-    
+    console.log(initialStateAssign.Floor, "------------------------");
+    console.log(Floor, "------------------------");
 
-    console.log(initialStateAssign.Rooms,"++++++++++++++++++++++++++++++++++");
-    console.log(Rooms,"------------------------");
-    console.log(RoomId,"Room Number");
+    console.log(initialStateAssign.Rooms, "++++++++++++++++++++++++++++++++++");
+    console.log(Rooms, "------------------------");
+    console.log(RoomId, "Room Number");
 
-    console.log(initialStateAssign.Bed,"////////////////////////////////");
-    console.log(Bed,",,,,,,,,,,,,,,,,,,,");
-    console.log(BedId,"Bed Number");
+    console.log(initialStateAssign.Bed, "////////////////////////////////");
+    console.log(Bed, ",,,,,,,,,,,,,,,,,,,");
+    console.log(BedId, "Bed Number");
 
     const isChangedBed =
       (isNaN(Floor)
@@ -935,10 +937,16 @@ function UserListRoomDetail(props) {
             props.userDetails.map((item, index) => {
               const imageUrl = item.profile || Profile;
               return (
-                <div key={item.ID} className="container" style={{marginLeft:"-20px"}}>
+                <div
+                  key={item.ID}
+                  className="container"
+                  style={{ marginLeft: "-20px" }}
+                >
                   <div style={{ marginLeft: 25, paddingBottom: 20 }}>
                     <img
-                      src={leftarrow} width={20} height={20}
+                      src={leftarrow}
+                      width={20}
+                      height={20}
                       onClick={props.handleBack}
                       style={{ cursor: "pointer" }}
                     />
@@ -950,15 +958,12 @@ function UserListRoomDetail(props) {
                         fontFamily: "Gilroy",
                       }}
                     >
-                    Cutomer Profile
+                      Cutomer Profile
                     </span>{" "}
                   </div>
-                  <div
-                    className="card"
-                    style={{ height: 120, borderRadius: "24px" }}
-                  >
-                    <div className="card-body d-flex align-items-center justify-content-between">
-                      <div className="d-flex align-items-center">
+                  <div className="card" style={{ borderRadius: "24px" }}>
+                    <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
+                      <div className="d-flex align-items-center mb-3 mb-md-0">
                         <Image
                           src={imageUrl}
                           alt={item.Name || "Default Profile"}
@@ -982,62 +987,53 @@ function UserListRoomDetail(props) {
                               fontFamily: "Gilroy",
                             }}
                           >
-                            {item.Name} <img src={verify} width={17} height={17} marginTop={-3}/>
+                            {item.Name}
+                            <img
+                              src={verify}
+                              width={17}
+                              height={17}
+                              style={{ marginTop: "-3px" }}
+                            />
                           </span>
                           <p style={{ marginTop: 10 }}>
                             <span
                               style={{
                                 backgroundColor: "#FFE0D9",
                                 borderRadius: "10px",
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
-                                paddingBottom: "5px",
-                                paddingTop: "5px",
+                                padding: "5px 10px",
                                 fontSize: "14px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                               }}
                             >
-                              Room:{" "}
-                              {!item.Rooms 
-                                          ? "N/A"
-                                          : item.Rooms}{" "}
-                              - Bed:{" "}
-                              {!item.Bed 
-                                          ? "N/A"
-                                          : item.Bed}
+                              Room: {item.Rooms || "N/A"} - Bed:{" "}
+                              {item.Bed || "N/A"}
                             </span>
 
                             <span
                               style={{
                                 backgroundColor: "#FFEFCF",
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
-                                paddingBottom: "5px",
-                                paddingTop: "5px",
                                 borderRadius: "10px",
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
+                                padding: "5px 10px",
                                 marginLeft: 10,
                                 fontSize: "14px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                               }}
                             >
-                              Floor -{" "}
-                              {!item.Floor || item.Floor == "undefined" || item.Floor == 0 || item.Floor == 'null'
-                                          ? "N/A"
-                                          : item.Floor}
-                              {/* {props.getFloorName(item.Floor && item.Floor !== 0 && item.Floor !== '' &&  item.Floor !== 'undefined'? item.Floor : 'N/A')} */}
+                              Floor:{" "}
+                              {item.Floor &&
+                              item.Floor !== "undefined" &&
+                              item.Floor !== 0 &&
+                              item.Floor !== "null"
+                                ? item.Floor
+                                : "N/A"}
                             </span>
                           </p>
                         </div>
                       </div>
-                      <div
-                        onClick={() => {
-                          handleShowEditBed(props.userDetails);
-                        }}
-                      >
+
+                      <div onClick={() => handleShowEditBed(props.userDetails)}>
                         <img src={dots} width={40} height={40} />
                       </div>
                     </div>
@@ -1094,7 +1090,7 @@ function UserListRoomDetail(props) {
                               textTransform: "none",
                             }}
                           />
-                           <Tab
+                          <Tab
                             label="Compliants"
                             value="4"
                             style={{
@@ -1120,26 +1116,22 @@ function UserListRoomDetail(props) {
                               textTransform: "none",
                             }}
                           />
-                         
                         </TabList>
                       </Box>
                     </div>
-                    <TabPanel value="1">
+                    <TabPanel value="1" className="px-0">
                       <>
-                        <div className="overdue mt-3">
-                          <div style={{ width:"60%",marginLeft:"-23px" }}>
+                        <div className="mt-3 d-flex flex-column flex-md-row justify-content-end">
+                          <div
+                            className="col-md-6 mb-3 mb-md-0"
+                            style={{ marginLeft: "-23px" }}
+                          >
                             <div
-                              class="card"
-                              style={{
-                                borderRadius: "20px",
-                                paddingLeft: 20,
-                                paddingTop: 0,
-                                paddingRight: 20,
-                                paddingBottom: 5,
-                              }}
+                              className="card"
+                              style={{ borderRadius: "20px", padding: "20px" }}
                             >
                               <div
-                                class="card-header d-flex justify-content-between align-items-center "
+                                className="card-header d-flex justify-content-between align-items-center"
                                 style={{ backgroundColor: "transparent" }}
                               >
                                 <div
@@ -1153,9 +1145,9 @@ function UserListRoomDetail(props) {
                                 </div>
                                 <div style={{ cursor: "pointer" }}>
                                   <div
-                                    onClick={() => {
-                                      handleEditUser(props.userDetails);
-                                    }}
+                                    onClick={() =>
+                                      handleEditUser(props.userDetails)
+                                    }
                                     style={{
                                       cursor: "pointer",
                                       height: 40,
@@ -1175,9 +1167,10 @@ function UserListRoomDetail(props) {
                                   </div>
                                 </div>
                               </div>
-                              <div class="card-body">
-                                <div class="row ">
-                                  <div class="col-sm-6">
+
+                              <div className="card-body">
+                                <div className="row">
+                                  <div className="col-sm-6">
                                     <p
                                       style={{
                                         fontSize: 12,
@@ -1188,11 +1181,7 @@ function UserListRoomDetail(props) {
                                       Paying Guest
                                     </p>
                                     <p>
-                                      {" "}
-                                      <Buildings
-                                        size="16"
-                                        color="#1E45E1"
-                                      />{" "}
+                                      <Buildings size="16" color="#1E45E1" />
                                       <span
                                         style={{
                                           fontSize: 14,
@@ -1205,23 +1194,21 @@ function UserListRoomDetail(props) {
                                       </span>
                                     </p>
                                   </div>
-                                  <div class="col-sm-6 text-right">
+                                  <div className="col-sm-6 text-md-right">
                                     <p
                                       style={{
                                         fontSize: 12,
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
                                       }}
-                                      onClick={() => {
-                                        handleShowEditBed(props.userDetails);
-                                      }}
                                     >
                                       Room/Bed
                                     </p>
                                     <p
-                                      onClick={() => {
-                                        handleShowEditBed(props.userDetails);
-                                      }}
+                                      onClick={() =>
+                                        handleShowEditBed(props.userDetails)
+                                      }
+                                      style={{ cursor: "pointer" }}
                                     >
                                       <img
                                         src={Group}
@@ -1236,19 +1223,15 @@ function UserListRoomDetail(props) {
                                           cursor: "pointer",
                                         }}
                                       >
-                                        {!item.Rooms 
-                                          ? "N/A"
-                                          : item.Rooms}
-                                        -{" "}
-                                        {!item.Bed 
-                                          ? "N/A"
-                                          : item.Bed}
+                                        {item.Rooms ? item.Rooms : "N/A"} -{" "}
+                                        {item.Bed ? item.Bed : "N/A"}
                                       </span>
                                     </p>
                                   </div>
                                 </div>
-                                <div class="row ">
-                                  <div class="col-sm-6">
+
+                                <div className="row">
+                                  <div className="col-sm-6">
                                     <p
                                       style={{
                                         fontSize: 12,
@@ -1260,7 +1243,6 @@ function UserListRoomDetail(props) {
                                     </p>
                                     <p>
                                       <Sms size="16" color="#1E45E1" />
-
                                       <span
                                         style={{
                                           marginLeft: 5,
@@ -1273,7 +1255,7 @@ function UserListRoomDetail(props) {
                                       </span>
                                     </p>
                                   </div>
-                                  <div class="col-sm-6 text-right">
+                                  <div className="col-sm-6 text-md-right">
                                     <p
                                       style={{
                                         fontSize: 12,
@@ -1285,7 +1267,6 @@ function UserListRoomDetail(props) {
                                     </p>
                                     <p>
                                       <Call size="16" color="#1E45E1" />
-                                      {/* <img src={call} />  */}
                                       <span
                                         style={{
                                           marginLeft: 5,
@@ -1305,8 +1286,9 @@ function UserListRoomDetail(props) {
                                     </p>
                                   </div>
                                 </div>
-                                <div class="row">
-                                  <div class="col-sm-6">
+
+                                <div className="row">
+                                  <div className="col-sm-6">
                                     <p
                                       style={{
                                         fontSize: 12,
@@ -1318,7 +1300,6 @@ function UserListRoomDetail(props) {
                                     </p>
                                     <p>
                                       <House size="16" color="#1E45E1" />
-                                      {/* <img src={house} /> */}
                                       <span
                                         style={{
                                           marginLeft: 5,
@@ -1328,29 +1309,26 @@ function UserListRoomDetail(props) {
                                         }}
                                       >
                                         {item.Address}
-                                      </span>{" "}
+                                      </span>
                                     </p>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div style={{width:"60%" }}>
+
+                          <div className="col-md-6 mb-3 mb-md-0">
                             {state.UsersList?.customerdetails?.data?.length ===
-                              0 || state.UsersList?.customerdetails == "" ? (
+                              0 || state.UsersList?.customerdetails === "" ? (
                               <div
-                                class="card"
+                                className="card"
                                 style={{
                                   borderRadius: "20px",
-                                  paddingLeft: 20,
-                                  paddingTop: 0,
-                                  paddingRight: 20,
-                                  paddingBottom: 5,
-
+                                  padding: "20px",
                                 }}
                               >
                                 <div
-                                  class="card-header d-flex justify-content-between align-items-center"
+                                  className="card-header d-flex justify-content-between align-items-center"
                                   style={{ backgroundColor: "transparent" }}
                                 >
                                   <div
@@ -1363,9 +1341,9 @@ function UserListRoomDetail(props) {
                                     Detailed Information
                                   </div>
                                 </div>
-                                <div class="card-body">
-                                  <div class="row mb-3">
-                                    <div class="col-sm-4">
+                                <div className="card-body">
+                                  <div className="row mb-3">
+                                    <div className="col-sm-4">
                                       <strong
                                         style={{
                                           fontSize: 12,
@@ -1379,14 +1357,14 @@ function UserListRoomDetail(props) {
                                         style={{
                                           fontSize: 14,
                                           fontWeight: 600,
-                                          fontFamily: "gilroy",
+                                          fontFamily: "Gilroy",
                                         }}
                                       >
                                         <img src={Money} /> ₹
                                         {props.userDetails[0].AdvanceAmount}
                                       </p>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div className="col-sm-4">
                                       <strong
                                         style={{
                                           fontSize: 12,
@@ -1400,17 +1378,17 @@ function UserListRoomDetail(props) {
                                         style={{
                                           fontSize: 14,
                                           fontWeight: 600,
-                                          fontFamily: "gilroy",
+                                          fontFamily: "Gilroy",
                                         }}
                                       >
-                                        {" "}
                                         <img src={Money} /> ₹
                                         {props.userDetails[0].RoomRent}/m
                                       </p>
                                     </div>
                                   </div>
-                                  <div class="row mb-3">
-                                    <div class="col-sm-12">
+
+                                  <div className="row mb-3">
+                                    <div className="col-sm-12">
                                       <strong
                                         style={{
                                           fontSize: 12,
@@ -1420,155 +1398,248 @@ function UserListRoomDetail(props) {
                                       >
                                         Amenities
                                       </strong>
+                                      <div className="d-flex flex-wrap mt-2">
+                                        {props.userDetails[0]?.amentites?.map(
+                                          (amenity) => (
+                                            <div
+                                              key={amenity.Amnities_Name}
+                                              style={{
+                                                backgroundColor: "#E0ECFF",
+                                                borderRadius: "10px",
+                                                padding: "2px 12px",
+                                                fontSize: "14px",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                margin: "10px",
+                                              }}
+                                            >
+                                              {amenity.Amnities_Name}
+                                            </div>
+                                          )
+                                        )}
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             ) : (
-                              state.UsersList?.customerdetails?.data?.length >
-                                0 &&
-                              state.UsersList?.customerdetails?.data.map(
-                                (g) => {
-                                  return (
+                              state.UsersList?.customerdetails?.data?.map(
+                                (g) => (
+                                  <div
+                                    key={g.id}
+                                    className="card"
+                                    style={{
+                                      borderRadius: "20px",
+                                      padding: "20px",
+                                    }}
+                                  >
                                     <div
-                                      class="card"
-                                      style={{
-                                        borderRadius: "20px",
-                                        paddingLeft: 20,
-                                        paddingTop: 0,
-                                        paddingRight: 20,
-                                        paddingBottom: 5,
-                                        width:"100%"
-                                      }}
+                                      className="card-header d-flex justify-content-between align-items-center"
+                                      style={{ backgroundColor: "transparent" }}
                                     >
                                       <div
-                                        class="card-header d-flex justify-content-between align-items-center"
                                         style={{
-                                          backgroundColor: "transparent",
+                                          fontSize: 16,
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
                                         }}
                                       >
-                                        <div
-                                          style={{
-                                            fontSize: 16,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          Detailed Information
+                                        Detailed Information
+                                      </div>
+                                    </div>
+                                    <div className="card-body">
+                                      <div className="row mb-3">
+                                        <div className="col-sm-4">
+                                          <strong
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Advance Amount
+                                          </strong>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            <img src={Money} /> ₹
+                                            {g.AdvanceAmount}
+                                          </p>
+                                        </div>
+                                        <div className="col-sm-4">
+                                          <strong
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Rent Amount
+                                          </strong>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            <img src={Money} /> ₹{g.RoomRent}/m
+                                          </p>
                                         </div>
                                       </div>
-                                      <div class="card-body">
-                                        <div class="row mb-3">
-                                          <div class="col-sm-4">
-                                            <strong
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Advance Amount
-                                            </strong>
-                                            <p
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "gilroy",
-                                              }}
-                                            >
-                                              <img src={Money} /> ₹
-                                              {
-                                                props.userDetails[0]
-                                                  .AdvanceAmount
-                                              }
-                                            </p>
-                                          </div>
-                                          <div class="col-sm-4">
-                                            <strong
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Rent Amount
-                                            </strong>
-                                            <p
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "gilroy",
-                                              }}
-                                            >
-                                              {" "}
-                                              <img src={Money} /> ₹
-                                              {props.userDetails[0].RoomRent}/m
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                          <div class="col-sm-12">
-                                            <strong
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Amenities
-                                            </strong>
 
-                                            <div class="d-flex flex-wrap mt-2">
-                                              {g?.amentites?.length > 0 &&
-                                                g?.amentites.map((p) => {
-                                                  return (
-                                                    <div
-                                                      key={p.Amnities_Name}
-                                                      style={{
-                                                        backgroundColor:
-                                                          "#E0ECFF",
-                                                        borderRadius: "10px",
-                                                        paddingLeft: "12px",
-                                                        paddingRight: "12px",
-                                                        fontSize: "14px",
-                                                        fontFamily: "Gilroy",
-                                                        fontWeight: 500,
-                                                        paddingTop: "2px",
-                                                        paddingBottom: "3px",
-                                                        margin: "10px",
-                                                      }}
-                                                    >
-                                                      {p.Amnities_Name}
-                                                    </div>
-                                                  );
-                                                })}
-                                            </div>
+                                      <div className="row mb-3">
+                                        <div className="col-sm-12">
+                                          <strong
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Amenities
+                                          </strong>
+                                          <div className="d-flex flex-wrap mt-2">
+                                            {g?.amentites?.map((p) => (
+                                              <div
+                                                key={p.Amnities_Name}
+                                                style={{
+                                                  backgroundColor: "#E0ECFF",
+                                                  borderRadius: "10px",
+                                                  padding: "2px 12px",
+                                                  fontSize: "14px",
+                                                  fontFamily: "Gilroy",
+                                                  fontWeight: 500,
+                                                  margin: "10px",
+                                                }}
+                                              >
+                                                {p.Amnities_Name}
+                                              </div>
+                                            ))}
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                                  );
-                                }
+                                  </div>
+                                )
                               )
                             )}
                           </div>
+
+                          {/* <div className="col-md-6 col-sm-6 " >
+    {state.UsersList?.customerdetails?.data?.length === 0 || state.UsersList?.customerdetails === "" ? (
+      <div className="card" style={{ borderRadius: "20px", padding: "20px" }}>
+        <div className="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
+          <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>Detailed Information</div>
+        </div>
+        <div className="card-body">
+          <div className="row mb-3">
+            <div className="col-sm-4">
+              <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</strong>
+              <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                <img src={Money} /> ₹{props.userDetails[0].AdvanceAmount}
+              </p>
+            </div>
+            <div className="col-sm-4">
+              <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Rent Amount</strong>
+              <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                <img src={Money} /> ₹{props.userDetails[0].RoomRent}/m
+              </p>
+            </div>
+          </div>
+
+          <div className="row mb-3">
+            <div className="col-sm-12">
+              <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Amenities</strong>
+              <div className="d-flex flex-wrap mt-2">
+                {props.userDetails[0]?.amentites?.map((amenity) => (
+                  <div
+                    key={amenity.Amnities_Name}
+                    style={{
+                      backgroundColor: "#E0ECFF",
+                      borderRadius: "10px",
+                      padding: "2px 12px",
+                      fontSize: "14px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      margin: "10px",
+                    }}
+                  >
+                    {amenity.Amnities_Name}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ) : (
+      state.UsersList?.customerdetails?.data?.map((g) => (
+        <div key={g.id} className="card" style={{ borderRadius: "20px", padding: "20px" }}>
+          <div className="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
+            <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>Detailed Information</div>
+          </div>
+          <div className="card-body">
+            <div className="row mb-3">
+              <div className="col-sm-4">
+                <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</strong>
+                <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                  <img src={Money} /> ₹{g.AdvanceAmount}
+                </p>
+              </div>
+              <div className="col-sm-4">
+                <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Rent Amount</strong>
+                <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                  <img src={Money} /> ₹{g.RoomRent}/m
+                </p>
+              </div>
+            </div>
+
+            <div className="row mb-3">
+              <div className="col-sm-12">
+                <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Amenities</strong>
+                <div className="d-flex flex-wrap mt-2">
+                  {g?.amentites?.map((p) => (
+                    <div
+                      key={p.Amnities_Name}
+                      style={{
+                        backgroundColor: "#E0ECFF",
+                        borderRadius: "10px",
+                        padding: "2px 12px",
+                        fontSize: "14px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        margin: "10px",
+                      }}
+                    >
+                      {p.Amnities_Name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
+    )}
+  </div> */}
                         </div>
 
-                        <div 
-                          class="card "
+                        <div
+                          className="card col-md-6 mb-3"
                           style={{
                             borderRadius: "20px",
-                            paddingLeft: 20,
-                            paddingTop: 0,
-                            paddingRight: 20,
-                            paddingBottom: 5,
+                            padding: "20px",
                             marginTop: 30,
-                            marginLeft:"-1px",
-                            width:"50%"
+                          
                           }}
                         >
                           <div
-                            class="card-header d-flex justify-content-between align-items-center "
+                            className="card-header d-flex justify-content-between align-items-center"
                             style={{ backgroundColor: "transparent" }}
                           >
                             <div
@@ -1581,9 +1652,9 @@ function UserListRoomDetail(props) {
                               KYC details
                             </div>
                           </div>
-                          <div class="card-body">
+                          <div className="card-body">
                             <div className="row">
-                              <div className="col-lg-5 col-md-6 col-sm-12 col-xs-12">
+                              <div className="col-lg-5 col-md-6 col-sm-12">
                                 <Form.Group className="mb-3">
                                   <Form.Label
                                     style={{
@@ -1601,9 +1672,7 @@ function UserListRoomDetail(props) {
                                     type="text"
                                     value={props.aadhaarNo}
                                     maxLength={12}
-                                    onChange={(e) =>
-                                      props.handleAdhaarChange(e)
-                                    }
+                                    onChange={props.handleAdhaarChange}
                                     style={{
                                       fontSize: 16,
                                       color: "#4B4B4B",
@@ -1620,7 +1689,7 @@ function UserListRoomDetail(props) {
 
                               {props.showOtpValidation && (
                                 <>
-                                  <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                  <div className="col-lg-3 col-md-6 col-sm-12">
                                     <Form.Group className="mb-3">
                                       <Form.Label
                                         style={{
@@ -1637,9 +1706,7 @@ function UserListRoomDetail(props) {
                                         id="form-controls"
                                         placeholder="****"
                                         value={props.kycOtpValue}
-                                        onChange={(e) =>
-                                          props.handleKycOtpChange(e)
-                                        }
+                                        onChange={props.handleKycOtpChange}
                                         style={{
                                           fontSize: 16,
                                           color: "#4B4B4B",
@@ -1659,7 +1726,6 @@ function UserListRoomDetail(props) {
                                         fontFamily: "Gilroy",
                                       }}
                                     >
-                                      {" "}
                                       Didn’t receive OTP?{" "}
                                       <a
                                         href="#"
@@ -1673,7 +1739,6 @@ function UserListRoomDetail(props) {
                                           props.handleValidateAadhaar(item.id)
                                         }
                                       >
-                                        {" "}
                                         Resend
                                       </a>
                                     </span>
@@ -1696,7 +1761,6 @@ function UserListRoomDetail(props) {
                                       letterSpacing: 1,
                                       borderRadius: 12,
                                       width: "fit-content",
-                                      padding: "10px, 3px, 10px, 3px",
                                     }}
                                     onClick={() =>
                                       props.handleValidateAadhaar(item.id)
@@ -1706,6 +1770,7 @@ function UserListRoomDetail(props) {
                                   </Button>
                                 </div>
                               )}
+
                               {props.showOtpValidation && (
                                 <div style={{ marginBottom: 20 }}>
                                   <Button
@@ -1718,13 +1783,11 @@ function UserListRoomDetail(props) {
                                       letterSpacing: 1,
                                       borderRadius: 12,
                                       width: 152,
-                                      padding: "10px, 3px, 10px, 3px",
                                     }}
                                     onClick={() =>
                                       props.handleVerifyOtp(item.id)
                                     }
                                   >
-                                    {" "}
                                     Save Changes
                                   </Button>
                                 </div>
@@ -1732,1001 +1795,990 @@ function UserListRoomDetail(props) {
                             </div>
                           </div>
                         </div>
+                      </>
+                    </TabPanel>
 
-                        <Modal
-                          show={formshow}
-                          onHide={handleCloseEditcustomer}
-                          backdrop="static"
-                          centered
-                        >
-                          <Modal.Dialog
-                            style={{
-                              maxWidth: 950,
-                              paddingRight: "10px",
-                              paddingRight: "10px",
-                              borderRadius: "30px",
-                            }}
-                            className="m-0 p-0"
-                          >
-                            <Modal.Body>
-                              <div className="d-flex align-items-center">
-                                {customerdetailShow ? (
-                                  <div>
-                                    <Modal.Header
+                    <Modal
+                      show={formshow}
+                      onHide={handleCloseEditcustomer}
+                      backdrop="static"
+                      centered
+                    >
+                      <Modal.Dialog
+                        style={{
+                          maxWidth: 950,
+                          paddingRight: "10px",
+                          paddingRight: "10px",
+                          borderRadius: "30px",
+                        }}
+                        className="m-0 p-0"
+                      >
+                        <Modal.Body>
+                          <div className="d-flex align-items-center">
+                            {customerdetailShow ? (
+                              <div>
+                                <Modal.Header
+                                  style={{
+                                    marginBottom: "30px",
+                                    position: "relative",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      fontSize: 20,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    Edit Customer
+                                    {/* {props.edit === 'Edit' ? "Edit Customer" : "Add an customer"} */}
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className="close"
+                                    aria-label="Close"
+                                    onClick={handleCloseEditcustomer}
+                                    style={{
+                                      position: "absolute",
+                                      right: "10px",
+                                      top: "16px",
+                                      border: "1px solid black",
+                                      background: "transparent",
+                                      cursor: "pointer",
+                                      padding: "0",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      width: "32px",
+                                      height: "32px",
+                                      borderRadius: "50%",
+                                    }}
+                                  >
+                                    <span
+                                      aria-hidden="true"
                                       style={{
-                                        marginBottom: "30px",
-                                        position: "relative",
+                                        fontSize: "30px",
+                                        paddingBottom: "6px",
                                       }}
                                     >
-                                      <div
+                                      &times;
+                                    </span>
+                                  </button>
+                                </Modal.Header>
+
+                                <div className="d-flex align-items-center">
+                                  <div
+                                    className=""
+                                    style={{
+                                      height: 100,
+                                      width: 100,
+                                      position: "relative",
+                                    }}
+                                  >
+                                    <Image
+                                      src={
+                                        file
+                                          ? typeof file == "string"
+                                            ? file
+                                            : URL.createObjectURL(file)
+                                          : Profile
+                                      }
+                                      roundedCircle
+                                      style={{ height: 100, width: 100 }}
+                                    />
+
+                                    <label htmlFor="imageInput" className="">
+                                      <Image
+                                        src={Plus}
+                                        roundedCircle
                                         style={{
-                                          fontSize: 20,
-                                          fontWeight: 600,
+                                          height: 20,
+                                          width: 20,
+                                          position: "absolute",
+                                          top: 90,
+                                          left: 80,
+                                          transform: "translate(-50%, -50%)",
+                                        }}
+                                      />
+                                      <input
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        className="sr-only"
+                                        id="imageInput"
+                                        onChange={handleImageChange}
+                                        style={{ display: "none" }}
+                                      />
+                                    </label>
+                                  </div>
+                                  <div className="ps-3">
+                                    <div>
+                                      <label
+                                        style={{
+                                          fontSize: 16,
+                                          fontWeight: 500,
+                                          color: "#222222",
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        Edit Customer
-                                        {/* {props.edit === 'Edit' ? "Edit Customer" : "Add an customer"} */}
-                                      </div>
-                                      <button
-                                        type="button"
-                                        className="close"
-                                        aria-label="Close"
-                                        onClick={handleCloseEditcustomer}
-                                        style={{
-                                          position: "absolute",
-                                          right: "10px",
-                                          top: "16px",
-                                          border: "1px solid black",
-                                          background: "transparent",
-                                          cursor: "pointer",
-                                          padding: "0",
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          width: "32px",
-                                          height: "32px",
-                                          borderRadius: "50%",
-                                        }}
-                                      >
-                                        <span
-                                          aria-hidden="true"
-                                          style={{
-                                            fontSize: "30px",
-                                            paddingBottom: "6px",
-                                          }}
-                                        >
-                                          &times;
-                                        </span>
-                                      </button>
-                                    </Modal.Header>
-
-                                    <div className="d-flex align-items-center">
-                                      <div
-                                        className=""
-                                        style={{
-                                          height: 100,
-                                          width: 100,
-                                          position: "relative",
-                                        }}
-                                      >
-                                        <Image
-                                          src={
-                                            file
-                                              ? typeof file == "string"
-                                                ? file
-                                                : URL.createObjectURL(file)
-                                              : Profile
-                                          }
-                                          roundedCircle
-                                          style={{ height: 100, width: 100 }}
-                                        />
-
-                                        <label
-                                          htmlFor="imageInput"
-                                          className=""
-                                        >
-                                          <Image
-                                            src={Plus}
-                                            roundedCircle
-                                            style={{
-                                              height: 20,
-                                              width: 20,
-                                              position: "absolute",
-                                              top: 90,
-                                              left: 80,
-                                              transform:
-                                                "translate(-50%, -50%)",
-                                            }}
-                                          />
-                                          <input
-                                            type="file"
-                                            accept="image/*"
-                                            multiple
-                                            className="sr-only"
-                                            id="imageInput"
-                                            onChange={handleImageChange}
-                                            style={{ display: "none" }}
-                                          />
-                                        </label>
-                                      </div>
-                                      <div className="ps-3">
-                                        <div>
-                                          <label
-                                            style={{
-                                              fontSize: 16,
-                                              fontWeight: 500,
-                                              color: "#222222",
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Profile Photo
-                                          </label>
-                                        </div>
-                                        <div>
-                                          <label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Max size of image 10MB
-                                          </label>
-                                        </div>
-                                      </div>
+                                        Profile Photo
+                                      </label>
                                     </div>
-
-                                    <div className="row mt-4">
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Group className="mb-3">
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              color: "#222222",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            First Name{" "}
-                                            <span
-                                              style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                              }}
-                                            >
-                                              {" "}
-                                              *{" "}
-                                            </span>
-                                          </Form.Label>
-                                          <FormControl
-                                            id="form-controls"
-                                            placeholder="Enter name"
-                                            type="text"
-                                            value={firstname}
-                                            onChange={(e) => handleFirstName(e)}
-                                            style={{
-                                              fontSize: 16,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                              border: "1px solid #D9D9D9",
-                                              height: 50,
-                                              borderRadius: 8,
-                                            }}
-                                          />
-                                        </Form.Group>
-                                        {firstnameError && (
-                                          <div style={{ color: "red" }}>
-                                            {" "}
-                                            <MdError
-                                              style={{ width: 20, height: 20 }}
-                                            />
-                                            {firstnameError}
-                                          </div>
-                                        )}
-                                      </div>
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Group className="mb-3">
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              color: "#222222",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            Last Name
-                                          </Form.Label>
-                                          <FormControl
-                                            type="text"
-                                            id="form-controls"
-                                            placeholder="Enter name"
-                                            value={lastname}
-                                            onChange={(e) => handleLastName(e)}
-                                            style={{
-                                              fontSize: 16,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                              border: "1px solid #D9D9D9",
-                                              height: 50,
-                                              borderRadius: 8,
-                                            }}
-                                          />
-                                        </Form.Group>
-                                      </div>
-
-                                      <div
-                                        className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-                                        controlId="exampleForm.ControlInput1"
+                                    <div>
+                                      <label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                        }}
                                       >
-                                        <Form.Group>
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              color: "#222222",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            Mobile number{" "}
-                                            <span
-                                              style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                              }}
-                                            >
-                                              {" "}
-                                              *{" "}
-                                            </span>
-                                          </Form.Label>
+                                        Max size of image 10MB
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
 
-                                          <InputGroup>
-                                            <Form.Select
-                                              value={countryCode}
-                                              id="vendor-select-pg"
-                                              onChange={handleCountryCodeChange}
-                                              style={{
-                                                border: "1px solid #D9D9D9",
-                                                borderRadius: "8px 0 0 8px",
-                                                height: 50,
-                                                fontSize: 16,
-                                                color: "#4B4B4B",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: countryCode
-                                                  ? 600
-                                                  : 500,
-                                                boxShadow: "none",
-                                                backgroundColor: "#fff",
-                                                maxWidth: 90,
-                                                paddingRight: 10,
-                                              }}
-                                            >
-                                              {state.UsersList?.countrycode?.country_codes?.map(
-                                                (item) => {
-                                                  console.log(
-                                                    "itemImage",
-                                                    item
-                                                  );
-
-                                                  return (
-                                                    console.log(
-                                                      "item.country_flag",
-                                                      item.country_flag
-                                                    ),
-                                                    (
-                                                      <>
-                                                        <option
-                                                          value={
-                                                            item.country_code
-                                                          }
-                                                        >
-                                                          +{item.country_code}
-                                                        </option>
-                                                      </>
-                                                    )
-                                                  );
-                                                }
-                                              )}
-                                            </Form.Select>
-                                            <Form.Control
-                                              value={Phone}
-                                              onChange={handlePhone}
-                                              type="text"
-                                              placeholder="9876543210"
-                                              maxLength={10}
-                                              style={{
-                                                fontSize: 16,
-                                                color: "#4B4B4B",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: Phone ? 600 : 500,
-                                                boxShadow: "none",
-                                                borderLeft: "unset",
-                                                borderRight:
-                                                  "1px solid #D9D9D9",
-                                                borderTop: "1px solid #D9D9D9",
-                                                borderBottom:
-                                                  "1px solid #D9D9D9",
-                                                height: 50,
-                                                borderRadius: "0 8px 8px 0",
-                                              }}
-                                            />
-                                          </InputGroup>
-                                          <p
-                                            id="MobileNumberError"
-                                            style={{
-                                              color: "red",
-                                              fontSize: 11,
-                                              marginTop: 5,
-                                            }}
-                                          ></p>
-                                          {phoneError && (
-                                            <div style={{ color: "red" }}>
-                                              <MdError />
-                                              {phoneError}
-                                            </div>
-                                          )}
-                                          {phonenumError && (
-                                            <div style={{ color: "red" }}>
-                                              <MdError />
-                                              {phonenumError}
-                                            </div>
-                                          )}
-                                          {phoneErrorMessage && (
-                                            <div style={{ color: "red" }}>
-                                              <MdError />
-                                              {phoneErrorMessage}
-                                            </div>
-                                          )}
-                                        </Form.Group>
-                                      </div>
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Group className="mb-3">
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              color: "#222222",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            Email Id
-                                          </Form.Label>
-                                          <FormControl
-                                            type="text"
-                                            id="form-controls"
-                                            placeholder="Enter email address"
-                                            value={Email}
-                                            onChange={(e) => handleEmail(e)}
-                                            // style={bottomBorderStyle}
-                                            style={{
-                                              fontSize: 16,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                              border: "1px solid #D9D9D9",
-                                              height: 50,
-                                              borderRadius: 8,
-                                            }}
-                                          />
-
-                                          {emailError && (
-                                            <div style={{ color: "red" }}>
-                                              <MdError />
-                                              {emailError}
-                                            </div>
-                                          )}
-                                          {emailIdError && (
-                                            <div style={{ color: "red" }}>
-                                              <MdError />
-                                              {emailIdError}
-                                            </div>
-                                          )}
-                                          {emailErrorMessage && (
-                                            <div style={{ color: "red" }}>
-                                              <MdError />
-                                              {emailErrorMessage}
-                                            </div>
-                                          )}
-                                        </Form.Group>
-                                      </div>
-
-                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <Form.Group className="mb-3">
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              color: "#222222",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            Address{" "}
-                                            <span
-                                              style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                              }}
-                                            >
-                                              {" "}
-                                              *{" "}
-                                            </span>
-                                          </Form.Label>
-                                          <FormControl
-                                            type="text"
-                                            id="form-controls"
-                                            value={Address}
-                                            placeholder="Enter address"
-                                            onChange={(e) => handleAddress(e)}
-                                            // style={bottomBorderStyle}
-                                            style={{
-                                              fontSize: 16,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                              border: "1px solid #D9D9D9",
-                                              height: 50,
-                                              borderRadius: 8,
-                                            }}
-                                          />
-                                        </Form.Group>
-                                        {addressError && (
-                                          <div style={{ color: "red" }}>
-                                            <MdError />
-                                            {addressError}
-                                          </div>
-                                        )}
-                                      </div>
-
-                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <Form.Label
+                                <div className="row mt-4">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group className="mb-3">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        First Name{" "}
+                                        <span
                                           style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
+                                            color: "red",
+                                            fontSize: "20px",
                                           }}
                                         >
-                                          Paying Guest{" "}
-                                          <span
-                                            style={{
-                                              color: "red",
-                                              fontSize: "20px",
-                                            }}
-                                          >
-                                            {" "}
-                                            *{" "}
-                                          </span>
-                                        </Form.Label>
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+                                      <FormControl
+                                        id="form-controls"
+                                        placeholder="Enter name"
+                                        type="text"
+                                        value={firstname}
+                                        onChange={(e) => handleFirstName(e)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
+                                    {firstnameError && (
+                                      <div style={{ color: "red" }}>
+                                        {" "}
+                                        <MdError
+                                          style={{ width: 20, height: 20 }}
+                                        />
+                                        {firstnameError}
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group className="mb-3">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Last Name
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="Enter name"
+                                        value={lastname}
+                                        onChange={(e) => handleLastName(e)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
+                                  </div>
+
+                                  <div
+                                    className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+                                    controlId="exampleForm.ControlInput1"
+                                  >
+                                    <Form.Group>
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Mobile number{" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+
+                                      <InputGroup>
                                         <Form.Select
-                                          aria-label="Default select example"
-                                          className="border"
-                                          // style={{ backgroundColor: "#f8f9fa", padding: 10, border: "none", boxShadow: "none", width: "100%", fontSize: 12, fontWeight: 700, textTransform: "capitalize" }}
+                                          value={countryCode}
+                                          id="vendor-select-pg"
+                                          onChange={handleCountryCodeChange}
+                                          style={{
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: "8px 0 0 8px",
+                                            height: 50,
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: countryCode ? 600 : 500,
+                                            boxShadow: "none",
+                                            backgroundColor: "#fff",
+                                            maxWidth: 90,
+                                            paddingRight: 10,
+                                          }}
+                                        >
+                                          {state.UsersList?.countrycode?.country_codes?.map(
+                                            (item) => {
+                                              console.log("itemImage", item);
+
+                                              return (
+                                                console.log(
+                                                  "item.country_flag",
+                                                  item.country_flag
+                                                ),
+                                                (
+                                                  <>
+                                                    <option
+                                                      value={item.country_code}
+                                                    >
+                                                      +{item.country_code}
+                                                    </option>
+                                                  </>
+                                                )
+                                              );
+                                            }
+                                          )}
+                                        </Form.Select>
+                                        <Form.Control
+                                          value={Phone}
+                                          onChange={handlePhone}
+                                          type="text"
+                                          placeholder="9876543210"
+                                          maxLength={10}
                                           style={{
                                             fontSize: 16,
                                             color: "#4B4B4B",
                                             fontFamily: "Gilroy",
-                                            fontWeight: 500,
+                                            fontWeight: Phone ? 600 : 500,
                                             boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
+                                            borderLeft: "unset",
+                                            borderRight: "1px solid #D9D9D9",
+                                            borderTop: "1px solid #D9D9D9",
+                                            borderBottom: "1px solid #D9D9D9",
                                             height: 50,
-                                            borderRadius: 8,
+                                            borderRadius: "0 8px 8px 0",
                                           }}
-                                          value={hostel_Id}
-                                          onChange={(e) => handleHostelId(e)}
+                                        />
+                                      </InputGroup>
+                                      <p
+                                        id="MobileNumberError"
+                                        style={{
+                                          color: "red",
+                                          fontSize: 11,
+                                          marginTop: 5,
+                                        }}
+                                      ></p>
+                                      {phoneError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {phoneError}
+                                        </div>
+                                      )}
+                                      {phonenumError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {phonenumError}
+                                        </div>
+                                      )}
+                                      {phoneErrorMessage && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {phoneErrorMessage}
+                                        </div>
+                                      )}
+                                    </Form.Group>
+                                  </div>
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group className="mb-3">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Email Id
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="Enter email address"
+                                        value={Email}
+                                        onChange={(e) => handleEmail(e)}
+                                        // style={bottomBorderStyle}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+
+                                      {emailError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {emailError}
+                                        </div>
+                                      )}
+                                      {emailIdError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {emailIdError}
+                                        </div>
+                                      )}
+                                      {emailErrorMessage && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {emailErrorMessage}
+                                        </div>
+                                      )}
+                                    </Form.Group>
+                                  </div>
+
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <Form.Group className="mb-3">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Address{" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
                                         >
-                                          <option>Select a PG</option>
-                                          {state.UsersList?.hostelList?.map(
-                                            (item) => (
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        value={Address}
+                                        placeholder="Enter address"
+                                        onChange={(e) => handleAddress(e)}
+                                        // style={bottomBorderStyle}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
+                                    {addressError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        {addressError}
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <Form.Label
+                                      style={{
+                                        fontSize: 14,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      Paying Guest{" "}
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        {" "}
+                                        *{" "}
+                                      </span>
+                                    </Form.Label>
+                                    <Form.Select
+                                      aria-label="Default select example"
+                                      className="border"
+                                      // style={{ backgroundColor: "#f8f9fa", padding: 10, border: "none", boxShadow: "none", width: "100%", fontSize: 12, fontWeight: 700, textTransform: "capitalize" }}
+                                      style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
+                                      }}
+                                      value={hostel_Id}
+                                      onChange={(e) => handleHostelId(e)}
+                                    >
+                                      <option>Select a PG</option>
+                                      {state.UsersList?.hostelList?.map(
+                                        (item) => (
+                                          <option key={item.id} value={item.id}>
+                                            {item.Name}
+                                          </option>
+                                        )
+                                      )}
+                                    </Form.Select>
+                                    {hostelIdError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        {hostelIdError}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                                {formError && (
+                                  <div style={{ color: "red" }}>
+                                    <MdError />
+                                    {formError}
+                                  </div>
+                                )}
+                                <Button
+                                  className=" col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                  style={{
+                                    backgroundColor: "#1E45E1",
+                                    fontWeight: 600,
+                                    height: 50,
+                                    borderRadius: 12,
+                                    fontSize: 16,
+                                    fontFamily: "Montserrat",
+                                    marginTop: 20,
+                                  }}
+                                  onClick={handleSaveUserlist}
+                                >
+                                  {/* {props.edit === 'Edit' ? "Edit Customer" : "Add an customer"} */}
+                                  Edit Customer
+                                </Button>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+
+                            {customerAsignBed && customerAsignBed ? (
+                              <div className="container">
+                                <div className="row mb-3"></div>
+
+                                <Modal.Header
+                                  style={{
+                                    marginBottom: "30px",
+                                    position: "relative",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      fontSize: 20,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    Edit Assign bed
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className="close"
+                                    aria-label="Close"
+                                    onClick={handleCloseEditcustomer}
+                                    style={{
+                                      position: "absolute",
+                                      right: "10px",
+                                      top: "16px",
+                                      border: "1px solid black",
+                                      background: "transparent",
+                                      cursor: "pointer",
+                                      padding: "0",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      width: "32px",
+                                      height: "32px",
+                                      borderRadius: "50%",
+                                    }}
+                                  >
+                                    <span
+                                      aria-hidden="true"
+                                      style={{
+                                        fontSize: "30px",
+                                        paddingBottom: "6px",
+                                      }}
+                                    >
+                                      &times;
+                                    </span>
+                                  </button>
+                                </Modal.Header>
+
+                                <div className="row mb-3">
+                                  <div className="col-12">
+                                    <Form.Label
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+                                      Floor{" "}
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        {" "}
+                                        *{" "}
+                                      </span>
+                                    </Form.Label>
+                                    <Form.Select
+                                      aria-label="Default select example"
+                                      placeholder="Select no. of floor"
+                                      style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
+                                      }}
+                                      id="form-selects"
+                                      className="border"
+                                      value={Floor}
+                                      onChange={(e) => handleFloor(e)}
+                                    >
+                                      <option>Selected Floor</option>
+                                      {state.UsersList?.hosteldetailslist?.map(
+                                        (u) => (
+                                          <option
+                                            key={u.floor_id}
+                                            value={u.floor_id}
+                                          >
+                                            {u.floor_name}
+                                          </option>
+                                        )
+                                      )}
+                                    </Form.Select>
+                                    {floorError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        {floorError}
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <div className="col-12 mt-1">
+                                    <Form.Label
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+                                      Room
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        {" "}
+                                        *{" "}
+                                      </span>
+                                    </Form.Label>
+                                    <Form.Select
+                                      aria-label="Default select example"
+                                      placeholder="Select no. of rooms"
+                                      style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
+                                      }}
+                                      value={RoomId}
+                                      className="border"
+                                      id="form-selects"
+                                      onChange={(e) => handleRooms(e)}
+                                    >
+                                      <option>Selected Room</option>
+                                      {/* } */}
+
+                                      {state.UsersList?.roomdetails &&
+                                        state.UsersList.roomdetails.map(
+                                          (item) => (
+                                            <option
+                                              key={item.Room_Id}
+                                              value={item.Room_Id}
+                                            >
+                                              {item.Room_Name}
+                                            </option>
+                                          )
+                                        )}
+                                    </Form.Select>
+                                    {roomError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        {roomError}
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Label
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+                                      Bed
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        {" "}
+                                        *{" "}
+                                      </span>
+                                    </Form.Label>
+                                    <Form.Select
+                                      aria-label="Default select example"
+                                      style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
+                                      }}
+                                      value={BedId}
+                                      className="border"
+                                      placeholder="Select a bed"
+                                      id="form-selects"
+                                      onChange={(e) => handleBed(e)}
+                                    >
+                                      <option>Select a Bed</option>
+
+                                      {Editbed == "editbeddet" &&
+                                        Bednum &&
+                                        Bednum[0]?.Bed && (
+                                          <option
+                                            value={Bednum[0].hstl_Bed}
+                                            selected
+                                          >
+                                            {Bednum[0].Bed}
+                                          </option>
+                                        )}
+
+                                      {state.UsersList?.bednumberdetails
+                                        ?.bed_details?.length > 0 &&
+                                        state.UsersList.bednumberdetails.bed_details.map(
+                                          (item) =>
+                                            item.bed_no &&
+                                            !item.bed_no !== "undefined" &&
+                                            item.bed_no !== "0" &&
+                                            item.bed_no !== "" &&
+                                            item.bed_no !== null && (
                                               <option
                                                 key={item.id}
                                                 value={item.id}
                                               >
-                                                {item.Name}
+                                                {item.bed_no}
                                               </option>
                                             )
-                                          )}
-                                        </Form.Select>
-                                        {hostelIdError && (
-                                          <div style={{ color: "red" }}>
-                                            <MdError />
-                                            {hostelIdError}
-                                          </div>
                                         )}
-                                      </div>
-                                    </div>
-                                    {formError && (
+                                    </Form.Select>
+
+                                    {bedError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                        {formError}
+                                        {bedError}
                                       </div>
                                     )}
-                                    <Button
-                                      className=" col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                      style={{
-                                        backgroundColor: "#1E45E1",
-                                        fontWeight: 600,
-                                        height: 50,
-                                        borderRadius: 12,
-                                        fontSize: 16,
-                                        fontFamily: "Montserrat",
-                                        marginTop: 20,
-                                      }}
-                                      onClick={handleSaveUserlist}
-                                    >
-                                      {/* {props.edit === 'Edit' ? "Edit Customer" : "Add an customer"} */}
-                                      Edit Customer
-                                    </Button>
                                   </div>
-                                ) : (
-                                  ""
-                                )}
 
-                                {customerAsignBed && customerAsignBed ? (
-                                  <div className="container">
-                                    <div className="row mb-3"></div>
-
-                                    <Modal.Header
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Label
                                       style={{
-                                        marginBottom: "30px",
-                                        position: "relative",
+                                        fontSize: 14,
+                                        color: "#222",
+                                        fontFamily: "'Gilroy'",
+                                        fontWeight: 500,
                                       }}
                                     >
-                                      <div
+                                      Joining_Date{" "}
+                                      <span
                                         style={{
-                                          fontSize: 20,
-                                          fontWeight: 600,
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        *{" "}
+                                      </span>
+                                    </Form.Label>
+
+                                    <div style={{ position: "relative" }}>
+                                      <label
+                                        htmlFor="date-input"
+                                        style={{
+                                          border: "1px solid #D9D9D9",
+                                          borderRadius: 8,
+                                          padding: 11,
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          color: "#222222",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "space-between",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={() => {
+                                          if (calendarRef.current) {
+                                            calendarRef.current.flatpickr.open(); // Open Flatpickr on click
+                                          }
+                                        }}
+                                      >
+                                        {/* {selectedDate ? selectedDate : 'YYYY-MM-DD'} Show selectedDate */}
+                                        <span>
+                                          {selectedDate === "0000-00-00" ||
+                                          !selectedDate
+                                            ? "YYYY-MM-DD"
+                                            : selectedDate}
+                                        </span>
+                                        <img
+                                          src={Calendars}
+                                          style={{
+                                            height: 24,
+                                            width: 24,
+                                            marginLeft: 10,
+                                          }}
+                                          alt="Calendar"
+                                        />
+                                      </label>
+
+                                      <Flatpickr
+                                        ref={calendarRef}
+                                        options={{
+                                          dateFormat: "Y-m-d",
+                                        }}
+                                        value={
+                                          selectedDate
+                                            ? new Date(selectedDate)
+                                            : new Date()
+                                        }
+                                        onChange={(selectedDates) =>
+                                          handleDate(selectedDates)
+                                        }
+                                        style={{
+                                          display: "none",
+                                        }}
+                                      />
+                                    </div>
+
+                                    {dateError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        {dateError}
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group className="">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 500,
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        Edit Assign bed
-                                      </div>
-                                      <button
-                                        type="button"
-                                        className="close"
-                                        aria-label="Close"
-                                        onClick={handleCloseEditcustomer}
-                                        style={{
-                                          position: "absolute",
-                                          right: "10px",
-                                          top: "16px",
-                                          border: "1px solid black",
-                                          background: "transparent",
-                                          cursor: "pointer",
-                                          padding: "0",
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          width: "32px",
-                                          height: "32px",
-                                          borderRadius: "50%",
-                                        }}
-                                      >
+                                        Advance Amount{" "}
                                         <span
-                                          aria-hidden="true"
                                           style={{
-                                            fontSize: "30px",
-                                            paddingBottom: "6px",
+                                            color: "red",
+                                            fontSize: "20px",
                                           }}
                                         >
-                                          &times;
+                                          {" "}
+                                          *{" "}
                                         </span>
-                                      </button>
-                                    </Modal.Header>
-
-                                    <div className="row mb-3">
-                                      <div className="col-12">
-                                        <Form.Label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          Floor{" "}
-                                          <span
-                                            style={{
-                                              color: "red",
-                                              fontSize: "20px",
-                                            }}
-                                          >
-                                            {" "}
-                                            *{" "}
-                                          </span>
-                                        </Form.Label>
-                                        <Form.Select
-                                          aria-label="Default select example"
-                                          placeholder="Select no. of floor"
-                                          style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                          }}
-                                          id="form-selects"
-                                          className="border"
-                                          value={Floor}
-                                          onChange={(e) => handleFloor(e)}
-                                        >
-                                          <option>Selected Floor</option>
-                                          {state.UsersList?.hosteldetailslist?.map(
-                                            (u) => (
-                                              <option
-                                                key={u.floor_id}
-                                                value={u.floor_id}
-                                              >
-                                                {u.floor_name}
-                                              </option>
-                                            )
-                                          )}
-                                        </Form.Select>
-                                        {floorError && (
-                                          <div style={{ color: "red" }}>
-                                            <MdError />
-                                            {floorError}
-                                          </div>
-                                        )}
-                                      </div>
-
-                                      <div className="col-12 mt-1">
-                                        <Form.Label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          Room
-                                          <span
-                                            style={{
-                                              color: "red",
-                                              fontSize: "20px",
-                                            }}
-                                          >
-                                            {" "}
-                                            *{" "}
-                                          </span>
-                                        </Form.Label>
-                                        <Form.Select
-                                          aria-label="Default select example"
-                                          placeholder="Select no. of rooms"
-                                          style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                          }}
-                                          value={RoomId}
-                                          className="border"
-                                          id="form-selects"
-                                          onChange={(e) => handleRooms(e)}
-                                        >
-                                          <option>Selected Room</option>
-                                          {/* } */}
-
-                                          {state.UsersList?.roomdetails &&
-                                            state.UsersList.roomdetails.map(
-                                              (item) => (
-                                                <option key={item.Room_Id} value={item.Room_Id}>
-                                                  {item.Room_Name}
-                                                </option>
-                                              )
-                                            )}
-                                        </Form.Select>
-                                        {roomError && (
-                                          <div style={{ color: "red" }}>
-                                            <MdError />
-                                            {roomError}
-                                          </div>
-                                        )}
-                                      </div>
-
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          Bed
-                                          <span
-                                            style={{
-                                              color: "red",
-                                              fontSize: "20px",
-                                            }}
-                                          >
-                                            {" "}
-                                            *{" "}
-                                          </span>
-                                        </Form.Label>
-                                        <Form.Select
-                                          aria-label="Default select example"
-                                          style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                          }}
-                                          value={BedId}
-                                          className="border"
-                                          placeholder="Select a bed"
-                                          id="form-selects"
-                                          onChange={(e) => handleBed(e)}
-                                        >
-                                          <option>Select a Bed</option>
-
-                                          {Editbed == "editbeddet" && Bednum && Bednum[0]?.Bed && (
-                                            <option value={(Bednum[0].hstl_Bed)} selected>
-                                              {(Bednum[0].Bed)}
-                                            </option>
-                                          )}
-
-                                          {state.UsersList?.bednumberdetails
-                                            ?.bed_details?.length > 0 &&
-                                            state.UsersList.bednumberdetails.bed_details.map(
-                                              (item) =>
-                                                item.bed_no &&
-                                                !item.bed_no !== "undefined" &&
-                                                item.bed_no !== "0" &&
-                                                item.bed_no !== "" &&
-                                                item.bed_no !== null && (
-                                                  <option
-                                                    key={item.id}
-                                                    value={item.id}
-                                                  >
-                                                    {item.bed_no}
-                                                  </option>
-                                                )
-                                            )}
-                                        </Form.Select>
-
-                                        {bedError && (
-                                          <div style={{ color: "red" }}>
-                                            <MdError />
-                                            {bedError}
-                                          </div>
-                                        )}
-                                      </div>
-
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Label
-                                          style={{
-                                            fontSize: 14,
-                                            color: "#222",
-                                            fontFamily: "'Gilroy'",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          Joining_Date{" "}
-                                          <span
-                                            style={{
-                                              color: "red",
-                                              fontSize: "20px",
-                                            }}
-                                          >
-                                            *{" "}
-                                          </span>
-                                        </Form.Label>
-
-                                        <div style={{ position: "relative" }}>
-                                          <label
-                                            htmlFor="date-input"
-                                            style={{
-                                              border: "1px solid #D9D9D9",
-                                              borderRadius: 8,
-                                              padding: 11,
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              color: "#222222",
-                                              display: "flex",
-                                              alignItems: "center",
-                                              justifyContent: "space-between",
-                                              cursor: "pointer",
-                                            }}
-                                            onClick={() => {
-                                              if (calendarRef.current) {
-                                                calendarRef.current.flatpickr.open(); // Open Flatpickr on click
-                                              }
-                                            }}
-                                          >
-                                            {/* {selectedDate ? selectedDate : 'YYYY-MM-DD'} Show selectedDate */}
-                                            <span>
-                                              {selectedDate === "0000-00-00" ||
-                                              !selectedDate
-                                                ? "YYYY-MM-DD"
-                                                : selectedDate}
-                                            </span>
-                                            <img
-                                              src={Calendars}
-                                              style={{
-                                                height: 24,
-                                                width: 24,
-                                                marginLeft: 10,
-                                              }}
-                                              alt="Calendar"
-                                            />
-                                          </label>
-
-                                          <Flatpickr
-                                            ref={calendarRef}
-                                            options={{
-                                              dateFormat: "Y-m-d",
-                                            }}
-                                            value={
-                                              selectedDate
-                                                ? new Date(selectedDate)
-                                                : new Date()
-                                            }
-                                            onChange={(selectedDates) =>
-                                              handleDate(selectedDates)
-                                            }
-                                            style={{
-                                              display: "none",
-                                            }}
-                                          />
-                                        </div>
-
-                                        {dateError && (
-                                          <div style={{ color: "red" }}>
-                                            <MdError />
-                                            {dateError}
-                                          </div>
-                                        )}
-                                      </div>
-
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Group className="">
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Advance Amount{" "}
-                                            <span
-                                              style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                              }}
-                                            >
-                                              {" "}
-                                              *{" "}
-                                            </span>
-                                          </Form.Label>
-                                          <FormControl
-                                            type="text"
-                                            id="form-controls"
-                                            placeholder="Enter amount"
-                                            value={AdvanceAmount}
-                                            onChange={(e) =>
-                                              handleAdvanceAmount(e)
-                                            }
-                                            style={{
-                                              fontSize: 16,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                              border: "1px solid #D9D9D9",
-                                              height: 50,
-                                              borderRadius: 8,
-                                            }}
-                                          />
-                                        </Form.Group>
-                                        {advanceAmountError && (
-                                          <div style={{ color: "red" }}>
-                                            <MdError />
-                                            {advanceAmountError}
-                                          </div>
-                                        )}
-                                      </div>
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Group className="mb-3">
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Rental Amount{" "}
-                                            <span
-                                              style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                              }}
-                                            >
-                                              {" "}
-                                              *{" "}
-                                            </span>
-                                          </Form.Label>
-                                          <FormControl
-                                            type="text"
-                                            id="form-controls"
-                                            placeholder="Enter amount"
-                                            value={RoomRent}
-                                            onChange={(e) => handleRoomRent(e)}
-                                            style={{
-                                              fontSize: 16,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                              border: "1px solid #D9D9D9",
-                                              height: 50,
-                                              borderRadius: 8,
-                                            }}
-                                          />
-                                        </Form.Group>
-                                        {roomrentError && (
-                                          <div style={{ color: "red" }}>
-                                            <MdError />
-                                            {roomrentError}
-                                          </div>
-                                        )}
-                                      </div>
-                                    </div>
-                                    {formError && (
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="Enter amount"
+                                        value={AdvanceAmount}
+                                        onChange={(e) => handleAdvanceAmount(e)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
+                                    {advanceAmountError && (
                                       <div style={{ color: "red" }}>
                                         <MdError />
-                                        {formError}
+                                        {advanceAmountError}
                                       </div>
                                     )}
-                                    <Button
-                                      className="w-100"
-                                      style={{
-                                        backgroundColor: "#1E45E1",
-                                        fontWeight: 600,
-                                        height: 50,
-                                        borderRadius: 12,
-                                        fontSize: 16,
-                                        fontFamily: "Montserrat",
-                                      }}
-                                      onClick={handleSaveUserlistAddUser}
-                                    >
-                                      Edit Assign Bed
-                                    </Button>
                                   </div>
-                                ) : (
-                                  ""
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group className="mb-3">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Rental Amount{" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="Enter amount"
+                                        value={RoomRent}
+                                        onChange={(e) => handleRoomRent(e)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
+                                    {roomrentError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        {roomrentError}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                                {formError && (
+                                  <div style={{ color: "red" }}>
+                                    <MdError />
+                                    {formError}
+                                  </div>
                                 )}
+                                <Button
+                                  className="w-100"
+                                  style={{
+                                    backgroundColor: "#1E45E1",
+                                    fontWeight: 600,
+                                    height: 50,
+                                    borderRadius: 12,
+                                    fontSize: 16,
+                                    fontFamily: "Montserrat",
+                                  }}
+                                  onClick={handleSaveUserlistAddUser}
+                                >
+                                  Edit Assign Bed
+                                </Button>
                               </div>
-                            </Modal.Body>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </Modal.Body>
 
-                            <Modal.Footer
-                              style={{ border: "none" }}
-                            ></Modal.Footer>
-                          </Modal.Dialog>
-                        </Modal>
-                      </>
-                    </TabPanel>
+                        <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+                      </Modal.Dialog>
+                    </Modal>
+
                     <TabPanel value="2">
                       <UserEb id={props.id} />{" "}
                     </TabPanel>
                     <TabPanel value="3">
                       <UserListInvoice id={props.id} />
                     </TabPanel>
-                  
+
                     <TabPanel value="4">
                       <UserListCompliants id={props.id} />
                     </TabPanel>

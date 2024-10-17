@@ -15,22 +15,10 @@
     border: none;
    }
 
-   /* Custom toast container styles */
-.toast-custom {
-    background-color:  #E6F6E6 !important;
-    width: 260px;
-    height: 44px;
-   border: none !important;
-    color: #222222 !important;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
-    font-family: 'Gilroy', sans-serif;
-    font-weight: 500;
-  }
-  
-  /* Custom progress bar color */
-  .toast-custom .Toastify__progress-bar {
-    background-color: #fff !important;
-  }
+
+
+  .hover-button:hover {
+    background-color: #1E45E1 !important;
+    color: white !important;
+}
   

@@ -270,7 +270,7 @@ function UserlistWalkin() {
                                                     fontWeight: 600,
                                                     fontFamily: "Gilroy",
                                                     color: "#222222",
-                                                    paddingLeft: "4px"
+                                                    paddingLeft: "12px"
                                                 }}
                                                     className=" customer-name">
                                                     {customer.name}

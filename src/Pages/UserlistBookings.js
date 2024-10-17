@@ -96,14 +96,7 @@ function Booking() {
       setActiveDotsId(null);
     } else {
       toast.error('Customer not found!', {
-        position: 'bottom-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
+       
       });
     }
   };
@@ -125,16 +118,6 @@ function Booking() {
 
   const showToast = (successMessage) => {
     toast.success(successMessage, {
-      position: "bottom-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      className: 'toast-custom',
-      icon: <FaCheckCircle />,
     });
 
   }
@@ -149,17 +132,7 @@ function Booking() {
     if (selectedCustomer) {
       setCustomers((prevCustomers) => prevCustomers.filter((c) => c.id !== selectedCustomer.id));
       toast.success(` booking deleted successfully!`, {
-        position: 'bottom-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-        className: 'toast-custom',
-        icon: <FaCheckCircle />,
-      });
+       });
     }
     handleModalClose();
   };
@@ -544,7 +517,30 @@ function Booking() {
                   </Pagination.Next>
                 </Pagination>
               )}
-              <ToastContainer />
+              <ToastContainer
+              
+               position="bottom-center"
+               autoClose={3000}
+               hideProgressBar={true}
+               newestOnTop={false}
+               closeOnClick
+               rtl={false}
+               pauseOnFocusLoss
+               draggable
+               pauseOnHover
+               closeButton={false}
+               toastStyle={{
+                   backgroundColor: "#EBF5FF",
+                   color: "#222222",
+                   borderRadius: "60px",
+                   fontFamily: "Gilroy",
+                   fontWeight: 600,
+                   fontSize: "16px",
+                   padding: "10px 20px", 
+                   height: "50px",
+                  
+               }}
+              />
             </div>
           ) : (
             <div className='d-flex align-items-center justify-content-center ' style={{ width: "100%", height: 350, margin: "0px auto" }}>
@@ -604,48 +600,48 @@ function Booking() {
 
       {/* Delete Modal */}
       <Modal show={modalType === 'delete'} onHide={handleModalClose} centered backdrop="static">
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Booking?</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy" }}>
+       
+          <Modal.Title style={{ fontFamily: "Gilroy", fontWeight: 600, fontSize: "18px", textAlign: "center", color: "#222222", paddingTop: "20px" }}>Delete Booking?</Modal.Title>
+       
+        <p style={{ color: "#646464", fontFamily: "Gilroy", fontWeight: 500, textAlign: "center", fontSize: "16px", paddingTop: "20px" }}>
           Are you sure you want to delete this booking for booking?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
+        </p>
+        <div class="d-flex justify-content-evenly" style={{ margin: "20px" }}>
+          <button
             style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "16px 45px",
-              border: "1px solid rgba(36, 0, 255, 1)",
-              backgroundColor: "#FFF",
-              color: "rgba(36, 0, 255, 1)",
-              fontSize: 14,
+              fontFamily: "Gilroy",
               fontWeight: 600,
-              fontFamily: "Gilroy"
+              fontSize: "16px",
+              width: "160px",
+              height: "52px",
+              borderColor: "#1E45E1",
+              color: "#1E45E1",
+              transition: "all 0.3s ease"
             }}
+            type="button"
+            className="btn hover-button"
             onClick={handleModalClose}
           >
             Cancel
-          </Button>
-          <Button
+          </button>
+          <button
             style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "16px 45px",
-              border: "1px solid rgba(36, 0, 255, 1)",
-              backgroundColor: "rgba(36, 0, 255, 1)",
-              color: "#fff",
-              fontSize: 14,
+              fontFamily: "Gilroy",
               fontWeight: 600,
-              fontFamily: "Gilroy"
+              fontSize: "16px",
+              width: "160px",
+              height: "52px",
+              borderColor: "#1E45E1",
+              color: "#1E45E1",
+              transition: "all 0.3s ease"
             }}
+            type="button"
+            className="btn hover-button"
             onClick={confirmDelete}
           >
             Delete
-          </Button>
-        </Modal.Footer>
+          </button>
+       </div>
       </Modal>
 
 

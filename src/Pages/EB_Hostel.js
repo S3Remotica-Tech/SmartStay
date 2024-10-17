@@ -48,8 +48,9 @@ import { set } from "date-fns";
 function EB_Hostel() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log("state", state); const theme = useTheme()
- ;
+  console.log("state", state);
+   const theme = useTheme();
+ 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [loginid, setLoginid] = useState();
@@ -118,7 +119,9 @@ function EB_Hostel() {
 
   const options = {
     dateFormat: "Y/m/d",
-    defaultDate: selectedDate || new Date(),
+    // defaultDate: selectedDate || new Date(),
+    maxDate: new Date(),
+    minDate: null
   };
 
   useEffect(() => {
@@ -590,7 +593,7 @@ function EB_Hostel() {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <div style={{ paddingLeft: 15,marginTop:"-10px"}}>
+    <div style={{ paddingLeft: 15,marginTop:8}}>
       <div className="d-flex justify-content-between align-items-center ms-3 mb-3">
         <div style={{ padding: 15 }}>
           <label
@@ -626,9 +629,9 @@ function EB_Hostel() {
                 color: "white",
                 height: 52,
                 fontWeight: 600,
-                borderRadius: 12,
+                borderRadius:8,
                 width: 140,
-                padding: "16px, 24px, 16px, 24px",
+                padding: "14px, 22px, 14px, 22px",
                 border: "none",
                 cursor: "pointer",
               }}
@@ -885,13 +888,14 @@ function EB_Hostel() {
                     fontWeight: 600,
                     fontFamily: "Gilroy",
                     cursor: "pointer",
+                    paddingTop:10
                   }}
                 >
                   {v.Name}
                 </span>
               </td>
 
-              <td
+              {/* <td
                 style={{
                   fontSize: "16px",
                   fontWeight: 500,
@@ -902,7 +906,36 @@ function EB_Hostel() {
                 }}
               >
                 {v.HostelName}
-              </td>
+              </td> */}
+              <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "center",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                marginTop:10
+                              }}
+                            >
+                              <span
+                                style={{
+                                  paddingTop: "3px",
+                                  paddingLeft: "10px",
+                                  paddingRight: "10px",
+                                  paddingBottom: "3px",
+                                  borderRadius: "60px",
+                                  backgroundColor: "#FFEFCF",
+                                  textAlign: "start",
+                                  fontSize: "14px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  
+                                }}
+                              >
+                                {v.HostelName}
+                              </span>
+                            </td>
               <td
                 style={{
                   fontSize: "16px",
@@ -1006,7 +1039,7 @@ function EB_Hostel() {
   ) : (
     <div>
       <div style={{ textAlign: "center" }}>
-        <img src={emptyimg} alt="emptystate" />
+        <img src={emptyimg} width={240} height={240} alt="emptystate" />
       </div>
       <div
         className="pb-1"
@@ -1014,11 +1047,11 @@ function EB_Hostel() {
           textAlign: "center",
           fontWeight: 600,
           fontFamily: "Gilroy",
-          fontSize: 24,
+          fontSize: 20,
           color: "rgba(75, 75, 75, 1)",
         }}
       >
-        No Active Electricity{" "}
+       No customer readings{" "}
       </div>
       <div
         className="pb-1"
@@ -1026,11 +1059,11 @@ function EB_Hostel() {
           textAlign: "center",
           fontWeight: 500,
           fontFamily: "Gilroy",
-          fontSize: 20,
+          fontSize: 16,
           color: "rgba(75, 75, 75, 1)",
         }}
       >
-        There are no active Electricity{" "}
+        There are no customer readings available.{" "}
       </div>
 
       <div style={{ textAlign: "center" }}>
@@ -1040,15 +1073,15 @@ function EB_Hostel() {
             fontSize: 16,
             backgroundColor: "#1E45E1",
             color: "white",
-            height: 56,
+            height: 59,
             fontWeight: 600,
             borderRadius: 12,
-            width: 200,
+            width: 185,
             padding: "18px, 20px, 18px, 20px",
-            fontFamily: "Montserrat",
+            fontFamily: "Gilroy",
           }}
         >
-          + Record Reading
+          + Add Reading
         </Button>
       </div>
     </div>

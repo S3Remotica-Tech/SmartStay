@@ -9,6 +9,11 @@
 text-decoration: underline;
 
 }
+.cardalignitems{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 .buttons{
   margin-right: 20px;
 }
@@ -105,11 +110,16 @@ text-decoration: underline;
     padding: 2px;
     cursor: pointer;
   }
-  .overdue{
+  /* .overdue{
     display: flex;
     flex-direction: column;
   
-   }
+   } */
+   .cardalignitems{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+  }
  }
 
 
