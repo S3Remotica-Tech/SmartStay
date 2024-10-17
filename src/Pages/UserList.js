@@ -20,6 +20,8 @@ import Modal from "react-bootstrap/Modal";
 import Emptystate from '../Assets/Images/Empty-State.jpg'
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort , Trash} from 'iconsax-react';
 import closecircle from "../Assets/Images/New_images/close-circle.png";
+import Box from "@mui/material/Box";
+import TabList from "@mui/lab/TabList";
 
 import {
   Autobrightness,
@@ -49,12 +51,17 @@ import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import addcircle from "../Assets/Images/New_images/add-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 function UserList(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const selectRef = useRef("select");
   const [loading, setLoading] = useState(false);
+  const theme = useTheme();
+ 
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     setLoading(true);
@@ -1177,11 +1184,15 @@ function UserList(props) {
             }}
           >
             <TabContext value={value}>
-              <Tabs
-                value={value}
+            <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+              <TabList
+               orientation={isSmallScreen ? "vertical" : "horizontal"}
+                // value={value}
                 onChange={handleChange}
-                indicatorColor="primary"
-                textColor=""
+                // indicatorColor="primary"
+                // textColor=""
+                aria-label="lab API tabs example"
+                className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
               >
                 <Tab
                   className="tab-label"
@@ -1213,8 +1224,8 @@ function UserList(props) {
                   label="Walk-in"
                   value="4"
                 />
-              </Tabs>
-
+              </TabList>
+</Box>
               <TabPanel value="1" style={{ paddingLeft: 0 }}>
 
                 <div>
