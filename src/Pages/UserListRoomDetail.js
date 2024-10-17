@@ -51,6 +51,7 @@ import { style } from "@mui/system";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
+  console.log("state...",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const initialvalue = useRef();
@@ -948,6 +949,7 @@ function UserListRoomDetail(props) {
     setFormShow(false);
     dispatch({ type: "INVOICELIST" });
   };
+ 
 
   useEffect(() => {
     if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
@@ -956,6 +958,16 @@ function UserListRoomDetail(props) {
       }, 1000);
     }
   }, [state.UsersList.CustomerdetailsgetStatuscode]);
+ 
+  useEffect(()=>{
+    if(state.UsersList.statusCodeForAddUser === 200){
+dispatch({type:"USERLIST"})
+setTimeout(() => {
+  dispatch({ type: "CLEAR_STATUS_CODES" });
+}, 100);
+    }
+  },[state.UsersList.statusCodeForAddUser,state.UsersList.Users])
+  console.log(" props.userDetails", props.userDetails)
 
   return (
     <>
@@ -1346,8 +1358,8 @@ function UserListRoomDetail(props) {
                           </div>
 
                           <div className="col-md-6 mb-3 mb-md-0" style={{paddingLeft:20}}>
-                            {state.UsersList?.customerdetails?.data?.length ===
-                              0 || state.UsersList?.customerdetails === "" ? (
+                            { props.userDetails.length ===
+                              0 ||  props.userDetails === "" ? (
                               <div
                                 className="card"
                                 style={{
@@ -1495,7 +1507,7 @@ function UserListRoomDetail(props) {
                                             }}
                                           >
                                             <img src={Money} /> ₹
-                                            {g.AdvanceAmount}
+                                            { props.userDetails[0].AdvanceAmount}
                                           </p>
                                         </div>
                                         <div className="col-sm-4">
@@ -1515,7 +1527,7 @@ function UserListRoomDetail(props) {
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                            <img src={Money} /> ₹{g.RoomRent}/m
+                                            <img src={Money} /> ₹{ props.userDetails[0].RoomRent}/m
                                           </p>
                                         </div>
                                       </div>
