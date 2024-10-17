@@ -81,7 +81,7 @@ function* handleAddInvoiceDetails (param){
 
 function* handleInvoiceSettings(param){
        const response = yield call (InvoiceSettings,param.payload)
-     console.log("invoice response",response.data)
+     console.log("invoiceresponse",response)
       if (response.statusCode === 200 || response.status === 200) {
          yield put({ type: 'INVOICE_SETTINGS',  payload:{response:response.data, statusCode: response.statusCode || response.status} })
          
@@ -102,7 +102,7 @@ function* handleInvoiceSettings(param){
            
           };
     
-          toast.success(response.data.message, {
+          toast.success(response.message, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -177,7 +177,7 @@ function* handleAmenitiesSettings(action){
       progress: undefined,
       style: toastStyle
     })
-
+   //  yield put({type: 'HOSTEL_LIST'})
 
    }
    else if(response.status === 203){

@@ -94,6 +94,8 @@ function UserListRoomDetail(props) {
   const [formError, setFormError] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [dateError, setDateError] = useState("");
+  const [editMode , seteditMode] = useState(false)
+
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
   };
@@ -172,6 +174,8 @@ function UserListRoomDetail(props) {
         setFirstname("");
         setLastname("");
       }
+      console.log("roomrentupdated",item);
+      
 
       setAddress(item[0].Address || "");
       setAadharNo(item[0].AadharNo || "");
@@ -202,6 +206,7 @@ function UserListRoomDetail(props) {
         AdvanceAmount: item[0].AdvanceAmount || "",
         RoomRent: item[0].RoomRent || "",
       });
+      seteditMode(true);
     }
   };
 
@@ -488,13 +493,16 @@ function UserListRoomDetail(props) {
     setFormError("");
     setRoomId("");
     setBedId("");
+    setRoomRent(0)
   };
+
   useEffect(() => {
     dispatch({
       type: "BEDNUMBERDETAILS",
       payload: { hostel_id: hostel_Id, floor_id: Floor, room_id: RoomId },
     });
   }, [Rooms]);
+
   const handleRooms = (e) => {
     setRoomId(e.target.value);
     console.log("e.target.value", e.target.value);
@@ -516,6 +524,7 @@ function UserListRoomDetail(props) {
     setRoomError("");
     setFormError("");
     setBedId("");
+    setRoomRent(0)
     // handleInputChange()
   };
 
@@ -530,6 +539,25 @@ function UserListRoomDetail(props) {
   const handleBed = (e) => {
     // handleInputChange()
     setBedId(e.target.value);
+
+    const Bedfilter =state?.UsersList?.roomdetails && 
+    state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == hostel_Id && u.Floor_Id == Floor  && u.Room_Id == RoomId )
+    
+    const Roomamountfilter = Bedfilter && 
+    Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == e.target.value)
+    
+     
+  if (Roomamountfilter.length != 0) {
+    const selectedRoomRent = Roomamountfilter[0].bed_amount;
+
+    if (editMode && e.target.value === initialStateAssign.Bed) {
+      setRoomRent(initialStateAssign.RoomRent); // Set the initial RoomRent
+    } else {
+      setRoomRent(selectedRoomRent); // Set new RoomRent if bed changes
+    }
+    console.log("Roomamountfilter", selectedRoomRent);
+  }
+
     console.log("e.target.valuebed", e.target.value);
     if (e.target.value === "Selected a Bed") {
       setBedError("Please select a valid Bed");

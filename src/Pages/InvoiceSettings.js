@@ -164,8 +164,25 @@ function InvoiceSettings() {
         const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== '';
         const isSelectedImageValid = selectedImage !== undefined && selectedImage !== null;
 
+        if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
 
-        if(!isPrefixValid || !isStartNumberValid || !selectedHostel.id){
+            dispatch({
+                type: 'INVOICESETTINGS',
+                payload: {
+                    hostel_Id: selectedHostel.id,
+                    profile: selectedImage
+                }
+            });
+               dispatch({ type: 'HOSTELLIST' })
+                setShowTable(false);
+                setSelectedHostel({ id: '', name: '' });
+                setPrefix('');
+                setStartNumber('');
+                setSelectedImage('');
+
+        }
+
+      else if(!isPrefixValid || !isStartNumberValid || !selectedHostel.id){
             setTotalErrmsg('Please enter all field')
             setTimeout(()=> {
                 setTotalErrmsg('')
@@ -192,23 +209,9 @@ function InvoiceSettings() {
                 setSelectedImage('');
 
             // });
-        } else if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
-
-            dispatch({
-                type: 'INVOICESETTINGS',
-                payload: {
-                    hostel_Id: selectedHostel.id,
-                    profile: selectedImage
-                }
-            });
-               dispatch({ type: 'HOSTELLIST' })
-                setShowTable(false);
-                setSelectedHostel({ id: '', name: '' });
-                setPrefix('');
-                setStartNumber('');
-                setSelectedImage('');
-
-        } else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid && selectedHostel.id) {
+        } 
+       
+         else if (isPrefixValid && isStartNumberValid && !isSelectedImageValid && selectedHostel.id) {
 
             dispatch({
                 type: 'INVOICESETTINGS',
@@ -381,7 +384,6 @@ function InvoiceSettings() {
 
                             <option style={{ fontSize: 14, fontWeight: 600, fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }} >Select PG</option>
                             {state.UsersList.hostelList && state.UsersList.hostelList
-                            .filter((item) => !item.prefix ||!item.suffix )
                             .map((item) => (
                                 <>
                                     <option key={item.id} value={item.id} >{item.Name}</option></>
