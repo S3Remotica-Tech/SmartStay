@@ -110,11 +110,11 @@ text-decoration: underline;
     padding: 2px;
     cursor: pointer;
   }
-  .overdue{
+  /* .overdue{
     display: flex;
     flex-direction: column;
   
-   }
+   } */
    .cardalignitems{
     display: flex;
     flex-direction: column;
