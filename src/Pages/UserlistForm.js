@@ -69,7 +69,10 @@ function UserlistForm(props) {
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
-  const [RoomRent, setRoomRent] = useState("");
+  const [RoomRent, setRoomRent] = useState(0);
+  console.log("RoomRent",RoomRent);
+  
+  
   const [BalanceDue, setBalanceDue] = useState("");
   const [PaymentType, setPaymentType] = useState("");
   const [AdvanceAmount, setAdvanceAmount] = useState("");
@@ -88,7 +91,9 @@ function UserlistForm(props) {
   const [createdat, setCreatedAt] = useState("");
   const [payableamount, setPayableamount] = useState("");
   const [countryCode, setCountryCode] = useState("91");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  console.log("selectedDate",selectedDate);
+  
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
@@ -121,10 +126,13 @@ function UserlistForm(props) {
 
   const options = {
     dateFormat: "Y/m/d",
-    // defaultDate: selectedDate || new Date(),
+
+    // defaultDate: selectedDate ,
     maxDate: new Date(),
-    minDate: null
+    minDate: new Date(),
+
   };
+
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -215,41 +223,42 @@ function UserlistForm(props) {
   useEffect(() => {
     dispatch({ type: "COUNTRYLIST" });
   }, []);
-  useEffect(() => {
-    const currentDate = moment().format("YYYY-MM-DD");
-    const joinDate = moment(currentDate).format("YYYY-MM-DD");
-    const currentMonth = moment(currentDate).month() + 1;
-    const currentYear = moment(currentDate).year();
-    const createdAtMonth = moment(joinDate).month() + 1;
-    const createdAtYear = moment(joinDate).year();
 
-    if (currentMonth === createdAtMonth && currentYear === createdAtYear) {
-      var dueDate = moment(joinDate).endOf("month").format("YYYY-MM-DD");
-      var invoiceDate = moment(joinDate).format("YYYY-MM-DD");
-    } else {
-      var dueDate = moment(currentDate).endOf("month").format("YYYY-MM-DD");
-      var invoiceDate = moment(currentDate)
-        .startOf("month")
-        .format("YYYY-MM-DD");
-    }
+  // useEffect(() => {
+  //   const currentDate = moment().format("YYYY-MM-DD");
+  //   const joinDate = moment(currentDate).format("YYYY-MM-DD");
+  //   const currentMonth = moment(currentDate).month() + 1;
+  //   const currentYear = moment(currentDate).year();
+  //   const createdAtMonth = moment(joinDate).month() + 1;
+  //   const createdAtYear = moment(joinDate).year();
+
+  //   if (currentMonth === createdAtMonth && currentYear === createdAtYear) {
+  //     var dueDate = moment(joinDate).endOf("month").format("YYYY-MM-DD");
+  //     var invoiceDate = moment(joinDate).format("YYYY-MM-DD");
+  //   } else {
+  //     var dueDate = moment(currentDate).endOf("month").format("YYYY-MM-DD");
+  //     var invoiceDate = moment(currentDate)
+  //       .startOf("month")
+  //       .format("YYYY-MM-DD");
+  //   }
     
 
-    const formattedJoinDate = moment(invoiceDate).format("YYYY-MM-DD");
-    const formattedDueDate = moment(dueDate).format("YYYY-MM-DD");
-    const numberOfDays =
-      moment(formattedDueDate).diff(moment(formattedJoinDate), "days") + 1;
+  //   const formattedJoinDate = moment(invoiceDate).format("YYYY-MM-DD");
+  //   const formattedDueDate = moment(dueDate).format("YYYY-MM-DD");
+  //   const numberOfDays =
+  //     moment(formattedDueDate).diff(moment(formattedJoinDate), "days") + 1;
     
 
-    const totalDaysInCurrentMonth = moment(currentDate).daysInMonth();
+  //   const totalDaysInCurrentMonth = moment(currentDate).daysInMonth();
 
-    const oneday_amount = RoomRent / totalDaysInCurrentMonth;
+  //   const oneday_amount = RoomRent / totalDaysInCurrentMonth;
 
-    const payableamount = oneday_amount * numberOfDays;
-    const This_month_payableamount = Math.round(payableamount);
-    setPayableamount(This_month_payableamount);
+  //   const payableamount = oneday_amount * numberOfDays;
+  //   const This_month_payableamount = Math.round(payableamount);
+  //   setPayableamount(This_month_payableamount);
 
    
-  }, [RoomRent]);
+  // }, [RoomRent]);
 
   const handlePaidrent = (e) => {
     const value = e.target.value;
@@ -403,19 +412,58 @@ function UserlistForm(props) {
         floor_id: Floor,
         room_id: e.target.value,
       },
+      
     });
+    setRoomRent(0)
     setRoomError("");
   };
 
-  const handleRoomRent = (e) => {
-    const roomRentValue = e.target.value;
-    setRoomRent(roomRentValue);
-    setRoomRentError("");
-  };
+  console.log("state.UsersList.roomdetails[0].bed_details",state.UsersList.roomdetails)
+
+     
+
+
+  
 
   const handleBed = (e) => {
     setBed(e.target.value);
+      console.log("e",e.target.value);
+
+      const Bedfilter =state?.UsersList?.roomdetails && state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == hostel_Id && u.Floor_Id == Floor  && u.Room_Id == Rooms  )
+    
+    const Roomamountfilter = Bedfilter&& Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == e.target.value)
+    
+    if (Roomamountfilter.length !=0) {
+      setRoomRent(Roomamountfilter[0].bed_amount)
+      console.log("Roomamountfilter",Roomamountfilter[0].bed_amount);
+    }
+    
+   
     setBedError("");
+  };
+
+
+
+  //  useEffect (()=>{
+
+  //   const Bedfilter =state?.UsersList?.roomdetails && state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == hostel_Id && u.Floor_Id == Floor  && u.Room_Id == Rooms  )
+    
+  //   const Roomamountfilter = Bedfilter&& Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == Bed)
+    
+  //   if (Roomamountfilter.length !=0) {
+  //     console.log("Roomamountfilter",Roomamountfilter);
+  //   }
+  //   setRoomRent(Roomamountfilter)
+  //  },[hostel_Id,Floor,Rooms, Bed])
+
+
+
+   const handleRoomRent = (e) => {
+    
+    const value = e.target.value
+    setRoomRent(e.target.value);
+    console.log("roomrentvalue",value)
+    setRoomRentError("");
   };
 
   const handlePaymentType = (e) => {
@@ -519,7 +567,7 @@ function UserlistForm(props) {
       setRooms(props.EditObj.Rooms);
       setBed(props.EditObj.Bed);
       setAdvanceAmount(props.EditObj.AdvanceAmount);
-      setRoomRent(props.EditObj.RoomRent);
+      // setRoomRent(props.EditObj.RoomRent);
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
       setPaidAdvance(props.EditObj.paid_advance);
@@ -528,6 +576,7 @@ function UserlistForm(props) {
       props.setEdit("Add");
     }
   }, []);
+  
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleSaveUserlist = () => {
@@ -1354,7 +1403,7 @@ if (Bed === 'Selected Bed' || bedError) {
   id="form-selects"
   onChange={(e) => handleBed(e)}
 >
-  <option>Selected Bed</option>
+  <option value='' selected>Selected Bed</option>
 
   {props.edit === "Edit" &&
     Bednum &&
