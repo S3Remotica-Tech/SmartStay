@@ -432,7 +432,7 @@ function EBRoomReading(props) {
                 textAlign: "center",
                 fontWeight: 600,
                 fontFamily: "Gilroy",
-                fontSize: 24,
+                fontSize: 20,
                 color: "rgba(75, 75, 75, 1)",
               }}
             >
@@ -444,7 +444,7 @@ function EBRoomReading(props) {
                 textAlign: "center",
                 fontWeight: 500,
                 fontFamily: "Gilroy",
-                fontSize: 20,
+                fontSize: 16,
                 color: "rgba(75, 75, 75, 1)",
               }}
             >
@@ -463,7 +463,7 @@ function EBRoomReading(props) {
                   borderRadius: 12,
                   width: 185,
                   padding: "18px, 20px, 18px, 20px",
-                  fontFamily: "Montserrat",
+                  fontFamily: "Gilroy",
                 }}
               >
                 + Add Reading
