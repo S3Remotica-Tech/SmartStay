@@ -522,11 +522,14 @@ lineHeight: 'normal',
           <div
             className="crddesg w-full"
             style={{
-              padding: "0px",
+              // padding: "0px",
               paddingTop: "20px",
               border: "1px solid #e0e0e0",
               borderRadius: "20px",
               backgroundColor: "#fff",
+              marginLeft:"-3px",
+              paddingRight:20,
+              width:"98%"
             }}
           >
             <div
@@ -536,9 +539,10 @@ lineHeight: 'normal',
                 justifyContent: "space-between",
                 alignItems: "center",
                 padding: "10 20px",
+                
               }}
             >
-              <div style={{ display: "flex", textAlign: "start" }}>
+              <div style={{ display: "flex", textAlign: "start" }} >
                 <p
                   style={{
                     fontFamily: "Montserrat",

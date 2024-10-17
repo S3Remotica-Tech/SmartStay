@@ -1317,7 +1317,7 @@ function UserListRoomDetail(props) {
                             </div>
                           </div>
 
-                          <div className="col-md-6 mb-3 mb-md-0">
+                          <div className="col-md-6 mb-3 mb-md-0" style={{paddingLeft:20}}>
                             {state.UsersList?.customerdetails?.data?.length ===
                               0 || state.UsersList?.customerdetails === "" ? (
                               <div
@@ -1630,11 +1630,12 @@ function UserListRoomDetail(props) {
                         </div>
 
                         <div
-                          className="card col-md-6 mb-3"
+                          className="card col-lg-6 col-md-6 mb-3 "
                           style={{
                             borderRadius: "20px",
                             padding: "20px",
                             marginTop: 30,
+                            
                           
                           }}
                         >
