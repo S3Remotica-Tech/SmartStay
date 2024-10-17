@@ -27,6 +27,7 @@ import Profile_Security from "./Profile_security";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Dropdown, Table } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
 
 
 const Accountsettings = () => {
@@ -565,15 +566,20 @@ if(!currentpassword){
 
   }, [stateData.statusCodeForAccountList])
 
+  const [logoutformshow,setLogoutformshow] = useState(false)
+
+  const handleShowLogout = () => {
+    setLogoutformshow(true)
+  }
+
+  const handleCloseLogout = () => {
+    setLogoutformshow(false)
+  }
+
+  
 
   const handleLogout = () => {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Do you want LogOut?',
-      confirmButtonText: 'Ok',
-      showCancelButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
+ 
         dispatch({ type: 'LOG_OUT' })
 
         const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), 'abcd')
@@ -583,8 +589,8 @@ if(!currentpassword){
         localStorage.setItem("phoneId", '')
         localStorage.setItem("emilidd", '')
         // localStorage.setItem('currentPage', 'dashboard');
-      }
-    })
+      
+   
   }
 
   let hasChanges =
@@ -600,8 +606,7 @@ if(!currentpassword){
          const handleSaveUpdate = () => {
 
 
-    // const emailElement = document.getElementById('emailIDError');
-    // const emailError = emailElement ? emailElement.innerHTML : '';
+    
     const emailcapitalelement = document.getElementById('emailIDError');
     const emailCapitalError = emailcapitalelement ? emailcapitalelement.innerHTML : '';
     const phoneNumberError = document.getElementById('MobileNumberError');
@@ -902,6 +907,80 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
           </div>
         </div>
       </div>
+
+      
+      <Modal
+  show={logoutformshow}
+  onHide={handleCloseLogout}
+  centered
+  backdrop="static"
+  style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }} 
+>
+  <Modal.Header style={{ borderBottom: 'none' }}> 
+    <Modal.Title 
+      style={{
+        fontSize: '18px',
+        fontFamily: 'Gilroy',
+        textAlign: 'center',
+        fontWeight: 600,
+        color: '#222222',
+        flex: 1
+      }}
+    >
+      Logout?
+    </Modal.Title>
+  </Modal.Header>
+  
+  <Modal.Body
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: 'Gilroy',
+      color: '#646464',
+      textAlign: 'center',
+      marginTop: '-20px'
+    }}
+  >
+    Are you sure you want Logout?
+  </Modal.Body>
+  
+  <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}> 
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 8,
+        padding: '12px 20px',
+        background: '#fff',
+        color: '#1E45E1',
+        border: '1px solid #1E45E1',
+        fontWeight: 600,
+        fontFamily: 'Gilroy',
+        fontSize: '14px',
+        marginRight: 10
+      }}
+      onClick={handleCloseLogout}   
+    >
+      Cancel
+    </Button>
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 8,
+        padding: '12px 20px',
+        background: '#1E45E1',
+        color: '#FFFFFF',
+        fontWeight: 600,
+        fontFamily: 'Gilroy',
+        fontSize: '14px'
+      }}
+      onClick={handleLogout} 
+    >
+      Logout
+    </Button>
+  </Modal.Footer>
+</Modal>
 
 
       <TabContext value={value}>
@@ -1371,7 +1450,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
           </TabPanel>
           
 
-          <div style={{ marginTop: '50px',marginLeft:'30px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleLogout}>
+          <div style={{ marginTop: '50px',marginLeft:'30px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleShowLogout}>
 
 <div> <img src={Logout} height={20} width={20} /> </div>
 <p style={{ color: 'red', fontWeight: 500, fontSize: '18px', paddingBottom: '5px', marginLeft: '5px' }}>Log out</p>
