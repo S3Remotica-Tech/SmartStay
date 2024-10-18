@@ -46,7 +46,9 @@ const initialState = {
     NoDataWalkInCustomerStatusCode: 0,
     addWalkInCustomerStatusCode: 0,
     alreadyHere: '',
-    deleteWalkInCustomerStatusCode:0
+    deleteWalkInCustomerStatusCode:0,
+    GetCheckOutCustomerStatusCode: 0,
+    CheckOutCustomerList:[],
 
 }
 
@@ -199,8 +201,20 @@ const UserListReducer = (state = initialState, action) => {
 
             case 'DELETE_WALK_IN_CUSTOMER' :
                 return { ...state, deleteWalkInCustomerStatusCode:action.payload.statusCode}
-                case 'CLEAR_DELETE_WALK_IN_CUSTOMER' :
-                    return { ...state, deleteWalkInCustomerStatusCode:0}
+        case 'CLEAR_DELETE_WALK_IN_CUSTOMER':
+            return { ...state, deleteWalkInCustomerStatusCode: 0 }
+
+        case 'CHECKOUT_CUSTOMER_LIST':
+            return { ...state, CheckOutCustomerList: action.payload.response, GetCheckOutCustomerStatusCode: action.payload.statusCode }
+
+        case 'CLEAR_CHECKOUT_CUSTOMER_LIST':
+            return { ...state, GetCheckOutCustomerStatusCode: 0 }
+
+
+
+
+
+
 
         case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {

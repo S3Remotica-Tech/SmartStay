@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {AddWalkInCustomer,DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist} from "../Action/UserListAction"
+import {getCheckOutCustomer, AddWalkInCustomer,DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -823,7 +823,19 @@ function* handleDeleteWalkInCustomer(action) {
 }
 
 
-
+function* handleCheckoutCustomer(){
+   const response = yield call (getCheckOutCustomer);
+   
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'CHECKOUT_CUSTOMER_LIST' , payload:{response:response.data.checkout_details, statusCode:response.status || response.statusCode}})
+   }
+   else  if (response.status === 201 || response.statusCode === 201) {
+      yield put ({type:'CHECKOUT_CUSTOMER_LIST_ERROR', payload:{statusCode:response.status || response.statusCode}})
+   }
+   if(response){
+     refreshToken(response)
+  }
+}
 
 
 
@@ -852,7 +864,7 @@ function* UserListSaga() {
    yield takeEvery('WALKINCUSTOMERLIST',handleGetWalkInCustomer)
    yield takeEvery('ADDWALKINCUSTOMER',handleAddWalkInCustomer)
    yield takeEvery('DELETEWALKINCUSTOMER',handleDeleteWalkInCustomer)
-   
+    yield takeEvery('CHECKOUTCUSTOMERLIST',  handleCheckoutCustomer)
  
 
 }

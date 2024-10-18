@@ -11,18 +11,58 @@ import { Modal, Button, Pagination, Form } from 'react-bootstrap';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import Closecircle from '../Assets/Images/close-circle.svg';
 import Flatpickr from 'react-flatpickr';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 
 function CheckOut() {
+
+  const state = useSelector(state => state)
+  const dispatch = useDispatch();
+
+
+
+  console.log("state for cHECKoUT", state)
+
   const [activeDotsId, setActiveDotsId] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [checkOutDate, setCheckOutDate] = useState(new Date());
   const [selectedCustomer, setSelectedCustomer] = useState("Customer 1");
   const [modalType, setModalType] = useState(null);
-  const [customers, setCustomers] = useState(Array.from({ length: 50 }, (_, index) => `Customer ${index + 1}`)); // Simulating customers array
+  const [customers, setCustomers] = useState([]); // Simulating customers array
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6; // Change items per page to 6
   const datePickerRef = useRef(null);
+
+
+  const [checkOutCustomer, setCheckOutCustomer] = useState([])
+
+
+
+
+useEffect(()=>{
+dispatch({ type: 'CHECKOUTCUSTOMERLIST'})
+},[])
+
+
+
+
+useEffect(() => {
+  if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+    setCheckOutCustomer(state.UsersList.CheckOutCustomerList)
+      setTimeout(() => {
+          dispatch({ type: 'CLEAR_CHECKOUT_CUSTOMER_LIST' })
+      }, 2000)
+
+  }
+
+}, [state.UsersList.GetCheckOutCustomerStatusCode])
+
+
+
+
+
+
 
   // Pagination logic
   const indexOfLastCustomer = currentPage * itemsPerPage;
@@ -81,7 +121,40 @@ function CheckOut() {
 
   const handleClose = () => setShowForm(false);
 
-  const renderCard = (index) => (
+
+//edit form
+const initialDate = new Date();
+const formatDate = (date) => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
+const [checkOutDates, setCheckOutDates] = useState(formatDate(initialDate));
+const [selectedCustomers, setSelectedCustomers] = useState("Customer 1");
+const [noticeDays, setNoticeDays] = useState("");
+const calendarRef = useRef(null);
+
+const handleCustomerChanges = (event) => {
+  setSelectedCustomers(event.target.value);
+};
+
+const handleNoticeDaysChange = (event) => {
+  setNoticeDays(event.target.value);
+};
+
+const handleDateChange = (date) => {
+  setCheckOutDates(formatDate(date[0]));
+  calendarRef.current.flatpickr.close();
+};
+
+  return (
+    <div className="p-10">
+      <div className="row mt-3">
+        {currentCustomers.map((_, index) =>
+
+     
     <div key={index} className="col-lg-6 col-md-6 col-sm-12 mb-4">
       <div className="border p-3" style={{ borderColor: '#E6E6E6', borderWidth: '1px', borderRadius: '16px', position: 'relative' }}>
         <div className="d-flex align-items-center">
@@ -198,39 +271,25 @@ function CheckOut() {
         </div>
       </div>
     </div>
-  );
-//edit form
-const initialDate = new Date();
-const formatDate = (date) => {
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-  return `${day}-${month}-${year}`;
-};
+  
 
-const [checkOutDates, setCheckOutDates] = useState(formatDate(initialDate));
-const [selectedCustomers, setSelectedCustomers] = useState("Customer 1");
-const [noticeDays, setNoticeDays] = useState("");
-const calendarRef = useRef(null);
+)}
 
-const handleCustomerChanges = (event) => {
-  setSelectedCustomers(event.target.value);
-};
 
-const handleNoticeDaysChange = (event) => {
-  setNoticeDays(event.target.value);
-};
 
-const handleDateChange = (date) => {
-  setCheckOutDates(formatDate(date[0]));
-  calendarRef.current.flatpickr.close();
-};
-
-  return (
-    <div className="p-10">
-      <div className="row mt-3">
-        {currentCustomers.map((_, index) => renderCard(index))}
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
       {/* Pagination rendering */}
       <Pagination className="mt-4 d-flex justify-content-end align-items-center">
@@ -335,7 +394,7 @@ const handleDateChange = (date) => {
       </Modal>
 
       {/* Form Modal */}
-      <Modal show={showForm} onHide={handleClose}>
+      {/* <Modal show={showForm} onHide={handleClose}>
       <Modal.Header className="d-flex justify-content-between align-items-center">
         <Modal.Title style={{ fontWeight: '600', fontSize: '16px' }}>Edit Check-out</Modal.Title>
         <img
@@ -461,7 +520,7 @@ const handleDateChange = (date) => {
           }}>Save Changes</Button>
         </form>
       </Modal.Body>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }
