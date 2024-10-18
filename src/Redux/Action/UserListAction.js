@@ -167,3 +167,39 @@ export async function countrylist() {
   return await AxiosConfig.get('/conutry_list',{
   })
 }
+
+
+
+export async function getWalkInCustomer() {
+  return await AxiosConfig.get('/get_walkin-customer',{
+  })
+}
+
+
+
+
+
+
+export async function AddWalkInCustomer(walk) {
+  return await AxiosConfig.post('/add_walkin-customer',walk,{
+    data:walk
+  })
+}
+
+
+export async function DeleteWalkInCustomer(walk) {
+  return await AxiosConfig.post('/delete_walkin-customer',walk,{
+    data:walk
+  })
+}
+
+
+
+
+
+
+
+
+
+
+

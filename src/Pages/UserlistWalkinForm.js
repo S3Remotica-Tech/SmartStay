@@ -5,8 +5,11 @@ import 'flatpickr/dist/themes/material_green.css';
 import Calendars from '../Assets/Images/New_images/calendar.png';
 import { toast, ToastContainer } from 'react-toastify';
 import { CloseCircle } from 'iconsax-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { MdError } from "react-icons/md";
+import moment from 'moment';
 
-function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
+function CustomerForm({ show, handleClose, initialData, modalType }) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [mobile, setMobile] = useState('');
@@ -21,9 +24,36 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
         comments: '',
     });
 
+
+    const state = useSelector(state => state)
+    const dispatch = useDispatch();
+
+
+
+    console.log("state for walk in", state)
+
+
+    console.log("initialData", initialData)
+
+
+    
+    
+
+
+    const [generalError, setGeneralError] = useState('');
+    const [nameError, setNameError] = useState('');
+    const [mobileError, setMobileError] = useState('');
+    const [countryCodeError, setCountryCodeError] = useState('');
+    const [walkInDateError, setWalkInDateError] = useState('');
+    const [isChangedError, setIsChangedError] = useState('')
+
     const datePickerRef = useRef(null);
 
     const handlePhone = (e) => {
+        setGeneralError('');
+        setMobileError('');
+        setIsChangedError('');
+        dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' })
         const value = e.target.value;
         if (/^\d*$/.test(value) && value.length <= 10) {
             setMobile(value);
@@ -37,14 +67,20 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
 
     useEffect(() => {
         if (initialData) {
-            setName(initialData.name || '');
-            setEmail(initialData.email || '');
+            setName(initialData.customer_Name || '');
+            setEmail(initialData.email_Id || '');
 
-            const mobileParts = initialData.mobile.split(' ');
-            setCountryCode(mobileParts[0].replace('+', '') || '91');
-            setMobile(mobileParts[1] || '');
 
-            setWalkInDate(initialData.walkInDate ? new Date(initialData.walkInDate) : null);
+            const phoneNumber = String(initialData.mobile_Number || '');
+            const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+            const mobileNumber = phoneNumber.slice(-10);
+
+
+            setCountryCode(countryCode);
+            setMobile(mobileNumber);
+
+
+            setWalkInDate(initialData.walk_In_Date ? moment(initialData.walk_In_Date).toDate('') : null);
             setComments(initialData.comments || '');
         } else {
             setName('');
@@ -62,6 +98,7 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
             });
         }
     }, [initialData, show]);
+
 
     const validateForm = () => {
         const newErrors = {};
@@ -103,184 +140,381 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
 
-        if (validateForm()) {
-            const updatedCustomer = {
-                ...initialData,
-                name,
-                email,
-                mobile: `+${countryCode} ${mobile}`,
-                walkInDate: walkInDate.toLocaleDateString('en-GB'),
-                comments
-            };
+    //     if (validateForm()) {
+    //         const updatedCustomer = {
+    //             ...initialData,
+    //             name,
+    //             email,
+    //             mobile: `+${countryCode} ${mobile}`,
+    //             walkInDate: walkInDate.toLocaleDateString('en-GB'),
+    //             comments
+    //         };
 
-            console.log('Submitting Customer Data:', updatedCustomer);
+    //         console.log('Submitting Customer Data:', updatedCustomer);
 
-            if (onSubmit) {
-                onSubmit(updatedCustomer);
-            } else {
-                console.error('onSubmit prop is not provided.');
+    //         if (onSubmit) {
+    //             onSubmit(updatedCustomer);
+    //         } else {
+    //             console.error('onSubmit prop is not provided.');
+    //         }
+
+    //         if (modalType === 'add') {
+    //             setName('');
+    //             setEmail('');
+    //             setCountryCode('91');
+    //             setMobile('');
+    //             setWalkInDate(null);
+    //             setComments('');
+    //             setErrors({
+    //                 name: '',
+    //                 email: '',
+    //                 mobile: '',
+    //                 walkInDate: '',
+    //                 comments: '',
+    //             });
+    //         }
+
+
+    //     }
+    // };
+
+
+
+    const handleSubmitWalkIn = () => {
+
+
+
+
+        if (!name && !mobile && !countryCode && !walkInDate) {
+            setGeneralError('Please fill in all the required fields.');
+            return;
+        }
+
+        const isChanged = initialData && (
+            name.trim() !== (initialData.customer_Name || '').trim() || 
+            email.trim() !== (initialData.email_Id || '').trim() || 
+            `${countryCode}${mobile}` !== String(initialData.mobile_Number || '').trim() || 
+            (walkInDate && initialData.walk_In_Date) && moment(walkInDate).format('YYYY-MM-DD') !== moment(initialData.walk_In_Date).format('YYYY-MM-DD') || 
+            comments.trim() !== (initialData.comments || '').trim() 
+        );
+    
+
+console.log("isChanged",isChanged)
+
+    if (initialData && !isChanged) {
+        setIsChangedError('No changes detected in the form.');
+        return;
+    }
+
+
+
+        if (!name) {
+            setNameError('Please enter Name');
+            return;
+        }
+
+        if (!mobile) {
+            setMobileError('Please enter Mobile Number');
+            return;
+        }
+        if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
+            setMobileError('Mobile Number must be exactly 10 digits');
+            return;
+        }
+
+        if (!countryCode) {
+            setCountryCodeError('Please select Country Code');
+            return;
+        }
+
+        if (!walkInDate) {
+            setWalkInDateError('Please select Walk-In Date');
+            return;
+        }
+
+
+        const Mobile_Number = `${countryCode}${mobile}`
+        const formattedDate = moment(walkInDate).format('YYYY-MM-DD');
+
+        dispatch({
+            type: 'ADDWALKINCUSTOMER',
+            payload: {
+                customer_Name: name,
+                email_Id: email,
+                mobile_Number: Mobile_Number,
+                walk_In_Date: formattedDate,
+                comments: comments,
+                id: initialData ? initialData.id : ''
             }
+        });
+    };
 
-            if (modalType === 'add') {
-                setName('');
-                setEmail('');
-                setCountryCode('91');
-                setMobile('');
-                setWalkInDate(null);
-                setComments('');
-                setErrors({
-                    name: '',
-                    email: '',
-                    mobile: '',
-                    walkInDate: '',
-                    comments: '',
-                });
-            }
+    console.log("countryCode", countryCode)
 
-
+    const handleNameChange = (e) => {
+        const value = e.target.value;
+        setGeneralError('');
+        setNameError('');
+        setIsChangedError('');
+        setName(value);
+        if (value.trim() !== '') {
+            setErrors(prev => ({ ...prev, name: '' }));
+        } else {
+            setErrors(prev => ({ ...prev, name: 'Name is required.' }));
+        }
+    };
+    const handleEmailChange = (e) => {
+        const value = e.target.value;
+        setGeneralError('');
+        setIsChangedError('');
+        dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' })
+        setEmail(value);
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            setErrors(prev => ({ ...prev, email: 'Invalid email format.' }));
+        } else {
+            setErrors(prev => ({ ...prev, email: '' }));
         }
     };
 
+
+    const handleMobileChange = (e) => {
+        const value = e.target.value;
+        setGeneralError('');
+        setMobile(value);
+        setIsChangedError('');
+        if (value.trim() !== '' && value.length === 10) {
+            setErrors(prev => ({ ...prev, mobile: '' }));
+        } else {
+            setErrors(prev => ({ ...prev, mobile: 'Invalid mobile number.' }));
+        }
+    };
+
+
+
+    const handleCountryCodeChange = (e) => {
+        const value = e.target.value;
+        setIsChangedError('');
+        console.log("countryValue", value)
+        setCountryCode(value);
+        setGeneralError('');
+        setCountryCodeError('');
+    };
+
+
+    const handleWalkInDateChange = (selectedDates) => {
+        setGeneralError('');
+        setWalkInDateError('');
+        setIsChangedError('');
+        if (selectedDates.length > 0) {
+            setWalkInDate(selectedDates[0]);
+            setErrors(prev => ({ ...prev, walkInDate: '' }));
+        }
+    };
+
+    const handleCommentsChange = (e) => {
+        const value = e.target.value;
+        setGeneralError('');
+        setComments(value);
+        setIsChangedError('');
+
+    };
+
+
     return (
         <>
-            <Modal show={show} onHide={handleClose} centered>
+            <Modal show={show} onHide={handleClose} centered backdrop="static">
                 <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginLeft: '18px', marginRight: '18px', }}>
                     <div style={{ fontSize: 20, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
-                        {modalType === 'edit' ? 'Edit Walk-in' : 'Add Walk-in'}
+                        {initialData ? 'Edit Walk-in' : 'Add Walk-in'}
                     </div>
                     <CloseCircle size="32" color="#222222" onClick={handleClose} style={{ cursor: 'pointer' }} />
                 </Modal.Header>
+
+
+
+                {state.UsersList.alreadyHere && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {state.UsersList.alreadyHere}
+                        </label>
+                    </div>
+                )}
+
+
+
+{isChangedError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {isChangedError}
+                        </label>
+                    </div>
+                )}
+
+                {generalError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {generalError}
+                        </label>
+                    </div>
+                )}
+
+
+                {nameError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {nameError}
+                        </label>
+                    </div>
+                )}
+                {mobileError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {mobileError}
+                        </label>
+                    </div>
+                )}
+                {countryCodeError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {countryCodeError}
+                        </label>
+                    </div>
+                )}
+
+                {walkInDateError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {walkInDateError}
+                        </label>
+                    </div>
+                )}
                 <Modal.Body>
-                    <Form onSubmit={handleSubmit}>
-                        <div className="row">
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <Form.Group controlId="formCustomerName" className="mb-3">
-                                    <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                                        Name
-                                    </Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter name"
-                                        value={name}
-                                        onChange={(e) => {
-                                            setName(e.target.value);
-                                            if (e.target.value.trim() !== '') {
-                                                setErrors(prev => ({ ...prev, name: '' }));
-                                            } else {
-                                                setErrors(prev => ({ ...prev, name: 'Name is required.' }));
-                                            }
-                                        }}
-                                        style={{
-                                            height: "50px",
-                                            borderRadius: "8px",
-                                            fontSize: '16px',
-                                            fontFamily: 'Gilroy',
-                                            color: '#4B4B4B',
-                                            fontWeight: 500,
-                                            boxShadow: 'none',
-                                            border: errors.name ? '1px solid red' : '1px solid #D9D9D9'
-                                        }}
-                                    />
-                                    {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>}
-                                </Form.Group>
-                            </div>
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <Form.Group controlId="formCustomerEmail" className="mb-3">
-                                    <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                                        Email ID
-                                    </Form.Label>
-                                    <Form.Control
-                                        type="email"
-                                        placeholder="Enter email"
-                                        value={email}
-                                        onChange={(e) => {
-                                            setEmail(e.target.value);
-                                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                                            if (e.target.value.trim() === '') {
-                                                setErrors(prev => ({ ...prev, email: 'Email is required.' }));
-                                            } else if (!emailRegex.test(e.target.value)) {
-                                                setErrors(prev => ({ ...prev, email: 'Invalid email format.' }));
-                                            } else {
-                                                setErrors(prev => ({ ...prev, email: '' }));
-                                            }
-                                        }}
-                                        style={{
-                                            height: "50px",
-                                            borderRadius: "8px",
-                                            fontSize: '16px',
-                                            fontFamily: 'Gilroy',
-                                            color: '#4B4B4B',
-                                            fontWeight: 500,
-                                            boxShadow: 'none',
-                                            border: errors.email ? '1px solid red' : '1px solid #D9D9D9'
-                                        }}
-                                    />
-                                    {errors.email && <small style={{ color: 'red' }}>{errors.email}</small>}
-                                </Form.Group>
-                            </div>
 
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <Form.Group controlId="formCustomerMobile" className="mb-3">
-                                    <Form.Label style={{
-                                        fontSize: '14px',
-                                        color: '#222222',
+                    <div className="row">
+                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <Form.Group controlId="formCustomerName" className="mb-3">
+                                <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
+                                    Name
+                                    <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter name"
+                                    value={name}
+                                    onChange={handleNameChange}
+                                    style={{
+                                        height: "50px",
+                                        borderRadius: "8px",
+                                        fontSize: '16px',
                                         fontFamily: 'Gilroy',
-                                        fontWeight: 500
-                                    }}>
-                                        Mobile number
-                                    </Form.Label>
+                                        color: '#4B4B4B',
+                                        fontWeight: 500,
+                                        boxShadow: 'none',
+                                        border: errors.name ? '1px solid red' : '1px solid #D9D9D9'
+                                    }}
+                                />
+                                {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>}
+                            </Form.Group>
+                        </div>
+                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <Form.Group controlId="formCustomerEmail" className="mb-3">
+                                <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
+                                    Email ID
+                                </Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Enter email"
+                                    value={email}
+                                    onChange={handleEmailChange}
+                                    style={{
+                                        height: "50px",
+                                        borderRadius: "8px",
+                                        fontSize: '16px',
+                                        fontFamily: 'Gilroy',
+                                        color: '#4B4B4B',
+                                        fontWeight: 500,
+                                        boxShadow: 'none',
+                                        border: errors.email ? '1px solid red' : '1px solid #D9D9D9'
+                                    }}
+                                />
+                                {errors.email && <small style={{ color: 'red' }}>{errors.email}</small>}
+                            </Form.Group>
+                        </div>
 
-                                    <InputGroup>
-                                        <Form.Select
-                                            value={countryCode}
-                                            id="vendor-select-pg"
-                                            onChange={(e) => setCountryCode(e.target.value)}
-                                            style={{
-                                                border: "1px solid #D9D9D9",
-                                                borderRadius: "8px 0 0 8px",
-                                                height: 50,
-                                                fontSize: 16,
-                                                color: "#4B4B4B",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: countryCode ? 600 : 500,
-                                                boxShadow: "none",
-                                                backgroundColor: "#fff",
-                                                maxWidth: 90,
-                                                paddingRight: 10
-                                            }}
-                                        >
-                                            <option value="91">+91</option>
-                                            <option value="1">+1</option>
-                                            <option value="44">+44</option>
-                                        </Form.Select>
-                                        <Form.Control
-                                            value={mobile}
-                                            onChange={handlePhone}
-                                            type="text"
-                                            placeholder="9876543210"
-                                            maxLength={10}
-                                            style={{
-                                                fontSize: 16,
-                                                color: "#4B4B4B",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: mobile ? 600 : 500,
-                                                boxShadow: "none",
-                                                borderLeft: "unset",
-                                                borderRight: errors.mobile ? "1px solid red" : "1px solid #D9D9D9",
-                                                borderTop: "1px solid #D9D9D9",
-                                                borderBottom: "1px solid #D9D9D9",
-                                                height: 50,
-                                                borderRadius: "0 8px 8px 0",
-                                            }}
-                                        />
-                                    </InputGroup>
-                                    {errors.mobile && <small style={{ color: 'red' }}>{errors.mobile}</small>}
-                                </Form.Group>
-                            </div>
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <Form.Group controlId="formCustomerMobile" className="mb-3">
+                                <Form.Label style={{
+                                    fontSize: '14px',
+                                    color: '#222222',
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: 500
+                                }}>
+                                    Mobile number <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                </Form.Label>
+
+                                <InputGroup>
+                                    <Form.Select
+                                        value={countryCode}
+                                        id="vendor-select-pg"
+                                        onChange={handleCountryCodeChange}
+                                        style={{
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: "8px 0 0 8px",
+                                            height: 50,
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: countryCode ? 600 : 500,
+                                            boxShadow: "none",
+                                            backgroundColor: "#fff",
+                                            maxWidth: 90,
+                                            paddingRight: 10
+                                        }}
+                                    >
+                                        {
+                                            state.UsersList?.countrycode && state.UsersList?.countrycode?.country_codes?.map((view) => {
+                                                return <option key={view.country_code} value={view.country_code}>+{view.country_code}</option>
+                                            })
+
+
+                                        }
+
+                                    </Form.Select>
+                                    <Form.Control
+                                        value={mobile}
+                                        onChange={handlePhone}
+                                        type="text"
+                                        placeholder="9876543210"
+                                        maxLength={10}
+                                        style={{
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: mobile ? 600 : 500,
+                                            boxShadow: "none",
+                                            borderLeft: "unset",
+                                            borderRight: errors.mobile ? "1px solid red" : "1px solid #D9D9D9",
+                                            borderTop: "1px solid #D9D9D9",
+                                            borderBottom: "1px solid #D9D9D9",
+                                            height: 50,
+                                            borderRadius: "0 8px 8px 0",
+                                        }}
+                                    />
+                                </InputGroup>
+                                {errors.mobile && <small style={{ color: 'red' }}>{errors.mobile}</small>}
+                            </Form.Group>
+                        </div>
+                        {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <Form.Group controlId="formWalkInDate" className="mb-3">
                                     <Form.Label style={{
                                         fontSize: '14px',
@@ -288,7 +522,7 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                                         fontFamily: "Gilroy",
                                         fontWeight: 500
                                     }}>
-                                        Walk-In Date
+                                        Walk-In Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                     </Form.Label>
                                     <InputGroup>
                                         <div style={{ position: 'relative', width: '100%' }}>
@@ -341,55 +575,104 @@ function CustomerForm({ show, handleClose, onSubmit, initialData, modalType }) {
                                         {errors.walkInDate && <small style={{ color: 'red', position: 'absolute', top: '100%', left: '0' }}>{errors.walkInDate}</small>}
                                     </InputGroup>
                                 </Form.Group>
-                            </div>
+                            </div> */}
+                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <Form.Group controlId="formWalkInDate" className="mb-3">
+                                <Form.Label style={{
+                                    fontSize: '14px',
+                                    color: "#222222",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500
+                                }}>
+                                    Walk-In Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                </Form.Label>
+                                <InputGroup>
+                                    <div style={{ position: 'relative', width: '100%' }}>
+                                        <label
+                                            htmlFor="walk-in-date-input"
+                                            style={{
+                                                border: errors.walkInDate ? "1px solid red" : "1px solid #D9D9D9",
+                                                borderRadius: "8px",
+                                                padding: "12px",
+                                                fontSize: "14px",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: walkInDate ? 500 : 500,
+                                                color: "#222222",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                cursor: "pointer",
+                                                height: "50px"
+                                            }}
+                                            onClick={() => {
+                                                if (datePickerRef.current) {
+                                                    datePickerRef.current.flatpickr.open();
+                                                }
+                                            }}
+                                        >
+                                            {walkInDate instanceof Date && !isNaN(walkInDate)
+                                                ? walkInDate.toLocaleDateString('en-GB')
+                                                : 'DD/MM/YYYY'}
+                                            <img src={Calendars} style={{ height: "24px", width: "24px" }} alt="Calendar" />
+                                        </label>
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <Form.Group controlId="formComments" className="mb-3">
-                                    <Form.Label style={{
-                                        fontSize: '14px',
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500
-                                    }}>
-                                        Comments
-                                    </Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter comments"
-                                        value={comments}
-                                        onChange={(e) => {
-                                            setComments(e.target.value);
-                                            if (e.target.value.trim() !== '') {
-                                                setErrors(prev => ({ ...prev, comments: '' }));
-                                            } else {
-                                                setErrors(prev => ({ ...prev, comments: 'Comments are required.' }));
-                                            }
-                                        }}
-                                        style={{
-                                            height: "50px",
-                                            borderRadius: "8px",
-                                            fontSize: '16px',
-                                            fontFamily: 'Gilroy',
-                                            color: '#4B4B4B',
-                                            fontWeight: 500,
-                                            boxShadow: 'none',
-                                            border: errors.comments ? '1px solid red' : '1px solid #D9D9D9'
-                                        }}
-                                    />
-                                    {errors.comments && <small style={{ color: 'red' }}>{errors.comments}</small>}
-                                </Form.Group>
-                            </div>
-
-
-
-                            <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
-
-                                <Button className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
-                                    {modalType === 'edit' ? 'Save Changes' : 'Add Walk-in'}
-                                </Button>
-                            </Modal.Footer>
+                                        <Flatpickr
+                                            ref={datePickerRef}
+                                            value={walkInDate}
+                                            onChange={handleWalkInDateChange}
+                                            options={{
+                                                dateFormat: "d/m/Y",
+                                                maxDate: "today"
+                                            }}
+                                            style={{ display: "none" }}
+                                        />
+                                    </div>
+                                    {errors.walkInDate && <small style={{ color: 'red', position: 'absolute', top: '100%', left: '0' }}>{errors.walkInDate}</small>}
+                                </InputGroup>
+                            </Form.Group>
                         </div>
-                    </Form>
+
+
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <Form.Group controlId="formComments" className="mb-3">
+                                <Form.Label style={{
+                                    fontSize: '14px',
+                                    color: "#222222",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500
+                                }}>
+                                    Comments
+                                </Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter comments"
+                                    value={comments}
+                                    onChange={handleCommentsChange}
+                                    style={{
+                                        height: "50px",
+                                        borderRadius: "8px",
+                                        fontSize: '16px',
+                                        fontFamily: 'Gilroy',
+                                        color: '#4B4B4B',
+                                        fontWeight: 500,
+                                        boxShadow: 'none',
+                                        border: errors.comments ? '1px solid red' : '1px solid #D9D9D9'
+                                    }}
+                                />
+                                {errors.comments && <small style={{ color: 'red' }}>{errors.comments}</small>}
+                            </Form.Group>
+                        </div>
+
+
+
+                        <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
+
+                            <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
+                                {initialData ? 'Save Changes' : 'Add Walk-in'}
+                            </Button>
+                        </Modal.Footer>
+                    </div>
+
                 </Modal.Body>
             </Modal>
 

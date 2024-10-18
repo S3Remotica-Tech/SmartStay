@@ -12,6 +12,7 @@ import { propsToClassKey } from "@mui/styles";
 function UserEb(props) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
+  console.log("state123",state)
 
 
   useEffect(() => {
@@ -92,8 +93,8 @@ function UserEb(props) {
   };
 
   useEffect(() => {
-    setEbFilterddata(state.UsersList.customerdetails.eb_data)
-  }, [state.UsersList.customerdetails.eb_data])
+    setEbFilterddata(state?.UsersList?.customerdetails?.eb_data)
+  }, [state?.UsersList?.customerdetails?.eb_data])
   return (
     <>
 
@@ -116,9 +117,9 @@ function UserEb(props) {
                 <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
               </tr>
             </thead>
-            <tbody style={{ height: "50px", fontSize: "11px" }}>
+            <tbody style={{ height: "50px", fontSize: "11px" ,verticalAlign:'middle'}}>
               {currentRowsEb?.map((u) => {
-                let Dated = new Date(u.Date);
+                let Dated = new Date(u.reading_date);
                 console.log("Dated..?", Dated);
 
                 let day = Dated.getDate();
@@ -130,14 +131,14 @@ function UserEb(props) {
                 return (
                   <tr key={u.id} style={{ lineHeight: "20px" }}>
 
-                    <td style={{ textAlign: "center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Floor_Id}</td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Room_No}</td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{u.start_Meter_Reading}</td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.end_Meter_Reading}</td>
+                    <td style={{ textAlign: "center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.floor_name}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Room_Id}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{u.start_meter}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.end_meter}</td>
                     <td> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.unit}</td>
                     {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td> */}
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.pay_eb_amount}</td>
+                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.amount}</td>
                     <td style={{ cursor: "pointer" }}>
                       <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
