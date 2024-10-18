@@ -888,13 +888,24 @@ function UserList(props) {
     setcheckoutForm(false);
   };
   // walkin from
+
+
   const [walkInForm, setWalkinForm] = useState(false);
   const walkinForm = () => {
-    setWalkinForm(!checkoutForm);
+    setWalkinForm(true);
   };
   const walkinFormcloseModal = () => {
     setWalkinForm(false);
   };
+
+  useEffect(() => {
+    if (state.UsersList.addWalkInCustomerStatusCode == 200) {
+             setWalkinForm(false);
+            }
+}, [state.UsersList.addWalkInCustomerStatusCode])
+
+
+
 
   return (
     <div className="usercustomer" style={{ padding: 10, marginLeft: 20 }}>

@@ -35,11 +35,19 @@ const initialState = {
     createFloorSuccessStatusCode: 0,
     countrycode: [],
     noHosteListStatusCode: 0,
-    alreadyFloorHere:'',
-    deleteFloorError:'',
-   deleteRoomError:'',
-    phoneError:'',
-    emailError:''
+    alreadyFloorHere: '',
+    deleteFloorError: '',
+    deleteRoomError: '',
+    phoneError: '',
+    emailError: '',
+    getWalkInStatusCode: 0,
+    WalkInCustomerList: [],
+    NoDataWalkInCustomer: '',
+    NoDataWalkInCustomerStatusCode: 0,
+    addWalkInCustomerStatusCode: 0,
+    alreadyHere: '',
+    deleteWalkInCustomerStatusCode:0
+
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -111,7 +119,7 @@ const UserListReducer = (state = initialState, action) => {
         case 'REMOVE_STATUS_CODE_USER':
             return { ...state, UserListStatusCode: 0 }
         case 'ADD_USER':
-            console.log("ADD_USER",action.payload)
+            console.log("ADD_USER", action.payload)
             return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
             return { ...state, statusCodeForAddUser: 0 }
@@ -138,39 +146,61 @@ const UserListReducer = (state = initialState, action) => {
         case 'COUNTRY_LIST':
             return { ...state, countrycode: action.payload };
 
-            case 'PHONE_ERROR':
-                return { ...state, phoneError: action.payload }
-    
-            case 'CLEAR_PHONE_ERROR':
-                return { ...state, phoneError: '' }
-    
-                case 'EMAIL_ERROR':
-                    return { ...state, emailError: action.payload }
-        
-                case 'CLEAR_EMAIL_ERROR':
-                    return { ...state, emailError: '' }
+        case 'PHONE_ERROR':
+            return { ...state, phoneError: action.payload }
+
+        case 'CLEAR_PHONE_ERROR':
+            return { ...state, phoneError: '' }
+
+        case 'EMAIL_ERROR':
+            return { ...state, emailError: action.payload }
+
+        case 'CLEAR_EMAIL_ERROR':
+            return { ...state, emailError: '' }
 
 
-    
-                    case 'DELETE_FLOOR_ERROR':
-                        return { ...state, deleteFloorError: action.payload }
-            
-                    case 'CLEAR_DELETE_FLOOR_ERROR':
-                        return { ...state, deleteFloorError: '' }
-                        
-                        case 'DELETE_ROOM_ERROR':
-                            return { ...state, deleteRoomError: action.payload }
-                
-                        case 'CLEAR_DELETE_ROOM_ERROR':
-                            return { ...state, deleteRoomError: '' }
 
-                            case 'ALREADY_FLOOR_ERROR':
-                                return { ...state, alreadyFloorHere: action.payload }
-                    
-                            case 'CLEAR_ALREADY_FLOOR_ERROR':
-                                return { ...state, alreadyFloorHere: '' }
+        case 'DELETE_FLOOR_ERROR':
+            return { ...state, deleteFloorError: action.payload }
 
+        case 'CLEAR_DELETE_FLOOR_ERROR':
+            return { ...state, deleteFloorError: '' }
 
+        case 'DELETE_ROOM_ERROR':
+            return { ...state, deleteRoomError: action.payload }
+
+        case 'CLEAR_DELETE_ROOM_ERROR':
+            return { ...state, deleteRoomError: '' }
+
+        case 'ALREADY_FLOOR_ERROR':
+            return { ...state, alreadyFloorHere: action.payload }
+
+        case 'CLEAR_ALREADY_FLOOR_ERROR':
+            return { ...state, alreadyFloorHere: '' }
+        case 'WALK_IN_CUSTOMER_LIST':
+            return { ...state, WalkInCustomerList: action.payload.response, getWalkInStatusCode: action.payload.statusCode }
+        case 'CLEAR_WALK_IN_STATUS_CODE':
+            return { ...state, getWalkInStatusCode: 0 }
+        case 'WALK_IN_CUSTOMER_LIST_ERROR':
+            return { ...state, NoDataWalkInCustomerStatusCode: action.payload.statusCode }
+        case 'CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE':
+            return { ...state, NoDataWalkInCustomerStatusCode: 0 }
+
+        case 'ADD_WALK_IN_CUSTOMER':
+            return { ...state, addWalkInCustomerStatusCode: action.payload.statusCode }
+        case 'CLEAR_ADD_WALK_IN_CUSTOMER':
+            return { ...state, addWalkInCustomerStatusCode: 0 }
+
+        case 'ALREADY_EXIST_ERROR':
+            return { ...state, alreadyHere: action.payload }
+
+        case 'CLEAR_ALREADY_EXIST_ERROR':
+            return { ...state, alreadyHere: '' }
+
+            case 'DELETE_WALK_IN_CUSTOMER' :
+                return { ...state, deleteWalkInCustomerStatusCode:action.payload.statusCode}
+                case 'CLEAR_DELETE_WALK_IN_CUSTOMER' :
+                    return { ...state, deleteWalkInCustomerStatusCode:0}
 
         case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {
@@ -178,8 +208,6 @@ const UserListReducer = (state = initialState, action) => {
             } else {
                 return { ...state, roomFullCheck: action.payload };
             }
-
-
 
     }
     return state;

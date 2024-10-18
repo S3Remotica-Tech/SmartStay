@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist} from "../Action/UserListAction"
+import {AddWalkInCustomer,DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -723,9 +723,104 @@ function* handleDeleteRoom(roomDetails){
   }
 
 
+  function* handleGetWalkInCustomer(){
+   const response = yield call (getWalkInCustomer);
+   
+   if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'WALK_IN_CUSTOMER_LIST' , payload:{response:response.data.data, statusCode:response.status || response.statusCode}})
+   }
+   else  if (response.status === 201 || response.statusCode === 201) {
+      yield put ({type:'WALK_IN_CUSTOMER_LIST_ERROR', payload:{statusCode:response.status || response.statusCode}})
+   }
+   if(response){
+     refreshToken(response)
+  }
+}
 
+function* handleAddWalkInCustomer(action) {
+   const response = yield call (AddWalkInCustomer,action.payload);
+ console.log("response", response)
 
+ var toastStyle = {
+   backgroundColor: "#E6F6E6",
+   color: "black",
+   width: "100%",
+   borderRadius: "60px",
+   height: "20px",
+   fontFamily: "Gilroy",
+   fontWeight: 600,
+   fontSize: 14,
+   textAlign: "start",
+   display: "flex",
+   alignItems: "center", 
+   padding: "10px",
+  
+ };
 
+   if (response.statusCode === 200 || response.status === 200){
+      yield put ({type : 'ADD_WALK_IN_CUSTOMER' , payload:{response:response.data, statusCode:response.statusCode || response.status}})
+      toast.success(`${response.data.message}`, {
+         position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+       });
+   }
+   else if(response.statusCode === 201 || response.status === 201) {
+      
+      yield put ({type:'ALREADY_EXIST_ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+  
+}
+
+function* handleDeleteWalkInCustomer(action) {
+   const response = yield call (DeleteWalkInCustomer,action.payload);
+ console.log("response", response)
+
+ var toastStyle = {
+   backgroundColor: "#E6F6E6",
+   color: "black",
+   width: "100%",
+   borderRadius: "60px",
+   height: "20px",
+   fontFamily: "Gilroy",
+   fontWeight: 600,
+   fontSize: 14,
+   textAlign: "start",
+   display: "flex",
+   alignItems: "center", 
+   padding: "10px",
+  
+ };
+
+   if (response.statusCode === 200 || response.status === 200){
+      yield put ({type : 'DELETE_WALK_IN_CUSTOMER' , payload:{response:response.data, statusCode:response.statusCode || response.status}})
+      toast.success('Deleted Successfully', {
+         position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+       });
+   }
+  
+   if(response){
+      refreshToken(response)
+   }
+  
+}
 
 
 
@@ -754,6 +849,11 @@ function* UserListSaga() {
    yield takeEvery('KYCVALIDATE',handleKYCValidate) 
    yield takeEvery('KYCVALIDATEOTPVERIFY',handleKYCValidateOtpVerify) 
    yield takeEvery('COUNTRYLIST',handleCountrylist)
+   yield takeEvery('WALKINCUSTOMERLIST',handleGetWalkInCustomer)
+   yield takeEvery('ADDWALKINCUSTOMER',handleAddWalkInCustomer)
+   yield takeEvery('DELETEWALKINCUSTOMER',handleDeleteWalkInCustomer)
+   
+ 
 
 }
 export default UserListSaga;
