@@ -20,6 +20,7 @@ import Calendor from '../Assets/Images/calendar.png';
 // import Profile from '../Assets/Images/Profile.jpg';
 import Dots from '../Assets/Images/more.png';
 import User from '../Assets/Images/New_images/profile-picture.png';
+// import squre from "../Assets/Images/New_images/minus-square.png";
 import NotificationIcon from '../Assets/Images/Notification.png'
 import rectangle from '../Assets/Images/Rectangle 2.png'
 import { useDispatch, useSelector } from 'react-redux';
@@ -2179,13 +2180,25 @@ console.log("newRows",newRows);
                         <thead style={{ backgroundColor: "#E7F1FF" }}>
 
                           <tr>
+                          <th
+                        style={{
+                        textAlign: "center",
+                        fontFamily: "Gilroy",
+                        color: "rgba(34, 34, 34, 1)",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        borderTopLeftRadius: 24,
+                      }}
+                    >
+                      <img src={squre} height={20} width={20} />
+                    </th>
                             <th style={{
                               textAlign: "center",
                               fontFamily: "Gilroy",
                               color: "rgba(34, 34, 34, 1)",
                               fontSize: 14,
                               fontWeight: 600,
-                              borderTopLeftRadius: 24
+                              // borderTopLeftRadius: 24
                             }}>Name</th>
                             <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Invoice number</th>
                             <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Created</th>

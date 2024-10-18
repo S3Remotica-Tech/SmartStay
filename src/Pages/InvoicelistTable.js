@@ -109,6 +109,19 @@ setDownloadInvoiceTable(true)
         <>
            
            <tr key={props.item.id} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap:"wrap" }} className='m-2' >
+           <td
+                      style={{
+                        textAlign: "center",
+                        verticalAlign: 'middle',
+                        fontFamily: "Gilroy",
+                        color: "rgba(34, 34, 34, 1)",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        borderTopLeftRadius: 24,
+                      }}
+                    >
+                      <img src={squre} height={20} width={20} />
+                    </td>
             
                 <td  className="table-cells" style={{ border: "none", flexWrap:"wrap", }}>
                     <div className="d-flex  align-items-center">
