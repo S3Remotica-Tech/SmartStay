@@ -4,53 +4,104 @@ import { Table, Container, Modal, Button, Pagination } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import './UserlistWalkin.css';
 import minus from '../Assets/Images/New_images/minus-square.png';
-import Ellipse1 from '../Assets/Images/Ellipse 1.png';
-import Ellipse2 from '../Assets/Images/Group 1 (2).png';
-import Ellipse3 from '../Assets/Images/Ellipse 1 (1).png';
-import Ellipse4 from '../Assets/Images/Group 1 (1).png';
-import Ellipse5 from '../Assets/Images/Group 1.png';
-import Ellipse6 from '../Assets/Images/New_images/Ellipse 1.png';
-import Ellipse7 from '../Assets/Images/Ellipse 1 (5).png';
-import Ellipse8 from '../Assets/Images/Ellipse 1 (6).png';
-import Ellipse9 from '../Assets/Images/Ellipse 1 (7).png';
-import Ellipse10 from '../Assets/Images/Ellipse 1 (8).png';
+import Ellipse1 from '../Assets/Images/New_images/profile-picture.png';
 import { PiDotsThreeOutlineVerticalFill } from 'react-icons/pi';
 import Delete from '../Assets/Images/New_images/trash.png';
 import Edit from '../Assets/Images/Edit-Linear-32px.png';
 import CustomerForm from './UserlistWalkinForm';
-import { ToastContainer, toast } from 'react-toastify';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import 'react-toastify/dist/ReactToastify.css';
-import { color } from '@mui/system';
 import Emptystate from '../Assets/Images/Empty-State.jpg'
-import UserlistWalkinForm from './UserlistWalkinForm'
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
-const initialCustomers = [
-    { id: 1, name: "Kellie Turcotte", email: "kellie@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", comments: "smartstay", avatar: Ellipse1 },
-    { id: 2, name: "Tatiana Rosser", email: "tatiana@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse2, comments: "smartstay" },
-    { id: 3, name: "Esther Williamson", email: "esther@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse3, comments: "smartstay" },
-    { id: 4, name: "Kaylynn Kenter", email: "kaylynn@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse4, comments: "smartstay" },
-    { id: 5, name: "Sabrina Gleason", email: "sabrina@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse5, comments: "smartstay" },
-    { id: 6, name: "Tatiana Rosser", email: "tatiana@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse6, comments: "smartstay" },
-    { id: 7, name: "Homer Renner", email: "homer@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse7, comments: "smartstay" },
-    { id: 8, name: "Kaylynn Kenter", email: "kaylynn@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse8, comments: "smartstay" },
-    { id: 9, name: "Emmett Cormier III", email: "emmett@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse9, comments: "smartstay" },
-    { id: 10, name: "Tatiana Rosser", email: "tatiana@gmail.com", mobile: "+91 9876543210", walkInDate: "20 Mar 2024", avatar: Ellipse10, comments: "smartstay" },
-];
+
 
 function UserlistWalkin() {
-    const [customers, setCustomers] = useState(initialCustomers);
+
+
+
+
+
+
+    const state = useSelector(state => state)
+    const dispatch = useDispatch();
+
+
+
+    console.log("state for walk in", state)
+
+
+
+
+
+
+
+
+    // const [customers, setCustomers] = useState(initialCustomers);
     const [showForm, setShowForm] = useState(false);
     const [modalType, setModalType] = useState(null);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [dotsButton, setDotsButton] = useState(null);
 
     const popupRef = useRef(null);
-    const itemsPerPage = 5;
+    const itemsPerPage = 7;
     // delete
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [customerToDelete, setCustomerToDelete] = useState(null);
+
+    const [walkInCustomer, setWalkInCustomer] = useState([])
+
+    useEffect(() => {
+        dispatch({ type: 'WALKINCUSTOMERLIST' })
+    }, [])
+
+
+
+    useEffect(() => {
+        if (state.UsersList.getWalkInStatusCode == 200) {
+            setWalkInCustomer(state.UsersList.WalkInCustomerList)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_WALK_IN_STATUS_CODE' })
+            }, 2000)
+
+        }
+
+    }, [state.UsersList.getWalkInStatusCode])
+
+
+
+    useEffect(() => {
+        if (state.UsersList.NoDataWalkInCustomerStatusCode == 201) {
+            setWalkInCustomer([])
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE' })
+            }, 2000)
+
+        }
+
+    }, [state.UsersList.NoDataWalkInCustomerStatusCode])
+
+    useEffect(() => {
+        if (state.UsersList.addWalkInCustomerStatusCode == 200 || state.UsersList.deleteWalkInCustomerStatusCode == 200 ) {
+            dispatch({ type: 'WALKINCUSTOMERLIST' })
+
+            setShowForm(false);
+
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_ADD_WALK_IN_CUSTOMER' })
+            }, 4000)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_DELETE_WALK_IN_CUSTOMER' })
+            }, 4000)
+            setShowDeleteModal(false);
+        }
+
+    }, [state.UsersList.addWalkInCustomerStatusCode,state.UsersList.deleteWalkInCustomerStatusCode])
+
+    console.log("setShowForm(false);", showForm)
+
 
 
     const handleDotsClick = (id) => {
@@ -65,14 +116,12 @@ function UserlistWalkin() {
 
 
     const confirmDelete = () => {
-        if (customerToDelete) {
-            setCustomers(customers.filter((item) => item.id !== customerToDelete.id));
-            toast.success('Deleted successfully!');
-            setShowDeleteModal(false);
-            setCustomerToDelete(null);
-        }
+       if(customerToDelete.id){
+        dispatch({ type: 'DELETEWALKINCUSTOMER', payload: {id: customerToDelete.id}})
+       }
     };
 
+    console.log("customerToDelete",customerToDelete)
 
     const cancelDelete = () => {
         setShowDeleteModal(false);
@@ -82,6 +131,8 @@ function UserlistWalkin() {
 
 
     const handleEdit = (customer) => {
+console.log("customer",customer)
+
         setSelectedCustomer(customer);
         setShowForm(true);
         setDotsButton(null);
@@ -97,26 +148,26 @@ function UserlistWalkin() {
     };
 
     const handleFormSubmit = (data) => {
-        if (modalType === "edit") {
+        // if (modalType === "edit") {
 
-            setCustomers(customers.map((customer) =>
-                customer.id === data.id ? { ...customer, ...data } : customer
-            ));
+        //     setCustomers(customers.map((customer) =>
+        //         customer.id === data.id ? { ...customer, ...data } : customer
+        //     ));
 
-            toast.success('Changes saved successfully!');
-        } else {
+        //     toast.success('Changes saved successfully!');
+        // } else {
 
-            const newCustomer = {
-                ...data,
-                id: customers.length + 1,
-                avatar: Ellipse1
-            };
-            setCustomers([...customers, newCustomer]);
-            // toast.success);
-            toast.success('Walk-in added successfully!!');
-        }
-        handleFormClose();
-        setDotsButton(null);
+        //     const newCustomer = {
+        //         ...data,
+        //         id: customers.length + 1,
+        //         avatar: Ellipse1
+        //     };
+        //     setCustomers([...customers, newCustomer]);
+        //     // toast.success);
+        //     toast.success('Walk-in added successfully!!');
+        // }
+        // handleFormClose();
+        // setDotsButton(null);
     };
 
 
@@ -139,9 +190,9 @@ function UserlistWalkin() {
 
     const indexOfLastCustomer = currentPage * itemsPerPage;
     const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-    const currentCustomers = customers.slice(indexOfFirstCustomer, indexOfLastCustomer);
+    const currentCustomers = walkInCustomer.slice(indexOfFirstCustomer, indexOfLastCustomer);
 
-    const totalPages = Math.ceil(customers.length / itemsPerPage);
+    const totalPages = Math.ceil(walkInCustomer.length / itemsPerPage);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -152,7 +203,7 @@ function UserlistWalkin() {
         if (currentPage > totalPages && totalPages > 0) {
             setCurrentPage(totalPages);
         }
-    }, [customers, currentPage, totalPages]);
+    }, [walkInCustomer, currentPage, totalPages]);
 
 
     const handleShowWalk = () => {
@@ -162,11 +213,22 @@ function UserlistWalkin() {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
     return (
         <>
 
-            <div style={{marginLeft:"-20px"}}>
-                {customers.length > 0 ? (
+            <div style={{ marginLeft: "-20px" }}>
+                {currentCustomers.length > 0 ? (
                     <div className=' walkin_table_custom'>
                         <Table responsive="md" className="table_walkin">
                             <thead style={{ border: "none" }}>
@@ -264,7 +326,7 @@ function UserlistWalkin() {
                                         </td>
                                         <td>
                                             <div className="d-flex align-items-center">
-                                                <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" />
+                                                <Image src={Ellipse1} roundedCircle height={40} width={40} alt="avatar" />
                                                 <span style={{
                                                     fontSize: "16px",
                                                     fontWeight: 600,
@@ -273,7 +335,7 @@ function UserlistWalkin() {
                                                     paddingLeft: "12px"
                                                 }}
                                                     className=" customer-name">
-                                                    {customer.name}
+                                                    {customer.customer_Name}
                                                 </span>
                                             </div>
                                         </td>
@@ -283,14 +345,14 @@ function UserlistWalkin() {
                                             fontFamily: "Gilroy",
                                             color: "#000000",
                                             textAlign: "start"
-                                        }}>{customer.email}</td>
+                                        }}>{customer.email_Id || '-'}</td>
                                         <td style={{
                                             fontSize: "16px",
                                             fontWeight: 500,
                                             fontFamily: "Gilroy",
                                             color: "#000000",
                                             textAlign: "center"
-                                        }}>{customer.mobile}</td>
+                                        }}>{customer.mobile_Number}</td>
 
                                         <td style={{
                                             padding: "8px",
@@ -309,7 +371,7 @@ function UserlistWalkin() {
                                                 fontWeight: 500,
                                                 fontFamily: "Gilroy"
                                             }}>
-                                                {customer.walkInDate}
+                                                {moment(customer.walk_In_Date).format('DD MMM YYYY')}
                                             </span>
                                         </td>
 
@@ -319,7 +381,7 @@ function UserlistWalkin() {
                                             fontFamily: "Gilroy",
                                             color: "#000000",
                                             textAlign: "center"
-                                        }}>{customer.comments}</td>
+                                        }}>{customer.comments || "-"}</td>
 
 
                                         <td>
@@ -348,8 +410,9 @@ function UserlistWalkin() {
                                                             cursor: "pointer",
                                                             backgroundColor: "#F9F9F9",
                                                             position: "absolute",
-                                                            right: 0,
-                                                            // top: 50,
+                                                            left: -170,
+                                                            // bottom:0,
+                                                            top: 30,
                                                             overflow: "visible ! important",
                                                             marginButtom: "30px",
                                                             width: 163,
@@ -481,14 +544,16 @@ function UserlistWalkin() {
                 )}
             </div>
 
+            {
 
-            <CustomerForm
-                show={showForm}
-                handleClose={handleFormClose}
-                onSubmit={handleFormSubmit}
+                showForm && <CustomerForm
+                    show={showForm}
+                    handleClose={handleFormClose}
+                // onSubmit={handleFormSubmit}
                 initialData={selectedCustomer}
-                modalType={modalType}
-            />
+                // modalType={modalType}
+                />
+            }
 
             {/* Delete  Modal */}
             <Modal show={showDeleteModal} onHide={cancelDelete} centered style={{ margin: "40px" }}>
@@ -545,7 +610,7 @@ function UserlistWalkin() {
 
             </Modal>
 
-            <ToastContainer
+            {/* <ToastContainer
                 position="bottom-center"
                 autoClose={3000}
                 hideProgressBar={true}
@@ -564,7 +629,7 @@ function UserlistWalkin() {
                     fontWeight: 600,
                     fontSize: "16px"
                 }}
-            />
+            /> */}
 
         </>
     );
