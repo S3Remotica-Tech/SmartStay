@@ -60,15 +60,25 @@ function FirstPage() {
 
 
   return (
+    <>
+    
 
     <div style={{backgroundColor:"#FFFFFF" ,height:"",paddingTop:40,width:"100%"}} className='container animated-text'>
 
+<div className='d-flex justify-content-center align-items-center' style={{ textAlign: 'center' }}>
+<label>👋   <span style={{ fontFamily: "Montserrat", color: "rgba(0, 0, 0, 1)", fontWeight: 600, fontSize:18 }}>MANAGE YOUR PG</span></label>
 
-<div className='d-flex justify-content-center'style={{width:1114,marginLeft:136}}>
-    <label style={{fontSize:isMobile ? 40 : 70, textAlign:"center", wordSpacing:0.5}}>
-        <span style={{fontFamily:"Kalam", color:"rgba(30, 69, 225, 1)",fontWeight:400}}>Simplify </span> <span style={{fontWeight:400, fontFamily:"Gilroy"}}>your</span>  <span style={{fontFamily:"Gilroy", color:"rgba(0, 0, 0, 1)", fontWeight:600}}>Paying Guest management</span> <span style={{fontWeight:400, fontFamily:"Gilroy"}}>with</span> <span style={{color:"rgba(30, 69, 225, 1)", fontWeight:700,fontFamily:"Gilroy"}}>SmartStay</span>
+</div>
+<div className='d-flex justify-content-center align-items-center pb-3' style={{ textAlign: 'center',wordSpacing:1 }}>
+    <label style={{ fontSize: isMobile ? 40 : 70, wordSpacing:1 }}>
+        <span style={{ fontFamily: "Gilroy", color: "rgba(30, 69, 225, 1)", fontWeight: 600 }}>Simplify </span>
+        <span style={{ fontWeight: 400, fontFamily: "Gilroy" }}>your </span>{''}
+        <span style={{ fontFamily: "Gilroy", color: "rgba(0, 0, 0, 1)", fontWeight: 600 }}>Paying Guest management </span>
+        <span style={{ fontWeight: 400, fontFamily: "Gilroy" }}>with </span>
+        <span style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 700, fontFamily: "Gilroy" }}>SmartStay</span>
     </label>
 </div>
+
 <div className='d-flex justify-content-center mb-1' >
     <label style={{fontWeight:400, fontSize:18, color:"rgba(0, 0, 0, 1)", fontFamily:"Montserrat", textAlign:"center"}}>Efficiently manage rooms, customers, inventory, vendors, 
         </label>
@@ -84,6 +94,16 @@ function FirstPage() {
 
 </div>
 
+
+
+
+
+
+
+
+
+
+</div>
 <div className='row d-flex justify-content-center mt-4' style={{position:"relative", backgroundColor:""}}>
        <img src={Desktop} className='img-fluid' style={{height:776, width:1000}}/>
        <img src={Spring1}  style={{position:"absolute", left:0, bottom:0, width:220, height:219 ,display:isMobile ? "none": "flex",transform: "rotate(360deg)"}}/>
@@ -107,16 +127,7 @@ function FirstPage() {
     <div style={{fontSize:18,fontWeight:400,fontFamily:"Montserrat",color:"rgba(0, 0, 0, 1)"}}>Available states</div>
 </div>
 </div>
-
-
-
-
-
-
-
-
-</div>
-
+</>
   )
 }
 
