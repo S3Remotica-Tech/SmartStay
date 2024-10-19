@@ -8,7 +8,9 @@ import ComplianceReducer from "./ComplianceReducer";
 import PgListReducer from "./PgListReducer";
 import AssetReducer from './AssetReducer';
 import SettingsReducer from "./SettingsReducer";
-import ExpenseReducer from './ExpenseReducer'
+import ExpenseReducer from './ExpenseReducer';
+import BookingReducer from "./BookingReducer";
+
 
 
 const RootReducer = combineReducers({
@@ -21,7 +23,8 @@ ComplianceList:ComplianceReducer,
 PgList: PgListReducer,
 AssetList:AssetReducer,
 Settings : SettingsReducer,
-ExpenseList:ExpenseReducer
+ExpenseList:ExpenseReducer,
+Booking:BookingReducer
 
 })
 export default RootReducer;
