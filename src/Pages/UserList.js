@@ -22,6 +22,7 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort , Trash} from 'i
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
+import Booking from "./UserlistBookings";
 
 import {
   Autobrightness,
@@ -75,7 +76,19 @@ function UserList(props) {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [value, setValue] = React.useState("1");
 
+  useEffect(()=>{
+    dispatch({ type: "GET_BOOKING_LIST"});
+  
+  },[])
+
   useEffect(() => {
+     if (state?.Booking?.statusCodeForAddBooking === 200) {
+  
+    dispatch({ type: "GET_BOOKING_LIST" });
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+    }, 200);
+  }
     // Only filter when value is "1"
     if (value === "1") {
       const FilterUser = state.UsersList.Users.filter((item) => {
@@ -86,11 +99,12 @@ function UserList(props) {
       console.log("FilterUser", FilterUser);
     }
     if (value === "2") {
-      const FilterUsertwo = state.UsersList.hostelList.filter((item) => {
-        return item.Name.toLowerCase().includes(filterInput.toLowerCase());
+      const FilterUsertwo = state?.Booking?.CustomerBookingList?.bookings?.filter((item) => {
+        
+        return item.first_name.toLowerCase().includes(filterInput.toLowerCase()) 
+         
       });
       setFilteredUsers(FilterUsertwo);
-      console.log("FilterUsertwo", FilterUsertwo);
     }
     if (value === "4") {
       const FilterUsertwo = state.UsersList.hostelList.filter((item) => {
@@ -99,17 +113,9 @@ function UserList(props) {
       setFilteredUsers(FilterUsertwo);
       console.log("FilterUsertwo", FilterUsertwo);
     }
-  }, [filterInput, state.UsersList.Users, value]);
+  }, [filterInput, state.UsersList.Users, value,state?.Booking?.CustomerBookingList?.bookings]);
 
-  // useEffect(() => {
-
-  //   const FilterUser = state.UsersList.Users.filter((item) => {
-  //     return item.Name.toLowerCase().includes(filterInput.toLowerCase());
-  //   });
-
-  //   setFilteredUsers(FilterUser);
-  //   console.log("FilterUser",FilterUser)
-  // }, [filterInput, state.UsersList.Users]);
+ 
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
@@ -117,8 +123,20 @@ function UserList(props) {
     setDropdownVisible(e.target.value.length > 0);
   };
 
+  // const handleUserSelect = (user) => {
+  //   setFilterInput(user.Name);
+  //   setFilteredUsers([]);
+  //   setDropdownVisible(false);
+  //   console.log("User selected:", user);
+  // };
   const handleUserSelect = (user) => {
-    setFilterInput(user.Name);
+    // Check the value and set filterInput based on the condition
+    if (value === "1") {
+      setFilterInput(user.Name);
+    } else if (value === "2") {
+      setFilterInput(user.first_name);
+    }
+  
     setFilteredUsers([]);
     setDropdownVisible(false);
     console.log("User selected:", user);
@@ -213,12 +231,12 @@ function UserList(props) {
   const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredUsers.slice(
+  const currentItems = filteredUsers?.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
 
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -912,11 +930,20 @@ function UserList(props) {
 }, [state.UsersList.addWalkInCustomerStatusCode])
 
 
-
+useEffect(() => {
+  if (state?.Booking?.statusCodeForAddBooking === 200) {
+  
+    dispatch({ type: "GET_BOOKING_LIST" });
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+    }, 200);
+  }
+}, [state?.Booking?.statusCodeForAddBooking]);
 
   return (
     <div className="usercustomer" style={{ padding: 10, marginLeft: 20 }}>
-      <Addbooking show={showbookingForm} handleClose={closeModal} />
+      <Addbooking show={showbookingForm} handleClose={closeModal} setShowbookingForm={setShowbookingForm}/>
+
 
       <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} />
 
@@ -924,6 +951,7 @@ function UserList(props) {
         show={walkInForm}
         handleClose={walkinFormcloseModal}
       />
+     
 
       {userList && (
         <div style={{ margin: "10px" }}>
@@ -1003,7 +1031,7 @@ function UserList(props) {
                       </div>
                     </div>
 
-                    {isDropdownVisible && filteredUsers.length > 0 && (
+                    {isDropdownVisible && filteredUsers?.length > 0 && (
                       <div
                         style={{
                           border: "1px solid #d9d9d9 ",
@@ -1024,10 +1052,10 @@ function UserList(props) {
                             borderRadius: "4px",
                             // maxHeight: 174,
                             maxHeight:
-                              filteredUsers.length > 1 ? "174px" : "auto",
+                              filteredUsers?.length > 1 ? "174px" : "auto",
                             minHeight: 100,
                             overflowY:
-                              filteredUsers.length > 1 ? "auto" : "hidden",
+                              filteredUsers?.length > 1 ? "auto" : "hidden",
 
                             margin: "0",
                             listStyleType: "none",
@@ -1035,7 +1063,7 @@ function UserList(props) {
                             boxSizing: "border-box",
                           }}
                         >
-                          {filteredUsers.map((user, index) => {
+                          {filteredUsers?.map((user, index) => {
                             const imagedrop = user.profile || Profile;
                             return (
                               <li
@@ -1065,7 +1093,8 @@ function UserList(props) {
                                     e.target.src = Profile;
                                   }}
                                 />
-                                <span>{user.Name}</span>
+                                {/* <span>{user.Name}</span> */}
+                                <span>{value === "1" ? user.Name : (value === "2" ? user.first_name : '')}</span>
                               </li>
                             );
                           })}
@@ -1243,7 +1272,7 @@ function UserList(props) {
                   <div >
 
 
-                    {currentItems.length == 0 &&
+                    {currentItems?.length == 0 &&
 
                       <div>
                         <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
@@ -1700,7 +1729,7 @@ function UserList(props) {
               </Table>
                     )}
                   </div>
-                  {currentItems.length > 0 && (
+                  {currentItems?.length > 0 && (
                     <nav>
                       <ul
                         style={{
@@ -1816,7 +1845,7 @@ function UserList(props) {
 
               </TabPanel>
               <TabPanel value="2">
-                <UserlistBookings id={props.id} />
+                <UserlistBookings id={props.id} setFilteredUsers={setFilteredUsers} filteredUsers={filteredUsers} currentItems={currentItems} showbookingForm={showbookingForm}  />
               </TabPanel>
               <TabPanel value="3">
                 <UserlistCheckout id={props.id} />
@@ -1995,6 +2024,10 @@ function UserList(props) {
           OnShowTable={OnShowTableForCustomer}
         />
       ) : null}
+
+
+
+
     </div>
   );
 }
