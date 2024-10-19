@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Table, Button, Image, Modal, Pagination , Form, Row, Col} from 'react-bootstrap';
+import { Table, Button, Image, Modal, Pagination , Form, Row, Col,FormControl,} from 'react-bootstrap';
 import './Userlistbooking.css';
 import minus from '../Assets/Images/New_images/minus-square.png';
 import { PiDotsThreeOutlineVerticalFill } from 'react-icons/pi';
@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { MdError } from "react-icons/md";
+import { be } from 'date-fns/locale';
 
 
 function Booking(props) {
@@ -58,6 +59,7 @@ function Booking(props) {
   const [FloorIds, setFloorIds] = useState('');
   const [bedIds, setBedIds] = useState('');
   const [id, setId] = useState("");
+  
 
   
 
@@ -266,6 +268,8 @@ function Booking(props) {
       setBedError(""); // Clear the error if valid
     }
 
+
+
     if (
       !isFirstnameValid ||
       !isjoiningDateValid ||
@@ -277,12 +281,55 @@ function Booking(props) {
     ) {
       return;
     }
+
+    const isValidDate = (date) => {
+      return !isNaN(Date.parse(date));
+    };
+    const isChangedBed =
+      (isNaN(FloorIds)
+        ? String(FloorIds).toLowerCase() !==
+          String(initialStateAssign.floor).toLowerCase()
+        : Number(FloorIds) !== Number(initialStateAssign.floor)) ||
+      (isNaN(roomId)
+        ? String(roomId).toLowerCase() !==
+          String(initialStateAssign.room).toLowerCase()
+        : Number(roomId) !== Number(initialStateAssign.room)) ||
+      (isNaN(bedIds)
+        ? String(bedIds).toLowerCase() !==
+          String(initialStateAssign.bed).toLowerCase()
+        : Number(bedIds) !== Number(initialStateAssign.bed)) ||
+      (isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
+        ? new Date(joiningDate).toISOString().split("T")[0] !==
+          new Date(initialStateAssign.joiningDate).toISOString().split("T")[0]
+        : joiningDate !== initialStateAssign.joiningDate) ||
+      Number(amount) !== Number(initialStateAssign.amount) ||
+      String(firstName) !== String(initialStateAssign.firstName) ||
+      String(lastName) !== String(initialStateAssign.lastName) ||
+      String(comments) !== String(initialStateAssign.comments) 
+      
+
+    // If no changes detected
+    if (!isChangedBed) {
+      setFormError("No changes detected.");
+      return;
+    } else {
+      setFormError("");
+    }
+    let formattedDate = null;
+    try {
+      formattedDate = new Date(joiningDate).toISOString().split("T")[0];
+    } catch (error) {
+      setDateError("date is required.");
+      console.error(error);
+      return;
+    }
+
     dispatch({
       type: "ADD_BOOKING",
       payload: {
         first_name: firstName,
         last_name: lastName,
-        joining_date: joiningDate,
+        joining_date: formattedDate,
         amount: amount,
         hostel_id: HostelIds,
         floor_id: FloorIds,
@@ -362,12 +409,36 @@ function Booking(props) {
       setRoomId(item.room_id  || "")
       setBedIds(item.bed_id  || "")
       setId(item.id || "")
+
+
+      setInitialStateAssign({
+        firstName: item.first_name || "",
+        lastName:item.last_name || "",
+        floor: item.floor_id || "",
+        room: item.room_id || "",
+        bed: item.bed_id || "",
+        joiningDate: item.user_join_date || "",
+        amount: item.amount || "",
+        paying: item.hostel_id || "",
+        comments:item.comments || ""
+      });
       
 
       // setRoomId(item[0].room_id || "");
 
     }
   };
+  const [initialStateAssign, setInitialStateAssign] = useState({
+    firstName: "",
+    lastName: "",
+    paying: "",
+    floor: "",
+    room: "",
+    bed: "",
+    amount: "",
+    comments: "",
+    joiningDate: ""
+  });
   const handleCloseForm = ()=> {
     setFormEdit(false)
   }
@@ -576,7 +647,26 @@ console.log("customer///////",props.filteredUsers)
                   </tr>
                 </thead>
                 <tbody>
-                  {props.filteredUsers?.map((customer) => (
+                  {props.filteredUsers?.map((customer) => {
+                     let Dated = new Date(customer.joining_date);
+                     console.log("Dated..?", Dated);
+     
+                     let day = Dated.getDate();
+                     let month = Dated.getMonth() + 1; 
+                     let year = Dated.getFullYear();
+                    let formattedDate = `${year}/${month}/${day}`;
+
+
+                    let createDated = new Date(customer.createdat);
+                    console.log("Dated..?", Dated);
+    
+                    let day1 = createDated.getDate();
+                    let month1 = createDated.getMonth() + 1; 
+                    let year1 = createDated.getFullYear();
+                   let formattedDatecreate = `${year1}/${month1}/${day1}`;
+
+                     
+                    return(
                     <tr key={customer.id} className="customer-row">
                       <td style={{ textAlign: 'center', padding: '10px', border: 'none' }}>
                         <img src={minus} height={20} width={20} alt="minus icon" />
@@ -642,7 +732,7 @@ console.log("customer///////",props.filteredUsers)
                             fontFamily: 'Gilroy',
                           }}
                         >
-                          {customer.createdat}
+                          {formattedDatecreate}
                         </span>
                       </td>
 
@@ -667,7 +757,7 @@ console.log("customer///////",props.filteredUsers)
                             fontFamily: 'Gilroy',
                           }}
                         >
-                          {customer.joining_date}
+                          {formattedDate}
                         </span>
                       </td>
                       <td
@@ -789,7 +879,8 @@ console.log("customer///////",props.filteredUsers)
                         </div>
                       </td>
                     </tr>
-                  ))}
+                    )
+})}
                 </tbody>
               </Table>
 
@@ -1117,33 +1208,44 @@ console.log("customer///////",props.filteredUsers)
             )}
           </Col>
           <Col md={6}>
-            <Form.Group controlId="formAmount" className="mb-3">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Amount
-              </Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter amount"
-                style={{
-                  fontSize: 14,
-                  color: "rgba(75, 75, 75, 1)",
-                  fontFamily: "Gilroy",
-                  height: "50px",
-                }}
-                value={amount}
-                isInvalid={!!formErrors.amount}
-                onChange={(e) => handleAmount(e)}
-                min="0"
-                step="0.01"
-              />
-            </Form.Group>
+           
+<Form.Group className="">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Amount{" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="Enter amount"
+                                        value={amount}
+                                        onChange={(e) => handleAmount(e)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
             {amountError && (
               <div style={{ color: "red" }}>
                 <MdError />
@@ -1416,7 +1518,12 @@ console.log("customer///////",props.filteredUsers)
             }}
           />
         </Form.Group>
-
+        {formError && (
+                                  <div style={{ color: "red" }}>
+                                    <MdError />
+                                    {formError}
+                                  </div>
+        )}
         <Modal.Footer>
           <Button
             variant="primary"

@@ -279,7 +279,7 @@ function UserListRoomDetail(props) {
         Email: item[0].Email || "",
         Address: item[0].Address || "",
         hostel_Id: item[0].Hostel_Id || "",
-        // file: item[0].profile ? item[0].profile : null
+       
         file: item[0].profile === "0" ? null : item[0].profile || null,
       });
     }
@@ -298,12 +298,12 @@ function UserListRoomDetail(props) {
     setFirstname(e.target.value);
     setFirstnameError("");
     setFormError("");
-    //    handleInputChange()
+   
   };
   const handleLastName = (e) => {
     setLastname(e.target.value);
     setFormError("");
-    // handleInputChange()
+    
   };
 
   useEffect(() => {
@@ -365,14 +365,14 @@ function UserListRoomDetail(props) {
     const emailValue = e.target.value;
     setEmail(emailValue);
 
-    // Updated regex to allow only lowercase letters, numbers, and periods before the @
+    
     const hasUpperCase = /[A-Z]/.test(emailValue);
     const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
-    // Check if the input email matches the regex
+    
     const isValidEmail = emailRegex.test(emailValue);
 
-    // If email field is empty, reset the error messages
+    
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
@@ -392,28 +392,7 @@ function UserListRoomDetail(props) {
     // Clear email error on input change
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
-  // const handleEmail = (e) => {
-  //   const emailValue = e.target.value;
-  //   setEmail(emailValue);
-  //   const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-  //   const hasUpperCase = /[A-Z]/.test(emailValue);
-  //   const isValidEmail = emailRegex.test(emailValue);
 
-  //   if (hasUpperCase) {
-  //     setEmailErrorMessage("Email should be in lowercase *");
-  //     setEmailError("Invalid Email Id *");
-  //   } else if (!isValidEmail) {
-  //     setEmailErrorMessage("");
-  //     setEmailError("Invalid Email Id *");
-  //   } else {
-  //     setEmailError("");
-  //     setEmailErrorMessage("");
-  //     setFormError("");
-  //   }
-
-  //   // Assuming you want to clear email error regardless of the current input state
-  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
-  // };
 
   const handleAddress = (e) => {
     // handleInputChange()

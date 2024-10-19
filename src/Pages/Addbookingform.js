@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Modal, Form, Row, Col, Button } from "react-bootstrap";
+import { Modal, Form, Row, Col, Button,FormControl } from "react-bootstrap";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { CloseCircle } from "iconsax-react";
@@ -249,12 +249,20 @@ function BookingModal(props) {
     ) {
       return;
     }
+    let formattedDate = null;
+    try {
+      formattedDate = new Date(joiningDate).toISOString().split("T")[0];
+    } catch (error) {
+      setDateError("date is required.");
+      console.error(error);
+      return;
+    }
     dispatch({
       type: "ADD_BOOKING",
       payload: {
         first_name: firstName,
         last_name: lastName,
-        joining_date: joiningDate,
+        joining_date: formattedDate,
         amount: amount,
         hostel_id: paying,
         floor_id: floor,
@@ -433,33 +441,43 @@ function BookingModal(props) {
             )}
           </Col>
           <Col md={6}>
-            <Form.Group controlId="formAmount" className="mb-3">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Amount
-              </Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter amount"
-                style={{
-                  fontSize: 14,
-                  color: "rgba(75, 75, 75, 1)",
-                  fontFamily: "Gilroy",
-                  height: "50px",
-                }}
-                value={amount}
-                isInvalid={!!formErrors.amount}
-                onChange={(e) => handleAmount(e)}
-                min="0"
-                step="0.01"
-              />
-            </Form.Group>
+          <Form.Group className="">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Amount{" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="Enter amount"
+                                        value={amount}
+                                        onChange={(e) => handleAmount(e)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
             {amountError && (
               <div style={{ color: "red" }}>
                 <MdError />
