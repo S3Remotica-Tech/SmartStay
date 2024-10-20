@@ -697,7 +697,8 @@ console.log("customer///////",props.filteredUsers)
                           textAlign: 'start',
                         }}
                       >
-                        {customer.email}
+                        -
+                        {/* {customer.email} */}
                       </td>
                       <td
                         style={{
@@ -708,7 +709,8 @@ console.log("customer///////",props.filteredUsers)
                           textAlign: 'start',
                         }}
                       >
-                        {customer.mobile}
+                        -
+                        {/* {customer.mobile} */}
                       </td>
 
                       <td

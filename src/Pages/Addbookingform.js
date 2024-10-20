@@ -131,8 +131,24 @@ function BookingModal(props) {
   const handleComments = (e) => {
     setComments(e.target.value);
   };
+  const options = {
+    dateFormat: "Y/m/d",
 
-  
+    // defaultDate: selectedDate ,
+    maxDate: new Date(),
+    minDate: new Date(),
+
+  };
+  useEffect(() => {
+    if (calendarRef.current) {
+      calendarRef.current.flatpickr.set(options);
+    }
+  }, [joiningDate]);
+
+  const handleDate =(selectedDates)=>{
+    setJoiningDate(selectedDates[0])
+    setDateError('')
+  }
  
 
   const validateAssignField = (value, fieldName) => {
@@ -271,15 +287,36 @@ function BookingModal(props) {
         comments: comments,
       },
     });
-    props.handleClose()
+   
     
 
   };
+  const handleAddClose=()=>{
+    props.setShowbookingForm(false)
+
+    setFirstName('')
+    setLastName('')
+    setAmount('')
+    setJoiningDate('')
+    setPaying('')
+    setFloor('')
+    setRoom('')
+    setBed('')
+    setComments('')
+    setBedError('')
+  }
+  useEffect(()=>{
+    if(state.Booking.bookingError){
+      setBedError(state.Booking.bookingError)
+
+    }
+  },[state.Booking.bookingError])
   
   console.log("stateghjhsjdhjs",state)
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
+      props.handleClose()
     
       dispatch({ type:"GET_BOOKING_LIST" });
       setTimeout(() => {
@@ -291,7 +328,7 @@ function BookingModal(props) {
   return (
     <Modal
       show={props.show}
-      onHide={props.handleClose}
+      onHide={handleAddClose}
       centered
       backdrop="static"
     >
@@ -301,7 +338,7 @@ function BookingModal(props) {
         <CloseCircle
           size="32"
           color="#222222"
-          onClick={props.handleClose}
+          onClick={handleAddClose}
           style={{ cursor: "pointer" }}
         />
       </Modal.Header>
@@ -371,15 +408,15 @@ function BookingModal(props) {
         <Row>
           <Col md={6}>
             <Form.Group className="mb-2" controlId="formJoiningDate">
-              <Form.Label
+            <Form.Label
                 style={{
                   fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
+                  color: "#222",
+                  fontFamily: "'Gilroy'",
                   fontWeight: 500,
                 }}
               >
-                Joining Date
+                Joining_Date  <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
 
               <div style={{ position: "relative" }}>
@@ -388,49 +425,51 @@ function BookingModal(props) {
                   style={{
                     border: "1px solid #D9D9D9",
                     borderRadius: 8,
-                    padding: 12,
+                    padding: 11,
                     fontSize: 14,
                     fontFamily: "Gilroy",
-                    fontWeight: joiningDate ? 500 : 500,
+                    fontWeight: 500,
                     color: "#222222",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "space-between",
+                    justifyContent: "space-between", // Ensure space between text and icon
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    if (calendarRef.current && calendarRef.current.flatpickr) {
+                    if (calendarRef.current) {
                       calendarRef.current.flatpickr.open();
                     }
                   }}
                 >
-                  {joiningDate instanceof Date && !isNaN(joiningDate)
+                  {joiningDate
                     ? joiningDate.toLocaleDateString("en-GB")
-                    : "DD/MM/YYYY"}
+                    : "YYYY/MM/DD"}
                   <img
                     src={Calendars}
                     style={{ height: 24, width: 24, marginLeft: 10 }}
                     alt="Calendar"
                   />
                 </label>
-
                 <Flatpickr
                   ref={calendarRef}
+                  options={options}
                   value={joiningDate}
-                  onChange={(date) => setJoiningDate(date[0])}
-                  options={{
-                    dateFormat: "d/m/Y",
-                    allowInput: true,
-                  }}
+                  onChange={(selectedDates)=> handleDate(selectedDates)}
+                    
+                  
                   style={{
+                    padding: 10,
+                    fontSize: 16,
+                    width: "100%",
+                    borderRadius: 8,
+                    border: "1px solid #D9D9D9",
+                    position: "absolute",
+                    top: 100,
+                    left: 100,
+                    zIndex: 1000,
                     display: "none",
                   }}
                 />
-                {formErrors.joiningDate && (
-                  <div className="invalid-feedback">
-                    {formErrors.joiningDate}
-                  </div>
-                )}
               </div>
             </Form.Group>
             {dateError && (

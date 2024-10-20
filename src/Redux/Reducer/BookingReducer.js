@@ -3,6 +3,7 @@ const initialState = {
   statusCodeForAddBooking: 0,
   CustomerBookingList:[],
   statusCodeGetBooking:0,
+  bookingError:''
 
 };
 const BookingReducer = (state = initialState, action) => {
@@ -10,6 +11,10 @@ const BookingReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD_USER_BOOKING":
       return { ...state, addBookind:action.payload,statusCodeForAddBooking:action.payload.statusCode};
+      case "ERROR_BOOKING":
+        return { ...state,bookingError:action.payload};
+        case 'CLEAR_ERROR_BOOKING':
+            return { ...state, bookingError: '' }
     case "CLEAR_ADD_USER_BOOKING":
       return { ...state, statusCodeForAddBooking: 0 };
       case 'BOOKING_LIST':

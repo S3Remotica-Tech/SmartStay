@@ -42,7 +42,7 @@ function* handleAddBooking(action) {
  
     }
     else {
-       yield put ({type:'ERROR', payload:response.data.message})
+       yield put ({type:'ERROR_BOOKING', payload:response.data.message})
     }
     if(response){
        refreshToken(response)
