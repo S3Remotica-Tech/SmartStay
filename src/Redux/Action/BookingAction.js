@@ -12,3 +12,8 @@ export async function AddBooking(datum){
     return await AxiosConfig.get('/all_bookings',{
     })
   }
+  export async function DeleteBooking(datum) {
+    return await AxiosConfig.post("/delete_booking", datum, {
+      data: datum,
+    });
+  }

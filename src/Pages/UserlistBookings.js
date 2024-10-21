@@ -46,7 +46,6 @@ function Booking(props) {
   const [bedError, setBedError] = useState("");
   const [endMeterError, setendMeterError] = useState("");
   const [firstNameError, setfirstNameError] = useState("");
-  // const [startMeterError, setstartMeterError] = useState("");
   const [dateError, setDateError] = useState("");
   const [amountError, setamountError] = useState("");
   const [formError, setFormError] = useState("");
@@ -60,9 +59,64 @@ function Booking(props) {
   const [bedIds, setBedIds] = useState('');
   const [id, setId] = useState("");
   const [deleteShow, setDeleteShow] = useState(false)
-  
+  const [deleteId, setDeleteId] = useState('')
+  const [editMode , seteditMode] = useState(false)
 
-  
+  const [initialStateAssign, setInitialStateAssign] = useState({
+    firstName: "",
+    lastName: "",
+    paying: "",
+    floor: "",
+    room: "",
+    bed: "",
+    amount: "",
+    comments: "",
+    joiningDate: ""
+  });
+
+  const handleEdit = (item) => {
+    console.log("itemEdit...///",item)
+    setFormEdit(true);
+    if(item && item.id){
+
+      setFirstName(item.first_name || "")
+      setLastName(item.last_name || "")
+      // setJoiningDate(item.joining_date || "")
+      const formattedJoiningDate = item.joining_date
+      ? formatDate(item.joining_date)
+      : "";  
+
+    setJoiningDate(formattedJoiningDate); 
+      setAmount(item.amount || "")
+      setPaying(item.hostel_name  || "")
+      setFloor(item.floor_name  || "")
+      setRoom(item.room_name || "")
+      setBed(item.bed_name  || "")
+      setComments(item.comments  || "")
+      setHostelIds(item.hostel_id  || "")
+      setFloorIds(item.floor_id  || "")
+      setRoomId(item.room_id  || "")
+      setBedIds(item.bed_id  || "")
+      setId(item.id || "")
+
+
+      setInitialStateAssign({
+        firstName: item.first_name || "",
+        lastName:item.last_name || "",
+        floor: item.floor_id || "",
+        room: item.room_id || "",
+        bed: item.bed_id || "",
+        joiningDate: formattedJoiningDate || "",
+        amount: item.amount || "",
+        paying: item.hostel_id || "",
+        comments:item.comments || ""
+      });
+      
+      seteditMode(true);
+      // setRoomId(item[0].room_id || "");
+
+    }
+  };
 
 
   useEffect(() => {
@@ -75,9 +129,7 @@ function Booking(props) {
       payload: { hostel_Id: HostelIds },
     });
   }, [HostelIds]);
-  // useEffect(()=>{
-  //   dispatch({ type: "GET_BOOKING_LIST"});
-  // },[])
+ 
 
   useEffect(() => {
     if (HostelIds && FloorIds) {
@@ -99,9 +151,11 @@ function Booking(props) {
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
     setfirstNameError("");
+    setFormError('')
   };
   const handleLastName = (e) => {
     setLastName(e.target.value);
+    setFormError('')
   };
 
   const handleDate = (selectedDates) => {
@@ -115,20 +169,18 @@ function Booking(props) {
 
       setJoiningDate(localDate);
       setDateError("");
-      setFormError("");
+      setFormError('')
     }
   };
   const handleAmount = (e) => {
     setAmount(e.target.value);
     setamountError("");
+    setFormError('')
   };
-  // const handlePayingguest =(e)=>{
-  //   setPaying(e.target.value)
-  //   setHostelIdError('')
-  // }
+ 
   const handlePayingguest = (e) => {
     const selectedHostelId = e.target.value;
-    // handleInputChange()
+  
     const selectedHostel =
       state.UsersList.hostelList &&
       state.UsersList.hostelList.filter((item) => item.id == e.target.value);
@@ -147,20 +199,58 @@ function Booking(props) {
     setFloorIds('')
     setRoomId('')
     setBedIds('')
+    setAmount(0)
   };
   const handleFloor = (e) => {
     setFloorIds(e.target.value);
     setfloorError("");
+    setAmount(0)
+    setFormError('')
   };
 
   const handleRoom = (e) => {
     setRoomId(e.target.value);
     setRoomError("");
+    setAmount(0)
+    setFormError('')
   };
 
+  // const handleBed = (e) => {
+  //   setBedIds(e.target.value);
+  //   setBedError("");
+  // };
   const handleBed = (e) => {
     setBedIds(e.target.value);
+
+    const Bedfilter =state?.UsersList?.roomdetails && 
+    state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == HostelIds && u.Floor_Id == FloorIds  && u.Room_Id == roomId )
+    console.log("Bedfilter",Bedfilter)
+    
+    const Roomamountfilter = Bedfilter && 
+    Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == e.target.value)
+    console.log("Roomamountfilter123",Roomamountfilter)
+    console.log("initialStateAssign123",initialStateAssign)
+     
+  if (Roomamountfilter?.length != 0) {
+    const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
+
+    if (editMode && e.target.value == initialStateAssign.bed) {
+      setAmount(initialStateAssign.amount); 
+      console.log("initialStateAssign.amount",initialStateAssign.amount)
+    } else {
+      setAmount(selectedRoomRent); 
+    }
+    console.log("Roomamountfilter", selectedRoomRent);
+  }
+
+    console.log("e.target.valuebed", e.target.value);
+    if (e.target.value === "Selected a Bed") {
+      setBedError("Please select a valid Bed");
+    } else {
+      setBedError("");
+    }
     setBedError("");
+    setFormError("");
   };
 
   const handleComments = (e) => {
@@ -248,29 +338,29 @@ function Booking(props) {
 
     if (paying === "Select a PG" || !isHostelValid) {
       setHostelIdError("Please select a valid Hostel");
-      return; // Prevent save
+      return;
     } else {
-      setfloorError(""); // Clear the error if valid
+      setfloorError("");
     }
     if (floor === "Select a floor" || !isFloorvalid) {
       setfloorError("Please select a valid Floor");
-      return; // Prevent save
+      return; 
     } else {
-      setfloorError(""); // Clear the error if valid
+      setfloorError(""); 
     }
 
-    // Validate Room field
+    
     if (room === "Select a room" || !isRoomValid) {
       setRoomError("Please select a valid Room");
-      return; // Prevent save
+      return; 
     } else {
       setRoomError("");
     }
     if (bed === "Select a bed" || !isbedvalid) {
       setBedError("Please select a valid Room");
-      return; // Prevent save
+      return; 
     } else {
-      setBedError(""); // Clear the error if valid
+      setBedError(""); 
     }
 
 
@@ -286,6 +376,22 @@ function Booking(props) {
     ) {
       return;
     }
+    console.log("FloorIds:", FloorIds);
+console.log("initialStateAssign.floor:", initialStateAssign.floor);
+console.log("RoomId:", roomId);
+console.log("initialStateAssign.room:", initialStateAssign.room);
+console.log("BedIds:", bedIds);
+console.log("initialStateAssign.bed:", initialStateAssign.bed);
+console.log("JoiningDate:", joiningDate);
+console.log("initialStateAssign.joiningDate:", initialStateAssign.joiningDate);
+console.log("Amount:", amount);
+console.log("initialStateAssign.amount:", initialStateAssign.amount);
+console.log("FirstName:", firstName);
+console.log("initialStateAssign.firstName:", initialStateAssign.firstName);
+console.log("LastName:", lastName);
+console.log("initialStateAssign.lastName:", initialStateAssign.lastName);
+console.log("Comments:", comments);
+console.log("initialStateAssign.comments:", initialStateAssign.comments);
 
     const isValidDate = (date) => {
       return !isNaN(Date.parse(date));
@@ -313,7 +419,6 @@ function Booking(props) {
       String(comments) !== String(initialStateAssign.comments) 
       
 
-    // If no changes detected
     if (!isChangedBed) {
       setFormError("No changes detected.");
       return;
@@ -353,7 +458,7 @@ function Booking(props) {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-    
+      handleCloseForm()
       dispatch({ type:"GET_BOOKING_LIST" });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
@@ -364,20 +469,7 @@ function Booking(props) {
 
   
   
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; 
 
-  const popupRef = useRef(null);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
- 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentCustomers = props.filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
 
   const handleDotsClick = (id) => {
     setActiveDotsId((prevId) => (prevId === id ? null : id));
@@ -390,62 +482,12 @@ function Booking(props) {
     return `${year}-${month}-${day}`;
   };
   
-  const handleEdit = (item) => {
-    console.log("itemEdit...///",item)
-    setFormEdit(true);
-    if(item && item.id){
 
-      setFirstName(item.first_name || "")
-      setLastName(item.last_name || "")
-      // setJoiningDate(item.joining_date || "")
-      const formattedJoiningDate = item.joining_date
-      ? formatDate(item.joining_date)
-      : "";  
-
-    setJoiningDate(formattedJoiningDate); 
-      setAmount(item.amount || "")
-      setPaying(item.hostel_name  || "")
-      setFloor(item.floor_name  || "")
-      setRoom(item.room_name || "")
-      setBed(item.bed_name  || "")
-      setComments(item.comments  || "")
-      setHostelIds(item.hostel_id  || "")
-      setFloorIds(item.floor_id  || "")
-      setRoomId(item.room_id  || "")
-      setBedIds(item.bed_id  || "")
-      setId(item.id || "")
-
-
-      setInitialStateAssign({
-        firstName: item.first_name || "",
-        lastName:item.last_name || "",
-        floor: item.floor_id || "",
-        room: item.room_id || "",
-        bed: item.bed_id || "",
-        joiningDate: item.user_join_date || "",
-        amount: item.amount || "",
-        paying: item.hostel_id || "",
-        comments:item.comments || ""
-      });
-      
-
-      // setRoomId(item[0].room_id || "");
-
-    }
-  };
-  const [initialStateAssign, setInitialStateAssign] = useState({
-    firstName: "",
-    lastName: "",
-    paying: "",
-    floor: "",
-    room: "",
-    bed: "",
-    amount: "",
-    comments: "",
-    joiningDate: ""
-  });
+  
   const handleCloseForm = ()=> {
     setFormEdit(false)
+    setFormError('')
+
   }
 
   const handleAdd = () => {
@@ -458,17 +500,22 @@ function Booking(props) {
     setSelectedCustomer(null);
 }
 
-  const handleDelete = (id) => {
-    // const customer = customers.find((c) => c.id === id);
-    // setSelectedCustomer(customer);
-    // setModalType("delete");
-    // setActiveDotsId(null);
+  const handleDelete = (item) => {
+   
+    setDeleteId(item.id)
     setDeleteShow(true)
+
   };
 
   const handleDeleteBooking =()=>{
+    dispatch({
+      type: "DELETE_BOOKING_CUSTOMER",
+      payload: {
+    id:deleteId
+      }
     
   }
+)}
   const handleCheckin = (id) => {
     const customer = customers.find((c) => c.id === id);
     if (customer) {
@@ -541,12 +588,67 @@ console.log("customer///////",props.filteredUsers)
     };
   }, []);
 
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForDeleteBooking === 200) {
+     
+      handleCloseDelete()
+      dispatch({ type:"GET_BOOKING_LIST" });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_BOOKING" });
+      }, 500);
+    }
+  }, [state?.Booking?.statusCodeForDeleteBooking]);
+
+
+  const popupRef = useRef(null);
+const rowsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 1;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = props.filteredUsers?.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <li key={i} style={{ margin: "0 5px" }}>
+          <button
+            style={{
+              padding: "5px 10px",
+              color: i === currentPage ? "#007bff" : "#000",
+              cursor: "pointer",
+              border: i === currentPage ? "1px solid #ddd" : "none",
+              backgroundColor:
+                i === currentPage ? "transparent" : "transparent",
+            }}
+            onClick={() => handlePageChange(i)}
+          >
+            {i}
+          </button>
+        </li>
+      );
+    }
+    return pageNumbers;
+  };
+
+
   return (
     <>
       <div className="p-10" style={{marginLeft:"-20px"}}>
         <div>
 
-          {props.filteredUsers?.length > 0 ? (
+          {currentItems?.length > 0 ? (
             <div className="p-10 booking-table-userlist" style={{ paddingBottom: '20px' }}>
 
 
@@ -657,7 +759,7 @@ console.log("customer///////",props.filteredUsers)
                   </tr>
                 </thead>
                 <tbody>
-                  {props.filteredUsers?.map((customer) => {
+                  {currentItems?.map((customer) => {
                      let Dated = new Date(customer.joining_date);
                      console.log("Dated..?", Dated);
      
@@ -871,7 +973,7 @@ console.log("customer///////",props.filteredUsers)
                               </div>
                               <div
                                 className="d-flex align-items-center"
-                                onClick={() => handleDelete(customer.id)}
+                                onClick={() => handleDelete(customer)}
                                 style={{ cursor: 'pointer' }}
                               >
                                 <img src={Delete} style={{ height: 16, width: 16, marginRight: '8px' }} alt="Delete icon" />
@@ -896,74 +998,123 @@ console.log("customer///////",props.filteredUsers)
                 </tbody>
               </Table>
 
-              {totalPages > 1 && (
-                <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-                  <Pagination.Prev
-                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    style={{ cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
-                  >
+              {currentItems?.length > 0 && (
+                    <nav>
+                      <ul
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          listStyleType: "none",
+                          padding: 0,
+                          justifyContent: "end",
+                        }}
+                      >
+                        <li style={{ margin: "0 5px" }}>
+                          <button
+                            style={{
+                              padding: "5px 10px",
+                              textDecoration: "none",
+                              color: currentPage === 1 ? "#ccc" : "#007bff",
+                              cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                              borderRadius: "5px",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                          >
 
-                    <ArrowLeft2 size="16" color="#1E45E1" />
+                            <ArrowLeft2 size="16" color="#1E45E1" />
+                          </button>
 
-                  </Pagination.Prev>
+                        </li>
+                        {currentPage > 3 && (
+                          <li style={{ margin: "0 5px" }}>
+                            <button
+                              style={{
+                                padding: "5px 10px",
+                                textDecoration: "none",
+                                color: "white",
+                                cursor: "pointer",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                minWidth: "30px",
+                                textAlign: "center",
+                                backgroundColor: "transparent",
+                                border: "none",
+                              }}
+                              onClick={() => handlePageChange(1)}
+                            >
+                              1
+                            </button>
+                          </li>
+                        )}
+                        {currentPage > 3 && <span>...</span>}
+                        {renderPageNumbers()}
+                        {currentPage < totalPages - 2 && <span>...</span>}
+                        {currentPage < totalPages - 2 && (
+                          <li style={{ margin: "0 5px" }}>
+                            <button
+                              style={{
+                                padding: "5px 10px",
+                                textDecoration: "none",
+                                cursor: "pointer",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                minWidth: "30px",
+                                textAlign: "center",
+                                backgroundColor: "transparent",
+                                border: "none",
+                              }}
+                              onClick={() => handlePageChange(totalPages)}
+                            >
+                              {totalPages}
+                            </button>
+                          </li>
+                        )}
+                        <li style={{ margin: "0 5px" }}>
 
-                  {Array.from({ length: totalPages }, (_, idx) => (
-                    <Pagination.Item
-                      key={idx + 1}
-                      active={idx + 1 === currentPage}
-                      onClick={() => handlePageChange(idx + 1)}
-                    >
-                      {idx + 1}
-                    </Pagination.Item>
-                  ))}
+                          <button
+                            style={{
+                              padding: "5px 10px",
+                              textDecoration: "none",
+                              color: currentPage === totalPages ? "#ccc" : "#007bff",
+                              cursor:
+                                currentPage === totalPages ? "not-allowed" : "pointer",
+                              borderRadius: "5px",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                          >
 
-                  <Pagination.Next
-                    onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    style={{ cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
-                  >
-
-                    <ArrowRight2 size="16" color="#1E45E1" />
-
-                  </Pagination.Next>
-                </Pagination>
-              )}
+                            <ArrowRight2 size="16" color="#1E45E1" />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  )}
            
             </div>
           ) : (
-            <div className='d-flex align-items-center justify-content-center ' style={{ width: "100%", height: 350, margin: "0px auto" }}>
-            <div>
-
-                <div className="no-data-container">
-                    <Image src={Emptystate} alt="No Data" />
-                    <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Walk-in available</div>
-                    <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no Walk-in added. </div>
-                </div>
-                <div style={{ textAlign: "center" }}>
-                    <Button
-                        onClick={handleShowbook}
-                        style={{
-                            fontSize: 16,
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            height: 56,
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            width: 200,
-                            padding: "18px 20px",
-                            fontFamily: 'Montserrat'
-                        }}
-                    >
-                        + Add Walk-in
-                    </Button>
-
-                </div>
-            </div>
-            <div>
-
-            </div>
+      
+        <div>
+        <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
+        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Bookings available </div>
+        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Bookings added. </div>
+        <div style={{ textAlign: "center" }}>
+          <Button
+            onClick={props.toggleForm}
+            style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 59, fontWeight: 600, borderRadius: 12, width: 190, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Booking</Button>
         </div>
+      </div>
           )
           }
 
@@ -1000,7 +1151,7 @@ console.log("customer///////",props.filteredUsers)
     >
       {/* <Form noValidate validated={validated} > */}
       <Modal.Header className="d-flex justify-content-between">
-        <Modal.Title>New Booking</Modal.Title>
+        <Modal.Title>Edit Booking</Modal.Title>
         <CloseCircle
           size="32"
           color="#222222"
@@ -1545,7 +1696,7 @@ console.log("customer///////",props.filteredUsers)
               borderRadius: 12,
               padding: "12px",
               border: "1px solid rgba(36, 0, 255, 1)",
-              backgroundColor: "rgba(36, 0, 255, 1)",
+              backgroundColor: "#1E45E1",
               color: "#fff",
               fontSize: 16,
               fontWeight: 600,
@@ -1553,7 +1704,7 @@ console.log("customer///////",props.filteredUsers)
             }}
             onClick={handleSubmit}
           >
-            Saved
+            Save Changes
           </Button>
         </Modal.Footer>
       </Modal.Body>
@@ -1627,7 +1778,7 @@ console.log("customer///////",props.filteredUsers)
               fontFamily: 'Gilroy',
               fontSize: '14px'
             }}
-            onClick={handleCloseDelete}
+            onClick={handleDeleteBooking}
           >
             Delete
           </Button>

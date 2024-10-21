@@ -90,6 +90,9 @@ function BookingModal(props) {
     setAmount(e.target.value);
     setamountError("");
   };
+
+ 
+ 
   // const handlePayingguest =(e)=>{
   //   setPaying(e.target.value)
   //   setHostelIdError('')
@@ -125,7 +128,18 @@ function BookingModal(props) {
 
   const handleBed = (e) => {
     setBed(e.target.value);
+    const Bedfilter =state?.UsersList?.roomdetails && state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == paying && u.Floor_Id == floor  && u.Room_Id == room  )
+    
+    const Roomamountfilter = Bedfilter&& Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == e.target.value)
+    
+    if (Roomamountfilter.length !=0) {
+      setAmount(Roomamountfilter[0].bed_amount)
+      console.log("Roomamountfilter",Roomamountfilter[0].bed_amount);
+    }
     setBedError("");
+    setamountError('')
+    
+
   };
 
   const handleComments = (e) => {
@@ -479,54 +493,8 @@ function BookingModal(props) {
               </div>
             )}
           </Col>
-          <Col md={6}>
-          <Form.Group className="">
-                                      <Form.Label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Amount{" "}
-                                        <span
-                                          style={{
-                                            color: "red",
-                                            fontSize: "20px",
-                                          }}
-                                        >
-                                          {" "}
-                                          *{" "}
-                                        </span>
-                                      </Form.Label>
-                                      <FormControl
-                                        type="text"
-                                        id="form-controls"
-                                        placeholder="Enter amount"
-                                        value={amount}
-                                        onChange={(e) => handleAmount(e)}
-                                        style={{
-                                          fontSize: 16,
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          border: "1px solid #D9D9D9",
-                                          height: 50,
-                                          borderRadius: 8,
-                                        }}
-                                      />
-                                    </Form.Group>
-            {amountError && (
-              <div style={{ color: "red" }}>
-                <MdError />
-                {amountError}
-              </div>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+         
+           <Col>
             <Form.Group className="mb-2" controlId="formPaying">
               <Form.Label
                 style={{
@@ -538,19 +506,7 @@ function BookingModal(props) {
               >
                 Paying Guest <span style={{ color: "#FF0000" }}>*</span>
               </Form.Label>
-              {/* <Form.Select
-        aria-label="Paying Guest"
-        value={paying}
-        isInvalid={!!formErrors.paying}
-         className='' id="vendor-select"
-        onChange={(e) => handlePayingguest(e)}
-        style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy" }}
-      >
-        <option value="">Select a PG</option>
-        <option value="UPI/BHIM">Paying guest 1</option>
-        <option value="CASH">Paying guest 2</option>
-        <option value="Net Banking">Paying guest 3</option>
-      </Form.Select> */}
+             
 
               <Form.Select
                 aria-label="Default select example"
@@ -593,6 +549,9 @@ function BookingModal(props) {
               </div>
             )}
           </Col>
+        </Row>
+        <Row>
+         
           <Col>
             <Form.Group className="mb-2" controlId="formFloor">
               <Form.Label
@@ -646,9 +605,6 @@ function BookingModal(props) {
               </div>
             )}
           </Col>
-        </Row>
-
-        <Row>
           <Col>
             <Form.Group className="mb-2" controlId="formRoom">
               <Form.Label
@@ -696,6 +652,10 @@ function BookingModal(props) {
               </div>
             )}
           </Col>
+        </Row>
+
+        <Row>
+        
           <Col>
             <Form.Group className="mb-2" controlId="formBed">
               <Form.Label
@@ -763,6 +723,51 @@ function BookingModal(props) {
               </div>
             )}
           </Col>
+           <Col md={6}>
+          <Form.Group className="">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Amount{" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="Enter amount"
+                                        value={amount}
+                                        onChange={(e) => handleAmount(e)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
+            {amountError && (
+              <div style={{ color: "red" }}>
+                <MdError />
+                {amountError}
+              </div>
+            )}
+          </Col>
         </Row>
 
         <Form.Group controlId="formComments" className="mb-3">
@@ -799,7 +804,7 @@ function BookingModal(props) {
               borderRadius: 12,
               padding: "12px",
               border: "1px solid rgba(36, 0, 255, 1)",
-              backgroundColor: "rgba(36, 0, 255, 1)",
+              backgroundColor: "#1E45E1",
               color: "#fff",
               fontSize: 16,
               fontWeight: 600,
@@ -807,7 +812,7 @@ function BookingModal(props) {
             }}
             onClick={handleSubmit}
           >
-            Saved
+            New Booking
           </Button>
         </Modal.Footer>
       </Modal.Body>

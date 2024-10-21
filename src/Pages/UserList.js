@@ -1276,8 +1276,8 @@ useEffect(() => {
 
                       <div>
                         <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active Customer </div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active Customer </div>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Active Customer </div>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no active Customer </div>
                         <div style={{ textAlign: "center" }}>
                           <Button
                             onClick={handleShow}
@@ -1845,7 +1845,7 @@ useEffect(() => {
 
               </TabPanel>
               <TabPanel value="2">
-                <UserlistBookings id={props.id} setFilteredUsers={setFilteredUsers} filteredUsers={filteredUsers} currentItems={currentItems} showbookingForm={showbookingForm}  />
+                <UserlistBookings id={props.id} setFilteredUsers={setFilteredUsers} filteredUsers={filteredUsers} currentItems={currentItems} showbookingForm={showbookingForm}  toggleForm={toggleForm}/>
               </TabPanel>
               <TabPanel value="3">
                 <UserlistCheckout id={props.id} />
