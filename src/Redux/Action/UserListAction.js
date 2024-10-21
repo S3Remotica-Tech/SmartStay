@@ -197,9 +197,31 @@ export async function DeleteWalkInCustomer(walk) {
 
 
 
+export async function getCheckOutCustomer() {
+  return await AxiosConfig.get('/checkout_list',{
+  })
+}
+
+// 
 
 
 
+
+export async function AddCheckOutCustomer(checkout) {
+  return await AxiosConfig.post('/user_check_out',checkout,{
+    data:checkout
+  })
+}
+
+
+
+
+
+export async function DeleteCheckOutCustomer(checkout) {
+  return await AxiosConfig.post('/delete_check_out',checkout,{
+    data:checkout
+  })
+}
 
 
 

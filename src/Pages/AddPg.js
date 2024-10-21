@@ -321,10 +321,16 @@ console.log("currentItem",currentItem)
 
       // setImages(formattedImages);
 
-      const formattedImages = currentItem.image_list.map(img => ({
+      const formattedImages = currentItem?.image_list?.map(img => ({
         name: img.image !== '0' && typeof img.image === 'string' ? img.name : '',
         image: img.image !== '0' && typeof img.image === 'string' ? img.image : null
       }));
+
+  //     const formattedImages = Array.isArray(currentItem?.image_list) ? 
+  // currentItem.image_list.map(img => ({
+  //   name: img.image !== '0' && typeof img.image === 'string' ? img.name : '',
+  //   image: img.image !== '0' && typeof img.image === 'string' ? img.image : null
+  // })) : [];
 
 
 
@@ -680,6 +686,7 @@ console.log("currentItem",currentItem)
                           <Image 
                             className='img-fluid'
                             // src={imageSrc}
+                            // src={typeof imageSrc === 'string' ? imageSrc : undefined}
                             src={imageSrc && (typeof imageSrc === 'string' ? imageSrc : URL.createObjectURL(imageSrc))}
                             alt={`currentItem-image-${index}`}
                             onError={() => console.error(`Failed to load image for index: ${index}, ImageSrc: ${imageSrc}`)}

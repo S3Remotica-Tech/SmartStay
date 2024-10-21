@@ -930,6 +930,18 @@ function UserList(props) {
 }, [state.UsersList.addWalkInCustomerStatusCode])
 
 
+useEffect(()=>{
+  if(state.UsersList.addCheckoutCustomerStatusCode == 200){
+   
+    setcheckoutForm(false);
+  }
+
+  },[state.UsersList.addCheckoutCustomerStatusCode])
+
+
+
+
+
 useEffect(() => {
   if (state?.Booking?.statusCodeForAddBooking === 200) {
   

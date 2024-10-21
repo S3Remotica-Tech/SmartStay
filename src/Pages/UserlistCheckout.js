@@ -11,24 +11,85 @@ import { Modal, Button, Pagination, Form } from 'react-bootstrap';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import Closecircle from '../Assets/Images/close-circle.svg';
 import Flatpickr from 'react-flatpickr';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+import CheckOutForm from "./UserListCheckoutForm";
+import Emptystate from '../Assets/Images/Empty-State.jpg'
+import Image from 'react-bootstrap/Image';
 
 
 function CheckOut() {
+
+  const state = useSelector(state => state)
+  const dispatch = useDispatch();
+
+
+
+  console.log("state for cHECKoUT", state)
+
   const [activeDotsId, setActiveDotsId] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [checkOutDate, setCheckOutDate] = useState(new Date());
   const [selectedCustomer, setSelectedCustomer] = useState("Customer 1");
   const [modalType, setModalType] = useState(null);
-  const [customers, setCustomers] = useState(Array.from({ length: 50 }, (_, index) => `Customer ${index + 1}`)); // Simulating customers array
+  const [customers, setCustomers] = useState([]); // Simulating customers array
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6; // Change items per page to 6
   const datePickerRef = useRef(null);
 
+
+  const [checkOutCustomer, setCheckOutCustomer] = useState([])
+
+
+
+
+useEffect(()=>{
+dispatch({ type: 'CHECKOUTCUSTOMERLIST'})
+},[])
+
+
+
+
+useEffect(() => {
+  if (state.UsersList.GetCheckOutCustomerStatusCode == 200) {
+    setCheckOutCustomer(state.UsersList.CheckOutCustomerList)
+      setTimeout(() => {
+          dispatch({ type: 'CLEAR_CHECKOUT_CUSTOMER_LIST' })
+      }, 2000)
+
+  }
+
+}, [state.UsersList.GetCheckOutCustomerStatusCode])
+
+
+
+
+useEffect(()=>{
+  if(state.UsersList.addCheckoutCustomerStatusCode == 200 || state.UsersList.deleteCheckoutCustomerStatusCode == 200 ){
+    dispatch({ type: 'CHECKOUTCUSTOMERLIST'})
+    setcheckoutForm(false);
+    setModalType(null);
+setTimeout(()=>{
+  dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER'})
+},3000)
+
+setTimeout(()=>{
+  dispatch({ type: 'CLEAR _DELETE_CHECK_OUT_CUSTOMER'})
+},3000)
+
+
+  }
+
+  },[state.UsersList.addCheckoutCustomerStatusCode,state.UsersList.deleteCheckoutCustomerStatusCode])
+
+
+
+
   // Pagination logic
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  const currentCustomers = customers.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  const totalPages = Math.ceil(customers.length / itemsPerPage);
+  const currentCustomers = checkOutCustomer.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  const totalPages = Math.ceil(checkOutCustomer.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -38,23 +99,33 @@ function CheckOut() {
     if (currentPage > totalPages && totalPages > 0) {
       setCurrentPage(totalPages);
     }
-  }, [customers, currentPage, totalPages]);
+  }, [checkOutCustomer, currentPage, totalPages]);
 
-  const handleEdit = (id) => {
-    console.log('Edit clicked for card', id);
+
+const [checkOutEdit, setCheckOutEdit] = useState('')
+const [deleteCheckOutCustomer, setDeleteCheckOutCustomer] = useState('')
+
+  const handleEdit = (checkout) => {
+    
     setActiveDotsId(null);
-    setShowForm(true);
+    setcheckoutForm(true);
+    setCheckOutEdit(checkout)
+
   };
 
-  const handleDelete = (id) => {
-    console.log('Delete clicked for card', id);
+  const handleDelete = (checkout) => {
+    console.log('Delete clicked for card', checkout);
     setActiveDotsId(null);
+    setDeleteCheckOutCustomer(checkout)
     setModalType('delete');
   };
 
   const confirmDelete = () => {
     console.log('Confirmed deletion');
-    setModalType(null);
+    if(deleteCheckOutCustomer.ID){
+dispatch({ type: 'DELETECHECKOUTCUSTOMER', payload: {user_id:deleteCheckOutCustomer.ID }})
+    }
+   
   };
 
   const handleModalClose = () => {
@@ -81,14 +152,69 @@ function CheckOut() {
 
   const handleClose = () => setShowForm(false);
 
-  const renderCard = (index) => (
+
+//edit form
+const initialDate = new Date();
+const formatDate = (date) => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
+const [checkOutDates, setCheckOutDates] = useState(formatDate(initialDate));
+const [selectedCustomers, setSelectedCustomers] = useState("Customer 1");
+const [noticeDays, setNoticeDays] = useState("");
+const calendarRef = useRef(null);
+
+const handleCustomerChanges = (event) => {
+  setSelectedCustomers(event.target.value);
+};
+
+const handleNoticeDaysChange = (event) => {
+  setNoticeDays(event.target.value);
+};
+
+const handleDateChange = (date) => {
+  setCheckOutDates(formatDate(date[0]));
+  calendarRef.current.flatpickr.close();
+};
+
+
+
+
+
+const [checkoutForm, setcheckoutForm] = useState(false);
+
+
+  const checkOutForm = () => {
+    setcheckoutForm(!checkoutForm);
+  };
+
+  const checkoutcloseModal = () => {
+    setcheckoutForm(false);
+  };
+
+
+
+
+
+
+
+
+  return (
+    <div className="p-10">
+      {currentCustomers.length > 0 ?
+      <div className="row mt-3">
+         { currentCustomers.map((checkout,index) =>
+     
     <div key={index} className="col-lg-6 col-md-6 col-sm-12 mb-4">
       <div className="border p-3" style={{ borderColor: '#E6E6E6', borderWidth: '1px', borderRadius: '16px', position: 'relative' }}>
         <div className="d-flex align-items-center">
           <img src={Room} alt="Room Image" />
           <div style={{ marginLeft: '10px' }}>
             <p className="mb-0 font-weight-bold" style={{ fontFamily: "Gilroy", fontSize: '16px', fontWeight: '600', color: '#222222' }}>
-              Royal Grand Hostel
+              {checkout.HostelName}
             </p>
             <p className="mb-0 mt-2" style={{
               fontFamily: "Gilroy",
@@ -141,7 +267,7 @@ function CheckOut() {
             >
               <div
                 className="mb-2 d-flex align-items-center"
-                onClick={() => handleEdit(index)}
+                onClick={() => handleEdit(checkout)}
                 style={{ cursor: "pointer" }}
               >
                 <img src={Edit} style={{ height: 16, width: 16, marginRight: "8px" }} alt="Edit icon" />
@@ -156,7 +282,7 @@ function CheckOut() {
               </div>
               <div
                 className="d-flex align-items-center"
-                onClick={() => handleDelete(index)}
+                onClick={() => handleDelete(checkout)}
                 style={{ cursor: "pointer" }}
               >
                 <img src={Delete} style={{ height: 16, width: 16, marginRight: "8px" }} alt="Delete icon" />
@@ -183,10 +309,10 @@ function CheckOut() {
 
         <div className="d-flex justify-content-between align-items-center" style={{ whiteSpace: 'nowrap', marginTop: '-10px' }}>
           <p style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '20px', lineHeight: '1' }}>
-            <img src={People} alt="People Icon" style={{ marginRight: '5px' }} /> Kellie Turcotte
+            <img src={People} alt="People Icon" style={{ marginRight: '5px' }} />{checkout.Name} 
           </p>
-          <p style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '68px', lineHeight: '1' }}>20 Mar 2024</p>
-          <p style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '16px', lineHeight: '1' }}>20 Days</p>
+          <p style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '68px', lineHeight: '1' }}>{moment(checkout.CheckoutDate , 'YYYY-MM-DD').format('DD MMM YYYY')}</p>
+          <p style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '16px', lineHeight: '1' }}>{checkout.notice_period}</p>
         </div>
 
         <div>
@@ -194,43 +320,58 @@ function CheckOut() {
         </div>
 
         <div style={{ marginTop: '-10px' }}>
-          <p style={{ fontSize: '14px', fontWeight: '600', color: '#222222' }}>kafjafbafafkafa</p>
+          <p style={{ fontSize: '14px', fontWeight: '600', color: '#222222' }}>{checkout.checkout_comment}</p>
         </div>
       </div>
     </div>
-  );
-//edit form
-const initialDate = new Date();
-const formatDate = (date) => {
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-  return `${day}-${month}-${year}`;
-};
+  )}
 
-const [checkOutDates, setCheckOutDates] = useState(formatDate(initialDate));
-const [selectedCustomers, setSelectedCustomers] = useState("Customer 1");
-const [noticeDays, setNoticeDays] = useState("");
-const calendarRef = useRef(null);
-
-const handleCustomerChanges = (event) => {
-  setSelectedCustomers(event.target.value);
-};
-
-const handleNoticeDaysChange = (event) => {
-  setNoticeDays(event.target.value);
-};
-
-const handleDateChange = (date) => {
-  setCheckOutDates(formatDate(date[0]));
-  calendarRef.current.flatpickr.close();
-};
-
-  return (
-    <div className="p-10">
-      <div className="row mt-3">
-        {currentCustomers.map((_, index) => renderCard(index))}
       </div>
+      :
+      <div className='d-flex align-items-center justify-content-center ' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+                        <div>
+
+                            <div className="no-data-container">
+                                <Image src={Emptystate} alt="No Data" />
+                                <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)", paddingTop: "10px" }}>No Check-out available</div>
+                                <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no Check-out added.</div>
+                            </div>
+                            <div style={{ textAlign: "center" }}>
+                                <Button
+                                    onClick={checkOutForm}
+                                    style={{
+                                        fontSize: 16,
+                                        backgroundColor: "#1E45E1",
+                                        color: "white",
+                                        height: 56,
+                                        fontWeight: 600,
+                                        borderRadius: 12,
+                                        width: 200,
+                                        padding: "18px 20px",
+                                        fontFamily: 'Montserrat',
+                                        marginTop: "20px"
+                                    }}
+                                >
+                                    + Add Check-out
+                                </Button>
+
+                            </div>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+
+
+
+                                  }
+
+
+
+
+
+
+
 
       {/* Pagination rendering */}
       <Pagination className="mt-4 d-flex justify-content-end align-items-center">
@@ -335,7 +476,7 @@ const handleDateChange = (date) => {
       </Modal>
 
       {/* Form Modal */}
-      <Modal show={showForm} onHide={handleClose}>
+      {/* <Modal show={showForm} onHide={handleClose}>
       <Modal.Header className="d-flex justify-content-between align-items-center">
         <Modal.Title style={{ fontWeight: '600', fontSize: '16px' }}>Edit Check-out</Modal.Title>
         <img
@@ -461,7 +602,14 @@ const handleDateChange = (date) => {
           }}>Save Changes</Button>
         </form>
       </Modal.Body>
-      </Modal>
+      </Modal> */}
+
+{
+  checkoutForm && <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} currentItem={checkOutEdit} />
+}
+
+
+
     </div>
   );
 }
