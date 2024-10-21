@@ -59,6 +59,7 @@ function Booking(props) {
   const [FloorIds, setFloorIds] = useState('');
   const [bedIds, setBedIds] = useState('');
   const [id, setId] = useState("");
+  const [deleteShow, setDeleteShow] = useState(false)
   
 
   
@@ -165,6 +166,10 @@ function Booking(props) {
   const handleComments = (e) => {
     setComments(e.target.value);
   };
+
+  const handleCloseDelete = () => {
+    setDeleteShow(false)
+  }
   const validateAssignField = (value, fieldName) => {
     if (
       !value ||
@@ -454,11 +459,16 @@ function Booking(props) {
 }
 
   const handleDelete = (id) => {
-    const customer = customers.find((c) => c.id === id);
-    setSelectedCustomer(customer);
-    setModalType("delete");
-    setActiveDotsId(null);
+    // const customer = customers.find((c) => c.id === id);
+    // setSelectedCustomer(customer);
+    // setModalType("delete");
+    // setActiveDotsId(null);
+    setDeleteShow(true)
   };
+
+  const handleDeleteBooking =()=>{
+    
+  }
   const handleCheckin = (id) => {
     const customer = customers.find((c) => c.id === id);
     if (customer) {
@@ -1551,49 +1561,77 @@ console.log("customer///////",props.filteredUsers)
     </Modal>
 
       {/* Delete Modal */}
-      <Modal show={modalType === 'delete'} onHide={handleModalClose} centered backdrop="static">
-       
-          <Modal.Title style={{ fontFamily: "Gilroy", fontWeight: 600, fontSize: "18px", textAlign: "center", color: "#222222", paddingTop: "20px" }}>Delete Booking?</Modal.Title>
-       
-        <p style={{ color: "#646464", fontFamily: "Gilroy", fontWeight: 500, textAlign: "center", fontSize: "16px", paddingTop: "20px" }}>
-          Are you sure you want to delete this booking for booking?
-        </p>
-        <div class="d-flex justify-content-evenly" style={{ margin: "20px" }}>
-          <button
+      <Modal
+        show={deleteShow}
+        onHide={handleCloseDelete}
+        centered
+        backdrop="static"
+        style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
+      >
+        <Modal.Header style={{ borderBottom: 'none' }}>
+          <Modal.Title
             style={{
-              fontFamily: "Gilroy",
+              fontSize: '18px',
+              fontFamily: 'Gilroy',
+              textAlign: 'center',
               fontWeight: 600,
-              fontSize: "16px",
-              width: "160px",
-              height: "52px",
-              borderColor: "#1E45E1",
-              color: "#1E45E1",
-              transition: "all 0.3s ease"
+              color: '#222222',
+              flex: 1
             }}
-            type="button"
-            className="btn hover-button"
-            onClick={handleModalClose}
+          >
+            Delete Check-out?
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: 'Gilroy',
+            color: '#646464',
+            textAlign: 'center',
+            marginTop: '-20px'
+          }}
+        >
+          Are you sure you want to delete this check-out?
+        </Modal.Body>
+
+        <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: '12px 20px',
+              background: '#fff',
+              color: '#1E45E1',
+              border: '1px solid #1E45E1',
+              fontWeight: 600,
+              fontFamily: 'Gilroy',
+              fontSize: '14px',
+              marginRight: 10
+            }}
+            onClick={handleCloseDelete}
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             style={{
-              fontFamily: "Gilroy",
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: '12px 20px',
+              background: '#1E45E1',
+              color: '#FFFFFF',
               fontWeight: 600,
-              fontSize: "16px",
-              width: "160px",
-              height: "52px",
-              borderColor: "#1E45E1",
-              color: "#1E45E1",
-              transition: "all 0.3s ease"
+              fontFamily: 'Gilroy',
+              fontSize: '14px'
             }}
-            type="button"
-            className="btn hover-button"
-            onClick={confirmDelete}
+            onClick={handleCloseDelete}
           >
             Delete
-          </button>
-       </div>
+          </Button>
+        </Modal.Footer>
       </Modal>
 
 
