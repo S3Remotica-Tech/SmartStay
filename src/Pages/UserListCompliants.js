@@ -7,10 +7,16 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { PinDropSharp } from "@material-ui/icons";
 import { propsToClassKey } from "@mui/styles";
+import Skeleton from "react-loading-skeleton";
 
 function UserListCompliants(props){
     const state = useSelector(state => state)
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(false);
+    dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: props.id } });
+  }, []);
     useEffect(() => {
         if (props.id) {
           dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: props.id } })
@@ -89,65 +95,268 @@ function UserListCompliants(props){
   };
 
   useEffect(() => {
-    settransactionFilterddata(state.UsersList.customerdetails.transactions)
-  }, [state.UsersList.customerdetails.transactions])
+    settransactionFilterddata(state.UsersList.customerdetails.comp_data)
+  }, [state.UsersList.customerdetails.comp_data])
+
     return(
 <>
-<div>
-                      <Table className="ebtable mt-3" responsive >
-                        <thead style={{ color: "gray", fontSize: "11px", backgroundColor: "#E7F1FF" }}>
-                          <tr className="" style={{ height: "30px" }}>
+<div style={{padding:"-0px"}}>
+                   
 
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px", textAlign: "center" }}>Request ID</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Compliant type</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Date</th>
 
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Asigned to</th>
-                            <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingTop: "10px", paddingBottom: "10px" }}>Status</th>
-                            <th ></th>
+<Table
+                responsive="md"
+                className="Table_Design"
+                style={{
+                  height: "auto",
+                  overflow: "visible",
+                  tableLayout: "auto",
+                  borderRadius: "24px",
+                  border: "1px solid #DCDCDC",
+                  
 
-                          </tr>
-                        </thead>
-                        <tbody style={{ height: "50px", fontSize: "11px" }}>
-                          {currentRowTransaction?.map((v) => {
-                            let Dated = new Date(v.created_at);
+                 
+                  
+                  
+                  
+
+                }}
+              >
+                <thead
+                  style={{
+                    backgroundColor: "#E7F1FF",
+                  }}
+                >
+                  <tr>
+                    {/* <th
+                      style={{
+                        textAlign: "center",
+                        fontFamily: "Gilroy",
+                        color: "rgba(34, 34, 34, 1)",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        borderTopLeftRadius: 24,
+                      }}
+                    >
+                      <img src={squre} height={20} width={20} />
+                    </th> */}
+                    <th
+                       style={{
+                        textAlign: "center",
+                        fontFamily: "Gilroy",
+                        color: "#939393",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        borderTopLeftRadius: 24,
+                      }}
+                    >
+                      Request ID
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                     Compliant type
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                     Date
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Assign to
+                    </th>
+                 
+                    <th
+                      style={{
+                        textAlign: "start",
+                        padding: "10px",
+                        color: "#939393",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      status
+                    </th>
+                   
+                    <th
+                      style={{
+                        textAlign: "center",
+                        fontFamily: "Gilroy",
+                        color: "rgba(34, 34, 34, 1)",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        borderTopRightRadius: 24,
+                      }}
+                    >
+                      
+                    </th>
+                  </tr>
+                </thead>
+                <tbody style={{ textAlign: "center",verticalAlign:'middle' }}>
+                  {
+                     currentRowTransaction && currentRowTransaction?.map((user) => {
+                     
+                        let Dated = new Date(user.complaint_date);
                             console.log("Dated..?", Dated);
 
                             let day = Dated.getDate();
-                            let month = Dated.getMonth() + 1; // Months are zero-based
+                            let month = Dated.getMonth() + 1; 
                             let year = Dated.getFullYear();
+                            let formattedDate = `${day}/${month}/${year}`
+                        return (
+                          <tr
+                            key={user.Requestid}
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              textAlign: "center",
+                              marginTop: 20,
+                            }}
+                          >
+                           
+                            <td
+                              style={{
+                               
+                                border: "none",
+                                textAlign: "center",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                paddingTop:15
+                                
+                              }}
+                            >
+                              {user.Requestid}
+                            </td>
+                            <td
+                              style={{
+                               
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                paddingTop:15
+                              }}
+                            >
+                              {user.complaint_name}
+                            </td>
+                            <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                marginTop:10
+                              }}
+                            >
+                              <span
+                                style={{
+                                  paddingTop: "3px",
+                                  paddingLeft: "10px",
+                                  paddingRight: "10px",
+                                  paddingBottom: "3px",
+                                  borderRadius: "60px",
+                                  backgroundColor: "#EBEBEB",
+                                  textAlign: "start",
+                                  fontSize: "14px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  
+                                }}
+                              >
+                                {formattedDate}
+                              </span>
+                            </td>
+                            <td
+                              style={{
+                               
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                paddingTop:15
+                              }}
+                            >
+                              {user.Assign}
+                            </td>
+                            <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                marginTop:10
+                              }}
+                            >
+                              <span
+                                style={{
+                                  paddingTop: "3px",
+                                  paddingLeft: "10px",
+                                  paddingRight: "10px",
+                                  paddingBottom: "3px",
+                                  borderRadius: "60px",
+                                  // backgroundColor: "#FFEFCF",
+                                  backgroundColor: user.Status == "Pending" ? "#FFEED2" : "#D9FFD9",
+                                  textAlign: "start",
+                                  fontSize: "14px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  
+                                }}
+                              >
+                                {user.Status}
+                              </span>
+                            </td>
+                        
+                            <td style={{ paddingTop:12, border: "none" }}>
+                              {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                            let formattedDate = `${day}/${month}/${year}`;
-                            console.log("Formatted Date:", formattedDate);
-                            return (
-                              <tr key={v.id}>
+                             
 
-                                <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy", textAlign: "center" }}>{v.user_id}</td>
-                                <td ><span style={{ backgroundColor: "#FFEFCF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.type}</span></td>
-                                <td><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
-                                {/* <td>₹{view.BalanceDue}</td> */}
-                                <td style={{ fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>₹{v.amount}</td>
-                                <td><span style={{ backgroundColor: "#D9E9FF", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "16px", fontWeight: 500, fontFamily: "Gilroy" }}>{v.payment_type}</span></td>
-                                <td>
-                                  <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
-                                    <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                                  </div>
-                                  {/* <img src={dottt} style={{ height: 40, width: 40,cursor:"pointer"}} /> */}
-                                </td>
+                              {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+                            </td>
+                          </tr>
+                        );
+                      })
+                    }
+                </tbody>
 
-
-                              </tr>
-                            )
-
-                          })}
-                          {currentRowTransaction?.length === 0 && (
-                            <tr>
-                              <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
-                            </tr>
-                          )}
-
-                        </tbody>
-                      </Table>
+                {currentRowTransaction?.length === 0 && (
+                <tr>
+                  <td colSpan="6" style={{ textAlign: "center", color: "red" }}>No data found</td>
+                </tr>
+              )}
+              </Table>
 
 
                       {currentRowTransaction?.length > 0 && (
@@ -170,7 +379,7 @@ function UserListCompliants(props){
                                 onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
                                 disabled={transactioncurrentPage === 1}
                               >
-                                {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+                               
                                 <ArrowLeft2
                                   size="16"
                                   color="#1E45E1"
@@ -261,7 +470,7 @@ function UserListCompliants(props){
                                 onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
                                 disabled={transactioncurrentPage === totalPagesTransaction}
                               >
-                                {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+                               
                                 <ArrowRight2
                                   size="16"
                                   color="#1E45E1"

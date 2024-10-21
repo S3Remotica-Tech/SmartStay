@@ -139,8 +139,8 @@ function getFloorAbbreviation(floor_Id) {
                             <div className='pb-2'>
                                 <label style={{fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 600, marginLeft: '10px' }} >{props.complaints && props.complaints.Name} </label>
                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFE0D9', padding: '6px 12px',  borderRadius: '60px', marginRight: '10px' ,fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500}}>{getFormattedRoomId(props.complaints.Floor_id, props.complaints.Room)} - B{props.complaints && props.complaints.Bed}</div>
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFEFCF', padding: '6px 12px',  borderRadius: '60px', fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{getFloorName(props.complaints.Floor_id)}
+                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFE0D9', padding: '6px 12px',  borderRadius: '60px', marginRight: '10px' ,fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500}}>{(props.complaints &&  props.complaints.room_name)} - B{props.complaints && props.complaints.Bed}</div>
+                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFEFCF', padding: '6px 12px',  borderRadius: '60px', fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{(props.complaints.floor_name)}
                                         {/* {props.complaints && props.complaints.Floor_id} */}
                                         {/* Ground floor */}
                                     </div>

@@ -9,6 +9,8 @@ import PgListSaga from './PgListSaga';
 import AssetSaga from './AssetSaga'
 import SettingsSaga from './SettingsSaga'
 import ExpenseSaga from './ExpensesSaga'
+import CreateBookinSaga from './BookingSaga';
+
 
 
 function* RootSaga() {
@@ -23,7 +25,8 @@ yield all([
     PgListSaga(),
     AssetSaga(),
     SettingsSaga(),
-    ExpenseSaga()
+    ExpenseSaga(),
+    CreateBookinSaga()
 
 ])
 }

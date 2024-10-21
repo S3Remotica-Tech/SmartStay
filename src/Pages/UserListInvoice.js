@@ -11,6 +11,7 @@ import { propsToClassKey } from "@mui/styles";
 
 function UserListInvoice (props){
     const state = useSelector(state => state)
+    console.log("state,,,,",state)
     const dispatch = useDispatch();
     useEffect(() => {
         if (props.id) {
@@ -108,7 +109,7 @@ return(
             <th></th>
           </tr>
         </thead>
-        <tbody style={{ height: "50px", fontSize: "11px" }}>
+        <tbody style={{ height: "50px", fontSize: "11px",verticalAlign:'middle'}}>
           {currentRowinvoice?.map((view) => {
             let Dated = new Date(view.Date);
             console.log("Dated..?", Dated);
@@ -132,7 +133,7 @@ return(
             console.log("DueformattedDate:", DueformattedDate);
 
             return (
-              <tr key={view.id}>
+              <tr key={view.id} style={{marginTop:'20px'}}>
                 <td style={{ textAlign: "center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{view.Invoices}</td>
 
                 <td ><span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>

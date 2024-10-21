@@ -606,7 +606,7 @@ function UserListAmenities(props) {
           </tr>
         </thead>
 
-        <tbody>
+        <tbody style={{verticalAlign:'middle'}} >
           {currentRowAmnities &&
             currentRowAmnities?.map((v) => {
               let Datform = new Date(v.created_At);
@@ -620,7 +620,7 @@ function UserListAmenities(props) {
               console.log("Formatted Date:", formattedDate);
 
               return (
-                <tr key={v.amenity_Id}>
+                <tr key={v.amenity_Id}  style={{marginTop:30}}>
                   <td
                     style={{
                       textAlign: "center",
