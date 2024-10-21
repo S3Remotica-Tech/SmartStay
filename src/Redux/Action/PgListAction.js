@@ -1,7 +1,4 @@
-import AxiosConfig from "../../WebService/AxiosConfig"
-
-
-
+import AxiosConfig from "../../WebService/AxiosConfig";
 
 // export async function createPgList(datum){
 //     return await AxiosConfig.post('/add/new-hostel',datum,{
@@ -9,156 +6,116 @@ import AxiosConfig from "../../WebService/AxiosConfig"
 //     })
 //   }
 
-  export async function createPgList(params) {
-    console.log("param pg List", params)
-  
-    const formData = new FormData();
-    if (params.profile) formData.append("profile", params.profile);
-    if (params.name) formData.append("name", params.name)
-    if (params.phoneNo) formData.append("phoneNo",params.phoneNo)
-    if (params.email_Id) formData.append("email_Id", params.email_Id)
-      if (params.location) formData.append("location", params.location)
-        if(params.id) formData.append("id", params.id)
-          if(params.image1) formData.append("image1", params.image1)
-            if(params.image2) formData.append("image2", params.image2) 
-                if(params.image3) formData.append("image3", params.image3)
-                  if(params.image4) formData.append("image4", params.image4)
-   
-    try {
-      const response = await AxiosConfig.post('/add/new-hostel', formData, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-        timeout: 100000000,
-        onUploadProgress: (event) => {
-          console.log("event", event)
-        }
-      });
-      console.log("response for Api", response);
-      return response.data;
-    } catch (error) {
-      console.error("Axios Error", error);
-    }
+export async function createPgList(params) {
+  console.log("param pg List", params);
+
+  const formData = new FormData();
+  if (params.profile) formData.append("profile", params.profile);
+  if (params.name) formData.append("name", params.name);
+  if (params.phoneNo) formData.append("phoneNo", params.phoneNo);
+  if (params.email_Id) formData.append("email_Id", params.email_Id);
+  if (params.location) formData.append("location", params.location);
+  if (params.id) formData.append("id", params.id);
+  if (params.image1) formData.append("image1", params.image1);
+  if (params.image2) formData.append("image2", params.image2);
+  if (params.image3) formData.append("image3", params.image3);
+  if (params.image4) formData.append("image4", params.image4);
+
+  try {
+    const response = await AxiosConfig.post("/add/new-hostel", formData, {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+      timeout: 100000000,
+      onUploadProgress: (event) => {
+        console.log("event", event);
+      },
+    });
+    console.log("response for Api", response);
+    return response.data;
+  } catch (error) {
+    console.error("Axios Error", error);
   }
+}
 
+export async function Checkeblist(datum) {
+  return await AxiosConfig.post("/EB/Hostel_Room_based", datum, {
+    data: datum,
+  });
+}
 
+export async function CreateEbbill(datum) {
+  return await AxiosConfig.post("/ebamount/setting", datum, {
+    data: datum,
+  });
+}
 
+export async function EB_Customerlist() {
+  return await AxiosConfig.get("/list/eb_list", {});
+}
 
+export async function EB_startmeterlist() {
+  return await AxiosConfig.get("/list/Ebstartmeter", {});
+}
+export async function EB_CustomerListTable() {
+  return await AxiosConfig.get("/customer_readings", {});
+}
 
+export async function createRoom(datum) {
+  return await AxiosConfig.post("/room/create-room", datum, {
+    data: datum,
+  });
+}
 
+export async function CheckRoomId() {
+  return await AxiosConfig.get("/room-id/check-room-id", {});
+}
 
+export async function CheckBedDetails(datum) {
+  return await AxiosConfig.post("/bed/bed-details", datum, {
+    data: datum,
+  });
+}
 
+export async function createAllPGDetails(datum) {
+  console.log("datum", datum);
+  return await AxiosConfig.post("/list/dashboard", datum, {
+    data: datum,
+  });
+}
 
+export async function createBed(datum) {
+  return await AxiosConfig.post("/create-bed", datum, {
+    data: datum,
+  });
+}
 
+export async function DeleteBed(datum) {
+  return await AxiosConfig.post("/delete/delete-bed", datum, {
+    data: datum,
+  });
+}
 
+export async function DeletePG(datum) {
+  return await AxiosConfig.post("/delete/delete-hostel", datum, {
+    data: datum,
+  });
+}
 
+export async function UpdateFloor(datum) {
+  return await AxiosConfig.post("/update_floor", datum, {
+    data: datum,
+  });
+}
 
-  export async function Checkeblist(datum){
-    return await AxiosConfig.post('/EB/Hostel_Room_based',datum,{
-      data:datum
-    })
-  }
+export async function OccupiedCustomer(datum) {
+  return await AxiosConfig.post("/get_beduser_details", datum, {
+    data: datum,
+  });
+}
 
-  export async function CreateEbbill(datum){
-    return await AxiosConfig.post('/ebamount/setting',datum,{
-      data:datum
-    })
-  }
-
-  export async function EB_Customerlist() {
-    return await AxiosConfig.get('/list/eb_list',{
-    })
-  }
-
-  export async function EB_startmeterlist() {
-    return await AxiosConfig.get('/list/Ebstartmeter',{
-    })
-  }
-  export async function EB_CustomerListTable() {
-    return await AxiosConfig.get('/customer_readings',{
-    })
-  }
-
-  export async function createRoom(datum){
-    return await AxiosConfig.post('/room/create-room',datum,{
-      data:datum
-    })
-  }
-
-  export async function CheckRoomId() {
-    return await AxiosConfig.get('/room-id/check-room-id',{
-    })
-  }
-
-
-  export async function CheckBedDetails(datum){
-    return await AxiosConfig.post('/bed/bed-details',datum,{
-      data:datum
-    })
-  }
-
-  export async function createAllPGDetails(datum){
-    console.log("datum",datum)
-    return await AxiosConfig.post('/list/dashboard',datum,{
-      data:datum
-    })
-  }
-
-
- 
-
-  export async function createBed(datum){
-    return await AxiosConfig.post('/create-bed',datum,{
-      data:datum
-    })
-  }
-
-  
-
-
-  export async function DeleteBed(datum){
-    return await AxiosConfig.post('/delete/delete-bed',datum,{
-      data:datum
-    })
-  }
-
-
-  export async function DeletePG(datum){
-    return await AxiosConfig.post('/delete/delete-hostel',datum,{
-      data:datum
-    })
-  }
-
-  
-
-  
-
- 
-  
-
-
-  export async function UpdateFloor(datum){
-    return await AxiosConfig.post('/update_floor',datum,{
-      data:datum
-    })
-  }
-
-
- 
-
-
-  export async function OccupiedCustomer(datum){
-    return await AxiosConfig.post('/get_beduser_details',datum,{
-      data:datum
-    })
-  }
-
-
-  
-
-
-  export async function deleteHostelImages(datum){
-    return await AxiosConfig.post('/delete_hostel_image',datum,{
-      data:datum
-    })
-  }
+export async function deleteHostelImages(datum) {
+  return await AxiosConfig.post("/delete_hostel_image", datum, {
+    data: datum,
+  });
+}
