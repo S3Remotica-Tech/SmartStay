@@ -1,155 +1,157 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form, Button, Row, Col } from 'react-bootstrap';
+import { Modal, Form, Button, Row, Col, FormControl,InputGroup } from 'react-bootstrap';
 import { FaCheckCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { MdError } from "react-icons/md";
+import { useDispatch, useSelector} from "react-redux";
 
-const AssignBooking = ({
-  show,
-  handleClose,
-  mode, 
-  customer, 
-  handleSave, 
-}) => {
+function AssignBooking (props){
+
+  const state = useSelector((state) => state);
+  console.log("state...",state)
+  const dispatch = useDispatch();
 
   const [firstName, setFirstName] = useState('');
+  console.log("firstName",firstName)
   const [lastName, setLastName] = useState('');
   const [mobileno, setMobileNo] = useState('');
   const [email, setEmail] = useState('');
   const [payingguest, setPayingGuest] = useState('');
   const [aadharno, setAadharno] = useState('');
   const [address, setAddress] = useState('');
-
- 
+  const [phoneError, setPhoneError] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [countryCode, setCountryCode] = useState("91");
+  const [phonenumError, setphonenumError] = useState("");
   const [validated, setValidated] = useState(false);
   const [formErrors, setFormErrors] = useState({});
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  const [addressError, setAddressError] = useState("");
+  console.log(props.assignBooking,"?????????");
 
-  
   useEffect(() => {
-    if (mode === 'checkin' && customer) {
-      setFirstName(customer.firstName || '');
-      setLastName(customer.lastName || '');
-      setMobileNo(customer.mobileno || '');
-      setEmail(customer.email || '');
-      setPayingGuest(customer.payingguest || '');
-      setAadharno(customer.aadharno || '');
-      setAddress(customer.address || '');
-    } else {
-    
-      setFirstName('');
-      setLastName('');
-      setMobileNo('');
-      setEmail('');
-      setPayingGuest('');
-      setAadharno('');
-      setAddress('');
-    }
+    dispatch({ type: "COUNTRYLIST" });
+  }, [])
+  
 
-    setValidated(false);
-    setFormErrors({});
-  }, [mode, customer, show]);
+const handleAssignClose =()=>{
+  props.setModalType(false)
+}
+
+
+
+const handleCountryCodeChange = (e) => {
+  setCountryCode(e.target.value);
+};
+
+const handleMobile=(e)=>{
+  setMobileNo(e.target.value)
+  const pattern = /^\d{1,10}$/;
+  const isValidMobileNo = pattern.test(e.target.value);
+
+  if (isValidMobileNo && e.target.value.length === 10) {
+    setPhoneError("");
+  } else {
+    setPhoneError("Invalid mobile number *");
+  }
+  setPhoneError("");
+  
+}
+const handleEmail = (e) => {
+  const emailValue = e.target.value;
+  setEmail(emailValue);
 
   
-  const validateForm = () => {
-    const errors = {};
-
-    
-    if (!firstName || firstName.trim() === '') {
-      errors.firstName = 'First name is required.';
-    }
-
-   
-    if (!lastName || lastName.trim() === '') {
-      errors.lastName = 'Last name is required.';
-    }
-
-   
-    const mobileRegex = /^\d{10}$/;
-    if (!mobileno || mobileno.trim() === '') {
-      errors.mobileno = 'Mobile number is required.';
-    } else if (!mobileRegex.test(mobileno)) {
-      errors.mobileno = 'Mobile number must be 10 digits.';
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || email.trim() === '') {
-      errors.email = 'Email is required.';
-    } else if (!emailRegex.test(email)) {
-      errors.email = 'Invalid email format.';
-    }
+  const hasUpperCase = /[A-Z]/.test(emailValue);
+  const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
   
-    if (!payingguest || payingguest.trim() === '') {
-      errors.payingguest = 'Paying Guest information is required.';
-    }
+  const isValidEmail = emailRegex.test(emailValue);
 
-   
-    const aadharRegex = /^\d{12}$/;
-    if (!aadharno || aadharno.trim() === '') {
-      errors.aadharno = 'Aadhar number is required.';
-    } else if (!aadharRegex.test(aadharno)) {
-      errors.aadharno = 'Aadhar number must be 12 digits.';
-    }
+  
+  if (!emailValue) {
+    setEmailError("");
+    setEmailErrorMessage("");
+  } else if (hasUpperCase) {
+    setEmailErrorMessage("Email should be in lowercase *");
+    setEmailError("Invalid Email Id *");
+  } else if (!isValidEmail) {
+    setEmailErrorMessage("");
+    setEmailError("Invalid Email Id *");
+  } else {
+    setEmailError("");
+    setEmailErrorMessage("");
 
     
-    if (!address || address.trim() === '') {
-      errors.address = 'Address is required.';
+  }
+
+  // Clear email error on input change
+  // dispatch({ type: "CLEAR_EMAIL_ERROR" });
+};
+const handleAddress=(e)=>{
+  setAddress(e.target.value)
+  setAddressError('')
+}
+
+useEffect(()=>{
+  if(props.assignBooking){
+    setFirstName(props.assignBooking.first_name)
+    setLastName(props.assignBooking.last_name)
+    setPayingGuest(props.assignBooking.hostel_name)
+    
+
+  }
+})
+
+
+const validateAssignField = (value, fieldName) => {
+  const stringValue = String(value).trim();
+  if (!stringValue) {
+    switch (fieldName) {
+      case "mobileno":
+        setPhoneError("mobileno ID is required");
+        break;
+      case "address":
+        setAddressError("address is required");
+        break;
+      
+      default:
+        break;
     }
+    return false;
+  } else {
+    switch (fieldName) {
+      case "mobileno":
+        setPhoneError("");
+      case "address":
+        setAddressError("");
+        break;
+      default:
+        break;
+    }
+    return true;
+  }
+};
 
-    setFormErrors(errors);
 
-   
-    return Object.keys(errors).length === 0;
-  };
 
+
+
+const MobileNumber = `${countryCode}${mobileno}`;
   
   const handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (validateForm()) {
-    
-      const updatedCustomer = {
-        ...customer,
-        firstName: firstName.trim(),
-        lastName: lastName.trim(),
-        mobileno: mobileno.trim(),
-        email: email.trim(),
-        payingguest: payingguest.trim(),
-        aadharno: aadharno.trim(),
-        address: address.trim(),
-        status: 'Checked In', 
-      };
-
-      
-      handleSave(updatedCustomer);
-
-      // Show Success Toast
-      toast.success('Check-in assigned successfully!', {
-        position: 'bottom-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-        icon: <FaCheckCircle color="white" />,
-      });
-
-      handleClose();
+    if (!validateAssignField(mobileno, "mobileno")) return;
+    if (!validateAssignField(address, "address")) return;
+   
+    if (phoneError === "Invalid mobile number *") {
+      setPhoneError("Please enter a valid 10-digit phone number");
+      return;
     } else {
-      setValidated(true);
-      toast.error('Please fix the errors in the form.', {
-        position: 'bottom-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-      });
+      setPhoneError("");
     }
+
+   
   };
 
 
@@ -172,22 +174,13 @@ const AssignBooking = ({
       }
     }
   };
-  const isFormValid = () => {
-    return (
-        firstName &&
-        lastName &&
-       mobileno &&
-       email &&
-        payingguest &&
-        aadharno &&
-     address 
-    
-    );
-};
+
+
+ 
 
   return (
-    <Modal show={show} onHide={handleClose} centered backdrop="static">
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    <Modal show={props.modalType} onHide={handleAssignClose} centered backdrop="static">
+      
         <Modal.Header closeButton>
           <Modal.Title>Assign Booking</Modal.Title>
         </Modal.Header>
@@ -204,12 +197,7 @@ const AssignBooking = ({
                   placeholder="Enter first name"
                   style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", height:"50px"}}
                   value={firstName}
-                  onChange={(e) => {
-                    setFirstName(e.target.value);
-                    if (e.target.value.trim() !== '') {
-                      setFormErrors((prev) => ({ ...prev, firstName: '' }));
-                    }
-                  }}
+                  // onChange={}
                   isInvalid={!!formErrors.firstName}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -247,52 +235,165 @@ const AssignBooking = ({
           <Row>
            
             <Col md={6}>
-              <Form.Group controlId="formMobileNo" className="mb-3">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  Mobile Number 
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter mobile number"
-                  style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", height:"50px"}}
-                  value={mobileno}
-                  onChange={handleMobileChange}
-                  isInvalid={!!formErrors.mobileno}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {formErrors.mobileno}
-                </Form.Control.Feedback>
-              </Form.Group>
+            <Form.Group>
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Mobile number{" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+
+                                      <InputGroup>
+                                        <Form.Select
+                                          value={countryCode}
+                                          id="vendor-select-pg"
+                                          onChange={handleCountryCodeChange}
+                                          style={{
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: "8px 0 0 8px",
+                                            height: 50,
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: countryCode ? 600 : 500,
+                                            boxShadow: "none",
+                                            backgroundColor: "#fff",
+                                            maxWidth: 90,
+                                            paddingRight: 10,
+                                          }}
+                                        >
+                                          {state.UsersList?.countrycode?.country_codes?.map(
+                                            (item) => {
+                                              console.log("itemImage", item);
+
+                                              return (
+                                                console.log(
+                                                  "item.country_flag",
+                                                  item.country_flag
+                                                ),
+                                                (
+                                                  <>
+                                                    <option
+                                                      value={item.country_code}
+                                                    >
+                                                      +{item.country_code}
+                                                    </option>
+                                                  </>
+                                                )
+                                              );
+                                            }
+                                          )}
+                                        </Form.Select>
+                                        <Form.Control
+                                          value={mobileno}
+                                          onChange={handleMobile}
+                                          type="text"
+                                          placeholder="9876543210"
+                                          maxLength={10}
+                                          style={{
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: mobileno ? 600 : 500,
+                                            boxShadow: "none",
+                                            borderLeft: "unset",
+                                            borderRight: "1px solid #D9D9D9",
+                                            borderTop: "1px solid #D9D9D9",
+                                            borderBottom: "1px solid #D9D9D9",
+                                            height: 50,
+                                            borderRadius: "0 8px 8px 0",
+                                          }}
+                                        />
+                                      </InputGroup>
+                                      <p
+                                        id="MobileNumberError"
+                                        style={{
+                                          color: "red",
+                                          fontSize: 11,
+                                          marginTop: 5,
+                                        }}
+                                      ></p>
+                                      {phoneError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {phoneError}
+                                        </div>
+                                      )}
+                                      {phonenumError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {phonenumError}
+                                        </div>
+                                      )}
+                                      {phoneErrorMessage && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {phoneErrorMessage}
+                                        </div>
+                                      )}
+                                    </Form.Group>
             </Col>
 
             
             <Col md={6}>
-              <Form.Group controlId="formEmail" className="mb-3">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  Email Address
-                </Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter email"
-                  style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", height:"50px"}}
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (e.target.value.trim() === '') {
-                      setFormErrors((prev) => ({ ...prev, email: 'Email is required.' }));
-                    } else if (!emailRegex.test(e.target.value)) {
-                      setFormErrors((prev) => ({ ...prev, email: 'Invalid email format.' }));
-                    } else {
-                      setFormErrors((prev) => ({ ...prev, email: '' }));
-                    }
-                  }}
-                  isInvalid={!!formErrors.email}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {formErrors.email}
-                </Form.Control.Feedback>
-              </Form.Group>
+           
+<Form.Group className="mb-3">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Email Id
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="Enter email address"
+                                        value={email}
+                                        onChange={(e) => handleEmail(e)}
+                                        // style={bottomBorderStyle}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+
+                                      {emailError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {emailError}
+                                        </div>
+                                      )}
+                                    
+                                      {emailErrorMessage && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {emailErrorMessage}
+                                        </div>
+                                      )}
+                                    </Form.Group>
             </Col>
           </Row>
 
@@ -321,8 +422,30 @@ const AssignBooking = ({
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
-
             <Col md={6}>
+              <Form.Group controlId="formAddress" className="mb-3">
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                  Address 
+                </Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Enter address"
+                  style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", height:"50px"}}
+                  value={address}
+                 onChange={(e)=>handleAddress(e)}
+                />
+                
+              </Form.Group>
+              {addressError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        {addressError}
+                                      </div>
+                                    )}
+            </Col>
+
+            {/* <Col md={6}>
               <Form.Group controlId="formAadharNo" className="mb-3">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                   Aadhar Number 
@@ -339,39 +462,17 @@ const AssignBooking = ({
                   {formErrors.aadharno}
                 </Form.Control.Feedback>
               </Form.Group>
-            </Col>
+            </Col> */}
           </Row>
 
           <Row>
             
-            <Col md={12}>
-              <Form.Group controlId="formAddress" className="mb-3">
-                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  Address 
-                </Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  placeholder="Enter address"
-                  style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", height:"50px"}}
-                  value={address}
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                    if (e.target.value.trim() !== '') {
-                      setFormErrors((prev) => ({ ...prev, address: '' }));
-                    }
-                  }}
-                  isInvalid={!!formErrors.address}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {formErrors.address}
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Col>
+          
           </Row>
         </Modal.Body>
         <Modal.Footer>
           <Button
+          onClick={handleSubmit}
             variant="primary"
             type="submit"
             className="w-100"
@@ -391,7 +492,7 @@ const AssignBooking = ({
             Assign Booking
           </Button>
         </Modal.Footer>
-      </Form>
+     
     </Modal>
   );
 };

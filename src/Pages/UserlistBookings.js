@@ -28,7 +28,7 @@ function Booking(props) {
   const dispatch = useDispatch();
   console.log("stateBooking",state)
   const [activeDotsId, setActiveDotsId] = useState(null);
-  const [modalType, setModalType] = useState(null);
+  const [modalType, setModalType] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [customers, setCustomers] = useState('');
   const [firstName, setFirstName] = useState("");
@@ -61,6 +61,8 @@ function Booking(props) {
   const [deleteShow, setDeleteShow] = useState(false)
   const [deleteId, setDeleteId] = useState('')
   const [editMode , seteditMode] = useState(false)
+  const [assignBooking, setAssignBooking] = useState('')
+
 
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
@@ -516,17 +518,10 @@ console.log("initialStateAssign.comments:", initialStateAssign.comments);
     
   }
 )}
-  const handleCheckin = (id) => {
-    const customer = customers.find((c) => c.id === id);
-    if (customer) {
-      setSelectedCustomer(customer);
-      setModalType('checkin');
-      setActiveDotsId(null);
-    } else {
-      toast.error('Customer not found!', {
-       
-      });
-    }
+  const handleCheckin = (item) => {
+    setModalType(true)
+    setAssignBooking(item)
+  console.log("id12345",item)
   };
 
 
@@ -604,7 +599,7 @@ console.log("customer///////",props.filteredUsers)
 const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 1;
+  const itemsPerPage = 7;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = props.filteredUsers?.slice(
@@ -939,7 +934,7 @@ const rowsPerPage = 5;
                             >
                               <div
                                 className="mb-2 d-flex align-items-center"
-                                onClick={() => handleCheckin(customer.id)}
+                                onClick={() => handleCheckin(customer)}
                                 style={{ cursor: 'pointer' }}
                               >
                                 <img src={check} style={{ height: 16, width: 16, marginRight: '8px' }} alt="Checkin icon" />
@@ -1131,11 +1126,14 @@ const rowsPerPage = 5;
       />
 
       <AssignBooking
-        show={modalType === 'checkin'}
+        modalType={modalType}
+        setModalType={setModalType}
         handleClose={handleModalClose}
         mode={modalType}
         customer={selectedCustomer}
         handleSave={handleSave}
+        setAssignBooking={setAssignBooking}
+        assignBooking={assignBooking}
       />
 
 
@@ -1149,7 +1147,7 @@ const rowsPerPage = 5;
       centered
       backdrop="static"
     >
-      {/* <Form noValidate validated={validated} > */}
+     
       <Modal.Header className="d-flex justify-content-between">
         <Modal.Title>Edit Booking</Modal.Title>
         <CloseCircle
@@ -1225,67 +1223,7 @@ const rowsPerPage = 5;
         <Row>
           <Col md={6}>
             <Form.Group className="mb-2" controlId="formJoiningDate">
-              {/* <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Joining Date
-              </Form.Label>
-
-              <div style={{ position: "relative" }}>
-                <label
-                  htmlFor="date-input"
-                  style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 12,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: joiningDate ? 500 : 500,
-                    color: "#222222",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    if (calendarRef.current && calendarRef.current.flatpickr) {
-                      calendarRef.current.flatpickr.open();
-                    }
-                  }}
-                >
-                  {joiningDate instanceof Date && !isNaN(joiningDate)
-                    ? joiningDate.toLocaleDateString("en-GB")
-                    : "DD/MM/YYYY"}
-                  <img
-                    src={Calendars}
-                    style={{ height: 24, width: 24, marginLeft: 10 }}
-                    alt="Calendar"
-                  />
-                </label>
-
-                <Flatpickr
-                  ref={calendarRef}
-                  value={joiningDate}
-                  onChange={(date) => setJoiningDate(date[0])}
-                  options={{
-                    dateFormat: "d/m/Y",
-                    allowInput: true,
-                  }}
-                  style={{
-                    display: "none",
-                  }}
-                />
-                {formErrors.joiningDate && (
-                  <div className="invalid-feedback">
-                    {formErrors.joiningDate}
-                  </div>
-                )}
-              </div> */}
+              
                <Form.Label
                                       style={{
                                         fontSize: 14,
