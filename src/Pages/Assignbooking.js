@@ -37,6 +37,13 @@ function AssignBooking (props){
 
 const handleAssignClose =()=>{
   props.setModalType(false)
+  setMobileNo('')
+  setEmail('')
+  setAddress('')
+  setEmailError('')
+  setPhoneError('')
+  setAddressError('')
+  setEmailErrorMessage('')
 }
 
 
@@ -110,7 +117,7 @@ const validateAssignField = (value, fieldName) => {
   if (!stringValue) {
     switch (fieldName) {
       case "mobileno":
-        setPhoneError("mobileno ID is required");
+        setPhoneError("mobileno is required");
         break;
       case "address":
         setAddressError("address is required");
