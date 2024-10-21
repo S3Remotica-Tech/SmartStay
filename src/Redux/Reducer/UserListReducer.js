@@ -49,6 +49,9 @@ const initialState = {
     deleteWalkInCustomerStatusCode:0,
     GetCheckOutCustomerStatusCode: 0,
     CheckOutCustomerList:[],
+    addCheckoutCustomerStatusCode: 0,
+    deleteCheckoutCustomerStatusCode:0,
+    errorMessageAddCheckOut:'',
 
 }
 
@@ -210,11 +213,20 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_CHECKOUT_CUSTOMER_LIST':
             return { ...state, GetCheckOutCustomerStatusCode: 0 }
 
+        case 'ADD_CHECKOUT_CUSTOMER':
+            return { ...state, addCheckoutCustomerStatusCode: action.payload.statusCode }
 
+        case 'CLEAR_ADD_CHECKOUT_CUSTOMER':
+            return { ...state, addCheckoutCustomerStatusCode: 0 }
 
-
-
-
+        case 'DELETE_CHECK_OUT_CUSTOMER':
+            return { ...state, deleteCheckoutCustomerStatusCode: action.payload.statusCode }
+        case 'CLEAR _DELETE_CHECK_OUT_CUSTOMER':
+            return { ...state, deleteCheckoutCustomerStatusCode: 0 }
+        case 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR':
+            return { ...state, errorMessageAddCheckOut: action.payload}
+            case 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR':
+                return { ...state, errorMessageAddCheckOut: ''}
 
         case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {
