@@ -6,12 +6,12 @@ import {
   FormSelect,
 } from "react-bootstrap";
 import moment from "moment";
-import React, { useState, useEffect, useCallback,useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import "../Pages/UserList.css";
 // import Plus from '../Assets/Images/Create-button.png';
 // import Profile from '../Assets/Images/Profile.jpg';
 import Swal from "sweetalert2";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaPlusCircle } from "react-icons/fa";
 import { InputGroup, Pagination } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
@@ -69,10 +69,9 @@ function UserlistForm(props) {
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
-  const [RoomRent, setRoomRent] = useState(0);
-  console.log("RoomRent",RoomRent);
-  
-  
+  const [RoomRent, setRoomRent] = useState("");
+  console.log("RoomRent", RoomRent);
+
   const [BalanceDue, setBalanceDue] = useState("");
   const [PaymentType, setPaymentType] = useState("");
   const [AdvanceAmount, setAdvanceAmount] = useState("");
@@ -92,18 +91,32 @@ function UserlistForm(props) {
   const [payableamount, setPayableamount] = useState("");
   const [countryCode, setCountryCode] = useState("91");
   const [selectedDate, setSelectedDate] = useState(null);
-  console.log("selectedDate",selectedDate);
-  
+  const [floorError, setfloorError] = useState("");
+  const [roomError, setRoomError] = useState("");
+  const [bedError, setBedError] = useState("");
+  const [advanceAmountError, setAdvanceAmountError] = useState("");
+  const [roomrentError, setRoomRentError] = useState("");
+  const [firstnameError, setFirstnameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [addressError, setAddressError] = useState("");
+  const [hostelIdError, setHostelIdError] = useState("");
+  const [phonenumError, setphonenumError] = useState("");
+  const [emailIdError, setemailIdError] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+
+  console.log("selectedDate", selectedDate);
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
   };
 
   const state = useSelector((state) => state);
-  console.log("state...",state)
+  console.log("state...", state);
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
-  
+
   const [profilePicture, setProfilePicture] = useState("");
   const [filteredProfile, setFilteredProfile] = useState(null);
   const [dateError, setDateError] = useState("");
@@ -131,7 +144,6 @@ function UserlistForm(props) {
     // defaultDate: selectedDate ,
     maxDate: new Date(),
     minDate: new Date(),
-
   };
 
   useEffect(() => {
@@ -139,11 +151,10 @@ function UserlistForm(props) {
       calendarRef.current.flatpickr.set(options);
     }
   }, [selectedDate]);
-  const handleDate =(selectedDates)=>{
-    setSelectedDate(selectedDates[0])
-    setDateError('')
-  }
-
+  const handleDate = (selectedDates) => {
+    setSelectedDate(selectedDates[0]);
+    setDateError("");
+  };
 
   useEffect(() => {
     dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostel_Id } });
@@ -169,15 +180,6 @@ function UserlistForm(props) {
     setFirstname(e.target.value);
     setFirstnameError("");
   };
-  const [firstnameError, setFirstnameError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [addressError, setAddressError] = useState("");
-  const [hostelIdError, setHostelIdError] = useState("");
-  const [phonenumError, setphonenumError] = useState("");
-  const [emailIdError, setemailIdError] = useState("");
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
 
   useEffect(() => {
     setphonenumError(state.UsersList.phoneError);
@@ -225,42 +227,6 @@ function UserlistForm(props) {
     dispatch({ type: "COUNTRYLIST" });
   }, []);
 
-  // useEffect(() => {
-  //   const currentDate = moment().format("YYYY-MM-DD");
-  //   const joinDate = moment(currentDate).format("YYYY-MM-DD");
-  //   const currentMonth = moment(currentDate).month() + 1;
-  //   const currentYear = moment(currentDate).year();
-  //   const createdAtMonth = moment(joinDate).month() + 1;
-  //   const createdAtYear = moment(joinDate).year();
-
-  //   if (currentMonth === createdAtMonth && currentYear === createdAtYear) {
-  //     var dueDate = moment(joinDate).endOf("month").format("YYYY-MM-DD");
-  //     var invoiceDate = moment(joinDate).format("YYYY-MM-DD");
-  //   } else {
-  //     var dueDate = moment(currentDate).endOf("month").format("YYYY-MM-DD");
-  //     var invoiceDate = moment(currentDate)
-  //       .startOf("month")
-  //       .format("YYYY-MM-DD");
-  //   }
-    
-
-  //   const formattedJoinDate = moment(invoiceDate).format("YYYY-MM-DD");
-  //   const formattedDueDate = moment(dueDate).format("YYYY-MM-DD");
-  //   const numberOfDays =
-  //     moment(formattedDueDate).diff(moment(formattedJoinDate), "days") + 1;
-    
-
-  //   const totalDaysInCurrentMonth = moment(currentDate).daysInMonth();
-
-  //   const oneday_amount = RoomRent / totalDaysInCurrentMonth;
-
-  //   const payableamount = oneday_amount * numberOfDays;
-  //   const This_month_payableamount = Math.round(payableamount);
-  //   setPayableamount(This_month_payableamount);
-
-   
-  // }, [RoomRent]);
-
   const handlePaidrent = (e) => {
     const value = e.target.value;
     if (value <= payableamount) {
@@ -268,7 +234,6 @@ function UserlistForm(props) {
     }
   };
 
-  
   const handlePhone = (e) => {
     setPhone(e.target.value);
     const pattern = /^\d{1,10}$/;
@@ -283,7 +248,6 @@ function UserlistForm(props) {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
 
-  
   const handleEmail = (e) => {
     const emailValue = e.target.value;
     setEmail(emailValue);
@@ -306,7 +270,6 @@ function UserlistForm(props) {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
- 
   const handleAddress = (e) => {
     setAddress(e.target.value);
     setAddressError("");
@@ -334,17 +297,10 @@ function UserlistForm(props) {
     setHostelIdError("");
   };
 
-  
-  const [floorError, setfloorError] = useState("");
-  const [roomError, setRoomError] = useState("");
-  const [bedError, setBedError] = useState("");
-  const [advanceAmountError, setAdvanceAmountError] = useState("");
-  const [roomrentError, setRoomRentError] = useState("");
-
   // const validateAssignField = (value, fieldName) => {
-    
+
   //   const isValueEmpty = (typeof value === "string" && value.trim() === "") || value === 'undefined' || value === 'null' || value === '0';
-  
+
   //   if (isValueEmpty) {
   //     switch (fieldName) {
   //       case "Floor":
@@ -370,7 +326,7 @@ function UserlistForm(props) {
   //     }
   //     return false;
   //   }
-  
+
   //   // Clear errors if the value is valid
   //   switch (fieldName) {
   //     case "Floor":
@@ -394,10 +350,9 @@ function UserlistForm(props) {
   //     default:
   //       break;
   //   }
-  
+
   //   return true;
   // };
-
 
   const validateAssignField = (value, fieldName) => {
     if (
@@ -422,8 +377,8 @@ function UserlistForm(props) {
         case "AdvanceAmount":
           setAdvanceAmountError("Reading is required");
           break;
-          case "RoomRent":
-            setRoomRentError("Reading is required");
+        case "RoomRent":
+          setRoomRentError("Reading is required");
           break;
         default:
           break;
@@ -431,7 +386,6 @@ function UserlistForm(props) {
       return false;
     } else {
       switch (fieldName) {
-       
         case "Floor":
           setfloorError("");
           break;
@@ -447,17 +401,16 @@ function UserlistForm(props) {
         case "AdvanceAmount":
           setAdvanceAmountError("");
           break;
-          case "RoomRent":
-            setRoomRentError("");
+        case "RoomRent":
+          setRoomRentError("");
           break;
         default:
           break;
-       
       }
       return true;
     }
   };
-  
+
   const handleFloor = (e) => {
     setFloor(e.target.value);
     setRooms("");
@@ -473,57 +426,58 @@ function UserlistForm(props) {
         floor_id: Floor,
         room_id: e.target.value,
       },
-      
     });
-    setRoomRent(0)
+    setRoomRent("");
     setRoomError("");
   };
 
-  console.log("state.UsersList.roomdetails[0].bed_details",state.UsersList.roomdetails)
-
-     
-
-
-  
+  console.log(
+    "state.UsersList.roomdetails[0].bed_details",
+    state.UsersList.roomdetails
+  );
 
   const handleBed = (e) => {
     setBed(e.target.value);
-      console.log("e",e.target.value);
+    console.log("e", e.target.value);
 
-      const Bedfilter =state?.UsersList?.roomdetails && state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == hostel_Id && u.Floor_Id == Floor  && u.Room_Id == Rooms  )
-    
-    const Roomamountfilter = Bedfilter&& Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == e.target.value)
-    
-    if (Roomamountfilter.length !=0) {
-      setRoomRent(Roomamountfilter[0].bed_amount)
-      console.log("Roomamountfilter",Roomamountfilter[0].bed_amount);
+    const Bedfilter =
+      state?.UsersList?.roomdetails &&
+      state.UsersList.roomdetails.filter(
+        (u) =>
+          u.Hostel_Id == hostel_Id && u.Floor_Id == Floor && u.Room_Id == Rooms
+      );
+
+    const Roomamountfilter =
+      Bedfilter &&
+      Bedfilter.length > 0 &&
+      Bedfilter[0].bed_details.filter((amount) => amount.id == e.target.value);
+
+    if (Roomamountfilter.length != 0) {
+      setRoomRent(Roomamountfilter[0].bed_amount);
+      console.log("Roomamountfilter", Roomamountfilter[0].bed_amount);
     }
-    
-   
+
     setBedError("");
+    setRoomRentError("");
   };
-
-
+  
 
   //  useEffect (()=>{
 
   //   const Bedfilter =state?.UsersList?.roomdetails && state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == hostel_Id && u.Floor_Id == Floor  && u.Room_Id == Rooms  )
-    
+
   //   const Roomamountfilter = Bedfilter&& Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == Bed)
-    
+
   //   if (Roomamountfilter.length !=0) {
   //     console.log("Roomamountfilter",Roomamountfilter);
   //   }
   //   setRoomRent(Roomamountfilter)
   //  },[hostel_Id,Floor,Rooms, Bed])
 
-
-
-   const handleRoomRent = (e) => {
-    
-    const value = e.target.value
+  const handleRoomRent = (e) => {
+    const value = e.target.value;
     setRoomRent(e.target.value);
-    console.log("roomrentvalue",value)
+    console.log("roomrentvalue", value);
     setRoomRentError("");
   };
 
@@ -573,11 +527,9 @@ function UserlistForm(props) {
     props.OnShowTable(true);
     if (props.edit === "Edit") {
       props.OnShowTable(true);
-     
     } else {
       // props.setUserList(true);
       props.setRoomDetail(false);
-      
     }
   };
 
@@ -601,7 +553,6 @@ function UserlistForm(props) {
       openingBalance: 2500,
     },
   ]);
- 
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {
@@ -612,7 +563,7 @@ function UserlistForm(props) {
       else {
         setFile(props.EditObj.profile);
       }
-      
+
       let value = props.EditObj.Name.split(" ");
       setFirstname(value[0]);
       setLastname(value[1]);
@@ -624,41 +575,39 @@ function UserlistForm(props) {
       setEmail(props.EditObj.Email);
       setHostelName(props.EditObj.HostelName);
       setHostel_Id(props.EditObj.Hostel_Id);
-      setFloor(props.EditObj.Floor);
+      // setFloor(props.EditObj.Floor);
       setRooms(props.EditObj.Rooms);
-      setBed(props.EditObj.Bed);
-      setAdvanceAmount(props.EditObj.AdvanceAmount);
+      // setBed(props.EditObj.Bed);
+      // setAdvanceAmount(props.EditObj.AdvanceAmount);
       // setRoomRent(props.EditObj.RoomRent);
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
       setPaidAdvance(props.EditObj.paid_advance);
-      setPaidrent(props.EditObj.paid_rent);
+      // setPaidrent(props.EditObj.paid_rent);
     } else {
       props.setEdit("Add");
     }
   }, []);
-  
+
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleSaveUserlist = () => {
-    
-
-    if (!validateField(firstname, "First Name")) ;
-    if (!validateField(Phone, "Phone Number")) ;
+    if (!validateField(firstname, "First Name"));
+    if (!validateField(Phone, "Phone Number"));
 
     if (!validateField(Address, "Address"));
-    if (!validateField(hostel_Id, "Hostel ID")) ;
+    if (!validateField(hostel_Id, "Hostel ID"));
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a valid PG");
-      // return; 
+      // return;
     }
 
     if (phoneError === "Invalid mobile number *") {
       setPhoneErrorMessage("Please enter a valid 10-digit phone number");
       // return;
     } else {
-      setPhoneErrorMessage(""); 
+      setPhoneErrorMessage("");
     }
     const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -708,48 +657,46 @@ function UserlistForm(props) {
   };
 
   const handleSaveUserlistAddUser = () => {
-    if (!validateAssignField(Floor,"Floor")) ;
-    if (!validateAssignField(Rooms,"Rooms")) ;
-    if (!validateAssignField(Bed,"Bed")) ;
-    if (!validateAssignField(selectedDate, "selectedDate")) ;
-    if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) ;
+    if (!validateAssignField(Floor, "Floor"));
+    if (!validateAssignField(Rooms, "Rooms"));
+    if (!validateAssignField(Bed, "Bed"));
+    if (!validateAssignField(selectedDate, "selectedDate"));
+    if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
     if (!validateAssignField(RoomRent, "RoomRent"));
 
+    if (Floor === "Selected Floor" || floorError) {
+      setfloorError("Please select a valid PG");
+      return;
+    }
+    if (Rooms === "Selected Room" || roomError) {
+      setRoomError("Please select a valid PG");
+      return;
+    }
+    if (Bed === "Selected Bed" || bedError) {
+      setBedError("Please select a valid PG");
+      return;
 
-    if (Number(RoomRent) <= 0) {
+     
+    }
+    if (RoomRent <= 0) {
       setRoomRentError("Room Rent must be greater than 0");
-      // return;
-    } else {
-      setRoomRentError("");
+      return;
     }
-
-    if (Number(AdvanceAmount) <= 0) {
+    if (AdvanceAmount <= 0) {
       setAdvanceAmountError("Advance Amount must be greater than 0");
-      // return;
-    } else {
-      setAdvanceAmountError("");
+      return;
     }
-    if (Floor === 'Selected Floor' || floorError) {
-      setfloorError('Please select a valid PG'); 
-      // return; 
-  }
-  if (Rooms === 'Selected Room' || roomError) {
-    setRoomError('Please select a valid PG'); 
-    // return;
-}
-if (Bed === 'Selected Bed' || bedError) {
-  setBedError('Please select a valid PG'); 
-  // return; 
-}
-    if (Floor && Rooms && Bed) {
+    if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
       const incrementDateAndFormat = (date) => {
         const newDate = new Date(date);
-        newDate.setDate(newDate.getDate() + 1); 
-    
-        return newDate.toISOString().split("T")[0]; 
-    };
-    const formattedDate = selectedDate ? incrementDateAndFormat(selectedDate) : '';
-    
+        newDate.setDate(newDate.getDate() + 1);
+
+        return newDate.toISOString().split("T")[0];
+      };
+      const formattedDate = selectedDate
+        ? incrementDateAndFormat(selectedDate)
+        : "";
+
       dispatch({
         type: "ADDUSER",
         payload: {
@@ -786,23 +733,18 @@ if (Bed === 'Selected Bed' || bedError) {
     }
     dispatch({ type: "INVOICELIST" });
   };
- 
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
       if (props.edit === "Edit") {
-       ;
         props.setRoomDetail(true);
         props.OnShowTable(true);
-        
       } else {
         props.setRoomDetail(false);
-       
       }
       handleClose();
     }
   }, [state.UsersList?.statusCodeForAddUser]);
-
 
   const countries = [
     {
@@ -818,8 +760,6 @@ if (Bed === 'Selected Bed' || bedError) {
       ),
     },
   ];
-
-
 
   return (
     <div>
@@ -1011,7 +951,10 @@ if (Bed === 'Selected Bed' || bedError) {
                             fontWeight: 500,
                           }}
                         >
-                          Last Name  <span style={{ color: "transparent", fontSize: "20px" }}>
+                          Last Name{" "}
+                          <span
+                            style={{ color: "transparent", fontSize: "20px" }}
+                          >
                             {" "}
                             *{" "}
                           </span>
@@ -1077,8 +1020,6 @@ if (Bed === 'Selected Bed' || bedError) {
                         >
                           {state.UsersList?.countrycode?.country_codes?.map(
                             (item) => {
-                              
-
                               return (
                                 console.log(
                                   "item.country_flag",
@@ -1149,7 +1090,10 @@ if (Bed === 'Selected Bed' || bedError) {
                             fontWeight: 500,
                           }}
                         >
-                          Email Id <span style={{ color: "transparent", fontSize: "20px" }}>
+                          Email Id{" "}
+                          <span
+                            style={{ color: "transparent", fontSize: "20px" }}
+                          >
                             {" "}
                             *{" "}
                           </span>
@@ -1355,7 +1299,7 @@ if (Bed === 'Selected Bed' || bedError) {
                           fontFamily: "Gilroy",
                         }}
                       >
-                        Floor{" "}
+                        Floor
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -1381,7 +1325,9 @@ if (Bed === 'Selected Bed' || bedError) {
                       >
                         <option>Selected Floor</option>
                         {state.UsersList?.hosteldetailslist?.map((u) => (
-                          <option key={u.floor_id} value={u.floor_id}>{u.floor_name}</option>
+                          <option key={u.floor_id} value={u.floor_id}>
+                            {u.floor_name}
+                          </option>
                         ))}
                       </Form.Select>
                       {floorError && (
@@ -1428,7 +1374,9 @@ if (Bed === 'Selected Bed' || bedError) {
 
                         {state.UsersList?.roomdetails &&
                           state.UsersList.roomdetails.map((item) => (
-                            <option key={item.Room_Id} value={item.Room_Id}>{item.Room_Name}</option>
+                            <option key={item.Room_Id} value={item.Room_Id}>
+                              {item.Room_Name}
+                            </option>
                           ))}
                       </Form.Select>
                       {roomError && (
@@ -1453,47 +1401,56 @@ if (Bed === 'Selected Bed' || bedError) {
                           *{" "}
                         </span>
                       </Form.Label>
-                    
 
-<Form.Select
-  aria-label="Default select example"
-  style={{
-    fontSize: 16,
-    color: "#4B4B4B",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    border: "1px solid #D9D9D9",
-    height: 50,
-    borderRadius: 8,
-  }}
-  value={Bed}
-  className="border"
-  placeholder="Select a bed"
-  id="form-selects"
-  onChange={(e) => handleBed(e)}
->
-  <option value='' selected>Selected Bed</option>
+                      <Form.Select
+                        aria-label="Default select example"
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #D9D9D9",
+                          height: 50,
+                          borderRadius: 8,
+                        }}
+                        value={Bed}
+                        className="border"
+                        placeholder="Select a bed"
+                        id="form-selects"
+                        onChange={(e) => handleBed(e)}
+                      >
+                        <option value="" selected>
+                          Selected Bed
+                        </option>
 
-  {props.edit === "Edit" &&
-    Bednum &&
-    Bednum.Bed &&
-    Bednum.Bed !== "undefined" &&  Bednum.Bed !== "" &&  Bednum.Bed !== "null" &&  Bednum.Bed !== "0" && (
-      <option value={Bednum.Bed} selected>
-        {Bednum.Bed}
-      </option>
-    )}
+                        {props.edit === "Edit" &&
+                          Bednum &&
+                          Bednum.Bed &&
+                          Bednum.Bed !== "undefined" &&
+                          Bednum.Bed !== "" &&
+                          Bednum.Bed !== "null" &&
+                          Bednum.Bed !== "0" && (
+                            <option value={Bednum.Bed} selected>
+                              {Bednum.Bed}
+                            </option>
+                          )}
 
-  {state.UsersList?.bednumberdetails?.bed_details &&
-    state.UsersList?.bednumberdetails?.bed_details
-      .filter(item => item.bed_no !== "0" && item.bed_no !== "undefined" && item.bed_no !== "" && item.bed_no !== "null")
-      .map((item) => (
-        <option key={item.id} value={item.id}>
-          {item.bed_no}
-        </option>
-      ))}
-</Form.Select>
-
+                        {state.UsersList?.bednumberdetails?.bed_details &&
+                          state.UsersList?.bednumberdetails?.bed_details
+                            .filter(
+                              (item) =>
+                                item.bed_no !== "0" &&
+                                item.bed_no !== "undefined" &&
+                                item.bed_no !== "" &&
+                                item.bed_no !== "null"
+                            )
+                            .map((item) => (
+                              <option key={item.id} value={item.id}>
+                                {item.bed_no}
+                              </option>
+                            ))}
+                      </Form.Select>
 
                       {bedError && (
                         <div style={{ color: "red" }}>
@@ -1503,76 +1460,80 @@ if (Bed === 'Selected Bed' || bedError) {
                       )}
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222",
-                  fontFamily: "'Gilroy'",
-                  fontWeight: 500,
-                }}
-              >
-                Joining_Date  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222",
+                          fontFamily: "'Gilroy'",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Joining_Date{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </Form.Label>
 
-              <div style={{ position: "relative" }}>
-                <label
-                  htmlFor="date-input"
-                  style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: 11,
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    color: "#222222",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between", // Ensure space between text and icon
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    if (calendarRef.current) {
-                      calendarRef.current.flatpickr.open();
-                    }
-                  }}
-                >
-                  {selectedDate
-                    ? selectedDate.toLocaleDateString("en-GB")
-                    : "YYYY/MM/DD"}
-                  <img
-                    src={Calendars}
-                    style={{ height: 24, width: 24, marginLeft: 10 }}
-                    alt="Calendar"
-                  />
-                </label>
-                <Flatpickr
-                  ref={calendarRef}
-                  options={options}
-                  value={selectedDate}
-                  onChange={(selectedDates)=> handleDate(selectedDates)}
-                    
-                  
-                  style={{
-                    padding: 10,
-                    fontSize: 16,
-                    width: "100%",
-                    borderRadius: 8,
-                    border: "1px solid #D9D9D9",
-                    position: "absolute",
-                    top: 100,
-                    left: 100,
-                    zIndex: 1000,
-                    display: "none",
-                  }}
-                />
-              </div>
-              {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {dateError}
-                </div>
-              )}
-            </div>
+                      <div style={{ position: "relative" }}>
+                        <label
+                          htmlFor="date-input"
+                          style={{
+                            border: "1px solid #D9D9D9",
+                            borderRadius: 8,
+                            padding: 11,
+                            fontSize: 14,
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            color: "#222222",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between", // Ensure space between text and icon
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            if (calendarRef.current) {
+                              calendarRef.current.flatpickr.open();
+                            }
+                          }}
+                        >
+                          {selectedDate
+                            ? selectedDate.toLocaleDateString("en-GB")
+                            : "YYYY/MM/DD"}
+                          <img
+                            src={Calendars}
+                            style={{ height: 24, width: 24, marginLeft: 10 }}
+                            alt="Calendar"
+                          />
+                        </label>
+                        <Flatpickr
+                          ref={calendarRef}
+                          options={options}
+                          value={selectedDate}
+                          onChange={(selectedDates) =>
+                            handleDate(selectedDates)
+                          }
+                          style={{
+                            padding: 10,
+                            fontSize: 16,
+                            width: "100%",
+                            borderRadius: 8,
+                            border: "1px solid #D9D9D9",
+                            position: "absolute",
+                            top: 100,
+                            left: 100,
+                            zIndex: 1000,
+                            display: "none",
+                          }}
+                        />
+                      </div>
+                      {dateError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {dateError}
+                        </div>
+                      )}
+                    </div>
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="">
@@ -1583,7 +1544,7 @@ if (Bed === 'Selected Bed' || bedError) {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Advance Amount{" "}
+                          Advance Amount
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
@@ -1624,7 +1585,7 @@ if (Bed === 'Selected Bed' || bedError) {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Rental Amount{" "}
+                          Rental Amount
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}

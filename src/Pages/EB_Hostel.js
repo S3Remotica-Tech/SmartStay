@@ -30,7 +30,7 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import EBRoomReading from "./EBRoomReading";
-import Emptystate from '../Assets/Images/Empty-State.jpg'
+import Emptystate from "../Assets/Images/Empty-State.jpg";
 
 import {
   Autobrightness,
@@ -49,8 +49,8 @@ function EB_Hostel() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   console.log("state", state);
-   const theme = useTheme();
- 
+  const theme = useTheme();
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [loginid, setLoginid] = useState();
@@ -65,7 +65,7 @@ function EB_Hostel() {
   const [transactionshow, settransactionshow] = useState(true);
   const [ebShow, setebshow] = useState(false);
   const [addEbDetail, setaddEbDetail] = useState(false);
-  const [selectedHostel, setSelectedHostel] = useState([]);
+  const [selectedHostel, setSelectedHostel] = useState('');
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [roomsByFloor, setRoomsByFloor] = useState([]);
@@ -121,7 +121,7 @@ function EB_Hostel() {
     dateFormat: "Y/m/d",
     // defaultDate: selectedDate || new Date(),
     maxDate: new Date(),
-    minDate: null
+    minDate: null,
   };
 
   useEffect(() => {
@@ -205,13 +205,7 @@ function EB_Hostel() {
   const handleAddEbDetails = () => {
     setaddEbDetail(true);
     console.log("addEbDetail", addEbDetail);
-    // if (value === "1") {
-    //   setaddEbDetail(true);
-    //   console.log("Customer Reading Add Reading");
-    // } else if (value === "2") {
-    //   setaddEbDetail(true);
-    //   console.log("Room Reading Add Reading");
-    // }
+   
   };
 
   const handleTransactionsShow = () => {
@@ -219,12 +213,6 @@ function EB_Hostel() {
     setebshow(false);
   };
 
-  // const handlestartmeter = (e) => {
-  //   setStartmeterValue(e.target.value);
-  //   if (e.target.value) {
-  //     setstartMeterError("");
-  //   }
-  // };
 
   const handleendmeter = (e) => {
     setEndmeter(e.target.value);
@@ -277,64 +265,132 @@ function EB_Hostel() {
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
   const [endMeterError, setendMeterError] = useState("");
-  // const [startMeterError, setstartMeterError] = useState("");
+ 
   const [dateError, setDateError] = useState("");
 
+  
+
   const validateAssignField = (value, fieldName) => {
-    if (
-      !value ||
-      value === "Select PG" ||
-      value === "Select Floor" ||
-      value === "Select a Room"
-    ) {
+  
+    const isValueEmpty =
+      (typeof value === "string" && value.trim() === "") || 
+      value === undefined || 
+      value === null || 
+      value === "0"; 
+    if (isValueEmpty) {
       switch (fieldName) {
         case "Hostel ID":
-          setHostelIdError("Hostel ID is required");
+          setHostelIdError("Hostel is required");
           break;
         case "Floor":
           setfloorError("Floor is required");
           break;
         case "Rooms":
-          setRoomError("Room is required");
+          setRoomError("Rooms is required");
+          break;
+        case "Bed":
+          setBedError("Bed is required");
           break;
         case "selectedDate":
-          setDateError("date is required");
+          setDateError("Date is required");
           break;
-        // case "startmeter":
-        //   setstartMeterError("startmeter is required");
-        //   break;
         case "endmeter":
-          setendMeterError("Reading is required");
+          setendMeterError("reading is required");
           break;
         default:
           break;
       }
       return false;
-    } else {
-      switch (fieldName) {
-        case "Hostel ID":
-          setHostelIdError("");
-        case "Floor":
-          setfloorError("");
-          break;
-        case "Rooms":
-          setRoomError("");
-          break;
-        case "Bed":
-          setBedError("");
-          break;
-        case "dateError":
-          setDateError("");
-          break;
-        case "endmeter":
-          setendMeterError("");
-          break;
-        default:
-          break;
-      }
-      return true;
     }
+  
+    // Clear the error if value is valid
+    switch (fieldName) {
+      case "Hostel ID":
+        setHostelIdError("");
+        break;
+      case "Floor":
+        setfloorError("");
+        break;
+      case "Rooms":
+        setRoomError("");
+        break;
+      case "Bed":
+        setBedError("");
+        break;
+      case "selectedDate":
+        setDateError("");
+        break;
+      case "endmeter":
+        setendMeterError("");
+        break;
+      default:
+        break;
+    }
+  
+    return true;
   };
+  
+
+  // const validateAssignField = (value, fieldName) => {
+    
+  //   const isValueEmpty =
+  //     (typeof value === "string" && value.trim() === "") ||
+  //     value === "undefined" ||
+  //     value === "null" ||
+  //     value === "0";
+
+  //   if (isValueEmpty) {
+  //     switch (fieldName) {
+  //       case "Hostel ID":
+  //         setHostelIdError("Hostel is required");
+  //         break;
+  //       case "Floor":
+  //         setfloorError("Floor is required");
+  //         break;
+  //       case "Rooms":
+  //         setRoomError("Rooms is required");
+  //         break;
+  //       case "Bed":
+  //         setBedError("Bed is required");
+  //         break;
+  //       case "selectedDate":
+  //         setDateError("date is required");
+  //         break;
+  //       case "endmeter":
+  //         setendMeterError("endmeter is required");
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     return false;
+  //   }
+
+  //   // Clear errors if the value is valid
+  //   switch (fieldName) {
+  //     case "Hostel ID":
+  //       setHostelIdError("");
+  //       break;
+  //     case "Floor":
+  //       setfloorError("");
+  //       break;
+  //     case "Rooms":
+  //       setRoomError("");
+  //       break;
+  //     case "Bed":
+  //       setBedError("");
+  //       break;
+  //     case "selectedDate":
+  //       setDateError("");
+  //       break;
+  //     case "endmeter":
+  //       setendMeterError("");
+  //       break;
+  //       default:
+  //         break;
+  //   }
+
+  //   return true;
+  // };
 
   const handleDate = (selectedDates) => {
     setSelectedDate(selectedDates[0]);
@@ -359,26 +415,34 @@ function EB_Hostel() {
   };
 
   const handleSaveEbBill = () => {
-    // Validate each field before proceeding
-    const isHostelValid = validateAssignField(selectedHostel, "Hostel ID");
+    
+    const isHostelValid = validateAssignField(selectedHostel,"Hostel ID");
     const isFloorValid = validateAssignField(Floor, "Floor");
     const isRoomValid = validateAssignField(Rooms, "Rooms");
 
     const isEndMeterValid = validateAssignField(endmeter, "endmeter");
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
+
+    if (selectedHostel === "Select PG" || !isHostelValid) {
+      setHostelIdError("Please select a valid Hostel");
+      return;
+    } else {
+      setHostelIdError("");
+    }
+
     if (Floor === "Select Floor" || !isFloorValid) {
       setfloorError("Please select a valid Floor");
-      return; // Prevent save
+      return;
     } else {
-      setfloorError(""); // Clear the error if valid
+      setfloorError("");
     }
 
     // Validate Room field
     if (Rooms === "Select Room" || !isRoomValid) {
       setRoomError("Please select a valid Room");
-      return; // Prevent save
+      return;
     } else {
-      setRoomError(""); // Clear the error if valid
+      setRoomError("");
     }
 
     if (
@@ -593,7 +657,7 @@ function EB_Hostel() {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <div style={{ paddingLeft: 15,marginTop:8}}>
+    <div style={{ paddingLeft: 15, marginTop: 8 }}>
       <div className="d-flex justify-content-between align-items-center ms-3 mb-3">
         <div style={{ padding: 15 }}>
           <label
@@ -629,7 +693,7 @@ function EB_Hostel() {
                 color: "white",
                 height: 52,
                 fontWeight: 600,
-                borderRadius:8,
+                borderRadius: 8,
                 width: 140,
                 padding: "14px, 22px, 14px, 22px",
                 border: "none",
@@ -650,7 +714,7 @@ function EB_Hostel() {
               orientation={isSmallScreen ? "vertical" : "horizontal"}
               onChange={handleChanges}
               aria-label="lab API tabs example"
-              style={{ marginLeft: "20px",marginTop:"-30px"}}
+              style={{ marginLeft: "20px", marginTop: "-30px" }}
               className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
             >
               <Tab
@@ -684,218 +748,224 @@ function EB_Hostel() {
         </div>
         <TabPanel value="1">
           <>
-          <div>
-  {currentRoomelectricity?.length > 0 ? (
-    <Table
-      responsive="md"
-      className="Table_Design"
-      style={{
-        height: "auto",
-        overflow: "visible",
-        tableLayout: "auto",
-        borderRadius: "24px",
-        border: "1px solid #DCDCDC",
-      }}
-    >
-      <thead
-        style={{
-          color: "gray",
-          fontSize: "11px",
-          backgroundColor: "#E7F1FF",
-        }}
-      >
-        <tr style={{ height: "30px" }}>
-          <th
-            style={{
-              textAlign: "center",
-              fontFamily: "Gilroy",
-              color: "rgba(34, 34, 34, 1)",
-              fontSize: 14,
-              fontWeight: 600,
-              borderTopLeftRadius: 24,
-            }}
-          >
-            <img src={squre} height={20} width={20} />
-          </th>
-          <th
-            style={{
-              color: "#939393",
-              fontWeight: 500,
-              fontSize: "14px",
-              fontFamily: "Gilroy",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              textAlign: "center",
-            }}
-          >
-            Name
-          </th>
-          <th
-            style={{
-              color: "#939393",
-              fontWeight: 500,
-              fontSize: "14px",
-              fontFamily: "Gilroy",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              textAlign: "center",
-            }}
-          >
-            Paying Guest
-          </th>
-          <th
-            style={{
-              color: "#939393",
-              fontWeight: 500,
-              fontSize: "14px",
-              fontFamily: "Gilroy",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              textAlign: "center",
-            }}
-          >
-            Floor
-          </th>
-          <th
-            style={{
-              color: "#939393",
-              fontWeight: 500,
-              fontSize: "14px",
-              fontFamily: "Gilroy",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              textAlign: "center",
-            }}
-          >
-            Room
-          </th>
-          <th
-            style={{
-              color: "#939393",
-              fontWeight: 500,
-              fontSize: "14px",
-              fontFamily: "Gilroy",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              textAlign: "center",
-            }}
-          >
-            Previous
-          </th>
-          <th
-            style={{
-              color: "#939393",
-              fontWeight: 500,
-              fontSize: "14px",
-              fontFamily: "Gilroy",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              textAlign: "center",
-            }}
-          >
-            Current
-          </th>
-          <th
-            style={{
-              color: "#939393",
-              fontWeight: 500,
-              fontSize: "14px",
-              fontFamily: "Gilroy",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              textAlign: "center",
-            }}
-          >
-            Date
-          </th>
-          <th
-            style={{
-              color: "#939393",
-              fontWeight: 500,
-              fontSize: "14px",
-              fontFamily: "Gilroy",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              textAlign: "center",
-            }}
-          >
-            Units
-          </th>
-          <th
-            style={{
-              textAlign: "center",
-              fontFamily: "Gilroy",
-              color: "#939393",
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-          >
-            Amount
-          </th>
-          <th
-            style={{
-              textAlign: "center",
-              fontFamily: "Gilroy",
-              color: "rgba(34, 34, 34, 1)",
-              fontSize: 14,
-              fontWeight: 600,
-              borderTopRightRadius: 24,
-            }}
-          >
-            {" "}
-          </th>
-        </tr>
-      </thead>
-      <tbody style={{ fontSize: "12px" }}>
-        {currentRoomelectricity.map((v) => {
-          const imageUrl = v.profile || Profile;
-          let Dated = new Date(v.createAt);
-          let day = Dated.getDate();
-          let month = Dated.getMonth() + 1;
-          let year = Dated.getFullYear();
-          let formattedDate = `${day}/${month}/${year}`;
-
-          return (
-            <tr key={v.id}>
-              <td
-                style={{
-                  padding: "10px",
-                  border: "none",
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                }}
-              >
-                <img src={squre} height={20} width={20} />
-              </td>
-              <td style={{ border: "none", display: "flex", padding: "10px" }}>
-                <Image
-                  src={imageUrl}
-                  alt={v.Name || "Default Profile"}
-                  roundedCircle
+            <div>
+              {currentRoomelectricity?.length > 0 ? (
+                <Table
+                  responsive="md"
+                  className="Table_Design"
                   style={{
-                    height: "40px",
-                    width: "40px",
-                    marginRight: "10px",
-                  }}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = Profile;
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    cursor: "pointer",
-                    paddingTop:10
+                    height: "auto",
+                    overflow: "visible",
+                    tableLayout: "auto",
+                    borderRadius: "24px",
+                    border: "1px solid #DCDCDC",
                   }}
                 >
-                  {v.Name}
-                </span>
-              </td>
+                  <thead
+                    style={{
+                      color: "gray",
+                      fontSize: "11px",
+                      backgroundColor: "#E7F1FF",
+                    }}
+                  >
+                    <tr style={{ height: "30px" }}>
+                      <th
+                        style={{
+                          textAlign: "center",
+                          fontFamily: "Gilroy",
+                          color: "rgba(34, 34, 34, 1)",
+                          fontSize: 14,
+                          fontWeight: 600,
+                          borderTopLeftRadius: 24,
+                        }}
+                      >
+                        <img src={squre} height={20} width={20} />
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Name
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Paying Guest
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Floor
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Room
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Previous
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Current
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Date
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        Units
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "center",
+                          fontFamily: "Gilroy",
+                          color: "#939393",
+                          fontSize: 14,
+                          fontWeight: 600,
+                        }}
+                      >
+                        Amount
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "center",
+                          fontFamily: "Gilroy",
+                          color: "rgba(34, 34, 34, 1)",
+                          fontSize: 14,
+                          fontWeight: 600,
+                          borderTopRightRadius: 24,
+                        }}
+                      >
+                        {" "}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody style={{ fontSize: "12px" }}>
+                    {currentRoomelectricity.map((v) => {
+                      const imageUrl = v.profile || Profile;
+                      let Dated = new Date(v.createAt);
+                      let day = Dated.getDate();
+                      let month = Dated.getMonth() + 1;
+                      let year = Dated.getFullYear();
+                      let formattedDate = `${day}/${month}/${year}`;
 
-              {/* <td
+                      return (
+                        <tr key={v.id}>
+                          <td
+                            style={{
+                              padding: "10px",
+                              border: "none",
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            <img src={squre} height={20} width={20} />
+                          </td>
+                          <td
+                            style={{
+                              border: "none",
+                              display: "flex",
+                              padding: "10px",
+                            }}
+                          >
+                            <Image
+                              src={imageUrl}
+                              alt={v.Name || "Default Profile"}
+                              roundedCircle
+                              style={{
+                                height: "40px",
+                                width: "40px",
+                                marginRight: "10px",
+                              }}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = Profile;
+                              }}
+                            />
+                            <span
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                cursor: "pointer",
+                                paddingTop: 10,
+                              }}
+                            >
+                              {v.Name}
+                            </span>
+                          </td>
+
+                          {/* <td
                 style={{
                   fontSize: "16px",
                   fontWeight: 500,
@@ -907,189 +977,213 @@ function EB_Hostel() {
               >
                 {v.HostelName}
               </td> */}
-              <td
+                          <td
+                            style={{
+                              paddingTop: 15,
+                              border: "none",
+                              textAlign: "center",
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              marginTop: 10,
+                            }}
+                          >
+                            <span
                               style={{
-                                paddingTop:15,
-                                border: "none",
-                                textAlign: "center",
-                                fontSize: "16px",
+                                paddingTop: "3px",
+                                paddingLeft: "10px",
+                                paddingRight: "10px",
+                                paddingBottom: "3px",
+                                borderRadius: "60px",
+                                backgroundColor: "#FFEFCF",
+                                textAlign: "start",
+                                fontSize: "14px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                marginTop:10
                               }}
                             >
-                              <span
-                                style={{
-                                  paddingTop: "3px",
-                                  paddingLeft: "10px",
-                                  paddingRight: "10px",
-                                  paddingBottom: "3px",
-                                  borderRadius: "60px",
-                                  backgroundColor: "#FFEFCF",
-                                  textAlign: "start",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  
-                                }}
-                              >
-                                {v.HostelName}
-                              </span>
-                            </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  borderBottom: "none",
-                }}
-              >
-                {v.floor_name}
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  borderBottom: "none",
-                }}
-              >
-                {v.Room_Id}
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  borderBottom: "none",
-                }}
-              >
-                {v.start_meter}
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  borderBottom: "none",
-                }}
-              >
-                {v.end_meter}
-              </td>
-              <td
-                style={{
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  borderBottom: "none",
-                }}
-              >
-                <span
-                  style={{
-                    backgroundColor: "#EBEBEB",
-                    paddingTop: "5px",
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                    paddingBottom: "5px",
-                    borderRadius: "60px",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  {new Date(v.date).toISOString().split("T")[0]}
-                </span>
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  borderBottom: "none",
-                }}
-              >
-                {v.unit}
-              </td>
-              <td
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  borderBottom: "none",
-                }}
-              >
-                {v.amount}
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </Table>
-  ) : (
-    <div>
-      <div style={{ textAlign: "center" }}>
-        <img src={emptyimg} width={240} height={240} alt="emptystate" />
-      </div>
-      <div
-        className="pb-1"
-        style={{
-          textAlign: "center",
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-          fontSize: 20,
-          color: "rgba(75, 75, 75, 1)",
-        }}
-      >
-       No customer readings{" "}
-      </div>
-      <div
-        className="pb-1"
-        style={{
-          textAlign: "center",
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-          fontSize: 16,
-          color: "rgba(75, 75, 75, 1)",
-        }}
-      >
-        There are no customer readings available.{" "}
-      </div>
+                              {v.HostelName}
+                            </span>
+                          </td>
+                          <td
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                              borderBottom: "none",
+                            }}
+                          >
+                            {v.floor_name}
+                          </td>
+                          <td
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                              borderBottom: "none",
+                            }}
+                          >
+                            {v.Room_Id}
+                          </td>
+                          <td
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                              borderBottom: "none",
+                            }}
+                          >
+                            {v.start_meter}
+                          </td>
+                          <td
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                              borderBottom: "none",
+                            }}
+                          >
+                            {v.end_meter}
+                          </td>
+                          <td
+                            style={{
+                              // textAlign: "center",
+                              // verticalAlign: "middle",
+                              // borderBottom: "none",
+                              padding: '10px',
+                              border: 'none',
+                              textAlign: 'center',
+                              fontSize: '16px',
+                              fontWeight: 600,
+                              fontFamily: 'Gilroy',
+                              verticalAlign: "middle",
+                              whiteSpace: 'nowrap',
+                              marginBottom:"-20px"
+                            }}
+                          >
+                            <span
+                              style={{
+                                // backgroundColor: "#EBEBEB",
+                                // paddingTop: "5px",
+                                // paddingLeft: "16px",
+                                // paddingRight: "16px",
+                                // paddingBottom: "5px",
+                                // borderRadius: "60px",
+                                // fontSize: "14px",
+                                // fontWeight: 500,
+                                // fontFamily: "Gilroy",
+                                paddingTop: "5px",
+                                paddingLeft: "16px",
+                                paddingRight: "16px",
+                                paddingBottom: "5px",
+                            borderRadius: '60px',
+                            backgroundColor: '#EBEBEB',
+                            textAlign: 'start',
+                            fontSize: '14px',
+                            fontWeight: 500,
+                            fontFamily: 'Gilroy',
+                            display: 'inline-block', 
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis', 
+                            whiteSpace: 'nowrap',
+                              }}
+                            >
+                              {new Date(v.date).toISOString().split("T")[0]}
+                            </span>
+                          </td>
+                          <td
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                              borderBottom: "none",
+                            }}
+                          >
+                            {v.unit}
+                          </td>
+                          <td
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                              borderBottom: "none",
+                            }}
+                          >
+                            {v.amount}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              ) : (
+                <div>
+                  <div style={{ textAlign: "center" }}>
+                    <img
+                      src={emptyimg}
+                      width={240}
+                      height={240}
+                      alt="emptystate"
+                    />
+                  </div>
+                  <div
+                    className="pb-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: 20,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    No customer readings{" "}
+                  </div>
+                  <div
+                    className="pb-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      fontSize: 16,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    There are no customer readings available.{" "}
+                  </div>
 
-      <div style={{ textAlign: "center" }}>
-        <Button
-          onClick={handleAddEbDetails}
-          style={{
-            fontSize: 16,
-            backgroundColor: "#1E45E1",
-            color: "white",
-            height: 59,
-            fontWeight: 600,
-            borderRadius: 12,
-            width: 185,
-            padding: "18px, 20px, 18px, 20px",
-            fontFamily: "Gilroy",
-          }}
-        >
-          + Add Reading
-        </Button>
-      </div>
-    </div>
-  )}
-</div>
-
-          
-               
+                  <div style={{ textAlign: "center" }}>
+                    <Button
+                      onClick={handleAddEbDetails}
+                      style={{
+                        fontSize: 16,
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        height: 59,
+                        fontWeight: 600,
+                        borderRadius: 12,
+                        width: 185,
+                        padding: "18px, 20px, 18px, 20px",
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      + Add Reading
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {currentRoomelectricity?.length > 0 && (
               <nav>
@@ -1217,11 +1311,56 @@ function EB_Hostel() {
           backdrop="static"
           centered
         >
-          <Modal.Header closeButton className="text-center">
-            <Modal.Title style={{ fontSize: 18 }} className="text-center">
+          {/* <Modal.Header closeButton className="text-center">
+            <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
               Add a Reading
             </Modal.Title>
-          </Modal.Header>
+          </Modal.Header> */}
+
+<Modal.Header
+                    style={{ marginBottom: "30px", position: "relative" }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 20,
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Add a Reading
+                    </div>
+                    <button
+                      type="button"
+                      className="close"
+                      aria-label="Close"
+                      onClick={handleClose}
+                      style={{
+                        position: "absolute",
+                        right: "10px",
+                        top: "16px",
+                        border: "1px solid black",
+                        background: "transparent",
+                        cursor: "pointer",
+                        padding: "0",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "50%",
+                      }}
+                    >
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          fontSize: "30px",
+                          paddingBottom: "6px",
+                        }}
+                      >
+                        &times;
+                      </span>
+                    </button>
+                  </Modal.Header>
           <Modal.Body>
             <div className="row ">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
