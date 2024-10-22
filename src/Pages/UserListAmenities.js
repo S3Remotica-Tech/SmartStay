@@ -73,7 +73,7 @@ function UserListAmenities(props) {
     console.log("e.target.value", value);
 
     if (value === "" || value === "Select an Amenities") {
-      setamnityError("Please select a valid amenityId");
+      setamnityError("Please select a valid amenity Id");
       setaddamenityShow(false);
       return;
     } else {

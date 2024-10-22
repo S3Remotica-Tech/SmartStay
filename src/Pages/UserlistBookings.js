@@ -647,10 +647,17 @@ const rowsPerPage = 5;
             <div className="p-10 booking-table-userlist" style={{ paddingBottom: '20px' }}>
 
 
-              <Table className="table-booking" responsive>
+              <Table className="Table_Design" responsive="md"   style={{
+                  height: "auto",
+                  overflow: "visible",
+                  tableLayout: "auto",
+                  borderRadius: "24px",
+                  border: "1px solid #DCDCDC",
+
+                }}>
                 <thead>
                   <tr>
-                    <th style={{ textAlign: 'center', padding: '10px', background: '#E7F1FF', border: 'none', borderTopLeftRadius:'16px'}}>
+                    <th style={{ textAlign: 'center', padding: '10px', background: '#E7F1FF', border: 'none', borderTopLeftRadius:'24px'}}>
                       <img src={minus} height={20} width={20} alt="minus icon" />
                     </th>
                     <th
@@ -748,20 +755,39 @@ const rowsPerPage = 5;
                         fontFamily: 'Gilroy',
                         background: '#E7F1FF',
                         border: 'none',
-                         borderTopRightRadius:'16px'
+                         borderTopRightRadius:'24px'
                       }}
                     ></th>
                   </tr>
                 </thead>
                 <tbody>
                   {currentItems?.map((customer) => {
-                     let Dated = new Date(customer.joining_date);
-                     console.log("Dated..?", Dated);
+                    //  let Dated = new Date(customer.joining_date);
+                    //  console.log("Dated..?", Dated);
      
-                     let day = Dated.getDate();
-                     let month = Dated.getMonth() + 1; 
-                     let year = Dated.getFullYear();
-                    let formattedDate = `${year}/${month}/${day}`;
+                    //  let day = Dated.getDate();
+                    //  let month = Dated.getMonth() + 1; 
+                    //  let year = Dated.getFullYear();
+                    // let formattedDate = `${year}/${month}/${day}`;
+
+
+                    let Dated = new Date(customer.joining_date);
+console.log("Dated..?", Dated);
+
+let day = Dated.getDate();
+let month = Dated.getMonth(); // Get the zero-indexed month
+let year = Dated.getFullYear();
+
+// Array of month names abbreviated to the first 3 letters
+const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// Get the month abbreviation
+let formattedMonth = monthNames[month];
+
+// Format the date as YYYY Mon DD
+let formattedDate = `${year} ${formattedMonth} ${day}`;
+
+console.log("Formatted Date:", formattedDate);
 
 
                     let createDated = new Date(customer.createdat);
@@ -770,7 +796,10 @@ const rowsPerPage = 5;
                     let day1 = createDated.getDate();
                     let month1 = createDated.getMonth() + 1; 
                     let year1 = createDated.getFullYear();
-                   let formattedDatecreate = `${year1}/${month1}/${day1}`;
+                   
+                    const monthNamesformate = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    let formattedMonthjj = monthNamesformate[month1];
+                   let formattedDatecreate = `${year1} ${formattedMonthjj} ${day1}`;
 
                      
                     return(
@@ -828,6 +857,7 @@ const rowsPerPage = 5;
                           fontSize: '16px',
                           fontWeight: 600,
                           fontFamily: 'Gilroy',
+                          whiteSpace: 'nowrap',
                         }}
                       >
                         <span
@@ -839,6 +869,10 @@ const rowsPerPage = 5;
                             fontSize: '14px',
                             fontWeight: 500,
                             fontFamily: 'Gilroy',
+                            display: 'inline-block', 
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis', 
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {formattedDatecreate}
@@ -853,6 +887,7 @@ const rowsPerPage = 5;
                           fontSize: '16px',
                           fontWeight: 600,
                           fontFamily: 'Gilroy',
+                          whiteSpace: 'nowrap',
                         }}
                       >
                         <span
@@ -864,6 +899,10 @@ const rowsPerPage = 5;
                             fontSize: '14px',
                             fontWeight: 500,
                             fontFamily: 'Gilroy',
+                            display: 'inline-block', 
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis', 
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {formattedDate}
@@ -877,6 +916,7 @@ const rowsPerPage = 5;
                           fontSize: '16px',
                           fontWeight: 600,
                           fontFamily: 'Gilroy',
+                          whiteSpace: 'nowrap',
                         }}
                       >
                         <span
@@ -888,6 +928,10 @@ const rowsPerPage = 5;
                             fontSize: '14px',
                             fontWeight: 500,
                             fontFamily: 'Gilroy',
+                            display: 'inline-block', 
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis', 
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {customer.amount}

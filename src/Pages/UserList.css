@@ -151,8 +151,22 @@ text-decoration: underline;
   padding-right: 12px;
   
 }
+.customer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 19px;
+  margin-top: -25px;
+}
+.customerfill {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
 
-.customer{
+/* .customer{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -160,12 +174,12 @@ text-decoration: underline;
   padding-left: 19px;
   padding-right: 19px;
   margin-top: -25px;
-}
-.customerfill{
+} */
+/* .customerfill{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
+} */
 .cuslable{
   margin-left: 0px;
 }
@@ -176,7 +190,41 @@ text-decoration: underline;
 .searchGroup{
   margin-left: 0px;
 }
-@media only screen and (max-width:500px) and (min-width:300px) {
+@media only screen and (max-width: 500px) and (min-width: 300px) {
+  .customerprofile {
+    display: flex;
+    flex-direction: column; /* Change row to column for better stacking */
+    justify-content: center;
+    padding-right: 0;
+  }
+  
+  .customer {
+    display: flex;
+    flex-direction: column; /* Switch to column layout for smaller screens */
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+  }
+
+  .customerfill {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%; /* Ensures full width usage */
+  }
+  
+  .customerfilling {
+    margin-left: 0; /* Remove unnecessary left margin */
+    margin-top: 20px;
+    width: 100%; /* Make sure it spans the full width */
+  }
+  
+  .searchGroup {
+    margin-left: 0; /* Adjust to prevent overflow */
+  }
+}
+
+/* @media only screen and (max-width:500px) and (min-width:300px) {
   .customerprofile{
     display: flex;
     flex-direction:row;
@@ -204,7 +252,7 @@ text-decoration: underline;
   .searchGroup{
     margin-left: 80px;
   }
-}
+} */
 .toast-center-center {
   top: 50% !important;
   left: 50% !important;

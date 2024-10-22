@@ -1310,9 +1310,6 @@ useEffect(() => {
                   tableLayout: "auto",
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
-                  
-                  
-                  
 
                 }}
               >
