@@ -114,6 +114,7 @@ const Compliance = () => {
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
+      setDateErrmsg('')
     }
   }, [selectedDate])
 
@@ -445,37 +446,37 @@ const Compliance = () => {
   const handleAddcomplaint = () => {
 
     
-  
+  //   if(!selectedUsername || !Complainttype || !selectedDate  ||  !Status){
+  //     setTotalErrmsg('Please Enter All field')
+  //     setTimeout(()=> {
+  //       setTotalErrmsg('')
+  //     },2000)
+  //     return;
+  // }
 
   if(!selectedUsername){
     setUserErrmsg('Please Select  Customer')
-    return;
+    // return;
   }
 
   if(!Complainttype){
     setComplaintTypeErrmsg('Please Select  Complaint Type')
-    return;
+    // return;
   }
  
 
-  // if(!Assign){
-  //   setAssignErrmsg('Please Select Assign')
-  //   return;
-  // }
+  
 
   if (!Status){
     setStatusErrmsg('Please Select status')
-    return;
+    // return;
   }
 
-
-  if(!selectedUsername || !Complainttype || !selectedDate  ||  !Status){
-    setTotalErrmsg('Please Enter All field')
-    setTimeout(()=> {
-      setTotalErrmsg('')
-    },2000)
-    return;
-}
+  if(!selectedDate){
+    setDateErrmsg('Please Select date')
+    // return;
+  }
+  
 
     setEdit(false)
 
@@ -941,13 +942,7 @@ const Compliance = () => {
                           </>
                         )}
                       </Form.Select>
-                      {assignerrormsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {assignerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {assignerrormsg}
-    </p>
-  </div>
-)}
+                     
                     </Form.Group>
                   </div>
 
@@ -1075,13 +1070,15 @@ const Compliance = () => {
                       />
                     </div>
 
-                    {/* {dateerrmsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {dateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
-    </p>
-  </div>
-)} */}
+
+
+                    {dateerrmsg.trim() !== "" && (
+                      <div>
+                        <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                          {dateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>

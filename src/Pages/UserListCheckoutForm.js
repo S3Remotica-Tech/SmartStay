@@ -114,17 +114,17 @@ console.log("setSelectedCustomer",selectedCustomer)
 
     if (!selectedCustomer) {
       setCustomerError('Please select a customer.');
-      return;
+      // return;
     }
 
     if (!selectedHostel) {
       setHostelError('Please select a hostel.');
-      return;
+      // return;
     }
 
     if (!checkOutDate) {
       setCheckOutDateError('Please enter a checkout date.');
-      return;
+      // return;
     }
 
 
