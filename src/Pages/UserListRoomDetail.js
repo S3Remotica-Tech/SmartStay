@@ -820,7 +820,7 @@ function UserListRoomDetail(props) {
     const isValidDate = (date) => !isNaN(Date.parse(date));
 
     if (!isValidDate(selectedDate)) {
-      setDateError("Joining Date is required or invalid.");
+      setDateError("Joining Date is required.");
       return;
     } else {
       setDateError("");
