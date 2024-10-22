@@ -708,27 +708,13 @@ function UserlistForm(props) {
   };
 
   const handleSaveUserlistAddUser = () => {
-<<<<<<< HEAD
     if (!validateAssignField(Floor,"Floor")) ;
     if (!validateAssignField(Rooms,"Rooms")) ;
     if (!validateAssignField(Bed,"Bed")) ;
     if (!validateAssignField(selectedDate, "selectedDate")) ;
     if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) ;
     if (!validateAssignField(RoomRent, "RoomRent"));
-=======
-    if (!validateAssignField(Floor, "Floor")) 
-      // return;
-    if (!validateAssignField(Rooms, "Room")) 
-      // return;
-    if (!validateAssignField(Bed, "Bed")) 
-      // return;
-    if (!validateAssignField(selectedDate, "selectedDate")) 
-      // return;
-    if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) 
-      // return;
-    if (!validateAssignField(RoomRent, "RoomRent"))
-      //  return;
->>>>>>> 0413f029fc0f7f2ade764f924ec8b14480df0724
+
 
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Room Rent must be greater than 0");
