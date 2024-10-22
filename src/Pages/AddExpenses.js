@@ -233,8 +233,6 @@ function StaticExample({ show, handleClose, currentItem }) {
 
         if (!category && !selectedDate && !count && !price && !modeOfPayment) {
             setGeneralError('Please enter all mandatory fields')
-
-
             return;
         }
 
@@ -281,26 +279,41 @@ function StaticExample({ show, handleClose, currentItem }) {
 
         if (!category) {
             setCategoryError('Please select a category');
-            return;
+            // return;
         }
         if (!selectedDate) {
             setDateError('Please select a purchase date');
-            return;
-        }
-        if (!count || isNaN(count) || count <= 0) {
-            setCountError('Please enter a valid unit count');
-            return;
-        }
-        if (!price || isNaN(price) || price <= 0) {
-            setPriceError('Please enter a valid price');
-            return;
+            // return;
         }
         if (!modeOfPayment) {
             setPaymentError('Please enter a mode of payment');
-            return;
+            // return;
+        }
+        
+        if (!price ) {
+            setPriceError('Please enter a valid price');
+            // return;
+        }
+       
+        if (!count ) {
+            setCountError('Please enter a valid unit count');
+            // return;
         }
 
+        if (isNaN(count) || count <= 0) {
+            setCountError('Please enter a valid unit count');
+            return;
+        }
+        if (isNaN(price) || price <= 0) {
+            setPriceError('Please enter a valid price');
+            return;
+        }
+       
+
         const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
+        if(modeOfPayment && count && price && category && selectedDate){
+
+      
         dispatch({
             type: 'ADDEXPENSE',
             payload: {
@@ -316,7 +329,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 id: currentItem ? currentItem.id : null
             }
         });
-
+    }
         // handleClose();
     };
 

@@ -157,22 +157,22 @@ function StaticExample({ show, handleClose, currentItem }) {
 
         if (!pglist) {
             setPglistError('Please select a PG List');
-            return;
+            // return;
         }
 
         if (!Floor) {
             setFloorError('Please select a Floor');
-            return;
+            // return;
         }
 
         if (!room) {
             setRoomError('Please select a Room');
-            return;
+            // return;
         }
 
         if (!selectedDate) {
             setDateError('Please select a Date');
-            return;
+            // return;
         }
 
 
@@ -186,7 +186,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             const year = selectedDate.getFullYear();
             formattedSelectedDate = `${year}/${month}/${day}`;
         } else {
-            setDateError('Invalid date');
+            setDateError('Please select a Date');
             return;
         }
 
@@ -270,40 +270,12 @@ function StaticExample({ show, handleClose, currentItem }) {
                    
                     </Modal.Header>
                     <Modal.Body style={{ padding: 20 }}>
-                        {pglistError && (
-                            <div className="d-flex align-items-center p-1 mb-2">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {pglistError}
-                                </label>
-                            </div>
-                        )}
-                        {roomError && (
-                            <div className="d-flex align-items-center p-1 mb-2">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {roomError}
-                                </label>
-                            </div>
-                        )}
+                        
+                       
 
-                        {dateError && (
-                            <div className="d-flex align-items-center p-1 mb-2">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {dateError}
-                                </label>
-                            </div>
-                        )}
+                      
 
-                        {floorError && (
-                            <div className="d-flex align-items-center p-1 mb-2">
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {floorError}
-                                </label>
-                            </div>
-                        )}
+                       
 
                         {noChangeError && (
                             <div className="d-flex align-items-center p-1 mb-2">
@@ -339,6 +311,14 @@ function StaticExample({ show, handleClose, currentItem }) {
                                         }
                                     </Form.Select>
                                 </Form.Group>
+                                {pglistError && (
+                            <div className="d-flex align-items-center p-1 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {pglistError}
+                                </label>
+                            </div>
+                        )}
 
                             </div>
 
@@ -361,6 +341,14 @@ function StaticExample({ show, handleClose, currentItem }) {
                                             </option>
                                         ))}
                                 </Form.Select>
+                                {floorError && (
+                            <div className="d-flex align-items-center p-1 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {floorError}
+                                </label>
+                            </div>
+                        )}
                             </div>
 
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -380,6 +368,14 @@ function StaticExample({ show, handleClose, currentItem }) {
                                         }
                                     </Form.Select>
                                 </Form.Group>
+                                {roomError && (
+                            <div className="d-flex align-items-center p-1 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {roomError}
+                                </label>
+                            </div>
+                        )}
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
@@ -431,7 +427,14 @@ function StaticExample({ show, handleClose, currentItem }) {
                                     </div>
 
 
-
+                                    {dateError && (
+                            <div className="d-flex align-items-center p-1 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {dateError}
+                                </label>
+                            </div>
+                        )}
 
 
 

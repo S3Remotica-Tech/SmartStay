@@ -175,17 +175,17 @@ console.log("currentItem",currentItem)
 
     if (!pgName) {
       setPgNameError('Please enter PG name');
-      return;
+      // return;
     }
 
     if (!countryCode) {
       setCountryCodeError('Please select country code');
-      return;
+      // return;
     }
 
     if (!mobile) {
       setMobileError('Please enter mobile number');
-      return;
+      // return;
     }
 
     // if (!email) {
@@ -195,7 +195,7 @@ console.log("currentItem",currentItem)
 
     if (!location) {
       setLocationError('Please enter address');
-      return;
+      // return;
     }
 
 
@@ -208,7 +208,7 @@ console.log("currentItem",currentItem)
       if (mobileInvalid) {
         setMobileError('Enter a valid mobile number');
       }
-      return;
+      // return;
     }
 
     // if (errors.pgName)  {

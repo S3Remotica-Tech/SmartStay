@@ -18,6 +18,7 @@ import ForgotOtp from '../Pages/ForgotOtp'
 import { IoIosCheckmark } from "react-icons/io";
 // import { ClipLoader } from 'react-spinners';
 import { MdError } from "react-icons/md";
+import { BsNutFill } from 'react-icons/bs';
 
 
 function ForgetPasswordPage() {
@@ -49,7 +50,7 @@ function ForgetPasswordPage() {
     setSendMailError('')
   };
 
-console.log("email***********",email)
+  console.log("email***********", email)
 
   // const handlePassword = (e) => {
   //   setPassword(e.target.value);
@@ -65,12 +66,12 @@ console.log("email***********",email)
 
 
 
-console.log("state forgot", state)
- const toastStyle = {
-   
-    backgroundColor: 'green', 
-    color: 'white', 
-    width:"100%"
+  console.log("state forgot", state)
+  const toastStyle = {
+
+    backgroundColor: 'green',
+    color: 'white',
+    width: "100%"
   };
 
   useEffect(() => {
@@ -78,10 +79,10 @@ console.log("state forgot", state)
       setEmail("");
       setPassword("");
       setOtpValue("");
-setConfirmPassword('')
-setIsPasswordLongEnough(false)
- setLowerCaseEnough(false)
- setNumericEnough(false)
+      setConfirmPassword('')
+      setIsPasswordLongEnough(false)
+      setLowerCaseEnough(false)
+      setNumericEnough(false)
 
 
 
@@ -114,9 +115,9 @@ setIsPasswordLongEnough(false)
   }, [state.NewPass?.status_codes]);
 
 
-const [allError, setAllError] = useState('')
+  const [allError, setAllError] = useState('')
 
-const [confirmationError, setConfirmationError] = useState('')
+  const [confirmationError, setConfirmationError] = useState('')
 
   const handlePasswordReset = () => {
     // setShowOtpVerification(true)
@@ -133,13 +134,13 @@ const [confirmationError, setConfirmationError] = useState('')
     // }
 
 
-if(!password && !confirmpassword){
-setAllError('Please Enter  password  and confirm password ')
-}
+    if (!password && !confirmpassword) {
+      setAllError('Please Enter  password  and confirm password ')
+    }
 
 
 
-if (password !== confirmpassword) {
+    if (password !== confirmpassword) {
 
       setConfirmationError('Please Enter Confirm Password Same as Password')
       // Swal.fire({
@@ -147,7 +148,7 @@ if (password !== confirmpassword) {
       //   title: 'Please Enter Confirm Password Same as Password',
       //   confirmButtonText: 'Ok'
       // });
-      return;
+      // return;
     }
 
 
@@ -172,15 +173,15 @@ if (password !== confirmpassword) {
   };
 
 
-// useEffect(()=>{
-//   if(!showOtpVerification){
-//     setDisabledButton(false)
-//   }
+  // useEffect(()=>{
+  //   if(!showOtpVerification){
+  //     setDisabledButton(false)
+  //   }
 
-// },[showOtpVerification])
+  // },[showOtpVerification])
 
 
-console.log("NewPass",state)
+  console.log("NewPass", state)
 
 
 
@@ -190,9 +191,9 @@ console.log("NewPass",state)
       setShowOtpVerification(true);
       setDisabledButton(true)
 
-    
 
-    
+
+
     } else {
       setShowLoader(false)
       setShowOtpVerification(false);
@@ -215,17 +216,17 @@ console.log("NewPass",state)
 
   }, [state.NewPass?.sendEmailStatusCode, state.NewPass?.EmailErrorStatusCode])
 
-const [emailError, setEmailError] = useState('')
-const [generalError, setGeneralError] = useState('')
-const [sendEmailError, setSendMailError ] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [generalError, setGeneralError] = useState('')
+  const [sendEmailError, setSendMailError] = useState('')
 
   useEffect(() => {
     if (state.NewPass?.sendEmailStatusCode == 203 || state.NewPass?.EmailErrorStatusCode == 201) {
-     
+
       setEmailError(state.NewPass?.emailError)
       setSendMailError(state.NewPass?.sendEmailError)
 
-    
+
     }
   }, [state.NewPass?.sendEmailStatusCode, state.NewPass?.EmailErrorStatusCode])
 
@@ -234,15 +235,15 @@ const [sendEmailError, setSendMailError ] = useState('')
 
 
   const handleAccountVerification = () => {
-    
+
     if (email) {
       dispatch({ type: 'OTPSEND', payload: { email: email } });
       setShowLoader(true)
-     
+
     }
     else {
-     
-      setGeneralError('Please Enter All Mandatory Fields')
+
+      setGeneralError('Please enter email address')
       // Swal.fire({
       //   icon: 'error',
       //   title: 'Please Enter All Mandatory Fields',
@@ -324,31 +325,33 @@ const [sendEmailError, setSendMailError ] = useState('')
   };
 
 
-  const [passwordError, setPasswordError] = useState('');
-  const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(false);
-  const [isLowerCaseEnough, setLowerCaseEnough] = useState(false);
-  const [isNumericEnough, setNumericEnough] = useState(false);
+  const [passwordError, setPasswordError] = useState([]);
+  const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(null);
+  const [isLowerCaseEnough, setLowerCaseEnough] = useState(null);
+  const [isNumericEnough, setNumericEnough] = useState(null);
   const [disabledButton, setDisabledButton] = useState(false)
-
+  const [passwordChanged, setPasswordChanged] = useState(false);
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setAllError('')
+    setPasswordChanged(true);
     const password = e.target.value;
-    let errorMessage = '';
+    let errorMessages = [];
+
 
     if (password.length >= 8) {
       setIsPasswordLongEnough(true);
     } else {
       setIsPasswordLongEnough(false);
     }
-  
+
     if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
       setLowerCaseEnough(true);
     } else {
       setLowerCaseEnough(false);
     }
-  
+
     if (/\d/.test(password) && /[@$!%*?&]/.test(password)) {
       setNumericEnough(true);
     } else {
@@ -357,19 +360,15 @@ const [sendEmailError, setSendMailError ] = useState('')
 
 
     if (/\s/.test(password)) {
-      errorMessage = 'Password cannot contain spaces.';
-     } else if (password.length < 8) {
-  errorMessage = 'Password must be at least 8 characters long.';
-} else if (!/[a-z]/.test(password)) {
-  errorMessage = 'Password must contain at least one lowercase letter.';
-} else if (!/[A-Z]/.test(password)) {
-  errorMessage = 'Password must contain at least one uppercase letter.';
-} else if (!/\d/.test(password)) {
-  errorMessage = 'Password must contain at least one number.';
-} else if (!/[@$!%*?&]/.test(password)) {
-  errorMessage = 'Password must contain at least one special character.';
-}
-    setPasswordError(errorMessage);
+      errorMessages.push('Password cannot contain spaces.');
+    } else if (password.length < 8) {
+      errorMessages.push('8 characters minimum');
+    } else if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+      errorMessages.push('One uppercase and lowercase');
+    } else if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
+      errorMessages.push('Numeric and Special symbols');
+
+    } setPasswordError(errorMessages);
   };
 
 
@@ -386,36 +385,36 @@ const [sendEmailError, setSendMailError ] = useState('')
     setShowOtpVerification(false);
   };
 
-console.log("disabledButton",disabledButton)
-useEffect(() => {
-  const appearOptions = {
-    threshold : 0.5
-  };
-  const faders = document.querySelectorAll('.fade-in'); 
-  const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
-    entries.forEach(entry =>{
-      if(!entry.isIntersecting){
-        return;
-      }
-      else{
-        entry.target.classList.add('appear');
-        appearOnScro1l.unobserve(entry.target);
-      }
+  console.log("disabledButton", disabledButton)
+  useEffect(() => {
+    const appearOptions = {
+      threshold: 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+        else {
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader => {
+      appearOnScro1l.observe(fader);
     })
-  }, appearOptions)
-  faders.forEach(fader =>{
-    appearOnScro1l.observe(fader);
-  })
-});
+  });
 
 
 
-console.log("confirmationError",confirmationError)
+  console.log("confirmationError", confirmationError)
 
   return (
 
     <div style={{ width: "100%", height: "100vh", fontFamily: "Gilroy", backgroundColor: "" }}>
-       
+
       {
         showEmailSend && <>
           <div className="ms-5 mb-5">
@@ -433,37 +432,37 @@ console.log("confirmationError",confirmationError)
                 <div className="mt-1 mb-1 "><label style={{ fontSize: 16, fontWeight: 400, color: "rgba(75, 75, 75, 1)", fontFamily: "Montserrat" }}>Enter your email address to recover your account.</label></div>
 
                 <div className="row row-gap-3 ">
-              
+
                   <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 " >
                     <Form.Group controlId="formGridEmail" className='mt-4 mb-3'>
                       <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <Form.Control size="lg"
-                      disabled={disabledButton}
+                        disabled={disabledButton}
                         value={email} onChange={(e) => handleEmailid(e)}
-                        type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight:email ? 600 :  500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                        type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: email ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
                       {/* <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div> */}
                     </Form.Group>
-                   
-
-                    <div className="mb-1 p-1"> {generalError  ? <div className='d-flex align-items-center p-1'>
-  <MdError style={{ color: "red" , marginRight: '5px'}} />
-  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{generalError}</label>
-</div>
-  : null}</div>
-
-<div className="mb-1 p-1"> {emailError  ? <div className='d-flex align-items-center p-1'>
-  <MdError style={{ color: "red" , marginRight: '5px'}} />
-  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</label>
-</div>
-  : null}</div>
 
 
-<div className="mb-1 p-1"> {sendEmailError  ? <div className='d-flex align-items-center p-1'>
-  <MdError style={{ color: "red" , marginRight: '5px'}} />
-  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{sendEmailError}</label>
-</div>
-  : null}</div>
+                    <div className="mb-1 p-1"> {generalError ? <div className='d-flex align-items-center p-1'>
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{generalError}</label>
+                    </div>
+                      : null}</div>
+
+                    <div className="mb-1 p-1"> {emailError ? <div className='d-flex align-items-center p-1'>
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</label>
+                    </div>
+                      : null}</div>
+
+
+                    <div className="mb-1 p-1"> {sendEmailError ? <div className='d-flex align-items-center p-1'>
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{sendEmailError}</label>
+                    </div>
+                      : null}</div>
 
 
 
@@ -479,12 +478,12 @@ console.log("confirmationError",confirmationError)
                   <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1 d-flex gap-5" >
                     <Button
                       onClick={handleAccountVerification} disabled={disabledButton}
-                      className="w-100" style={{ border: disabledButton ? "gray": "rgba(30, 69, 225, 1)",backgroundColor: disabledButton ? "gray" : "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600, fontSize: 16 }}>Continue</Button>
-                 <div>
-                 {showLoader &&  <Spinner animation="grow" variant="primary" />}
+                      className="w-100" style={{ border: disabledButton ? "gray" : "rgba(30, 69, 225, 1)", backgroundColor: disabledButton ? "gray" : "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600, fontSize: 16 }}>Continue</Button>
+                    <div>
+                      {showLoader && <Spinner animation="grow" variant="primary" />}
 
-                
-                 </div>
+
+                    </div>
                   </div>
 
                 </div>
@@ -495,7 +494,7 @@ console.log("confirmationError",confirmationError)
                 </div>
 
               </div>
-           
+
               <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 d-flex justify-content-center mt-4" style={{ backgroundColor: "", padding: "60px 80px" }}>
                 <div>
                   <img src={Forgot} style={{ height: 460, width: 460 }} />
@@ -608,14 +607,26 @@ console.log("confirmationError",confirmationError)
 
                   </InputGroup>
                 </div>
-                <div>
-                  {isPasswordLongEnough &&
+                {/* <div>
+                  {isPasswordLongEnough ?
+                      <div>
+
+                        <IoIosCheckmark style={{ color: "rgba(3, 160, 0, 1)", height: 30, width: 30 }} />
+                        <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>8 characters minimum</label>
+
+                      </div>
+                    
+                    :
+                    
                     <div>
 
-                      <IoIosCheckmark style={{ color: "rgba(3, 160, 0, 1)", height: 30, width: 30 }} />
-                      <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>8 characters minimum</label>
+<MdError style={{ color: "red",  }} />
+                    <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "red" }}>8 characters minimum</label>
 
-                    </div>}
+                  </div>
+                    
+                    
+                    }
 
                   {isLowerCaseEnough &&
                     <div>
@@ -631,33 +642,159 @@ console.log("confirmationError",confirmationError)
                       <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>Numeric and Special symbols</label>
                     </div>
                   }
+                </div> */}
+
+{passwordChanged && (
+                <div>
+
+                  {isPasswordLongEnough ? (
+                    <div className="d-flex align-items-center gap-2">
+                      <IoIosCheckmark
+                        style={{ color: "rgba(3, 160, 0, 1)", height: 30, width: 30 }}
+                      />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          color: "rgba(34, 34, 34, 1)"
+                        }}
+                      >
+                        8 characters minimum
+                      </label>
+                    </div>
+                  ) : (
+                    <div className="d-flex align-items-center gap-2">
+                      <MdError style={{ color: "red" }} />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          color: "red"
+                        }}
+                      >
+                        8 characters minimum
+                      </label>
+                    </div>
+                  )}
+
+
+                  {isLowerCaseEnough ? (
+                    <div className="d-flex align-items-center gap-2">
+                      <IoIosCheckmark
+                        style={{ color: "rgba(3, 160, 0, 1)", height: 30, width: 30 }}
+                      />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          color: "rgba(34, 34, 34, 1)"
+                        }}
+                      >
+                        One uppercase and lowercase
+                      </label>
+                    </div>
+                  ) : (
+                    <div className="d-flex align-items-center gap-2">
+                      <MdError style={{ color: "red", }} />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          color: "red"
+                        }}
+                      >
+                        One uppercase and lowercase
+                      </label>
+                    </div>
+                  )}
+
+
+                  {isNumericEnough ? (
+                    <div className="d-flex align-items-center gap-2">
+                      <IoIosCheckmark
+                        style={{ color: "rgba(3, 160, 0, 1)", height: 30, width: 30 }}
+                      />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          color: "rgba(34, 34, 34, 1)"
+                        }}
+                      >
+                        Numeric and Special symbols
+                      </label>
+                    </div>
+                  ) : (
+                    <div className="d-flex align-items-center gap-2">
+                      <MdError style={{ color: "red" }} />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          color: "red"
+                        }}
+                      >
+                        Numeric and Special symbols
+                      </label>
+                    </div>
+                  )}
                 </div>
 
-               
+                )}
 
-                {passwordError && (
-                <div className="d-flex align-items-center p-1">
+
+
+                {/* {passwordError && passwordError.length > 0 && (
+                    <div className="d-flex flex-column  pt-2">
+                      {passwordError.map((error, index) => (
+                        <div key={index} className="d-flex align-items-center gap-2">
+                          <div>
+
+                          <MdError style={{ color: "red",  }} />
+                          </div>
+                          <div>
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              listStyleType:"none"
+                            }}
+                          >
+                            {error}
+                          </label>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+)} */}
+
+
+
+
+
+                {allError && (
+                  <div className="d-flex align-items-center p-1">
+                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      {allError}
+                    </label>
+                  </div>
+                )}
+
+                {confirmationError ? <div className='d-flex align-items-center p-1'>
                   <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {passwordError}
-                  </label>
+                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{confirmationError}</label>
                 </div>
-              )}
-
-{allError && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {allError}
-                  </label>
-                </div>
-              )}
-
-<div className="mb-1 p-1"> {confirmationError  ? <div className='d-flex align-items-center p-1'>
-  <MdError style={{ color: "red" , marginRight: '5px'}} />
-  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{confirmationError}</label>
-</div>
-  : null}</div>
+                  : null}
 
                 <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-2 mb-1" >
                   <Button
