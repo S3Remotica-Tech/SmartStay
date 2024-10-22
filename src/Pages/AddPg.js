@@ -206,9 +206,9 @@ console.log("currentItem",currentItem)
         setEmailError('Enter a valid Email ID');
       }
       if (mobileInvalid) {
-        setMobileError('Enter a valid mobile number');
+        setMobileError('Enter a valid 10 digit mobile number');
       }
-      // return;
+      return;
     }
 
     // if (errors.pgName)  {
