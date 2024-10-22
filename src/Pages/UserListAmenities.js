@@ -44,15 +44,11 @@ function UserListAmenities(props) {
   const [filtshow, setFiltshow] = useState(false);
   const [amnitytableshow, setamnitytableshow] = useState(false);
   console.log("createby", createby);
-  const [amnityError, setamnityError] = useState('');
+  const [amnityError, setamnityError] = useState("");
 
   const validateAssignField = (value, fieldName) => {
     // Check if the value is empty or invalid
-    if (
-      !value ||
-      value === "Select an amenity" 
-     
-    ) {
+    if (!value || value === "Select an Amenities") {
       switch (fieldName) {
         case "selectAmneties":
           setamnityError("selected Amenity is required");
@@ -65,7 +61,6 @@ function UserListAmenities(props) {
         case "Floor":
           setamnityError("");
           break;
-      
       }
       return true;
     }
@@ -76,17 +71,21 @@ function UserListAmenities(props) {
     setselectAmneties(value);
     setamnitytableshow(true);
     console.log("e.target.value", value);
-    if ( selectAmneties === "Select an amenity" || amnityError) {
-      setamnityError("Please select a valid amenityId"); 
-      return; 
+
+    if (value === "" || value === "Select an Amenities") {
+      setamnityError("Please select a valid amenityId");
+      setaddamenityShow(false);
+      return;
+    } else {
+      setamnityError("");
     }
     const amenitiesHistory = state.UsersList.amnetieshistory.filter((item) => {
       return item.amenity_Id == value;
     });
-    console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
 
+    console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
     if (amenitiesHistory && amenitiesHistory.length > 0) {
-      if (amenitiesHistory && amenitiesHistory[0].status == 0) {
+      if (amenitiesHistory[0].status == 0) {
         console.log("Status is 0, setting add amenity show to true");
         setaddamenityShow(true);
         setstatusShow(false);
@@ -97,8 +96,8 @@ function UserListAmenities(props) {
       setstatusShow(false);
       setSelectedAmenityName([]);
     }
-    setamnityError('')
   };
+
   useEffect(() => {
     if (
       state.UsersList.customerdetails.all_amenities &&
@@ -164,9 +163,6 @@ function UserListAmenities(props) {
   };
 
   const handleAddUserAmnities = () => {
-
-
-  
     if (statusAmni) {
       dispatch({
         type: "AddUserAmnities",
@@ -327,7 +323,7 @@ function UserListAmenities(props) {
         <Form.Label
           style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}
         >
-          Amenities{" "}
+          Amenities 
         </Form.Label>
         <Form.Select
           aria-label="Default select example"
@@ -347,9 +343,11 @@ function UserListAmenities(props) {
         >
           <option
             style={{ fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}
+            selected
+            value=""
           >
-            Select an amenity
-          </option>
+            Select an Amenities
+          </option> 
           {state.UsersList?.customerdetails?.all_amenities?.map((item) => (
             <option key={item.Amnities_Id} value={item.Amnities_Id}>
               {item.Amnities_Name}
@@ -357,15 +355,12 @@ function UserListAmenities(props) {
           ))}
         </Form.Select>
         {amnityError && (
-                                          <div style={{ color: "red" }}>
-                                            {" "}
-                                            <MdError
-                                              style={{ width: 20, height: 20 }}
-                                            />
-                                            {amnityError}
-                                          </div>
-                                        )}
-     
+          <div style={{ color: "red" }}>
+            {" "}
+            <MdError style={{ width: 20, height: 20 }} />
+            {amnityError}
+          </div>
+        )}
       </div>
 
       <Modal
@@ -380,13 +375,13 @@ function UserListAmenities(props) {
           className="text-center"
         >
           <Modal.Title style={{ fontSize: 18 }} className="text-center">
-            Add Amnities
+            Add Amenities 
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="mb-3 ps-2 pe-2">
             <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
-              Amnities_Name
+            Amenities_Name
             </label>
             <Form.Control
               placeholder="Amnities Name"
@@ -405,17 +400,15 @@ function UserListAmenities(props) {
             />
           </div>
           {amnityError && (
-                                          <div style={{ color: "red" }}>
-                                            {" "}
-                                            <MdError
-                                              style={{ width: 20, height: 20 }}
-                                            />
-                                            {amnityError}
-                                          </div>
-                                        )}
+            <div style={{ color: "red" }}>
+              {" "}
+              <MdError style={{ width: 20, height: 20 }} />
+              {amnityError}
+            </div>
+          )}
           <div className="mb-3 ps-2 pe-2">
             <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
-              Hostel_Name 
+              Hostel_Name
             </label>
             <Form.Control
               placeholder="HostelName"
@@ -606,7 +599,7 @@ function UserListAmenities(props) {
           </tr>
         </thead>
 
-        <tbody style={{verticalAlign:'middle'}} >
+        <tbody style={{ verticalAlign: "middle" }}>
           {currentRowAmnities &&
             currentRowAmnities?.map((v) => {
               let Datform = new Date(v.created_At);
@@ -620,7 +613,7 @@ function UserListAmenities(props) {
               console.log("Formatted Date:", formattedDate);
 
               return (
-                <tr key={v.amenity_Id}  style={{marginTop:30}}>
+                <tr key={v.amenity_Id} style={{ marginTop: 30 }}>
                   <td
                     style={{
                       textAlign: "center",
