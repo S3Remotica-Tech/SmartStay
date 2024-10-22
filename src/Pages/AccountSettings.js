@@ -835,10 +835,12 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
 
   return (
 
-    <div className="container fade-in" style={{ marginLeft: '30px' }}>
+    <div className="container fade-in" style={{ marginLeft: '30px' ,marginTop:'30px'}}>
       <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+        <div>
       <h3 style={{ marginLeft: '10px', fontSize: 24, fontWeight: 600, fontFamily: "Gilroy" }}>Profile</h3>
-      <div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
+      </div>
+      <div className="mr-3 me-5" onClick={handleShowpopup} style={{cursor:"pointer"}}>
       <img src={Notify} alt="notification" />
       </div>
       </div>

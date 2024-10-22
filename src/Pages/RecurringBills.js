@@ -25,29 +25,33 @@ import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
 
 
 
-const RecurringBills = () => {
+const RecurringBills = (props) => {
 
 
     const state = useSelector(state => state)
-   
+    console.log("state",state);
+    
+    console.log("props",props);
+    
     const dispatch = useDispatch()
 
-    useEffect(()=> {
+      useEffect(()=> {
         dispatch({type: "USERLIST"})
+      },[])
+
+      useEffect(()=> {
+        dispatch({type: "RECURRING-BILLS-LIST"})
       },[])
     
       const [customername , setCustomerName] =  useState ('');
+      console.log("customername",customername);
+      
       const [invoicenumber , setInvoiceNumber] =  useState ('');
-      const [startdate , setStartDate] =  useState (null);
-      const [enddate , setEndDate] =  useState (null);
+    
       const [invoicedate , setInvoiceDate] =  useState (null);
       const [invoiceduedate , setInvoiceDueDate] =  useState (null);
     
-      const [formatstartdate, setFormatStartDate] = useState(null)
-      const [formatenddate, setFormatEndDate] = useState(null)
       const [formatinvoicedate, setFormatInvoiceDate] = useState(null)
-      
-      
       const [formatduedate, setFormatDueDate] = useState(null)
       console.log("formatinvoicedate",formatduedate);
     
@@ -59,13 +63,13 @@ const RecurringBills = () => {
       
     const [ebamount, setEBAmount] = useState('')
     const [rentamount , setRentAmount] = useState('')
+    const [advanceAmount,setAdvanceAmount] = useState('')
     const [amenityDetail , setAmenityDetails] = useState([])
     console.log("amenityDetail",amenityDetail);
     
     const [totalAmount , setTotalAmount] = useState('')
     
-    const [selectedData, setSelectedData] = useState([]);
-    console.log("selectedData",selectedData)
+    
     
       const startRef = useRef(null);
       const endRef = useRef(null);
@@ -73,9 +77,9 @@ const RecurringBills = () => {
       const dueRef = useRef(null);
     
     
-      const [bills , setBills] = useState([])
-      console.log("bills",bills);
+      const [recurringbills , setRecurringBills] = useState([])
       const [availableOptions, setAvailableOptions] = useState(invoicetotalamounts);
+      console.log("availableOptions",availableOptions);
       
     
       const [newRows, setNewRows] = useState([]);
@@ -101,112 +105,68 @@ const RecurringBills = () => {
         const [invoicedateerrmsg , setInvoiceDateErrmsg] = useState('')
         const [invoiceduedateerrmsg , setInvoiceDueDateErrmsg] = useState('')
         const [allfielderrmsg , setAllFieldErrmsg] = useState('')
-      // useEffect(()=> {
-      //  dispatch({type:'MANUAL-INVOICES-LIST'})
-      //  },[])
+
+
+      
     
       useEffect(() => {
-        if (state.InvoiceList.ManualInvoicesgetstatuscode === 200 ) {
-          // dispatch({ type: 'MANUAL-INVOICES-LIST' });
-          setBills(state.InvoiceList.ManualInvoices);
-        //   setLoading(true); 
+        if (state.InvoiceList.RecurringbillsgetStatuscode === 200 ) {
+          setRecurringBills(state.InvoiceList.RecurringBills);
       
           setTimeout(() => {
-            dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST' });
-            // setLoading(false); 
+            dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST' });
           }, 100);
         }
-      }, [state.InvoiceList.ManualInvoicesgetstatuscode]); 
+      }, [state.InvoiceList.RecurringbillsgetStatuscode]); 
       
+
       useEffect(() => {
-        if (state.InvoiceList.manualInvoiceAddStatusCode === 200 ) {
-          dispatch({ type: 'MANUAL-INVOICES-LIST' });
-          setBills(state.InvoiceList.ManualInvoices);
-        //   setLoading(true); 
+        if (state.InvoiceList.RecurringBillAddStatusCode === 200 ) {
+          dispatch({ type: 'RECURRING-BILLS-LIST' });
+          setRecurringBills(state.InvoiceList.RecurringBills);
       
           setTimeout(() => {
-            dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD' });
-            // setLoading(false); 
+            dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD' });
           }, 1000);
         }
-      }, [state.InvoiceList.manualInvoiceAddStatusCode]); // Add `loading` to the dependency array
+      }, [state.InvoiceList.RecurringBillAddStatusCode]); 
       
     
+ 
+   
+      
     
-      useEffect(() => {
-        console.log("invoice added executed");
-        if (state.InvoiceList?.InvoiceListStatusCode == 200) {
-         
-          dispatch({type:'MANUAL-INVOICES-LIST'})
-          setBills(state.InvoiceList.ManualInvoices)
-          // setLoading(true);
-          setTimeout(() => {
-            dispatch({ type: 'CLEAR_INVOICE_LIST' });
-          }, 1000);
-        }
-      }, [state.InvoiceList?.InvoiceListStatusCode])
-    
-    
-    
-    
-    
-    
-    
-      // console.log("InvoiceList", state.InvoiceList);
-     
-    
-      useEffect(() => {
-        console.log("statuscode", state.InvoiceList.message);
-        if (state.InvoiceList.message != "" && state.InvoiceList.message != null) {
-          console.log("statuscode_number", state.InvoiceList.UpdateInvoiceStatusCode);
-          dispatch({type:'MANUAL-INVOICES-LIST'})
-          setBills(state.InvoiceList.ManualInvoices)
-          // setLoading(true)
-          setTimeout(() => {
-            dispatch({ type: 'CLEAR_INVOICE_UPDATE_LIST' });
-          }, 100);
-    
-    
-        }
-      }, [state.InvoiceList])
+      
 
 
       const options = {
         dateFormat: 'd/m/Y',
         defaultDate: null,
         // defaultDate: selectedDate,
-        maxDate: new Date(),
+        // maxDate: new Date(),
         minDate: null,
       };
     
       useEffect(() => {
-        if (startRef.current) {
-          startRef.current.flatpickr.set(options);
-        }
-        if (endRef.current) {
-          endRef.current.flatpickr.set(options);
-        }
         if (invoiceRef.current) {
           invoiceRef.current.flatpickr.set(options);
         }
         if (dueRef.current) {
           dueRef.current.flatpickr.set(options);
         }
-    }, [startdate, enddate , invoicedate, invoiceduedate ])
+    }, [ invoicedate, invoiceduedate ])
     
     
       const handleCustomerName = (e) => {
         setCustomerName(e.target.value)
+        setAllFieldErrmsg('')
         if(!e.target.value){
           setCustomerErrmsg("Please Select Name")
         }
         else{
           setCustomerErrmsg('')
         }
-        setStartDate('');
-        setEndDate('');
-        setSelectedData('');
-        // setAvailableOptions('');
+      
         setBillAmounts('')
         setTotalAmount('')
       }
@@ -233,41 +193,40 @@ const RecurringBills = () => {
           }, 100);
         }
       }, [state.InvoiceList.ManualInvoiceNUmber.invoice_number, state.InvoiceList.Manulainvoicenumberstatuscode]); 
-      
-      
-    
+            
     
       const [dataFetched, setDataFetched] = useState(false);
+
     
       useEffect(() => {
-        if (!dataFetched) {
-          dispatch({
-            type: 'GET-MANUAL-INVOICE-AMOUNTS',
-            payload: {
-              user_id: customername,
-              start_date: formatstartdate,
-              end_date: formatenddate
-            }
-          });
-    
+        console.log("getamountuseffect");
         
+        if (  !dataFetched ) {
+          // dispatch({ type: 'MANUAL-INVOICE-NUMBER-GET', payload: {user_id: customername } });
+          dispatch({ type: 'GET-RECURRING-BILL-AMOUNTS',payload: {user_id: customername} });
     
-          if (state.InvoiceList.manualInvoiceStatusCode === 200) {
-            const totalArray = state?.InvoiceList?.ManualInvoice?.total_array;
+          if (state.InvoiceList.recurrbillamountgetStatuscode === 200) {
+            const totalArray = state?.InvoiceList?.Recurringbillamounts;
+            console.log("state?.InvoiceList?.Recurringbillamounts",state?.InvoiceList?.Recurringbillamounts);
+            
             
             if (totalArray) {
               setInvoiceTotalAmount(totalArray); 
             }
             setDataFetched(true); 
             setTimeout(() => {
-              dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_AMOUNT_GET' });
+              dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_INVOICE_AMOUNT' });
             }, 1000);
           }
         }
-      }, [customername, formatstartdate, formatenddate, dataFetched, state.InvoiceList.manualInvoiceStatusCode , state.InvoiceList.ManualInvoice.total_array]);
+      }, [customername, dataFetched, state.InvoiceList.recurrbillamountgetStatuscode , state.InvoiceList.Recurringbillamounts]);
     
         
     
+
+      const handleBackBill = () => {
+           props.onhandleback()
+      }
     
       const formatDateForPayloadmanualinvoice = (date) => {
         if (!date) return null;
@@ -277,39 +236,12 @@ const RecurringBills = () => {
       };
     
     
-      const handlestartDate = (selectedDates) => {
-            const date = selectedDates[0];
-            setStartDate(date);
-    
-               if(!selectedDates){
-                setStartdateErrmsg("Please Select Date")
-               }
-               else{
-                setStartdateErrmsg('')
-               }
-           
-           const formattedDate = formatDateForPayloadmanualinvoice(date);    
-           setFormatStartDate(formattedDate)
-    
-      }
-    
-      const handleEndDate = (selectedDates) => {
-           const date = selectedDates[0];
-           setEndDate(date);
-           if(!selectedDates){
-            setEnddateErrmsg("Please Select Date")
-           }
-           else{
-            setEnddateErrmsg('')
-           }
-    
-          const formattedDate = formatDateForPayloadmanualinvoice(date);
-          setFormatEndDate(formattedDate)
-      }
+      
     
       const handleInvoiceDate = (selectedDates) => {
            const date = selectedDates[0];
            setInvoiceDate(date);
+           setAllFieldErrmsg('')
            if(!selectedDates){
             setInvoiceDateErrmsg("Please Select Date")
            }
@@ -325,6 +257,7 @@ const RecurringBills = () => {
       const handleDueDate = (selectedDates) => {
             const date = selectedDates[0];
             setInvoiceDueDate(date);
+            setAllFieldErrmsg('')
             if(!selectedDates){
               setInvoiceDueDateErrmsg("Please Select Date")
              }
@@ -358,11 +291,11 @@ const RecurringBills = () => {
     
              const handleSelectChange = (e) => {
                    const selectedDescription = e.target.value;  
-                   const selectedOption = invoicetotalamounts.find(opt => opt.description === selectedDescription);
+                   const selectedOption = invoicetotalamounts.find(opt => opt.name === selectedDescription);
       
                    if (selectedOption) {
                      setBillAmounts([...billamounts, selectedOption]);
-                     setAvailableOptions(availableOptions.filter(opt => opt.description !== selectedDescription));
+                     setAvailableOptions(availableOptions.filter(opt => opt.name !== selectedDescription));
                        }
                   };
       
@@ -378,40 +311,61 @@ const RecurringBills = () => {
     
     
               const handleDelete = (item) => {
-                 setBillAmounts(billamounts.filter(bill => bill.description !== item.description));
+                 setBillAmounts(billamounts.filter(bill => bill.name !== item.name));
                  setAvailableOptions([...availableOptions, item]);
                   };
     
     
-    
+                  const [amenityArray,setamenityArray] = useState([])
+                  console.log("amenityArray",amenityArray);
+
            useEffect(()=> {
     
               if(billamounts && billamounts.length > 0){
                   console.log("billamounts",billamounts);
         
-              const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 10);// EB Amount with id 10 
-              const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 50); // Room Rent with id 50
-               console.log("RoomRentItem",RoomRentItem);
-      
-      
-              setEBAmount(EbAmount)
+              const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 1); // Room Rent with id 1
+              const  AdvanceAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 2); // Adavance amount with id 2
+              const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 3); // EB Amount with id 3 
+
               setRentAmount(RoomRentItem)
+              setAdvanceAmount(AdvanceAmount)
+              setEBAmount(EbAmount)
     
-              var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 10 && item.id != 50);
+              var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 1 && item.id != 2 && item.id != 3);
               console.log("amenities",amenities);
     
-             const AmenityDetails = amenities.map(item => ({
-                am_name: item.description,   
-                amount: item.amount
+              const AmenityDetails = amenities.map(item => ({
+                am_name: item.name,   
+                amount : item.amount
                 }));
                 setAmenityDetails(AmenityDetails)
       
     
+                const allRows = newRows.map(detail => ({
+                  am_name: detail.am_name, 
+                  amount: Number(detail.amount)
+                })).filter(detail => detail.am_name && detail.amount); 
+                console.log("allRows", allRows);
+                
+                const amenityArray = AmenityDetails.map(detail => ({
+                  am_name: detail.am_name, 
+                  amount: detail.amount
+                })).filter(detail => detail.am_name && detail.amount); 
+                console.log("amenityArray", amenityArray);
+                
+                
+                // Combine allRows and amenityArray
+                const combinedRows = [...amenityArray, ...allRows];
+                console.log("combinedRows", combinedRows);
+              
+                setamenityArray(combinedRows)
     
              const  totalAmount = (
                 parseFloat(EbAmount?.amount || 0) +
                 parseFloat(RoomRentItem?.amount || 0) +
-                AmenityDetails.reduce((sum, amenity) => sum + parseFloat(amenity.amount || 0), 0) );
+                parseFloat(AdvanceAmount?.amount || 0) +
+                combinedRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) );
                 setTotalAmount(totalAmount)
     
                       }
@@ -445,217 +399,204 @@ const RecurringBills = () => {
                   am_name: detail.am_name,
                   amount: detail.amount
                    })).filter(detail => detail.am_name && detail.amount);
+
     
                    if(!customername){
                     setCustomerErrmsg('Please Select  Customer')
-                    return;
                    }
-                   if(!invoicenumber){
-                      setInvoicenumberErrmsg("Please Update customer name")
-                      return;
-                    }
+                  //  if(!invoicenumber){
+                  //     setInvoicenumberErrmsg("Please Update customer name")
+                  //     return;
+                  //   }
                    
     
-                   if(!startdate){
-                    setStartdateErrmsg('Please Select  Date')
-                    return;
-                   }
-    
-                   if(!enddate){
-                    setEnddateErrmsg('Please Select  Date')
-                    return;
-                   }
-    
                    if(!formatinvoicedate){
-                    setInvoiceDateErrmsg('Please Select  Date')
-                    return;
+                    setInvoiceDateErrmsg('Please Select Invoice Date')
                    }
     
                    if(!formatduedate){
-                    setInvoiceDueDateErrmsg('Please Select  Date')
-                    return;
+                    setInvoiceDueDateErrmsg('Please Select DueDate')
                    }
-                   if(!customername || !invoicenumber || !startdate || !enddate || !formatinvoicedate || !formatduedate){
-                    setAllFieldErrmsg('Please Enter All Field')
-                    setTimeout(()=> {
-                      setAllFieldErrmsg('')
-                    },2000)
-                    return;
-                   }
+                 
     
+                   if(!customername && !invoicenumber &&  !formatinvoicedate && !formatduedate){
+                    setAllFieldErrmsg('Please Enter All Field')
+                    return;
+                   }
                   
-                   if(customername && invoicenumber && formatstartdate && formatenddate && formatinvoicedate && formatduedate){
+                   if(customername && invoicenumber  && formatinvoicedate && formatduedate){
                     dispatch({
-                      type: 'MANUAL-INVOICE-ADD',
+                      type: 'RECURRING-BILLS-ADD',
                       payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
-                      invoice_id: invoicenumber, room_rent : rentamount?.amount , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
-                      amenity: amenityArray.length > 0 ? amenityArray : []
+                      invoice_id: invoicenumber, room_rent : rentamount?.amount || 0 , eb_amount :ebamount?.amount || 0, total_amount : totalAmount , 
+                      advance_amount:advanceAmount?.amount || 0,    amenity: amenityArray.length > 0 ? amenityArray : []
                       }
                       });
+
+                      props.onhandleback()
+                      setCustomerName('');
+                      setInvoiceNumber('');
+                      setInvoiceDate('')
+                      setInvoiceDueDate('')
+                      setAvailableOptions('');
+                      setTotalAmount('')
+                      setBillAmounts([]);
+                      setNewRows([]);
                    }
     
                 // setShowManualInvoice(true)
-                setCustomerName('');
-                setInvoiceNumber('');
-                setStartDate('');
-                setEndDate('');
-                setInvoiceDate('')
-                setInvoiceDueDate('')
-                setSelectedData('')
-                setAvailableOptions('');
-                setTotalAmount('')
-                setBillAmounts([]);
-                setNewRows([]);
+              
+              
                 }
     
     
     
     
-                const invoicerowsPerPage = 15;
-                const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
-                const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
+                // const invoicerowsPerPage = 15;
+                // const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
+                // const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
               
-                const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
-                const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
-                const currentRowinvoice = bills?.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice);
-              
-              
+                // const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
+                // const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
+                // const currentRowinvoice = bills?.slice(indexOfFirstRowinvoice, indexOfLastRowinvoice);
               
               
-                const handleInvoicePageChange = (InvoicepageNumber) => {
-                  setinvoicecurrentPage(InvoicepageNumber);
-                };
-              
-                const totalPagesinvoice = Math.ceil(bills?.length / invoicerowsPerPage);
-                console.log("invoicedetails", bills);
               
               
-                const renderPageNumbersInvoice = () => {
-                  const pageNumbersInvoice = [];
-                  let startPageInvoice = invoicecurrentPage - 1;
-                  let endPageInvoice = invoicecurrentPage + 1;
+                // const handleInvoicePageChange = (InvoicepageNumber) => {
+                //   setinvoicecurrentPage(InvoicepageNumber);
+                // };
               
-                  if (invoicecurrentPage === 1) {
-                    startPageInvoice = 1;
-                    endPageInvoice = 3;
-                  }
+                // const totalPagesinvoice = Math.ceil(bills?.length / invoicerowsPerPage);
+                // console.log("invoicedetails", bills);
               
-                  if (invoicecurrentPage === totalPagesinvoice) {
-                    startPageInvoice = totalPagesinvoice - 2;
-                    endPageInvoice = totalPagesinvoice;
-                  }
               
-                  if (invoicecurrentPage === 2) {
-                    startPageInvoice = 1;
-                    endPageInvoice = 3;
-                  }
+                // const renderPageNumbersInvoice = () => {
+                //   const pageNumbersInvoice = [];
+                //   let startPageInvoice = invoicecurrentPage - 1;
+                //   let endPageInvoice = invoicecurrentPage + 1;
               
-                  if (invoicecurrentPage === totalPagesinvoice - 1) {
-                    startPageInvoice = totalPagesinvoice - 2;
-                    endPageInvoice = totalPagesinvoice;
-                  }
+                //   if (invoicecurrentPage === 1) {
+                //     startPageInvoice = 1;
+                //     endPageInvoice = 3;
+                //   }
               
-                  for (let i = startPageInvoice; i <= endPageInvoice; i++) {
-                    if (i > 0 && i <= totalPagesinvoice) {
-                      pageNumbersInvoice.push(
-                        <li key={i} style={{ margin: '0 5px' }}>
-                          <button
-                            style={{
-                              padding: '5px 10px',
-                              textDecoration: 'none',
-                              color: i === invoicecurrentPage ? '#007bff' : '#000000',
-                              cursor: 'pointer',
-                              borderRadius: '5px',
-                              display: 'inline-block',
-                              minWidth: '30px',
-                              textAlign: 'center',
-                              backgroundColor: i === invoicecurrentPage ? 'transparent' : 'transparent',
-                              border: i === invoicecurrentPage ? '1px solid #ddd' : 'none'
-                            }}
-                            onClick={() => handleInvoicePageChange(i)}
-                          >
-                            {i}
-                          </button>
-                        </li>
-                      );
-                    }
-                  }
+                //   if (invoicecurrentPage === totalPagesinvoice) {
+                //     startPageInvoice = totalPagesinvoice - 2;
+                //     endPageInvoice = totalPagesinvoice;
+                //   }
               
-                  return pageNumbersInvoice;
-                };
+                //   if (invoicecurrentPage === 2) {
+                //     startPageInvoice = 1;
+                //     endPageInvoice = 3;
+                //   }
+              
+                //   if (invoicecurrentPage === totalPagesinvoice - 1) {
+                //     startPageInvoice = totalPagesinvoice - 2;
+                //     endPageInvoice = totalPagesinvoice;
+                //   }
+              
+                //   for (let i = startPageInvoice; i <= endPageInvoice; i++) {
+                //     if (i > 0 && i <= totalPagesinvoice) {
+                //       pageNumbersInvoice.push(
+                //         <li key={i} style={{ margin: '0 5px' }}>
+                //           <button
+                //             style={{
+                //               padding: '5px 10px',
+                //               textDecoration: 'none',
+                //               color: i === invoicecurrentPage ? '#007bff' : '#000000',
+                //               cursor: 'pointer',
+                //               borderRadius: '5px',
+                //               display: 'inline-block',
+                //               minWidth: '30px',
+                //               textAlign: 'center',
+                //               backgroundColor: i === invoicecurrentPage ? 'transparent' : 'transparent',
+                //               border: i === invoicecurrentPage ? '1px solid #ddd' : 'none'
+                //             }}
+                //             onClick={() => handleInvoicePageChange(i)}
+                //           >
+                //             {i}
+                //           </button>
+                //         </li>
+                //       );
+                //     }
+                //   }
+              
+                //   return pageNumbersInvoice;
+                // };
     
     
-      const rowsPerPage = 20;
-      const [currentPage, setCurrentPage] = useState(1);
+      // const rowsPerPage = 20;
+      // const [currentPage, setCurrentPage] = useState(1);
     
-      const indexOfLastRow = currentPage * rowsPerPage;
-      const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-      const currentRows = bills.slice(indexOfFirstRow, indexOfLastRow);
+      // const indexOfLastRow = currentPage * rowsPerPage;
+      // const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+      // const currentRows = bills.slice(indexOfFirstRow, indexOfLastRow);
     
-      const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-      };
+      // const handlePageChange = (pageNumber) => {
+      //   setCurrentPage(pageNumber);
+      // };
     
-      const totalPages = Math.ceil(bills.length / rowsPerPage);
+      // const totalPages = Math.ceil(bills.length / rowsPerPage);
     
-      const renderPageNumbers = () => {
-        const pageNumbers = [];
-        let startPage = currentPage - 1;
-        let endPage = currentPage + 1;
+      // const renderPageNumbers = () => {
+      //   const pageNumbers = [];
+      //   let startPage = currentPage - 1;
+      //   let endPage = currentPage + 1;
     
-        if (currentPage === 1) {
-          startPage = 1;
-          endPage = 3;
-        }
+      //   if (currentPage === 1) {
+      //     startPage = 1;
+      //     endPage = 3;
+      //   }
     
-        if (currentPage === totalPages) {
-          startPage = totalPages - 2;
-          endPage = totalPages;
-        }
+      //   if (currentPage === totalPages) {
+      //     startPage = totalPages - 2;
+      //     endPage = totalPages;
+      //   }
     
-        if (currentPage === 2) {
-          startPage = 1;
-          endPage = 3;
-        }
+      //   if (currentPage === 2) {
+      //     startPage = 1;
+      //     endPage = 3;
+      //   }
     
-        if (currentPage === totalPages - 1) {
-          startPage = totalPages - 2;
-          endPage = totalPages;
-        }
+      //   if (currentPage === totalPages - 1) {
+      //     startPage = totalPages - 2;
+      //     endPage = totalPages;
+      //   }
     
-        for (let i = startPage; i <= endPage; i++) {
-          if (i > 0 && i <= totalPages) {
-            pageNumbers.push(
-              <li key={i} style={{ margin: '0 5px' }}>
-                <button
-                  style={{
-                    padding: '5px 10px',
-                    textDecoration: 'none',
-                    color: i === currentPage ? '#007bff' : '#000000',
-                    cursor: 'pointer',
-                    borderRadius: '5px',
-                    display: 'inline-block',
-                    minWidth: '30px',
-                    textAlign: 'center',
-                    backgroundColor: i === currentPage ? 'transparent' : 'transparent',
-                    border: i === currentPage ? '1px solid #ddd' : 'none'
-                  }}
-                  onClick={() => handlePageChange(i)}
-                >
-                  {i}
-                </button>
-              </li>
-            );
-          }
-        }
+      //   for (let i = startPage; i <= endPage; i++) {
+      //     if (i > 0 && i <= totalPages) {
+      //       pageNumbers.push(
+      //         <li key={i} style={{ margin: '0 5px' }}>
+      //           <button
+      //             style={{
+      //               padding: '5px 10px',
+      //               textDecoration: 'none',
+      //               color: i === currentPage ? '#007bff' : '#000000',
+      //               cursor: 'pointer',
+      //               borderRadius: '5px',
+      //               display: 'inline-block',
+      //               minWidth: '30px',
+      //               textAlign: 'center',
+      //               backgroundColor: i === currentPage ? 'transparent' : 'transparent',
+      //               border: i === currentPage ? '1px solid #ddd' : 'none'
+      //             }}
+      //             onClick={() => handlePageChange(i)}
+      //           >
+      //             {i}
+      //           </button>
+      //         </li>
+      //       );
+      //     }
+      //   }
     
-        return pageNumbers;
-      };
+      //   return pageNumbers;
+      // };
     
-      const itemsPerPage = 5;
-      const indexOfLastItem = currentPage * itemsPerPage;
-      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-      const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
+      // const itemsPerPage = 5;
+      // const indexOfLastItem = currentPage * itemsPerPage;
+      // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      // const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
     
     
     
@@ -667,10 +608,10 @@ const RecurringBills = () => {
         <>
             <div className='container ms-5 me-5'>
 
-{/* <div style={{display:'flex',flexDirection:'row'}}> */}
-{/* <MdOutlineKeyboardDoubleArrowLeft onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}}  /> */}
-{/* <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg> */}
-{/* <p className='mt-1'>New Bill</p> */}
+            <div style={{display:'flex',flexDirection:'row',marginTop:'40px'}} >
+  <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
+  <p className='mt-1'>New Bill</p>
+  </div>
 
 
 <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
@@ -703,9 +644,17 @@ const RecurringBills = () => {
       borderRadius: 8 
     }}>
       <option value=''>Select Customer</option>
-       {state.UsersList?.Users.filter(u => u.Bed !== 'undefined' && u.Bed !== '0' && u.Bed.trim() !== '' && u.Rooms !== 'undefined' && u.Rooms !== '0' && u.Rooms.trim() !== '') 
-        .map((u) => (
-        <option  value={u.ID}>{u.Name}</option>
+      {state.UsersList?.Users && state.UsersList?.Users.length > 0 && state.UsersList?.Users?.filter(u => 
+            u.Bed !== 'undefined' && 
+            u.Bed !== '0' && 
+            typeof u.Bed === 'string' && 
+            u.Bed.trim() !== '' && 
+            u.Rooms !== 'undefined' && 
+            u.Rooms !== '0' && 
+            typeof u.Rooms === 'string' && 
+            u.Rooms.trim() !== '')
+  .map(u => (
+    <option value={u.ID} key={u.ID}>{u.Name}</option>
   ))
 }
   </Form.Select>
@@ -741,121 +690,7 @@ const RecurringBills = () => {
       </Form.Group>
     </div>
 
-    <div style={{display:'flex',flexDirection:'row'}}>
-    <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
-                  <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Start Date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
-
-                  <div style={{ position: 'relative' }}>
-                    <label
-                      htmlFor="date-input"
-                      style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 7,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "#222222",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between", // Ensure space between text and icon
-                        cursor: "pointer"
-                      }}
-                      onClick={() => {
-                        if (startRef.current) {
-                          startRef.current.flatpickr.open();
-                        }
-                      }}
-                    >
-                      {startdate ? startdate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                      <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                    </label>
-                    <Flatpickr
-                      ref={startRef}
-                      options={options}
-                      value={startdate}
-                      onChange={handlestartDate}
-                      style={{
-                        padding: 10,
-                        fontSize: 16,
-                        width: "100%",
-                        borderRadius: 8,
-                        border: "1px solid #D9D9D9",
-                        position: 'absolute',
-                        top: 100,
-                        left: 100,
-                        zIndex: 1000,
-                        display: "none"
-                      }}
-                    />
-                  </div>
-                  {startdateerrmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-    {startdateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {startdateerrmsg}
-  </p>
-</div>
-)}
-  
-                </div>
-
-                <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
-                  <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>End Date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
-
-                  <div style={{ position: 'relative' }}>
-                    <label
-                      htmlFor="date-input"
-                      style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 7,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "#222222",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between", // Ensure space between text and icon
-                        cursor: "pointer"
-                      }}
-                      onClick={() => {
-                        if (endRef.current) {
-                          endRef.current.flatpickr.open();
-                        }
-                      }}
-                    >
-                      {enddate ? enddate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                      <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                    </label>
-                    <Flatpickr
-                      ref={endRef}
-                      options={options}
-                      value={enddate}
-                      onChange={handleEndDate}
-                      style={{
-                        padding: 10,
-                        fontSize: 16,
-                        width: "100%",
-                        borderRadius: 8,
-                        border: "1px solid #D9D9D9",
-                        position: 'absolute',
-                        top: 100,
-                        left: 100,
-                        zIndex: 1000,
-                        display: "none"
-                      }}
-                    />
-                  </div>
-
-                  {enddateerrmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-    {enddateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {enddateerrmsg}
-  </p>
-</div>
-)}
-                </div>
-                </div>
+    
 
 
 <div style={{display:'flex',flexDirection:'row'}}>
@@ -987,15 +822,13 @@ const RecurringBills = () => {
     
 
     {/* Table */}
-    <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
+    <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12 mt-2">
       <Table className="ebtable mt-2" responsive>
 
         <thead style={{ backgroundColor: "#E7F1FF" }}>
           <tr>
+            <th>Name</th>
             <th>Description</th>
-            <th>EB Unit </th>
-            <th>Unit Price </th>
-            <th>Actual Amount</th>
             <th>Total Amount</th>
             <th>Action</th>
           </tr>
@@ -1006,25 +839,12 @@ const RecurringBills = () => {
 <tr key={index}>
 <td>
 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{paddingTop:'35px',paddingLeft:'10px'}}>
-<p>{u.description}</p>
+<p>{u.name}</p>
 </div>
 </td>
-<td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.used_unit ? u.used_unit : '-' }</td>
-<td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.per_unit_amount != null && u.per_unit_amount != '' && u.per_unit_amount != undefined ? u.per_unit_amount : '-' }</td>
-<td>
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-<Form.Group controlId={`actualAmount-${index}`}>
-<Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
-<Form.Control
-style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
-type="text"
-placeholder="Enter actual amount"
-value={u.total_amount ?? 0}  // using nullish coalescing for safer default value
-// onChange={(e) => handleActualAmountChange(index, e.target.value)} 
-/>
-</Form.Group>
-</div>
-</td>
+{/* <td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.used_unit ? u.used_unit : '-' }</td> */}
+{/* <td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.per_unit_amount != null && u.per_unit_amount != '' && u.per_unit_amount != undefined ? u.per_unit_amount : '-' }</td> */}
+
 <td>
 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 <Form.Group controlId={`amount-${index}`}>
@@ -1095,7 +915,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
     </td>
     <td style={{alignItems:'center'}}>
       <span style={{cursor: 'pointer', color: 'red', marginLeft: '10px'}}
-    //    onClick={() => handleDeleteNewRow(index)}
+       onClick={() => handleDeleteNewRow(index)}
        >
         <img src={Closebtn} height={15} width={15} alt="delete" />
       </span>
@@ -1158,14 +978,14 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
       
       </Form.Label>
       <Form.Select aria-label="Default select example" 
-    //   onChange={handleSelectChange}
+      onChange={handleSelectChange}
        className='border'>
-<option value=''>Select</option>
-{/* {availableOptions && availableOptions.length > 0 && availableOptions.map((option, index) => (
-  <option key={index} value={option.description}>
-    {option.description}
+<option value='' selected>Select</option>
+{availableOptions && availableOptions.length > 0 && availableOptions.map((option, index) => (
+  <option key={index} value={option.name}>
+    {option.name}
   </option>
-))} */}
+))}
 </Form.Select>
 
 
@@ -1179,15 +999,15 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
     </div>
 
     <div><p style={{color:'#1E45E1',fontSize:'14px',fontWeight:600}}
-    //  onClick={handleAddColumn}
+     onClick={handleAddColumn}
      > + Add new column</p></div>
 
     <div style={{ float: 'right', marginRight: '130px' }}>
       <h5>Total Amount ₹
-        {/* {totalAmount} */}
+        {totalAmount}
         </h5>
       <Button 
-    //   onClick={handleCreateBill}
+      onClick={handleCreateBill}
        className='w-80 mt-3' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 40, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }} >
         Create Bill
       </Button>

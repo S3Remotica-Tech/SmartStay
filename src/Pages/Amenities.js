@@ -79,6 +79,7 @@ function Amenities() {
 
 
   const handleAmenitiesChange = (event, newValue) => {
+    setTotalErrmsg('')
     if (!event.target.value) {
       setAmenityErrmsg("Please Enter Amenity");
     } else {
@@ -95,6 +96,7 @@ function Amenities() {
 
 
   const handleAmountChange = (e) => {
+    setTotalErrmsg('')
     if (!e.target.value) {
       setAmountErrmsg("Please Enter Amount");
     } else {
@@ -153,6 +155,7 @@ function Amenities() {
   console.log("selectedHostel", selectedhostel);
 
   const handleHostelClick = (e) => {
+    setTotalErrmsg('')
     if (!e.target.value) {
       setHostelErrmsg("Please Select Hostel");
     } else {
@@ -220,54 +223,19 @@ function Amenities() {
   const handleAmenitiesSetting = () => {
     const setAsDefault = active || false;
 
-    // console.log("amount", amount);
-    // console.log("status", status);
-    // console.log("edit", edit);
-    // console.log("amenitiesName", amenitiesName);
-    // console.log("selectedHostel.id", selectedHostel.id);
-    // console.log("setAsDefault ",setAsDefault )
-
-
-    // if (edit === 'ADD') {
-    //     if (!amenitiesName || !amount || !selectedhostel) {
-    //         console.log("Validation failed for ADD mode");
-    //         Swal.fire({
-    //             icon: 'warning',
-    //             title: 'Error',
-    //             text: 'Please Enter All Fields',
-    //             timer: 3000,
-    //             showConfirmButton: false,
-    //         });
-    //         return;
-    //     }
-    // } 
-    // else if (edit === 'EDIT') {
-    //     if (!amount || !status || !selectedhostel) {
-    //         console.log("Validation failed for EDIT mode");
-    //         Swal.fire({
-    //             icon: 'warning',
-    //             title: 'Error',
-    //             text: 'Please Enter All Fields',
-    //             timer: 3000,
-    //             showConfirmButton: false,
-    //         });
-    //         return;
-    //     }
-    // }
-
-
-    // if (edit === 'EDIT') {
-    //     dispatch({ type: 'AMENITIESUPDATE', payload: { id: id, Amount: amount, setAsDefault: setAsDefault, Status: status, Hostel_Id: selectedhostel } });
-    // }
-    //  else {
-    // }
-
-    if (!selectedhostel ||!amenitiesName || !amount ) {
-      setTotalErrmsg('Please Enter All Field')
-      setTimeout(() => {
-        setTotalErrmsg('')
-      }, 2000);
-    return; 
+    if (!selectedhostel  ) {
+      setHostelErrmsg('Please Select Hostel')  
+    }
+    if (!amenitiesName  ) {
+      setAmenityErrmsg("Please Enter Amenity") 
+    }
+    if (!amount  ) {
+      setAmountErrmsg("Please Enter Amount") 
+    }
+  
+    if (!selectedhostel && !amenitiesName && !amount ) {
+      setTotalErrmsg('Please Enter All Field') 
+     return; 
   }
 
     if (id && hasChanges) {
@@ -292,8 +260,6 @@ function Amenities() {
     }
 
 
-    // setStatus('');
-    // handleCloseModal();
   }
 
 
