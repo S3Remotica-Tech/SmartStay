@@ -689,7 +689,7 @@ console.log("currentItem",currentItem)
                             // src={typeof imageSrc === 'string' ? imageSrc : undefined}
                             src={imageSrc && (typeof imageSrc === 'string' ? imageSrc : URL.createObjectURL(imageSrc))}
                             alt={`currentItem-image-${index}`}
-                            onError={() => console.error(`Failed to load image for index: ${index}, ImageSrc: ${imageSrc}`)}
+                            
                             style={{ objectFit:imageSrc && "cover", borderRadius: 5, height: 120, cursor: "pointer" }}
                           />
 
