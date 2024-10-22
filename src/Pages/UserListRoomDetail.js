@@ -611,6 +611,7 @@ function UserListRoomDetail(props) {
     setEmailError("");
     setAddressError("");
     setPhoneError("");
+    setDateError('')
   };
 
   const [firstnameError, setFirstnameError] = useState("");
