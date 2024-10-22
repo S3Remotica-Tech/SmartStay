@@ -210,3 +210,9 @@ text-decoration: underline;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
 }
+
+
+
+.css-1b3x6ee-control:hover{
+border-color: unset !important;
+}
