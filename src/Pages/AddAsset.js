@@ -150,13 +150,17 @@ const [assetError, setAssetError] = useState('')
     }
 
     const handlePriceChange = (e) => {
-        setPrice(e.target.value);
+        const price = e.target.value;
+        setPrice(price);  
+      
+        
         setPriceError('');
-        setIsChangedError('')
-        setGeneralError('')
-
-
-    }
+        setIsChangedError('');
+        setGeneralError('');
+      
+       
+            };
+      
 
 
 
@@ -225,12 +229,12 @@ const [assetError, setAssetError] = useState('')
             //     icon: 'warning',
             //     title: 'Please Enter a Valid Asset Name',
             // });
-            return;
+            // return;
         }
         if (!productName) {
             setProductNameError('Please Enter a Valid Product Name');
 
-            return;
+            // return;
         }
         // if (!vendorName) {
         //     Swal.fire({
@@ -250,7 +254,7 @@ const [assetError, setAssetError] = useState('')
 
         if (!cleanedSerialNumber) {
             setSerialNumberError('Please Enter a Valid Serial Number');
-            return;
+            // return;
         }
 
         // if (!productCount || isNaN(productCount) || productCount <= 0) {
@@ -263,10 +267,12 @@ const [assetError, setAssetError] = useState('')
 
         if (!selectedDate) {
             setSelectedDateError('Please Select a Valid Date');
-            return;
+            // return;
         }
 
-        if (!price || isNaN(price) || price <= 0) {
+        const numericRegex = /^[0-9]+$/;
+
+        if (!price || !numericRegex.test(price) || price <= 0) {
             setPriceError('Please Enter a Valid Price');
             return;
         }
@@ -501,6 +507,16 @@ const [assetError, setAssetError] = useState('')
                                         onChange={handleAssetNameChange}
                                         type="text" placeholder="Enter name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: assetName ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                                 </Form.Group>
+
+                               
+                                {assetError && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {assetError}
+                                        </label>
+                                    </div>
+                                )}
 
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>

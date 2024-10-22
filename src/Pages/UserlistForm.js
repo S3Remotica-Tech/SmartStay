@@ -643,20 +643,20 @@ function UserlistForm(props) {
   const handleSaveUserlist = () => {
     
 
-    if (!validateField(firstname, "First Name")) return;
-    if (!validateField(Phone, "Phone Number")) return;
+    if (!validateField(firstname, "First Name")) ;
+    if (!validateField(Phone, "Phone Number")) ;
 
-    if (!validateField(Address, "Address")) return;
-    if (!validateField(hostel_Id, "Hostel ID")) return;
+    if (!validateField(Address, "Address"));
+    if (!validateField(hostel_Id, "Hostel ID")) ;
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a valid PG");
-      return; 
+      // return; 
     }
 
     if (phoneError === "Invalid mobile number *") {
       setPhoneErrorMessage("Please enter a valid 10-digit phone number");
-      return;
+      // return;
     } else {
       setPhoneErrorMessage(""); 
     }
@@ -708,37 +708,52 @@ function UserlistForm(props) {
   };
 
   const handleSaveUserlistAddUser = () => {
+<<<<<<< HEAD
     if (!validateAssignField(Floor,"Floor")) ;
     if (!validateAssignField(Rooms,"Rooms")) ;
     if (!validateAssignField(Bed,"Bed")) ;
     if (!validateAssignField(selectedDate, "selectedDate")) ;
     if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) ;
     if (!validateAssignField(RoomRent, "RoomRent"));
+=======
+    if (!validateAssignField(Floor, "Floor")) 
+      // return;
+    if (!validateAssignField(Rooms, "Room")) 
+      // return;
+    if (!validateAssignField(Bed, "Bed")) 
+      // return;
+    if (!validateAssignField(selectedDate, "selectedDate")) 
+      // return;
+    if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) 
+      // return;
+    if (!validateAssignField(RoomRent, "RoomRent"))
+      //  return;
+>>>>>>> 0413f029fc0f7f2ade764f924ec8b14480df0724
 
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Room Rent must be greater than 0");
-      return;
+      // return;
     } else {
       setRoomRentError("");
     }
 
     if (Number(AdvanceAmount) <= 0) {
       setAdvanceAmountError("Advance Amount must be greater than 0");
-      return;
+      // return;
     } else {
       setAdvanceAmountError("");
     }
     if (Floor === 'Selected Floor' || floorError) {
       setfloorError('Please select a valid PG'); 
-      return; 
+      // return; 
   }
   if (Rooms === 'Selected Room' || roomError) {
     setRoomError('Please select a valid PG'); 
-    return;
+    // return;
 }
 if (Bed === 'Selected Bed' || bedError) {
   setBedError('Please select a valid PG'); 
-  return; 
+  // return; 
 }
     if (Floor && Rooms && Bed) {
       const incrementDateAndFormat = (date) => {
@@ -817,6 +832,8 @@ if (Bed === 'Selected Bed' || bedError) {
       ),
     },
   ];
+
+
 
   return (
     <div>
@@ -1008,7 +1025,10 @@ if (Bed === 'Selected Bed' || bedError) {
                             fontWeight: 500,
                           }}
                         >
-                          Last Name
+                          Last Name  <span style={{ color: "transparent", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
                         </Form.Label>
                         <FormControl
                           type="text"
@@ -1143,7 +1163,10 @@ if (Bed === 'Selected Bed' || bedError) {
                             fontWeight: 500,
                           }}
                         >
-                          Email Id
+                          Email Id <span style={{ color: "transparent", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
                         </Form.Label>
                         <FormControl
                           type="text"

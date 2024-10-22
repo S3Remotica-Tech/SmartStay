@@ -40,6 +40,7 @@ function CreateAccountPage() {
 const [firstName, setFirstName] = useState('')
 const [lastName, setLastName] = useState('')
 const [errors, setErrors] = useState({});
+const [passwordError, setPasswordError] = useState([]);
 
 
 const [countryCode, setCountryCode] = useState('91');
@@ -205,35 +206,62 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
 
 
 
-  const [passwordError, setPasswordError] = useState('');
 
 
 
+
+  // const handlePassword = (e) => {
+  //   setPassword(e.target.value);
+  //   setPasswordErrors('')
+  //   dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR'})
+  //   const password = e.target.value;
+  //   let errorMessage = '';
+  
+  //   if (/\s/.test(password)) {
+  //     errorMessage = 'Password cannot contain spaces.';
+  //    } else if (password.length < 8) {
+  //     errorMessage = 'Password must be at least 8 characters long.';
+  //   } else if (!/[a-z]/.test(password)) {
+  //     errorMessage = 'Password must contain at least one lowercase letter.';
+  //   } else if (!/[A-Z]/.test(password)) {
+  //     errorMessage = 'Password must contain at least one uppercase letter.';
+  //   } else if (!/\d/.test(password)) {
+  //     errorMessage = 'Password must contain at least one number.';
+  //   } else if (!/[@$!%*?&]/.test(password)) {
+  //     errorMessage = 'Password must contain at least one special character.';
+  //   }
+  
+  //   setPasswordError(errorMessage);
+  // };
+  
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    setPasswordErrors('')
-    dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR'})
+    setPasswordErrors('');
+    dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
+  
     const password = e.target.value;
-    let errorMessage = '';
+    let errorMessages = []; 
   
+   
     if (/\s/.test(password)) {
-      errorMessage = 'Password cannot contain spaces.';
-     } else if (password.length < 8) {
-      errorMessage = 'Password must be at least 8 characters long.';
-    } else if (!/[a-z]/.test(password)) {
-      errorMessage = 'Password must contain at least one lowercase letter.';
-    } else if (!/[A-Z]/.test(password)) {
-      errorMessage = 'Password must contain at least one uppercase letter.';
-    } else if (!/\d/.test(password)) {
-      errorMessage = 'Password must contain at least one number.';
-    } else if (!/[@$!%*?&]/.test(password)) {
-      errorMessage = 'Password must contain at least one special character.';
+      errorMessages.push('Password cannot contain spaces.');
     }
+    if (password.length < 8) {
+      errorMessages.push('8 characters minimum');
+    }
+    if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) ) {
+      errorMessages.push('One uppercase and lowercase');
+    }
+    
+    if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
+      errorMessages.push('Numeric and Special symbols');
+    }
+    
   
-    setPasswordError(errorMessage);
+    setPasswordError(errorMessages);
   };
   
-
+  
 
   useEffect(() => {
     dispatch({ type: 'COUNTRYLIST' })
@@ -285,7 +313,7 @@ setAllError('Please enter all mandatory fields')
       //   title: 'Please Enter All Fields',
       //   confirmButtonText: 'Ok'
       // });
-      return;
+      // return;
     }
 
     if (!firstName) {
@@ -297,7 +325,7 @@ setAllError('Please enter all mandatory fields')
       //     text: 'Enter First Name',
       //     confirmButtonText: 'Ok'
       // });
-      return;
+      // return;
   }
 
   if (!emailID) {
@@ -310,7 +338,7 @@ setAllError('Please enter all mandatory fields')
     //     text: 'Enter Email ID',
     //     confirmButtonText: 'Ok'
     // });
-    return;
+    // return;
 }
 
 
@@ -326,7 +354,7 @@ if (emailError === 'Invalid Email Id *') {
    
     
   // });
-  return;
+  // return;
 }
 
 if (!countryCode) {
@@ -339,7 +367,7 @@ if (!countryCode) {
   //     text: 'Select CountryCode',
   //     confirmButtonText: 'Ok'
   // });
-  return;
+  // return;
 }
 
   if (!phoneNo) {
@@ -353,7 +381,7 @@ if (!countryCode) {
       //     text: 'Enter Phone Number',
       //     confirmButtonText: 'Ok'
       // });
-      return;
+      // return;
   }
 
   const phoneNumber = parseInt(phoneNo, 10);
@@ -367,7 +395,7 @@ if (!countryCode) {
     //   title: 'Invalid mobile number. Please Enter a valid 10-digit mobile number.',
     //   confirmButtonText: 'Ok'
     // });
-    return;
+    // return;
   }
 
 
@@ -379,7 +407,7 @@ if (!countryCode) {
       //     text: 'Enter Password',
       //     confirmButtonText: 'Ok'
       // });
-      return;
+      // return;
   }
   if (passwordError) {
     // Swal.fire({
@@ -388,7 +416,7 @@ if (!countryCode) {
     //   text: passwordError,
     //   confirmButtonText: 'Ok'
     // });
-    return;
+    // return;
   }
   if (!confirmpassword) {
 
@@ -400,7 +428,7 @@ if (!countryCode) {
       //     text: 'Confirm Your Password',
       //     confirmButtonText: 'Ok'
       // });
-      return;
+      // return;
   }
 
 
@@ -422,7 +450,7 @@ if(password ==! confirmpassword){
   //   title: 'Please Enter Confirm Password Same as Password',
   //   confirmButtonText: 'Ok'
   // });
-  return;
+  // return;
 }
 
 
@@ -684,15 +712,44 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
 
 
 
-                  {passwordError && (
+                  {/* {passwordError && (
                 <div className="d-flex align-items-center p-1">
                   <MdError style={{ color: "red", marginRight: '5px' }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {passwordError}
                   </label>
                 </div>
-              )}
+              )} */}
 
+
+                 
+
+{passwordError && passwordError.length > 0 && (
+                    <div className="d-flex flex-column  pt-2">
+                      {passwordError.map((error, index) => (
+                        <div key={index} className="d-flex align-items-center gap-2">
+                          <div>
+
+                          <MdError style={{ color: "red",  }} />
+                          </div>
+                          <div>
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              listStyleType:"none"
+                            }}
+                          >
+                            {error}
+                          </label>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+)}
 
 
 
@@ -739,7 +796,6 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
                 </div>
               )}
 
-
                 </div>
 
                 
@@ -769,17 +825,19 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
 
 
 
-<div className="mb-1 p-1"> {state.createAccount?.passwordDoesnotMatchError ?  <div className='d-flex align-items-center p-1'>
+
+ {state.createAccount?.passwordDoesnotMatchError ?  <div className='d-flex align-items-center p-1'>
                     <MdError style={{ color: "red" , marginRight: '5px'}} />
                     <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.passwordDoesnotMatchError}</label>
                   </div>
-                    : null}</div>
+                    : null}
+                    
 
-                  <div className="mb-1 p-1"> {state.createAccount?.email_mobile_Error ?  <div className='d-flex align-items-center p-1'>
+                 {state.createAccount?.email_mobile_Error ?  <div className='d-flex align-items-center p-1'>
                     <MdError style={{ color: "red" , marginRight: '5px'}} />
                     <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.email_mobile_Error}</label>
                   </div>
-                    : null}</div>
+                    : null}
 
 
 
