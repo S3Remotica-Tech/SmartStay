@@ -59,6 +59,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
 import RecurringBill from '../Pages/RecurringBills';
+import RecurringBillList from "../Pages/RecurringBillList";
 
 const InvoicePage = () => {
 
@@ -877,24 +878,26 @@ const invoicerowsPerPage = 15;
 
     if (!invoiceList.payableAmount) {
       setAmountErrmsg('Please Enter Amount')
-      return;
+    }
+
+    if (!invoiceList.formattedDate) {
+      setDateErrmsg("Please Select Date");
     }
 
     if (!invoiceList.transaction) {
       setPaymodeErrmsg('Please select Paymode Type')
-      setTimeout(() => {
-        setPaymodeErrmsg('')
-      }, 3000)
-      return;
+    
     }
 
     if (!invoiceList.payableAmount || !formattedDate || !invoiceList.transaction) {
       setTotalErrmsg('Please enter All field')
       setTimeout(() => {
         setTotalErrmsg('')
-      }, 2000)
+      }, 1000)
       return;
     }
+
+    
 
     const invoiceNo = randomNumberInRange(invoiceList.hostel_Name, 1, new Date())
     const CheckInvoiceNo = state.InvoiceList?.Invoice.some(item =>
@@ -1211,6 +1214,7 @@ console.log("newRows",newRows);
 
   const handleCustomerName = (e) => {
     setCustomerName(e.target.value)
+    setAllFieldErrmsg('')
     if(!e.target.value){
       setCustomerErrmsg("Please Select Name")
     }
@@ -1242,6 +1246,13 @@ console.log("newRows",newRows);
     setAvailableOptions('');
     setBillAmounts('')
     setTotalAmount('')
+
+
+    setCustomerErrmsg('')
+    setStartdateErrmsg('')
+    setInvoiceDateErrmsg('')
+    setInvoiceDueDateErrmsg('')
+    setAllFieldErrmsg('')
     
   }
   
@@ -1307,6 +1318,7 @@ console.log("newRows",newRows);
 
 
   const handlestartDate = (selectedDates) => {
+        setAllFieldErrmsg('')
         const date = selectedDates[0];
         setStartDate(date);
 
@@ -1323,6 +1335,7 @@ console.log("newRows",newRows);
   }
 
   const handleEndDate = (selectedDates) => {
+       setAllFieldErrmsg('')
        const date = selectedDates[0];
        setEndDate(date);
        if(!selectedDates){
@@ -1337,6 +1350,7 @@ console.log("newRows",newRows);
   }
 
   const handleInvoiceDate = (selectedDates) => {
+       setAllFieldErrmsg('')
        const date = selectedDates[0];
        setInvoiceDate(date);
        if(!selectedDates){
@@ -1352,6 +1366,7 @@ console.log("newRows",newRows);
 
 
   const handleDueDate = (selectedDates) => {
+        setAllFieldErrmsg('')
         const date = selectedDates[0];
         setInvoiceDueDate(date);
         if(!selectedDates){
@@ -1492,46 +1507,33 @@ console.log("newRows",newRows);
 
       const handleCreateBill = () => {
 
-   
-
                
 
                if(!customername){
-                setCustomerErrmsg('Please Select  Customer')
-                return;
+                setCustomerErrmsg('Please Select Customer')
                }
-               if(!invoicenumber){
-                  setInvoicenumberErrmsg("Please Update customer name")
-                  return;
-                }
                
-
                if(!startdate){
-                setStartdateErrmsg('Please Select  Date')
-                return;
+                setStartdateErrmsg('Please Select Date')
                }
 
                if(!enddate){
-                setEnddateErrmsg('Please Select  Date')
-                return;
+                setEnddateErrmsg('Please Select Date')
                }
 
                if(!formatinvoicedate){
-                setInvoiceDateErrmsg('Please Select  Date')
-                return;
+                setInvoiceDateErrmsg('Please Select Date')
                }
 
                if(!formatduedate){
-                setInvoiceDueDateErrmsg('Please Select  Date')
-                return;
+                setInvoiceDueDateErrmsg('Please Select Date')
                }
-               if(!customername || !invoicenumber || !startdate || !enddate || !formatinvoicedate || !formatduedate){
+              
+               if(!customername && !invoicenumber && !startdate && !enddate && !formatinvoicedate && !formatduedate){
                 setAllFieldErrmsg('Please Enter All Field')
-                setTimeout(()=> {
-                  setAllFieldErrmsg('')
-                },2000)
-                return;
+                 return;
                }
+            
 
               
                if(customername && invoicenumber && formatstartdate && formatenddate && formatinvoicedate && formatduedate && rentamount?.amount){
@@ -1542,23 +1544,30 @@ console.log("newRows",newRows);
                   amenity: amenityArray.length > 0 ? amenityArray : []
                   }
                   });
+                  setShowManualInvoice(false)
+                  setShowRecurringBillForm(false)
+                  setShowAllBill(true)
+                  setCustomerName('');
+                  setInvoiceNumber('');
+                  setStartDate('');
+                  setEndDate('');
+                  setInvoiceDate('')
+                  setInvoiceDueDate('')
+                  setSelectedData('')
+                  setAvailableOptions('');
+                  setTotalAmount('')
+                  setBillAmounts([]);
+                  setNewRows([]);
+
+                  setCustomerErrmsg('')
+                  setStartdateErrmsg('')
+                  setInvoiceDateErrmsg('')
+                  setInvoiceDueDateErrmsg('')
+                  setAllFieldErrmsg('')
                }
 
             // setShowManualInvoice(true)
-            setShowManualInvoice(false)
-            setShowRecurringBillForm(false)
-            setShowAllBill(true)
-            setCustomerName('');
-            setInvoiceNumber('');
-            setStartDate('');
-            setEndDate('');
-            setInvoiceDate('')
-            setInvoiceDueDate('')
-            setSelectedData('')
-            setAvailableOptions('');
-            setTotalAmount('')
-            setBillAmounts([]);
-            setNewRows([]);
+         
             }
 
 
@@ -1611,6 +1620,33 @@ console.log("newRows",newRows);
             };
 
 
+            const [recurringbills , setRecurringBills] = useState([])
+
+            useEffect(()=> {
+              dispatch({ type: 'RECURRING-BILLS-LIST' });
+            },[])
+
+            useEffect(() => {
+              if (state.InvoiceList.RecurringbillsgetStatuscode === 200 ) {
+                setRecurringBills(state.InvoiceList.RecurringBills);
+            
+                setTimeout(() => {
+                  dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST' });
+                }, 100);
+              }
+            }, [state.InvoiceList.RecurringbillsgetStatuscode]); 
+            
+      
+            useEffect(() => {
+              if (state.InvoiceList.RecurringBillAddStatusCode === 200 ) {
+                dispatch({ type: 'RECURRING-BILLS-LIST' });
+                setRecurringBills(state.InvoiceList.RecurringBills);
+            
+                setTimeout(() => {
+                  dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD' });
+                }, 1000);
+              }
+            }, [state.InvoiceList.RecurringBillAddStatusCode]); 
 
 
 
@@ -1655,7 +1691,7 @@ console.log("newRows",newRows);
     <>
 {showAllBill && 
 <div>
-<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} className='container ms-3 me-3'>
+<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} className='container ms-4 me-4 mt-4'>
 
 
 <p style={{ fontSize: "23px", fontFamily: 'Gilroy', fontWeight: 600, color: '#222' }}>Bills</p>
@@ -1705,12 +1741,12 @@ console.log("newRows",newRows);
       {value == 1 ?
         <Button
           onClick={handleManualShow}
-          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment
+          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Create Bill
         </Button>
         :
         <Button
           onClick={handleRecurrBillShow}
-          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment
+          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 230, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Create Recurring Bill
         </Button>
 
 
@@ -1733,7 +1769,7 @@ console.log("newRows",newRows);
 <TabPanel value="1">
   <>
 
-    <div class='' style={{ marginTop: "20px", position: "relative" }} >
+    <div class='' style={{ position: "relative" }} >
 
       <div className='texxttt'>
         <div style={{ flex: 1 }}>
@@ -2180,25 +2216,15 @@ console.log("newRows",newRows);
                         <thead style={{ backgroundColor: "#E7F1FF" }}>
 
                           <tr>
-                          <th
-                        style={{
-                        textAlign: "center",
-                        fontFamily: "Gilroy",
-                        color: "rgba(34, 34, 34, 1)",
-                        fontSize: 14,
-                        fontWeight: 600,
-                        borderTopLeftRadius: 24,
-                      }}
-                    >
-                      <img src={squre} height={20} width={20} />
-                    </th>
+                    
                             <th style={{
-                              textAlign: "center",
+                              // textAlign: "center",
+                              paddingLeft:'60px',
                               fontFamily: "Gilroy",
                               color: "rgba(34, 34, 34, 1)",
                               fontSize: 14,
                               fontWeight: 600,
-                              // borderTopLeftRadius: 24
+                              borderTopLeftRadius: 24
                             }}>Name</th>
                             <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Invoice number</th>
                             <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Created</th>
@@ -2459,7 +2485,69 @@ console.log("newRows",newRows);
 <TabPanel value="2">
 
 
-  <div  >
+
+
+<Table
+                        responsive="md"
+                        className='Table_Design'
+                        style={{
+                          height: "auto",
+                          overflow: "visible",
+                          tableLayout: "auto",
+                          borderRadius: "24px",
+                          border: "1px solid #DCDCDC",
+
+                        }}
+                      >
+                        <thead style={{ backgroundColor: "#E7F1FF" }}>
+
+                          <tr>
+                    
+                            <th style={{
+                              // textAlign: "left",
+                              // verticalAlign:'middle',
+                              paddingLeft:'65px',
+                              fontFamily: "Gilroy",
+                              color: "rgba(34, 34, 34, 1)",
+                              fontSize: 14,
+                              fontWeight: 600,
+                              borderTopLeftRadius: 24
+                            }}>Name</th>
+                            <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Created</th>
+                            <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Due Date</th>
+                            <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Next Invoice Date</th>
+                            <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Amount</th>
+
+                            <th style={{
+                              textAlign: "center",
+                              fontFamily: "Gilroy",
+                              color: "rgba(34, 34, 34, 1)",
+                              fontSize: 14,
+                              fontWeight: 600,
+                              borderTopRightRadius: 24
+                            }}></th>
+                          </tr>
+
+
+                        </thead>
+                        <tbody style={{ fontSize: "10px" }}>
+ 
+  {state.InvoiceList.RecurringBills && state.InvoiceList.RecurringBills.length > 0 && state.InvoiceList.RecurringBills.map((item) => (
+      <RecurringBillList  
+        key={item.id}
+        item={item}
+        // OnHandleshowform={handleShowForm}
+        // OnHandleshowInvoicePdf={handleInvoiceDetail}
+        // DisplayInvoice={handleDisplayInvoiceDownload}
+      />
+    ))
+  }
+  
+</tbody>
+
+                      </Table>
+
+  {/* <div>
     <div>
       <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
       <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No recurring bills available </div>
@@ -2471,7 +2559,8 @@ console.log("newRows",newRows);
       </div>
     </div>
 
-  </div>
+  </div> */}
+
 </TabPanel>
 
 </TabContext>
@@ -2481,7 +2570,7 @@ console.log("newRows",newRows);
 
 {showmanualinvoice && 
 
-<div className='container ms-5 me-5'>
+<div className='container ms-5 me-5 mt-4'>
 
   <div style={{display:'flex',flexDirection:'row'}}>
   {/* <MdOutlineKeyboardDoubleArrowLeft onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}}  /> */}
@@ -3011,15 +3100,11 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
     </div>
   
 }
+
 {
   showRecurringBillForm && <>
   
- {/* <h5>Recurring bill</h5> */}
- <div style={{display:'flex',flexDirection:'row',marginLeft:'60px'}} >
-  <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-  <p className='mt-1'>New Bill</p>
-  </div>
-  <RecurringBill/>
+  <RecurringBill onhandleback = {handleBackBill} />
 
  </>
 

@@ -26,7 +26,11 @@ const initialState = {
     ManualInvoicesgetstatuscode : 0,
     Manulainvoicenumberstatuscode:0,
     manualInvoiceAddStatusCode: 0,
-
+    recurrbillamountgetStatuscode : 0,
+    Recurringbillamounts : [],
+    RecurringBillAddStatusCode:0,
+    RecurringBills : [],
+    RecurringbillsgetStatuscode : 0,
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -67,19 +71,35 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'REMOVE_MANUAL_INVOICE_NUMBER_GET': 
         return { ...state, Manulainvoicenumberstatuscode: 0 } 
 
-        case 'MANUAL_INVOICE_AMOUNT_GET':
+        case 'MANUAL_INVOICE_AMOUNT_GET': //Bill amount data
               return { ...state, ManualInvoice: action.payload.response, manualInvoiceStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_AMOUNT_GET':
               return { ...state, manualInvoiceStatusCode: 0 } 
 
+        case 'RECURRING_BILL_GET_AMOUNT': //Recurring bill data 
+                return { ...state, Recurringbillamounts: action.payload.response, recurrbillamountgetStatuscode: action.payload.statusCode }
+        case 'REMOVE_STATUS_CODE_RECURRING_INVOICE_AMOUNT':
+                return { ...state, recurrbillamountgetStatuscode: 0 }       
+
         case 'MANUAL_INVOICE_ADD':
-              return { ...state,  manualInvoiceAddStatusCode:action.payload.statusCode}
-        case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD':
+              return { ...state,  manualInvoiceAddStatusCode:action.payload.statusCode} //bills Add 
+        case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD':          
               return { ...state, manualInvoiceAddStatusCode: 0 }
+
+        case 'RECURRING_BILLS_ADD':
+                return { ...state,  RecurringBillAddStatusCode:action.payload.statusCode} //Recurrinng bills Add
+        case 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD':
+                return { ...state, RecurringBillAddStatusCode: 0 }   
+
         case 'MANUAL_INVOICES_LIST' :
             return { ...state, ManualInvoices: action.payload.response ? action.payload.response : [], ManualInvoicesgetstatuscode:action.payload.statusCode}
-            case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST':
+        case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST':
                 return { ...state, ManualInvoicesgetstatuscode: 0 }
+
+        case 'RECURRING_BILLS_LIST' :
+                return { ...state, RecurringBills: action.payload.response ? action.payload.response : [], RecurringbillsgetStatuscode:action.payload.statusCode}
+        case 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST':
+                return { ...state, RecurringbillsgetStatuscode: 0 }        
         }
     
     return state;

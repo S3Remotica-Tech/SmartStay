@@ -10,106 +10,85 @@ import Download from '../Assets/Images/New_images/download.png';
 
 
 
-const InvoiceTable = (props) => {
-
-    console.log("props", props);
-
-    const Tablebodystyle = {
-       
-        fontFamily: 'Gilroy',
-        color: "#000",
-        fontSize: "14px",
-        fontWeight: 500,
-        fontStyle: 'normal',
-        lineHeight: 'normal'
-    }
 
 
-    const customCheckboxStyle = {
-        appearance: 'none',
-        width: '20px',
-        height: '20px',
-        backgroundColor: '#fff',
-        border: '2px solid #DCDCDC',
-        borderRadius: '4px',
-        display: 'inline-block',
-        position: 'relative',
-    };
-
-    const [showDots, setShowDots] = useState('')
-
-    const handleShowDots = () => {
-        setShowDots(!showDots)
-    }
+    const RecurringBillList = (props) => {
 
 
-    const handleShowform = (props) => {
-        // console.log("item", props.item)
-        props.OnHandleshowform(props)
-    }
+        console.log("props",props);
+        
 
 
-    const handleInvoicepdf = (item) => {
-        console.log("invoicecall", item);
-        props.OnHandleshowInvoicePdf(item)
-    }
-    let Dated = new Date(props.item.Date);
-    console.log("Dated..?", Dated);
+        const [showDots, setShowDots] = useState('')
 
-    let day = Dated.getDate();
-    let month = Dated.getMonth() + 1; // Months are zero-based
-    let year = Dated.getFullYear();
-
-    let formattedDate = `${day}/${month}/${year}`;
-    console.log("Formatted Date:", formattedDate);
-
-
-
-    let dueDated = new Date(props.item.DueDate);
-    console.log("dueDated..?", dueDated);
-
-    let daydue = dueDated.getDate();
-    let monthdue = dueDated.getMonth() + 1; // Months are zero-based
-    let yeardue = dueDated.getFullYear();
-
-    let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
-    console.log("Formatted Date:", formattedDueDate);
-
-
-
-    const popupRef = useRef(null);
-    const handleClickOutside = (event) => {
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setShowDots(false);
+        const handleShowDots = () => {
+            setShowDots(!showDots)
         }
-      };
-      
-      useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-      }, []);
 
-const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
-
-      const handleDownload = (item) => {
-
-props.DisplayInvoice(true, item)
-
-setDownloadInvoiceTable(true)
-
-      }
+        const handleShowform = (props) => {
+            props.OnHandleshowform(props)
+        }
+    
+    
+        const handleInvoicepdf = (item) => {
+            console.log("invoicecall", item);
+            props.OnHandleshowInvoicePdf(item)
+        }
 
 
+        let Dated = new Date(props.item.invoice_date);
+        console.log("Dated..?", Dated);
+    
+        let day = Dated.getDate();
+        let month = Dated.getMonth() + 1; // Months are zero-based
+        let year = Dated.getFullYear();
+    
+        let formattedDate = `${day}/${month}/${year}`;
+        console.log("Formatted Date:", formattedDate);
+    
+    
+    
+        let dueDated = new Date(props.item.DueDate);
+        console.log("dueDated..?", dueDated);
+    
+        let daydue = dueDated.getDate();
+        let monthdue = dueDated.getMonth() + 1; // Months are zero-based
+        let yeardue = dueDated.getFullYear();
+    
+        let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
+        console.log("Formatted Date:", formattedDueDate);
+    
+        let nextinvoiceDated = new Date(props.item.next_invoice_date);
+        console.log("dueDated..?", nextinvoiceDated);
+    
+        let nextinvoiceday = nextinvoiceDated.getDate();
+        let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; // Months are zero-based
+        let nextinvoiceyear = nextinvoiceDated.getFullYear();
+    
+        let formattedNextInvoiceDate = `${nextinvoiceday}/${nextinvoicemonth}/${nextinvoiceyear}`;
+        console.log("Formatted next invoice Date:", formattedNextInvoiceDate);
+    
+    
+        const popupRef = useRef(null);
+        const handleClickOutside = (event) => {
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+                setShowDots(false);
+            }
+          };
+          
+          useEffect(() => {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+          }, []);
 
+     return (
 
-    return (
+      <>
 
-        <>
-           
-           <tr key={props.item.id} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap:"wrap" }} className='m-2' >
-     
+<tr key={props.item.id} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap:"wrap" }} className='m-2' >
+        
             
                 <td  className="table-cells" style={{ border: "none", flexWrap:"wrap", }}>
                     <div className="d-flex  align-items-center">
@@ -123,21 +102,23 @@ setDownloadInvoiceTable(true)
                                 style={{ height: 40, width: 40 }}
                             />
                             </span></div>
-                            <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600,cursor:"pointer" }}  onClick={()=>handleDownload(props.item)}
+                            <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600,cursor:"pointer" }}  
+                            // onClick={()=>handleDownload(props.item)}
                           
-                            >{props.item.Name}</div><br />
+                            >{props.item.user_name}</div><br />
                         
                     </div>
                 </td>
-                <td style={{   border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}  className=''>#{props.item.Invoices == null || props.item.Invoices == '' ? '0.00' : props.item.Invoices}</td>
+                {/* <td style={{   border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}  className=''>#{props.item.Invoices == null || props.item.Invoices == '' ? '0.00' : props.item.Invoices}</td> */}
                 <td style={{   border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB",  borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy",padding:"8px 12px" }}>{formattedDate}</span></td>
                 <td style={{  border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB",  borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" ,padding:"8px 12px"}}>{formattedDueDate}</span></td>
+                <td style={{  border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB",  borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" ,padding:"8px 12px"}}>{formattedNextInvoiceDate}</span></td>
 
-                <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }} > ₹{props.item.Amount.toLocaleString('en-IN')}</td>
-                <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }} >₹{props.item.BalanceDue.toLocaleString('en-IN')}</td>
-                <td  style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500,  color: props.item.BalanceDue === 0 ? "green" : "red",fontFamily: "Gilroy" }}>
+                <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }} > ₹{props.item.BalanceDue.toLocaleString('en-IN')}</td>
+                {/* <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }} >₹{props.item.BalanceDue.toLocaleString('en-IN')}</td> */}
+                {/* <td  style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500,  color: props.item.BalanceDue === 0 ? "green" : "red",fontFamily: "Gilroy" }}>
                     {props.item.BalanceDue === 0 ? <span style={{ backgroundColor: '#D9FFD9',  color: '#000', borderRadius: '14px', fontFamily: 'Gilroy',padding:"8px 12px" }}>Paid</span> : <span
-                        style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy',  color: '#000', borderRadius: '14px' ,padding:"8px 12px"}}>Unpaid</span>}</td>
+                        style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy',  color: '#000', borderRadius: '14px' ,padding:"8px 12px"}}>Unpaid</span>}</td> */}
 
 
 
@@ -200,13 +181,7 @@ setDownloadInvoiceTable(true)
                 
 
             </tr>
-           
-
-
-
-        </>
-
-
-    )
+    </>
+)
 }
-export default InvoiceTable;
+export default RecurringBillList;
