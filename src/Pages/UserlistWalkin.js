@@ -84,7 +84,7 @@ function UserlistWalkin() {
     }, [state.UsersList.NoDataWalkInCustomerStatusCode])
 
     useEffect(() => {
-        if (state.UsersList.addWalkInCustomerStatusCode == 200 || state.UsersList.deleteWalkInCustomerStatusCode == 200 ) {
+        if (state.UsersList.addWalkInCustomerStatusCode == 200 || state.UsersList.deleteWalkInCustomerStatusCode == 200) {
             dispatch({ type: 'WALKINCUSTOMERLIST' })
 
             setShowForm(false);
@@ -98,7 +98,7 @@ function UserlistWalkin() {
             setShowDeleteModal(false);
         }
 
-    }, [state.UsersList.addWalkInCustomerStatusCode,state.UsersList.deleteWalkInCustomerStatusCode])
+    }, [state.UsersList.addWalkInCustomerStatusCode, state.UsersList.deleteWalkInCustomerStatusCode])
 
     console.log("setShowForm(false);", showForm)
 
@@ -116,12 +116,12 @@ function UserlistWalkin() {
 
 
     const confirmDelete = () => {
-       if(customerToDelete.id){
-        dispatch({ type: 'DELETEWALKINCUSTOMER', payload: {id: customerToDelete.id}})
-       }
+        if (customerToDelete.id) {
+            dispatch({ type: 'DELETEWALKINCUSTOMER', payload: { id: customerToDelete.id } })
+        }
     };
 
-    console.log("customerToDelete",customerToDelete)
+    console.log("customerToDelete", customerToDelete)
 
     const cancelDelete = () => {
         setShowDeleteModal(false);
@@ -131,7 +131,7 @@ function UserlistWalkin() {
 
 
     const handleEdit = (customer) => {
-console.log("customer",customer)
+        console.log("customer", customer)
 
         setSelectedCustomer(customer);
         setShowForm(true);
@@ -371,7 +371,7 @@ console.log("customer",customer)
                                                 fontWeight: 500,
                                                 fontFamily: "Gilroy"
                                             }}>
-                                                {moment(customer.walk_In_Date).format('DD MMM YYYY')}
+                                                {moment(customer.walk_In_Date).format('DD/MMM/YYYY')}
                                             </span>
                                         </td>
 
@@ -549,8 +549,8 @@ console.log("customer",customer)
                 showForm && <CustomerForm
                     show={showForm}
                     handleClose={handleFormClose}
-                // onSubmit={handleFormSubmit}
-                initialData={selectedCustomer}
+                    // onSubmit={handleFormSubmit}
+                    initialData={selectedCustomer}
                 // modalType={modalType}
                 />
             }
