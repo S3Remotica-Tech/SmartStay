@@ -90,10 +90,6 @@ if(isEditing){
   hostel_Id = editRoom?.hostel_Id ? editRoom.hostel_Id.toString() : '';
  room_Id = editRoom?.room_Id ? editRoom?.room_Id.toString(): '';
 
-
-
- 
-
 }else{
  floorId = hostelDetails?.floor_Id ? hostelDetails.floor_Id.toString() : '';
  hostel_Id = hostelDetails?.hostel_Id ? hostelDetails.hostel_Id.toString() : '';
@@ -116,7 +112,7 @@ if(isEditing){
 
 if (!room) {
 
-  setRoomError('Please enter a valid Room no. (must be a positive number greater than 0)')
+  setRoomError('Please enter a  Room no. or name')
   
     // Swal.fire({
     //   icon: 'warning',

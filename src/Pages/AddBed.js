@@ -85,17 +85,17 @@ const [generalError, setGeneralError] = useState('');
 
 const handleSubmit =() =>{
 
-  if (!bedNo && !amount) {
-    setGeneralError('Please enter all required fields.');
-    return;
-  } else {
-    setGeneralError('');
-  }
+  // if (!bedNo && !amount) {
+  //   setGeneralError('Please enter all required fields.');
+  //   return;
+  // } else {
+  //   setGeneralError('');
+  // }
 
 
   if (!bedNo) {
     setBedError('Please enter a valid bed number.');
-    return;
+    // return;
   } else {
     setBedError(''); 
   }
@@ -103,7 +103,7 @@ const handleSubmit =() =>{
 
   if (!amount || isNaN(amount) || amount <= 0) {
     setAmountError('Please enter a valid amount.');
-    return;
+    // return;
   } else {
     setAmountError(''); 
   }
@@ -116,7 +116,7 @@ const handleSubmit =() =>{
     setGeneralError('');
    
   }else{
-    setGeneralError('Please enter all required fields.');
+    // setGeneralError('Please enter all required fields.');
   }
 }
 
@@ -157,7 +157,14 @@ useEffect(() => {
  onChange={handleBedNoChange}
                  type="text" placeholder="Enter bed name or no." style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:bedNo ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
-
+              {bedError && (
+    <div className="d-flex align-items-center p-1 mb-2">
+      <MdError style={{ color: "red", marginRight: '5px' }} />
+      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+        {bedError}
+      </label>
+    </div>
+  )}
             </div>
             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -168,24 +175,7 @@ useEffect(() => {
                  type="text" placeholder="Enter amount" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight:amount ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
               </Form.Group>
 
-            </div>
-            
-          </div>
-
-        </Modal.Body>
-
-
-        {bedError && (
-    <div className="d-flex align-items-center p-1 mb-2">
-      <MdError style={{ color: "red", marginRight: '5px' }} />
-      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-        {bedError}
-      </label>
-    </div>
-  )}
-
-
-  {amountError && (
+              {amountError && (
     <div className="d-flex align-items-center p-1 mb-2">
       <MdError style={{ color: "red", marginRight: '5px' }} />
       <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
@@ -193,6 +183,19 @@ useEffect(() => {
       </label>
     </div>
   )}
+
+
+            </div>
+            
+          </div>
+
+        </Modal.Body>
+
+
+      
+
+
+ 
 
 
   {generalError && (

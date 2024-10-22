@@ -247,17 +247,17 @@ const handlePinCodeChange = (e) => {
 
     if (!first_Name) {
       setFirstNameError('Please enter First Name');
-      return;
+      // return;
     }
 
     if (!countryCode) {
       setCountryCodeError('Please select a country code');
-      return;
+      // return;
     }
 
     if (!vendor_Mobile) {
       setMobileError('Please enter a mobile number');
-      return;
+      // return;
     }
 
     // if (!email_Id) {
@@ -266,12 +266,12 @@ const handlePinCodeChange = (e) => {
 
     if (!business_Name) {
       setBusinessNameError('Please enter a business name');
-      return;
+      // return;
     }
 
     if (!address) {
       setAddressError('Please enter an address');
-      return;
+      // return;
     }
 
     
@@ -295,7 +295,7 @@ const handlePinCodeChange = (e) => {
       if (mobileInvalid) {
         setMobileError('Enter a valid mobile number');
       }
-      return;
+      // return;
     }
 
     const isChanged =

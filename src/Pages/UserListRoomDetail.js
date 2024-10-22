@@ -2019,7 +2019,10 @@ setTimeout(() => {
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Last Name
+                                        Last Name <span style={{ color: "transparent", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2166,7 +2169,10 @@ setTimeout(() => {
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Email Id
+                                        Email Id <span style={{ color: "transparent", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
                                       </Form.Label>
                                       <FormControl
                                         type="text"
