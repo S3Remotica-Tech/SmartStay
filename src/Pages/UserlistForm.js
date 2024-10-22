@@ -341,61 +341,121 @@ function UserlistForm(props) {
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomrentError, setRoomRentError] = useState("");
 
-  const validateAssignField = (value, fieldName) => {
-    // If the value is a string, trim it, otherwise check for non-empty or valid number
-    const isValueEmpty = (typeof value === "string" && value.trim() === "") || value === 'undefined' || value === 'null' || value === '0';
+  // const validateAssignField = (value, fieldName) => {
+    
+  //   const isValueEmpty = (typeof value === "string" && value.trim() === "") || value === 'undefined' || value === 'null' || value === '0';
   
-    if (isValueEmpty) {
+  //   if (isValueEmpty) {
+  //     switch (fieldName) {
+  //       case "Floor":
+  //         setfloorError("Floor is required");
+  //         break;
+  //       case "Room":
+  //         setRoomError("Room is required");
+  //         break;
+  //       case "Bed":
+  //         setBedError("Bed is required");
+  //         break;
+  //         case "selectedDate":
+  //           setDateError("date is required");
+  //           break;
+  //       case "AdvanceAmount":
+  //         setAdvanceAmountError("Advance Amount is required");
+  //         break;
+  //       case "RoomRent":
+  //         setRoomRentError("Room Rent is required");
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     return false;
+  //   }
+  
+  //   // Clear errors if the value is valid
+  //   switch (fieldName) {
+  //     case "Floor":
+  //       setfloorError("");
+  //       break;
+  //     case "Room":
+  //       setRoomError("");
+  //       break;
+  //     case "Bed":
+  //       setBedError("");
+  //       break;
+  //       case "selectedDate":
+  //         setDateError("");
+  //         break;
+  //     case "AdvanceAmount":
+  //       setAdvanceAmountError("");
+  //       break;
+  //     case "RoomRent":
+  //       setRoomRentError("");
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  
+  //   return true;
+  // };
+
+
+  const validateAssignField = (value, fieldName) => {
+    if (
+      !value ||
+      value === "Selected Floor" ||
+      value === "Selected Room" ||
+      value === "Selected Bed"
+    ) {
       switch (fieldName) {
         case "Floor":
           setfloorError("Floor is required");
           break;
-        case "Room":
+        case "Rooms":
           setRoomError("Room is required");
           break;
         case "Bed":
           setBedError("Bed is required");
           break;
-          case "selectedDate":
-            setDateError("date is required");
-            break;
-        case "AdvanceAmount":
-          setAdvanceAmountError("Advance Amount is required");
+        case "selectedDate":
+          setDateError("selectedDate is required");
           break;
-        case "RoomRent":
-          setRoomRentError("Room Rent is required");
+        case "AdvanceAmount":
+          setAdvanceAmountError("Reading is required");
+          break;
+          case "RoomRent":
+            setRoomRentError("Reading is required");
           break;
         default:
           break;
       }
       return false;
-    }
-  
-    // Clear errors if the value is valid
-    switch (fieldName) {
-      case "Floor":
-        setfloorError("");
-        break;
-      case "Room":
-        setRoomError("");
-        break;
-      case "Bed":
-        setBedError("");
-        break;
+    } else {
+      switch (fieldName) {
+       
+        case "Floor":
+          setfloorError("");
+          break;
+        case "Rooms":
+          setRoomError("");
+          break;
+        case "Bed":
+          setBedError("");
+          break;
         case "selectedDate":
           setDateError("");
           break;
-      case "AdvanceAmount":
-        setAdvanceAmountError("");
-        break;
-      case "RoomRent":
-        setRoomRentError("");
-        break;
-      default:
-        break;
+        case "AdvanceAmount":
+          setAdvanceAmountError("");
+          break;
+          case "RoomRent":
+            setRoomRentError("");
+          break;
+        default:
+          break;
+       
+      }
+      return true;
     }
-  
-    return true;
   };
   
   const handleFloor = (e) => {
@@ -648,12 +708,12 @@ function UserlistForm(props) {
   };
 
   const handleSaveUserlistAddUser = () => {
-    if (!validateAssignField(Floor, "Floor")) return;
-    if (!validateAssignField(Rooms, "Room")) return;
-    if (!validateAssignField(Bed, "Bed")) return;
-    if (!validateAssignField(selectedDate, "selectedDate")) return;
-    if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) return;
-    if (!validateAssignField(RoomRent, "RoomRent")) return;
+    if (!validateAssignField(Floor,"Floor")) ;
+    if (!validateAssignField(Rooms,"Rooms")) ;
+    if (!validateAssignField(Bed,"Bed")) ;
+    if (!validateAssignField(selectedDate, "selectedDate")) ;
+    if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) ;
+    if (!validateAssignField(RoomRent, "RoomRent"));
 
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Room Rent must be greater than 0");
