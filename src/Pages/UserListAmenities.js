@@ -77,8 +77,8 @@ function UserListAmenities(props) {
     setamnitytableshow(true);
     console.log("e.target.value", value);
     if ( selectAmneties === "Select an amenity" || amnityError) {
-      setamnityError("Please select a valid amenityId"); // Set the error message if not already set
-      return; // Prevent save
+      setamnityError("Please select a valid amenityId"); 
+      return; 
     }
     const amenitiesHistory = state.UsersList.amnetieshistory.filter((item) => {
       return item.amenity_Id == value;
