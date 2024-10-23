@@ -44,16 +44,16 @@ function KeyFeature() {
 
   return (
     <div className='' style={{ width: "100%" }}>
-      <div className='row row-gap-5 ps-5 pe-5 pb-5'>
+      <div className='row  ps-5 pe-5 'style={{paddingBottom:"72px"}} >
 
         <div className='mt-4 mb-4'>
-          <h5 style={{ fontSize: 56, color: "rgba(34, 34, 34, 1)", fontWeight: 700, fontFamily: "Gilroy", textAlign: "center" }}> Key <span style={{ fontSize: 56, color: "rgba(30, 69, 225, 1)", fontWeight: 700, fontFamily: "Gilroy" }} >Features </span></h5>
+          <h5 style={{ fontSize:"60px", color: "rgba(34, 34, 34, 1)", fontWeight: 700, fontFamily: "Gilroy", textAlign: "center" }}> Key <span style={{ fontSize: 56, color: "rgba(30, 69, 225, 1)", fontWeight: 700, fontFamily: "Gilroy" }} >Features </span></h5>
 
         </div>
 
         {keyValue.map((item) => (
-          <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12 '>
-            <Card className="h-100 fade-in" style={{ backgroundColor: "rgba(224, 236, 255, 1)", borderRadius: 24, border: "1px solid rgba(224, 236, 255, 1)" }}>
+          <div className='col-lg-4 col-md-6 col-xs-12 col-sm-12' style={{padding:"40px 20px 40px 20px"}}>
+            <Card className="h-100 fade-in" style={{ backgroundColor: "#e7f1ff", borderRadius: 24, border: "1px solid #e7f1ff" }}>
               <Card.Body>
 
                 <div className='ps-2 mb-2'>
