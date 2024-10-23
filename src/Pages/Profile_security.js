@@ -68,6 +68,7 @@ import Button from 'react-bootstrap/Button';
   const [isChanged, setIsChanged] = useState(false);
   const [initialIsEnable, setInitialIsEnable] = useState(null);
 
+  const [isCheckedvalue, setIsCheckedvalue] = useState(false);
 
   const handleChange = (event) => {
     const newValue = event.target.checked;
@@ -78,6 +79,11 @@ import Button from 'react-bootstrap/Button';
     } else {
       setIsChanged(false);
     }
+  };
+
+  const handleSwitchChange = (e) => {
+    // Prevent the switch from toggling
+    e.preventDefault();
   };
 
     const handleTwoStepVerify = () => {
@@ -142,7 +148,9 @@ import Button from 'react-bootstrap/Button';
                 <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
               </div>
               <div className='col-2'>
-                <Form.Check type="switch" id="custom-switch" />
+                <Form.Check type="switch" id="custom-switch" 
+                checked={isCheckedvalue}
+                onChange={handleSwitchChange}  />
 
               </div>
             </div>
@@ -154,7 +162,9 @@ import Button from 'react-bootstrap/Button';
                 <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
               </div>
               <div className='col-2'>
-                <Form.Check type="switch" id="custom-switch" />
+                <Form.Check type="switch" id="custom-switch" 
+                  checked={isCheckedvalue}
+                  onChange={handleSwitchChange}/>
               </div>
             </div>
 

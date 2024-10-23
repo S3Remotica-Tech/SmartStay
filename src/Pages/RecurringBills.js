@@ -43,8 +43,11 @@ const RecurringBills = (props) => {
         dispatch({type: "RECURRING-BILLS-LIST"})
       },[])
     
+      const [selectedHostel, setSelectedHostel] = useState('');
       const [customername , setCustomerName] =  useState ('');
       console.log("customername",customername);
+
+      const [customernamefilter , setCustomerFilter] = useState([])
       
       const [invoicenumber , setInvoiceNumber] =  useState ('');
     
@@ -97,7 +100,7 @@ const RecurringBills = (props) => {
     
     console.log("newRows",newRows);
     
-    
+        const [hostelerrormsg, setHostelErrmsg] = useState('');
         const [customererrmsg , setCustomerErrmsg] = useState('')
         const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
         const [startdateerrmsg , setStartdateErrmsg] = useState('')
@@ -155,6 +158,23 @@ const RecurringBills = (props) => {
           dueRef.current.flatpickr.set(options);
         }
     }, [ invoicedate, invoiceduedate ])
+
+    const handleHostelChange = (e) => {
+      console.log("hostel",e.target.value);
+      
+      setSelectedHostel(e.target.value)
+      setAllFieldErrmsg('')
+ 
+      const HostelBasedCustomerNameFilter = state?.UsersList?.Users && state?.UsersList?.Users.length > 0 && 
+      state.UsersList?.Users.filter((u)=> u.Hostel_Id == e.target.value)
+      setCustomerFilter(HostelBasedCustomerNameFilter)
+
+      if (!e.target.value) {
+        setHostelErrmsg("Please Select Hostel");
+      } else {
+        setHostelErrmsg("");
+      }
+    };
     
     
       const handleCustomerName = (e) => {
@@ -614,6 +634,35 @@ const RecurringBills = (props) => {
   </div>
 
 
+  <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                  <Form.Label 
+                    style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >
+                    Select Hostel
+                  </Form.Label>
+                  <Form.Select aria-label="Default select example"
+                    className='border' value={selectedHostel} onChange={(e) => handleHostelChange(e)} 
+                    style={{fontSize: 16, color: "#4B4B4B",fontFamily: "Gilroy",lineHeight: '18.83px', fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9",  height: 38, borderRadius: 8}}>
+                    
+                    <option style={{ fontSize: 14, fontWeight: 600, }} selected value=''>Select PG</option>
+                    {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
+                      <option key={item.id} value={item.id}> {item.Name} </option>
+  ))}
+
+
+                  </Form.Select>
+    
+            {hostelerrormsg.trim() !== "" && (
+              <div>
+         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {hostelerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {hostelerrormsg}
+    </p>
+  </div>
+)}
+                </Form.Group>
+
+              </div>
+
 <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
   <Form.Label 
@@ -644,7 +693,7 @@ const RecurringBills = (props) => {
       borderRadius: 8 
     }}>
       <option value=''>Select Customer</option>
-      {state.UsersList?.Users && state.UsersList?.Users.length > 0 && state.UsersList?.Users?.filter(u => 
+      {customernamefilter && customernamefilter.length > 0 && customernamefilter?.filter(u => 
             u.Bed !== 'undefined' && 
             u.Bed !== '0' && 
             typeof u.Bed === 'string' && 
@@ -843,44 +892,43 @@ const RecurringBills = (props) => {
 </div>
 </td>
 {/* <td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.used_unit ? u.used_unit : '-' }</td> */}
-{/* <td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.per_unit_amount != null && u.per_unit_amount != '' && u.per_unit_amount != undefined ? u.per_unit_amount : '-' }</td> */}
+<td style={{paddingTop:'35px',paddingLeft:'10px'}}>-</td>
 
-<td>
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-<Form.Group controlId={`amount-${index}`}>
-<Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
-<Form.Control
-style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
-type="text"
-placeholder="Enter total amount"
-value={u.amount !== undefined ? Math.floor(u.amount) : 0} 
-onChange={(e) => handleAmountChange(index, e.target.value)} 
-/>
-</Form.Group>
-</div>
-</td>
+        <td>
+          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            <Form.Group controlId={`amount-${index}`}>
+              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
+            <Form.Control
+                style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
+                type="text"
+                placeholder="Enter total amount"
+                value={u.amount !== undefined ? Math.floor(u.amount) : 0} 
+                onChange={(e) => handleAmountChange(index, e.target.value)} />
+            </Form.Group>
+             </div>
+      </td>
 
-<td style={{ paddingTop: '35px' }}>
-<span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDelete(u)}>
-<img src={Closebtn} height={15} width={15} alt="delete" />
-</span>
-</td>
-</tr>
-))}
+      <td style={{ paddingTop: '35px' }}>
+        <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDelete(u)}>
+        <img src={Closebtn} height={15} width={15} alt="delete" />
+        </span>
+      </td>
+           </tr>
+                 ))}
 
 
-{newRows && newRows.length > 0 && newRows.map((u, index) => (
-  <tr key={`new-${index}`}>
-    <td>
-      <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{alignItems:'center'}}>
-        <Form.Control
-          type="text"
-          placeholder="Enter description"
-          value={u.description}
-          onChange={(e) => handleNewRowChange(index, 'description', e.target.value)}
-        />
-      </div>
-    </td>
+          {newRows && newRows.length > 0 && newRows.map((u, index) => (
+             <tr key={`new-${index}`}>
+        <td>
+              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{alignItems:'center'}}>
+                 <Form.Control
+                 type="text"
+                 placeholder="Enter description"
+                 value={u.description}
+                onChange={(e) => handleNewRowChange(index, 'description', e.target.value)}/>
+             </div>
+       </td>
+       
     <td style={{alignItems:'center'}}>
       <Form.Control
         type="text"
