@@ -131,16 +131,41 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
     }
   }, [state.createAccount.statusCodeCreateAccount]);
 
+  // const handlePhoneNo = (e) => {
+  //   setPhoneNo(e.target.value);
+  //   setPhoneError('')
+  //   dispatch({ type: 'CLEAR_MOBILE_ERROR'})
+  //   dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR'})
+  //   const pattern = new RegExp(/^\d{1,10}$/);
+  //   const isValidMobileNo = pattern.test(e.target.value);
+  //   const mobileNumberError = document.getElementById('MobileNumberError');
+  //   if (mobileNumberError) {
+  //     if (isValidMobileNo && e.target.value.length === 10) {
+  //       mobileNumberError.innerHTML = '';
+  //     } else {
+  //       mobileNumberError.innerHTML = 'Invalid mobile number *';
+  //     }
+  //   }
+  // };
+  
   const handlePhoneNo = (e) => {
-    setPhoneNo(e.target.value);
-    setPhoneError('')
-    dispatch({ type: 'CLEAR_MOBILE_ERROR'})
-    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR'})
+   
+    const input = e.target.value.replace(/\D/g, ''); 
+    
+   
+    setPhoneNo(input);
+    setPhoneError('');
+    dispatch({ type: 'CLEAR_MOBILE_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+  
+   
     const pattern = new RegExp(/^\d{1,10}$/);
-    const isValidMobileNo = pattern.test(e.target.value);
+    const isValidMobileNo = pattern.test(input);
     const mobileNumberError = document.getElementById('MobileNumberError');
+    
+   
     if (mobileNumberError) {
-      if (isValidMobileNo && e.target.value.length === 10) {
+      if (isValidMobileNo && input.length === 10) {
         mobileNumberError.innerHTML = '';
       } else {
         mobileNumberError.innerHTML = 'Invalid mobile number *';
@@ -148,7 +173,6 @@ dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT'})
     }
   };
   
- 
 //   const handleEmailID = (e) => {
 //     setEmailID(e.target.value);
 //     setEmailError('')
@@ -502,9 +526,9 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
 
           <div className="row g-0 coumn-gap-1 row-gap-4 fade-in">
             <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 mt-4">
-              <div className="d-flex gap-1 mb-1">
+              <div className="d-flex gap-1 mb-1" style={{curser:"pointer"}}>
 
-                <img src={Logo} style={{ height: 25, width: 25 }} onClick={handleLogoClick}/>
+                <img src={Logo} style={{ height: 25, width: 25,cursor:"pointer" }} onClick={handleLogoClick}/>
                 {/* <img src={Icon} style={{width:"100%"}} /> */}
                 <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }} onClick={handleLogoClick}>
                   Smartstay</label></div>

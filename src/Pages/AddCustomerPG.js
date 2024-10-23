@@ -216,18 +216,40 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
     if (!firstname) {
       setFirstNameError('Please enter First Name');
-      return;
+      // return;
     }
 
     if (!countryCode) {
       setCountryCodeError('Please enter Country Code');
-      return;
+      // return;
     }
 
     if (!phone) {
       setPhoneError('Please enter Phone Number');
-      return;
+      // return;
     }
+    if (!address) {
+      setAddressError('Please enter Address');
+      // return;
+    }
+
+    if (!selectedDate) {
+      setDateError('Please select a Date');
+      // return;
+  }
+
+
+  if (!AdvanceAmount) {
+    setAdvanceAmountError('Please enter Advance Amount');
+    // return;
+  }
+
+  if (!RoomRent) {
+    setRoomRentError('Please enter a valid Room Rent');
+    // return;
+  }
+
+
 
     if (phone.length < 10) {
       setPhoneError('Phone number must be 10 digits long');
@@ -241,29 +263,21 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
     if (emailError) {
       setEmailError(emailError);
-      return;
+      // return;
     }
 
 
 
-    if (!address) {
-      setAddressError('Please enter Address');
-      return;
-    }
-
-    if (!selectedDate) {
-      setDateError('Please select a Date');
-      return;
-  }
+   
 
 
 
-    if (!AdvanceAmount || isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
+    if (isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
       setAdvanceAmountError('Please enter a valid Advance Amount');
       return;
     }
 
-    if (!RoomRent || isNaN(RoomRent) || RoomRent <= 0) {
+    if (isNaN(RoomRent) || RoomRent <= 0) {
       setRoomRentError('Please enter a valid Room Rent');
       return;
     }

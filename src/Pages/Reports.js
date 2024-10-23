@@ -314,7 +314,7 @@ function Reports() {
 
         <Col lg={showReport ? 4 : 12} md={showReport ? 4 : 12} style={{ borderRight: showReport && "1px solid #E7F1FF" }}>
 
-          <div className='container show-scroll' style={{ maxHeight: showReport ? 560 : 'unset', overflowY: showReport ? 'auto' : "unset", backgroundColor: "" }}>
+          <div className='container show-scroll' style={{ maxHeight: showReport ? 650 : 'unset', overflowY: showReport ? 'auto' : "unset", backgroundColor: "" }}>
 
             
 
@@ -346,7 +346,7 @@ function Reports() {
 
         </Col>
 
-             <Col lg={showReport ? 7 : 12} md={showReport ? 7 : 12}>
+             <Col lg={showReport ? 8 : 12} md={showReport ? 8 : 12}>
           {selectedReport === 1 ? <HostelRentProjection isVisible={handleBack} /> : ''}
         </Col>
       </Row>

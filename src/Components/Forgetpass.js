@@ -406,10 +406,13 @@ function ForgetPasswordPage() {
       appearOnScro1l.observe(fader);
     })
   });
+  
 
+  const hanldeBackToLogin = () =>{
+    navigate("/login-Page"); 
+  }
 
-
-  console.log("confirmationError", confirmationError)
+ 
 
   return (
 
@@ -421,9 +424,9 @@ function ForgetPasswordPage() {
 
             <div className="row g-0 coumn-gap-1 row-gap-4 fade-in">
               <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" style={{ padding: 80 }}>
-                <div className="d-flex gap-1 mb-1">
+                <div className="d-flex gap-1 mb-1" style={{curser:"pointer"}}>
 
-                  <img src={Logo} style={{ height: 25, width: 25 }} />
+                  <img src={Logo} style={{ height: 25, width: 25, cursor:"pointer" }}  onClick={hanldeBackToLogin}/>
                   {/* <img src={Icon} style={{width:"100%"}} /> */}
                   <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }}>Smartstay</label></div>
                 </div>
@@ -532,9 +535,9 @@ function ForgetPasswordPage() {
 
           <div className="row g-0 coumn-gap-1 row-gap-4">
             <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" style={{ padding: 80 }}>
-              <div className="d-flex gap-1 mb-1">
+              <div className="d-flex gap-1 mb-1" onClick={hanldeBackToLogin}>
 
-                <img src={Logo} style={{ height: 25, width: 25 }} />
+                <img src={Logo} style={{ height: 25, width: 25, cursor: "pointer" }} />
                 {/* <img src={Icon} style={{width:"100%"}} /> */}
                 <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }}>Smartstay</label></div>
               </div>
