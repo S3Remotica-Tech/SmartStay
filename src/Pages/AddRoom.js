@@ -30,6 +30,8 @@ const [roomError, setRoomError] = useState('')
 const [floorError, setFloorError] = useState('')
 
 const [initialState, setInitialState] = useState({});
+const isEditing = !!editRoom && !!editRoom.room_Id;
+const modalTitle = isEditing ? 'Edit Room' : 'Add Room';
 
 const handleRoomChange = (e) => {
   const Room_Id = e.target.value
@@ -68,9 +70,9 @@ useEffect(()=>{
 
 useEffect(()=>{
 if(editRoom){
-  setRoom(editRoom.room_Id ? editRoom.room_Id : '')
+  setRoom(editRoom.Room_Name ? editRoom.Room_Name : '')
   setInitialState({
-    room:editRoom.room_Id
+    room:editRoom.Room_Name
   })
 }
 },[editRoom])
@@ -82,13 +84,14 @@ if(editRoom){
 
     const handleCreateRoom = () => {
 
-      let floorId, hostel_Id, room_Id;
+      let floorId, hostel_Id, room_Id, room_Name;
 
 if(isEditing){
 
   floorId = editRoom?.floor_Id ? editRoom.floor_Id.toString() : '';
   hostel_Id = editRoom?.hostel_Id ? editRoom.hostel_Id.toString() : '';
  room_Id = editRoom?.room_Id ? editRoom?.room_Id.toString(): '';
+ room_Name = editRoom?.Room_Name ? editRoom?.Room_Name.toString() : '';
 
 }else{
  floorId = hostelDetails?.floor_Id ? hostelDetails.floor_Id.toString() : '';
@@ -154,25 +157,28 @@ if (!floorId) {
     });
     return;
   }
-      if(floorId && hostel_Id ){
-              dispatch({
-                  type: 'CREATEROOM',
-                  payload: {hostel_id: hostel_Id,floorId: floorId, roomId: room}});
-                    
-              // handleClose();
+
+if(isEditing){
+  if(floorId && hostel_Id ){
+    dispatch({
+        type: 'CREATEROOM',
+        payload: {hostel_id: hostel_Id,floorId: floorId, roomId: room, id:room_Id }});
+                 
+}
+}else{
+  if(floorId && hostel_Id && room){
+    dispatch({
+        type: 'CREATEROOM',
+        payload: {hostel_id: hostel_Id,floorId: floorId, roomId: room }});
+                 
+}
+}
+  
+     
              
-          }
-       else {
-          // Swal.fire({
-          //     icon: 'warning',
-          //     title: 'Please enter Room no.',
-          // });
-      }
-      
   };
 
-  const isEditing = !!editRoom && !!editRoom.room_Id;
-  const modalTitle = isEditing ? 'Edit Room' : 'Add Room';
+ 
 
 
   console.log("state.PgList?.alreadyRoomHere",state.PgList?.alreadyRoomHere,roomError)

@@ -322,7 +322,7 @@ console.log("currentItems Room", currentItems);
     setShowRoom(true)
     console.log("add room", floor_Id, hostel_Id)
     setHostelDetails({ hostel_Id, floor_Id });
-    setEditRoom({ hostel_Id: null, floor_Id: null, room_Id: null })
+    setEditRoom({ hostel_Id: null, floor_Id: null, room_Id: null ,Room_Name: null})
 
   }
   const handlecloseRoom = () => {
@@ -343,12 +343,12 @@ console.log("currentItems Room", currentItems);
   }
 
 
-  const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
+  const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name : null})
 
 
-  const handleEditRoom = (Hostel_Id, Floor_Id, Room_Id) => {
+  const handleEditRoom = (Hostel_Id, Floor_Id, Room_Id, Room_Name) => {
     setShowRoom(true)
-    setEditRoom({ hostel_Id: Hostel_Id, floor_Id: Floor_Id, room_Id: Room_Id })
+    setEditRoom({ hostel_Id: Hostel_Id, floor_Id: Floor_Id, room_Id: Room_Id , Room_Name:Room_Name})
     setHostelDetails({ room: null, selectedFloor: null })
   }
 
@@ -473,7 +473,8 @@ useEffect(() => {
                       <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 30, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                         <div>
                           <div className='d-flex gap-2 mb-2 align-items-center'
-                          // onClick={()=> handleEditRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id)}
+                          onClick={()=> handleEditRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id, room.Room_Name
+                            )}
                           >
                             {/* <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> */}
 
