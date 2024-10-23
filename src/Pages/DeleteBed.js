@@ -88,10 +88,10 @@ const handleDeleteBed = () =>{
             <div>
             <Nav fill variant="tabs" >
       <Nav.Item onClick={() => handleShow('addCustomer')}>
-        <Nav.Link  style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy", color:actionType === 'addCustomer' ? "#FFF" : "rgba(36, 0, 255, 1)" , backgroundColor:actionType === 'addCustomer' ? "rgba(36, 0, 255, 1)" : "#FFF"}}>Add Customer</Nav.Link>
+        <Nav.Link  style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy", color:actionType === 'addCustomer' ? "#FFF" : "#1E45E1" , backgroundColor:actionType === 'addCustomer' ? "#1E45E1" : "#FFF"}}>Add Customer</Nav.Link>
       </Nav.Item>
       <Nav.Item onClick={() => handleShow('deleteBed')}>
-        <Nav.Link  style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy", color:actionType === 'deleteBed' ? "#FFF" : "rgba(36, 0, 255, 1)" , backgroundColor:actionType === 'deleteBed' ? "rgba(36, 0, 255, 1)" : "#FFF"}}>Delete Bed</Nav.Link>
+        <Nav.Link  style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy", color:actionType === 'deleteBed' ? "#FFF" : "#1E45E1" , backgroundColor:actionType === 'deleteBed' ? "#1E45E1" : "#FFF"}}>Delete Bed</Nav.Link>
       </Nav.Item>
      
     </Nav>
@@ -111,19 +111,19 @@ const handleDeleteBed = () =>{
 
    
     <Modal.Footer className='d-flex justify-content-center' style={{border:"none"}}>
-    <Button  onClick={handleClose} style={{width:130,height:52,borderRadius:8, padding:"16px, 45px, 16px, 45px",border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"#FFF",color:"rgba(36, 0, 255, 1)",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
+    <Button  onClick={handleClose} style={{width:130,height:52,borderRadius:8, padding:"16px, 45px, 16px, 45px",border:"1px solid #1E45E1",backgroundColor:"#FFF",color:"#1E45E1",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
             Cancel
           </Button>
          
           {actionType === 'addCustomer' && (
-            <Button style={{width:130,height:52,borderRadius:8, border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} 
+            <Button style={{width:130,height:52,borderRadius:8, border:"1px solid #1E45E1",backgroundColor:"#1E45E1",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} 
               onClick={handleAddCustomer}
               >
               Add Customer
             </Button>
           )}
           {actionType === 'deleteBed' && (
-            <Button style={{width:130,height:52,borderRadius:8, border:"1px solid rgba(36, 0, 255, 1)",backgroundColor:"rgba(36, 0, 255, 1)",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} 
+            <Button style={{width:130,height:52,borderRadius:8, border:"1px solid #1E45E1",backgroundColor:"#1E45E1",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} 
               onClick={handleDeleteBed}>
               Delete
             </Button>
