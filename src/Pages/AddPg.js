@@ -70,18 +70,23 @@ console.log("currentItem",currentItem)
 
   const handleMobileChange = (e) => {
     const value = e.target.value;
-    setMobile(value);
-    setMobileError('')
-    setGeneralError('')
-    setIsChangedError('')
-    const pattern = new RegExp(/^\d{1,10}$/);
-    const isValidMobileNo = pattern.test(value);
-    if (isValidMobileNo && value.length === 10) {
-      setErrors(prevErrors => ({ ...prevErrors, mobile: '' }));
-    } else {
-      setErrors(prevErrors => ({ ...prevErrors, mobile: 'Invalid mobile number *' }));
+  
+        const pattern = /^\d*$/;
+    
+    if (pattern.test(value)) {
+      setMobile(value); 
+      setMobileError('');
+      setGeneralError('');
+      setIsChangedError('');
+  
+          if (value.length === 10) {
+        setErrors(prevErrors => ({ ...prevErrors, mobile: '' }));
+      } else {
+        setErrors(prevErrors => ({ ...prevErrors, mobile: 'Invalid mobile number *' }));
+      }
     }
   };
+  
 
 
 

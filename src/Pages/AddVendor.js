@@ -161,19 +161,30 @@ const handlePinCodeChange = (e) => {
 
   const handleMobileChange = (e) => {
     const value = e.target.value;
-    setVendor_Mobile(value);
-    setGeneralError('');
-    setIsChangedError('');
-    setCountryCodeError('');
-    setMobileError('');
-    const pattern = new RegExp(/^\d{1,10}$/);
-    const isValidMobileNo = pattern.test(value);
-    if (isValidMobileNo && value.length === 10) {
-      setErrors(prevErrors => ({ ...prevErrors, vendor_Mobile: '' }));
+
+   
+    const pattern = /^\d*$/;
+
+    
+    if (pattern.test(value)) {
+        setVendor_Mobile(value); 
+        setGeneralError('');
+        setIsChangedError('');
+        setCountryCodeError('');
+        setMobileError('');
+
+       
+        if (value.length === 10) {
+            setErrors(prevErrors => ({ ...prevErrors, vendor_Mobile: '' })); 
+        } else {
+            setErrors(prevErrors => ({ ...prevErrors, vendor_Mobile: 'Invalid mobile number *' })); 
+        }
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, vendor_Mobile: 'Invalid mobile number *' }));
+     
+        setErrors(prevErrors => ({ ...prevErrors, vendor_Mobile: 'Mobile number can only contain digits *' }));
     }
-  }
+};
+
 
 
   const handleAddressChange = (e) => {

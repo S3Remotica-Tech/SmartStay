@@ -220,10 +220,10 @@ const MyComponent = () => {
     <div className='container login_page1 h-100'>
       <div className='row h-100 align-items-center p-3 mt-md-4 pt-md-4 w-100 fade-in'>
         <div className='col-lg-6 col-md-6 col-sm-12'>
-          <div className="d-flex gap-1 mb-1">
+          <div className="d-flex gap-1 mb-1" >
 
-            <img src={Logo} style={{ height: 25, width: 25 }}  onClick={handleLogoClicks}  />
-            <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }}  onClick={handleLogoClicks} >
+            <img src={Logo} style={{ height: 25, width: 25 ,cursor:"pointer"}}  onClick={handleLogoClicks}  />
+            <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy",cursor:"pointer" }}  onClick={handleLogoClicks} >
               Smartstay</label></div>
           </div>
           <div className='mb-3 mt-2' >
