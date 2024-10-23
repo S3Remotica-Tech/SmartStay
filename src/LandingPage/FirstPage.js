@@ -79,7 +79,7 @@ function FirstPage() {
           </label>
         </div>
 
-        <div className='d-flex justify-content-center mb-1' style={{paddingTop:"36px"}} >
+        <div className='d-flex justify-content-center mb-1' style={{ paddingTop: "36px" }} >
           <label style={{ fontWeight: 400, fontSize: 18, color: "rgba(0, 0, 0, 1)", fontFamily: "Montserrat", textAlign: "center" }}>Efficiently manage rooms, customers, inventory, vendors,
           </label>
         </div>
@@ -106,9 +106,28 @@ function FirstPage() {
       </div>
       <div className='row d-flex justify-content-center mt-4' style={{ position: "relative", backgroundColor: "" }}>
         <img src={Desktop} className='img-fluid' style={{ height: 776, width: 1000 }} />
-        <img src={Spring1} style={{ position: "absolute", left: 0,top:600, bottom:0, width: 220, height: 219, display: isMobile ? "none" : "flex", transform: "rotate(360deg)" }} />
-        <img src={Spring2} style={{ position: "absolute", top:-30, right: 0,bottom:0, width: 220, height: 219, display: isMobile ? "none" : "flex" }} />
-
+        <img src={Spring1}
+          style={{
+            position: "absolute",
+            left: 0,
+            top: "90%",
+            transform: "translateY(-50%) rotate(360deg)",
+            width: 220,
+            height: 219,
+            display: isMobile ? "none" : "flex"
+          }}
+        />
+        <img
+          src={Spring2}
+          style={{
+            position: "absolute",
+            top: "-5%",
+            right: 0,
+            width: 220,
+            height: 219,
+            display: isMobile ? "none" : "flex"
+          }}
+        />
       </div>
 
       <div className="d-flex justify-content-around flex-wrap mt-5 mb-5" style={{ backgroundColor: "rgba(250, 249, 255, 1)", padding: "42px 10px 42px 10px" }}>
