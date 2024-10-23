@@ -487,6 +487,11 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
     })
   });
 
+  const navigates = useNavigate();
+
+  const handleLogoClick = () => {
+    navigates("/All_Landing_pages"); 
+  };
 
   return (
     <>
@@ -499,9 +504,10 @@ if(firstName && phoneNo && emailID && password && confirmpassword && countryCode
             <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 mt-4">
               <div className="d-flex gap-1 mb-1">
 
-                <img src={Logo} style={{ height: 25, width: 25 }} />
+                <img src={Logo} style={{ height: 25, width: 25 }} onClick={handleLogoClick}/>
                 {/* <img src={Icon} style={{width:"100%"}} /> */}
-                <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }}>Smartstay</label></div>
+                <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }} onClick={handleLogoClick}>
+                  Smartstay</label></div>
               </div>
 
               <div className="mt-3 mb-1 "><label style={{ fontSize: 32, fontWeight: 600, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}> Create your free account</label></div>

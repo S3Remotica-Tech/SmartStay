@@ -209,6 +209,12 @@ const MyComponent = () => {
     })
   });
 
+
+  const LandingNavigates = useNavigate();
+
+  const handleLogoClicks = () => {
+    LandingNavigates("/All_Landing_pages");
+  };
   return (
 
     <div className='container login_page1 h-100'>
@@ -216,8 +222,9 @@ const MyComponent = () => {
         <div className='col-lg-6 col-md-6 col-sm-12'>
           <div className="d-flex gap-1 mb-1">
 
-            <img src={Logo} style={{ height: 25, width: 25 }} />
-            <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }}>Smartstay</label></div>
+            <img src={Logo} style={{ height: 25, width: 25 }}  onClick={handleLogoClicks}  />
+            <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }}  onClick={handleLogoClicks} >
+              Smartstay</label></div>
           </div>
           <div className='mb-3 mt-2' >
             <h1 style={{ fontFamily: "Gilroy", fontWeight: 600, color: 'rgba(34, 34, 34, 1)', fontSize: '32px' }}>Welcome back!</h1>
