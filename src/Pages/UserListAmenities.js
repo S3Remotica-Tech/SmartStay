@@ -29,7 +29,7 @@ function UserListAmenities(props) {
     if (props.id) {
       console.log("user_id", props.id);
       dispatch({ type: "AMENITESHISTORY", payload: { user_id: props.id } });
-      // setAmnnityhistory(state.UsersList?.amnetieshistory)
+      
     }
     console.log("userIduserId....?", props.id);
   }, [props.id]);
@@ -46,25 +46,7 @@ function UserListAmenities(props) {
   console.log("createby", createby);
   const [amnityError, setamnityError] = useState("");
 
-  const validateAssignField = (value, fieldName) => {
-    // Check if the value is empty or invalid
-    if (!value || value === "Select an Amenities") {
-      switch (fieldName) {
-        case "selectAmneties":
-          setamnityError("selected Amenity is required");
-          break;
-      }
-      return false;
-    } else {
-      // Clear the error if validation passes
-      switch (fieldName) {
-        case "Floor":
-          setamnityError("");
-          break;
-      }
-      return true;
-    }
-  };
+ 
 
   const handleselect = (e) => {
     const value = e.target.value;
@@ -129,16 +111,8 @@ function UserListAmenities(props) {
     });
   }
 
-  const handleSetAsDefault = (e) => {
-    setActive(e.target.checked);
-  };
-  const handleStatusChange = (e) => {
-    setStatus(e.target.value);
-  };
-
-  useEffect(() => {
-    dispatch({ type: "AMENITESNAMES" });
-  }, []);
+  
+ 
 
   const amenities = state.UsersList?.amnetieshistory;
 
@@ -197,19 +171,12 @@ function UserListAmenities(props) {
     "state.UsersList?.statusCustomerAddUser",
     state.UsersList.statusCustomerAddUser
   );
-  useEffect(() => {
-    if (state.UsersList.statusCustomerAddUser == 200) {
-      setaddamenityShow(false);
-      setTimeout(() => {
-        dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
-        dispatch({ type: "AMENITESHISTORY", payload: { user_id: props.id } });
-      }, 1000);
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADDUSER_AMNETIES" });
-      }, 1000);
-    }
-  }, [state.UsersList.statusCustomerAddUser]);
+  useEffect(()=>{
+if(state.UsersList.statusCustomerAddUser === 200){
+  setaddamenityShow(false)
+}
+  },[state.UsersList.statusCustomerAddUser])
+ 
 
   console.log("state For Add userAminity", state);
   const handleEdit = (v) => {

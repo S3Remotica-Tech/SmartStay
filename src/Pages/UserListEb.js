@@ -11,17 +11,8 @@ import { propsToClassKey } from "@mui/styles";
 
 function UserEb(props) {
   const state = useSelector(state => state)
-  const dispatch = useDispatch();
   console.log("state123",state)
 
-
-  useEffect(() => {
-    if (props.id) {
-      dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: props.id } })
-      // setAmnityuserdetail(state.UsersList?.customerdetail.all_amenities)
-    }
-    console.log("userIduserId", props.id)
-  }, [props.id]);
 
   const EbrowsPerPage = 10;
 

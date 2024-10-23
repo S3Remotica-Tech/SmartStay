@@ -11,19 +11,10 @@ import Skeleton from "react-loading-skeleton";
 
 function UserListCompliants(props){
     const state = useSelector(state => state)
-  const dispatch = useDispatch();
+    console.log("state.Compliant",state)
+  
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    setLoading(false);
-    dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: props.id } });
-  }, []);
-    useEffect(() => {
-        if (props.id) {
-          dispatch({ type: 'CUSTOMERDETAILS', payload: { user_id: props.id } })
-          // setAmnityuserdetail(state.UsersList?.customerdetail.all_amenities)
-        }
-        console.log("userIduserId", props.id)
-      }, [props.id]);
+ 
 
       const transactionrowsPerPage = 10;
   const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
