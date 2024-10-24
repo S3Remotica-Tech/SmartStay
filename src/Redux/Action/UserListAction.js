@@ -225,3 +225,8 @@ export async function DeleteCheckOutCustomer(checkout) {
 
 
 
+export async function AvailableCheckOutCustomer(checkout) {
+  return await AxiosConfig.post('/available_checkout_users',checkout,{
+    data:checkout
+  })
+}

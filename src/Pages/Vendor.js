@@ -31,7 +31,7 @@ function Vendor() {
   const [query, setQuery] = useState('');
   const [filteredData, setFilteredData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(10);
 const [searchQuery, setSearchQuery] = useState('')
 
 
@@ -361,7 +361,19 @@ const [searchQuery, setSearchQuery] = useState('')
 
     <div style={{ width: "100%", fontFamily: "Gilroy" }} className='container'>
      
-<div className='container mt-3'>
+<div className='container mt-3'     
+
+style={{
+  height: 83,
+  position: "sticky",
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 1000,
+  backgroundColor: "#fff"
+}}>
+
+
 
 
       <div className=" d-flex justify-content-between align-items-center  mb-3">

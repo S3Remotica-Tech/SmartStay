@@ -52,6 +52,7 @@ const initialState = {
     addCheckoutCustomerStatusCode: 0,
     deleteCheckoutCustomerStatusCode:0,
     errorMessageAddCheckOut:'',
+    availableCheckOutCustomerList: []
 
 }
 
@@ -227,6 +228,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, errorMessageAddCheckOut: action.payload}
             case 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR':
                 return { ...state, errorMessageAddCheckOut: ''}
+
+case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
+    return { ...state, availableCheckOutCustomerList: action.payload.response}
+}
+
+
 
         case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {

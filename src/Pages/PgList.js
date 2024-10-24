@@ -694,7 +694,7 @@ useEffect(() => {
   }
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(10);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -1049,7 +1049,18 @@ const handleDropDown = (value)=>{
       <div className='container'>
 
         {hidePgList && <>
-        <div className='container justify-content-between d-flex align-items-center' style={{height:83}}>
+        <div className='container justify-content-between d-flex align-items-center'
+        style={{
+          height: 83,
+          position: "sticky",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          backgroundColor: "#fff"
+        }}
+         
+         >
           {/* <div className="d-flex justify-content-between align-items-center"> */}
 
             <div>
@@ -1181,7 +1192,7 @@ const handleDropDown = (value)=>{
           )}
         </div>
       )}
-<div className='container'>
+<div className='container mt-2' style={{  }}>
           <div className='row row-gap-3'>
             {currentItems.length > 0 && currentItems.map((hostel) => {
               return (<>
