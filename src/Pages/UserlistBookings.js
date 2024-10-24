@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Table, Button, Image, Modal, Pagination , Form, Row, Col,FormControl,} from 'react-bootstrap';
+import { Table, Button, Image, Modal, Pagination , Form, Row, Col,FormControl,InputGroup} from 'react-bootstrap';
 import './Userlistbooking.css';
 import minus from '../Assets/Images/New_images/minus-square.png';
 import { PiDotsThreeOutlineVerticalFill } from 'react-icons/pi';
@@ -37,6 +37,7 @@ function Booking(props) {
   const [amount, setAmount] = useState("");
   const [comments, setComments] = useState("");
   const [paying, setPaying] = useState("");
+  console.log("paying",paying)
   const [floor, setFloor] = useState("");
   const [room, setRoom] = useState("");
   const [bed, setBed] = useState("");
@@ -55,6 +56,7 @@ function Booking(props) {
   const [formEdit, setFormEdit] = useState(false);
   const [roomId, setRoomId] = useState('');
   const [HostelIds, setHostelIds] = useState('');
+  console.log("HostelIds",HostelIds)
   const [FloorIds, setFloorIds] = useState('');
   const [bedIds, setBedIds] = useState('');
   const [id, setId] = useState("");
@@ -62,6 +64,17 @@ function Booking(props) {
   const [deleteId, setDeleteId] = useState('')
   const [editMode , seteditMode] = useState(false)
   const [assignBooking, setAssignBooking] = useState('')
+  const [Phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  const [Address, setAddress] = useState("");
+  const [addressError, setAddressError] = useState("");
+  const [Email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [emailIdError, setemailIdError] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [phonenumError, setphonenumError] = useState("");
 
 
   const [initialStateAssign, setInitialStateAssign] = useState({
@@ -73,9 +86,13 @@ function Booking(props) {
     bed: "",
     amount: "",
     comments: "",
-    joiningDate: ""
+    joiningDate: "",
+    Phone:"",
+    countryCode: "",
+    Address:"",
+    Email:"",
   });
-
+  const MobileNumber = `${countryCode}${Phone}`;
   const handleEdit = (item) => {
     console.log("itemEdit...///",item)
     setFormEdit(true);
@@ -100,6 +117,13 @@ function Booking(props) {
       setRoomId(item.room_id  || "")
       setBedIds(item.bed_id  || "")
       setId(item.id || "")
+      const phoneNumber = String(item.phone_number || "");
+      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+      const mobileNumber = phoneNumber.slice(-10);
+      setCountryCode(countryCode);
+      setPhone(mobileNumber)
+      setEmail(item.email_id  || "")
+      setAddress(item.address  || "")
 
 
       setInitialStateAssign({
@@ -108,6 +132,9 @@ function Booking(props) {
         floor: item.floor_id || "",
         room: item.room_id || "",
         bed: item.bed_id || "",
+        Phone: item.phone_number || "",
+        Email:item.email_id || "",
+        Address:item.address || "",
         joiningDate: formattedJoiningDate || "",
         amount: item.amount || "",
         paying: item.hostel_id || "",
@@ -148,12 +175,35 @@ function Booking(props) {
     });
   }, [roomId]);
 
+  
+
   const calendarRef = useRef(null);
 
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
     setfirstNameError("");
     setFormError('')
+  };
+  const handleEmail = (e) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    const hasUpperCase = /[A-Z]/.test(emailValue);
+    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    const isValidEmail = emailRegex.test(emailValue);
+    if (!emailValue) {
+      setEmailError("");
+      setEmailErrorMessage("");
+    } else if (hasUpperCase) {
+      setEmailErrorMessage("Email should be in lowercase *");
+      setEmailError("Invalid Email Id *");
+    } else if (!isValidEmail) {
+      setEmailErrorMessage("");
+      setEmailError("Invalid Email Id *");
+    } else {
+      setEmailError("");
+      setEmailErrorMessage("");
+    }
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
   const handleLastName = (e) => {
     setLastName(e.target.value);
@@ -216,6 +266,12 @@ function Booking(props) {
     setAmount(0)
     setFormError('')
   };
+  useEffect(()=>{
+    if(state.Booking.bookingError){
+      setPhoneError(state.Booking.bookingError)
+
+    }
+  },[state.Booking.bookingError])
 
   // const handleBed = (e) => {
   //   setBedIds(e.target.value);
@@ -246,7 +302,7 @@ function Booking(props) {
   }
 
     console.log("e.target.valuebed", e.target.value);
-    if (e.target.value === "Selected a Bed") {
+    if (e.target.value === "Selected a Bed" && e.target.value === "") {
       setBedError("Please select a valid Bed");
     } else {
       setBedError("");
@@ -254,9 +310,32 @@ function Booking(props) {
     setBedError("");
     setFormError("");
   };
+  const handleCountryCodeChange = (e) => {
+    setCountryCode(e.target.value);
+  };
+  const handlePhone = (e) => {
+    setPhone(e.target.value);
+    const pattern = /^\d{1,10}$/;
+    const isValidMobileNo = pattern.test(e.target.value);
+
+    if (isValidMobileNo && e.target.value.length === 10) {
+      setPhoneError("");
+    } else {
+      setPhoneError("Invalid mobile number *");
+    }
+    setPhoneErrorMessage("");
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+    setFormError("");
+  };
 
   const handleComments = (e) => {
     setComments(e.target.value);
+    setFormError("");
+  };
+  const handleAddress = (e) => {
+    setAddress(e.target.value);
+    setAddressError("");
+    setFormError("");
   };
 
   const handleCloseDelete = () => {
@@ -265,10 +344,10 @@ function Booking(props) {
   const validateAssignField = (value, fieldName) => {
     if (
       !value ||
-      value === "Select a PG" ||
-      value === "Select a floor" ||
-      value === "Select a room" ||
-      value === "Select a bed"
+      value === "Select a PG" && value === "" ||
+      value === "Select a floor" && value === "" ||
+      value === "Select a room" && value === "" ||
+      value === "Select a bed" && value === ""
     ) {
       switch (fieldName) {
         case "firstName":
@@ -292,6 +371,12 @@ function Booking(props) {
         case "bed":
           setBedError("Bed is required");
           break;
+          case "Address":
+            setAddressError("Address is required");
+            break;
+            case "Email":
+            setEmailError("Email is required");
+            break;
 
         default:
           break;
@@ -320,6 +405,12 @@ function Booking(props) {
         case "bed":
           setBedError("");
           break;
+          case "Address":
+            setAddressError("");
+            break;
+            case "Email":
+            setEmailError("");
+            break;
 
         default:
           break;
@@ -327,54 +418,53 @@ function Booking(props) {
       return true;
     }
   };
-
+  // const MobileNumber = `${countryCode}${Phone}`;
   const handleSubmit = () => {
     const isFirstnameValid = validateAssignField(firstName, "firstName");
     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
     const isamountValid = validateAssignField(amount, "amount");
 
-    const isHostelValid = validateAssignField(paying, "paying");
-    const isFloorvalid = validateAssignField(floor, "floor");
-    const isRoomValid = validateAssignField(room, "room");
-    const isbedvalid = validateAssignField(bed, "bed");
+    const isHostelValid = validateAssignField(HostelIds, "paying");
+    const isFloorvalid = validateAssignField(FloorIds, "floor");
+    const isRoomValid = validateAssignField(roomId, "room");
+    const isbedvalid = validateAssignField(bedIds, "bed");
 
-    if (paying === "Select a PG" || !isHostelValid) {
+    if (HostelIds === "Select a PG" && HostelIds === ""  || !isHostelValid) {
       setHostelIdError("Please select a valid Hostel");
       return;
     } else {
       setfloorError("");
     }
-    if (floor === "Select a floor" || !isFloorvalid) {
+    if (FloorIds === "Select a floor" && FloorIds === "" || !isFloorvalid) {
       setfloorError("Please select a valid Floor");
       return; 
     } else {
       setfloorError(""); 
     }
-
-    
-    if (room === "Select a room" || !isRoomValid) {
+ 
+    if (roomId === "Select a room" && roomId === "" || !isRoomValid) {
       setRoomError("Please select a valid Room");
       return; 
     } else {
       setRoomError("");
     }
-    if (bed === "Select a bed" || !isbedvalid) {
+    if (bedIds === "Select a bed" && bedIds === "" || !isbedvalid) {
       setBedError("Please select a valid Room");
       return; 
     } else {
       setBedError(""); 
     }
-
+    
 
 
     if (
       !isFirstnameValid ||
       !isjoiningDateValid ||
-      (!isamountValid &&
-        !isHostelValid &&
-        !isFloorvalid &&
-        !isRoomValid &&
-        !isbedvalid)
+      !isamountValid ||
+      !isHostelValid ||
+      !isFloorvalid ||
+      !isRoomValid ||
+      !isbedvalid
     ) {
       return;
     }
@@ -394,6 +484,17 @@ console.log("LastName:", lastName);
 console.log("initialStateAssign.lastName:", initialStateAssign.lastName);
 console.log("Comments:", comments);
 console.log("initialStateAssign.comments:", initialStateAssign.comments);
+
+
+console.log("Address:", Address);
+console.log("initialStateAssign.Address:", initialStateAssign.Address);
+console.log("Email:", Email);
+console.log("initialStateAssign.Email:", initialStateAssign.Email);
+console.log("Phone:", Phone);
+console.log("initialStateAssign.Phone:", initialStateAssign.Phone);
+
+console.log("Phone:", countryCode);
+console.log("initialStateAssign.Phone:", initialStateAssign.countryCode);
 
     const isValidDate = (date) => {
       return !isNaN(Date.parse(date));
@@ -417,6 +518,9 @@ console.log("initialStateAssign.comments:", initialStateAssign.comments);
         : joiningDate !== initialStateAssign.joiningDate) ||
       Number(amount) !== Number(initialStateAssign.amount) ||
       String(firstName) !== String(initialStateAssign.firstName) ||
+      String(Address) !== String(initialStateAssign.Address) ||
+      String(Email) !== String(initialStateAssign.Email) ||
+      Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
       String(lastName) !== String(initialStateAssign.lastName) ||
       String(comments) !== String(initialStateAssign.comments) 
       
@@ -435,6 +539,7 @@ console.log("initialStateAssign.comments:", initialStateAssign.comments);
       console.error(error);
       return;
     }
+    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
 
     dispatch({
       type: "ADD_BOOKING",
@@ -448,6 +553,9 @@ console.log("initialStateAssign.comments:", initialStateAssign.comments);
         room_id: roomId,
         bed_id: bedIds,
         comments: comments,
+        phone_number:normalizedPhoneNumber,
+        email_id:Email,
+        address:Address,
         id:id
       },
     });
@@ -489,6 +597,17 @@ console.log("initialStateAssign.comments:", initialStateAssign.comments);
   const handleCloseForm = ()=> {
     setFormEdit(false)
     setFormError('')
+    setBedError('')
+    setPhone('')
+    setPhoneError('')
+    setAddress('')
+    setAddressError('')
+    setfirstNameError('')
+    setfloorError('')
+    setHostelIdError('')
+    setDateError('')
+    setRoomError('')
+    setamountError('')
 
   }
 
@@ -593,6 +712,16 @@ console.log("customer///////",props.filteredUsers)
       }, 500);
     }
   }, [state?.Booking?.statusCodeForDeleteBooking]);
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForAddBooking === 200) {
+      handleCloseForm()
+    
+      dispatch({ type:"GET_BOOKING_LIST" });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+      }, 500);
+    }
+  }, [state?.Booking?.statusCodeForAddBooking]);
 
 
   const popupRef = useRef(null);
@@ -833,10 +962,11 @@ console.log("Formatted Date:", formattedDate);
                           textAlign: 'start',
                         }}
                       >
-                        -
-                        {/* {customer.email} */}
+                        
+                        {/* {customer.email_id} */}
+                        {customer.email_id ? customer.email_id : 'N/A'}
                       </td>
-                      <td
+                      {/* <td
                         style={{
                           fontSize: '16px',
                           fontWeight: 500,
@@ -845,9 +975,30 @@ console.log("Formatted Date:", formattedDate);
                           textAlign: 'start',
                         }}
                       >
-                        -
-                        {/* {customer.mobile} */}
-                      </td>
+                       
+                        {customer.phone_number}
+                      </td> */}
+
+<td
+                              style={{
+                                
+                         
+                          textAlign: 'start',
+                          fontSize: '16px',
+                          fontWeight: 600,
+                          color: '#000000',
+                          fontFamily: 'Gilroy',
+                          whiteSpace: 'nowrap',
+                              }}
+                            >
+                              +
+                              {customer &&
+                                String(customer.phone_number).slice(
+                                  0,
+                                  String(customer.phone_number).length - 10
+                                )}{" "}
+                              {customer && String(customer.phone_number).slice(-10)}
+                            </td>
 
                       <td
                         style={{
@@ -1265,6 +1416,157 @@ console.log("Formatted Date:", formattedDate);
           </Col>
         </Row>
         <Row>
+        <Col md={6}>
+          <Form.Group
+                     
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Mobile number{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </Form.Label>
+
+                      <InputGroup>
+                        <Form.Select
+                          value={countryCode}
+                          id="vendor-select-pg"
+                          onChange={handleCountryCodeChange}
+                          style={{
+                            border: "1px solid #D9D9D9",
+
+                            borderRadius: "8px 0 0 8px",
+                            height: 50,
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: countryCode ? 600 : 500,
+                            boxShadow: "none",
+                            backgroundColor: "#fff",
+                            maxWidth: 90,
+                            paddingRight: 10,
+                          }}
+                        >
+                          {state.UsersList?.countrycode?.country_codes?.map(
+                            (item) => {
+                              return (
+                                console.log(
+                                  "item.country_flag",
+                                  item.country_flag
+                                ),
+                                (
+                                  <>
+                                    <option value={item.country_code}>
+                                      +{item.country_code}
+                                    </option>
+                                  </>
+                                )
+                              );
+                            }
+                          )}
+                        </Form.Select>
+                        <Form.Control
+                          value={Phone}
+                          onChange={handlePhone}
+                          type="text"
+                          placeholder="9876543210"
+                          maxLength={10}
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: Phone ? 600 : 500,
+                            boxShadow: "none",
+                            borderLeft: "unset",
+                            borderRight: "1px solid #D9D9D9",
+                            borderTop: "1px solid #D9D9D9",
+                            borderBottom: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: "0 8px 8px 0",
+                          }}
+                        />
+                      </InputGroup>
+                      <p
+                        id="MobileNumberError"
+                        style={{ color: "red", fontSize: 11, marginTop: 5 }}
+                      ></p>
+                      {phoneError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {phoneError}
+                        </div>
+                      )}
+                      {phonenumError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {phonenumError}
+                        </div>
+                      )}
+                      {phoneErrorMessage && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {phoneErrorMessage}
+                        </div>
+                      )}
+                    </Form.Group>
+           
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="formLastName" className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Email
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Email"
+                style={{
+                  fontSize: 14,
+                  color: "rgba(75, 75, 75, 1)",
+                  fontFamily: "Gilroy",
+                  height: "50px",
+                }}
+                value={Email}
+                isInvalid={!!formErrors.lastName}
+                onChange={(e) => handleEmail(e)}
+              />
+            </Form.Group>
+            {emailError && (
+                          <div style={{ color: "red" }}>
+                            <MdError />
+                            {emailError}
+                          </div>
+                        )}
+                        {emailIdError && (
+                          <div style={{ color: "red" }}>
+                            <MdError />
+                            {emailIdError}
+                          </div>
+                        )}
+                        {emailErrorMessage && (
+                          <div style={{ color: "red" }}>
+                            <MdError />
+                            {emailErrorMessage}
+                          </div>
+                        )}
+          </Col>
+        </Row>
+        <Row>
           <Col md={6}>
             <Form.Group className="mb-2" controlId="formJoiningDate">
               
@@ -1326,23 +1628,19 @@ console.log("Formatted Date:", formattedDate);
                                         />
                                       </label>
 
+                                     
                                       <Flatpickr
-                                        ref={calendarRef}
-                                        options={{
-                                          dateFormat: "Y-m-d",
-                                        }}
-                                        value={
-                                          joiningDate
-                                            ? new Date(joiningDate)
-                                            : new Date()
-                                        }
-                                        onChange={(selectedDates) =>
-                                          handleDate(selectedDates)
-                                        }
-                                        style={{
-                                          display: "none",
-                                        }}
-                                      />
+  ref={calendarRef}
+  options={{
+    dateFormat: "Y-m-d",
+    minDate: new Date(), // Disables all past dates
+  }}
+  value={joiningDate ? new Date(joiningDate) : new Date()}
+  onChange={(selectedDates) => handleDate(selectedDates)}
+  style={{
+    display: "none",
+  }}
+/>
                                     </div>
             </Form.Group>
             {dateError && (
@@ -1638,6 +1936,39 @@ console.log("Formatted Date:", formattedDate);
             )}
           </Col>
         </Row>
+        <Col md={12}>
+            <Form.Group controlId="formFirstName" className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Address <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Address"
+                style={{
+                  fontSize: 14,
+                  color: "rgba(75, 75, 75, 1)",
+                  fontFamily: "Gilroy",
+                  height: "50px",
+                }}
+                value={Address}
+                className={formErrors.firstName ? "is-invalid" : ""}
+                onChange={(e) => handleAddress(e)}
+              />
+            </Form.Group>
+            {addressError && (
+                          <div style={{ color: "red" }}>
+                            <MdError />
+                            {addressError}
+                          </div>
+                        )}
+          </Col>
 
         <Form.Group controlId="formComments" className="mb-3">
           <Form.Label

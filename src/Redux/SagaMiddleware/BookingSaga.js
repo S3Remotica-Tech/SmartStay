@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AddBooking,GetAddBooking,DeleteBooking } from "../Action/BookingAction";
+import { AddBooking,GetAddBooking,DeleteBooking,assignBooking } from "../Action/BookingAction";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -118,6 +118,53 @@ function* handleDeleteBooking(action) {
    }
  }
 
+
+
+ function* handleAsignBooking(action) {
+   const response = yield call (assignBooking, action.payload);
+   var toastStyle = {
+     backgroundColor: "#E6F6E6",
+     color: "black",
+     width: "auto",
+     borderRadius: "60px",
+     height: "20px",
+     fontFamily: "Gilroy",
+     fontWeight: 600,
+     fontSize: 14,
+     textAlign: "start",
+     display: "flex",
+     alignItems: "center", 
+     padding: "10px",
+    
+   };
+
+   console.log("responseinggggg",response)
+   if (response.data.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'ASSIGN_USER_BOOKING' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+      toast.success(`${response.data.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+     });
+
+
+
+   }
+   else {
+      yield put ({type:'ERROR_ASSIGN_BOOKING', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
  function refreshToken(response){
     if(response.data && response.data.refresh_token){
        const refreshTokenGet = response.data.refresh_token
@@ -138,5 +185,6 @@ function* handleDeleteBooking(action) {
     yield takeEvery('ADD_BOOKING', handleAddBooking)
     yield takeEvery('GET_BOOKING_LIST', handleGetBooking)
     yield takeEvery('DELETE_BOOKING_CUSTOMER', handleDeleteBooking)
+    yield takeEvery('ASSIGN_BOOKING', handleAsignBooking)
  }
  export default CreateBookinSaga;

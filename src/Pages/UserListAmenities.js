@@ -34,12 +34,14 @@ function UserListAmenities(props) {
     console.log("userIduserId....?", props.id);
   }, [props.id]);
   const [selectAmneties, setselectAmneties] = useState("");
+  
   const [selectedAmenityName, setSelectedAmenityName] = useState([]);
   console.log("selectedAmenityName", selectedAmenityName);
   const [addamenityShow, setaddamenityShow] = useState(false);
   const [active, setActive] = useState(false);
   const [status, setStatus] = useState("");
-  const [createby, setcreateby] = useState("");
+  const [createby, setcreateby] = useState('');
+  console.log("createby123456",createby)
   const [amnityEdit, setamnityEdit] = useState("");
   const [filtshow, setFiltshow] = useState(false);
   const [amnitytableshow, setamnitytableshow] = useState(false);
@@ -63,7 +65,9 @@ function UserListAmenities(props) {
     }
     const amenitiesHistory = state.UsersList.amnetieshistory.filter((item) => {
       return item.amenity_Id == value;
+
     });
+    console.log("amenitiesHistory",amenitiesHistory)
 
     console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
     if (amenitiesHistory && amenitiesHistory.length > 0) {
@@ -180,7 +184,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
 
   console.log("state For Add userAminity", state);
   const handleEdit = (v) => {
-    console.log("vvv", v);
+    console.log("vvvfdfdfdfdg", v);
 
     setamnityEdit(v);
     setaddamenityShow(true);
@@ -348,14 +352,14 @@ if(state.UsersList.statusCustomerAddUser === 200){
         <Modal.Body>
           <div className="mb-3 ps-2 pe-2">
             <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
-            Amenities_Name
+            AmenitiesName
             </label>
             <Form.Control
               placeholder="Amnities Name"
               aria-label="Recipient's username"
               className="border custom-input"
               aria-describedby="basic-addon2"
-              value={selectAmneties}
+              value={createby[0]?.Amnities_Name}
               style={{
                 fontSize: 12,
                 fontWeight: "530",
@@ -375,7 +379,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
           )}
           <div className="mb-3 ps-2 pe-2">
             <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
-              Hostel_Name
+              HostelName
             </label>
             <Form.Control
               placeholder="HostelName"

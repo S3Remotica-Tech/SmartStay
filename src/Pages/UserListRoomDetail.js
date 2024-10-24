@@ -112,9 +112,8 @@ function UserListRoomDetail(props) {
   };
   const options = {
     dateFormat: "Y/m/d",
-    // defaultDate: selectedDate || new Date(),
-    maxDate: new Date(),
-    minDate: null,
+    maxDate: null, // Removes the upper limit
+    minDate: new Date(), // Disable past dates, only allow today and future dates
   };
   useEffect(() => {
     if (calendarRef.current) {
@@ -2755,11 +2754,11 @@ setTimeout(() => {
                                         }}
                                         onClick={() => {
                                           if (calendarRef.current) {
-                                            calendarRef.current.flatpickr.open(); // Open Flatpickr on click
+                                            calendarRef.current.flatpickr.open(); 
                                           }
                                         }}
                                       >
-                                        {/* {selectedDate ? selectedDate : 'YYYY-MM-DD'} Show selectedDate */}
+                                       
                                         <span>
                                           {selectedDate === "0000-00-00" ||
                                           !selectedDate
@@ -2777,23 +2776,16 @@ setTimeout(() => {
                                         />
                                       </label>
 
-                                      <Flatpickr
-                                        ref={calendarRef}
-                                        options={{
-                                          dateFormat: "Y-m-d",
-                                        }}
-                                        value={
-                                          selectedDate
-                                            ? new Date(selectedDate)
-                                            : new Date()
-                                        }
-                                        onChange={(selectedDates) =>
-                                          handleDate(selectedDates)
-                                        }
-                                        style={{
-                                          display: "none",
-                                        }}
-                                      />
+                                    
+                                       <Flatpickr
+      ref={calendarRef}
+      options={options} 
+      value={selectedDate ? new Date(selectedDate) : new Date()}
+      onChange={(selectedDates) => handleDate(selectedDates)}
+      style={{
+        display: "none",
+      }}
+    />
                                     </div>
 
                                     {dateError && (
