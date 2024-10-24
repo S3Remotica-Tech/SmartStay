@@ -32,10 +32,12 @@ const [floorError, setFloorError] = useState('')
 const [initialState, setInitialState] = useState({});
 const isEditing = !!editRoom && !!editRoom.room_Id;
 const modalTitle = isEditing ? 'Edit Room' : 'Add Room';
+const [isChangedError, setIsChangedError] = useState('')
 
 const handleRoomChange = (e) => {
   const Room_Id = e.target.value
   setRoomError('')
+  setIsChangedError('')
 dispatch({ type: 'CLEAR_ALREADY_ROOM_ERROR'})
 
   if (!/^\d*$/.test(Room_Id)) {
@@ -146,15 +148,13 @@ if (!floorId) {
 
 
 
-    const isChanged = 
-    Number(room) !== Number(initialState.room)
+    const isChanged = room !== initialState.room;
+
+    console.log("isChanged",isChanged, room, initialState.room)
 
   if (!isChanged) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'No changes detected',
-     
-    });
+    setIsChangedError('No changes detected')
+  
     return;
   }
 
@@ -225,6 +225,16 @@ if(isEditing){
           </div>
 
         </Modal.Body>
+
+       
+        { isChangedError && (
+                <div className="d-flex align-items-center p-1 mb-2">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    { isChangedError}
+                  </label>
+                </div>
+              )}
 
         {roomError && (
                 <div className="d-flex align-items-center p-1 mb-2">

@@ -42,15 +42,34 @@ function ForgetPasswordPage() {
   //   setShowpassword(!showPassword);
   // };
 
-  const handleEmailid = (e) => {
-    dispatch({ type: 'CLEAR_ERROR' })
-    setGeneralError('')
-    setEmail(e.target.value);
-    setEmailError('')
-    setSendMailError('')
-  };
+  // const handleEmailid = (e) => {
+  //   dispatch({ type: 'CLEAR_ERROR' })
+  //   setGeneralError('')
+  //   setEmail(e.target.value);
+  //   setEmailError('')
+  //   setSendMailError('')
+  // };
 
-  console.log("email***********", email)
+  // console.log("email***********", email)
+
+  const handleEmailid = (e) => {
+    const email = e.target.value;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
+  
+    dispatch({ type: 'CLEAR_ERROR' });
+    setGeneralError('');
+    setEmail(email);
+    setSendMailError('');
+  
+   
+    if (!emailRegex.test(email)) {
+      setEmailError('Please enter a valid email address'); 
+    } else {
+      setEmailError('');
+    }
+  };
+  
+  
 
   // const handlePassword = (e) => {
   //   setPassword(e.target.value);
@@ -76,6 +95,7 @@ function ForgetPasswordPage() {
 
   useEffect(() => {
     if (state.NewPass?.status_codes === 200) {
+      navigate("/login-Page")
       setEmail("");
       setPassword("");
       setOtpValue("");
@@ -95,13 +115,13 @@ function ForgetPasswordPage() {
           }
         });
       }
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_OTPVERIFY_FORGOT_PASSWORD_STATUSCODE' })
-      }, 1000)
+      // setTimeout(() => {
+      //   dispatch({ type: 'REMOVE_OTPVERIFY_FORGOT_PASSWORD_STATUSCODE' })
+      // }, 1000)
 
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_OTP_STATUS_CODE' })
-      }, 2000)
+      // setTimeout(() => {
+      //   dispatch({ type: 'CLEAR_OTP_STATUS_CODE' })
+      // }, 2000)
 
       setShowOtpVerification(false);
       setNewPassword(false);
@@ -189,20 +209,48 @@ function ForgetPasswordPage() {
     if (state.NewPass?.statusCode == 200) {
       setShowLoader(false)
       setShowOtpVerification(true);
-      setDisabledButton(true)
+      // setDisabledButton(true)
 
-
-
-
-    } else {
-      setShowLoader(false)
-      setShowOtpVerification(false);
-      setDisabledButton(false)
-    }
+      setTimeout(()=>{
+        dispatch({ type: 'CLEAR_OTP_STATUS_CODE' })
+      },1000)
+     
+    } 
+    // else {
+    //   setShowLoader(false)
+    //   setShowOtpVerification(false);
+    //   setDisabledButton(false)
+    // }
 
   }, [state.NewPass?.statusCode])
 
+  useEffect(() => {
+    if (state.NewPass.statusCodeForgotOtp == 200) {
+      setNewPassword(true)
+      setShowEmailSend(false)
+      setShowOtpVerification(false)
 
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_OTPVERIFY_FORGOT_PASSWORD_STATUSCODE' })
+      }, 1000)
+
+    }
+    // } else {
+    //   setNewPassword(false)
+    //   setShowEmailSend(true)
+
+    //   if (inputRefs) {
+    //     inputRefs.forEach(ref => {
+    //       if (ref.current) {
+    //         ref.current.value = null;
+    //       }
+    //     });
+    //   }
+
+
+
+    // }
+  }, [state.NewPass.statusCodeForgotOtp])
 
   useEffect(() => {
     if (state.NewPass?.sendEmailStatusCode == 203 || state.NewPass?.EmailErrorStatusCode == 201) {
@@ -232,28 +280,25 @@ function ForgetPasswordPage() {
 
 
 
-
-
   const handleAccountVerification = () => {
-
-    if (email) {
-      dispatch({ type: 'OTPSEND', payload: { email: email } });
-      setShowLoader(true)
-
+    if (!email) {
+      setGeneralError('Please enter an email address');
+      return;
     }
-    else {
-
-      setGeneralError('Please enter email address')
-      // Swal.fire({
-      //   icon: 'error',
-      //   title: 'Please Enter All Mandatory Fields',
-      //   text: errorMessage,
-      // });
-
-      // dispatch({ type: 'ERROR', payload: errorMessage });
+  
+    
+    if (emailError) {
+      // setEmailValidationError('Please fix the email error before proceeding');
+      return;
     }
-
+  
+  
+    dispatch({ type: 'OTPSEND', payload: { email: email } });
+    // setShowLoader(true);
   };
+  
+
+ 
 
   const validatePassword = () => {
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/;
@@ -293,27 +338,7 @@ function ForgetPasswordPage() {
 
   }
 
-  useEffect(() => {
-    if (state.NewPass.statusCodeForgotOtp == 200) {
-      setNewPassword(true)
-      setShowEmailSend(false)
-      setShowOtpVerification(false)
-    } else {
-      setNewPassword(false)
-      setShowEmailSend(true)
-
-      if (inputRefs) {
-        inputRefs.forEach(ref => {
-          if (ref.current) {
-            ref.current.value = null;
-          }
-        });
-      }
-
-
-
-    }
-  }, [state.NewPass.statusCodeForgotOtp])
+ 
 
   const [password, setPassword] = useState('')
   const [showPassword, setShowpassword] = useState(false);
@@ -409,10 +434,21 @@ function ForgetPasswordPage() {
   
 
   const hanldeBackToLogin = () =>{
-    navigate("/login-Page"); 
+    setShowEmailSend(true)
+    setNewPassword(false)
+    navigate("/All_Landing_pages"); 
+    
   }
 
+  const hanldeBackToLoginPassword = () =>{
+       setTimeout(()=>{
+           setShowEmailSend(true)
+      setNewPassword(false)
+    },100)
+    navigate("/All_Landing_pages"); 
+  }
  
+  console.log("newpassword", newPassword, " setShowEmailSend", showEmailSend)
 
   return (
 
@@ -424,11 +460,11 @@ function ForgetPasswordPage() {
 
             <div className="row g-0 coumn-gap-1 row-gap-4 fade-in">
               <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" style={{ padding: 80 }}>
-                <div className="d-flex gap-1 mb-1" style={{curser:"pointer"}}>
+                <div className="d-flex gap-1 mb-1" style={{curser:"pointer"}} onClick={hanldeBackToLogin}>
 
-                  <img src={Logo} style={{ height: 25, width: 25, cursor:"pointer" }}  onClick={hanldeBackToLogin}/>
+                  <img src={Logo} style={{ height: 25, width: 25, cursor:"pointer" }}  />
                   {/* <img src={Icon} style={{width:"100%"}} /> */}
-                  <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }}>Smartstay</label></div>
+                  <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", cursor:"pointer" }}>Smartstay</label></div>
                 </div>
 
                 <div className="mt-3 mb-1 "><label style={{ fontSize: 32, fontWeight: 600, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}> Forgot Password?</label></div>
@@ -440,7 +476,7 @@ function ForgetPasswordPage() {
                     <Form.Group controlId="formGridEmail" className='mt-4 mb-3'>
                       <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                       <Form.Control size="lg"
-                        disabled={disabledButton}
+                        // disabled={disabledButton}
                         value={email} onChange={(e) => handleEmailid(e)}
                         type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: email ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
@@ -480,7 +516,8 @@ function ForgetPasswordPage() {
 
                   <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1 d-flex gap-5" >
                     <Button
-                      onClick={handleAccountVerification} disabled={disabledButton}
+                      onClick={handleAccountVerification}
+                      //  disabled={disabledButton}
                       className="w-100" style={{ border: disabledButton ? "gray" : "rgba(30, 69, 225, 1)", backgroundColor: disabledButton ? "gray" : "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600, fontSize: 16 }}>Continue</Button>
                     <div>
                       {showLoader && <Spinner animation="grow" variant="primary" />}
@@ -535,11 +572,11 @@ function ForgetPasswordPage() {
 
           <div className="row g-0 coumn-gap-1 row-gap-4">
             <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" style={{ padding: 80 }}>
-              <div className="d-flex gap-1 mb-1" onClick={hanldeBackToLogin}>
+              <div className="d-flex gap-1 mb-1" onClick={hanldeBackToLoginPassword}>
 
                 <img src={Logo} style={{ height: 25, width: 25, cursor: "pointer" }} />
                 {/* <img src={Icon} style={{width:"100%"}} /> */}
-                <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }}>Smartstay</label></div>
+                <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" , cursor:"pointer"}}>Smartstay</label></div>
               </div>
 
               <div className="mt-3 mb-1 "><label style={{ fontSize: 32, fontWeight: 600, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}> Setup your password  </label></div>

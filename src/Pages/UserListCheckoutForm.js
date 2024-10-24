@@ -202,9 +202,9 @@ console.log("setSelectedCustomer",selectedCustomer)
     }),
   };
 
-  // Function to format options
+
   const formatOptions = () => {
-    return state.UsersList.Users.map((user) => ({
+    return state.UsersList?.availableCheckOutCustomerList.map((user) => ({
       value: user.ID,
       label: (
         <div className="d-flex align-items-center">
@@ -218,6 +218,14 @@ console.log("setSelectedCustomer",selectedCustomer)
       ),
     }));
   };
+
+
+useEffect(()=>{
+if(selectedHostel){
+  dispatch({ type: 'AVAILABLECHECKOUTCUSTOMER', payload:{hostel_id:selectedHostel }})
+}
+},[selectedHostel])
+
 
 
 

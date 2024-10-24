@@ -34,7 +34,7 @@ function CheckOut() {
   const [modalType, setModalType] = useState(null);
   const [customers, setCustomers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4; 
+  const itemsPerPage = 10; 
   const datePickerRef = useRef(null);
 
 
@@ -252,7 +252,12 @@ function CheckOut() {
             <div key={index} className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Card className=" h-100 border p-3" style={{ borderColor: '#E6E6E6', borderWidth: '1px', borderRadius: '16px', position: 'relative' }}>
                 <div className="d-flex align-items-center">
-                  <Image src={checkout.profile ? checkout.profile : Room} roundedCircle style={{ height: "60px", width: "60px" }} />
+                  <Image
+                    src={checkout.profile && checkout.profile !== "0" && checkout.profile.trim() !== "" ? checkout.profile : People}
+                    roundedCircle
+                    style={{ height: "60px", width: "60px" }}
+                    alt="profile"
+                  />
 
                   {/* <img src={Room} alt="Room Image" /> */}
                   <div style={{ marginLeft: '10px' }}>
