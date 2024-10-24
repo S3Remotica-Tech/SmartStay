@@ -17,3 +17,9 @@ export async function AddBooking(datum){
       data: datum,
     });
   }
+  export async function assignBooking(datum){
+    console.log("Bookingassignbooking",datum)
+      return await AxiosConfig.post('/assign_booking',datum,{
+        data:datum
+      })
+    }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Modal, Form, Row, Col, Button,FormControl } from "react-bootstrap";
+import { Modal, Form, Row, Col, Button,FormControl,InputGroup } from "react-bootstrap";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { CloseCircle } from "iconsax-react";
@@ -46,6 +46,19 @@ function BookingModal(props) {
   const [validated, setValidated] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [formEdit, setFormEdit] = useState({});
+  const [Phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  const [Address, setAddress] = useState("");
+  const [addressError, setAddressError] = useState("");
+  const [Email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [emailIdError, setemailIdError] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [countryCode, setCountryCode] = useState("91");
+  const [phonenumError, setphonenumError] = useState("");
+  const [errorInPhone, seterrorInPhone] = useState("");
+
 
 
   useEffect(() => {
@@ -145,11 +158,26 @@ function BookingModal(props) {
   const handleComments = (e) => {
     setComments(e.target.value);
   };
+
+
+
+  const handlePhone = (e) => {
+    setPhone(e.target.value);
+    const pattern = /^\d{1,10}$/;
+    const isValidMobileNo = pattern.test(e.target.value);
+
+    if (isValidMobileNo && e.target.value.length === 10) {
+      setPhoneError("");
+    } else {
+      setPhoneError("Invalid mobile number *");
+    }
+    setPhoneErrorMessage("");
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+  };
   const options = {
     dateFormat: "Y/m/d",
 
-    // defaultDate: selectedDate ,
-    maxDate: new Date(),
+    defaultDate: joiningDate ,
     minDate: new Date(),
 
   };
@@ -163,7 +191,31 @@ function BookingModal(props) {
     setJoiningDate(selectedDates[0])
     setDateError('')
   }
- 
+  const handleAddress = (e) => {
+    setAddress(e.target.value);
+    setAddressError("");
+  };
+  const handleEmail = (e) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    const hasUpperCase = /[A-Z]/.test(emailValue);
+    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    const isValidEmail = emailRegex.test(emailValue);
+    if (!emailValue) {
+      setEmailError("");
+      setEmailErrorMessage("");
+    } else if (hasUpperCase) {
+      setEmailErrorMessage("Email should be in lowercase *");
+      setEmailError("Invalid Email Id *");
+    } else if (!isValidEmail) {
+      setEmailErrorMessage("");
+      setEmailError("Invalid Email Id *");
+    } else {
+      setEmailError("");
+      setEmailErrorMessage("");
+    }
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+  };
 
   const validateAssignField = (value, fieldName) => {
     if (
@@ -175,7 +227,10 @@ function BookingModal(props) {
     ) {
       switch (fieldName) {
         case "firstName":
-          setfirstNameError("FirstName ID is required");
+          setfirstNameError("FirstName is required");
+          break;
+          case "Phone":
+          setPhoneError("Phone  is required");
           break;
         case "joiningDate":
           setDateError("joiningDate ID is required");
@@ -195,7 +250,12 @@ function BookingModal(props) {
         case "bed":
           setBedError("Bed is required");
           break;
-
+          case "Address":
+          setAddressError("Address is required");
+          break;
+          case "Email":
+            setEmailError("Email is required");
+            break;
         default:
           break;
       }
@@ -204,6 +264,9 @@ function BookingModal(props) {
       switch (fieldName) {
         case "firstName":
           setfirstNameError("");
+          break;
+          case "Phone":
+          setPhoneError("");
           break;
         case "joiningDate":
           setDateError("");
@@ -223,6 +286,12 @@ function BookingModal(props) {
         case "bed":
           setBedError("");
           break;
+          case "Address":
+          setAddressError("");
+          break;
+          case "Email":
+            setEmailError("");
+            break;
 
         default:
           break;
@@ -230,16 +299,28 @@ function BookingModal(props) {
       return true;
     }
   };
-
+  const handleCountryCodeChange = (e) => {
+    setCountryCode(e.target.value);
+  };
+  const MobileNumber = `${countryCode}${Phone}`;
   const handleSubmit = () => {
     const isFirstnameValid = validateAssignField(firstName, "firstName");
+    const isphoneValid = validateAssignField(Phone, "Phone");
     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
     const isamountValid = validateAssignField(amount, "amount");
-
     const isHostelValid = validateAssignField(paying, "paying");
     const isFloorvalid = validateAssignField(floor, "floor");
     const isRoomValid = validateAssignField(room, "room");
     const isbedvalid = validateAssignField(bed, "bed");
+    const isaddressValid = validateAssignField(Address, "Address");
+
+
+    if (phoneError === "Invalid mobile number *") {
+      setPhoneErrorMessage("Please enter a valid 10-digit phone number");
+      // return;
+    } else {
+      setPhoneErrorMessage("");
+    }
 
     if (paying === "Select a PG" || !isHostelValid) {
       setHostelIdError("Please select a valid Hostel");
@@ -270,7 +351,9 @@ function BookingModal(props) {
 
     if (
       !isFirstnameValid ||
+      !isphoneValid||
       !isjoiningDateValid ||
+      !isaddressValid ||
       (!isamountValid &&
         !isHostelValid &&
         !isFloorvalid &&
@@ -299,6 +382,10 @@ function BookingModal(props) {
         room_id: room,
         bed_id: bed,
         comments: comments,
+        phone_number:MobileNumber,
+        email_id:Email,
+        address:Address
+
       },
     });
    
@@ -306,22 +393,36 @@ function BookingModal(props) {
 
   };
   const handleAddClose=()=>{
-    props.setShowbookingForm(false)
-
     setFirstName('')
-    setLastName('')
-    setAmount('')
-    setJoiningDate('')
-    setPaying('')
-    setFloor('')
-    setRoom('')
-    setBed('')
-    setComments('')
-    setBedError('')
+      setLastName('')
+      setAmount('')
+      setJoiningDate('')
+      setPaying('')
+      setFloor('')
+      setRoom('')
+      setBed('')
+      setComments('')
+      setBedError('')
+      setPhone('')
+      setPhoneError('')
+      setAddress('')
+      setAddressError('')
+      setfirstNameError('')
+      setfloorError('')
+      setHostelIdError('')
+      setDateError('')
+      setRoomError('')
+      setamountError('')
+      props.handleClose()
+
+   
+
+    
+    
   }
   useEffect(()=>{
     if(state.Booking.bookingError){
-      setBedError(state.Booking.bookingError)
+      seterrorInPhone(state.Booking.bookingError)
 
     }
   },[state.Booking.bookingError])
@@ -330,8 +431,7 @@ function BookingModal(props) {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      props.handleClose()
-    
+      handleAddClose()
       dispatch({ type:"GET_BOOKING_LIST" });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
@@ -368,7 +468,7 @@ function BookingModal(props) {
                   fontWeight: 500,
                 }}
               >
-                First Name
+                First Name <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -419,6 +519,155 @@ function BookingModal(props) {
             </Form.Group>
           </Col>
         </Row>
+
+        <Row>
+          <Col md={6}>
+          <Form.Group
+                     
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Mobile number{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </Form.Label>
+
+                      <InputGroup>
+                        <Form.Select
+                          value={countryCode}
+                          id="vendor-select-pg"
+                          onChange={handleCountryCodeChange}
+                          style={{
+                            border: "1px solid #D9D9D9",
+
+                            borderRadius: "8px 0 0 8px",
+                            height: 50,
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: countryCode ? 600 : 500,
+                            boxShadow: "none",
+                            backgroundColor: "#fff",
+                            maxWidth: 90,
+                            paddingRight: 10,
+                          }}
+                        >
+                          {state.UsersList?.countrycode?.country_codes?.map(
+                            (item) => {
+                              return (
+                                console.log(
+                                  "item.country_flag",
+                                  item.country_flag
+                                ),
+                                (
+                                  <>
+                                    <option value={item.country_code}>
+                                      +{item.country_code}
+                                    </option>
+                                  </>
+                                )
+                              );
+                            }
+                          )}
+                        </Form.Select>
+                        <Form.Control
+                          value={Phone}
+                          onChange={handlePhone}
+                          type="text"
+                          placeholder="9876543210"
+                          maxLength={10}
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: Phone ? 600 : 500,
+                            boxShadow: "none",
+                            borderLeft: "unset",
+                            borderRight: "1px solid #D9D9D9",
+                            borderTop: "1px solid #D9D9D9",
+                            borderBottom: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: "0 8px 8px 0",
+                          }}
+                        />
+                      </InputGroup>
+                      <p
+                        id="MobileNumberError"
+                        style={{ color: "red", fontSize: 11, marginTop: 5 }}
+                      ></p>
+                      {phoneError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {phoneError}
+                        </div>
+                      )}
+                      
+                      {phoneErrorMessage && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {phoneErrorMessage}
+                        </div>
+                      )}
+                    </Form.Group>
+           
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="formLastName" className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Email
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Email"
+                style={{
+                  fontSize: 14,
+                  color: "rgba(75, 75, 75, 1)",
+                  fontFamily: "Gilroy",
+                  height: "50px",
+                }}
+                value={Email}
+                isInvalid={!!formErrors.lastName}
+                onChange={(e) => handleEmail(e)}
+              />
+            </Form.Group>
+            {emailError && (
+                          <div style={{ color: "red" }}>
+                            <MdError />
+                            {emailError}
+                          </div>
+                        )}
+                        {emailIdError && (
+                          <div style={{ color: "red" }}>
+                            <MdError />
+                            {emailIdError}
+                          </div>
+                        )}
+                        {emailErrorMessage && (
+                          <div style={{ color: "red" }}>
+                            <MdError />
+                            {emailErrorMessage}
+                          </div>
+                        )}
+          </Col>
+        </Row>
+
+
         <Row>
           <Col md={6}>
             <Form.Group className="mb-2" controlId="formJoiningDate">
@@ -530,7 +779,7 @@ function BookingModal(props) {
                   selected
                   value=""
                 >
-                  Select a PG
+                  Select a PG <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </option>
                 {state.UsersList?.hostelList &&
                   state.UsersList?.hostelList.map((item) => (
@@ -732,7 +981,7 @@ function BookingModal(props) {
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        Amount{" "}
+                                        Booking Amount{" "}
                                         <span
                                           style={{
                                             color: "red",
@@ -770,6 +1019,41 @@ function BookingModal(props) {
           </Col>
         </Row>
 
+
+        <Col md={12}>
+            <Form.Group controlId="formFirstName" className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Address <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Address"
+                style={{
+                  fontSize: 14,
+                  color: "rgba(75, 75, 75, 1)",
+                  fontFamily: "Gilroy",
+                  height: "50px",
+                }}
+                value={Address}
+                className={formErrors.firstName ? "is-invalid" : ""}
+                onChange={(e) => handleAddress(e)}
+              />
+            </Form.Group>
+            {addressError && (
+                          <div style={{ color: "red" }}>
+                            <MdError />
+                            {addressError}
+                          </div>
+                        )}
+          </Col>
+
         <Form.Group controlId="formComments" className="mb-3">
           <Form.Label
             style={{
@@ -794,7 +1078,12 @@ function BookingModal(props) {
             }}
           />
         </Form.Group>
-
+        {errorInPhone && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {errorInPhone}
+                        </div>
+                      )}
         <Modal.Footer>
           <Button
             variant="primary"
