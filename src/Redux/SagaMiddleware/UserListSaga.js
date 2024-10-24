@@ -346,20 +346,11 @@ function* handleAddUser(datum) {
          style: toastStyle,
        });}
       else if(response.statusCode === 202) {
-         // Swal.fire({
-         //    icon: 'warning',
-         //   title: 'Error',
-         //   html: `<span style="color: red">${datum.payload.Phone}</span> is already exist in the database`,
-           
-         // });
+         
          yield put({ type: 'PHONE_ERROR', payload: response.message });
       }
       else if(response.statusCode === 203) {
-         // Swal.fire({
-         //   icon: 'warning',
-         //   title: 'Error',
-         //   html: `<span style="color: red">${datum.payload.Email}</span> is already exist in the database`,
-         // });
+        
          yield put({ type: 'EMAIL_ERROR', payload: response.message });
       }
 
