@@ -88,10 +88,10 @@ const handleDeleteBed = () =>{
             <div>
             <Nav fill variant="tabs" >
       <Nav.Item onClick={() => handleShow('addCustomer')}>
-        <Nav.Link  style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy", color:actionType === 'addCustomer' ? "#FFF" : "#1E45E1" , backgroundColor:actionType === 'addCustomer' ? "#1E45E1" : "#FFF"}}>Add Customer</Nav.Link>
+        <Nav.Link  style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy",borderColor:'#e0ecff',borderTopRightRadius:'0px', color:actionType === 'addCustomer' ? "black" : "black" , backgroundColor:actionType === 'addCustomer' ? "#e0ecff" : "#FFF"}}>Add Customer</Nav.Link>
       </Nav.Item>
       <Nav.Item onClick={() => handleShow('deleteBed')}>
-        <Nav.Link  style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy", color:actionType === 'deleteBed' ? "#FFF" : "#1E45E1" , backgroundColor:actionType === 'deleteBed' ? "#1E45E1" : "#FFF"}}>Delete Bed</Nav.Link>
+        <Nav.Link  style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy",borderColor:'#e0ecff',borderTopLeftRadius:'0px', color:actionType === 'deleteBed' ? "black" : "black" , backgroundColor:actionType === 'deleteBed' ? "#e0ecff" : "#FFF"}}>Delete Bed</Nav.Link>
       </Nav.Item>
      
     </Nav>
