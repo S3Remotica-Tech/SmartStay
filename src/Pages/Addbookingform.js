@@ -58,6 +58,7 @@ function BookingModal(props) {
   const [countryCode, setCountryCode] = useState("91");
   const [phonenumError, setphonenumError] = useState("");
   const [errorInPhone, seterrorInPhone] = useState("");
+  const [errorInEmail, seterrorInEmail] = useState("");
 
 
 
@@ -172,6 +173,7 @@ function BookingModal(props) {
       setPhoneError("Invalid mobile number *");
     }
     setPhoneErrorMessage("");
+    seterrorInPhone("")
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
   const options = {
@@ -416,6 +418,7 @@ function BookingModal(props) {
       setEmail('')
       setEmailError('')
       setEmailErrorMessage('')
+      seterrorInPhone('')
       props.handleClose()
 
 
@@ -426,13 +429,14 @@ function BookingModal(props) {
   }
   useEffect(()=>{
     if(state.Booking.bookingPhoneError){
-      setPhoneError(state.Booking.bookingPhoneError)
+      seterrorInPhone(state.Booking.bookingPhoneError)
 
     }
   },[state.Booking.bookingPhoneError])
+
   useEffect(()=>{
     if(state.Booking.bookingEmailError){
-      setEmailError(state.Booking.bookingEmailError)
+      seterrorInEmail(state.Booking.bookingEmailError)
 
     }
   },[state.Booking.bookingEmailError])
@@ -627,6 +631,12 @@ function BookingModal(props) {
                           {phoneErrorMessage}
                         </div>
                       )}
+                        {errorInPhone && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {errorInPhone}
+                        </div>
+                      )}
                     </Form.Group>
            
           </Col>
@@ -672,6 +682,12 @@ function BookingModal(props) {
                           <div style={{ color: "red" }}>
                             <MdError />
                             {emailErrorMessage}
+                          </div>
+                        )}
+                        {errorInEmail && (
+                          <div style={{ color: "red" }}>
+                            <MdError />
+                            {errorInEmail}
                           </div>
                         )}
           </Col>
@@ -1088,12 +1104,7 @@ function BookingModal(props) {
             }}
           />
         </Form.Group>
-        {errorInPhone && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {errorInPhone}
-                        </div>
-                      )}
+      
         <Modal.Footer>
           <Button
             variant="primary"
