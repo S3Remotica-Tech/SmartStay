@@ -120,23 +120,28 @@ const Compliance = () => {
   }, [])
 
   useEffect(() => {
+    // Run whenever there's an update in statusCodeForAddCompliance or filterInput
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
-      dispatch({ type: 'COMPLIANCE-LIST' })
-
+      dispatch({ type: 'COMPLIANCE-LIST' });
+  
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' })
-      }, 200)
-
+        dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' });
+      }, 200);
     }
-     if(state.ComplianceList.Compliance){
-        const filteredItems = state.ComplianceList.Compliance.filter((user) =>
-          user.Name.toLowerCase().includes(filterInput.toLowerCase()));
-          setFilteredUsers(filteredItems)
-     }
-       else {
-        setFilteredUsers(state.ComplianceList.Compliance)
-      }
-  }, [state.ComplianceList.statusCodeForAddCompliance]);
+  
+    // Filter ComplianceList.Compliance based on filterInput and update filteredUsers
+    if (state.ComplianceList.Compliance) {
+      const filteredItems = state.ComplianceList.Compliance.filter((user) =>
+        user.Name.toLowerCase().includes(filterInput.toLowerCase())
+      );
+      setFilteredUsers(filteredItems);
+    } else {
+      // If no filter applied or Compliance data is missing, set full Compliance list
+      setFilteredUsers(state.ComplianceList.Compliance || []);
+    }
+  
+  }, [state.ComplianceList.statusCodeForAddCompliance, filterInput]);
+  
 
 
 
@@ -163,11 +168,11 @@ const Compliance = () => {
 
 
   useEffect(() => {
-    if (state?.ComplianceList?.Compliance) {
+    if (state?.ComplianceList?.Compliance && filteredUsers.length === 0) {
       setFilteredUsers(state.ComplianceList.Compliance);
     }
-
-  }, [state?.ComplianceList?.Compliance]);
+  }, [state?.ComplianceList?.Compliance, filteredUsers]);
+  
 
 
 
@@ -231,15 +236,17 @@ const Compliance = () => {
   };
 
   const handleUserSelect = (user) => {
-    // Check the value and set filterInput based on the condition
-    console.log("userselect",user);
+    setFilterInput(user.Name);
     
-      setFilterInput(user.Name);
-  
-    // setFilteredUsers([]);
-    setDropdownVisible(false);
-    console.log("User selected:", user);
+    // Set filteredUsers to only the selected user's data
+    const selectedUserData = state.ComplianceList.Compliance.filter(
+      (item) => item.Name === user.Name
+    );
+    setFilteredUsers(selectedUserData);
+    
+    setDropdownVisible(false);  // Close the dropdown after selection
   };
+  
 
   const handleFiltershow = () => {
     setFiltericon(!filtericon)
@@ -707,12 +714,12 @@ const Compliance = () => {
           </div>
         </div> */}
 
-        <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
           <div>
             <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginLeft: '20px' }}>Complaints</label>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
 
 
           {search ? (
@@ -730,6 +737,8 @@ const Compliance = () => {
                         display: "flex",
                         alignItems: "center",
                         width: "100%",
+                        marginTop:'10px',
+                        marginBottom:'10px'
                       }}
                     >
                       <Image

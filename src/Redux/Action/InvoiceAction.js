@@ -64,6 +64,12 @@ export async function UpdateInvoice(datum) {
     })
   }
 
+  export async function DeleteRecurrBills(bills) {
+    return await AxiosConfig.post('/delete_recuring_bill',bills, { // Delete Recurr bills
+      data:bills
+    })
+  }
+
   export async function InvoicePDf(datum) {
     return await AxiosConfig.post('/invoice/invoice-list-pdf',datum, {
       data:datum
