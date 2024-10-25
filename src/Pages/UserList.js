@@ -981,7 +981,7 @@ useEffect(() => {
               </label>
             </div>
 
-            <div className="customerfilling d-flex justify-content-between align-items-center ">
+            <div className="customerfilling ">
               {search ? (
                 <>
                   <div
