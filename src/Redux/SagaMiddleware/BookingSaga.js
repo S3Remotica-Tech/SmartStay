@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AddBooking,GetAddBooking,DeleteBooking,assignBooking } from "../Action/BookingAction";
+import { AddBooking,GetAddBooking,DeleteBooking,assignBooking,assignBookingBed } from "../Action/BookingAction";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -176,6 +176,21 @@ function* handleDeleteBooking(action) {
 }
 
 
+function* handleBookingBed(userDetails){
+   const response = yield call(assignBookingBed,userDetails.payload)
+   console.log("response...?",response)
+   if(response.status === 200 || response.statusCode === 200){
+      yield put({ type: 'BOOKING_BED_DETAILS', payload: response.data,statusCode:response.status || response.statusCode })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+   
+}
+
  function refreshToken(response){
     if(response.data && response.data.refresh_token){
        const refreshTokenGet = response.data.refresh_token
@@ -197,5 +212,6 @@ function* handleDeleteBooking(action) {
     yield takeEvery('GET_BOOKING_LIST', handleGetBooking)
     yield takeEvery('DELETE_BOOKING_CUSTOMER', handleDeleteBooking)
     yield takeEvery('ASSIGN_BOOKING', handleAsignBooking)
+    yield takeEvery('BOOKINGBEDDETAILS', handleBookingBed)
  }
  export default CreateBookinSaga;

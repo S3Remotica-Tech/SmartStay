@@ -10,6 +10,8 @@ const initialState = {
   statusCodeForAssignBooking: 0,
   bookingPhoneError: "",
   bookingEmailError: "",
+  availableBedBooking:[],
+  statusCodeForBedBooking:''
 };
 const BookingReducer = (state = initialState, action) => {
   console.log("actionBooking", action);
@@ -55,6 +57,12 @@ const BookingReducer = (state = initialState, action) => {
       };
     case "CLEAR_ASSIGN_USER_BOOKING":
       return { ...state, statusCodeForAssignBooking: 0 };
+      case "BOOKING_BED_DETAILS":
+        return {
+          ...state,
+          availableBedBooking: action.payload,
+          statusCodeForBedBooking: action.payload.statusCode,
+        };
   }
   return state;
 };

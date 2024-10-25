@@ -150,7 +150,7 @@ const validateAssignField = (value, fieldName) => {
   }
 };
 
-
+console.log('MobileNumber',MobileNumber)
 
 
 
@@ -170,7 +170,7 @@ const validateAssignField = (value, fieldName) => {
       
       firstname: firstName,
       lastname: lastName,
-      Phone: mobileno,
+      Phone: MobileNumber,
       Email: email,
       Address: address,
       HostelName: props.assignBooking.hostel_name,

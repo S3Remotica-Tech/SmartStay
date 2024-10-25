@@ -1552,7 +1552,8 @@ useEffect(() => {
                                 fontSize: "16px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                marginTop:10
+                                marginTop:10,
+                                whiteSpace: "nowrap"
                               }}
                             >
                               +
