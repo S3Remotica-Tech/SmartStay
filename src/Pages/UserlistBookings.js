@@ -85,6 +85,8 @@ function Booking(props) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [phonenumError, setphonenumError] = useState("");
+  const [Editbed, seteditBed] = useState("");
+  const [Bednum, setBednum] = useState("");
 
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
@@ -103,6 +105,15 @@ function Booking(props) {
   });
   const MobileNumber = `${countryCode}${Phone}`;
   const handleEdit = (item) => {
+    dispatch({
+      type: "BOOKINGBEDDETAILS",
+      payload: {
+        hostel_id: HostelIds,
+        floor_id: FloorIds,
+        room_id: roomId,
+        joining_date: joiningDate,
+      },
+    });
     console.log("itemEdit...///", item);
     setFormEdit(true);
     if (item && item.id) {
@@ -132,6 +143,8 @@ function Booking(props) {
       setPhone(mobileNumber);
       setEmail(item.email_id || "");
       setAddress(item.address || "");
+      setBednum(item);
+      seteditBed("editbeddet");
 
       setInitialStateAssign({
         firstName: item.first_name || "",
@@ -705,6 +718,7 @@ function Booking(props) {
     if (state?.Booking?.statusCodeForDeleteBooking === 200) {
       handleCloseDelete();
       dispatch({ type: "GET_BOOKING_LIST" });
+    
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BOOKING" });
       }, 500);
@@ -719,7 +733,7 @@ function Booking(props) {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);
     }
-  }, [state?.Booking?.statusCodeForAddBooking]);
+  }, [state?.Booking?.statusCodeForAddBooking,state.Booking?.availableBedBooking?.bed_details]);
 
   const popupRef = useRef(null);
   const rowsPerPage = 5;
@@ -1995,6 +2009,16 @@ function Booking(props) {
         {Bednum.Bed}
       </option>
     )} */}
+     {Editbed == "editbeddet" &&
+                                        Bednum &&
+                                        Bednum.bed_id && (
+                                          <option
+                                            value={Bednum.bed_id}
+                                            selected
+                                          >
+                                            {Bednum.bed_name}
+                                          </option>
+                                        )}
 
                   {state.Booking?.availableBedBooking?.bed_details &&
                     state.Booking?.availableBedBooking?.bed_details
