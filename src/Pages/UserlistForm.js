@@ -140,9 +140,7 @@ function UserlistForm(props) {
 
   const options = {
     dateFormat: "Y/m/d",
-
-    // defaultDate: selectedDate ,
-    maxDate: new Date(),
+    maxDate: null, 
     minDate: new Date(),
   };
 
