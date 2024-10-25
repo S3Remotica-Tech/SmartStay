@@ -86,8 +86,8 @@ function BookingModal(props) {
   }, [floor]);
   useEffect(() => {
     dispatch({
-      type: "BEDNUMBERDETAILS",
-      payload: { hostel_id: paying, floor_id: floor, room_id: room },
+      type: "BOOKINGBEDDETAILS",
+      payload: { hostel_id: paying, floor_id: floor, room_id: room ,joining_date:joiningDate},
     });
   }, [room]);
 
@@ -976,8 +976,8 @@ function BookingModal(props) {
       </option>
     )} */}
 
-                {state.UsersList?.bednumberdetails?.bed_details &&
-                  state.UsersList?.bednumberdetails?.bed_details
+                {state.Booking?.availableBedBooking?.bed_details &&
+                 state.Booking?.availableBedBooking?.bed_details
                     .filter(
                       (item) =>
                         item.bed_no !== "0" &&
