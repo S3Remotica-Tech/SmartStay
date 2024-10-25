@@ -41,6 +41,17 @@ function* handleAddBooking(action) {
 
  
     }
+
+
+
+    else if(response.data.statusCode === 203) {
+         
+      yield put({ type: 'BOOKING_PHONE_ERROR', payload: response.data.message});
+   }
+   else if(response.data.statusCode === 202) {
+     
+      yield put({ type: 'BOOKING_EMAIL_ERROR', payload: response.data.message});
+   }
     else {
        yield put ({type:'ERROR_BOOKING', payload:response.data.message})
     }

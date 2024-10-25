@@ -413,7 +413,11 @@ function BookingModal(props) {
       setDateError('')
       setRoomError('')
       setamountError('')
+      setEmail('')
+      setEmailError('')
+      setEmailErrorMessage('')
       props.handleClose()
+
 
    
 
@@ -421,11 +425,17 @@ function BookingModal(props) {
     
   }
   useEffect(()=>{
-    if(state.Booking.bookingError){
-      seterrorInPhone(state.Booking.bookingError)
+    if(state.Booking.bookingPhoneError){
+      setPhoneError(state.Booking.bookingPhoneError)
 
     }
-  },[state.Booking.bookingError])
+  },[state.Booking.bookingPhoneError])
+  useEffect(()=>{
+    if(state.Booking.bookingEmailError){
+      setEmailError(state.Booking.bookingEmailError)
+
+    }
+  },[state.Booking.bookingEmailError])
   
   console.log("stateghjhsjdhjs",state)
 
