@@ -419,6 +419,7 @@ function BookingModal(props) {
       setEmailError('')
       setEmailErrorMessage('')
       seterrorInPhone('')
+      seterrorInEmail('')
       props.handleClose()
 
 
