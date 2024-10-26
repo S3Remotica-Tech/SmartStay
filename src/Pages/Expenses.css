@@ -1,17 +1,14 @@
-/* .flatpickr-calendar.animate.open {
-
-    top: 15px !important;
-    left: 40px !important;
-     right:auto; 
-
-} */
-
 .flatpickr-calendar.animate.open {
-  top: 20% !important;
-    left: 50% !important;
-    right:auto;
+  top: 70px !important;
+  left: 310px !important;
+  right: auto;
 }
 
+
+#custom-flatpickr-1  .flatpickr-calendar.animate.open{
+  top: 500px !important;
+  left: 310px !important;
+}
 
 
 
@@ -71,4 +68,7 @@
   border-radius: var(--bs-list-group-border-radius);
 }
 
+.react-datepicker-wrapper {
+  width:100% !important;
 
+}

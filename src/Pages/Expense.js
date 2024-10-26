@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FormControl, InputGroup, Pagination, Table, Form ,Modal} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +13,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import 'flatpickr/dist/themes/material_green.css';
 import { Calendar } from 'react-bootstrap-icons';
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import moment from 'moment';
@@ -33,7 +32,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import Spinner from 'react-bootstrap/Spinner';
-import {  startOfWeek, endOfWeek } from 'date-fns';
+
 
 
 function Expenses() {
@@ -642,32 +641,7 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
   // ////////////////////////////////////////////////
 
 
-
-  // const [selectedDate, setSelectedDate] = useState(null); 
-  // const [isOpen, setIsOpen] = useState(false);
-
-  // const formatWeekRange = () => {
-  //   if (selectedDate) {
-  //     const start = startOfWeek(selectedDate, { weekStartsOn: 1 }); 
-  //     const end = endOfWeek(selectedDate, { weekStartsOn: 1 });
-  //     return `${format(start, 'dd-MM-yyyy')} - ${format(end, 'dd-MM-yyyy')}`;
-  //   }
-  //   return 'Select a Week';
-  // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
   
   return (
     <>
@@ -716,7 +690,7 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
                       }
                     }
                   }}
-                  options={{ mode: 'multiple', dateFormat: 'd-M', maxDate: 'today', }}
+                  options={{ mode: 'range', dateFormat: 'd-M', maxDate: 'today', }}
                   onReady={(selectedDates, dateStr, instance) => setFlatpickrInstance(instance)}
                   placeholder="Select Date"
                   style={{
@@ -726,78 +700,14 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
                     borderRadius: 8,
                     border: "1px solid #D9D9D9",
                     position: 'absolute',
-                    top: 100,
-                    left: 100,
+                    top: 0,
+                    left: 0,
                     zIndex: 1000,
                     display: "none"
                   }}
                   onClose={() => { }}
                 />
               </div>
-
-           
-
-
-              {/* <div style={{ margin: 20, position: 'relative' }}>
-      <label
-        htmlFor="week-date-input"
-        style={{
-          border: '1px solid #D9D9D9',
-          borderRadius: 8,
-          padding: '8px 16px',
-          fontSize: 12,
-          fontFamily: 'Gilroy',
-          fontWeight: 500,
-          color: '#222222',
-          display: 'inline-flex',
-          alignItems: 'center',
-          cursor: 'pointer'
-        }}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <img src={Calendars} style={{ height: 24, width: 24, marginRight: 10 }} alt="Calendar Icon" />
-        Week {formatWeekRange()}
-      </label>
-      
-      {isOpen && (
-        <DatePicker
-          id="week-date-input"
-          selected={selectedDate}
-          onChange={(date) => {
-            setSelectedDate(date); // Set selected date
-            setIsOpen(false); // Close the date picker after selection
-          }}
-          inline // Display the calendar inline
-          placeholderText="Select Date"
-          dateFormat="dd/MM/yyyy"
-          todayButton="Today"
-          // className='Expense-calendar'
-          popperPlacement="bottom-start" // Positioning the calendar
-          popperModifiers={{
-            preventOverflow: {
-              enabled: true,
-              escapeWithReference: false,
-            },
-          }}
-          style={{
-            padding: 10,
-            fontSize: 14,
-            borderRadius: 8,
-            border: '1px solid #D9D9D9',
-            position: 'absolute',
-            top: 0, // Adjust to position below the label
-            left: 0,
-            zIndex: 1000,
-          }}
-        />
-      )}
-    </div> */}
-
-
-
-
-
-
 
               </div>
             <div className="d-flex justify-content-between align-items-center">
