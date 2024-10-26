@@ -127,21 +127,32 @@ function* ProfileUpdate(action) {
 
 
       var toastStyle = {
-        backgroundColor: 'green', 
-     color: 'white', 
-     width:"100%"
-   };
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center", 
+        padding: "10px",
+       
+      };
 
       // Use the toast with the defined style
       toast.success(response.message, {
-        position: 'top-center',
-        autoClose: 2000, 
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
       })
     }
     if(response){
