@@ -28,6 +28,8 @@ import Notify from '../Assets/Images/New_images/notify.png';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Dropdown, Table } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 
 const Accountsettings = () => {
@@ -833,6 +835,10 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
   });
 
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+
   return (
 
     <div className="container fade-in" style={{ marginLeft: '30px' ,marginTop:'30px'}}>
@@ -987,7 +993,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
 
       <TabContext value={value}>
         <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
-          <TabList onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }}>
+          <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'}  onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }}>
             <Tab label="General " value="1" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "1" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
             <Tab label="Account setting" value="2" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "2" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
             <Tab label="Security" value="3" className='me-3' style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "3" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
