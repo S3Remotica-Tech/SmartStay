@@ -11,6 +11,14 @@ import moment from 'moment';
 import Image from 'react-bootstrap/Image';
 import People from '../Assets/Images/New_images/profile-picture.png';
 import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { InputGroup, FormControl } from 'react-bootstrap';
+
+
+
+
+
 
 const CheckOutForm = ({ show, handleClose, currentItem }) => {
 
@@ -48,12 +56,12 @@ const CheckOutForm = ({ show, handleClose, currentItem }) => {
   };
 
   const handleCustomerChange = (selectedOption) => {
-    setSelectedCustomer(selectedOption ? selectedOption.value : '');  
+    setSelectedCustomer(selectedOption ? selectedOption.value : '');
     setGeneralError('');
     setCustomerError('');
   };
-  
-console.log("setSelectedCustomer",selectedCustomer)
+
+  console.log("setSelectedCustomer", selectedCustomer)
 
 
 
@@ -114,11 +122,20 @@ console.log("setSelectedCustomer",selectedCustomer)
       setCheckOutDateError('Please enter a checkout date.');
       // return;
     }
-    const hasChanges = checkOutDate !== currentItem?.CheckoutDate ||
+
+    const formattedCheckOutDate = checkOutDate
+    ? checkOutDate.toISOString().split('T')[0] 
+    : '';
+
+
+    const hasChanges = formattedCheckOutDate !== currentItem?.CheckoutDate ||
       selectedHostel !== currentItem?.Hostel_Id ||
       selectedCustomer !== currentItem?.ID ||
       noticeDays !== currentItem?.notice_period ||
       comments !== currentItem?.checkout_comment;
+
+      console.log("hasChanges",hasChanges, checkOutDate, currentItem?.CheckoutDate)
+      
     if (!hasChanges) {
       setIsChangedError('No Changes detected');
       return;
@@ -139,7 +156,7 @@ console.log("setSelectedCustomer",selectedCustomer)
   useEffect(() => {
     if (currentItem) {
 
-      setCheckOutDate(currentItem.CheckoutDate);
+      setCheckOutDate(currentItem.CheckoutDate ? new Date(currentItem.CheckoutDate) : null);
       setSelectedHostel(currentItem.Hostel_Id);
       setSelectedCustomer(currentItem.ID);
       setNoticeDays(currentItem.notice_period);
@@ -154,6 +171,9 @@ console.log("setSelectedCustomer",selectedCustomer)
       dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
     }
   }, [currentItem, show])
+
+
+
   const customStyles = {
     control: (base, state) => ({
       ...base,
@@ -192,15 +212,54 @@ console.log("setSelectedCustomer",selectedCustomer)
   };
 
 
-useEffect(()=>{
-if(selectedHostel){
-  dispatch({ type: 'AVAILABLECHECKOUTCUSTOMER', payload:{hostel_id:selectedHostel }})
+  useEffect(() => {
+    if (selectedHostel) {
+      dispatch({ type: 'AVAILABLECHECKOUTCUSTOMER', payload: { hostel_id: selectedHostel } })
+    }
+  }, [selectedHostel])
+
+
+  const customDateInput = (props) => {
+    return (
+      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+        <FormControl
+          type="text"
+          className='date_input'
+          value={props.value || 'DD/MM/YYYY'}
+          readOnly
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none"
+          }}
+        />
+        <img
+          src={Calender}
+          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
+    );
+  };
+
+
+  useEffect(()=>{
+if(checkOutDate){
+  const current_date = new Date();
+    const notice_period = Math.ceil((new Date(checkOutDate) - current_date) / (1000 * 60 * 60 * 24));
+    setNoticeDays(notice_period || 0);
 }
-},[selectedHostel])
+  
 
-
-
-
+  },[checkOutDate])
 
 
 
@@ -275,12 +334,12 @@ if(selectedHostel){
             <div className="form-group">
               <label className='mt-2' style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Customer <span style={{ color: 'red', fontSize: '20px' }}>*</span></label>
               <Select
-          styles={customStyles}
-          value={formatOptions().find(opt => opt.value === selectedCustomer)}
-          onChange={handleCustomerChange}
-          options={formatOptions()}
-          placeholder="Select a customer"
-        />
+                styles={customStyles}
+                value={formatOptions().find(opt => opt.value === selectedCustomer)}
+                onChange={handleCustomerChange}
+                options={formatOptions()}
+                placeholder="Select a customer"
+              />
 
               {customerWError && (
                 <div className="d-flex align-items-center p-1 mb-2 mt-2">
@@ -294,7 +353,7 @@ if(selectedHostel){
 
             </div>
           </div>
-          <div className='col-lg-6 col-md-6 col-sm-12 colxs-12'>
+          {/* <div className='col-lg-6 col-md-6 col-sm-12 colxs-12'>
             <label htmlFor="check-out-date" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Check-out Date <span style={{ color: 'red', fontSize: '20px' }}>*</span></label>
             <div className='position-relative'>
               <input
@@ -324,7 +383,7 @@ if(selectedHostel){
                 onChange={handleDateChange}
                 options={{
                   dateFormat: "Y-m-d",
-                 minDate: "today"
+                  minDate: "today"
                 }}
                 style={{
                   display: 'none',
@@ -349,7 +408,46 @@ if(selectedHostel){
               </div>
             )}
 
+          </div> */}
+
+          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            <Form.Group className="mb-2" controlId="purchaseDate">
+              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                Check-out Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+              </Form.Label>
+              <div style={{ position: 'relative', width: "100%" }}>
+                <DatePicker
+                selected={checkOutDate instanceof Date ? checkOutDate : null}
+                  onChange={(date) => {
+                    setCheckOutDateError('');
+                    setCheckOutDate(date);
+                    setIsChangedError('')
+                    setGeneralError('')
+                  }}
+                  dateFormat="dd/MM/yyyy"
+                  // maxDate={new Date()}
+                minDate={new Date()}
+                  customInput={customDateInput({
+                    value: checkOutDate instanceof Date ? checkOutDate.toLocaleDateString('en-GB') : '',
+                  })}
+                />
+              </div>
+            </Form.Group>
+            {checkoUtDateError && (
+              <div className="d-flex align-items-center p-1 mb-2">
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                  {checkoUtDateError}
+                </label>
+              </div>
+            )}
+
           </div>
+
+
+
+
+
           <div className='col-lg-6 col-md-6 col-sm-12 colxs-12'>
             <label htmlFor="notice-days" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Notice Days</label>
             <Form.Group controlId="notice-days" style={{ border: "1px solid #D9D9D9", borderRadius: '8px', marginTop: '10px' }}>
