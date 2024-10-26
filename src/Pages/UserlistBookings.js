@@ -1660,7 +1660,7 @@ function Booking(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Email
+                  Email <span style={{ color: "red", fontSize: "20px" }}> </span>
                 </Form.Label>
                 <Form.Control
                   type="text"
