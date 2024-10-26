@@ -1,10 +1,20 @@
-.flatpickr-calendar.animate.open {
+/* .flatpickr-calendar.animate.open {
 
-    top: 20% !important;
-    left: 50% !important;
+    top: 15px !important;
+    left: 40px !important;
      right:auto; 
 
+} */
+
+.flatpickr-calendar.animate.open {
+  top: 20% !important;
+    left: 50% !important;
+    right:auto;
 }
+
+
+
+
 .list-group-item {
     width:250px !important;
 }

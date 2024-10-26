@@ -580,7 +580,7 @@ useEffect(() => {
       </div>
 
       {currentItems.length > 0 && <>
-        <div className='row mt-2'>
+        <div className='row mt-4 ms-2'>
           <div>
             <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}>+ Add room</label>
           </div>
