@@ -185,7 +185,7 @@ console.log("SaveHostel",SaveHostel)
 
 
 
-        <Card className="animated-text ms-0" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease",
+        <Card className="animated-text ms-0 h-100" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease",
             height:"auto",
         }}
         
@@ -329,13 +329,13 @@ console.log("SaveHostel",SaveHostel)
                     </div>
                 </div>
 
-                <div className='mb-1'  style={{lineHeight:1}}>
-                    <div className='' style={{ }}>
+                <div className='mb-2'  style={{lineHeight:1}}>
+                    <div className='mb-1' style={{ }}>
                         <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}> Address</label>
 
                     </div>
 
-                    <div style={{ }}>
+                    <div style={{lineHeight:1.5}}>
                         <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.hostel && props.hostel.Address}</label>
                     </div>
 
