@@ -14,8 +14,10 @@ import Calendars from '../Assets/Images/New_images/calendar.png'
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
-
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { FormControl } from 'react-bootstrap';
 
 
 function StaticExample({ show, handleClose, currentItem }) {
@@ -289,13 +291,13 @@ function StaticExample({ show, handleClose, currentItem }) {
             setPaymentError('Please enter a mode of payment');
             // return;
         }
-        
-        if (!price ) {
+
+        if (!price) {
             setPriceError('Please enter a valid price');
             // return;
         }
-       
-        if (!count ) {
+
+        if (!count) {
             setCountError('Please enter a valid unit count');
             // return;
         }
@@ -308,35 +310,35 @@ function StaticExample({ show, handleClose, currentItem }) {
             setPriceError('Please enter a valid price');
             return;
         }
-       
+
 
         const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
-        if(modeOfPayment && count && price && category && selectedDate){
+        if (modeOfPayment && count && price && category && selectedDate) {
 
-      
-        dispatch({
-            type: 'ADDEXPENSE',
-            payload: {
-                vendor_id: vendorName || '',
-                asset_id: assetName || '', 
-                category_id: category ,
-                purchase_date: formattedDate,
-                unit_count: count,
-                unit_amount: price,
-                description: description,
-                payment_mode: modeOfPayment,
-                hostel_id: hostelName || '',
-                id: currentItem ? currentItem.id : null
-            }
-        });
-    }
+
+            dispatch({
+                type: 'ADDEXPENSE',
+                payload: {
+                    vendor_id: vendorName || '',
+                    asset_id: assetName || '',
+                    category_id: category,
+                    purchase_date: formattedDate,
+                    unit_count: count,
+                    unit_amount: price,
+                    description: description,
+                    payment_mode: modeOfPayment,
+                    hostel_id: hostelName || '',
+                    id: currentItem ? currentItem.id : null
+                }
+            });
+        }
         // handleClose();
     };
 
 
     const [selectedDate, setSelectedDate] = useState(null);
     const calendarRef = useRef(null);
-
+    const customContainerRef = useRef();
 
     console.log("selectedDate", selectedDate)
 
@@ -346,13 +348,34 @@ function StaticExample({ show, handleClose, currentItem }) {
         dateFormat: 'd/m/Y',
         defaultDate: selectedDate || new Date(),
         maxDate: 'today',
+        appendTo: customContainerRef.current
     };
 
+    // useEffect(() => {
+    //     if (calendarRef.current) {
+    //         calendarRef.current.flatpickr.set(options);
+    //     }
+    // }, [selectedDate])
+
     useEffect(() => {
-        if (calendarRef.current) {
-            calendarRef.current.flatpickr.set(options);
+        if (customContainerRef.current && calendarRef.current) {
+            calendarRef.current.flatpickr.set({
+                dateFormat: 'd/m/Y',
+                defaultDate: selectedDate || new Date(),
+                maxDate: 'today',
+                appendTo: customContainerRef.current, // Append to custom container
+            });
         }
-    }, [selectedDate])
+    }, [customContainerRef.current, selectedDate]);
+
+
+
+
+
+
+
+
+
 
     const formatDateForPayload = (date) => {
         if (!date) return null;
@@ -374,6 +397,68 @@ function StaticExample({ show, handleClose, currentItem }) {
     };
 
     console.log("assetName", assetName)
+
+
+    const [purchaseDateError, setPurchaseDateError] = useState('');
+
+    // const customDateInput = (props) => (
+    //     <label
+    //         onClick={props.onClick}
+    //         className='custom-date-input'
+    //         style={{
+    //             border: "1px solid #D9D9D9",
+    //             borderRadius: 8,
+    //             padding: 10,
+    //             fontSize: 14,
+    //             fontFamily: "Gilroy",
+    //             fontWeight: props.value ? 600 : 500,
+    //             color: "rgba(75, 75, 75, 1)",
+    //             display: "flex",
+    //             alignItems: "center",
+    //             justifyContent: "space-between",
+    //             cursor: "pointer",
+    //             width: "210px",
+    //             boxSizing: "border-box",
+    //             margin: "0 auto",
+    //         }}
+    //     >
+    //         {props.value || 'DD/MM/YYYY'}
+    //         <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
+    //     </label>
+    // );
+
+    console.log("selectedDate", selectedDate)
+
+    const customDateInput = (props) => {
+        return (
+            <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+                <FormControl
+                    type="text"
+                    className='date_input'
+                    value={props.value || 'DD/MM/YYYY'}
+                    readOnly
+                    style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 10,
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: props.value ? 600 : 500,
+                                               width: "100%", 
+                        boxSizing: "border-box",
+                        boxShadow:"none" 
+                    }}
+                />
+                <img 
+                    src={Calendars} 
+                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                    alt="Calendar" 
+                    onClick={props.onClick} 
+                />
+            </div>
+        );
+    };
+
     return (
         <div
             className="modal show"
@@ -383,23 +468,23 @@ function StaticExample({ show, handleClose, currentItem }) {
         >
             <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Dialog style={{ maxWidth: '100%', width: '100%' }} className='m-0 p-0'>
-                    <Modal.Header  style={{ border: "1px solid #E7E7E7" }}>
+                    <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
                         <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? 'Edit an expense' : 'Add an expense'}</Modal.Title>
-                   
-                        <CloseCircle size="24" color="#000"  onClick={handleClose}/>
-                   
-                    </Modal.Header>
-                   
 
-                    { isChangedError
- && (
-                        <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                            <MdError style={{ color: "red", marginRight: '5px' }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                {isChangedError}
-                            </label>
-                        </div>
-                    )}
+                        <CloseCircle size="24" color="#000" onClick={handleClose} />
+
+                    </Modal.Header>
+
+
+                    {isChangedError
+                        && (
+                            <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {isChangedError}
+                                </label>
+                            </div>
+                        )}
 
                     {generalError && (
                         <div className="d-flex align-items-center p-1 mb-2 mt-2">
@@ -475,7 +560,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                         {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
                                             <>
 
-                                                <option key={view.Asset_id} value={view.Asset_id}>{view.asset_name }</option>
+                                                <option key={view.Asset_id} value={view.Asset_id}>{view.asset_name}</option>
 
                                             </>
                                         ))}
@@ -511,7 +596,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Category <span style={{ color: "#FF0000", display:  "inline-block" }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Category <span style={{ color: "#FF0000", display: "inline-block" }}>*</span></Form.Label>
 
 
                                     <Form.Select aria-label="Default select example"
@@ -540,16 +625,10 @@ function StaticExample({ show, handleClose, currentItem }) {
                                 )}
                             </div>
 
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Purchase Date <span style={{ color: "#FF0000", display: purchaseDate ? "none" : "inline-block" }}>*</span></Form.Label>
-                                    {/* <Form.Control
-                                        value={purchaseDate}
-                                        onChange={handlePurchaseDateChange}
-                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} /> */}
-
-
-                                    <div style={{ position: 'relative' }}>
+                                                                        <div style={{ position: 'relative' }}>
                                         <label
                                             htmlFor="date-input"
                                             style={{
@@ -577,20 +656,11 @@ function StaticExample({ show, handleClose, currentItem }) {
                                             ref={calendarRef}
                                             options={options}
                                             value={selectedDate}
+                                            id="custom-flatpickr-1"
                                             onChange={handleDateChange}
-                                            style={{
-                                                padding: 10,
-                                                fontSize: 16,
-                                                width: "100%",
-                                                borderRadius: 8,
-                                                border: "1px solid #D9D9D9",
-                                                position: 'absolute',
-                                                top: 100,
-                                                left: 100,
-                                                zIndex: 1000,
-                                                display: "none"
-                                            }}
+                                            style={{   display: "none" }}
                                         />
+                                         <div ref={customContainerRef} style={{ position: 'absolute', top: '700px', left: '0', zIndex: 1000 }} />
                                     </div>
 
 
@@ -604,7 +674,33 @@ function StaticExample({ show, handleClose, currentItem }) {
                                         </label>
                                     </div>
                                 )}
+                            </div> */}
+
+
+                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                        Purchase Date <span style={{ color: "#FF0000"}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                            selected={selectedDate}
+                                            onChange={(date) => {
+
+                                                setSelectedDate(date);
+                                            }}
+                                            dateFormat="dd/MM/yyyy"
+                                            maxDate={new Date()}
+                                            customInput={customDateInput({
+                                                value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
+
                             </div>
+
+
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Unit count <span style={{ color: "#FF0000", display: count ? "none" : "inline-block" }}>*</span></Form.Label>
@@ -691,7 +787,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
                     </Modal.Body>
                     <Modal.Footer style={{ border: "none" }} className='mt-1 pt-1'>
-                        <Button onClick={handleAddExpenses} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily:"Gilroy", padding:12  }} >
+                        <Button onClick={handleAddExpenses} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
                             {currentItem ? 'Save Changes' : 'Add  expense'}
                         </Button>
                     </Modal.Footer>
