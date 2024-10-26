@@ -430,14 +430,21 @@ function BookingModal(props) {
   }
   useEffect(()=>{
     if(state.Booking.bookingPhoneError){
-      seterrorInPhone(state.Booking.bookingPhoneError)
+      // seterrorInPhone(state.Booking.bookingPhoneError)
+      setTimeout(()=>{
+       
+        dispatch({type:"CLEAR_PHONE_ERROR"})
+      },2000)
 
     }
   },[state.Booking.bookingPhoneError])
 
   useEffect(()=>{
     if(state.Booking.bookingEmailError){
-      seterrorInEmail(state.Booking.bookingEmailError)
+      // seterrorInEmail(state.Booking.bookingEmailError)
+      setTimeout(()=>{
+        dispatch({type:"CLEAR_EMAIL_ERROR"})
+      },2000)
 
     }
   },[state.Booking.bookingEmailError])
@@ -634,10 +641,10 @@ function BookingModal(props) {
                           {phoneErrorMessage}
                         </div>
                       )}
-                        {errorInPhone && (
+                        {state.Booking.bookingPhoneError && (
                         <div style={{ color: "red" }}>
                           <MdError />
-                          {errorInPhone}
+                          {state.Booking.bookingPhoneError}
                         </div>
                       )}
                     </Form.Group>
@@ -687,10 +694,10 @@ function BookingModal(props) {
                             {emailErrorMessage}
                           </div>
                         )}
-                        {errorInEmail && (
+                        {state?.Booking?.bookingEmailError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            {errorInEmail}
+                            {state?.Booking?.bookingEmailError}
                           </div>
                         )}
           </Col>

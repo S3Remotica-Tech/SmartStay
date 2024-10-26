@@ -698,17 +698,25 @@ function Booking(props) {
 
   useEffect(()=>{
     if(state?.Booking?.bookingPhoneError){
-      setvalidPhoneError(state?.Booking?.bookingPhoneError)
+      // setvalidPhoneError(state?.Booking?.bookingPhoneError)
+      setTimeout(()=>{
+       
+        dispatch({type:"CLEAR_PHONE_ERROR"})
+      },2000)
 
     }
   },[state?.Booking?.bookingPhoneError])
 
   useEffect(()=>{
     if(state?.Booking?.bookingEmailError){
-      setvalidEmailError(state?.Booking?.bookingEmailError)
-
+      // setvalidEmailError(state?.Booking?.bookingEmailError)
+      setTimeout(()=>{
+        dispatch({type:"CLEAR_EMAIL_ERROR"})
+      },2000)
+      
     }
   },[state?.Booking?.bookingEmailError])
+ 
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -1448,6 +1456,8 @@ function Booking(props) {
         mode={modalType} // 'edit' or 'add'
         customer={selectedCustomer}
         handleSave={handleSave}
+        setFormEdit={setFormEdit}
+        formEdit = {formEdit}
       />
 
       <AssignBooking
@@ -1632,10 +1642,10 @@ function Booking(props) {
                     {phoneErrorMessage}
                   </div>
                 )}
-                 {validPhoneError && (
+                 {state?.Booking?.bookingPhoneError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {validPhoneError}
+                  {state?.Booking?.bookingPhoneError}
                 </div>
               )}
               </Form.Group>
@@ -1684,10 +1694,10 @@ function Booking(props) {
                   {emailErrorMessage}
                 </div>
               )}
-               {validEmailError && (
+               {state?.Booking?.bookingEmailError && (
                 <div style={{ color: "red" }}>
                   <MdError />
-                  {validEmailError}
+                  {state?.Booking?.bookingEmailError}
                 </div>
               )}
             </Col>

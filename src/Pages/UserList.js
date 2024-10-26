@@ -900,6 +900,7 @@ function UserList(props) {
   const [showbookingForm, setShowbookingForm] = useState(false);
   const toggleForm = () => {
     setShowbookingForm(!showbookingForm);
+    
   };
   const closeModal = () => {
     setShowbookingForm(false);

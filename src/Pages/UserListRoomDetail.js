@@ -611,6 +611,7 @@ function UserListRoomDetail(props) {
     setAddressError("");
     setPhoneError("");
     setDateError('')
+    
   };
 
   const [firstnameError, setFirstnameError] = useState("");
@@ -1677,103 +1678,6 @@ setTimeout(() => {
                             )}
                           </div>
 
-                          {/* <div className="col-md-6 col-sm-6 " >
-    {state.UsersList?.customerdetails?.data?.length === 0 || state.UsersList?.customerdetails === "" ? (
-      <div className="card" style={{ borderRadius: "20px", padding: "20px" }}>
-        <div className="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
-          <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>Detailed Information</div>
-        </div>
-        <div className="card-body">
-          <div className="row mb-3">
-            <div className="col-sm-4">
-              <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</strong>
-              <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                <img src={Money} /> ₹{props.userDetails[0].AdvanceAmount}
-              </p>
-            </div>
-            <div className="col-sm-4">
-              <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Rent Amount</strong>
-              <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                <img src={Money} /> ₹{props.userDetails[0].RoomRent}/m
-              </p>
-            </div>
-          </div>
-
-          <div className="row mb-3">
-            <div className="col-sm-12">
-              <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Amenities</strong>
-              <div className="d-flex flex-wrap mt-2">
-                {props.userDetails[0]?.amentites?.map((amenity) => (
-                  <div
-                    key={amenity.Amnities_Name}
-                    style={{
-                      backgroundColor: "#E0ECFF",
-                      borderRadius: "10px",
-                      padding: "2px 12px",
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      margin: "10px",
-                    }}
-                  >
-                    {amenity.Amnities_Name}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    ) : (
-      state.UsersList?.customerdetails?.data?.map((g) => (
-        <div key={g.id} className="card" style={{ borderRadius: "20px", padding: "20px" }}>
-          <div className="card-header d-flex justify-content-between align-items-center" style={{ backgroundColor: "transparent" }}>
-            <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>Detailed Information</div>
-          </div>
-          <div className="card-body">
-            <div className="row mb-3">
-              <div className="col-sm-4">
-                <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Advance Amount</strong>
-                <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                  <img src={Money} /> ₹{g.AdvanceAmount}
-                </p>
-              </div>
-              <div className="col-sm-4">
-                <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Rent Amount</strong>
-                <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                  <img src={Money} /> ₹{g.RoomRent}/m
-                </p>
-              </div>
-            </div>
-
-            <div className="row mb-3">
-              <div className="col-sm-12">
-                <strong style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Amenities</strong>
-                <div className="d-flex flex-wrap mt-2">
-                  {g?.amentites?.map((p) => (
-                    <div
-                      key={p.Amnities_Name}
-                      style={{
-                        backgroundColor: "#E0ECFF",
-                        borderRadius: "10px",
-                        padding: "2px 12px",
-                        fontSize: "14px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        margin: "10px",
-                      }}
-                    >
-                      {p.Amnities_Name}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))
-    )}
-  </div> */}
                         </div>
 
                         <div
