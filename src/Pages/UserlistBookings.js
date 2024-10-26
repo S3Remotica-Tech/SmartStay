@@ -1498,7 +1498,7 @@ function Booking(props) {
                     fontWeight: 500,
                   }}
                 >
-                  First Name
+                  First Name <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -1531,7 +1531,7 @@ function Booking(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Last Name
+                  Last Name<span style={{ color: "red", fontSize: "20px" }}>  </span>
                 </Form.Label>
                 <Form.Control
                   type="text"
