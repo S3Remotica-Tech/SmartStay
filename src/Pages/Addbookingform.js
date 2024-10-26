@@ -525,7 +525,12 @@ function BookingModal(props) {
                   fontWeight: 500,
                 }}
               >
-                Last Name
+                Last Name <span
+                            style={{ color: "transparent", fontSize: "20px" }}
+                          >
+                            {" "}
+                            *{" "}
+                          </span>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -660,7 +665,12 @@ function BookingModal(props) {
                   fontWeight: 500,
                 }}
               >
-                Email
+                Email <span
+                            style={{ color: "transparent", fontSize: "20px" }}
+                          >
+                            {" "}
+                            *{" "}
+                          </span>
               </Form.Label>
               <Form.Control
                 type="text"

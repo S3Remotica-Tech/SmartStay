@@ -1531,7 +1531,12 @@ function Booking(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Last Name<span style={{ color: "red", fontSize: "20px" }}>  </span>
+                  Last Name<span
+                            style={{ color: "transparent", fontSize: "20px" }}
+                          >
+                            {" "}
+                            *{" "}
+                          </span>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -1660,7 +1665,12 @@ function Booking(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Email <span style={{ color: "red", fontSize: "20px" }}> </span>
+                  Email <span
+                            style={{ color: "transparent", fontSize: "20px" }}
+                          >
+                            {" "}
+                            *{" "}
+                          </span>
                 </Form.Label>
                 <Form.Control
                   type="text"
