@@ -1706,7 +1706,7 @@ setTimeout(() => {
                           </div>
                           <div className="card-body">
                             <div className="row">
-                              <div className="col-lg-5 col-md-6 col-sm-12">
+                              <div className="col-lg-8 col-md-8 col-sm-12">
                                 <Form.Group className="mb-3">
                                   <Form.Label
                                     style={{

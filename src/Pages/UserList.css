@@ -173,20 +173,6 @@ text-decoration: underline;
   width: 100%;
 }
 
-/* .customer{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 19px;
-  padding-right: 19px;
-  margin-top: -25px;
-} */
-/* .customerfill{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-} */
 .cuslable{
   margin-left: 0px;
 }
@@ -195,72 +181,14 @@ text-decoration: underline;
   margin-left: 0px;
 }
 @media only screen and (max-width: 500px) and (min-width: 300px) {
-  .customerprofile {
-    display: flex;
-    flex-direction: column; /* Change row to column for better stacking */
-    justify-content: center;
-    padding-right: 0;
-  }
   
-  .customer {
-    display: flex;
-    flex-direction: column; /* Switch to column layout for smaller screens */
-    justify-content: center;
-    align-items: center;
-    padding: 8px;
-  }
-
-  .customerfill {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%; /* Ensures full width usage */
-  }
-  
-  
-  
+ 
   .searchGroup {
     margin-left: 0; /* Adjust to prevent overflow */
   }
 }
-@media only screen and (max-width: 800px) and (min-width: 300px) {
-  .customerfilling {
-    display: flex;
-    flex-direction: column;
-    margin-left: 0; 
-    margin-top: 20px;
-    width: 100%; 
-  }
-}
-/* @media only screen and (max-width:500px) and (min-width:300px) {
-  .customerprofile{
-    display: flex;
-    flex-direction:row;
-    justify-content: center;
-    padding-right: 0px;
-   
-  }
-  .customer{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-  }
-  .customerfill{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
- 
-  .customerfilling{
-    margin-left: 30px;
-    margin-top: 20px;
-  }
-  .searchGroup{
-    margin-left: 80px;
-  }
-} */
+
+
 .toast-center-center {
   top: 50% !important;
   left: 50% !important;

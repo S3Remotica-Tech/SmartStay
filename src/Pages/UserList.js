@@ -954,7 +954,7 @@ useEffect(() => {
 }, [state?.Booking?.statusCodeForAddBooking]);
 
   return (
-    <div className="usercustomer" style={{ padding: 10, marginLeft: 20 }}>
+    <div style={{ padding: 10, marginLeft: 20 }}>
       <Addbooking show={showbookingForm} handleClose={closeModal} setShowbookingForm={setShowbookingForm}/>
 
 
@@ -968,8 +968,8 @@ useEffect(() => {
 
       {userList && (
         <div style={{ margin: "10px" }}>
-          <div className="customer">
-            <div className="cuslable">
+          <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            <div >
               <label
                 style={{
                   fontSize: 18,
@@ -982,7 +982,7 @@ useEffect(() => {
               </label>
             </div>
 
-            <div className="customerfilling ">
+            <div className="d-flex flex-wrap flex-md-nowrap">
               {search ? (
                 <>
                   <div
@@ -990,6 +990,7 @@ useEffect(() => {
                       position: "relative",
                       width: "100%",
                       marginRight: 20,
+                      marginTop:"-10px"
                     }}
                   >
                     <div
@@ -998,6 +999,8 @@ useEffect(() => {
                         display: "flex",
                         alignItems: "center",
                         width: "100%",
+                        marginTop:"20px",
+                        marginBottom:"10px"
                       }}
                     >
                       <Image
@@ -1118,7 +1121,7 @@ useEffect(() => {
                 </>
               ) : (
                 <>
-                  <div className="me-3">
+                  <div className="me-3 mt-3" style={{marginTop:"-10px"}}>
                     <Image
                       src={searchteam}
                       roundedCircle
