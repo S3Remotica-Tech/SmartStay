@@ -835,10 +835,12 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
 
   return (
 
-    <div className="container fade-in" style={{ marginLeft: '30px' }}>
+    <div className="container fade-in" style={{ marginLeft: '30px' ,marginTop:'30px'}}>
       <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+        <div>
       <h3 style={{ marginLeft: '10px', fontSize: 24, fontWeight: 600, fontFamily: "Gilroy" }}>Profile</h3>
-      <div className="mr-3" onClick={handleShowpopup} style={{cursor:"pointer"}}>
+      </div>
+      <div className="mr-3 me-5" onClick={handleShowpopup} style={{cursor:"pointer"}}>
       <img src={Notify} alt="notification" />
       </div>
       </div>
@@ -1266,7 +1268,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
          
 
             <div className="me-3 col-lg-4 col-md-5 col-sm-10 col-xs-10">
-              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
+              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>New Password</Form.Label>
               <InputGroup>
                 <Form.Control
                   size="lg"
@@ -1384,7 +1386,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
           <TabPanel value="5">
 
           <div style={{display:'flex',flexDirection:'row'}}>
-              <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px'}}>
+              <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'350px', height:'206px'}}>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
               {/* <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>sms</p> */}
               <div style={{marginLeft:'10px',paddingLeft:'10px',paddingTop:'10px',height:40, width:40,borderRadius:'50%',backgroundColor:'#E7F1FF'}}>
@@ -1406,7 +1408,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
            <p>Enhance your customer communication with seamless sms integration.Instantly reach your audience with personalised messages alerts and updates all within platforms</p>
              </div>
               </div>
-              <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px',marginLeft:'10px'}}>
+              <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'350px', height:'206px',marginLeft:'10px'}}>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
              
               {/* <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Whatsapp</p> */}
@@ -1427,7 +1429,7 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
            <p>Take your customer interaction to the next level with whatsapp Credits, connect with your audience where they already are-on Whatsapp </p>
              </div>
               </div>
-              <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'206px',marginLeft:'10px'}}>
+              <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'350px', height:'206px',marginLeft:'10px'}}>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
               {/* <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Whatsapp</p> */}
               <div style={{marginLeft:'10px',paddingLeft:'10px',paddingTop:'8px',height:40, width:40,borderRadius:'50%',backgroundColor:'#E7F1FF'}}>

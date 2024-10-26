@@ -66,22 +66,27 @@ console.log("currentItem",currentItem)
     }
   };
 
-
+console.log("file", file)
 
   const handleMobileChange = (e) => {
     const value = e.target.value;
-    setMobile(value);
-    setMobileError('')
-    setGeneralError('')
-    setIsChangedError('')
-    const pattern = new RegExp(/^\d{1,10}$/);
-    const isValidMobileNo = pattern.test(value);
-    if (isValidMobileNo && value.length === 10) {
-      setErrors(prevErrors => ({ ...prevErrors, mobile: '' }));
-    } else {
-      setErrors(prevErrors => ({ ...prevErrors, mobile: 'Invalid mobile number *' }));
+  
+        const pattern = /^\d*$/;
+    
+    if (pattern.test(value)) {
+      setMobile(value); 
+      setMobileError('');
+      setGeneralError('');
+      setIsChangedError('');
+  
+          if (value.length === 10) {
+        setErrors(prevErrors => ({ ...prevErrors, mobile: '' }));
+      } else {
+        setErrors(prevErrors => ({ ...prevErrors, mobile: 'Invalid mobile number *' }));
+      }
     }
   };
+  
 
 
 
@@ -175,17 +180,17 @@ console.log("currentItem",currentItem)
 
     if (!pgName) {
       setPgNameError('Please enter PG name');
-      return;
+      // return;
     }
 
     if (!countryCode) {
       setCountryCodeError('Please select country code');
-      return;
+      // return;
     }
 
     if (!mobile) {
       setMobileError('Please enter mobile number');
-      return;
+      // return;
     }
 
     // if (!email) {
@@ -195,7 +200,7 @@ console.log("currentItem",currentItem)
 
     if (!location) {
       setLocationError('Please enter address');
-      return;
+      // return;
     }
 
 
@@ -206,7 +211,7 @@ console.log("currentItem",currentItem)
         setEmailError('Enter a valid Email ID');
       }
       if (mobileInvalid) {
-        setMobileError('Enter a valid mobile number');
+        setMobileError('Enter a valid 10 digit mobile number');
       }
       return;
     }
@@ -360,34 +365,76 @@ console.log("currentItem",currentItem)
  
   
 
-  const handleFileChange = (index) => (e) => {
-    const selectedFiles = Array.from(e.target.files);
+  // const handleFileChange = (index) => (e) => {
+  //   const selectedFiles = Array.from(e.target.files);
   
-    if (selectedFiles.length > 0) {
-      setImages((prevImages) => {
-        const updatedImages = [...prevImages];
+  //   if (selectedFiles.length > 0) {
+  //     setImages((prevImages) => {
+  //       const updatedImages = [...prevImages];
   
-        selectedFiles.forEach((file, i) => {
-          const currentIndex = index + i;
+  //       selectedFiles.forEach((file, i) => {
+  //         const currentIndex = index + i;
   
        
-          if (!updatedImages[currentIndex]) {
-            updatedImages[currentIndex] = {};
-          }
+  //         if (!updatedImages[currentIndex]) {
+  //           updatedImages[currentIndex] = {};
+  //         }
   
-          updatedImages[currentIndex] = {
-            name: `image${currentIndex + 1}`,
-            image: file, 
-            isChanged: true
-          };
-        });
+  //         updatedImages[currentIndex] = {
+  //           name: `image${currentIndex + 1}`,
+  //           image: file, 
+  //           isChanged: true
+  //         };
+  //       });
   
-        return updatedImages;
-      });
-    }
-  };
+  //       return updatedImages;
+  //     });
+  //   }
+  // };
   
 
+  
+
+const handleFileChange = (index) => async (e) => {
+  const selectedFiles = Array.from(e.target.files);
+
+  if (selectedFiles.length > 0) {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 800,
+      useWebWorker: true
+    };
+
+    const compressedFiles = await Promise.all(
+      selectedFiles.map(async (file) => {
+        try {
+          return await imageCompression(file, options);
+        } catch (error) {
+          console.error('Image compression error:', error);
+          return null;
+        }
+      })
+    );
+
+    setImages((prevImages) => {
+      const updatedImages = [...prevImages];
+
+      compressedFiles.forEach((compressedFile, i) => {
+        if (compressedFile) {
+          const currentIndex = index + i;
+
+          updatedImages[currentIndex] = {
+            name: `image${currentIndex + 1}`,
+            image: compressedFile,
+            isChanged: true
+          };
+        }
+      });
+
+      return updatedImages;
+    });
+  }
+};
 
 
   const handleMouseEnter = (index) => {
@@ -681,7 +728,21 @@ console.log("currentItem",currentItem)
 
 
                         <div style={{ position: "relative" }} onMouseEnter={() => handleMouseEnter(index)} onMouseLeave={handleMouseLeave}>
-
+{/* {imageSrc.endsWith('.svg') ? (
+              <img
+              className='img-fluid'
+              src={imageSrc}
+              alt={`currentItem-image-${index}`}
+              style={{ borderRadius: 5, height: 120, cursor: "pointer" }}
+            />
+            ) : (
+              <Image
+                className='img-fluid'
+                src={typeof imageSrc === 'string' ? imageSrc : URL.createObjectURL(imageSrc)}
+                alt={`currentItem-image-${index}`}
+                style={{ objectFit: "cover", borderRadius: 5, height: 120, cursor: "pointer" }}
+              />
+            )} */}
 
                           <Image 
                             className='img-fluid'

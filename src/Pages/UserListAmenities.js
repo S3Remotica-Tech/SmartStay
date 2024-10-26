@@ -29,42 +29,26 @@ function UserListAmenities(props) {
     if (props.id) {
       console.log("user_id", props.id);
       dispatch({ type: "AMENITESHISTORY", payload: { user_id: props.id } });
-      // setAmnnityhistory(state.UsersList?.amnetieshistory)
+      
     }
     console.log("userIduserId....?", props.id);
   }, [props.id]);
   const [selectAmneties, setselectAmneties] = useState("");
+  
   const [selectedAmenityName, setSelectedAmenityName] = useState([]);
   console.log("selectedAmenityName", selectedAmenityName);
   const [addamenityShow, setaddamenityShow] = useState(false);
   const [active, setActive] = useState(false);
   const [status, setStatus] = useState("");
-  const [createby, setcreateby] = useState("");
+  const [createby, setcreateby] = useState('');
+  console.log("createby123456",createby)
   const [amnityEdit, setamnityEdit] = useState("");
   const [filtshow, setFiltshow] = useState(false);
   const [amnitytableshow, setamnitytableshow] = useState(false);
   console.log("createby", createby);
   const [amnityError, setamnityError] = useState("");
 
-  const validateAssignField = (value, fieldName) => {
-    // Check if the value is empty or invalid
-    if (!value || value === "Select an Amenities") {
-      switch (fieldName) {
-        case "selectAmneties":
-          setamnityError("selected Amenity is required");
-          break;
-      }
-      return false;
-    } else {
-      // Clear the error if validation passes
-      switch (fieldName) {
-        case "Floor":
-          setamnityError("");
-          break;
-      }
-      return true;
-    }
-  };
+ 
 
   const handleselect = (e) => {
     const value = e.target.value;
@@ -73,7 +57,7 @@ function UserListAmenities(props) {
     console.log("e.target.value", value);
 
     if (value === "" || value === "Select an Amenities") {
-      setamnityError("Please select a valid amenityId");
+      setamnityError("Please select a valid amenity Id");
       setaddamenityShow(false);
       return;
     } else {
@@ -81,7 +65,9 @@ function UserListAmenities(props) {
     }
     const amenitiesHistory = state.UsersList.amnetieshistory.filter((item) => {
       return item.amenity_Id == value;
+
     });
+    console.log("amenitiesHistory",amenitiesHistory)
 
     console.log("state.UsersList.amnetieshistory.data", amenitiesHistory);
     if (amenitiesHistory && amenitiesHistory.length > 0) {
@@ -129,16 +115,8 @@ function UserListAmenities(props) {
     });
   }
 
-  const handleSetAsDefault = (e) => {
-    setActive(e.target.checked);
-  };
-  const handleStatusChange = (e) => {
-    setStatus(e.target.value);
-  };
-
-  useEffect(() => {
-    dispatch({ type: "AMENITESNAMES" });
-  }, []);
+  
+ 
 
   const amenities = state.UsersList?.amnetieshistory;
 
@@ -197,23 +175,16 @@ function UserListAmenities(props) {
     "state.UsersList?.statusCustomerAddUser",
     state.UsersList.statusCustomerAddUser
   );
-  useEffect(() => {
-    if (state.UsersList.statusCustomerAddUser == 200) {
-      setaddamenityShow(false);
-      setTimeout(() => {
-        dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
-        dispatch({ type: "AMENITESHISTORY", payload: { user_id: props.id } });
-      }, 1000);
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADDUSER_AMNETIES" });
-      }, 1000);
-    }
-  }, [state.UsersList.statusCustomerAddUser]);
+  useEffect(()=>{
+if(state.UsersList.statusCustomerAddUser === 200){
+  setaddamenityShow(false)
+}
+  },[state.UsersList.statusCustomerAddUser])
+ 
 
   console.log("state For Add userAminity", state);
   const handleEdit = (v) => {
-    console.log("vvv", v);
+    console.log("vvvfdfdfdfdg", v);
 
     setamnityEdit(v);
     setaddamenityShow(true);
@@ -381,14 +352,14 @@ function UserListAmenities(props) {
         <Modal.Body>
           <div className="mb-3 ps-2 pe-2">
             <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
-            Amenities_Name
+            AmenitiesName
             </label>
             <Form.Control
               placeholder="Amnities Name"
               aria-label="Recipient's username"
               className="border custom-input"
               aria-describedby="basic-addon2"
-              value={selectAmneties}
+              value={createby[0]?.Amnities_Name}
               style={{
                 fontSize: 12,
                 fontWeight: "530",
@@ -408,7 +379,7 @@ function UserListAmenities(props) {
           )}
           <div className="mb-3 ps-2 pe-2">
             <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
-              Hostel_Name
+              HostelName
             </label>
             <Form.Control
               placeholder="HostelName"

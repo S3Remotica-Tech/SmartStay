@@ -53,6 +53,7 @@ console.log("floorNo",floorNo)
 
     const handleFloorChange = (e) => {
         setFloorNo(e.target.value)
+        setFloorError('')
         dispatch({ type: 'CLEAR_ALREADY_FLOOR_ERROR' })
         dispatch({ type: 'CLEAR_UPDATE_FLOOR_ERROR' })
         setIsChangedError('');

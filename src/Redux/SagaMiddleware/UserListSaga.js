@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {DeleteCheckOutCustomer, AddCheckOutCustomer,getCheckOutCustomer, AddWalkInCustomer,DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist} from "../Action/UserListAction"
+import {AvailableCheckOutCustomer,DeleteCheckOutCustomer, AddCheckOutCustomer,getCheckOutCustomer, AddWalkInCustomer,DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -346,20 +346,11 @@ function* handleAddUser(datum) {
          style: toastStyle,
        });}
       else if(response.statusCode === 202) {
-         // Swal.fire({
-         //    icon: 'warning',
-         //   title: 'Error',
-         //   html: `<span style="color: red">${datum.payload.Phone}</span> is already exist in the database`,
-           
-         // });
+         
          yield put({ type: 'PHONE_ERROR', payload: response.message });
       }
       else if(response.statusCode === 203) {
-         // Swal.fire({
-         //   icon: 'warning',
-         //   title: 'Error',
-         //   html: `<span style="color: red">${datum.payload.Email}</span> is already exist in the database`,
-         // });
+        
          yield put({ type: 'EMAIL_ERROR', payload: response.message });
       }
 
@@ -925,7 +916,22 @@ function* handleDeleteCheckOUtCustomer(action) {
 
 
 
+function* handleAvailableCheckOUtCustomer(action) {
+   const response = yield call (AvailableCheckOutCustomer,action.payload);
+ console.log("response", response)
 
+
+
+   if (response.statusCode === 200 || response.status === 200){
+      yield put ({type : 'AVAILABLE_CHECK_OUT_CUSTOMER' , payload:{response:response.data.user_list}})
+     
+   }
+  
+   if(response){
+      refreshToken(response)
+   }
+  
+}
 
 
 
@@ -959,6 +965,9 @@ function* UserListSaga() {
    yield takeEvery('CHECKOUTCUSTOMERLIST', handleCheckoutCustomer)
    yield takeEvery('ADDCHECKOUTCUSTOMER', handleAddCheckoutCustomer)
    yield takeEvery('DELETECHECKOUTCUSTOMER', handleDeleteCheckOUtCustomer)
+   yield takeEvery('AVAILABLECHECKOUTCUSTOMER',  handleAvailableCheckOUtCustomer)
+
+  
  
 }
 export default UserListSaga;

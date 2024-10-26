@@ -213,27 +213,28 @@ console.log("isChanged",isChanged)
 
         if (!name) {
             setNameError('Please enter Name');
-            return;
+            // return;
         }
 
         if (!mobile) {
             setMobileError('Please enter Mobile Number');
-            return;
+            // return;
+        }
+        
+        if (!countryCode) {
+            setCountryCodeError('Please select Country Code');
+            // return;
+        }
+
+        if (!walkInDate) {
+            setWalkInDateError('Please select Walk-In Date');
+            // return;
         }
         if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
             setMobileError('Mobile Number must be exactly 10 digits');
             return;
         }
 
-        if (!countryCode) {
-            setCountryCodeError('Please select Country Code');
-            return;
-        }
-
-        if (!walkInDate) {
-            setWalkInDateError('Please select Walk-In Date');
-            return;
-        }
 
 
         const Mobile_Number = `${countryCode}${mobile}`
@@ -366,39 +367,9 @@ console.log("isChanged",isChanged)
                 )}
 
 
-                {nameError && (
-                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {nameError}
-                        </label>
-                    </div>
-                )}
-                {mobileError && (
-                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {mobileError}
-                        </label>
-                    </div>
-                )}
-                {countryCodeError && (
-                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {countryCodeError}
-                        </label>
-                    </div>
-                )}
+             
+              
 
-                {walkInDateError && (
-                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {walkInDateError}
-                        </label>
-                    </div>
-                )}
                 <Modal.Body>
 
                     <div className="row">
@@ -423,8 +394,16 @@ console.log("isChanged",isChanged)
                                         border: errors.name ? '1px solid red' : '1px solid #D9D9D9'
                                     }}
                                 />
-                                {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>}
+                                {/* {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>} */}
                             </Form.Group>
+                            {nameError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {nameError}
+                        </label>
+                    </div>
+                )}
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <Form.Group controlId="formCustomerEmail" className="mb-3">
@@ -447,7 +426,7 @@ console.log("isChanged",isChanged)
                                         border: errors.email ? '1px solid red' : '1px solid #D9D9D9'
                                     }}
                                 />
-                                {errors.email && <small style={{ color: 'red' }}>{errors.email}</small>}
+                                {/* {errors.email && <small style={{ color: 'red' }}>{errors.email}</small>} */}
                             </Form.Group>
                         </div>
 
@@ -511,8 +490,25 @@ console.log("isChanged",isChanged)
                                         }}
                                     />
                                 </InputGroup>
-                                {errors.mobile && <small style={{ color: 'red' }}>{errors.mobile}</small>}
+                                {/* {errors.mobile && <small style={{ color: 'red' }}>{errors.mobile}</small>} */}
                             </Form.Group>
+                            
+                {mobileError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {mobileError}
+                        </label>
+                    </div>
+                )}
+                  {countryCodeError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {countryCodeError}
+                        </label>
+                    </div>
+                )}
                         </div>
                         {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <Form.Group controlId="formWalkInDate" className="mb-3">
@@ -627,9 +623,18 @@ console.log("isChanged",isChanged)
                                             style={{ display: "none" }}
                                         />
                                     </div>
-                                    {errors.walkInDate && <small style={{ color: 'red', position: 'absolute', top: '100%', left: '0' }}>{errors.walkInDate}</small>}
+                                    {/* {errors.walkInDate && <small style={{ color: 'red', position: 'absolute', top: '100%', left: '0' }}>{errors.walkInDate}</small>} */}
                                 </InputGroup>
                             </Form.Group>
+                            
+                {walkInDateError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {walkInDateError}
+                        </label>
+                    </div>
+                )}
                         </div>
 
 
@@ -659,7 +664,7 @@ console.log("isChanged",isChanged)
                                         border: errors.comments ? '1px solid red' : '1px solid #D9D9D9'
                                     }}
                                 />
-                                {errors.comments && <small style={{ color: 'red' }}>{errors.comments}</small>}
+                                {/* {errors.comments && <small style={{ color: 'red' }}>{errors.comments}</small>} */}
                             </Form.Group>
                         </div>
 

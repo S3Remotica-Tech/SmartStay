@@ -95,64 +95,45 @@ console.log("uniqueExpences",uniqueExpences);
     const addType = () => {
 
         if( !type ){
-            setTotalErrmsg('Please enter All Field')
-            setTimeout(() => {
-                setTotalErrmsg('')
-            }, 2000);
+            setCategoryErrmsg("Please Enter a Category")   
            return;
         }
 
 
         if (type.trim()) {
             if (isSubCategory) {
-                if( !subType || !namefilter){
-                    setTotalErrmsg('Please enter All Field')
-                    setTimeout(() => {
-                        setTotalErrmsg('')
-                    }, 2000);
+
+                if(!subType){
+                    setSubCategoryErrmsg("Please Enter a Sub-Category")
+                }
+
+                if( !subType && !namefilter){
+                    setTotalErrmsg('Please enter All Field') 
                    return;
                 }
               else  if (subType.trim()) {
                     console.log("subexecuted");
-                    // setTypes([...types, { category: type, subCategory: subType }]);
                     dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { id: type, category_Name: namefilter, sub_Category: subType } });
              
                     setSubType('');
                     setType('');
                 } 
-                // else {
-                //     Swal.fire({
-                //         icon: 'warning',
-                //         title: 'Please enter a sub-category',
-                //         confirmButtonText: 'OK'
-                //     });
-                // }
-            } else {
-
-                if( !type ){
-                    setTotalErrmsg('Please enter All Field')
-                    setTimeout(() => {
-                        setTotalErrmsg('')
-                    }, 2000);
-                   return;
+            
                 }
+             else {
 
-                else{
+                // if( !type ){
+                //     setCategoryErrmsg("Please Enter a Category")   
+                //    return;
+                // }
+
+                // else{
                     dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { category_Name: type, sub_Category: '' } });
                     setType('');
-                }
-                // setTypes([...types, { category: type, subCategory: '' }]);
-              
+                // }              
             }
         } 
-        // else {
-        //     console.log("Please enter a category");
-        //     Swal.fire({
-        //         icon: 'warning',
-        //         title: 'Please enter a category',
-        //         confirmButtonText: 'OK'
-        //     });
-        // }
+    
     };
 
 
@@ -261,6 +242,7 @@ console.log("uniqueExpences",uniqueExpences);
 
             console.log("Typeidnamefilter", Typeidnamefilter);
         }
+        setTotalErrmsg('')
 
         if(!e.target.value){
             setCategoryErrmsg("Please Enter a Category")
@@ -272,6 +254,7 @@ console.log("uniqueExpences",uniqueExpences);
 
     const handlecategoryAdd = (e) => {
         setType(e.target.value)
+        setTotalErrmsg('')
         if(!e.target.value){
             setCategoryErrmsg("Please Enter a Category")
         }
@@ -283,6 +266,7 @@ console.log("uniqueExpences",uniqueExpences);
 
     const handlesubcategoryAdd = (e) => {
         setSubType(e.target.value)
+        setTotalErrmsg('')
         if(!e.target.value){
             setSubCategoryErrmsg("Please Enter a Sub-Category")
         }

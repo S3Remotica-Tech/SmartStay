@@ -66,12 +66,12 @@ function* handleforgetpage(rpsd) {
     }
     catch (error) {
         yield put({ type: 'ERROR', payload: 'Email Id Is Inorrect' })
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Email Id is InCorrect!",
-            footer: '<a href="#">Why do I have this issue?</a>'
-        });
+        // Swal.fire({
+        //     icon: "error",
+        //     title: "Oops...",
+        //     text: "Email Id is InCorrect!",
+        //     footer: '<a href="#">Why do I have this issue?</a>'
+        // });
 
     }
 

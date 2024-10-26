@@ -137,44 +137,39 @@ function PgList() {
   })
 
 
-
+  const [hidePgList, setHidePgList] = useState(true)
 
   const [hostelIndex, setHostelIndex] = useState(0)
   const [roomDetails, setRoomDetails] = useState('')
 
+  const [floorClick, setFloorClick] = useState('')
+
+  const [floorName, setFloorName] = useState('')
 
   const [selectedHostel, setSelectedHostel] = useState(false);
 
   console.log("selectedHostel", selectedHostel)
+  // showHostelDetails?.floorDetails?.[0]?.floor_name,showHostelDetails?.floorDetails?.[0]?.floor_id
 
-
-  // const handleHostelSelect = (hostelName) => {
-  //   const selected = state.UsersList.hostelList?.find((item, index) => {
-  //     setHostelIndex(index)
-  //     return item.id == hostelName
-  //   });
-  //   setSelectedHostel(selected);
-  //   handleRowVisibilityChange(true);
-  //   handleBedVisibilityChange(false)
-  // };
-
+ 
   const [filteredData, setFilteredData] = useState([])
 
   const [loader, setLoader] = useState(true)
 
-  const toastStyle = {
-
-    backgroundColor: 'green',
-    color: 'white',
-    width: "100%"
-  };
+ 
 
   useEffect(() => {
 
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
-    setFloorName(showHostelDetails?.floorDetails?.[0]?.floor_name)
+   
 
-  }, [showHostelDetails])
+  },[selectedHostel])
+
+
+
+console.log("FloorClick",floorClick,"floorName", floorName)
+
+
 
   useEffect(() => {
     if (state.UsersList?.hosteListStatusCode == 200) {
@@ -203,7 +198,7 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    if (filteredData) {
+    if (showHostelDetails?.floorDetails?.length == 1) {
       setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
     }
   }, [filteredData])
@@ -246,52 +241,18 @@ useEffect(() => {
     // , { number_of_floor: '' }, { number_of_floor: '' }
   ]);
 
-
-
-
-
-  const LoginId = localStorage.getItem("loginId")
-
-
-  console.log("@@@@@@@@@@@@@@@@@@PMJ", state.UsersList?.hostelList)
-
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      let tempArry = [];
-      for (let i = 0; i < pgList.number_Of_Floor; i++) {
-        var a = {}
-        tempArry.push(a)
-      }
-      setPgList({ ...pgList, floorDetails: tempArry })
-    }, 1000);
-    return () => clearTimeout(timeout)
-  }, [pgList.number_Of_Floor])
-
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      let tempArray = [];
-      for (let i = 0; i < pgList.number_Of_Rooms; i++) {
-        let newRoom = {
-          roomNumber: i + 1,
-          number_Of_Bed: '',
-          price: ''
-        };
-        tempArray.push(newRoom);
-      }
-      setPgList((prevPgList) => ({
-        ...prevPgList,
-        floorDetails: [tempArray],
-      }));
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, [pgList.number_Of_Rooms]);
+ 
 
 
   useEffect(() => {
     if (state.UsersList.createFloorSuccessStatusCode == 200 || state.PgList.updateFloorSuccessStatusCode == 200) {
       dispatch({ type: 'HOSTELLIST' })
+      // setTimeout(()=>{
+      //   setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
+      // },3000)
+    
+
+
       setShowFloor(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_FLOOR_STATUS_CODE' })
@@ -309,8 +270,8 @@ useEffect(() => {
       dispatch({ type: 'HOSTELLIST' })
       setShowDelete(false)
 
-      // setFloorClick(showHostelDetails?.floorDetails?.[0])
-
+      setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
+      // setFloorName(showHostelDetails?.floorDetails?.[0]?.floor_name)
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_FLOOR' })
@@ -365,6 +326,7 @@ useEffect(() => {
     if (selectedHostel) {
       const selected = state.UsersList.hostelList?.find(item => item.id === showHostelDetails.id);
       setShowHostelDetails(selected);
+      
     }
   }, [state.UsersList.hostelList]);
 
@@ -400,242 +362,16 @@ useEffect(() => {
 
 
 
-
-
-
-
-  const [decrypt, setDecrypt] = useState('')
-
-  const loginId = localStorage.getItem('loginId');
-
   useEffect(() => {
     dispatch({ type: 'HOSTELLIST' })
   }, []);
 
 
 
+ 
 
-  const handleSubmitPgList = () => {
-    if (!pgList.Name || !pgList.phoneNumber || !pgList.email_Id || !pgList.location
-      // || !pgList.number_Of_Floor 
-    ) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Enter All Required Fields',
-      });
-    } else if (pgList.phoneNumber.length !== 10) {
-      Swal.fire({
-        icon: 'warning',
-        text: 'Please Enter a valid 10-digit Phone Number',
-      });
-    }
-    else if (!validateEmail(pgList.email_Id)) {
-      Swal.fire({
-        icon: 'warning',
-        text: "Please Enter a valid Email_id"
-      });
-    }
-    else {
-      dispatch({
-        type: 'PGLIST',
-        payload: {
-          name: pgList.Name,
-          phoneNo: pgList.phoneNumber,
-          email_Id: pgList.email_Id,
-          location: pgList.location,
-          // number_of_floors: pgList.number_Of_Floor,
-          // number_Of_Rooms: pgList.number_Of_Rooms,
-          // floorDetails: pgList.floorDetails,
-          // created_by: decrypt
-        }
-      });
 
-      handlecloseHostelForm()
-
-
-    }
-
-  }
-
-
-
-  const handleFloorChange = (value, index) => {
-    setFloorDetails((prevDetails) => {
-      const updatedDetails = [...prevDetails];
-      updatedDetails[index].number_of_floor = value;
-      return updatedDetails;
-    });
-  };
-
-
-  // const handleCreateFloor = (hostel_Id) => {
-
-
-
-  //   // Swal.fire({
-  //   //   icon: 'warning',
-  //   //   title: 'Do you want create one floor ?',
-  //   //   confirmButtonText: 'Yes',
-  //   //   cancelButtonText: 'No',
-  //   //   showCancelButton: true,
-  //   // }).then((result) => {
-  //   //   if (result.isConfirmed) {
-  //   //     const floors = floorDetails.map((floor) => (
-  //   //       { number_of_floors: 1 }));
-  //   //     const hostel_ID = hostel_Id.toString()
-  //   //     dispatch({
-  //   //       type: 'CREATEFLOOR',
-  //   //       payload: {
-  //   //         hostel_Id: hostel_ID,
-  //   //         hostelDetails: floors,
-  //   //       },
-  //   //     });
-  //   //     Swal.fire({
-  //   //       icon: 'success',
-  //   //       title: 'Create Floor details saved Successfully',
-  //   //     })
-  //   //   }
-  //   // });
-
-
-
-  //   // const floors = floorDetails.map((floor) => (
-  //   //   { number_of_floors: parseInt(floor.number_of_floor) }));
-  //   // const phoneNumber = selectedHostel.hostel_PhoneNo.toString()
-  //   // dispatch({
-  //   //   type: 'CREATEFLOOR',
-  //   //   payload: {
-  //   //     phoneNo: phoneNumber,
-  //   //     hostelDetails: floors,
-  //   //   },
-  //   // });
-
-  //   // Swal.fire({
-  //   //   icon: 'success',
-  //   //   title: 'Create Floor details saved Successfully',
-  //   // })
-  //   setFloorDetails([])
-  //   handleClose();
-  // };
-
-  const handleAddFloor = () => {
-    setFloorDetails([...floorDetails, { number_of_floor: '' }])
-  }
-
-
-  const handleDeleteFloor = (index) => {
-    setFloorDetails((prevDetails) => {
-      const updatedDetails = [...prevDetails];
-      updatedDetails.splice(index, 1);
-      return updatedDetails;
-    });
-  };
-
-
-  const handleCancel = () => {
-    handleClose();
-  };
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // useEffect(() => {
-  //   const selected = state.UsersList.hostelList.find(item => item.Name === selectedHostel?.Name);
-  //   setSelectedHostel(selected);
-  // }, [state.UsersList.hostelList[hostelIndex]?.number_Of_Floor])
-
-  const [isRowVisible, setIsRowVisible] = useState(true);
-  const [bedDetailShow, setBedDetailShow] = useState(false)
-  const [bedDetailsPage, setBedDetailsPage] = useState('')
-  const [hidePgList, setHidePgList] = useState(true)
-  const [bedDetailsDisplay, setBedDetailsDisplay] = useState(false)
-  const [usersBed, setUsersBed] = useState('')
-  const [hosteID, setHosteID] = useState('')
-  const [floorID, setFloorID] = useState('')
-  const [roomID, setRoomID] = useState('')
-
-  const handleRowVisibilityChange = (isVisible) => {
-    setIsRowVisible(isVisible);
-  };
-
-  const handlehidePgList = (isVisible) => {
-    setHidePgList(isVisible);
-  };
-
-
-
-  const handleDisplayBed = (isVisible, userBeds) => {
-    setBedDetailsDisplay(isVisible)
-
-  }
-
-  const userBedId = (bedId) => {
-    setUsersBed(bedId)
-  }
-
-  const Hostel_Id = (Hostel_Id) => {
-    setHosteID(Hostel_Id)
-  }
-
-  const floorId = (floorId) => {
-    setFloorID(floorId)
-  }
-
-  const roomId = (roomId) => {
-    setRoomID(roomId)
-  }
-
-
-  const handleBedVisibilityChange = (isVisible, BedDetails) => {
-    setBedDetailShow(isVisible)
-    setBedDetailsPage(BedDetails)
-    setBedDetailsDisplay(false)
-
-  }
-
-  const handleBackToFloors = () => {
-    setIsRowVisible(true)
-    setBedDetailShow(false)
-    setMouseEnter(false)
-    setMouseEnter(false)
-  }
-
-  const handlehidePgListForUser = (isVisible) => {
-    setHidePgList(isVisible);
-    setBedDetailShow(isVisible)
-
-  }
-
-  const handleDisplayBedDetails = (isVisible) => {
-    setBedDetailsDisplay(isVisible)
-  }
-
-
-
-
-
-
-  const [mouseEnter, setMouseEnter] = useState(false)
-
-
-  const handleMouseEnter = () => {
-    setMouseEnter(true)
-  }
-
-
-  const handleMouseLeave = () => {
-    setMouseEnter(false)
-  }
-
+ 
   const [emailError, setEmailError] = useState('');
 
   const validateEmail = (email) => {
@@ -650,18 +386,7 @@ useEffect(() => {
   };
 
 
-  const handleChangeEmail = (e) => {
-    const { value } = e.target;
-    setPgList({ ...pgList, email_Id: value });
-    validateEmail(value);
-  };
-
-  const handlePhoneNumberChange = (e) => {
-    const value = e.target.value;
-    const validValue = value.replace(/[^0-9]/g, '');
-    console.log("validValue", validValue)
-    setPgList({ ...pgList, phoneNumber: validValue });
-  };
+ 
 
   //  new Ui changes 
 
@@ -694,7 +419,7 @@ useEffect(() => {
   }
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(10);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -708,14 +433,7 @@ useEffect(() => {
   }
 
 
-  console.log("@@@@@@@@@@MATHU", showHostelDetails?.floorDetails?.[0])
-  console.log("filteredData", filteredData)
-
-
-
-
-
-
+ 
 
   const renderPagination = () => {
     const pageNumbers = [];
@@ -778,7 +496,7 @@ useEffect(() => {
 
   const handleShowAddRoom = (room, selectedFloor) => {
     setShowRoom(true)
-    console.log("add room", room, selectedFloor)
+   
     setHostelDetails({ room, selectedFloor });
   }
 
@@ -786,19 +504,18 @@ useEffect(() => {
     setShowRoom(false)
   }
 
-  const [floorClick, setFloorClick] = useState(showHostelDetails?.floorDetails?.[0]?.floor_id)
-
-  const [floorName, setFloorName] = useState(showHostelDetails?.floorDetails?.[0]?.floor_name)
+ 
 
 
-
-  console.log("floorClick& floorName", floorClick)
-  console.log("showHostelDetails?.floorDetails?.[0]?.floor_name", showHostelDetails?.floorDetails?.[0]?.floor_name);
 
 
   const handlebackToPG = () => {
     setSelectedHostel(false)
-    setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id)
+    setFloorClick('')
+  
+   setFloorName('')
+
+
     setHidePgList(true);
 
   }
@@ -832,7 +549,7 @@ useEffect(() => {
 
 const [showDropDown, setShowDropDown] = useState(false)
 
-console.log("filteredData *********", filteredData)
+
 
 
   const handleInputChange = (e) => {
@@ -881,23 +598,12 @@ const handleDropDown = (value)=>{
   const visibleFloors = showHostelDetails.number_Of_Floor > 5 ? 5 : showHostelDetails.number_Of_Floor;
   const remainingFloors = showHostelDetails.number_Of_Floor - visibleFloors;
 
-  // console.log("visiblefloor", visibleFloors)
-  // console.log("remainingFloors", remainingFloors)
+ 
 
   const handleEditHostel = (hostelDetails) => {
     setShowAddPg(true);
     setEditHostelDetails(hostelDetails)
   }
-
-
-  // useEffect(() => {
-  //   if (state.UsersList?.hosteListStatusCode == 200) {
-  //     setEditHostelDetails(editHostelDetails)
-
-
-  //   }
-
-  // }, [state.UsersList?.hosteListStatusCode])
 
 
   
@@ -926,14 +632,32 @@ const handleDropDown = (value)=>{
   };
 
   const handleFloorClick = (floorNumber, floorName) => {
-    console.log("floorNumber", floorNumber, floorName)
+ 
     setFloorClick(floorNumber);
     setKey(floorNumber.toString());
     setFloorName(floorName)
   };
 
 
-  console.log("floorName", floorName)
+ 
+
+useEffect(()=>{
+if(floorClick){
+  const FloorNameData = showHostelDetails?.floorDetails?.filter((item)=>{
+    return item.floor_id == floorClick
+
+  })
+
+console.log("FloorNameData",FloorNameData)
+setFloorName(FloorNameData[0]?.floor_name)
+}
+ 
+
+},[selectedHostel,floorClick])
+
+
+console.log("floorName",floorName)
+
 
 
   useEffect(() => {
@@ -965,23 +689,8 @@ const handleDropDown = (value)=>{
   };
 
 
-
-  // useEffect(() => {
-
-  //   if (state.PgList.createRoomMessage != null && state.PgList.createRoomMessage != "") {
-  //       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-
-  //       setTimeout(() => {
-  //           dispatch({ type: 'UPDATE_MESSAGE_AFTER_CREATION', message: null })
-  //       }, 100)
-  //   }
-  // }, [state.PgList.createRoomMessage]) 
-
-
-
-
   const [showDelete, setShowDelete] = useState(false);
-  const [deleteFloor, setDeleteFloor] = useState({ floor_Id: null, hostel_Id: null })
+  const [deleteFloor, setDeleteFloor] = useState({ floor_Id: null, hostel_Id: null ,floor_Name:null})
   const [showFilter, setShowFilter] = useState(false)
 
 
@@ -998,9 +707,12 @@ const handleDropDown = (value)=>{
 
   const handleCloseDelete = () => setShowDelete(false);
 
-  const handleShowDelete = (FloorNumber, hostel_Id) => {
+  const handleShowDelete = (FloorNumber, hostel_Id,floorName) => {
+
+    console.log("FloorNumber",FloorNumber)
+
     setShowDelete(true)
-    setDeleteFloor({ floor_Id: FloorNumber, hostel_Id: hostel_Id })
+    setDeleteFloor({ floor_Id: FloorNumber, hostel_Id: hostel_Id ,floor_Name:floorName})
     // setFloorClick(1)
 
   }
@@ -1049,7 +761,18 @@ const handleDropDown = (value)=>{
       <div className='container'>
 
         {hidePgList && <>
-        <div className='container justify-content-between d-flex align-items-center' style={{height:83}}>
+        <div className='container justify-content-between d-flex align-items-center'
+        style={{
+          height: 83,
+          position: "sticky",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          backgroundColor: "#fff"
+        }}
+         
+         >
           {/* <div className="d-flex justify-content-between align-items-center"> */}
 
             <div>
@@ -1181,7 +904,7 @@ const handleDropDown = (value)=>{
           )}
         </div>
       )}
-<div className='container'>
+<div className='container mt-2' style={{  }}>
           <div className='row row-gap-3'>
             {currentItems.length > 0 && currentItems.map((hostel) => {
               return (<>
@@ -1391,63 +1114,64 @@ const handleDropDown = (value)=>{
                     </Col>
                     <Col sm={12} xs={12} md={10} lg={10}>
                      
-<div className='container'>
-                      <div className='d-flex justify-content-between align-items-center'>
-                        <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 , textTransform:'capitalize'}}>{
-                          floorName !== null && floorName !== undefined && floorName.trim() !== ""
-                            ? isNaN(floorName)
-                              ? floorName
-                              : floorName
-                            : floorClick
-                        }
-                        </div>
-                        <div>
-                          <div style={{
-                            cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative",
-                            zIndex: showDots ? 1000 : 'auto'
-                          }}
-                            onClick={() => handleShowDots()}>
-                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-                            {showDots && <>
-                              <div ref={popupRef}  style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 50, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
-                                <div>
+                        <div className='container'>
+                          <div className='d-flex justify-content-between align-items-center'>
+                            <div style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, textTransform: 'capitalize' }}>
+                              {
+                              floorName !== null && floorName !== undefined && floorName.trim() !== "" 
+                                ? floorName : ''  }
+                                                                
+                          
+                            </div>
+                            <div>
+                              <div style={{
+                                cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative",
+                                zIndex: showDots ? 1000 : 'auto'
+                              }}
+                                onClick={() => handleShowDots()}>
+                                <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-
-                                  <div className='d-flex gap-2 mb-2 align-items-center'
-                                    onClick={() => handleEditFloor(floorClick, showHostelDetails.id, floorName)}
-                                  >
-                                    <div><Edit size="16" color="#1E45E1" />
-                                    </div>
+                                {showDots && <>
+                                  <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 50, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                     <div>
-                                    <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222", cursor: "pointer" }}>Edit</label>
 
+
+                                      <div className='d-flex gap-2 mb-2 align-items-center'
+                                        onClick={() => handleEditFloor(floorClick, showHostelDetails.id, floorName)}
+                                      >
+                                        <div><Edit size="16" color="#1E45E1" />
+                                        </div>
+                                        <div>
+                                          <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222", cursor: "pointer" }}>Edit</label>
+
+                                        </div>
+
+                                      </div>
+
+                                      <div className='d-flex gap-2 mb-2 align-items-center' onClick={() => handleShowDelete(floorClick, showHostelDetails.id, floorName)}>
+
+                                        <div><Trash size="16"
+                                          color="red"
+                                        /></div>
+                                        <div>
+                                          <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
+
+                                        </div>
+
+                                      </div>
                                     </div>
-                                    
                                   </div>
 
-                                  <div className='d-flex gap-2 mb-2 align-items-center' onClick={() => handleShowDelete(floorClick, showHostelDetails.id, showHostelDetails)}>
-                                   
-                                  <div><Trash size="16"
-                                                color="red"
-                                            /></div> 
-                                   <div>
-                                   <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
 
-                                   </div>
-                                   
-                                  </div>
-                                </div>
+                                </>}
+
                               </div>
-
-
-                            </>}
-
+                            </div>
                           </div>
+
                         </div>
-                      </div>
-                    
-                      </div>
+                      
                       <Tab.Content>
                         <ParticularHostelDetails
                           floorID={floorClick}

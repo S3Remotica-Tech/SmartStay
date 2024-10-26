@@ -289,6 +289,10 @@ function Settings() {
 
   useEffect(() => {
     if (state.Settings.addEbbillingUnitStatuscode === 200) {
+
+      setSelectedHostel('')
+      
+
       setTimeout(() => {
         dispatch({ type: 'EB-BILLING-UNIT-LIST' })
         setData(state.Settings.EBBillingUnitlist.eb_settings) 
@@ -408,7 +412,7 @@ function Settings() {
 
   const handleHostelChange = (e) => {
     setSelectedHostel(e.target.value)
-
+    setTotalErrmsg('')
     if (!e.target.value) {
       setHostelErrmsg("Please Select Hostel");
     } else {
@@ -418,6 +422,7 @@ function Settings() {
 
   const handleAmount = (e) => {
     setAmount(e.target.value)
+    setTotalErrmsg('')
     if (!e.target.value) {
       setAmountErrmsg("Please Enter Amount");
     } else {
@@ -430,16 +435,22 @@ function Settings() {
 
   const handlesaveEbbill = () => {
 
-    if (!selectedHostel || !amount ) {
-        setTotalErrmsg('Please Enter All Field')
-        setTimeout(() => {
-          setTotalErrmsg('')
-        }, 2000);
-        // 
+    if (!selectedHostel && !amount ) {
+        setTotalErrmsg('Please enter all field')
+               
       return; 
     }
 
-   else if (selectedHostel && amount ) {
+if(!selectedHostel){
+  setHostelErrmsg("Please select hostel");
+}
+if(!amount){
+  setAmountErrmsg('Please enter amount')
+}
+
+
+
+   if (selectedHostel && amount ) {
       dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit: 1, amount: amount } })
       // dispatch({ type: 'EB-BILLING-UNIT-LIST' })
       setSelectedHostel('')

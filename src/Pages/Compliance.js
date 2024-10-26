@@ -12,6 +12,9 @@ import List from '../Assets/Images/list-report.png';
 import Edit from '../Assets/Images/edit.png';
 import moment from 'moment';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import addcircle from "../Assets/Images/New_images/add-circle.png";
+import searchteam from "../Assets/Images/New_images/Search Team.png";
+import Filters from "../Assets/Images/Filters.svg";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -50,6 +53,7 @@ import User from '../Assets/Images/Ellipse 1.png';
 import Calendor from '../Assets/Images/calendar.png';
 import Badge from 'react-bootstrap/Badge';
 import { Description, Room } from '@material-ui/icons';
+import closecircle from "../Assets/Images/New_images/close-circle.png";
 import ComplianceList from './ComplianceList';
 import { MdError } from "react-icons/md";
 // import Image from 'react-bootstrap/Image';
@@ -75,57 +79,7 @@ const Compliance = () => {
     backgroundColor: "#E6ECF8"
   };
 
-
-  const LoginId = localStorage.getItem("loginId")
-
-  const [login_Id, setLogin_Id] = useState('')
-
-  useEffect(() => {
-    dispatch({ type: 'COMPLIANCE-LIST' })
-    dispatch({ type: 'USERLIST' });
-  }, [])
-
-  useEffect(() => {
-    if (state.ComplianceList.statusCodeForAddCompliance === 200) {
-      dispatch({ type: 'COMPLIANCE-LIST' })
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' })
-      }, 200)
-
-    }
-  }, [state.ComplianceList.statusCodeForAddCompliance]);
-
-
-
-  const [selectedDate, setSelectedDate] = useState(null);
-  const calendarRef = useRef(null);
-
-  const options = {
-    dateFormat: 'd/m/Y',
-  defaultDate: null,
-  // defaultDate: selectedDate,
-  maxDate: new Date(),           
-  minDate: null, 
-  };
-
- 
-
-  useEffect(() => {
-    if (calendarRef.current) {
-      calendarRef.current.flatpickr.set(options);
-    }
-  }, [selectedDate])
-
-
-
-  useEffect(() => {
-    if (state?.ComplianceList?.Compliance) {
-      setData(state.ComplianceList.Compliance);
-    }
-
-  }, [state?.ComplianceList?.Compliance]);
-
+  
   const [id, setId] = useState('')
   const [Name, setName] = useState('');
   const [Phone, setPhone] = useState('');
@@ -146,12 +100,88 @@ const Compliance = () => {
   const [loading, setLoading] = useState(true);
 
 
+  const [filterInput, setFilterInput] = useState("");
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [search, setSearch] = useState(false);
+
+  const [filterByDate, setFilterByDate] = useState("");
+  const [filterStatus, setFilterStatus] = useState(false);
+  const [filterByStatus, setFilterByStatus] = useState("ALL");
+
+
+  const LoginId = localStorage.getItem("loginId")
+
+  const [login_Id, setLogin_Id] = useState('')
+
+  useEffect(() => {
+    dispatch({ type: 'COMPLIANCE-LIST' })
+    dispatch({ type: 'USERLIST' });
+  }, [])
+
+  useEffect(() => {
+    // Run whenever there's an update in statusCodeForAddCompliance or filterInput
+    if (state.ComplianceList.statusCodeForAddCompliance === 200) {
+      dispatch({ type: 'COMPLIANCE-LIST' });
+  
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' });
+      }, 200);
+    }
+  
+    // Filter ComplianceList.Compliance based on filterInput and update filteredUsers
+    if (state.ComplianceList.Compliance) {
+      const filteredItems = state.ComplianceList.Compliance.filter((user) =>
+        user.Name.toLowerCase().includes(filterInput.toLowerCase())
+      );
+      setFilteredUsers(filteredItems);
+    } else {
+      // If no filter applied or Compliance data is missing, set full Compliance list
+      setFilteredUsers(state.ComplianceList.Compliance || []);
+    }
+  
+  }, [state.ComplianceList.statusCodeForAddCompliance, filterInput]);
+  
+
+
+
+  const [selectedDate, setSelectedDate] = useState(null);
+  const calendarRef = useRef(null);
+
+  const options = {
+    dateFormat: 'd/m/Y',
+  defaultDate: null,
+  // defaultDate: selectedDate,
+  maxDate: new Date(),           
+  minDate: null, 
+  };
+
+ 
+
+  useEffect(() => {
+    if (calendarRef.current) {
+      calendarRef.current.flatpickr.set(options);
+      setDateErrmsg('')
+    }
+  }, [selectedDate])
+
+
+
+  useEffect(() => {
+    if (state?.ComplianceList?.Compliance && filteredUsers.length === 0) {
+      setFilteredUsers(state.ComplianceList.Compliance);
+    }
+  }, [state?.ComplianceList?.Compliance, filteredUsers]);
+  
+
+
+
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
 
   const [searchItem, setSearchItem] = useState('');
   const [searchicon, setSearchicon] = useState(false);
@@ -161,6 +191,8 @@ const Compliance = () => {
   const [file, setFile] = useState(null)
   const [filtericon, setFiltericon] = useState(false)
   const [statusfilter, setStatusfilter] = useState('')
+
+
 
 
 
@@ -186,6 +218,36 @@ const Compliance = () => {
     }
   };
 
+  const handleCloseSearch = () => {
+    setSearch(false);
+    setFilterInput("")
+  };
+
+
+  const handleSearch = () => {
+    setSearch(!search);
+    setFilterStatus(false);
+  };
+
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+    console.log("e,,,,", e.target.value);
+    setDropdownVisible(e.target.value.length > 0);
+  };
+
+  const handleUserSelect = (user) => {
+    setFilterInput(user.Name);
+    
+    // Set filteredUsers to only the selected user's data
+    const selectedUserData = state.ComplianceList.Compliance.filter(
+      (item) => item.Name === user.Name
+    );
+    setFilteredUsers(selectedUserData);
+    
+    setDropdownVisible(false);  // Close the dropdown after selection
+  };
+  
+
   const handleFiltershow = () => {
     setFiltericon(!filtericon)
     setSearchicon(false)
@@ -199,8 +261,7 @@ const Compliance = () => {
     }
     else {
       const filteredItems = state.ComplianceList.Compliance.filter((user) =>
-        user.Status.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+        user.Status.toLowerCase().includes(searchTerm.toLowerCase()));
       setData(filteredItems);
     }
   }
@@ -445,37 +506,37 @@ const Compliance = () => {
   const handleAddcomplaint = () => {
 
     
-  
+  //   if(!selectedUsername || !Complainttype || !selectedDate  ||  !Status){
+  //     setTotalErrmsg('Please Enter All field')
+  //     setTimeout(()=> {
+  //       setTotalErrmsg('')
+  //     },2000)
+  //     return;
+  // }
 
   if(!selectedUsername){
     setUserErrmsg('Please Select  Customer')
-    return;
+    // return;
   }
 
   if(!Complainttype){
     setComplaintTypeErrmsg('Please Select  Complaint Type')
-    return;
+    // return;
   }
  
 
-  // if(!Assign){
-  //   setAssignErrmsg('Please Select Assign')
-  //   return;
-  // }
+  
 
   if (!Status){
     setStatusErrmsg('Please Select status')
-    return;
+    // return;
   }
 
-
-  if(!selectedUsername || !Complainttype || !selectedDate  ||  !Status){
-    setTotalErrmsg('Please Enter All field')
-    setTimeout(()=> {
-      setTotalErrmsg('')
-    },2000)
-    return;
-}
+  if(!selectedDate){
+    setDateErrmsg('Please Select date')
+    // return;
+  }
+  
 
     setEdit(false)
 
@@ -653,44 +714,176 @@ const Compliance = () => {
           </div>
         </div> */}
 
-        <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
           <div>
             <label style={{ fontSize: 24, color: "#000000", fontWeight: 600, marginLeft: '20px' }}>Complaints</label>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
 
 
-          {
-                    searchicon &&
-                    <>
-                      <input
-                        type="text"
-                        value={searchItem}
-                        onChange={(e) => handleInputChange(e)}
-                        placeholder='Search By Name'
-                        class="form-control ps-4 pe-1   searchinput"
-                        style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
-
+          {search ? (
+                <>
+                  <div
+                    style={{
+                      position: "relative",
+                      width: "100%",
+                      marginRight: 20,
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "relative",
+                        display: "flex",
+                        alignItems: "center",
+                        width: "100%",
+                        marginTop:'10px',
+                        marginBottom:'10px'
+                      }}
+                    >
+                      <Image
+                        src={searchteam}
+                        alt="Search"
+                        style={{
+                          position: "absolute",
+                          left: "10px",
+                          width: "24px",
+                          height: "24px",
+                          pointerEvents: "none",
+                        }}
                       />
-                    </>
-                  }
-                  <BsSearch class=" me-4" onClick={handleiconshow} /> 
-            {
-              filtericon &&
-              <>
-                <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
-                >
-                  <option selected value="ALL"> ALL</option>
-                  <option value="Success">Success</option>
-                  <option value="Hold">Hold</option>
-                  <option value="Pending">Pending</option>
-                </select>
-              </>
-            }
+                      <div
+                        className="input-group"
+                        style={{ marginRight: 20 }}
+                      >
+                        <span className="input-group-text bg-white border-end-0">
+                          <Image
+                            src={searchteam}
+                            style={{ height: 20, width: 20 }}
+                          />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control border-start-0"
+                          placeholder="Search"
+                          aria-label="Search"
+                          style={{
+                            boxShadow: "none",
+                            outline: "none",
+                            borderColor: "rgb(207,213,219)",
+                            borderRight:"none"
+                           
+                          }}
+                          value={filterInput}
+                          onChange={(e) => handlefilterInput(e)}
+                        />
+                        <span className="input-group-text bg-white border-start-0">
+                          <img src={closecircle} onClick={handleCloseSearch}
+                            style={{ height: 20, width: 20 }}
+                          />
+                        </span>
+                      </div>
+                    </div>
+
+                    {isDropdownVisible && filteredUsers?.length > 0 && (
+                      <div
+                        style={{
+                          border: "1px solid #d9d9d9 ",
+                          position: "absolute",
+                          top: 60,
+                          left: 0,
+                          zIndex: 1000,
+                          padding: 10,
+                          borderRadius: 8,
+                          backgroundColor: "#fff",
+                          width: "94%",
+                        }}
+                      >
+                        <ul
+                          className="show-scroll p-0"
+                          style={{
+                            backgroundColor: "#fff",
+                            borderRadius: "4px",
+                            // maxHeight: 174,
+                            maxHeight:
+                              filteredUsers?.length > 1 ? "174px" : "auto",
+                            minHeight: 100,
+                            overflowY:
+                              filteredUsers?.length > 1 ? "auto" : "hidden",
+
+                            margin: "0",
+                            listStyleType: "none",
+                            borderRadius: 8,
+                            boxSizing: "border-box",
+                          }}
+                        >
+                          {filteredUsers?.map((user, index) => {
+                            const imagedrop = user.profile || Profile;
+                            return (
+                              <li
+                                key={index}
+                                className="list-group-item d-flex align-items-center"
+                                style={{
+                                  cursor: "pointer",
+                                  padding: "10px 5px",
+                                  borderBottom:
+                                    index !== filteredUsers.length - 1
+                                      ? "1px solid #eee"
+                                      : "none",
+                                }}
+                                onClick={() => handleUserSelect(user)}
+                              >
+                                <Image
+                                  src={imagedrop}
+                                  alt={user.Name || "Default Profile"}
+                                  roundedCircle
+                                  style={{
+                                    height: "30px",
+                                    width: "30px",
+                                    marginRight: "10px",
+                                  }}
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = Profile;
+                                  }}
+                                />
+                                {/* <span>{user.Name}</span> */}
+                                <span>{ user.Name }</span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="me-3">
+                    <Image
+                      src={searchteam}
+                      roundedCircle
+                      style={{ height: "24px", width: "24px" }}
+                      onClick={handleSearch}
+                    />
+                  </div>
+                </>
+              )}
+
+              <div className="me-3">
+                <Image
+                  src={Filters}
+                  roundedCircle
+                  style={{ height: "50px", width: "50px" }}
+                  onClick={handleSearch}
+                />
+              </div>
+                 
+                  {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
+        
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
-            </div>
+            </div> */}
 
             <div>
               <Button
@@ -701,7 +894,7 @@ const Compliance = () => {
         </div>
 
         <div className='row row-gap-3'>
-          {data.length > 0 && data.map((complaints) => (
+          {filteredUsers.length > 0 && filteredUsers.map((complaints) => (
             <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
               <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} />
             </div>
@@ -709,7 +902,7 @@ const Compliance = () => {
           }
 
 
-          {data.length == 0 &&
+          {filteredUsers.length == 0 &&
 
 <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 <div>
@@ -733,7 +926,7 @@ const Compliance = () => {
 
         </div>
         <Pagination className="mt-4 d-flex justify-content-end">
-          {[...Array(Math.ceil(data.length / itemsPerPage)).keys()].map(number => (
+          {[...Array(Math.ceil(filteredUsers.length / itemsPerPage)).keys()].map(number => (
             <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
               {number + 1}
             </Pagination.Item>
@@ -794,7 +987,7 @@ const Compliance = () => {
                   </Modal.Header>
                 </div>
 
-                <div className='row mt-4'>
+                <div className='row mt-1'>
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
@@ -920,7 +1113,7 @@ const Compliance = () => {
                     </Form.Group>
                   </div>
                   {/* {!edit &&  Assign == !null( */}
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                  {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
                         Assignee<span style={{ color: 'transparent', fontSize: '20px' }}>*</span>
@@ -941,15 +1134,9 @@ const Compliance = () => {
                           </>
                         )}
                       </Form.Select>
-                      {assignerrormsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {assignerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {assignerrormsg}
-    </p>
-  </div>
-)}
+                     
                     </Form.Group>
-                  </div>
+                  </div> */}
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
@@ -1075,13 +1262,15 @@ const Compliance = () => {
                       />
                     </div>
 
-                    {/* {dateerrmsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {dateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
-    </p>
-  </div>
-)} */}
+
+
+                    {dateerrmsg.trim() !== "" && (
+                      <div>
+                        <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                          {dateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>

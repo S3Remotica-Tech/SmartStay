@@ -34,7 +34,7 @@ function CheckOut() {
   const [modalType, setModalType] = useState(null);
   const [customers, setCustomers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4; 
+  const itemsPerPage = 10; 
   const datePickerRef = useRef(null);
 
 
@@ -252,7 +252,12 @@ function CheckOut() {
             <div key={index} className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Card className=" h-100 border p-3" style={{ borderColor: '#E6E6E6', borderWidth: '1px', borderRadius: '16px', position: 'relative' }}>
                 <div className="d-flex align-items-center">
-                  <Image src={checkout.profile ? checkout.profile : Room} roundedCircle style={{ height: "60px", width: "60px" }} />
+                  <Image
+                    src={checkout.profile && checkout.profile !== "0" && checkout.profile.trim() !== "" ? checkout.profile : People}
+                    roundedCircle
+                    style={{ height: "60px", width: "60px" }}
+                    alt="profile"
+                  />
 
                   {/* <img src={Room} alt="Room Image" /> */}
                   <div style={{ marginLeft: '10px' }}>
@@ -344,7 +349,7 @@ function CheckOut() {
 
                 <hr style={{ border: '1px solid #E7E7E7' }} />
 
-                <div className="d-flex justify-content-between" style={{ whiteSpace: 'nowrap' }}>
+                {/* <div className="d-flex justify-content-between" style={{ whiteSpace: 'nowrap' }}>
                   <p style={{ fontSize: '12px', fontWeight: '500', color: '#4B4B4B', fontFamily:"Gilroy" }}>Customer</p>
                   <p style={{ fontSize: '12px', fontWeight: '500', color: '#4B4B4B', marginLeft: '20px', fontFamily: 'Gilroy' }}>Check-out Date</p>
                   <p style={{ fontSize: '12px', fontWeight: '500', color: '#4B4B4B', fontFamily: 'Gilroy' }}>Notice Days</p>
@@ -352,8 +357,6 @@ function CheckOut() {
 
                 <div className="d-flex justify-content-between align-items-center" style={{ whiteSpace: 'nowrap', marginTop: '-10px' }}>
                   <p style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '20px', lineHeight: '1' }}>
-                    {/* <img src={People} alt="People Icon" style={{  }} /> */}
-                    {/* <Image src={checkout.user_profile ? checkout.user_profile : People} roundedCircle style={{ height: "20px", width: "20px" ,marginRight: '5px'}} /> */}
                     <Image src={
                       checkout.user_profile && checkout.user_profile !== "0" && checkout.user_profile.trim() !== ""
                         ? checkout.user_profile
@@ -366,7 +369,54 @@ function CheckOut() {
                   </p>
                   <p style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '68px', lineHeight: '1', fontFamily: 'Gilroy' }}>{moment(checkout.CheckoutDate, 'YYYY-MM-DD').format('DD MMM YYYY')}</p>
                   <p style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '16px', lineHeight: '1' , fontFamily: 'Gilroy'}}>{checkout.notice_period}</p>
-                </div>
+                </div> */}
+
+<div className="d-flex justify-content-between align-items-center mb-1 mt-1 flex-wrap" >
+
+<div className='pb-1' style={{lineHeight:1}} >
+    <div className='pb-1'>
+        <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Customer</label>
+    </div>
+
+    <div >
+        <label style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '20px', lineHeight: '1' }}>
+<Image src={
+  checkout.user_profile && checkout.user_profile !== "0" && checkout.user_profile.trim() !== ""
+    ? checkout.user_profile
+    : People
+} roundedCircle
+  style={{ height: "30px", width: "30px", marginRight: '5px' }}
+/>
+
+{checkout.Name}
+        </label>
+    </div></div>
+
+
+<div className='pb-1' style={{lineHeight:1}}>
+    <div className=''>
+        <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Check-out Date</label>
+    </div>
+    <div className='text-center' >
+        <label style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '68px', lineHeight: '1', fontFamily: 'Gilroy' }}>
+{moment(checkout.CheckoutDate, 'YYYY-MM-DD').format('DD MMM YYYY')}
+        </label>
+    </div>
+</div>
+
+
+<div className='pb-1' style={{lineHeight:1}}>
+    <div className=''>
+        <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Notice Days</label>
+    </div>
+    <div>
+        <label style={{ fontSize: '14px', fontWeight: '600', color: 'Black', marginRight: '16px', lineHeight: '1' , fontFamily: 'Gilroy'}}>{checkout.notice_period}
+        </label>
+    </div>
+</div>
+
+
+</div>
 
                 <div>
                   <p style={{ fontSize: '12px', fontWeight: '500', color: '#4B4B4B', fontFamily: 'Gilroy' }}>Comment</p>
@@ -430,35 +480,6 @@ function CheckOut() {
 {currentCustomers.length > 0 && 
 
    
-      // <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-      //   <Pagination.Prev
-      //     onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-      //     disabled={currentPage === 1}
-      //     style={{ cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
-      //   >
-      //     <ArrowLeft2 />
-      //   </Pagination.Prev>
-
-      //   <Pagination.Item
-      //     active={currentPage === 1}
-      //     onClick={() => handlePageChange(1)}
-      //   >
-      //     {1}
-      //   </Pagination.Item>
-
-       
-      //     <Pagination.Next
-      //       onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-      //       disabled={currentPage === totalPages}
-      //       style={{ cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
-      //     >
-      //       <ArrowRight2 />
-      //     </Pagination.Next>
-      //        </Pagination>
-
-
-
-
 <Pagination className="mt-4 d-flex justify-content-end align-items-center">
 <Pagination.Prev style={{ visibility: "visible" }}
   onClick={() => paginate(currentPage - 1)}
@@ -557,134 +578,6 @@ function CheckOut() {
         </Modal.Footer>
       </Modal>
 
-      {/* Form Modal */}
-      {/* <Modal show={showForm} onHide={handleClose}>
-      <Modal.Header className="d-flex justify-content-between align-items-center">
-        <Modal.Title style={{ fontWeight: '600', fontSize: '16px' }}>Edit Check-out</Modal.Title>
-        <img
-          src={Closecircle}
-          alt="Close"
-          style={{ cursor: 'pointer', width: '24px', height: '24px' }}
-          onClick={handleClose}
-        />
-      </Modal.Header>
-      <Modal.Body>
-        <form className="space-y-4">
-          <div className="form-group">
-            <label style={{ fontSize: '14px', fontWeight: '500' }}>Paying Guest</label>
-            <Form.Group controlId="category" style={{ border: "1px solid #D9D9D9", borderRadius: '8px', marginTop: '10px' }}>
-              <Form.Select className="mt-2" style={{ borderRadius: '8px' }}>
-                <option value="Royal Grand Hostel">Select a PG</option>
-                <option value="1">Product 1</option>
-                <option value="2">Product 2</option>
-                <option value="3">Product 3</option>
-                <option value="4">Product 4</option>
-              </Form.Select>
-            </Form.Group>
-          </div>
-
-          <div className="form-group">
-            <label className='mt-2' style={{ fontSize: '14px', fontWeight: '500' }}>Customer</label>
-            <Form.Group controlId="customer" style={{ border: "1px solid #D9D9D9", borderRadius: '8px', marginTop: '10px' }}>
-              <Form.Select className="mt-2" style={{ borderRadius: '8px' }}>
-                <option value="Royal Grand Hostel"><img src={People}></img>Customer 1</option>
-                <option value="1">Customer 2</option>
-                <option value="2">Customer 3</option>
-                <option value="3">Customer 4</option>
-                <option value="4">Customer 5</option>
-              </Form.Select>
-            </Form.Group>
-          </div>
-
-          <div className='d-flex mt-2'>
-            <div className="form-row d-flex">
-              <div className="form-group col-md-6 position-relative">
-                <label htmlFor="check-out-date" style={{ fontSize: '14px', fontWeight: '500' }}>Check-out Date</label>
-                <div className='position-relative'>
-                  <input
-                    type="text"
-                    readOnly
-
-                    className="form-control mt-2"
-                    placeholder="DD-MM-YYYY"
-                    value={checkOutDates}
-                    onClick={() => calendarRef.current.flatpickr.open()}
-                    style={{ height: '50px', borderRadius: '8px', width: '220px' }}
-                  />
-                  <img
-                    src={Calender}
-                    onClick={() => calendarRef.current.flatpickr.open()}
-                    style={{
-                      position: 'absolute',
-                      right: '20px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      cursor: 'pointer'
-                    }}
-                    alt="Calendar Icon"
-                  />
-                  <Flatpickr
-                    ref={calendarRef}
-                    onChange={handleDateChange}
-                    options={{
-                      dateFormat: "Y-m-d",
-                    }}
-                    style={{
-                      display: 'none',
-                      padding: 15,
-                      fontSize: 16,
-                      width: "100%",
-                      borderRadius: 8,
-                      border: "1px solid #D9D9D9",
-                      position: 'absolute',
-                      top: 100,
-                      left: 100,
-                      zIndex: 1000,
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="form-group col-md-6 position-relative" style={{ marginLeft: '12px' }}>
-                <label htmlFor="notice-days" style={{ fontSize: '14px', fontWeight: '500' }}>Notice Days</label>
-                <Form.Group controlId="notice-days" style={{ border: "1px solid #D9D9D9", borderRadius: '8px', marginTop: '10px' }}>
-                  <Form.Select className="mt-2" value={noticeDays} onChange={handleNoticeDaysChange}
-                    style={{ borderRadius: '8px', width: '220px' }}>
-                    <option value="">Select days</option>
-                    <option value="1">1 Day</option>
-                    <option value="2">2 Days</option>
-                    <option value="3">3 Days</option>
-                    <option value="4">4 Days</option>
-                    <option value="5">5 Days</option>
-                  </Form.Select>
-                </Form.Group>
-              </div>
-            </div>
-          </div>
-
-          <div className="form-group col-md-12">
-            <label htmlFor="comments" className='mt-2' style={{ fontSize: '14px', fontWeight: '500' }}>Comments</label>
-            <input
-              type="text"
-              name="comments"
-              id="comments"
-              className="form-control mt-2"
-              placeholder="anfankfjafbjkafajnfja"
-              required
-              style={{ height: '50px', borderRadius: '8px' }}
-            />
-          </div>
-
-          <Button type="submit" className="btn btn-primary mt-4" style={{
-            borderRadius: '8px',
-            fontFamily: "Gilroy",
-            fontWeight: '600',
-            fontSize: '14px',
-            padding: '16px 24px', width: '100%'
-          }}>Save Changes</Button>
-        </form>
-      </Modal.Body>
-      </Modal> */}
 
       {
         checkoutForm && <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} currentItem={checkOutEdit} />

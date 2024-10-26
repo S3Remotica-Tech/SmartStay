@@ -102,17 +102,17 @@ console.log("setSelectedCustomer",selectedCustomer)
     }
     if (!selectedCustomer) {
       setCustomerError('Please select a customer.');
-      return;
+      // return;
     }
 
     if (!selectedHostel) {
       setHostelError('Please select a hostel.');
-      return;
+      // return;
     }
 
     if (!checkOutDate) {
       setCheckOutDateError('Please enter a checkout date.');
-      return;
+      // return;
     }
     const hasChanges = checkOutDate !== currentItem?.CheckoutDate ||
       selectedHostel !== currentItem?.Hostel_Id ||
@@ -174,9 +174,9 @@ console.log("setSelectedCustomer",selectedCustomer)
     }),
   };
 
-  // Function to format options
+
   const formatOptions = () => {
-    return state.UsersList.Users.map((user) => ({
+    return state.UsersList?.availableCheckOutCustomerList.map((user) => ({
       value: user.ID,
       label: (
         <div className="d-flex align-items-center">
@@ -190,6 +190,20 @@ console.log("setSelectedCustomer",selectedCustomer)
       ),
     }));
   };
+
+
+useEffect(()=>{
+if(selectedHostel){
+  dispatch({ type: 'AVAILABLECHECKOUTCUSTOMER', payload:{hostel_id:selectedHostel }})
+}
+},[selectedHostel])
+
+
+
+
+
+
+
   return (
     <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Header className="d-flex justify-content-between align-items-center">

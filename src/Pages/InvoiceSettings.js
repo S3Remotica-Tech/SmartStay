@@ -13,6 +13,7 @@ import {  ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import InvoiceSettingsList from './InvoicesettingsList';
 import Modal from 'react-bootstrap/Modal';
 import { MdError } from "react-icons/md"; 
+import { IoReturnDownForward } from 'react-icons/io5';
 
 
 
@@ -39,6 +40,7 @@ function InvoiceSettings() {
     const handleHostelChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
         setShowTable(true)
+        setTotalErrmsg('')
         setSelectedHostel({
             id: e.target.value,
             name: e.target.options[selectedIndex].text
@@ -58,7 +60,7 @@ function InvoiceSettings() {
 
     const handleImageChange = async (event) => {
         const file = event.target.files[0];
-
+        setSuffixfixErrmsg('')
         const options = {
             maxSizeMB: 1,
             maxWidthOrHeight: 800,
@@ -80,7 +82,9 @@ function InvoiceSettings() {
     const [totalErrormsg ,setTotalErrmsg]= useState('')
 
     const handlePrefix = (e) => {
+        setTotalErrmsg('')
         setPrefix(e.target.value)
+        setSuffixfixErrmsg('')
         if (!e.target.value) {
             setPrefixErrmsg("Please Enter Prefix");
           } else {
@@ -89,6 +93,8 @@ function InvoiceSettings() {
     }
 
     const handleSuffix = (e) => {
+        setTotalErrmsg('')
+        setSuffixfixErrmsg('')
         const value = e.target.value;
         if (/^\d*$/.test(value)) {
             setStartNumber(value);
@@ -158,11 +164,45 @@ function InvoiceSettings() {
     }
     
 
+    console.log("prefix", prefix  , startNumber, )
 
     const handleInvoiceSettings = () => {
         const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== '';
         const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== '';
-        const isSelectedImageValid = selectedImage !== undefined && selectedImage !== null;
+        const isSelectedImageValid = selectedImage !== null;
+
+
+
+        if(!selectedHostel.id){
+            setTotalErrmsg('Please select hostel')
+           
+            
+        }
+
+        console.log("isPrefixValid",isPrefixValid,isStartNumberValid,isSelectedImageValid)
+     
+
+
+        if (!(isPrefixValid && isStartNumberValid) && !isSelectedImageValid) {
+            setPrefixErrmsg('Please upload an image or enter both prefix and suffix.');
+            return;
+        }
+    
+    
+        if (logo && logo !== '') {
+           
+            if (!isPrefixValid || !isStartNumberValid) {
+                setPrefixErrmsg('Please enter both prefix and suffix.');
+                return;
+            }
+        }
+      
+
+
+
+
+
+
 
         if (!isPrefixValid && !isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
 
@@ -182,15 +222,7 @@ function InvoiceSettings() {
 
         }
 
-      else if(!isPrefixValid || !isStartNumberValid || !selectedHostel.id){
-            setTotalErrmsg('Please enter all field')
-            setTimeout(()=> {
-                setTotalErrmsg('')
-              },2000)
-            return;
-        }
-
-        if (isPrefixValid && isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
+      else if (isPrefixValid && isStartNumberValid && isSelectedImageValid && selectedHostel.id) {
 
             dispatch({
                 type: 'INVOICESETTINGS',
@@ -449,14 +481,7 @@ function InvoiceSettings() {
                                 />
         
 
-{prefixerrormsg.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {prefixerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {prefixerrormsg}
-    </p>
-  </div>
-)}
-                            </Form.Group>
+                          </Form.Group>
                         </div>
 
                         <div className='col-lg-5 col-md-5 col-sm-11 col-xs-11'>
@@ -505,13 +530,20 @@ function InvoiceSettings() {
                         </Form.Group>
                     </div>
                     {totalErrormsg.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
-    </p>
-  </div>
-)}
-        
+                        <div>
+                            <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                                {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+                            </p>
+                        </div>
+                    )}
+                    {prefixerrormsg.trim() !== "" && (
+                        <div>
+                            <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                                {prefixerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {prefixerrormsg}
+                            </p>
+                        </div>
+                    )}
+
                     <div style={{ marginTop: '20px' }} className='col-lg-12 col-md-10 col-sm-12 col-xs-12' >
 
                         <Button className='col-lg-10 col-md-10 col-sm-11 col-xs-9 mb-2 me-sm-2' onClick={handleInvoiceSettings} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", letterSpacing: 1, borderRadius: 12, padding: "10px" }}> Save </Button>

@@ -22,13 +22,14 @@ function AssignBooking (props){
   const [phoneError, setPhoneError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [countryCode, setCountryCode] = useState("91");
+  const [countryCode, setCountryCode] = useState("");
   const [phonenumError, setphonenumError] = useState("");
   const [validated, setValidated] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [addressError, setAddressError] = useState("");
   console.log(props.assignBooking,"?????????");
+
 
   useEffect(() => {
     dispatch({ type: "COUNTRYLIST" });
@@ -100,17 +101,25 @@ const handleAddress=(e)=>{
   setAddress(e.target.value)
   setAddressError('')
 }
-
+const MobileNumber = `${countryCode}${mobileno}`;
 useEffect(()=>{
   if(props.assignBooking){
+    const phoneNumber = String(props.assignBooking.phone_number || "");
+    const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+    const mobileNumber = phoneNumber.slice(-10);
     setFirstName(props.assignBooking.first_name)
     setLastName(props.assignBooking.last_name)
     setPayingGuest(props.assignBooking.hostel_name)
+    setMobileNo(mobileNumber)
+    setAddress(props.assignBooking.address)
+    setEmail(props.assignBooking.email_id)
+    setCountryCode(countryCode)
     
 
   }
 })
 
+console.log("props.assignBooking",props.assignBooking)
 
 const validateAssignField = (value, fieldName) => {
   const stringValue = String(value).trim();
@@ -141,26 +150,57 @@ const validateAssignField = (value, fieldName) => {
   }
 };
 
+console.log('MobileNumber',MobileNumber)
 
 
 
 
-const MobileNumber = `${countryCode}${mobileno}`;
   
   const handleSubmit = (event) => {
-    if (!validateAssignField(mobileno, "mobileno")) return;
-    if (!validateAssignField(address, "address")) return;
+    // if (!validateAssignField(mobileno, "mobileno")) return;
+    // if (!validateAssignField(address, "address")) return;
    
-    if (phoneError === "Invalid mobile number *") {
-      setPhoneError("Please enter a valid 10-digit phone number");
-      return;
-    } else {
-      setPhoneError("");
-    }
+    // if (phoneError === "Invalid mobile number *") {
+    //   setPhoneError("Please enter a valid 10-digit phone number");
+    //   return;
+    // } else {
+    //   setPhoneError("");
+    // }
+    const payload = {
+      
+      firstname: firstName,
+      lastname: lastName,
+      Phone: MobileNumber,
+      Email: email,
+      Address: address,
+      HostelName: props.assignBooking.hostel_name,
+      Hostel_Id:  props.assignBooking.hostel_id,
+      Floor_Id: props.assignBooking.floor_id,
+      Room_Id: props.assignBooking.room_id,
+      Bed_Id: props.assignBooking.bed_id,
+      joining_Date: props.assignBooking.joining_date,
+      // AdvanceAmount,
+      RoomRent: props.assignBooking.amount,
+      country_code:countryCode, 
+      id: props.assignBooking.id,
+    };
+    dispatch({
+      type: "ASSIGN_BOOKING",
+      payload: payload,
+    });
 
    
   };
 
+  useEffect(()=>{
+    if(state.Booking.statusCodeForAssignBooking === 200){
+      handleAssignClose()
+      dispatch({ type: "USERLIST"});
+      dispatch({ type: "GET_BOOKING_LIST" });
+
+    }
+
+  },[state.Booking.statusCodeForAssignBooking])
 
   const handleMobileChange = (e) => {
     const value = e.target.value;

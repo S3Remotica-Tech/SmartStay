@@ -161,19 +161,30 @@ const handlePinCodeChange = (e) => {
 
   const handleMobileChange = (e) => {
     const value = e.target.value;
-    setVendor_Mobile(value);
-    setGeneralError('');
-    setIsChangedError('');
-    setCountryCodeError('');
-    setMobileError('');
-    const pattern = new RegExp(/^\d{1,10}$/);
-    const isValidMobileNo = pattern.test(value);
-    if (isValidMobileNo && value.length === 10) {
-      setErrors(prevErrors => ({ ...prevErrors, vendor_Mobile: '' }));
+
+   
+    const pattern = /^\d*$/;
+
+    
+    if (pattern.test(value)) {
+        setVendor_Mobile(value); 
+        setGeneralError('');
+        setIsChangedError('');
+        setCountryCodeError('');
+        setMobileError('');
+
+       
+        if (value.length === 10) {
+            setErrors(prevErrors => ({ ...prevErrors, vendor_Mobile: '' })); 
+        } else {
+            setErrors(prevErrors => ({ ...prevErrors, vendor_Mobile: 'Invalid mobile number *' })); 
+        }
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, vendor_Mobile: 'Invalid mobile number *' }));
+     
+        setErrors(prevErrors => ({ ...prevErrors, vendor_Mobile: 'Mobile number can only contain digits *' }));
     }
-  }
+};
+
 
 
   const handleAddressChange = (e) => {
@@ -240,24 +251,24 @@ const handlePinCodeChange = (e) => {
     const emailInvalid = errors.email_Id === 'Invalid Email Id *';
     const mobileInvalid = errors.vendor_Mobile === 'Invalid mobile number *';
 
-    if (!first_Name && !vendor_Mobile &&  !address && !business_Name && !countryCode) {
+    if (!first_Name && !vendor_Mobile &&  !address && !business_Name && !countryCode && !country && !pinCode) {
       setGeneralError('Please fill in all the required fields.');
       return;
     }
 
     if (!first_Name) {
       setFirstNameError('Please enter First Name');
-      return;
+      // return;
     }
 
     if (!countryCode) {
       setCountryCodeError('Please select a country code');
-      return;
+      // return;
     }
 
     if (!vendor_Mobile) {
       setMobileError('Please enter a mobile number');
-      return;
+      // return;
     }
 
     // if (!email_Id) {
@@ -266,25 +277,25 @@ const handlePinCodeChange = (e) => {
 
     if (!business_Name) {
       setBusinessNameError('Please enter a business name');
-      return;
+      // return;
     }
 
     if (!address) {
       setAddressError('Please enter an address');
-      return;
+      // return;
     }
 
     
 
-    // if (!country) {
-    //   setCountryError('Please enter a country');
-    //   return;
-    // }
+    if (!country) {
+      setCountryError('Please enter a country');
+      // return;
+    }
 
-    // if (!pinCode) {
-    //   setPinCodeError('Please enter a pin code');
-    //   return;
-    // }
+    if (!pinCode) {
+      setPinCodeError('Please enter a pin code');
+      // return;
+    }
    
 
 
@@ -293,7 +304,7 @@ const handlePinCodeChange = (e) => {
         setEmailError('Enter a valid Email ID');
       }
       if (mobileInvalid) {
-        setMobileError('Enter a valid mobile number');
+        setMobileError('Enter a valid 10 digit  mobile number');
       }
       return;
     }
@@ -723,14 +734,11 @@ console.log("initial state",initialState)
                       </label>
                     </div>
                   )}
-
-
                 </Form.Group>
-
               </div>
 
 
-              {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Country<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <Form.Control value={country} onChange={(e) => handleCountryChange(e)} type="text" placeholder="Enter country" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: address ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
@@ -761,10 +769,9 @@ console.log("initial state",initialState)
                     </div>
                   )}
 
-
                 </Form.Group>
 
-              </div> */}
+              </div>
 
 
 

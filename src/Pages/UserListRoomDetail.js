@@ -96,6 +96,11 @@ function UserListRoomDetail(props) {
   const [selectedDate, setSelectedDate] = useState("");
   const [dateError, setDateError] = useState("");
   const [editMode , seteditMode] = useState(false)
+  const [floorError, setfloorError] = useState("");
+  const [roomError, setRoomError] = useState("");
+  const [bedError, setBedError] = useState("");
+  const [advanceAmountError, setAdvanceAmountError] = useState("");
+  const [roomrentError, setRoomRentError] = useState("");
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
@@ -107,9 +112,8 @@ function UserListRoomDetail(props) {
   };
   const options = {
     dateFormat: "Y/m/d",
-    // defaultDate: selectedDate || new Date(),
-    maxDate: new Date(),
-    minDate: null,
+    maxDate: null, // Removes the upper limit
+    minDate: new Date(), // Disable past dates, only allow today and future dates
   };
   useEffect(() => {
     if (calendarRef.current) {
@@ -264,7 +268,6 @@ function UserListRoomDetail(props) {
       setRoomId(item[0].room_id || "");
       setBedId(item[0].hstl_Bed || "");
       setSelectedDate(item[0].user_join_date || "");
-
       setAdvanceAmount(item[0].AdvanceAmount || "");
       setRoomRent(item[0].RoomRent || "");
       setPaymentType(item[0].PaymentType || "");
@@ -546,6 +549,7 @@ function UserListRoomDetail(props) {
     }
     setBedError("");
     setFormError("");
+    setRoomRentError("")
   };
 
   const handlePaymentType = (e) => {
@@ -606,6 +610,7 @@ function UserListRoomDetail(props) {
     setEmailError("");
     setAddressError("");
     setPhoneError("");
+    setDateError('')
   };
 
   const [firstnameError, setFirstnameError] = useState("");
@@ -741,11 +746,7 @@ function UserListRoomDetail(props) {
     RoomRent: "",
   });
 
-  const [floorError, setfloorError] = useState("");
-  const [roomError, setRoomError] = useState("");
-  const [bedError, setBedError] = useState("");
-  const [advanceAmountError, setAdvanceAmountError] = useState("");
-  const [roomrentError, setRoomRentError] = useState("");
+  
   const validateAssignField = (value, fieldName) => {
     // If the value is a string, trim it, otherwise check for non-empty or valid number
     const isValueEmpty =
@@ -808,13 +809,24 @@ function UserListRoomDetail(props) {
   };
 
   const handleSaveUserlistAddUser = () => {
-    if (!validateAssignField(Floor, "Floor")) return;
-    if (!validateAssignField(RoomId, "RoomId")) return;
-    if (!validateAssignField(BedId, "BedId")) return;
-    if (!validateAssignField(selectedDate, "selectedDate")) return;
-    if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) return;
-    if (!validateAssignField(RoomRent, "RoomRent")) return;
+    // Validate fields first
+    if (!validateAssignField(Floor, "Floor"));
+    if (!validateAssignField(RoomId, "RoomId"));
+    if (!validateAssignField(BedId, "BedId"));
+    if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
+    if (!validateAssignField(RoomRent, "RoomRent"));
+    
+    // Validate date separately for clarity
+    const isValidDate = (date) => !isNaN(Date.parse(date));
 
+    if (!isValidDate(selectedDate)) {
+      setDateError("Joining Date is required.");
+      return;
+    } else {
+      setDateError("");
+    }
+
+    // Check if room rent is valid
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Room Rent must be greater than 0");
       return;
@@ -822,104 +834,87 @@ function UserListRoomDetail(props) {
       setRoomRentError("");
     }
 
+    // Check if advance amount is valid
     if (Number(AdvanceAmount) <= 0) {
       setAdvanceAmountError("Advance Amount must be greater than 0");
       return;
     } else {
       setAdvanceAmountError("");
     }
-    if (Floor === "Selected Floor" || floorError) {
+
+    // Floor, Room, and Bed validation checks
+    if (Floor === "Selected Floor") {
       setfloorError("Please select a valid PG");
       return;
     }
-    if (RoomId === "Selected Room" || roomError) {
+
+    if (RoomId === "Selected Room") {
       setRoomError("Please select a valid PG");
       return;
     }
-    if (BedId === "Select a Bed" || bedError) {
+
+    if (BedId === "Select a Bed") {
       setBedError("Please select a valid PG");
       return;
     }
-    const isValidDate = (date) => {
-      return !isNaN(Date.parse(date));
-    };
 
-    console.log(initialStateAssign.Floor, "------------------------");
-    console.log(Floor, "------------------------");
+    // Format the date
+    let formattedDate = null;
+    try {
+      formattedDate = new Date(selectedDate).toISOString().split("T")[0];
+    } catch (error) {
+      setDateError("Invalid date format.");
+      console.error(error);
+      return; // Ensure invalid date stops execution
+    }
 
-    console.log(initialStateAssign.Rooms, "++++++++++++++++++++++++++++++++++");
-    console.log(Rooms, "------------------------");
-    console.log(RoomId, "Room Number");
-
-    console.log(initialStateAssign.Bed, "////////////////////////////////");
-    console.log(Bed, ",,,,,,,,,,,,,,,,,,,");
-    console.log(BedId, "Bed Number");
-
-    const isChangedBed =
-      (isNaN(Floor)
-        ? String(Floor).toLowerCase() !==
-          String(initialStateAssign.Floor).toLowerCase()
-        : Number(Floor) !== Number(initialStateAssign.Floor)) ||
-      (isNaN(RoomId)
-        ? String(RoomId).toLowerCase() !==
-          String(initialStateAssign.Rooms).toLowerCase()
-        : Number(RoomId) !== Number(initialStateAssign.Rooms)) ||
-      (isNaN(BedId)
-        ? String(BedId).toLowerCase() !==
-          String(initialStateAssign.Bed).toLowerCase()
-        : Number(BedId) !== Number(initialStateAssign.Bed)) ||
-      (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
-        ? new Date(selectedDate).toISOString().split("T")[0] !==
-          new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
-        : selectedDate !== initialStateAssign.selectedDate) ||
+    // Detect any changes
+    const isChangedBed = 
+      (String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase()) ||
+      (String(RoomId).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase()) ||
+      (String(BedId).toLowerCase() !== String(initialStateAssign.Bed).toLowerCase()) ||
+      (formattedDate !== new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]) ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
-    // If no changes detected
     if (!isChangedBed) {
       setFormError("No changes detected.");
       return;
     } else {
       setFormError("");
     }
-    let formattedDate = null;
-    try {
-      formattedDate = new Date(selectedDate).toISOString().split("T")[0];
-    } catch (error) {
-      setDateError("date is required.");
-      console.error(error);
-      return;
-    }
 
+    // Dispatch if validation passed
     dispatch({
       type: "ADDUSER",
       payload: {
         profile: file,
-        firstname: firstname,
-        lastname: lastname,
-        Phone: Phone,
-        Email: Email,
-        Address: Address,
-        AadharNo: AadharNo,
-        PancardNo: PancardNo,
-        licence: licence,
-        HostelName: HostelName,
-        hostel_Id: hostel_Id,
-        Floor: Floor,
+        firstname,
+        lastname,
+        Phone,
+        Email,
+        Address,
+        AadharNo,
+        PancardNo,
+        licence,
+        HostelName,
+        hostel_Id,
+        Floor,
         Rooms: RoomId,
         Bed: BedId,
         joining_date: formattedDate,
-        AdvanceAmount: AdvanceAmount,
-        RoomRent: RoomRent,
-        BalanceDue: BalanceDue,
-        PaymentType: PaymentType,
-        paid_advance: paid_advance,
-        paid_rent: paid_rent,
+        AdvanceAmount,
+        RoomRent,
+        BalanceDue,
+        PaymentType,
+        paid_advance,
+        paid_rent,
         payable_rent: payableamount,
         ID: id,
       },
     });
 
+    // Trigger post-edit actions
     props.AfterEditHostels(hostel_Id);
     props.AfterEditFloors(Floor);
     props.AfterEditRoomses(Rooms);
@@ -927,7 +922,139 @@ function UserListRoomDetail(props) {
 
     setFormShow(false);
     dispatch({ type: "INVOICELIST" });
-  };
+};
+
+
+  // const handleSaveUserlistAddUser = () => {
+  //   if (!validateAssignField(Floor, "Floor")) ;
+  //   if (!validateAssignField(RoomId, "RoomId")) ;
+  //   if (!validateAssignField(BedId, "BedId")) ;
+  //   if (!validateAssignField(selectedDate, "selectedDate")) ;
+  //   if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) ;
+  //   if (!validateAssignField(RoomRent, "RoomRent"));
+
+  //   if (Number(RoomRent) <= 0) {
+  //     setRoomRentError("Room Rent must be greater than 0");
+  //     return;
+  //   } else {
+  //     setRoomRentError("");
+  //   }
+
+  //   if (Number(AdvanceAmount) <= 0) {
+  //     setAdvanceAmountError("Advance Amount must be greater than 0");
+  //     return;
+  //   } else {
+  //     setAdvanceAmountError("");
+  //   }
+  //   if (Floor === "Selected Floor" || floorError) {
+  //     setfloorError("Please select a valid PG");
+  //     return;
+  //   }
+  //   if (RoomId === "Selected Room" || roomError) {
+  //     setRoomError("Please select a valid PG");
+  //     return;
+  //   }
+  //   if (BedId === "Select a Bed" || bedError) {
+  //     setBedError("Please select a valid PG");
+  //     return;
+  //   }
+  //   const isValidDate = (date) => {
+  //     return !isNaN(Date.parse(date));
+  //   };
+    
+  //   if (!isValidDate(selectedDate)) {
+  //     setDateError("Joining Date is required or invalid.");
+  //     return;
+  //   } else {
+  //     setDateError("");
+  //   }
+    
+  //   let formattedDate = null;
+  //   try {
+  //     formattedDate = new Date(selectedDate).toISOString().split("T")[0];
+  //   } catch (error) {
+  //     setDateError("Invalid date format.");
+  //     console.error(error);
+  //     return; // Ensure that invalid date stops further execution
+  //   }
+
+  //   console.log(initialStateAssign.Floor, "------------------------");
+  //   console.log(Floor, "------------------------");
+
+  //   console.log(initialStateAssign.Rooms, "++++++++++++++++++++++++++++++++++");
+  //   console.log(Rooms, "------------------------");
+  //   console.log(RoomId, "Room Number");
+
+  //   console.log(initialStateAssign.Bed, "////////////////////////////////");
+  //   console.log(Bed, ",,,,,,,,,,,,,,,,,,,");
+  //   console.log(BedId, "Bed Number");
+
+  //   const isChangedBed =
+  //     (isNaN(Floor)
+  //       ? String(Floor).toLowerCase() !==
+  //         String(initialStateAssign.Floor).toLowerCase()
+  //       : Number(Floor) !== Number(initialStateAssign.Floor)) ||
+  //     (isNaN(RoomId)
+  //       ? String(RoomId).toLowerCase() !==
+  //         String(initialStateAssign.Rooms).toLowerCase()
+  //       : Number(RoomId) !== Number(initialStateAssign.Rooms)) ||
+  //     (isNaN(BedId)
+  //       ? String(BedId).toLowerCase() !==
+  //         String(initialStateAssign.Bed).toLowerCase()
+  //       : Number(BedId) !== Number(initialStateAssign.Bed)) ||
+  //     (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
+  //       ? new Date(selectedDate).toISOString().split("T")[0] !==
+  //         new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
+  //       : selectedDate !== initialStateAssign.selectedDate) ||
+  //     Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
+  //     Number(RoomRent) !== Number(initialStateAssign.RoomRent);
+
+  //   // If no changes detected
+  //   if (!isChangedBed) {
+  //     setFormError("No changes detected.");
+  //     return;
+  //   } else {
+  //     setFormError("");
+  //   }
+  
+
+  //   dispatch({
+  //     type: "ADDUSER",
+  //     payload: {
+  //       profile: file,
+  //       firstname: firstname,
+  //       lastname: lastname,
+  //       Phone: Phone,
+  //       Email: Email,
+  //       Address: Address,
+  //       AadharNo: AadharNo,
+  //       PancardNo: PancardNo,
+  //       licence: licence,
+  //       HostelName: HostelName,
+  //       hostel_Id: hostel_Id,
+  //       Floor: Floor,
+  //       Rooms: RoomId,
+  //       Bed: BedId,
+  //       joining_date: formattedDate,
+  //       AdvanceAmount: AdvanceAmount,
+  //       RoomRent: RoomRent,
+  //       BalanceDue: BalanceDue,
+  //       PaymentType: PaymentType,
+  //       paid_advance: paid_advance,
+  //       paid_rent: paid_rent,
+  //       payable_rent: payableamount,
+  //       ID: id,
+  //     },
+  //   });
+
+  //   props.AfterEditHostels(hostel_Id);
+  //   props.AfterEditFloors(Floor);
+  //   props.AfterEditRoomses(Rooms);
+  //   props.AfterEditBeds(Bed);
+
+  //   setFormShow(false);
+  //   dispatch({ type: "INVOICELIST" });
+  // };
  
 
   useEffect(() => {
@@ -2019,7 +2146,10 @@ setTimeout(() => {
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Last Name
+                                        Last Name <span style={{ color: "transparent", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2166,7 +2296,10 @@ setTimeout(() => {
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Email Id
+                                        Email Id <span style={{ color: "transparent", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2621,11 +2754,11 @@ setTimeout(() => {
                                         }}
                                         onClick={() => {
                                           if (calendarRef.current) {
-                                            calendarRef.current.flatpickr.open(); // Open Flatpickr on click
+                                            calendarRef.current.flatpickr.open(); 
                                           }
                                         }}
                                       >
-                                        {/* {selectedDate ? selectedDate : 'YYYY-MM-DD'} Show selectedDate */}
+                                       
                                         <span>
                                           {selectedDate === "0000-00-00" ||
                                           !selectedDate
@@ -2643,23 +2776,16 @@ setTimeout(() => {
                                         />
                                       </label>
 
-                                      <Flatpickr
-                                        ref={calendarRef}
-                                        options={{
-                                          dateFormat: "Y-m-d",
-                                        }}
-                                        value={
-                                          selectedDate
-                                            ? new Date(selectedDate)
-                                            : new Date()
-                                        }
-                                        onChange={(selectedDates) =>
-                                          handleDate(selectedDates)
-                                        }
-                                        style={{
-                                          display: "none",
-                                        }}
-                                      />
+                                    
+                                       <Flatpickr
+      ref={calendarRef}
+      options={options} 
+      value={selectedDate ? new Date(selectedDate) : new Date()}
+      onChange={(selectedDates) => handleDate(selectedDates)}
+      style={{
+        display: "none",
+      }}
+    />
                                     </div>
 
                                     {dateError && (

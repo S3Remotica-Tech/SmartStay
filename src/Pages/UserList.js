@@ -981,7 +981,7 @@ useEffect(() => {
               </label>
             </div>
 
-            <div className="customerfilling d-flex justify-content-between align-items-center ">
+            <div className="customerfilling ">
               {search ? (
                 <>
                   <div
@@ -1310,9 +1310,6 @@ useEffect(() => {
                   tableLayout: "auto",
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
-                  
-                  
-                  
 
                 }}
               >
@@ -1555,7 +1552,8 @@ useEffect(() => {
                                 fontSize: "16px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                marginTop:10
+                                marginTop:10,
+                                whiteSpace: "nowrap"
                               }}
                             >
                               +

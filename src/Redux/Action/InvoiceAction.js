@@ -25,13 +25,19 @@ export async function UpdateInvoice(datum) {
     })
   }
   export async function ManualInvoiceNumber(invoicenumber) {
-    return await AxiosConfig.post('/get_invoice_id',invoicenumber,{ //manual invoice number
+    return await AxiosConfig.post('/get_invoice_id',invoicenumber,{ //bill invoice number
     data: invoicenumber
     })
   }
   
   export async function ManualInvoiceUserData(amountdata) {
-    return await AxiosConfig.post('/get_user_amounts',amountdata ,{ // table amount data
+    return await AxiosConfig.post('/get_user_amounts',amountdata ,{ //bill table amount data
+     data : amountdata
+    })
+  }
+
+  export async function RecurrInvoiceamountData(amountdata) {
+    return await AxiosConfig.post('/get_recuring_amounts',amountdata ,{ // Recurr table amount data
      data : amountdata
     })
   }
@@ -42,8 +48,25 @@ export async function UpdateInvoice(datum) {
     })
   }
 
+  export async function AddRecurringBill(manualinvoice) {
+    return await AxiosConfig.post('/add_recuring_bill', manualinvoice, { // create new Recurr bill
+      data: manualinvoice
+    })
+  }
+
   export async function GetManualInvoices() {
-    return await AxiosConfig.get('/get_bill_details',{
+    return await AxiosConfig.get('/get_bill_details',{  // bills data
+    })
+  }
+
+  export async function GetRecurrBills() {
+    return await AxiosConfig.get('/all_recuring_bills',{  //Recurr bills data
+    })
+  }
+
+  export async function DeleteRecurrBills(bills) {
+    return await AxiosConfig.post('/delete_recuring_bill',bills, { // Delete Recurr bills
+      data:bills
     })
   }
 

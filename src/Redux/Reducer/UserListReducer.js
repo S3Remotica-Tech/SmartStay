@@ -23,7 +23,7 @@ const initialState = {
     amnitiesnamelist: [],
     addUserAmnities: '',
     usermessage: '',
-    statusCustomerAddUser: '',
+    statusCustomerAddUser:0,
     CustomerdetailsgetStatuscode: 0,
     AmentiesHistorygetStatuscode: 0,
     bednumberdetails: [],
@@ -52,6 +52,7 @@ const initialState = {
     addCheckoutCustomerStatusCode: 0,
     deleteCheckoutCustomerStatusCode:0,
     errorMessageAddCheckOut:'',
+    availableCheckOutCustomerList: []
 
 }
 
@@ -92,11 +93,11 @@ const UserListReducer = (state = initialState, action) => {
         case 'AMNITIES_NAME':
             return { ...state, amnitiesnamelist: action.payload };
         case 'ADD_USER_AMENITIES':
-            console.log("ADD_USER_AMENITIES", action.payload.message);
-            return { ...state, addUserAmnities: action.payload.message, statusCustomerAddUser: action.payload.statusCode }
+            console.log("ADD_USER_AMENITIES", action.payload);
+            return { ...state, addUserAmnities: action.payload.message,statusCustomerAddUser:action.payload.statusCode }
 
         case 'CLEAR_ADDUSER_AMNETIES':
-            return { ...state, statusCustomerAddUser: 0 }
+            return { ...state, statusCustomerAddUser:0 }
 
         case 'BED_NUMBER_DETAILS':
             console.log("BED_NUMBER_DETAILS", action.payload.message);
@@ -227,6 +228,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, errorMessageAddCheckOut: action.payload}
             case 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR':
                 return { ...state, errorMessageAddCheckOut: ''}
+
+case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
+    return { ...state, availableCheckOutCustomerList: action.payload.response}
+}
+
+
 
         case 'ROOM_FULL':
             if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {

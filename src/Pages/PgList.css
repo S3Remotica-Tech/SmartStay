@@ -118,3 +118,28 @@ cursor:pointer;
     max-width: 550px; 
     width: 100%;
   }
+
+
+  .vertical-line {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    border-left: 2px solid #000; /* Vertical line */
+    height: 100%; /* Adjust height as per your layout */
+    padding-left: 0px;
+  }
+  
+  .vertical-line::after {
+    content: "Services"; /* The text at the end of the line */
+    position: absolute;
+    transform: rotate(-90deg);
+    bottom: 0; /* Position the text at the bottom of the line */
+    left: -40px; /* Adjust this based on how far you want the text from the line */
+    background-color: #fff; /* Optional: background color to make the text stand out */
+    padding: 0 5px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #0047FF; /* Blue color for text */
+  }
+  

@@ -30,10 +30,14 @@ const [roomError, setRoomError] = useState('')
 const [floorError, setFloorError] = useState('')
 
 const [initialState, setInitialState] = useState({});
+const isEditing = !!editRoom && !!editRoom.room_Id;
+const modalTitle = isEditing ? 'Edit Room' : 'Add Room';
+const [isChangedError, setIsChangedError] = useState('')
 
 const handleRoomChange = (e) => {
   const Room_Id = e.target.value
   setRoomError('')
+  setIsChangedError('')
 dispatch({ type: 'CLEAR_ALREADY_ROOM_ERROR'})
 
   if (!/^\d*$/.test(Room_Id)) {
@@ -68,9 +72,9 @@ useEffect(()=>{
 
 useEffect(()=>{
 if(editRoom){
-  setRoom(editRoom.room_Id ? editRoom.room_Id : '')
+  setRoom(editRoom.Room_Name ? editRoom.Room_Name : '')
   setInitialState({
-    room:editRoom.room_Id
+    room:editRoom.Room_Name
   })
 }
 },[editRoom])
@@ -82,17 +86,14 @@ if(editRoom){
 
     const handleCreateRoom = () => {
 
-      let floorId, hostel_Id, room_Id;
+      let floorId, hostel_Id, room_Id, room_Name;
 
 if(isEditing){
 
   floorId = editRoom?.floor_Id ? editRoom.floor_Id.toString() : '';
   hostel_Id = editRoom?.hostel_Id ? editRoom.hostel_Id.toString() : '';
  room_Id = editRoom?.room_Id ? editRoom?.room_Id.toString(): '';
-
-
-
- 
+ room_Name = editRoom?.Room_Name ? editRoom?.Room_Name.toString() : '';
 
 }else{
  floorId = hostelDetails?.floor_Id ? hostelDetails.floor_Id.toString() : '';
@@ -116,7 +117,7 @@ if(isEditing){
 
 if (!room) {
 
-  setRoomError('Please enter a valid Room no. (must be a positive number greater than 0)')
+  setRoomError('Please enter a  Room no. or name')
   
     // Swal.fire({
     //   icon: 'warning',
@@ -147,36 +148,37 @@ if (!floorId) {
 
 
 
-    const isChanged = 
-    Number(room) !== Number(initialState.room)
+    const isChanged = room !== initialState.room;
+
+    console.log("isChanged",isChanged, room, initialState.room)
 
   if (!isChanged) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'No changes detected',
-     
-    });
+    setIsChangedError('No changes detected')
+  
     return;
   }
-      if(floorId && hostel_Id ){
-              dispatch({
-                  type: 'CREATEROOM',
-                  payload: {hostel_id: hostel_Id,floorId: floorId, roomId: room}});
-                    
-              // handleClose();
+
+if(isEditing){
+  if(floorId && hostel_Id ){
+    dispatch({
+        type: 'CREATEROOM',
+        payload: {hostel_id: hostel_Id,floorId: floorId, roomId: room, id:room_Id }});
+                 
+}
+}else{
+  if(floorId && hostel_Id && room){
+    dispatch({
+        type: 'CREATEROOM',
+        payload: {hostel_id: hostel_Id,floorId: floorId, roomId: room }});
+                 
+}
+}
+  
+     
              
-          }
-       else {
-          // Swal.fire({
-          //     icon: 'warning',
-          //     title: 'Please enter Room no.',
-          // });
-      }
-      
   };
 
-  const isEditing = !!editRoom && !!editRoom.room_Id;
-  const modalTitle = isEditing ? 'Edit Room' : 'Add Room';
+ 
 
 
   console.log("state.PgList?.alreadyRoomHere",state.PgList?.alreadyRoomHere,roomError)
@@ -223,6 +225,16 @@ if (!floorId) {
           </div>
 
         </Modal.Body>
+
+       
+        { isChangedError && (
+                <div className="d-flex align-items-center p-1 mb-2">
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    { isChangedError}
+                  </label>
+                </div>
+              )}
 
         {roomError && (
                 <div className="d-flex align-items-center p-1 mb-2">

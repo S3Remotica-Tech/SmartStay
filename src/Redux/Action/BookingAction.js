@@ -17,3 +17,17 @@ export async function AddBooking(datum){
       data: datum,
     });
   }
+  export async function assignBooking(datum){
+   
+      return await AxiosConfig.post('/assign_booking',datum,{
+        data:datum
+      })
+    }
+
+
+    export async function assignBookingBed(datum){
+      console.log("Bookingassignbooking",datum)
+        return await AxiosConfig.post('/available_beds',datum,{
+          data:datum
+        })
+      }

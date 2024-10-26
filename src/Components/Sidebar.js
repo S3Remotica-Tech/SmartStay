@@ -336,7 +336,7 @@ function Sidebar() {
              >
             <div className='container' style={{ position: "relative" }}>
               <div className="d-flex align-items-center justify-content-start" style={{ padding: "16px 10px" }}>
-                <img src={Smartstay} style={{ height: 25.06, width: 134 }}  className="Title"/>
+                <img src={Smartstay} style={{ height: 25.06, width: 134 }}  className="Title" onClick={() => handlePageClick('dashboard')}/>
               </div>
               
               <ul className="p-0" style={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
