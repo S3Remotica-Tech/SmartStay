@@ -472,7 +472,7 @@ function BookingModal(props) {
     >
       {/* <Form noValidate validated={validated} > */}
       <Modal.Header className="d-flex justify-content-between">
-        <Modal.Title>New Booking</Modal.Title>
+        <Modal.Title style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600}}>New Booking</Modal.Title>
         <CloseCircle
           size="32"
           color="#222222"
@@ -1128,7 +1128,7 @@ function BookingModal(props) {
               color: "#fff",
               fontSize: 16,
               fontWeight: 600,
-              fontFamily: "Gilroy",
+              fontFamily: "Gilroy"
             }}
             onClick={handleSubmit}
           >

@@ -1478,7 +1478,7 @@ function Booking(props) {
         backdrop="static"
       >
         <Modal.Header className="d-flex justify-content-between">
-          <Modal.Title>Edit Booking</Modal.Title>
+          <Modal.Title style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600}}>Edit Booking</Modal.Title>
           <CloseCircle
             size="32"
             color="#222222"
