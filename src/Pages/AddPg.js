@@ -479,7 +479,7 @@ const handleFileChange = (index) => async (e) => {
       }}
     >
       <Modal show={show} onHide={handleClose} centered backdrop="static" className="custom-modal-width" >
-        {/* <Modal.Dialog style={{  width: '100%' }} className='Paying_guest_form m-0 p-0'> */}
+        
         <Modal.Header>
           <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{currentItem ? "Edit Paying Guest" : "Add Paying Guest"}</Modal.Title>
           <CloseCircle size="24" color="#000" onClick={handleClose} />

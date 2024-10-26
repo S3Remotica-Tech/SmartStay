@@ -94,24 +94,12 @@ console.log("setSelectedCustomer",selectedCustomer)
   const [isChangedError, setIsChangedError] = useState('')
 
   const handleCheckOutCustomer = () => {
-
-
-
     const formattedDate = moment(checkOutDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
     console.log("formattedDate", formattedDate, "checkOutDate", checkOutDate);
-
-
-
-
-
-
-
     if (!selectedCustomer && !selectedHostel && !checkOutDate) {
       setGeneralError('Please select all mandatory fields');
       return;
     }
-
-
     if (!selectedCustomer) {
       setCustomerError('Please select a customer.');
       // return;
@@ -126,23 +114,15 @@ console.log("setSelectedCustomer",selectedCustomer)
       setCheckOutDateError('Please enter a checkout date.');
       // return;
     }
-
-
-
     const hasChanges = checkOutDate !== currentItem?.CheckoutDate ||
       selectedHostel !== currentItem?.Hostel_Id ||
       selectedCustomer !== currentItem?.ID ||
       noticeDays !== currentItem?.notice_period ||
       comments !== currentItem?.checkout_comment;
-
-
     if (!hasChanges) {
       setIsChangedError('No Changes detected');
       return;
     }
-
-
-
     if (selectedCustomer && selectedHostel && checkOutDate) {
       dispatch({
         type: 'ADDCHECKOUTCUSTOMER', payload: {
@@ -156,10 +136,6 @@ console.log("setSelectedCustomer",selectedCustomer)
     }
 
   }
-
-
-
-
   useEffect(() => {
     if (currentItem) {
 
@@ -178,10 +154,6 @@ console.log("setSelectedCustomer",selectedCustomer)
       dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
     }
   }, [currentItem, show])
-
-
-
-
   const customStyles = {
     control: (base, state) => ({
       ...base,
@@ -243,9 +215,6 @@ if(selectedHostel){
           onClick={handleClose}
         />
       </Modal.Header>
-
-
-
       {state.UsersList.errorMessageAddCheckOut && (
         <div className="d-flex align-items-center p-1 mb-2 mt-2">
           <MdError style={{ color: "red", marginRight: '5px' }} />
@@ -254,8 +223,6 @@ if(selectedHostel){
           </label>
         </div>
       )}
-
-
       {isChangedError && (
         <div className="d-flex align-items-center p-1 mb-2 mt-2">
           <MdError style={{ color: "red", marginRight: '5px' }} />
@@ -274,8 +241,6 @@ if(selectedHostel){
       )}
 
       <Modal.Body>
-
-
         <div className='row row-gap-2'>
           <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
             <div className="form-group">
@@ -309,29 +274,6 @@ if(selectedHostel){
           <div className='col-lg-12 col-md-12 col-sm-12 colxs-12'>
             <div className="form-group">
               <label className='mt-2' style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Customer <span style={{ color: 'red', fontSize: '20px' }}>*</span></label>
-              {/* <Form.Group controlId="customer" style={{ border: "1px solid rgb(217, 217, 217)", borderRadius: '8px', marginTop: '10px' }}>
-                <Form.Select className="" style={{ height: 50, fontSize: 16, color: selectedCustomer ? "#222" : "#4b4b4b", fontFamily: "Gilroy", fontWeight: selectedCustomer ? 600 : 500 }}
-
-                  value={selectedCustomer}
-                  onChange={handleCustomerChange}
-                >
-                  <option value="">Select an customer</option>
-                  {state.UsersList.Users && state.UsersList.Users.map((view) => (
-                    <>
-
-                      <option key={view.ID} value={view.ID}> <Image src={
-                      view.profile && view.profile !== "0" && view.profile.trim() !== ""
-                        ? view.profile
-                        : People
-                    } roundedCircle
-                      style={{ height: "30px", width: "30px", marginRight: '5px' }}
-                    /> {view.Name}</option>
-
-                    </>
-                  ))}
-
-                </Form.Select>
-              </Form.Group> */}
               <Select
           styles={customStyles}
           value={formatOptions().find(opt => opt.value === selectedCustomer)}
@@ -382,7 +324,7 @@ if(selectedHostel){
                 onChange={handleDateChange}
                 options={{
                   dateFormat: "Y-m-d",
-
+                 minDate: "today"
                 }}
                 style={{
                   display: 'none',
@@ -432,20 +374,6 @@ if(selectedHostel){
             />
           </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <Button className="mt-4" style={{
           borderRadius: '8px',
           fontFamily: "Gilroy",
