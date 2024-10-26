@@ -446,6 +446,8 @@ function BookingModal(props) {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
+      dispatch({type:"CLEAR_EMAIL_ERROR"})
+      dispatch({type:"CLEAR_PHONE_ERROR"})
       handleAddClose()
       dispatch({ type:"GET_BOOKING_LIST" });
       setTimeout(() => {

@@ -1067,6 +1067,7 @@ function UserListRoomDetail(props) {
  
   useEffect(()=>{
     if(state.UsersList.statusCodeForAddUser === 200){
+   
 dispatch({type:"USERLIST"})
 setTimeout(() => {
   dispatch({ type: "CLEAR_STATUS_CODES" });

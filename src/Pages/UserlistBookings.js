@@ -87,6 +87,8 @@ function Booking(props) {
   const [phonenumError, setphonenumError] = useState("");
   const [Editbed, seteditBed] = useState("");
   const [Bednum, setBednum] = useState("");
+  const [validPhoneError, setvalidPhoneError] = useState("");
+  const [validEmailError, setvalidEmailError] = useState("");
 
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
@@ -222,6 +224,7 @@ function Booking(props) {
     } else {
       setEmailError("");
       setEmailErrorMessage("");
+      setvalidEmailError("")
     }
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
@@ -263,9 +266,7 @@ function Booking(props) {
     } else {
       setHostelIdError("");
     }
-    // setFloor("");
-    // setRoom("");
-    // setBed("");
+   
     setHostelIdError("");
     setFormError("");
     setFloorIds("");
@@ -292,10 +293,7 @@ function Booking(props) {
     }
   }, [state.Booking.bookingError]);
 
-  // const handleBed = (e) => {
-  //   setBedIds(e.target.value);
-  //   setBedError("");
-  // };
+
   const handleBed = (e) => {
     setBedIds(e.target.value);
 
@@ -353,6 +351,7 @@ function Booking(props) {
     setPhoneErrorMessage("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     setFormError("");
+    setvalidPhoneError("")
   };
 
   const handleComments = (e) => {
@@ -585,20 +584,12 @@ function Booking(props) {
         id: id,
       },
     });
-    handleCloseForm();
+  
   };
 
   console.log("stateghjhsjdhjs", state);
 
-  useEffect(() => {
-    if (state?.Booking?.statusCodeForAddBooking === 200) {
-      handleCloseForm();
-      dispatch({ type: "GET_BOOKING_LIST" });
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
-      }, 500);
-    }
-  }, [state?.Booking?.statusCodeForAddBooking]);
+  
 
   const handleDotsClick = (id) => {
     setActiveDotsId((prevId) => (prevId === id ? null : id));
@@ -625,6 +616,9 @@ function Booking(props) {
     setDateError("");
     setRoomError("");
     setamountError("");
+    setvalidPhoneError("")
+    setvalidEmailError("")
+
   };
 
   const handleAdd = () => {
@@ -693,6 +687,7 @@ function Booking(props) {
     }
     handleModalClose();
   };
+  
   useEffect(() => {
     dispatch({ type: "GET_BOOKING_LIST" });
   }, []);
@@ -700,6 +695,20 @@ function Booking(props) {
     setCustomers(state.Booking.CustomerBookingList.bookings);
   }, state.Booking.CustomerBookingList.bookings);
   console.log("customer///////", props.filteredUsers);
+
+  useEffect(()=>{
+    if(state?.Booking?.bookingPhoneError){
+      setvalidPhoneError(state?.Booking?.bookingPhoneError)
+
+    }
+  },[state?.Booking?.bookingPhoneError])
+
+  useEffect(()=>{
+    if(state?.Booking?.bookingEmailError){
+      setvalidEmailError(state?.Booking?.bookingEmailError)
+
+    }
+  },[state?.Booking?.bookingEmailError])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -726,14 +735,17 @@ function Booking(props) {
   }, [state?.Booking?.statusCodeForDeleteBooking]);
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      handleCloseForm();
+      dispatch({type:"CLEAR_EMAIL_ERROR"})
+      dispatch({type:"CLEAR_PHONE_ERROR"})
+      handleCloseForm()
 
       dispatch({ type: "GET_BOOKING_LIST" });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);
     }
-  }, [state?.Booking?.statusCodeForAddBooking,state.Booking?.availableBedBooking?.bed_details]);
+  }, [state?.Booking?.statusCodeForAddBooking]);
+ 
 
   const popupRef = useRef(null);
   const rowsPerPage = 5;
@@ -1620,6 +1632,12 @@ function Booking(props) {
                     {phoneErrorMessage}
                   </div>
                 )}
+                 {validPhoneError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {validPhoneError}
+                </div>
+              )}
               </Form.Group>
             </Col>
             <Col md={6}>
@@ -1664,6 +1682,12 @@ function Booking(props) {
                 <div style={{ color: "red" }}>
                   <MdError />
                   {emailErrorMessage}
+                </div>
+              )}
+               {validEmailError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {validEmailError}
                 </div>
               )}
             </Col>
