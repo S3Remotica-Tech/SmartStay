@@ -401,31 +401,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
     const [purchaseDateError, setPurchaseDateError] = useState('');
 
-    // const customDateInput = (props) => (
-    //     <label
-    //         onClick={props.onClick}
-    //         className='custom-date-input'
-    //         style={{
-    //             border: "1px solid #D9D9D9",
-    //             borderRadius: 8,
-    //             padding: 10,
-    //             fontSize: 14,
-    //             fontFamily: "Gilroy",
-    //             fontWeight: props.value ? 600 : 500,
-    //             color: "rgba(75, 75, 75, 1)",
-    //             display: "flex",
-    //             alignItems: "center",
-    //             justifyContent: "space-between",
-    //             cursor: "pointer",
-    //             width: "210px",
-    //             boxSizing: "border-box",
-    //             margin: "0 auto",
-    //         }}
-    //     >
-    //         {props.value || 'DD/MM/YYYY'}
-    //         <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-    //     </label>
-    // );
+
 
     console.log("selectedDate", selectedDate)
 
@@ -440,11 +416,12 @@ function StaticExample({ show, handleClose, currentItem }) {
                     style={{
                         border: "1px solid #D9D9D9",
                         borderRadius: 8,
-                        padding: 10,
+                        padding: 9,
                         fontSize: 14,
                         fontFamily: "Gilroy",
                         fontWeight: props.value ? 600 : 500,
-                                               width: "100%", 
+                                               width: "100%",
+                                               height:50,
                         boxSizing: "border-box",
                         boxShadow:"none" 
                     }}
@@ -680,13 +657,15 @@ function StaticExample({ show, handleClose, currentItem }) {
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="purchaseDate">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                        Purchase Date <span style={{ color: "#FF0000"}}>*</span>
+                                        Purchase Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
                                     </Form.Label>
                                     <div style={{ position: 'relative' ,width:"100%"}}>
                                         <DatePicker
                                             selected={selectedDate}
                                             onChange={(date) => {
-
+                                                setGeneralError('')
+                                                setDateError('')
+                                                setIsChangedError('')
                                                 setSelectedDate(date);
                                             }}
                                             dateFormat="dd/MM/yyyy"
@@ -697,6 +676,14 @@ function StaticExample({ show, handleClose, currentItem }) {
                                         />
                                     </div>
                                 </Form.Group>
+                                {dateError && (
+                                    <div className="d-flex align-items-center p-1 mb-2">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {dateError}
+                                        </label>
+                                    </div>
+                                )}
 
                             </div>
 

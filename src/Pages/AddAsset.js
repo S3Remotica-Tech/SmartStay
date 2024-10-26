@@ -434,6 +434,36 @@ const [assetError, setAssetError] = useState('')
 
 
 
+    const customDateInput = (props) => {
+        return (
+            <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+                <FormControl
+                    type="text"
+                    className='date_input'
+                    value={props.value || 'DD/MM/YYYY'}
+                    readOnly
+                    style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 9,
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: props.value ? 600 : 500,
+                                               width: "100%", 
+                                               height: 50,
+                        boxSizing: "border-box",
+                        boxShadow:"none" 
+                    }}
+                />
+                <img 
+                    src={Calendars} 
+                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                    alt="Calendar" 
+                    onClick={props.onClick} 
+                />
+            </div>
+        );
+    };
 
 
 
@@ -618,13 +648,10 @@ const [assetError, setAssetError] = useState('')
 
 
 
-                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                            {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Purchase Date <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                                    {/* <Form.Control
-                                        value={purchaseDate}
-                                        onChange={handlePurchaseDateChange}
-                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} /> */}
+                                   
                                     <div style={{ position: 'relative' }}>
                                         <label
                                             htmlFor="date-input"
@@ -679,11 +706,44 @@ const [assetError, setAssetError] = useState('')
                                     </div>
                                 )}
 
+                            </div> */}
+
+                            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                        Purchase Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                            selected={selectedDate}
+                                            onChange={(date) => {
+                                                setGeneralError('')
+                                                setIsChangedError('')
+                                                setSelectedDateError('')
+                                                setSelectedDate(date);
+                                            }}
+                                            dateFormat="dd/MM/yyyy"
+                                            maxDate={new Date()}
+                                            customInput={customDateInput({
+                                                value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
+                                {selectedDateError && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {selectedDateError}
+                                        </label>
+                                    </div>
+                                )}
+
                             </div>
 
                             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Price <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500}}>Price <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                     <Form.Control
                                         value={price}
                                         onChange={handlePriceChange}
