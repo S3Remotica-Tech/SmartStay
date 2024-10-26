@@ -1466,7 +1466,7 @@ function UserlistForm(props) {
                           fontWeight: 500,
                         }}
                       >
-                        Joining_Date{" "}
+                        JoiningDate{" "}
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
