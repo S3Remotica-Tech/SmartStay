@@ -54,7 +54,7 @@ function ForgetPasswordPage() {
 
   const handleEmailid = (e) => {
     const email = e.target.value;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
   
     dispatch({ type: 'CLEAR_ERROR' });
     setGeneralError('');
@@ -410,7 +410,9 @@ function ForgetPasswordPage() {
     setShowOtpVerification(false);
   };
 
-  console.log("disabledButton", disabledButton)
+  console.log("emailError", emailError)
+
+
   useEffect(() => {
     const appearOptions = {
       threshold: 0.5

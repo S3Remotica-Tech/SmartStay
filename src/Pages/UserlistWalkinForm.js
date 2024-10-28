@@ -8,6 +8,9 @@ import { CloseCircle } from 'iconsax-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
 import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { FormControl } from 'react-bootstrap';
 
 function CustomerForm({ show, handleClose, initialData, modalType }) {
     const [name, setName] = useState('');
@@ -46,6 +49,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
     const [countryCodeError, setCountryCodeError] = useState('');
     const [walkInDateError, setWalkInDateError] = useState('');
     const [isChangedError, setIsChangedError] = useState('')
+    const [emailError, setEmailError] = useState('')
 
     const datePickerRef = useRef(null);
 
@@ -186,8 +190,6 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
     const handleSubmitWalkIn = () => {
 
 
-
-
         if (!name && !mobile && !countryCode && !walkInDate) {
             setGeneralError('Please fill in all the required fields.');
             return;
@@ -230,27 +232,39 @@ console.log("isChanged",isChanged)
             setWalkInDateError('Please select Walk-In Date');
             // return;
         }
+
+        if (emailError) {
+            // setWalkInDateError('Please select Walk-In Date');
+            return;
+        }
         if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
             setMobileError('Mobile Number must be exactly 10 digits');
             return;
         }
 
+       
 
+       
 
         const Mobile_Number = `${countryCode}${mobile}`
         const formattedDate = moment(walkInDate).format('YYYY-MM-DD');
 
-        dispatch({
-            type: 'ADDWALKINCUSTOMER',
-            payload: {
-                customer_Name: name,
-                email_Id: email,
-                mobile_Number: Mobile_Number,
-                walk_In_Date: formattedDate,
-                comments: comments,
-                id: initialData ? initialData.id : ''
-            }
-        });
+
+if(name && mobile &&  walkInDate && countryCode ){
+    dispatch({
+        type: 'ADDWALKINCUSTOMER',
+        payload: {
+            customer_Name: name,
+            email_Id: email,
+            mobile_Number: Mobile_Number,
+            walk_In_Date: formattedDate,
+            comments: comments,
+            id: initialData ? initialData.id : ''
+        }
+    });
+}
+
+       
     };
 
     console.log("countryCode", countryCode)
@@ -267,19 +281,27 @@ console.log("isChanged",isChanged)
             setErrors(prev => ({ ...prev, name: 'Name is required.' }));
         }
     };
+
+
+
     const handleEmailChange = (e) => {
         const value = e.target.value;
+        const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+        setEmailError('')
+    
         setGeneralError('');
         setIsChangedError('');
-        dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' })
+        dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
         setEmail(value);
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+       
         if (!emailRegex.test(value)) {
-            setErrors(prev => ({ ...prev, email: 'Invalid email format.' }));
+            setEmailError('Please enter a valid email address'); 
         } else {
-            setErrors(prev => ({ ...prev, email: '' }));
+            setEmailError('');
         }
     };
+    
 
 
     const handleMobileChange = (e) => {
@@ -323,6 +345,49 @@ console.log("isChanged",isChanged)
         setIsChangedError('');
 
     };
+
+
+
+    const customDateInput = (props) => {
+        return (
+            <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+                <FormControl
+                    type="text"
+                    className='date_input'
+                    value={props.value || 'DD/MM/YYYY'}
+                    readOnly
+                    style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 9,
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: props.value ? 600 : 500,
+                                               width: "100%", 
+                                               height: 50,
+                        boxSizing: "border-box",
+                        boxShadow:"none" 
+                    }}
+                />
+                <img 
+                    src={Calendars} 
+                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                    alt="Calendar" 
+                    onClick={props.onClick} 
+                />
+            </div>
+        );
+    };
+
+
+
+
+
+
+
+
+
+
 
 
     return (
@@ -391,7 +456,7 @@ console.log("isChanged",isChanged)
                                         color: '#4B4B4B',
                                         fontWeight: 500,
                                         boxShadow: 'none',
-                                        border: errors.name ? '1px solid red' : '1px solid #D9D9D9'
+                                        border: '1px solid #D9D9D9'
                                     }}
                                 />
                                 {/* {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>} */}
@@ -408,7 +473,7 @@ console.log("isChanged",isChanged)
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <Form.Group controlId="formCustomerEmail" className="mb-3">
                                 <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                                    Email ID
+                                    Email ID <span style={{ color: '#fff', fontSize: '20px' }}>*</span>
                                 </Form.Label>
                                 <Form.Control
                                     type="email"
@@ -423,11 +488,22 @@ console.log("isChanged",isChanged)
                                         color: '#4B4B4B',
                                         fontWeight: 500,
                                         boxShadow: 'none',
-                                        border: errors.email ? '1px solid red' : '1px solid #D9D9D9'
+                                        border:'1px solid #D9D9D9'
                                     }}
                                 />
                                 {/* {errors.email && <small style={{ color: 'red' }}>{errors.email}</small>} */}
                             </Form.Group>
+
+                            {emailError && (
+                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {emailError}
+                        </label>
+                    </div>
+                )}
+
+
                         </div>
 
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -482,7 +558,7 @@ console.log("isChanged",isChanged)
                                             fontWeight: mobile ? 600 : 500,
                                             boxShadow: "none",
                                             borderLeft: "unset",
-                                            borderRight: errors.mobile ? "1px solid red" : "1px solid #D9D9D9",
+                                            borderRight:  "1px solid #D9D9D9",
                                             borderTop: "1px solid #D9D9D9",
                                             borderBottom: "1px solid #D9D9D9",
                                             height: 50,
@@ -572,7 +648,7 @@ console.log("isChanged",isChanged)
                                     </InputGroup>
                                 </Form.Group>
                             </div> */}
-                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <Form.Group controlId="formWalkInDate" className="mb-3">
                                 <Form.Label style={{
                                     fontSize: '14px',
@@ -623,7 +699,7 @@ console.log("isChanged",isChanged)
                                             style={{ display: "none" }}
                                         />
                                     </div>
-                                    {/* {errors.walkInDate && <small style={{ color: 'red', position: 'absolute', top: '100%', left: '0' }}>{errors.walkInDate}</small>} */}
+                                  
                                 </InputGroup>
                             </Form.Group>
                             
@@ -635,7 +711,46 @@ console.log("isChanged",isChanged)
                         </label>
                     </div>
                 )}
-                        </div>
+                        </div> */}
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    Walk-In Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                            selected={walkInDate}
+                                            onChange={(date) => {
+                                                setGeneralError('')
+                                                setIsChangedError('')
+                                                setWalkInDateError('')
+                                                setWalkInDate(date);
+                                            }}
+                                            dateFormat="dd/MM/yyyy"
+                                            maxDate={new Date()}
+                                            customInput={customDateInput({
+                                                value: walkInDate ? walkInDate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
+                                {walkInDateError && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {walkInDateError}
+                                        </label>
+                                    </div>
+                                )}
+
+                            </div>
+
+
+
+
+
+
 
 
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
