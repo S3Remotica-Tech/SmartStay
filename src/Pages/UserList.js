@@ -848,7 +848,7 @@ function UserList(props) {
     if (aadhaarNo) {
       dispatch({
         type: "KYCVALIDATE",
-        payload: { user_id: customer_Id, aadhar_number: aadhaarNo },
+        payload: { user_id: id, aadhar_number: aadhaarNo },
       });
     }
   };
@@ -867,7 +867,7 @@ function UserList(props) {
       dispatch({
         type: "KYCVALIDATEOTPVERIFY",
         payload: {
-          user_id: customer_Id,
+          user_id: id,
           aadhar_number: aadhaarNo,
           ref_id: ref_id,
           otp: kycOtpValue,
