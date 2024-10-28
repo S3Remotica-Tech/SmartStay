@@ -14,8 +14,19 @@
   height: 0;
 }
 
-
-
+.react-datepicker__header {
+  text-align: center;
+  background-color: #FFF !important;
+  border-bottom: unset !important;
+  border-top-left-radius: 0.3rem;
+  padding: 8px 0;
+  position: relative;
+}
+.react-datepicker {
+  font-family: 'Gilroy' !important;
+  font-size: 0.8rem;
+  border: 1px solid rgb(217, 217, 217) !important;
+}
 
  @font-face {
     font-family: 'Gilroy';

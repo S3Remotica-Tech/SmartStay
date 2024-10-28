@@ -57,7 +57,8 @@ import closecircle from "../Assets/Images/New_images/close-circle.png";
 import ComplianceList from './ComplianceList';
 import { MdError } from "react-icons/md";
 // import Image from 'react-bootstrap/Image';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Compliance = () => {
 
@@ -687,6 +688,36 @@ const Compliance = () => {
   });
 
 
+  const customDateInput = (props) => {
+    return (
+        <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+            <FormControl
+                type="text"
+                className='date_input'
+                value={props.value || 'DD/MM/YYYY'}
+                readOnly
+                style={{
+                    border: "1px solid #D9D9D9",
+                    borderRadius: 8,
+                    padding: 9,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: props.value ? 600 : 500,
+                                           width: "100%", 
+                                           height: 50,
+                    boxSizing: "border-box",
+                    boxShadow:"none" 
+                }}
+            />
+            <img 
+                src={Calendars} 
+            style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                alt="Calendar" 
+                onClick={props.onClick} 
+            />
+        </div>
+    );
+};
 
 
 
@@ -1034,43 +1065,44 @@ const Compliance = () => {
 
 
                   </div>
-                  <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                      <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                        Complaint Type <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                      </Form.Label>
-                      <Form.Select className='border'
-                        selected
-                        value={Complainttype}
-                        onChange={(e) =>  handleComplaintType(e) }
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                      >
-                        {
-                          edit ? <option selected value={Complainttype}>{editcomplainttype}</option> :
-                            <>
-                              <option  value="">Select a type</option>
-                              {
-                               complainttypelist && complainttypelist.length > 0 && complainttypelist.map((u, index) => (
-                                  <option selected value={u.id}>{u.complaint_name}</option>
-                                )
+                  <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'> 
+    <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+        <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
+            Complaint Type <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+        </Form.Label>
+        <Form.Select 
+            className='border'
+            value={Complainttype}
+            onChange={(e) => handleComplaintType(e)}
+            style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+        >
+            {edit ? (
+                <option value={Complainttype}>{editcomplainttype}</option>
+            ) : (
+                <>
+                    <option value="">Select a type</option>
+                    {
+                        Array.isArray(complainttypelist) && complainttypelist.length > 0 ? (
+                            complainttypelist.map((u, index) => (
+                                <option key={index} value={u.id}>{u.complaint_name}</option>
+                            ))
+                        ) : (
+                            <option value="" disabled>No complaint types available</option>
+                        )
+                    }
+                </>
+            )}
+        </Form.Select>
+        {complaint_typeerrmsg.trim() !== "" && (
+            <div>
+                <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                    {complaint_typeerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {complaint_typeerrmsg}
+                </p>
+            </div>
+        )}
+    </Form.Group>
+</div>
 
-                                )
-                              }
-                            </>
-                        }
-
-
-                      </Form.Select>
-                      {complaint_typeerrmsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {complaint_typeerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {complaint_typeerrmsg}
-    </p>
-  </div>
-)}
-                    </Form.Group>
-
-                  </div>
 
                   {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types.length == 0 && <><label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>* Please add a 'ComplaintType' option in Settings, accessible after  adding an Complaints.</label></>}
 
@@ -1195,25 +1227,10 @@ const Compliance = () => {
                   </div>
 
 
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                  {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Complaint date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
 
-                    {/* <div className="rectangle-group">
-                  <div className="frame-child1" />
-                  <input
-                    className="frame-input"
-                    placeholder="DD-MM-YYYY"
-                    type="date"
-                    value={date}
-                        disabled={edit}
-                    onChange={(e) => { handleDatePicker(e) }}
-                  />
-                  <img
-                    className="vuesaxlinearcalendar-icon"
-                    alt=""
-                    src={Calendor}
-                  />
-                </div> */}
+                  
 
                     <div style={{ position: 'relative' }}>
                       <label
@@ -1228,7 +1245,7 @@ const Compliance = () => {
                           color: "#222222",
                           display: "flex",
                           alignItems: "center",
-                          justifyContent: "space-between", // Ensure space between text and icon
+                          justifyContent: "space-between", 
                           cursor: "pointer"
                         }}
                         onClick={() => {
@@ -1264,6 +1281,10 @@ const Compliance = () => {
 
 
 
+
+
+
+
                     {dateerrmsg.trim() !== "" && (
                       <div>
                         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
@@ -1271,7 +1292,55 @@ const Compliance = () => {
                         </p>
                       </div>
                     )}
-                  </div>
+                  </div> */}
+
+
+                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                                <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    Complaint date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                            selected={selectedDate}
+                                            onChange={(date) => {
+                                               
+                                                setSelectedDate(date);
+                                            }}
+                                            dateFormat="dd/MM/yyyy"
+                                            maxDate={new Date()}
+                                            customInput={customDateInput({
+                                                value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
+                                
+                    {dateerrmsg.trim() !== "" && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {dateerrmsg}
+                                        </label>
+                                    </div>
+                                )}
+
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                   {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
