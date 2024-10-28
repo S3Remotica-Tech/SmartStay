@@ -1,7 +1,7 @@
 import React , {useState ,useEffect, useRef} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button ,FormControl} from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { Table } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
@@ -22,7 +22,8 @@ import { useTheme } from '@mui/material/styles';
 import Emptystate from '../Assets/Images/Empty-State.jpg'
 import BillPdfModal from '../Pages/BillPdfModal'
 import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 const RecurringBills = (props) => {
@@ -259,7 +260,10 @@ const RecurringBills = (props) => {
       
     
       const handleInvoiceDate = (selectedDates) => {
-           const date = selectedDates[0];
+     
+           const date = selectedDates;
+
+           console.log("Mathubala",date)
            setInvoiceDate(date);
            setAllFieldErrmsg('')
            if(!selectedDates){
@@ -275,7 +279,7 @@ const RecurringBills = (props) => {
     
     
       const handleDueDate = (selectedDates) => {
-            const date = selectedDates[0];
+            const date = selectedDates;
             setInvoiceDueDate(date);
             setAllFieldErrmsg('')
             if(!selectedDates){
@@ -619,7 +623,69 @@ const RecurringBills = (props) => {
       // const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
     
     
-    
+      const customDateInputInvoiceDate = (props) => {
+        return (
+            <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+                <FormControl
+                    type="text"
+                    className='date_input'
+                    value={props.value || 'DD/MM/YYYY'}
+                    readOnly
+                                        style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 9,
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: props.value ? 600 : 500,
+                                               width: "100%", 
+                                               height: 50,
+                        boxSizing: "border-box",
+                        boxShadow:"none" 
+                    }}
+                />
+                <img 
+                    src={Calendars} 
+                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                    alt="Calendar" 
+                    onClick={props.onClick} 
+                />
+            </div>
+        );
+    };
+
+
+    const customDateInputDueDate = (props) => {
+      return (
+          <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+              <FormControl
+                  type="text"
+                  className='date_input'
+                  value={props.value || 'DD/MM/YYYY'}
+                  readOnly
+                                      style={{
+                      border: "1px solid #D9D9D9",
+                      borderRadius: 8,
+                      padding: 9,
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: props.value ? 600 : 500,
+                                             width: "100%", 
+                                             height: 50,
+                      boxSizing: "border-box",
+                      boxShadow:"none" 
+                  }}
+              />
+              <img 
+                  src={Calendars} 
+              style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                  alt="Calendar" 
+                  onClick={props.onClick} 
+              />
+          </div>
+      );
+  };
+
     
     
 
@@ -743,7 +809,7 @@ const RecurringBills = (props) => {
 
 
 <div style={{display:'flex',flexDirection:'row'}}>
-    <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
+    {/* <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
                   <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Invoice Date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
 
                   <div style={{ position: 'relative' }}>
@@ -798,9 +864,48 @@ const RecurringBills = (props) => {
 </div>
 )}
   
-                </div>
+                </div> */}
 
-                 <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
+
+
+                <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
+                                <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    Invoice Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                            selected={invoicedate}
+                                            onChange={(date)=>handleInvoiceDate(date)}
+                                       
+                                            dateFormat="dd/MM/yyyy"
+                                            // minDate={new Date()}
+                                           
+                                            customInput={customDateInputInvoiceDate({
+                                                value: invoicedate ? invoicedate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
+                                
+                    {invoicedateerrmsg.trim() !== "" && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {invoicedateerrmsg}
+                                        </label>
+                                    </div>
+                                )}
+
+                            </div>
+
+
+
+
+
+
+
+                 {/* <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
                   <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Due Date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
 
                   <div style={{ position: 'relative' }}>
@@ -855,7 +960,48 @@ const RecurringBills = (props) => {
 </div>
 )}
   
-                </div> 
+                </div>  */}
+
+
+
+
+                <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
+                                <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    Due Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                            selected={invoiceduedate}
+                                            onChange={(date)=>handleDueDate(date)}
+                                            dateFormat="dd/MM/yyyy" 
+                                            minDate={new Date()}
+                                           
+                                            customInput={customDateInputDueDate({
+                                                value: invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
+                                
+                    {invoiceduedateerrmsg.trim() !== "" && (
+                                    <div className="d-flex align-items-center p-1">
+                                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {invoiceduedateerrmsg}
+                                        </label>
+                                    </div>
+                                )}
+
+                            </div>
+
+
+
+
+
+
+
+
                 {allfielderrmsg.trim() !== "" && (
 <div>
   <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>

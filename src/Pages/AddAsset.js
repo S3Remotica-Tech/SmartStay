@@ -723,7 +723,8 @@ const [assetError, setAssetError] = useState('')
                                                 setSelectedDate(date);
                                             }}
                                             dateFormat="dd/MM/yyyy"
-                                            maxDate={new Date()}
+                                            minDate={new Date()}
+                                            // maxDate={new Date()}
                                             customInput={customDateInput({
                                                 value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
                                             })}

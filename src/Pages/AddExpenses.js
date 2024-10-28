@@ -669,7 +669,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                                                 setSelectedDate(date);
                                             }}
                                             dateFormat="dd/MM/yyyy"
-                                            maxDate={new Date()}
+                                            // maxDate={new Date()}
+                                            minDate={new Date()}
                                             customInput={customDateInput({
                                                 value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
                                             })}
