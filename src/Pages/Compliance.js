@@ -696,6 +696,7 @@ const Compliance = () => {
                 className='date_input'
                 value={props.value || 'DD/MM/YYYY'}
                 readOnly
+                disabled={edit}
                 style={{
                     border: "1px solid #D9D9D9",
                     borderRadius: 8,
@@ -1304,11 +1305,13 @@ const Compliance = () => {
                                         <DatePicker
                                             selected={selectedDate}
                                             onChange={(date) => {
-                                               
+                                              
                                                 setSelectedDate(date);
+                                                setDateErrmsg('')
                                             }}
                                             dateFormat="dd/MM/yyyy"
                                             maxDate={new Date()}
+                                            disabled={edit}
                                             customInput={customDateInput({
                                                 value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
                                             })}
