@@ -1092,7 +1092,7 @@ function Banking() {
                     borderRadius: "8px",
                 }}
             >
-                <option>Select a Room</option>
+                <option>Select a Account</option>
             </Form.Select>
         </div>
 
@@ -1103,7 +1103,7 @@ function Banking() {
                 </Form.Label>
                 <FormControl
                     type="text"
-                    placeholder="6542310"
+                    placeholder="Enter Amount"
                     style={{
                         fontSize: "1rem",
                         color: "#4B4B4B",
