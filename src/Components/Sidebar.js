@@ -55,6 +55,8 @@ import Expense2 from '../Assets/Images/New_images/coin.png';
 import Repo2 from '../Assets/Images/New_images/clipboard-text.png';
 import Sett2 from '../Assets/Images/New_images/setting-2.png';
 import Profilesettings from '../Pages/AccountSettings'
+import Banking from '../Pages/Banking';
+import bank from '../Assets/Images/New_images/bank.png';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 
 
@@ -388,7 +390,11 @@ function Sidebar() {
 
 
 
+<li className={`align-items-center list-Item ${currentPage === 'banking' ? 'active' : ''}`} onClick={() => handlePageClick('banking')} style={{ listStyleType: "none", display: "flex" }}>
 
+<img src={currentPage === 'banking' ? bank : bank} style={{ height: 20, width: 20 }} />
+
+<span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Banking</span></li>
 
 
 
@@ -545,6 +551,7 @@ function Sidebar() {
             {currentPage === 'checkout' && <Checkout />}
             {currentPage === 'expenses' && <Expenses />}
             {currentPage === 'profile' && <Profilesettings />}
+            {currentPage === 'banking' && <Banking/>}
           </Col>
         </Row>
       </Container>

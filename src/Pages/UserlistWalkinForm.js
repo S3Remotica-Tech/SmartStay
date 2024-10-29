@@ -728,7 +728,8 @@ if(name && mobile &&  walkInDate && countryCode ){
                                                 setWalkInDate(date);
                                             }}
                                             dateFormat="dd/MM/yyyy"
-                                            maxDate={new Date()}
+                                            // maxDate={new Date()}
+                                            minDate={new Date()}
                                             customInput={customDateInput({
                                                 value: walkInDate ? walkInDate.toLocaleDateString('en-GB') : '',
                                             })}
