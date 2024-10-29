@@ -1305,8 +1305,11 @@ const Compliance = () => {
                                         <DatePicker
                                             selected={selectedDate}
                                             onChange={(date) => {
+
                                               setDateErrmsg('')
+
                                                 setSelectedDate(date);
+                                                setDateErrmsg('')
                                             }}
                                             dateFormat="dd/MM/yyyy"
                                             maxDate={new Date()}

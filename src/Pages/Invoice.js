@@ -35,7 +35,7 @@ import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import CryptoJS from "crypto-js";
 import "../Pages/Invoices.css"
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { fontSize, fontStyle, fontWeight, lineHeight, padding } from '@mui/system';
+import { fontSize, fontStyle, fontWeight, height, lineHeight, padding } from '@mui/system';
 import InvoiceTable from './InvoicelistTable';
 import leftArrow from '../Assets/Images/New_images/left-arrow.png'
 import rightarrow from '../Assets/Images/New_images/right-arrow.png'
@@ -58,6 +58,8 @@ import BillPdfModal from '../Pages/BillPdfModal'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import RecurringBill from '../Pages/RecurringBills';
 import RecurringBillList from "../Pages/RecurringBillList";
 
@@ -595,6 +597,12 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
 
   };
 
+  const formatDateForPayload = (date) => {
+    if (!date) return null;
+    const offset = date.getTimezoneOffset();
+    date.setMinutes(date.getMinutes() - offset);
+    return date.toISOString().split('T')[0];
+  };
 
 
 
@@ -626,9 +634,55 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
   // const [displayText, setDisplayText] = useState(false)
   const [isSaveDisabled, setIsSaveDisabled] = useState(false)
   const [totalPaidAmount, setTotalPaidAmount] = useState('')
+  
+  const [paiddate, setPaidDate] = useState(null);
+  const [paiddateerrormsg, setPaidDateErrmsg] = useState(null);
+    
+   const handledatepaidDate = (dates) => {
 
+    const date = dates
+    if(!dates){
+      setPaidDateErrmsg("Please Select Date")
+     }
+     else{
+      setPaidDateErrmsg('')
+     }
+     
+     const formatpaiddate = formatDateForPayload(date)
+      setPaidDate(formatpaiddate)
+     }
 
-
+  const customDateInput = (props) => { 
+   
+    return (
+        <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+            <FormControl
+                type="text"
+                className='date_input'
+                value={props.value || 'DD/MM/YYYY'}
+                readOnly
+                style={{
+                    border: "1px solid #D9D9D9",
+                    borderRadius: 8,
+                    padding: 9,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: props.value ? 600 : 500,
+                                           width: "100%", 
+                                           height: 50,
+                    boxSizing: "border-box",
+                    boxShadow:"none" 
+                }}
+            />
+            <img 
+                src={Calendars} 
+            style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                alt="Calendar" 
+                onClick={props.onClick} 
+            />
+        </div>
+    );
+};
 
 
 
@@ -787,11 +841,13 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
 
   const handleSaveInvoiceList = () => {
 
+    const formatpaiddate = formatDateForPayload(selectedDate)
+
     if (!invoiceList.payableAmount) {
       setAmountErrmsg('Please Enter Amount')
     }
 
-    if (!invoiceList.formattedDate) {
+    if (!invoiceList.formatpaiddate) {
       setDateErrmsg("Please Select Date");
     }
 
@@ -800,7 +856,7 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
     
     }
 
-    if (!invoiceList.payableAmount || !formattedDate || !invoiceList.transaction) {
+    if (!invoiceList.payableAmount || !formatpaiddate || !invoiceList.transaction) {
       setTotalErrmsg('Please enter All field')
       setTimeout(() => {
         setTotalErrmsg('')
@@ -815,7 +871,7 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
       item.User_Id === selectedUserId && item.Invoices !== undefined
     );
 
-    if (invoiceList.InvoiceId && invoiceList.payableAmount && invoiceList.transaction && formattedDate) {
+    if (invoiceList.InvoiceId && invoiceList.payableAmount && invoiceList.transaction && formatpaiddate) {
       dispatch({
         type: 'UPDATEINVOICEDETAILS',
         payload: {
@@ -825,11 +881,15 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
           amount: invoiceList.payableAmount,
           balance_due: invoiceList.balanceDue,
           payment_by: invoiceList.transaction,
-          payment_date: formattedDate
+          payment_date: formatpaiddate
         }
       });
 
       setShowform(false);
+
+      setAmountErrmsg('')
+      setDateErrmsg('')
+      setPaymodeErrmsg('')
     }
   }
 
@@ -872,12 +932,6 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
     }
   }, [selectedDate])
 
-  const formatDateForPayload = (date) => {
-    if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - offset);
-    return date.toISOString().split('T')[0];
-  };
 
 
 
@@ -906,6 +960,8 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
       dueDate: formattedDueDate,
     }));
   };
+
+
 
 
 
@@ -1184,7 +1240,7 @@ console.log("newRows",newRows);
 
   const handlestartDate = (selectedDates) => {
         setAllFieldErrmsg('')
-        const date = selectedDates[0];
+        const date = selectedDates
         setStartDate(date);
 
            if(!selectedDates){
@@ -1201,7 +1257,7 @@ console.log("newRows",newRows);
 
   const handleEndDate = (selectedDates) => {
        setAllFieldErrmsg('')
-       const date = selectedDates[0];
+       const date = selectedDates
        setEndDate(date);
        if(!selectedDates){
         setEnddateErrmsg("Please Select Date")
@@ -1216,7 +1272,7 @@ console.log("newRows",newRows);
 
   const handleInvoiceDate = (selectedDates) => {
        setAllFieldErrmsg('')
-       const date = selectedDates[0];
+       const date = selectedDates
        setInvoiceDate(date);
        if(!selectedDates){
         setInvoiceDateErrmsg("Please Select Date")
@@ -1232,7 +1288,7 @@ console.log("newRows",newRows);
 
   const handleDueDate = (selectedDates) => {
         setAllFieldErrmsg('')
-        const date = selectedDates[0];
+        const date = selectedDates
         setInvoiceDueDate(date);
         if(!selectedDates){
           setInvoiceDueDateErrmsg("Please Select Date")
@@ -1245,8 +1301,134 @@ console.log("newRows",newRows);
         setFormatDueDate(formattedDate)
   }
 
+  const customStartDateInput = (props) => {
+    return (
+        <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+            <FormControl
+                type="text"
+                className='date_input'
+                value={props.value || 'DD/MM/YYYY'}
+                readOnly
+                
+                style={{
+                    border: "1px solid #D9D9D9",
+                    borderRadius: 8,
+                    padding: 9,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: props.value ? 600 : 500,
+                                           width: "100%", 
+                                           height: 50,
+                    boxSizing: "border-box",
+                    boxShadow:"none" 
+                }}
+            />
+            <img 
+                src={Calendars} 
+            style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+                alt="Calendar" 
+                onClick={props.onClick} 
+            />
+        </div>
+    );
+};
+
+const customEndDateInput = (props) => {
+  return (
+      <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+          <FormControl
+              type="text"
+              className='date_input'
+              value={props.value || 'DD/MM/YYYY'}
+              readOnly
+              
+              style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: 8,
+                  padding: 9,
+                  fontSize: 14,
+                  fontFamily: "Gilroy",
+                  fontWeight: props.value ? 600 : 500,
+                                         width: "100%", 
+                                         height: 50,
+                  boxSizing: "border-box",
+                  boxShadow:"none" 
+              }}
+          />
+          <img 
+              src={Calendars} 
+          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+              alt="Calendar" 
+              onClick={props.onClick} 
+          />
+      </div>
+  );
+};
   
-  
+const customInvoiceDateInput = (props) => {
+  return (
+      <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+          <FormControl
+              type="text"
+              className='date_input'
+              value={props.value || 'DD/MM/YYYY'}
+              readOnly
+              
+              style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: 8,
+                  padding: 9,
+                  fontSize: 14,
+                  fontFamily: "Gilroy",
+                  fontWeight: props.value ? 600 : 500,
+                                         width: "100%", 
+                                         height: 50,
+                  boxSizing: "border-box",
+                  boxShadow:"none" 
+              }}
+          />
+          <img 
+              src={Calendars} 
+          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+              alt="Calendar" 
+              onClick={props.onClick} 
+          />
+      </div>
+  );
+};
+
+
+const customInvoiceDueDateInput = (props) => {
+  return (
+      <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+          <FormControl
+              type="text"
+              className='date_input'
+              value={props.value || 'DD/MM/YYYY'}
+              readOnly
+              
+              style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: 8,
+                  padding: 9,
+                  fontSize: 14,
+                  fontFamily: "Gilroy",
+                  fontWeight: props.value ? 600 : 500,
+                                         width: "100%", 
+                                         height: 50,
+                  boxSizing: "border-box",
+                  boxShadow:"none" 
+              }}
+          />
+          <img 
+              src={Calendars} 
+          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+              alt="Calendar" 
+              onClick={props.onClick} 
+          />
+      </div>
+  );
+};
 
  
 
@@ -1777,7 +1959,7 @@ console.log("newRows",newRows);
 
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                    <Form.Group className="mb-2" controlId="exampleForm.ControlInput3">
                       <Form.Label
                       >
                         Paid Amount
@@ -1801,26 +1983,30 @@ console.log("newRows",newRows);
 
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Paid Date</Form.Label>
 
-                    {/* <div className="rectangle-group">
-                    <div className="frame-child1" />
-                    <input
-                      className="frame-input"
-                      placeholder="DD-MM-YYYY"
-                      type="date"
-                      value={invoiceList.date}
-                      onChange={(e) => { handleDateChange(e) }}
-                    />
-                    <img
-                      className="vuesaxlinearcalendar-icon"
-                      alt=""
-                      src={Calendor}
-                    />
-                  </div> */}
+                  <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    Paid Date<span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                           style={{height:'40px'}}
+                                            selected={selectedDate}
+                                            onChange={(date) => {
+                                               
+                                              setSelectedDate(date);
+                                            }}
+                                            dateFormat="dd/MM/yyyy"
+                                            maxDate={new Date()}
+                                            customInput={customDateInput({
+                                                value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
 
 
-                    <div style={{ position: 'relative' }}>
+                    {/* <div style={{ position: 'relative' }}>
                       <label
                         htmlFor="date-input"
                         style={{
@@ -1863,7 +2049,7 @@ console.log("newRows",newRows);
                           display: "none"
                         }}
                       />
-                    </div>
+                    </div> */}
 
                     {dateerrmsg.trim() !== "" && (
                       <div>
@@ -2685,52 +2871,30 @@ console.log("newRows",newRows);
 
       <div style={{display:'flex',flexDirection:'row'}}>
       <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
-                    <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Start Date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                   
+      <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    Start Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                            selected={startdate}
+                                            onChange={(date)=>handlestartDate(date)}
+                                       
+                                            dateFormat="dd/MM/yyyy"
+                                            // minDate={new Date()}
+                                           
+                                            customInput={customStartDateInput({
+                                                value: startdate ? startdate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
 
-                    <div style={{ position: 'relative' }}>
-                      <label
-                        htmlFor="date-input"
-                        style={{
-                          border: "1px solid #D9D9D9",
-                          borderRadius: 8,
-                          padding: 7,
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          color: "#222222",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between", // Ensure space between text and icon
-                          cursor: "pointer"
-                        }}
-                        onClick={() => {
-                          if (startRef.current) {
-                            startRef.current.flatpickr.open();
-                          }
-                        }}
-                      >
-                        {startdate ? startdate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                        <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                      </label>
-                      <Flatpickr
-                        ref={startRef}
-                        options={options}
-                        value={startdate}
-                        onChange={handlestartDate}
-                        style={{
-                          padding: 10,
-                          fontSize: 16,
-                          width: "100%",
-                          borderRadius: 8,
-                          border: "1px solid #D9D9D9",
-                          position: 'absolute',
-                          top: 100,
-                          left: 100,
-                          zIndex: 1000,
-                          display: "none"
-                        }}
-                      />
-                    </div>
+
+                  
+
+
                     {startdateerrmsg.trim() !== "" && (
   <div>
     <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
@@ -2742,52 +2906,25 @@ console.log("newRows",newRows);
                   </div>
 
                   <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
-                    <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>End Date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                  <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    End Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                            selected={enddate}
+                                            onChange={(date)=>handleEndDate(date)}
+                                       
+                                            dateFormat="dd/MM/yyyy"
+                                            // minDate={new Date()}
+                                           
+                                            customInput={customEndDateInput({
+                                                value: enddate ? enddate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
 
-                    <div style={{ position: 'relative' }}>
-                      <label
-                        htmlFor="date-input"
-                        style={{
-                          border: "1px solid #D9D9D9",
-                          borderRadius: 8,
-                          padding: 7,
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          color: "#222222",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between", // Ensure space between text and icon
-                          cursor: "pointer"
-                        }}
-                        onClick={() => {
-                          if (endRef.current) {
-                            endRef.current.flatpickr.open();
-                          }
-                        }}
-                      >
-                        {enddate ? enddate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                        <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                      </label>
-                      <Flatpickr
-                        ref={endRef}
-                        options={options}
-                        value={enddate}
-                        onChange={handleEndDate}
-                        style={{
-                          padding: 10,
-                          fontSize: 16,
-                          width: "100%",
-                          borderRadius: 8,
-                          border: "1px solid #D9D9D9",
-                          position: 'absolute',
-                          top: 100,
-                          left: 100,
-                          zIndex: 1000,
-                          display: "none"
-                        }}
-                      />
-                    </div>
 
                     {enddateerrmsg.trim() !== "" && (
   <div>
@@ -2802,52 +2939,28 @@ console.log("newRows",newRows);
 
 <div style={{display:'flex',flexDirection:'row'}}>
       <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
-                    <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Invoice Date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
 
-                    <div style={{ position: 'relative' }}>
-                      <label
-                        htmlFor="date-input"
-                        style={{
-                          border: "1px solid #D9D9D9",
-                          borderRadius: 8,
-                          padding: 7,
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          color: "#222222",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between", // Ensure space between text and icon
-                          cursor: "pointer"
-                        }}
-                        onClick={() => {
-                          if (invoiceRef.current) {
-                            invoiceRef.current.flatpickr.open();
-                          }
-                        }}
-                      >
-                        {invoicedate ? invoicedate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                        <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                      </label>
-                      <Flatpickr
-                        ref={invoiceRef}
-                        options={options}
-                        value={invoicedate}
-                        onChange={handleInvoiceDate}
-                        style={{
-                          padding: 10,
-                          fontSize: 16,
-                          width: "100%",
-                          borderRadius: 8,
-                          border: "1px solid #D9D9D9",
-                          position: 'absolute',
-                          top: 100,
-                          left: 100,
-                          zIndex: 1000,
-                          display: "none"
-                        }}
-                      />
-                    </div>
+
+      <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    Invoice Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                            selected={invoicedate}
+                                            onChange={(date)=>handleInvoiceDate(date)}
+                                       
+                                            dateFormat="dd/MM/yyyy"
+                                            // minDate={new Date()}
+                                           
+                                            customInput={customInvoiceDateInput({
+                                                value: invoicedate ? invoicedate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
+
+                  
                     {invoicedateerrmsg.trim() !== "" && (
   <div>
     <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
@@ -2859,52 +2972,28 @@ console.log("newRows",newRows);
                   </div>
 
                    <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
-                    <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Due Date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
 
-                    <div style={{ position: 'relative' }}>
-                      <label
-                        htmlFor="date-input"
-                        style={{
-                          border: "1px solid #D9D9D9",
-                          borderRadius: 8,
-                          padding: 7,
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          color: "#222222",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          cursor: "pointer"
-                        }}
-                        onClick={() => {
-                          if (dueRef.current) {
-                            dueRef.current.flatpickr.open();
-                          }
-                        }}
-                      >
-                        {invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                        <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                      </label>
-                      <Flatpickr
-                        ref={dueRef}
-                        optionsone={optionsone}
-                        value={invoiceduedate}
-                        onChange={handleDueDate}
-                        style={{
-                          padding: 10,
-                          fontSize: 16,
-                          width: "100%",
-                          borderRadius: 8,
-                          border: "1px solid #D9D9D9",
-                          position: 'absolute',
-                          top: 100,
-                          left: 100,
-                          zIndex: 1000,
-                          display: "none"
-                        }}
-                      />
-                    </div>
+                   <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    Due Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                    </Form.Label>
+                                    <div style={{ position: 'relative' ,width:"100%"}}>
+                                        <DatePicker
+                                            selected={invoiceduedate}
+                                            onChange={(date)=>handleDueDate(date)}
+                                       
+                                            dateFormat="dd/MM/yyyy"
+                                            // minDate={new Date()}
+                                           
+                                            customInput={customInvoiceDueDateInput({
+                                                value: invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : '',
+                                            })}
+                                        />
+                                    </div>
+                                </Form.Group>
+
+
+                   
                     {invoiceduedateerrmsg.trim() !== "" && (
   <div>
     <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
