@@ -1,6 +1,7 @@
 import Filters from "../Assets/Images/Filters.svg";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
+import "./Banking.css";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "react-bootstrap/Image";
 import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
@@ -11,9 +12,55 @@ import { Dropdown, Table } from "react-bootstrap";
 import Skeleton from "react-loading-skeleton";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import BankingAddForm from "./BankingAddForm";
+import Edit from "../Assets/Images/Edit-Linear-32px.png";
+import Delete from "../Assets/Images/Trash-Linear-32px.png";
+import Modal from "react-bootstrap/Modal";
 
 function Banking() {
+    const popupRef = useRef(null);
   const [search, setSearch] = useState(false);
+  const [showForm,setShowForm] =useState(false)
+  const [dotsshowbank,setdotsshowbank] =useState(false)
+  const [deleteShow,setDeleteShow] =useState(false)
+  const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(false);
+  const [showAddBalance, setshowAddBalance] = useState(false);
+  const [selectedAccountType, setSelectedAccountType] = useState("Both");
+
+
+  const handleShowDots = () => {
+    setdotsshowbank(prev => !prev);
+  };
+
+  const handleShowForm=()=>{
+    setShowForm(true)
+    setdotsshowbank(false)
+  }
+  const handleDeleteForm=()=>{
+    setDeleteShow(true)
+    setdotsshowbank(false)
+  }
+  const handleCloseDelete=()=>{
+    setDeleteShow(false)
+    setdotsshowbank(false)
+  }
+  const handleAccountTypeChange = () => {
+    setShowAccountTypeOptions(!showAccountTypeOptions);
+  };
+  const handleAccountTypeSelection = (e) => {
+    setSelectedAccountType(e.target.value);
+     
+  };
+
+
+  const handleShowAddBalance=()=>{
+    setshowAddBalance(true)
+    setdotsshowbank(false)
+  }
+  const handleCloseAddBalance=()=>{
+    setshowAddBalance(false)
+    
+  }
 
   const handleSearch = () => {
     setSearch(!search);
@@ -23,6 +70,8 @@ function Banking() {
     setSearch(false);
     // setFilterInput("")
   };
+
+
   return (
     <div style={{ padding: 10, marginLeft: 10 }}>
       <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
@@ -198,7 +247,7 @@ function Banking() {
 
           <div>
             <Button
-              // onClick={handleShow}
+              onClick={handleShowForm}
               style={{
                 fontSize: 14,
                 backgroundColor: "#1E45E1",
@@ -231,393 +280,91 @@ function Banking() {
       )} */}
 
       <div className="d-flex overflow-auto ">
-        <div
-          className="card mx-2"
-          style={{
-            minWidth: "280px",
-            borderRadius: "12px",
-            overflow: "hidden",
-            height: 187,
-          }}
-        >
-          <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <p
-                  className="mb-0"
-                  style={{
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                  }}
-                >
-                  HSBC BANK
-                </p>
-                <p
-                  className="text-muted mb-0"
-                  style={{
-                    fontSize: 12,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    color: "#4B4B4B",
-                  }}
-                >
-                  Savings A/C
-                </p>
-              </div>
-              <img src={more} width={20} height={20} />
-            </div>
-            <p
-              className="mt-3"
-              style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 500 }}
-            >
-              4561 2013 6210 6540
-            </p>
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <p
-                className="text-muted mb-0"
-                style={{
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  color: "#4B4B4B",
-                }}
-              >
-                Default A/C
-              </p>
-              <a
-                href="#"
-                className="text-primary"
-                style={{
-                  textAlign: "end",
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                }}
-              >
-                Change
-              </a>
-            </div>
-          </div>
-          <div
-            className="card-footer d-flex justify-content-between align-items-center"
-            style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
-          >
-            <span
-              style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}
-            >
-              Balance
-            </span>
-            <a
-              href="#"
-              className="text-primary"
-              style={{
-                fontSize: 14,
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                textDecoration: "none",
-              }}
-            >
-              + Add Balance
-            </a>
-          </div>
+      <div className="card mx-2" style={{ minWidth: "280px", borderRadius: "12px", overflow: "visible", height:187}}> 
+    {/* Card Body */}
+    <div className="card-body">
+      <div className="d-flex justify-content-between align-items-center">
+        <div>
+          <p className="mb-0" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>HSBC BANK</p>
+          <p className="text-muted mb-0" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>
+            Savings A/C
+          </p>
         </div>
+        <img src={more} width={20} height={20} onClick={handleShowDots} alt="More options" />
 
-        <div
-          className="card mx-2"
-          style={{
-            minWidth: "280px",
-            borderRadius: "12px",
-            overflow: "hidden",
-            height: 187,
-          }}
-        >
-          <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <p
-                  className="mb-0"
-                  style={{
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                  }}
-                >
-                  HSBC BANK
-                </p>
-                <p
-                  className="text-muted mb-0"
-                  style={{
-                    fontSize: 12,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    color: "#4B4B4B",
-                  }}
-                >
-                  Savings A/C
-                </p>
-              </div>
-              <img src={more} width={20} height={20} />
-            </div>
-            <p
-              className="mt-3"
-              style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 500 }}
-            >
-              4561 2013 6210 6540
-            </p>
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <p
-                className="text-muted mb-0"
-                style={{
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  color: "#4B4B4B",
-                }}
-              >
-                Default A/C
-              </p>
-              <a
-                href="#"
-                className="text-primary"
-                style={{
-                  textAlign: "end",
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                }}
-              >
-                Change
-              </a>
-            </div>
-          </div>
-          <div
-            className="card-footer d-flex justify-content-between align-items-center"
-            style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
-          >
-            <span
-              style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}
-            >
-              Balance
-            </span>
-            <a
-              href="#"
-              className="text-primary"
-              style={{
-                fontSize: 14,
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                textDecoration: "none",
-              }}
-            >
-              + Add Balance
-            </a>
-          </div>
-        </div>
-        <div
-          className="card mx-2"
-          style={{
-            minWidth: "280px",
-            borderRadius: "12px",
-            overflow: "hidden",
-            height: 187,
-          }}
-        >
-          <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <p
-                  className="mb-0"
-                  style={{
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                  }}
-                >
-                  HSBC BANK
-                </p>
-                <p
-                  className="text-muted mb-0"
-                  style={{
-                    fontSize: 12,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    color: "#4B4B4B",
-                  }}
-                >
-                  Savings A/C
-                </p>
-              </div>
-              <img src={more} width={20} height={20} />
-            </div>
-            <p
-              className="mt-3"
-              style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 500 }}
-            >
-              4561 2013 6210 6540
-            </p>
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <p
-                className="text-muted mb-0"
-                style={{
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  color: "#4B4B4B",
-                }}
-              >
-                Default A/C
-              </p>
-              <a
-                href="#"
-                className="text-primary"
-                style={{
-                  textAlign: "end",
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                }}
-              >
-                Change
-              </a>
-            </div>
-          </div>
-          <div
-            className="card-footer d-flex justify-content-between align-items-center"
-            style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
-          >
-            <span
-              style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}
-            >
-              Balance
-            </span>
-            <a
-              href="#"
-              className="text-primary"
-              style={{
-                fontSize: 14,
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                textDecoration: "none",
-              }}
-            >
-              + Add Balance
-            </a>
-          </div>
-        </div>
-        <div
-          className="card mx-2"
-          style={{
-            minWidth: "280px",
-            borderRadius: "12px",
-            overflow: "hidden",
-            height: 187,
-          }}
-        >
-          <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <p
-                  className="mb-0"
-                  style={{
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                  }}
-                >
-                  HSBC BANK
-                </p>
-                <p
-                  className="text-muted mb-0"
-                  style={{
-                    fontSize: 12,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    color: "#4B4B4B",
-                  }}
-                >
-                  Savings A/C
-                </p>
-              </div>
-              <img src={more} width={20} height={20} />
-            </div>
-            <p
-              className="mt-3"
-              style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 500 }}
-            >
-              4561 2013 6210 6540
-            </p>
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <p
-                className="text-muted mb-0"
-                style={{
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  color: "#4B4B4B",
-                }}
-              >
-                Default A/C
-              </p>
-              <a
-                href="#"
-                className="text-primary"
-                style={{
-                  textAlign: "end",
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                }}
-              >
-                Change
-              </a>
-            </div>
-          </div>
-          <div
-            className="card-footer d-flex justify-content-between align-items-center"
-            style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
-          >
-            <span
-              style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}
-            >
-              Balance
-            </span>
-            <a
-              href="#"
-              className="text-primary"
-              style={{
-                fontSize: 14,
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                textDecoration: "none",
-              }}
-            >
-              + Add Balance
-            </a>
-          </div>
-        </div>
+        {dotsshowbank && (
+  <div 
+    ref={popupRef} 
+    style={{ 
+      cursor: "pointer", 
+      backgroundColor: "#F9F9F9", 
+      position: "absolute", 
+      right: 10, 
+      top: 60,  // Set top position to 150
+      width: 160, 
+      height: 70, 
+      border: "1px solid #EBEBEB", 
+      borderRadius: 10, 
+      display: "flex", 
+      flexDirection: "column", 
+      padding: 10, 
+      alignItems: "start", 
+      zIndex: 9999  // Ensure high z-index
+    }}
+  >
+    <div className="mb-2 d-flex justify-content-start align-items-center gap-2" onClick={handleShowForm}>
+      <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit"/>
+      <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#000000", cursor: "pointer" }}>Edit</label>
+    </div>
+    <div className="mb-2 d-flex justify-content-start align-items-center gap-2" onClick={handleDeleteForm}>
+      <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete"/>
+      <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#FF0000", cursor: "pointer" }}>Delete</label>
+    </div>
+  </div>
+)}
+
       </div>
 
-      <div style={{ marginTop: 20 }}>
+      <p className="mt-3" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 500 }}>4561 2013 6210 6540</p>
+
+      <div className="d-flex justify-content-between align-items-center mb-2">
+        <p className="text-muted mb-0" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, color: "#4B4B4B" }}>Default A/C</p>
+        <a href="#" onClick={handleAccountTypeChange} className="text-primary" style={{ textAlign: "end", fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, textDecoration: "none" }}>Change</a>
+      </div>
+
+    
+      {/* {showAccountTypeOptions && (
+        <div style={{ position: "absolute", top: "160px", right: "40px", backgroundColor: "#FFFFFF", border: "1px solid #EBEBEB", borderRadius: "10px", padding: "10px", zIndex: 1000, height: 105, width: 133 }}>
+          <label style={{ display: "block", marginBottom: "5px" }}>
+            <input type="radio" name="accountType" value="Credit" checked={selectedAccountType === "Credit"} onChange={handleAccountTypeSelection} /> Credit A/C
+          </label>
+          <label style={{ display: "block", marginBottom: "5px" }}>
+            <input type="radio" name="accountType" value="Debit" checked={selectedAccountType === "Debit"} onChange={handleAccountTypeSelection} /> Debit A/C
+          </label>
+          <label style={{ display: "block", marginBottom: "5px" }}>
+            <input type="radio" name="accountType" value="Both" checked={selectedAccountType === "Both"} onChange={handleAccountTypeSelection} /> Both A/C
+          </label>
+        </div>
+      )} */}
+    </div>
+
+    <div className="card-footer d-flex justify-content-between align-items-center" style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}>
+      <span style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>Balance</span>
+      <a href="#" className="text-primary" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, textDecoration: "none" }} onClick={handleShowAddBalance}>+ Add Balance</a>
+    </div>
+  </div>
+
+      </div>
+    
+
+      <div style={{ position: "relative",marginTop:20 }}>
         <Table
           responsive="md"
           className="Table_Design"
-          style={{
-            height: "auto",
-            overflow: "visible",
-            tableLayout: "auto",
-            borderRadius: "24px",
-            border: "1px solid #DCDCDC",
-          }}
+          style={{ height: "auto", overflow: "visible", tableLayout: "auto", borderRadius: "24px", border: "1px solid #DCDCDC" }}
         >
           <thead
-            style={{
-              backgroundColor: "#E7F1FF",
-            }}
+            style={{ backgroundColor: "#E7F1FF", zIndex: 1, position: "sticky", top: 0 }}
           >
             <tr>
               <th
@@ -860,12 +607,549 @@ function Banking() {
                 />
               </td>
             </tr>
+            <tr
+              // key={user.ID}
+              style={{
+                fontSize: "16px",
+                fontWeight: 600,
+                textAlign: "center",
+                marginTop: 10,
+              }}
+            >
+              <td style={{ padding: "10px", border: "none" }}>
+                <img
+                  src={squre}
+                  height={20}
+                  width={20}
+                  style={{ marginTop: 10 }}
+                />
+              </td>
+
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Account Name
+              </td>
+              <td
+                style={{
+                  paddingTop: 15,
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  marginTop: 10,
+                }}
+              >
+                <span
+                  style={{
+                    paddingTop: "3px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    paddingBottom: "3px",
+                    borderRadius: "60px",
+                    backgroundColor: "#FFEFCF",
+                    textAlign: "start",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  Date
+                </span>
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Amount
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Description
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Transaction
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                <PiDotsThreeOutlineVerticalFill
+                  style={{ height: 20, width: 20 }}
+                />
+              </td>
+            </tr>
+            <tr
+              // key={user.ID}
+              style={{
+                fontSize: "16px",
+                fontWeight: 600,
+                textAlign: "center",
+                marginTop: 10,
+              }}
+            >
+              <td style={{ padding: "10px", border: "none" }}>
+                <img
+                  src={squre}
+                  height={20}
+                  width={20}
+                  style={{ marginTop: 10 }}
+                />
+              </td>
+
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Account Name
+              </td>
+              <td
+                style={{
+                  paddingTop: 15,
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  marginTop: 10,
+                }}
+              >
+                <span
+                  style={{
+                    paddingTop: "3px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    paddingBottom: "3px",
+                    borderRadius: "60px",
+                    backgroundColor: "#FFEFCF",
+                    textAlign: "start",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  Date
+                </span>
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Amount
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Description
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Transaction
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                <PiDotsThreeOutlineVerticalFill
+                  style={{ height: 20, width: 20 }}
+                />
+              </td>
+            </tr>
+            <tr
+              // key={user.ID}
+              style={{
+                fontSize: "16px",
+                fontWeight: 600,
+                textAlign: "center",
+                marginTop: 10,
+              }}
+            >
+              <td style={{ padding: "10px", border: "none" }}>
+                <img
+                  src={squre}
+                  height={20}
+                  width={20}
+                  style={{ marginTop: 10 }}
+                />
+              </td>
+
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Account Name
+              </td>
+              <td
+                style={{
+                  paddingTop: 15,
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  marginTop: 10,
+                }}
+              >
+                <span
+                  style={{
+                    paddingTop: "3px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    paddingBottom: "3px",
+                    borderRadius: "60px",
+                    backgroundColor: "#FFEFCF",
+                    textAlign: "start",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  Date
+                </span>
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Amount
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Description
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Transaction
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                <PiDotsThreeOutlineVerticalFill
+                  style={{ height: 20, width: 20 }}
+                />
+              </td>
+            </tr>
             {/* );
                       })} */}
           </tbody>
         </Table>
+       {showAccountTypeOptions && (
+        <div style={{ position: "absolute", top: "-70px", left: "120px", backgroundColor: "#FFFFFF", border: "1px solid #EBEBEB", borderRadius: "10px", padding: "10px", zIndex: 1000, height: 105, width: 133,backgroundColor:"#F9F9F9" }}>
+          <label style={{ display: "block", marginBottom: "5px" }}>
+            <input type="radio" name="accountType" value="Credit" checked={selectedAccountType === "Credit"} onChange={handleAccountTypeSelection} /> Credit A/C
+          </label>
+          <label style={{ display: "block", marginBottom: "5px" }}>
+            <input type="radio" name="accountType" value="Debit" checked={selectedAccountType === "Debit"} onChange={handleAccountTypeSelection} /> Debit A/C
+          </label>
+          <label style={{ display: "block", marginBottom: "5px" }}>
+            <input type="radio" name="accountType" value="Both" checked={selectedAccountType === "Both"} onChange={handleAccountTypeSelection} /> Both A/C
+          </label>
+        </div>
+      )} 
       </div>
+      <Modal
+        show={deleteShow}
+        onHide={handleCloseDelete}
+        centered
+        backdrop="static"
+        style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
+      >
+        <Modal.Header style={{ borderBottom: 'none' }}>
+          <Modal.Title
+            style={{
+              fontSize: '18px',
+              fontFamily: 'Gilroy',
+              textAlign: 'center',
+              fontWeight: 600,
+              color: '#222222',
+              flex: 1
+            }}
+          >
+            Delete Check-out?
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: 'Gilroy',
+            color: '#646464',
+            textAlign: 'center',
+            marginTop: '-20px'
+          }}
+        >
+          Are you sure you want to delete this check-out?
+        </Modal.Body>
+
+        <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: '12px 20px',
+              background: '#fff',
+              color: '#1E45E1',
+              border: '1px solid #1E45E1',
+              fontWeight: 600,
+              fontFamily: 'Gilroy',
+              fontSize: '14px',
+              marginRight: 10
+            }}
+            // onClick={handleCloseDelete}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: '12px 20px',
+              background: '#1E45E1',
+              color: '#FFFFFF',
+              fontWeight: 600,
+              fontFamily: 'Gilroy',
+              fontSize: '14px'
+            }}
+            onClick={handleCloseDelete}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+    show={showAddBalance}
+    onHide={() => handleCloseAddBalance()}
+    backdrop="static"
+    centered
+    className="modal-dialog-centered"
+    style={{
+        maxWidth: "353px",
+        width: "80vw",
+        
+    }}
+>
+    <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
+        <div
+            style={{
+                fontSize: "1.25rem",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+            }}
+        >
+            Add balance
+        </div>
+        <button
+            type="button"
+            className="close"
+            aria-label="Close"
+            onClick={handleCloseAddBalance}
+            style={{
+                position: "absolute",
+                right: "10px",
+                top: "16px",
+                border: "1px solid black",
+                background: "transparent",
+                cursor: "pointer",
+                padding: "0",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+            }}
+        >
+            <span aria-hidden="true" style={{ fontSize: "24px", paddingBottom: "4px" }}>
+                &times;
+            </span>
+        </button>
+    </Modal.Header>
+    <Modal.Body>
+        <div className="col-12" style={{ marginTop: "-30px" }}>
+            <Form.Label style={{ fontSize: "0.875rem", color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                Account <span style={{ color: "red", fontSize: "20px" }}> * </span>
+            </Form.Label>
+            <Form.Select
+                aria-label="Default select example"
+                className="border"
+                style={{
+                    fontSize: "1rem",
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: "50px",
+                    borderRadius: "8px",
+                }}
+            >
+                <option>Select a Room</option>
+            </Form.Select>
+        </div>
+
+        <div className="col-12">
+            <Form.Group className="mb-3">
+                <Form.Label style={{ fontSize: "0.875rem", color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    Balance<span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+                <FormControl
+                    type="text"
+                    placeholder="6542310"
+                    style={{
+                        fontSize: "1rem",
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        boxShadow: "none",
+                        border: "1px solid #D9D9D9",
+                        height: "50px",
+                        borderRadius: "8px",
+                    }}
+                />
+            </Form.Group>
+        </div>
+    </Modal.Body>
+    <Modal.Footer className="d-flex justify-content-center">
+        <Button
+            className="col-12"
+            style={{
+                backgroundColor: "#1E45E1",
+                fontWeight: 600,
+                height: "50px",
+                borderRadius: "12px",
+                fontSize: "1rem",
+                fontFamily: "Montserrat, sans-serif",
+                marginTop: "20px",
+            }}
+        >
+            Add balance
+        </Button>
+    </Modal.Footer>
+</Modal>
+
+
+
+
+
+
+
+
+
+
+      {showForm == true ? (
+        <BankingAddForm  handleShowForm={handleShowForm} showForm={showForm} setShowForm={setShowForm}/>
+      ) : null}
     </div>
+    
   );
 }
 export default Banking;
