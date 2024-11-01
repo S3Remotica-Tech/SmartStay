@@ -10,6 +10,7 @@ import AssetReducer from './AssetReducer';
 import SettingsReducer from "./SettingsReducer";
 import ExpenseReducer from './ExpenseReducer';
 import BookingReducer from "./BookingReducer";
+import BankingReducer from "./BankingReducer";
 
 
 
@@ -24,7 +25,8 @@ PgList: PgListReducer,
 AssetList:AssetReducer,
 Settings : SettingsReducer,
 ExpenseList:ExpenseReducer,
-Booking:BookingReducer
+Booking:BookingReducer,
+bankingDetails:BankingReducer
 
 })
 export default RootReducer;

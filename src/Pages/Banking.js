@@ -17,45 +17,100 @@ import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import Modal from "react-bootstrap/Modal";
 import BankingEditTransaction from "./BankingTransaction";
+import { useDispatch, useSelector } from "react-redux";
 
 function Banking() {
+  const state = useSelector((state) => state);
+  console.log("state-for-banking",state)
+  const dispatch = useDispatch();
   const popupRef = useRef(null);
   const editRef = useRef(null);
   const [search, setSearch] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [dotsshowbank, setdotsshowbank] = useState(false);
   const [deleteShow, setDeleteShow] = useState(false);
-  const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(false);
+  const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
   const [showAddBalance, setshowAddBalance] = useState(false);
-  const [selectedAccountType, setSelectedAccountType] = useState("Both");
+  const [defaltType,setDefaultType]= useState('')
+  console.log("defaltType",defaltType)
+  const [selectedAccountType, setSelectedAccountType] = useState('');
   const [EditTransaction, setEditTransaction] = useState(false);
   const [EditTransactionForm, setEditTransactionForm] = useState(false);
   const [deleteTransactionForm, setDeleteTransactionForm] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [changeAmount, setchangeAmount] = useState('');
+  const [typeId, setTypeId] = useState(null);
+ 
+  
 
-  const handleShowDots = () => {
-    setdotsshowbank((prev) => !prev);
+
+
+
+  useEffect(()=>{
+    dispatch({ type: "BANKINGLIST" });
+  },[])
+
+ 
+
+  const handleShowDots = (id) => {
+    if (openMenuId === id) {
+      setOpenMenuId(null); 
+    } else {
+      setOpenMenuId(id);
+    }
+    // setSearch(false);
   };
+  const handleAccountTypeChange = (item) => {
+    console.log("item123",item)
+    // setShowAccountTypeOptions((prevId) => (prevId === item.id ? null : item.id));
+    // setchangeAmount(item.id)
+
+setTypeId(item.id)
+setDefaultType(item.setus_default)
+setSelectedAccountType(item.setus_default);
+// setShowAccountTypeOptions(prevId => (prevId === item.id ? null : item.id));
+    if (showAccountTypeOptions === item.id) {
+      setShowAccountTypeOptions(null); 
+    } else {
+      setShowAccountTypeOptions(item.id);
+    }
+  };
+  
+  const handleAccountTypeSelection = (e) => {
+    setSelectedAccountType(e.target.value);
+    dispatch({
+      type: "DEFAULTACCOUNT",
+      payload: { id: typeId,type:e.target.value},
+    });
+  };
+  useEffect(() => {
+    if (showAccountTypeOptions !== null) {
+      setSelectedAccountType(defaltType);
+    }
+  }, [showAccountTypeOptions, defaltType]);
+//   useEffect(()=>{
+// if(state.bankingDetails.statusCodeForDefaultAccount === 200){
+//   setSelectedAccountType('')
+// }
+//   },[])
 
   const handleShowForm = () => {
     
     setShowForm(true);
     console.log("showForm",showForm)
-    setdotsshowbank(false);
+    setOpenMenuId(false);
   };
   const handleDeleteForm = () => {
     setDeleteShow(true);
     setdotsshowbank(false);
+    setOpenMenuId(false);
   };
   const handleCloseDelete = () => {
     setDeleteShow(false);
     setdotsshowbank(false);
   };
-  const handleAccountTypeChange = () => {
-    setShowAccountTypeOptions(!showAccountTypeOptions);
-  };
-  const handleAccountTypeSelection = (e) => {
-    setSelectedAccountType(e.target.value);
-  };
+  
+  
   const handleEditTrans = () => {
     setEditTransaction(!EditTransaction);
     // setdotsshowbank(false)
@@ -77,7 +132,8 @@ function Banking() {
     setEditTransaction(false)
   }
 
-  const handleShowAddBalance = () => {
+  const handleShowAddBalance = (item) => {
+    console.log("itemBalance",item)
     setshowAddBalance(true);
     setdotsshowbank(false);
   };
@@ -300,15 +356,20 @@ function Banking() {
           )}
         </div>
       )} */}
-
-      <div className="d-flex overflow-auto ">
+     
+     <div className="d-flex overflow-auto">
+  {state?.bankingDetails?.bankingList?.banks?.length > 0 ? (
+    state.bankingDetails.bankingList.banks.map((item) => {
+      return (
         <div
+          key={item.id}
           className="card mx-2"
           style={{
             minWidth: "280px",
             borderRadius: "12px",
             overflow: "visible",
             height: 187,
+            position: "relative",
           }}
         >
           {/* Card Body */}
@@ -323,7 +384,7 @@ function Banking() {
                     fontWeight: 600,
                   }}
                 >
-                  HSBC BANK
+                  {item.bank_name}
                 </p>
                 <p
                   className="text-muted mb-0"
@@ -341,11 +402,11 @@ function Banking() {
                 src={more}
                 width={20}
                 height={20}
-                onClick={handleShowDots}
+                onClick={() => handleShowDots(item.id)}
                 alt="More options"
+                style={{ cursor: "pointer" }}
               />
-
-              {dotsshowbank && (
+              {openMenuId === item.id && (
                 <div
                   ref={popupRef}
                   style={{
@@ -353,7 +414,7 @@ function Banking() {
                     backgroundColor: "#F9F9F9",
                     position: "absolute",
                     right: 10,
-                    top: 60, // Set top position to 150
+                    top: 60,
                     width: 160,
                     height: 70,
                     border: "1px solid #EBEBEB",
@@ -362,18 +423,14 @@ function Banking() {
                     flexDirection: "column",
                     padding: 10,
                     alignItems: "start",
-                    zIndex: 9999, // Ensure high z-index
+                    zIndex: 9999,
                   }}
                 >
                   <div
                     className="mb-2 d-flex justify-content-start align-items-center gap-2"
                     onClick={handleShowForm}
                   >
-                    <img
-                      src={Edit}
-                      style={{ height: 16, width: 16 }}
-                      alt="Edit"
-                    />
+                    <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
                     <label
                       style={{
                         fontSize: 14,
@@ -390,11 +447,7 @@ function Banking() {
                     className="mb-2 d-flex justify-content-start align-items-center gap-2"
                     onClick={handleDeleteForm}
                   >
-                    <img
-                      src={Delete}
-                      style={{ height: 16, width: 16 }}
-                      alt="Delete"
-                    />
+                    <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" />
                     <label
                       style={{
                         fontSize: 14,
@@ -411,11 +464,12 @@ function Banking() {
               )}
             </div>
 
+            {/* Additional Card Details */}
             <p
               className="mt-3"
               style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 500 }}
             >
-              4561 2013 6210 6540
+              {item.acc_num}
             </p>
 
             <div className="d-flex justify-content-between align-items-center mb-2">
@@ -432,7 +486,7 @@ function Banking() {
               </p>
               <a
                 href="#"
-                onClick={handleAccountTypeChange}
+                onClick={() => handleAccountTypeChange(item)}
                 className="text-primary"
                 style={{
                   textAlign: "end",
@@ -445,22 +499,56 @@ function Banking() {
                 Change
               </a>
             </div>
-
-            {/* {showAccountTypeOptions && (
-        <div style={{ position: "absolute", top: "160px", right: "40px", backgroundColor: "#FFFFFF", border: "1px solid #EBEBEB", borderRadius: "10px", padding: "10px", zIndex: 1000, height: 105, width: 133 }}>
-          <label style={{ display: "block", marginBottom: "5px" }}>
-            <input type="radio" name="accountType" value="Credit" checked={selectedAccountType === "Credit"} onChange={handleAccountTypeSelection} /> Credit A/C
-          </label>
-          <label style={{ display: "block", marginBottom: "5px" }}>
-            <input type="radio" name="accountType" value="Debit" checked={selectedAccountType === "Debit"} onChange={handleAccountTypeSelection} /> Debit A/C
-          </label>
-          <label style={{ display: "block", marginBottom: "5px" }}>
-            <input type="radio" name="accountType" value="Both" checked={selectedAccountType === "Both"} onChange={handleAccountTypeSelection} /> Both A/C
-          </label>
-        </div>
-      )} */}
+  {showAccountTypeOptions === item.id && (
+  <div
+    style={{
+      position: "absolute",
+      top: 70,
+      left: 50,
+      backgroundColor: "#FFFFFF",
+      border: "1px solid #EBEBEB",
+      borderRadius: "10px",
+      padding: "10px",
+      zIndex: 1000,
+      width: 150,
+      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+    }}
+  >
+    <label style={{ display: "block", marginBottom: "5px" }}>
+      <input
+        type="radio"
+        name={`accountType-${item.id}`}
+        value="1"
+        checked={selectedAccountType === "1"}
+        onChange={handleAccountTypeSelection}
+      />
+      {" "}Credit A/C
+    </label>
+    <label style={{ display: "block", marginBottom: "5px" }}>
+      <input
+        type="radio"
+        name={`accountType-${item.id}`}
+        value="2"
+        checked={selectedAccountType === "2"}
+        onChange={handleAccountTypeSelection}
+      />
+      {" "}Debit A/C
+    </label>
+    <label style={{ display: "block", marginBottom: "5px" }}>
+      <input
+        type="radio"
+        name={`accountType-${item.id}`}
+        value="3"
+        checked={selectedAccountType === "3"}
+        onChange={handleAccountTypeSelection}
+      />
+      {" "}Both A/C
+    </label>
+  </div>
+)}
           </div>
 
+          {/* Card Footer */}
           <div
             className="card-footer d-flex justify-content-between align-items-center"
             style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
@@ -470,24 +558,55 @@ function Banking() {
             >
               Balance
             </span>
-            <a
-              href="#"
-              className="text-primary"
-              style={{
-                fontSize: 14,
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                textDecoration: "none",
-              }}
-              onClick={handleShowAddBalance}
-            >
-              + Add Balance
-            </a>
+            {item.balance === 0 || item.balance === '' || item.balance === null ? (
+              <a
+                href="#"
+                className="text-primary"
+                style={{
+                  fontSize: 14,
+                  fontFamily: "Gilroy",
+                  fontWeight: 600,
+                  color: "blue",
+                  textDecoration: "none",
+                }}
+                onClick={()=>handleShowAddBalance(item)}
+              >
+                +Add Amount
+              </a>
+            ) : (
+              <span
+                style={{
+                  fontSize: 14,
+                  fontFamily: "Gilroy",
+                  fontWeight: 600,
+                  color: "black",
+                }}
+              >
+                {item.balance}
+              </span>
+            )}
           </div>
         </div>
+      );
+    })
+  ) : (
+    <div className="card mx-2" style={{ minWidth: "280px", borderRadius: "12px", overflow: "visible", height: 187 }}>
+      {/* Card Body */}
+      <div className="card-body">
+        {/* Default content if no banks are available */}
       </div>
+    </div>
+  )}
+</div>
 
-      <div style={{ position: "relative", marginTop: 20 }}>
+
+
+       
+
+      
+
+      <div style={{ position: "relative", marginTop: 30 }}>
+     
         <Table
           responsive="md"
           className="Table_Design"
@@ -639,116 +758,10 @@ function Banking() {
                     : currentItems.map((user) => {
                         const imageUrl = user.profile || Profile;
                         return ( */}
-            <tr
-              // key={user.ID}
-              style={{
-                fontSize: "16px",
-                fontWeight: 600,
-                textAlign: "center",
-                marginTop: 10,
-              }}
-            >
-              <td style={{ padding: "10px", border: "none" }}>
-                <img
-                  src={squre}
-                  height={20}
-                  width={20}
-                  style={{ marginTop: 10 }}
-                />
-              </td>
 
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Account Name
-              </td>
-              <td
-                style={{
-                  paddingTop: 15,
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  marginTop: 10,
-                }}
-              >
-                <span
-                  style={{
-                    paddingTop: "3px",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
-                    paddingBottom: "3px",
-                    borderRadius: "60px",
-                    backgroundColor: "#FFEFCF",
-                    textAlign: "start",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Date
-                </span>
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Amount
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Description
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Transaction
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20 }}
-                />
-              </td>
-            </tr>
-            <tr
+
+
+<tr
               // key={user.ID}
               style={{
                 fontSize: "16px",
@@ -961,6 +974,118 @@ function Banking() {
                   fontFamily: "Gilroy",
                   paddingTop: 15,
                 }}
+                onClick={handleEditTrans}
+              >
+                <PiDotsThreeOutlineVerticalFill
+                  style={{ height: 20, width: 20 }}
+                />
+              </td>
+            </tr>
+           
+            <tr
+              // key={user.ID}
+              style={{
+                fontSize: "16px",
+                fontWeight: 600,
+                textAlign: "center",
+                marginTop: 10,
+              }}
+            >
+              <td style={{ padding: "10px", border: "none" }}>
+                <img
+                  src={squre}
+                  height={20}
+                  width={20}
+                  style={{ marginTop: 10 }}
+                />
+              </td>
+
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Account Name
+              </td>
+              <td
+                style={{
+                  paddingTop: 15,
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  marginTop: 10,
+                }}
+              >
+                <span
+                  style={{
+                    paddingTop: "3px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    paddingBottom: "3px",
+                    borderRadius: "60px",
+                    backgroundColor: "#FFEFCF",
+                    textAlign: "start",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  Date
+                </span>
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Amount
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Description
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+              >
+                Transaction
+              </td>
+              <td
+                style={{
+                  border: "none",
+                  textAlign: "start",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  paddingTop: 15,
+                }}
+                onClick={handleEditTrans}
               >
                 <PiDotsThreeOutlineVerticalFill
                   style={{ height: 20, width: 20 }}
@@ -1082,6 +1207,8 @@ function Banking() {
           </tbody>
         </Table>
 
+
+
         {EditTransaction && (
           <div
             ref={editRef}
@@ -1144,54 +1271,7 @@ function Banking() {
           </div>
         )}
 
-        {showAccountTypeOptions && (
-          <div
-            style={{
-              position: "absolute",
-              top: "-70px",
-              left: "120px",
-              backgroundColor: "#FFFFFF",
-              border: "1px solid #EBEBEB",
-              borderRadius: "10px",
-              padding: "10px",
-              zIndex: 1000,
-              height: 105,
-              width: 133,
-              backgroundColor: "#F9F9F9",
-            }}
-          >
-            <label style={{ display: "block", marginBottom: "5px" }}>
-              <input
-                type="radio"
-                name="accountType"
-                value="Credit"
-                checked={selectedAccountType === "Credit"}
-                onChange={handleAccountTypeSelection}
-              />{" "}
-              Credit A/C
-            </label>
-            <label style={{ display: "block", marginBottom: "5px" }}>
-              <input
-                type="radio"
-                name="accountType"
-                value="Debit"
-                checked={selectedAccountType === "Debit"}
-                onChange={handleAccountTypeSelection}
-              />{" "}
-              Debit A/C
-            </label>
-            <label style={{ display: "block", marginBottom: "5px" }}>
-              <input
-                type="radio"
-                name="accountType"
-                value="Both"
-                checked={selectedAccountType === "Both"}
-                onChange={handleAccountTypeSelection}
-              />{" "}
-              Both A/C
-            </label>
-          </div>
-        )}
+       
       </div>
       <Modal
         show={deleteShow}
