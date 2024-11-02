@@ -10,6 +10,8 @@ import AssetSaga from './AssetSaga'
 import SettingsSaga from './SettingsSaga'
 import ExpenseSaga from './ExpensesSaga'
 import CreateBookinSaga from './BookingSaga';
+import CreateBankingSaga from './BankingSaga';
+
 
 
 
@@ -26,7 +28,8 @@ yield all([
     AssetSaga(),
     SettingsSaga(),
     ExpenseSaga(),
-    CreateBookinSaga()
+    CreateBookinSaga(),
+    CreateBankingSaga()
 
 ])
 }

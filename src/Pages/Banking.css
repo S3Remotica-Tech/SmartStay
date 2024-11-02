@@ -6,3 +6,11 @@
         margin-left: 10px;
     } 
 }
+
+
+
+.table-container {
+    position: absolute;
+    top: 0; /* Adjust to position it correctly */
+    z-index: 100;
+  }
