@@ -29,17 +29,25 @@ function Banking() {
   const [showForm, setShowForm] = useState(false);
   const [dotsshowbank, setdotsshowbank] = useState(false);
   const [deleteShow, setDeleteShow] = useState(false);
+  const [typeId, setTypeId] = useState(null);
   const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
   const [showAddBalance, setshowAddBalance] = useState(false);
   const [defaltType,setDefaultType]= useState('')
   console.log("defaltType",defaltType)
-  const [selectedAccountType, setSelectedAccountType] = useState('');
+  const [selectedAccountType, setSelectedAccountType] = useState("");
+  console.log("selectedAccountTypeass",selectedAccountType);
+  
   const [EditTransaction, setEditTransaction] = useState(false);
   const [EditTransactionForm, setEditTransactionForm] = useState(false);
   const [deleteTransactionForm, setDeleteTransactionForm] = useState(false);
   const [openMenuId, setOpenMenuId] = useState(null);
   const [changeAmount, setchangeAmount] = useState('');
-  const [typeId, setTypeId] = useState(null);
+  const [editAddBank, setEditAddBank] = useState('');
+  const [edit, setEdit] = useState(false);
+  const[AddBankName,setAddBankName] = useState("")
+  const[AddBankAmount,setAddBankAmount] = useState("")
+
+ 
  
   
 
@@ -60,43 +68,83 @@ function Banking() {
     }
     // setSearch(false);
   };
-  const handleAccountTypeChange = (item) => {
-    console.log("item123",item)
-    // setShowAccountTypeOptions((prevId) => (prevId === item.id ? null : item.id));
-    // setchangeAmount(item.id)
 
-setTypeId(item.id)
-setDefaultType(item.setus_default)
-setSelectedAccountType(item.setus_default);
-// setShowAccountTypeOptions(prevId => (prevId === item.id ? null : item.id));
-    if (showAccountTypeOptions === item.id) {
-      setShowAccountTypeOptions(null); 
-    } else {
-      setShowAccountTypeOptions(item.id);
-    }
+
+  const handleAccountTypeChange = (item) => {
+    console.log("item123", item);
+    
+    setTypeId(item.id);
+    // const defaultType = item.setus_default !== null ? item.setus_default : 3; 
+    const defaultType = item.setus_default ? item.setus_default : 3;
+    setDefaultType(defaultType);
+    setSelectedAccountType(defaultType); 
+    setShowAccountTypeOptions((prevId) => (prevId === item.id ? null : item.id));
   };
+//   const handleAccountTypeChange = (item) => {
+//     console.log("item123",item)
+//     // setShowAccountTypeOptions((prevId) => (prevId === item.id ? null : item.id));
+//     // setchangeAmount(item.id)
+
+// setTypeId(item.id)
+// setDefaultType(item.setus_default)
+// setSelectedAccountType(item.setus_default);
+// // setShowAccountTypeOptions(prevId => (prevId === item.id ? null : item.id));
+//     if (showAccountTypeOptions === item.id) {
+//       setShowAccountTypeOptions(null); 
+//     } else {
+//       setShowAccountTypeOptions(item.id);
+//     }
+//   };
   
-  const handleAccountTypeSelection = (e) => {
-    setSelectedAccountType(e.target.value);
-    dispatch({
-      type: "DEFAULTACCOUNT",
-      payload: { id: typeId,type:e.target.value},
-    });
-  };
+const handleAccountTypeSelection = (e) => {
+  const selectedValue = parseInt(e.target.value); // Ensure we're using a number
+  setSelectedAccountType(selectedValue);
+  dispatch({
+    type: "DEFAULTACCOUNT",
+    payload: { id: typeId, type: selectedValue },
+  });
+};
   useEffect(() => {
     if (showAccountTypeOptions !== null) {
-      setSelectedAccountType(defaltType);
+      setSelectedAccountType(defaltType); // Set the selectedAccountType to the default
     }
   }, [showAccountTypeOptions, defaltType]);
-//   useEffect(()=>{
-// if(state.bankingDetails.statusCodeForDefaultAccount === 200){
-//   setSelectedAccountType('')
-// }
-//   },[])
+
+  useEffect(()=>{
+if(state.bankingDetails.statusCodeForDefaultAccount === 200){
+  setShowAccountTypeOptions(null); 
+  dispatch({ type: "BANKINGLIST" });
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
+  }, 1000);
+  
+}
+  },[state.bankingDetails.statusCodeForDefaultAccount])
+
+  useEffect(()=>{
+if(state.bankingDetails.statusCodeForAddBankingAmount === 200){
+  handleCloseAddBalance()
+  dispatch({ type: "BANKINGLIST" });
+  setTimeout(() => {  
+    dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
+  }, 1000);
+}
+  },[state.bankingDetails.statusCodeForAddBankingAmount])
+  const handleEditAddBank=(item)=>{
+    console.log("handleEditAddBank",item)
+    setEdit(true);
+    setShowForm(true);
+    setEditAddBank(item)
+    setOpenMenuId(false);
+    
+
+  }
 
   const handleShowForm = () => {
-    
+
+    setEdit(false)
     setShowForm(true);
+    setEditAddBank('')
     console.log("showForm",showForm)
     setOpenMenuId(false);
   };
@@ -113,7 +161,6 @@ setSelectedAccountType(item.setus_default);
   
   const handleEditTrans = () => {
     setEditTransaction(!EditTransaction);
-    // setdotsshowbank(false)
   };
   const handleEditTransForm = () => {
     setEditTransactionForm(true);
@@ -134,11 +181,14 @@ setSelectedAccountType(item.setus_default);
 
   const handleShowAddBalance = (item) => {
     console.log("itemBalance",item)
+    setAddBankName(item.bank_name)
+    setTypeId(item.id)
     setshowAddBalance(true);
     setdotsshowbank(false);
   };
   const handleCloseAddBalance = () => {
     setshowAddBalance(false);
+    setAddBankAmount("")
   };
 
   const handleSearch = () => {
@@ -149,6 +199,15 @@ setSelectedAccountType(item.setus_default);
     setSearch(false);
     // setFilterInput("")
   };
+ const handleAddBankAmount = (e)=>{
+setAddBankAmount(e.target.value)
+ }
+  const handleAddAmountSubmit=()=>{
+    dispatch({
+      type: "ADDBANKAMOUNT",
+      payload: { id:typeId, amount:AddBankAmount},
+    });
+  }
 
   return (
     <div style={{ padding: 10, marginLeft: 10 }}>
@@ -428,7 +487,7 @@ setSelectedAccountType(item.setus_default);
                 >
                   <div
                     className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                    onClick={handleShowForm}
+                    onClick={() => handleEditAddBank(item)}
                   >
                     <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
                     <label
@@ -518,8 +577,8 @@ setSelectedAccountType(item.setus_default);
       <input
         type="radio"
         name={`accountType-${item.id}`}
-        value="1"
-        checked={selectedAccountType === "1"}
+        value={1}
+        checked={selectedAccountType == 1}
         onChange={handleAccountTypeSelection}
       />
       {" "}Credit A/C
@@ -528,8 +587,8 @@ setSelectedAccountType(item.setus_default);
       <input
         type="radio"
         name={`accountType-${item.id}`}
-        value="2"
-        checked={selectedAccountType === "2"}
+        value={2}
+        checked={selectedAccountType == 2}
         onChange={handleAccountTypeSelection}
       />
       {" "}Debit A/C
@@ -538,8 +597,8 @@ setSelectedAccountType(item.setus_default);
       <input
         type="radio"
         name={`accountType-${item.id}`}
-        value="3"
-        checked={selectedAccountType === "3"}
+        value={3}
+        checked={selectedAccountType == 3}
         onChange={handleAccountTypeSelection}
       />
       {" "}Both A/C
@@ -582,7 +641,7 @@ setSelectedAccountType(item.setus_default);
                   color: "black",
                 }}
               >
-                {item.balance}
+               ${item.balance}
               </span>
             )}
           </div>
@@ -1409,33 +1468,36 @@ setSelectedAccountType(item.setus_default);
         </Modal.Header>
         <Modal.Body>
           <div className="col-12" style={{ marginTop: "-30px" }}>
-            <Form.Label
-              style={{
-                fontSize: "0.875rem",
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              Account{" "}
-              <span style={{ color: "red", fontSize: "20px" }}> * </span>
-            </Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              className="border"
-              style={{
-                fontSize: "1rem",
-                color: "#4B4B4B",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                boxShadow: "none",
-                border: "1px solid #D9D9D9",
-                height: "50px",
-                borderRadius: "8px",
-              }}
-            >
-              <option>Select a Account</option>
-            </Form.Select>
+          <Form.Group className="mb-3">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Account{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="Enter amount"
+                  value={AddBankName}
+                  // onChange={(e) => handleAccountName(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
           </div>
 
           <div className="col-12">
@@ -1454,6 +1516,8 @@ setSelectedAccountType(item.setus_default);
               <FormControl
                 type="text"
                 placeholder="Enter Amount"
+                value={AddBankAmount}
+                  onChange={(e) => handleAddBankAmount(e)}
                 style={{
                   fontSize: "1rem",
                   color: "#4B4B4B",
@@ -1480,7 +1544,7 @@ setSelectedAccountType(item.setus_default);
               fontFamily: "Montserrat, sans-serif",
               marginTop: "20px",
             }}
-          >
+         onClick={handleAddAmountSubmit} >
             Add balance
           </Button>
         </Modal.Footer>
@@ -1587,6 +1651,10 @@ setSelectedAccountType(item.setus_default);
           handleShowForm={handleShowForm}
           showForm={showForm}
           setShowForm={setShowForm}
+          editAddBank={editAddBank}
+          setEditAddBank={setEditAddBank}
+          setEdit ={setEdit}
+          edit ={edit}
         />
       ) : null}
     </div>

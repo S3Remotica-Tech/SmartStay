@@ -5,6 +5,9 @@ const initialState = {
   statusCodeForGetBanking: 0,
   defaultAccount: [],
   statusCodeForDefaultAccount: 0,
+  addBankingAmount:[],
+  statusCodeForAddBankingAmount:0
+
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -17,6 +20,16 @@ const BankingReducer = (state = initialState, action) => {
       };
     case "CLEAR_ADD_USER_BANKING":
       return { ...state, statusCodeForAddBanking: 0 };
+
+
+      case "ADD_BANK_AMOUNT":
+        return {
+          ...state,
+          addBankingAmount: action.payload,
+          statusCodeForAddBankingAmount: action.payload.statusCode,
+        };
+      case "CLEAR_ADD_BANK_AMOUNT":
+        return { ...state, statusCodeForAddBankingAmount: 0 };
 
     case "BANKING_LIST":
       return {

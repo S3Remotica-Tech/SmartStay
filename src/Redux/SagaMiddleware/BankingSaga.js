@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AddBankingDetails,GetAddBanking,AddDefaultAccount } from "../Action/BankingAction";
+import { AddBankingDetails,GetAddBanking,AddDefaultAccount,AddBankAmount } from "../Action/BankingAction";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -105,6 +105,51 @@ function* handleDefaultAccount(action) {
       refreshToken(response)
    }
 }
+
+
+
+function* handleAddBankAmount(action) {
+   const response = yield call (AddBankAmount, action.payload);
+
+   var toastStyle = {
+     backgroundColor: "#E6F6E6",
+     color: "black",
+     width: "auto",
+     borderRadius: "60px",
+     height: "20px",
+     fontFamily: "Gilroy",
+     fontWeight: 600,
+     fontSize: 14,
+     textAlign: "start",
+     display: "flex",
+     alignItems: "center", 
+     padding: "10px",
+    
+   };
+
+   console.log("handleAddBankAmount",response)
+   if (response.data.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'ADD_BANK_AMOUNT' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+      toast.success(`${response.data.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+     });
+   }
+
+   else {
+      yield put ({type:'ERROR_ADD_AMOUNT', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
 function refreshToken(response){
    if(response.data && response.data.refresh_token){
       const refreshTokenGet = response.data.refresh_token
@@ -125,6 +170,7 @@ function* CreateBankingSaga() {
    yield takeEvery('ADD_BANKING', handleAddBanking)
    yield takeEvery('BANKINGLIST', handleGetBanking)
    yield takeEvery('DEFAULTACCOUNT', handleDefaultAccount)
+   yield takeEvery('ADDBANKAMOUNT', handleAddBankAmount)
    
 }
 export default CreateBankingSaga;

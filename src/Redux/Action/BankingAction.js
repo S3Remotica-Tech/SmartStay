@@ -17,3 +17,9 @@ export async function AddBankingDetails(datum){
           return await AxiosConfig.post('/add_default_account',datum,{
             data:datum
           })}
+
+          export async function AddBankAmount(datum){
+            console.log("AddBankAmount",datum)
+              return await AxiosConfig.post('/add_bank_amount',datum,{
+                data:datum
+              })}
