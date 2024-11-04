@@ -559,14 +559,24 @@ function Booking(props) {
     } else {
       setFormError("");
     }
+    // let formattedDate = null;
+    // try {
+    //   formattedDate = new Date(joiningDate).toISOString().split("T")[0];
+    // } catch (error) {
+    //   setDateError("date is required.");
+    //   console.error(error);
+    //   return;
+    // }
     let formattedDate = null;
-    try {
-      formattedDate = new Date(joiningDate).toISOString().split("T")[0];
-    } catch (error) {
-      setDateError("date is required.");
-      console.error(error);
-      return;
-    }
+try {
+  let date = new Date(joiningDate);
+  date.setDate(date.getDate() + 1); // Add 1 day
+  formattedDate = date.toISOString().split("T")[0];
+} catch (error) {
+  setDateError("Date is required.");
+  console.error(error);
+  return;
+}
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
 
     dispatch({
