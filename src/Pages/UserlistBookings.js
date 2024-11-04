@@ -32,6 +32,8 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { MdError } from "react-icons/md";
 import { be } from "date-fns/locale";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function Booking(props) {
   const state = useSelector((state) => state);
@@ -43,7 +45,7 @@ function Booking(props) {
   const [customers, setCustomers] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [joiningDate, setJoiningDate] = useState(null);
+  const [joiningDate, setJoiningDate] = useState("");
   const [amount, setAmount] = useState("");
   const [comments, setComments] = useState("");
   const [paying, setPaying] = useState("");
@@ -116,17 +118,18 @@ function Booking(props) {
         joining_date: joiningDate,
       },
     });
-    console.log("itemEdit...///", item);
+    
     setFormEdit(true);
     if (item && item.id) {
       setFirstName(item.first_name || "");
       setLastName(item.last_name || "");
       // setJoiningDate(item.joining_date || "")
       const formattedJoiningDate = item.joining_date
-        ? formatDate(item.joining_date)
-        : "";
-
+        ? new Date(item.joining_date)
+        : null;
+        console.log("itemEdit...///", formattedJoiningDate);
       setJoiningDate(formattedJoiningDate);
+      
       setAmount(item.amount || "");
       setPaying(item.hostel_name || "");
       setFloor(item.floor_name || "");
@@ -795,6 +798,48 @@ function Booking(props) {
       );
     }
     return pageNumbers;
+  };
+
+
+  const customDateInput = (props) => {
+    return (
+      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+        <FormControl
+          type="text"
+          className='date_input'
+          value={props.value || 'DD/MM/YYYY'}
+          readOnly
+          // disabled={edit}
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none"
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: 'translateY(-50%)'
+          }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
+    );
   };
 
   return (
@@ -1713,86 +1758,34 @@ function Booking(props) {
             </Col>
           </Row>
           <Row>
-            <Col md={6}>
-              <Form.Group className="mb-2" controlId="formJoiningDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222",
-                    fontFamily: "'Gilroy'",
-                    fontWeight: 500,
-                  }}
-                >
-                  Joining_Date{" "}
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "20px",
-                    }}
-                  >
-                    *{" "}
-                  </span>
-                </Form.Label>
-
-                <div style={{ position: "relative" }}>
-                  <label
-                    htmlFor="date-input"
-                    style={{
-                      border: "1px solid #D9D9D9",
-                      borderRadius: 8,
-                      padding: 11,
-                      fontSize: 14,
-                      fontWeight: 500,
-                      color: "#222222",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      if (calendarRef.current) {
-                        calendarRef.current.flatpickr.open(); // Open Flatpickr on click
-                      }
-                    }}
-                  >
-                    {/* {selectedDate ? selectedDate : 'YYYY-MM-DD'} Show selectedDate */}
-                    <span>
-                      {joiningDate === "0000-00-00" || !joiningDate
-                        ? "YYYY-MM-DD"
-                        : joiningDate}
-                    </span>
-                    <img
-                      src={Calendars}
-                      style={{
-                        height: 24,
-                        width: 24,
-                        marginLeft: 10,
-                      }}
-                      alt="Calendar"
-                    />
-                  </label>
-
-                  <Flatpickr
-                    ref={calendarRef}
-                    options={{
-                      dateFormat: "Y-m-d",
-                      minDate:null,
-                    }}
-                    value={joiningDate ? new Date(joiningDate) : new Date()}
-                    onChange={(selectedDates) => handleDate(selectedDates)}
-                    style={{
-                      display: "none",
-                    }}
-                  />
-                </div>
-              </Form.Group>
-              {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {dateError}
-                </div>
-              )}
-            </Col>
+          <Col md={6}>
+  <Form.Group className="mb-2" controlId="purchaseDate">
+    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+      Joining_Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+    </Form.Label>
+    <div style={{ position: 'relative', width: "100%" }}>
+      <DatePicker
+        selected={joiningDate instanceof Date ? joiningDate : null}
+        onChange={(date) => {
+          setDateError('');
+          setJoiningDate(date);
+        }}
+        dateFormat="dd/MM/yyyy"
+        minDate={null} 
+        // disabled={edit}
+        customInput={customDateInput({
+          value: joiningDate instanceof Date ? joiningDate.toLocaleDateString('en-GB') : '',
+        })}
+      />
+    </div>
+  </Form.Group>
+  {dateError && (
+    <div style={{ color: "red" }}>
+      <MdError />
+      {dateError}
+    </div>
+  )}
+</Col>
             <Col md={6}>
               <Form.Group className="">
                 <Form.Label
