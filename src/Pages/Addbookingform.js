@@ -369,7 +369,7 @@ function BookingModal(props) {
     let formattedDate = null;
     try {
       let date = new Date(joiningDate);
-      date.setDate(date.getDate() + 1); // Add 1 day
+      date.setDate(date.getDate() + 1); 
       formattedDate = date.toISOString().split("T")[0];
     } catch (error) {
       setDateError("Date is required.");
