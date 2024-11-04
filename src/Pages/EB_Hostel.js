@@ -31,6 +31,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import EBRoomReading from "./EBRoomReading";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import {
   Autobrightness,
@@ -655,6 +657,49 @@ function EB_Hostel() {
     seteleTransactionFilterddata(state.ExpenseList.transactionHistory);
   }, [state.ExpenseList.transactionHistory]);
   const [activeTab, setActiveTab] = useState(1);
+
+
+
+  const customDateInput = (props) => {
+    return (
+      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+        <FormControl
+          type="text"
+          className='date_input'
+          value={props.value || 'DD/MM/YYYY'}
+          readOnly
+          disabled={edit}
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none"
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: 'translateY(-50%)'
+          }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
+    );
+  };
 
   return (
     <div style={{ paddingLeft: 15, marginTop: 8 }}>
@@ -1586,7 +1631,7 @@ function EB_Hostel() {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1655,7 +1700,37 @@ function EB_Hostel() {
                     {dateError}
                   </div>
                 )}
-              </div>
+              </div> */}
+    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <Form.Group className="mb-2" controlId="purchaseDate">
+        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+          Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+        </Form.Label>
+        <div style={{ position: 'relative', width: "100%" }}>
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => {
+              setDateError('');
+              setSelectedDate(date);
+            }}
+            dateFormat="dd/MM/yyyy"
+            minDate={new Date()} 
+            // disabled={edit}
+            customInput={customDateInput({
+              value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
+            })}
+          />
+        </div>
+      </Form.Group>
+      {dateError && (
+        <div style={{ color: "red" }}>
+          <MdError />
+          {dateError}
+        </div>
+      )}
+    </div>
+
+                          
             </div>
           </Modal.Body>
           <Modal.Footer className="d-flex justify-content-center">

@@ -425,8 +425,8 @@ if(checkOutDate){
                     setGeneralError('')
                   }}
                   dateFormat="dd/MM/yyyy"
-                  // maxDate={new Date()}
-                minDate={new Date()}
+                  maxDate={null}
+                minDate={null}
                   customInput={customDateInput({
                     value: checkOutDate instanceof Date ? checkOutDate.toLocaleDateString('en-GB') : '',
                   })}

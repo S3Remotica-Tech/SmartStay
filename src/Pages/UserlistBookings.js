@@ -1776,7 +1776,7 @@ function Booking(props) {
                     ref={calendarRef}
                     options={{
                       dateFormat: "Y-m-d",
-                      minDate: new Date(),
+                      minDate:null,
                     }}
                     value={joiningDate ? new Date(joiningDate) : new Date()}
                     onChange={(selectedDates) => handleDate(selectedDates)}

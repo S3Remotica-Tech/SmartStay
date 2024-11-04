@@ -8,6 +8,8 @@ import { Room, RoomOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import Booking from "./UserlistBookings";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 // const BookingModal = ({
 
@@ -463,6 +465,48 @@ function BookingModal(props) {
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
 
+
+  const customDateInput = (props) => {
+    return (
+      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+        <FormControl
+          type="text"
+          className='date_input'
+          value={props.value || 'DD/MM/YYYY'}
+          readOnly
+          // disabled={edit}
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: 8,
+            padding: 9,
+            fontSize: 14,
+            fontFamily: "Gilroy",
+            fontWeight: props.value ? 600 : 500,
+            width: "100%",
+            height: 50,
+            boxSizing: "border-box",
+            boxShadow: "none"
+          }}
+        />
+        <img
+          src={Calendars}
+          style={{
+            height: 24,
+            width: 24,
+            marginLeft: 10,
+            cursor: "pointer",
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: 'translateY(-50%)'
+          }}
+          alt="Calendar"
+          onClick={props.onClick}
+        />
+      </div>
+    );
+  };
+
   return (
     <Modal
       show={props.show}
@@ -715,7 +759,7 @@ function BookingModal(props) {
 
 
         <Row>
-          <Col md={6}>
+          {/* <Col md={6}>
             <Form.Group className="mb-2" controlId="formJoiningDate">
             <Form.Label
                 style={{
@@ -787,7 +831,36 @@ function BookingModal(props) {
                 {dateError}
               </div>
             )}
-          </Col>
+          </Col> */}
+
+<Col md={6}>
+      <Form.Group className="mb-2" controlId="purchaseDate">
+        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+        Joining_Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+        </Form.Label>
+        <div style={{ position: 'relative', width: "100%" }}>
+          <DatePicker
+            selected={joiningDate}
+            onChange={(date) => {
+              setDateError('');
+              setJoiningDate(date);
+            }}
+            dateFormat="dd/MM/yyyy"
+            minDate={null} 
+            // disabled={edit}
+            customInput={customDateInput({
+              value: joiningDate ? joiningDate.toLocaleDateString('en-GB') : '',
+            })}
+          />
+        </div>
+      </Form.Group>
+      {dateError && (
+        <div style={{ color: "red" }}>
+          <MdError />
+          {dateError}
+        </div>
+      )}
+    </Col>
          
            <Col>
             <Form.Group className="mb-2" controlId="formPaying">

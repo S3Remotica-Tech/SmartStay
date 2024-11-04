@@ -1505,12 +1505,12 @@ function UserlistForm(props) {
                             setSelectedDate(date);
                         }}
                         dateFormat="dd/MM/yyyy"
-                        minDate={new Date()} // Prevent selecting past dates
-                        maxDate={null} // Allow selection of future dates
+                        minDate={null}
+                        maxDate={null} 
                         customInput={customDateInput({
                             value: selectedDate instanceof Date && !isNaN(selectedDate.getTime())
                                 ? selectedDate.toLocaleDateString('en-GB')
-                                : '', // Handle invalid dates
+                                : '', 
                         })}
                     />
                 </div>
