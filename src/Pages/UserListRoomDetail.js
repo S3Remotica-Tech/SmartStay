@@ -48,6 +48,8 @@ import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import { Room } from "@material-ui/icons";
 import { style } from "@mui/system";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -195,7 +197,17 @@ function UserListRoomDetail(props) {
       setBed(item[0].Bed || "");
       setRoomId(item[0].room_id || "");
       setBedId(item[0].hstl_Bed || "");
-      setSelectedDate(item[0].user_join_date || "");
+     
+      const isValidDate = item[0].user_join_date && item[0].user_join_date !== "0000-00-00";
+      const parsedDate = isValidDate ? new Date(item[0].user_join_date) : null;
+
+      if (parsedDate && !isNaN(parsedDate.getTime())) {
+          setSelectedDate(parsedDate);
+      } else {
+          console.warn("Invalid date format for user_join_date");
+          setSelectedDate(""); 
+      }
+      // setSelectedDate(item[0].user_join_date ? new Date(item[0].user_join_date) : "");
       setAdvanceAmount(item[0].AdvanceAmount || "");
       setRoomRent(item[0].RoomRent || "");
       setPaymentType(item[0].PaymentType || "");
@@ -946,6 +958,38 @@ setTimeout(() => {
     }
   },[state.UsersList.statusCodeForAddUser,state.UsersList.Users])
   console.log(" props.userDetails", props.userDetails)
+
+
+  const customDateInput = (props) => {
+    return (
+        <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+            <FormControl
+                type="text"
+                className='date_input'
+                value={props.value || 'DD/MM/YYYY'}
+                readOnly
+                style={{
+                    border: "1px solid #D9D9D9",
+                    borderRadius: 8,
+                    padding: 9,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: props.value ? 600 : 500,
+                    width: "100%",
+                    height: 50,
+                    boxSizing: "border-box",
+                    boxShadow: "none"
+                }}
+            />
+            <img 
+                src={Calendars} 
+                style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }} 
+                alt="Calendar" 
+                onClick={props.onClick} 
+            />
+        </div>
+    );
+};
 
   return (
     <>
@@ -2492,84 +2536,37 @@ setTimeout(() => {
                                     )}
                                   </div>
 
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#222",
-                                        fontFamily: "'Gilroy'",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      Joining_Date{" "}
-                                      <span
-                                        style={{
-                                          color: "red",
-                                          fontSize: "20px",
-                                        }}
-                                      >
-                                        *{" "}
-                                      </span>
-                                    </Form.Label>
+                                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    Joining date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                </Form.Label>
+                <div style={{ position: 'relative', width: "100%" }}>
+                <DatePicker
+    selected={selectedDate}
+    onChange={(date) => {
+        setDateError('');
+        setSelectedDate(date);
+    }}
+    dateFormat="yyyy/MM/dd"
+    minDate={null}
+    maxDate={null} 
+    customInput={customDateInput({
+        value: selectedDate instanceof Date && !isNaN(selectedDate.getTime())
+            ? selectedDate.toLocaleDateString('en-GB')
+            : '', 
+    })}
+/>
+                </div>
+            </Form.Group>
 
-                                    <div style={{ position: "relative" }}>
-                                      <label
-                                        htmlFor="date-input"
-                                        style={{
-                                          border: "1px solid #D9D9D9",
-                                          borderRadius: 8,
-                                          padding: 11,
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                          color: "#222222",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          justifyContent: "space-between",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={() => {
-                                          if (calendarRef.current) {
-                                            calendarRef.current.flatpickr.open(); 
-                                          }
-                                        }}
-                                      >
-                                       
-                                        <span>
-                                          {selectedDate === "0000-00-00" ||
-                                          !selectedDate
-                                            ? "YYYY-MM-DD"
-                                            : selectedDate}
-                                        </span>
-                                        <img
-                                          src={Calendars}
-                                          style={{
-                                            height: 24,
-                                            width: 24,
-                                            marginLeft: 10,
-                                          }}
-                                          alt="Calendar"
-                                        />
-                                      </label>
-
-                                    
-                                       <Flatpickr
-      ref={calendarRef}
-      options={options} 
-      value={selectedDate ? new Date(selectedDate) : new Date()}
-      onChange={(selectedDates) => handleDate(selectedDates)}
-      style={{
-        display: "none",
-      }}
-    />
-                                    </div>
-
-                                    {dateError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
-                                        {dateError}
-                                      </div>
-                                    )}
-                                  </div>
+            {dateError && (
+                <div style={{ color: "red" }}>
+                    <MdError />
+                    {dateError}
+                </div>
+            )}
+        </div>
 
                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <Form.Group className="">
