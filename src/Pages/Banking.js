@@ -532,32 +532,57 @@ setAddBankAmount(e.target.value)
             </p>
 
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <p
-                className="text-muted mb-0"
-                style={{
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  color: "#4B4B4B",
-                }}
-              >
-                Default A/C
-              </p>
-              <a
-                href="#"
-                onClick={() => handleAccountTypeChange(item)}
-                className="text-primary"
-                style={{
-                  textAlign: "end",
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                }}
-              >
-                Change
-              </a>
-            </div>
+  <div>
+    <p
+      className="text-muted mb-0"
+      style={{
+        fontSize: 14,
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        color: "#4B4B4B",
+      }}
+    >
+      {item.setus_default === 1
+        ? "Default Credit A/C"
+        : item.setus_default === 2
+        ? "Default Debit A/C"
+        : item.setus_default === 3
+        ? "Default Both A/C"
+        : ""}
+    </p>
+
+    {item.setus_default === 0 && (
+      <p
+        style={{
+          color: "#007bff",
+          cursor: "pointer",
+          marginBottom: 0,
+          fontSize:14,
+          fontWeight:600,
+          fontFamily:"Gilroy"
+        }}
+        onClick={() => handleAccountTypeChange(item)}
+      >
+        Set as default account
+      </p>
+    )}
+  </div>
+
+  <a
+    href="#"
+    onClick={() => handleAccountTypeChange(item)}
+    className="text-primary"
+    style={{
+      textAlign: "end",
+      fontSize: 14,
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      textDecoration: "none",
+    }}
+  >
+    Change
+  </a>
+</div>
   {showAccountTypeOptions === item.id && (
   <div
     style={{
