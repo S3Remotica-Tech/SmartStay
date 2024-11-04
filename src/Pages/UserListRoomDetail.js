@@ -112,8 +112,8 @@ function UserListRoomDetail(props) {
   };
   const options = {
     dateFormat: "Y/m/d",
-    maxDate: null, // Removes the upper limit
-    minDate: new Date(), // Disable past dates, only allow today and future dates
+    maxDate: null, 
+    minDate:null, 
   };
   useEffect(() => {
     if (calendarRef.current) {
