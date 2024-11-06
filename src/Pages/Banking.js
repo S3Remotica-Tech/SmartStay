@@ -20,6 +20,7 @@ import BankingEditTransaction from "./BankingTransaction";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
+import money from "../Assets/Images/New_images/Group 1261154824.png";
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -656,7 +657,7 @@ function Banking() {
                         style={{
                           fontSize: 14,
                           fontFamily: "Gilroy",
-                          fontWeight: 600,
+                          fontWeight: 500,
                           color: "#4B4B4B",
                         }}
                       >
@@ -759,10 +760,10 @@ function Banking() {
                     style={{
                       fontSize: 14,
                       fontFamily: "Gilroy",
-                      fontWeight: 600,
+                      fontWeight: 500,
                     }}
                   >
-                    Balance
+                   <img src={money} width={18} height={18} style={{marginTop:"-5px"}}/> Balance
                   </span>
                   {item.balance === 0 ||
                   item.balance === "" ||
@@ -790,7 +791,7 @@ function Banking() {
                         color: "black",
                       }}
                     >
-                      ${item.balance}
+                      ₹{item.balance}
                     </span>
                   )}
                 </div>
@@ -1049,7 +1050,7 @@ function Banking() {
                      border: "none",
                      textAlign: "start",
                      fontSize: "16px",
-                     fontWeight: 500,
+                     fontWeight: 600,
                      fontFamily: "Gilroy",
                      paddingTop: 15,
                    }}
