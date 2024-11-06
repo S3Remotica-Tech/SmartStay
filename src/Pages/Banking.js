@@ -662,11 +662,11 @@ function Banking() {
                         }}
                       >
                         {item.setus_default === 1
-                          ? "Default Credit A/C"
+                          ? "Default:Credit A/C"
                           : item.setus_default === 2
-                          ? "Default Debit A/C"
+                          ? "Default:Debit A/C"
                           : item.setus_default === 3
-                          ? "Default Both A/C"
+                          ? "Default:Both A/C"
                           : ""}
                       </p>
 
