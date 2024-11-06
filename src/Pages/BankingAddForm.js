@@ -17,26 +17,38 @@ function BankingAddForm(props) {
   const [description, setDescription] = useState("");
   const[bankId,setBankId]=useState("")
   const [error, setError] = useState("");
+  const [accountNameError, setaccountnameError] = useState("");
+  const [accountNumberError, setaccountNumberError] = useState("");
+  const [bankNameError, setBankNameError] = useState("");
+  const [ifcsCodeError, setIfcsCodeError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+
+
 
   const handleAccountName = (e) => {
     setAccountName(e.target.value);
     setError("")
+    setaccountnameError("")
   };
   const handleAccountNo = (e) => {
     setAccountNo(e.target.value);
     setError("")
+    setaccountNumberError("")
   };
   const handleBankName = (e) => {
     setBankName(e.target.value);
     setError("")
+    setBankNameError("")
   };
   const handleIfscCode = (e) => {
     setIfscCode(e.target.value);
     setError("")
+    setIfcsCodeError("")
   };
   const handleDescription = (e) => {
     setDescription(e.target.value);
     setError("")
+    setDescriptionError("")
   };
 
 
@@ -75,6 +87,12 @@ useEffect(()=>{
     setIfscCode("")
     setDescription("")
     setError("")
+    setaccountNumberError("")
+    setaccountnameError("")
+    setIfcsCodeError("")
+    setDescriptionError("")
+    setBankNameError("")
+
 
   };
   const [initialStateAssign, setInitialStateAssign] = useState({
@@ -84,7 +102,42 @@ useEffect(()=>{
     ifscCode: "",
     description: "",
   });
+
+
+  const validateField = (value, fieldName) => {
+    if (!value || (typeof value === "string" && value.trim() === "")) {
+      switch (fieldName) {
+        case "accountName":
+          setaccountnameError("Account Name is required");
+          break;
+        case "accountNo":
+          setaccountNumberError("Account No is required");
+          break;
+        case "bankName":
+          setBankNameError("Bank Name is required");
+          break;
+        case "ifscCode":
+          setIfcsCodeError("IFSC Code is required");
+          break;
+        case "description":
+          setDescriptionError("Description is required");
+          break;
+        default:
+          break;
+      }
+      return false;
+    }
+    return true;
+  };
   const handleSubmitBank = () => {
+    if (!validateField(accountName, "accountName"));
+    if (!validateField(accountNo, "accountNo"));
+
+    if (!validateField(bankName, "bankName"));
+    if (!validateField(ifscCode, "ifscCode"));
+    if (!validateField(description, "description"));
+
+    
     if (props.edit) {
       const isChanged = 
         accountName !== initialStateAssign.accountName ||
@@ -231,12 +284,12 @@ useEffect(()=>{
                   }}
                 />
               </Form.Group>
-              {/* {endMeterError && (
+              {accountNameError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {endMeterError}
+                    {accountNameError}
                   </div>
-                )} */}
+                )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -270,12 +323,12 @@ useEffect(()=>{
                   }}
                 />
               </Form.Group>
-              {/* {endMeterError && (
+              {accountNumberError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {endMeterError}
+                    {accountNumberError}
                   </div>
-                )} */}
+                )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -308,12 +361,12 @@ useEffect(()=>{
                   }}
                 />
               </Form.Group>
-              {/* {endMeterError && (
+              {bankNameError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {endMeterError}
+                    {bankNameError}
                   </div>
-                )} */}
+                )}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -347,12 +400,12 @@ useEffect(()=>{
                   }}
                 />
               </Form.Group>
-              {/* {endMeterError && (
+              {ifcsCodeError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {endMeterError}
+                    {ifcsCodeError}
                   </div>
-                )} */}
+                )}
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -385,12 +438,12 @@ useEffect(()=>{
                   }}
                 />
               </Form.Group>
-              {/* {endMeterError && (
+              {descriptionError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {endMeterError}
+                    {descriptionError}
                   </div>
-                )} */}
+                )}
             </div>
           </div>
         </Modal.Body>

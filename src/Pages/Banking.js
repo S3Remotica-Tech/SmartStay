@@ -18,13 +18,16 @@ import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import Modal from "react-bootstrap/Modal";
 import BankingEditTransaction from "./BankingTransaction";
 import { useDispatch, useSelector } from "react-redux";
+import emptyimg from "../Assets/Images/New_images/empty_image.png";
+import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
 
 function Banking() {
   const state = useSelector((state) => state);
-  console.log("state-for-banking",state)
+  console.log("state-for-banking", state);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const editRef = useRef(null);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [dotsshowbank, setdotsshowbank] = useState(false);
@@ -32,163 +35,190 @@ function Banking() {
   const [typeId, setTypeId] = useState(null);
   const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
   const [showAddBalance, setshowAddBalance] = useState(false);
-  const [defaltType,setDefaultType]= useState('')
-  console.log("defaltType",defaltType)
+  const [defaltType, setDefaultType] = useState("");
+  console.log("defaltType", defaltType);
   const [selectedAccountType, setSelectedAccountType] = useState("");
-  console.log("selectedAccountTypeass",selectedAccountType);
-  
-  const [EditTransaction, setEditTransaction] = useState(false);
+  console.log("selectedAccountTypeass", selectedAccountType);
+
+  const [EditTransaction, setEditTransaction] = useState(null);
   const [EditTransactionForm, setEditTransactionForm] = useState(false);
   const [deleteTransactionForm, setDeleteTransactionForm] = useState(false);
   const [openMenuId, setOpenMenuId] = useState(null);
-  const [changeAmount, setchangeAmount] = useState('');
-  const [editAddBank, setEditAddBank] = useState('');
+  const [changeAmount, setchangeAmount] = useState("");
+  const [editAddBank, setEditAddBank] = useState("");
   const [edit, setEdit] = useState(false);
-  const[AddBankName,setAddBankName] = useState("")
-  const[AddBankAmount,setAddBankAmount] = useState("")
+  const [AddBankName, setAddBankName] = useState("");
+  const [AddBankAmount, setAddBankAmount] = useState("");
+  const [updateTransaction,setUpdateTransaction] = useState("")
+  const [deleteBankId,setDeleteBankId]=useState("")
+  const[trnseId,setDeleteTransId] =useState("")
 
- 
- 
-  
-
-
-
-
-  useEffect(()=>{
+  useEffect(() => {
+    // setLoading(true);
     dispatch({ type: "BANKINGLIST" });
-  },[])
-
- 
+  }, []);
 
   const handleShowDots = (id) => {
     if (openMenuId === id) {
-      setOpenMenuId(null); 
+      setOpenMenuId(null);
     } else {
       setOpenMenuId(id);
     }
     // setSearch(false);
   };
 
-
   const handleAccountTypeChange = (item) => {
     console.log("item123", item);
-    
+
     setTypeId(item.id);
-    // const defaultType = item.setus_default !== null ? item.setus_default : 3; 
+    // const defaultType = item.setus_default !== null ? item.setus_default : 3;
     const defaultType = item.setus_default ? item.setus_default : 3;
     setDefaultType(defaultType);
-    setSelectedAccountType(defaultType); 
-    setShowAccountTypeOptions((prevId) => (prevId === item.id ? null : item.id));
+    setSelectedAccountType(defaultType);
+    setShowAccountTypeOptions((prevId) =>
+      prevId === item.id ? null : item.id
+    );
   };
-//   const handleAccountTypeChange = (item) => {
-//     console.log("item123",item)
-//     // setShowAccountTypeOptions((prevId) => (prevId === item.id ? null : item.id));
-//     // setchangeAmount(item.id)
-
-// setTypeId(item.id)
-// setDefaultType(item.setus_default)
-// setSelectedAccountType(item.setus_default);
-// // setShowAccountTypeOptions(prevId => (prevId === item.id ? null : item.id));
-//     if (showAccountTypeOptions === item.id) {
-//       setShowAccountTypeOptions(null); 
-//     } else {
-//       setShowAccountTypeOptions(item.id);
-//     }
-//   };
-  
-const handleAccountTypeSelection = (e) => {
-  const selectedValue = parseInt(e.target.value); // Ensure we're using a number
-  setSelectedAccountType(selectedValue);
-  dispatch({
-    type: "DEFAULTACCOUNT",
-    payload: { id: typeId, type: selectedValue },
-  });
-};
+ 
+  const handleAccountTypeSelection = (e) => {
+    const selectedValue = parseInt(e.target.value); // Ensure we're using a number
+    setSelectedAccountType(selectedValue);
+    dispatch({
+      type: "DEFAULTACCOUNT",
+      payload: { id: typeId, type: selectedValue },
+    });
+  };
   useEffect(() => {
     if (showAccountTypeOptions !== null) {
       setSelectedAccountType(defaltType); // Set the selectedAccountType to the default
     }
   }, [showAccountTypeOptions, defaltType]);
 
-  useEffect(()=>{
-if(state.bankingDetails.statusCodeForDefaultAccount === 200){
-  setShowAccountTypeOptions(null); 
-  dispatch({ type: "BANKINGLIST" });
-  setTimeout(() => {
-    dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
-  }, 1000);
-  
-}
-  },[state.bankingDetails.statusCodeForDefaultAccount])
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
+      // setLoading(false);
+      setShowAccountTypeOptions(null);
+      dispatch({ type: "BANKINGLIST" });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
+      }, 1000);
+    }
+  }, [state.bankingDetails.statusCodeForDefaultAccount]);
 
-  useEffect(()=>{
-if(state.bankingDetails.statusCodeForAddBankingAmount === 200){
-  handleCloseAddBalance()
-  dispatch({ type: "BANKINGLIST" });
-  setTimeout(() => {  
-    dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
-  }, 1000);
-}
-  },[state.bankingDetails.statusCodeForAddBankingAmount])
-  const handleEditAddBank=(item)=>{
-    console.log("handleEditAddBank",item)
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
+      // setLoading(false);
+      handleCloseAddBalance();
+      dispatch({ type: "BANKINGLIST" });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
+      }, 1000);
+    }
+  }, [state.bankingDetails.statusCodeForAddBankingAmount]);
+  const handleEditAddBank = (item) => {
+    console.log("handleEditAddBank", item);
     setEdit(true);
     setShowForm(true);
-    setEditAddBank(item)
-    setOpenMenuId(false);
-    
-
-  }
-
-  const handleShowForm = () => {
-
-    setEdit(false)
-    setShowForm(true);
-    setEditAddBank('')
-    console.log("showForm",showForm)
+    setEditAddBank(item);
     setOpenMenuId(false);
   };
-  const handleDeleteForm = () => {
+
+  const handleShowForm = () => {
+    setEdit(false);
+    setShowForm(true);
+    setEditAddBank("");
+    console.log("showForm", showForm);
+    setOpenMenuId(false);
+  };
+  const handleDeleteForm = (v) => {
+    console.log("Delete,",v)
+    setDeleteBankId(v.id)
     setDeleteShow(true);
     setdotsshowbank(false);
     setOpenMenuId(false);
   };
+  const handleDeleteBank=()=>{
+    dispatch({
+      type: "DELETEBANKDETAILS",
+      payload: { id:deleteBankId},
+    });
+  }
+  useEffect(()=>{
+    if(state.bankingDetails.statusCodeDeleteBank === 200){
+      handleCloseDelete()
+      dispatch({ type: "BANKINGLIST" });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_BANKING" });
+      }, 1000);
+    }
+  },[state.bankingDetails.statusCodeDeleteBank])
+  
   const handleCloseDelete = () => {
     setDeleteShow(false);
     setdotsshowbank(false);
   };
-  
-  
-  const handleEditTrans = () => {
-    setEditTransaction(!EditTransaction);
-  };
-  const handleEditTransForm = () => {
-    setEditTransactionForm(true);
-    console.log("EditTransactionForm",EditTransactionForm)
-    setEditTransaction(false)
-    setDeleteTransactionForm(false)
 
+  const handleEditTrans = (id) => {
+    setEditTransaction((prevId) => (prevId === id ? null : id));
   };
-  const handleCloseTransactionDelete=()=>{
-    setDeleteTransactionForm(false)
-  }
-  const handleDeleteTransForm = () => {
-    setDeleteTransactionForm(true)
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setEditTransaction(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleEditTransForm = (item) => {
+    console.log("handleEditTransForm",item)
+    setUpdateTransaction(item)
+    setEditTransactionForm(true);
+    console.log("EditTransactionForm", EditTransactionForm);
+    setEditTransaction(false);
+    setDeleteTransactionForm(false);
+  };
+  const handleCloseTransactionDelete = () => {
+    setDeleteTransactionForm(false);
+  };
+  const handleDeleteTransForm = (u) => {
+    console.log("deletetrans",u)
+    setDeleteTransId(u.id)
+    setDeleteTransactionForm(true);
     setEditTransactionForm(false);
-    console.log("deleteTransactionForm",deleteTransactionForm)
-    setEditTransaction(false)
+    console.log("deleteTransactionForm", deleteTransactionForm);
+    setEditTransaction(false);
+  };
+  const handleDeleteTransSubmit=()=>{
+    dispatch({
+      type: "DELETEBANKTRANSACTIONS",
+      payload: { id:trnseId},
+    });
   }
+  useEffect(()=>{
+    if(state.bankingDetails.statusCodeForDeleteTrans === 200){
+      handleCloseTransactionDelete()
+      dispatch({ type: "BANKINGLIST" });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_BANKING_TRANSACTION" });
+      }, 1000);
+    }
+  },[state.bankingDetails.statusCodeForDeleteTrans])
 
   const handleShowAddBalance = (item) => {
-    console.log("itemBalance",item)
-    setAddBankName(item.bank_name)
-    setTypeId(item.id)
+    console.log("itemBalance", item);
+    setAddBankName(item.bank_name);
+    setTypeId(item.id);
     setshowAddBalance(true);
     setdotsshowbank(false);
   };
   const handleCloseAddBalance = () => {
     setshowAddBalance(false);
-    setAddBankAmount("")
+    setAddBankAmount("");
   };
 
   const handleSearch = () => {
@@ -199,15 +229,90 @@ if(state.bankingDetails.statusCodeForAddBankingAmount === 200){
     setSearch(false);
     // setFilterInput("")
   };
- const handleAddBankAmount = (e)=>{
-setAddBankAmount(e.target.value)
- }
-  const handleAddAmountSubmit=()=>{
+  const handleAddBankAmount = (e) => {
+    setAddBankAmount(e.target.value);
+  };
+  const handleAddAmountSubmit = () => {
     dispatch({
       type: "ADDBANKAMOUNT",
-      payload: { id:typeId, amount:AddBankAmount},
+      payload: { id: typeId, amount: AddBankAmount },
     });
-  }
+  };
+
+
+
+  const transactionrowsPerPage = 5;
+  const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
+  const [transactionFilterddata, settransactionFilterddata] = useState([]);
+  const indexOfLastRowTransaction = transactioncurrentPage * transactionrowsPerPage;
+  const indexOfFirstRowTransaction = indexOfLastRowTransaction - transactionrowsPerPage;
+  const currentRowTransaction = transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
+
+
+  const handleTransactionPageChange = (transactionpageNumber) => {
+    settransactioncurrentPage(transactionpageNumber);
+  };
+
+
+  const totalPagesTransaction = Math.ceil(transactionFilterddata?.length / transactionrowsPerPage);
+
+  const renderPageNumbersTransaction = () => {
+    const pageNumbersTransaction = [];
+    let startPageTransaction = transactioncurrentPage - 1;
+    let endPageTransaction = transactioncurrentPage + 1;
+
+    if (transactioncurrentPage === 1) {
+      startPageTransaction = 1;
+      endPageTransaction = 3;
+    }
+
+    if (transactioncurrentPage === totalPagesTransaction) {
+      startPageTransaction = totalPagesTransaction - 2;
+      endPageTransaction = totalPagesTransaction;
+    }
+
+    if (transactioncurrentPage === 2) {
+      startPageTransaction = 1;
+      endPageTransaction = 3;
+    }
+
+    if (transactioncurrentPage === totalPagesTransaction - 1) {
+      startPageTransaction = totalPagesTransaction - 2;
+      endPageTransaction = totalPagesTransaction;
+    }
+
+    for (let i = startPageTransaction; i <= endPageTransaction; i++) {
+      if (i > 0 && i <= totalPagesTransaction) {
+        pageNumbersTransaction.push(
+          <li key={i} style={{ margin: '0 5px' }}>
+            <button
+              style={{
+                padding: '5px 10px',
+                textDecoration: 'none',
+                color: i === transactioncurrentPage ? '#007bff' : '#000000',
+                cursor: 'pointer',
+                borderRadius: '5px',
+                display: 'inline-block',
+                minWidth: '30px',
+                textAlign: 'center',
+                backgroundColor: i === transactioncurrentPage ? 'transparent' : 'transparent',
+                border: i === transactioncurrentPage ? '1px solid #ddd' : 'none'
+              }}
+              onClick={() => handleTransactionPageChange(i)}
+            >
+              {i}
+            </button>
+          </li>
+        );
+      }
+    }
+
+    return pageNumbersTransaction;
+  };
+
+  useEffect(() => {
+    settransactionFilterddata(state?.bankingDetails?.bankingList?.bank_trans)
+  }, [state?.bankingDetails?.bankingList?.bank_trans])
 
   return (
     <div style={{ padding: 10, marginLeft: 10 }}>
@@ -415,947 +520,862 @@ setAddBankAmount(e.target.value)
           )}
         </div>
       )} */}
-     
-     <div className="d-flex overflow-auto">
-  {state?.bankingDetails?.bankingList?.banks?.length > 0 ? (
-    state.bankingDetails.bankingList.banks.map((item) => {
-      return (
-        <div
-          key={item.id}
-          className="card mx-2"
-          style={{
-            minWidth: "280px",
-            borderRadius: "12px",
-            overflow: "visible",
-            height: 187,
-            position: "relative",
-          }}
-        >
-          {/* Card Body */}
-          <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <p
-                  className="mb-0"
-                  style={{
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                  }}
-                >
-                  {item.bank_name}
-                </p>
-                <p
-                  className="text-muted mb-0"
-                  style={{
-                    fontSize: 12,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    color: "#4B4B4B",
-                  }}
-                >
-                  Savings A/C
-                </p>
-              </div>
-              <img
-                src={more}
-                width={20}
-                height={20}
-                onClick={() => handleShowDots(item.id)}
-                alt="More options"
-                style={{ cursor: "pointer" }}
-              />
-              {openMenuId === item.id && (
-                <div
-                  ref={popupRef}
-                  style={{
-                    cursor: "pointer",
-                    backgroundColor: "#F9F9F9",
-                    position: "absolute",
-                    right: 10,
-                    top: 60,
-                    width: 160,
-                    height: 70,
-                    border: "1px solid #EBEBEB",
-                    borderRadius: 10,
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: 10,
-                    alignItems: "start",
-                    zIndex: 9999,
-                  }}
-                >
-                  <div
-                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                    onClick={() => handleEditAddBank(item)}
+
+      <div className="d-flex overflow-auto">
+        {state?.bankingDetails?.bankingList?.banks?.length > 0 ? (
+          state.bankingDetails.bankingList.banks.map((item) => {
+            return (
+              <div
+                key={item.id}
+                className="card mx-2"
+                style={{
+                  minWidth: "280px",
+                  borderRadius: "12px",
+                  overflow: "visible",
+                  height: 187,
+                  position: "relative",
+                }}
+              >
+                {/* Card Body */}
+                <div className="card-body">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <p
+                        className="mb-0"
+                        style={{
+                          fontSize: 14,
+                          fontFamily: "Gilroy",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {item.bank_name}
+                      </p>
+                      <p
+                        className="text-muted mb-0"
+                        style={{
+                          fontSize: 12,
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          color: "#4B4B4B",
+                        }}
+                      >
+                        Savings A/C
+                      </p>
+                    </div>
+                    <img
+                      src={more}
+                      width={20}
+                      height={20}
+                      onClick={() => handleShowDots(item.id)}
+                      alt="More options"
+                      style={{ cursor: "pointer" }}
+                    />
+                    {openMenuId === item.id && (
+                      <div
+                        ref={popupRef}
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor: "#F9F9F9",
+                          position: "absolute",
+                          right: 10,
+                          top: 60,
+                          width: 160,
+                          height: 70,
+                          border: "1px solid #EBEBEB",
+                          borderRadius: 10,
+                          display: "flex",
+                          flexDirection: "column",
+                          padding: 10,
+                          alignItems: "start",
+                          zIndex: 9999,
+                        }}
+                      >
+                        <div
+                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                          onClick={() => handleEditAddBank(item)}
+                        >
+                          <img
+                            src={Edit}
+                            style={{ height: 16, width: 16 }}
+                            alt="Edit"
+                          />
+                          <label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy, sans-serif",
+                              color: "#000000",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Edit
+                          </label>
+                        </div>
+                        <div
+                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                          // onClick={handleDeleteForm}
+                          onClick={() => handleDeleteForm(item)}
+                        >
+                          <img
+                            src={Delete}
+                            style={{ height: 16, width: 16 }}
+                            alt="Delete"
+                          />
+                          <label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy, sans-serif",
+                              color: "#FF0000",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Delete
+                          </label>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Additional Card Details */}
+                  <p
+                    className="mt-3"
+                    style={{
+                      fontSize: 20,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
                   >
-                    <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
-                    <label
+                    {item.acc_num}
+                  </p>
+
+                  <div className="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                      <p
+                        className="text-muted mb-0"
+                        style={{
+                          fontSize: 14,
+                          fontFamily: "Gilroy",
+                          fontWeight: 600,
+                          color: "#4B4B4B",
+                        }}
+                      >
+                        {item.setus_default === 1
+                          ? "Default Credit A/C"
+                          : item.setus_default === 2
+                          ? "Default Debit A/C"
+                          : item.setus_default === 3
+                          ? "Default Both A/C"
+                          : ""}
+                      </p>
+
+                      {item.setus_default === 0 && (
+                        <p
+                          style={{
+                            color: "#007bff",
+                            cursor: "pointer",
+                            marginBottom: 0,
+                            fontSize: 14,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                          }}
+                          onClick={() => handleAccountTypeChange(item)}
+                        >
+                          Set as default account
+                        </p>
+                      )}
+                    </div>
+
+                    <a
+                      href="#"
+                      onClick={() => handleAccountTypeChange(item)}
+                      className="text-primary"
                       style={{
+                        textAlign: "end",
                         fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy, sans-serif",
-                        color: "#000000",
-                        cursor: "pointer",
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        textDecoration: "none",
                       }}
                     >
-                      Edit
-                    </label>
+                      Change
+                    </a>
                   </div>
-                  <div
-                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                    onClick={handleDeleteForm}
-                  >
-                    <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" />
-                    <label
+                  {showAccountTypeOptions === item.id && (
+                    <div
                       style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy, sans-serif",
-                        color: "#FF0000",
-                        cursor: "pointer",
+                        position: "absolute",
+                        top: 70,
+                        left: 50,
+                        backgroundColor: "#FFFFFF",
+                        border: "1px solid #EBEBEB",
+                        borderRadius: "10px",
+                        padding: "10px",
+                        zIndex: 1000,
+                        width: 150,
+                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
                       }}
                     >
-                      Delete
-                    </label>
-                  </div>
+                      <label style={{ display: "block", marginBottom: "5px" }}>
+                        <input
+                          type="radio"
+                          name={`accountType-${item.id}`}
+                          value={1}
+                          checked={selectedAccountType == 1}
+                          onChange={handleAccountTypeSelection}
+                        />{" "}
+                        Credit A/C
+                      </label>
+                      <label style={{ display: "block", marginBottom: "5px" }}>
+                        <input
+                          type="radio"
+                          name={`accountType-${item.id}`}
+                          value={2}
+                          checked={selectedAccountType == 2}
+                          onChange={handleAccountTypeSelection}
+                        />{" "}
+                        Debit A/C
+                      </label>
+                      <label style={{ display: "block", marginBottom: "5px" }}>
+                        <input
+                          type="radio"
+                          name={`accountType-${item.id}`}
+                          value={3}
+                          checked={selectedAccountType == 3}
+                          onChange={handleAccountTypeSelection}
+                        />{" "}
+                        Both A/C
+                      </label>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
 
-            {/* Additional Card Details */}
-            <p
-              className="mt-3"
-              style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 500 }}
-            >
-              {item.acc_num}
-            </p>
-
-            <div className="d-flex justify-content-between align-items-center mb-2">
-  <div>
-    <p
-      className="text-muted mb-0"
-      style={{
-        fontSize: 14,
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        color: "#4B4B4B",
-      }}
-    >
-      {item.setus_default === 1
-        ? "Default Credit A/C"
-        : item.setus_default === 2
-        ? "Default Debit A/C"
-        : item.setus_default === 3
-        ? "Default Both A/C"
-        : ""}
-    </p>
-
-    {item.setus_default === 0 && (
-      <p
-        style={{
-          color: "#007bff",
-          cursor: "pointer",
-          marginBottom: 0,
-          fontSize:14,
-          fontWeight:600,
-          fontFamily:"Gilroy"
-        }}
-        onClick={() => handleAccountTypeChange(item)}
-      >
-        Set as default account
-      </p>
-    )}
-  </div>
-
-  <a
-    href="#"
-    onClick={() => handleAccountTypeChange(item)}
-    className="text-primary"
-    style={{
-      textAlign: "end",
-      fontSize: 14,
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      textDecoration: "none",
-    }}
-  >
-    Change
-  </a>
-</div>
-  {showAccountTypeOptions === item.id && (
-  <div
-    style={{
-      position: "absolute",
-      top: 70,
-      left: 50,
-      backgroundColor: "#FFFFFF",
-      border: "1px solid #EBEBEB",
-      borderRadius: "10px",
-      padding: "10px",
-      zIndex: 1000,
-      width: 150,
-      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-    }}
-  >
-    <label style={{ display: "block", marginBottom: "5px" }}>
-      <input
-        type="radio"
-        name={`accountType-${item.id}`}
-        value={1}
-        checked={selectedAccountType == 1}
-        onChange={handleAccountTypeSelection}
-      />
-      {" "}Credit A/C
-    </label>
-    <label style={{ display: "block", marginBottom: "5px" }}>
-      <input
-        type="radio"
-        name={`accountType-${item.id}`}
-        value={2}
-        checked={selectedAccountType == 2}
-        onChange={handleAccountTypeSelection}
-      />
-      {" "}Debit A/C
-    </label>
-    <label style={{ display: "block", marginBottom: "5px" }}>
-      <input
-        type="radio"
-        name={`accountType-${item.id}`}
-        value={3}
-        checked={selectedAccountType == 3}
-        onChange={handleAccountTypeSelection}
-      />
-      {" "}Both A/C
-    </label>
-  </div>
-)}
-          </div>
-
-          {/* Card Footer */}
+                {/* Card Footer */}
+                <div
+                  className="card-footer d-flex justify-content-between align-items-center"
+                  style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
+                >
+                  <span
+                    style={{
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Balance
+                  </span>
+                  {item.balance === 0 ||
+                  item.balance === "" ||
+                  item.balance === null ? (
+                    <a
+                      href="#"
+                      className="text-primary"
+                      style={{
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        color: "blue",
+                        textDecoration: "none",
+                      }}
+                      onClick={() => handleShowAddBalance(item)}
+                    >
+                      +Add Amount
+                    </a>
+                  ) : (
+                    <span
+                      style={{
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        color: "black",
+                      }}
+                    >
+                      ${item.balance}
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })
+        ) : (
           <div
-            className="card-footer d-flex justify-content-between align-items-center"
-            style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
+            className="card mx-2"
+            style={{
+              minWidth: "280px",
+              borderRadius: "12px",
+              overflow: "visible",
+              height: 187,
+            }}
           >
-            <span
-              style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}
-            >
-              Balance
-            </span>
-            {item.balance === 0 || item.balance === '' || item.balance === null ? (
-              <a
-                href="#"
-                className="text-primary"
-                style={{
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  color: "blue",
-                  textDecoration: "none",
-                }}
-                onClick={()=>handleShowAddBalance(item)}
-              >
-                +Add Amount
-              </a>
-            ) : (
-              <span
-                style={{
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  color: "black",
-                }}
-              >
-               ${item.balance}
-              </span>
-            )}
-          </div>
+            {/* Card Body */}
+            <div className="card-body">
+            <div>
+        <div style={{ textAlign: "center" }}>
+          <img
+            src={emptyimg}
+            width={50}
+            height={50}
+            alt="emptystate"
+          />
         </div>
-      );
-    })
-  ) : (
-    <div className="card mx-2" style={{ minWidth: "280px", borderRadius: "12px", overflow: "visible", height: 187 }}>
-      {/* Card Body */}
-      <div className="card-body">
-        {/* Default content if no banks are available */}
-      </div>
-    </div>
-  )}
-</div>
-
-
-
-       
-
-      
-
-      <div style={{ position: "relative", marginTop: 30 }}>
-     
-        <Table
-          responsive="md"
-          className="Table_Design"
+        <div
+          className="pb-1"
           style={{
-            height: "auto",
-            overflow: "visible",
-            tableLayout: "auto",
-            borderRadius: "24px",
-            border: "1px solid #DCDCDC",
+            textAlign: "center",
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+            fontSize: 20,
+            color: "rgba(75, 75, 75, 1)",
           }}
         >
-          <thead
-            style={{
-              backgroundColor: "#E7F1FF",
-              zIndex: 1,
-              position: "sticky",
-              top: 0,
-            }}
-          >
-            <tr>
-              <th
-                style={{
-                  textAlign: "center",
-                  fontFamily: "Gilroy",
-                  color: "rgba(34, 34, 34, 1)",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  borderTopLeftRadius: 24,
-                }}
-              >
-                <img src={squre} height={20} width={20} />
-              </th>
-              <th
-                style={{
-                  textAlign: "start",
-                  padding: "10px",
-                  color: "#939393",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                Account Name
-              </th>
-              <th
-                style={{
-                  textAlign: "start",
-                  padding: "10px",
-                  color: "#939393",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                Date
-              </th>
-              <th
-                style={{
-                  textAlign: "start",
-                  padding: "10px",
-                  color: "#939393",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                Amount
-              </th>
-              <th
-                style={{
-                  textAlign: "start",
-                  padding: "10px",
-                  color: "#939393",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                Description
-              </th>
-
-              <th
-                style={{
-                  textAlign: "start",
-                  padding: "10px",
-                  color: "#939393",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                Transaction
-              </th>
-              <th
-                style={{
-                  textAlign: "start",
-                  padding: "10px",
-                  color: "#939393",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                }}
-              ></th>
-              <th
-                style={{
-                  textAlign: "center",
-                  fontFamily: "Gilroy",
-                  color: "rgba(34, 34, 34, 1)",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  borderTopRightRadius: 24,
-                }}
-              >
-                {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
-                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                        </div> */}
-              </th>
-            </tr>
-          </thead>
-          <tbody style={{ textAlign: "center" }}>
-            {/* {loading
-                    ? Array.from({ length: currentItems?.length || 5 }).map(
-                        (_, index) => (
-                          <tr key={index}>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton circle={true} height={40} width={40} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={80} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={120} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={120} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={120} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={50} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={50} />
-                            </td>
-                          </tr>
-                        )
-                      )
-                    : currentItems.map((user) => {
-                        const imageUrl = user.profile || Profile;
-                        return ( */}
-
-
-
-<tr
-              // key={user.ID}
+          No Bank{" "}
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            fontSize: 16,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          There are no Bank Details available.{" "}
+        </div>
+        <div style={{ textAlign: "center" }}>
+        <Button
+              onClick={handleShowForm}
               style={{
-                fontSize: "16px",
+                fontSize: 14,
+                backgroundColor: "#1E45E1",
+                color: "white",
+                height: 52,
                 fontWeight: 600,
-                textAlign: "center",
-                marginTop: 10,
+                borderRadius: 12,
+                width: 123,
+                padding: "10px, 20px, 10px, 20px",
+                color: "#FFF",
+                fontFamily: "Gilroy",
               }}
             >
-              <td style={{ padding: "10px", border: "none" }}>
-                <img
-                  src={squre}
-                  height={20}
-                  width={20}
-                  style={{ marginTop: 10 }}
-                />
-              </td>
-
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Account Name
-              </td>
-              <td
-                style={{
-                  paddingTop: 15,
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  marginTop: 10,
-                }}
-              >
-                <span
-                  style={{
-                    paddingTop: "3px",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
-                    paddingBottom: "3px",
-                    borderRadius: "60px",
-                    backgroundColor: "#FFEFCF",
-                    textAlign: "start",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Date
-                </span>
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Amount
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Description
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Transaction
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-                onClick={handleEditTrans}
-              >
-                <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20 }}
-                />
-              </td>
-            </tr>
-            <tr
-              // key={user.ID}
-              style={{
-                fontSize: "16px",
-                fontWeight: 600,
-                textAlign: "center",
-                marginTop: 10,
-              }}
-            >
-              <td style={{ padding: "10px", border: "none" }}>
-                <img
-                  src={squre}
-                  height={20}
-                  width={20}
-                  style={{ marginTop: 10 }}
-                />
-              </td>
-
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Account Name
-              </td>
-              <td
-                style={{
-                  paddingTop: 15,
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  marginTop: 10,
-                }}
-              >
-                <span
-                  style={{
-                    paddingTop: "3px",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
-                    paddingBottom: "3px",
-                    borderRadius: "60px",
-                    backgroundColor: "#FFEFCF",
-                    textAlign: "start",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Date
-                </span>
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Amount
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Description
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Transaction
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-                onClick={handleEditTrans}
-              >
-                <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20 }}
-                />
-              </td>
-            </tr>
-           
-            <tr
-              // key={user.ID}
-              style={{
-                fontSize: "16px",
-                fontWeight: 600,
-                textAlign: "center",
-                marginTop: 10,
-              }}
-            >
-              <td style={{ padding: "10px", border: "none" }}>
-                <img
-                  src={squre}
-                  height={20}
-                  width={20}
-                  style={{ marginTop: 10 }}
-                />
-              </td>
-
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Account Name
-              </td>
-              <td
-                style={{
-                  paddingTop: 15,
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  marginTop: 10,
-                }}
-              >
-                <span
-                  style={{
-                    paddingTop: "3px",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
-                    paddingBottom: "3px",
-                    borderRadius: "60px",
-                    backgroundColor: "#FFEFCF",
-                    textAlign: "start",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Date
-                </span>
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Amount
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Description
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Transaction
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-                onClick={handleEditTrans}
-              >
-                <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20 }}
-                />
-              </td>
-            </tr>
-            <tr
-              // key={user.ID}
-              style={{
-                fontSize: "16px",
-                fontWeight: 600,
-                textAlign: "center",
-                marginTop: 10,
-              }}
-            >
-              <td style={{ padding: "10px", border: "none" }}>
-                <img
-                  src={squre}
-                  height={20}
-                  width={20}
-                  style={{ marginTop: 10 }}
-                />
-              </td>
-
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Account Name
-              </td>
-              <td
-                style={{
-                  paddingTop: 15,
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  marginTop: 10,
-                }}
-              >
-                <span
-                  style={{
-                    paddingTop: "3px",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
-                    paddingBottom: "3px",
-                    borderRadius: "60px",
-                    backgroundColor: "#FFEFCF",
-                    textAlign: "start",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Date
-                </span>
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Amount
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Description
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-              >
-                Transaction
-              </td>
-              <td
-                style={{
-                  border: "none",
-                  textAlign: "start",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  paddingTop: 15,
-                }}
-                onClick={handleEditTrans}
-              >
-                <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20 }}
-                />
-              </td>
-            </tr>
-            {/* );
-                      })} */}
-          </tbody>
-        </Table>
-
-
-
-        {EditTransaction && (
-          <div
-            ref={editRef}
-            style={{
-              cursor: "pointer",
-              backgroundColor: "#F9F9F9",
-              position: "absolute",
-              right: 80,
-              top: 60,
-              width: 160,
-              height: 70,
-              border: "1px solid #EBEBEB",
-              borderRadius: 10,
-              display: "flex",
-              flexDirection: "column",
-              padding: 10,
-              alignItems: "start",
-              zIndex: 9999,
-            }}
-          >
-            <div
-              className="mb-2 d-flex justify-content-start align-items-center gap-2"
-              onClick={handleEditTransForm}
-            >
-              <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
-              <label
-                style={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy, sans-serif",
-                  color: "#000000",
-                  cursor: "pointer",
-                }}
-              >
-                Edit
-              </label>
-            </div>
-            <div
-              className="mb-2 d-flex justify-content-start align-items-center gap-2"
+              {" "}
+              + Add Bank
+            </Button>
+                  </div>
+        
+      </div>
              
-            >
-              <img
-                src={Delete}
-                style={{ height: 16, width: 16 }}
-                alt="Delete"
-                onClick={handleDeleteTransForm}
-              />
-              <label
-                style={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy, sans-serif",
-                  color: "#FF0000",
-                  cursor: "pointer",
-                }}
-              >
-                Delete
-              </label>
             </div>
           </div>
         )}
+      </div>
 
+      <div style={{ marginTop: 30 }}>
+      {currentRowTransaction?.length > 0 ? (
+         <Table
+         responsive="md"
+         className="Table_Design"
+         style={{
+           height: "auto",
+           overflow: "visible",
+           tableLayout: "auto",
+           borderRadius: "24px",
+           border: "1px solid #DCDCDC",
+         }}
+         
+       >
+         <thead
+           style={{
+             backgroundColor: "#E7F1FF",
+             zIndex: 1,
+             position: "sticky",
+             top: 0,
+           }}
+         >
+           <tr>
+             <th
+               style={{
+                 textAlign: "center",
+                 fontFamily: "Gilroy",
+                 color: "rgba(34, 34, 34, 1)",
+                 fontSize: 14,
+                 fontWeight: 600,
+                 borderTopLeftRadius: 24,
+               }}
+             >
+               <img src={squre} height={20} width={20} />
+             </th>
+             <th
+               style={{
+                 textAlign: "start",
+                 padding: "10px",
+                 color: "#939393",
+                 fontSize: "14px",
+                 fontWeight: 500,
+                 fontFamily: "Gilroy",
+               }}
+             >
+               Account Name
+             </th>
+             <th
+               style={{
+                 textAlign: "start",
+                 padding: "10px",
+                 color: "#939393",
+                 fontSize: "14px",
+                 fontWeight: 500,
+                 fontFamily: "Gilroy",
+               }}
+             >
+               Date
+             </th>
+             <th
+               style={{
+                 textAlign: "start",
+                 padding: "10px",
+                 color: "#939393",
+                 fontSize: "14px",
+                 fontWeight: 500,
+                 fontFamily: "Gilroy",
+               }}
+             >
+               Amount
+             </th>
+             <th
+               style={{
+                 textAlign: "start",
+                 padding: "10px",
+                 color: "#939393",
+                 fontSize: "14px",
+                 fontWeight: 500,
+                 fontFamily: "Gilroy",
+               }}
+             >
+               Description
+             </th>
+
+             <th
+               style={{
+                 textAlign: "start",
+                 padding: "10px",
+                 color: "#939393",
+                 fontSize: "14px",
+                 fontWeight: 500,
+                 fontFamily: "Gilroy",
+               }}
+             >
+               Transaction
+             </th>
+             <th
+               style={{
+                 textAlign: "start",
+                 padding: "10px",
+                 color: "#939393",
+                 fontSize: "14px",
+                 fontWeight: 500,
+                 fontFamily: "Gilroy",
+               }}
+             ></th>
+             <th
+               style={{
+                 textAlign: "center",
+                 fontFamily: "Gilroy",
+                 color: "rgba(34, 34, 34, 1)",
+                 fontSize: 14,
+                 fontWeight: 500,
+                 borderTopRightRadius: 24,
+               }}
+             >
+               {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                       </div> */}
+             </th>
+           </tr>
+         </thead>
+         <tbody style={{ textAlign: "center" }}>
+           {currentRowTransaction?.map((user) => {
+             let Dated = new Date(user.date);
+             console.log("Dated..?", Dated);
+
+             let day = Dated.getDate();
+             let month = Dated.getMonth();
+             let year = Dated.getFullYear();
+
+             // Array of month names abbreviated to the first 3 letters
+             const monthNames = [
+               "Jan",
+               "Feb",
+               "Mar",
+               "Apr",
+               "May",
+               "Jun",
+               "Jul",
+               "Aug",
+               "Sep",
+               "Oct",
+               "Nov",
+               "Dec",
+             ];
+
+             // Get the month abbreviation
+             let formattedMonth = monthNames[month];
+
+             // Format the date as YYYY Mon DD
+             let formattedDate = `${year} ${formattedMonth} ${day}`;
+
+             console.log("Formatted Date:", formattedDate);
+             // const imageUrl = user.profile || Profile;
+             return (
+               <tr
+                 key={user.id}
+                 style={{
+                   fontSize: "16px",
+                   fontWeight: 600,
+                   textAlign: "center",
+                   marginTop: 10,
+                 }}
+               >
+                 <td style={{ padding: "10px", border: "none" }}>
+                   <img
+                     src={squre}
+                     height={20}
+                     width={20}
+                     style={{ marginTop: 10 }}
+                   />
+                 </td>
+
+                 <td
+                   style={{
+                     border: "none",
+                     textAlign: "start",
+                     fontSize: "16px",
+                     fontWeight: 500,
+                     fontFamily: "Gilroy",
+                     paddingTop: 15,
+                   }}
+                 >
+                   {user.bank_name}
+                 </td>
+                 <td
+                   style={{
+                     paddingTop: 15,
+                     border: "none",
+                     textAlign: "start",
+                     fontSize: "16px",
+                     fontWeight: 500,
+                     fontFamily: "Gilroy",
+                     marginTop: 10,
+                     whiteSpace: "nowrap",
+                   }}
+                 >
+                   <span
+                     style={{
+                       paddingTop: "3px",
+                       paddingLeft: "10px",
+                       paddingRight: "10px",
+                       paddingBottom: "3px",
+                       borderRadius: "60px",
+                       backgroundColor: "#FFEFCF",
+                       textAlign: "start",
+                       fontSize: "14px",
+                       fontWeight: 500,
+                       fontFamily: "Gilroy",
+                     }}
+                   >
+                     {formattedDate}
+                   </span>
+                 </td>
+                 <td
+                   style={{
+                     border: "none",
+                     textAlign: "start",
+                     fontSize: "16px",
+                     fontWeight: 500,
+                     fontFamily: "Gilroy",
+                     paddingTop: 15,
+                   }}
+                 >
+                   {user.amount}
+                 </td>
+                 <td
+                   style={{
+                     border: "none",
+                     textAlign: "start",
+                     fontSize: "16px",
+                     fontWeight: 500,
+                     fontFamily: "Gilroy",
+                     paddingTop: 15,
+                   }}
+                 >
+                   {user.description}
+                 </td>
+                 <td
+                   style={{
+                     paddingTop: 15,
+                     border: "none",
+                     textAlign: "start",
+                     fontSize: "16px",
+                     fontWeight: 500,
+                     fontFamily: "Gilroy",
+                     whiteSpace: "nowrap",
+                   }}
+                 >
+                   <span
+                     style={{
+                       paddingTop: "3px",
+                       paddingLeft: "10px",
+                       paddingRight: "10px",
+                       paddingBottom: "3px",
+                       borderRadius: "60px",
+                       // backgroundColor: "#FFEFCF",
+                       backgroundColor:
+                         user.type === 1
+                           ? "#C8E6C9"
+                           : user.type === 2
+                           ? "#FFE0B2"
+                           : "#FFEFCF",
+                       textAlign: "start",
+                       fontSize: "14px",
+                       fontWeight: 500,
+                       fontFamily: "Gilroy",
+                     }}
+                   >
+                     {user.type === 1
+                       ? "Credit"
+                       : user.type === 2
+                       ? "Debit"
+                       : "Account"}
+                   </span>
+                 </td>
+
+                 <td
+                   style={{
+                     border: "none",
+                     textAlign: "start",
+                     fontSize: "16px",
+                     fontWeight: 500,
+                     fontFamily: "Gilroy",
+                     paddingTop: 15,
+                     position: "relative",
+                     zIndex:EditTransaction === user.id ? 1000 : "auto",
+                   }}
+                   onClick={() => handleEditTrans(user.id)}
+                 >
+                   <PiDotsThreeOutlineVerticalFill
+                     style={{ height: 20, width: 20 }}
+                   />
+                   {EditTransaction === user.id && (
+                     <div
+                       ref={popupRef}
+                       style={{
+                         cursor: "pointer",
+                         backgroundColor: "#F9F9F9",
+                         position: "absolute",
+                         right: 80,
+                         top: 8,
+                         width: 160,
+                         height: 70,
+                         border: "1px solid #EBEBEB",
+                         borderRadius: 10,
+                         display: "flex",
+                         flexDirection: "column",
+                         padding: 10,
+                         alignItems: "start",
+                         // zIndex: 9999,
+                        
+                       }}
+                     >
+                       <div
+                         className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                         onClick={() => handleEditTransForm(user)}
+                       >
+                         <img
+                           src={Edit}
+                           style={{ height: 16, width: 16 }}
+                           alt="Edit"
+                         />
+                         <label
+                           style={{
+                             fontSize: 14,
+                             fontWeight: 500,
+                             fontFamily: "Gilroy, sans-serif",
+                             color: "#000000",
+                             cursor: "pointer",
+                           }}
+                         >
+                           Edit
+                         </label>
+                       </div>
+                       <div className="mb-2 d-flex justify-content-start align-items-center gap-2"  onClick={() => handleDeleteTransForm(user)}>
+                         <img
+                           src={Delete}
+                           style={{ height: 16, width: 16 }}
+                           alt="Delete"
+                          //  onClick={handleDeleteTransForm}
+                           onClick={() => handleDeleteTransForm(user)}
+                         />
+                         <label
+                           style={{
+                             fontSize: 14,
+                             fontWeight: 500,
+                             fontFamily: "Gilroy, sans-serif",
+                             color: "#FF0000",
+                             cursor: "pointer",
+                           }}
+                         >
+                           Delete
+                         </label>
+                       </div>
+                     </div>
+                   )}
+                 </td>
+               </tr>
+             );
+           })}
+         </tbody>
+       </Table>
+      ):(
+        <div>
+        <div style={{ textAlign: "center" }}>
+          <img
+            src={emptyimg}
+            width={240}
+            height={240}
+            alt="emptystate"
+          />
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+            fontSize: 20,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          No Transaction{" "}
+        </div>
+        <div
+          className="pb-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            fontSize: 16,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          There are no Transaction available.{" "}
+        </div>
+
+        
+      </div>
+      )}
        
+        {currentRowTransaction?.length > 0 && (
+                        <nav>
+                          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                            <li style={{ margin: '0 5px' }}>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: transactioncurrentPage === 1 ? '#ccc' : '#007bff',
+                                  cursor: transactioncurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+                                }}
+                                onClick={() => handleTransactionPageChange(transactioncurrentPage - 1)}
+                                disabled={transactioncurrentPage === 1}
+                              >
+                               
+                                <ArrowLeft2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                              </button>
+                              
+                            </li>
+                            {transactioncurrentPage > 3 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
+
+                                  }}
+                                  onClick={() => handleTransactionPageChange(1)}
+                                >
+                                  1
+                                </button>
+                              </li>
+                            )}
+                            {transactioncurrentPage > 3 && <span>...</span>}
+                            {renderPageNumbersTransaction()}
+                            {transactioncurrentPage < totalPagesTransaction - 2 && <span>...</span>}
+                            {transactioncurrentPage < totalPagesTransaction - 2 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
+
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
+
+                                  }}
+                                  onClick={() => handleTransactionPageChange(totalPagesTransaction)}
+                                >
+                                  {totalPagesTransaction}
+                                </button>
+                              </li>
+                            )}
+                            <li style={{ margin: '0 5px' }}>
+                             
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: transactioncurrentPage === transactioncurrentPage ? '#ccc' : '#007bff',
+                                  cursor: transactioncurrentPage === transactioncurrentPage ? 'not-allowed' : 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+                                }}
+                                onClick={() => handleTransactionPageChange(transactioncurrentPage + 1)}
+                                disabled={transactioncurrentPage === totalPagesTransaction}
+                              >
+                               
+                                <ArrowRight2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                              </button>
+                            </li>
+                          </ul>
+                        </nav>
+                      )}
       </div>
       <Modal
         show={deleteShow}
@@ -1418,7 +1438,7 @@ setAddBankAmount(e.target.value)
               fontSize: "14px",
               marginRight: 10,
             }}
-            // onClick={handleCloseDelete}
+            onClick={handleCloseDelete}
           >
             Cancel
           </Button>
@@ -1434,7 +1454,7 @@ setAddBankAmount(e.target.value)
               fontFamily: "Gilroy",
               fontSize: "14px",
             }}
-            onClick={handleCloseDelete}
+            onClick={handleDeleteBank}
           >
             Delete
           </Button>
@@ -1493,36 +1513,36 @@ setAddBankAmount(e.target.value)
         </Modal.Header>
         <Modal.Body>
           <div className="col-12" style={{ marginTop: "-30px" }}>
-          <Form.Group className="mb-3">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Account{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="Enter amount"
-                  value={AddBankName}
-                  // onChange={(e) => handleAccountName(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                />
-              </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Account{" "}
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <FormControl
+                type="text"
+                id="form-controls"
+                placeholder="Enter amount"
+                value={AddBankName}
+                // onChange={(e) => handleAccountName(e)}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: 8,
+                }}
+              />
+            </Form.Group>
           </div>
 
           <div className="col-12">
@@ -1542,7 +1562,7 @@ setAddBankAmount(e.target.value)
                 type="text"
                 placeholder="Enter Amount"
                 value={AddBankAmount}
-                  onChange={(e) => handleAddBankAmount(e)}
+                onChange={(e) => handleAddBankAmount(e)}
                 style={{
                   fontSize: "1rem",
                   color: "#4B4B4B",
@@ -1569,18 +1589,16 @@ setAddBankAmount(e.target.value)
               fontFamily: "Montserrat, sans-serif",
               marginTop: "20px",
             }}
-         onClick={handleAddAmountSubmit} >
+            onClick={handleAddAmountSubmit}
+          >
             Add balance
           </Button>
         </Modal.Footer>
       </Modal>
 
-
-
-
       <Modal
         show={deleteTransactionForm}
-         onHide={() => handleCloseTransactionDelete()}
+        onHide={() => handleCloseTransactionDelete()}
         centered
         backdrop="static"
         style={{
@@ -1639,7 +1657,7 @@ setAddBankAmount(e.target.value)
               fontSize: "14px",
               marginRight: 10,
             }}
-            // onClick={handleCloseDelete}
+            onClick={handleCloseTransactionDelete}
           >
             Cancel
           </Button>
@@ -1655,7 +1673,7 @@ setAddBankAmount(e.target.value)
               fontFamily: "Gilroy",
               fontSize: "14px",
             }}
-            onClick={handleCloseTransactionDelete}
+            onClick={handleDeleteTransSubmit}
           >
             Delete
           </Button>
@@ -1666,8 +1684,10 @@ setAddBankAmount(e.target.value)
         <BankingEditTransaction
           setEditTransactionForm={setEditTransactionForm}
           EditTransactionForm={EditTransactionForm}
-          setDeleteTransactionForm ={setDeleteTransactionForm}
-          deleteTransactionForm = {deleteTransactionForm}
+          setDeleteTransactionForm={setDeleteTransactionForm}
+          deleteTransactionForm={deleteTransactionForm}
+          setUpdateTransaction = {setUpdateTransaction}
+          updateTransaction = {updateTransaction}
         />
       ) : null}
 
@@ -1678,8 +1698,8 @@ setAddBankAmount(e.target.value)
           setShowForm={setShowForm}
           editAddBank={editAddBank}
           setEditAddBank={setEditAddBank}
-          setEdit ={setEdit}
-          edit ={edit}
+          setEdit={setEdit}
+          edit={edit}
         />
       ) : null}
     </div>

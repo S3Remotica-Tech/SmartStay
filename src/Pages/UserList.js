@@ -202,9 +202,9 @@ function UserList(props) {
 
   const handleShowDots = (id) => {
     if (activeRow === id) {
-      setActiveRow(null); // Close if the same row is clicked again
+      setActiveRow(null); 
     } else {
-      setActiveRow(id); // Open dropdown for the clicked row
+      setActiveRow(id); 
     }
     setSearch(false);
   };

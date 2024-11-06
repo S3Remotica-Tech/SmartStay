@@ -5,9 +5,14 @@ const initialState = {
   statusCodeForGetBanking: 0,
   defaultAccount: [],
   statusCodeForDefaultAccount: 0,
-  addBankingAmount:[],
-  statusCodeForAddBankingAmount:0
-
+  addBankingAmount: [],
+  statusCodeForAddBankingAmount: 0,
+  editTransaction: [],
+  statusEditTrasactionCode: 0,
+  deleteBank:[],
+  statusCodeDeleteBank:0,
+  deleteBankTransaction:[],
+  statusCodeForDeleteTrans:0
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -21,15 +26,23 @@ const BankingReducer = (state = initialState, action) => {
     case "CLEAR_ADD_USER_BANKING":
       return { ...state, statusCodeForAddBanking: 0 };
 
+    case "EDIT_BANK_TRANSACTION":
+      return {
+        ...state,
+        editTransaction: action.payload,
+        statusEditTrasactionCode: action.payload.statusCode,
+      };
+    case "CLEAR_EDIT_BANK_TRANSACTION":
+      return { ...state, statusEditTrasactionCode: 0 };
 
-      case "ADD_BANK_AMOUNT":
-        return {
-          ...state,
-          addBankingAmount: action.payload,
-          statusCodeForAddBankingAmount: action.payload.statusCode,
-        };
-      case "CLEAR_ADD_BANK_AMOUNT":
-        return { ...state, statusCodeForAddBankingAmount: 0 };
+    case "ADD_BANK_AMOUNT":
+      return {
+        ...state,
+        addBankingAmount: action.payload,
+        statusCodeForAddBankingAmount: action.payload.statusCode,
+      };
+    case "CLEAR_ADD_BANK_AMOUNT":
+      return { ...state, statusCodeForAddBankingAmount: 0 };
 
     case "BANKING_LIST":
       return {
@@ -48,6 +61,24 @@ const BankingReducer = (state = initialState, action) => {
       };
     case "CLEAR_DEFAULT_ACCOUNT":
       return { ...state, statusCodeForDefaultAccount: 0 };
+
+
+      case "DELETE_BANKING":
+        return {
+          ...state,
+          deleteBank: action.payload,
+          statusCodeDeleteBank: action.payload.statusCode,
+        };
+      case "CLEAR_DELETE_BANKING":
+        return { ...state, statusCodeDeleteBank: 0 };
+        case "DELETE_BANKING_TRANSACTION":
+        return {
+          ...state,
+          deleteBankTransaction: action.payload,
+          statusCodeForDeleteTrans: action.payload.statusCode,
+        };
+      case "CLEAR_DELETE_BANKING_TRANSACTION":
+        return { ...state, statusCodeForDeleteTrans: 0 };
   }
   return state;
 };
