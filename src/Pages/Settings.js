@@ -36,7 +36,8 @@ import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2 } 
 import EBBillingUnitlist from './EBUnitsettingsList';
 import Modal from 'react-bootstrap/Modal';
 import UserSettings from './UserSettings';
-import { MdError } from "react-icons/md";  
+import { MdError } from "react-icons/md";
+import RolePage from './SettingRole';  
 
 
 function Settings() {
@@ -563,6 +564,7 @@ if(!amount){
               <Tab label="Complaint type" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "4" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Amenities" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "5" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Users" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "6" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              <Tab label="Role" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "6" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
 
             </TabList>
           </Box>
@@ -977,6 +979,7 @@ if(!amount){
         <TabPanel value="4"><Complaintsettings /> </TabPanel>
         <TabPanel value="5"><Amenities /> </TabPanel>
         <TabPanel value="6"><UserSettings /> </TabPanel>
+        <TabPanel value="7"><RolePage /> </TabPanel>
       </TabContext>
 
       {/* <div className='mt-0 ' style={{}}>
