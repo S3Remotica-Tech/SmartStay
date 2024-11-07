@@ -502,7 +502,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                                 setSelectedDate(date);
                                             }}
                                             dateFormat="dd/MM/yyyy"
-                                            minDate={new Date()}
+                                            minDate={null}
                                             customInput={customDateInput({
                                                 value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
                                             })}

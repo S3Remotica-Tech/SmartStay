@@ -42,6 +42,9 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [totalPrice, setTotalPrice] = useState('');
     const [id, setId] = useState('')
     const [productName, setProductName] = useState('')
+    const [modeOfPayment, setModeOfPayment] = useState("");
+    const [account, setAccount] = useState("");
+    const [accountError, setAccountError] = useState("");
 
     const [errors, setErrors] = useState({});
     const [initialState, setInitialState] = useState({
@@ -68,10 +71,22 @@ const [assetError, setAssetError] = useState('')
 
 
 
+useEffect(() => {
+    // setLoading(true);
+    dispatch({ type: "BANKINGLIST" });
+  }, []);
 
-
-
-
+const handleModeOfPaymentChange = (e) => {
+    setModeOfPayment(e.target.value);
+    // setGeneralError("");
+    // setPaymentError("");
+    // setIsChangedError("");
+  };
+  const handleAccount = (e) => {
+    setAccount(e.target.value);
+    setAccountError("");
+    setIsChangedError("");
+  };
 
     const handleAssetNameChange = (e) => {
         setGeneralError('')
@@ -723,7 +738,7 @@ const [assetError, setAssetError] = useState('')
                                                 setSelectedDate(date);
                                             }}
                                             dateFormat="dd/MM/yyyy"
-                                            minDate={new Date()}
+                                            minDate={null}
                                             // maxDate={new Date()}
                                             customInput={customDateInput({
                                                 value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
@@ -759,6 +774,113 @@ const [assetError, setAssetError] = useState('')
                                     </div>
                                 )}
                             </div>
+                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Group
+                  className="mb-2"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Mode of payment{" "}
+                    <span
+                      style={{
+                        color: "#FF0000",
+                        display: modeOfPayment ? "none" : "inline-block",
+                      }}
+                    >
+                      *
+                    </span>
+                  </Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    value={modeOfPayment}
+                    onChange={handleModeOfPaymentChange}
+                    className=""
+                    id="vendor-select"
+                    style={{
+                      fontSize: 14,
+                      color: "rgba(75, 75, 75, 1)",
+                      fontFamily: "Gilroy",
+                      fontWeight: modeOfPayment ? 600 : 500,
+                    }}
+                  >
+                    <option value="">Select mode of payment</option>
+                    <option value="UPI/BHIM">UPI/BHIM</option>
+                    <option value="CASH">CASH</option>
+                    <option value="Net Banking">Net Banking</option>
+                  </Form.Select>
+                </Form.Group>
+                {/* {paymentError && (
+                  <div className="d-flex align-items-center p-1 mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {paymentError}
+                    </label>
+                  </div>
+                )} */}
+              </div>
+
+              {modeOfPayment === "Net Banking" && (
+  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <Form.Label
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+      }}
+    >
+      Account{" "}
+      <span
+        style={{
+          color: "red",
+          fontSize: "20px",
+        }}
+      >
+        {" "}
+        *{" "}
+      </span>
+    </Form.Label>
+    <Form.Select
+      aria-label="Default select example"
+      placeholder="Select no. of floor"
+      style={{
+        fontSize: 16,
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        border: "1px solid #D9D9D9",
+        height: 50,
+        borderRadius: 8,
+      }}
+      id="form-selects"
+      className="border"
+      value={account}
+      onChange={(e) => handleAccount(e)}
+    >
+      <option value="">Select Account</option>
+      {state.bankingDetails?.bankingList?.banks?.map((u) => (
+        <option key={u.id} value={u.id}>
+          {u.bank_name}
+        </option>
+      ))}
+    </Form.Select>
+  </div>
+)}
                             {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Total Price</Form.Label>

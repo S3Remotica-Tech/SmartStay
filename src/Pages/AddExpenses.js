@@ -344,7 +344,7 @@ function StaticExample({ show, handleClose, currentItem }) {
       calendarRef.current.flatpickr.set({
         dateFormat: "d/m/Y",
         defaultDate: selectedDate || new Date(),
-        maxDate: "today",
+        // maxDate: "today",
         appendTo: customContainerRef.current, // Append to custom container
       });
     }
@@ -836,7 +836,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                       }}
                       dateFormat="dd/MM/yyyy"
                       // maxDate={new Date()}
-                      minDate={new Date()}
+                      minDate={null}
                       customInput={customDateInput({
                         value: selectedDate
                           ? selectedDate.toLocaleDateString("en-GB")
