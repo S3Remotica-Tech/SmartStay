@@ -690,7 +690,7 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
                       }
                     }
                   }}
-                  options={{ mode: 'range', dateFormat: 'd-M', maxDate: 'today', }}
+                  options={{ mode: 'range', dateFormat: 'd-M', }}
                   onReady={(selectedDates, dateStr, instance) => setFlatpickrInstance(instance)}
                   placeholder="Select Date"
                   style={{

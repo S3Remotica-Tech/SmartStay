@@ -1083,7 +1083,7 @@ const Compliance = () => {
                 <>
                     <option value="">Select a type</option>
                     {
-                        Array.isArray(complainttypelist) && complainttypelist.length > 0 ? (
+                        Array.isArray(complainttypelist) && complainttypelist?.length > 0 ? (
                             complainttypelist.map((u, index) => (
                                 <option key={index} value={u.id}>{u.complaint_name}</option>
                             ))
@@ -1105,7 +1105,7 @@ const Compliance = () => {
 </div>
 
 
-                  {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types.length == 0 && <><label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>* Please add a 'ComplaintType' option in Settings, accessible after  adding an Complaints.</label></>}
+                  {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length == 0 && <><label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>* Please add a 'ComplaintType' option in Settings, accessible after  adding an Complaints.</label></>}
 
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -1312,7 +1312,7 @@ const Compliance = () => {
                                                 setDateErrmsg('')
                                             }}
                                             dateFormat="dd/MM/yyyy"
-                                            maxDate={new Date()}
+                                            maxDate={null}
                                             disabled={edit}
                                             customInput={customDateInput({
                                                 value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',

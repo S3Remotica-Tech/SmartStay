@@ -1714,7 +1714,7 @@ function EB_Hostel() {
               setSelectedDate(date);
             }}
             dateFormat="dd/MM/yyyy"
-            minDate={new Date()} 
+            minDate={null} 
             // disabled={edit}
             customInput={customDateInput({
               value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
