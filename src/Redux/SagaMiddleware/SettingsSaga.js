@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AddExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit } from "../Action/SettingsAction"
+import { AddExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole } from "../Action/SettingsAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -302,6 +302,65 @@ function* handleEBBillingUnitGet(action) {
    }
 }
 
+function* handleGetAllRoles() {
+   const response = yield call(GetAllRoles)
+   console.log("response.....///",response)
+   
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'ROLE_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+function* handleAddSettingRole(action) {
+   const response = yield call (AddSettingRole, action.payload);
+
+   var toastStyle = {
+     backgroundColor: "#E6F6E6",
+     color: "black",
+     width: "auto",
+     borderRadius: "60px",
+     height: "20px",
+     fontFamily: "Gilroy",
+     fontWeight: 600,
+     fontSize: 14,
+     textAlign: "start",
+     display: "flex",
+     alignItems: "center", 
+     padding: "10px",
+    
+   };
+
+   console.log("handleAddSettingRole",response)
+   if (response.data.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'ADD_SETTING_ROLE' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+      toast.success(`${response.data.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+     });
+   }
+
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
 
 function refreshToken(response) {
 
@@ -333,5 +392,7 @@ function* SettingsSaga() {
    yield takeEvery('DELETE-COMPLAINT-TYPE', handleDeleteComplainttype)
    yield takeEvery('EB-BILLING-UNIT-ADD', handleEBBillingUnitAdd)
    yield takeEvery('EB-BILLING-UNIT-LIST', handleEBBillingUnitGet)
+   yield takeEvery('SETTING_ROLE_LIST', handleGetAllRoles)
+   yield takeEvery('SETTING_ADD_ROLE_LIST', handleAddSettingRole)
 }
 export default SettingsSaga;

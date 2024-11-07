@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from "react-bootstrap";
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
@@ -9,8 +10,18 @@ import rolecircle from "../Assets/Images/New_images/role_circle.png"
 import RolesDesign from "./SettingDesign";
 
 
+
 function RolePage(){
-    const [rolePage,setRolePage] = useState(false)
+  const state = useSelector(state => state)
+console.log("RolePage",state)
+const dispatch = useDispatch();
+
+
+ const [rolePage,setRolePage] = useState(false)
+
+ useEffect(()=>{
+  dispatch({ type: 'SETTING_ROLE_LIST' })
+},[])
 
     const handleCreateNew=()=>{
         setRolePage(true)
@@ -22,7 +33,10 @@ function RolePage(){
       ): <div className="container">
       <div className="row">
         {/* Role Card */}
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+        {
+          state.Settings?.getsettingRoleList?.response?.roles.map((u)=>{
+return(
+  <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
           <div
             className="d-flex align-items-center justify-content-between p-3 border rounded"
             style={{ height: 64, width: "100%" }}
@@ -38,7 +52,7 @@ function RolePage(){
                   color: "#222222",
                 }}
               >
-                Role 1
+              {u.role_name}
               </span>
             </div>
             <button className="btn p-0">
@@ -46,6 +60,10 @@ function RolePage(){
             </button>
           </div>
         </div>
+)
+          })
+        }
+        
 
         {/* Create New Card */}
         <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">

@@ -13,6 +13,11 @@ const initialState = {
     addEbbillingUnitStatuscode: 0,
     EBBillingUnitlist:[],
     getebStatuscode:0,
+    getsettingRoleList:[],
+    statusCodeForRoleList:0,
+    addRoleSetting:[],
+    statusCodeForAddRole:0
+
 }
 
 const SettingsReducer = (state = initialState, action) => {
@@ -67,6 +72,26 @@ const SettingsReducer = (state = initialState, action) => {
                         return { ...state, EBBillingUnitlist: action.payload.response , getebStatuscode:action.payload.statusCode}
                         case 'CLEAR_GET_EBBILLINGS_STATUS_CODE':
                             return { ...state, getebStatuscode: 0 }
+                           //settingRole
+
+                           case "ROLE_LIST":
+                            return {
+                              ...state,
+                              getsettingRoleList: action.payload,
+                              statusCodeForRoleList: action.payload.statusCode,
+                            };
+                          case "CLEAR_DELETE_BANKING_TRANSACTION":
+                            return { ...state, statusCodeForRoleList: 0 };
+
+
+                            case "ADD_SETTING_ROLE":
+                            return {
+                              ...state,
+                              addRoleSetting: action.payload,
+                              statusCodeForAddRole: action.payload.statusCode,
+                            };
+                          case "CLEAR_ADD_SETTING_ROLE":
+                            return { ...state, statusCodeForAddRole: 0 };
             }
     return state;
 }
