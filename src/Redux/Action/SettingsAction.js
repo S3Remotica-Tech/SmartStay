@@ -51,3 +51,15 @@ export async function AddExpencesCategory(Expences) {
     return await AxiosConfig.get('/get_ebbilling_settings',{
     })
   }
+
+
+  export async function GetAllRoles() {
+    return await AxiosConfig.get('/all_roles',{
+    })
+  }
+  export async function AddSettingRole(datum) {
+    console.log("AddSettingRole", datum);
+    return await AxiosConfig.post("/add_role", datum, {
+      data: datum,
+    });
+  }
