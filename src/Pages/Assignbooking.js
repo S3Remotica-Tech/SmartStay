@@ -157,15 +157,7 @@ console.log('MobileNumber',MobileNumber)
 
   
   const handleSubmit = (event) => {
-    // if (!validateAssignField(mobileno, "mobileno")) return;
-    // if (!validateAssignField(address, "address")) return;
-   
-    // if (phoneError === "Invalid mobile number *") {
-    //   setPhoneError("Please enter a valid 10-digit phone number");
-    //   return;
-    // } else {
-    //   setPhoneError("");
-    // }
+    
     const payload = {
       
       firstname: firstName,
@@ -175,12 +167,6 @@ console.log('MobileNumber',MobileNumber)
       Address: address,
       HostelName: props.assignBooking.hostel_name,
       Hostel_Id:  props.assignBooking.hostel_id,
-      Floor_Id:0,
-      Room_Id:0,
-      Bed_Id:0,
-      joining_Date: props.assignBooking.joining_date,
-      // AdvanceAmount,
-      RoomRent: props.assignBooking.amount,
       country_code:countryCode, 
       id: props.assignBooking.id,
     };

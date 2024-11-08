@@ -183,13 +183,18 @@ const [allfielderrmsg , setAllFieldErrmsg] = useState('')
 const [dataFetched, setDataFetched] = useState(false);
 
 const [amenityArray,setamenityArray] = useState([])
-const [recurringbills , setRecurringBills] = useState([]) // recurring bills store
+const [recurringbills , setRecurringBills] = useState([]) 
+const [account, setAccount] = useState("");
+  const [accountError, setAccountError] = useState("");
 
   const startRef = useRef(null);
   const endRef = useRef(null);
   const invoiceRef = useRef(null);
   const dueRef = useRef(null);
-
+  useEffect(() => {
+    // setLoading(true);
+    dispatch({ type: "BANKINGLIST" });
+  }, []);
 
   const [showmanualinvoice, setShowManualInvoice] = useState(false);
   const [showRecurringBillForm, setShowRecurringBillForm] = useState(false)
@@ -206,10 +211,21 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
 
   }
   
-
+  const handleAccount = (e) => {
+    setAccount(e.target.value);
+    setAccountError("");
+    // setIsChangedError("");
+  };
+  const handleTransaction=(e)=>{
+    setInvoiceList({ ...invoiceList, transaction: e.target.value }) 
+    setAccountError("")
+    setPaymodeErrmsg("")
+    setAccount("")
+  }
+  
   // console.log("invoiceList", invoiceList);
 
-
+  
 
   const handleShowDots = () => {
     setShowDots(!showDots)
@@ -847,13 +863,25 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
       setAmountErrmsg('Please Enter Amount')
     }
 
-    if (!invoiceList.formatpaiddate) {
+    // if (!invoiceList.formatpaiddate) {
+    //   setDateErrmsg("Please Select Date");
+    // }
+    // else{
+    //   setDateErrmsg('')
+    // }
+    if (!formatpaiddate) {
       setDateErrmsg("Please Select Date");
+    } else {
+      setDateErrmsg('');
     }
 
     if (!invoiceList.transaction) {
       setPaymodeErrmsg('Please select Paymode Type')
     
+    }
+    if (invoiceList.transaction == "Net Banking" && !account) {
+      setAccountError("Please Choose Bank Account");
+      return;
     }
 
     if (!invoiceList.payableAmount || !formatpaiddate || !invoiceList.transaction) {
@@ -877,11 +905,14 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
         payload: {
           id: invoiceList.id,
           invoice_id: invoiceList.InvoiceId,
-          invoice_type: invoiceList.invoice_type,
+          invoice_type:1,
           amount: invoiceList.payableAmount,
           balance_due: invoiceList.balanceDue,
           payment_by: invoiceList.transaction,
-          payment_date: formatpaiddate
+          payment_date: formatpaiddate,
+          bank_id:account
+
+
         }
       });
 
@@ -942,7 +973,7 @@ const [recurringbills , setRecurringBills] = useState([]) // recurring bills sto
     if (!selectedDates) {
       setDateErrmsg("Please Select Date");
     } else {
-      setDateErrmsg("");
+      setDateErrmsg('');
     }
     const date = selectedDates[0];
     setSelectedDate(date);
@@ -1248,6 +1279,7 @@ console.log("newRows",newRows);
            }
            else{
             setStartdateErrmsg('')
+            setEnddateErrmsg('')
            }
        
        const formattedDate = formatDateForPayloadmanualinvoice(date);    
@@ -1264,6 +1296,7 @@ console.log("newRows",newRows);
        }
        else{
         setEnddateErrmsg('')
+        setStartdateErrmsg('')
        }
 
       const formattedDate = formatDateForPayloadmanualinvoice(date);
@@ -1279,6 +1312,8 @@ console.log("newRows",newRows);
        }
        else{
         setInvoiceDateErrmsg('')
+        setEnddateErrmsg('')
+        setStartdateErrmsg('')
        }
 
        const formattedDate = formatDateForPayloadmanualinvoice(date);
@@ -1993,11 +2028,13 @@ const customInvoiceDueDateInput = (props) => {
                                            style={{height:'40px'}}
                                             selected={selectedDate}
                                             onChange={(date) => {
-                                               
+                                              setDateErrmsg('')
+                                              setAccountError("")
                                               setSelectedDate(date);
+                                              
                                             }}
                                             dateFormat="dd/MM/yyyy"
-                                            maxDate={new Date()}
+                                            maxDate={null}
                                             customInput={customDateInput({
                                                 value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
                                             })}
@@ -2054,7 +2091,7 @@ const customInvoiceDueDateInput = (props) => {
                     {dateerrmsg.trim() !== "" && (
                       <div>
                         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                          {dateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
+                          {dateerrmsg !== "" && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
                         </p>
                       </div>
                     )}
@@ -2072,7 +2109,8 @@ const customInvoiceDueDateInput = (props) => {
 
                         value={invoiceList.transaction}
                         // value={editOption == 'Add' ? item.Name.split(' ')[0] : invoiceList.firstName}
-                        onChange={(e) => { setInvoiceList({ ...invoiceList, transaction: e.target.value }) }}
+                        // onChange={(e) => { setInvoiceList({ ...invoiceList, transaction: e.target.value }) }}
+                        onChange={(e)=>handleTransaction(e)}
                         style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 40, borderRadius: 8 }}
                       >
                         <option selected>select </option>
@@ -2080,6 +2118,7 @@ const customInvoiceDueDateInput = (props) => {
                         <option value="Debit Card">Debit Card</option>
                         <option value="Credit Card">Credit Card</option>
                         <option value="UPI">UPI</option>
+                        <option value="Net Banking">Banking</option>
                       </Form.Select>
                       {paymodeerrormsg.trim() !== "" && (
                         <div>
@@ -2090,6 +2129,64 @@ const customInvoiceDueDateInput = (props) => {
                       )}
                     </Form.Group>
                   </div>
+
+
+
+                  {/* {modeOfPayment === "Net Banking" && ( */}
+                  {invoiceList.transaction === "Net Banking" && (
+  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <Form.Label
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+      }}
+    >
+      Account{" "}
+      <span
+        style={{
+          color: "red",
+          fontSize: "20px",
+        }}
+      >
+        {" "} * {" "}
+      </span>
+    </Form.Label>
+    <Form.Select
+      aria-label="Default select example"
+      placeholder="Select no. of floor"
+      style={{
+        fontSize: 16,
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        border: "1px solid #D9D9D9",
+        height: 50,
+        borderRadius: 8,
+      }}
+      id="form-selects"
+      className="border"
+      value={account}
+      onChange={(e) => handleAccount(e)}
+    >
+      <option value="">Select Account</option>
+      {state.bankingDetails?.bankingList?.banks?.map((u) => (
+        <option key={u.id} value={u.id}>
+          {u.bank_name}
+        </option>
+      ))}
+    </Form.Select>
+    {accountError.trim() !== "" && (
+                        <div>
+                          <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                            {accountError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {accountError}
+                          </p>
+                        </div>
+                      )}
+  </div>
+)}
+{/* )} */}
 
                 </div>
                 {totalErrormsg.trim() !== "" && (

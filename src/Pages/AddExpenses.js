@@ -201,6 +201,7 @@ function StaticExample({ show, handleClose, currentItem }) {
       setDescription((currentItem && currentItem.description) || "");
       setCount((currentItem && currentItem.unit_count) || "");
       setHostelName((currentItem && currentItem.hostel_id) || "");
+      setAccount((currentItem && currentItem.bank_id) || "");
 
       setInitialState({
         assetName: currentItem.asset_id || "",
@@ -299,6 +300,11 @@ function StaticExample({ show, handleClose, currentItem }) {
       return;
     }
 
+    if (modeOfPayment == "Net Banking" && !account) {
+      setAccountError("Please Choose Bank Account");
+      return;
+    }
+
     const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
     if (modeOfPayment && count && price && category && selectedDate) {
       dispatch({
@@ -314,6 +320,7 @@ function StaticExample({ show, handleClose, currentItem }) {
           payment_mode: modeOfPayment,
           hostel_id: hostelName || "",
           id: currentItem ? currentItem.id : null,
+          bank_id: account,
         },
       });
     }
@@ -1039,6 +1046,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                     aria-label="Default select example"
                     value={modeOfPayment}
                     onChange={handleModeOfPaymentChange}
+                    disabled={currentItem}
                     className=""
                     id="vendor-select"
                     style={{
@@ -1073,52 +1081,69 @@ function StaticExample({ show, handleClose, currentItem }) {
               </div>
 
               {modeOfPayment === "Net Banking" && (
-  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <Form.Label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-      }}
-    >
-      Account{" "}
-      <span
-        style={{
-          color: "red",
-          fontSize: "20px",
-        }}
-      >
-        {" "}
-        *{" "}
-      </span>
-    </Form.Label>
-    <Form.Select
-      aria-label="Default select example"
-      placeholder="Select no. of floor"
-      style={{
-        fontSize: 16,
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-        border: "1px solid #D9D9D9",
-        height: 50,
-        borderRadius: 8,
-      }}
-      id="form-selects"
-      className="border"
-      value={account}
-      onChange={(e) => handleAccount(e)}
-    >
-      <option value="">Select Account</option>
-      {state.bankingDetails?.bankingList?.banks?.map((u) => (
-        <option key={u.id} value={u.id}>
-          {u.bank_name}
-        </option>
-      ))}
-    </Form.Select>
-  </div>
-)}
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Account{" "}
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "20px",
+                      }}
+                    >
+                      {" "}
+                      *{" "}
+                    </span>
+                  </Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    placeholder="Select no. of floor"
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                    id="form-selects"
+                    className="border"
+                    value={account}
+                    onChange={(e) => handleAccount(e)}
+                    disabled={currentItem}
+                  >
+                    <option value="">Select Account</option>
+                    {state.bankingDetails?.bankingList?.banks?.map((u) => (
+                      <option key={u.id} value={u.id}>
+                        {u.bank_name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                  {accountError && (
+                  <div className="d-flex align-items-center p-1 mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {accountError}
+                    </label>
+                  </div>
+                )}
+                </div>
+              )}
               <div className="col-lg-12 col-md-12  col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-2"

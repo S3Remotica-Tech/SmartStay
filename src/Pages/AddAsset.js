@@ -68,6 +68,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     const [isChangedError, setIsChangedError] = useState('');
     const [generalError, setGeneralError] = useState('');
 const [assetError, setAssetError] = useState('')
+const [paymentError,setPaymentError]=useState('')
 
 
 
@@ -78,6 +79,10 @@ useEffect(() => {
 
 const handleModeOfPaymentChange = (e) => {
     setModeOfPayment(e.target.value);
+    setAccountError('')
+    setAccount('')
+    setIsChangedError("")
+    setPaymentError("")
     // setGeneralError("");
     // setPaymentError("");
     // setIsChangedError("");
@@ -248,9 +253,16 @@ const handleModeOfPaymentChange = (e) => {
         }
         if (!productName) {
             setProductNameError('Please Enter a Valid Product Name');
-
-            // return;
         }
+        if (!modeOfPayment) {
+            setPaymentError('Please Enter payment type');
+
+        // return;
+    }
+    if (modeOfPayment == "Net Banking" && !account) {
+        setAccountError("Please Choose Bank Account");
+        return;
+      }
         // if (!vendorName) {
         //     Swal.fire({
         //         icon: 'warning',
@@ -322,7 +334,7 @@ const handleModeOfPaymentChange = (e) => {
 
             const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
 
-            dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, product_name: productName, vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: 1, purchase_date: formattedDate, price: price, id: id } })
+            dispatch({ type: 'ADDASSET', payload: { asset_name: assetName, product_name: productName, vendor_id: vendorName, brand_name: brandName, serial_number: serialNumber, product_count: 1, purchase_date: formattedDate, price: price,payment_type:modeOfPayment,bank_id:account, id: id } })
 
        } 
     }
@@ -349,7 +361,7 @@ const handleModeOfPaymentChange = (e) => {
 
     useEffect(() => {
         if (currentItem) {
-
+console.log("currentItemwww",currentItem)
             setAssetName(currentItem.asset_name || '');
             setVendorName(currentItem.vendor_id || '');
             setBrandName(currentItem.brand_name || '');
@@ -360,6 +372,8 @@ const handleModeOfPaymentChange = (e) => {
             setTotalPrice(currentItem.product_count * currentItem.price || '');
             setId(currentItem.id || 0)
             setProductName(currentItem.product_name || 0)
+            setAccount(currentItem.bank_id || '')
+            setModeOfPayment(currentItem.payment_mode || '')
 
 
             setInitialState({
@@ -801,6 +815,7 @@ const handleModeOfPaymentChange = (e) => {
                     aria-label="Default select example"
                     value={modeOfPayment}
                     onChange={handleModeOfPaymentChange}
+                    disabled={currentItem}
                     className=""
                     id="vendor-select"
                     style={{
@@ -816,7 +831,7 @@ const handleModeOfPaymentChange = (e) => {
                     <option value="Net Banking">Net Banking</option>
                   </Form.Select>
                 </Form.Group>
-                {/* {paymentError && (
+                {paymentError && (
                   <div className="d-flex align-items-center p-1 mb-2">
                     <MdError style={{ color: "red", marginRight: "5px" }} />
                     <label
@@ -831,7 +846,7 @@ const handleModeOfPaymentChange = (e) => {
                       {paymentError}
                     </label>
                   </div>
-                )} */}
+                )}
               </div>
 
               {modeOfPayment === "Net Banking" && (
@@ -871,6 +886,7 @@ const handleModeOfPaymentChange = (e) => {
       className="border"
       value={account}
       onChange={(e) => handleAccount(e)}
+      disabled={currentItem}
     >
       <option value="">Select Account</option>
       {state.bankingDetails?.bankingList?.banks?.map((u) => (
@@ -879,6 +895,22 @@ const handleModeOfPaymentChange = (e) => {
         </option>
       ))}
     </Form.Select>
+    {accountError && (
+                  <div className="d-flex align-items-center p-1 mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {accountError}
+                    </label>
+                  </div>
+                )}
   </div>
 )}
                             {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
