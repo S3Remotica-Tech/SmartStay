@@ -11,12 +11,149 @@ function RolesDesign(props){
     const state = useSelector(state => state)
     console.log("RolesDesign",state)
     const dispatch = useDispatch();
+    const [roleName,setRoleNme]=useState('')
+    const[permissionRole,setPermissionRole]=useState([])
 
 
+const handleRoleName=(e)=>{
+    setRoleNme(e.target.value)
+}
 const handlePrev=()=>{
    props.setRolePage(false)
 
 }
+const [checkboxValues, setCheckboxValues] = useState({
+    Dashboard: [false, false, false, false],
+    Announcement: [false, false, false, false],
+    Updates: [false, false, false, false],
+    PayingGuest: [false, false, false, false],
+    Customers: [false, false, false, false],
+    Bookings: [false, false, false, false],
+    Checkout: [false, false, false, false],
+    WalkIn: [false, false, false, false],
+    Assets: [false, false, false, false],
+    Vendor: [false, false, false, false],
+    Bills: [false, false, false, false],
+    RecuringBills: [false, false, false, false],
+    Electricity: [false, false, false, false],
+    Complaints: [false, false, false, false],
+    Expenses: [false, false, false, false],
+    Reports: [false, false, false, false],
+    Bankings: [false, false, false, false],
+    Profile: [false, false, false, false],
+
+  });
+  const permissionMapping = {
+    Dashboard: 1,
+    Announcement: 2,
+    Updates: 3,
+    PayingGuest: 4,
+    Customers: 5,
+    Bookings: 6,
+    Checkout: 7,
+    WalkIn: 8,
+    Assets: 9,
+    Vendor: 10,
+    Bills: 11,
+    RecuringBills:12,
+    Electricity:13,
+    Complaints:14,
+    Expenses:15,
+    Reports:16,
+    Bankings:17,
+    Profile:18
+
+
+
+
+
+
+
+  };
+  const handleCheckboxChange = (row, index) => {
+    setCheckboxValues((prevValues) => ({
+      ...prevValues,
+      [row]: prevValues[row].map((value, i) => (i === index ? !value : value))
+    }));
+  };
+  useEffect(() => {
+    if (!checkboxValues || typeof checkboxValues !== 'object') {
+      console.error("checkboxValues is undefined or not an object:", checkboxValues);
+      return;
+    }
+  
+    const permissions = Object.entries(checkboxValues).map(([key, values]) => {
+      if (!permissionMapping[key]) {
+        console.error(`Permission mapping for key "${key}" is missing.`);
+        return null;
+      }
+      if (!Array.isArray(values)) {
+        console.error(`Values for key "${key}" are not an array:`, values);
+        return null;
+      }
+      
+      return {
+        permission_id: permissionMapping[key],
+        per_create: values[0] ? 1 : 0,
+        per_view: values[1] ? 1 : 0,
+        per_edit: values[2] ? 1 : 0,
+        per_delete: values[3] ? 1 : 0
+      };
+    }).filter(Boolean); // Filter out any null values in case of errors
+  
+    console.log(JSON.stringify(permissions, null, 4));
+  
+    // Set permissions only if they differ from the current permissionRole
+    setPermissionRole(prev => {
+      const prevPermissionsString = JSON.stringify(prev);
+      const newPermissionsString = JSON.stringify(permissions);
+      return prevPermissionsString !== newPermissionsString ? permissions : prev;
+    });
+    
+  }, [checkboxValues, permissionMapping]); // Add dependencies here
+  
+
+  console.log('Checkbox values:', permissionRole);
+
+
+  // Function to handle form submission
+  const handleSubmit = () => {
+    // e.preventDefault();
+    dispatch({ type: "SETTING_ADD_ROLE_LIST", payload: {role_name:roleName,permissions:permissionRole}});
+    
+    // Send checkboxValues to your backend or API
+  };
+  useEffect(()=>{
+    if(state.Settings.statusCodeForAddRole === 200)
+        setRoleNme("")
+    setPermissionRole([])
+    setCheckboxValues(prevValues => {
+        const resetValues = {};
+        Object.keys(prevValues).forEach(key => {
+          resetValues[key] = prevValues[key].map(() => false);
+        });
+        return resetValues;
+      });
+        dispatch({ type: "SETTING_ROLE_LIST" });
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_ADD_SETTING_ROLE" });
+    }, 1000);
+  
+  },[state.Settings.statusCodeForAddRole])
+  const renderRow = (rowName, label) => (
+    <tr key={rowName}>
+      <td style={{ paddingLeft: '16px' }}>{label}</td>
+      {checkboxValues[rowName].map((checked, index) => (
+        <td key={index}>
+          <input
+            type="checkbox"
+            checked={checked}
+            onChange={() => handleCheckboxChange(rowName, index)}
+          />
+        </td>
+      ))}
+    </tr>
+  );
 // useEffect(()=>{
 //     dispatch({ type: 'SETTING_ROLE_LIST' })
 // },[])
@@ -88,8 +225,8 @@ return(
                           id="form-controls"
                           placeholder="Enter role"
                           type="text"
-                        //   value={firstname}
-                        //   onChange={(e) => handleFirstName(e)}
+                          value={roleName}
+                          onChange={(e) => handleRoleName(e)}
                           style={{
                             fontSize: 16,
                             color: "#4B4B4B",
@@ -116,8 +253,8 @@ return(
     
                         {/* Scrollable Permissions Table */}
                         <div className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto', border: "1px solid #DCDCDC", borderRadius: "16px" }}>
-    <table className="table mb-0">
-        <thead style={{ backgroundColor: "#E7F1FF" }}>
+                        <table className="table mb-0">
+                        <thead style={{ backgroundColor: "#E7F1FF" }}>
             <tr >
                 <th style={{ paddingLeft: '16px',fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#4B4B4B" }}>Permission</th>
                 <th style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#4B4B4B"}}>Add</th>
@@ -127,93 +264,27 @@ return(
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>Customer Reading</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>AnnounceMent</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>Updates</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>All Customer</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>Booking</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>Checkout</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>walkon</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>Assets</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>Vendor</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>Bill</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>Recurring Bills</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-                <td style={{ paddingLeft: '16px' }}>Customer Reading</td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-                <td><input type="checkbox" /></td>
-            </tr>
-            {/* Add more rows as needed */}
+          {renderRow('Dashboard', 'Dashboard')}
+          {renderRow('Announcement', 'Announcement')}
+          {renderRow('Updates', 'Updates')}
+          {renderRow('PayingGuest', 'PayingGuest')}
+          {renderRow('Customers', 'Customers')}
+          {renderRow('Bookings', 'Bookings')}
+          {renderRow('Checkout', 'Checkout')}
+          {renderRow('WalkIn', 'WalkIn')}
+          {renderRow('Assets', 'Assets')}
+          {renderRow('Vendor', 'Vendor')}
+          {renderRow('Bills', 'Bills')}
+          {renderRow('RecuringBills', 'RecuringBills')}
+          {renderRow('Electricity', 'Electricity')}
+          {renderRow('Complaints', 'Complaints')}
+          {renderRow('Expenses', 'Expenses')}
+          {renderRow('Reports', 'Reports')}
+          {renderRow('Bankings', 'Bankings')}
+          {renderRow('Profile', 'Profile')}
+          
         </tbody>
-    </table>
+      </table>
 </div>
 
     
@@ -221,7 +292,7 @@ return(
                  
                 <div className="d-flex justify-content-between mt-3">
                             <button className="btn" style={{ border: "1px solid #1E45E1",color:"#1E45E1"}} onClick={handlePrev}>Previous</button>
-                            <button className="btn btn-primary">Save changes</button>
+                            <button className="btn btn-primary" onClick={handleSubmit}>Save changes</button>
                         </div>
             </div>
         </div>
