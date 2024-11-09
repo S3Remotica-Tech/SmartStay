@@ -108,7 +108,7 @@ function EBRoomReading(props) {
     });
   }, [selectedHostel]);
   const handleRoom = (e) => {
-    setRoomId(e.target.value);
+    setRooms(e.target.value);
     setRoomError("");
     setFormError("");
   };
@@ -152,12 +152,15 @@ function EBRoomReading(props) {
     setSelectedHostel(item.hostel_Id);
     setFloor(item.Floor);
     setRooms(item.Room);
+
+    console.log(Rooms,"Rooms----------------------");
+    
     setReading(item.end_Meter_Reading);
     const formattedJoiningDate = item.date ? new Date(item.date) : null;
     console.log("itemEdit...///", formattedJoiningDate);
     setSelectedDate(formattedJoiningDate);
     setId(item.eb_Id)
-    setRoomId(item.Room_Id)
+    setRoomId(item.Room_Id) 
     setHostelId(item.hostel_Id)
 
 
@@ -165,7 +168,7 @@ function EBRoomReading(props) {
     setInitialStateAssign({
       selectedHostel: item.hostel_Id || "",
       Floor: item.Floor || "",
-      Rooms: item.Room_Id || "",
+      Rooms: item.Room || "",
       reading: item.end_Meter_Reading || "",
       selectedDate: formattedJoiningDate || "",
     });
@@ -1268,7 +1271,7 @@ console.log('Formatted Date:', formattedDate);
                     unitAmount?.length === 0 &&
                     selectedHostel != ""
                   }
-                  value={roomId}
+                  value={Rooms}
                   onChange={(e) => handleRoom(e)}
                   style={{
                     fontSize: 16,
