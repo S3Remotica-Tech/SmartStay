@@ -1,4 +1,4 @@
-import { OccupiedCustomer } from "../Action/PgListAction";
+import { deleteElectricity, editElectricity, OccupiedCustomer } from "../Action/PgListAction";
 
 const initialState = {
     Name: '',
@@ -50,6 +50,10 @@ const initialState = {
     OccupiedCustomerGetStatusCode:0,
     EB_customerTable:[],
     dleteHostelImagesStatusCode:0,
+    statusCodeForEditElectricity:0,
+    editElectricity:[],
+    statusCodeForDeleteElectricity:0,
+    deleteElectricity:[]
 
 }
 const PgListReducer = (state = initialState, action) => {
@@ -197,6 +201,29 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
             return { ...state, alreadyfloorNameHere: action.payload }
         case 'CLEAR_UPDATE_FLOOR_ERROR':
             return { ...state, alreadyfloorNameHere: '' }
+
+
+
+            // EB
+
+            case "EDIT_ELECTRICITY":
+                return {
+                  ...state,
+                  editElectricity: action.payload,
+                  statusCodeForEditElectricity: action.payload.statusCode,
+                };
+              case "CLEAR_EDIT_ELECTRICITY":
+                return { ...state, statusCodeForEditElectricity: 0 };
+
+
+                case "DELETE_ELECTRICITY":
+                    return {
+                      ...state,
+                      deleteElectricity: action.payload,
+                      statusCodeForDeleteElectricity: action.payload.statusCode,
+                    };
+                  case "CLEAR_DELETE_ELECTRICITY":
+                    return { ...state, statusCodeForDeleteElectricity: 0 };
 
 // ///////////////////////////////////////////////
 

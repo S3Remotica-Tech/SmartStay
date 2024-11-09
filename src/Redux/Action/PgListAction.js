@@ -119,3 +119,14 @@ export async function deleteHostelImages(datum) {
     data: datum,
   });
 }
+export async function editElectricity(datum) {
+  console.log("editElectricity",datum)
+  return await AxiosConfig.post("/edit_eb_readings", datum, {
+    data: datum,
+  });
+}
+export async function deleteElectricity(datum) {
+  return await AxiosConfig.post("/delete_eb_readings", datum, {
+    data: datum,
+  });
+}
