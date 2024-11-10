@@ -78,7 +78,7 @@ function EBRoomReading(props) {
   };
   useEffect(() => {
     const FilterEbAmount = state.Settings.EBBillingUnitlist.eb_settings?.filter(
-      (item) => item.hostel_id == selectedHostel
+      (item) => item.hostel_id == hostelId
     );
     console.log("FilteredEBAmount:", FilterEbAmount);
     setUnitAmount(FilterEbAmount);
@@ -88,15 +88,15 @@ function EBRoomReading(props) {
     } else {
       console.log("unitAmount is not a valid array or is empty.");
     }
-  }, [state.Settings.EBBillingUnitlist.eb_settings, selectedHostel]);
+  }, [state.Settings.EBBillingUnitlist.eb_settings, hostelId]);
 
   
 
   useEffect(() => {
-    if (selectedHostel && Floor) {
+    if (hostelId && Floor) {
       dispatch({
         type: "ROOMDETAILS",
-        payload: { hostel_Id: selectedHostel, floor_Id: Floor },
+        payload: { hostel_Id: hostelId, floor_Id: Floor },
       });
     }
   }, [Floor]);
@@ -104,9 +104,9 @@ function EBRoomReading(props) {
   useEffect(() => {
     dispatch({
       type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: selectedHostel },
+      payload: { hostel_Id: hostelId },
     });
-  }, [selectedHostel]);
+  }, [hostelId]);
   const handleRoom = (e) => {
     setRooms(e.target.value);
     setRoomError("");
@@ -272,7 +272,7 @@ function EBRoomReading(props) {
     };
     const isChangedBed =
     (String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase()) ||
-      (String(roomId).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase()) ||
+      (String(Rooms).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase()) ||
       (String(hostelId).toLowerCase() !== String(initialStateAssign.selectedHostel).toLowerCase()) ||
     (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
     ? new Date(selectedDate).toISOString().split("T")[0] !==
@@ -1398,6 +1398,7 @@ console.log('Formatted Date:', formattedDate);
               marginTop: 20,
             }}
             onClick={handleSaveChanges}
+            disabled={!!formError}
           >
             Save Changes
           </Button>
