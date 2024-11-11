@@ -45,7 +45,7 @@ export async function Checkeblist(datum) {
 }
 
 export async function CreateEbbill(datum) {
-  return await AxiosConfig.post("/ebamount/setting", datum, {
+  return await AxiosConfig.post("/add_room_reading", datum, {
     data: datum,
   });
 }
@@ -121,7 +121,7 @@ export async function deleteHostelImages(datum) {
 }
 export async function editElectricity(datum) {
   console.log("editElectricity",datum)
-  return await AxiosConfig.post("/edit_eb_readings", datum, {
+  return await AxiosConfig.post("/edit_room_reading", datum, {
     data: datum,
   });
 }

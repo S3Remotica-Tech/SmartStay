@@ -128,6 +128,7 @@ function EB_Hostel() {
 
   useEffect(() => {
     setEbErrorunit(state?.PgList?.ebError);
+   
   }, [state?.PgList?.ebError]);
 
   useEffect(() => {
@@ -142,6 +143,7 @@ function EB_Hostel() {
     setRooms("");
     setHostelIdError("");
     setEbErrorunit("");
+    dispatch({ type: "CLEAR_EB_ERROR"});
   };
   const handleFloor = (e) => {
     setFloor(e.target.value);
@@ -153,12 +155,14 @@ function EB_Hostel() {
     setRooms("");
     setfloorError("");
     setEbErrorunit("");
+    dispatch({ type: "CLEAR_EB_ERROR"});
   };
 
   const handleRoom = (e) => {
     setRooms(e.target.value);
     setRoomError("");
     setEbErrorunit("");
+    dispatch({ type: "CLEAR_EB_ERROR"});
   };
   const [startmeterValue, setStartmeterValue] = useState("");
 
@@ -219,6 +223,8 @@ function EB_Hostel() {
   const handleendmeter = (e) => {
     setEndmeter(e.target.value);
     setendMeterError("");
+    setEbErrorunit("");
+    dispatch({ type: "CLEAR_EB_ERROR"});
   };
 
   const handleamount = (e) => {
@@ -255,7 +261,7 @@ function EB_Hostel() {
 
   useEffect(() => {
     if (state.PgList.AddEBstatusCode === 200) {
-      dispatch({ type: "EBSTARTMETERLIST" });
+      dispatch({ type: "EBSTARTMETERLIST"});
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB" });
@@ -468,11 +474,11 @@ function EB_Hostel() {
       dispatch({
         type: "CREATEEB",
         payload: {
-          Hostel_Id: selectedHostel,
-          Floor: Floor,
-          Room: Rooms,
+          hostel_id: selectedHostel,
+          floor_id: Floor,
+          room_id: Rooms,
           date: formattedDate,
-          end_Meter_Reading: endmeter,
+          reading: endmeter,
         },
       });
     }
@@ -699,6 +705,12 @@ function EB_Hostel() {
         />
       </div>
     );
+  };
+  const handleDateChange = (date) => {
+    setDateError('');  
+    setEbErrorunit(''); 
+    setSelectedDate(date);
+    dispatch({ type: "CLEAR_EB_ERROR"}); 
   };
 
   return (
@@ -1141,7 +1153,7 @@ function EB_Hostel() {
                             whiteSpace: 'nowrap',
                               }}
                             >
-                              {new Date(v.date).toISOString().split("T")[0]}
+                              {v.reading_date}
                             </span>
                           </td>
                           <td
@@ -1709,10 +1721,7 @@ function EB_Hostel() {
         <div style={{ position: 'relative', width: "100%" }}>
           <DatePicker
             selected={selectedDate}
-            onChange={(date) => {
-              setDateError('');
-              setSelectedDate(date);
-            }}
+            onChange={handleDateChange}
             dateFormat="dd/MM/yyyy"
             minDate={null} 
             // disabled={edit}

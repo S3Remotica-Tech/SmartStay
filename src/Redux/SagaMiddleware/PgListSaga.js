@@ -652,7 +652,7 @@ function* handleEditElectricity(action) {
   }
 
   else {
-     yield put ({type:'ERROR', payload:response.data.message})
+     yield put ({type:'ERROR_EDIT_ELECTRICITY', payload:response.data.message})
   }
   if(response){
      refreshToken(response)

@@ -927,7 +927,7 @@ lineHeight: 'normal',
 
             </div>
           </div>
-          <div className="complaints-container animated-text">
+          <div className="complaints-container animated-text" style={{overflowY: 'auto',maxHeight: '380px',}}>
             <div className="header">
               <p
                 style={{

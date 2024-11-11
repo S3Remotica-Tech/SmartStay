@@ -69,12 +69,15 @@ function EBRoomReading(props) {
     setReading("")
     setRoomId("")
     setFormError('')
+    
   };
 
   const handleReadingChange = (e) => {
     setReading(e.target.value);
     setReadingError('')
     setFormError('')
+    setEbErrorunit("");
+    dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY"}); 
   };
   useEffect(() => {
     const FilterEbAmount = state.Settings.EBBillingUnitlist.eb_settings?.filter(
@@ -91,7 +94,10 @@ function EBRoomReading(props) {
   }, [state.Settings.EBBillingUnitlist.eb_settings, hostelId]);
 
   
-
+  useEffect(() => {
+    setEbErrorunit(state?.PgList?.ebEditError);
+   
+  }, [state?.PgList?.ebEditError]);
   useEffect(() => {
     if (hostelId && Floor) {
       dispatch({
@@ -111,6 +117,7 @@ function EBRoomReading(props) {
     setRooms(e.target.value);
     setRoomError("");
     setFormError("");
+    setEbErrorunit("");
   };
   const handleFloor = (e) => {
     setFloor(e.target.value);
@@ -118,10 +125,18 @@ function EBRoomReading(props) {
     setfloorError("");
     setFormError("");
     setRoomId("")
+    setEbErrorunit("");
   };
   const handleClose = () => {
     setebEditShow(false);
     setFormError("");
+    setEbErrorunit("");
+  };
+  const handleDateChange = (date) => {
+    setDateError('');  
+    setEbErrorunit(''); 
+    setSelectedDate(date);
+    dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY"}); 
   };
 
   const handleCloseDelete = () => {
@@ -150,12 +165,12 @@ function EBRoomReading(props) {
     setUnitAmount('')
     setebEditShow(true);
     setSelectedHostel(item.hostel_Id);
-    setFloor(item.Floor);
-    setRooms(item.Room);
+    setFloor(item.floor_id);
+    setRooms(item.room_id);
 
     console.log(Rooms,"Rooms----------------------");
     
-    setReading(item.end_Meter_Reading);
+    setReading(item.reading);
     const formattedJoiningDate = item.date ? new Date(item.date) : null;
     console.log("itemEdit...///", formattedJoiningDate);
     setSelectedDate(formattedJoiningDate);
@@ -167,9 +182,9 @@ function EBRoomReading(props) {
 
     setInitialStateAssign({
       selectedHostel: item.hostel_Id || "",
-      Floor: item.Floor || "",
-      Rooms: item.Room || "",
-      reading: item.end_Meter_Reading || "",
+      Floor: item.floor_id || "",
+      Rooms: item.room_id || "",
+      reading: item.reading || "",
       selectedDate: formattedJoiningDate || "",
     });
   };
@@ -311,7 +326,7 @@ try {
         hostel_id: hostelId,
         floor_id: Floor,
         room_id: Rooms, 
-        current_reading: reading,
+        reading: reading,
         date : formattedDate,
         id:id
       },
@@ -447,7 +462,8 @@ try {
 useEffect(()=>{
 if(state.PgList.statusCodeForEditElectricity === 200){
   handleClose()
-  dispatch({ type: "EBSTARTMETERLIST" });
+  dispatch({ type: "EBSTARTMETERLIST"});
+  dispatch({ type: "CUSTOMEREBLIST"});
 
   setTimeout(() => {
     dispatch({ type: "CLEAR_EDIT_ELECTRICITY" });
@@ -530,7 +546,7 @@ if(state.PgList.statusCodeForEditElectricity === 200){
                 >
                   Room no
                 </th>
-                <th
+                {/* <th
                   style={{
                     color: "#939393",
                     fontWeight: 500,
@@ -542,7 +558,7 @@ if(state.PgList.statusCodeForEditElectricity === 200){
                   }}
                 >
                   Previous
-                </th>
+                </th> */}
                 <th
                   style={{
                     color: "#939393",
@@ -554,7 +570,7 @@ if(state.PgList.statusCodeForEditElectricity === 200){
                     textAlign: "center",
                   }}
                 >
-                  Current
+                  Reading
                 </th>
                 <th
                   style={{
@@ -702,7 +718,7 @@ console.log('Formatted Date:', formattedDate);
                           borderBottom: "none",
                         }}
                       >
-                        {v.Floor}
+                        {v.floor_name}
                       </td>
                       <td
                         style={{
@@ -714,9 +730,9 @@ console.log('Formatted Date:', formattedDate);
                           borderBottom: "none",
                         }}
                       >
-                        {v.Room}
+                        {v.Room_Id}
                       </td>
-                      <td
+                      {/* <td
                         style={{
                           fontSize: "16px",
                           fontWeight: 500,
@@ -727,7 +743,7 @@ console.log('Formatted Date:', formattedDate);
                         }}
                       >
                         {v.start_Meter_Reading}
-                      </td>
+                      </td> */}
                       <td
                         style={{
                           fontSize: "16px",
@@ -738,7 +754,7 @@ console.log('Formatted Date:', formattedDate);
                           borderBottom: "none",
                         }}
                       >
-                        {v.end_Meter_Reading}
+                        {v.reading}
                       </td>
                       <td
                         style={{
@@ -773,7 +789,7 @@ console.log('Formatted Date:', formattedDate);
                           borderBottom: "none",
                         }}
                       >
-                        {v.Eb_Unit}
+                        {v.total_reading}
                       </td>
                       <td
                         style={{
@@ -785,7 +801,7 @@ console.log('Formatted Date:', formattedDate);
                           borderBottom: "none",
                         }}
                       >
-                        {v.EbAmount}
+                        {v.total_amount}
                       </td>
                       <td style={{ paddingTop: 12, border: "none" }}>
                         {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
@@ -1355,10 +1371,7 @@ console.log('Formatted Date:', formattedDate);
                 <div style={{ position: "relative", width: "100%" }}>
                   <DatePicker
                     selected={selectedDate}
-                    onChange={(date) => {
-                      setDateError("");
-                      setSelectedDate(date);
-                    }}
+                   onChange={handleDateChange}
                     dateFormat="dd/MM/yyyy"
                     minDate={null}
                     // disabled={edit}
