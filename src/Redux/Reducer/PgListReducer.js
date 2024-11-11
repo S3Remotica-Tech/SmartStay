@@ -53,7 +53,8 @@ const initialState = {
     statusCodeForEditElectricity:0,
     editElectricity:[],
     statusCodeForDeleteElectricity:0,
-    deleteElectricity:[]
+    deleteElectricity:[],
+    ebEditError:''
 
 }
 const PgListReducer = (state = initialState, action) => {
@@ -119,7 +120,7 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
 
 
         case 'EB_ERROR':
-            return { ...state, ebError: action.payload }
+            return { ...state,ebError: action.payload }
 
         case 'CLEAR_EB_ERROR':
             return { ...state, ebError: '' }
@@ -215,6 +216,13 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
               case "CLEAR_EDIT_ELECTRICITY":
                 return { ...state, statusCodeForEditElectricity: 0 };
 
+
+
+                case 'ERROR_EDIT_ELECTRICITY':
+            return { ...state,ebEditError: action.payload }
+
+        case 'CLEAR_ERROR_EDIT_ELECTRICITY':
+            return { ...state, ebEditError: '' }
 
                 case "DELETE_ELECTRICITY":
                     return {
