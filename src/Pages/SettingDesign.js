@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import role from "../Assets/Images/New_images/security-user.png"
 import "./Settings.css";
@@ -6,20 +6,49 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import round from "../Assets/Images/Group 14.png"
 import rolecircle from "../Assets/Images/New_images/role_circle.png"
 import {Button, Offcanvas,Form,FormControl,FormSelect,} from "react-bootstrap";
+import Edit from "../Assets/Images/Edit-Linear-32px.png";
+import Delete from "../Assets/Images/Trash-Linear-32px.png";
 
 function RolesDesign(props){
     const state = useSelector(state => state)
     console.log("RolesDesign",state)
     const dispatch = useDispatch();
+    const popupRef = useRef(null);
     const [roleName,setRoleNme]=useState('')
     const[permissionRole,setPermissionRole]=useState([])
+    const [activeRow, setActiveRow] = useState(null);
+    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
+    const handleShowDots = (id, e) => {
+      if (activeRow === id) {
+        setActiveRow(null);
+      } else {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setPopupPosition({
+          top: rect.top + window.scrollY + 40, // Adjust this offset as needed
+          left: rect.left + window.scrollX + 10, // Adjust this offset as needed
+        });
+        setActiveRow(id);
+      }
+    };
+
+    // const handleShowDots = (id) => {
+    //   if (activeRow === id) {
+    //     setActiveRow(null);
+    //   } else {
+    //     setActiveRow(id);
+    //   }
+    // };
 
 const handleRoleName=(e)=>{
     setRoleNme(e.target.value)
 }
 const handlePrev=()=>{
    props.setRolePage(false)
+
+}
+const handleEditUserRole =(item)=>{
+  console.log("item",item)
 
 }
 const [checkboxValues, setCheckboxValues] = useState({
@@ -154,6 +183,9 @@ const [checkboxValues, setCheckboxValues] = useState({
       ))}
     </tr>
   );
+  // const handleEditClick=()=>{
+
+  // }
 // useEffect(()=>{
 //     dispatch({ type: 'SETTING_ROLE_LIST' })
 // },[])
@@ -164,25 +196,70 @@ const [checkboxValues, setCheckboxValues] = useState({
         
             <div className="col-md-5 show-scroll" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                 <div className="row">
-                    {
-                        state.Settings?.getsettingRoleList?.response?.roles.map((u)=>{
-return(
-    <div className="col-12 col-sm-6 col-md-6 mb-3">
-    <div className="d-flex align-items-center justify-content-between p-3 border rounded" style={{ height: '64px' }}>
-        <div className="d-flex align-items-center">
+                {
+  state.Settings?.getsettingRoleList?.response?.roles.map((u) => {
+    return (
+      <div className="col-12 col-sm-6 col-md-6 mb-3" key={u.id} style={{ position: 'relative' }}>
+        <div className="d-flex align-items-center justify-content-between p-3 border rounded" style={{ height: '64px' }}>
+          <div className="d-flex align-items-center">
             <img src={role} width={24} height={24} alt="Role Icon" />
             <span style={{ marginLeft: "20px", fontSize: "16px", fontWeight: 600, fontFamily: 'Gilroy', color: "#222222" }}>
-            {u.role_name}
+              {u.role_name}
             </span>
-        </div>
-        <button className="btn p-0">
+          </div>
+          <button className="btn p-0" onClick={(e) => handleShowDots(u.id, e)}>
             <img src={round} width={34} height={34} alt="Menu Icon" />
-        </button>
-    </div>
-</div>
-)
-                        })
-                    }
+          </button>
+        </div>
+
+        {/* Popup displayed relative to the card */}
+        {activeRow === u.id && (
+          <div
+            ref={popupRef}
+            style={{
+              cursor: "pointer",
+              backgroundColor: "#fff",
+              position: "absolute",
+              top: "40px", // Positioning the popup below the button (adjust as needed)
+              left: "10px", // Positioning the popup relative to the button (adjust as needed)
+              width: 163,
+              height: "auto",
+              border: "1px solid #EBEBEB",
+              borderRadius: 10,
+              display: "flex",
+              justifyContent: "start",
+              padding: 10,
+              alignItems: "center",
+              zIndex: 1000,
+            }}
+          >
+            <div style={{ backgroundColor: "#fff" }}>
+              <div
+                className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                style={{ backgroundColor: "#fff" }}
+                onClick={() => handleEditUserRole(u)}
+              >
+                <img src={Edit} style={{ height: 16, width: 16 }} />
+                <label
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    fontFamily: "Gilroy, sans-serif",
+                    color: "#222222",
+                    cursor: "pointer",
+                  }}
+                >
+                  Edit
+                </label>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  })
+}
+
                    
                     
                     <div className="col-12 col-sm-6 col-md-6 mb-3">
