@@ -52,6 +52,7 @@ function EBRoomReading(props) {
   const [unitAmount, setUnitAmount] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
   const [ebErrorunit, setEbErrorunit] = useState("");
+  const [deleteId, setDeleteId] = useState("");
 
   const handleShowDots = (eb_Id) => {
     if (activeRow === eb_Id) {
@@ -143,8 +144,10 @@ function EBRoomReading(props) {
     setDeleteShow(false);
   };
 
-  const handleDeleteShow = () => {
+  const handleDeleteShow = (item) => {
+    console.log("itemhhjhj",item)
     setDeleteShow(true);
+    setDeleteId(item.eb_Id)
   };
   const popupRef = useRef(null);
 
@@ -188,6 +191,10 @@ function EBRoomReading(props) {
       selectedDate: formattedJoiningDate || "",
     });
   };
+
+
+ 
+  
   const validateAssignField = (value, fieldName) => {
     const isValueEmpty =
       (typeof value === "string" && value.trim() === "") ||
@@ -413,6 +420,33 @@ try {
   useEffect(() => {
     setelectricityFilterddata(state.PgList?.EB_startmeterlist);
   }, [state.PgList?.EB_startmeterlist]);
+
+
+  const handleDeleteReading =()=>{
+    dispatch({
+      type: "DELETEECTRICITY",
+      payload: {
+        id:deleteId
+      },
+    });
+
+  }
+
+  useEffect(()=>{
+    if(state.PgList.statusCodeForDeleteElectricity === 200){
+      handleCloseDelete()
+      dispatch({ type: "EBSTARTMETERLIST"});
+      dispatch({ type: "CUSTOMEREBLIST"});
+    
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_ELECTRICITY" });
+      }, 200);
+    
+    }
+    },[state.PgList.statusCodeForDeleteElectricity])
+
+
+
 
   const customDateInput = (props) => {
     return (
@@ -879,10 +913,10 @@ console.log('Formatted Date:', formattedDate);
 
                                             </div> */}
 
-                                  {/* <div
+                                   <div
                                     className="mb-2 d-flex justify-content-start align-items-center gap-2"
                                     style={{ backgroundColor: "#fff" }}
-                                    onClick={handleDeleteShow}
+                                    onClick={() => handleDeleteShow(v)}
                                   >
                                     <img
                                       src={Delete}
@@ -899,7 +933,7 @@ console.log('Formatted Date:', formattedDate);
                                     >
                                       Delete
                                     </label>
-                                  </div> */}
+                                  </div> 
                                 </div>
                               </div>
                             </>
@@ -1441,7 +1475,7 @@ console.log('Formatted Date:', formattedDate);
               flex: 1,
             }}
           >
-            Delete Check-out?
+            Delete RoomReading?
           </Modal.Title>
         </Modal.Header>
 
@@ -1455,7 +1489,7 @@ console.log('Formatted Date:', formattedDate);
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this check-out?
+          Are you sure you want to delete this RoomReading?
         </Modal.Body>
 
         <Modal.Footer
@@ -1495,7 +1529,7 @@ console.log('Formatted Date:', formattedDate);
               fontFamily: "Gilroy",
               fontSize: "14px",
             }}
-            onClick={handleCloseDelete}
+            onClick={handleDeleteReading}
           >
             Delete
           </Button>

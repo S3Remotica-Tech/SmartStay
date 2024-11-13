@@ -194,92 +194,72 @@ const [checkboxValues, setCheckboxValues] = useState({
         <div className="row">
             
         
-            <div className="col-md-5 show-scroll" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                <div className="row">
-                {
-  state.Settings?.getsettingRoleList?.response?.roles.map((u) => {
-    return (
-      <div className="col-12 col-sm-6 col-md-6 mb-3" key={u.id} style={{ position: 'relative' }}>
-        <div className="d-flex align-items-center justify-content-between p-3 border rounded" style={{ height: '64px' }}>
-          <div className="d-flex align-items-center">
-            <img src={role} width={24} height={24} alt="Role Icon" />
-            <span style={{ marginLeft: "20px", fontSize: "16px", fontWeight: 600, fontFamily: 'Gilroy', color: "#222222" }}>
-              {u.role_name}
-            </span>
-          </div>
-          <button className="btn p-0" onClick={(e) => handleShowDots(u.id, e)}>
-            <img src={round} width={34} height={34} alt="Menu Icon" />
-          </button>
-        </div>
-
-        {/* Popup displayed relative to the card */}
-        {activeRow === u.id && (
-          <div
-            ref={popupRef}
-            style={{
-              cursor: "pointer",
-              backgroundColor: "#fff",
-              position: "absolute",
-              top: "40px", // Positioning the popup below the button (adjust as needed)
-              left: "10px", // Positioning the popup relative to the button (adjust as needed)
-              width: 163,
-              height: "auto",
-              border: "1px solid #EBEBEB",
-              borderRadius: 10,
-              display: "flex",
-              justifyContent: "start",
-              padding: 10,
-              alignItems: "center",
-              zIndex: 1000,
-            }}
-          >
-            <div style={{ backgroundColor: "#fff" }}>
-              <div
-                className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                style={{ backgroundColor: "#fff" }}
-                onClick={() => handleEditUserRole(u)}
-              >
-                <img src={Edit} style={{ height: 16, width: 16 }} />
-                <label
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy, sans-serif",
-                    color: "#222222",
-                    cursor: "pointer",
-                  }}
-                >
-                  Edit
-                </label>
+        <div className="col-md-5 show-scroll" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+      <div className="row">
+        {state.Settings?.getsettingRoleList?.response?.roles.map((u) => (
+          <div className="col-12 col-sm-6 mb-3" key={u.id} style={{ position: 'relative' }}>
+            <div className="d-flex align-items-center justify-content-between p-3 border rounded" style={{ height: '64px' }}>
+              <div className="d-flex align-items-center">
+                <img src={role} width={24} height={24} alt="Role Icon" />
+                <span className="ml-3 font-weight-bold" style={{ fontSize: "16px", fontFamily: 'Gilroy', color: "#222222" }}>
+                  {u.role_name}
+                </span>
               </div>
+              <button className="btn p-0" onClick={(e) => handleShowDots(u.id, e)}>
+                <img src={round} width={34} height={34} alt="Menu Icon" />
+              </button>
+            </div>
+            {activeRow === u.id && (
+              <div
+                ref={popupRef}
+                className="position-absolute"
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#fff",
+                  top: "40px",
+                  left: "10px",
+                  width: 163,
+                  border: "1px solid #EBEBEB",
+                  borderRadius: 10,
+                  display: "flex",
+                  justifyContent: "start",
+                  padding: 10,
+                  alignItems: "center",
+                  zIndex: 1000,
+                }}
+              >
+                <div>
+                  <div
+                    className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                    onClick={() => handleEditUserRole(u)}
+                  >
+                    <img src={Edit} style={{ height: 16, width: 16 }} />
+                    <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
+                      Edit
+                    </label>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+        <div className="col-12 col-sm-6 mb-3">
+          <div className="d-flex align-items-center justify-content-between p-3 rounded" style={{ height: '64px', backgroundColor: "#E7F1FF" }}>
+            <div className="d-flex align-items-center">
+              <img src={rolecircle} width={24} height={24} alt="Create Icon" />
+              <span className="ml-3 font-weight-bold" style={{ fontSize: "16px", fontFamily: 'Gilroy', color: "#222222" }}>
+                Create New
+              </span>
             </div>
           </div>
-        )}
+        </div>
       </div>
-    );
-  })
-}
+    </div>
 
-                   
-                    
-                    <div className="col-12 col-sm-6 col-md-6 mb-3">
-                        <div className="d-flex align-items-center justify-content-between p-3 border rounded" style={{ height: '64px',backgroundColor: "#E7F1FF",border:"none" }}>
-                            <div className="d-flex align-items-center">
-                            <img src={rolecircle} width={24} height={24} alt="Create Icon" />
-                                <span style={{ marginLeft: "20px", fontSize: "16px", fontWeight: 600, fontFamily: 'Gilroy', color: "#222222" }}>
-                                    Create New
-                                </span>
-                            </div>
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            
-            <div className="col-md-1 d-flex justify-content-center">
-                <div style={{ borderLeft: '1px solid #E7F1FF', height: 'auto', marginLeft: "-50px" }}></div>
-            </div>
+    {/* Middle Divider Line */}
+    <div className="col-md-1 d-none d-md-flex justify-content-center">
+      <div className="border-left" style={{ height: '100%', borderLeft: '1px solid #E7F1FF' }}></div>
+    </div>
     
             <div className="col-md-6" style={{marginTop:"-5px"}}>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">

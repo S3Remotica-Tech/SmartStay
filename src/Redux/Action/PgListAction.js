@@ -126,7 +126,7 @@ export async function editElectricity(datum) {
   });
 }
 export async function deleteElectricity(datum) {
-  return await AxiosConfig.post("/delete_eb_readings", datum, {
+  return await AxiosConfig.post("delete_room_reading", datum, {
     data: datum,
   });
 }
