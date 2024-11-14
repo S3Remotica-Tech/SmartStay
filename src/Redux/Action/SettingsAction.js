@@ -63,3 +63,16 @@ export async function AddExpencesCategory(Expences) {
       data: datum,
     });
   }
+
+  export async function AddSettingPermission(datum) {
+    console.log("AddSettingPermission", datum);
+    return await AxiosConfig.post("/role_permissions", datum, {
+      data: datum,
+    });
+  }
+  export async function editRolePermission(datum) {
+    console.log("editRolePermission", datum);
+    return await AxiosConfig.post("/edit_role", datum, {
+      data: datum,
+    });
+  }

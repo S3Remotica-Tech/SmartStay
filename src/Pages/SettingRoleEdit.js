@@ -20,6 +20,7 @@ function RolesDesign(props){
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
     const [editRolePermission,setEditRolePermission] =useState("")
     const [roleinEdit,setroleinEdit] = useState("")
+    const [rolepermissionId,setEditRolePermissionId]=useState("")
     console.log("roleinEdit...?",roleinEdit);
     const [edit,setEdit]=useState(false)
     
@@ -49,9 +50,16 @@ const handleRoleName=(e)=>{
     setRoleNme(e.target.value)
 }
 const handlePrev=()=>{
-   props.setRolePage(false)
+   props.setRoleEdit(false)
 
 }
+console.log("editPage",props.editPage)
+
+useEffect(()=>{
+    setRoleNme(props.editPage.role_name)
+    setEditRolePermission(props.editPage.id)
+},[])
+
 const handleEditUserRole =(item)=>{
   setActiveRow(null)
   console.log("handleEditUserRole",item)
@@ -93,7 +101,9 @@ const RolePermission = state.Settings?.editRolePermission?.role_details;
 //   }
 // }, [RolePermission]);
 
-
+// useEffect(()=>{
+//     dispatch({ type: "EDITPERMISSIONROLE", payload: {role_id:rolepermissionId}});
+//   },[rolepermissionId])
 
 useEffect(()=>{
   dispatch({ type: "EDITPERMISSIONROLE", payload: {role_id:editRolePermission}});
@@ -217,7 +227,7 @@ const [checkboxValues, setCheckboxValues] = useState({
   // Function to handle form submission
   const handleSubmit = () => {
     // e.preventDefault();
-    if(edit && editRolePermission){
+    if(edit || editRolePermission){
       dispatch({ type: "EDITSETTINGROLEPERMISSION", payload: {role_name:roleName,permissions:permissionRole,id:editRolePermission}});
     }
     else{
@@ -250,6 +260,7 @@ useEffect(()=>{
     setRoleNme("")
     setEdit(false)
     setPermissionRole([])
+    props.setRoleEdit("")
     setCheckboxValues(prevValues => {
         const resetValues = {};
         Object.keys(prevValues).forEach(key => {
