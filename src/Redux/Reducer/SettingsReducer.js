@@ -20,7 +20,9 @@ const initialState = {
     editRolePermission:[],
     editStatusCosePermission:0,
     editSettingRole:[],
-    StatusForEditPermission:0
+    StatusForEditPermission:0,
+    deleteSettingRole:[],
+    StatusForDeletePermission:0
 
 }
 
@@ -116,6 +118,16 @@ const SettingsReducer = (state = initialState, action) => {
                                 };
                               case "CLEAR_EDIT_SETTING_ROLE":
                                 return { ...state, StatusForEditPermission:0 };
+
+
+                                case "DELETE_SETTING_ROLE":
+                                return {
+                                  ...state,
+                                  deleteSettingRole: action.payload,
+                                StatusForDeletePermission: action.payload.statusCode,
+                                };
+                              case "CLEAR_DELETE_SETTING_ROLE":
+                                return { ...state, StatusForDeletePermission:0 };
             }
     return state;
 }

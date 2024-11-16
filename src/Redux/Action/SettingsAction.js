@@ -76,3 +76,10 @@ export async function AddExpencesCategory(Expences) {
       data: datum,
     });
   }
+
+  export async function deleteRolePermission(datum) {
+    console.log("deleteRolePermission", datum);
+    return await AxiosConfig.post("/delete_role", datum, {
+      data: datum,
+    });
+  }

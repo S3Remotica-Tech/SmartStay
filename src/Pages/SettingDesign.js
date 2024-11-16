@@ -8,6 +8,8 @@ import rolecircle from "../Assets/Images/New_images/role_circle.png"
 import {Button, Offcanvas,Form,FormControl,FormSelect,} from "react-bootstrap";
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
+import { MdError } from "react-icons/md";
+import Modal from "react-bootstrap/Modal";
 
 function RolesDesign(props){
     const state = useSelector(state => state)
@@ -20,8 +22,16 @@ function RolesDesign(props){
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
     const [editRolePermission,setEditRolePermission] =useState("")
     const [roleinEdit,setroleinEdit] = useState("")
+    const [initialRoleName, setInitialRoleName] = useState('');
+const [initialPermissions, setInitialPermissions] = useState([]);
     console.log("roleinEdit...?",roleinEdit);
     const [edit,setEdit]=useState(false)
+    const [errorForm,setErrorForm] =useState("")
+    const [errorPermission,setErrorPermission] =useState("")
+    const [deleteId,setDeleteId]= useState("")
+    const [deleteRleForm,setDeleteRleForm] =useState(false)
+
+   console.log("delete",deleteId)
     
 
     const handleShowDots = (id, e) => {
@@ -47,6 +57,7 @@ function RolesDesign(props){
 
 const handleRoleName=(e)=>{
     setRoleNme(e.target.value)
+    setErrorForm("")
 }
 const handlePrev=()=>{
    props.setRolePage(false)
@@ -57,11 +68,23 @@ const handleEditUserRole =(item)=>{
   console.log("handleEditUserRole",item)
   setEdit(true)
   setEditRolePermission(item.id)
-  setRoleNme(item.role_name)
- 
-  
-   
+  setRoleNme(item.role_name) 
 }
+
+
+const handleDeleteRole=()=>{
+  dispatch({ type: "DELETESETTINGROLEPERMISSION", payload: {id:deleteId}});
+  
+}
+useEffect(()=>{
+  if(state.Settings.StatusForDeletePermission === 200){
+    handleCloseRoleDelete()
+    dispatch({type: "SETTING_ROLE_LIST"});
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_DELETE_SETTING_ROLE" });
+    }, 1000);
+  }
+},[state.Settings.StatusForDeletePermission])
 // const saveChanges=()=>{
   
 // }
@@ -172,6 +195,8 @@ const [checkboxValues, setCheckboxValues] = useState({
       ...prevValues,
       [row]: prevValues[row].map((value, i) => (i === index ? !value : value))
     }));
+    setErrorForm("")
+    setErrorPermission("")
   };
   useEffect(() => {
     if (!checkboxValues || typeof checkboxValues !== 'object') {
@@ -215,18 +240,61 @@ const [checkboxValues, setCheckboxValues] = useState({
 
 
   // Function to handle form submission
-  const handleSubmit = () => {
-    // e.preventDefault();
-    if(edit && editRolePermission){
-      dispatch({ type: "EDITSETTINGROLEPERMISSION", payload: {role_name:roleName,permissions:permissionRole,id:editRolePermission}});
-    }
-    else{
-      dispatch({ type: "SETTING_ADD_ROLE_LIST", payload: {role_name:roleName,permissions:permissionRole}});
-    }
+  // const handleSubmit = () => {
+  //   // e.preventDefault();
+  //   if(edit && editRolePermission){
+  //     dispatch({ type: "EDITSETTINGROLEPERMISSION", payload: {role_name:roleName,permissions:permissionRole,id:editRolePermission}});
+  //   }
+  //   else{
+  //     dispatch({ type: "SETTING_ADD_ROLE_LIST", payload: {role_name:roleName,permissions:permissionRole}});
+  //   }
    
     
-    // Send checkboxValues to your backend or API
-  };
+  //   // Send checkboxValues to your backend or API
+  // };
+  
+  useEffect(() => {
+    if (edit && RolePermission) {
+        setInitialRoleName(roleName);
+        setInitialPermissions([...permissionRole]); // Deep copy
+    }
+}, [edit, RolePermission]);
+
+  const handleSubmit = () => {
+  
+    if (!roleName.trim()) {
+        setErrorForm("Role name cannot be empty.");
+        return;
+    } 
+    const hasPermissionSelected = permissionRole.some(permission => 
+        permission.per_create !== 0 || permission.per_delete !== 0 || permission.per_edit !== 0 || permission.per_view !== 0
+    ); 
+    console.log("Permission Role:", permissionRole); 
+
+    if (!hasPermissionSelected) {
+        setErrorPermission("At least one permission must be selected.");
+        return;
+    }
+    const payload = {
+        role_name: roleName,
+        permissions: permissionRole,
+    };
+    if (edit && editRolePermission) {
+        dispatch({ type: "EDITSETTINGROLEPERMISSION", payload: { ...payload, id: editRolePermission } });
+    } else {
+        dispatch({ type: "SETTING_ADD_ROLE_LIST", payload });
+    }
+};
+
+const handleDeleteUserRole =(v)=>{
+setDeleteId(v.id)
+setDeleteRleForm(true)
+setActiveRow(null)
+}
+const handleCloseRoleDelete=()=>{
+  setDeleteRleForm(false) 
+}
+
   useEffect(()=>{
     if(state.Settings.statusCodeForAddRole === 200)
         setRoleNme("")
@@ -234,7 +302,7 @@ const [checkboxValues, setCheckboxValues] = useState({
     setCheckboxValues(prevValues => {
         const resetValues = {};
         Object.keys(prevValues).forEach(key => {
-          resetValues[key] = prevValues[key].map(() => false);
+          resetValues[key] = prevValues[key]?.map(() => false);
         });
         return resetValues;
       });
@@ -272,7 +340,7 @@ useEffect(()=>{
   const renderRow = (rowName, label) => (
     <tr key={rowName}>
       <td style={{ paddingLeft: '16px' }}>{label}</td>
-      {checkboxValues[rowName].map((checked, index) => (
+      {checkboxValues[rowName]?.map((checked, index) => (
         <td key={index}>
           <input
             type="checkbox"
@@ -310,7 +378,8 @@ useEffect(()=>{
               </button>
             </div>
             {activeRow === u.id && (
-              <div
+              <>
+               <div
                 ref={popupRef}
                 className="position-absolute"
                 style={{
@@ -338,8 +407,32 @@ useEffect(()=>{
                       Edit
                     </label>
                   </div>
+                  <div
+               className="mb-2 d-flex justify-content-start align-items-center gap-2"
+               style={{ backgroundColor: "#fff" }}
+            onClick={()=> handleDeleteUserRole(u)} >
+               <img
+                 src={Delete}
+                 style={{ height: 16, width: 16 }}
+               />{" "}
+               <label
+                 style={{
+                   fontSize: 14,
+                   fontWeight: 500,
+                   fontFamily: "Gilroy,sans-serif",
+                   color: "#FF0000",
+                   cursor: "pointer",
+                 }}
+               >
+                 Delete
+               </label>
+             </div>
                 </div>
               </div>
+            
+              </>
+             
+              
             )}
           </div>
         ))}
@@ -362,6 +455,15 @@ useEffect(()=>{
     </div>
     
             <div className="col-md-6" style={{marginTop:"-5px"}}>
+            {errorForm && (
+                                      <div style={{ color: "red" }}>
+                                        {" "}
+                                        <MdError
+                                          style={{ width: 20, height: 20 }}
+                                        />
+                                        {errorForm}
+                                      </div>
+                                    )}
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3">
                         <Form.Label
@@ -407,7 +509,15 @@ useEffect(()=>{
                
                     
                        
-    
+                    {errorPermission && (
+                                      <div style={{ color: "red" }}>
+                                        {" "}
+                                        <MdError
+                                          style={{ width: 20, height: 20 }}
+                                        />
+                                        {errorPermission}
+                                      </div>
+                                    )}
                         {/* Scrollable Permissions Table */}
                         <div className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto', border: "1px solid #DCDCDC", borderRadius: "16px" }}>
                         <table className="table mb-0">
@@ -453,6 +563,93 @@ useEffect(()=>{
                         </div>
             </div>
         </div>
+
+
+        <Modal
+        show={deleteRleForm}
+        onHide={() => handleCloseRoleDelete()}
+        centered
+        backdrop="static"
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}
+      >
+        <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Title
+            style={{
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              textAlign: "center",
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
+            }}
+          >
+            Delete Transaction?
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
+          }}
+        >
+          Are you sure you want to delete this check-out?
+        </Modal.Body>
+
+        <Modal.Footer
+          style={{
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
+            }}
+            onClick={handleCloseRoleDelete}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={handleDeleteRole}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
     </div>
     
     

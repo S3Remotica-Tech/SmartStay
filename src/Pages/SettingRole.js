@@ -11,6 +11,7 @@ import RolesDesign from "./SettingDesign";
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import SettingRoleEdit from './SettingRoleEdit';
+import Modal from "react-bootstrap/Modal";
 
 
 
@@ -26,6 +27,8 @@ const popupRef = useRef(null);
  const [RoleEdit,setRoleEdit] =useState(false)
  const[editPage,setEditPage] = useState("")
  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+ const [deleteRleForm,setDeleteRleForm] =useState(false)
+ const [deleteId,setDeleteId]= useState("")
 
 
  const handleShowDots = (id, e) => {
@@ -46,6 +49,27 @@ const handleEditUserRole =(item)=>{
   setRoleEdit(true)
   setActiveRow(null)
 }
+const handleDeleteUserRole=(v)=>{
+  setDeleteId(v.id)
+  setDeleteRleForm(true)
+  setActiveRow(false)
+}
+const handleCloseRoleDelete=()=>{
+  setDeleteRleForm(false)
+}
+const handleDeleteRole=()=>{
+  dispatch({ type: "DELETESETTINGROLEPERMISSION", payload: {id:deleteId}});
+  
+}
+useEffect(()=>{
+  if(state.Settings.StatusForDeletePermission === 200){
+    handleCloseRoleDelete()
+    dispatch({type: "SETTING_ROLE_LIST"});
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_DELETE_SETTING_ROLE" });
+    }, 1000);
+  }
+},[state.Settings.StatusForDeletePermission])
 
  useEffect(()=>{
   dispatch({ type: 'SETTING_ROLE_LIST' })
@@ -71,7 +95,7 @@ const handleEditUserRole =(item)=>{
                  {
                    state.Settings?.getsettingRoleList?.response?.roles.map((u)=>{
          return(
-           <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+           <div className="col-12 col-sm-6 col-md-12 col-lg-3 mb-3">
                    <div
                      className="d-flex align-items-center justify-content-between p-3 border rounded"
                      style={{ height: 64, width: "100%" }}
@@ -124,6 +148,27 @@ const handleEditUserRole =(item)=>{
                                Edit
                              </label>
                            </div>
+                           <div
+               className="mb-2 d-flex justify-content-start align-items-center gap-2"
+               style={{ backgroundColor: "#fff" }}
+            onClick={()=> handleDeleteUserRole(u)} >
+               <img
+                 src={Delete}
+                 style={{ height: 16, width: 16 }}
+               />{" "}
+               <label
+                 style={{
+                   fontSize: 14,
+                   fontWeight: 500,
+                   fontFamily: "Gilroy,sans-serif",
+                   color: "#FF0000",
+                   cursor: "pointer",
+                 }}
+               >
+                 Delete
+               </label>
+             </div>
+                           
                          </div>
                        </div>
                      )}
@@ -170,6 +215,91 @@ const handleEditUserRole =(item)=>{
          
                </>
               }
+
+
+<Modal
+        show={deleteRleForm}
+        onHide={() => handleCloseRoleDelete()}
+        centered
+        backdrop="static"
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}
+      >
+        <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Title
+            style={{
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              textAlign: "center",
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
+            }}
+          >
+            Delete Transaction?
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
+          }}
+        >
+          Are you sure you want to delete this check-out?
+        </Modal.Body>
+
+        <Modal.Footer
+          style={{
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
+            }}
+            onClick={handleCloseRoleDelete}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={handleDeleteRole}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
               </>
 
 
