@@ -240,7 +240,7 @@ useEffect(()=>{
               flex: 1,
             }}
           >
-            Delete Transaction?
+            Delete Role?
           </Modal.Title>
         </Modal.Header>
 
@@ -254,7 +254,7 @@ useEffect(()=>{
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this check-out?
+          Are you sure you want to delete this Role?
         </Modal.Body>
 
         <Modal.Footer

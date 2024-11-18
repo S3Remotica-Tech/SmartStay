@@ -499,9 +499,9 @@ useEffect(()=>{
       {/* Delete Modal */}
       <Modal show={deleteRleForm} onHide={handleCloseRoleDelete} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Transaction?</Modal.Title>
+          <Modal.Title>Delete Role?</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this check-out?</Modal.Body>
+        <Modal.Body>Are you sure you want to delete this Role?</Modal.Body>
         <Modal.Footer>
           <Button variant="outline-primary" onClick={handleCloseRoleDelete}>Cancel</Button>
           <Button variant="primary" onClick={handleDeleteRole}>Delete</Button>
