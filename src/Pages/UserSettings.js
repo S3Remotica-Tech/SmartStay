@@ -6,11 +6,14 @@ import {
   Offcanvas,
   Form,
   FormControl,
-  FormSelect,
+  FormSelect,InputGroup
 } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./Amenities.css";
 import { useDispatch, useSelector } from "react-redux";
+import closecircle from "../Assets/Images/New_images/close-circle.png";
+import eye from '../Assets/Images/login-password.png'
+import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png';
 
 
 
@@ -26,6 +29,9 @@ function UserSettings() {
   const [mobile,setMobile]=useState("")
   const [role,setRole]=useState("")
   const [description,setDescription]=useState("")
+  const [password,setPassword]=useState("")
+  const [showPassword,setShowPassword]=useState('')
+
 
 const handleName=(e)=>{
   setName(e.target.value)
@@ -170,6 +176,62 @@ const handleDescription=(e)=>{
                   />
                 </Form.Group>
               </div>
+
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <Form.Group className="mb-3">
+    <Form.Label
+      style={{
+        fontSize: 14,
+        color: "#222222",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+      Password <span style={{ color: "red", fontSize: "20px" }}> * </span>
+    </Form.Label>
+    <InputGroup>
+      <FormControl
+        id="form-controls"
+        placeholder="Enter password"
+        type={showPassword ? "text" : "password"}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        style={{
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          borderRight: "none", // Remove the right border
+          height: "50px",
+          borderRadius: "8px 0 0 8px",
+        }}
+      />
+      <InputGroup.Text
+        className="border-start-0"
+        onClick={() => setShowPassword(!showPassword)}
+        aria-label={showPassword ? "Hide Password" : "Show Password"}
+        style={{
+          backgroundColor: "#fff",
+          border: "1px solid #D9D9D9",
+          borderLeft: "none", // Ensure no overlap with the input
+          cursor: "pointer",
+          borderRadius: "0 8px 8px 0",
+        }}
+      >
+        {showPassword ? (
+          <img src={eye} alt="Hide Password" width={20} height={20} />
+        ) : (
+          <img src={eyeClosed} alt="Show Password" width={20} height={20} />
+        )}
+      </InputGroup.Text>
+    </InputGroup>
+  </Form.Group>
+</div>
+
+
+
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
