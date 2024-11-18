@@ -37,7 +37,7 @@ function RolesDesign(props){
       } else {
         const rect = e.currentTarget.getBoundingClientRect();
         setPopupPosition({
-          top: rect.top + window.scrollY + 40, // Adjust this offset as needed
+          top: rect.top + window.scrollY + 100, // Adjust this offset as needed
           left: rect.left + window.scrollX + 10, // Adjust this offset as needed
         });
         setActiveRow(id);
@@ -419,95 +419,299 @@ useEffect(()=>{
 //     dispatch({ type: 'SETTING_ROLE_LIST' })
 // },[])
     return(
-      <div className="container-fluid mt-4">
+      <div className="container mt-4">
       <div className="row">
-        {/* Roles Section */}
-        <div className="col-md-5 col-12 show-scroll mb-4" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-          <div className="row">
-            {state.Settings?.getsettingRoleList?.response?.roles.map((u) => (
-              <div className="col-12 col-sm-6 mb-3" key={u.id}>
-                <div className="d-flex align-items-center justify-content-between p-3 border rounded">
-                  <div className="d-flex align-items-center">
-                    <img src={role} width={24} height={24} alt="Role Icon" />
-                    <span className="ml-3 font-weight-bold" style={{ fontSize: "16px", color: "#222222" }}>
-                      {u.role_name}
-                    </span>
-                  </div>
-                  <button className="btn p-0" onClick={(e) => handleShowDots(u.id, e)}>
-                    <img src={round} width={34} height={34} alt="Menu Icon" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-    
-        {/* Vertical Divider */}
-        <div className="col-md-1 d-none d-md-flex justify-content-center">
-          <div className="border-left" style={{ height: '100%', borderLeft: '1px solid #E7F1FF' }}></div>
-        </div>
-    
-        {/* Form Section */}
-        <div className="col-md-6 col-12 mt-md-0 mt-3">
-          {errorForm && (
-            <div className="text-danger">
-              <MdError style={{ width: 20, height: 20 }} />
-              {errorForm}
+          
+      
+      <div className="col-md-5 show-scroll" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+    <div className="row">
+      {state.Settings?.getsettingRoleList?.response?.roles.map((u) => (
+        <div className="col-12 col-sm-6 mb-3" key={u.id} style={{ position: 'relative' }}>
+          <div className="d-flex align-items-center justify-content-between p-3 border rounded" style={{ height: '64px' }}>
+            <div className="d-flex align-items-center">
+              <img src={role} width={24} height={24} alt="Role Icon" />
+              <span className="ml-3 font-weight-bold" style={{ fontSize: "16px", fontFamily: 'Gilroy', color: "#222222" }}>
+                {u.role_name}
+              </span>
             </div>
-          )}
-          <Form.Group className="mb-3">
-            <Form.Label className="font-weight-bold" style={{ fontSize: '14px', color: '#222222' }}>
-              Role Name <span className="text-danger">*</span>
-            </Form.Label>
-            <FormControl
-              placeholder="Enter role"
-              type="text"
-              value={roleName}
-              onChange={(e) => handleRoleName(e)}
-              className="form-control"
-              style={{ height: '50px', borderRadius: '8px' }}
-            />
-          </Form.Group>
-    
-          {/* Permissions Table */}
-          <div className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #DCDCDC', borderRadius: '16px' }}>
-            <table className="table mb-0">
-              <thead style={{ backgroundColor: '#E7F1FF' }}>
-                <tr>
-                  <th className="pl-3">Permission</th>
-                  <th>Add</th>
-                  <th>Read</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {renderRow('Dashboard', 'Dashboard')}
-                {renderRow('Customers', 'Customers')}
-                {/* Add more rows */}
-              </tbody>
-            </table>
+            <button className="btn p-0" onClick={(e) => handleShowDots(u.id, e)}>
+              <img src={round} width={34} height={34} alt="Menu Icon" />
+            </button>
           </div>
-    
-          <div className="d-flex justify-content-between mt-3">
-            <button className="btn btn-outline-primary" onClick={handlePrev}>Previous</button>
-            <button className="btn btn-primary" onClick={handleSubmit}>Save Changes</button>
+          {activeRow === u.id && (
+            <>
+             <div
+              ref={popupRef}
+              className="position-absolute"
+              style={{
+                cursor: "pointer",
+                backgroundColor: "#fff",
+                top: "40px",
+                left: "10px",
+                width: 163,
+                border: "1px solid #EBEBEB",
+                borderRadius: 10,
+                display: "flex",
+                justifyContent: "start",
+                padding: 10,
+                alignItems: "center",
+                zIndex: 1000,
+              }}
+            >
+              <div>
+                <div
+                  className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                  onClick={() => handleEditUserRole(u)}
+                >
+                  <img src={Edit} style={{ height: 16, width: 16 }} />
+                  <label className="m-0" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy, sans-serif", color: "#222222" }}>
+                    Edit
+                  </label>
+                </div>
+                <div
+             className="mb-2 d-flex justify-content-start align-items-center gap-2"
+             style={{ backgroundColor: "#fff" }}
+          onClick={()=> handleDeleteUserRole(u)} >
+             <img
+               src={Delete}
+               style={{ height: 16, width: 16 }}
+             />{" "}
+             <label
+               style={{
+                 fontSize: 14,
+                 fontWeight: 500,
+                 fontFamily: "Gilroy,sans-serif",
+                 color: "#FF0000",
+                 cursor: "pointer",
+               }}
+             >
+               Delete
+             </label>
+           </div>
+              </div>
+            </div>
+          
+            </>
+           
+            
+          )}
+        </div>
+      ))}
+      <div className="col-12 col-sm-6 mb-3">
+        <div className="d-flex align-items-center justify-content-between p-3 rounded" style={{ height: '64px', backgroundColor: "#E7F1FF" }}>
+          <div className="d-flex align-items-center">
+            <img src={rolecircle} width={24} height={24} alt="Create Icon" />
+            <span className="ml-3 font-weight-bold" style={{ fontSize: "16px", fontFamily: 'Gilroy', color: "#222222" }}>
+              Create New
+            </span>
           </div>
         </div>
       </div>
-    
-      {/* Delete Modal */}
-      <Modal show={deleteRleForm} onHide={handleCloseRoleDelete} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Role?</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this Role?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="outline-primary" onClick={handleCloseRoleDelete}>Cancel</Button>
-          <Button variant="primary" onClick={handleDeleteRole}>Delete</Button>
-        </Modal.Footer>
-      </Modal>
     </div>
+  </div>
+
+  {/* Middle Divider Line */}
+  <div className="col-md-1 d-none d-md-flex justify-content-center">
+    <div className="border-left" style={{ height: '100%', borderLeft: '1px solid #E7F1FF' }}></div>
+  </div>
+  
+          <div className="col-md-6" style={{marginTop:"-5px"}}>
+          {errorForm && (
+                                    <div style={{ color: "red" }}>
+                                      {" "}
+                                      <MdError
+                                        style={{ width: 20, height: 20 }}
+                                      />
+                                      {errorForm}
+                                    </div>
+                                  )}
+          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-3">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Role Name{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </Form.Label>
+                      <FormControl
+                        id="form-controls"
+                        placeholder="Enter role"
+                        type="text"
+                        value={roleName}
+                        onChange={(e) => handleRoleName(e)}
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #D9D9D9",
+                          height: 50,
+                          borderRadius: 8,
+                        }}
+                      />
+                    </Form.Group>
+                    {/* {firstnameError && (
+                      <div style={{ color: "red" }}>
+                        {" "}
+                        <MdError style={{ width: 20, height: 20 }} />
+                        {firstnameError}
+                      </div>
+                    )} */}
+                  </div>
+             
+                  
+                     
+                  {errorPermission && (
+                                    <div style={{ color: "red" }}>
+                                      {" "}
+                                      <MdError
+                                        style={{ width: 20, height: 20 }}
+                                      />
+                                      {errorPermission}
+                                    </div>
+                                  )}
+                      {/* Scrollable Permissions Table */}
+                      <div className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto', border: "1px solid #DCDCDC", borderRadius: "16px" }}>
+                      <table className="table mb-0">
+                      <thead style={{ backgroundColor: "#E7F1FF" }}>
+          <tr >
+              <th style={{ paddingLeft: '16px',fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#4B4B4B" }}>Permission</th>
+              <th style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#4B4B4B"}}>Add</th>
+              <th style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#4B4B4B"}}>Read</th>
+              <th style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#4B4B4B"}}>Edit</th>
+              <th style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#4B4B4B"}}>Delete</th>
+          </tr>
+      </thead>
+      <tbody>
+        {renderRow('Dashboard', 'Dashboard')}
+        {renderRow('Announcement', 'Announcement')}
+        {renderRow('Updates', 'Updates')}
+        {renderRow('PayingGuest', 'PayingGuest')}
+        {renderRow('Customers', 'Customers')}
+        {renderRow('Bookings', 'Bookings')}
+        {renderRow('Checkout', 'Checkout')}
+        {renderRow('WalkIn', 'WalkIn')}
+        {renderRow('Assets', 'Assets')}
+        {renderRow('Vendor', 'Vendor')}
+        {renderRow('Bills', 'Bills')}
+        {renderRow('RecuringBills', 'RecuringBills')}
+        {renderRow('Electricity', 'Electricity')}
+        {renderRow('Complaints', 'Complaints')}
+        {renderRow('Expenses', 'Expenses')}
+        {renderRow('Reports', 'Reports')}
+        {renderRow('Bankings', 'Bankings')}
+        {renderRow('Profile', 'Profile')}
+        
+      </tbody>
+    </table>
+</div>
+
+  
+                    
+               
+              <div className="d-flex justify-content-between mt-3">
+                          <button className="btn" style={{ border: "1px solid #1E45E1",color:"#1E45E1"}} onClick={handlePrev}>Previous</button>
+                          <button className="btn btn-primary" onClick={handleSubmit}>Save changes</button>
+                      </div>
+          </div>
+      </div>
+
+
+      <Modal
+      show={deleteRleForm}
+      onHide={() => handleCloseRoleDelete()}
+      centered
+      backdrop="static"
+      style={{
+        width: 388,
+        height: 250,
+        marginLeft: "500px",
+        marginTop: "200px",
+      }}
+    >
+      <Modal.Header style={{ borderBottom: "none" }}>
+        <Modal.Title
+          style={{
+            fontSize: "18px",
+            fontFamily: "Gilroy",
+            textAlign: "center",
+            fontWeight: 600,
+            color: "#222222",
+            flex: 1,
+          }}
+        >
+          Delete Role?
+        </Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body
+        style={{
+          fontSize: 14,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          color: "#646464",
+          textAlign: "center",
+          marginTop: "-20px",
+        }}
+      >
+        Are you sure you want to delete this Role?
+      </Modal.Body>
+
+      <Modal.Footer
+        style={{
+          justifyContent: "center",
+          borderTop: "none",
+          marginTop: "-10px",
+        }}
+      >
+        <Button
+          style={{
+            width: 160,
+            height: 52,
+            borderRadius: 8,
+            padding: "12px 20px",
+            background: "#fff",
+            color: "#1E45E1",
+            border: "1px solid #1E45E1",
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+            fontSize: "14px",
+            marginRight: 10,
+          }}
+          onClick={handleCloseRoleDelete}
+        >
+          Cancel
+        </Button>
+        <Button
+          style={{
+            width: 160,
+            height: 52,
+            borderRadius: 8,
+            padding: "12px 20px",
+            background: "#1E45E1",
+            color: "#FFFFFF",
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+            fontSize: "14px",
+          }}
+          onClick={handleDeleteRole}
+        >
+          Delete
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+
+  </div>
     
     
     
