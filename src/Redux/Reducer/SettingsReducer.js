@@ -22,7 +22,11 @@ const initialState = {
     editSettingRole:[],
     StatusForEditPermission:0,
     deleteSettingRole:[],
-    StatusForDeletePermission:0
+    StatusForDeletePermission:0,
+    StatusForaddSettingUser:0,
+    addSettingUser:[],
+    addSettingStaffList:[],
+    StatusForaddSettingStaffList:0
 
 }
 
@@ -128,6 +132,27 @@ const SettingsReducer = (state = initialState, action) => {
                                 };
                               case "CLEAR_DELETE_SETTING_ROLE":
                                 return { ...state, StatusForDeletePermission:0 };
+
+                                //settingUser
+                                case "ADD_STAFF_USER":
+                                  return {
+                                    ...state,
+                                    addSettingUser: action.payload,
+                                  StatusForaddSettingUser: action.payload.statusCode,
+                                  };
+                                case "CLEAR_ADD_STAFF_USER":
+                                  return { ...state, StatusForaddSettingUser:0 };
+
+
+
+                                  case "USER_STAFF_LIST":
+                                    return {
+                                      ...state,
+                                      addSettingStaffList: action.payload,
+                                    StatusForaddSettingStaffList: action.payload.statusCode,
+                                    };
+                                  case "CLEAR_USER_STAFF_LIST":
+                                    return { ...state, StatusForaddSettingStaffList:0 };
             }
     return state;
 }

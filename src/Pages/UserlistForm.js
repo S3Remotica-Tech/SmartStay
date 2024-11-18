@@ -297,62 +297,6 @@ function UserlistForm(props) {
     setHostelIdError("");
   };
 
-  // const validateAssignField = (value, fieldName) => {
-
-  //   const isValueEmpty = (typeof value === "string" && value.trim() === "") || value === 'undefined' || value === 'null' || value === '0';
-
-  //   if (isValueEmpty) {
-  //     switch (fieldName) {
-  //       case "Floor":
-  //         setfloorError("Floor is required");
-  //         break;
-  //       case "Room":
-  //         setRoomError("Room is required");
-  //         break;
-  //       case "Bed":
-  //         setBedError("Bed is required");
-  //         break;
-  //         case "selectedDate":
-  //           setDateError("date is required");
-  //           break;
-  //       case "AdvanceAmount":
-  //         setAdvanceAmountError("Advance Amount is required");
-  //         break;
-  //       case "RoomRent":
-  //         setRoomRentError("Room Rent is required");
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //     return false;
-  //   }
-
-  //   // Clear errors if the value is valid
-  //   switch (fieldName) {
-  //     case "Floor":
-  //       setfloorError("");
-  //       break;
-  //     case "Room":
-  //       setRoomError("");
-  //       break;
-  //     case "Bed":
-  //       setBedError("");
-  //       break;
-  //       case "selectedDate":
-  //         setDateError("");
-  //         break;
-  //     case "AdvanceAmount":
-  //       setAdvanceAmountError("");
-  //       break;
-  //     case "RoomRent":
-  //       setRoomRentError("");
-  //       break;
-  //     default:
-  //       break;
-  //   }
-
-  //   return true;
-  // };
 
   const validateAssignField = (value, fieldName) => {
     if (

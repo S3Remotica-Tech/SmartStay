@@ -83,3 +83,13 @@ export async function AddExpencesCategory(Expences) {
       data: datum,
     });
   }
+  export async function addStaffUser(datum) {
+    console.log("addStaffUser", datum);
+    return await AxiosConfig.post("/add_staff_user", datum, {
+      data: datum,
+    });
+  }
+  export async function GetAllStaff() {
+    return await AxiosConfig.get('/get_all_staffs',{
+    })
+  }
