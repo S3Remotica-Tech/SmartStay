@@ -32,7 +32,9 @@ function UserSettings() {
   const [password,setPassword]=useState("")
   const [showPassword,setShowPassword]=useState('')
 
-
+useEffect(()=>{
+    dispatch({ type: 'SETTING_ROLE_LIST'})
+},[])
 const handleName=(e)=>{
   setName(e.target.value)
 }
