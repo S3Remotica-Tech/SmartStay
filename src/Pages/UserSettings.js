@@ -10,10 +10,19 @@ import {
 } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./Amenities.css";
+import "./Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import eye from '../Assets/Images/login-password.png'
 import eyeClosed from '../Assets/Images/pngaaa.com-6514750.png';
+import { Mobile } from "iconsax-react";
+import { Email } from "@material-ui/icons";
+import { MdError } from "react-icons/md";
+import emptyimg from "../Assets/Images/New_images/empty_image.png";
+import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
+import Profile from "../Assets/Images/New_images/profile-picture.png";
+import Image from "react-bootstrap/Image";
+
 
 
 
@@ -26,46 +35,278 @@ function UserSettings() {
 
   const [name,setName]=useState("")
   const [email,setEmail]=useState("")
-  const [mobile,setMobile]=useState("")
+  const [phone,setPhone]=useState("")
   const [role,setRole]=useState("")
   const [description,setDescription]=useState("")
   const [password,setPassword]=useState("")
   const [showPassword,setShowPassword]=useState('')
+  const [countryCode, setCountryCode] = useState("91");
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [emailIdError, setemailIdError] = useState("");
+  const [phonenumError, setphonenumError] = useState("");
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  const [nameError,setNameError] =useState("")
+  const [roleError,setRoleError] =useState("")
+  const [passwordError,setPasswordError] =useState("")
+  const [descError,setDescError] = useState("")
 
 useEffect(()=>{
     dispatch({ type: 'SETTING_ROLE_LIST'})
+    dispatch({ type: "COUNTRYLIST"});
+    dispatch({ type: "GETUSERSTAFF"});
 },[])
+
 const handleName=(e)=>{
   setName(e.target.value)
+  setNameError("")
 }
-const handleEmail=(e)=>{
-  setEmail(e.target.value)
-}
-const handleMobile=(e)=>{
-  setMobile(e.target.value)
-}
+// const handleEmail=(e)=>{
+//   setEmail(e.target.value)
+// }
+const handleEmail = (e) => {
+  const emailValue = e.target.value;
+  setEmail(emailValue);
+  const hasUpperCase = /[A-Z]/.test(emailValue);
+  const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  const isValidEmail = emailRegex.test(emailValue);
+  if (!emailValue) {
+    setEmailError("");
+    setEmailErrorMessage("");
+  } else if (hasUpperCase) {
+    setEmailErrorMessage("Email should be in lowercase *");
+    setEmailError("Invalid Email Id *");
+  } else if (!isValidEmail) {
+    setEmailErrorMessage("");
+    setEmailError("Invalid Email Id *");
+  } else {
+    setEmailError("");
+    setEmailErrorMessage("");
+    setemailIdError("")
+  }
+  dispatch({ type: "CLEAR_EMAIL_ID_ERROR" });
+};
+
+const handleMobile = (e) => {
+  // const input = e.target.value;
+  setPhone(e.target.value);
+
+  const pattern = /^\d{1,10}$/;
+  const isValidMobileNo = pattern.test(e.target.value);
+
+  if (e.target.value === "") {
+    setPhoneError("");
+  } else if (isValidMobileNo && e.target.value.length === 10) {
+    setPhoneError(""); 
+  } else {
+    setPhoneError("Invalid mobile number *"); 
+  }
+
+  setPhoneErrorMessage("");
+  dispatch({ type: "CLEAR_PHONE_NUM_ERROR"}); 
+};
+const handleCountryCodeChange = (e) => {
+  setCountryCode(e.target.value);
+};
+
 const handleRole=(e)=>{
   setRole(e.target.value)
+  setRoleError("")
 }
+const handlePassword=(e)=>{
+  setPassword(e.target.value)
+  setPasswordError("")
+}
+
 const handleDescription=(e)=>{
   setDescription(e.target.value)
 }
 
-// const handleSubmit=()=>{
-//   dispatch({
-//     type: "ADDSTAFFUSER",
-//     payload: {  },
-//   });
-// }
+useEffect(()=>{
+setemailIdError(state.Settings.emailIdError)
+},[state.Settings.emailIdError])
+
+useEffect(()=>{
+  setphonenumError(state.Settings.phoneNumError)
+  },[state.Settings.phoneNumError])
+  
+
+const handleStaffClose=()=>{
+  setName("")
+  setEmail("")
+  setPhone("")
+  setPassword("")
+  setRole("")
+  setDescription("")
+}
+console.log("Mobile",phone)
+
+const validateAssignField = (value, fieldName) => {
+  if (
+    !value ||
+    value === "Select a Role"
+  ) {
+    switch (fieldName) {
+      case "name":
+        setNameError("name is required");
+        break;
+        case "phone":
+        setPhoneError("Phone  is required");
+        break;
+      case "email":
+        setEmailError("email ID is required");
+        break;
+        case "password":
+        setPasswordError("password is required");
+        break;
+      case "role":
+        setRoleError("role is required");
+        break;
+        // case "desc":
+        // setRoleError("role is required");
+        // break;
+     
+      default:
+        break;
+    }
+    return false;
+  } else {
+    switch (fieldName) {
+      case "name":
+        setNameError("");
+        break;
+        case "phone":
+        setPhoneError("");
+        break;
+      case "email":
+        setEmailError("");
+        break;
+        case "password":
+        setPasswordError("");
+        break;
+      case "role":
+        setRoleError("");
+        break;
+
+      default:
+        break;
+    }
+    return true;
+  }
+};
 
 
-  useEffect(()=>{
-    dispatch({ type: "GETUSERSTAFF" });
-  },[])
+
+const MobileNumber = `${countryCode}${phone}`;
+const handleSubmit=()=>{
+  if (!validateAssignField(name, "name"));
+  if (!validateAssignField(phone, "phone"));
+  if (!validateAssignField(password, "password"));
+  if (!validateAssignField(email, "email"));
+  if (!validateAssignField(role, "role"));
+
+  if (role === "Select a Role" || roleError) {
+    setRoleError("Please select a valid Role");
+    // return;
+  }
+
+  if (phoneError === "Invalid mobile number *") {
+    setPhoneErrorMessage("Please enter a valid 10-digit phone number");
+    // return;
+  } else {
+    setPhoneErrorMessage("");
+  }
+  const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+  dispatch({
+    type: "ADDSTAFFUSER",
+    payload: {user_name:name,phone:normalizedPhoneNumber,email_id:email,password:password,role_id:role,description:description},
+  });
+}
+useEffect(()=>{
+if(state.Settings.StatusForaddSettingUser === 200){
+  handleStaffClose()
+  dispatch({ type: "GETUSERSTAFF"});
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_ADD_STAFF_USER" });
+  }, 200);
+}
+},[state.Settings.StatusForaddSettingUser])
+
+const usersPerPage = 5;
+  const [UserscurrentPage, setUserscurrentPage] = useState(1);
+  const [usersFilterddata, setUsersFilterddata] = useState([]);
+  const indexOfLastRowUsers = UserscurrentPage * usersPerPage;
+  const indexOfFirstRowUsers = indexOfLastRowUsers - usersPerPage;
+  const currentRowUsers = usersFilterddata?.slice(indexOfFirstRowUsers, indexOfLastRowUsers);
+
+  const handleUsersPageChange = (userspageNumber) => {
+    setUserscurrentPage(userspageNumber);
+  };
+const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
+
+  const renderPageNumbersUsers = () => {
+    const pageNumbersUsers = [];
+    let startPageUsers = UserscurrentPage - 1;
+    let endPageUsers = UserscurrentPage + 1;
+
+    if (UserscurrentPage === 1) {
+      startPageUsers = 1;
+      endPageUsers = 3;
+    }
+
+    if (UserscurrentPage === totalPagesUsers) {
+      startPageUsers = totalPagesUsers - 2;
+      endPageUsers = totalPagesUsers;
+    }
+
+    if (UserscurrentPage === 2) {
+      startPageUsers = 1;
+      endPageUsers = 3;
+    }
+
+    if (UserscurrentPage === totalPagesUsers - 1) {
+      startPageUsers = totalPagesUsers - 2;
+      endPageUsers = totalPagesUsers;
+    }
+
+    for (let i = startPageUsers; i <= endPageUsers; i++) {
+      if (i > 0 && i <= totalPagesUsers) {
+        pageNumbersUsers.push(
+          <li key={i} style={{ margin: '0 5px' }}>
+            <button
+              style={{
+                padding: '5px 10px',
+                textDecoration: 'none',
+                color: i === UserscurrentPage ? '#007bff' : '#000000',
+                cursor: 'pointer',
+                borderRadius: '5px',
+                display: 'inline-block',
+                minWidth: '30px',
+                textAlign: 'center',
+                backgroundColor: i === UserscurrentPage ? 'transparent' : 'transparent',
+                border: i === UserscurrentPage ? '1px solid #ddd' : 'none'
+              }}
+              onClick={() => handleUsersPageChange(i)}
+            >
+              {i}
+            </button>
+          </li>
+        );
+      }
+    }
+
+    return pageNumbersUsers;
+  };
+
+  useEffect(() => {
+    setUsersFilterddata(state.Settings?.addSettingStaffList?.response?.user_details)
+  }, [state.Settings?.addSettingStaffList?.response?.user_details])
+
 
   return (
     <>
-      <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
+      <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12" >
         <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
           <div
             className="col-lg-11 col-md-11 col-sm-12 col-xs-12"
@@ -113,6 +354,114 @@ const handleDescription=(e)=>{
                     }}
                   />
                 </Form.Group>
+                {nameError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {nameError}
+                        </div>
+                      )}
+              </div>
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <Form.Group
+                    >
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        
+                        }}
+                      >
+                        Mobile{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </Form.Label>
+
+                      <InputGroup>
+                        <Form.Select
+                          value={countryCode}
+                          id="vendor-select-pg"
+                          onChange={handleCountryCodeChange}
+                          style={{
+                            border: "1px solid #D9D9D9",
+
+                            borderRadius: "8px 0 0 8px",
+                            height: 50,
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: countryCode ? 600 : 500,
+                            boxShadow: "none",
+                            backgroundColor: "#fff",
+                            maxWidth: 90,
+                            paddingRight: 10,
+                          }}
+                        >
+                          {state.UsersList?.countrycode?.country_codes?.map(
+                            (item) => {
+                              return (
+                                console.log(
+                                  "item.country_flag",
+                                  item.country_flag
+                                ),
+                                (
+                                  <>
+                                    <option value={item.country_code}>
+                                      +{item.country_code}
+                                    </option>
+                                  </>
+                                )
+                              );
+                            }
+                          )}
+                        </Form.Select>
+                        <Form.Control
+                          value={phone}
+                          onChange={handleMobile}
+                          type="text"
+                          placeholder="9876543210"
+                          maxLength={10}
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: phone ? 600 : 500,
+                            boxShadow: "none",
+                            borderLeft: "unset",
+                            borderRight: "1px solid #D9D9D9",
+                            borderTop: "1px solid #D9D9D9",
+                            borderBottom: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: "0 8px 8px 0",
+                          }}
+                        />
+                      </InputGroup>
+                      <p
+                        id="MobileNumberError"
+                        style={{ color: "red", fontSize: 11, marginTop: 5 }}
+                      ></p>
+                      {phoneError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {phoneError}
+                        </div>
+                      )}
+                      {phonenumError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {phonenumError}
+                        </div>
+                      )}
+                      {phoneErrorMessage && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {phoneErrorMessage}
+                        </div>
+                      )}
+                    </Form.Group>
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group className="mb-3">
@@ -145,39 +494,20 @@ const handleDescription=(e)=>{
                     }}
                   />
                 </Form.Group>
+                {emailIdError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {emailIdError}
+                        </div>
+                      )}
+                      {emailError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {emailError}
+                        </div>
+                      )}
               </div>
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <Form.Group className="mb-3">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Mobile.{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                  </Form.Label>
-                  <FormControl
-                    id="form-controls"
-                    placeholder="Enter name"
-                    type="text"
-                      value={mobile}
-                      onChange={(e) => handleMobile(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  />
-                </Form.Group>
-              </div>
+             
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
   <Form.Group className="mb-3">
@@ -197,7 +527,7 @@ const handleDescription=(e)=>{
         placeholder="Enter password"
         type={showPassword ? "text" : "password"}
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => handlePassword(e)}
         style={{
           fontSize: 16,
           color: "#4B4B4B",
@@ -230,6 +560,12 @@ const handleDescription=(e)=>{
       </InputGroup.Text>
     </InputGroup>
   </Form.Group>
+  {passwordError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {passwordError}
+                        </div>
+                      )}
 </div>
 
 
@@ -263,7 +599,7 @@ const handleDescription=(e)=>{
                       fontWeight: 500,
                       boxShadow: "none",
                       border: "1px solid #D9D9D9",
-                      height: 65,
+                      height: 50,
                       borderRadius: 8,
 
                     }}
@@ -271,11 +607,20 @@ const handleDescription=(e)=>{
                     onChange={(e) => handleRole(e)}
 
                   >
-                    <option>Select a permission</option>
-                    <option>Admin</option>
-                    <option>Agent</option>
+                    <option value="">Select a Role</option>
+                    {state.Settings?.getsettingRoleList?.response?.roles?.map((u) => (
+                          <option key={u.id} value={u.id}>
+                            {u.role_name}
+                          </option>
+                        ))}
                   </Form.Select>
                 </Form.Group>
+                {roleError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {roleError}
+                        </div>
+                      )}
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group className="mb-3">
@@ -313,7 +658,7 @@ const handleDescription=(e)=>{
             {/* <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'> */}
             <Button
               className="w-100"
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
               style={{
                 fontFamily: "Montserrat",
                 fontSize: 16,
@@ -333,141 +678,358 @@ const handleDescription=(e)=>{
 
         {/* <hr style={{ border: '1px solid #ced4da', transform: 'rotate(180deg)' }} /> */}
 
-        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0 mt-sm-2">
-        <Table
-  responsive="md"
-  className="Table_Design"
-  style={{
-    tableLayout: "auto",
-    borderRadius: "24px",
-    border: "1px solid #DCDCDC",
-  }}
->
-  <thead style={{ backgroundColor: "#E7F1FF" }}>
-    <tr>
-      <th
-        style={{
-          color: "#222",
-          fontWeight: 600,
-          fontSize: "14px",
-          fontFamily: "Gilroy",
-          borderTopLeftRadius: "24px",
-          textAlign: "left",
-          paddingLeft:20
-        }}
-      >
-        Users
-      </th>
-      <th
-        style={{
-          color: "#222",
-          fontWeight: 600,
-          fontSize: "14px",
-          fontFamily: "Gilroy",
-          padding: "10px",
-          textAlign: "left",
-        }}
-      >
-        Email
-      </th>
-      <th
-        style={{
-          color: "#222",
-          fontWeight: 600,
-          fontSize: "14px",
-          fontFamily: "Gilroy",
-          padding: "10px",
-          textAlign: "left",
-        }}
-      >
-        Mobile
-      </th>
-      <th
-        style={{
-          color: "#222",
-          fontWeight: 600,
-          fontSize: "14px",
-          fontFamily: "Gilroy",
-          padding: "10px",
-          textAlign: "left",
-        }}
-      >
-        Role
-      </th>
-      <th
-        style={{
-          padding: "10px",
-          borderTopRightRadius: "24px",
-          textAlign: "center",
-        }}
-      ></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td
-       
-        style={{
-          fontWeight: 500,
-          fontSize: "16px",
-          fontFamily: "Gilroy",
-          textAlign: "left",
-          paddingLeft:20,
-          whiteSpace: "nowrap"
-        }}
-      >
-        umesh yadav
-      </td>
-      <td
-        style={{
-          fontWeight: 500,
-          fontSize: "16px",
-          fontFamily: "Gilroy",
-          textAlign: "left",
-        }}
-      >
-        Admin
-      </td>
-      <td
-        style={{
-          fontWeight: 500,
-          fontSize: "16px",
-          fontFamily: "Gilroy",
-          textAlign: "left",
-        }}
-      >
-        9090909090
-      </td>
-      <td
-        style={{
-          fontWeight: 500,
-          fontSize: "16px",
-          fontFamily: "Gilroy",
-          textAlign: "left",
-        }}
-      >
-        Admin
-      </td>
-      <td style={{ textAlign: "center" }}>
-        <div
-          style={{
-            height: "40px",
-            width: "40px",
-            borderRadius: "50%",
-            border: "1px solid #EFEFEF",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <PiDotsThreeOutlineVerticalFill
-            style={{ height: "20px", width: "20px" }}
-          />
+        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0 mt-sm-2 mt-xs-2">
+        {currentRowUsers?.length > 0 ? (
+         
+       <Table
+       responsive="md"
+       className="Table_Design mt-3 mt-md-0 mt-lg-0 "
+       style={{
+         tableLayout: "auto",
+         borderRadius: "24px",
+         border: "1px solid #DCDCDC",
+        
+       }}
+     >
+       <thead style={{ backgroundColor: "#E7F1FF" }}>
+         <tr>
+           <th
+             style={{
+               color: "#222",
+               fontWeight: 600,
+               fontSize: "14px",
+               fontFamily: "Gilroy",
+               borderTopLeftRadius: "24px",
+               textAlign: "left",
+               paddingLeft:20
+             }}
+           >
+             Users
+           </th>
+           <th
+             style={{
+               color: "#222",
+               fontWeight: 600,
+               fontSize: "14px",
+               fontFamily: "Gilroy",
+               padding: "10px",
+               textAlign: "left",
+             }}
+           >
+             Email
+           </th>
+           <th
+             style={{
+               color: "#222",
+               fontWeight: 600,
+               fontSize: "14px",
+               fontFamily: "Gilroy",
+               padding: "10px",
+               textAlign: "left",
+             }}
+           >
+             Mobile
+           </th>
+           <th
+             style={{
+               color: "#222",
+               fontWeight: 600,
+               fontSize: "14px",
+               fontFamily: "Gilroy",
+               padding: "10px",
+               textAlign: "left",
+             }}
+           >
+             Role
+           </th>
+           <th
+             style={{
+               padding: "10px",
+               borderTopRightRadius: "24px",
+               textAlign: "center",
+             }}
+           ></th>
+         </tr>
+       </thead>
+       <tbody>
+         {
+           currentRowUsers?.map((item)=>{
+            const imageUrl = item.profile || Profile;
+             return(
+               <tr>
+               {/* <td
+                
+                 style={{
+                   fontWeight: 500,
+                   fontSize: "16px",
+                   fontFamily: "Gilroy",
+                   textAlign: "left",
+                   paddingLeft:20,
+                   whiteSpace: "nowrap"
+                 }}
+               >
+                {item.first_name}
+               </td> */}
+               <td
+                              style={{
+                                border: "none",
+                                display: "flex",
+                                padding: "10px",
+                              }}
+                            >
+                              <Image
+                                src={imageUrl}
+                                alt={item.first_name || "Default Profile"}
+                                roundedCircle
+                                style={{
+                                  height: "40px",
+                                  width: "40px",
+                                  marginRight: "10px",
+                                }}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = Profile;
+                                }}
+                              />
+                              <span
+                                className="Customer_Name_Hover"
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  color: "#1E45E1",
+                                  cursor: "pointer",
+                                  marginTop:10
+                                  
+                                }}
+                                // onClick={() => handleRoomDetailsPage(user)}
+                              >
+                                {item.first_name}
+                              </span>
+                            </td>
+               <td
+                 style={{
+                   fontWeight: 500,
+                   fontSize: "16px",
+                   fontFamily: "Gilroy",
+                   textAlign: "left",
+                   paddingTop:17
+
+                 }}
+               >
+               {item.email_Id}
+               </td>
+               {/* <td
+                 style={{
+                   fontWeight: 500,
+                   fontSize: "16px",
+                   fontFamily: "Gilroy",
+                   textAlign: "left",
+                 }}
+               >
+                {item.mobileNo}
+               </td> */}
+               <td
+                              style={{
+                                paddingTop:15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                marginTop:10,
+                                whiteSpace: "nowrap"
+                              }}
+                            >
+                              +
+                              {item &&
+                                String(item.mobileNo).slice(
+                                  0,
+                                  String(item.mobileNo).length - 10
+                                )}{" "}
+                              {item && String(item.mobileNo).slice(-10)}
+                            </td>
+               <td
+                 style={{
+                   fontWeight: 500,
+                   fontSize: "16px",
+                   fontFamily: "Gilroy",
+                   textAlign: "left",
+                   paddingTop:15
+                 }}
+               >
+                 {item.role_name}
+               </td>
+               <td style={{ textAlign: "center" }}>
+                 <div
+                   style={{
+                     height: "40px",
+                     width: "40px",
+                     borderRadius: "50%",
+                     border: "1px solid #EFEFEF",
+                     display: "flex",
+                     justifyContent: "center",
+                     alignItems: "center",
+                   }}
+                 >
+                   <PiDotsThreeOutlineVerticalFill
+                     style={{ height: "20px", width: "20px" }}
+                   />
+                 </div>
+               </td>
+             </tr>
+             )
+           })
+     
+         }
+        
+       </tbody>
+     </Table>
+    
+        ):(
+          <div>
+          <div style={{ textAlign: "center" }}>
+            <img
+              src={emptyimg}
+              width={240}
+              height={240}
+              alt="emptystate"
+            />
+          </div>
+          <div
+            className="pb-1"
+            style={{
+              textAlign: "center",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: 20,
+              color: "rgba(75, 75, 75, 1)",
+            }}
+          >
+            No Users{" "}
+          </div>
+          <div
+            className="pb-1"
+            style={{
+              textAlign: "center",
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              fontSize: 16,
+              color: "rgba(75, 75, 75, 1)",
+            }}
+          >
+            There are no Users available.{" "}
+          </div>
+  
+          
         </div>
-      </td>
-    </tr>
-  </tbody>
-</Table>
+        )
+      }
+ 
+
+{currentRowUsers?.length > 0 && (
+                        <nav>
+                          <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+                            <li style={{ margin: '0 5px' }}>
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: UserscurrentPage === 1 ? '#ccc' : '#007bff',
+                                  cursor: UserscurrentPage === 1 ? 'not-allowed' : 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+                                }}
+                                onClick={() => handleUsersPageChange(UserscurrentPage - 1)}
+                                disabled={UserscurrentPage === 1}
+                              >
+                               
+                                <ArrowLeft2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                              </button>
+                              
+                            </li>
+                            {UserscurrentPage > 3 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
+
+                                  }}
+                                  onClick={() => handleUsersPageChange(1)}
+                                >
+                                  1
+                                </button>
+                              </li>
+                            )}
+                            {UserscurrentPage > 3 && <span>...</span>}
+                            {renderPageNumbersUsers()}
+                            {UserscurrentPage < totalPagesUsers - 2 && <span>...</span>}
+                            {UserscurrentPage < totalPagesUsers - 2 && (
+                              <li style={{ margin: '0 5px' }}>
+                                <button
+                                  style={{
+                                    padding: '5px 10px',
+                                    textDecoration: 'none',
+
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    display: 'inline-block',
+                                    minWidth: '30px',
+                                    textAlign: 'center',
+                                    backgroundColor: 'transparent',
+                                    border: "none"
+
+                                  }}
+                                  onClick={() => handleUsersPageChange(totalPagesUsers)}
+                                >
+                                  {totalPagesUsers}
+                                </button>
+                              </li>
+                            )}
+                            <li style={{ margin: '0 5px' }}>
+                             
+                              <button
+                                style={{
+                                  padding: '5px 10px',
+                                  textDecoration: 'none',
+                                  color: UserscurrentPage === UserscurrentPage ? '#ccc' : '#007bff',
+                                  cursor: UserscurrentPage === UserscurrentPage ? 'not-allowed' : 'pointer',
+                                  borderRadius: '5px',
+                                  display: 'inline-block',
+                                  minWidth: '30px',
+                                  textAlign: 'center',
+                                  backgroundColor: 'transparent',
+                                  border: "none"
+                                }}
+                                onClick={() => handleUsersPageChange(UserscurrentPage + 1)}
+                                disabled={UserscurrentPage === totalPagesUsers}
+                              >
+                               
+                                <ArrowRight2
+                                  size="16"
+                                  color="#1E45E1"
+                                />
+                              </button>
+                            </li>
+                          </ul>
+                        </nav>
+                      )}
 
         </div>
       </div>

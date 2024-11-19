@@ -504,9 +504,16 @@ function* handleAddStaffUserPage(detail) {
      });
    }
 
-   else {
-      yield put ({type:'ERROR', payload:response.data.message})
+   else if(response.data.statusCode === 202) {
+     
+      yield put({ type: 'EMAIL_ID_ERROR', payload: response.data.message });
    }
+
+   else if(response.data.statusCode === 203) {
+         
+      yield put({ type: 'PHONE_NUM_ERROR', payload: response.data.message });
+   }
+   
    if(response){
       refreshToken(response)
    }

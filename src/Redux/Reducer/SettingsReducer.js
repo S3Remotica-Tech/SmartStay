@@ -26,7 +26,9 @@ const initialState = {
     StatusForaddSettingUser:0,
     addSettingUser:[],
     addSettingStaffList:[],
-    StatusForaddSettingStaffList:0
+    StatusForaddSettingStaffList:0,
+    emailIdError:'',
+    phoneNumError:''
 
 }
 
@@ -142,6 +144,19 @@ const SettingsReducer = (state = initialState, action) => {
                                   };
                                 case "CLEAR_ADD_STAFF_USER":
                                   return { ...state, StatusForaddSettingUser:0 };
+
+//Validate
+case 'PHONE_NUM_ERROR':
+            return { ...state, phoneNumError: action.payload }
+
+        case 'CLEAR_PHONE_NUM_ERROR':
+            return { ...state, phoneNumError: '' }
+
+        case 'EMAIL_ID_ERROR':
+            return { ...state, emailIdError: action.payload }
+
+        case 'CLEAR_EMAIL_ID_ERROR':
+            return { ...state, emailIdError: ''}
 
 
 
