@@ -134,10 +134,12 @@ function EBRoomReading(props) {
     setEbErrorunit("");
   };
   const handleDateChange = (date) => {
-    setDateError('');  
-    setEbErrorunit(''); 
+    
     setSelectedDate(date);
     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY"}); 
+    setDateError('');  
+    setEbErrorunit(''); 
+    setFormError("")
   };
 
   const handleCloseDelete = () => {
