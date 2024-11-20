@@ -244,9 +244,9 @@ function* handleDeleteComplainttype(action) {
 
 
 function* handleEBBillingUnitAdd(params) {
-   console.log("settings saga", params.payload);
+   
    const response = yield call(AddEBBillingUnit, params.payload);
-
+   console.log("settingssaga", response);
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode , message: response.data.message } })
     
@@ -280,6 +280,10 @@ function* handleEBBillingUnitAdd(params) {
          style: toastStyle
        })
    }
+   else if(response.data.statusCode === 201) {
+      yield put({ type: 'EB_UNIT_ERROR', payload: response.data.message});
+   }
+
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }

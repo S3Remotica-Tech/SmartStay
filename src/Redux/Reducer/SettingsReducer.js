@@ -28,7 +28,8 @@ const initialState = {
     addSettingStaffList:[],
     StatusForaddSettingStaffList:0,
     emailIdError:'',
-    phoneNumError:''
+    phoneNumError:'',
+    ebUnitError:''
 
 }
 
@@ -168,6 +169,14 @@ case 'PHONE_NUM_ERROR':
                                     };
                                   case "CLEAR_USER_STAFF_LIST":
                                     return { ...state, StatusForaddSettingStaffList:0 };
+
+
+                                    // ebUniterror
+                                    case 'EB_UNIT_ERROR':
+                                      return { ...state, ebUnitError: action.payload }
+                          
+                                  case 'CLEAR_EB_UNIT_ERROR':
+                                      return { ...state, ebUnitError: ''}
             }
     return state;
 }

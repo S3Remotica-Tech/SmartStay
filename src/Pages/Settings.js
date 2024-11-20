@@ -56,6 +56,7 @@ function Settings() {
   const [id, setId] = useState("")
   const [updateval, setUpdateval] = useState("")
   const [login_Password, setLogin_Password] = useState("")
+  const [unitError, setunitError] = useState("")
 
 
 
@@ -202,7 +203,9 @@ function Settings() {
     dispatch({ type: 'CLEAR_ERROR' })
 
   }
-
+useEffect(()=>{
+setunitError(state.Settings.ebUnitError)
+},[state.Settings.ebUnitError])
 
   useEffect(() => {
     if (state.createAccount.statusCodeTwo === 200) {
@@ -292,6 +295,7 @@ function Settings() {
     if (state.Settings.addEbbillingUnitStatuscode === 200) {
 
       setSelectedHostel('')
+      setAmount("")
       
 
       setTimeout(() => {
@@ -382,7 +386,7 @@ function Settings() {
       dispatch({ type: 'ACCOUNTDETAILS' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_ACCOUNT' })
-      }, 2000)
+      }, 1000)
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ACCOUNT_STATUS_CODE' })
@@ -428,7 +432,9 @@ function Settings() {
       setAmountErrmsg("Please Enter Amount");
     } else {
       setAmountErrmsg("");
+      setunitError("")
     }
+    dispatch({ type: 'CLEAR_EB_UNIT_ERROR' });
   }
 
 
@@ -454,8 +460,7 @@ if(!amount){
    if (selectedHostel && amount ) {
       dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { hostel_id: selectedHostel, unit: 1, amount: amount } })
       // dispatch({ type: 'EB-BILLING-UNIT-LIST' })
-      setSelectedHostel('')
-      setAmount('')
+      
     }
   }
 
@@ -689,6 +694,12 @@ if(!amount){
                         value={amount}
                         onChange={handleAmount}
                       />   
+                      {unitError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {unitError}
+                        </div>
+                      )}
 
           {amounterrormsg.trim() !== "" && (
               <div>

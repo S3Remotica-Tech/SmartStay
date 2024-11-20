@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 // import Button from 'react-bootstrap/Button';
 import { Table } from "react-bootstrap";
 import {
@@ -22,6 +22,8 @@ import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
+import Edit from "../Assets/Images/Edit-Linear-32px.png";
+import Delete from "../Assets/Images/Trash-Linear-32px.png";
 
 
 
@@ -32,6 +34,7 @@ function UserSettings() {
   const state = useSelector((state) => state);
   console.log("UserSettings...", state);
   const dispatch = useDispatch();
+  const popupRef = useRef(null);
 
   const [name,setName]=useState("")
   const [email,setEmail]=useState("")
@@ -51,6 +54,12 @@ function UserSettings() {
   const [roleError,setRoleError] =useState("")
   const [passwordError,setPasswordError] =useState("")
   const [descError,setDescError] = useState("")
+  const [EditUser, setEditUser] = useState(null);
+  const [popupPosition,setPopupPosition]=useState(null)
+  const [editShow,setEditShow] =useState(false)
+  const [editId,setEditId]=useState("")
+  const [formError,setFormError]=useState("")
+  const [deleteId,setDeleteId]=useState("")
 
 useEffect(()=>{
     dispatch({ type: 'SETTING_ROLE_LIST'})
@@ -58,9 +67,11 @@ useEffect(()=>{
     dispatch({ type: "GETUSERSTAFF"});
 },[])
 
+
 const handleName=(e)=>{
   setName(e.target.value)
   setNameError("")
+  setFormError("")
 }
 // const handleEmail=(e)=>{
 //   setEmail(e.target.value)
@@ -84,6 +95,7 @@ const handleEmail = (e) => {
     setEmailError("");
     setEmailErrorMessage("");
     setemailIdError("")
+    setFormError("")
   }
   dispatch({ type: "CLEAR_EMAIL_ID_ERROR" });
 };
@@ -104,6 +116,7 @@ const handleMobile = (e) => {
   }
 
   setPhoneErrorMessage("");
+  setFormError("")
   dispatch({ type: "CLEAR_PHONE_NUM_ERROR"}); 
 };
 const handleCountryCodeChange = (e) => {
@@ -113,6 +126,7 @@ const handleCountryCodeChange = (e) => {
 const handleRole=(e)=>{
   setRole(e.target.value)
   setRoleError("")
+  setFormError("")
 }
 const handlePassword=(e)=>{
   setPassword(e.target.value)
@@ -121,6 +135,7 @@ const handlePassword=(e)=>{
 
 const handleDescription=(e)=>{
   setDescription(e.target.value)
+  setFormError("")
 }
 
 useEffect(()=>{
@@ -139,8 +154,70 @@ const handleStaffClose=()=>{
   setPassword("")
   setRole("")
   setDescription("")
+  setFormError("")
 }
 console.log("Mobile",phone)
+const handleEditUser = (id, event) => {
+  if (EditUser === id) {
+    setEditUser(null);
+  } else {
+    // Get the position of the clicked element
+    const rect = event.currentTarget.getBoundingClientRect();
+    const newPopupPosition = {
+      top: rect.top + window.scrollY + 40, // Adjust for height
+      left: rect.left + window.scrollX - 130, // Adjust for width
+    };
+
+    setPopupPosition(newPopupPosition); // Set the position dynamically
+    setEditUser(id);
+  }
+};
+
+// const handleEditUser = (id) => {
+//   if (EditUser === id) {
+//     setEditUser(null); 
+//   } else {
+//     setEditUser(id); 
+//   }
+  
+// };
+const [initialStateAssign, setInitialStateAssign] = useState({
+  name: "",
+  phone: "",
+  role: "",
+  description: "",
+  email: "",
+});
+const MobileNumber = `${countryCode}${phone}`;
+const handleEditForm=(u)=>{
+  const phoneNumber = String(u.mobileNo || "");
+      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+      const mobileNumber = phoneNumber.slice(-10);
+  setEditShow(true)
+console.log(".....?",u)
+setName(u.first_name)
+setEmail(u.email_Id)
+setCountryCode(countryCode);
+setPhone(mobileNumber)
+setDescription(u.description)
+setRole(u.role_id)
+setEditId(u.id)
+
+setInitialStateAssign({
+  name: u.first_name || "",
+  phone: u.mobileNo|| "",
+  email: u.email_Id || "",
+  role: u.role_id || "",
+  description: u.description || ""
+  
+});
+}
+
+const handleDeleteForm=(v)=>{
+console.log("vvvv",v)
+setDeleteId(v.id)
+}
+
 
 const validateAssignField = (value, fieldName) => {
   if (
@@ -157,9 +234,9 @@ const validateAssignField = (value, fieldName) => {
       case "email":
         setEmailError("email ID is required");
         break;
-        case "password":
-        setPasswordError("password is required");
-        break;
+        // case "password":
+        // setPasswordError("password is required");
+        // break;
       case "role":
         setRoleError("role is required");
         break;
@@ -182,9 +259,9 @@ const validateAssignField = (value, fieldName) => {
       case "email":
         setEmailError("");
         break;
-        case "password":
-        setPasswordError("");
-        break;
+        // case "password":
+        // setPasswordError("");
+        // break;
       case "role":
         setRoleError("");
         break;
@@ -198,11 +275,10 @@ const validateAssignField = (value, fieldName) => {
 
 
 
-const MobileNumber = `${countryCode}${phone}`;
+
 const handleSubmit=()=>{
   if (!validateAssignField(name, "name"));
   if (!validateAssignField(phone, "phone"));
-  if (!validateAssignField(password, "password"));
   if (!validateAssignField(email, "email"));
   if (!validateAssignField(role, "role"));
 
@@ -218,10 +294,50 @@ const handleSubmit=()=>{
     setPhoneErrorMessage("");
   }
   const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-  dispatch({
-    type: "ADDSTAFFUSER",
-    payload: {user_name:name,phone:normalizedPhoneNumber,email_id:email,password:password,role_id:role,description:description},
-  });
+  if (editShow) {
+    const noChangesDetected = 
+      name === initialStateAssign.name &&
+      Number(countryCode + phone) === Number(initialStateAssign.phone) &&
+      email === initialStateAssign.email &&
+      description === initialStateAssign.description &&
+      String(role) === String(initialStateAssign.role);
+  
+    if (noChangesDetected) {
+      setFormError("No changes detected.");
+      return;
+    } else {
+      setFormError(""); 
+    }
+    dispatch({
+      type: "ADDSTAFFUSER",
+      payload: {
+        user_name: name,
+        phone: normalizedPhoneNumber,
+        email_id: email,
+        role_id: role,
+        description: description,
+        id: editId, // Include ID for editing
+      },
+    });
+  } else {
+    // Dispatch action for adding a new staff user
+    dispatch({
+      type: "ADDSTAFFUSER",
+      payload: {
+        user_name: name,
+        phone: normalizedPhoneNumber,
+        email_id: email,
+        password: password, // Password is needed for adding
+        role_id: role,
+        description: description,
+      },
+    });
+  }
+
+  // dispatch({
+  //   type: "ADDSTAFFUSER",
+  //   payload: {user_name:name,phone:normalizedPhoneNumber,email_id:email,password:password,role_id:role,description:description},
+  // });
 }
 useEffect(()=>{
 if(state.Settings.StatusForaddSettingUser === 200){
@@ -510,62 +626,58 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
              
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-  <Form.Group className="mb-3">
-    <Form.Label
-      style={{
-        fontSize: 14,
-        color: "#222222",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-      }}
-    >
-      Password <span style={{ color: "red", fontSize: "20px" }}> * </span>
-    </Form.Label>
-    <InputGroup>
-      <FormControl
-        id="form-controls"
-        placeholder="Enter password"
-        type={showPassword ? "text" : "password"}
-        value={password}
-        onChange={(e) => handlePassword(e)}
+  {!editShow && (
+    <Form.Group className="mb-3">
+      <Form.Label
         style={{
-          fontSize: 16,
-          color: "#4B4B4B",
+          fontSize: 14,
+          color: "#222222",
           fontFamily: "Gilroy",
           fontWeight: 500,
-          boxShadow: "none",
-          border: "1px solid #D9D9D9",
-          borderRight: "none", // Remove the right border
-          height: "50px",
-          borderRadius: "8px 0 0 8px",
-        }}
-      />
-      <InputGroup.Text
-        className="border-start-0"
-        onClick={() => setShowPassword(!showPassword)}
-        aria-label={showPassword ? "Hide Password" : "Show Password"}
-        style={{
-          backgroundColor: "#fff",
-          border: "1px solid #D9D9D9",
-          borderLeft: "none", // Ensure no overlap with the input
-          cursor: "pointer",
-          borderRadius: "0 8px 8px 0",
         }}
       >
-        {showPassword ? (
-          <img src={eye} alt="Hide Password" width={20} height={20} />
-        ) : (
-          <img src={eyeClosed} alt="Show Password" width={20} height={20} />
-        )}
-      </InputGroup.Text>
-    </InputGroup>
-  </Form.Group>
-  {passwordError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {passwordError}
-                        </div>
-                      )}
+        Password <span style={{ color: "red", fontSize: "20px" }}> * </span>
+      </Form.Label>
+      <InputGroup>
+        <FormControl
+          id="form-controls"
+          placeholder="Enter password"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={(e) => handlePassword(e)}
+          style={{
+            fontSize: 16,
+            color: "#4B4B4B",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+            boxShadow: "none",
+            border: "1px solid #D9D9D9",
+            borderRight: "none", // Remove the right border
+            height: "50px",
+            borderRadius: "8px 0 0 8px",
+          }}
+        />
+        <InputGroup.Text
+          className="border-start-0"
+          onClick={() => setShowPassword(!showPassword)}
+          aria-label={showPassword ? "Hide Password" : "Show Password"}
+          style={{
+            backgroundColor: "#fff",
+            border: "1px solid #D9D9D9",
+            borderLeft: "none", // Ensure no overlap with the input
+            cursor: "pointer",
+            borderRadius: "0 8px 8px 0",
+          }}
+        >
+          {showPassword ? (
+            <img src={eye} alt="Hide Password" width={20} height={20} />
+          ) : (
+            <img src={eyeClosed} alt="Show Password" width={20} height={20} />
+          )}
+        </InputGroup.Text>
+      </InputGroup>
+    </Form.Group>
+  )}
 </div>
 
 
@@ -656,9 +768,16 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
               </div>
             </div>
             {/* <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'> */}
+            {formError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {formError}
+                        </div>
+                      )}
             <Button
               className="w-100"
               onClick={handleSubmit}
+              disabled={formError}
               style={{
                 fontFamily: "Montserrat",
                 fontSize: 16,
@@ -756,7 +875,7 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
            currentRowUsers?.map((item)=>{
             const imageUrl = item.profile || Profile;
              return(
-               <tr>
+               <tr style={{ overflowX: 'auto' }}>
                {/* <td
                 
                  style={{
@@ -870,11 +989,76 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
                      display: "flex",
                      justifyContent: "center",
                      alignItems: "center",
+                     zIndex:EditUser === item.id ? 1000 : "auto",
                    }}
+                  //  onClick={() => handleEditUser(item.id)}
+                  onClick={(event) => handleEditUser(item.id, event)}
                  >
                    <PiDotsThreeOutlineVerticalFill
                      style={{ height: "20px", width: "20px" }}
                    />
+                     {EditUser === item.id && (
+                     <div
+                       ref={popupRef}
+                       style={{
+                        cursor: "pointer",
+                        backgroundColor: "#F9F9F9",
+                        position: "absolute",
+                        top: popupPosition?.top || 0,
+                        left: popupPosition?.left || 0,
+                        width: 160,
+                        height: 70,
+                        border: "1px solid #EBEBEB",
+                        borderRadius: 10,
+                        display: "flex",
+                        flexDirection: "column",
+                        padding: 10,
+                        alignItems: "start",
+                      }}
+                     >
+                       <div
+                         className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                         onClick={() => handleEditForm(item)}
+                       >
+                         <img
+                           src={Edit}
+                           style={{ height: 16, width: 16 }}
+                           alt="Edit"
+                         />
+                         <label
+                           style={{
+                             fontSize: 14,
+                             fontWeight: 500,
+                             fontFamily: "Gilroy, sans-serif",
+                             color: "#000000",
+                             cursor: "pointer",
+                           }}
+                         >
+                           Edit
+                         </label>
+                       </div>
+                       <div className="mb-2 d-flex justify-content-start align-items-center gap-2"  onClick={() => handleDeleteForm(item)}>
+                         <img
+                           src={Delete}
+                           style={{ height: 16, width: 16 }}
+                           alt="Delete"
+                          //  onClick={handleDeleteTransForm}
+                          //  onClick={() => handleDeleteTransForm(user)}
+                         />
+                         <label
+                           style={{
+                             fontSize: 14,
+                             fontWeight: 500,
+                             fontFamily: "Gilroy, sans-serif",
+                             color: "#FF0000",
+                             cursor: "pointer",
+                           }}
+                         >
+                           Delete
+                         </label>
+                       </div>
+                     </div>
+                   )}
                  </div>
                </td>
              </tr>
