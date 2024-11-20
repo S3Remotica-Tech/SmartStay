@@ -183,11 +183,22 @@
     background: #555; /* Color when hovering over the scrollbar */
 }
 
-.Table_Design{
-  margin-left: -50px;
-}
-@media (max-width:700px) {
-  .Table_Design{
+.Ta_Design{
+  border: 1px solid #DCDCDC;
+  border-radius: 24px;
+  /* width: 100%; */
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-left: -60px;
+  }
+@media (max-width:500px) {
+  .Ta_Design{
     margin-left: 0px;
+  }
+}
+@media only screen and (max-width: 900px) and (min-width: 700px) {
+  .Ta_Design{
+    margin-left: -10px;
+   overflow-x: auto;
   }
 }

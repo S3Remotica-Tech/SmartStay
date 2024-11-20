@@ -422,8 +422,8 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
 
   return (
     <>
-      <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12" >
-        <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+      <div className="d-flex flex-column flex-sm-column flex-md-column  flex-lg-row col-lg-12" >
+        <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12">
           <div
             className="col-lg-11 col-md-11 col-sm-12 col-xs-12"
             style={{
@@ -797,12 +797,12 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
 
         {/* <hr style={{ border: '1px solid #ced4da', transform: 'rotate(180deg)' }} /> */}
 
-        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0 mt-sm-2 mt-xs-2">
+        <div className="col-lg-6 col-md-10 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0 mt-sm-2 mt-xs-2 ">
         {currentRowUsers?.length > 0 ? (
          
        <Table
        responsive="md"
-       className="Table_Design mt-3 mt-md-0 mt-lg-0 "
+       className="Ta_Design mt-3 mt-md-0 mt-lg-0 "
        style={{
          tableLayout: "auto",
          borderRadius: "24px",
@@ -914,9 +914,9 @@ const totalPagesUsers = Math.ceil(usersFilterddata?.length / usersPerPage);
                                 className="Customer_Name_Hover"
                                 style={{
                                   fontSize: "16px",
-                                  fontWeight: 600,
+                                  fontWeight: 500,
                                   fontFamily: "Gilroy",
-                                  color: "#1E45E1",
+                                  // color: "#1E45E1",
                                   cursor: "pointer",
                                   marginTop:10
                                   

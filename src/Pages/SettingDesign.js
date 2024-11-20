@@ -141,6 +141,7 @@ const [checkboxValues, setCheckboxValues] = useState({
     Reports: [false, false, false, false],
     Bankings: [false, false, false, false],
     Profile: [false, false, false, false],
+    Amenities:[false,false,false,false]
 
   });
   const permissionMapping = {
@@ -161,7 +162,8 @@ const [checkboxValues, setCheckboxValues] = useState({
     Expenses:15,
     Reports:16,
     Bankings:17,
-    Profile:18
+    Profile:18,
+    Amenities:19
   };
 
   useEffect(() => {
@@ -549,6 +551,8 @@ useEffect(()=>{
           {renderRow('Reports', 'Reports')}
           {renderRow('Bankings', 'Bankings')}
           {renderRow('Profile', 'Profile')}
+          {renderRow('Amenities', 'Amenities')}
+
           
         </tbody>
       </table>

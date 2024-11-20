@@ -172,8 +172,8 @@ lineHeight: 'normal',
     Revenue = 0,
     current = 0,
     overdue = 0,
-    first_name = 0,
-    last_name = 0,
+    first_name = '',
+    last_name = '',
   } = dashboardList[0] || {};
 
   console.log(
@@ -308,7 +308,7 @@ lineHeight: 'normal',
               lineHeight: "28.63px",
             }}
           >
-            Welcome back,{" "}
+            Welcome back {" "}
             {first_name != null ? first_name.toLocaleString() : ""}{" "}
             {last_name != null ? last_name.toLocaleString() : ""}!
           </lable>
