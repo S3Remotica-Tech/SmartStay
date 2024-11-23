@@ -54,6 +54,7 @@ import addcircle from "../Assets/Images/New_images/add-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { MdError } from "react-icons/md";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -75,6 +76,118 @@ function UserList(props) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [value, setValue] = React.useState("1");
+  const [customerrolePermission, setCustomerRolePermission] = useState("");
+  const [customerpermissionError, setCustomerPermissionError] = useState("");
+const [customerAddPermission,setCustomerAddPermission]= useState("")
+const [customerDeletePermission,setCustomerDeletePermission]=useState("")
+const [customerEditPermission,setCustomerEditPermission]=useState("")
+
+const [customerBookingAddPermission, setCustomerBookingAddPermission] = useState("");
+const [customerWalkInAddPermission, setCustomerWalkInAddPermission] = useState("");
+const [customerCheckoutPermission, setCustomerCheckoutAddPermission] = useState("");
+
+
+
+
+
+useEffect(() => {
+  setCustomerRolePermission(state.createAccount.accountList);
+}, [state.createAccount.accountList]);
+
+
+
+useEffect(() => {
+  console.log("===customerrolePermission[0]", customerrolePermission);
+  if (
+    customerrolePermission[0]?.is_owner == 1 ||
+    customerrolePermission[0]?.role_permissions[4]?.per_view == 1
+  ) {
+    setCustomerPermissionError("");
+  } else {
+    setCustomerPermissionError("Permission Denied");
+  }
+}, [customerrolePermission]);
+
+
+
+
+
+useEffect(() => {
+  console.log("===rolePermission", customerrolePermission[0]);
+
+  if (
+    customerrolePermission[0]?.is_owner == 1 ||
+    customerrolePermission[0]?.role_permissions[4]?.per_create == 1
+  ) {
+    setCustomerAddPermission("");
+  } else {
+    setCustomerAddPermission("Permission Denied");
+  }
+}, [customerrolePermission]);
+useEffect(() => {
+  console.log("===rolePermission", customerrolePermission[0]);
+
+  if (
+    customerrolePermission[0]?.is_owner == 1 ||
+    customerrolePermission[0]?.role_permissions[4]?.per_edit == 1
+  ) {
+    setCustomerEditPermission("");
+  } else {
+    setCustomerEditPermission("Permission Denied");
+  }
+}, [customerrolePermission]);
+useEffect(() => {
+  console.log("===rolePermission", customerrolePermission[0]);
+
+  if (
+    customerrolePermission[0]?.is_owner == 1 ||
+    customerrolePermission[0]?.role_permissions[4]?.per_delete == 1
+  ) {
+    setCustomerDeletePermission("");
+  } else {
+    setCustomerDeletePermission("Permission Denied");
+  }
+}, [customerrolePermission]);
+
+
+useEffect(() => {
+  console.log("===rolePermission", customerrolePermission[0]);
+
+  if (
+    customerrolePermission[0]?.is_owner == 1 ||
+    customerrolePermission[0]?.role_permissions[5]?.per_create == 1
+  ) {
+    setCustomerBookingAddPermission("");
+  } else {
+    setCustomerBookingAddPermission("Permission Denied");
+  }
+}, [customerrolePermission]);
+
+useEffect(() => {
+  console.log("===rolePermission", customerrolePermission[0]);
+
+  if (
+    customerrolePermission[0]?.is_owner == 1 ||
+    customerrolePermission[0]?.role_permissions[7]?.per_create == 1
+  ) {
+    setCustomerWalkInAddPermission("");
+  } else {
+    setCustomerWalkInAddPermission("Permission Denied");
+  }
+}, [customerrolePermission]);
+useEffect(() => {
+  console.log("===rolePermission", customerrolePermission[0]);
+
+  if (
+    customerrolePermission[0]?.is_owner == 1 ||
+    customerrolePermission[0]?.role_permissions[6]?.per_create == 1
+  ) {
+    setCustomerCheckoutAddPermission("");
+  } else {
+    setCustomerCheckoutAddPermission("Permission Denied");
+  }
+}, [customerrolePermission]);
+
 
   useEffect(()=>{
     dispatch({ type: "GET_BOOKING_LIST"});
@@ -954,6 +1067,7 @@ useEffect(() => {
 }, [state?.Booking?.statusCodeForAddBooking]);
 
   return (
+
     <div style={{ padding: 10, marginLeft: 20 }}>
       <Addbooking show={showbookingForm} handleClose={closeModal} setShowbookingForm={setShowbookingForm}/>
 
@@ -963,6 +1077,7 @@ useEffect(() => {
       <UserlistWalkinForm
         show={walkInForm}
         handleClose={walkinFormcloseModal}
+        customerrolePermission={customerrolePermission}
       />
      
 
@@ -1144,6 +1259,7 @@ useEffect(() => {
               <div className="buttons">
                 {value === "1" && (
                   <Button
+                  disabled={customerAddPermission}
                     onClick={handleShow}
                     style={{
                       fontSize: 14,
@@ -1155,6 +1271,7 @@ useEffect(() => {
                       width: 152,
                       padding: "16px, 24px, 16px, 24px",
                       fontFamily: "Gilroy",
+                     
                     }}
                   >
                     + Add Customer
@@ -1162,6 +1279,7 @@ useEffect(() => {
                 )}
                 {value === "2" && (
                   <Button
+                  disabled={customerBookingAddPermission}
                     onClick={toggleForm}
                     style={{
                       fontSize: 14,
@@ -1180,6 +1298,7 @@ useEffect(() => {
                 )}
                 {value === "3" && (
                   <Button
+                  disabled={customerCheckoutPermission}
                     onClick={checkOutForm}
                     style={{
                       fontSize: 14,
@@ -1198,6 +1317,7 @@ useEffect(() => {
                 )}
                 {value === "4" && (
                   <Button
+                  disabled={customerWalkInAddPermission}
                     onClick={walkinForm}
                     style={{
                       fontSize: 14,
@@ -1284,574 +1404,642 @@ useEffect(() => {
 </Box>
               <TabPanel value="1" style={{ paddingLeft: 0 }}>
 
-                <div>
-                  <div >
+{
+  customerpermissionError ? (
+    <>
+     <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              // height: "100vh",
+            }}
+          >
+            {/* Image */}
+            <img
+              src={Emptystate}
+              alt="Empty State"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
 
-
-                    {currentItems?.length == 0 &&
-
-                      <div>
-                        <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Active Customer </div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no active Customer </div>
-                        <div style={{ textAlign: "center" }}>
-                          <Button
-                            onClick={handleShow}
-                            style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Customer</Button>
-                        </div>
-                      </div>
-
-
-                    }
-
-                    {currentItems && currentItems.length > 0 && (
-                     <Table
-                responsive="md"
-                className="Table_Design"
+            {/* Permission Error */}
+            {customerpermissionError && (
+              <div
                 style={{
-                  height: "auto",
-                  overflow: "visible",
-                  tableLayout: "auto",
-                  borderRadius: "24px",
-                  border: "1px solid #DCDCDC",
-
+                  color: "red",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  marginTop: "1rem",
                 }}
               >
-                <thead
-                  style={{
-                    backgroundColor: "#E7F1FF",
-                  }}
-                >
-                  <tr>
-                    <th
-                      style={{
-                        textAlign: "center",
-                        fontFamily: "Gilroy",
-                        color: "rgba(34, 34, 34, 1)",
-                        fontSize: 14,
-                        fontWeight: 600,
-                        borderTopLeftRadius: 24,
-                      }}
-                    >
-                      <img src={squre} height={20} width={20} />
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#939393",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Name
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#939393",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Paying Guest
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#939393",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Email ID
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#939393",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Mobile no
-                    </th>
-                 
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#939393",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Room
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "start",
-                        padding: "10px",
-                        color: "#939393",
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Bed
-                    </th>
-                    <th
-                      style={{
-                        textAlign: "center",
-                        fontFamily: "Gilroy",
-                        color: "rgba(34, 34, 34, 1)",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        borderTopRightRadius: 24,
-                      }}
-                    >
-                      {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
-                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                        </div> */}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody style={{ textAlign: "center" }}>
-                  {loading
-                    ? Array.from({ length: currentItems?.length || 5 }).map(
-                        (_, index) => (
-                          <tr key={index}>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton circle={true} height={40} width={40} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={80} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={120} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={120} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={120} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={50} />
-                            </td>
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <Skeleton width={50} />
-                            </td>
-                          </tr>
-                        )
-                      )
-                    : currentItems.map((user) => {
-                        const imageUrl = user.profile || Profile;
-                        return (
-                          <tr
-                            key={user.ID}
-                            style={{
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              textAlign: "center",
-                              marginTop: 10,
-                            }}
-                          >
-                            <td style={{ padding: "10px", border: "none" }}>
-                              <img src={squre} height={20} width={20} style={{marginTop:10}} />
-                            </td>
-                            <td
-                              style={{
-                                border: "none",
-                                display: "flex",
-                                padding: "10px",
-                              }}
-                            >
-                              <Image
-                                src={imageUrl}
-                                alt={user.Name || "Default Profile"}
-                                roundedCircle
-                                style={{
-                                  height: "40px",
-                                  width: "40px",
-                                  marginRight: "10px",
-                                }}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = Profile;
-                                }}
-                              />
-                              <span
-                                className="Customer_Name_Hover"
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  color: "#1E45E1",
-                                  cursor: "pointer",
-                                  marginTop:10
-                                  
-                                }}
-                                onClick={() => handleRoomDetailsPage(user)}
-                              >
-                                {user.Name}
-                              </span>
-                            </td>
+                <MdError size={20} />
+                <span>{customerpermissionError}</span>
+              </div>
+            )}
+          </div></>
+  ):
+  <div>
+  <div >
 
-                            <td
-                              style={{
-                                paddingTop:15,
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                marginTop:10
-                              }}
-                            >
-                              <span
-                                style={{
-                                  paddingTop: "3px",
-                                  paddingLeft: "10px",
-                                  paddingRight: "10px",
-                                  paddingBottom: "3px",
-                                  borderRadius: "60px",
-                                  backgroundColor: "#FFEFCF",
-                                  textAlign: "start",
-                                  fontSize: "14px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  
-                                }}
-                              >
-                                {user.HostelName}
-                              </span>
-                            </td>
-                            <td
-                              style={{
-                               
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                paddingTop:15
-                              }}
-                            >
-                              {user.Email}
-                            </td>
-                            <td
-                              style={{
-                                paddingTop:15,
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                marginTop:10,
-                                whiteSpace: "nowrap"
-                              }}
-                            >
-                              +
-                              {user &&
-                                String(user.Phone).slice(
-                                  0,
-                                  String(user.Phone).length - 10
-                                )}{" "}
-                              {user && String(user.Phone).slice(-10)}
-                            </td>
-                           
-                            <td
-                              style={{
-                                paddingTop:15,
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                               
-                              }}
-                            >
-                              {" "}
-                              {!user.Rooms
-                                ? "-"
-                                : user.Rooms}
-                            </td>
-                           
-                            <td
-                              // className={user.Bed === 0 ? 'assign-bed' : ''}
-                              // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
-                              style={{
-                                paddingTop:15,
-                                border: "none",
-                                cursor: "pointer",
-                                textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                marginTop:10
-                              }}
-                            >
-                              {! user.Bed
-                                ? "-"
-                                : user.Bed}
-                            </td>
-                            <td style={{ paddingTop:12, border: "none" }}>
-                              {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                              <div
-                                style={{
-                                  cursor: "pointer",
-                                  height: 40,
-                                  width: 40,
-                                  borderRadius: 100,
-                                  border: "1px solid #EFEFEF",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  position: "relative",
-                                  zIndex: 1000,
-                                }}
-                                onClick={() => handleShowDots(user.ID)}
-                              >
-                                <PiDotsThreeOutlineVerticalFill
-                                  style={{ height: 20, width: 20 }}
-                                />
-                                {activeRow === user.ID && (
-                                  <>
-                                    <div
-                                      ref={popupRef}
-                                      style={{
-                                        cursor: "pointer",
-                                        backgroundColor: "#fff",
-                                        position: "absolute",
-                                        right: 50,
-                                        top: 20,
-                                        width: 163,
-                                        height: "auto",
-                                        border: "1px solid #EBEBEB",
-                                        borderRadius: 10,
-                                        display: "flex",
-                                        justifyContent: "start",
-                                        padding: 10,
-                                        alignItems: "center",
-                                        zIndex: showDots ? 1000 : "auto",
-                                      }}
-                                    >
-                                      <div
-                                        style={{ backgroundColor: "#fff" }}
-                                        className=""
-                                      >
-                                        {(!user.Bed ) && (
-                                          <div
-                                            className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                            // onClick={() => handleInvoicepdf(user)}
-                                            style={{ backgroundColor: "#fff" }}
-                                            onClick={() =>
-                                              handleShowAddBed(user)
-                                            }
-                                          >
-                                            <img
-                                              src={addcircle}
-                                              style={{ height: 16, width: 16 }}
-                                            />
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy,sans-serif",
-                                                color: "#222222",
-                                                cursor: "pointer",
-                                              }}
-                                            >
-                                              Assign Bed
-                                            </label>
-                                          </div>
-                                        )}
-                                        <div
-                                          className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                          style={{ backgroundColor: "#fff" }}
-                                          onClick={() =>
-                                            handleRoomDetailsPage(user)
-                                          }
-                                        >
-                                          <img
-                                            src={Edit}
-                                            style={{ height: 16, width: 16 }}
-                                          />{" "}
-                                          <label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy,sans-serif",
-                                              color: "#222222",
-                                              cursor: "pointer",
-                                            }}
-                                          >
-                                            Edit
-                                          </label>
-                                        </div>
+    {currentItems?.length == 0 &&
 
-                                        {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                                onClick={() => { handleShowform(props) }}
-                                                style={{ backgroundColor: "#fff" }}
-                                            >
-                                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
+      <div>
+        <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
+        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Active Customer </div>
+        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no active Customer </div>
+        <div style={{ textAlign: "center" }}>
+          <Button
+            onClick={handleShow}
+            disabled={customerAddPermission}
+            style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Customer</Button>
+        </div>
+      </div>
 
-                                            </div> */}
 
-                                        <div
-                                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                          style={{ backgroundColor: "#fff" }}
-                                       onClick={handleDeleteShow} >
-                                          <img
-                                            src={Delete}
-                                            style={{ height: 16, width: 16 }}
-                                          />{" "}
-                                          <label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy,sans-serif",
-                                              color: "#FF0000",
-                                              cursor: "pointer",
-                                            }}
-                                          >
-                                            Delete
-                                          </label>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
+    }
 
-                              {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                </tbody>
-              </Table>
-                    )}
-                  </div>
-                  {currentItems?.length > 0 && (
-                    <nav>
-                      <ul
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          listStyleType: "none",
-                          padding: 0,
-                          justifyContent: "end",
-                        }}
+    {currentItems && currentItems.length > 0 && (
+     <Table
+responsive="md"
+className="Table_Design"
+style={{
+  height: "auto",
+  overflow: "visible",
+  tableLayout: "auto",
+  borderRadius: "24px",
+  border: "1px solid #DCDCDC",
+
+}}
+>
+<thead
+  style={{
+    backgroundColor: "#E7F1FF",
+  }}
+>
+  <tr>
+    <th
+      style={{
+        textAlign: "center",
+        fontFamily: "Gilroy",
+        color: "rgba(34, 34, 34, 1)",
+        fontSize: 14,
+        fontWeight: 600,
+        borderTopLeftRadius: 24,
+      }}
+    >
+      <img src={squre} height={20} width={20} />
+    </th>
+    <th
+      style={{
+        textAlign: "start",
+        padding: "10px",
+        color: "#939393",
+        fontSize: "14px",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+      }}
+    >
+      Name
+    </th>
+    <th
+      style={{
+        textAlign: "start",
+        padding: "10px",
+        color: "#939393",
+        fontSize: "14px",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+      }}
+    >
+      Paying Guest
+    </th>
+    <th
+      style={{
+        textAlign: "start",
+        padding: "10px",
+        color: "#939393",
+        fontSize: "14px",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+      }}
+    >
+      Email ID
+    </th>
+    <th
+      style={{
+        textAlign: "start",
+        padding: "10px",
+        color: "#939393",
+        fontSize: "14px",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+      }}
+    >
+      Mobile no
+    </th>
+ 
+    <th
+      style={{
+        textAlign: "start",
+        padding: "10px",
+        color: "#939393",
+        fontSize: "14px",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+      }}
+    >
+      Room
+    </th>
+    <th
+      style={{
+        textAlign: "start",
+        padding: "10px",
+        color: "#939393",
+        fontSize: "14px",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+      }}
+    >
+      Bed
+    </th>
+    <th
+      style={{
+        textAlign: "center",
+        fontFamily: "Gilroy",
+        color: "rgba(34, 34, 34, 1)",
+        fontSize: 14,
+        fontWeight: 500,
+        borderTopRightRadius: 24,
+      }}
+    >
+      {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
+          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+        </div> */}
+    </th>
+  </tr>
+</thead>
+<tbody style={{ textAlign: "center" }}>
+  {loading
+    ? Array.from({ length: currentItems?.length || 5 }).map(
+        (_, index) => (
+          <tr key={index}>
+            <td style={{ padding: "10px", border: "none" }}>
+              <Skeleton circle={true} height={40} width={40} />
+            </td>
+            <td style={{ padding: "10px", border: "none" }}>
+              <Skeleton width={80} />
+            </td>
+            <td style={{ padding: "10px", border: "none" }}>
+              <Skeleton width={120} />
+            </td>
+            <td style={{ padding: "10px", border: "none" }}>
+              <Skeleton width={120} />
+            </td>
+            <td style={{ padding: "10px", border: "none" }}>
+              <Skeleton width={120} />
+            </td>
+            <td style={{ padding: "10px", border: "none" }}>
+              <Skeleton width={50} />
+            </td>
+            <td style={{ padding: "10px", border: "none" }}>
+              <Skeleton width={50} />
+            </td>
+          </tr>
+        )
+      )
+    : currentItems.map((user) => {
+        const imageUrl = user.profile || Profile;
+        return (
+          <tr
+            key={user.ID}
+            style={{
+              fontSize: "16px",
+              fontWeight: 600,
+              textAlign: "center",
+              marginTop: 10,
+            }}
+          >
+            <td style={{ padding: "10px", border: "none" }}>
+              <img src={squre} height={20} width={20} style={{marginTop:10}} />
+            </td>
+            <td
+              style={{
+                border: "none",
+                display: "flex",
+                padding: "10px",
+              }}
+            >
+              <Image
+                src={imageUrl}
+                alt={user.Name || "Default Profile"}
+                roundedCircle
+                style={{
+                  height: "40px",
+                  width: "40px",
+                  marginRight: "10px",
+                }}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = Profile;
+                }}
+              />
+              <span
+                className="Customer_Name_Hover"
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  color: "#1E45E1",
+                  cursor: "pointer",
+                  marginTop:10
+                  
+                }}
+                onClick={() => handleRoomDetailsPage(user)}
+              >
+                {user.Name}
+              </span>
+            </td>
+
+            <td
+              style={{
+                paddingTop:15,
+                border: "none",
+                textAlign: "start",
+                fontSize: "16px",
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+                marginTop:10
+              }}
+            >
+              <span
+                style={{
+                  paddingTop: "3px",
+                  paddingLeft: "10px",
+                  paddingRight: "10px",
+                  paddingBottom: "3px",
+                  borderRadius: "60px",
+                  backgroundColor: "#FFEFCF",
+                  textAlign: "start",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  
+                }}
+              >
+                {user.HostelName}
+              </span>
+            </td>
+            <td
+              style={{
+               
+                border: "none",
+                textAlign: "start",
+                fontSize: "16px",
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+                paddingTop:15
+              }}
+            >
+              {user.Email}
+            </td>
+            <td
+              style={{
+                paddingTop:15,
+                border: "none",
+                textAlign: "start",
+                fontSize: "16px",
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+                marginTop:10,
+                whiteSpace: "nowrap"
+              }}
+            >
+              +
+              {user &&
+                String(user.Phone).slice(
+                  0,
+                  String(user.Phone).length - 10
+                )}{" "}
+              {user && String(user.Phone).slice(-10)}
+            </td>
+           
+            <td
+              style={{
+                paddingTop:15,
+                border: "none",
+                textAlign: "start",
+                fontSize: "16px",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+               
+              }}
+            >
+              {" "}
+              {!user.Rooms
+                ? "-"
+                : user.Rooms}
+            </td>
+           
+            <td
+              // className={user.Bed === 0 ? 'assign-bed' : ''}
+              // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
+              style={{
+                paddingTop:15,
+                border: "none",
+                cursor: "pointer",
+                textAlign: "start",
+                fontSize: "16px",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                marginTop:10
+              }}
+            >
+              {! user.Bed
+                ? "-"
+                : user.Bed}
+            </td>
+            <td style={{ paddingTop:12, border: "none" }}>
+              {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
+
+              <div
+                style={{
+                  cursor: "pointer",
+                  height: 40,
+                  width: 40,
+                  borderRadius: 100,
+                  border: "1px solid #EFEFEF",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  position: "relative",
+                  zIndex: 1000,
+                }}
+                onClick={() => handleShowDots(user.ID)}
+              >
+                <PiDotsThreeOutlineVerticalFill
+                  style={{ height: 20, width: 20 }}
+                />
+                {activeRow === user.ID && (
+                  <>
+                    <div
+                      ref={popupRef}
+                      style={{
+                        cursor: "pointer",
+                        backgroundColor: "#fff",
+                        position: "absolute",
+                        right: 50,
+                        top: 20,
+                        width: 163,
+                        height: "auto",
+                        border: "1px solid #EBEBEB",
+                        borderRadius: 10,
+                        display: "flex",
+                        justifyContent: "start",
+                        padding: 10,
+                        alignItems: "center",
+                        zIndex: showDots ? 1000 : "auto",
+                      }}
+                    >
+                      <div
+                        style={{ backgroundColor: "#fff" }}
+                        className=""
                       >
-                        <li style={{ margin: "0 5px" }}>
-                          <button
-                            style={{
-                              padding: "5px 10px",
-                              textDecoration: "none",
-                              color: currentPage === 1 ? "#ccc" : "#007bff",
-                              cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                              borderRadius: "5px",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                          >
+                       {!user.Bed && (
+  <div
+    className="mb-3 d-flex justify-content-start align-items-center gap-2"
+    onClick={() => {
+      if (!customerAddPermission) {
+        handleShowAddBed(user);
+      }
+    }}
+    style={{
+      backgroundColor: "#fff",
+      cursor: customerAddPermission ? "not-allowed" : "pointer",
+      opacity: customerAddPermission ? 0.6 : 1,
+    }}
+  >
+    <img
+      src={addcircle}
+      style={{
+        height: 16,
+        width: 16,
+        filter:customerAddPermission ? "grayscale(100%)" : "none",
+      }}
+    />
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: "Gilroy, sans-serif",
+        color:customerAddPermission ? "#888888" : "#222222",
+        cursor:customerAddPermission ? "not-allowed" : "pointer",
+      }}
+    >
+      Assign Bed
+    </label>
+  </div>
+)}
 
-                            <ArrowLeft2 size="16" color="#1E45E1" />
-                          </button>
+                       <div
+  className="mb-3 d-flex justify-content-start align-items-center gap-2"
+  style={{
+    backgroundColor: "#fff",
+    cursor:customerEditPermission ? "not-allowed" : "pointer",
+    opacity:customerEditPermission ? 0.6 : 1,
+  }}
+  onClick={() => {
+    if (!customerEditPermission) {
+      handleRoomDetailsPage(user);
+    }
+  }}
+>
+  <img
+    src={Edit}
+    style={{
+      height: 16,
+      width: 16,
+      filter:customerEditPermission ? "grayscale(100%)" : "none",
+    }}
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: customerEditPermission ? "#888888" : "#222222",
+      cursor:customerEditPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Edit
+  </label>
+</div>
 
-                        </li>
-                        {currentPage > 3 && (
-                          <li style={{ margin: "0 5px" }}>
-                            <button
-                              style={{
-                                padding: "5px 10px",
-                                textDecoration: "none",
-                                color: "white",
-                                cursor: "pointer",
-                                borderRadius: "5px",
-                                display: "inline-block",
-                                minWidth: "30px",
-                                textAlign: "center",
-                                backgroundColor: "transparent",
-                                border: "none",
-                              }}
-                              onClick={() => handlePageChange(1)}
+
+                        {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                onClick={() => { handleShowform(props) }}
+                                style={{ backgroundColor: "#fff" }}
                             >
-                              1
-                            </button>
-                          </li>
-                        )}
-                        {currentPage > 3 && <span>...</span>}
-                        {renderPageNumbers()}
-                        {currentPage < totalPages - 2 && <span>...</span>}
-                        {currentPage < totalPages - 2 && (
-                          <li style={{ margin: "0 5px" }}>
-                            <button
-                              style={{
-                                padding: "5px 10px",
-                                textDecoration: "none",
-                                cursor: "pointer",
-                                borderRadius: "5px",
-                                display: "inline-block",
-                                minWidth: "30px",
-                                textAlign: "center",
-                                backgroundColor: "transparent",
-                                border: "none",
-                              }}
-                              onClick={() => handlePageChange(totalPages)}
-                            >
-                              {totalPages}
-                            </button>
-                          </li>
-                        )}
-                        <li style={{ margin: "0 5px" }}>
+                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
 
-                          <button
-                            style={{
-                              padding: "5px 10px",
-                              textDecoration: "none",
-                              color: currentPage === totalPages ? "#ccc" : "#007bff",
-                              cursor:
-                                currentPage === totalPages ? "not-allowed" : "pointer",
-                              borderRadius: "5px",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                          >
+                            </div> */}
 
-                            <ArrowRight2 size="16" color="#1E45E1" />
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                  )}
+<div
+  className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
+  style={{
+    backgroundColor: "#fff",
+    cursor: customerDeletePermission ? "not-allowed" : "pointer",
+    opacity: customerDeletePermission ? 0.6 : 1, 
+  }}
+  onClick={!customerDeletePermission ? handleDeleteShow : null} 
+>
+  <img
+    src={Delete}
+    style={{ height: 16, width: 16 }}
+    alt="Delete Icon"
+  />{" "}
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: customerDeletePermission ? "#888888" : "#FF0000", // Greyed-out text if disabled
+    }}
+  >
+    Delete
+  </label>
+</div>
+
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+            </td>
+          </tr>
+        );
+      })}
+</tbody>
+</Table>
+    )}
+  </div>
+  {currentItems?.length > 0 && (
+    <nav>
+      <ul
+        style={{
+          display: "flex",
+          alignItems: "center",
+          listStyleType: "none",
+          padding: 0,
+          justifyContent: "end",
+        }}
+      >
+        <li style={{ margin: "0 5px" }}>
+          <button
+            style={{
+              padding: "5px 10px",
+              textDecoration: "none",
+              color: currentPage === 1 ? "#ccc" : "#007bff",
+              cursor: currentPage === 1 ? "not-allowed" : "pointer",
+              borderRadius: "5px",
+              display: "inline-block",
+              minWidth: "30px",
+              textAlign: "center",
+              backgroundColor: "transparent",
+              border: "none",
+            }}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+
+            <ArrowLeft2 size="16" color="#1E45E1" />
+          </button>
+
+        </li>
+        {currentPage > 3 && (
+          <li style={{ margin: "0 5px" }}>
+            <button
+              style={{
+                padding: "5px 10px",
+                textDecoration: "none",
+                color: "white",
+                cursor: "pointer",
+                borderRadius: "5px",
+                display: "inline-block",
+                minWidth: "30px",
+                textAlign: "center",
+                backgroundColor: "transparent",
+                border: "none",
+              }}
+              onClick={() => handlePageChange(1)}
+            >
+              1
+            </button>
+          </li>
+        )}
+        {currentPage > 3 && <span>...</span>}
+        {renderPageNumbers()}
+        {currentPage < totalPages - 2 && <span>...</span>}
+        {currentPage < totalPages - 2 && (
+          <li style={{ margin: "0 5px" }}>
+            <button
+              style={{
+                padding: "5px 10px",
+                textDecoration: "none",
+                cursor: "pointer",
+                borderRadius: "5px",
+                display: "inline-block",
+                minWidth: "30px",
+                textAlign: "center",
+                backgroundColor: "transparent",
+                border: "none",
+              }}
+              onClick={() => handlePageChange(totalPages)}
+            >
+              {totalPages}
+            </button>
+          </li>
+        )}
+        <li style={{ margin: "0 5px" }}>
+
+          <button
+            style={{
+              padding: "5px 10px",
+              textDecoration: "none",
+              color: currentPage === totalPages ? "#ccc" : "#007bff",
+              cursor:
+                currentPage === totalPages ? "not-allowed" : "pointer",
+              borderRadius: "5px",
+              display: "inline-block",
+              minWidth: "30px",
+              textAlign: "center",
+              backgroundColor: "transparent",
+              border: "none",
+            }}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+
+            <ArrowRight2 size="16" color="#1E45E1" />
+          </button>
+        </li>
+      </ul>
+    </nav>
+  )}
 
 
 
 
 
-                </div>
+</div>
+}
+
+
+               
 
 
 
@@ -1859,13 +2047,13 @@ useEffect(() => {
 
               </TabPanel>
               <TabPanel value="2">
-                <UserlistBookings id={props.id} setFilteredUsers={setFilteredUsers} filteredUsers={filteredUsers} currentItems={currentItems} showbookingForm={showbookingForm}  toggleForm={toggleForm}/>
+                <UserlistBookings id={props.id} setFilteredUsers={setFilteredUsers} filteredUsers={filteredUsers} currentItems={currentItems} showbookingForm={showbookingForm}  toggleForm={toggleForm} customerBookingAddPermission={customerBookingAddPermission} customerrolePermission={customerrolePermission}/>
               </TabPanel>
               <TabPanel value="3">
-                <UserlistCheckout id={props.id} />
+                <UserlistCheckout id={props.id} customerrolePermission={customerrolePermission} customerCheckoutPermission={customerCheckoutPermission}/>
               </TabPanel>
               <TabPanel value="4">
-                <UserlistWalkin id={props.id} />
+                <UserlistWalkin id={props.id} customerrolePermission={customerrolePermission} customerWalkInAddPermission={customerWalkInAddPermission}/>
               </TabPanel>
             </TabContext>
           </div>
@@ -2008,6 +2196,7 @@ useEffect(() => {
           currentRowAmnities={currentRowAmnities}
           amnitiescurrentPage={amnitiescurrentPage}
           handleAdhaarChange={handleAdhaarChange}
+          customerEditPermission={customerEditPermission}
         />
       ) : null}
 

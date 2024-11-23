@@ -1096,9 +1096,30 @@ console.log("props.roomDetail12344",props.userDetails )
                         </div>
                       </div>
 
-                      <div onClick={() => handleShowEditBed(props.userDetails)}>
+                      {/* <div  onClick={() => handleShowEditBed(props.userDetails)}>
                         <img src={dots} width={40} height={40} />
-                      </div>
+                      </div> */}
+                      <div
+  onClick={() => {
+    if (!props.customerEditPermission) {
+      handleShowEditBed(props.userDetails);
+    }
+  }}
+  style={{
+    cursor: props.customerEditPermission ? "not-allowed" : "pointer",
+    opacity: props.customerEditPermission ? 0.6 : 1,
+  }}
+>
+  <img
+    src={dots}
+    width={40}
+    height={40}
+    style={{
+      filter: props.customerEditPermission ? "grayscale(100%)" : "none",
+    }}
+  />
+</div>
+
                     </div>
                   </div>
 
@@ -1206,29 +1227,42 @@ console.log("props.roomDetail12344",props.userDetails )
                                 >
                                   Basic Information
                                 </div>
-                                <div style={{ cursor: "pointer" }}>
-                                  <div
-                                    onClick={() =>
-                                      handleEditUser(props.userDetails)
-                                    }
-                                    style={{
-                                      cursor: "pointer",
-                                      height: 40,
-                                      width: 40,
-                                      borderRadius: 100,
-                                      border: "1px solid #EFEFEF",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      position: "relative",
-                                      zIndex: 1000,
-                                    }}
-                                  >
-                                    <PiDotsThreeOutlineVerticalFill
-                                      style={{ height: 20, width: 20 }}
-                                    />
-                                  </div>
-                                </div>
+                                <div
+  style={{
+    cursor: props.customerEditPermission ? "not-allowed" : "pointer",
+    opacity: props.customerEditPermission ? 0.6 : 1,
+  }}
+>
+  <div
+    onClick={() => {
+      if (!props.customerEditPermission) {
+        handleEditUser(props.userDetails);
+      }
+    }}
+    style={{
+      cursor: props.customerEditPermission ? "not-allowed" : "pointer",
+      height: 40,
+      width: 40,
+      borderRadius: 100,
+      border: "1px solid #EFEFEF",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      position: "relative",
+      zIndex: 1000,
+      backgroundColor: props.customerEditPermission ? "#F5F5F5" : "#FFF",
+    }}
+  >
+    <PiDotsThreeOutlineVerticalFill
+      style={{
+        height: 20,
+        width: 20,
+        color: props.customerEditPermission ? "#CCCCCC" : "#000",
+      }}
+    />
+  </div>
+</div>
+
                               </div>
 
                               <div className="card-body">
@@ -1268,28 +1302,37 @@ console.log("props.roomDetail12344",props.userDetails )
                                       Room/Bed
                                     </p>
                                     <p
-                                      onClick={() =>
-                                        handleShowEditBed(props.userDetails)
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    >
-                                      <img
-                                        src={Group}
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <span
-                                        style={{
-                                          marginLeft: 5,
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          cursor: "pointer",
-                                        }}
-                                      >
-                                        {item.Rooms ? item.Rooms : "N/A"} -{" "}
-                                        {item.Bed ? item.Bed : "N/A"}
-                                      </span>
-                                    </p>
+  onClick={() => {
+    if (!props.customerEditPermission) {
+      handleShowEditBed(props.userDetails);
+    }
+  }}
+  style={{
+    cursor: props.customerEditPermission ? "not-allowed" : "pointer",
+    opacity: props.customerEditPermission ? 0.6 : 1,
+  }}
+>
+  <img
+    src={Group}
+    style={{
+      cursor: props.customerEditPermission ? "not-allowed" : "pointer",
+      filter: props.customerEditPermission ? "grayscale(100%)" : "none",
+    }}
+  />
+  <span
+    style={{
+      marginLeft: 5,
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      cursor: props.customerEditPermission ? "not-allowed" : "pointer",
+      color: props.customerEditPermission ? "#888888" : "#000000",
+    }}
+  >
+    {item.Rooms ? item.Rooms : "N/A"} - {item.Bed ? item.Bed : "N/A"}
+  </span>
+</p>
+
                                   </div>
                                 </div>
 

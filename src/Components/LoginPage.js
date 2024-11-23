@@ -28,10 +28,14 @@ const MyComponent = () => {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
+  console.log("MyComponent",state)
   let navigate = useNavigate();
 
   const [email_Id, setemail_Id] = useState('')
   const [password, setpassword] = useState('')
+  const [rolePermission,setRolePermission]=useState("")
+  const [permissionError,setPermissionError]=useState("")
+  console.log("rolePermission..?",rolePermission)
 
   const [showPassword, setShowpassword] = useState(false)
 
@@ -81,9 +85,18 @@ const MyComponent = () => {
   }, [state.login.otpSuccessStatusCode])
 
 
+useEffect(()=>{
+  setRolePermission(state.createAccount.accountList)
+},[state.createAccount.accountList])
 
-
-
+useEffect(()=>{
+if(rolePermission.is_owner != 1){
+  setPermissionError('')
+}
+else{
+  setPermissionError('Permission Denied')
+}
+},[])
 
   console.log("state for login", state)
 
@@ -160,6 +173,8 @@ const MyComponent = () => {
     if (email_Id && password) {
       dispatch({ type: 'LOGININFO', payload: { email_Id: email_Id, password: password } });
     }
+
+
 
 
 

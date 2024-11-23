@@ -91,6 +91,9 @@ function Booking(props) {
   const [Bednum, setBednum] = useState("");
   const [validPhoneError, setvalidPhoneError] = useState("");
   const [validEmailError, setvalidEmailError] = useState("");
+  const [bookingPermissionError, setBookingPermissionError] = useState("");
+  const [bookingEditPermissionError, setBookingEditPermissionError] = useState("");
+  const [bookingDeletePermissionError, setBookingDeletePermissionError] = useState("");
 
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
@@ -107,7 +110,52 @@ function Booking(props) {
     Address: "",
     Email: "",
   });
+
+
+  useEffect(() => {
+    console.log("===customerrolePermission[0]", props.customerrolePermission);
+    if (
+      props.customerrolePermission[0]?.is_owner == 1 ||
+      props.customerrolePermission[0]?.role_permissions[5]?.per_view == 1
+    ) {
+      setBookingPermissionError("");
+    } else {
+      setBookingPermissionError("Permission Denied");
+    }
+  }, [props.customerrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===rolePermission", props.customerrolePermission[0]);
+  
+    if (
+      props.customerrolePermission[0]?.is_owner == 1 ||
+      props.customerrolePermission[0]?.role_permissions[5]?.per_edit == 1
+    ) {
+      setBookingEditPermissionError("");
+    } else {
+      setBookingEditPermissionError("Permission Denied");
+    }
+  }, [props.customerrolePermission]);
+
+  useEffect(() => {
+    console.log("===rolePermission", props.customerrolePermission[0]);
+  
+    if (
+      props.customerrolePermission[0]?.is_owner == 1 ||
+      props.customerrolePermission[0]?.role_permissions[5]?.per_delete == 1
+    ) {
+      setBookingDeletePermissionError("");
+    } else {
+      setBookingDeletePermissionError("Permission Denied");
+    }
+  }, [props.customerrolePermission]);
+
   const MobileNumber = `${countryCode}${Phone}`;
+
+
+
+
   const handleEdit = (item) => {
     dispatch({
       type: "BOOKINGBEDDETAILS",
@@ -854,7 +902,43 @@ try {
 
   return (
     <>
-      <div className="p-10" style={{ marginLeft: "-20px" }}>
+   {
+    bookingPermissionError ? (
+     <>
+     <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              // height: "100vh",
+            }}
+          >
+            {/* Image */}
+            <img
+              src={Emptystate}
+              alt="Empty State"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+
+            {/* Permission Error */}
+            {bookingPermissionError && (
+              <div
+                style={{
+                  color: "red",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  marginTop: "1rem",
+                }}
+              >
+                <MdError size={20} />
+                <span>{bookingPermissionError}</span>
+              </div>
+            )}
+          </div></>
+    ):
+    <div className="p-10" style={{ marginLeft: "-20px" }}>
         <div>
           {currentItems?.length > 0 ? (
             <div
@@ -1261,81 +1345,108 @@ try {
                                   boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                 }}
                               >
-                                <div
-                                  className="mb-2 d-flex align-items-center"
-                                  onClick={() => handleCheckin(customer)}
-                                  style={{ cursor: "pointer" }}
-                                >
-                                  <img
-                                    src={check}
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                      marginRight: "8px",
-                                    }}
-                                    alt="Checkin icon"
-                                  />
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      color: "#222222",
-                                    }}
-                                  >
-                                    Check In
-                                  </label>
-                                </div>
-                                <div
-                                  className="mb-2 d-flex align-items-center"
-                                  onClick={() => handleEdit(customer)}
-                                  style={{ cursor: "pointer" }}
-                                >
-                                  <img
-                                    src={Edit}
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                      marginRight: "8px",
-                                    }}
-                                    alt="Edit icon"
-                                  />
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      color: "#222222",
-                                    }}
-                                  >
-                                    Edit
-                                  </label>
-                                </div>
-                                <div
-                                  className="d-flex align-items-center"
-                                  onClick={() => handleDelete(customer)}
-                                  style={{ cursor: "pointer" }}
-                                >
-                                  <img
-                                    src={Delete}
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                      marginRight: "8px",
-                                    }}
-                                    alt="Delete icon"
-                                  />
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      color: "#FF0000",
-                                    }}
-                                  >
-                                    Delete
-                                  </label>
-                                </div>
+                               <div
+  className="mb-2 d-flex align-items-center"
+  onClick={() => {
+    if (!props.customerBookingAddPermission) {
+      handleCheckin(customer);
+    }
+  }}
+  style={{
+    cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
+    pointerEvents: props.customerBookingAddPermission ? "none" : "auto",
+    opacity: props.customerBookingAddPermission ? 0.5 : 1,
+  }}
+>
+  <img
+    src={check}
+    style={{
+      height: 16,
+      width: 16,
+      marginRight: "8px",
+    }}
+    alt="Checkin icon"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+      color: "#222222",
+    }}
+  >
+    Check In
+  </label>
+</div>
+
+<div
+  className="mb-2 d-flex align-items-center"
+  onClick={() => {
+    if (bookingEditPermissionError) {
+      handleEdit(customer);
+    }
+  }}
+  style={{
+    cursor:bookingEditPermissionError ? "not-allowed" : "pointer",
+    pointerEvents:bookingEditPermissionError ? "none" : "auto",
+    opacity:bookingEditPermissionError ? 0.5 : 1,
+  }}
+>
+  <img
+    src={Edit}
+    style={{
+      height: 16,
+      width: 16,
+      marginRight: "8px",
+    }}
+    alt="Edit icon"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+      color: "#222222",
+    }}
+  >
+    Edit
+  </label>
+</div>
+
+<div
+  className="d-flex align-items-center"
+  onClick={() => {
+    if (!bookingDeletePermissionError) {
+      handleDelete(customer);
+    }
+  }}
+  style={{
+    cursor:bookingDeletePermissionError ? "not-allowed" : "pointer",
+    pointerEvents:bookingDeletePermissionError ? "none" : "auto",
+    opacity:bookingDeletePermissionError ? 0.5 : 1,
+  }}
+>
+  <img
+    src={Delete}
+    style={{
+      height: 16,
+      width: 16,
+      marginRight: "8px",
+    }}
+    alt="Delete icon"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+      color: "#FF0000",
+    }}
+  >
+    Delete
+  </label>
+</div>
+
                               </div>
                             )}
                           </div>
@@ -1482,6 +1593,7 @@ try {
               <div style={{ textAlign: "center" }}>
                 <Button
                   onClick={props.toggleForm}
+                  disabled={props.customerBookingAddPermission}
                   style={{
                     fontSize: 16,
                     backgroundColor: "#1E45E1",
@@ -1503,6 +1615,8 @@ try {
           )}
         </div>
       </div>
+   }
+      
 
       {/* Booking Modal (Add/Edit) */}
       <BookingModal

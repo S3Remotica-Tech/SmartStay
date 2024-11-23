@@ -38,27 +38,9 @@ import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  Label,
-  LabelList,
-} from "recharts";
-import {
-  borderRadius,
-  color,
-  fontFamily,
-  fontSize,
-  fontStyle,
-  fontWeight,
-  lineHeight,
-} from "@mui/system";
+import {BarChart,Bar,XAxis,YAxis,CartesianGrid,Tooltip,Legend,ResponsiveContainer,Label,LabelList,} from "recharts";
+import { MdError } from "react-icons/md";
+import Emptystate from '../Assets/Images/Empty-State.jpg'
 
 function Dashboard(props) {
   const formatYAxis = (tickItem) => {
@@ -84,6 +66,8 @@ lineHeight: 'normal',
   const [lablesdata, setLables] = useState([]);
   const [totalAmount, setTotalAmount] = useState([]);
   const [activecommpliance, setActivecommpliance] = useState([]);
+  const [rolePermission,setRolePermission]=useState("")
+  const [permissionError,setPermissionError]=useState("")
   const [value, setValue] = React.useState("1");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -94,6 +78,32 @@ lineHeight: 'normal',
   console.log("activecommpliance", activecommpliance);
 
   console.log("lablesdata", lablesdata);
+
+
+  useEffect(()=>{
+    setRolePermission(state.createAccount.accountList)
+  },[state.createAccount.accountList])
+  
+  
+  useEffect(() => {
+
+    console.log("=========================================",rolePermission[0]);
+
+    if(rolePermission[0]?.is_owner == 1 || rolePermission[0]?.role_permissions[0]?.per_view == 1){
+      setPermissionError('');
+    }else{
+      setPermissionError('Permission Denied');
+    }
+
+    // if (rolePermission) {
+    //   setPermissionError('No role permissions found.');
+    // } else if (rolePermission?.[0]?.is_owner === 0) {
+    //   setPermissionError('Permission Denied');
+    // } else {
+    //   setPermissionError('');
+    // }
+  }, [rolePermission]);
+  
 
   useEffect(() => {
     const appearOptions = {
@@ -238,19 +248,19 @@ lineHeight: 'normal',
 
   const { datasets } = datum;
 
-  if (!datasets || datasets.length === 0 || !datasets[0].backgroundColor) {
-    return (
-      <div
-        className="d-flex justify-content-center align-items-start gap-3"
-        style={{ height: "100%" }}
-      >
-        <Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} />{" "}
-        <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>
-          Loading.....
-        </div>
-      </div>
-    );
-  }
+  // if (!datasets || datasets.length === 0 || !datasets[0].backgroundColor) {
+  //   return (
+  //     <div
+  //       className="d-flex justify-content-center align-items-start gap-3"
+  //       style={{ height: "100%" }}
+  //     >
+  //       <Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} />{" "}
+  //       <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>
+  //         Loading.....
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const CustomLegend = ({ payload }) => {
     return (
@@ -295,9 +305,31 @@ lineHeight: 'normal',
       </div>
     );
   };
+ 
 
   return (
-    <div className="cotainer  p-4">
+    <>
+
+    {
+      permissionError?(
+<>
+<div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
+  {/* Image */}
+  <img src={Emptystate} alt="Empty State" style={{ maxWidth: "100%", height: "auto" }} />
+
+  {/* Permission Error */}
+  {permissionError && (
+    <div style={{ color: "red", display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "1rem" }}>
+      <MdError size={20} />
+      <span>{permissionError}</span>
+    </div>
+  )}
+</div>
+
+</>
+      ):
+      <div className="cotainer  p-4">
+     
       <div className="texxttt">
         <div style={{ flex: 1 }}>
           <lable
@@ -1067,6 +1099,9 @@ lineHeight: 'normal',
 
      
     </div>
+    }
+   
+   </>
   );
 }
 

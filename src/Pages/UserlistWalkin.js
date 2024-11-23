@@ -17,7 +17,7 @@ import moment from 'moment';
 
 
 
-function UserlistWalkin() {
+function UserlistWalkin(props) {
 
 
 
@@ -43,6 +43,53 @@ function UserlistWalkin() {
     const [modalType, setModalType] = useState(null);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [dotsButton, setDotsButton] = useState(null);
+    const [walkInPermissionError, setWalkInPermissionError] = useState("");
+  const [walkInEditPermissionError, setWalkInEditPermissionError] = useState("");
+  const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
+
+
+
+
+
+  useEffect(() => {
+    console.log("===customerrolePermission[0]", props.customerrolePermission);
+    if (
+      props.customerrolePermission[0]?.is_owner == 1 ||
+      props.customerrolePermission[0]?.role_permissions[7]?.per_view == 1
+    ) {
+        setWalkInPermissionError("");
+    } else {
+        setWalkInPermissionError("Permission Denied");
+    }
+  }, [props.customerrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===rolePermission", props.customerrolePermission[0]);
+  
+    if (
+      props.customerrolePermission[0]?.is_owner == 1 ||
+      props.customerrolePermission[0]?.role_permissions[7]?.per_edit == 1
+    ) {
+        setWalkInEditPermissionError("");
+    } else {
+        setWalkInEditPermissionError("Permission Denied");
+    }
+  }, [props.customerrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===rolePermission", props.customerrolePermission[0]);
+  
+    if (
+      props.customerrolePermission[0]?.is_owner == 1 ||
+      props.customerrolePermission[0]?.role_permissions[7]?.per_delete == 1
+    ) {
+        setWalkInDeletePermissionError("");
+    } else {
+        setWalkInDeletePermissionError("Permission Denied");
+    }
+  }, [props.customerrolePermission]);
 
     const popupRef = useRef(null);
     const itemsPerPage = 7;
@@ -426,45 +473,75 @@ function UserlistWalkin() {
                                                             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)"
                                                         }}
                                                     >
-                                                        <div
-                                                            className="mb-2 d-flex align-items-center"
-                                                            onClick={() => handleEdit(customer)}
-                                                            style={{ cursor: "pointer" }}
-                                                        >
-                                                            <img src={Edit} style={{
-                                                                height: 16,
-                                                                width: 16,
-                                                                marginRight: "8px"
-                                                            }} alt="Edit icon" />
-                                                            <label style={{
-                                                                fontSize: 14,
-                                                                fontWeight: 500,
-                                                                fontFamily: "Gilroy",
-                                                                color: "#222222"
-                                                            }}>
-                                                                Edit
-                                                            </label>
-                                                        </div>
+                                                       <div
+  className="mb-2 d-flex align-items-center"
+  onClick={() => {
+    if (!walkInEditPermissionError) {
+      handleEdit(customer);
+    }
+  }}
+  style={{
+    cursor:walkInEditPermissionError ? "not-allowed" : "pointer",
+    pointerEvents:walkInEditPermissionError ? "none" : "auto",
+    opacity:walkInEditPermissionError ? 0.5 : 1,
+  }}
+>
+  <img
+    src={Edit}
+    style={{
+      height: 16,
+      width: 16,
+      marginRight: "8px",
+    }}
+    alt="Edit icon"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+      color: "#222222",
+    }}
+  >
+    Edit
+  </label>
+</div>
 
-                                                        <div
-                                                            className="d-flex align-items-center"
-                                                            onClick={() => handleDelete(customer)}
-                                                            style={{ cursor: "pointer" }}
-                                                        >
-                                                            <img src={Delete} style={{
-                                                                height: 16,
-                                                                width: 16,
-                                                                marginRight: "8px"
-                                                            }} alt="Delete icon" />
-                                                            <label style={{
-                                                                fontSize: 14,
-                                                                fontWeight: 500,
-                                                                fontFamily: "Gilroy",
-                                                                color: "#FF0000"
-                                                            }}>
-                                                                Delete
-                                                            </label>
-                                                        </div>
+
+<div
+  className="d-flex align-items-center"
+  onClick={() => {
+    if (!walkInDeletePermissionError) {
+      handleDelete(customer);
+    }
+  }}
+  style={{
+    cursor: walkInDeletePermissionError ? "not-allowed" : "pointer",
+    pointerEvents:walkInDeletePermissionError ? "none" : "auto",
+    opacity:walkInDeletePermissionError ? 0.5 : 1,
+  }}
+>
+  <img
+    src={Delete}
+    style={{
+      height: 16,
+      width: 16,
+      marginRight: "8px",
+    }}
+    alt="Delete icon"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+      color: "#FF0000",
+    }}
+  >
+    Delete
+  </label>
+</div>
+
                                                     </div>
                                                 )}
                                             </div>
@@ -518,6 +595,7 @@ function UserlistWalkin() {
                             </div>
                             <div style={{ textAlign: "center" }}>
                                 <Button
+                                disabled={props.customerWalkInAddPermission}
                                     onClick={handleShowWalk}
                                     style={{
                                         fontSize: 16,

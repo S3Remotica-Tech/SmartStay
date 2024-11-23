@@ -20,13 +20,43 @@ console.log("deleteBedDetails",deleteBedDetails)
 
 const [actionType, setActionType] = useState('addCustomer');
 const [showAddCustomer, setShowAddCustomer] = useState(false)
-
+const [rolePermission, setRolePermission] = useState("");
+const [customerAddPermission,setCustomerAddPermission]= useState("")
+const [customerDeletePermission,setCustomerDeletePermission]=useState("")
 const {bed, room } = deleteBedDetails
 
-
-
-
 console.log("showAddCustomer",showAddCustomer)
+
+useEffect(() => {
+  setRolePermission(state.createAccount.accountList);
+}, [state.createAccount.accountList]);
+
+
+useEffect(() => {
+  console.log("===rolePermission4", rolePermission[0]);
+
+  if (
+    rolePermission[0]?.is_owner == 1 ||
+    rolePermission[0]?.role_permissions[4]?.per_create == 1
+  ) {
+    setCustomerAddPermission("");
+  } else {
+    setCustomerAddPermission("Permission Denied");
+  }
+}, [rolePermission]);
+
+useEffect(() => {
+  console.log("===rolePermission4", rolePermission[0]);
+  if (
+    rolePermission[0]?.is_owner == 1 ||
+    rolePermission[0]?.role_permissions[4]?.per_delete == 1
+  ) {
+    setCustomerDeletePermission("");
+  } else {
+    setCustomerDeletePermission("Permission Denied");
+  }
+}, [rolePermission]);
+
 
 const handleAddCustomer = () => {
     setShowAddCustomer(true);
@@ -117,14 +147,14 @@ const handleDeleteBed = () =>{
          
           {actionType === 'addCustomer' && (
             <Button style={{width:130,height:52,borderRadius:8, border:"1px solid #1E45E1",backgroundColor:"#1E45E1",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} 
-              onClick={handleAddCustomer}
+            disabled={customerAddPermission}  onClick={handleAddCustomer}
               >
               Add Customer
             </Button>
           )}
           {actionType === 'deleteBed' && (
             <Button style={{width:130,height:52,borderRadius:8, border:"1px solid #1E45E1",backgroundColor:"#1E45E1",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}} 
-              onClick={handleDeleteBed}>
+            disabled={customerDeletePermission}  onClick={handleDeleteBed}>
               Delete
             </Button>
           )}

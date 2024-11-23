@@ -228,18 +228,44 @@ console.log("SaveHostel",SaveHostel)
 
                                 <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 0, top: 50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                     <div >
-                                        <div className='d-flex gap-2 mb-2 align-items-center'
-                                            onClick={() => handleEdit(props.hostel)}
+                                        {/* <div className='d-flex gap-2 mb-2 align-items-center'
+                                            onClick={() => handleEdit(props.hostel)} 
                                         >
-                                            {/* <img src={Edit} style={{ height: 16, width: 16 }} />  */}
+                                           
                                             <div><Edit size="16" color="#1E45E1" />
                                             </div>
                                             <div>
                                                 <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", color: "#222222", cursor: "pointer" }} >Edit</label>
 
                                             </div>
-                                        </div>
-                                        <div className='d-flex gap-2 mb-2 align-items-center'
+                                        </div> */}
+                                        <div
+  className="d-flex gap-2 mb-2 align-items-center"
+  onClick={!props.editPermissionError ? () => handleEdit(props.hostel) : undefined}
+  style={{
+    pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
+    opacity: props.editPermissionError ? 0.5 : 1, // Visual indication
+    cursor: props.editPermissionError ? "not-allowed" : "pointer", // Cursor style
+  }}
+>
+  <div>
+    <Edit size="16" color={props.editPermissionError ? "#A0A0A0" : "#1E45E1"} />
+  </div>
+  <div>
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        color: props.editPermissionError ? "#A0A0A0" : "#222222",
+      }}
+    >
+      Edit
+    </label>
+  </div>
+</div>
+
+                                        {/* <div className='d-flex gap-2 mb-2 align-items-center'
                                             onClick={() => handleDelete(props.hostel)}
                                         >
 
@@ -250,7 +276,39 @@ console.log("SaveHostel",SaveHostel)
                                             <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", color: "#FF0000", cursor: "pointer" }}>Delete</label>
 
                                             </div>
-                                        </div>
+                                        </div> */}
+                                        <div
+  className="d-flex gap-2 mb-2 align-items-center"
+  onClick={!props.editPermissionError ? () => handleDelete(props.hostel) : undefined}
+  style={{
+    pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
+    opacity: props.editPermissionError ? 0.5 : 1, // Dims element when disabled
+    cursor: props.editPermissionError ? "not-allowed" : "pointer", // Changes cursor style
+  }}
+>
+  {/* Trash Icon */}
+  <div>
+    <Trash
+      size="16"
+      color={props.editPermissionError ? "#A0A0A0" : "red"} // Gray when disabled
+    />
+  </div>
+
+  {/* Delete Label */}
+  <div>
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        color: props.editPermissionError ? "#A0A0A0" : "#FF0000", // Gray when disabled
+      }}
+    >
+      Delete
+    </label>
+  </div>
+</div>
+
                                     </div>
                                 </div>
 

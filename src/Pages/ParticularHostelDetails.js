@@ -472,11 +472,11 @@ useEffect(() => {
                     {activeRoomId == room.Room_Id && (
                       <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 30, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                         <div>
-                          <div className='d-flex gap-2 mb-2 align-items-center'
+                          {/* <div className='d-flex gap-2 mb-2 align-items-center'
                           onClick={()=> handleEditRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id, room.Room_Name
                             )}
                           >
-                            {/* <img src={Edit} style={{ height: 16, width: 16 }} alt="Delete Icon" /> */}
+                           
 
                             <div><Edit size="16" color="#1E45E1" />
                             </div>
@@ -484,17 +484,70 @@ useEffect(() => {
 
                               <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Edit</label>
                             </div>
-                          </div>
-                          <div className='d-flex gap-2 mb-2 align-items-center'
+                          </div> */}
+                          <div 
+  className={`d-flex gap-2 mb-2 align-items-center ${props.editPermissionError ? 'disabled' : ''}`}
+  onClick={() => {
+    if (!props.editPermissionError) {
+      handleEditRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id, room.Room_Name);
+    }
+  }}
+  style={{ cursor: props.editPermissionError ? 'not-allowed' : 'pointer' }}
+>
+  <div>
+    <Edit size="16" color={props.editPermissionError ? "#888888" : "#1E45E1"} />
+  </div>
+  <div>
+    <label 
+      style={{ 
+        fontSize: 14, 
+        fontWeight: 500, 
+        fontFamily: "Outfit, sans-serif", 
+        color: props.editPermissionError ? "#888888" : "#222222" 
+      }}
+    >
+      Edit
+    </label>
+  </div>
+</div>
+
+                          {/* <div className='d-flex gap-2 mb-2 align-items-center'
                             onClick={() => { handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id) }}
                           >
-                            {/* <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete Icon" />  */}
+                           
                             <div><Trash size="16"
                               color="red"
                             /></div>
 
                             <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(255, 0, 0, 1)" }}>Delete</label>
-                          </div>
+                          </div> */}
+                          <div 
+  className={`d-flex gap-2 mb-2 align-items-center ${props.deletePermissionError ? 'disabled' : ''}`} 
+  onClick={() => {
+    if (!props.deletePermissionError) {
+      handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id);
+    }
+  }}
+  style={{ cursor: props.deletePermissionError ? 'not-allowed' : 'pointer' }}
+>
+  <div>
+    <Trash 
+      size="16" 
+      color={props.deletePermissionError ? "#888888" : "red"} 
+    />
+  </div>
+  <label 
+    style={{ 
+      fontSize: 14, 
+      fontWeight: 500, 
+      fontFamily: "Gilroy", 
+      color: props.deletePermissionError ? "#888888" : "rgba(255, 0, 0, 1)" 
+    }}
+  >
+    Delete
+  </label>
+</div>
+
                         </div>
                       </div>
                     )}
@@ -528,12 +581,48 @@ useEffect(() => {
                         </div>
                       </div>
                     ))}
-                    <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={() => handleAddBed(props, room.Room_Id)}>
+                    {/* <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={() => handleAddBed(props, room.Room_Id)}>
                       <div className='d-flex flex-column align-items-center' style={{ width: "100%", cursor: "pointer" }}>
                         <div><FaSquarePlus style={{ height: 41, width: 34, color: "#1E45E1" }} /></div>
                         <div className="pt-2" style={{ color: "#1E45E1", fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>Add bed</div>
                       </div>
-                    </div>
+                    </div> */}
+                    <div 
+  className={`col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
+  onClick={() => {
+    if (!props.addPermissionError) {
+      handleAddBed(props, room.Room_Id);
+    }
+  }}
+  style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
+>
+  <div 
+    className='d-flex flex-column align-items-center' 
+    style={{ width: "100%" }}
+  >
+    <div>
+      <FaSquarePlus 
+        style={{ 
+          height: 41, 
+          width: 34, 
+          color: props.addPermissionError ? "#888888" : "#1E45E1" 
+        }} 
+      />
+    </div>
+    <div 
+      className="pt-2" 
+      style={{ 
+        color: props.addPermissionError ? "#888888" : "#1E45E1", 
+        fontSize: 12, 
+        fontWeight: 600, 
+        fontFamily: "Montserrat" 
+      }}
+    >
+      Add bed
+    </div>
+  </div>
+</div>
+
                   </div>
                 </Card.Body>
               </Card>
@@ -560,7 +649,10 @@ useEffect(() => {
             <div className='d-flex  justify-content-center'><img src={EmptyState}  style={{height:240, width:240}} alt="Empty state" /></div>
               <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
               <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
-              <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}> + Add room</Button>
+              <div className='d-flex justify-content-center pb-1 mt-3'>                   
+                <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white",  fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }} disabled={props.addPermissionError}  onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}> + Add room</Button>
+      
+
               </div>
             </div>
             <div>
@@ -582,7 +674,25 @@ useEffect(() => {
       {currentItems.length > 0 && <>
         <div className='row mt-4 ms-2'>
           <div>
-            <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}>+ Add room</label>
+            {/* <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 600, fontFamily: 'Montserrat' }} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}>+ Add room</label> */}
+            <label
+  style={{
+    fontSize: 16,
+    color: props.addPermissionError ? "#A0A0A0" : "#1E45E1", // Gray when disabled
+    fontWeight: 600,
+    fontFamily: "Montserrat",
+    cursor: props.addPermissionError ? "not-allowed" : "pointer", // Not-allowed cursor when disabled
+    opacity: props.addPermissionError ? 0.7 : 1, // Dim when disabled
+  }}
+  onClick={
+    !props.addPermissionError
+      ? () => handleShowAddRoom(props.floorID, props.hostel_Id)
+      : undefined
+  }
+>
+  + Add Room
+</label>
+
           </div>
         </div>
       </>
