@@ -274,33 +274,94 @@ style={{cursor:"pointer",backgroundColor: "#F9F9F9", position: "absolute",
 >
 <div  style={{backgroundColor: "#F9F9F9"}} className=''>
 
-<div className='mb-2 d-flex justify-content-start align-items-center gap-2' 
-  onClick={()=>handleAssignAsset(props.item)}
-  style={{backgroundColor: "#F9F9F9", cursor:"pointer"}}
-   >
-   <ProfileAdd
- size="16"
- color="#1E45E1"
-/><label style={{cursor:"pointer", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", color: "#222222" ,cursor:"pointer"}} >{props.item.hostel_id  ? 'Reassign asset':'Assign asset'}</label>
-  </div>
- 
-  <div className='mb-2 d-flex justify-content-start align-items-center gap-2' 
-  onClick={()=>handleEdit(props.item)}
-  style={{backgroundColor: "#F9F9F9",cursor:"pointer"}}
-   >
-    <Edit size="16" color="#1E45E1" /> <label style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", color: "#222222",cursor:"pointer" }} >Edit</label>
-  </div>
-  <div   className='mb-1 d-flex justify-content-start align-items-center gap-2'
-  style={{backgroundColor: "#F9F9F9", cursor:props.item.hostel_id  ? "not-allowed": "pointer"  }}
-  onClick={() => !props.item.hostel_id && handleShowDeleteAsset(props.item)}
-  > 
-     <div>
-      <Trash size="16" color="red" /></div> 
-      <div>
-      <label style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", color: "#FF0000" ,cursor:props.item.hostel_id  ? "not-allowed": "pointer"}}>Delete</label>
+<div
+  className="mb-2 d-flex justify-content-start align-items-center gap-2"
+  onClick={() => {
+    if (!props.assetAddPermission) {
+      handleAssignAsset(props.item);
+    }
+  }}
+  style={{
+    backgroundColor: "#F9F9F9",
+    cursor: props.assetAddPermission ? "not-allowed" : "pointer",
+    pointerEvents: props.assetAddPermission ? "none" : "auto",
+    opacity: props.assetAddPermission ? 0.5 : 1,
+  }}
+>
+  <ProfileAdd size="16" color="#1E45E1" />
+  <label
+    style={{
+      cursor: props.assetAddPermission ? "not-allowed" : "pointer",
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      color: "#222222",
+    }}
+  >
+    {props.item.hostel_id ? "Reassign asset" : "Assign asset"}
+  </label>
+</div>
 
-      </div>
+ 
+  <div
+  className="mb-2 d-flex justify-content-start align-items-center gap-2"
+  onClick={() => {
+    if (!props.assetEditPermission) {
+      handleEdit(props.item);
+    }
+  }}
+  style={{
+    backgroundColor: "#F9F9F9",
+    cursor: props.assetEditPermission ? "not-allowed" : "pointer",
+    pointerEvents: props.assetEditPermission ? "none" : "auto",
+    opacity: props.assetEditPermission ? 0.5 : 1,
+  }}
+>
+  <Edit size="16" color="#1E45E1" />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      color: "#222222",
+    }}
+  >
+    Edit
+  </label>
+</div>
+
+<div
+  className="mb-1 d-flex justify-content-start align-items-center gap-2"
+  style={{
+    backgroundColor: "#F9F9F9",
+    cursor: props.assetDeletePermission || props.item.hostel_id ? "not-allowed" : "pointer",
+    pointerEvents: props.assetDeletePermission || props.item.hostel_id ? "none" : "auto",
+    opacity: props.assetDeletePermission || props.item.hostel_id ? 0.5 : 1,
+  }}
+  onClick={() => {
+    if (!props.assetDeletePermission && !props.item.hostel_id) {
+      handleShowDeleteAsset(props.item);
+    }
+  }}
+>
+  <div>
+    <Trash size="16" color="red" />
   </div>
+  <div>
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        color: "#FF0000",
+        cursor: props.assetDeletePermission || props.item.hostel_id ? "not-allowed" : "pointer",
+      }}
+    >
+      Delete
+    </label>
+  </div>
+</div>
+
 </div>
 </div>
 

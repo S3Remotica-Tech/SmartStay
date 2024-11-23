@@ -32,10 +32,16 @@ function Vendor() {
   const [filteredData, setFilteredData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+ const [loader, setLoader] = useState(true)
 
 
-  const [loader, setLoader] = useState(true)
+ const [vendorrolePermission, setVendorRolePermission] = useState("");
+
+  const [vendorpermissionError, setVendorPermissionError] = useState("");
+  const [vendorAddPermission,setVendorAddPermission]= useState("")
+  const [vendorDeletePermission,setVendorDeletePermission]=useState("")
+  const [vendorEditPermission,setVendorEditPermission]=useState("")
 
   console.log("/////////state for VEndor/////////////", state)
 

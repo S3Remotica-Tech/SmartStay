@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Emptystate from '../Assets/Images/Empty-State.jpg'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { MdError } from "react-icons/md";
 
 
 
@@ -273,8 +274,43 @@ function UserlistWalkin(props) {
 
     return (
         <>
+{
+    walkInPermissionError ?(
+      <>
+      <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              // height: "100vh",
+            }}
+          >
+            {/* Image */}
+            <img
+              src={Emptystate}
+              alt="Empty State"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
 
-            <div style={{ marginLeft: "-20px" }}>
+            {/* Permission Error */}
+            {walkInPermissionError && (
+              <div
+                style={{
+                  color: "red",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  marginTop: "1rem",
+                }}
+              >
+                <MdError size={20} />
+                <span>{walkInPermissionError}</span>
+              </div>
+            )}
+          </div></>
+    ):<>
+    <div style={{ marginLeft: "-20px" }}>
                 {currentCustomers.length > 0 ? (
                     <div className=' walkin_table_custom'>
                         <Table responsive="md" className="table_walkin">
@@ -620,7 +656,9 @@ function UserlistWalkin(props) {
                         </div>
                     </div>
                 )}
-            </div>
+            </div></>
+}
+            
 
             {
 
