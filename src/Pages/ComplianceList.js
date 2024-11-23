@@ -156,13 +156,74 @@ function getFloorAbbreviation(floor_Id) {
                             {showDots && <>
                                 <div style={{ backgroundColor: "#FFFFFF", position: "absolute", right: 0, top: 50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                     <div >
-                                        <div className='mb-2' onClick={() => handleEdit(props.complaints)}>
-                                            <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222" }} >Edit</label>
-                                       
-                                        </div>
-                                        <div  >
-                                            <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000" }}>Delete</label>
-                                        </div>
+                                    <div
+  className={"mb-2"}
+  onClick={() => {
+    if (!props.complianceEditPermission) {
+      handleEdit(props.complaints);
+    }
+  }}
+  style={{
+    // backgroundColor: props.complianceEditPermission ? "#f9f9f9" : "#fff",
+    cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+  }}
+>
+  <img
+    src={Edit}
+    style={{
+      height: 16,
+      width: 16,
+      filter: props.complianceEditPermission ? "grayscale(100%)" : "none",
+    }}
+    alt="Edit"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.complianceEditPermission ? "#ccc" : "#222222",
+      cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Edit
+  </label>
+</div>
+
+<div
+  className={"mb-2"}
+  style={{
+    // backgroundColor: props.complianceDeletePermission ? "#f9f9f9" : "#fff",
+    cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
+  }}
+//   onClick={() => {
+//     if (!props.complianceDeletePermission) {
+//       handleDelete(props.complaints); // Replace with your delete function if necessary
+//     }
+//   }}
+>
+  <img
+    src={Delete}
+    style={{
+      height: 16,
+      width: 16,
+      filter: props.complianceDeletePermission ? "grayscale(100%)" : "none", // Dim icon when disabled
+    }}
+    alt="Delete"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.complianceDeletePermission ? "#ccc" : "#FF0000", 
+      cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Delete
+  </label>
+</div>
+
                                     </div>
                                 </div>
 

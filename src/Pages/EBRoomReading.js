@@ -509,7 +509,45 @@ if(state.PgList.statusCodeForEditElectricity === 200){
 },[state.PgList.statusCodeForEditElectricity])
 
   return (
+
+    
     <>
+    {
+      props.ebpermissionError?(
+<div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      // height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={emptyimg}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+
+    {/* Permission Error */}
+    {props.ebpermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{props.ebpermissionError}</span>
+      </div>
+    )}
+  </div>
+      ):
+      <>
       <div>
         {currentRowelectricity.length > 0 && (
           <Table
@@ -886,26 +924,39 @@ console.log('Formatted Date:', formattedDate);
                                   className=""
                                 >
                                   <div
-                                    className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                    style={{ backgroundColor: "#fff" }}
-                                    onClick={() => handleEditRoomReading(v)}
-                                  >
-                                    <img
-                                      src={Edit}
-                                      style={{ height: 16, width: 16 }}
-                                    />{" "}
-                                    <label
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy,sans-serif",
-                                        color: "#222222",
-                                        cursor: "pointer",
-                                      }}
-                                    >
-                                      Edit
-                                    </label>
-                                  </div>
+  className={"mb-3 d-flex justify-content-start align-items-center gap-2"}
+  style={{
+    // backgroundColor: props.ebEditPermission ? "#f9f9f9" : "#fff",
+    cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+  }}
+  onClick={() => {
+    if (!props.ebEditPermission) {
+      handleEditRoomReading(v);
+    }
+  }}
+>
+  <img
+    src={Edit}
+    style={{
+      height: 16,
+      width: 16,
+      filter: props.ebEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+    }}
+    alt="Edit"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.ebEditPermission ? "#ccc" : "#222222", // Change text color if disabled
+      cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Edit
+  </label>
+</div>
+
 
                                   {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                                                 onClick={() => { handleShowform(props) }}
@@ -915,27 +966,40 @@ console.log('Formatted Date:', formattedDate);
 
                                             </div> */}
 
-                                   <div
-                                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                    style={{ backgroundColor: "#fff" }}
-                                    onClick={() => handleDeleteShow(v)}
-                                  >
-                                    <img
-                                      src={Delete}
-                                      style={{ height: 16, width: 16 }}
-                                    />{" "}
-                                    <label
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy,sans-serif",
-                                        color: "#FF0000",
-                                        cursor: "pointer",
-                                      }}
-                                    >
-                                      Delete
-                                    </label>
-                                  </div> 
+<div
+  className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
+  style={{
+    // backgroundColor: props.ebDeletePermission ? "#f9f9f9" : "#fff",
+    cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
+  }}
+  onClick={() => {
+    if (!props.ebDeletePermission) {
+      handleDeleteShow(v);
+    }
+  }}
+>
+  <img
+    src={Delete}
+    style={{
+      height: 16,
+      width: 16,
+      filter: props.ebDeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+    }}
+    alt="Delete"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.ebDeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
+      cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Delete
+  </label>
+</div>
+
                                 </div>
                               </div>
                             </>
@@ -1113,7 +1177,9 @@ console.log('Formatted Date:', formattedDate);
             </li>
           </ul>
         </nav>
-      )}
+      )}</>
+    }
+      
 
       <Modal
         show={ebEditShow}

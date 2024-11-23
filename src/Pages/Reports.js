@@ -24,26 +24,88 @@ import { CiSearch } from "react-icons/ci";
 import Notify from '../Assets/Images/New_images/notify.png';
 import Profile from '../Assets/Images/New_images/profile.png';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort ,Edit, Trash} from 'iconsax-react';
-
-
-
-
-
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import { MdError } from "react-icons/md";
 
 function Reports() {
-
-
 
   const dispatch = useDispatch()
   const state = useSelector(state => state.createAccount)
 
-  console.log("state", state)
+  console.log("Reports....?", state)
 
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedReport, setSelectedReport] = useState(null);
   const [showReport, setShowReport] = useState(false)
   const [profile, setProfile] = useState(state.accountList[0]?.user_details.profile)
   const [searchQuery, setSearchQuery] = useState("");
+
+
+  const [reportrolePermission, setReportRolePermission] = useState("");
+
+  const [reportpermissionError, setReportPermissionError] = useState("");
+  const [reportAddPermission,setReportAddPermission]= useState("")
+  const [reportDeletePermission,setReportDeletePermission]=useState("")
+  const [reportEditPermission,setReportEditPermission]=useState("")
+
+
+useEffect(()=>{
+  dispatch({type:'GETUSERREPORT'})
+},[])
+  
+  useEffect(() => {
+    setReportRolePermission(state.createAccount?.accountList);
+  }, [state.createAccount?.accountList]);
+
+  // useEffect(() => {
+  //   console.log("===reportrolePermission[0]", reportrolePermission);
+  //   if (
+  //     reportrolePermission[0]?.is_owner == 1 ||
+  //     reportrolePermission[0]?.role_permissions[15]?.per_view == 1
+  //   ) {
+  //     setReportPermissionError("");
+  //   } else {
+  //     setReportPermissionError("Permission Denied");
+  //   }
+  // }, [reportrolePermission]);
+
+
+
+  // useEffect(() => {
+  //   console.log("===reportrolePermission[0]", reportrolePermission);
+  //   if (
+  //     reportrolePermission[0]?.is_owner == 1 ||
+  //     reportrolePermission[0]?.role_permissions[15]?.per_create == 1
+  //   ) {
+  //     setReportAddPermission("");
+  //   } else {
+  //     setReportAddPermission("Permission Denied");
+  //   }
+  // }, [reportrolePermission]);
+
+
+  // useEffect(() => {
+  //   console.log("===reportrolePermission[0]", reportrolePermission);
+  //   if (
+  //     reportrolePermission[0]?.is_owner == 1 ||
+  //     reportrolePermission[0]?.role_permissions[15]?.per_delete == 1
+  //   ) {
+  //     setReportDeletePermission("");
+  //   } else {
+  //     setReportDeletePermission("Permission Denied");
+  //   }
+  // }, [reportrolePermission]);
+  // useEffect(() => {
+  //   console.log("===reportrolePermission[0]", reportrolePermission);
+  //   if (
+  //     reportrolePermission[0]?.is_owner == 1 ||
+  //     reportrolePermission[0]?.role_permissions[15]?.per_edit == 1
+  //   ) {
+  //     setReportEditPermission("");
+  //   } else {
+  //     setReportEditPermission("Permission Denied");
+  //   }
+  // }, [reportrolePermission]);
 
 
   const [reports, setReports] = useState([

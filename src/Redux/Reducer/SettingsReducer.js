@@ -29,7 +29,9 @@ const initialState = {
     StatusForaddSettingStaffList:0,
     emailIdError:'',
     phoneNumError:'',
-    ebUnitError:''
+    ebUnitError:'',
+    reportList:[],
+    StatusForReport:0
 
 }
 
@@ -177,6 +179,19 @@ case 'PHONE_NUM_ERROR':
                           
                                   case 'CLEAR_EB_UNIT_ERROR':
                                       return { ...state, ebUnitError: ''}
+
+
+
+
+
+                                      case "REPORT_LIST":
+                                    return {
+                                      ...state,
+                                      reportList: action.payload,
+                                      StatusForReport: action.payload.statusCode,
+                                    };
+                                  case "CLEAR_REPORT_LIST":
+                                    return { ...state, StatusForReport:0 };
             }
     return state;
 }

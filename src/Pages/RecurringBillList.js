@@ -6,8 +6,32 @@ import Delete from '../Assets/Images/Trash-Linear-32px.png';
 
 
     const RecurringBillList = (props) => {
+        
+        const [recurringBillDeletePermission,setRecurringBillDeletePermission]=useState("")
+        const [recurringBillEditPermission,setRecurringBillEditPermission]=useState("")
 
-
+    useEffect(() => {
+            console.log("===billrolePermission[0]", props.billrolePermission);
+            if (
+                props.billrolePermission[0]?.is_owner == 1 ||
+                props.billrolePermission[0]?.role_permissions[11]?.per_delete == 1
+            ) {
+                setRecurringBillDeletePermission("");
+            } else {
+                setRecurringBillDeletePermission("Permission Denied");
+            }
+          }, [ props.billrolePermission]);
+          useEffect(() => {
+            console.log("=== props.billrolePermission[0]",  props.billrolePermission);
+            if (
+                props.billrolePermission[0]?.is_owner == 1 ||
+                props.billrolePermission[0]?.role_permissions[11]?.per_edit == 1
+            ) {
+                setRecurringBillEditPermission("");
+            } else {
+                setRecurringBillEditPermission("Permission Denied");
+            }
+          }, [ props.billrolePermission]);
         console.log("props",props);
 
         const [showDots, setShowDots] = useState('')
@@ -120,19 +144,86 @@ import Delete from '../Assets/Images/Trash-Linear-32px.png';
                                     <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 50, top: 20, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
                                         <div style={{ backgroundColor: "#fff" }} className=''>
 
-                                        <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                        {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                                                 style={{ backgroundColor: "#fff" }}>
                                                 <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Edit</label>
-                                            </div>
-                                          
+                                            </div> */}
+                                            <div
+  className={"mb-3 d-flex justify-content-start align-items-center gap-2 "}
+  style={{
+    // backgroundColor: recurringBillEditPermission ? "#f9f9f9" : "#fff",
+    cursor: recurringBillEditPermission ? "not-allowed" : "pointer",
+  }}
+//   onClick={() => {
+//     if (!recurringBillEditPermission) {
+//       handleEdit();
+//     }
+//   }}
+>
+  <img
+    src={Edit}
+    style={{
+      height: 16,
+      width: 16,
+      filter: recurringBillEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+    }}
+    alt="Edit"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: recurringBillEditPermission ? "#ccc" : "#222222", // Change text color if disabled
+      cursor: recurringBillEditPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Edit
+  </label>
+</div>
+
+<div
+  className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${recurringBillDeletePermission ? 'disabled' : ''}`}
+  style={{
+    // backgroundColor: recurringBillDeletePermission ? "#f9f9f9" : "#fff",
+    cursor: recurringBillDeletePermission ? "not-allowed" : "pointer",
+  }}
+  onClick={() => {
+    if (!recurringBillDeletePermission) {
+      handleDelete();
+    }
+  }}
+>
+  <img
+    src={Delete}
+    style={{
+      height: 16,
+      width: 16,
+      filter: recurringBillDeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+    }}
+    alt="Delete"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: recurringBillDeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
+      cursor: recurringBillDeletePermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Delete
+  </label>
+</div>
+                  
 
                                            
-                                            <div className='mb-2 d-flex justify-content-start align-items-center gap-2'
+                                            {/* <div className='mb-2 d-flex justify-content-start align-items-center gap-2'
                                                 style={{ backgroundColor: "#fff" }}>
                                                 <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000", cursor: 'pointer' }}
                                                    onClick={handleDelete}>
                                                     Delete</label>
-                                            </div>
+                                            </div> */}
                                                  </div>
                                                      </div>
                                                            </>}

@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, MoreCircle } from 'iconsax-react';
 import money from "../Assets/Images/New_images/Group 1261154824.png";
+import { MdError } from "react-icons/md";
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -53,6 +54,73 @@ function Banking() {
   const [updateTransaction,setUpdateTransaction] = useState("")
   const [deleteBankId,setDeleteBankId]=useState("")
   const[trnseId,setDeleteTransId] =useState("")
+
+
+
+
+  const [bankingrolePermission, setBankingRolePermission] = useState("");
+
+  const [bankingpermissionError, setBankingPermissionError] = useState("");
+  const [bankingAddPermission,setBankingAddPermission]= useState("")
+  const [bankingDeletePermission,setBankingDeletePermission]=useState("")
+  const [bankingEditPermission,setBankingEditPermission]=useState("")
+
+
+
+
+  useEffect(() => {
+    setBankingRolePermission(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+
+  useEffect(() => {
+    console.log("===bankingrolePermission[0]", bankingrolePermission);
+    if (
+      bankingrolePermission[0]?.is_owner == 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_view == 1
+    ) {
+      setBankingPermissionError("");
+    } else {
+      setBankingPermissionError("Permission Denied");
+    }
+  }, [bankingrolePermission]);
+
+
+
+  useEffect(() => {
+    console.log("===bankingrolePermission[0]", bankingrolePermission);
+    if (
+      bankingrolePermission[0]?.is_owner == 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_create == 1
+    ) {
+      setBankingAddPermission("");
+    } else {
+      setBankingAddPermission("Permission Denied");
+    }
+  }, [bankingrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===bankingrolePermission[0]", bankingrolePermission);
+    if (
+      bankingrolePermission[0]?.is_owner == 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_delete == 1
+    ) {
+      setBankingDeletePermission("");
+    } else {
+      setBankingDeletePermission("Permission Denied");
+    }
+  }, [bankingrolePermission]);
+  useEffect(() => {
+    console.log("===bankingrolePermission[0]", bankingrolePermission);
+    if (
+      bankingrolePermission[0]?.is_owner == 1 ||
+      bankingrolePermission[0]?.role_permissions[16]?.per_edit == 1
+    ) {
+      setBankingEditPermission("");
+    } else {
+      setBankingEditPermission("Permission Denied");
+    }
+  }, [bankingrolePermission]);
 
   useEffect(() => {
     // setLoading(true);
@@ -316,6 +384,44 @@ function Banking() {
   }, [state?.bankingDetails?.bankingList?.bank_trans])
 
   return (
+
+   <>
+   {
+    bankingpermissionError ? (
+<>
+<div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={emptyimg}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+
+    {/* Permission Error */}
+    {bankingpermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{bankingpermissionError}</span>
+      </div>
+    )}
+  </div></>
+    ):
     <div style={{ padding: 10, marginLeft: 10 }}>
       <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
         <div>
@@ -490,6 +596,7 @@ function Banking() {
 
           <div>
             <Button
+            disabled={bankingAddPermission}
               onClick={handleShowForm}
               style={{
                 fontSize: 14,
@@ -591,54 +698,73 @@ function Banking() {
                           zIndex: 9999,
                         }}
                       >
-                        <div
-                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                          onClick={() => handleEditAddBank(item)}
-                        >
-                          <img
-                            src={Edit}
-                            style={{ height: 16, width: 16 }}
-                            alt="Edit"
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#000000",
-                              cursor: "pointer",
-                            }}
-                          >
-                            Edit
-                          </label>
-                        </div>
-                        <div
-                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                          // onClick={handleDeleteForm}
-                          onClick={() => handleDeleteForm(item)}
-                        >
-                          <img
-                            src={Delete}
-                            style={{ height: 16, width: 16 }}
-                            alt="Delete"
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#FF0000",
-                              cursor: "pointer",
-                            }}
-                          >
-                            Delete
-                          </label>
-                        </div>
+                       <div
+  className="mb-2 d-flex justify-content-start align-items-center gap-2"
+  style={{
+    cursor:bankingEditPermission ? "not-allowed" : "pointer",
+    pointerEvents: bankingEditPermission ? "none" : "auto",
+    opacity: bankingEditPermission ? 0.5 : 1,
+  }}
+  onClick={() => {
+    if (!bankingEditPermission) {
+      handleEditTransForm(item);
+    }
+  }}
+>
+  <img
+    src={Edit}
+    style={{ height: 16, width: 16 }}
+    alt="Edit"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: "#000000",
+      cursor: bankingEditPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Edit
+  </label>
+</div>
+
+<div
+  className="mb-2 d-flex justify-content-start align-items-center gap-2"
+  style={{
+    cursor: bankingDeletePermission ? "not-allowed" : "pointer",
+    pointerEvents:bankingDeletePermission ? "none" : "auto",
+    opacity: bankingDeletePermission ? 0.5 : 1,
+  }}
+  onClick={() => {
+    if (!bankingDeletePermission) {
+      handleDeleteForm(item);
+    }
+  }}
+>
+  <img
+    src={Delete}
+    style={{ height: 16, width: 16 }}
+    alt="Delete"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: "#FF0000",
+      cursor: bankingDeletePermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Delete
+  </label>
+</div>
+
                       </div>
                     )}
                   </div>
 
-                  {/* Additional Card Details */}
+                 
                   <p
                     className="mt-3"
                     style={{
@@ -671,36 +797,49 @@ function Banking() {
                       </p>
 
                       {item.setus_default === 0 && (
-                        <p
-                          style={{
-                            color: "#007bff",
-                            cursor: "pointer",
-                            marginBottom: 0,
-                            fontSize: 14,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
-                          onClick={() => handleAccountTypeChange(item)}
-                        >
-                          Set as default account
-                        </p>
+                       <p
+                       style={{
+                         color: bankingAddPermission ? "#ccc" : "#007bff", 
+                         cursor: bankingAddPermission ? "not-allowed" : "pointer", 
+                         marginBottom: 0,
+                         fontSize: 14,
+                         fontWeight: 600,
+                         fontFamily: "Gilroy",
+                       }}
+                       onClick={() => {
+                         if (!bankingAddPermission) {
+                           handleAccountTypeChange(item); 
+                         }
+                       }}
+                     >
+                       Set as default account
+                     </p>
+                     
                       )}
                     </div>
 
                     <a
-                      href="#"
-                      onClick={() => handleAccountTypeChange(item)}
-                      className="text-primary"
-                      style={{
-                        textAlign: "end",
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                        textDecoration: "none",
-                      }}
-                    >
-                      Change
-                    </a>
+  href={bankingAddPermission ? "#" : undefined} 
+  onClick={(e) => {
+    if (bankingAddPermission) {
+      e.preventDefault(); 
+    } else {
+      handleAccountTypeChange(item); 
+    }
+  }}
+  className={bankingAddPermission ? "text-muted" : "text-primary"} 
+  style={{
+    textAlign: "end",
+    fontSize: 14,
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    textDecoration: "none",
+    cursor: bankingAddPermission ? "not-allowed" : "pointer", 
+  }}
+>
+  Change
+</a>
+
                   </div>
                   {showAccountTypeOptions === item.id && (
                     <div
@@ -769,19 +908,27 @@ function Banking() {
                   item.balance === "" ||
                   item.balance === null ? (
                     <a
-                      href="#"
-                      className="text-primary"
-                      style={{
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                        color: "blue",
-                        textDecoration: "none",
-                      }}
-                      onClick={() => handleShowAddBalance(item)}
-                    >
-                      +Add Amount
-                    </a>
+                    href={bankingAddPermission ? "#" : undefined} 
+                    className={bankingAddPermission ? "text-muted" : "text-primary"} 
+                    style={{
+                      fontSize: 14,
+                      fontFamily: "Gilroy",
+                      fontWeight: 600,
+                      color: bankingAddPermission ? "gray" : "blue",
+                      textDecoration: "none",
+                      cursor: bankingAddPermission ? "not-allowed" : "pointer", 
+                    }}
+                    onClick={(e) => {
+                      if (bankingAddPermission) {
+                        e.preventDefault(); 
+                      } else {
+                        handleShowAddBalance(item); 
+                      }
+                    }}
+                  >
+                    +Add Amount
+                  </a>
+                  
                   ) : (
                     <span
                       style={{
@@ -846,6 +993,7 @@ function Banking() {
         <div style={{ textAlign: "center" }}>
         <Button
               onClick={handleShowForm}
+              disabled={bankingAddPermission}
               style={{
                 fontSize: 14,
                 backgroundColor: "#1E45E1",
@@ -1186,47 +1334,68 @@ function Banking() {
                         
                        }}
                      >
-                       <div
-                         className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                         onClick={() => handleEditTransForm(user)}
-                       >
-                         <img
-                           src={Edit}
-                           style={{ height: 16, width: 16 }}
-                           alt="Edit"
-                         />
-                         <label
-                           style={{
-                             fontSize: 14,
-                             fontWeight: 500,
-                             fontFamily: "Gilroy, sans-serif",
-                             color: "#000000",
-                             cursor: "pointer",
-                           }}
-                         >
-                           Edit
-                         </label>
-                       </div>
-                       <div className="mb-2 d-flex justify-content-start align-items-center gap-2"  onClick={() => handleDeleteTransForm(user)}>
-                         <img
-                           src={Delete}
-                           style={{ height: 16, width: 16 }}
-                           alt="Delete"
-                          //  onClick={handleDeleteTransForm}
-                           onClick={() => handleDeleteTransForm(user)}
-                         />
-                         <label
-                           style={{
-                             fontSize: 14,
-                             fontWeight: 500,
-                             fontFamily: "Gilroy, sans-serif",
-                             color: "#FF0000",
-                             cursor: "pointer",
-                           }}
-                         >
-                           Delete
-                         </label>
-                       </div>
+                    <div
+  className="mb-2 d-flex justify-content-start align-items-center gap-2"
+  style={{
+    cursor: bankingEditPermission ? "not-allowed" : "pointer",
+    pointerEvents: bankingEditPermission ? "none" : "auto",
+    opacity: bankingEditPermission ? 0.6 : 1,
+  }}
+  onClick={() => {
+    if (!bankingEditPermission) {
+      handleEditTransForm(user);
+    }
+  }}
+>
+  <img
+    src={Edit}
+    style={{ height: 16, width: 16 }}
+    alt="Edit"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: "#000000",
+      cursor: bankingEditPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Edit
+  </label>
+</div>
+
+<div
+  className="mb-2 d-flex justify-content-start align-items-center gap-2"
+  style={{
+    cursor: bankingDeletePermission ? "not-allowed" : "pointer",
+    pointerEvents: bankingDeletePermission ? "none" : "auto",
+    opacity: bankingDeletePermission ? 0.6 : 1,
+  }}
+  onClick={() => {
+    if (!bankingDeletePermission) {
+      handleDeleteTransForm(user);
+    }
+  }}
+>
+  <img
+    src={Delete}
+    style={{ height: 16, width: 16 }}
+    alt="Delete"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: "#FF0000",
+      cursor: bankingDeletePermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Delete
+  </label>
+</div>
+
                      </div>
                    )}
                  </td>
@@ -1704,6 +1873,12 @@ function Banking() {
         />
       ) : null}
     </div>
+
+
+
+   }
+    
+   </>
   );
 }
 export default Banking;

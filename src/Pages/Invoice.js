@@ -200,6 +200,96 @@ const [account, setAccount] = useState("");
   const [showRecurringBillForm, setShowRecurringBillForm] = useState(false)
   const [showAllBill, setShowAllBill] = useState(true)
 
+  const [billrolePermission, setBillRolePermission] = useState("");
+
+  const [billpermissionError, setBillPermissionError] = useState("");
+  const [billAddPermission,setBillAddPermission]= useState("")
+  const [billDeletePermission,setBillDeletePermission]=useState("")
+  const [billEditPermission,setBillEditPermission]=useState("")
+  const [recuringbillAddPermission,setRecuringBillAddPermission]= useState("")
+  const [recurringPermission,setRecurringPermission]=useState("")
+
+
+
+  useEffect(() => {
+    setBillRolePermission(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+
+  useEffect(() => {
+    console.log("===billrolePermission[0]", billrolePermission);
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_view == 1
+    ) {
+      setBillPermissionError("");
+    } else {
+      setBillPermissionError("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===billrolePermission[0]", billrolePermission);
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_create == 1
+    ) {
+      setRecuringBillAddPermission("");
+    } else {
+      setRecuringBillAddPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===billrolePermission[0]", billrolePermission);
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[11]?.per_view == 1
+    ) {
+      setRecurringPermission("");
+    } else {
+      setRecurringPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===billrolePermission[0]", billrolePermission);
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_create == 1
+    ) {
+      setBillAddPermission("");
+    } else {
+      setBillAddPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===billrolePermission[0]", billrolePermission);
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_delete == 1
+    ) {
+      setBillDeletePermission("");
+    } else {
+      setBillDeletePermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+  useEffect(() => {
+    console.log("===billrolePermission[0]", billrolePermission);
+    if (
+      billrolePermission[0]?.is_owner == 1 ||
+      billrolePermission[0]?.role_permissions[10]?.per_edit == 1
+    ) {
+      setBillEditPermission("");
+    } else {
+      setBillEditPermission("Permission Denied");
+    }
+  }, [billrolePermission]);
+
   const handleManualShow = () => {
     setShowAllBill(false)
     setShowManualInvoice(true)
@@ -1864,11 +1954,13 @@ const customInvoiceDueDateInput = (props) => {
     <div className='me-4'>
       {value == 1 ?
         <Button
+        disabled={billAddPermission}
           onClick={handleManualShow}
-          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Create Bill
+          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }} > + Create Bill
         </Button>
         :
         <Button
+        disabled={recuringbillAddPermission}
           onClick={handleRecurrBillShow}
           style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 230, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Create Recurring Bill
         </Button>
@@ -1893,11 +1985,48 @@ const customInvoiceDueDateInput = (props) => {
 <TabPanel value="1">
   <>
 
+  {
+    billpermissionError ? (
+<>
+<div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      // height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={Emptystate}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+
+    {/* Permission Error */}
+    {billpermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{billpermissionError}</span>
+      </div>
+    )}
+  </div>
+  </>
+    ):
     <div class='' style={{ position: "relative" }} >
 
-      <div className='texxttt'>
-        <div style={{ flex: 1 }}>
-          {/* <div className="headerone">
+    <div className='texxttt'>
+      <div style={{ flex: 1 }}>
+        {/* <div className="headerone">
 
 <div className="search-container">
 <input type="text" placeholder="Search" className="search-input" />
@@ -1906,7 +2035,7 @@ const customInvoiceDueDateInput = (props) => {
 <div className="notification-container">
 
 
-  
+
 
 
 <div type="button" onClick={handleShowpopup}>
@@ -1920,28 +2049,28 @@ const customInvoiceDueDateInput = (props) => {
 <img src={rectangle}  className="profile-image" />
 </div>
 </div> */}
-        </div>
       </div>
+    </div>
 
-      {/* <div className='container d-flex justify-content-end align-items-center mr-3'>
+    {/* <div className='container d-flex justify-content-end align-items-center mr-3'>
 
-  <div>
-    <InputGroup>
-      <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
-        <CiSearch style={{ fontSize: 20 }} />
-      </InputGroup.Text>
-      <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
-        placeholder="Search..."
-      />
-    </InputGroup>
-  </div>
-  <div className="mr-3">
-    <img src={Notify} alt="notification" />
-  </div>
+<div>
+  <InputGroup>
+    <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
+      <CiSearch style={{ fontSize: 20 }} />
+    </InputGroup.Text>
+    <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
+      placeholder="Search..."
+    />
+  </InputGroup>
+</div>
+<div className="mr-3">
+  <img src={Notify} alt="notification" />
+</div>
 
-  <div className="mr-3">
-    <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
-  </div>
+<div className="mr-3">
+  <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
+</div>
 </div> */}
 
 
@@ -1953,626 +2082,584 @@ const customInvoiceDueDateInput = (props) => {
 
 
 
-      {showform &&
-        <div
-          className="modal show"
-          style={{
-            display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
-          }}
-        >
-          <Modal
-            show={showform} onHide={handleCloseForm} backdrop="static"
-            centered>
-            <Modal.Dialog style={{ maxWidth: 850, width: '600px' }} className='m-0 p-0'>
-              <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
-                <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Record payment</Modal.Title>
-              </Modal.Header>
+    {showform &&
+      <div
+        className="modal show"
+        style={{
+          display: 'block', position: 'initial', fontFamily: "Gilroy,sans-serif",
+        }}
+      >
+        <Modal
+          show={showform} onHide={handleCloseForm} backdrop="static"
+          centered>
+          <Modal.Dialog style={{ maxWidth: 850, width: '600px' }} className='m-0 p-0'>
+            <Modal.Header closeButton closeLabel="close-button" style={{ border: "1px solid #E7E7E7" }}>
+              <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Record payment</Modal.Title>
+            </Modal.Header>
 
-              <Modal.Body>
-
-
-                <div className='row mt-4'>
+            <Modal.Body>
 
 
-
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label
-                      >
-                        Due Amount
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter amount"
-                        value={invoiceList.balanceDue}
-                        readOnly
-                      />
-                    </Form.Group>
-                  </div>
+              <div className='row mt-4'>
 
 
 
-
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-2" controlId="exampleForm.ControlInput3">
-                      <Form.Label
-                      >
-                        Paid Amount
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter amount"
-                        value={invoiceList.payableAmount}
-                        onChange={(e) => { handleAmount(e) }}
-
-                      />
-                      {amounterrormsg.trim() !== "" && (
-                        <div>
-                          <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                            {amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amounterrormsg}
-                          </p>
-                        </div>
-                      )}
-                    </Form.Group>
-                  </div>
+                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label
+                    >
+                      Due Amount
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter amount"
+                      value={invoiceList.balanceDue}
+                      readOnly
+                    />
+                  </Form.Group>
+                </div>
 
 
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-
-                  <Form.Group className="mb-2" controlId="purchaseDate">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    Paid Date<span style={{  color: 'red', fontSize: '20px'}}>*</span>
-                                    </Form.Label>
-                                    <div style={{ position: 'relative' ,width:"100%"}}>
-                                        <DatePicker
-                                           style={{height:'40px'}}
-                                            selected={selectedDate}
-                                            onChange={(date) => {
-                                              setDateErrmsg('')
-                                              setAccountError("")
-                                              setSelectedDate(date);
-                                              
-                                            }}
-                                            dateFormat="dd/MM/yyyy"
-                                            maxDate={null}
-                                            customInput={customDateInput({
-                                                value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
-                                            })}
-                                        />
-                                    </div>
-                                </Form.Group>
 
 
-                    {/* <div style={{ position: 'relative' }}>
-                      <label
-                        htmlFor="date-input"
-                        style={{
-                          border: "1px solid #D9D9D9",
-                          borderRadius: 8,
-                          padding: 7,
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          color: "rgba(75, 75, 75, 1)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                        }}
-                        onClick={() => {
-                          if (calendarRef.current) {
-                            calendarRef.current.flatpickr.open();
-                          }
-                        }}
-                      >
-                        {selectedDate instanceof Date && !isNaN(selectedDate) ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                        <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                      </label>
-                      <Flatpickr
-                        ref={calendarRef}
-                        options={options}
-                        placeholder="Select Date"
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        style={{
-                          padding: 10,
-                          fontSize: 16,
-                          width: "100%",
-                          borderRadius: 8,
-                          border: "1px solid #D9D9D9",
-                          position: 'absolute',
-                          top: 100,
-                          left: 100,
-                          zIndex: 1000,
-                          display: "none"
-                        }}
-                      />
-                    </div> */}
+                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                  <Form.Group className="mb-2" controlId="exampleForm.ControlInput3">
+                    <Form.Label
+                    >
+                      Paid Amount
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter amount"
+                      value={invoiceList.payableAmount}
+                      onChange={(e) => { handleAmount(e) }}
 
-                    {dateerrmsg.trim() !== "" && (
+                    />
+                    {amounterrormsg.trim() !== "" && (
                       <div>
                         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                          {dateerrmsg !== "" && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
+                          {amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amounterrormsg}
                         </p>
                       </div>
                     )}
-
-                  </div>
-
-
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>
-                        Mode of transaction
-                      </Form.Label>
-                      <Form.Select
-                        className='border'
-
-                        value={invoiceList.transaction}
-                        // value={editOption == 'Add' ? item.Name.split(' ')[0] : invoiceList.firstName}
-                        // onChange={(e) => { setInvoiceList({ ...invoiceList, transaction: e.target.value }) }}
-                        onChange={(e)=>handleTransaction(e)}
-                        style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 40, borderRadius: 8 }}
-                      >
-                        <option selected>select </option>
-                        <option value="Cash">Cash </option>
-                        <option value="Debit Card">Debit Card</option>
-                        <option value="Credit Card">Credit Card</option>
-                        <option value="UPI">UPI</option>
-                        <option value="Net Banking">Banking</option>
-                      </Form.Select>
-                      {paymodeerrormsg.trim() !== "" && (
-                        <div>
-                          <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                            {paymodeerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {paymodeerrormsg}
-                          </p>
-                        </div>
-                      )}
-                    </Form.Group>
-                  </div>
+                  </Form.Group>
+                </div>
 
 
+                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 
-                  {/* {modeOfPayment === "Net Banking" && ( */}
-                  {invoiceList.transaction === "Net Banking" && (
-  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <Form.Label
+                <Form.Group className="mb-2" controlId="purchaseDate">
+                                  <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                  Paid Date<span style={{  color: 'red', fontSize: '20px'}}>*</span>
+                                  </Form.Label>
+                                  <div style={{ position: 'relative' ,width:"100%"}}>
+                                      <DatePicker
+                                         style={{height:'40px'}}
+                                          selected={selectedDate}
+                                          onChange={(date) => {
+                                            setDateErrmsg('')
+                                            setAccountError("")
+                                            setSelectedDate(date);
+                                            
+                                          }}
+                                          dateFormat="dd/MM/yyyy"
+                                          maxDate={null}
+                                          customInput={customDateInput({
+                                              value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
+                                          })}
+                                      />
+                                  </div>
+                              </Form.Group>
+
+
+                  {/* <div style={{ position: 'relative' }}>
+                    <label
+                      htmlFor="date-input"
+                      style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 7,
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        color: "rgba(75, 75, 75, 1)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                      onClick={() => {
+                        if (calendarRef.current) {
+                          calendarRef.current.flatpickr.open();
+                        }
+                      }}
+                    >
+                      {selectedDate instanceof Date && !isNaN(selectedDate) ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
+                      <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
+                    </label>
+                    <Flatpickr
+                      ref={calendarRef}
+                      options={options}
+                      placeholder="Select Date"
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                      style={{
+                        padding: 10,
+                        fontSize: 16,
+                        width: "100%",
+                        borderRadius: 8,
+                        border: "1px solid #D9D9D9",
+                        position: 'absolute',
+                        top: 100,
+                        left: 100,
+                        zIndex: 1000,
+                        display: "none"
+                      }}
+                    />
+                  </div> */}
+
+                  {dateerrmsg.trim() !== "" && (
+                    <div>
+                      <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                        {dateerrmsg !== "" && <MdError style={{ fontSize: '15px', color: 'red' }} />} {dateerrmsg}
+                      </p>
+                    </div>
+                  )}
+
+                </div>
+
+
+                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>
+                      Mode of transaction
+                    </Form.Label>
+                    <Form.Select
+                      className='border'
+
+                      value={invoiceList.transaction}
+                      // value={editOption == 'Add' ? item.Name.split(' ')[0] : invoiceList.firstName}
+                      // onChange={(e) => { setInvoiceList({ ...invoiceList, transaction: e.target.value }) }}
+                      onChange={(e)=>handleTransaction(e)}
+                      style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy, sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 40, borderRadius: 8 }}
+                    >
+                      <option selected>select </option>
+                      <option value="Cash">Cash </option>
+                      <option value="Debit Card">Debit Card</option>
+                      <option value="Credit Card">Credit Card</option>
+                      <option value="UPI">UPI</option>
+                      <option value="Net Banking">Banking</option>
+                    </Form.Select>
+                    {paymodeerrormsg.trim() !== "" && (
+                      <div>
+                        <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                          {paymodeerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {paymodeerrormsg}
+                        </p>
+                      </div>
+                    )}
+                  </Form.Group>
+                </div>
+
+
+
+                {/* {modeOfPayment === "Net Banking" && ( */}
+                {invoiceList.transaction === "Net Banking" && (
+<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <Form.Label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+    }}
+  >
+    Account{" "}
+    <span
       style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy",
+        color: "red",
+        fontSize: "20px",
       }}
     >
-      Account{" "}
-      <span
-        style={{
-          color: "red",
-          fontSize: "20px",
-        }}
-      >
-        {" "} * {" "}
-      </span>
-    </Form.Label>
-    <Form.Select
-      aria-label="Default select example"
-      placeholder="Select no. of floor"
-      style={{
-        fontSize: 16,
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-        border: "1px solid #D9D9D9",
-        height: 50,
-        borderRadius: 8,
-      }}
-      id="form-selects"
-      className="border"
-      value={account}
-      onChange={(e) => handleAccount(e)}
-    >
-      <option value="">Select Account</option>
-      {state.bankingDetails?.bankingList?.banks?.map((u) => (
-        <option key={u.id} value={u.id}>
-          {u.bank_name}
-        </option>
-      ))}
-    </Form.Select>
-    {accountError.trim() !== "" && (
-                        <div>
-                          <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                            {accountError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {accountError}
-                          </p>
-                        </div>
-                      )}
-  </div>
+      {" "} * {" "}
+    </span>
+  </Form.Label>
+  <Form.Select
+    aria-label="Default select example"
+    placeholder="Select no. of floor"
+    style={{
+      fontSize: 16,
+      color: "#4B4B4B",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      boxShadow: "none",
+      border: "1px solid #D9D9D9",
+      height: 50,
+      borderRadius: 8,
+    }}
+    id="form-selects"
+    className="border"
+    value={account}
+    onChange={(e) => handleAccount(e)}
+  >
+    <option value="">Select Account</option>
+    {state.bankingDetails?.bankingList?.banks?.map((u) => (
+      <option key={u.id} value={u.id}>
+        {u.bank_name}
+      </option>
+    ))}
+  </Form.Select>
+  {accountError.trim() !== "" && (
+                      <div>
+                        <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                          {accountError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {accountError}
+                        </p>
+                      </div>
+                    )}
+</div>
 )}
 {/* )} */}
 
+              </div>
+              {totalErrormsg.trim() !== "" && (
+                <div>
+                  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                    {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+                  </p>
                 </div>
-                {totalErrormsg.trim() !== "" && (
-                  <div>
-                    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
-                    </p>
-                  </div>
-                )}
-              </Modal.Body>
-              <Modal.Footer style={{ border: "none" }}>
-                <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}
-                  onClick={handleSaveInvoiceList}
+              )}
+            </Modal.Body>
+            <Modal.Footer style={{ border: "none" }}>
+              <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat, sans-serif" }}
+                onClick={handleSaveInvoiceList}
 
-                >
-                  Record payment
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
-      }
+              >
+                Record payment
+              </Button>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal>
+      </div>
+    }
 
 
-      {/* {currentItems.length > 0 && */}
-        {/* <> */}
+    {/* {currentItems.length > 0 && */}
+      {/* <> */}
 
-          <Container fluid className='p-0'>
-            <Row className={` ${DownloadInvoice ? 'm-0 g-2 d-flex justify-content-between' : 'm-0 g-0'}`}>
+        <Container fluid className='p-0'>
+          <Row className={` ${DownloadInvoice ? 'm-0 g-2 d-flex justify-content-between' : 'm-0 g-0'}`}>
 
-              <Col lg={DownloadInvoice ? 4 : 12} md={DownloadInvoice ? 4 : 12} sm={DownloadInvoice ? 4 : 12} xs={DownloadInvoice ? 4 : 12}>
-
-
-                {
-                  DownloadInvoice ?
-
-                    <div className='show-scroll p-2' style={{ maxHeight: 700, overflowY: "auto" }}>
-
-                      {bills.map((item) => (
-
-                        <>
-                          {/* <div className="" style={{}}>
-                            <div className="d-flex  align-items-center justify-content-evenly w-100 "  >
+            <Col lg={DownloadInvoice ? 4 : 12} md={DownloadInvoice ? 4 : 12} sm={DownloadInvoice ? 4 : 12} xs={DownloadInvoice ? 4 : 12}>
 
 
-                              <div >
-                                <span ><img src={User} style={{ height: 40, width: 40, }} /></span>
+              {
+                DownloadInvoice ?
+
+                  <div className='show-scroll p-2' style={{ maxHeight: 700, overflowY: "auto" }}>
+
+                    {bills.map((item) => (
+
+                      <>
+                        {/* <div className="" style={{}}>
+                          <div className="d-flex  align-items-center justify-content-evenly w-100 "  >
+
+
+                            <div >
+                              <span ><img src={User} style={{ height: 40, width: 40, }} /></span>
+                            </div>
+
+
+                            <div className=''>
+
+                              <div className="d-flex justify-content-between  align-items-center w-100 mb-2">
+
+                                <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '14px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer" }} onClick={() => handleDisplayInvoiceDownload(true, item)} >{item.Name}</div>
+                                <div style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>{item.Amount}</div>
+
                               </div>
 
+                              <div className="d-flex justify-content-between gap-3 align-items-center w-100 mb-2 mt-2" style={{ backgroundColor: "" }}>
 
-                              <div className=''>
+                                <div style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>#{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</div>
+                                <div className="" style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>{moment(item.Date).format("DD MMM YYYY")}</div>
 
-                                <div className="d-flex justify-content-between  align-items-center w-100 mb-2">
+                              </div>
 
-                                  <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '14px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer" }} onClick={() => handleDisplayInvoiceDownload(true, item)} >{item.Name}</div>
-                                  <div style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>{item.Amount}</div>
+                              <div className='mb-2 mt-2'>
+                                {item.BalanceDue === 0 ? <span style={{ fontSize: '10px',backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
 
-                                </div>
-
-                                <div className="d-flex justify-content-between gap-3 align-items-center w-100 mb-2 mt-2" style={{ backgroundColor: "" }}>
-
-                                  <div style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>#{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</div>
-                                  <div className="" style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>{moment(item.Date).format("DD MMM YYYY")}</div>
-
-                                </div>
-
-                                <div className='mb-2 mt-2'>
-                                  {item.BalanceDue === 0 ? <span style={{ fontSize: '10px',backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
-
-                                    style={{ cursor: 'pointer',fontSize: '10px', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}
-                                </div>
-
+                                  style={{ cursor: 'pointer',fontSize: '10px', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}
                               </div>
 
                             </div>
-                          </div> */}
-                          <div className="" style={{}}>
-                            <div className="d-flex align-items-start justify-content-between w-100 p-2">
+
+                          </div>
+                        </div> */}
+                        <div className="" style={{}}>
+                          <div className="d-flex align-items-start justify-content-between w-100 p-2">
 
 
-                              <div>
-                                <span>
-                                  <img src={ item.user_profile && item.user_profile !== "0"
-                                ? item.user_profile
-                                : User} style={{ height: 40, width: 40 }} alt="User" />
-                                </span>
+                            <div>
+                              <span>
+                                <img src={ item.user_profile && item.user_profile !== "0"
+                              ? item.user_profile
+                              : User} style={{ height: 40, width: 40 }} alt="User" />
+                              </span>
+                            </div>
+
+
+                            <div className="flex-grow-1 ms-2">
+                              <div className="d-flex justify-content-between align-items-center mb-2">
+                                <div
+                                  className="Invoice_Name"
+                                  style={{
+                                    fontFamily: 'Gilroy',
+                                    fontSize: '14px',
+                                    wordWrap: 'break-word',
+                                    color: "#222",
+                                    fontStyle: 'normal',
+                                    lineHeight: 'normal',
+                                    fontWeight: 600,
+                                    cursor: "pointer"
+                                  }}
+                                  onClick={() => handleDisplayInvoiceDownload(true, item)}
+                                >
+                                  {item.Name}
+                                </div>
+                                <div
+                                  style={{
+                                    fontFamily: 'Gilroy',
+                                    fontSize: '12px',
+                                    wordWrap: 'break-word',
+                                    color: "#222",
+                                    fontStyle: 'normal',
+                                    lineHeight: 'normal',
+                                    fontWeight: 600
+                                  }}
+                                >
+                                  {item.Amount}
+                                </div>
                               </div>
 
-
-                              <div className="flex-grow-1 ms-2">
-                                <div className="d-flex justify-content-between align-items-center mb-2">
-                                  <div
-                                    className="Invoice_Name"
-                                    style={{
-                                      fontFamily: 'Gilroy',
-                                      fontSize: '14px',
-                                      wordWrap: 'break-word',
-                                      color: "#222",
-                                      fontStyle: 'normal',
-                                      lineHeight: 'normal',
-                                      fontWeight: 600,
-                                      cursor: "pointer"
-                                    }}
-                                    onClick={() => handleDisplayInvoiceDownload(true, item)}
-                                  >
-                                    {item.Name}
-                                  </div>
-                                  <div
-                                    style={{
-                                      fontFamily: 'Gilroy',
-                                      fontSize: '12px',
-                                      wordWrap: 'break-word',
-                                      color: "#222",
-                                      fontStyle: 'normal',
-                                      lineHeight: 'normal',
-                                      fontWeight: 600
-                                    }}
-                                  >
-                                    {item.Amount}
-                                  </div>
+                              <div className="d-flex justify-content-between gap-3 mb-2">
+                                <div
+                                  style={{
+                                    fontFamily: 'Gilroy',
+                                    fontSize: '12px',
+                                    wordWrap: 'break-word',
+                                    color: "#222",
+                                    fontStyle: 'normal',
+                                    lineHeight: 'normal',
+                                    fontWeight: 600
+                                  }}
+                                >
+                                  {item.Invoices == null || item.Invoices === '' ? '0.00' : item.Invoices}
                                 </div>
-
-                                <div className="d-flex justify-content-between gap-3 mb-2">
-                                  <div
-                                    style={{
-                                      fontFamily: 'Gilroy',
-                                      fontSize: '12px',
-                                      wordWrap: 'break-word',
-                                      color: "#222",
-                                      fontStyle: 'normal',
-                                      lineHeight: 'normal',
-                                      fontWeight: 600
-                                    }}
-                                  >
-                                    {item.Invoices == null || item.Invoices === '' ? '0.00' : item.Invoices}
-                                  </div>
-                                  <div
-                                    style={{
-                                      fontFamily: 'Gilroy',
-                                      fontSize: '12px',
-                                      wordWrap: 'break-word',
-                                      color: "#222",
-                                      fontStyle: 'normal',
-                                      lineHeight: 'normal',
-                                      fontWeight: 600
-                                    }}
-                                  >
-                                    {moment(item.Date).format("DD MMM YYYY")}
-                                  </div>
+                                <div
+                                  style={{
+                                    fontFamily: 'Gilroy',
+                                    fontSize: '12px',
+                                    wordWrap: 'break-word',
+                                    color: "#222",
+                                    fontStyle: 'normal',
+                                    lineHeight: 'normal',
+                                    fontWeight: 600
+                                  }}
+                                >
+                                  {moment(item.Date).format("DD MMM YYYY")}
                                 </div>
+                              </div>
 
-                                <div className='mb-2'>
-                                  {item.BalanceDue === 0 ? (
-                                    <span style={{
-                                      fontSize: '10px',
-                                      backgroundColor: '#D9FFD9',
-                                      color: '#000',
-                                      borderRadius: '14px',
-                                      fontFamily: 'Gilroy',
-                                      padding: "8px 12px"
-                                    }}>
-                                      Paid
-                                    </span>
-                                  ) : (
-                                    <span style={{
-                                      cursor: 'pointer',
-                                      fontSize: '10px',
-                                      backgroundColor: '#FFD9D9',
-                                      fontFamily: 'Gilroy',
-                                      color: '#000',
-                                      borderRadius: '14px',
-                                      padding: "8px 12px"
-                                    }}>
-                                      Unpaid
-                                    </span>
-                                  )}
-                                </div>
+                              <div className='mb-2'>
+                                {item.BalanceDue === 0 ? (
+                                  <span style={{
+                                    fontSize: '10px',
+                                    backgroundColor: '#D9FFD9',
+                                    color: '#000',
+                                    borderRadius: '14px',
+                                    fontFamily: 'Gilroy',
+                                    padding: "8px 12px"
+                                  }}>
+                                    Paid
+                                  </span>
+                                ) : (
+                                  <span style={{
+                                    cursor: 'pointer',
+                                    fontSize: '10px',
+                                    backgroundColor: '#FFD9D9',
+                                    fontFamily: 'Gilroy',
+                                    color: '#000',
+                                    borderRadius: '14px',
+                                    padding: "8px 12px"
+                                  }}>
+                                    Unpaid
+                                  </span>
+                                )}
                               </div>
                             </div>
                           </div>
+                        </div>
 
-                          <hr />
+                        <hr />
 
-                        </>
-                      ))
-                      }
-                    </div>
-                    :
-                    <>
+                      </>
+                    ))
+                    }
+                  </div>
+                  :
+                  <>
 
 {state?.InvoiceList?.ManualInvoices && state?.InvoiceList?.ManualInvoices.length === 0 && !loading &&
-                  <div>
-                  <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
-                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
-                  <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no bills added </div>
-              
-               <div style={{ textAlign: "center"}}>
-                           <Button
-                            //  onClick={handleShow}
-                             style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}  onClick={handleManualShow}> + Create Bill</Button>
-                         </div>
-             </div>    
-                  }
-                   {currentItems && currentItems.length > 0 && (
-                      <Table
-                        responsive="md"
-                        className='Table_Design'
-                        style={{
-                          height: "auto",
-                          overflow: "visible",
-                          tableLayout: "auto",
-                          borderRadius: "24px",
-                          border: "1px solid #DCDCDC",
+                <div>
+                <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
+                <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
+                <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no bills added </div>
+            
+             <div style={{ textAlign: "center"}}>
+                         <Button
+                          //  onClick={handleShow}
+                           style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }} disabled={billAddPermission} onClick={handleManualShow}> + Create Bill</Button>
+                       </div>
+           </div>    
+                }
+                 {currentItems && currentItems.length > 0 && (
+                    <Table
+                      responsive="md"
+                      className='Table_Design'
+                      style={{
+                        height: "auto",
+                        overflow: "visible",
+                        tableLayout: "auto",
+                        borderRadius: "24px",
+                        border: "1px solid #DCDCDC",
 
-                        }}
-                      >
-                        <thead style={{ backgroundColor: "#E7F1FF" }}>
+                      }}
+                    >
+                      <thead style={{ backgroundColor: "#E7F1FF" }}>
 
-                          <tr>
-                    
-                            <th style={{
-                              // textAlign: "center",
-                              paddingLeft:'60px',
-                              fontFamily: "Gilroy",
-                              color: "rgba(34, 34, 34, 1)",
-                              fontSize: 14,
-                              fontWeight: 600,
-                              borderTopLeftRadius: 24
-                            }}>Name</th>
-                            <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Invoice number</th>
-                            <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Created</th>
-                            <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Due Date</th>
-                            <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Amount</th>
-                            <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Due</th>
-                            <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Status</th>
-                            <th style={{
-                              textAlign: "center",
-                              fontFamily: "Gilroy",
-                              color: "rgba(34, 34, 34, 1)",
-                              fontSize: 14,
-                              fontWeight: 600,
-                              borderTopRightRadius: 24
-                            }}></th>
-                          </tr>
+                        <tr>
+                  
+                          <th style={{
+                            // textAlign: "center",
+                            paddingLeft:'60px',
+                            fontFamily: "Gilroy",
+                            color: "rgba(34, 34, 34, 1)",
+                            fontSize: 14,
+                            fontWeight: 600,
+                            borderTopLeftRadius: 24
+                          }}>Name</th>
+                          <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Invoice number</th>
+                          <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Created</th>
+                          <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Due Date</th>
+                          <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Amount</th>
+                          <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Due</th>
+                          <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Status</th>
+                          <th style={{
+                            textAlign: "center",
+                            fontFamily: "Gilroy",
+                            color: "rgba(34, 34, 34, 1)",
+                            fontSize: 14,
+                            fontWeight: 600,
+                            borderTopRightRadius: 24
+                          }}></th>
+                        </tr>
 
 
-                        </thead>
-                        <tbody style={{ fontSize: "10px" }}>
-  {loading ? (
-    // Display skeleton placeholders when loading is true
-    Array.from({ length: 5 }).map((_, index) => (
-      <tr key={index}>
-        <td>
-          <div className="d-flex">
-            <span className="i-circle">
-              <Skeleton circle width={24} height={24} style={{ padding: "10px", border: "none" }} />
-            </span>
-            <div>
-              <Skeleton width={80} style={{ padding: "5px", border: "none" }} />
-            </div>
+                      </thead>
+                      <tbody style={{ fontSize: "10px" }}>
+{loading ? (
+  // Display skeleton placeholders when loading is true
+  Array.from({ length: 5 }).map((_, index) => (
+    <tr key={index}>
+      <td>
+        <div className="d-flex">
+          <span className="i-circle">
+            <Skeleton circle width={24} height={24} style={{ padding: "10px", border: "none" }} />
+          </span>
+          <div>
+            <Skeleton width={80} style={{ padding: "5px", border: "none" }} />
           </div>
-        </td>
-        <td style={{ padding: "10px", border: "none" }}>
-          <Skeleton width={100} />
-        </td>
-        <td style={{ padding: "10px", border: "none" }}>
-          <Skeleton width={100} />
-        </td>
-        <td style={{ padding: "10px", border: "none" }}>
-          <Skeleton width={50} />
-        </td>
-        <td style={{ padding: "10px", border: "none" }}>
-          <Skeleton width={50} />
-        </td>
-        <td style={{ padding: "10px", border: "none" }}>
-          <Skeleton width={100} />
-        </td>
-        <td style={{ padding: "10px", border: "none" }}>
-          <Skeleton width={100} />
-        </td>
-      </tr>
-    ))
-  ) :
-    // Display table rows with actual data when loading is false
-    currentItems.map((item) => (
-      <InvoiceTable
-        key={item.id}
-        item={item}
-        OnHandleshowform={handleShowForm}
-        OnHandleshowInvoicePdf={handleInvoiceDetail}
-        DisplayInvoice={handleDisplayInvoiceDownload}
-      />
-    ))
-  }
+        </div>
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={100} />
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={100} />
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={50} />
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={50} />
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={100} />
+      </td>
+      <td style={{ padding: "10px", border: "none" }}>
+        <Skeleton width={100} />
+      </td>
+    </tr>
+  ))
+) :
+  // Display table rows with actual data when loading is false
+  currentItems.map((item) => (
+    <InvoiceTable
+      key={item.id}
+      item={item}
+      OnHandleshowform={handleShowForm}
+      OnHandleshowInvoicePdf={handleInvoiceDetail}
+      DisplayInvoice={handleDisplayInvoiceDownload}
+      billAddPermission={billAddPermission}
+      billEditPermission={billEditPermission}
+      billDeletePermission={billDeletePermission}
+    />
+  ))
+}
 </tbody>
 
-                      </Table>
+                    </Table>
 )}
 
 
 {currentItems.length > 0 && (
-  <nav>
-              <ul
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  listStyleType: "none",
-                  padding: 0,
-                  justifyContent: "end",
-                }}
-              >
-                <li style={{ margin: "0 5px" }}>
-                  <button
-                    style={{
-                      padding: "5px 10px",
-                      textDecoration: "none",
-                      color: currentPage === 1 ? "#ccc" : "#007bff",
-                      cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                      borderRadius: "5px",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    
-                    <ArrowLeft2 size="16" color="#1E45E1" />
-                  </button>
-                 
-                </li>
-                {currentPage > 3 && (
-                  <li style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        textDecoration: "none",
-                        color: "white",
-                        cursor: "pointer",
-                        borderRadius: "5px",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(1)}
-                    >
-                      1
-                    </button>
-                  </li>
-                )}
-                {currentPage > 3 && <span>...</span>}
-                {renderPageNumbers()}
-                {currentPage < totalPages - 2 && <span>...</span>}
-                {currentPage < totalPages - 2 && (
-                  <li style={{ margin: "0 5px" }}>
-                    <button
-                      style={{
-                        padding: "5px 10px",
-                        textDecoration: "none",
-                        cursor: "pointer",
-                        borderRadius: "5px",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(totalPages)}
-                    >
-                      {totalPages}
-                    </button>
-                  </li>
-                )}
-                <li style={{ margin: "0 5px" }}>
+<nav>
+            <ul
+              style={{
+                display: "flex",
+                alignItems: "center",
+                listStyleType: "none",
+                padding: 0,
+                justifyContent: "end",
+              }}
+            >
+              <li style={{ margin: "0 5px" }}>
+                <button
+                  style={{
+                    padding: "5px 10px",
+                    textDecoration: "none",
+                    color: currentPage === 1 ? "#ccc" : "#007bff",
+                    cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                    borderRadius: "5px",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  
+                  <ArrowLeft2 size="16" color="#1E45E1" />
+                </button>
                
+              </li>
+              {currentPage > 3 && (
+                <li style={{ margin: "0 5px" }}>
                   <button
                     style={{
                       padding: "5px 10px",
                       textDecoration: "none",
-                      color: currentPage === totalPages ? "#ccc" : "#007bff",
-                      cursor:
-                        currentPage === totalPages ? "not-allowed" : "pointer",
+                      color: "white",
+                      cursor: "pointer",
                       borderRadius: "5px",
                       display: "inline-block",
                       minWidth: "30px",
@@ -2580,65 +2667,65 @@ const customInvoiceDueDateInput = (props) => {
                       backgroundColor: "transparent",
                       border: "none",
                     }}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
+                    onClick={() => handlePageChange(1)}
                   >
-                 
-                    <ArrowRight2 size="16" color="#1E45E1" />
+                    1
                   </button>
                 </li>
-              </ul>
-            </nav>
+              )}
+              {currentPage > 3 && <span>...</span>}
+              {renderPageNumbers()}
+              {currentPage < totalPages - 2 && <span>...</span>}
+              {currentPage < totalPages - 2 && (
+                <li style={{ margin: "0 5px" }}>
+                  <button
+                    style={{
+                      padding: "5px 10px",
+                      textDecoration: "none",
+                      cursor: "pointer",
+                      borderRadius: "5px",
+                      display: "inline-block",
+                      minWidth: "30px",
+                      textAlign: "center",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                    onClick={() => handlePageChange(totalPages)}
+                  >
+                    {totalPages}
+                  </button>
+                </li>
+              )}
+              <li style={{ margin: "0 5px" }}>
+             
+                <button
+                  style={{
+                    padding: "5px 10px",
+                    textDecoration: "none",
+                    color: currentPage === totalPages ? "#ccc" : "#007bff",
+                    cursor:
+                      currentPage === totalPages ? "not-allowed" : "pointer",
+                    borderRadius: "5px",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+               
+                  <ArrowRight2 size="16" color="#1E45E1" />
+                </button>
+              </li>
+            </ul>
+          </nav>
 )}
 
-                    </>
+                  </>
 
-                }
-
-
-
-
-
-
-
-
-              </Col>
-
-
-              {DownloadInvoice && (
-                <>
-                  {/* <Col lg={1} md={1} sm={12} xs={12} style={{ display: "flex", alignItems: "stretch", justifyContent: "end" }}>
-                    <div
-                      style={{
-                        borderLeft: "1px solid rgba(225, 225, 225, 1)",
-                        height: "100%",
-
-                      }}
-                    ></div>
-                  </Col> */}
-
-
-                <Col lg={8} md={8} sm={12} xs={12} style={{
-                  borderLeft: DownloadInvoice ? '1px solid #ccc' : 'none',
-                }}>
-
-                    <BillPdfModal show={showPdfModal} handleClosed={handleClosePdfModal} rowData={rowData} />
-
-                    {/* <label className=" m-5" onClick={handleBackClose}>Back</label> */}
-                  </Col>
-                </>
-              )}
-            </Row>
-          </Container>
-
-
-
-
-
-
-
-        {/* </> */}
-      {/* } */}
+              }
 
 
 
@@ -2647,34 +2734,116 @@ const customInvoiceDueDateInput = (props) => {
 
 
 
+            </Col>
 
-      {/* {!loading && currentItems.length === 0 && (
-        <div  >
-          <div>
-            <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
-            <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
-            <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no bills added </div>
 
-            <div style={{ textAlign: "center" }} className='mt-2'>
-              <Button
-                style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment</Button>
-            </div>
+            {DownloadInvoice && (
+              <>
+                {/* <Col lg={1} md={1} sm={12} xs={12} style={{ display: "flex", alignItems: "stretch", justifyContent: "end" }}>
+                  <div
+                    style={{
+                      borderLeft: "1px solid rgba(225, 225, 225, 1)",
+                      height: "100%",
+
+                    }}
+                  ></div>
+                </Col> */}
+
+
+              <Col lg={8} md={8} sm={12} xs={12} style={{
+                borderLeft: DownloadInvoice ? '1px solid #ccc' : 'none',
+              }}>
+
+                  <BillPdfModal show={showPdfModal} handleClosed={handleClosePdfModal} rowData={rowData} />
+
+                  {/* <label className=" m-5" onClick={handleBackClose}>Back</label> */}
+                </Col>
+              </>
+            )}
+          </Row>
+        </Container>
+
+
+
+
+
+
+
+      {/* </> */}
+    {/* } */}
+
+
+
+
+
+
+
+
+
+    {/* {!loading && currentItems.length === 0 && (
+      <div  >
+        <div>
+          <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
+          <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
+          <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no bills added </div>
+
+          <div style={{ textAlign: "center" }} className='mt-2'>
+            <Button
+              style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment</Button>
           </div>
-
         </div>
 
-      )} */}
+      </div>
+
+    )} */}
 
 
-    </div>
+  </div>
+  }
 
 
   </>
 </TabPanel>
 
 <TabPanel value="2">
+  {
+    recurringPermission ? (
+<>
+<div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      // height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={Emptystate}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
 
-{currentItem && currentItem.length === 0  &&
+    {/* Permission Error */}
+    {recurringPermission && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{recurringPermission}</span>
+      </div>
+    )}
+  </div>
+</>
+    ):<>
+    {currentItem && currentItem.length === 0  &&
                   <div>
                   <div style={{ textAlign: "center"}}> <img src={Emptystate} alt="emptystate" /></div> 
                   <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
@@ -2682,6 +2851,7 @@ const customInvoiceDueDateInput = (props) => {
               
                <div style={{ textAlign: "center"}}>
                            <Button
+                           disabled={recuringbillAddPermission}
                              onClick={handleRecurrBillShow}
                              style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 240, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}  > + Create Recurring Bill</Button>
                          </div>
@@ -2739,7 +2909,7 @@ const customInvoiceDueDateInput = (props) => {
       <RecurringBillList  
         key={item.id}
         item={item}
-        handleDeleteRecurringbills={handleDeleteRecurringbills}
+        handleDeleteRecurringbills={handleDeleteRecurringbills} recuringbillAddPermission={recuringbillAddPermission} billrolePermission={billrolePermission}
         // OnHandleshowform={handleShowForm}
         // OnHandleshowInvoicePdf={handleInvoiceDetail}
         // DisplayInvoice={handleDisplayInvoiceDownload}
@@ -2870,6 +3040,10 @@ const customInvoiceDueDateInput = (props) => {
     </div>
 
   </div> */}
+
+    </>
+  }
+
 
 </TabPanel>
 

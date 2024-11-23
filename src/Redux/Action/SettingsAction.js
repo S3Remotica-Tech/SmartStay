@@ -93,3 +93,8 @@ export async function AddExpencesCategory(Expences) {
     return await AxiosConfig.get('/get_all_staffs',{
     })
   }
+
+  export async function GetAllReport() {
+    return await AxiosConfig.get('/all_reports',{
+    })
+  }

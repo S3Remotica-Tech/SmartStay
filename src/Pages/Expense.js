@@ -32,6 +32,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import Spinner from 'react-bootstrap/Spinner';
+import { MdError } from "react-icons/md";
 
 
 
@@ -56,7 +57,69 @@ function Expenses() {
   const [minAmount, setMinAmount] = useState(0);
   const [maxAmount, setMaxAmount] = useState(0);
 
+  const [expencerolePermission, setExpenceRolePermission] = useState("");
 
+  const [expencepermissionError, setExpencePermissionError] = useState("");
+  const [expenceAddPermission,setExpenceAddPermission]= useState("")
+  const [expenceDeletePermission,setExpenceDeletePermission]=useState("")
+  const [expenceEditPermission,setExpenceEditPermission]=useState("")
+
+
+
+
+  useEffect(() => {
+    setExpenceRolePermission(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+
+  useEffect(() => {
+    console.log("===expencerolePermission[0]", expencerolePermission);
+    if (
+      expencerolePermission[0]?.is_owner == 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_view == 1
+    ) {
+      setExpencePermissionError("");
+    } else {
+      setExpencePermissionError("Permission Denied");
+    }
+  }, [expencerolePermission]);
+
+
+
+  useEffect(() => {
+    console.log("===expencerolePermission[0]", expencerolePermission);
+    if (
+      expencerolePermission[0]?.is_owner == 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_create == 1
+    ) {
+      setExpenceAddPermission("");
+    } else {
+      setExpenceAddPermission("Permission Denied");
+    }
+  }, [expencerolePermission]);
+
+
+  useEffect(() => {
+    console.log("===expencerolePermission[0]", expencerolePermission);
+    if (
+      expencerolePermission[0]?.is_owner == 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_delete == 1
+    ) {
+      setExpenceDeletePermission("");
+    } else {
+      setExpenceDeletePermission("Permission Denied");
+    }
+  }, [expencerolePermission]);
+  useEffect(() => {
+    console.log("===expencerolePermission[0]", expencerolePermission);
+    if (
+      expencerolePermission[0]?.is_owner == 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_edit == 1
+    ) {
+      setExpenceEditPermission("");
+    } else {
+      setExpenceEditPermission("Permission Denied");
+    }
+  }, [expencerolePermission]);
 
   const [flatpickrInstance, setFlatpickrInstance] = useState(null);
 
@@ -645,515 +708,555 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
   
   return (
     <>
-      <div className='container' style={{ width: "100%" }} >
-
-        <div className='container'>
 
 
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <div className='d-flex align-items-center'>
-              <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
-          
+    {
+      expencepermissionError ?(
+<>
+<div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={EmptyState}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+
+    {/* Permission Error */}
+    {expencepermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{expencepermissionError}</span>
+      </div>
+    )}
+  </div>
+</>
+      ): <div className='container' style={{ width: "100%" }} >
+
+      <div className='container'>
 
 
-            <div style={{ margin: 20, position: 'relative' }}>
-                <label
-                  htmlFor="date-input"
-                  style={{
-                    border: "1px solid #D9D9D9",
-                    borderRadius: 8,
-                    padding: "8px 16px",
-                    fontSize: 12,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    color: "#222222",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    cursor: "pointer"
-                  }}
-                  // onClick={() => document.getElementById('date-input')._flatpickr.open()}
-                  onClick={() => flatpickrInstance && flatpickrInstance.open()}
-                >
-                  <img src={Calendars} style={{ height: 24, width: 24, marginRight: 10 }} />
-                  Week {formattedDates}
-                </label>
-                <Flatpickr
-                  id="date-input"
-                  className='Expense-calendar'
-                  value={dates}
-                  onChange={(selectedDates) => {
-                    if (selectedDates) {
-                      setDates(selectedDates);
-                      formatDates(selectedDates);
-                      if (selectedDates.length === 2 && flatpickrInstance) {
-                        flatpickrInstance.close();
-                      }
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div className='d-flex align-items-center'>
+            <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
+        
+
+
+          <div style={{ margin: 20, position: 'relative' }}>
+              <label
+                htmlFor="date-input"
+                style={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: 8,
+                  padding: "8px 16px",
+                  fontSize: 12,
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  color: "#222222",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  cursor: "pointer"
+                }}
+                // onClick={() => document.getElementById('date-input')._flatpickr.open()}
+                onClick={() => flatpickrInstance && flatpickrInstance.open()}
+              >
+                <img src={Calendars} style={{ height: 24, width: 24, marginRight: 10 }} />
+                Week {formattedDates}
+              </label>
+              <Flatpickr
+                id="date-input"
+                className='Expense-calendar'
+                value={dates}
+                onChange={(selectedDates) => {
+                  if (selectedDates) {
+                    setDates(selectedDates);
+                    formatDates(selectedDates);
+                    if (selectedDates.length === 2 && flatpickrInstance) {
+                      flatpickrInstance.close();
                     }
-                  }}
-                  options={{ mode: 'range', dateFormat: 'd-M', }}
-                  onReady={(selectedDates, dateStr, instance) => setFlatpickrInstance(instance)}
-                  placeholder="Select Date"
-                  style={{
-                    padding: 10,
-                    fontSize: 14,
-                    width: "100%",
-                    borderRadius: 8,
-                    border: "1px solid #D9D9D9",
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    zIndex: 1000,
-                    display: "none"
-                  }}
-                  onClose={() => { }}
-                />
-              </div>
+                  }
+                }}
+                options={{ mode: 'range', dateFormat: 'd-M', }}
+                onReady={(selectedDates, dateStr, instance) => setFlatpickrInstance(instance)}
+                placeholder="Select Date"
+                style={{
+                  padding: 10,
+                  fontSize: 14,
+                  width: "100%",
+                  borderRadius: 8,
+                  border: "1px solid #D9D9D9",
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  zIndex: 1000,
+                  display: "none"
+                }}
+                onClose={() => { }}
+              />
+            </div>
 
-              </div>
-            <div className="d-flex justify-content-between align-items-center">
+            </div>
+          <div className="d-flex justify-content-between align-items-center">
 
-             
-            {
-                !showFilterExpense &&
+           
+          {
+              !showFilterExpense &&
 
-                <div className='me-3' onClick={handleShowSearch}>
-                  <SearchNormal1
-                    size="26"
-                    color="#222"
-                  />
-                </div>
-              }
-              {
-                showFilterExpense &&
-                <div className='me-3 'style={{position:'relative'}}>
-                  <InputGroup>
-
-                    <FormControl size="lg"
-                      value={searchQuery}
-                      onChange={handleInputChange}
-
-                      style={{width:235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500,color: "#222",
-                        //  '::placeholder': { color: "#222", fontWeight: 500 } 
-                        }}
-                      placeholder="Search..."
-                    />
-                    <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
-                      <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-                    </InputGroup.Text>
-                  </InputGroup>
-
-
-
-                  {
-            getData.length > 0 && searchQuery !== '' && showDropDown && (
-            
-                          <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                            <ul className='show-scroll' style={{
-                              // position: 'absolute',
-                              // top: '50px',
-                              // left: 0,
-                              width: 260,
-                              backgroundColor: '#fff',
-                              // border: '1px solid #D9D9D9',
-                              borderRadius: '4px',
-                              maxHeight: 174,
-                              minHeight: 100,
-                              overflowY: 'auto',
-                              padding: '5px 10px',
-                              margin: '0',
-                              listStyleType: 'none',
-
-                              borderRadius: 8,
-                              boxSizing: 'border-box'
-                            }}>
-                              {
-                                getData.map((user, index) => (
-                                  <li
-                                    key={index}
-                                    onClick={() => {
-                                      handleDropDown(user.category_Name);
-
-                                    }}
-                                    style={{
-                                      padding: '10px',
-                                      cursor: 'pointer',
-                                      borderBottom: '1px solid #dcdcdc',
-                                      fontSize: '14px',
-                                      fontFamily: 'Gilroy',
-                                      fontWeight: 500,
-
-                                    }}
-                                  >
-                                    {user.category_Name}
-                                  </li>
-                                ))
-                              }
-                            </ul>
-                          </div>
-                        )
-          }
-
-                </div>
-
-
-              }
-
-              <div className='me-3' style={{ position: 'relative' }}>
-                               <Sort
-                  Size="24"
+              <div className='me-3' onClick={handleShowSearch}>
+                <SearchNormal1
+                  size="26"
                   color="#222"
-                  style={{ cursor: "pointer" }}
-                   variant="Outline"
-                   onClick={handleFilterByPrice}
                 />
+              </div>
+            }
+            {
+              showFilterExpense &&
+              <div className='me-3 'style={{position:'relative'}}>
+                <InputGroup>
 
-                {showFilter &&
-                  <ListGroup style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
-                    <ListGroup.Item value="All" onClick={handleExpenseAll}>All</ListGroup.Item>
+                  <FormControl size="lg"
+                    value={searchQuery}
+                    onChange={handleInputChange}
 
-
-                    <ListGroup.Item
-                      active={showCategory}
-                      onMouseEnter={() => setShowCategory(true)}
-                      onMouseLeave={() => setShowCategory(false)}
-                    >Category
-
-                      {showCategory && (<>
-
-                        <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
-                          value={categoryValue} onClick={handleCatogoryChange}
-                        >
-                          {state.ExpenseList.categoryList && state.ExpenseList.categoryList.map((view) => (
-                            <ListGroup.Item
-                              className='sub_item' key={view.category_Id} value={view.category_Id}>
-                              {view.category_Name}
-                            </ListGroup.Item >
-                          ))}
-
-                        </ListGroup>
-                      </>
-                      )}
-
-                    </ListGroup.Item>
+                    style={{width:235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500,color: "#222",
+                      //  '::placeholder': { color: "#222", fontWeight: 500 } 
+                      }}
+                    placeholder="Search..."
+                  />
+                  <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
+                    <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                  </InputGroup.Text>
+                </InputGroup>
 
 
 
-                    <ListGroup.Item
-                      active={showAsset}
-                      onMouseEnter={() => setShowAsset(true)}
-                      onMouseLeave={() => setShowAsset(false)}
-                    >Asset
+                {
+          getData.length > 0 && searchQuery !== '' && showDropDown && (
+          
+                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                          <ul className='show-scroll' style={{
+                            // position: 'absolute',
+                            // top: '50px',
+                            // left: 0,
+                            width: 260,
+                            backgroundColor: '#fff',
+                            // border: '1px solid #D9D9D9',
+                            borderRadius: '4px',
+                            maxHeight: 174,
+                            minHeight: 100,
+                            overflowY: 'auto',
+                            padding: '5px 10px',
+                            margin: '0',
+                            listStyleType: 'none',
 
-                      {showAsset && (
-                        <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
-                          value={assetValue}
-                          onClick={handleAssetChange}
-                        >
-                          {state.AssetList.assetList &&
-                            [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
-                              <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
-                                {view.asset_name}
-                              </ListGroup.Item >
+                            borderRadius: 8,
+                            boxSizing: 'border-box'
+                          }}>
+                            {
+                              getData.map((user, index) => (
+                                <li
+                                  key={index}
+                                  onClick={() => {
+                                    handleDropDown(user.category_Name);
 
-                            ))
-                          }
-                          {/* {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
+                                  }}
+                                  style={{
+                                    padding: '10px',
+                                    cursor: 'pointer',
+                                    borderBottom: '1px solid #dcdcdc',
+                                    fontSize: '14px',
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: 500,
+
+                                  }}
+                                >
+                                  {user.category_Name}
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                      )
+        }
+
+              </div>
+
+
+            }
+
+            <div className='me-3' style={{ position: 'relative' }}>
+                             <Sort
+                Size="24"
+                color="#222"
+                style={{ cursor: "pointer" }}
+                 variant="Outline"
+                 onClick={handleFilterByPrice}
+              />
+
+              {showFilter &&
+                <ListGroup style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
+                  <ListGroup.Item value="All" onClick={handleExpenseAll}>All</ListGroup.Item>
+
+
+                  <ListGroup.Item
+                    active={showCategory}
+                    onMouseEnter={() => setShowCategory(true)}
+                    onMouseLeave={() => setShowCategory(false)}
+                  >Category
+
+                    {showCategory && (<>
+
+                      <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
+                        value={categoryValue} onClick={handleCatogoryChange}
+                      >
+                        {state.ExpenseList.categoryList && state.ExpenseList.categoryList.map((view) => (
+                          <ListGroup.Item
+                            className='sub_item' key={view.category_Id} value={view.category_Id}>
+                            {view.category_Name}
+                          </ListGroup.Item >
+                        ))}
+
+                      </ListGroup>
+                    </>
+                    )}
+
+                  </ListGroup.Item>
+
+
+
+                  <ListGroup.Item
+                    active={showAsset}
+                    onMouseEnter={() => setShowAsset(true)}
+                    onMouseLeave={() => setShowAsset(false)}
+                  >Asset
+
+                    {showAsset && (
+                      <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
+                        value={assetValue}
+                        onClick={handleAssetChange}
+                      >
+                        {state.AssetList.assetList &&
+                          [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
                             <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
                               {view.asset_name}
                             </ListGroup.Item >
-                          ))} */}
 
-                        </ListGroup>
-                      )}
-
-
-
-                    </ListGroup.Item>
-
-
-                    <ListGroup.Item
-                      active={showVendor}
-                      onMouseEnter={() => setShowVendor(true)}
-                      onMouseLeave={() => setShowVendor(false)}
-                    >Vendor
-
-                      {showVendor && (
-                        <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
-                          value={vendorValue}
-                          onClick={handleVendorChange}
-                        >
-                          {state.ComplianceList.VendorList && state.ComplianceList.VendorList.map((view) => (
-                            <ListGroup.Item className='sub_item' key={view.id} value={view.id}>
-                              {view.Vendor_Name}
-                            </ListGroup.Item >
-
-                          ))}
-
-                        </ListGroup>
-                      )}
-
-                    </ListGroup.Item>
-
-
-                    <ListGroup.Item
-                      active={showPaymentMode}
-                      onMouseEnter={() => setShowPaymentMode(true)}
-                      onMouseLeave={() => setShowPaymentMode(false)}
-                    >Payment Mode
-
-                      {showPaymentMode && (
-                        <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
-                          value={modeValue}
-                          onClick={handleModeValueChange}
-
-                        >
-                          <ListGroup.Item className='sub_item' value="UPI/BHIM" >
-                            UPI/BHIM
+                          ))
+                        }
+                        {/* {state.AssetList.assetList && state.AssetList.assetList.map((view) => (
+                          <ListGroup.Item className='sub_item' key={view.asset_id} value={view.asset_id}>
+                            {view.asset_name}
                           </ListGroup.Item >
-                          <ListGroup.Item className='sub_item' value="CASH">
-                            CASH
+                        ))} */}
+
+                      </ListGroup>
+                    )}
+
+
+
+                  </ListGroup.Item>
+
+
+                  <ListGroup.Item
+                    active={showVendor}
+                    onMouseEnter={() => setShowVendor(true)}
+                    onMouseLeave={() => setShowVendor(false)}
+                  >Vendor
+
+                    {showVendor && (
+                      <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
+                        value={vendorValue}
+                        onClick={handleVendorChange}
+                      >
+                        {state.ComplianceList.VendorList && state.ComplianceList.VendorList.map((view) => (
+                          <ListGroup.Item className='sub_item' key={view.id} value={view.id}>
+                            {view.Vendor_Name}
                           </ListGroup.Item >
-                          <ListGroup.Item className='sub_item' value="Net Banking" >
-                            Net Banking
-                          </ListGroup.Item >
-                        </ListGroup>
-                      )}
+
+                        ))}
+
+                      </ListGroup>
+                    )}
+
+                  </ListGroup.Item>
 
 
-                    </ListGroup.Item>
+                  <ListGroup.Item
+                    active={showPaymentMode}
+                    onMouseEnter={() => setShowPaymentMode(true)}
+                    onMouseLeave={() => setShowPaymentMode(false)}
+                  >Payment Mode
 
-                    <ListGroup.Item
-                      active={showAmount}
-                      onMouseEnter={() => setShowAmount(true)}
-                      onMouseLeave={() => setShowAmount(false)}
-                    >Amount
+                    {showPaymentMode && (
+                      <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
+                        value={modeValue}
+                        onClick={handleModeValueChange}
 
-                      {showAmount && (
-                        <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
-                          value={amountValue}
-                          onClick={handleAmountValueChange}
-
-                        >
-                          <ListGroup.Item className='sub_item' value="0-1000" >
-                            0-1000
-                          </ListGroup.Item >
-                          <ListGroup.Item className='sub_item' value="1000-5000">
-                            1000-5000
-                          </ListGroup.Item >
-                          <ListGroup.Item className='sub_item' value="5000-10000" >
-                            5000-10000
-                          </ListGroup.Item >
-                          <ListGroup.Item className='sub_item' value="10000" >
-                            10000 Above
-                          </ListGroup.Item >
-                        </ListGroup>
-                      )}
+                      >
+                        <ListGroup.Item className='sub_item' value="UPI/BHIM" >
+                          UPI/BHIM
+                        </ListGroup.Item >
+                        <ListGroup.Item className='sub_item' value="CASH">
+                          CASH
+                        </ListGroup.Item >
+                        <ListGroup.Item className='sub_item' value="Net Banking" >
+                          Net Banking
+                        </ListGroup.Item >
+                      </ListGroup>
+                    )}
 
 
-                    </ListGroup.Item>
+                  </ListGroup.Item>
 
-                  </ListGroup>
+                  <ListGroup.Item
+                    active={showAmount}
+                    onMouseEnter={() => setShowAmount(true)}
+                    onMouseLeave={() => setShowAmount(false)}
+                  >Amount
 
-                }
+                    {showAmount && (
+                      <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
+                        value={amountValue}
+                        onClick={handleAmountValueChange}
+
+                      >
+                        <ListGroup.Item className='sub_item' value="0-1000" >
+                          0-1000
+                        </ListGroup.Item >
+                        <ListGroup.Item className='sub_item' value="1000-5000">
+                          1000-5000
+                        </ListGroup.Item >
+                        <ListGroup.Item className='sub_item' value="5000-10000" >
+                          5000-10000
+                        </ListGroup.Item >
+                        <ListGroup.Item className='sub_item' value="10000" >
+                          10000 Above
+                        </ListGroup.Item >
+                      </ListGroup>
+                    )}
 
 
-              </div>
+                  </ListGroup.Item>
+
+                </ListGroup>
+
+              }
+
+
+            </div>
 
 
 
 
-              <div>
-                <Button onClick={handleShow} style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "16px 24px", fontFamily: "Gilroy" }}> + Add an expense</Button>
-              </div>
+            <div>
+              <Button disabled={expenceAddPermission} onClick={handleShow} style={{ fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "16px 24px", fontFamily: "Gilroy" }}> + Add an expense</Button>
             </div>
           </div>
-
         </div>
 
+      </div>
 
 
-        {searchQuery && (
-        <div  className='container mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
-          {getData.length > 0 ? (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-              {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
-            </span>
-          ) : (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
-          )}
+
+      {searchQuery && (
+      <div  className='container mb-4'   style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+        {getData.length > 0 ? (
+          <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+            {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span>
+          </span>
+        ) : (
+          <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>"{searchQuery}"</span></span>
+        )}
+      </div>
+    )}
+
+
+      {loading &&
+        <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
+          <div className="d-flex justify-content-center align-items-start gap-3" style={{ height: "100%" }}><Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} /> <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>Loading.....</div></div>
         </div>
-      )}
-
-
-        {loading &&
-          <div className='mt-2 mb-2 d-flex justify-content-center w-100'>
-            <div className="d-flex justify-content-center align-items-start gap-3" style={{ height: "100%" }}><Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} /> <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>Loading.....</div></div>
-          </div>
-        }
+      }
 
 
 
 {currentItems && currentItems.length > 0 && (
 
-        <div className='container' >
-          <Table responsive="md"
-            className='Table_Design'
+      <div className='container' >
+        <Table responsive="md"
+          className='Table_Design'
 
-            style={{
-              height: "auto",
-              tableLayout: "auto",
-              overflow: "visible",
-              borderRadius: "24px",
-              border: "1px solid #DCDCDC"
-            }} >
-            <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor: "rgba(231, 241, 255, 1)" }}>
-              <tr>
-                <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center",  borderTopLeftRadius: 24  }}>
-                  <input type='checkbox' style={customCheckboxStyle} />
-                </th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 700 }}>Date</th>
+          style={{
+            height: "auto",
+            tableLayout: "auto",
+            overflow: "visible",
+            borderRadius: "24px",
+            border: "1px solid #DCDCDC"
+          }} >
+          <thead style={{ fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor: "rgba(231, 241, 255, 1)" }}>
+            <tr>
+              <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center",  borderTopLeftRadius: 24  }}>
+                <input type='checkbox' style={customCheckboxStyle} />
+              </th>
+              <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 700 }}>Date</th>
 
-                {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th> */}
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
-                {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th> */}
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Description</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Unit Count</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Per Unit Price</th>
+              {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th> */}
+              <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Category</th>
+              {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th> */}
+              <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Description</th>
+              <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Unit Count</th>
+              <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Per Unit Price</th>
 
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Amount</th>
-                <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Mode of Payment</th>
-                <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
-              </tr>
-            </thead>
-            {/* <tbody>
-              {
-                loading ? <>
-                  <tr>
-                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                    <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                  </tr>
+              <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Total Amount</th>
+              <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Mode of Payment</th>
+              <th style={{ borderTopRightRadius: 24, textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}></th>
+            </tr>
+          </thead>
+          {/* <tbody>
+            {
+              loading ? <>
+                <tr>
+                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                </tr>
 
-                </>
+              </>
 
-                  :
-                  currentItems && currentItems.map((item) => (
-                    <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
-                  ))}
+                :
+                currentItems && currentItems.map((item) => (
+                  <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
+                ))}
 
 <tr className="d-flex justify-content-center align-items-center" style={{ height: 'auto', width: "100%" }}>
-  <td style={{ textAlign: 'center', verticalAlign: 'middle', maxWidth: '100%' ,border:"none"}}>
-    {
-      !loading && currentItems.length === 0 ? (
-        <h5 style={{ fontSize: 14, color: "red" ,textAlign:"center"}}>No Expense Found</h5>
-      ) : null
-    }
-  </td>
+<td style={{ textAlign: 'center', verticalAlign: 'middle', maxWidth: '100%' ,border:"none"}}>
+  {
+    !loading && currentItems.length === 0 ? (
+      <h5 style={{ fontSize: 14, color: "red" ,textAlign:"center"}}>No Expense Found</h5>
+    ) : null
+  }
+</td>
 </tr>
 
 
 
 
 
-            </tbody> */}
-            <tbody>
-              {
-                loading ? (
-                  <>
-                    <tr>
-                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                      <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                    </tr>
-                  </>
-                ) : currentItems && currentItems.length > 0 && (
-                  currentItems.map((item) => (
-                    <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
-                  ))
-                ) 
-                
-                // : (
-                //   <tr style={{ border: "none" }}>
-                //     <td colSpan="8" style={{ textAlign: "center", padding: "20px", color: "red", border: "none" }}>
-                //       <h5 style={{ fontSize: 14 }}>No Expense Found</h5>
-                //     </td>
-                //   </tr>
-                // )
-              }
-            </tbody>
+          </tbody> */}
+          <tbody>
+            {
+              loading ? (
+                <>
+                  <tr>
+                    <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                    <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                  </tr>
+                </>
+              ) : currentItems && currentItems.length > 0 && (
+                currentItems.map((item) => (
+                  <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} expenceEditPermission={expenceEditPermission} expenceDeletePermission={expenceDeletePermission}/>
+                ))
+              ) 
+              
+              // : (
+              //   <tr style={{ border: "none" }}>
+              //     <td colSpan="8" style={{ textAlign: "center", padding: "20px", color: "red", border: "none" }}>
+              //       <h5 style={{ fontSize: 14 }}>No Expense Found</h5>
+              //     </td>
+              //   </tr>
+              // )
+            }
+          </tbody>
 
-          </Table>
+        </Table>
 
 
 
-         
+       
 
-          </div>
+        </div>
 )}
 
 
 
 
 {
-          !loading && currentItems && currentItems.length === 0 &&
+        !loading && currentItems && currentItems.length === 0 &&
 
-          <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+        <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
-            <div>
-              <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-              <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No expenses available</div>
-              <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no expenses available.</div>
-              <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
-                onClick={handleShow}
-              > + Add an expense</Button>
-              </div>
-            </div>
-            <div>
-
+          <div>
+            <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+            <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No expenses available</div>
+            <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no expenses available.</div>
+            <div className='d-flex justify-content-center pb-1 mt-3'>                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
+           disabled={expenceAddPermission}   onClick={handleShow}
+            > + Add an expense</Button>
             </div>
           </div>
+          <div>
+
+          </div>
+        </div>
 
 
+      }
+
+
+
+
+
+
+
+
+
+
+
+        {/*  Pagination code */}
+        {currentItems.length > 0 &&
+          <Pagination className="mt-4 d-flex justify-content-end align-items-center">
+            <Pagination.Prev style={{ visibility: "visible" }}
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+            {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
+            {renderPagination()}
+            {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
+            <Pagination.Next style={{ visibility: "visible" }}
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            />
+          </Pagination>
         }
-
-
-
-
-
-
-
-
-
-
-
-          {/*  Pagination code */}
-          {currentItems.length > 0 &&
-            <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-              <Pagination.Prev style={{ visibility: "visible" }}
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-              />
-              {/* <span style={{fontSize:8, color:"#1E45E1"}}>Previous</span> */}
-              {renderPagination()}
-              {/* <span style={{fontSize:8, color:"#1E45E1"}}>Next</span> */}
-              <Pagination.Next style={{ visibility: "visible" }}
-                onClick={() => paginate(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              />
-            </Pagination>
-          }
-        
-      </div>
+      
+    </div>
+    }
+     
       {showModal && <AddExpenses show={showModal} handleClose={handleClose} currentItem={currentItem} />}
 
 

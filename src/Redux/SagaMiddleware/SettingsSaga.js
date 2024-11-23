@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AddExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff} from "../Action/SettingsAction"
+import { AddExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport} from "../Action/SettingsAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -537,7 +537,20 @@ function* handleGetAllStaffs() {
       refreshToken(response)
    }
 }
-
+function* handleGetAllReports() {
+   const response = yield call(GetAllReport)
+   console.log("handleGetAllReports.....///",response)
+   
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'REPORT_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
 
 
 function refreshToken(response) {
@@ -577,5 +590,6 @@ function* SettingsSaga() {
    yield takeEvery('DELETESETTINGROLEPERMISSION', handleDeleteRolePermission)
    yield takeEvery('ADDSTAFFUSER', handleAddStaffUserPage)
    yield takeEvery('GETUSERSTAFF',handleGetAllStaffs)
+   yield takeEvery('GETUSERREPORT',handleGetAllReports)
 }
 export default SettingsSaga;

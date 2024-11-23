@@ -153,11 +153,40 @@ setDownloadInvoiceTable(true)
                                     <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#fff", position: "absolute", right: 50, top: 20, width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
                                         <div style={{ backgroundColor: "#fff" }} className=''>
 
-                                        <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                                style={{ backgroundColor: "#fff" }}
-                                            >
-                                                <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Edit</label>
-                                            </div>
+                                        <div
+  className={`mb-3 d-flex justify-content-start align-items-center gap-2 ${props.billEditPermission ? 'disabled' : ''}`}
+  style={{
+    // backgroundColor: props.billEditPermission ? "#f9f9f9" : "#fff",
+    cursor: props.billEditPermission ? "not-allowed" : "pointer",
+  }}
+//   onClick={() => {
+//     if (!props.billEditPermission) {
+//       handleEdit();
+//     }
+//   }}
+>
+  <img
+    src={Edit}
+    style={{
+      height: 16,
+      width: 16,
+      filter: props.billEditPermission ? "grayscale(100%)" : "none", // Makes the icon appear disabled
+    }}
+    alt="Edit"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.billEditPermission ? "#ccc" : "#222222", // Disabled color
+      cursor: props.billEditPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Edit
+  </label>
+</div>
+
                                             <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                                               onClick={() => handleInvoicepdf(props.item)}
                                            
@@ -165,20 +194,76 @@ setDownloadInvoiceTable(true)
                                             >
                                                 <img src={Download} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Download</label>
                                             </div>
-                                            <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                                onClick={() => { handleShowform(props) }}
-                                                style={{ backgroundColor: "#fff" }}
-                                            >
-                                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
+                                            <div
+  className={`mb-3 d-flex justify-content-start align-items-center gap-2 ${props.billAddPermission ? 'disabled' : ''}`}
+  onClick={() => {
+    if (!props.billAddPermission) {
+      handleShowform(props);
+    }
+  }}
+  style={{
+    // backgroundColor: props.billAddPermission ? "#f9f9f9" : "#fff",
+    cursor: props.billAddPermission ? "not-allowed" : "pointer",
+  }}
+>
+  <img
+    src={Assign}
+    style={{
+      height: 16,
+      width: 16,
+      filter: props.billAddPermission ? "grayscale(100%)" : "none", // Makes the icon appear disabled
+    }}
+    alt="Assign"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.billAddPermission ? "#ccc" : "#222222", // Disabled color
+      cursor: props.billAddPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Record Payment
+  </label>
+</div>
 
-                                            </div>
 
                                            
-                                            <div className='mb-2 d-flex justify-content-start align-items-center gap-2'
-                                                style={{ backgroundColor: "#fff" }}
-                                            >
-                                                <img src={Delete} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#FF0000", cursor: 'pointer' }}>Delete</label>
-                                            </div>
+<div
+  className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${props.billDeletePermission ? 'disabled' : ''}`}
+  style={{
+    // backgroundColor: props.billDeletePermission ? "#f9f9f9" : "#fff",
+    cursor: props.billDeletePermission ? "not-allowed" : "pointer",
+  }}
+//   onClick={() => {
+//     if (!props.billDeletePermission) {
+//       handleDelete(props);
+//     }
+//   }}
+>
+  <img
+    src={Delete}
+    style={{
+      height: 16,
+      width: 16,
+      filter: props.billDeletePermission ? "grayscale(100%)" : "none", 
+    }}
+    alt="Delete"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.billDeletePermission ? "#ccc" : "#FF0000", 
+      cursor: props.billDeletePermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Delete
+  </label>
+</div>
+
 
 
 

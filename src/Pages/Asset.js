@@ -363,7 +363,8 @@ function Asset() {
     <>
     {
       assetpermissionError ? (
-        <><div
+        <>
+        <div
         style={{
           display: "flex",
           flexDirection: "column",

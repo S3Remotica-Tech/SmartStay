@@ -125,30 +125,72 @@ function ExpensesListTable(props) {
                 <div style={{ backgroundColor: "#f9f9f9" }} className=''>
 
 
-                  <div className='mb-2 d-flex justify-content-start align-items-center gap-2'
-                    onClick={() => handleEditExpense(props.item)}
-                    style={{ backgroundColor: "#f9f9f9" }}
-                  >
-                    <div><Edit size="16" color="#1E45E1" />
-                    </div>
-                    <div>
-                      <label style={{ cursor: "pointer", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", color: "#222222" }} >Edit</label>
-
-                    </div>
-                  </div>
-                  <div className='mb-1 d-flex justify-content-start align-items-center gap-2'
-                    style={{ backgroundColor: "#f9f9f9" }}
-                    onClick={() => handleDelete(props.item.id)}
-                  >
-                    <div><Trash size="16"
-                      color="red"
-                    /></div>
-
-<div>
-<label style={{ cursor: "pointer", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", color: "#FF0000" }}>Delete</label>
-
+                <div
+  className="mb-2 d-flex justify-content-start align-items-center gap-2 "
+  onClick={() => {
+    if (!props.expenceEditPermission) {
+      handleEditExpense(props.item);
+    }
+  }}
+  style={{
+    // backgroundColor: props.expenceEditPermission ? "#f1f1f1" : "#f9f9f9",
+    cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
+  }}
+>
+  <div>
+    <Edit
+      size="16"
+      color={props.expenceEditPermission ? "#A9A9A9" : "#1E45E1"} // Dim icon color when disabled
+    />
+  </div>
+  <div>
+    <label
+      style={{
+        cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        color: props.expenceEditPermission ? "#A9A9A9" : "#222222", // Dim label color when disabled
+      }}
+    >
+      Edit
+    </label>
+  </div>
 </div>
-                  </div>
+
+<div
+  className="mb-1 d-flex justify-content-start align-items-center gap-2"
+  style={{
+    // backgroundColor: props.expenceDeletePermission ? "#f1f1f1" : "#f9f9f9",
+    cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
+  }}
+  onClick={() => {
+    if (!props.expenceDeletePermission) {
+      handleDelete(props.item.id);
+    }
+  }}
+>
+  <div>
+    <Trash
+      size="16"
+      color={props.expenceDeletePermission ? "#A9A9A9" : "red"} // Dim icon color when disabled
+    />
+  </div>
+  <div>
+    <label
+      style={{
+        cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        color: props.expenceDeletePermission ? "#A9A9A9" : "#FF0000", // Dim label color when disabled
+      }}
+    >
+      Delete
+    </label>
+  </div>
+</div>
+
                 </div>
               </div>
 

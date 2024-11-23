@@ -109,11 +109,70 @@ const Compliance = () => {
   const [filterByDate, setFilterByDate] = useState("");
   const [filterStatus, setFilterStatus] = useState(false);
   const [filterByStatus, setFilterByStatus] = useState("ALL");
-
-
-  const LoginId = localStorage.getItem("loginId")
-
+ const LoginId = localStorage.getItem("loginId")
   const [login_Id, setLogin_Id] = useState('')
+
+  const [compliancerolePermission, setComplianceRolePermission] = useState("");
+
+  const [compliancepermissionError, setCompliancePermissionError] = useState("");
+  const [complianceAddPermission,setComplianceAddPermission]= useState("")
+  const [complianceDeletePermission,setComplianceDeletePermission]=useState("")
+  const [complianceEditPermission,setComplianceEditPermission]=useState("")
+
+
+  useEffect(() => {
+    setComplianceRolePermission(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+
+  useEffect(() => {
+    console.log("===compliancerolePermission[0]", compliancerolePermission);
+    if (
+      compliancerolePermission[0]?.is_owner == 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_view == 1
+    ) {
+      setCompliancePermissionError("");
+    } else {
+      setCompliancePermissionError("Permission Denied");
+    }
+  }, [compliancerolePermission]);
+
+
+
+  useEffect(() => {
+    console.log("===compliancerolePermission[0]", compliancerolePermission);
+    if (
+      compliancerolePermission[0]?.is_owner == 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_create == 1
+    ) {
+      setComplianceAddPermission("");
+    } else {
+      setComplianceAddPermission("Permission Denied");
+    }
+  }, [compliancerolePermission]);
+
+
+  useEffect(() => {
+    console.log("===compliancerolePermission[0]", compliancerolePermission);
+    if (
+      compliancerolePermission[0]?.is_owner == 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_delete == 1
+    ) {
+      setComplianceDeletePermission("");
+    } else {
+      setComplianceDeletePermission("Permission Denied");
+    }
+  }, [compliancerolePermission]);
+  useEffect(() => {
+    console.log("===compliancerolePermission[0]", compliancerolePermission);
+    if (
+      compliancerolePermission[0]?.is_owner == 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_edit == 1
+    ) {
+      setComplianceEditPermission("");
+    } else {
+      setComplianceEditPermission("Permission Denied");
+    }
+  }, [compliancerolePermission]);
 
   useEffect(() => {
     dispatch({ type: 'COMPLIANCE-LIST' })
@@ -723,7 +782,46 @@ const Compliance = () => {
 
 
   return (
-    <div style={{ width: "100%", fontFamily: "Gilroy" }} className=''>
+  <>
+    {
+      compliancepermissionError ? (
+<>
+<div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={Emptystate}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+
+    {/* Permission Error */}
+    {compliancepermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{compliancepermissionError}</span>
+      </div>
+    )}
+  </div>
+</>
+      ):
+      <>
+      <div style={{ width: "100%", fontFamily: "Gilroy" }} className=''>
       <div className='m-4'>
         {/* <div className='d-flex justify-content-end align-items-center mb-4'>
 
@@ -919,6 +1017,7 @@ const Compliance = () => {
 
             <div>
               <Button
+              disabled={complianceAddPermission}
                 onClick={handleShow}
                 style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Add Complaint</Button>
             </div>
@@ -928,7 +1027,7 @@ const Compliance = () => {
         <div className='row row-gap-3'>
           {filteredUsers.length > 0 && filteredUsers.map((complaints) => (
             <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-              <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} />
+              <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} complianceAddPermission={complianceAddPermission} complianceEditPermission={complianceEditPermission} complianceDeletePermission={complianceDeletePermission}/>
             </div>
           ))
           }
@@ -1466,6 +1565,10 @@ const Compliance = () => {
 
 
     </div>
+      </>
+    }
+   
+  </>
 
 
     //     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >

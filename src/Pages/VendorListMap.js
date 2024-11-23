@@ -141,57 +141,71 @@ useEffect(() => {
       alignItems: "flex-start"
     }}
   >
-    <div
-      className="mb-2 gap-2"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "20px", 
-        cursor: "pointer"
-      }}
-      onClick={() => handleEdit(props.vendor)}
-    >
-      <Edit size="16" color="#1E45E1" />
-      <label
-        style={{
-          fontSize: 14,
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-          color: "#222222",
-          cursor: "pointer"
-        }}
-      >
-        Edit
-      </label>
-    </div>
+   <div
+  className="mb-2 gap-2"
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "20px",
+    cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+    pointerEvents: props.vendorEditPermission ? "none" : "auto",
+    opacity: props.vendorEditPermission ? 0.5 : 1,
+  }}
+  onClick={() => {
+    if (!props.vendorEditPermission) {
+      handleEdit(props.vendor);
+    }
+  }}
+>
+  <Edit size="16" color="#1E45E1" />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      color: "#222222",
+      cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Edit
+  </label>
+</div>
+
     
-    <div
-      className="mb-2 gap-2"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "10px", 
-        cursor: "pointer"
-      }}
-      onClick={() => handleDelete(props.vendor)}
-    >
-      <img
-        src={Delete}
-        alt="Delete"
-        style={{ height: 16, width: 16 }}
-      />
-      <label
-        style={{
-          fontSize: 14,
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-          color: "#FF0000",
-          cursor: "pointer"
-        }}
-      >
-        Delete
-      </label>
-    </div>
+<div
+  className="mb-2 gap-2"
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
+    pointerEvents: props.vendorDeletePermission ? "none" : "auto",
+    opacity: props.vendorDeletePermission ? 0.5 : 1,
+  }}
+  onClick={() => {
+    if (!props.vendorDeletePermission) {
+      handleDelete(props.vendor);
+    }
+  }}
+>
+  <img
+    src={Delete}
+    alt="Delete"
+    style={{ height: 16, width: 16 }}
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      color: "#FF0000",
+      cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Delete
+  </label>
+</div>
+
   </div>
 )}
 
