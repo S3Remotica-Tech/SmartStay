@@ -49,15 +49,39 @@ const InvoiceSettingsList = (props) => {
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                         {showDots && <>
-                            <div style={{ backgroundColor: "#FFFFFF", position: "absolute", right: 45, top: 3, width: 100, height: 42, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", paddingLeft: '10px' }}>
+                            <div
+  style={{
+    backgroundColor: "rgb(235, 235, 235)",
+    position: "absolute",
+    right: 45,
+    top: 5,
+    width: 100,
+    height: 42,
+    border: "1px solid #EBEBEB",
+    borderRadius: 10,
+    display: "flex",
+    justifyContent: "start",
+    paddingLeft: "10px",
+    cursor: props.billEditPermission ? "not-allowed" : "pointer",
+    opacity: props.billEditPermission ? 0.7 : 1,
+  }}
+>
+  <div onClick={!props.billEditPermission ? () => handleEditInvoice(props.item) : undefined}>
+    <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        color: "#222222",
+        cursor: props.billEditPermission ? "not-allowed" : "pointer",
+      }}
+    >
+      Edit
+    </label>
+  </div>
+</div>
 
-                                <div onClick={() => handleEditInvoice(props.item)}>
-                                    <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" }} >Edit</label>
-
-                                </div>
-
-
-                            </div>
 
 
                         </>}

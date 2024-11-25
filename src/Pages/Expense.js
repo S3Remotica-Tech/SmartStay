@@ -193,10 +193,10 @@ function Expenses() {
   console.log("getData", getData)
 
   useEffect(() => {
-    dispatch({ type: 'ASSETLIST' })
-    dispatch({ type: 'CATEGORYLIST' })
-    dispatch({ type: 'VENDORLIST' })
-    dispatch({ type: 'EXPENSELIST' })
+    dispatch({ type: 'ASSETLIST'})
+    dispatch({ type: 'CATEGORYLIST'})
+    dispatch({ type: 'VENDORLIST'})
+    dispatch({ type: 'EXPENSELIST'})
     setLoading(true)
   }, [])
 

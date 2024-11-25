@@ -14,6 +14,7 @@ import InvoiceSettingsList from './InvoicesettingsList';
 import Modal from 'react-bootstrap/Modal';
 import { MdError } from "react-icons/md"; 
 import { IoReturnDownForward } from 'react-icons/io5';
+import Emptystate from '../Assets/Images/Empty-State.jpg'
 
 
 
@@ -26,6 +27,51 @@ function InvoiceSettings() {
 
     const [selectedHostel, setSelectedHostel] = useState({ id: '', name: '' });
     const [showTable, setShowTable] = useState(false)
+
+    const [billrolePermission, setBillRolePermission] = useState("");
+
+    const [billpermissionError, setBillPermissionError] = useState("");
+    const [billAddPermission,setBillAddPermission]= useState("")
+    const [billDeletePermission,setBillDeletePermission]=useState("")
+    const [billEditPermission,setBillEditPermission]=useState("")
+
+    useEffect(() => {
+        setBillRolePermission(state.createAccount.accountList);
+      }, [state.createAccount.accountList]);
+    
+      useEffect(() => {
+        console.log("===billrolePermission[0]", billrolePermission);
+        if (
+          billrolePermission[0]?.is_owner == 1 ||
+          billrolePermission[0]?.role_permissions[10]?.per_view == 1
+        ) {
+          setBillPermissionError("");
+        } else {
+          setBillPermissionError("Permission Denied");
+        }
+      }, [billrolePermission]);
+      useEffect(() => {
+        console.log("===billrolePermission[0]", billrolePermission);
+        if (
+          billrolePermission[0]?.is_owner == 1 ||
+          billrolePermission[0]?.role_permissions[10]?.per_create == 1
+        ) {
+          setBillAddPermission("");
+        } else {
+          setBillAddPermission("Permission Denied");
+        }
+      }, [billrolePermission]);
+      useEffect(() => {
+        console.log("===billrolePermission[0]", billrolePermission);
+        if (
+          billrolePermission[0]?.is_owner == 1 ||
+          billrolePermission[0]?.role_permissions[10]?.per_edit == 1
+        ) {
+          setBillEditPermission("");
+        } else {
+          setBillEditPermission("Permission Denied");
+        }
+      }, [billrolePermission]);
 
     // useEffect(() => {
     //     dispatch({ type: 'HOSTELLIST' })
@@ -403,7 +449,45 @@ function InvoiceSettings() {
 
 
     return (
-        <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
+        <>
+        {
+            billpermissionError ? (
+                <>
+                <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      // height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={Emptystate}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+
+    {/* Permission Error */}
+    {billpermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{billpermissionError}</span>
+      </div>
+    )}
+  </div>
+                </>
+            ):
+            <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
             <div className='col-lg-4 col-md-5 col-sm-12 col-xs-12'>
 
                 <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
@@ -546,7 +630,7 @@ function InvoiceSettings() {
 
                     <div style={{ marginTop: '20px' }} className='col-lg-12 col-md-10 col-sm-12 col-xs-12' >
 
-                        <Button className='col-lg-10 col-md-10 col-sm-11 col-xs-9 mb-2 me-sm-2' onClick={handleInvoiceSettings} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", letterSpacing: 1, borderRadius: 12, padding: "10px" }}> Save </Button>
+                        <Button className='col-lg-10 col-md-10 col-sm-11 col-xs-9 mb-2 me-sm-2' disabled={billAddPermission} onClick={handleInvoiceSettings} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", letterSpacing: 1, borderRadius: 12, padding: "10px" }}> Save </Button>
 
 
                         <Button className='col-lg-10 col-md-10 col-sm-11 col-xs-9 mb-2' style={{ fontFamily: 'Montserrat', fontSize: 16, backgroundColor: "#FFFFFF", color: "red", border: '1px solid red ', fontWeight: 500, letterSpacing: 1, borderRadius: 12, padding: "10px" }}> Delete</Button>
@@ -558,14 +642,24 @@ function InvoiceSettings() {
 
             <hr style={{ border: '1px solid #ced4da', transform: 'rotate(180deg)' }} />
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0">
-                <Table className="ebtable mt-3" responsive  >
+                <Table 
+                responsive="md"
+                className="Table_Design"
+                style={{
+                  height: "auto",
+                  overflow: "visible",
+                  tableLayout: "auto",
+                  borderRadius: "24px",
+                  border: "1px solid #DCDCDC",
+                
+                }}  >
                     <thead style={{ backgroundColor: "#E7F1FF" }}>
                         <tr>
-                           <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal', }}></th>
+                           <th style={{ color: '#222', fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px", fontStyle: 'normal', lineHeight: 'normal',borderTopLeftRadius:24 }}></th>
                             <th style={{ color: '#222',  fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
                             <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Prefix</th>
                             <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>suffix </th>
-                            <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
+                            <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",borderTopRightRadius:24 }}></th>
                             {/* <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Dated</th> */}
 
                         </tr>
@@ -574,7 +668,7 @@ function InvoiceSettings() {
                         {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList.map((item) => (
                                
 
-                               <InvoiceSettingsList item={item} modalEditInvoice={handleEdit}/>
+                               <InvoiceSettingsList item={item} modalEditInvoice={handleEdit} billEditPermission={billEditPermission}/>
                             //    <tr style={{ lineHeight: "40px" }} key={invoice.id}> 
                             //         <td style={{ paddingLeft: "40px", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>
                             //             {invoice.Name}
@@ -956,6 +1050,9 @@ function InvoiceSettings() {
 
 
         </div>
+        }
+        
+        </>
     )
 }
 

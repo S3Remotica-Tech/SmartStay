@@ -7,6 +7,8 @@ import like from '../Assets/Images/like.png';
 import message from '../Assets/Images/message.png';
 import { CloseCircle } from 'iconsax-react';
 import Search_Team from '../Assets/Images/Search Team.png'
+import { MdError } from "react-icons/md";
+import Emptystate from '../Assets/Images/Empty-State.jpg'
 
 const cardData = [
     {
@@ -46,7 +48,7 @@ const cardData = [
     }
 ];
 
-function DashboardAnnouncement() {
+function DashboardAnnouncement(props) {
     const [showMainModal, setShowMainModal] = useState(false);
     const [showLikeModal, setShowLikeModal] = useState(false);
     const [showCommentModal, setShowCommentModal] = useState(false);
@@ -75,7 +77,26 @@ function DashboardAnnouncement() {
     };
 
     return (
-        <div>
+<>
+{
+
+
+props.announcePermissionError ?(
+<div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+  {/* Image */}
+  <img src={Emptystate} alt="Empty State" style={{ maxWidth: "100%", height: "auto" }} />
+
+  {/* Permission Error */}
+  {props.announcePermissionError && (
+    <div style={{ color: "red", display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "1rem" }}>
+      <MdError size={20} />
+      <span>{props.announcePermissionError}</span>
+    </div>
+  )}
+</div>
+):
+
+<div>
             {cardData.map((data, index) => (
                 <Card
                     key={index}
@@ -546,6 +567,10 @@ function DashboardAnnouncement() {
                 </Modal>
             )}
         </div>
+}
+
+        
+        </>
     );
 }
 

@@ -68,6 +68,8 @@ lineHeight: 'normal',
   const [activecommpliance, setActivecommpliance] = useState([]);
   const [rolePermission,setRolePermission]=useState("")
   const [permissionError,setPermissionError]=useState("")
+  const [announcePermissionError,setAnnouncePermissionError]=useState("")
+  const [updatePermissionError,setupdatePermissionError]=useState("")
   const [value, setValue] = React.useState("1");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -102,6 +104,30 @@ lineHeight: 'normal',
     // } else {
     //   setPermissionError('');
     // }
+  }, [rolePermission]);
+
+  useEffect(() => {
+
+    console.log("=========================================",rolePermission[0]);
+
+    if(rolePermission[0]?.is_owner == 1 || rolePermission[0]?.role_permissions[1]?.per_view == 1){
+      setAnnouncePermissionError('');
+    }else{
+      setAnnouncePermissionError('Permission Denied');
+    }
+
+  }, [rolePermission]);
+
+  useEffect(() => {
+
+    console.log("=========================================",rolePermission[0]);
+
+    if(rolePermission[0]?.is_owner == 1 || rolePermission[0]?.role_permissions[2]?.per_view == 1){
+      setupdatePermissionError('');
+    }else{
+      setupdatePermissionError('Permission Denied');
+    }
+
   }, [rolePermission]);
   
 
@@ -310,24 +336,7 @@ lineHeight: 'normal',
   return (
     <>
 
-    {
-      permissionError?(
-<>
-<div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
-  {/* Image */}
-  <img src={Emptystate} alt="Empty State" style={{ maxWidth: "100%", height: "auto" }} />
 
-  {/* Permission Error */}
-  {permissionError && (
-    <div style={{ color: "red", display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "1rem" }}>
-      <MdError size={20} />
-      <span>{permissionError}</span>
-    </div>
-  )}
-</div>
-
-</>
-      ):
       <div className="cotainer  p-4">
      
       <div className="texxttt">
@@ -410,7 +419,22 @@ lineHeight: 'normal',
           </Box>
         </div>
         <TabPanel value="1">
-          <>
+          {
+            permissionError ? (
+<div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+  {/* Image */}
+  <img src={Emptystate} alt="Empty State" style={{ maxWidth: "100%", height: "auto" }} />
+
+  {/* Permission Error */}
+  {permissionError && (
+    <div style={{ color: "red", display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "1rem" }}>
+      <MdError size={20} />
+      <span>{permissionError}</span>
+    </div>
+  )}
+</div>
+            ):
+            <>
           <div className="row carddesign">
         <div className="col-lg-4 col-md-12 col-sm-12 col-xl-3 mb-3">
           <Card
@@ -1080,16 +1104,18 @@ lineHeight: 'normal',
         </div>
       </div>
           </>
+          }
+          
         </TabPanel>
         
         <TabPanel value="2">
-          <DashboardAnnouncement
+          <DashboardAnnouncement announcePermissionError={announcePermissionError}
            
           />
         </TabPanel>
           
         <TabPanel value="3">
-          <DashboardUpdates
+          <DashboardUpdates updatePermissionError={updatePermissionError}
            
           />
         </TabPanel>
@@ -1099,7 +1125,7 @@ lineHeight: 'normal',
 
      
     </div>
-    }
+    
    
    </>
   );

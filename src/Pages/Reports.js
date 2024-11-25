@@ -42,6 +42,7 @@ function Reports() {
 
 
   const [reportrolePermission, setReportRolePermission] = useState("");
+  console.log("reportrolePermission",reportrolePermission)
 
   const [reportpermissionError, setReportPermissionError] = useState("");
   const [reportAddPermission,setReportAddPermission]= useState("")
@@ -49,13 +50,16 @@ function Reports() {
   const [reportEditPermission,setReportEditPermission]=useState("")
 
 
-useEffect(()=>{
-  dispatch({type:'GETUSERREPORT'})
-},[])
+// useEffect(()=>{
+//   dispatch({ type: 'ASSETLIST'})
+//   dispatch({ type: 'CATEGORYLIST'})
+//   dispatch({ type: 'VENDORLIST'})
+//   dispatch({ type: 'EXPENSELIST'})
+// },[])
   
-  useEffect(() => {
-    setReportRolePermission(state.createAccount?.accountList);
-  }, [state.createAccount?.accountList]);
+  // useEffect(() => {
+  //   setReportRolePermission(state.createAccount?.accountList);
+  // }, [state.createAccount?.accountList]);
 
   // useEffect(() => {
   //   console.log("===reportrolePermission[0]", reportrolePermission);

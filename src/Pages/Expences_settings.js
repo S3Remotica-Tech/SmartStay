@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
 import { MdError } from "react-icons/md"; 
 import Modal from 'react-bootstrap/Modal';
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 const ExpencesSettings = () => {
 
@@ -23,6 +24,70 @@ const ExpencesSettings = () => {
     const [isSubCategory, setIsSubCategory] = useState(false);
     const [expences, setExpences] = useState([])
     console.log("expences", expences);
+
+    const [expencerolePermission, setExpenceRolePermission] = useState("");
+
+  const [expencepermissionError, setExpencePermissionError] = useState("");
+  const [expenceAddPermission,setExpenceAddPermission]= useState("")
+  const [expenceDeletePermission,setExpenceDeletePermission]=useState("")
+  const [expenceEditPermission,setExpenceEditPermission]=useState("")
+
+
+
+
+  useEffect(() => {
+    setExpenceRolePermission(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+
+  useEffect(() => {
+    console.log("===expencerolePermission[0]", expencerolePermission);
+    if (
+      expencerolePermission[0]?.is_owner == 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_view == 1
+    ) {
+      setExpencePermissionError("");
+    } else {
+      setExpencePermissionError("Permission Denied");
+    }
+  }, [expencerolePermission]);
+
+
+
+  useEffect(() => {
+    console.log("===expencerolePermission[0]", expencerolePermission);
+    if (
+      expencerolePermission[0]?.is_owner == 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_create == 1
+    ) {
+      setExpenceAddPermission("");
+    } else {
+      setExpenceAddPermission("Permission Denied");
+    }
+  }, [expencerolePermission]);
+
+
+  useEffect(() => {
+    console.log("===expencerolePermission[0]", expencerolePermission);
+    if (
+      expencerolePermission[0]?.is_owner == 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_delete == 1
+    ) {
+      setExpenceDeletePermission("");
+    } else {
+      setExpenceDeletePermission("Permission Denied");
+    }
+  }, [expencerolePermission]);
+  useEffect(() => {
+    console.log("===expencerolePermission[0]", expencerolePermission);
+    if (
+      expencerolePermission[0]?.is_owner == 1 ||
+      expencerolePermission[0]?.role_permissions[14]?.per_edit == 1
+    ) {
+      setExpenceEditPermission("");
+    } else {
+      setExpenceEditPermission("Permission Denied");
+    }
+  }, [expencerolePermission]);
 
 
 
@@ -277,7 +342,44 @@ console.log("uniqueExpences",uniqueExpences);
 
 
     return (
-        <div>
+
+        <>
+        {
+            expencepermissionError ? (
+                <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    //   height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={EmptyState}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+
+    {/* Permission Error */}
+    {expencepermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{expencepermissionError}</span>
+      </div>
+    )}
+  </div>
+            ):
+            <div>
             <div className='d-flex flex-column flex-sm-column flex-md-row  flex-lg-row'>
                 <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -374,7 +476,7 @@ console.log("uniqueExpences",uniqueExpences);
             <div style={{ marginTop: '20px', fontSize: 14, fontWeight: 600 }}>
                 <Button
                     style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200 }}
-                    onClick={addType}
+                  disabled={expenceAddPermission}  onClick={addType}
                 >
                     + Add category
                 </Button>
@@ -489,6 +591,9 @@ console.log("uniqueExpences",uniqueExpences);
   </Modal.Footer>
 </Modal>
         </div>
+        }
+        
+        </>
     );
 };
 

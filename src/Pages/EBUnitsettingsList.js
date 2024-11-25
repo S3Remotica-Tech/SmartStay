@@ -50,15 +50,49 @@ const EBBillingUnitlist = (props) => {
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                         {showDots && <>
-                            <div style={{ backgroundColor: "#FFFFFF", position: "absolute", right: 45, top: 3, width: 100, height: 42, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", paddingLeft: '10px' }}>
-
-                                <div onClick={() => handleEditEbUnit(props.item)}>
-                                    <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "#222222" }} >Edit</label>
-
-                                </div>
-
-
-                            </div>
+                            <div
+  style={{
+    backgroundColor: props.ebEditPermission ? "#F1F1F1" : "#FFFFFF",
+    position: "absolute",
+    right: 45,
+    top: 3,
+    width: 100,
+    height: 42,
+    border: "1px solid #EBEBEB",
+    borderRadius: 10,
+    display: "flex",
+    justifyContent: "start",
+    paddingLeft: "10px",
+    cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+  }}
+  onClick={() => {
+    if (!props.ebEditPermission) {
+      handleEditEbUnit(props.item);
+    }
+  }}
+>
+  <div>
+    <img
+      src={Edit}
+      style={{
+        height: 16,
+        width: 16,
+        filter: props.ebEditPermission ? "grayscale(100%)" : "none", 
+      }}
+    />
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        color: props.ebEditPermission ? "#A9A9A9" : "#222222", 
+        cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+      }}
+    >
+      Edit
+    </label>
+  </div>
+</div>
 
 
                         </>}

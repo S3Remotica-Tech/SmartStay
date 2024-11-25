@@ -38,6 +38,7 @@ import Modal from 'react-bootstrap/Modal';
 import UserSettings from './UserSettings';
 import { MdError } from "react-icons/md";
 import RolePage from './SettingRole';  
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 
 function Settings() {
@@ -57,7 +58,81 @@ function Settings() {
   const [updateval, setUpdateval] = useState("")
   const [login_Password, setLogin_Password] = useState("")
   const [unitError, setunitError] = useState("")
+  const [ebrolePermission, setEbRolePermission] = useState("");
 
+  const [ebpermissionError, setEbPermissionError] = useState("");
+  const [ebAddPermission,setEbAddPermission]= useState("")
+  const [ebDeletePermission,setEbDeletePermission]=useState("")
+  const [ebEditPermission,setEbEditPermission]=useState("")
+
+  const [settingRole,setSettingRole]=useState("")
+
+
+
+
+  useEffect(() => {
+    setEbRolePermission(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+  useEffect(() => {
+    console.log("===ebrolePermission[0]", ebrolePermission);
+    if (
+      ebrolePermission[0]?.is_owner == 1) {
+        setSettingRole("");
+    } else {
+      setSettingRole("Permission Denied");
+    }
+  }, [ebrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===ebrolePermission[0]", ebrolePermission);
+    if (
+      ebrolePermission[0]?.is_owner == 1 ||
+      ebrolePermission[0]?.role_permissions[12]?.per_view == 1
+    ) {
+      setEbPermissionError("");
+    } else {
+      setEbPermissionError("Permission Denied");
+    }
+  }, [ebrolePermission]);
+
+
+
+  useEffect(() => {
+    console.log("===ebrolePermission[0]", ebrolePermission);
+    if (
+      ebrolePermission[0]?.is_owner == 1 ||
+      ebrolePermission[0]?.role_permissions[12]?.per_create == 1
+    ) {
+      setEbAddPermission("");
+    } else {
+      setEbAddPermission("Permission Denied");
+    }
+  }, [ebrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===ebrolePermission[0]", ebrolePermission);
+    if (
+      ebrolePermission[0]?.is_owner == 1 ||
+      ebrolePermission[0]?.role_permissions[12]?.per_delete == 1
+    ) {
+      setEbDeletePermission("");
+    } else {
+      setEbDeletePermission("Permission Denied");
+    }
+  }, [ebrolePermission]);
+  useEffect(() => {
+    console.log("===ebrolePermission[0]", ebrolePermission);
+    if (
+      ebrolePermission[0]?.is_owner == 1 ||
+      ebrolePermission[0]?.role_permissions[12]?.per_edit == 1
+    ) {
+      setEbEditPermission("");
+    } else {
+      setEbEditPermission("Permission Denied");
+    }
+  }, [ebrolePermission]);
 
 
   console.log("filterall",state.UsersList.hostelList);
@@ -568,8 +643,10 @@ if(!amount){
               <Tab label="Expences" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "3" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Complaint type" value="4" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "4" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
               <Tab label="Amenities" value="5" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "5" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Users" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "6" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
-              <Tab label="Roles" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "6" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+              {!settingRole && ( <Tab label="Users" value="6" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "6" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />)}
+              {/* <Tab label="Roles" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "6" ? "#222222" : "#4B4B4B", lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} /> */}
+              {!settingRole && (
+  <Tab label="Roles" value="7" style={{ fontSize: 16, fontFamily: "Gilroy", color: value === "7" ? "#222222" : "#4B4B4B", lineHeight: "normal", fontStyle: "normal", fontWeight: 500, textTransform: "none" }} />)}
 
             </TabList>
           </Box>
@@ -629,7 +706,45 @@ if(!amount){
 
 
         <TabPanel value="1">
-          <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
+          <>
+          {
+            ebpermissionError ? (
+              <>
+              <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      // height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={EmptyState}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+
+    {/* Permission Error */}
+    {ebpermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{ebpermissionError}</span>
+      </div>
+    )}
+  </div>
+              </>
+            ):
+            <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
             <div className='col-lg-4 col-md-5 col-sm-12 col-xs-12'>
               <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -721,7 +836,7 @@ if(!amount){
   </div>
 )}
                 <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                  <Button className='col-lg-11 col-md-12 col-sm-12 col-xs-12' onClick={handlesaveEbbill} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12 }}>
+                  <Button  className='col-lg-11 col-md-12 col-sm-12 col-xs-12' disabled={ebAddPermission} onClick={handlesaveEbbill} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12 }}>
                     Save Changes</Button>
                 </div>
 
@@ -748,7 +863,7 @@ if(!amount){
                 <tbody style={{ height: "50px", fontSize: "11px" }}>
 
                   {state.Settings.EBBillingUnitlist.eb_settings && state.Settings.EBBillingUnitlist.eb_settings.length > 0 && state.Settings.EBBillingUnitlist.eb_settings.map((item) => (
-                    <EBBillingUnitlist item={item} modalEditEbunit={handleEdit} />
+                    <EBBillingUnitlist item={item} modalEditEbunit={handleEdit} ebEditPermission={ebEditPermission}/>
 
 
                   ))}
@@ -984,6 +1099,9 @@ if(!amount){
               </div>
             }
           </div>
+          }
+          </>
+          
         </TabPanel>
         <TabPanel value="2"><InvoiceSettings /> </TabPanel>
         <TabPanel value="3"><ExpencesSettings /> </TabPanel>

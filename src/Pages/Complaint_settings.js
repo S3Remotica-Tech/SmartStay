@@ -6,6 +6,7 @@ import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
 import Swal from 'sweetalert2';
 import { MdError } from "react-icons/md"; 
 import Modal from 'react-bootstrap/Modal';
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 
 
@@ -18,8 +19,67 @@ import Modal from 'react-bootstrap/Modal';
 
     const [type, setType] = useState('');
     const [typeerrmsg, setTypeErrmsg] = useState('')
-
     const [types, setTypes] = useState([]);
+    const [compliancerolePermission, setComplianceRolePermission] = useState("");
+
+  const [compliancepermissionError, setCompliancePermissionError] = useState("");
+  const [complianceAddPermission,setComplianceAddPermission]= useState("")
+  const [complianceDeletePermission,setComplianceDeletePermission]=useState("")
+  const [complianceEditPermission,setComplianceEditPermission]=useState("")
+
+  useEffect(() => {
+    setComplianceRolePermission(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+
+  useEffect(() => {
+    console.log("===compliancerolePermission[0]", compliancerolePermission);
+    if (
+      compliancerolePermission[0]?.is_owner == 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_view == 1
+    ) {
+      setCompliancePermissionError("");
+    } else {
+      setCompliancePermissionError("Permission Denied");
+    }
+  }, [compliancerolePermission]);
+
+
+
+  useEffect(() => {
+    console.log("===compliancerolePermission[0]", compliancerolePermission);
+    if (
+      compliancerolePermission[0]?.is_owner == 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_create == 1
+    ) {
+      setComplianceAddPermission("");
+    } else {
+      setComplianceAddPermission("Permission Denied");
+    }
+  }, [compliancerolePermission]);
+
+
+  useEffect(() => {
+    console.log("===compliancerolePermission[0]", compliancerolePermission);
+    if (
+      compliancerolePermission[0]?.is_owner == 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_delete == 1
+    ) {
+      setComplianceDeletePermission("");
+    } else {
+      setComplianceDeletePermission("Permission Denied");
+    }
+  }, [compliancerolePermission]);
+  useEffect(() => {
+    console.log("===compliancerolePermission[0]", compliancerolePermission);
+    if (
+      compliancerolePermission[0]?.is_owner == 1 ||
+      compliancerolePermission[0]?.role_permissions[13]?.per_edit == 1
+    ) {
+      setComplianceEditPermission("");
+    } else {
+      setComplianceEditPermission("Permission Denied");
+    }
+  }, [compliancerolePermission]);
 
 
   const handleType = (e) => {
@@ -129,7 +189,46 @@ import Modal from 'react-bootstrap/Modal';
   }, [state.Settings.getcomplainttypeStatuscode])
 
   return (
-    <div>
+    <>
+    {
+      compliancepermissionError ? (
+        <>
+        <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      // height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={EmptyState}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+
+    {/* Permission Error */}
+    {compliancepermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{compliancepermissionError}</span>
+      </div>
+    )}
+  </div>
+        </>
+
+      ):
+      <div>
       <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Complaint type</Form.Label>
@@ -162,6 +261,7 @@ import Modal from 'react-bootstrap/Modal';
       <div style={{ marginTop: '30px' }}>
         <Button
           style={{ fontSize: 16, fontFamily: 'Montserrat', backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 500, borderRadius: 12, width: 200 }}
+          disabled={complianceAddPermission}
           onClick={addType}
         >
           + Add type
@@ -257,6 +357,10 @@ import Modal from 'react-bootstrap/Modal';
 
       </div>
     </div>
+
+    }
+  
+    </>
   );
 };
 

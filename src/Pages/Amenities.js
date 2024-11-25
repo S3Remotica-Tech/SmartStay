@@ -15,6 +15,7 @@ import "./Amenities.css";
 import dottt from "../Assets/Images/Group 14.png"
 import Swal from 'sweetalert2';
 import { MdError } from "react-icons/md"; 
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 function Amenities() {
 
@@ -52,6 +53,68 @@ function Amenities() {
   const [amenityerrormsg, setAmenityErrmsg] = useState('');
   const [amounterrormsg, setAmountErrmsg] = useState('');
   const [totalErrormsg ,setTotalErrmsg]= useState('')
+
+  const [amenitiesrolePermission, setAmenitiesRolePermission] = useState("");
+
+  const [amenitiespermissionError, setAmenitiesPermissionError] = useState("");
+  const [amenitiesAddPermission,setAmenitiesAddPermission]= useState("")
+  const [amenitiesDeletePermission,setAmenitiesDeletePermission]=useState("")
+  const [amenitiesEditPermission,setAmenitiesEditPermission]=useState("")
+
+
+  useEffect(() => {
+    setAmenitiesRolePermission(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+
+  useEffect(() => {
+    console.log("===amenitiesrolePermission[0]", amenitiesrolePermission);
+    if (
+      amenitiesrolePermission[0]?.is_owner == 1 ||
+      amenitiesrolePermission[0]?.role_permissions[18]?.per_view == 1
+    ) {
+      setAmenitiesPermissionError("");
+    } else {
+      setAmenitiesPermissionError("Permission Denied");
+    }
+  }, [amenitiesrolePermission]);
+
+
+
+  useEffect(() => {
+    console.log("===amenitiesrolePermission[0]", amenitiesrolePermission);
+    if (
+      amenitiesrolePermission[0]?.is_owner == 1 ||
+      amenitiesrolePermission[0]?.role_permissions[18]?.per_create == 1
+    ) {
+      setAmenitiesAddPermission("");
+    } else {
+      setAmenitiesAddPermission("Permission Denied");
+    }
+  }, [amenitiesrolePermission]);
+
+
+  useEffect(() => {
+    console.log("===amenitiesrolePermission[0]", amenitiesrolePermission);
+    if (
+      amenitiesrolePermission[0]?.is_owner == 1 ||
+      amenitiesrolePermission[0]?.role_permissions[18]?.per_delete == 1
+    ) {
+      setAmenitiesDeletePermission("");
+    } else {
+      setAmenitiesDeletePermission("Permission Denied");
+    }
+  }, [amenitiesrolePermission]);
+  useEffect(() => {
+    console.log("===amenitiesrolePermission[0]", amenitiesrolePermission);
+    if (
+      amenitiesrolePermission[0]?.is_owner == 1 ||
+      amenitiesrolePermission[0]?.role_permissions[18]?.per_edit == 1
+    ) {
+      setAmenitiesEditPermission("");
+    } else {
+      setAmenitiesEditPermission("Permission Denied");
+    }
+  }, [amenitiesrolePermission]);
 
   const handleHostelChange = (e) => {
     const selectedIndex = e.target.selectedIndex;
@@ -365,256 +428,294 @@ function Amenities() {
   return (
 
     <>
+{
+  amenitiespermissionError ? (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      // height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={EmptyState}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
 
-      <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
-        <div className='col-lg-4 col-md-5 col-sm-12 col-xs-12'>
-          <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>
-                Select Hostel
-              </Form.Label>
-              <Form.Select aria-label="Default select example"
-                className='border' value={selectedhostel} onChange={(e) => handleHostelClick(e)} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
-
-                <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
-                {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
-                  <>
-                    <option key={item.id} value={item.id} >{item.Name}</option></>
-                ))}
-
-              </Form.Select>
-              {hostelerrormsg.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {hostelerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {hostelerrormsg}
-    </p>
-  </div>
-)}
-            </Form.Group>
-
-          </div>
-          <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12' style={{ border: '1px solid #ced4da', padding: '30px', borderRadius: '20px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-
-              <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}
-                  >
-                    Amenity
-                  </Form.Label>
-                  <Form.Control
-                    style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
-                    type="text"
-                    placeholder="Enter amenity"
-                    value={amenitiesName}
-                    onChange={handleAmenitiesChange}
-
-                  />
-                            {amenityerrormsg.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {amenityerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amenityerrormsg}
-    </p>
-  </div>
-)}
-                </Form.Group>
-              </div>
-
-              <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}
-                  >
-                    Set Amount
-                  </Form.Label>
-                  <Form.Control
-                    style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
-                    type="text"
-                    placeholder="Enter Amount"
-                    value={amount}
-                    onChange={(e) => handleAmountChange(e)}
-
-                  />
-                            {amounterrormsg.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amounterrormsg}
-    </p>
-  </div>
-)}
-                </Form.Group>
-              </div>
-
-              <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
-                <div className='d-flex justify-content-between  ps-2 pe-2 '>
-                  <label className='mb-3 ' style={{ fontSize: 14, fontWeight: 600 }} >Set as Default</label>
-                  <Form.Check type="switch" id="custom-switch" checked={active} onChange={(e) => handleSetAsDefault(e)} />
-                </div>
-              </div>
-
-            </div>
-            {totalErrormsg.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
-    </p>
-  </div>
-)}
-            <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-              <Button className='col-lg-11 col-md-12 col-sm-12 col-xs-12' onClick={handleAmenitiesSetting} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12 }}>
-                Save Changes</Button>
-            </div>
-
-          </div>
-        </div>
-
-        <hr style={{ border: '1px solid #ced4da', transform: 'rotate(180deg)' }} />
-
-        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0">
-          <Table className="ebtable mt-3" responsive  >
-            <thead style={{ backgroundColor: "#E7F1FF" }}>
-              <tr>
-              <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
-                <th className='ps-1 ps-lg-2' style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
-                <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amenity</th>
-                <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amount </th>
-                <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Status</th>
-                <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
-
-              </tr>
-            </thead>
-            <tbody style={{ height: "50px", fontSize: "11px" }}>
-
-              {state.InvoiceList.AmenitiesList.length > 0 && state.InvoiceList.AmenitiesList.map((item) => (
-                <AmenitiesView item={item} modalEditAmenities={handleEdit} />
-              )
-              )}
-              {currentRows.length === 0 && (
-                <tr>
-                  <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
-                </tr>
-              )}
-
-
-            </tbody>
-          </Table>
-
-
-
-          {currentRows.length > 0 && (
-            <nav>
-              <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
-                <li style={{ margin: '0 5px' }}>
-                  <button
-                    style={{
-                      padding: '5px 10px',
-                      textDecoration: 'none',
-                      color: currentPage === 1 ? '#ccc' : '#007bff',
-                      cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                      borderRadius: '5px',
-                      display: 'inline-block',
-                      minWidth: '30px',
-                      textAlign: 'center',
-                      backgroundColor: 'transparent',
-                      border: "none"
-                    }}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
-                    <ArrowLeft2 size="16" color="#1E45E1" />
-                  </button>
-                  {/* <span
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  style={{
-                    marginTop: '20px',
-                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                    color: currentPage === 1 ? '#ccc' : '#007bff'
-                  }}
-                >
-                  Previous
-                </span> */}
-                </li>
-                {currentPage > 3 && (
-                  <li style={{ margin: '0 5px' }}>
-                    <button
-                      style={{
-                        padding: '5px 10px',
-                        textDecoration: 'none',
-                        color: 'white',
-                        cursor: 'pointer',
-                        borderRadius: '5px',
-                        display: 'inline-block',
-                        minWidth: '30px',
-                        textAlign: 'center',
-                        backgroundColor: 'transparent',
-                        border: "none"
-                      }}
-                      onClick={() => handlePageChange(1)}
-                    >
-                      1
-                    </button>
-                  </li>
-                )}
-                {currentPage > 3 && <span>...</span>}
-                {renderPageNumbers()}
-                {currentPage < totalPages - 2 && <span>...</span>}
-                {currentPage < totalPages - 2 && (
-                  <li style={{ margin: '0 5px' }}>
-                    <button
-                      style={{
-                        padding: '5px 10px',
-                        textDecoration: 'none',
-                        cursor: 'pointer',
-                        borderRadius: '5px',
-                        display: 'inline-block',
-                        minWidth: '30px',
-                        textAlign: 'center',
-                        backgroundColor: 'transparent',
-                        border: "none"
-                      }}
-                      onClick={() => handlePageChange(totalPages)}
-                    >
-                      {totalPages}
-                    </button>
-                  </li>
-                )}
-                <li style={{ margin: '0 5px' }}>
-                  {/* <span
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  style={{
-                    marginTop: '20px',
-                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                    color: currentPage === totalPages ? '#ccc' : '#007bff'
-                  }}
-                >
-                  Next
-                </span> */}
-                  <button
-                    style={{
-                      padding: '5px 10px',
-                      textDecoration: 'none',
-                      color: currentPage === totalPages ? '#ccc' : '#007bff',
-                      cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                      borderRadius: '5px',
-                      display: 'inline-block',
-                      minWidth: '30px',
-                      textAlign: 'center',
-                      backgroundColor: 'transparent',
-                      border: "none"
-                    }}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
-                    {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
-                    <ArrowRight2 size="16" color="#1E45E1" />
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
-
-        </div>
+    {/* Permission Error */}
+    {amenitiespermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{amenitiespermissionError}</span>
       </div>
+    )}
+  </div>
+  ):
+  <div className="d-flex flex-column flex-sm-column flex-md-row  flex-lg-row col-lg-12">
+  <div className='col-lg-4 col-md-5 col-sm-12 col-xs-12'>
+    <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12'>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>
+          Select Hostel
+        </Form.Label>
+        <Form.Select aria-label="Default select example"
+          className='border' value={selectedhostel} onChange={(e) => handleHostelClick(e)} style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 65, borderRadius: 8 }}>
+
+          <option style={{ fontSize: 14, fontWeight: 600, }} >Select PG</option>
+          {state.UsersList.hostelList && state.UsersList.hostelList.map((item) => (
+            <>
+              <option key={item.id} value={item.id} >{item.Name}</option></>
+          ))}
+
+        </Form.Select>
+        {hostelerrormsg.trim() !== "" && (
+        <div>
+   <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+{hostelerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {hostelerrormsg}
+</p>
+</div>
+)}
+      </Form.Group>
+
+    </div>
+    <div className='col-lg-11 col-md-11 col-sm-12 col-xs-12' style={{ border: '1px solid #ced4da', padding: '30px', borderRadius: '20px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+        <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}
+            >
+              Amenity
+            </Form.Label>
+            <Form.Control
+              style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+              type="text"
+              placeholder="Enter amenity"
+              value={amenitiesName}
+              onChange={handleAmenitiesChange}
+
+            />
+                      {amenityerrormsg.trim() !== "" && (
+        <div>
+   <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+{amenityerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amenityerrormsg}
+</p>
+</div>
+)}
+          </Form.Group>
+        </div>
+
+        <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+            <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}
+            >
+              Set Amount
+            </Form.Label>
+            <Form.Control
+              style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+              type="text"
+              placeholder="Enter Amount"
+              value={amount}
+              onChange={(e) => handleAmountChange(e)}
+
+            />
+                      {amounterrormsg.trim() !== "" && (
+        <div>
+   <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+{amounterrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {amounterrormsg}
+</p>
+</div>
+)}
+          </Form.Group>
+        </div>
+
+        <div className='col-lg-11 col-md-12 col-sm-12 col-xs-12'>
+          <div className='d-flex justify-content-between  ps-2 pe-2 '>
+            <label className='mb-3 ' style={{ fontSize: 14, fontWeight: 600 }} >Set as Default</label>
+            <Form.Check type="switch" id="custom-switch" checked={active} onChange={(e) => handleSetAsDefault(e)} />
+          </div>
+        </div>
+
+      </div>
+      {totalErrormsg.trim() !== "" && (
+        <div>
+   <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+{totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+</p>
+</div>
+)}
+      <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+        <Button className='col-lg-11 col-md-12 col-sm-12 col-xs-12' disabled={amenitiesAddPermission} onClick={handleAmenitiesSetting} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12 }}>
+          Save Changes</Button>
+      </div>
+
+    </div>
+  </div>
+
+  <hr style={{ border: '1px solid #ced4da', transform: 'rotate(180deg)' }} />
+
+  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ms-lg-5 ms-sm-0 ms-0">
+    <Table className="ebtable mt-3" responsive  >
+      <thead style={{ backgroundColor: "#E7F1FF" }}>
+        <tr>
+        <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
+          <th className='ps-1 ps-lg-2' style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Paying guest</th>
+          <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amenity</th>
+          <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Amount </th>
+          <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Status</th>
+          <th style={{ color: '#222', fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
+
+        </tr>
+      </thead>
+      <tbody style={{ height: "50px", fontSize: "11px" }}>
+
+        {state.InvoiceList.AmenitiesList.length > 0 && state.InvoiceList.AmenitiesList.map((item) => (
+          <AmenitiesView item={item} modalEditAmenities={handleEdit}  amenitiesEditPermission={amenitiesEditPermission}/>
+        )
+        )}
+        {currentRows.length === 0 && (
+          <tr>
+            <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
+          </tr>
+        )}
+
+
+      </tbody>
+    </Table>
+
+
+
+    {currentRows.length > 0 && (
+      <nav>
+        <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
+          <li style={{ margin: '0 5px' }}>
+            <button
+              style={{
+                padding: '5px 10px',
+                textDecoration: 'none',
+                color: currentPage === 1 ? '#ccc' : '#007bff',
+                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                borderRadius: '5px',
+                display: 'inline-block',
+                minWidth: '30px',
+                textAlign: 'center',
+                backgroundColor: 'transparent',
+                border: "none"
+              }}
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              {/* <img src={leftArrow} width="10" height="10" alt="Previous" /> */}
+              <ArrowLeft2 size="16" color="#1E45E1" />
+            </button>
+            {/* <span
+            onClick={() => handlePageChange(currentPage - 1)}
+            style={{
+              marginTop: '20px',
+              cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+              color: currentPage === 1 ? '#ccc' : '#007bff'
+            }}
+          >
+            Previous
+          </span> */}
+          </li>
+          {currentPage > 3 && (
+            <li style={{ margin: '0 5px' }}>
+              <button
+                style={{
+                  padding: '5px 10px',
+                  textDecoration: 'none',
+                  color: 'white',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                  display: 'inline-block',
+                  minWidth: '30px',
+                  textAlign: 'center',
+                  backgroundColor: 'transparent',
+                  border: "none"
+                }}
+                onClick={() => handlePageChange(1)}
+              >
+                1
+              </button>
+            </li>
+          )}
+          {currentPage > 3 && <span>...</span>}
+          {renderPageNumbers()}
+          {currentPage < totalPages - 2 && <span>...</span>}
+          {currentPage < totalPages - 2 && (
+            <li style={{ margin: '0 5px' }}>
+              <button
+                style={{
+                  padding: '5px 10px',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                  display: 'inline-block',
+                  minWidth: '30px',
+                  textAlign: 'center',
+                  backgroundColor: 'transparent',
+                  border: "none"
+                }}
+                onClick={() => handlePageChange(totalPages)}
+              >
+                {totalPages}
+              </button>
+            </li>
+          )}
+          <li style={{ margin: '0 5px' }}>
+            {/* <span
+            onClick={() => handlePageChange(currentPage + 1)}
+            style={{
+              marginTop: '20px',
+              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+              color: currentPage === totalPages ? '#ccc' : '#007bff'
+            }}
+          >
+            Next
+          </span> */}
+            <button
+              style={{
+                padding: '5px 10px',
+                textDecoration: 'none',
+                color: currentPage === totalPages ? '#ccc' : '#007bff',
+                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                borderRadius: '5px',
+                display: 'inline-block',
+                minWidth: '30px',
+                textAlign: 'center',
+                backgroundColor: 'transparent',
+                border: "none"
+              }}
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              {/* <img src={rightarrow} width="10" height="10" alt="Next" /> */}
+              <ArrowRight2 size="16" color="#1E45E1" />
+            </button>
+          </li>
+        </ul>
+      </nav>
+    )}
+
+  </div>
+</div>
+
+}
+
+     
 
 
       {show &&

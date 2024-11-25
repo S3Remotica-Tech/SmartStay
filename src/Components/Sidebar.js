@@ -72,8 +72,26 @@ function Sidebar() {
   const [manageOpen, setManageOpen] = useState(false)
   console.log("state for side bar", stateData)
 
+   const [profilerolePermission, setProfileRolePermission] = useState("");
+
+  const [profilepermissionError, setProfilePermissionError] = useState("");
 
 
+  useEffect(() => {
+    setProfileRolePermission(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+
+  useEffect(() => {
+    console.log("===profilerolePermission[0]", profilerolePermission);
+    if (
+      profilerolePermission[0]?.is_owner == 1 ||
+      profilerolePermission[0]?.role_permissions[17]?.per_view == 1
+    ) {
+      setProfilePermissionError("");
+    } else {
+      setProfilePermissionError("Permission Denied");
+    }
+  }, [profilerolePermission]);
 
   let LoginId = localStorage.getItem("loginId")
   let checkedValue = localStorage.getItem("checked")
@@ -466,21 +484,96 @@ function Sidebar() {
 
 
             </div>
-            <ul className="p-0" style={{ position: "absolute", bottom: 0, left: 10, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            {/* <ul className="p-0" style={{ position: "absolute", bottom: 0, left: 10, display: "flex", flexDirection: "column", alignItems: "center" }}>
               <li className={` align-items-center list-Items ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageClick('profile')} style={{ listStyleType: "none", display: "flex", width: 200 }}>
-                {/* <img src={currentPage === 'settings' ? Sett2 : Sett} style={{ fontSize: '13px' }} /> */}
                 <div className="mr-3" style={{ cursor: "pointer" }}>
                   <Image
                     src={(profiles == 'null' || profiles == null) || (profiles == undefined || profiles == 'undefined' || profiles == '' || (profiles == 0 || profiles == "0")) ? Profileimage : profiles} alt='profile-image'
                     roundedCircle style={{ height: "40px", width: "40px" }} onClick={() => handlePageClick('profile')} />
                 </div>
+
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <span className="ms-3 Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy", textTransform: "capitalize" }}>{profilename}</span>
                   <span className="ms-3 Title" style={{ fontSize: 12, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy", color: 'blue' }}>Admin</span>
                 </div>
 
               </li>
-            </ul>
+            </ul> */}
+            {!profilepermissionError && (
+  <ul
+    className="p-0"
+    style={{
+      position: "absolute",
+      bottom: 0,
+      left: 10,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    }}
+  >
+    <li
+      className={`align-items-center list-Items ${
+        currentPage === "profile" ? "active" : ""
+      }`}
+      onClick={() => handlePageClick("profile")}
+      style={{
+        listStyleType: "none",
+        display: "flex",
+        width: 200,
+        cursor: profilepermissionError ? "not-allowed" : "pointer",
+        opacity: profilepermissionError ? 0.5 : 1,
+        pointerEvents: profilepermissionError ? "none" : "auto",
+      }}
+    >
+      <div className="mr-3">
+        <Image
+          src={
+            profiles == "null" ||
+            profiles == null ||
+            profiles == undefined ||
+            profiles == "undefined" ||
+            profiles == "" ||
+            profiles == 0 ||
+            profiles == "0"
+              ? Profileimage
+              : profiles
+          }
+          alt="profile-image"
+          roundedCircle
+          style={{ height: "40px", width: "40px" }}
+        />
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <span
+          className="ms-3 Title"
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            display: "inline-block",
+            fontFamily: "Gilroy",
+            textTransform: "capitalize",
+          }}
+        >
+          {profilename}
+        </span>
+        <span
+          className="ms-3 Title"
+          style={{
+            fontSize: 12,
+            fontWeight: 600,
+            display: "inline-block",
+            fontFamily: "Gilroy",
+            color: "blue",
+          }}
+        >
+          Admin
+        </span>
+      </div>
+    </li>
+  </ul>
+)}
+
           </Col>
           <Col className="bg-white main-content" lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} 
           style={{ 
