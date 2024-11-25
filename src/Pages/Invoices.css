@@ -178,3 +178,11 @@ line-height: normal;
       overflow-y: hidden;
   }
 }
+.totalamount{
+margin-left: 200px;
+}
+@media only screen and (max-width: 900px) and (min-width: 300px) {
+  .totalamount{
+    margin-left:0px;
+    }
+}

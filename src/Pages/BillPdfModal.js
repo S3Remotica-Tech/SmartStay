@@ -225,7 +225,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     </tr>
   </thead>
   <tbody>
-    {/* Render rows dynamically */}
+   
     {rowData.amenity?.map((item, index) => (
       <tr key={index}>
         <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
@@ -236,13 +236,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         </td>
       </tr>
     ))}
-    {/* Divider row */}
+  
     <tr>
       <td colSpan="2">
         <hr />
       </td>
     </tr>
-    {/* Subtotal row */}
+   
     <tr>
       <td style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
         Subtotal:
@@ -251,7 +251,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         ₹{rowData.Amount}
       </td>
     </tr>
-    {/* Tax row */}
+  
     <tr>
       <td style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
         Tax (0%):
@@ -260,13 +260,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         ₹0.00
       </td>
     </tr>
-    {/* Divider row */}
+   
     <tr>
       <td colSpan="2">
         <hr />
       </td>
     </tr>
-    {/* Total row */}
+   
     <tr>
       <td style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
         Total:

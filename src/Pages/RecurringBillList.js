@@ -3,12 +3,25 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import User from '../Assets/Images/New_images/profile-picture.png';
 import Edit from '../Assets/Images/Edit-Linear-32px.png';
 import Delete from '../Assets/Images/Trash-Linear-32px.png';
+import Modal from "react-bootstrap/Modal";
+import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
 
 
     const RecurringBillList = (props) => {
         
         const [recurringBillDeletePermission,setRecurringBillDeletePermission]=useState("")
         const [recurringBillEditPermission,setRecurringBillEditPermission]=useState("")
+        const [deleteShow,setDeleteShow]=useState(false)
+
+
+    const handleDeleteForm =()=>{
+      setDeleteShow(true)
+    }
+
+   const handleCloseDelete=()=>{
+     setDeleteShow(false)
+   }
+       
 
     useEffect(() => {
             console.log("===billrolePermission[0]", props.billrolePermission);
@@ -42,8 +55,11 @@ import Delete from '../Assets/Images/Trash-Linear-32px.png';
 
 
         const handleDelete = () => {
+          
             props.handleDeleteRecurringbills(props.item); 
+
           }
+
 
         const handleShowform = (props) => {
             props.OnHandleshowform(props)
@@ -190,7 +206,7 @@ import Delete from '../Assets/Images/Trash-Linear-32px.png';
   }}
   onClick={() => {
     if (!recurringBillDeletePermission) {
-      handleDelete();
+      handleDeleteForm();
     }
   }}
 >
@@ -240,6 +256,91 @@ import Delete from '../Assets/Images/Trash-Linear-32px.png';
                 
 
             </tr>
+
+            <Modal
+        show={deleteShow}
+        onHide={handleCloseDelete}
+        centered
+        backdrop="static"
+        style={{
+          width: 388,
+          height: 250,
+          marginLeft: "500px",
+          marginTop: "200px",
+        }}
+      >
+        <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Title
+            style={{
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              textAlign: "center",
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
+            }}
+          >
+            Delete Recurring Bill?
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-20px",
+          }}
+        >
+          Are you sure you want to delete this Recurring Bill?
+        </Modal.Body>
+
+        <Modal.Footer
+          style={{
+            justifyContent: "center",
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
+            }}
+            onClick={handleCloseDelete}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={handleDelete}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+       
     </>
 )
 }

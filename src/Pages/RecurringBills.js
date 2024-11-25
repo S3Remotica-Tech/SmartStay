@@ -1,5 +1,6 @@
 import React , {useState ,useEffect, useRef} from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import "./Invoices.css";
 import { Container, Row, Col } from 'react-bootstrap';
 import { Modal, Button ,FormControl} from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
@@ -61,6 +62,7 @@ const RecurringBills = (props) => {
     
       const [invoicetotalamounts,setInvoiceTotalAmount] = useState([])
       const [billamounts, setBillAmounts] = useState([])
+      const [deleteShow,setDeleteShow] = useState(false)
       console.log("billamounts",billamounts);
       console.log("invoicetotalamounts",invoicetotalamounts);
     
@@ -91,9 +93,9 @@ const RecurringBills = (props) => {
     const handleAddColumn = () => {
       const newRow = {
         description: '',
-        used_unit: '',
-        per_unit_amount: '',
-        total_amount: '',
+        // used_unit: '',
+        // per_unit_amount: '',
+        // total_amount: '',
         amount: ''
       };
       setNewRows([...newRows, newRow]);
@@ -343,6 +345,19 @@ const RecurringBills = (props) => {
                   const [amenityArray,setamenityArray] = useState([])
                   console.log("amenityArray",amenityArray);
 
+                  const handleNewRowChange = (index, field, value) => {
+                    const updatedRows = [...newRows];
+                    updatedRows[index][field] = value;
+                     setNewRows(updatedRows);
+                    };
+         
+         
+                const handleDeleteNewRow = (index) => {
+                      const updatedRows = newRows.filter((_, i) => i !== index);
+                      setNewRows(updatedRows);
+                     };
+         
+
            useEffect(()=> {
     
               if(billamounts && billamounts.length > 0){
@@ -367,7 +382,7 @@ const RecurringBills = (props) => {
       
     
                 const allRows = newRows.map(detail => ({
-                  am_name: detail.am_name, 
+                  am_name: detail.description, 
                   amount: Number(detail.amount)
                 })).filter(detail => detail.am_name && detail.amount); 
                 console.log("allRows", allRows);
@@ -394,21 +409,10 @@ const RecurringBills = (props) => {
     
                       }
     
-        },[billamounts])
+        },[billamounts,newRows])
     
     
-           const handleNewRowChange = (index, field, value) => {
-               const updatedRows = [...newRows];
-               updatedRows[index][field] = value;
-                setNewRows(updatedRows);
-               };
-    
-    
-           const handleDeleteNewRow = (index) => {
-                 const updatedRows = newRows.filter((_, i) => i !== index);
-                 setNewRows(updatedRows);
-                };
-    
+          
     
     
     
@@ -785,7 +789,7 @@ const RecurringBills = (props) => {
 
 
 
-            <div className='col-lg-3 col-md-4 col-sm-12 col-xs-12'>
+            <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
       <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
         <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Invoice Number</Form.Label>
         <Form.Control
@@ -808,208 +812,72 @@ const RecurringBills = (props) => {
     
 
 
-<div style={{display:'flex',flexDirection:'row'}}>
-    {/* <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
-                  <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Invoice Date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
+{/* <div style={{display:'flex',flexDirection:'row'}}> */}
+<div className="row mb-3">
+  {/* Invoice Date */}
+  <div className="col-lg-3 col-md-5 col-sm-12 mb-3 me-4">
+    <Form.Group controlId="invoiceDate">
+      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+        Invoice Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+      </Form.Label>
+      <div style={{ position: 'relative', width: "100%" }}>
+        <DatePicker
+          selected={invoicedate}
+          onChange={(date) => handleInvoiceDate(date)}
+          dateFormat="dd/MM/yyyy"
+          customInput={customDateInputInvoiceDate({
+            value: invoicedate ? invoicedate.toLocaleDateString('en-GB') : '',
+          })}
+        />
+      </div>
+    </Form.Group>
+    {invoicedateerrmsg.trim() !== "" && (
+      <div className="d-flex align-items-center p-1">
+        <MdError style={{ color: "red", marginRight: '5px' }} />
+        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+          {invoicedateerrmsg}
+        </label>
+      </div>
+    )}
+  </div>
 
-                  <div style={{ position: 'relative' }}>
-                    <label
-                      htmlFor="date-input"
-                      style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 7,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "#222222",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between", // Ensure space between text and icon
-                        cursor: "pointer"
-                      }}
-                      onClick={() => {
-                        if (invoiceRef.current) {
-                          invoiceRef.current.flatpickr.open();
-                        }
-                      }}
-                    >
-                      {invoicedate ? invoicedate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                      <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                    </label>
-                    <Flatpickr
-                      ref={invoiceRef}
-                      options={options}
-                      value={invoicedate}
-                      onChange={handleInvoiceDate}
-                      style={{
-                        padding: 10,
-                        fontSize: 16,
-                        width: "100%",
-                        borderRadius: 8,
-                        border: "1px solid #D9D9D9",
-                        position: 'absolute',
-                        top: 100,
-                        left: 100,
-                        zIndex: 1000,
-                        display: "none"
-                      }}
-                    />
-                  </div>
-                  {invoicedateerrmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-    {invoicedateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicedateerrmsg}
-  </p>
+  {/* Due Date */}
+  <div className="col-lg-3 col-md-5 col-sm-12 mb-3 me-4">
+    <Form.Group controlId="dueDate">
+      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+        Due Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+      </Form.Label>
+      <div style={{ position: 'relative', width: "100%" }}>
+        <DatePicker
+          selected={invoiceduedate}
+          onChange={(date) => handleDueDate(date)}
+          dateFormat="dd/MM/yyyy"
+          customInput={customDateInputDueDate({
+            value: invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : '',
+          })}
+        />
+      </div>
+    </Form.Group>
+    {invoiceduedateerrmsg.trim() !== "" && (
+      <div className="d-flex align-items-center p-1">
+        <MdError style={{ color: "red", marginRight: '5px' }} />
+        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+          {invoiceduedateerrmsg}
+        </label>
+      </div>
+    )}
+  </div>
 </div>
+
+{/* Global Error Message */}
+{allfielderrmsg.trim() !== "" && (
+  <div>
+    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+      {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {allfielderrmsg}
+    </p>
+  </div>
 )}
-  
-                </div> */}
 
-
-
-                <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
-                                <Form.Group className="mb-2" controlId="purchaseDate">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    Invoice Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
-                                    </Form.Label>
-                                    <div style={{ position: 'relative' ,width:"100%"}}>
-                                        <DatePicker
-                                            selected={invoicedate}
-                                            onChange={(date)=>handleInvoiceDate(date)}
-                                       
-                                            dateFormat="dd/MM/yyyy"
-                                            // minDate={new Date()}
-                                           
-                                            customInput={customDateInputInvoiceDate({
-                                                value: invoicedate ? invoicedate.toLocaleDateString('en-GB') : '',
-                                            })}
-                                        />
-                                    </div>
-                                </Form.Group>
-                                
-                    {invoicedateerrmsg.trim() !== "" && (
-                                    <div className="d-flex align-items-center p-1">
-                                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                            {invoicedateerrmsg}
-                                        </label>
-                                    </div>
-                                )}
-
-                            </div>
-
-
-
-
-
-
-
-                 {/* <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
-                  <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Due Date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>
-
-                  <div style={{ position: 'relative' }}>
-                    <label
-                      htmlFor="date-input"
-                      style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 7,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "#222222",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        cursor: "pointer"
-                      }}
-                      onClick={() => {
-                        if (dueRef.current) {
-                          dueRef.current.flatpickr.open();
-                        }
-                      }}
-                    >
-                      {invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                      <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                    </label>
-                    <Flatpickr
-                      ref={dueRef}
-                      options={options}
-                      value={invoiceduedate}
-                      onChange={handleDueDate}
-                      style={{
-                        padding: 10,
-                        fontSize: 16,
-                        width: "100%",
-                        borderRadius: 8,
-                        border: "1px solid #D9D9D9",
-                        position: 'absolute',
-                        top: 100,
-                        left: 100,
-                        zIndex: 1000,
-                        display: "none"
-                      }}
-                    />
-                  </div>
-                  {invoiceduedateerrmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-    {invoiceduedateerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoiceduedateerrmsg}
-  </p>
-</div>
-)}
-  
-                </div>  */}
-
-
-
-
-                <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
-                                <Form.Group className="mb-2" controlId="purchaseDate">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    Due Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
-                                    </Form.Label>
-                                    <div style={{ position: 'relative' ,width:"100%"}}>
-                                        <DatePicker
-                                            selected={invoiceduedate}
-                                            onChange={(date)=>handleDueDate(date)}
-                                            dateFormat="dd/MM/yyyy" 
-                                            minDate={null}
-                                           
-                                            customInput={customDateInputDueDate({
-                                                value: invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : '',
-                                            })}
-                                        />
-                                    </div>
-                                </Form.Group>
-                                
-                    {invoiceduedateerrmsg.trim() !== "" && (
-                                    <div className="d-flex align-items-center p-1">
-                                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                            {invoiceduedateerrmsg}
-                                        </label>
-                                    </div>
-                                )}
-
-                            </div>
-
-
-
-
-
-
-
-
-                {allfielderrmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-    {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {allfielderrmsg}
-  </p>
-</div>
-)}
-                </div>
 
 
        
@@ -1017,24 +885,32 @@ const RecurringBills = (props) => {
     
 
     {/* Table */}
-    <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12 mt-2">
-      <Table className="ebtable mt-2" responsive>
+    <div className='col-lg-7 col-md-12 col-sm-12 col-xs-12 mt-2'>
+      <Table responsive
+className="Table_Design"
+style={{
+  height: "auto",
+  overflow: "visible",
+  tableLayout: "auto",
+  borderRadius: "24px",
+  border: "1px solid #DCDCDC",
+}}>
 
         <thead style={{ backgroundColor: "#E7F1FF" }}>
           <tr>
-            <th>S.No</th>
+            <th style={{paddingLeft:10,borderTopLeftRadius:24}}>S.No</th>
             <th>Description</th>
             <th>Total Amount</th>
-            <th>Action</th>
+            <th style={{borderTopRightRadius:24}}>Action</th>
           </tr>
         </thead>
         <tbody>
 
 {billamounts && billamounts.length > 0 && billamounts.map((u, index) => (
 <tr key={`bill-${index}`}>
-<td>{serialNumber++}</td>
-<td>
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{paddingTop:'35px',paddingLeft:'10px'}}>
+<td style={{paddingLeft:10}}>{serialNumber++}</td>
+<td style={{whiteSpace: "nowrap"}}>
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 <p>{u.name}</p>
 </div>
 </td>
@@ -1042,21 +918,37 @@ const RecurringBills = (props) => {
 {/* <td style={{paddingTop:'35px',paddingLeft:'10px'}}>-</td> */}
 
 
-        <td>
-          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-            <Form.Group controlId={`amount-${index}`}>
-              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
-            <Form.Control
-                style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
-                type="text"
-                placeholder="Enter total amount"
-                value={u.amount !== undefined ? Math.floor(u.amount) : 0} 
-                onChange={(e) => handleAmountChange(index, e.target.value)} />
-            </Form.Group>
-             </div>
-      </td>
+<td style={{ verticalAlign: "middle", paddingTop: 0, paddingBottom: 0 }}>
+  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" style={{ margin: "0 auto" }}>
+    <Form.Group controlId={`amount-${index}`} style={{ margin: 0 }}>
+      <Form.Label
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: 14,
+          fontWeight: 500,
+          color: "#222",
+          display: "none", // Hidden if not used
+        }}
+      ></Form.Label>
+      <Form.Control
+        style={{
+          padding: "8px",
+          fontSize: 14,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+        }}
+        type="text"
+        placeholder="Enter amount"
+        value={u.amount !== undefined ? Math.floor(u.amount) : 0}
+        onChange={(e) => handleAmountChange(index, e.target.value)}
+      />
+    </Form.Group>
+  </div>
+</td>
 
-      <td style={{ paddingTop: '35px' }}>
+
+      <td >
         <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDelete(u)}>
         <img src={Closebtn} height={15} width={15} alt="delete" />
         </span>
@@ -1067,9 +959,9 @@ const RecurringBills = (props) => {
 
           {newRows && newRows.length > 0 && newRows.map((u, index) => (
              <tr key={`new-${index}`}>
-              <td style={{paddingTop:10}}>{serialNumber++}</td>
-        <td>
-              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{alignItems:'center'}}>
+              <td style={{paddingLeft:10}}>{serialNumber++}</td>
+        <td style={{whiteSpace: "nowrap"}}>
+              <div style={{alignItems:'center'}}>
                  <Form.Control
                  type="text"
                  placeholder="Enter description"
@@ -1102,14 +994,25 @@ const RecurringBills = (props) => {
         onChange={(e) => handleNewRowChange(index, 'total_amount', e.target.value)}
       />
     </td> */}
-    <td style={{alignItems:'center'}}>
-      <Form.Control
-        type="text"
-        placeholder="Enter total amount"
-        value={u.amount}
-        onChange={(e) => handleNewRowChange(index, 'amount', e.target.value)}
-      />
-    </td>
+   <td style={{ verticalAlign: "middle", textAlign: "center", padding: "8px" }}>
+  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" style={{ margin: "0 auto" }}>
+    <Form.Control
+      type="text"
+      placeholder="Enter amount"
+      value={u.amount || ""}
+      onChange={(e) => handleNewRowChange(index, "amount", e.target.value)}
+      style={{
+        padding: "8px",
+        fontSize: "14px",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        color: "#4B4B4B",
+        textAlign: "center",
+      }}
+    />
+  </div>
+</td>
+
     <td style={{alignItems:'center'}}>
       <span style={{cursor: 'pointer', color: 'red', marginLeft: '10px'}}
        onClick={() => handleDeleteNewRow(index)}
@@ -1194,12 +1097,12 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
      
       </Table>
     </div>
-
+<div  style={{ display: "flex",flexDirection:"row" }}>
     <div><p style={{color:'#1E45E1',fontSize:'14px',fontWeight:600}}
      onClick={handleAddColumn}
      > + Add new column</p></div>
 
-    <div style={{ float: 'right', marginRight: '130px' }}>
+    <div className="totalamount" style={{alignItems:"center"}}>
       <h5>Total Amount ₹
         {totalAmount}
         </h5>
@@ -1209,8 +1112,14 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
         Create Bill
       </Button>
     </div>
+    </div>
   {/* </div> */}
   </div>
+
+
+
+
+ 
         </>
     )
 }

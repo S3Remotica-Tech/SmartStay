@@ -1023,6 +1023,7 @@ const [account, setAccount] = useState("");
    const [selectedDate, setSelectedDate] = useState(null);
    const calendarRef = useRef(null);
    const [formattedDate, setFormattedDate] = useState('')
+   
 
   useEffect(() => {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details)
@@ -1871,6 +1872,9 @@ const customInvoiceDueDateInput = (props) => {
                 }, 1000);
               }
             }, [state.InvoiceList.RecurringBillAddStatusCode , state.InvoiceList.deleterecurringbillsStatuscode]); 
+
+
+
 
 
             const handleDeleteRecurringbills = (item) => {
