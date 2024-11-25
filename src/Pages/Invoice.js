@@ -170,7 +170,9 @@ const [totalAmount , setTotalAmount] = useState('')
 
 const [selectedData, setSelectedData] = useState([]);
 const [bills , setBills] = useState([])  // bills store
-const [newRows, setNewRows] = useState([]);
+const [newRows, setNewRows] = useState([
+  {"S.NO": 1,"am_name":'', "amount" : "0"}
+]);
 
 const [customererrmsg , setCustomerErrmsg] = useState('')
 const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
@@ -1321,32 +1323,32 @@ console.log("newRows",newRows);
 
   
 
-  useEffect(() => {
-    if (!dataFetched) {
-      dispatch({
-        type: 'GET-MANUAL-INVOICE-AMOUNTS',
-        payload: {
-          user_id: customername,
-          start_date: formatstartdate,
-          end_date: formatenddate
-        }
-      });
+  // useEffect(() => {
+  //   if (!dataFetched) {
+  //     dispatch({
+  //       type: 'GET-MANUAL-INVOICE-AMOUNTS',
+  //       payload: {
+  //         user_id: customername,
+  //         start_date: formatstartdate,
+  //         end_date: formatenddate
+  //       }
+  //     });
 
     
 
-      if (state.InvoiceList.manualInvoiceStatusCode === 200) {
-        const totalArray = state?.InvoiceList?.ManualInvoice?.total_array;
+  //     if (state.InvoiceList.manualInvoiceStatusCode === 200) {
+  //       const totalArray = state?.InvoiceList?.ManualInvoice?.total_array;
         
-        if (totalArray) {
-          setInvoiceTotalAmount(totalArray); 
-        }
-        setDataFetched(true); 
-        setTimeout(() => {
-          dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_AMOUNT_GET' });
-        }, 1000);
-      }
-    }
-  }, [customername, formatstartdate, formatenddate, dataFetched, state.InvoiceList.manualInvoiceStatusCode , state.InvoiceList.ManualInvoice.total_array]);
+  //       if (totalArray) {
+  //         setInvoiceTotalAmount(totalArray); 
+  //       }
+  //       setDataFetched(true); 
+  //       setTimeout(() => {
+  //         dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_AMOUNT_GET' });
+  //       }, 1000);
+  //     }
+  //   }
+  // }, [customername, formatstartdate, formatenddate, dataFetched, state.InvoiceList.manualInvoiceStatusCode , state.InvoiceList.ManualInvoice.total_array]);
 
     
 
@@ -1602,59 +1604,77 @@ const customInvoiceDueDateInput = (props) => {
 
        useEffect(()=> {
 
-          if(billamounts && billamounts.length > 0){
-              console.log("billamounts",billamounts);
+        //   if(billamounts && billamounts.length > 0){
+        //       console.log("billamounts",billamounts);
     
-          const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 10);// EB Amount with id 10 
-          const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 50); // Room Rent with id 50
-           console.log("RoomRentItem",RoomRentItem);
+        //   const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 10);// EB Amount with id 10 
+        //   const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 50); // Room Rent with id 50
+        //    console.log("RoomRentItem",RoomRentItem);
   
   
-          setEBAmount(EbAmount)
-          setRentAmount(RoomRentItem)
+        //   setEBAmount(EbAmount)
+        //   setRentAmount(RoomRentItem)
 
-          var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 10 && item.id != 50);
-          console.log("amenities",amenities);
+        //   var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 10 && item.id != 50);
+        //   console.log("amenities",amenities);
 
-         const AmenityDetails = amenities.map(item => ({
-            am_name: item.description,   
-            amount: item.amount
-            }));
-            console.log("AmenityDetails",AmenityDetails);
+        //  const AmenityDetails = amenities.map(item => ({
+        //     am_name: item.description,   
+        //     amount: item.amount
+        //     }));
+        //     console.log("AmenityDetails",AmenityDetails);
             
-            setAmenityDetails(AmenityDetails)
+        //     setAmenityDetails(AmenityDetails)
 
-            const allRows = newRows.map(detail => ({
-              am_name: detail.am_name, 
-              amount: Number(detail.amount)
-            })).filter(detail => detail.am_name && detail.amount); 
-            console.log("allRows", allRows);
+        //     const allRows = newRows.map(detail => ({
+        //       am_name: detail.am_name, 
+        //       amount: Number(detail.amount)
+        //     })).filter(detail => detail.am_name && detail.amount); 
+        //     console.log("allRows", allRows);
             
-            const amenityArray = AmenityDetails.map(detail => ({
-              am_name: detail.am_name, 
-              amount: detail.amount
-            })).filter(detail => detail.am_name && detail.amount); 
-            console.log("amenityArray", amenityArray);
+        //     const amenityArray = AmenityDetails.map(detail => ({
+        //       am_name: detail.am_name, 
+        //       amount: detail.amount
+        //     })).filter(detail => detail.am_name && detail.amount); 
+        //     console.log("amenityArray", amenityArray);
             
             
-            // Combine allRows and amenityArray
-            const combinedRows = [...amenityArray, ...allRows];
-            console.log("combinedRows", combinedRows);
+        //     // Combine allRows and amenityArray
+        //     const combinedRows = [...amenityArray, ...allRows];
+        //     console.log("combinedRows", combinedRows);
           
-            setamenityArray(combinedRows)
+        //     setamenityArray(combinedRows)
   
-            const totalAmount = (
-              parseFloat(EbAmount?.amount || 0) +         // Add EB Amount
-              parseFloat(RoomRentItem?.amount || 0) +     // Add Room Rent
-              combinedRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) // Sum amounts from combinedRows
-            );
+        //     const totalAmount = (
+        //       parseFloat(EbAmount?.amount || 0) +         // Add EB Amount
+        //       parseFloat(RoomRentItem?.amount || 0) +     // Add Room Rent
+        //       combinedRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) // Sum amounts from combinedRows
+        //     );
             
-            setTotalAmount(totalAmount);  // Set the total amount in the state
-            console.log("TotalAmount:", totalAmount);
+        //     setTotalAmount(totalAmount);  // Set the total amount in the state
+        //     console.log("TotalAmount:", totalAmount);
 
+        //           }
+
+                   if (newRows){
+
+                    const allRows = newRows.map(detail => ({
+                      am_name: detail.am_name, 
+                      amount: Number(detail.amount)
+                    })).filter(detail => detail.am_name && detail.amount);
+                    
+                    setamenityArray(allRows)
+                    
+                    console.log("allRows", allRows);
+                      const Total_amout =  allRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) 
+                      setTotalAmount(Total_amout);
+                  }
+                  else {
+                    console.log("data not fetched");
+                    
                   }
 
-    },[billamounts,newRows])
+    },[newRows])
 
 
        const handleNewRowChange = (index, field, value) => {
@@ -1683,30 +1703,30 @@ const customInvoiceDueDateInput = (props) => {
                 setCustomerErrmsg('Please Select Customer')
                }
                
-               if(!startdate){
-                setStartdateErrmsg('Please Select Date')
-               }
+              //  if(!startdate){
+              //   setStartdateErrmsg('Please Select Date')
+              //  }
 
-               if(!enddate){
-                setEnddateErrmsg('Please Select Date')
-               }
+              //  if(!enddate){
+              //   setEnddateErrmsg('Please Select Date')
+              //  }
 
-               if(!formatinvoicedate){
-                setInvoiceDateErrmsg('Please Select Date')
-               }
+              //  if(!formatinvoicedate){
+              //   setInvoiceDateErrmsg('Please Select Date')
+              //  }
 
-               if(!formatduedate){
-                setInvoiceDueDateErrmsg('Please Select Date')
-               }
+              //  if(!formatduedate){
+              //   setInvoiceDueDateErrmsg('Please Select Date')
+              //  }
               
-               if(!customername && !invoicenumber && !startdate && !enddate && !formatinvoicedate && !formatduedate){
+               if(!customername && !invoicenumber ){
                 setAllFieldErrmsg('Please Enter All Field')
                  return;
                }
             
 
               
-               if(customername && invoicenumber && formatstartdate && formatenddate && formatinvoicedate && formatduedate && rentamount?.amount){
+               if(customername && invoicenumber ){
                 dispatch({
                   type: 'MANUAL-INVOICE-ADD',
                   payload: { user_id: customername, date: formatinvoicedate , due_date :formatduedate ,
@@ -1899,6 +1919,8 @@ const customInvoiceDueDateInput = (props) => {
     setDownloadInvoice(false)
   }
 
+
+let serialNumber = 1;
 
 
   return (
@@ -3141,7 +3163,7 @@ const customInvoiceDueDateInput = (props) => {
       </div>
 
       <div style={{display:'flex',flexDirection:'row'}}>
-      <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
+      <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4'>
                    
       <Form.Group className="mb-2" controlId="purchaseDate">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
@@ -3176,7 +3198,7 @@ const customInvoiceDueDateInput = (props) => {
     
                   </div>
 
-                  <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
+                  <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
                   <Form.Group className="mb-2" controlId="purchaseDate">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     End Date <span style={{  color: 'red', fontSize: '20px'}}>*</span>
@@ -3209,7 +3231,7 @@ const customInvoiceDueDateInput = (props) => {
 
 
 <div style={{display:'flex',flexDirection:'row'}}>
-      <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12 me-4'>
+      <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4'>
 
 
       <Form.Group className="mb-2" controlId="purchaseDate">
@@ -3242,7 +3264,7 @@ const customInvoiceDueDateInput = (props) => {
     
                   </div>
 
-                   <div className='col-lg-3 col-md-3 col-sm-12 col-xs-12'>
+                   <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
 
                    <Form.Group className="mb-2" controlId="purchaseDate">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
@@ -3254,7 +3276,7 @@ const customInvoiceDueDateInput = (props) => {
                                             onChange={(date)=>handleDueDate(date)}
                                        
                                             dateFormat="dd/MM/yyyy"
-                                            // minDate={new Date()}
+                                            minDate={null}
                                            
                                             customInput={customInvoiceDueDateInput({
                                                 value: invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : '',
@@ -3294,39 +3316,29 @@ const customInvoiceDueDateInput = (props) => {
 
           <thead style={{ backgroundColor: "#E7F1FF" }}>
             <tr>
+              <th>S.NO</th>  
               <th>Description</th>
-              <th>EB Unit </th>
+              {/* <th>EB Unit </th>
               <th>Unit Price </th>
-              <th>Actual Amount</th>
+              <th>Actual Amount</th> */}
               <th>Total Amount</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
+            
 
-{billamounts && billamounts.length > 0 && billamounts.map((u, index) => (
-<tr key={index}>
+{/* {billamounts && billamounts.length > 0 && billamounts.map((u, index) => (
+<tr key={`bill-${index}`}>
+<td>{serialNumber++}</td>
 <td>
 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{paddingTop:'35px',paddingLeft:'10px'}}>
 <p>{u.description}</p>
 </div>
 </td>
-<td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.used_unit ? u.used_unit : '-' }</td>
-<td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.per_unit_amount != null && u.per_unit_amount != '' && u.per_unit_amount != undefined ? u.per_unit_amount : '-' }</td>
-<td>
-<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-<Form.Group controlId={`actualAmount-${index}`}>
-<Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
-<Form.Control
-style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
-type="text"
-placeholder="Enter actual amount"
-value={u.total_amount ?? 0}  // using nullish coalescing for safer default value
-// onChange={(e) => handleActualAmountChange(index, e.target.value)} 
-/>
-</Form.Group>
-</div>
-</td>
+
+
+
 <td>
 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 <Form.Group controlId={`amount-${index}`}>
@@ -3348,13 +3360,15 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
 </span>
 </td>
 </tr>
-))}
+))} */}
 
 
 {newRows && newRows.length > 0 && newRows.map((u, index) => (
     <tr key={`new-${index}`}>
+
+      <td>{serialNumber++}</td>
       <td>
-        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{alignItems:'center'}}>
+        <div className='col-lg-8 col-md-8 col-sm-4 col-xs-4' style={{alignItems:'center'}}>
           <Form.Control
             type="text"
             placeholder="Enter description"
@@ -3363,31 +3377,9 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
           />
         </div>
       </td>
-      <td style={{alignItems:'center'}}>
-        <Form.Control
-          type="text"
-          placeholder="EB Unit"
-          value={u.used_unit}
-          onChange={(e) => handleNewRowChange(index, 'used_unit', e.target.value)}
-        />
-      </td>
-      <td style={{alignItems:'center'}}>
-        <Form.Control
-          type="text"
-          placeholder="Unit Price"
-          value={u.per_unit_amount}
-          onChange={(e) => handleNewRowChange(index, 'per_unit_amount', e.target.value)}
-        />
-      </td>
-      <td style={{alignItems:'center'}}>
-        <Form.Control
-          type="text"
-          placeholder="Enter actual amount"
-          value={u.total_amount}
-          onChange={(e) => handleNewRowChange(index, 'total_amount', e.target.value)}
-        />
-      </td>
-      <td style={{alignItems:'center'}}>
+    
+    
+      <td className='col-lg-3 col-md-3 col-sm-4 col-xs-4' style={{alignItems:'center'}}>
         <Form.Control
           type="text"
           placeholder="Enter total amount"
@@ -3450,7 +3442,7 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
 ))} */}
 
 
-  <tr>
+  {/* <tr>
 
   <div className='col-lg-12 col-md-5 col-sm-12 col-xs-12 mt-1'>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -3470,13 +3462,13 @@ onChange={(e) => handleAmountChange(index, e.target.value)}
       </Form.Group>
 
     </div>
-    </tr>
+    </tr> */}
 </tbody>
        
         </Table>
       </div>
 
-      <div><p style={{color:'#1E45E1',fontSize:'14px',fontWeight:600}} onClick={handleAddColumn}> + Add new column</p></div>
+      <div><p style={{color:'#1E45E1',fontSize:'14px',fontWeight:600, cursor:'pointer'}} onClick={handleAddColumn}> + Add new column</p></div>
 
       <div style={{ float: 'right', marginRight: '130px' }}>
         <h5>Total Amount ₹{totalAmount}</h5>

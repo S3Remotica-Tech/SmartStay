@@ -687,7 +687,7 @@ const RecurringBills = (props) => {
   };
 
     
-    
+  let serialNumber = 1;
 
 
     return(
@@ -975,7 +975,7 @@ const RecurringBills = (props) => {
                                             selected={invoiceduedate}
                                             onChange={(date)=>handleDueDate(date)}
                                             dateFormat="dd/MM/yyyy" 
-                                            minDate={new Date()}
+                                            minDate={null}
                                            
                                             customInput={customDateInputDueDate({
                                                 value: invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : '',
@@ -1022,7 +1022,7 @@ const RecurringBills = (props) => {
 
         <thead style={{ backgroundColor: "#E7F1FF" }}>
           <tr>
-            <th>Name</th>
+            <th>S.No</th>
             <th>Description</th>
             <th>Total Amount</th>
             <th>Action</th>
@@ -1031,14 +1031,16 @@ const RecurringBills = (props) => {
         <tbody>
 
 {billamounts && billamounts.length > 0 && billamounts.map((u, index) => (
-<tr key={index}>
+<tr key={`bill-${index}`}>
+<td>{serialNumber++}</td>
 <td>
 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{paddingTop:'35px',paddingLeft:'10px'}}>
 <p>{u.name}</p>
 </div>
 </td>
 {/* <td style={{paddingTop:'35px',paddingLeft:'10px'}}>{u.used_unit ? u.used_unit : '-' }</td> */}
-<td style={{paddingTop:'35px',paddingLeft:'10px'}}>-</td>
+{/* <td style={{paddingTop:'35px',paddingLeft:'10px'}}>-</td> */}
+
 
         <td>
           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -1065,6 +1067,7 @@ const RecurringBills = (props) => {
 
           {newRows && newRows.length > 0 && newRows.map((u, index) => (
              <tr key={`new-${index}`}>
+              <td style={{paddingTop:10}}>{serialNumber++}</td>
         <td>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{alignItems:'center'}}>
                  <Form.Control
@@ -1075,7 +1078,7 @@ const RecurringBills = (props) => {
              </div>
        </td>
        
-    <td style={{alignItems:'center'}}>
+    {/* <td style={{alignItems:'center'}}>
       <Form.Control
         type="text"
         placeholder="EB Unit"
@@ -1098,7 +1101,7 @@ const RecurringBills = (props) => {
         value={u.total_amount}
         onChange={(e) => handleNewRowChange(index, 'total_amount', e.target.value)}
       />
-    </td>
+    </td> */}
     <td style={{alignItems:'center'}}>
       <Form.Control
         type="text"

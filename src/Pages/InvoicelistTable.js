@@ -94,6 +94,7 @@ const InvoiceTable = (props) => {
 const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
 
       const handleDownload = (item) => {
+        console.log("handleDownload",item)
 
 props.DisplayInvoice(true, item)
 

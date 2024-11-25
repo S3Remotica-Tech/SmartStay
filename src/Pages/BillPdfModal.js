@@ -28,6 +28,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
     console.log("rowData", rowData)
+    // console.log()
     const [isVisible, setIsVisible] = useState(true);
     const cardRef = useRef(null);
 
@@ -216,66 +217,67 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             </div>
 
 
-                            <Table className="mt-5 mb-1 ps-3 pe-3" style={{}}>
-                                <thead>
-                                    <tr>
-                                        <th style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>Description</th>
+                            <Table className="mt-5 mb-1 ps-3 pe-3">
+  <thead>
+    <tr>
+      <th style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>Description</th>
+      <th style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    {/* Render rows dynamically */}
+    {rowData.amenity?.map((item, index) => (
+      <tr key={index}>
+        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
+          {item.am_name}
+        </td>
+        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
+          ₹{item.amount}
+        </td>
+      </tr>
+    ))}
+    {/* Divider row */}
+    <tr>
+      <td colSpan="2">
+        <hr />
+      </td>
+    </tr>
+    {/* Subtotal row */}
+    <tr>
+      <td style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
+        Subtotal:
+      </td>
+      <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
+        ₹{rowData.Amount}
+      </td>
+    </tr>
+    {/* Tax row */}
+    <tr>
+      <td style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
+        Tax (0%):
+      </td>
+      <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
+        ₹0.00
+      </td>
+    </tr>
+    {/* Divider row */}
+    <tr>
+      <td colSpan="2">
+        <hr />
+      </td>
+    </tr>
+    {/* Total row */}
+    <tr>
+      <td style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
+        Total:
+      </td>
+      <td style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
+        ₹{rowData.Amount}
+      </td>
+    </tr>
+  </tbody>
+</Table>
 
-                                        <th style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    <tr >
-                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
-                                            {rowData.invoice_type == 1 ? "Room rent" : " Advance amount"}
-                                            </td>
-                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>{rowData.RoomRent}</td>
-                                    </tr>
-                                    <tr >
-                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
-                                        EbAmount
-                                            </td>
-                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>{rowData.EbAmount}</td>
-                                    </tr>
-                                    <tr >
-                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
-                                        Amenity
-                                            </td>
-                                        <td style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>{rowData.Amnities_deduction_Amount}</td>
-                                    </tr>
-
-                                </tbody>
-                            </Table>
-                            <div className="d-flex justify-content-end pe-5">
-                                <div style={{ textAlign: 'right' }} className="" >
-                                    <div className="pb-2  d-flex justify-content-between gap-3" >
-                                        <div>
-                                            <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Subtotal: </label>
-
-                                        </div>
-                                        <div>
-                                            <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>₹{rowData.Amount}</label>
-                                        </div>
-
-                                    </div>
-                                    <div className="pb-2  d-flex justify-content-between">
-                                        <div>
-                                            <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Tax (0%): </label>
-
-                                        </div>
-                                        <div>
-                                            <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>₹0.00</label>
-                                        </div>
-                                    </div>
-                                    <hr style={{ color: "#000" }} />
-                                    <div className="pb-2  d-flex justify-content-between">
-
-                                        <h5 style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Total:</h5> <span style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>₹{rowData.Amount}</span>
-                                    </div>
-
-                                </div>
-                            </div>
 
                             <div className="mt-4 ps-4 pe-4">
                                 <h6 style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }} >PAYMENT METHOD</h6>
