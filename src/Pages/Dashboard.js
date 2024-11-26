@@ -339,7 +339,7 @@ lineHeight: 'normal',
 
       <div className="cotainer  p-4">
      
-      <div className="texxttt">
+      {/* <div className="texxttt">
         <div style={{ flex: 1 }}>
           <lable
             style={{
@@ -364,7 +364,7 @@ lineHeight: 'normal',
             Manage all the inventory and analytics form here
           </p>
         </div>
-      </div>
+      </div> */}
 
       <TabContext value={value}>
         <div>
@@ -434,146 +434,88 @@ lineHeight: 'normal',
   )}
 </div>
             ):
-            <>
-          <div className="row carddesign">
-        <div className="col-lg-4 col-md-12 col-sm-12 col-xl-3 mb-3">
-          <Card
-            className="animated-text"
-            style={{ height: "auto", width: "100%", borderRadius: "20px" }}
-          >
-            <Card.Body>
-              <div>
-                <div>
-                  <img src={vector} height={32} width={32} />
-                  <p
-                    style={{
-                      paddingTop: 15,
-                      fontSize: 16,
-                      fontWeight: 400,
-                      fontFamily: "Montserrat",
-                    }}
-                  >
-                    Total Hostel
-                  </p>
-                </div>
-                <p
-                  style={{
-                    fontSize: 32,
-                    fontWeight: 600,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  <CountUp start={0} end={hostelCount.toLocaleString()} />
-                </p>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
+          <>
 
-        <div className="col-lg-3 col-md-6 col-sm-12 mb-3">
-          <Card
-            className="animated-text"
-            style={{ height: "auto", width: "100%", borderRadius: "20px" }}
-          >
-            <Card.Body>
-              <div>
-                <div>
-                  <img src={key} height={32} width={32} />
-                  <p
-                    style={{
-                      paddingTop: 15,
-                      fontSize: 16,
-                      fontWeight: 400,
-                      fontFamily: "Montserrat",
-                    }}
-                  >
-                    Available Beds
-                  </p>
-                </div>
-                <p
-                  style={{
-                    fontSize: 32,
-                    fontWeight: 600,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  <CountUp start={0} end={availableBed.toLocaleString()} />
-                </p>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
 
-        <div className="col-lg-3 col-md-6 col-sm-12 mb-3">
-          <Card
-            className="animated-text"
-            style={{ height: "auto", width: "100%", borderRadius: "20px" }}
-          >
-            <Card.Body>
-              <div>
-                <div>
-                  <img src={clock} height={32} width={32} />
-                  <p
-                    style={{
-                      paddingTop: 15,
-                      fontSize: 16,
-                      fontWeight: 400,
-                      fontFamily: "Montserrat",
-                    }}
-                  >
-                    Total Rooms
-                  </p>
-                </div>
-                <p
-                  style={{
-                    fontSize: 32,
-                    fontWeight: 600,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  <CountUp start={0} end={roomCount.toLocaleString()} />
-                </p>
-              </div>
-            </Card.Body>
-          </Card>
+  
+<div class="mt-4">
+  <div class="row g-2 align-items-start">
+    
+   
+    <div class="col-12 col-lg-2">
+      <div class="border rounded-4 p-4 text-start shadow-sm" style={{height:190}}>
+        <div class="text-primary mb-3">
+          <i class="bi bi-house-door-fill fs-3"></i>
         </div>
+        <h6 class="text-muted">Total Room</h6>
+        <h4 class="mb-0">50</h4>
+      </div>
+    </div>
 
-        <div className="col-lg-3 col-md-6 col-sm-12 mb-3">
-          <Card
-            className="animated-text"
-            style={{ height: "auto", width: "100%", borderRadius: "20px" }}
-          >
-            <Card.Body>
-              <div>
-                <div>
-                  <img src={car} height={35} width={35} />
-                  <p
-                    style={{
-                      paddingTop: 15,
-                      fontSize: 16,
-                      fontWeight: 400,
-                      fontFamily: "Montserrat",
-                    }}
-                  >
-                    Occupied Beds
-                  </p>
-                </div>
-                <p
-                  style={{
-                    fontSize: 32,
-                    fontWeight: 600,
-                    fontFamily: "Montserrat",
-                  }}
-                >
-                  <CountUp start={0} end={occupied_Bed.toLocaleString()} />
-                </p>
-              </div>
-            </Card.Body>
-          </Card>
+   
+    <div class="col-12 col-lg-3">
+      <div class="d-flex flex-column gap-3 " style={{width:200,height:100}} >
+        <div class="border rounded-4 p-3 text-start bg-white shadow-sm">
+          <h6 class="text-muted">Occupied Bed</h6>
+          <h4 class="mb-0">1</h4>
+        </div>
+        <div class="border rounded-4 p-3 text-start bg-white shadow-sm">
+          <h6 class="text-muted">Free Bed</h6>
+          <h4 class="mb-0">2</h4>
         </div>
       </div>
+    </div>
 
-      <div className="circulardes">
+   
+    <div class="col-12 col-lg-4" style={{marginLeft:"-50px"}}>
+      <div class="d-grid" style={{display:"grid",    gridTemplateColumns: 'repeat(2, 1fr)',gap:10}}>
+      <div class="d-flex flex-column gap-3 "  style={{width:200,height:100}}>
+        <div class="border rounded-4 p-3 text-start bg-white shadow-sm">
+          <h6 class="text-muted">Occupied Bed</h6>
+          <h4 class="mb-0">3</h4>
+        </div>
+        <div class="border rounded-4 p-3 text-start bg-white shadow-sm">
+          <h6 class="text-muted">Occupied Bed</h6>
+          <h4 class="mb-0">5</h4>
+        </div>
+       
+      </div>
+        
+      <div class="d-flex flex-column gap-3 h-100" style={{width:200,height:100}}>
+        <div class="border rounded-4 p-3 text-start bg-white shadow-sm">
+          <h6 class="text-muted">Occupied Bed</h6>
+          <h4 class="mb-0">6</h4>
+        </div>
+        <div class="border rounded-4 p-3 text-start bg-white shadow-sm">
+          <h6 class="text-muted">Occupied Bed</h6>
+          <h4 class="mb-0">7</h4>
+        </div>
+       
+      </div>
+      </div>
+    </div>
+
+    
+    <div class="col-12 col-lg-2" style={{marginLeft:40,height:190}}>
+      <div class="border rounded-4 p-4 text-start shadow-sm h-100 d-flex flex-column justify-content-center">
+        <div class="text-primary mb-3">
+          <i class="bi bi-house-door-fill fs-3"></i>
+        </div>
+        <h6 class="text-muted text-start">Asset</h6>
+        <h4 class="mb-0 text-start">50</h4>
+      </div>
+    </div>
+
+    
+  
+
+  </div>
+
+
+
+
+
+<div style={{display:"flex",flexDirection:"row"}}>
         <div className="w-full animated-text" style={{ flex: 1 }}>
           <div
             className="crddesg w-full"
@@ -775,334 +717,22 @@ lineHeight: 'normal',
             </div>
           </div>
 
-          <Card
-            className="animated-text"
-            style={{
-              marginTop: 15,
-              height: "auto",
-              width: "97%",
-              borderRadius: "20px",
-            }}
-          >
-            <Card.Body className="d-flex flex-column align-items-start">
-              <div
-                style={{
-                  fontSize: "18px",
-                  fontWeight: 600,
-                  fontFamily: "Montserrat",
-                  paddingLeft: 10,
-                }}
-              >
-                Revenue Target
-              </div>
-              <div className="circulardesone">
-                <div
-                  className="circular-progressbar-container"
-                  style={{ width: "35%", marginLeft: 30, marginTop: 10 }}
-                >
-                  <CircularProgressbar
-                    value={percentage}
-                    text={"₹" + Revenue.toLocaleString()}
-                    circleRatio={0.5}
-                    styles={buildStyles({
-                      rotation: 0.75,
-                      pathColor: "#00A32E",
-                      trailColor: " #EBEBEB",
-                      textColor: "#000000",
-                      textSize: 15,
 
-                      //  width:"70%",
-                      text: {
-                        fill: "#0000000",
-
-                        transform: "rotate(80deg)",
-                        transformOrigin: "center center",
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                        fontSize: "24px",
-                      },
-                    })}
-                  />
-                </div>
-
-                <div className="texrtalii">
-                  <div className="status-item">
-                    <div className="dot received"></div>
-                    <div>
-                      <div
-                        style={{
-                          fontSize: 16,
-                          fontWeight: 600,
-                          fontFamily: "Montserrat",
-                        }}
-                      >
-                        Received
-                      </div>
-                      <div
-                        style={{
-                          fontSize: 16,
-                          fontWeight: 600,
-                          fontFamily: "Gilry",
-                        }}
-                      >
-                        ₹{current.toLocaleString()}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="status-item">
-                    <div className="dot receivable"></div>
-                    <div style={{ marginTop: 10 }}>
-                      <div
-                        style={{
-                          fontSize: 16,
-                          fontWeight: 600,
-                          fontFamily: "Montserrat",
-                        }}
-                      >
-                        Receivable
-                      </div>
-                      <div
-                        style={{
-                          fontSize: 16,
-                          fontWeight: 600,
-                          fontFamily: "Gilry",
-                        }}
-                      >
-                        ₹{overdue.toLocaleString()}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
-
-        <div style={{ flex: 1 }}>
-          <div className="expenses-container animated-text">
-            <div className="headertwo">
-              <p
-                style={{
-                  fontFamily: "Montserrat",
-                  fontSize: 18,
-                  fontWeight: 600,
-                }}
-              >
-                Expenses Breakdown
-              </p>
-            </div>
-            <div className="content">
-              <div className="chart">
-                {/* <Doughnut
-                  data={datum}
-                  options={options}
-                  style={{ width: 196, height: 196 }}
-                /> */}
-
-{totalAmount > 0 ? (
-      <Doughnut
-        data={datum}
-        options={options}
-        style={{ width: 196, height: 196 }}
-      />
-    ) : (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="196"
-        height="196"
-        viewBox="0 0 196 196"
-        fill="none"
-      >
-        <path
-          d="M196 98C196 152.124 152.124 196 98 196C43.8761 196 0 152.124 0 98C0 43.8761 43.8761 0 98 0C152.124 0 196 43.8761 196 98ZM29.4 98C29.4 135.887 60.1133 166.6 98 166.6C135.887 166.6 166.6 135.887 166.6 98C166.6 60.1133 135.887 29.4 98 29.4C60.1133 29.4 29.4 60.1133 29.4 98Z"
-          fill="#DCDCDC"
-        />
-      </svg>
-    )}
-                <p
-  className="center-text"
-  style={{
-    fontFamily: "Gilroy",
-    fontSize: 25,
-    fontWeight: 600,
-  }}
->
-  ₹{totalAmount > 0 ? totalAmount : 0}
-</p>
 
               </div>
-              <div className="categories">
-  {totalAmount > 0 ? (
-    lablesdata?.map((label, index) => (
-      <div className="category" key={index}>
-        <span
-          className="dot"
-          style={{
-            backgroundColor: datasets[0].backgroundColor[index],
-          }}
-        ></span>
-        <div className="text">
-          <p
-            style={{
-              fontFamily: "Montserrat",
-              fontSize: 12,
-              fontWeight: 600,
-              color: "#4B4B4B",
-            }}
-          >
-            {label.category_Name}
-          </p>
-          <p
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: 16,
-              fontWeight: 600,
-            }}
-          >
-            ₹{label.purchase_amount}
-          </p>
-        </div>
-      </div>
-    ))
-  ) : (
-    <div className="no-data-category" style={noDataStyle}>
-      <p
-        style={{
-        
-          textAlign: "center",
-          width: "100%",
-          marginTop: "20px",
-          marginLeft:"50px"
-        }}
-      >
-        No Data
-      </p>
-    </div>
-  )}
+
+<div style={{flex:1}}>
+  hgd
 </div>
 
-            </div>
-          </div>
-          <div className="complaints-container animated-text" style={{overflowY: 'auto',maxHeight: '380px',}}>
-            <div className="header">
-              <p
-                style={{
-                  fontSize: 18,
-                  fontWeight: 600,
-                  fontFamily: "Montserrat",
-                  paddingLeft: "10px",
-                  marginTop: 15,
-                }}
-              >
-                Active Complaints
-              </p>
-              <a
-                style={{
-                  textAlign: "right",
-                  paddingRight: 15,
-                  fontWeight: 600,
-                  fontSize: 16,
-                  fontFamily: "Montserrat",
-                  color: "#1E45E1",
-                  cursor: "pointer",
-                }}
-                onClick={() => handlecompliance()}
-              >
-                View all
-              </a>
-            </div>
-            {activecommpliance?.map((complaint, index) => {
-              let Dated = new Date(complaint.date);
-              console.log("Dated..?", Dated);
+</div>
 
-              let day = Dated.getDate();
-              let month = Dated.getMonth() + 1; // Months are zero-based
-              let year = Dated.getFullYear();
+</div>
 
-              let formattedDate = `${day}/${month}/${year}`;
 
-              return (
-                <>
-                  <div className="complaint">
-                    {/* <img src={Profile} alt={complaint.name} className="avatar" /> */}
-                    <img
-                      src={
-                        complaint.profile === "0" ? Profile : complaint.profile
-                      }
-                      className="avatar"
-                    />
 
-                    <div className="complaint-info">
-                      <p
-                        className="name"
-                        style={{
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          fontWeight: 600,
-                        }}
-                      >
-                        {complaint.Name}
-                      </p>
-                      <p
-                        className="details"
-                        style={{
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          color: "#4B4B4B",
-                        }}
-                      >
-                        {complaint.complaint_name} . {formattedDate}
-                      </p>
-                    </div>
-                    <div>
-                      <div>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            color: "#222222",
-                            borderRadius: 60,
-                            paddingTop: 3,
-                            paddingBottom: 3,
-                            // paddingLeft: 5,
-                            paddingRight: 20,
-                            marginBottom: "0px",
-                            textAlign: "end",
-                            width: 91,
-                            marginLeft: 18,
 
-                            backgroundColor:
-                              complaint.Status === "Pending"
-                                ? "#FFED9A"
-                                : "#DAFFD9",
-                          }}
-                        >
-                          <span>{complaint.Status}</span>
-                        </p>
-                        {/* <p style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#222222",paddingTop:3,paddingBottom:3,paddingLeft:2,paddingRight:2,marginBottom:"0px"}}> {complaint.Status}</p> */}
-                      </div>
-                      <div
-                        className="room"
-                        style={{
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          color: "#4B4B4B",
-                          paddingRight: "10px",
-                        }}
-                      >
-                        Room #{complaint.Room}.Bed{complaint.Bed}{" "}
-                      </div>
-                    </div>
-                  </div>
-                </>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+
           </>
           }
           
