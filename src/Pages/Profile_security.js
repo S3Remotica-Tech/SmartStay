@@ -5,9 +5,11 @@ import Form from 'react-bootstrap/Form';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Button from 'react-bootstrap/Button';
+import Emptystate from '../Assets/Images/Empty-State.jpg'
+import { MdError } from "react-icons/md";
 
 
- const Profile_Security = () => {
+ const Profile_Security = (props) => {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -124,55 +126,94 @@ import Button from 'react-bootstrap/Button';
       const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
-        <>
-           <div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
-              <div className='col-6'>
-                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Enable Two-factor Authentication</h6>
-                <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
-              </div>
-              <div className='col-2'>
-                <Form.Check
-                  type="switch"
-                  id="custom-switch"
-                  checked={isChecked}
-                  onChange={handleChange}
-                />
+      <>
+{props.profilepermissionError ? (
+  <div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    // height: "100vh",
+  }}
+>
+  {/* Image */}
+  <img
+    src={Emptystate}
+    alt="Empty State"
+    style={{ maxWidth: "100%", height: "auto" }}
+  />
 
-              </div>
-            </div>
+  {/* Permission Error */}
+  {props.profilepermissionError && (
+    <div
+      style={{
+        color: "red",
+        display: "flex",
+        alignItems: "center",
+        gap: "0.5rem",
+        marginTop: "1rem",
+      }}
+    >
+      <MdError size={20} />
+      <span>{props.profilepermissionError}</span>
+    </div>
+  )}
+</div>
+):
+<>
+<div className='d-flex  justify-content-between mt-2 me-2 mb-3'>
+   <div className='col-6'>
+     <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Enable Two-factor Authentication</h6>
+     <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+   </div>
+   <div className='col-2'>
+     <Form.Check
+       type="switch"
+       id="custom-switch"
+       checked={isChecked}
+       onChange={handleChange}
+     />
+
+   </div>
+ </div>
 
 
-            <div className='d-flex  justify-content-between me-2 mb-3 '>
-              <div className='col-6'>
-                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Email Setup</h6>
-                <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
-              </div>
-              <div className='col-2'>
-                <Form.Check type="switch" id="custom-switch" 
-                checked={isCheckedvalue}
-                onChange={handleSwitchChange}  />
+ <div className='d-flex  justify-content-between me-2 mb-3 '>
+   <div className='col-6'>
+     <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Email Setup</h6>
+     <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+   </div>
+   <div className='col-2'>
+     <Form.Check type="switch" id="custom-switch" 
+     checked={isCheckedvalue}
+     onChange={handleSwitchChange}  />
 
-              </div>
-            </div>
+   </div>
+ </div>
 
 
-            <div className='d-flex  justify-content-between me-2'>
-              <div className='col-6'>
-                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>SMS Setup</h6>
-                <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
-              </div>
-              <div className='col-2'>
-                <Form.Check type="switch" id="custom-switch" 
-                  checked={isCheckedvalue}
-                  onChange={handleSwitchChange}/>
-              </div>
-            </div>
+ <div className='d-flex  justify-content-between me-2'>
+   <div className='col-6'>
+     <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>SMS Setup</h6>
+     <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Lorem ipsum dolor sit amet consectetur. Lorem ipsum purus dolor duis sodales massa porttitor orci lectus. Ac quis placerat diam odio ut.</p>
+   </div>
+   <div className='col-2'>
+     <Form.Check type="switch" id="custom-switch" 
+       checked={isCheckedvalue}
+       onChange={handleSwitchChange}/>
+   </div>
+ </div>
 
-            <div className='justify-content-end mt-3'>
-              <Button onClick={handleTwoStepVerify} disabled={!isChanged} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}> Save Changes</Button>
+ <div className='justify-content-end mt-3'>
+   <Button onClick={handleTwoStepVerify} disabled={!isChanged} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}> Save Changes</Button>
 
-            </div>
-        </>
+ </div>
+</>
+}
+</>
+
+    
     )
  }
  export default Profile_Security;

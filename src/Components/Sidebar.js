@@ -72,26 +72,7 @@ function Sidebar() {
   const [manageOpen, setManageOpen] = useState(false)
   console.log("state for side bar", stateData)
 
-   const [profilerolePermission, setProfileRolePermission] = useState("");
-
-  const [profilepermissionError, setProfilePermissionError] = useState("");
-
-
-  useEffect(() => {
-    setProfileRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
-
-  useEffect(() => {
-    console.log("===profilerolePermission[0]", profilerolePermission);
-    if (
-      profilerolePermission[0]?.is_owner == 1 ||
-      profilerolePermission[0]?.role_permissions[17]?.per_view == 1
-    ) {
-      setProfilePermissionError("");
-    } else {
-      setProfilePermissionError("Permission Denied");
-    }
-  }, [profilerolePermission]);
+   
 
   let LoginId = localStorage.getItem("loginId")
   let checkedValue = localStorage.getItem("checked")

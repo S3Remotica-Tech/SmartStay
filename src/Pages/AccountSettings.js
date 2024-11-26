@@ -30,18 +30,50 @@ import { Dropdown, Table } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Emptystate from '../Assets/Images/Empty-State.jpg'
 
 
 const Accountsettings = () => {
-
+  const state = useSelector(state => state)
+  const dispatch = useDispatch();
 
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [profilePicture, setProfilePicture] = useState('');
+  const [settingGeneral,setSettigGeneral]= useState("")
+  const [profilepermissionError, setProfilePermissionError] = useState("");
+  const [profileEdit,setProfileEdit] = useState("")
+  useEffect(() => {
+    setSettigGeneral(state.createAccount.accountList);
+  }, [state.createAccount.accountList]);
+
+  useEffect(() => {
+    console.log("===settingGeneral[0]", settingGeneral);
+    if (
+      settingGeneral[0]?.is_owner == 1 ||
+      settingGeneral[0]?.role_permissions[17]?.per_view == 1
+    ) {
+      setProfilePermissionError("");
+    } else {
+      setProfilePermissionError("Permission Denied");
+    }
+  }, [settingGeneral]);
 
 
-  const state = useSelector(state => state)
-  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log("===settingGeneral[0]", settingGeneral);
+    if (
+      settingGeneral[0]?.is_owner == 1 ||
+      settingGeneral[0]?.role_permissions[17]?.per_edit == 1
+    ) {
+      setProfileEdit("");
+    } else {
+      setProfileEdit("Permission Denied");
+    }
+  }, [settingGeneral]);
+
+
+  
   const cookies = new Cookies()
   console.log("state for settings", state)
 
@@ -1003,359 +1035,563 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
           </TabList>
         </Box>
         <TabPanel value="1">
-          <>
-            <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
-              <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>First Name <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
 
-                  <Form.Control
-                    style={{
-                      padding: '20px', marginTop: '10px', fontSize: 16,
-                      fontWeight: 500,
-                      color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy"
-                    }}
-                    type="text"
-                    placeholder='Enter your name'
-                    value={firstname}
-                    onChange={handleName}
-                  />
-                                          {firstNameError.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {firstNameError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {firstNameError}
-    </p>
+{
+  profilepermissionError?(
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      // height: "100vh",
+    }}
+  >
+    {/* Image */}
+    <img
+      src={Emptystate}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+
+    {/* Permission Error */}
+    {profilepermissionError && (
+      <div
+        style={{
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <MdError size={20} />
+        <span>{profilepermissionError}</span>
+      </div>
+    )}
   </div>
+  ):
+  <>
+  <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
+    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>First Name <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+
+        <Form.Control
+          style={{
+            padding: '20px', marginTop: '10px', fontSize: 16,
+            fontWeight: 500,
+            color: "rgba(34, 34, 34, 1)",
+            fontFamily: "Gilroy"
+          }}
+          type="text"
+          placeholder='Enter your name'
+          value={firstname}
+          onChange={handleName}
+        />
+                                {firstNameError.trim() !== "" && (
+<div>
+<p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+{firstNameError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {firstNameError}
+</p>
+</div>
 )}
-                  {/* {firstNameError && <p style={{ fontSize: '12px', color: 'red' }}>* First Name is Required</p>} */}
-                </Form.Group>
-              </div>
+        {/* {firstNameError && <p style={{ fontSize: '12px', color: 'red' }}>* First Name is Required</p>} */}
+      </Form.Group>
+    </div>
 
-              <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Last Name </Form.Label>
-                  <Form.Control
-                    style={{
-                      padding: '20px', marginTop: '10px', fontSize: 16,
-                      fontWeight: 500,
-                      color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy"
-                    }}
-                    type="text"
-                    placeholder="Enter Lastname"
-                    value={lastname}
-                    onChange={handlelastName}
-                  />
-                </Form.Group>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
-              <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Email <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-
-                  <Form.Control
-                    style={{
-                      padding: '20px', marginTop: '10px', fontSize: 16,
-                      fontWeight: 500,
-                      color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy", borderColor: EmailError ? 'red' : ''
-                    }}
-                    type="text"
-                    placeholder="Enter email"
-                    value={email}
-                    onChange={handleEmailId}
-                  />
-                                 {EmailError.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {EmailError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {EmailError}
-    </p>
+    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Last Name </Form.Label>
+        <Form.Control
+          style={{
+            padding: '20px', marginTop: '10px', fontSize: 16,
+            fontWeight: 500,
+            color: "rgba(34, 34, 34, 1)",
+            fontFamily: "Gilroy"
+          }}
+          type="text"
+          placeholder="Enter Lastname"
+          value={lastname}
+          onChange={handlelastName}
+        />
+      </Form.Group>
+    </div>
   </div>
+
+  <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
+    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Email <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+
+        <Form.Control
+          style={{
+            padding: '20px', marginTop: '10px', fontSize: 16,
+            fontWeight: 500,
+            color: "rgba(34, 34, 34, 1)",
+            fontFamily: "Gilroy", borderColor: EmailError ? 'red' : ''
+          }}
+          type="text"
+          placeholder="Enter email"
+          value={email}
+          onChange={handleEmailId}
+        />
+                       {EmailError.trim() !== "" && (
+<div>
+<p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+{EmailError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {EmailError}
+</p>
+</div>
 )}
-                  {/* <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
-                  {EmailError && <p style={{ fontSize: '12px', color: 'red' }}>*Email is Required</p>} */}
-                </Form.Group>
-                {state.createAccount?.emailError ?  <div className='d-flex align-items-center p-1'>
-                    <MdError style={{ color: "red" , marginRight: '5px'}} />
-                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.emailError}</label>
-                  </div>
-                    : null}
-              </div>
+        {/* <p id="emailIDError" style={{ color: 'red', fontSize: 11, marginTop: 5 }}></p>
+        {EmailError && <p style={{ fontSize: '12px', color: 'red' }}>*Email is Required</p>} */}
+      </Form.Group>
+      {state.createAccount?.emailError ?  <div className='d-flex align-items-center p-1'>
+          <MdError style={{ color: "red" , marginRight: '5px'}} />
+          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.emailError}</label>
+        </div>
+          : null}
+    </div>
 
 
-              <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Mobile Number <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                  <InputGroup>
-                  <Form.Select
-                value={countryCode}
-                id="vendor-select-pg"
-                onChange={handleCountryCodeChange}
-                style={{
-                  border: "1px solid #D9D9D9",
-                  borderRadius: "8px 0 0 8px",
-                  height: 66,
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: countryCode ? 600 : 500,
-                  boxShadow: "none",
-                  backgroundColor: "#fff",
-                  maxWidth:90,
-                  paddingRight:10,
-                  padding: '20px', marginTop: '10px'
-                }}
-              >
-              {
-                  state.UsersList?.countrycode?.country_codes?.map((item)=>{
-                    console.log("itemImage",item);
-                    
-                    return(
-                      console.log("item.country_flag",item.country_flag),
-                      
-                      <>
-                     
-                      <option value={item.country_code}>
-                        +{item.country_code}
-                        
-                        {/* {item.country_flag} */}
-                        {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
-                        </option>
-                        {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
-                      {/* {item.country_code} */}
-                      </>
-                    )
-                  })
-                }
+    <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Mobile Number <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+        <InputGroup>
+        <Form.Select
+      value={countryCode}
+      id="vendor-select-pg"
+      onChange={handleCountryCodeChange}
+      style={{
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px 0 0 8px",
+        height: 66,
+        fontSize: 16,
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: countryCode ? 600 : 500,
+        boxShadow: "none",
+        backgroundColor: "#fff",
+        maxWidth:90,
+        paddingRight:10,
+        padding: '20px', marginTop: '10px'
+      }}
+    >
+    {
+        state.UsersList?.countrycode?.country_codes?.map((item)=>{
+          console.log("itemImage",item);
+          
+          return(
+            console.log("item.country_flag",item.country_flag),
+            
+            <>
+           
+            <option value={item.country_code}>
+              +{item.country_code}
+              
+              {/* {item.country_flag} */}
+              {/* <img src={item.country_flag} alt='flag' style={{height:'80px',width:'70px',backgroundColor:'red'}}/>  */}
+              </option>
+              {/* <img src={item.country_flag} style={{height:'80px',width:'70px',backgroundColor:'red'}}/> */}
+            {/* {item.country_code} */}
+            </>
+          )
+        })
+      }
 
-       
-              </Form.Select>
-                  <Form.Control
-                    style={{
-                      padding: '20px', marginTop: '10px', fontSize: 16,
-                      fontWeight: 500,
-                      color: "rgba(34, 34, 34, 1)",
-                      fontFamily: "Gilroy"
-                    }}
-                    type="text"
-                    placeholder="Enter phone"
-                    maxLength={10}
-                    value={phone}
-                    onChange={handlePhone}
-                   
-                  />
-                  </InputGroup>
-                  {mobilenoError.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {mobilenoError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {mobilenoError}
-    </p>
+
+    </Form.Select>
+        <Form.Control
+          style={{
+            padding: '20px', marginTop: '10px', fontSize: 16,
+            fontWeight: 500,
+            color: "rgba(34, 34, 34, 1)",
+            fontFamily: "Gilroy"
+          }}
+          type="text"
+          placeholder="Enter phone"
+          maxLength={10}
+          value={phone}
+          onChange={handlePhone}
+         
+        />
+        </InputGroup>
+        {mobilenoError.trim() !== "" && (
+<div>
+<p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+{mobilenoError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {mobilenoError}
+</p>
+</div>
+)}
+
+      </Form.Group>
+    </div>
   </div>
+  <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
+    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+      <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Address <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
+
+      <Form.Control
+        style={{
+          padding: '10px', marginTop: '10px', fontSize: 16,
+          fontWeight: 500,height:'150px',
+          color: "rgba(34, 34, 34, 1)",
+          fontFamily: "Gilroy"
+        }}
+        type="text"
+        placeholder="Enter Address"
+        value={ Address}
+        onChange={handleAddress}
+      />
+              {AddressError.trim() !== "" && (
+    <div>
+<p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+{AddressError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {AddressError}
+</p>
+</div>
 )}
 
-                </Form.Group>
-              </div>
-            </div>
-            <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Address <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-
-                <Form.Control
-                  style={{
-                    padding: '10px', marginTop: '10px', fontSize: 16,
-                    fontWeight: 500,height:'150px',
-                    color: "rgba(34, 34, 34, 1)",
-                    fontFamily: "Gilroy"
-                  }}
-                  type="text"
-                  placeholder="Enter Address"
-                  value={ Address}
-                  onChange={handleAddress}
-                />
-                        {AddressError.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {AddressError !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {AddressError}
-    </p>
+    </Form.Group>
   </div>
+
+  {totalErrormsg.trim() !== "" && (
+    <div>
+<p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+{totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+</p>
+</div>
 )}
+  {/* <div style={{ marginTop: '30px' }}>
+    <Button onClick={handleSaveUpdate} disabled={!hasChanges} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
+      Save Changes</Button>
+  </div> */}
+  <div style={{ marginTop: '30px' }}>
+  <Button
+    onClick={handleSaveUpdate}
+    disabled={!hasChanges || profileEdit} // Disable if no changes or if profileEdit is true
+    style={{
+      fontFamily: 'Montserrat',
+      fontSize: 16,
+      fontWeight: 500,
+      backgroundColor: "#1E45E1",
+      color: "white",
+      height: 56,
+      letterSpacing: 1,
+      borderRadius: 12,
+      width: 170,
+      padding: "18px, 10px, 18px, 10px",
+    }}
+  >
+    Save Changes
+  </Button>
+</div>
 
-              </Form.Group>
-            </div>
 
-            {totalErrormsg.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
-    </p>
-  </div>
-)}
-            <div style={{ marginTop: '30px' }}>
-              <Button onClick={handleSaveUpdate} disabled={!hasChanges} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
-                Save Changes</Button>
-            </div>
+  {/* <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleLogout}>
 
-            {/* <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'row', cursor: "pointer" }} onClick={handleLogout}>
-
-              <div> <img src={Logout} height={20} width={20} /> </div>
-              <p style={{ color: 'red', fontWeight: 500, fontSize: '18px', paddingBottom: '5px', marginLeft: '5px' }}>Log out</p>
-            </div> */}
+    <div> <img src={Logout} height={20} width={20} /> </div>
+    <p style={{ color: 'red', fontWeight: 500, fontSize: '18px', paddingBottom: '5px', marginLeft: '5px' }}>Log out</p>
+  </div> */}
 
 
-          </>
+</>
+}
+         
         </TabPanel>
 
         {/* password update  */}
 
         <TabPanel value="2">
-          <hr style={{ border: '1px solid #ced4da', width: '70%' }} />
+  <>
+    {profilepermissionError ? (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* Image */}
+        <img
+          src={Emptystate}
+          alt="Empty State"
+          style={{ maxWidth: "100%", height: "auto" }}
+        />
 
-{
-  hideCurrentpassword && <>
+        {/* Permission Error */}
+        <div
+          style={{
+            color: "red",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            marginTop: "1rem",
+          }}
+        >
+          <MdError size={20} />
+          <span>{profilepermissionError}</span>
+        </div>
+      </div>
+    ) : (
+      <>
+        <hr style={{ border: "1px solid #ced4da", width: "70%" }} />
 
-  
-
-           <div className="mb-3" style={{ display: 'flex', flexDirection: 'row' }}>
-          <div className="me-3 col-lg-4 col-md-5 col-sm-10 col-xs-10">
-              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Current Password</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  size="lg"
-                  value={currentpassword}
-                  onChange={handlecurrentpassword}
-                  type={showCurrentPassword ? "text"  : "password"}
-                  placeholder="Password"
+        {hideCurrentpassword && (
+          <>
+            <div
+              className="mb-3"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
+              <div className="me-3 col-lg-4 col-md-5 col-sm-10 col-xs-10">
+                <Form.Label
                   style={{
-                    position: "relative",
-                    boxShadow: "none",
-                    border:passworderrmsg ? "1px solid red" : "1px solid rgba(224, 236, 255, 1)",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: 500,
                     color: "rgba(34, 34, 34, 1)",
                     fontFamily: "Gilroy",
-                    // borderRight: "none"
                   }}
-                />
-               <InputGroup.Text onClick={togglePasswordVisibilitys} style={{ background: "transparent", border: passworderrmsg ? "1px solid red" : "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
-                  {showCurrentPassword ? (
-                    <Eye size="20" color="rgba(30, 69, 225, 1)" />
-                  ) : (
+                >
+                  Current Password
+                </Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    size="lg"
+                    value={currentpassword}
+                    onChange={handlecurrentpassword}
+                    type={showCurrentPassword ? "text" : "password"}
+                    placeholder="Password"
+                    style={{
+                      position: "relative",
+                      boxShadow: "none",
+                      border: passworderrmsg
+                        ? "1px solid red"
+                        : "1px solid rgba(224, 236, 255, 1)",
+                      fontSize: 16,
+                      fontWeight: 500,
+                      color: "rgba(34, 34, 34, 1)",
+                      fontFamily: "Gilroy",
+                    }}
+                  />
+                  <InputGroup.Text
+                    onClick={togglePasswordVisibilitys}
+                    style={{
+                      background: "transparent",
+                      border: passworderrmsg
+                        ? "1px solid red"
+                        : "1px solid rgba(224, 236, 255, 1)",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {showCurrentPassword ? (
+                      <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                    ) : (
+                      <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                    )}
+                  </InputGroup.Text>
+                </InputGroup>
+              </div>
 
-                    <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
-                  )}
-                </InputGroup.Text>
-     
-
-              </InputGroup>
+              <div style={{ marginTop: "30px" }}>
+                <Button
+                disabled={profileEdit}
+                  onClick={Passwordverify}
+                  style={{
+                    fontFamily: "Montserrat",
+                    fontSize: 16,
+                    fontWeight: 500,
+                    backgroundColor: "#1E45E1",
+                    color: "white",
+                    height: 40,
+                    letterSpacing: 1,
+                    borderRadius: 12,
+                    width: 80,
+                    padding: "4px 4px",
+                  }}
+                >
+                  Verify
+                </Button>
+              </div>
             </div>
 
-            <div style={{ marginTop: '30px' }}>
-            <Button onClick={Passwordverify}  style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 40, letterSpacing: 1, borderRadius: 12, width: 80, padding: "4px  4px" }}>
-            Verify</Button>
-            </div>
-            </div>
             {passworderrmsg.trim() !== "" && (
               <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {passworderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {passworderrmsg}
-    </p>
-  </div>
-)}
-            </>
-}
-{
-  displayPassword && <>
- 
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-
-         
-
-            <div className="me-3 col-lg-4 col-md-5 col-sm-10 col-xs-10">
-              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>New Password</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  size="lg"
-                  disabled={!inputdisable}
-                  value={password}
-                  onChange={handlePassword}
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  style={{
-                    position: "relative",
-                    boxShadow: "none",
-                    border: "1px solid rgba(224, 236, 255, 1)",
-                    fontSize: 16,
-                    fontWeight: 500,
-                    color: "rgba(34, 34, 34, 1)",
-                    fontFamily: "Gilroy",
-                    borderRight: "none"
-                  }}
-                />
-                <InputGroup.Text onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
-                  {showPassword ? (
-                    <Eye size="20" color="rgba(30, 69, 225, 1)" />
-                  ) : (
-
-                    <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
-                  )}
-                </InputGroup.Text>
-
-              </InputGroup>
-            </div>
-
-
-            <div className="col-lg-4 col-md-5 col-sm-10 col-xs-10">
-              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  size="lg"
-                  disabled={!inputdisable}
-                  value={confirmpassword}
-                  onChange={handleConfirmPassword}
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Password"
-                  style={{
-                    position: "relative",
-                    boxShadow: "none",
-                    border: "1px solid rgba(224, 236, 255, 1)",
-                    fontSize: 16,
-                    fontWeight: 500,
-                    color: "rgba(34, 34, 34, 1)",
-                    fontFamily: "Gilroy",
-                    borderRight: "none"
-                  }}
-                />
-                <InputGroup.Text onClick={toggleConfirmPasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
-                  {showConfirmPassword ? (
-                    <Eye size="20" color="rgba(30, 69, 225, 1)" />
-                  ) : (
-
-                    <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
-                  )}
-                </InputGroup.Text>
-
-              </InputGroup>
-            </div>
-          </div>
-          <div style={{ marginTop: '30px' }}>
-            <Button onClick={handlePasswordchange}  disabled={!inputdisable} style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56, letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" }}>
-              Save Changes</Button>
-          </div>
+                <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}>
+                  {passworderrmsg !== " " && (
+                    <MdError style={{ fontSize: "15px", color: "red" }} />
+                  )}{" "}
+                  {passworderrmsg}
+                </p>
+              </div>
+            )}
           </>
-        }
+        )}
 
-        <div style={{marginBottom:'100px'}}></div>
-        </TabPanel>
+        {displayPassword && (
+          <>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <div className="me-3 col-lg-4 col-md-5 col-sm-10 col-xs-10">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: "rgba(34, 34, 34, 1)",
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  New Password
+                </Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    size="lg"
+                    disabled={!inputdisable}
+                    value={password}
+                    onChange={handlePassword}
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    style={{
+                      position: "relative",
+                      boxShadow: "none",
+                      border: "1px solid rgba(224, 236, 255, 1)",
+                      fontSize: 16,
+                      fontWeight: 500,
+                      color: "rgba(34, 34, 34, 1)",
+                      fontFamily: "Gilroy",
+                      borderRight: "none",
+                    }}
+                  />
+                  <InputGroup.Text
+                    onClick={togglePasswordVisibility}
+                    style={{
+                      background: "transparent",
+                      border: "1px solid rgba(224, 236, 255, 1)",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {showPassword ? (
+                      <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                    ) : (
+                      <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                    )}
+                  </InputGroup.Text>
+                </InputGroup>
+              </div>
+
+              <div className="col-lg-4 col-md-5 col-sm-10 col-xs-10">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: "rgba(34, 34, 34, 1)",
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  Confirm Password
+                </Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    size="lg"
+                    disabled={!inputdisable}
+                    value={confirmpassword}
+                    onChange={handleConfirmPassword}
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Password"
+                    style={{
+                      position: "relative",
+                      boxShadow: "none",
+                      border: "1px solid rgba(224, 236, 255, 1)",
+                      fontSize: 16,
+                      fontWeight: 500,
+                      color: "rgba(34, 34, 34, 1)",
+                      fontFamily: "Gilroy",
+                      borderRight: "none",
+                    }}
+                  />
+                  <InputGroup.Text
+                    onClick={toggleConfirmPasswordVisibility}
+                    style={{
+                      background: "transparent",
+                      border: "1px solid rgba(224, 236, 255, 1)",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {showConfirmPassword ? (
+                      <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                    ) : (
+                      <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                    )}
+                  </InputGroup.Text>
+                </InputGroup>
+              </div>
+            </div>
+            <div style={{ marginTop: "30px" }}>
+              <Button
+                onClick={handlePasswordchange}
+                disabled={!inputdisable || profileEdit}
+                style={{
+                  fontFamily: "Montserrat",
+                  fontSize: 16,
+                  fontWeight: 500,
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  height: 56,
+                  letterSpacing: 1,
+                  borderRadius: 12,
+                  width: 170,
+                  padding: "18px, 10px, 18px, 10px",
+                }}
+              >
+                Save Changes
+              </Button>
+            </div>
+          </>
+        )}
+
+        <div style={{ marginBottom: "100px" }}></div>
+      </>
+    )}
+  </>
+</TabPanel>
+
 
         <TabPanel value="3">
-          <Profile_Security/>
+          <Profile_Security profilepermissionError={profilepermissionError}/>
           </TabPanel>
 
           <TabPanel value="4">
-            <div>
+            {
+              profilepermissionError ? (
+                <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {/* Image */}
+                <img
+                  src={Emptystate}
+                  alt="Empty State"
+                  style={{ maxWidth: "100%", height: "auto" }}
+                />
+        
+                {/* Permission Error */}
+                <div
+                  style={{
+                    color: "red",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <MdError size={20} />
+                  <span>{profilepermissionError}</span>
+                </div>
+              </div>
+              ):
+              <div>
               <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'370px', height:'246px'}}>
                 <div style={{marginLeft:'10px',marginTop:'10px',paddingLeft:'8px',paddingTop:'7px',height:40, width:40,borderRadius:'50%',backgroundColor:'#E7F1FF'}}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M2 10.99V5.71c0-1.33.77-1.65 1.71-.71L6.3 7.59c.39.39 1.03.39 1.41 0L11.29 4a.996.996 0 0 1 1.41 0l3.59 3.59c.39.39 1.03.39 1.41 0L20.29 5c.94-.94 1.71-.62 1.71.71v9.59c0 3-2 5-5 5H7c-2.76 0-5-2.24-5-5" stroke="#1e45e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -1385,13 +1621,47 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
              </div>
               </div>
             </div>
+            }
+
+           
           </TabPanel>
 
 
 
           <TabPanel value="5">
-
-          <div style={{display:'flex',flexDirection:'row'}}>
+            {
+              profilepermissionError ? (
+                <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {/* Image */}
+                <img
+                  src={Emptystate}
+                  alt="Empty State"
+                  style={{ maxWidth: "100%", height: "auto" }}
+                />
+        
+                {/* Permission Error */}
+                <div
+                  style={{
+                    color: "red",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <MdError size={20} />
+                  <span>{profilepermissionError}</span>
+                </div>
+              </div>
+              ):
+              <div style={{display:'flex',flexDirection:'row'}}>
               <div style={{border:'1px solid #DCDCDC',borderRadius:'10px',width:'350px', height:'206px'}}>
              <div style={{display:'flex',flexDirection:'row' ,justifyContent:'space-between',paddingLeft:'10px',paddingRight:'10px',fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500 ,marginTop:'20px'}}>
               {/* <p style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>sms</p> */}
@@ -1455,6 +1725,9 @@ const [hideCurrentpassword , setHideCurrentPassword] = useState(true)
              </div>
               </div>
             </div>
+            }
+
+          
           </TabPanel>
           
 
