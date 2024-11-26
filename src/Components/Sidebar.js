@@ -484,7 +484,7 @@ function Sidebar() {
 
 
             </div>
-            {/* <ul className="p-0" style={{ position: "absolute", bottom: 0, left: 10, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <ul className="p-0" style={{ position: "absolute", bottom: 0, left: 10, display: "flex", flexDirection: "column", alignItems: "center" }}>
               <li className={` align-items-center list-Items ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageClick('profile')} style={{ listStyleType: "none", display: "flex", width: 200 }}>
                 <div className="mr-3" style={{ cursor: "pointer" }}>
                   <Image
@@ -498,81 +498,10 @@ function Sidebar() {
                 </div>
 
               </li>
-            </ul> */}
-            {!profilepermissionError && (
-  <ul
-    className="p-0"
-    style={{
-      position: "absolute",
-      bottom: 0,
-      left: 10,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    }}
-  >
-    <li
-      className={`align-items-center list-Items ${
-        currentPage === "profile" ? "active" : ""
-      }`}
-      onClick={() => handlePageClick("profile")}
-      style={{
-        listStyleType: "none",
-        display: "flex",
-        width: 200,
-        cursor: profilepermissionError ? "not-allowed" : "pointer",
-        opacity: profilepermissionError ? 0.5 : 1,
-        pointerEvents: profilepermissionError ? "none" : "auto",
-      }}
-    >
-      <div className="mr-3">
-        <Image
-          src={
-            profiles == "null" ||
-            profiles == null ||
-            profiles == undefined ||
-            profiles == "undefined" ||
-            profiles == "" ||
-            profiles == 0 ||
-            profiles == "0"
-              ? Profileimage
-              : profiles
-          }
-          alt="profile-image"
-          roundedCircle
-          style={{ height: "40px", width: "40px" }}
-        />
-      </div>
+            </ul>
+            
+ 
 
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <span
-          className="ms-3 Title"
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            display: "inline-block",
-            fontFamily: "Gilroy",
-            textTransform: "capitalize",
-          }}
-        >
-          {profilename}
-        </span>
-        <span
-          className="ms-3 Title"
-          style={{
-            fontSize: 12,
-            fontWeight: 600,
-            display: "inline-block",
-            fontFamily: "Gilroy",
-            color: "blue",
-          }}
-        >
-          Admin
-        </span>
-      </div>
-    </li>
-  </ul>
-)}
 
           </Col>
           <Col className="bg-white main-content" lg={{ span: 10, offset: 2 }} md={{ span: 10, offset: 2 }} sm={{ span: 10, offset: 2 }} xs={{ span: 10, offset: 2 }} 
