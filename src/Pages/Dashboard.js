@@ -255,13 +255,35 @@ lineHeight: 'normal',
   //   ],
   // };
 
-  const last6MonthsData = data?.filter((item) => {
-    const currentDate = new Date();
-    const itemDate = new Date(item.month);
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
-    return itemDate >= sixMonthsAgo;
-  });
+//   const last6MonthsData = data?.filter((item) => {
+//   const currentDate = new Date();
+//   const itemDate = new Date(item.month);
+//   const sixMonthsAgo = new Date();
+//   sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+//   return itemDate >= sixMonthsAgo;
+// });
+// const last6MonthsData = data?.filter((item) => {
+//   const currentDate = new Date();
+//   const sixMonthsAgo = new Date(); 
+//   sixMonthsAgo.setMonth(currentDate.getMonth() - 5); 
+
+//   const itemDate = new Date(item.month); 
+//   return itemDate >= sixMonthsAgo && itemDate <= currentDate; 
+// })
+
+// Adjust the calculation to ensure a full 6-month range is included
+const last6MonthsData = data?.filter((item) => {
+  const currentDate = new Date(); // Current date
+  const startOfSixMonthsAgo = new Date(currentDate); 
+  startOfSixMonthsAgo.setMonth(currentDate.getMonth() - 5); // Go back 5 months to include June in a range
+  
+  startOfSixMonthsAgo.setDate(1); // Ensure we start at the beginning of the month
+  const itemDate = new Date(item.month); // Parse month from the data
+
+  return itemDate >= startOfSixMonthsAgo && itemDate <= currentDate; // Include only dates in the range
+});
+
+
   const fixedColors = [
     "#FF6384", // Red
     "#36A2EB", // Blue
@@ -671,7 +693,7 @@ lineHeight: 'normal',
   >
     <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
    
-  <XAxis
+  {/* <XAxis
         dataKey="month"
         tick={{
           fontFamily: "Gilroy",
@@ -686,7 +708,22 @@ lineHeight: 'normal',
         axisLine={{ stroke: "#e0e0e0", strokeWidth: 2 }}
       >
         <Label value="" position="insideBottom" stroke="#e0e0e0" />
-      </XAxis>
+      </XAxis> */}
+       <XAxis
+  dataKey="month"
+  tick={{
+    fontFamily: "Gilroy",
+    fontSize: 12,
+    fontWeight: 500,
+  }}
+  tickFormatter={(month) => {
+    const date = new Date(month);
+    const options = { month: "short", year: "numeric" }; // Format e.g., "Jun 2024"
+    return date.toLocaleDateString("en-US", options);
+  }}
+>
+  <Label value="" position="insideBottom" offset={-15} />
+</XAxis>;
     <YAxis
       axisLine={false}
       tickLine={false}
