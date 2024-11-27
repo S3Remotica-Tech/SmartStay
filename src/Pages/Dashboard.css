@@ -1,6 +1,7 @@
 .circulardes{
   display: flex;
   flex-direction: row;
+  margin-top: 20px;
 }
 .circulardesone {
   display: flex;
@@ -17,6 +18,10 @@
   
 
 }
+
+/* .spacedash{
+  height: "170px";
+} */
 
 .texrtalii {
   display: flex;
@@ -405,9 +410,14 @@
 }
 
 @media (max-width: 768px) {
-  .crddesg {
+  /* .crddesg {
     padding: 10px;
     margin-left: 50px;
+    width: auto;
+  } */
+  .crddesg {
+    margin-left: 0;
+    padding: 1rem;
   }
   .dropp {
     flex-direction: column;
@@ -479,16 +489,193 @@
 
 }
 
-/* @media (min-width: 577px) {
-  .card {
-    width: auto;
-    margin-left: 20px;
-  }
-  .card-header {
-    background-color: transparent;
-  }
+
+.dashfirst{
+  display: flex;
+  flex-direction: row;
+}
+.dashtwo{
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  margin-top: -20px;
+  margin-left: 25px;
   
-
+}
+.dashthree{
+margin-left: -30px;
+}
+.eigthdesign{
+  margin-left: 10px;
+}
+.dashfour{
  
-} */
+margin-left: 10px;
+width: 210px;
+padding-top: 6px;
+padding-bottom: 8px;
 
+}
+.spacecard{
+  margin-left: -20px;
+  width: 220px;
+  margin-top: -15px;
+}
+.dashfive{
+  width: 210px;
+height: 70px;
+
+}
+/* .spacedash{
+  margin-top:0px;
+} */
+/* .center-text{
+  margin-left: -37px;
+} */
+.center-text {
+  text-align: center;
+}
+
+.adjust-margin {
+  margin-left: -37px !important;
+}
+.booking{
+  display: flex;
+  flex-direction: row;
+  margin-top: 40px;
+}
+
+.dashTable{
+  border: 1px solid #DCDCDC;
+  border-radius: 24px;
+  /* width: 100%; */
+  border-collapse: separate;
+  border-spacing: 0;
+  /* margin-left: -60px; */
+  
+  }
+  .complaints-container{
+    height: 420px;
+  }
+  .firstcard{
+    height: 170px;
+    width: 150px;
+    margin-top: -15px;
+  }
+  .secondcard{
+    width: 210x;
+    height: 80px;
+    
+  }
+  .thirdcard{
+    width: 210x;
+    height: 80px;
+  }
+  .fourthcard{
+    width: 210px;
+    height: 80px;
+   
+  }
+  .fifthcard{
+    width: 210px;
+    height: 80px;
+  }
+  .sixthcard{
+    width: 210px;
+    height: 80px;
+  }
+  .seventhcard{
+    width: 210px;
+    height: 80px; 
+  }
+  .eighthcard{
+    height: 173px;
+    width: 150px;
+    padding-top: 8px;
+    margin-top: 9px;
+  }
+  .chatwidth{
+    width: 489px;
+  }
+  .spacedash{
+    margin-left: -30px;
+  }
+  .dashtwo{
+    display: flex;
+    flex-direction: row;
+    height:auto;
+    width: 600px;
+    margin-left: 30px;
+  }
+ 
+@media (max-width: 900px) {
+  .dashfirst{
+    display: flex;
+    flex-direction: column;
+  }
+  .chatwidth{
+    width:auto;
+  }
+
+  .firstcard{
+    height:auto;
+    width: auto;
+  }
+  .spacecard{
+    margin-left: 0px;
+    width:auto;
+  }
+  .secondcard{
+    width: auto;
+    height:auto;
+    
+  }
+  .eighthcard{
+    height: auto;
+    width:auto;
+    /* padding-top: 8px; */
+    margin-top: 9px;
+  }
+  .dashtwo{
+    display: flex;
+    flex-direction: column;
+    height:auto;
+    width: auto;
+    margin-left: 0px;
+
+  }
+  .dashthree{
+    width:auto;
+    height: auto;
+    margin-left:0px;
+    }
+    .dashfour{
+      width:auto;
+    height:auto;
+    margin-left:0px;
+    }
+    .dashfive{
+      width:auto;
+      height:auto;
+      margin-left:0px; 
+    }
+    .spacedash{
+      margin-top: 20px;
+    }
+    .booking{
+      display: flex;
+      flex-direction:column;
+    }
+    .complaints-container{
+      height: auto;
+    }
+    .eigthdesign{
+      margin-left: 0px;
+    }
+    .chatwidth{
+      width: auto;
+    }
+    /* .center-text{
+      margin-left: 0px;
+    } */
+}
