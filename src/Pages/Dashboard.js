@@ -505,7 +505,7 @@ const last6MonthsData = data?.filter((item) => {
           <i class="bi bi-house-door-fill fs-3"></i>
         </div>
         <h6 class="text-muted">Total Room</h6>
-        <h4 class="mb-0">50</h4>
+        <h4 class="mb-0">{dashboardList[0]?.roomCount}</h4>
       </div>
     
          </div>
@@ -514,7 +514,7 @@ const last6MonthsData = data?.filter((item) => {
          <div class="border rounded-4 p-3 text-start bg-white shadow-sm secondcard d-flex justify-content-between align-items-center">
   <div>
     <h6 class="text-muted">Total Beds</h6>
-    <h4 class="mb-0">8</h4>
+    <h4 class="mb-0">{dashboardList[0]?.TotalBed}</h4>
   </div>
   {/* <i class="bi bi-house-door-fill fs-3"></i> */}
   <img src={clock} width={30} height={30}/>
@@ -524,7 +524,7 @@ const last6MonthsData = data?.filter((item) => {
   <div class="d-flex justify-content-between align-items-center">
     <div>
       <h6 class="text-muted mb-0">Free Bed</h6>
-      <h4 class="mb-0">9</h4>
+      <h4 class="mb-0">{dashboardList[0]?.availableBed}</h4>
     </div>
     <img src={clock} width="30" height="30" alt="Clock" />
   </div>
@@ -538,7 +538,7 @@ const last6MonthsData = data?.filter((item) => {
 <div class="d-flex flex-column gap-3 dashfour" style={{flex:1}} >
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm fourthcard">
           <h6 class="text-muted">Occupied Bed</h6>
-          <h4 class="mb-0">10</h4>
+          <h4 class="mb-0">{dashboardList[0]?.occupied_Bed}</h4>
         </div>
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm fifthcard" >
           <h6 class="text-muted">Total Customer</h6>
@@ -557,9 +557,10 @@ const last6MonthsData = data?.filter((item) => {
       </div>
       <div class="d-flex flex-column gap-3 eigthdesign" style={{flex:1}} >
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm eighthcard">
-        <img src={vector} width={20} height={20}/>
-          <h6 class="text-muted">Total Asset Value</h6>
-          <h4 class="mb-0">1</h4>
+        <img src={vector} width={32} height={32}/>
+        <p class="text-muted" style={{fontWeight:400,fontSize:14,fontFamily:"Montserrat",marginTop:12}}>Total Asset Value</p>
+          <h4 class="mb-0" style={{fontFamily:"Gilroy",fontSize:32,fontWeight:600,marginTop:8}}>₹ 15446</h4>
+         
         </div>
         </div>
      
@@ -576,78 +577,103 @@ const last6MonthsData = data?.filter((item) => {
 
 
           <div className="circulardes">
-<div className="w-full animated-text" style={{ flex: 1, }}>
+<div className="animated-text" style={{ flex: 1, }}>
 <div
   className="w-full"
   style={{
-    // padding: "0px",
     paddingTop: "20px",
     border: "1px solid #e0e0e0",
     borderRadius: "20px",
     backgroundColor: "#fff",
-    marginLeft:"-3px",
-    paddingRight:20,
-    width:"98%",
-    marginTop:10
+    marginLeft: "-3px",
+    paddingRight: 20,
+    width: "98%",
+    marginTop: 10,
   }}
 >
+<div
+  style={{
+    display: "flex",
+    flexWrap: "wrap", 
+    justifyContent: "space-between", 
+    alignItems: "center",
+    padding: "10px 20px",
+    marginTop:"-15px"
+  }}
+>
+  {/* Left Section: Title */}
   <div
-    // className="dropp"
     style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      padding: "10 20px",
-      
+      flex: "1 1 auto", // Adapts to available space
+      textAlign: "start",
+      paddingLeft: 25,
+      marginBottom: "0", // Ensures no gap for larger screens
     }}
   >
-    <div style={{ display: "flex", textAlign: "start" }} >
-      <p
-        style={{
-          fontFamily: "Montserrat",
-          fontSize: 18,
-          fontWeight: 600,
-          paddingLeft: 25,
-        }}
-      >
-        Expenses Vs Revenue
-      </p>
-    </div>
-    <div
-      className="d-flex align-items-end mb-3 justify-content-end"
-      style={{ marginTop: 10 }}
+    <p
+      style={{
+        fontFamily: "Montserrat",
+        fontSize: 18,
+        fontWeight: 600,
+        margin: 0, // Removes extra margin
+      }}
     >
-      <div style={{ position: "relative", width: 118, height: 36 }}>
-        <select
-          aria-label="Default select example"
-          style={{
-            fontSize: 12,
-            color: "#4B4B4B",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            boxShadow: "none",
-            border: "1px solid #D9D9D9",
-            height: 36,
-            width: 118,
-            borderRadius: 60,
-            paddingTop: 6,
-            paddingBottom: 6,
-            paddingRight: 10,
-            paddingLeft: 10,
-            appearance: "none",
-            background: `url(${drop}) no-repeat right 10px center`,
-            backgroundSize: "16px 16px",
-          }}
-        >
-          <option>2023-2024</option>
-          <option>2024-2025</option>
-        </select>
-      </div>
-    </div>
+      Expenses Vs Revenue
+    </p>
   </div>
 
-  <div className="chatwidth" style={{ position: "relative", height: 350 }}>
+  {/* Right Section: Dropdown */}
+  <div
+    style={{
+      flex: "0 0 auto", // Prevents the dropdown from stretching
+      maxWidth: "350px", // Constrains dropdown width
+      marginLeft: "auto", // Pushes dropdown to the far right
+    }}
+  >
+    <div style={{ position: "relative", width: "150px", height: 36 }}>
+      <select
+        aria-label="Default select example"
+        style={{
+          fontSize: 12,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 600,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 36,
+          width: "100%",
+          borderRadius: 60,
+          padding: "6px 10px",
+          appearance: "none",
+          background: `url(${drop}) no-repeat right 10px center`,
+          backgroundSize: "16px 16px",
+        }}
+      >
+        <option>2023-2024</option>
+        <option>2024-2025</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+
+
+  {/* Chart Container */}
+  <div
+    className="chart-container"
+    style={{
+      position: "relative",
+      height: 350,
+      overflowX: "auto",
+    }}
+  >
     <div
+      style={{
+        minWidth: "100%", 
+      }}
+      className="chart-wrapper"
+    >
+          <div
       style={{
         position: "absolute",
         top: "10px",
@@ -682,94 +708,85 @@ const last6MonthsData = data?.filter((item) => {
           Amount
         </p>
       </div>
-    </div>
-
-    <ResponsiveContainer>
-  <BarChart
-    data={last6MonthsData}
-    margin={{ top: 10, left: 50, bottom: 40, right: 10 }}
-    barGap={0}
-    barCategoryGap="5%"
-  >
-    <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
-   
-  {/* <XAxis
-        dataKey="month"
-        tick={{
-          fontFamily: "Gilroy",
-          fontSize: 12,
-          fontWeight: 500,
-        }}
-        tickFormatter={(month) => {
-          const date = new Date(month);
-          const options = { month: "short", year: "numeric" };
-          return date.toLocaleDateString("en-US", options);
-        }}
-        axisLine={{ stroke: "#e0e0e0", strokeWidth: 2 }}
-      >
-        <Label value="" position="insideBottom" stroke="#e0e0e0" />
-      </XAxis> */}
-       <XAxis
-  dataKey="month"
-  tick={{
-    fontFamily: "Gilroy",
+</div>
+      <ResponsiveContainer width="100%" height={350}>
+        <BarChart
+          data={last6MonthsData}
+          margin={{ top: 10, left: 50, bottom: 40, right: 10 }}
+          barGap={0}
+          barCategoryGap="5%"
+        >
+          <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
+          <XAxis
+            dataKey="month"
+            tick={{
+              fontFamily: "Gilroy",
+              fontSize: 12,
+              fontWeight: 500,
+            }}
+            tickFormatter={(month) => {
+              const date = new Date(month);
+              const options = { month: "short", year: "numeric" };
+              return date.toLocaleDateString("en-US", options);
+            }}
+          >
+            <Label value="" position="insideBottom" offset={-15} />
+          </XAxis>
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+            tickFormatter={formatYAxis}
+            dx={-10}
+            tick={{
+              fontFamily: "Gilroy",
+              fontSize: 12,
+              fontWeight: 500,
+            }}
+          />
+          <Bar
+            dataKey="revenue"
+            fill="#E34B4B"
+            barSize={50}
+            radius={[5, 5, 0, 0]}
+          >
+            <LabelList
+              dataKey="revenue"
+              position="inside"
+              angle={270}
+              style={{ fill: "white", fontSize: 12, fontWeight: "bold" }}
+            />
+          </Bar>
+          <Bar
+            dataKey="expense"
+            fill="#00A32E"
+            barSize={50}
+            radius={[5, 5, 0, 0]}
+          >
+            {/* <LabelList
+              dataKey="expense"
+              position="inside"
+              angle={270}
+              style={{ fill: "white", fontSize: 12, fontWeight: "bold" }}
+            /> */}
+            <LabelList
+  dataKey="expense" 
+  position="inside" 
+  angle={270} 
+  formatter={(value) => `₹ ${value}`} 
+  style={{
+    fill: "white",
     fontSize: 12,
-    fontWeight: 500,
+    fontWeight: "bold",
+    whiteSpace: "nowrap",
   }}
-  tickFormatter={(month) => {
-    const date = new Date(month);
-    const options = { month: "short", year: "numeric" }; // Format e.g., "Jun 2024"
-    return date.toLocaleDateString("en-US", options);
-  }}
->
-  <Label value="" position="insideBottom" offset={-15} />
-</XAxis>;
-    <YAxis
-      axisLine={false}
-      tickLine={false}
-      tickFormatter={formatYAxis}
-      dx={-10}
-      tick={{
-        fontFamily: "Gilroy",
-        fontSize: 12,
-        fontWeight: 500,
-      }}
-    />
-    {/* <Tooltip formatter={(value) => `${value}`} /> */}
-    <Bar
-      dataKey="revenue"
-      fill="#E34B4B"
-      barSize={100}
-      radius={[5, 5, 0, 0]}
-    >
-      <LabelList
-        dataKey="revenue"
-        position="inside"
-        angle={270} // Rotates the label vertically
-        style={{ fill: "white", fontSize: 12, fontWeight: "bold" }}
-      />
-    </Bar>
-    <Bar
-      dataKey="expense"
-      fill="#00A32E"
-      barSize={32}
-      radius={[5, 5, 0, 0]}
-    >
-      <LabelList
-        dataKey="expense"
-        position="inside"
-        angle={270} // Rotates the label vertically
-        style={{ fill: "white", fontSize: 12, fontWeight: "bold" }}
-      />
-    </Bar>
-    <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
-  </BarChart>
-</ResponsiveContainer>
+/>
 
+          </Bar>
+          <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
+        </BarChart>
+      </ResponsiveContainer>
 
-
-
-    <div
+      <div
       style={{
         position: "absolute",
         bottom: "50px",
@@ -797,8 +814,20 @@ const last6MonthsData = data?.filter((item) => {
         style={{ width: "30px", height: "10px" }}
       />
     </div>
+
+
+      
+    </div>
+    
   </div>
+
+
+ 
+
 </div>
+
+
+
 
 <Card
   className="animated-text"
@@ -1521,7 +1550,7 @@ No Data
                paddingLeft:20
              }}
            >
-             Users
+             Invoice number
            </th>
            <th
              style={{
@@ -1533,7 +1562,7 @@ No Data
                textAlign: "left",
              }}
            >
-             Email
+             Due Date
            </th>
            <th
              style={{
@@ -1545,20 +1574,9 @@ No Data
                textAlign: "left",
              }}
            >
-             Mobile
+             Amount
            </th>
-           <th
-             style={{
-               color: "#222",
-               fontWeight: 600,
-               fontSize: "14px",
-               fontFamily: "Gilroy",
-               padding: "10px",
-               textAlign: "left",
-             }}
-           >
-             Role
-           </th>
+         
            <th
              style={{
                padding: "10px",
@@ -1569,36 +1587,50 @@ No Data
          </tr>
        </thead>
        <tbody>
-         {/* {
-           currentRowUsers?.map((item)=>{
-            const imageUrl = item.profile || Profile;
-             return( */}
+          {
+           state.PgList?.dashboardDetails?.bill_details?.map((item)=>{
+            // const imageUrl = item.profile || Profile;
+            let Dated = new Date(item.DueDate);
+             console.log("Dated..?", Dated);
+
+             let day = Dated.getDate();
+             let month = Dated.getMonth();
+             let year = Dated.getFullYear();
+             const monthNames = [
+               "Jan",
+               "Feb",
+               "Mar",
+               "Apr",
+               "May",
+               "Jun",
+               "Jul",
+               "Aug",
+               "Sep",
+               "Oct",
+               "Nov",
+               "Dec",
+             ];
+             let formattedMonth = monthNames[month];
+             let formattedDate = `${year} ${formattedMonth} ${day}`;
+
+             console.log("Formatted Date:", formattedDate);
+             return( 
                <tr style={{ overflowX: 'auto' }}>
-               {/* <td
-                
-                 style={{
-                   fontWeight: 500,
-                   fontSize: "16px",
-                   fontFamily: "Gilroy",
-                   textAlign: "left",
-                   paddingLeft:20,
-                   whiteSpace: "nowrap"
-                 }}
-               >
-                {item.first_name}
-               </td> */}
+              
                <td
                  style={{
                    fontWeight: 500,
                    fontSize: "16px",
                    fontFamily: "Gilroy",
                   //  textAlign: "left",
-                   padding:10
+                  //  padding:10,
+                   paddingLeft:20
+
 
                  }}
                >
-                email
-               {/* {item.email_Id} */}
+              {item.Invoices}
+              
                </td>
                <td
                  style={{
@@ -1606,23 +1638,15 @@ No Data
                    fontSize: "16px",
                    fontFamily: "Gilroy",
                    textAlign: "left",
-                   paddingTop:17
+                   paddingTop:17,
+                   whiteSpace: "nowrap",
 
                  }}
                >
-                email
-               {/* {item.email_Id} */}
+               {formattedDate}
+             
                </td>
-               {/* <td
-                 style={{
-                   fontWeight: 500,
-                   fontSize: "16px",
-                   fontFamily: "Gilroy",
-                   textAlign: "left",
-                 }}
-               >
-                {item.mobileNo}
-               </td> */}
+            
                <td
                               style={{
                                 paddingTop:15,
@@ -1635,26 +1659,10 @@ No Data
                                 whiteSpace: "nowrap"
                               }}
                             >
-                              +jhe
-                              {/* {item &&
-                                String(item.mobileNo).slice(
-                                  0,
-                                  String(item.mobileNo).length - 10
-                                )}{" "}
-                              {item && String(item.mobileNo).slice(-10)} */}
+                              {item.total_amount}
+                              
                             </td>
-               <td
-                 style={{
-                   fontWeight: 500,
-                   fontSize: "16px",
-                   fontFamily: "Gilroy",
-                   textAlign: "left",
-                   paddingTop:15
-                 }}
-               >
-                name
-                 {/* {item.role_name} */}
-               </td>
+              
                <td style={{ textAlign: "center" }}>
                  <div
                    style={{
@@ -1665,83 +1673,22 @@ No Data
                      display: "flex",
                      justifyContent: "center",
                      alignItems: "center",
-                    //  zIndex:EditUser === item.id ? 1000 : "auto",
+                    
                    }}
-                  //  onClick={() => handleEditUser(item.id)}
-                  // onClick={(event) => handleEditUser(item.id, event)}
+                  
+                  
                  >
                    <PiDotsThreeOutlineVerticalFill
                      style={{ height: "20px", width: "20px" }}
                    />
-                     {/* {EditUser === item.id && (
-                     <div
-                       ref={popupRef}
-                       style={{
-                        cursor: "pointer",
-                        backgroundColor: "#F9F9F9",
-                        position: "absolute",
-                        top: popupPosition?.top || 0,
-                        left: popupPosition?.left || 0,
-                        width: 160,
-                        height: 70,
-                        border: "1px solid #EBEBEB",
-                        borderRadius: 10,
-                        display: "flex",
-                        flexDirection: "column",
-                        padding: 10,
-                        alignItems: "start",
-                      }}
-                     >
-                       <div
-                         className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                        //  onClick={() => handleEditForm(item)}
-                       >
-                         <img
-                           src={Edit}
-                           style={{ height: 16, width: 16 }}
-                           alt="Edit"
-                         />
-                         <label
-                           style={{
-                             fontSize: 14,
-                             fontWeight: 500,
-                             fontFamily: "Gilroy, sans-serif",
-                             color: "#000000",
-                             cursor: "pointer",
-                           }}
-                         >
-                           Edit
-                         </label>
-                       </div>
-                       <div className="mb-2 d-flex justify-content-start align-items-center gap-2"  onClick={() => handleDeleteForm(item)}>
-                         <img
-                           src={Delete}
-                           style={{ height: 16, width: 16 }}
-                           alt="Delete"
-                          //  onClick={handleDeleteTransForm}
-                          //  onClick={() => handleDeleteTransForm(user)}
-                         />
-                         <label
-                           style={{
-                             fontSize: 14,
-                             fontWeight: 500,
-                             fontFamily: "Gilroy, sans-serif",
-                             color: "#FF0000",
-                             cursor: "pointer",
-                           }}
-                         >
-                           Delete
-                         </label>
-                       </div>
-                     </div>
-                   )} */}
+                    
                  </div>
                </td>
              </tr>
-             {/* )
+             )
            })
      
-         } */}
+         }
         
        </tbody>
      </Table>
