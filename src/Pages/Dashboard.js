@@ -43,6 +43,7 @@ import { MdError } from "react-icons/md";
 import Emptystate from '../Assets/Images/Empty-State.jpg';
 import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import Image from "react-bootstrap/Image";
 
 function Dashboard(props) {
   const formatYAxis = (tickItem) => {
@@ -649,8 +650,12 @@ const last6MonthsData = data?.filter((item) => {
           backgroundSize: "16px 16px",
         }}
       >
-        <option>2023-2024</option>
-        <option>2024-2025</option>
+         <option>This month</option>
+          <option>last months</option>
+          <option>last 3 months</option>
+          <option>last 6 months</option>
+          <option>last 1 year</option>
+          <option>previous years</option>
       </select>
     </div>
   </div>
@@ -887,8 +892,12 @@ const last6MonthsData = data?.filter((item) => {
             backgroundSize: "16px 16px",
           }}
         >
-          <option>last 6 month</option>
-          <option>prev month</option>
+          <option>This month</option>
+          <option>last months</option>
+          <option>last 3 months</option>
+          <option>last 6 months</option>
+          <option>last 1 year</option>
+          <option>previous years</option>
           {/* <option>2</option> */}
         </select>
       </div>
@@ -999,17 +1008,19 @@ const last6MonthsData = data?.filter((item) => {
 
 <div style={{ flex: 1 }}>
 <div className="expenses-container animated-text">
-<div
+  {/* Top Section with Title and Dropdown */}
+  <div
     className="dropp"
     style={{
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      padding: "10 20px",
-      
+      padding: "10px 20px",
+      flexWrap: "wrap", // Allow wrapping on small screens
     }}
   >
-    <div style={{ display: "flex", textAlign: "start" }} >
+    {/* Title */}
+    <div style={{ display: "flex", textAlign: "start", marginBottom: "10px" }}>
       <p
         style={{
           fontFamily: "Montserrat",
@@ -1021,11 +1032,15 @@ const last6MonthsData = data?.filter((item) => {
         Expenses
       </p>
     </div>
+
+    {/* Dropdown */}
     <div
-      className="d-flex align-items-end mb-3 justify-content-end"
-      
+      className="d-flex align-items-end justify-content-end"
+      style={{
+        marginBottom: "10px",
+      }}
     >
-      <div style={{ position: "relative", width: 158, height: 36 }}>
+      <div style={{ position: "relative", width: "100%", maxWidth: 200 }}>
         <select
           aria-label="Default select example"
           style={{
@@ -1036,7 +1051,7 @@ const last6MonthsData = data?.filter((item) => {
             boxShadow: "none",
             border: "1px solid #D9D9D9",
             height: 36,
-            width: 150,
+            width: "100%",
             borderRadius: 60,
             paddingTop: 6,
             paddingBottom: 6,
@@ -1048,106 +1063,134 @@ const last6MonthsData = data?.filter((item) => {
           }}
         >
           <option>This month</option>
-          <option>prev month</option>
-          {/* <option>2</option> */}
+          <option>last months</option>
+          <option>last 3 months</option>
+          <option>last 6 months</option>
+          <option>last 1 year</option>
+          <option>previous years</option>
         </select>
       </div>
     </div>
   </div>
-  <div className="content">
-    <div className="chart">
-      {/* <Doughnut
+
+  {/* Content Section */}
+  <div className="content" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+  {/* Chart Section */}
+  <div className="chart" style={{ flex: "1" }}>
+    {totalAmount > 0 ? (
+      <Doughnut
+        className="doughnut"
         data={datum}
         options={options}
         style={{ width: 196, height: 196 }}
-      /> */}
+      />
+    ) : (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="196"
+        height="196"
+        viewBox="0 0 196 196"
+        fill="none"
+      >
+        <path
+          d="M196 98C196 152.124 152.124 196 98 196C43.8761 196 0 152.124 0 98C0 43.8761 43.8761 0 98 0C152.124 0 196 43.8761 196 98ZM29.4 98C29.4 135.887 60.1133 166.6 98 166.6C135.887 166.6 166.6 135.887 166.6 98C166.6 60.1133 135.887 29.4 98 29.4C60.1133 29.4 29.4 60.1133 29.4 98Z"
+          fill="#DCDCDC"
+        />
+      </svg>
+    )}
+    <p
+      className="center-text"
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 25,
+        fontWeight: 600,
+        textAlign: "center",
+        marginTop: "10px",
+      }}
+    >
+      ₹{totalAmount > 0 ? totalAmount : 0}
+    </p>
+  </div>
 
-{totalAmount > 0 ? (
-<Doughnut
-data={datum}
-options={options}
-style={{ width: 196, height: 196 }}
-/>
-) : (
-<svg
-xmlns="http://www.w3.org/2000/svg"
-width="196"
-height="196"
-viewBox="0 0 196 196"
-fill="none"
->
-<path
-d="M196 98C196 152.124 152.124 196 98 196C43.8761 196 0 152.124 0 98C0 43.8761 43.8761 0 98 0C152.124 0 196 43.8761 196 98ZM29.4 98C29.4 135.887 60.1133 166.6 98 166.6C135.887 166.6 166.6 135.887 166.6 98C166.6 60.1133 135.887 29.4 98 29.4C60.1133 29.4 29.4 60.1133 29.4 98Z"
-fill="#DCDCDC"
-/>
-</svg>
-)
-}
-      <p
- className="center-text"
- style={{
-   fontFamily: "Gilroy",
-   fontSize: 25,
-   fontWeight: 600,
-  
- }}
->
-₹{totalAmount > 0 ? totalAmount : 0}
-</p>
-
-    </div>
-    <div className="categories">
-{totalAmount > 0 ? (
-lablesdata?.map((label, index) => (
-<div className="category" key={index}>
-<span
-className="dot"
-style={{
-  backgroundColor: datasets[0].backgroundColor[index],
-}}
-></span>
-<div className="text">
-<p
-  style={{
-    fontFamily: "Montserrat",
-    fontSize: 12,
-    fontWeight: 600,
-    color: "#4B4B4B",
-  }}
->
-  {label.category_Name}
-</p>
-<p
-  style={{
-    fontFamily: "Gilroy",
-    fontSize: 16,
-    fontWeight: 600,
-  }}
->
-  ₹{label.purchase_amount}
-</p>
-</div>
-</div>
-))
-) : (
-<div className="no-data-category" style={noDataStyle}>
-<p
-style={{
-
-textAlign: "center",
-width: "100%",
-marginTop: "20px",
-marginLeft:"50px"
-}}
->
-No Data
-</p>
-</div>
-)}
-</div>
-
+  {/* Categories Section */}
+  <div
+    className="categories"
+    style={{
+      flex: "1",
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr", // Two columns
+      gap: "20px", // Space between items
+    }}
+  >
+    {totalAmount > 0 ? (
+      lablesdata?.map((label, index) => (
+        <div
+          className="category"
+          key={index}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <span
+            className="dot"
+            style={{
+              backgroundColor: datasets[0].backgroundColor[index],
+              width: "10px",
+              height: "10px",
+              borderRadius: "50%",
+            }}
+          ></span>
+          <div
+            className="text"
+            style={{
+              display: "flex",
+              flexDirection: "column", // Arrange items vertically
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "Montserrat",
+                fontSize: 12,
+                fontWeight: 600,
+                color: "#4B4B4B",
+                margin: 0,
+              }}
+            >
+              {label.category_Name}
+            </p>
+            <p
+              style={{
+                fontFamily: "Gilroy",
+                fontSize: 16,
+                fontWeight: 600,
+                margin: 0,
+              }}
+            >
+              ₹{label.purchase_amount}
+            </p>
+          </div>
+        </div>
+      ))
+    ) : (
+      <div
+        className="no-data-category"
+        style={{
+          textAlign: "center",
+          width: "100%",
+          marginTop: "20px",
+        }}
+      >
+        <p>No Data</p>
+      </div>
+    )}
   </div>
 </div>
+
+
+</div>
+
 <div className="complaints-container animated-text" 
 // style={{
   // overflowY: 'auto'
@@ -1277,7 +1320,7 @@ No Data
  <div style={{flex:1,}} >
 
   <p style={{fontSize:18,fontFamily:"Montserrat",fontWeight:600}}>Booking with Joining Date</p>
- <Table
+  <Table
        responsive="md"
        className="dashTable mt-3 mt-md-0 mt-lg-0 "
        style={{
@@ -1300,7 +1343,7 @@ No Data
                paddingLeft:20
              }}
            >
-             Users
+             Name
            </th>
            <th
              style={{
@@ -1312,7 +1355,7 @@ No Data
                textAlign: "left",
              }}
            >
-             Email
+             Booking
            </th>
            <th
              style={{
@@ -1324,20 +1367,9 @@ No Data
                textAlign: "left",
              }}
            >
-             Mobile
+             Amount
            </th>
-           <th
-             style={{
-               color: "#222",
-               fontWeight: 600,
-               fontSize: "14px",
-               fontFamily: "Gilroy",
-               padding: "10px",
-               textAlign: "left",
-             }}
-           >
-             Role
-           </th>
+         
            <th
              style={{
                padding: "10px",
@@ -1348,60 +1380,88 @@ No Data
          </tr>
        </thead>
        <tbody>
-         {/* {
-           currentRowUsers?.map((item)=>{
+          {
+           state.PgList?.dashboardDetails?.book_data?.map((item)=>{
             const imageUrl = item.profile || Profile;
-             return( */}
+            let Dated = new Date(item.DueDate);
+             console.log("Dated..?", Dated);
+
+             let day = Dated.getDate();
+             let month = Dated.getMonth();
+             let year = Dated.getFullYear();
+             const monthNames = [
+               "Jan",
+               "Feb",
+               "Mar",
+               "Apr",
+               "May",
+               "Jun",
+               "Jul",
+               "Aug",
+               "Sep",
+               "Oct",
+               "Nov",
+               "Dec",
+             ];
+             let formattedMonth = monthNames[month];
+             let formattedDate = `${year} ${formattedMonth} ${day}`;
+
+             console.log("Formatted Date:", formattedDate);
+             return( 
                <tr style={{ overflowX: 'auto' }}>
-               {/* <td
-                
-                 style={{
-                   fontWeight: 500,
-                   fontSize: "16px",
-                   fontFamily: "Gilroy",
-                   textAlign: "left",
-                   paddingLeft:20,
-                   whiteSpace: "nowrap"
-                 }}
-               >
-                {item.first_name}
-               </td> */}
+              
+              <td
+                              style={{
+                                border: "none",
+                                display: "flex",
+                                padding: "10px",
+                              }}
+                            >
+                              <Image
+                                src={imageUrl}
+                                alt={item.Invoices || "Default Profile"}
+                                roundedCircle
+                                style={{
+                                  height: "40px",
+                                  width: "40px",
+                                  marginRight: "10px",
+                                }}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = Profile;
+                                }}
+                              />
+                              <span
+                                className="Customer_Name_Hover"
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  // color: "#1E45E1",
+                                  cursor: "pointer",
+                                  marginTop:10
+                                  
+                                }}
+                                // onClick={() => handleRoomDetailsPage(user)}
+                              >
+                                {item.first_name}{item.last_name}
+                              </span>
+                            </td>
                <td
                  style={{
                    fontWeight: 500,
                    fontSize: "16px",
                    fontFamily: "Gilroy",
-                  //  textAlign: "left",
-                   padding:10
+                   textAlign: "left",
+                   paddingTop:17,
+                   whiteSpace: "nowrap",
 
                  }}
                >
-                email
-               {/* {item.email_Id} */}
+               {item.amount}
+             
                </td>
-               <td
-                 style={{
-                   fontWeight: 500,
-                   fontSize: "16px",
-                   fontFamily: "Gilroy",
-                   textAlign: "left",
-                   paddingTop:17
-
-                 }}
-               >
-                email
-               {/* {item.email_Id} */}
-               </td>
-               {/* <td
-                 style={{
-                   fontWeight: 500,
-                   fontSize: "16px",
-                   fontFamily: "Gilroy",
-                   textAlign: "left",
-                 }}
-               >
-                {item.mobileNo}
-               </td> */}
+            
                <td
                               style={{
                                 paddingTop:15,
@@ -1414,26 +1474,10 @@ No Data
                                 whiteSpace: "nowrap"
                               }}
                             >
-                              +jhe
-                              {/* {item &&
-                                String(item.mobileNo).slice(
-                                  0,
-                                  String(item.mobileNo).length - 10
-                                )}{" "}
-                              {item && String(item.mobileNo).slice(-10)} */}
+                              {item.amount}
+                              
                             </td>
-               <td
-                 style={{
-                   fontWeight: 500,
-                   fontSize: "16px",
-                   fontFamily: "Gilroy",
-                   textAlign: "left",
-                   paddingTop:15
-                 }}
-               >
-                name
-                 {/* {item.role_name} */}
-               </td>
+              
                <td style={{ textAlign: "center" }}>
                  <div
                    style={{
@@ -1444,88 +1488,27 @@ No Data
                      display: "flex",
                      justifyContent: "center",
                      alignItems: "center",
-                    //  zIndex:EditUser === item.id ? 1000 : "auto",
+                    
                    }}
-                  //  onClick={() => handleEditUser(item.id)}
-                  // onClick={(event) => handleEditUser(item.id, event)}
+                  
+                  
                  >
                    <PiDotsThreeOutlineVerticalFill
                      style={{ height: "20px", width: "20px" }}
                    />
-                     {/* {EditUser === item.id && (
-                     <div
-                       ref={popupRef}
-                       style={{
-                        cursor: "pointer",
-                        backgroundColor: "#F9F9F9",
-                        position: "absolute",
-                        top: popupPosition?.top || 0,
-                        left: popupPosition?.left || 0,
-                        width: 160,
-                        height: 70,
-                        border: "1px solid #EBEBEB",
-                        borderRadius: 10,
-                        display: "flex",
-                        flexDirection: "column",
-                        padding: 10,
-                        alignItems: "start",
-                      }}
-                     >
-                       <div
-                         className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                        //  onClick={() => handleEditForm(item)}
-                       >
-                         <img
-                           src={Edit}
-                           style={{ height: 16, width: 16 }}
-                           alt="Edit"
-                         />
-                         <label
-                           style={{
-                             fontSize: 14,
-                             fontWeight: 500,
-                             fontFamily: "Gilroy, sans-serif",
-                             color: "#000000",
-                             cursor: "pointer",
-                           }}
-                         >
-                           Edit
-                         </label>
-                       </div>
-                       <div className="mb-2 d-flex justify-content-start align-items-center gap-2"  onClick={() => handleDeleteForm(item)}>
-                         <img
-                           src={Delete}
-                           style={{ height: 16, width: 16 }}
-                           alt="Delete"
-                          //  onClick={handleDeleteTransForm}
-                          //  onClick={() => handleDeleteTransForm(user)}
-                         />
-                         <label
-                           style={{
-                             fontSize: 14,
-                             fontWeight: 500,
-                             fontFamily: "Gilroy, sans-serif",
-                             color: "#FF0000",
-                             cursor: "pointer",
-                           }}
-                         >
-                           Delete
-                         </label>
-                       </div>
-                     </div>
-                   )} */}
+                    
                  </div>
                </td>
              </tr>
-             {/* )
+             )
            })
      
-         } */}
+         }
         
        </tbody>
      </Table>
  </div>
- <div style={{flex:1,marginLeft:30}}>
+ <div className="invoicepending" style={{flex:1}}>
  <p style={{fontSize:18,fontFamily:"Montserrat",fontWeight:600}}>Pending Invoice</p>
  <Table
        responsive="md"

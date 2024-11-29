@@ -232,6 +232,9 @@
   .room {
     font-size: 10px;
   }
+  .doughnut{
+    margin-left: -25px;
+  }
 }
 
 
@@ -615,12 +618,21 @@ height: 70px;
     margin-left: 20px;
     margin-top: -20px;
   }
+  .invoicepending{
+    margin-left: 30px;
+  }
+  .doughnut{
+    margin-left: 0px;
+  }
  
 @media (max-width: 900px) {
 
   /* .recharts-surface{
     width: 230 !important;
   } */
+  .invoicepending{
+    margin-left: 0px;
+  }
   .dashfirst{
     display: flex;
     flex-direction: column;
