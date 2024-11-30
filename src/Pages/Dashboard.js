@@ -76,13 +76,44 @@ lineHeight: 'normal',
   const [value, setValue] = React.useState("1");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [selectExpence,setSelectExpence] = useState("this_month")
+  const [selectCashback,setSelectCashback] = useState("this_month")
+  const [cashBackData,setCashBackData] = useState("")
+  const [reveneReceived,setRevenueReceived]=useState("")
 
+
+  const handleSelectedReceived=(e)=>{
+    setSelectCashback(e.target.value)
+    // dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:e.target.value}});
+      }
+      useEffect(()=>{
+        dispatch({ type: "DASHBOARDFILTERCASHBACK", payload: { type:'cashback',range:selectCashback}});
+      },[selectCashback])
+
+      useEffect(()=>{
+        if(state.PgList?.statusCodeForDashboardFilterCashBack === 200){
+          
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK" });
+          }, 200);
+        }
+        },[state.PgList?.statusCodeForDashboardFilterCashBack])
+
+     
+const handleSelectedExpenses=(e)=>{
+setSelectExpence(e.target.value)
+// dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:e.target.value}});
+  }
+  useEffect(()=>{
+    dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:selectExpence}});
+  },[selectExpence])
+ 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
   };
   console.log("activecommpliance", activecommpliance);
 
-  console.log("lablesdata",data);
+  console.log("lablesdata",lablesdata);
 
 
   useEffect(()=>{
@@ -167,8 +198,22 @@ lineHeight: 'normal',
   };
 
   useEffect(() => {
-    setLables(state.PgList.dashboardDetails.categoryList);
-  }, [state.PgList.dashboardDetails.categoryList]);
+    setLables(state.PgList?.dashboardFilter?.response?.exp_data || []);
+  }, [state.PgList?.dashboardFilter?.response?.exp_data]);
+
+  useEffect(()=>{
+    if(state.PgList?.statusCodeForDashboardFilter === 200){
+      
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DASHBOARD_FILTER_DETAILS" });
+      }, 200);
+    }
+    },[state.PgList?.statusCodeForDashboardFilter])
+
+
+
+
+
   useEffect(() => {
     setData(state.PgList.dashboardDetails.Revenue_reports);
   }, [state.PgList.dashboardDetails.Revenue_reports]);
@@ -188,19 +233,7 @@ lineHeight: 'normal',
   useEffect(() => {
     setActivecommpliance(state.PgList.dashboardDetails?.com_data);
   }, [state.PgList.dashboardDetails?.com_data]);
-  //  if (!dashboardList || dashboardList.length === 0) {
-  //    return null;
-  //  }
-  //  const {
-  //    hostelCount,
-  //    roomCount,
-  //    TotalBed,
-  //    availableBed,
-  //    occupied_Bed,
-  //    Revenue,
-  //    current,
-  //    overdue,
-  //  } = dashboardList[0];
+  
 
   const {
     hostelCount = 0,
@@ -225,11 +258,28 @@ lineHeight: 'normal',
     current,
     overdue
   );
+  useEffect(()=>{
+    setCashBackData(state.PgList?.dashboardFilterCashback?.response?.cash_back_data)
+  },[state.PgList?.dashboardFilterCashback?.response?.cash_back_data])
 
-  const total = Revenue;
-  const percentage = ((Revenue - overdue) / total) * 100;
-  console.log("percentage", percentage);
+console.log("cashBackData",cashBackData)
 
+// const total = cashBackData?.[0]?.Revenue || 0; 
+// const percentage =
+//   total > 0
+//     ? ((total - (cashBackData?.[0]?.overdue || 0)) / total) * 100
+//     : 0;
+// console.log("percentage", percentage);
+
+const total = cashBackData?.[0]?.Revenue;
+const percentage = total
+  ? ((cashBackData?.[0]?.Revenue - cashBackData?.[0]?.overdue) / total) * 100
+  : 0;
+
+// const currentvalue = cashBackData?.[0]?.Revenue - cashBackData?.[0]?.overdue;
+const currentvalue = (cashBackData?.[0]?.Revenue || 0) - (cashBackData?.[0]?.overdue || 0)
+console.log("currentvalue",currentvalue)
+ 
   const pathColor = current >= overdue ? "#00A32E" : "EBEBEB";
   const trailColor = overdue >= current ? "#EBEBEB" : "#00A32E";
 
@@ -861,9 +911,10 @@ const last6MonthsData = data?.filter((item) => {
           fontSize: 18,
           fontWeight: 600,
           paddingLeft: 10,
+          whiteSpace:"nowrap"
         }}
       >
-        Total Cashback
+        Receivable vs Pending
       </p>
     </div>
     <div
@@ -872,6 +923,8 @@ const last6MonthsData = data?.filter((item) => {
     >
       <div style={{ position: "relative", width: 158, height: 36 }}>
         <select
+        onChange={(e)=>handleSelectedReceived(e)}
+        value={selectCashback}
           aria-label="Default select example"
           style={{
             fontSize: 12,
@@ -892,12 +945,12 @@ const last6MonthsData = data?.filter((item) => {
             backgroundSize: "16px 16px",
           }}
         >
-          <option>This month</option>
-          <option>last months</option>
-          <option>last 3 months</option>
-          <option>last 6 months</option>
-          <option>last 1 year</option>
-          <option>previous years</option>
+          <option value="this_month">This month</option>
+          <option value="last_month">last months</option>
+          <option value="last_three_months">last 3 months</option>
+          <option value="last_six_months">last 6 months</option>
+          <option value="this_year">last 1 year</option>
+          
           {/* <option>2</option> */}
         </select>
       </div>
@@ -930,13 +983,14 @@ const last6MonthsData = data?.filter((item) => {
             },
           })}
         /> */}
-        <CircularProgressbar
+     <CircularProgressbar
   value={percentage}
-  text={"₹" + Revenue.toLocaleString()}
+  text={`₹${total}`}
   circleRatio={0.5}
   styles={buildStyles({
     rotation: 0.75, 
-    pathColor: "#EBEBEB", 
+    pathColor:"#DCDCDC",
+    // pathColor: "#DCDCDC" ,
     trailColor: "#00A32E", 
     textColor: "#000000",
     textSize: 15,
@@ -973,7 +1027,7 @@ const last6MonthsData = data?.filter((item) => {
                 fontFamily: "Gilry",
               }}
             >
-              ₹{current.toLocaleString()}
+              ₹{cashBackData && cashBackData[0]?.overdue}
             </div>
           </div>
         </div>
@@ -996,7 +1050,7 @@ const last6MonthsData = data?.filter((item) => {
                 fontFamily: "Gilry",
               }}
             >
-              ₹{overdue.toLocaleString()}
+              ₹{currentvalue}
             </div>
           </div>
         </div>
@@ -1043,6 +1097,8 @@ const last6MonthsData = data?.filter((item) => {
       <div style={{ position: "relative", width: "100%", maxWidth: 200 }}>
         <select
           aria-label="Default select example"
+          onChange={(e)=>handleSelectedExpenses(e)}
+          value={selectExpence}
           style={{
             fontSize: 12,
             color: "#4B4B4B",
@@ -1062,12 +1118,11 @@ const last6MonthsData = data?.filter((item) => {
             backgroundSize: "16px 16px",
           }}
         >
-          <option>This month</option>
-          <option>last months</option>
-          <option>last 3 months</option>
-          <option>last 6 months</option>
-          <option>last 1 year</option>
-          <option>previous years</option>
+           <option value="this_month">This month</option>
+          <option value="last_month">last months</option>
+          <option value="last_three_months">last 3 months</option>
+          <option value="last_six_months">last 6 months</option>
+          <option value="this_year">last 1 year</option>
         </select>
       </div>
     </div>
@@ -1077,7 +1132,7 @@ const last6MonthsData = data?.filter((item) => {
   <div className="content" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
   {/* Chart Section */}
   <div className="chart" style={{ flex: "1" }}>
-    {totalAmount > 0 ? (
+    {lablesdata && lablesdata?.length > 0 ? (
       <Doughnut
         className="doughnut"
         data={datum}
@@ -1122,7 +1177,7 @@ const last6MonthsData = data?.filter((item) => {
       gap: "20px", // Space between items
     }}
   >
-    {totalAmount > 0 ? (
+    {lablesdata && lablesdata?.length > 0  ? (
       lablesdata?.map((label, index) => (
         <div
           className="category"
@@ -1179,7 +1234,10 @@ const last6MonthsData = data?.filter((item) => {
         style={{
           textAlign: "center",
           width: "100%",
-          marginTop: "20px",
+          marginTop: "25px",
+          color:"red",
+          whiteSpace: "nowrap"
+
         }}
       >
         <p>No Data</p>
