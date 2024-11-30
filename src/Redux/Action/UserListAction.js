@@ -230,3 +230,9 @@ export async function AvailableCheckOutCustomer(checkout) {
     data:checkout
   })
 }
+
+export async function exportDetails(datum) {
+  return await AxiosConfig.post('/export_details',datum,{
+    data:datum
+  })
+}
