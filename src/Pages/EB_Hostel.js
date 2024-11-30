@@ -33,6 +33,7 @@ import EBRoomReading from "./EBRoomReading";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import excelimg from "../Assets/Images/New_images/excel.png";
 
 import {
   Autobrightness,
@@ -94,6 +95,41 @@ function EB_Hostel() {
   const [ebAddPermission,setEbAddPermission]= useState("")
   const [ebDeletePermission,setEbDeletePermission]=useState("")
   const [ebEditPermission,setEbEditPermission]=useState("")
+  const [excelDownload,setExcelDownload]=useState("")
+
+
+
+  useEffect(() => {
+    console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
+    if (state.UsersList?.exportDetails?.response?.fileUrl) {
+      setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
+    }
+  }, [state.UsersList?.exportDetails?.response?.fileUrl]);
+ 
+console.log("excelDownload",excelDownload)
+const handleEbExcel = () => {
+    dispatch({ type: "EXPORTDETAILS", payload: { type: "customer_readings"} });
+};
+useEffect(() => {
+  if (excelDownload) {
+   
+    const link = document.createElement("a");
+    link.href = excelDownload;
+    link.download = "smartstay_file.xlsx"; 
+    link.click();
+    setTimeout(() => {;
+      setExcelDownload("");
+    }, 500);
+  }
+}, [excelDownload]);
+useEffect(()=>{
+  if(state.UsersList?.statusCodeForExportDetails === 200){
+    
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_EXPORT_DETAILS" });
+    }, 200);
+  }
+  },[state.UsersList?.statusCodeForExportDetails])
 
 
 
@@ -806,6 +842,13 @@ function EB_Hostel() {
               style={{ height: "30px", width: "30px" }}
             />
           </div> */}
+          <div>
+          {value === "1" && (
+                <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} 
+                onClick={handleEbExcel}
+                />
+              )}
+          </div>
 
           <div>
             <Button

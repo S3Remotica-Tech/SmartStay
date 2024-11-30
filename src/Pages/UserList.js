@@ -23,6 +23,7 @@ import closecircle from "../Assets/Images/New_images/close-circle.png";
 import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import Booking from "./UserlistBookings";
+import excelimg from "../Assets/Images/New_images/excel.png";
 
 import {
   Autobrightness,
@@ -85,6 +86,7 @@ const [customerEditPermission,setCustomerEditPermission]=useState("")
 const [customerBookingAddPermission, setCustomerBookingAddPermission] = useState("");
 const [customerWalkInAddPermission, setCustomerWalkInAddPermission] = useState("");
 const [customerCheckoutPermission, setCustomerCheckoutAddPermission] = useState("");
+const [excelDownload,setExcelDownload]=useState("")
 
 
 
@@ -395,6 +397,8 @@ useEffect(() => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     setSearch(false)
+    // setExcelDownload("")
+    setIsDownloadTriggered(false);
   };
 
   const handleSearchClick = () => {
@@ -1066,6 +1070,85 @@ useEffect(() => {
   }
 }, [state?.Booking?.statusCodeForAddBooking]);
 
+
+const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); // To control downloads
+
+  // Update excelDownload based on state.UsersList changes
+  useEffect(() => {
+    console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
+    if (state.UsersList?.exportDetails?.response?.fileUrl) {
+      setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
+    }
+  }, [state.UsersList?.exportDetails?.response?.fileUrl]);
+ 
+console.log("excelDownload",excelDownload)
+  const handleCustomerExcel = () => {
+    if (value === "1") {
+      dispatch({ type: "EXPORTDETAILS", payload: { type: "customers" } });
+      setIsDownloadTriggered(true); 
+    }
+  };
+
+  const handleBookingExcel = () => {
+    if (value === "2") {
+      dispatch({ type: "EXPORTDETAILS", payload: { type: "booking" } });
+      setIsDownloadTriggered(true); 
+    }
+  };
+
+  const handlecheckoutExcel = () => {
+    if (value === "3") {
+      dispatch({ type: "EXPORTDETAILS", payload: { type: "checkout" } });
+      setIsDownloadTriggered(true); 
+    }
+  };
+
+  const handlewalkinExcel = () => {
+    if (value === "4") {
+      dispatch({ type: "EXPORTDETAILS", payload: { type: "walkin" } });
+      setIsDownloadTriggered(true); 
+    }
+  };
+  useEffect(() => {
+    console.log("excelDownload:", excelDownload, "isDownloadTriggered:", isDownloadTriggered);
+    if (excelDownload && isDownloadTriggered) {
+     
+      const link = document.createElement("a");
+      link.href = excelDownload;
+      link.download = "smartstay_file.xlsx"; 
+      link.click();
+      
+      // Reset states after download
+      setTimeout(() => {
+        setIsDownloadTriggered(false);
+        setExcelDownload("");
+      }, 500);
+    }
+  }, [excelDownload, isDownloadTriggered]);
+
+// useEffect(() => {
+//   if (value === "1") { 
+//     dispatch({ type: "EXPORTDETAILS", payload: { type: "customers" } });
+//   } else if (value === "2") {
+//     dispatch({ type: "EXPORTDETAILS", payload: { type: "booking" } });
+//   }
+//   else if (value === "3") {
+//     dispatch({ type: "EXPORTDETAILS", payload: { type:"checkout" } });
+//   }
+//   else if (value === "4") {
+//     dispatch({ type: "EXPORTDETAILS", payload: { type: "walkin" } });
+//   }
+// }, [value]);
+useEffect(()=>{
+if(state.UsersList?.statusCodeForExportDetails === 200){
+  // setExcelDownload("")
+  // setValue("")
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_EXPORT_DETAILS" });
+  }, 200);
+}
+},[state.UsersList?.statusCodeForExportDetails])
+
   return (
 
     <div style={{ padding: 10, marginLeft: 20 }}>
@@ -1255,6 +1338,20 @@ useEffect(() => {
                   onClick={handleSearch}
                 />
               </div>
+              <div>
+              {value === "1" && (
+                <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} onClick={handleCustomerExcel}/>
+              )}
+               {value === "2" && (
+                <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} onClick={handleBookingExcel}/>
+              )}
+               {value === "3" && (
+                <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} onClick={handlecheckoutExcel}/>
+              )}
+               {value === "4" && (
+                <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} onClick={handlewalkinExcel}/>
+              )}
+              </div>
 
               <div className="buttons">
                 {value === "1" && (
@@ -1335,6 +1432,8 @@ useEffect(() => {
                   </Button>
                 )}
               </div>
+
+              
             </div>
           </div>
           {filterInput && (

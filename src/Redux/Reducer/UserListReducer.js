@@ -1,3 +1,5 @@
+import { exportDetails } from "../Action/UserListAction";
+
 const initialState = {
     Users: [],
     addUser: [],
@@ -52,7 +54,9 @@ const initialState = {
     addCheckoutCustomerStatusCode: 0,
     deleteCheckoutCustomerStatusCode:0,
     errorMessageAddCheckOut:'',
-    availableCheckOutCustomerList: []
+    availableCheckOutCustomerList: [],
+    exportDetails:[],
+    statusCodeForExportDetails:0
 
 }
 
@@ -241,6 +245,16 @@ case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
             } else {
                 return { ...state, roomFullCheck: action.payload };
             }
+
+
+            case "EXPORT_DETAILS":
+      return {
+        ...state,
+        exportDetails: action.payload,
+        statusCodeForExportDetails: action.payload.statusCode,
+      };
+    case "CLEAR_EXPORT_DETAILS":
+      return { ...state, statusCodeForExportDetails: 0 };
 
     }
     return state;

@@ -33,6 +33,7 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } f
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import Spinner from 'react-bootstrap/Spinner';
 import { MdError } from "react-icons/md";
+import excelimg from "../Assets/Images/New_images/excel.png";
 
 
 
@@ -63,8 +64,41 @@ function Expenses() {
   const [expenceAddPermission,setExpenceAddPermission]= useState("")
   const [expenceDeletePermission,setExpenceDeletePermission]=useState("")
   const [expenceEditPermission,setExpenceEditPermission]=useState("")
+  const [excelDownload,setExcelDownload]=useState("")
 
 
+
+  useEffect(() => {
+    console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
+    if (state.UsersList?.exportDetails?.response?.fileUrl) {
+      setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
+    }
+  }, [state.UsersList?.exportDetails?.response?.fileUrl]);
+ 
+console.log("excelDownload",excelDownload)
+const handleExpenceExcel = () => {
+    dispatch({ type: "EXPORTDETAILS", payload: { type: "expenses"} });
+};
+useEffect(() => {
+  if (excelDownload) {
+   
+    const link = document.createElement("a");
+    link.href = excelDownload;
+    link.download = "smartstay_file.xlsx"; 
+    link.click();
+    setTimeout(() => {;
+      setExcelDownload("");
+    }, 500);
+  }
+}, [excelDownload]);
+useEffect(()=>{
+  if(state.UsersList?.statusCodeForExportDetails === 200){
+    
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_EXPORT_DETAILS" });
+    }, 200);
+  }
+  },[state.UsersList?.statusCodeForExportDetails])
 
 
   useEffect(() => {
@@ -1060,7 +1094,11 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
 
             </div>
 
-
+            <div>
+             <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} 
+             onClick={handleExpenceExcel}
+             />
+            </div>
 
 
             <div>

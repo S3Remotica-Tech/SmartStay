@@ -59,6 +59,7 @@ import { MdError } from "react-icons/md";
 // import Image from 'react-bootstrap/Image';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import excelimg from "../Assets/Images/New_images/excel.png";
 
 const Compliance = () => {
 
@@ -118,6 +119,41 @@ const Compliance = () => {
   const [complianceAddPermission,setComplianceAddPermission]= useState("")
   const [complianceDeletePermission,setComplianceDeletePermission]=useState("")
   const [complianceEditPermission,setComplianceEditPermission]=useState("")
+  const [excelDownload,setExcelDownload]=useState("")
+
+
+
+  useEffect(() => {
+    console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
+    if (state.UsersList?.exportDetails?.response?.fileUrl) {
+      setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
+    }
+  }, [state.UsersList?.exportDetails?.response?.fileUrl]);
+ 
+console.log("excelDownload",excelDownload)
+const handleComplianceeExcel = () => {
+    dispatch({ type: "EXPORTDETAILS", payload: { type: "complaint"} });
+};
+useEffect(() => {
+  if (excelDownload) {
+   
+    const link = document.createElement("a");
+    link.href = excelDownload;
+    link.download = "smartstay_file.xlsx"; 
+    link.click();
+    setTimeout(() => {;
+      setExcelDownload("");
+    }, 500);
+  }
+}, [excelDownload]);
+useEffect(()=>{
+  if(state.UsersList?.statusCodeForExportDetails === 200){
+    
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_EXPORT_DETAILS" });
+    }, 200);
+  }
+  },[state.UsersList?.statusCodeForExportDetails])
 
 
   useEffect(() => {
@@ -1014,6 +1050,11 @@ const Compliance = () => {
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
+            <div>
+             <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} 
+             onClick={handleComplianceeExcel}
+             />
+            </div>
 
             <div>
               <Button
