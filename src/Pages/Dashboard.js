@@ -280,9 +280,11 @@ const percentage = total
 const currentvalue = (cashBackData?.[0]?.Revenue || 0) - (cashBackData?.[0]?.overdue || 0)
 console.log("currentvalue",currentvalue)
  
-  const pathColor = current >= overdue ? "#00A32E" : "EBEBEB";
-  const trailColor = overdue >= current ? "#EBEBEB" : "#00A32E";
+  // const pathColor = currentvalue >= cashBackData?.[0]?.overdue ? "#00A32E" : "EBEBEB";
+  // const trailColor = cashBackData?.[0]?.overdue >= currentvalue ? "#EBEBEB" : "#00A32E";
 
+  const pathColor = total > 0 && currentvalue > 0 ? "#00A32E" : "#EBEBEB"; // Green if valid value, grey otherwise
+const trailColor = "#EBEBEB";
   // const getRandomColor = () => {
   //   const letters = "0123456789ABCDEF";
   //   let color = "#";
@@ -989,9 +991,11 @@ const last6MonthsData = data?.filter((item) => {
   circleRatio={0.5}
   styles={buildStyles({
     rotation: 0.75, 
-    pathColor:"#DCDCDC",
-    // pathColor: "#DCDCDC" ,
-    trailColor: "#00A32E", 
+    // pathColor:"#DCDCDC",
+   
+    // trailColor: "#00A32E", 
+    pathColor: trailColor,
+    trailColor: pathColor,
     textColor: "#000000",
     textSize: 15,
     text: {
@@ -1517,6 +1521,8 @@ const last6MonthsData = data?.filter((item) => {
                  }}
                >
                {item.amount}
+
+ 
              
                </td>
             
@@ -1562,8 +1568,15 @@ const last6MonthsData = data?.filter((item) => {
            })
      
          }
+          {state.PgList?.dashboardDetails?.book_data?.length === 0 && (
+          <tr>
+            <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
+          </tr>
+        )}
         
        </tbody>
+     
+    
      </Table>
  </div>
  <div className="invoicepending" style={{flex:1}}>
@@ -1730,6 +1743,12 @@ const last6MonthsData = data?.filter((item) => {
            })
      
          }
+
+{state.PgList?.dashboardDetails?.bill_details?.length === 0 && (
+          <tr>
+            <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
+          </tr>
+        )}
         
        </tbody>
      </Table>
