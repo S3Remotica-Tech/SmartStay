@@ -70,15 +70,15 @@ function Expenses() {
 
 
   useEffect(() => {
-    console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
-    if (state.UsersList?.exportDetails?.response?.fileUrl) {
-      setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
+    console.log("File URL in state:", state.UsersList?.exportExpenceDetails?.response?.fileUrl);
+    if (state.UsersList?.exportExpenceDetails?.response?.fileUrl) {
+      setExcelDownload(state.UsersList?.exportExpenceDetails?.response?.fileUrl);
     }
-  }, [state.UsersList?.exportDetails?.response?.fileUrl]);
+  }, [state.UsersList?.exportExpenceDetails?.response?.fileUrl]);
  
 console.log("excelDownload",excelDownload)
 const handleExpenceExcel = () => {
-    dispatch({ type: "EXPORTDETAILS", payload: { type: "expenses"} });
+    dispatch({ type: "EXPORTEXPENCESDETAILS", payload: { type: "expenses"} });
     setIsDownloadTriggered(true)
 };
 useEffect(() => {
@@ -96,13 +96,13 @@ useEffect(() => {
   }
 }, [excelDownload && isDownloadTriggered]);
 useEffect(()=>{
-  if(state.UsersList?.statusCodeForExportDetails === 200){
+  if(state.UsersList?.statusCodeForExportExpence === 200){
     
     setTimeout(() => {
-      dispatch({ type: "CLEAR_EXPORT_DETAILS" });
+      dispatch({ type: "CLEAR_EXPORT_EXPENSE_DETAILS" });
     }, 200);
   }
-  },[state.UsersList?.statusCodeForExportDetails])
+  },[state.UsersList?.statusCodeForExportExpence])
 
 
   useEffect(() => {

@@ -984,6 +984,82 @@ function* handleElectricityExportDetails(action) {
    }
 }
 
+function* handleExpenceExportDetails(action) {
+   const response = yield call (exportDetails, action.payload);
+   console.log("handleExportDetails",response)
+   if (response.data.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'EXPORT_EXPENSE_DETAILS' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+  
+   }
+
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+function* handleComplianceExportDetails(action) {
+   const response = yield call (exportDetails, action.payload);
+   console.log("handleExportDetails",response)
+   if (response.data.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'EXPORT_COMPLIANCE_DETAILS' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+  
+   }
+
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+function* handleBookingExportDetails(action) {
+   const response = yield call (exportDetails, action.payload);
+   console.log("handleExportDetails",response)
+   if (response.data.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'EXPORT_BOOKING_DETAILS' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+  
+   }
+
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+function* handleWalkinExportDetails(action) {
+   const response = yield call (exportDetails, action.payload);
+   console.log("handleExportDetails",response)
+   if (response.data.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'EXPORT_WALKIN_DETAILS' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+  
+   }
+
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+function* handleCheckoutExportDetails(action) {
+   const response = yield call (exportDetails, action.payload);
+   console.log("handleExportDetails",response)
+   if (response.data.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'EXPORT_CHECKOUT_DETAILS' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+  
+   }
+
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
 
 
 function* UserListSaga() {
@@ -1018,6 +1094,11 @@ function* UserListSaga() {
    yield takeEvery('EXPORTDETAILS',  handleExportDetails)
    yield takeEvery('EXPORTASSETSDETAILS',  handleAssetsExportDetails)
    yield takeEvery('EXPORTEBSDETAILS',  handleElectricityExportDetails)
+   yield takeEvery('EXPORTEXPENCESDETAILS',  handleExpenceExportDetails)
+   yield takeEvery('EXPORTCOMPLIANCEDETAILS',  handleComplianceExportDetails)
+   yield takeEvery('EXPORTBOOKINGDETAILS',  handleBookingExportDetails)
+   yield takeEvery('EXPORTWALKINGDETAILS',  handleWalkinExportDetails)
+   yield takeEvery('EXPORTCHECKOUTDETAILS',  handleCheckoutExportDetails)
 
 
   

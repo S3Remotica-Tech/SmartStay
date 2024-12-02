@@ -125,15 +125,15 @@ const Compliance = () => {
 
 
   useEffect(() => {
-    console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
-    if (state.UsersList?.exportDetails?.response?.fileUrl) {
-      setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
+    console.log("File URL in state:", state.UsersList?.exportComplianceDetails?.response?.fileUrl);
+    if (state.UsersList?.exportComplianceDetails?.response?.fileUrl) {
+      setExcelDownload(state.UsersList?.exportComplianceDetails?.response?.fileUrl);
     }
-  }, [state.UsersList?.exportDetails?.response?.fileUrl]);
+  }, [state.UsersList?.exportComplianceDetails?.response?.fileUrl]);
  
 console.log("excelDownload",excelDownload)
 const handleComplianceeExcel = () => {
-    dispatch({ type: "EXPORTDETAILS", payload: { type: "complaint"} });
+    dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint"} });
     setIsDownloadTriggered(true)
 };
 useEffect(() => {
@@ -150,13 +150,13 @@ useEffect(() => {
   }
 }, [excelDownload && isDownloadTriggered]);
 useEffect(()=>{
-  if(state.UsersList?.statusCodeForExportDetails === 200){
+  if(state.UsersList?.statusCodeForExportcompliance === 200){
     
     setTimeout(() => {
-      dispatch({ type: "CLEAR_EXPORT_DETAILS" });
+      dispatch({ type: "CLEAR_EXPORT_COMPLIANCE_DETAILS" });
     }, 200);
   }
-  },[state.UsersList?.statusCodeForExportDetails])
+  },[state.UsersList?.statusCodeForExportcompliance])
 
 
   useEffect(() => {
