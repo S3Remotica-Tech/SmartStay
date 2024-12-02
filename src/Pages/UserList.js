@@ -23,7 +23,7 @@ import closecircle from "../Assets/Images/New_images/close-circle.png";
 import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import Booking from "./UserlistBookings";
-import excelimg from "../Assets/Images/New_images/excel.png";
+import excelimg from "../Assets/Images/New_images/excel (5).png";
 
 import {
   Autobrightness,
@@ -1338,18 +1338,18 @@ if(state.UsersList?.statusCodeForExportDetails === 200){
                   onClick={handleSearch}
                 />
               </div>
-              <div>
+              <div style={{paddingRight:"10px"}}>
               {value === "1" && (
-                <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} onClick={handleCustomerExcel}/>
+                <img src={excelimg} width={38} height={38} style={{marginLeft:"-20px",marginTop:5}} onClick={handleCustomerExcel}/>
               )}
                {value === "2" && (
-                <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} onClick={handleBookingExcel}/>
+                <img src={excelimg} width={38} height={38} style={{marginLeft:"-20px",marginTop:5}} onClick={handleBookingExcel}/>
               )}
                {value === "3" && (
-                <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} onClick={handlecheckoutExcel}/>
+                <img src={excelimg} width={38} height={38} style={{marginLeft:"-20px",marginTop:5}} onClick={handlecheckoutExcel}/>
               )}
                {value === "4" && (
-                <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} onClick={handlewalkinExcel}/>
+                <img src={excelimg} width={38} height={38} style={{marginLeft:"-20px",marginTop:5}} onClick={handlewalkinExcel}/>
               )}
               </div>
 

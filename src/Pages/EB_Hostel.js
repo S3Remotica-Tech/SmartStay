@@ -33,7 +33,7 @@ import EBRoomReading from "./EBRoomReading";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import excelimg from "../Assets/Images/New_images/excel.png";
+import excelimg from "../Assets/Images/New_images/excel (5).png";
 
 import {
   Autobrightness,
@@ -842,9 +842,9 @@ useEffect(()=>{
               style={{ height: "30px", width: "30px" }}
             />
           </div> */}
-          <div>
+          <div style={{paddingRight:"10px"}}>
           {value === "1" && (
-                <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} 
+                <img src={excelimg} width={38} height={38}  
                 onClick={handleEbExcel}
                 />
               )}

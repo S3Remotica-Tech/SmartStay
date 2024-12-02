@@ -59,7 +59,7 @@ import { MdError } from "react-icons/md";
 // import Image from 'react-bootstrap/Image';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import excelimg from "../Assets/Images/New_images/excel.png";
+import excelimg from "../Assets/Images/New_images/excel (5).png";
 
 const Compliance = () => {
 
@@ -1050,8 +1050,8 @@ useEffect(()=>{
             <div className='me-3'>
               <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
             </div> */}
-            <div>
-             <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} 
+            <div style={{paddingRight:"10px"}}>
+             <img src={excelimg} width={38} height={38}  
              onClick={handleComplianceeExcel}
              />
             </div>

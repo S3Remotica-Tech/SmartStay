@@ -33,7 +33,7 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } f
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import Spinner from 'react-bootstrap/Spinner';
 import { MdError } from "react-icons/md";
-import excelimg from "../Assets/Images/New_images/excel.png";
+import excelimg from "../Assets/Images/New_images/excel (5).png";
 
 
 
@@ -1094,8 +1094,8 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
 
             </div>
 
-            <div>
-             <img src={excelimg} width={48} height={48} style={{marginLeft:"-20px"}} 
+            <div style={{paddingRight:"10px"}}>
+             <img src={excelimg} width={38} height={38} 
              onClick={handleExpenceExcel}
              />
             </div>
