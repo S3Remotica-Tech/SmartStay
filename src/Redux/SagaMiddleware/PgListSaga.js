@@ -17,7 +17,8 @@ import {
   OccupiedCustomer,
   EB_CustomerListTable,
   editElectricity,
-  deleteElectricity
+  deleteElectricity,
+  dashboardFilter
 } from "../Action/PgListAction";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
@@ -702,6 +703,40 @@ function* handleDeleteElectricity(action) {
   }
 }
 
+
+function* handleDropFilter(action) {
+  const response = yield call (dashboardFilter, action.payload);
+
+  console.log("handleDropFilter",response)
+  if (response.data.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'DASHBOARD_FILTER_DETAILS' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+ 
+  }
+
+  else {
+     yield put ({type:'ERROR', payload:response.data.message})
+  }
+  if(response){
+     refreshToken(response)
+  }
+}
+function* handleDropFilterCashBack(action) {
+  const response = yield call (dashboardFilter, action.payload);
+
+  console.log("handleDropFilter",response)
+  if (response.data.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'DASHBOARD_FILTER_CASHBACK' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+ 
+  }
+
+  else {
+     yield put ({type:'ERROR', payload:response.data.message})
+  }
+  if(response){
+     refreshToken(response)
+  }
+}
+
 function refreshToken(response) {
   if (response.data && response.data.refresh_token) {
     const refreshTokenGet = response.data.refresh_token;
@@ -734,6 +769,8 @@ function* PgListSaga() {
   yield takeEvery("DELETEHOSTELIMAGES", handleDeleteHostelImages);
   yield takeEvery("EDITELECTRICITY", handleEditElectricity);
   yield takeEvery("DELETEECTRICITY", handleDeleteElectricity);
+  yield takeEvery("DASHBOARDFILTER", handleDropFilter);
+  yield takeEvery("DASHBOARDFILTERCASHBACK", handleDropFilterCashBack);
 
 }
 export default PgListSaga;

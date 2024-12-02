@@ -1,4 +1,4 @@
-import { deleteElectricity, editElectricity, OccupiedCustomer } from "../Action/PgListAction";
+import { dashboardFilter, deleteElectricity, editElectricity, OccupiedCustomer } from "../Action/PgListAction";
 
 const initialState = {
     Name: '',
@@ -54,7 +54,11 @@ const initialState = {
     editElectricity:[],
     statusCodeForDeleteElectricity:0,
     deleteElectricity:[],
-    ebEditError:''
+    ebEditError:'',
+    dashboardFilter:[],
+    statusCodeForDashboardFilter:0,
+    dashboardFilterCashback:[],
+    statusCodeForDashboardFilterCashBack:0
 
 }
 const PgListReducer = (state = initialState, action) => {
@@ -232,6 +236,26 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
                     };
                   case "CLEAR_DELETE_ELECTRICITY":
                     return { ...state, statusCodeForDeleteElectricity: 0 };
+
+
+                    case "DASHBOARD_FILTER_DETAILS":
+                        return {
+                          ...state,
+                          dashboardFilter: action.payload,
+                          statusCodeForDashboardFilter: action.payload.statusCode,
+                        };
+                      case "CLEAR_DASHBOARD_FILTER_DETAILS":
+                        return { ...state, statusCodeForDashboardFilter: 0 };
+
+
+                        case "DASHBOARD_FILTER_CASHBACK":
+                        return {
+                          ...state,
+                          dashboardFilterCashback: action.payload,
+                          statusCodeForDashboardFilterCashBack: action.payload.statusCode,
+                        };
+                      case "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK":
+                        return { ...state, statusCodeForDashboardFilterCashBack: 0 };
 
 // ///////////////////////////////////////////////
 
