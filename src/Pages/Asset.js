@@ -38,20 +38,22 @@ function Asset() {
   const [assetDeletePermission,setAssetDeletePermission]=useState("")
   const [assetEditPermission,setAssetEditPermission]=useState("")
   const [excelDownload,setExcelDownload]=useState("")
+  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); 
 
   useEffect(() => {
-    console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
-    if (state.UsersList?.exportDetails?.response?.fileUrl) {
-      setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
+    console.log("File URL in state:", state.UsersList?.exportAssetsDetail?.response?.fileUrl);
+    if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
+      setExcelDownload(state.UsersList?.exportAssetsDetail?.response?.fileUrl);
     }
-  }, [state.UsersList?.exportDetails?.response?.fileUrl]);
+  }, [state.UsersList?.exportAssetsDetail?.response?.fileUrl]);
  
 console.log("excelDownload",excelDownload)
 const handleAssetsExcel = () => {
-    dispatch({ type: "EXPORTDETAILS", payload: { type: "assets"} });
+    dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets"}});
+    setIsDownloadTriggered(true); 
 };
 useEffect(() => {
-  if (excelDownload) {
+  if (excelDownload && isDownloadTriggered) {
    
     const link = document.createElement("a");
     link.href = excelDownload;
@@ -61,15 +63,15 @@ useEffect(() => {
       setExcelDownload("");
     }, 500);
   }
-}, [excelDownload]);
+}, [excelDownload,isDownloadTriggered]);
 useEffect(()=>{
-  if(state.UsersList?.statusCodeForExportDetails === 200){
-    
+  if(state.UsersList?.statusCodeforExportAssetsCode === 200){
+    setIsDownloadTriggered(false);
     setTimeout(() => {
-      dispatch({ type: "CLEAR_EXPORT_DETAILS" });
+      dispatch({ type: "CLEAR_EXPORT_ASSETS_DETAILS" });
     }, 200);
   }
-  },[state.UsersList?.statusCodeForExportDetails])
+  },[state.UsersList?.statusCodeforExportAssetsCode])
 
   useEffect(() => {
     setAssetRolePermission(state.createAccount.accountList);

@@ -65,6 +65,7 @@ function Expenses() {
   const [expenceDeletePermission,setExpenceDeletePermission]=useState("")
   const [expenceEditPermission,setExpenceEditPermission]=useState("")
   const [excelDownload,setExcelDownload]=useState("")
+  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
 
 
@@ -78,19 +79,22 @@ function Expenses() {
 console.log("excelDownload",excelDownload)
 const handleExpenceExcel = () => {
     dispatch({ type: "EXPORTDETAILS", payload: { type: "expenses"} });
+    setIsDownloadTriggered(true)
 };
 useEffect(() => {
-  if (excelDownload) {
+  if (excelDownload && isDownloadTriggered) {
    
     const link = document.createElement("a");
     link.href = excelDownload;
     link.download = "smartstay_file.xlsx"; 
     link.click();
-    setTimeout(() => {;
+    setTimeout(() => {
       setExcelDownload("");
+      setIsDownloadTriggered(false)
+  
     }, 500);
   }
-}, [excelDownload]);
+}, [excelDownload && isDownloadTriggered]);
 useEffect(()=>{
   if(state.UsersList?.statusCodeForExportDetails === 200){
     

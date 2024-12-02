@@ -56,7 +56,11 @@ const initialState = {
     errorMessageAddCheckOut:'',
     availableCheckOutCustomerList: [],
     exportDetails:[],
-    statusCodeForExportDetails:0
+    statusCodeForExportDetails:0,
+    exportAssetsDetail:[],
+    statusCodeforExportAssetsCode:0,
+    exportEbDetails:[],
+    statusCodeForExportEb:0
 
 }
 
@@ -255,6 +259,25 @@ case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
       };
     case "CLEAR_EXPORT_DETAILS":
       return { ...state, statusCodeForExportDetails: 0 };
+    //   export
+    case "EXPORT_ASSETS_DETAILS":
+        return {
+          ...state,
+          exportAssetsDetail: action.payload,
+          statusCodeforExportAssetsCode: action.payload.statusCode,
+        };
+      case "CLEAR_EXPORT_ASSETS_DETAILS":
+        return { ...state, statusCodeforExportAssetsCode: 0 };
+
+
+        case "EXPORT_EB_DETAILS":
+            return {
+              ...state,
+              exportEbDetails: action.payload,
+              statusCodeForExportEb: action.payload.statusCode,
+            };
+          case "CLEAR_EXPORT_EB_DETAILS":
+            return { ...state, statusCodeForExportEb: 0 };
 
     }
     return state;

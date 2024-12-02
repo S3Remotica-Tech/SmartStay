@@ -120,6 +120,7 @@ const Compliance = () => {
   const [complianceDeletePermission,setComplianceDeletePermission]=useState("")
   const [complianceEditPermission,setComplianceEditPermission]=useState("")
   const [excelDownload,setExcelDownload]=useState("")
+  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); 
 
 
 
@@ -133,9 +134,10 @@ const Compliance = () => {
 console.log("excelDownload",excelDownload)
 const handleComplianceeExcel = () => {
     dispatch({ type: "EXPORTDETAILS", payload: { type: "complaint"} });
+    setIsDownloadTriggered(true)
 };
 useEffect(() => {
-  if (excelDownload) {
+  if (excelDownload && isDownloadTriggered) {
    
     const link = document.createElement("a");
     link.href = excelDownload;
@@ -143,9 +145,10 @@ useEffect(() => {
     link.click();
     setTimeout(() => {;
       setExcelDownload("");
+      setIsDownloadTriggered(false)
     }, 500);
   }
-}, [excelDownload]);
+}, [excelDownload && isDownloadTriggered]);
 useEffect(()=>{
   if(state.UsersList?.statusCodeForExportDetails === 200){
     
