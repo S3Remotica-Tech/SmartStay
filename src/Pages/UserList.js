@@ -87,6 +87,9 @@ const [customerBookingAddPermission, setCustomerBookingAddPermission] = useState
 const [customerWalkInAddPermission, setCustomerWalkInAddPermission] = useState("");
 const [customerCheckoutPermission, setCustomerCheckoutAddPermission] = useState("");
 const [excelDownload,setExcelDownload]=useState("")
+const [excelDownloadBooking,setExcelDownloadBooking]=useState("")
+const [excelDownloadChecout,setExcelDownloadCheckout]=useState("")
+const [excelDownloadCheckIn,setExcelDownloadChecIn]=useState("")
 
 
 
@@ -397,7 +400,10 @@ useEffect(() => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     setSearch(false)
-    // setExcelDownload("")
+    setExcelDownload("")
+    setExcelDownloadBooking("")
+    setExcelDownloadChecIn("")
+    setExcelDownloadCheckout("")
     setIsDownloadTriggered(false);
   };
 
@@ -1074,38 +1080,79 @@ useEffect(() => {
 const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); // To control downloads
 
   // Update excelDownload based on state.UsersList changes
+  // useEffect(() => {
+  //   console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
+  //   if (state.UsersList?.exportDetails?.response?.fileUrl) {
+  //     setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
+  //   }
+  // }, [state.UsersList?.exportDetails?.response?.fileUrl]);
   useEffect(() => {
-    console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
-    if (state.UsersList?.exportDetails?.response?.fileUrl) {
-      setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
-    }
+    // if (value === 1) {
+      console.log("File URL in state:", state.UsersList?.exportDetails?.response?.fileUrl);
+      if (state.UsersList?.exportDetails?.response?.fileUrl) {
+        setExcelDownload(state.UsersList?.exportDetails?.response?.fileUrl);
+      }
+    // }
   }, [state.UsersList?.exportDetails?.response?.fileUrl]);
+
+
+  useEffect(() => {
+    // if(value === 2){
+      console.log("File URL in state:", state.UsersList?.exportBookingDetails?.response?.fileUrl);
+      if (state.UsersList?.exportBookingDetails?.response?.fileUrl) {
+        setExcelDownloadBooking(state.UsersList?.exportBookingDetails?.response?.fileUrl);
+      }
+    // }
+    
+  }, [state.UsersList?.exportBookingDetails?.response?.fileUrl]);
+
+
+  useEffect(() => {
+    // if(value === 3){
+      console.log("File URL in state:", state.UsersList?.exportCheckoutDetails?.response?.fileUrl);
+      if (state.UsersList?.exportCheckoutDetails?.response?.fileUrl) {
+        setExcelDownloadCheckout(state.UsersList?.exportCheckoutDetails?.response?.fileUrl);
+      }
+    // }
+    
+  }, [state.UsersList?.exportCheckoutDetails?.response?.fileUrl]);
+
+
+  useEffect(() => {
+    // if(value === 4){
+      console.log("File URL in state:", state.UsersList?.exportWalkinDetails?.response?.fileUrl);
+      if (state.UsersList?.exportWalkinDetails?.response?.fileUrl) {
+        setExcelDownloadChecIn(state.UsersList?.exportWalkinDetails?.response?.fileUrl);
+      }
+    // }
+    
+  }, [state.UsersList?.exportWalkinDetails?.response?.fileUrl]);
  
 console.log("excelDownload",excelDownload)
   const handleCustomerExcel = () => {
     if (value === "1") {
-      dispatch({ type: "EXPORTDETAILS", payload: { type: "customers" } });
+      dispatch({ type: "EXPORTDETAILS", payload: { type: "customers"}});
       setIsDownloadTriggered(true); 
     }
   };
 
   const handleBookingExcel = () => {
     if (value === "2") {
-      dispatch({ type: "EXPORTDETAILS", payload: { type: "booking" } });
+      dispatch({ type: "EXPORTBOOKINGDETAILS", payload: { type: "booking"}});
       setIsDownloadTriggered(true); 
     }
   };
 
   const handlecheckoutExcel = () => {
     if (value === "3") {
-      dispatch({ type: "EXPORTDETAILS", payload: { type: "checkout" } });
+      dispatch({ type: "EXPORTCHECKOUTDETAILS", payload: { type: "checkout" } });
       setIsDownloadTriggered(true); 
     }
   };
 
   const handlewalkinExcel = () => {
     if (value === "4") {
-      dispatch({ type: "EXPORTDETAILS", payload: { type: "walkin" } });
+      dispatch({ type: "EXPORTWALKINGDETAILS", payload: { type: "walkin" } });
       setIsDownloadTriggered(true); 
     }
   };
@@ -1126,28 +1173,90 @@ console.log("excelDownload",excelDownload)
     }
   }, [excelDownload, isDownloadTriggered]);
 
-// useEffect(() => {
-//   if (value === "1") { 
-//     dispatch({ type: "EXPORTDETAILS", payload: { type: "customers" } });
-//   } else if (value === "2") {
-//     dispatch({ type: "EXPORTDETAILS", payload: { type: "booking" } });
-//   }
-//   else if (value === "3") {
-//     dispatch({ type: "EXPORTDETAILS", payload: { type:"checkout" } });
-//   }
-//   else if (value === "4") {
-//     dispatch({ type: "EXPORTDETAILS", payload: { type: "walkin" } });
-//   }
-// }, [value]);
+  useEffect(() => {
+    // console.log("excelDownload:", excelDownload, "isDownloadTriggered:", isDownloadTriggered);
+    if (excelDownloadBooking && isDownloadTriggered) {
+     
+      const link = document.createElement("a");
+      link.href = excelDownloadBooking;
+      link.download = "smartstay_file.xlsx"; 
+      link.click();
+      
+      // Reset states after download
+      setTimeout(() => {
+        setIsDownloadTriggered(false);
+        setExcelDownloadBooking("");
+      }, 500);
+    }
+  }, [excelDownloadBooking, isDownloadTriggered]);
+
+  useEffect(() => {
+    // console.log("excelDownload:", excelDownload, "isDownloadTriggered:", isDownloadTriggered);
+    if (excelDownloadChecout && isDownloadTriggered) {
+     
+      const link = document.createElement("a");
+      link.href = excelDownloadChecout;
+      link.download = "smartstay_file.xlsx"; 
+      link.click();
+      
+      // Reset states after download
+      setTimeout(() => {
+        setIsDownloadTriggered(false);
+        setExcelDownload("");
+      }, 500);
+    }
+  }, [excelDownloadChecout, isDownloadTriggered]);
+
+  useEffect(() => {
+    // console.log("excelDownload:", excelDownload, "isDownloadTriggered:", isDownloadTriggered);
+    if (excelDownloadCheckIn && isDownloadTriggered) {
+     
+      const link = document.createElement("a");
+      link.href = excelDownloadCheckIn;
+      link.download = "smartstay_file.xlsx"; 
+      link.click();
+      
+      // Reset states after download
+      setTimeout(() => {
+        setIsDownloadTriggered(false);
+        setExcelDownload("");
+      }, 500);
+    }
+  }, [excelDownloadCheckIn, isDownloadTriggered]);
+
+
 useEffect(()=>{
 if(state.UsersList?.statusCodeForExportDetails === 200){
-  // setExcelDownload("")
-  // setValue("")
   setTimeout(() => {
     dispatch({ type: "CLEAR_EXPORT_DETAILS" });
   }, 200);
 }
 },[state.UsersList?.statusCodeForExportDetails])
+
+useEffect(()=>{
+  if(state.UsersList?.statusCodeForExportWalkin === 200){
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_EXPORT_WALKIN_DETAILS" });
+    }, 200);
+  }
+  },[state.UsersList?.statusCodeForExportWalkin])
+
+
+  useEffect(()=>{
+    if(state.UsersList?.statusCodeForExportBooking === 200){
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EXPORT_BOOKING_DETAILS" });
+      }, 200);
+    }
+    },[state.UsersList?.statusCodeForExportBooking])
+
+    useEffect(()=>{
+      if(state.UsersList?.statusCodeForExportCheckout === 200){
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_EXPORT_CHECKOUT_DETAILS" });
+        }, 200);
+      }
+      },[state.UsersList?.statusCodeForExportCheckout])
 
   return (
 

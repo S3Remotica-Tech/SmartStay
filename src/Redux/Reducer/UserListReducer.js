@@ -60,7 +60,18 @@ const initialState = {
     exportAssetsDetail:[],
     statusCodeforExportAssetsCode:0,
     exportEbDetails:[],
-    statusCodeForExportEb:0
+    statusCodeForExportEb:0,
+    exportExpenceDetails:[],
+    statusCodeForExportExpence:0,
+    exportComplianceDetails:[],
+    statusCodeForExportcompliance:0,
+    exportBookingDetails:[],
+    statusCodeForExportBooking:0,
+    exportWalkinDetails:[],
+    statusCodeForExportWalkin:0,
+    exportCheckoutDetails:[],
+    statusCodeForExportCheckout:0,
+
 
 }
 
@@ -278,6 +289,55 @@ case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
             };
           case "CLEAR_EXPORT_EB_DETAILS":
             return { ...state, statusCodeForExportEb: 0 };
+
+
+
+            case "EXPORT_EXPENSE_DETAILS":
+                return {
+                  ...state,
+                  exportExpenceDetails: action.payload,
+                  statusCodeForExportExpence: action.payload.statusCode,
+                };
+              case "CLEAR_EXPORT_EXPENSE_DETAILS":
+                return { ...state, statusCodeForExportExpence: 0 };
+
+
+                case "EXPORT_COMPLIANCE_DETAILS":
+                return {
+                  ...state,
+                  exportComplianceDetails: action.payload,
+                  statusCodeForExportcompliance: action.payload.statusCode,
+                };
+              case "CLEAR_EXPORT_COMPLIANCE_DETAILS":
+                return { ...state, statusCodeForExportcompliance: 0 };
+
+
+                case "EXPORT_BOOKING_DETAILS":
+                    return {
+                      ...state,
+                      exportBookingDetails: action.payload,
+                      statusCodeForExportBooking: action.payload.statusCode,
+                    };
+                  case "CLEAR_EXPORT_BOOKING_DETAILS":
+                    return { ...state, statusCodeForExportBooking: 0 };
+
+                    case "EXPORT_WALKIN_DETAILS":
+                    return {
+                      ...state,
+                      exportWalkinDetails: action.payload,
+                      statusCodeForExportWalkin: action.payload.statusCode,
+                    };
+                  case "CLEAR_EXPORT_WALKIN_DETAILS":
+                    return { ...state, statusCodeForExportWalkin: 0 };
+
+                    case "EXPORT_CHECKOUT_DETAILS":
+                        return {
+                          ...state,
+                          exportCheckoutDetails: action.payload,
+                          statusCodeForExportCheckout: action.payload.statusCode,
+                        };
+                      case "CLEAR_EXPORT_CHECKOUT_DETAILS":
+                        return { ...state, statusCodeForExportCheckout: 0 };
 
     }
     return state;
