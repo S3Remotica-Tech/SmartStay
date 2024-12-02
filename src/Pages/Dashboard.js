@@ -308,32 +308,35 @@ const trailColor = "#EBEBEB";
   //   ],
   // };
 
-//   const last6MonthsData = data?.filter((item) => {
-//   const currentDate = new Date();
-//   const itemDate = new Date(item.month);
-//   const sixMonthsAgo = new Date();
-//   sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
-//   return itemDate >= sixMonthsAgo;
-// });
+
 // const last6MonthsData = data?.filter((item) => {
-//   const currentDate = new Date();
-//   const sixMonthsAgo = new Date(); 
-//   sixMonthsAgo.setMonth(currentDate.getMonth() - 5); 
-
-//   const itemDate = new Date(item.month); 
-//   return itemDate >= sixMonthsAgo && itemDate <= currentDate; 
-// })
-
-// Adjust the calculation to ensure a full 6-month range is included
-const last6MonthsData = data?.filter((item) => {
-  const currentDate = new Date(); // Current date
-  const startOfSixMonthsAgo = new Date(currentDate); 
-  startOfSixMonthsAgo.setMonth(currentDate.getMonth() - 5); // Go back 5 months to include June in a range
+//   const currentDate = new Date(); 
+//   const startOfSixMonthsAgo = new Date(currentDate); 
+//   startOfSixMonthsAgo.setMonth(currentDate.getMonth() - 5); 
   
-  startOfSixMonthsAgo.setDate(1); // Ensure we start at the beginning of the month
-  const itemDate = new Date(item.month); // Parse month from the data
+//   startOfSixMonthsAgo.setDate(1); 
+//   const itemDate = new Date(item.month);
 
-  return itemDate >= startOfSixMonthsAgo && itemDate <= currentDate; // Include only dates in the range
+//   return itemDate >= startOfSixMonthsAgo && itemDate <= currentDate; 
+// });
+const currentDate = new Date();
+const months = [];
+
+// Generate last 6 months
+for (let i = 5; i >= 0; i--) {
+  const date = new Date(currentDate);
+  date.setMonth(currentDate.getMonth() - i);
+  const monthYear = date.toISOString().substring(0, 7); // Format: YYYY-MM
+  months.push({ month: monthYear, revenue: 0, expense: 0 });
+}
+
+// Merge the generated months with existing data
+const mergedData = months.map((monthData) => {
+  const existingData = data?.find((item) => item.month === monthData.month);
+  return {
+    ...monthData,
+    ...existingData, // Replace default values if data exists for the month
+  };
 });
 
 
@@ -768,7 +771,7 @@ const last6MonthsData = data?.filter((item) => {
 </div>
       <ResponsiveContainer width="100%" height={350}>
         <BarChart
-          data={last6MonthsData}
+          data={mergedData}
           margin={{ top: 10, left: 50, bottom: 40, right: 10 }}
           barGap={0}
           barCategoryGap="5%"
@@ -782,7 +785,8 @@ const last6MonthsData = data?.filter((item) => {
               fontWeight: 500,
             }}
             tickFormatter={(month) => {
-              const date = new Date(month);
+              // const date = new Date(month);
+              const date = new Date(`${month}-01`); 
               const options = { month: "short", year: "numeric" };
               return date.toLocaleDateString("en-US", options);
             }}
