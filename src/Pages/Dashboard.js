@@ -1470,7 +1470,7 @@ const mergedData = months.map((monthData) => {
           {
            state.PgList?.dashboardDetails?.book_data?.map((item)=>{
             const imageUrl = item.profile || Profile;
-            let Dated = new Date(item.DueDate);
+            let Dated = new Date(item.joining_date);
              console.log("Dated..?", Dated);
 
              let day = Dated.getDate();
@@ -1545,7 +1545,7 @@ const mergedData = months.map((monthData) => {
 
                  }}
                >
-               {item.amount}
+               {formattedDate}
 
  
              

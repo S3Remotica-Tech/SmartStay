@@ -746,3 +746,43 @@ height: 70px;
  
 
 }
+
+
+@media only screen and (max-width: 1295px) and (min-width: 1200px) {
+  .dashfirst{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+   
+    
+  }
+  /* .firstcard{
+    height:auto;
+    width: auto;
+  } */
+  .firstcard{
+    height: 170px;
+    width: 140px;
+    margin-top: -15px;
+  }
+  .dashtwo{
+    display: flex;
+    flex-direction:row;
+    height:auto;
+    width: 620px;
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+  
+  .spacedash{
+    margin-top: 10px;
+  }
+  .spacecard{
+    margin-left:0;
+    width: auto;
+    height: auto;
+    margin-top: 0px;
+  }
+ 
+
+}
