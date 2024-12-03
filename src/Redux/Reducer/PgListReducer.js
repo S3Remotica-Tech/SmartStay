@@ -58,7 +58,9 @@ const initialState = {
     dashboardFilter:[],
     statusCodeForDashboardFilter:0,
     dashboardFilterCashback:[],
-    statusCodeForDashboardFilterCashBack:0
+    statusCodeForDashboardFilterCashBack:0,
+    dashboardFilterRevenu:[],
+    statusCodeForDashboardFilterRevenue:0
 
 }
 const PgListReducer = (state = initialState, action) => {
@@ -256,6 +258,15 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
                         };
                       case "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK":
                         return { ...state, statusCodeForDashboardFilterCashBack: 0 };
+
+                        case "DASHBOARD_FILTER_REVENUE":
+                            return {
+                              ...state,
+                              dashboardFilterRevenu: action.payload,
+                              statusCodeForDashboardFilterRevenue: action.payload.statusCode,
+                            };
+                          case "CLEAR_DASHBOARD_FILTER_REVENUE":
+                            return { ...state, statusCodeForDashboardFilterRevenue: 0 };
 
 // ///////////////////////////////////////////////
 

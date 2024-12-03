@@ -80,15 +80,41 @@ lineHeight: 'normal',
   const [selectCashback,setSelectCashback] = useState("this_month")
   const [cashBackData,setCashBackData] = useState("")
   const [reveneReceived,setRevenueReceived]=useState("")
+  const [selectRevenu,setSelectRevenu] = useState("six_month")
 
 
   const handleSelectedReceived=(e)=>{
     setSelectCashback(e.target.value)
     // dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:e.target.value}});
       }
+      const handleSelectedRevenue=(e)=>{
+        setSelectRevenu(e.target.value)
+        // dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:e.target.value}});
+          }
+          useEffect(()=>{
+            dispatch({ type: "DASHBOARDFILTERCASHBACK", payload: { type:'cashback',range:selectCashback}});
+          },[selectCashback])
       useEffect(()=>{
-        dispatch({ type: "DASHBOARDFILTERCASHBACK", payload: { type:'cashback',range:selectCashback}});
-      },[selectCashback])
+        dispatch({ type: "DASHBOARDFILTERREVENUE", payload: { type:'exp_vs_rev',range:selectRevenu}});
+      },[selectRevenu])
+      useEffect(() => {
+        const cashBackDataRevenu = state.PgList?.dashboardFilterRevenu?.response?.cash_back_data;
+        console.log("Processed Data for Chart:", cashBackDataRevenu);
+        setData(cashBackDataRevenu);
+      }, [state.PgList?.dashboardFilterRevenu?.response?.cash_back_data]);
+
+
+      useEffect(()=>{
+        if(state.PgList?.statusCodeForDashboardFilterRevenue === 200){
+          
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_DASHBOARD_FILTER_REVENUE" });
+          }, 200);
+        }
+        },[state.PgList?.statusCodeForDashboardFilterRevenue])
+
+
+
 
       useEffect(()=>{
         if(state.PgList?.statusCodeForDashboardFilterCashBack === 200){
@@ -214,9 +240,10 @@ setSelectExpence(e.target.value)
 
 
 
-  useEffect(() => {
-    setData(state.PgList.dashboardDetails.Revenue_reports);
-  }, [state.PgList.dashboardDetails.Revenue_reports]);
+  // useEffect(() => {
+  //   setData(state.PgList?.dashboardFilterRevenu?.response?.cash_back_data);
+  // }, [state.PgList?.dashboardFilterRevenu?.response?.cash_back_data]);
+  
 
   useEffect(() => {
     dispatch({ type: "PGDASHBOARD" });
@@ -657,13 +684,13 @@ const mergedData = months.map((monthData) => {
     marginTop:"-15px"
   }}
 >
-  {/* Left Section: Title */}
+  
   <div
     style={{
-      flex: "1 1 auto", // Adapts to available space
+      flex: "1 1 auto", 
       textAlign: "start",
       paddingLeft: 25,
-      marginBottom: "0", // Ensures no gap for larger screens
+      marginBottom: "0", 
     }}
   >
     <p
@@ -678,17 +705,18 @@ const mergedData = months.map((monthData) => {
     </p>
   </div>
 
-  {/* Right Section: Dropdown */}
   <div
     style={{
-      flex: "0 0 auto", // Prevents the dropdown from stretching
-      maxWidth: "350px", // Constrains dropdown width
-      marginLeft: "auto", // Pushes dropdown to the far right
+      flex: "0 0 auto", 
+      maxWidth: "350px", 
+      marginLeft: "auto", 
     }}
   >
     <div style={{ position: "relative", width: "150px", height: 36 }}>
       <select
         aria-label="Default select example"
+        value={selectRevenu}
+        onChange={(e)=>handleSelectedRevenue(e)}
         style={{
           fontSize: 12,
           color: "#4B4B4B",
@@ -705,12 +733,9 @@ const mergedData = months.map((monthData) => {
           backgroundSize: "16px 16px",
         }}
       >
-         <option>This month</option>
-          <option>last months</option>
-          <option>last 3 months</option>
-          <option>last 6 months</option>
-          <option>last 1 year</option>
-          <option>previous years</option>
+         <option value="six_month">last six month</option>
+          <option value="this_year">this year</option>
+          <option >last year</option>
       </select>
     </div>
   </div>
@@ -771,7 +796,7 @@ const mergedData = months.map((monthData) => {
 </div>
       <ResponsiveContainer width="100%" height={350}>
         <BarChart
-          data={mergedData}
+          data={data}
           margin={{ top: 10, left: 50, bottom: 40, right: 10 }}
           barGap={0}
           barCategoryGap="5%"
@@ -779,6 +804,7 @@ const mergedData = months.map((monthData) => {
           <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
           <XAxis
             dataKey="month"
+            
             tick={{
               fontFamily: "Gilroy",
               fontSize: 12,
@@ -794,9 +820,11 @@ const mergedData = months.map((monthData) => {
             <Label value="" position="insideBottom" offset={-15} />
           </XAxis>
           <YAxis
+          domain={[0, 'dataMax']}
             axisLine={false}
             tickLine={false}
-            tickFormatter={formatYAxis}
+            // tickFormatter={formatYAxis}
+            formatter={(value) => `₹ ${value}`}
             dx={-10}
             tick={{
               fontFamily: "Gilroy",
@@ -804,6 +832,7 @@ const mergedData = months.map((monthData) => {
               fontWeight: 500,
             }}
           />
+          
           <Bar
             dataKey="revenue"
             fill="#E34B4B"
