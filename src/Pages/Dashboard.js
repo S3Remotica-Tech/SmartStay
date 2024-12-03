@@ -1408,9 +1408,18 @@ const mergedData = months.map((monthData) => {
             </div>
           </div>
         </div>
+
+
+
+       
       </>
     );
   })}
+   {(!activecommpliance || activecommpliance.length === 0) && (
+    <div style={{textAlign:"center",color:"red"}}>
+      <p>No Data</p>
+    </div>
+  )}
 </div>
 </div>
 </div>
