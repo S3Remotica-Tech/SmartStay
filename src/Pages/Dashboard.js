@@ -311,7 +311,9 @@ console.log("currentvalue",currentvalue)
   // const pathColor = currentvalue >= cashBackData?.[0]?.overdue ? "#00A32E" : "EBEBEB";
   // const trailColor = cashBackData?.[0]?.overdue >= currentvalue ? "#EBEBEB" : "#00A32E";
 
-  const pathColor = total > 0 && currentvalue > 0 ? "#00A32E" : "#EBEBEB"; // Green if valid value, grey otherwise
+//   const pathColor = total > 0 && currentvalue > 0 ? "#00A32E" : "#EBEBEB"; 
+// const trailColor = "#EBEBEB";
+const pathColor = total > 0 ? (currentvalue > 0 ? "#00A32E" : "#EBEBEB") : "#EBEBEB";
 const trailColor = "#EBEBEB";
   // const getRandomColor = () => {
   //   const letters = "0123456789ABCDEF";
@@ -589,7 +591,8 @@ const mergedData = months.map((monthData) => {
           <i class="bi bi-house-door-fill fs-3"></i>
         </div>
         <h6 class="text-muted">Total Room</h6>
-        <h4 class="mb-0">{dashboardList[0]?.roomCount}</h4>
+        {/* <h4 class="mb-0">{dashboardList[0]?.roomCount}</h4> */}
+        <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.roomCount : 0}</h4>
       </div>
     
          </div>
@@ -598,7 +601,8 @@ const mergedData = months.map((monthData) => {
          <div class="border rounded-4 p-3 text-start bg-white shadow-sm secondcard d-flex justify-content-between align-items-center">
   <div>
     <h6 class="text-muted">Total Beds</h6>
-    <h4 class="mb-0">{dashboardList[0]?.TotalBed}</h4>
+    {/* <h4 class="mb-0">{dashboardList[0]?.TotalBed}</h4> */}
+    <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.TotalBed : 0}</h4>
   </div>
   {/* <i class="bi bi-house-door-fill fs-3"></i> */}
   <img src={clock} width={30} height={30}/>
@@ -608,7 +612,8 @@ const mergedData = months.map((monthData) => {
   <div class="d-flex justify-content-between align-items-center">
     <div>
       <h6 class="text-muted mb-0">Free Bed</h6>
-      <h4 class="mb-0">{dashboardList[0]?.availableBed}</h4>
+      {/* <h4 class="mb-0">{dashboardList[0]?.availableBed}</h4> */}
+      <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.availableBed : 0}</h4>
     </div>
     <img src={key} width="30" height="30" alt="Clock" />
   </div>
@@ -622,11 +627,13 @@ const mergedData = months.map((monthData) => {
 <div class="d-flex flex-column gap-3 dashfour" style={{flex:1}} >
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm fourthcard">
           <h6 class="text-muted">Occupied Bed</h6>
-          <h4 class="mb-0">{dashboardList[0]?.occupied_Bed}</h4>
+          {/* <h4 class="mb-0">{dashboardList[0]?.occupied_Bed}</h4> */}
+          <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.occupied_Bed : 0}</h4>
         </div>
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm fifthcard" >
           <h6 class="text-muted">Total Customer</h6>
-          <h4 class="mb-0">18</h4>
+          {/* <h4 class="mb-0">18</h4> */}
+          <h4 class="mb-0">  <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.customer_count : 0}</h4></h4>
         </div>
       </div>
       <div class="d-flex flex-column gap-3 dashfive" style={{flex:1,padding:5,}} >
@@ -636,14 +643,15 @@ const mergedData = months.map((monthData) => {
         </div>
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm seventhcard" >
           <h6 class="text-muted">EB Amount</h6>
-          <h4 class="mb-0">2</h4>
+          <h4 class="mb-0">  <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.eb_amount : 0}</h4></h4>
         </div>
       </div>
       <div class="d-flex flex-column gap-3 eigthdesign" style={{flex:1}} >
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm eighthcard">
         <img src={vector} width={32} height={32}/>
         <p class="text-muted" style={{fontWeight:400,fontSize:14,fontFamily:"Montserrat",marginTop:12}}>Total Asset Value</p>
-          <h4 class="mb-0" style={{fontFamily:"Gilroy",fontSize:32,fontWeight:600,marginTop:8}}>₹ 15446</h4>
+          {/* <h4 class="mb-0" style={{fontFamily:"Gilroy",fontSize:32,fontWeight:600,marginTop:8}}>₹ 15446</h4> */}
+          <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.asset_amount : 0}</h4>
          
         </div>
         </div>
@@ -1022,15 +1030,16 @@ const mergedData = months.map((monthData) => {
         /> */}
      <CircularProgressbar
   value={percentage}
-  text={`₹${total}`}
+  // text={`₹${total}`}
+  text={`₹${total || 0}`}
   circleRatio={0.5}
   styles={buildStyles({
     rotation: 0.75, 
     // pathColor:"#DCDCDC",
    
     // trailColor: "#00A32E", 
-    pathColor: trailColor,
-    trailColor: pathColor,
+    pathColor: pathColor,
+    trailColor: trailColor,
     textColor: "#000000",
     textSize: 15,
     text: {
@@ -1066,7 +1075,8 @@ const mergedData = months.map((monthData) => {
                 fontFamily: "Gilry",
               }}
             >
-              ₹{cashBackData && cashBackData[0]?.overdue}
+              {/* ₹{cashBackData && cashBackData[0]?.overdue} */}
+              ₹{currentvalue}
             </div>
           </div>
         </div>
@@ -1089,7 +1099,9 @@ const mergedData = months.map((monthData) => {
                 fontFamily: "Gilry",
               }}
             >
-              ₹{currentvalue}
+              {/* ₹{currentvalue} */}
+              {/* ₹{cashBackData && cashBackData[0]?.overdue} */}
+              ₹{(cashBackData && cashBackData[0]?.overdue > 0) ? cashBackData[0]?.overdue : 0}
             </div>
           </div>
         </div>
