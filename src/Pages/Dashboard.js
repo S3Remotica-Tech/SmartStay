@@ -216,8 +216,9 @@ setSelectExpence(e.target.value)
   });
 
   useEffect(() => {
-    setTotalAmount(state.PgList.dashboardDetails.total_amount);
-  }, [state.PgList.dashboardDetails.total_amount]);
+    setTotalAmount(state.PgList?.dashboardFilter?.response?.total_amount);
+  }, [state.PgList?.dashboardFilter?.response?.total_amount]);
+  console.log("totalAmount",state.PgList?.dashboardFilter?.response)
 
   const handlecompliance = (compliance) => {
     props.displayCompliance(compliance);
@@ -862,7 +863,7 @@ const mergedData = months.map((monthData) => {
   dataKey="expense" 
   position="inside" 
   angle={270} 
-  formatter={(value) => `₹ ${value}`} 
+  // formatter={(value) => `₹ ${value}`} 
   style={{
     fill: "white",
     fontSize: 12,
@@ -1099,71 +1100,62 @@ const mergedData = months.map((monthData) => {
 
 <div style={{ flex: 1 }}>
 <div className="expenses-container animated-text">
-  {/* Top Section with Title and Dropdown */}
-  <div
-    className="dropp"
-    style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      padding: "10px 20px",
-      flexWrap: "wrap", // Allow wrapping on small screens
-    }}
-  >
-    {/* Title */}
-    <div style={{ display: "flex", textAlign: "start", marginBottom: "10px" }}>
-      <p
-        style={{
-          fontFamily: "Montserrat",
-          fontSize: 18,
-          fontWeight: 600,
-          paddingLeft: 10,
-        }}
-      >
-        Expenses
-      </p>
-    </div>
-
-    {/* Dropdown */}
-    <div
-      className="d-flex align-items-end justify-content-end"
+ 
+<div
+  className="dropp d-flex justify-content-between align-items-center flex-wrap py-2 px-3"
+>
+  {/* Left Section: Expenses Text */}
+  <div className="d-flex text-start mb-2">
+    <p
       style={{
-        marginBottom: "10px",
+        fontFamily: "Montserrat",
+        fontSize: 18,
+        fontWeight: 600,
+        paddingLeft: 10,
+        margin: 0,
       }}
     >
-      <div style={{ position: "relative", width: "100%", maxWidth: 200 }}>
-        <select
-          aria-label="Default select example"
-          onChange={(e)=>handleSelectedExpenses(e)}
-          value={selectExpence}
-          style={{
-            fontSize: 12,
-            color: "#4B4B4B",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            boxShadow: "none",
-            border: "1px solid #D9D9D9",
-            height: 36,
-            width: "100%",
-            borderRadius: 60,
-            paddingTop: 6,
-            paddingBottom: 6,
-            paddingRight: 10,
-            paddingLeft: 10,
-            appearance: "none",
-            background: `url(${drop}) no-repeat right 10px center`,
-            backgroundSize: "16px 16px",
-          }}
-        >
-           <option value="this_month">This month</option>
-          <option value="last_month">last months</option>
-          <option value="last_three_months">last 3 months</option>
-          <option value="last_six_months">last 6 months</option>
-          <option value="this_year">last 1 year</option>
-        </select>
-      </div>
-    </div>
+      Expenses
+    </p>
   </div>
+
+  {/* Right Section: Dropdown */}
+  <div
+    className="d-flex justify-content-end align-items-center mb-2"
+    style={{ width: "100%", maxWidth: 200 }}
+  >
+    <select
+      aria-label="Default select example"
+      onChange={(e) => handleSelectedExpenses(e)}
+      value={selectExpence}
+      style={{
+        fontSize: 12,
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        boxShadow: "none",
+        border: "1px solid #D9D9D9",
+        height: 36,
+        width: "100%",
+        borderRadius: 60,
+        paddingTop: 6,
+        paddingBottom: 6,
+        paddingRight: 30, /* Allow space for icon */
+        paddingLeft: 10,
+        appearance: "none",
+        background: `url(${drop}) no-repeat right 10px center`,
+        backgroundSize: "16px 16px",
+      }}
+    >
+      <option value="this_month">This month</option>
+      <option value="last_month">Last month</option>
+      <option value="last_three_months">Last 3 months</option>
+      <option value="last_six_months">Last 6 months</option>
+      <option value="this_year">This year</option>
+    </select>
+  </div>
+</div>
+
 
   {/* Content Section */}
   <div className="content" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
