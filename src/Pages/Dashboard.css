@@ -763,25 +763,39 @@ height: 70px;
   .firstcard{
     height: 170px;
     width: 140px;
-    margin-top: -15px;
+    margin-top: 0px;
   }
   .dashtwo{
     display: flex;
     flex-direction:row;
     height:auto;
-    width: 620px;
-    margin-left: 20px;
-    margin-top: 10px;
+    width: 600px;
+    margin-left: 40px;
+    margin-top: -12px;
   }
   
   .spacedash{
     margin-top: 10px;
   }
-  .spacecard{
+  /* .spacecard{
     margin-left:0;
     width: auto;
     height: auto;
     margin-top: 0px;
+  } */
+  .spacecard{
+    margin-left: -10px;
+    width: 210px;
+    margin-top: -12px;
+  }
+  .eigthdesign{
+    margin-left: 10px;
+  }
+  .eighthcard{
+    height: 173px;
+    width: 150px;
+    padding-top: 8px;
+    margin-top: 9px;
   }
  
 
