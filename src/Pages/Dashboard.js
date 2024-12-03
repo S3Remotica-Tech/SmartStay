@@ -1615,7 +1615,7 @@ const mergedData = months.map((monthData) => {
            })
      
          }
-          {state.PgList?.dashboardDetails?.book_data?.length === 0 && (
+          {(!state.PgList?.dashboardDetails?.book_data || state.PgList?.dashboardDetails?.book_data?.length === 0) && (
           <tr>
             <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
           </tr>
@@ -1791,7 +1791,7 @@ const mergedData = months.map((monthData) => {
      
          }
 
-{state.PgList?.dashboardDetails?.bill_details?.length === 0 && (
+{(!state.PgList?.dashboardDetails?.bill_details || state.PgList?.dashboardDetails?.bill_details?.length === 0) && (
           <tr>
             <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
           </tr>
