@@ -736,9 +736,10 @@ height: 70px;
   }
   .spacedash{
     margin-top: 10px;
+    margin-left: 20px;
   }
   .spacecard{
-    margin-left:0;
+    margin-left:20px;
     width: auto;
     height: auto;
     margin-top: 0px;

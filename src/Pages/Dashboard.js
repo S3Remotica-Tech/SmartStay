@@ -610,7 +610,7 @@ const mergedData = months.map((monthData) => {
       <h6 class="text-muted mb-0">Free Bed</h6>
       <h4 class="mb-0">{dashboardList[0]?.availableBed}</h4>
     </div>
-    <img src={clock} width="30" height="30" alt="Clock" />
+    <img src={key} width="30" height="30" alt="Clock" />
   </div>
 </div>
 
