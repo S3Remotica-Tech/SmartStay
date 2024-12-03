@@ -833,6 +833,7 @@ const mergedData = months.map((monthData) => {
               fontWeight: 500,
             }}
           />
+          <Tooltip formatter={(value) => `${value}`} />
           
           <Bar
             dataKey="revenue"
