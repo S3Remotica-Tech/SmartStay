@@ -12,19 +12,18 @@ function SettingAllPages() {
 
   const handleShowGeneralPage = () => {
     setGeneralPageShow(true);
-    setManagePageShow(false); // Ensure Manage PG is hidden
+    setManagePageShow(false); 
   };
 
   const handleShowManagePage = () => {
     setManagePageShow(true);
-    setGeneralPageShow(false); // Ensure General is hidden
+    setGeneralPageShow(false); 
   };
 
   return (
     <>
       <div className="container-fluid">
         <div className="row">
-          {/* Sidebar */}
           <div className="col-12 col-md-3">
             <div
               style={{
@@ -39,9 +38,7 @@ function SettingAllPages() {
                 height:246
               }}
             >
-              {/* General */}
               <p
-                // onClick={() => setActiveItem("General")}
                 onClick={() => {
                     setActiveItem("General");
                     handleShowGeneralPage();
@@ -59,7 +56,6 @@ function SettingAllPages() {
                 }}
               >
                 General
-                {/* <span style={{ color: "#4a90e2" }}>&#8250;</span> */}
                 <img
                   src={activeItem === "General" ? blueArrow : blackArrow}
                   width={16}
@@ -68,8 +64,6 @@ function SettingAllPages() {
                 />
               </p>
               <hr style={{ width: "auto", border: "1px solid white" ,marginTop:"-6px"}} />
-
-              {/* Manage PG */}
               <p
                 onClick={() => {
                     setActiveItem("Manage PG");
@@ -97,7 +91,6 @@ function SettingAllPages() {
               </p>
               <hr style={{ width: "auto", border: "1px solid white",marginTop:"-6px" }} />
 
-              {/* Security */}
               <p
                 onClick={() => setActiveItem("Security")}
                 style={{
@@ -113,7 +106,6 @@ function SettingAllPages() {
                 }}
               >
                 Security
-                {/* <span style={{ color: "#4a90e2" }}>&#8250;</span> */}
                 <img
                   src={activeItem === "Security" ? blueArrow : blackArrow}
                   width={16}
@@ -122,8 +114,6 @@ function SettingAllPages() {
                 />
               </p>
               <hr style={{ width: "auto", border: "1px solid white",marginTop:"-6px" }} />
-
-              {/* Subscription */}
               <p
                 onClick={() => setActiveItem("Subscription")}
                 style={{
@@ -139,7 +129,6 @@ function SettingAllPages() {
                 }}
               >
                 Subscription
-                {/* <span style={{ color: "#4a90e2" }}>&#8250;</span> */}
                 <img
                   src={activeItem === "Subscription" ? blueArrow : blackArrow}
                   width={16}
@@ -176,11 +165,6 @@ function SettingAllPages() {
 
             
           </div>
-
-   
-   
-
-          {/* Main Content Area */}
           <div className="col-12 col-md-8" style={{ padding: "20px",marginLeft:20 }}>
             {generalPageShow && <SettingGeneral />}
             {managePageShow && <SettingManage />}
