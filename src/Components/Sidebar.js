@@ -59,6 +59,7 @@ import Banking from '../Pages/Banking';
 import bank from '../Assets/Images/New_images/bank.png';
 import bankblank from '../Assets/Images/New_images/blank_bank.png';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import SettingAllPages from '../Pages/SettingAllPages';
 
 
 function Sidebar() {
@@ -340,6 +341,18 @@ function Sidebar() {
               <div className="d-flex align-items-center justify-content-start" style={{ padding: "16px 10px" }}>
                 <img src={Smartstay} style={{ height: 25.06, width: 134 }}  className="Title" onClick={() => handlePageClick('dashboard')}/>
               </div>
+
+
+              <li className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`} onClick={() => handlePageClick('settingNewDesign')} style={{ listStyleType: "none", display: "flex" }}>
+                  <img src={Manage} style={{ height: 20, width: 20 }} />
+                  <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>payingGuest</span>
+                  <span className="ms-auto ">
+                    <ArrowDown2
+                      size="16"
+                      color="#4B4B4B"
+                    />
+                  </span>
+                </li>
               
               <ul className="p-0" style={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
                 <li className={`align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
@@ -556,6 +569,7 @@ function Sidebar() {
             {currentPage === 'expenses' && <Expenses />}
             {currentPage === 'profile' && <Profilesettings />}
             {currentPage === 'banking' && <Banking/>}
+            {currentPage === 'settingNewDesign' && <SettingAllPages/>}
           </Col>
         </Row>
       </Container>

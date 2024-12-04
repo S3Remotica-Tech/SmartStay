@@ -185,7 +185,7 @@ console.log("SaveHostel",SaveHostel)
 
 
 
-        <Card className="animated-text ms-0 h-100" key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease",
+        <Card className="animated-text ms-0 h-100 " key={props.hostel && props.hostel.id} style={{ borderRadius: 16, border:selectedHostelHover ? " 1px solid #1E45E1" : hoverPgCard ? "1px solid #9C9C9C":  "1px solid #E6E6E6",transition: "border 0.3s ease",
             height:"auto",
         }}
         

@@ -601,10 +601,8 @@ const mergedData = months.map((monthData) => {
          <div class="border rounded-4 p-3 text-start bg-white shadow-sm secondcard d-flex justify-content-between align-items-center">
   <div>
     <h6 class="text-muted">Total Beds</h6>
-    {/* <h4 class="mb-0">{dashboardList[0]?.TotalBed}</h4> */}
     <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.TotalBed : 0}</h4>
   </div>
-  {/* <i class="bi bi-house-door-fill fs-3"></i> */}
   <img src={clock} width={30} height={30}/>
 </div>
 
@@ -612,7 +610,6 @@ const mergedData = months.map((monthData) => {
   <div class="d-flex justify-content-between align-items-center">
     <div>
       <h6 class="text-muted mb-0">Free Bed</h6>
-      {/* <h4 class="mb-0">{dashboardList[0]?.availableBed}</h4> */}
       <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.availableBed : 0}</h4>
     </div>
     <img src={key} width="30" height="30" alt="Clock" />
@@ -627,12 +624,10 @@ const mergedData = months.map((monthData) => {
 <div class="d-flex flex-column gap-3 dashfour" style={{flex:1}} >
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm fourthcard">
           <h6 class="text-muted">Occupied Bed</h6>
-          {/* <h4 class="mb-0">{dashboardList[0]?.occupied_Bed}</h4> */}
           <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.occupied_Bed : 0}</h4>
         </div>
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm fifthcard" >
           <h6 class="text-muted">Total Customer</h6>
-          {/* <h4 class="mb-0">18</h4> */}
           <h4 class="mb-0">  <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.customer_count : 0}</h4></h4>
         </div>
       </div>
@@ -650,7 +645,6 @@ const mergedData = months.map((monthData) => {
         <div class="border rounded-4 p-3 text-start bg-white shadow-sm eighthcard">
         <img src={vector} width={32} height={32}/>
         <p class="text-muted" style={{fontWeight:400,fontSize:14,fontFamily:"Montserrat",marginTop:12}}>Total Asset Value</p>
-          {/* <h4 class="mb-0" style={{fontFamily:"Gilroy",fontSize:32,fontWeight:600,marginTop:8}}>₹ 15446</h4> */}
           <h4 class="mb-0">{dashboardList && dashboardList?.length > 0 ? dashboardList[0]?.asset_amount : 0}</h4>
          
         </div>
@@ -689,7 +683,7 @@ const mergedData = months.map((monthData) => {
     flexWrap: "wrap", 
     justifyContent: "space-between", 
     alignItems: "center",
-    padding: "10px 20px",
+    padding: "10px 10px",
     marginTop:"-15px"
   }}
 >
@@ -698,7 +692,7 @@ const mergedData = months.map((monthData) => {
     style={{
       flex: "1 1 auto", 
       textAlign: "start",
-      paddingLeft: 25,
+      paddingLeft: 15,
       marginBottom: "0", 
     }}
   >
@@ -767,7 +761,7 @@ const mergedData = months.map((monthData) => {
       }}
       className="chart-wrapper"
     >
-          <div
+          {/* <div
       style={{
         position: "absolute",
         top: "10px",
@@ -802,18 +796,22 @@ const mergedData = months.map((monthData) => {
           Amount
         </p>
       </div>
-</div>
+</div> */}
       <ResponsiveContainer width="100%" height={350}>
         <BarChart
           data={data}
-          margin={{ top: 10, left: 50, bottom: 40, right: 10 }}
+          margin={{ top: 10, left: 20, bottom: 40, right: 10 }}
           barGap={0}
           barCategoryGap="5%"
         >
           <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
           <XAxis
             dataKey="month"
-            
+            // interval={1} 
+            // interval={"six_month" ? '0' : '1'}
+            interval={selectRevenu === "six_month" ? 0 : 1}
+           
+ 
             tick={{
               fontFamily: "Gilroy",
               fontSize: 12,
@@ -832,6 +830,7 @@ const mergedData = months.map((monthData) => {
           domain={[0, 'dataMax']}
             axisLine={false}
             tickLine={false}
+            tickCount={12}
             // tickFormatter={formatYAxis}
             formatter={(value) => `₹ ${value}`}
             dx={-10}
@@ -886,7 +885,7 @@ const mergedData = months.map((monthData) => {
         </BarChart>
       </ResponsiveContainer>
 
-      <div
+      {/* <div
       style={{
         position: "absolute",
         bottom: "50px",
@@ -913,7 +912,7 @@ const mergedData = months.map((monthData) => {
         alt="Arrow"
         style={{ width: "30px", height: "10px" }}
       />
-    </div>
+    </div> */}
 
 
       

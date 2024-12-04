@@ -202,3 +202,18 @@
    overflow-x: auto;
   }
 }
+
+.settingGreneral{
+ margin-left: 0px;
+}
+.settingmanage{
+  padding-left: 0px;
+}
+@media only screen and (max-width: 1100px) and (min-width: 700px) {
+  .settingGreneral{
+    margin-left: 70px;
+   }
+   .settingmanage{
+    padding-left: 40px;
+  }
+}
