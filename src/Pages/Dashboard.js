@@ -683,7 +683,7 @@ const mergedData = months.map((monthData) => {
     flexWrap: "wrap", 
     justifyContent: "space-between", 
     alignItems: "center",
-    padding: "10px 20px",
+    padding: "10px 10px",
     marginTop:"-15px"
   }}
 >
@@ -692,7 +692,7 @@ const mergedData = months.map((monthData) => {
     style={{
       flex: "1 1 auto", 
       textAlign: "start",
-      paddingLeft: 25,
+      paddingLeft: 15,
       marginBottom: "0", 
     }}
   >
@@ -761,7 +761,7 @@ const mergedData = months.map((monthData) => {
       }}
       className="chart-wrapper"
     >
-          <div
+          {/* <div
       style={{
         position: "absolute",
         top: "10px",
@@ -796,18 +796,22 @@ const mergedData = months.map((monthData) => {
           Amount
         </p>
       </div>
-</div>
+</div> */}
       <ResponsiveContainer width="100%" height={350}>
         <BarChart
           data={data}
-          margin={{ top: 10, left: 50, bottom: 40, right: 10 }}
+          margin={{ top: 10, left: 20, bottom: 40, right: 10 }}
           barGap={0}
           barCategoryGap="5%"
         >
           <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
           <XAxis
             dataKey="month"
-            
+            // interval={1} 
+            // interval={"six_month" ? '0' : '1'}
+            interval={selectRevenu === "six_month" ? 0 : 1}
+           
+ 
             tick={{
               fontFamily: "Gilroy",
               fontSize: 12,
@@ -826,6 +830,7 @@ const mergedData = months.map((monthData) => {
           domain={[0, 'dataMax']}
             axisLine={false}
             tickLine={false}
+            tickCount={12}
             // tickFormatter={formatYAxis}
             formatter={(value) => `₹ ${value}`}
             dx={-10}
@@ -880,7 +885,7 @@ const mergedData = months.map((monthData) => {
         </BarChart>
       </ResponsiveContainer>
 
-      <div
+      {/* <div
       style={{
         position: "absolute",
         bottom: "50px",
@@ -907,7 +912,7 @@ const mergedData = months.map((monthData) => {
         alt="Arrow"
         style={{ width: "30px", height: "10px" }}
       />
-    </div>
+    </div> */}
 
 
       
