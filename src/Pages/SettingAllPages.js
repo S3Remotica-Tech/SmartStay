@@ -213,7 +213,7 @@ function SettingAllPages() {
     <>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-12 col-md-3">
+          <div className="col-12 col-md-12 col-lg-3 col-sm-12 col-xs-12">
             <div
               style={{
                 backgroundColor: "#E7F1FF",
