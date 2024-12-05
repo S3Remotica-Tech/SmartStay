@@ -15,6 +15,7 @@ import SettingAmenities from "./SettingAmenities";
 import SettingNewUser from "./SettingUserNew";
 import SettingNewRole from "./SettingNewRole";
 import "./Settings.css";
+import {Button, Offcanvas,Form,FormControl,FormSelect} from "react-bootstrap";
 
 
 
@@ -364,8 +365,54 @@ function SettingAllPages() {
 
 <div>
 
-<div style={{fontSize:16,fontWeight:600,fontFamily:"Gilroy",textAlign:"center"}}>PG Based Setting</div>
+<div style={{fontSize:16,fontWeight:600,fontFamily:"Gilroy",textAlign:"start",marginLeft:30}}>PG Based Setting</div>
+<div className="col-lg-10 col-md-10 col-sm-12 col-xs-12" style={{marginLeft:30}}>
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                       Select PG
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
+                      </Form.Label>
+                      <Form.Select
+                        aria-label="Default select example"
+                        className="border"
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #D9D9D9",
+                          height: 47,
+                          borderRadius: 8,
+                        }}
+                        // value={hostel_Id}
+                        // onChange={(e) => handleHostelId(e)}
+                      >
+                        <option>Select a PG</option>
+                        <option>Select</option>
 
+                        {/* {state.UsersList?.hostelList?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.Name}
+                          </option>
+                        ))} */}
+                      </Form.Select>
+                      {/* {hostelIdError && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {hostelIdError}
+                        </div>
+                      )} */}
+                    </div>
 
 <div
               style={{
