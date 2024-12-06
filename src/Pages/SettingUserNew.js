@@ -27,12 +27,15 @@ function SettingNewUser() {
     const popupRef = useRef(null);
     const [usersFilterddata, setUsersFilterddata] = useState([]);
 const [addUserForm, setAddUserForm] = useState(false)
-    const [showDots, setShowDots] = useState(false);
+    const [showDots, setShowDots] = useState(null);
+const [editDetails, setEditDetails] = useState('')
+
 
     // Function Declare//////////////////////////////////////////////////////////
 
-    const handleDotsClick = () => {
-        setShowDots(!showDots);
+    const handleDotsClick = (index) => {
+       
+        setShowDots((prev) => (prev === index ? null : index));
     };
 
 
@@ -44,10 +47,20 @@ const [addUserForm, setAddUserForm] = useState(false)
     };
 
 const handleOpenAddUser = () =>{
+  
        setAddUserForm(true)
 }
 const handleCloseAddUser = () =>{
     setAddUserForm(false)
+}
+
+const  handleEditForm = (item) =>{
+    setAddUserForm(true)
+    setEditDetails(item)
+}
+
+const handleDeleteForm = (item) =>{
+
 }
 
 
@@ -67,6 +80,8 @@ const handleCloseAddUser = () =>{
     useEffect(() => {
         setUsersFilterddata(state.Settings?.addSettingStaffList?.response?.user_details)
     }, [state.Settings?.addSettingStaffList?.response?.user_details])
+
+console.log("state",state)
 
     useEffect(()=>{
         if(state.Settings.StatusForaddSettingUser === 200){
@@ -180,7 +195,7 @@ const handleCloseAddUser = () =>{
                         </thead>
                         <tbody>
                             {
-                                usersFilterddata?.map((item) => {
+                                usersFilterddata?.map((item, index) => {
                                     const imageUrl = item.profile || Profile;
                                     return (
                                         <tr style={{ overflowX: 'auto' }}>
@@ -278,12 +293,12 @@ const handleCloseAddUser = () =>{
                                                         position:"relative"
                                                     }}
 
-                                                    onClick={handleDotsClick}
+                                                    onClick={()=>handleDotsClick(index)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill
                                                         style={{ height: "20px", width: "20px" }}
                                                     />
-                                                    {showDots && (
+                                                    {showDots === index && (
                                                         <div
                                                             ref={popupRef}
                                                             style={{
@@ -304,7 +319,7 @@ const handleCloseAddUser = () =>{
                                                         >
                                                             <div
                                                                 className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                            //    onClick={() => handleEditForm(item)}
+                                                               onClick={() => handleEditForm(item)}
                                                             >
                                                                 <img
                                                                     src={Edit}
@@ -324,7 +339,7 @@ const handleCloseAddUser = () =>{
                                                                 </label>
                                                             </div>
                                                             <div className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                            //   onClick={() => handleDeleteForm(item)}
+                                                              onClick={() => handleDeleteForm(item)}
                                                             >
                                                                 <img
                                                                     src={Delete}
@@ -398,7 +413,7 @@ const handleCloseAddUser = () =>{
             </div>
 
 
-{addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} />}
+{addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails}/>}
 
 
 

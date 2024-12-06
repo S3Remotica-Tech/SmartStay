@@ -12,10 +12,11 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } f
 import Form from 'react-bootstrap/Form';
 import eye from '../../Assets/Images/login-password.png'
 import eyeClosed from '../../Assets/Images/pngaaa.com-6514750.png';
+import { use } from 'react';
 
 
 
-function User({ show, handleClose }) {
+function User({ show, handleClose, editDetails }) {
 
 
   const state = useSelector(state => state)
@@ -25,7 +26,7 @@ function User({ show, handleClose }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
-  const [countryCode, setCountryCode] = useState('');
+  const [countryCode, setCountryCode] = useState('91');
   const [role, setRole] = useState('');
   const [description, setDescription] = useState('');
   const [password, setPassword] = useState("")
@@ -37,43 +38,133 @@ function User({ show, handleClose }) {
   const [mobileError, setMobileError] = useState('');
   const [countryCodeError, setCountryCodeError] = useState('');
   const [roleError, setRoleError] = useState('');
- 
   const [passwordError, setPasswordError] = useState("")
+  const [initialState, setInitialState] = useState({});
+  const [isChanged, setIsChanged] = useState(false);
+  const [error, setError] = useState("");
+  console.log("editDetails", editDetails)
+
+ // ////////// UseEffect
+
+
+ useEffect(() => {
+  dispatch({ type: 'SETTING_ROLE_LIST' })
+  dispatch({ type: "COUNTRYLIST" });
+}, [])
+
+
+useEffect(() => {
+  if (editDetails) {
+    const mobileNo = String(editDetails.mobileNo || "");
+    const countryCode = mobileNo.slice(0, 2);
+    const mobileNumber = mobileNo.slice(2);
+
+         const initial = {
+      name: editDetails.first_name || "",
+      email: editDetails.email_Id || "",
+      mobile: mobileNumber,
+      countryCode:countryCode,
+      role: editDetails.role_id || "",
+      description: editDetails.description || "",
+    };
+
+    setName(initial.name);
+    setEmail(initial.email);
+    setMobile(initial.mobile);
+    setCountryCode(initial.countryCode);
+    setRole(initial.role);
+    setDescription(initial.description);
+
+   
+    setInitialState(initial);
+     
+  }
+}, [editDetails]);
 
 
 
-  // ///// function //////////////
+  // ///// function /////////////
+
   const handleNameChange = (e) => {
     setName(e.target.value)
-  };
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value)
+    setNameError('')
+    setError('')
   }
-  dispatch({ type: "CLEAR_EMAIL_ID_ERROR" });
-  ;
+
+  const handleEmailChange = (e) => {
+    setEmailError('')
+    setError('')
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+
+    const hasUpperCase = /[A-Z]/.test(emailValue);
+
+
+    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    const isValidEmail = emailRegex.test(emailValue);
+
+
+    if (!emailValue) {
+      setEmailError("Please enter Email");
+    } else if (hasUpperCase) {
+      setEmailError("Email should be in lowercase");
+    } else if (!isValidEmail) {
+      setEmailError("Invalid Email Id *");
+    } else {
+      setEmailError("");
+
+    }
+
+
+    dispatch({ type: "CLEAR_EMAIL_ID_ERROR" });
+  };
+
+
+
   const handleMobileChange = (e) => {
-    setMobile(e.target.value)
+    setMobileError('')
+    setError('')
+    const value = e.target.value;
+    if (/^\d{0,10}$/.test(value)) {
+      setMobile(value);
+      setMobileError('');
+    } else {
+      setMobileError('Invalid mobile number. Only 10-digit numeric values are allowed.');
+    }
+
+
     dispatch({ type: "CLEAR_PHONE_NUM_ERROR" });
   };
   const handleCountryCodeChange = (e) => {
+    setCountryCodeError('')
+    setError('')
+    console.log("country", e.target.value)
     setCountryCode(e.target.value)
-  };
+  }
   const handleRoleChange = (e) => {
+    setRoleError('')
+    setError('')
     setRole(e.target.value)
   }
-    ;
+
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value)
-  };
+    setError('')
+  }
 
   const handlePassword = (e) => {
     setPassword(e.target.value)
     setPasswordError("")
+    setError('')
   }
 
 
+  console.log("country code", countryCode)
+
+
+
   const handleSubmit = () => {
-    alert('called')
+
     let isValid = true;
 
     setNameError('');
@@ -81,7 +172,7 @@ function User({ show, handleClose }) {
     setMobileError('');
     setCountryCodeError('');
     setRoleError('');
-   
+
 
 
     if (!name) {
@@ -104,42 +195,63 @@ function User({ show, handleClose }) {
       setRoleError('Please select a role');
       isValid = false;
     }
-    if (!password) {
+    if (!editDetails && !password) {
       setPasswordError('Please enter a password');
       isValid = false;
     }
 
+    const hasChanges =
+    name !== initialState.name ||
+    email !== initialState.email ||
+    mobile !== initialState.mobile ||
+    countryCode !== initialState.countryCode ||
+    role !== initialState.role ||
+    description !== initialState.description;
 
+console.log("hasChanges",hasChanges)
 
+if (editDetails && !hasChanges) {
+  setError("No changes detected. Please update the fields.");
+  isValid = false;
+}
 
     if (isValid) {
-      dispatch({
-        type: "ADDSTAFFUSER",
-        payload: {
-          user_name: name,
-          phone: mobile,
-          email_id: email,
-          password: password, 
-          role_id: role,
-          description: description,
-        },
-      });
+      if (editDetails) {
+        const MobileNumber = `${countryCode}${mobile}`
+        dispatch({
+          type: "ADDSTAFFUSER",
+          payload: {
+            user_name: name,
+            phone: MobileNumber,
+            email_id: email,
+            role_id: role,
+            description: description,
+            id: editDetails.id
+          },
+        });
+      } else {
+        const MobileNumber = `${countryCode}${mobile}`
+
+
+        dispatch({
+          type: "ADDSTAFFUSER",
+          payload: {
+            user_name: name,
+            phone: MobileNumber,
+            email_id: email,
+            password: password,
+            role_id: role,
+            description: description,
+          },
+        });
+      }
+
+
     }
   };
 
 
-  // ////////// UseEffect
-
-
-  useEffect(() => {
-    dispatch({ type: 'SETTING_ROLE_LIST' })
-    dispatch({ type: "COUNTRYLIST" });
-  }, [])
-
-
-
-
-
+ 
   return (
     <div
       className="modal show"
@@ -150,7 +262,7 @@ function User({ show, handleClose }) {
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Add User</Modal.Title>
+            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editDetails ? 'Edit User' : 'Add User'}</Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleClose} />
 
@@ -168,7 +280,7 @@ function User({ show, handleClose }) {
                     onChange={handleNameChange}
                     type="text" placeholder="Enter Name" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                 </Form.Group>
-                {nameError && <p style={{ color: "red", fontSize: 12 }}>{nameError}</p>}
+                {nameError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{nameError}</p>}
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -178,16 +290,16 @@ function User({ show, handleClose }) {
                     onChange={handleEmailChange}
                     type="text" placeholder="Enter email" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                 </Form.Group>
-                {emailError && <p style={{ color: "red", fontSize: 12 }}>{emailError}</p>}
+                {emailError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{emailError}</p>}
 
-{state.Settings.emailIdError && (
-    <div className="d-flex align-items-center p-1 mb-2">
-      <MdError style={{ color: "red", marginRight: '5px' }} />
-      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-        {state.Settings.emailIdError}
-      </label>
-    </div>
-  )}
+                {state.Settings.emailIdError && (
+                  <div className="d-flex align-items-center p-1 mb-2">
+                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      {state.Settings.emailIdError}
+                    </label>
+                  </div>
+                )}
 
 
               </div>
@@ -232,13 +344,10 @@ function User({ show, handleClose }) {
                       {state.UsersList?.countrycode?.country_codes?.map(
                         (item) => {
                           return (
-                            console.log(
-                              "item.country_flag",
-                              item.country_flag
-                            ),
+
                             (
                               <>
-                                <option value={item.country_code}>
+                                <option value={item.country_code} key={item.country_code}>
                                   +{item.country_code}
                                 </option>
                               </>
@@ -274,77 +383,80 @@ function User({ show, handleClose }) {
                   ></p>
                 </Form.Group>
 
-                {mobileError && <p style={{ color: "red", fontSize: 12 }}>{mobileError}</p>}
-                {countryCodeError && <p style={{ color: "red", fontSize: 12 }}>{countryCodeError}</p>}
+                {mobileError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{mobileError}</p>}
+                {countryCodeError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{countryCodeError}</p>}
 
                 {state.Settings.phoneNumError && (
-    <div className="d-flex align-items-center p-1 mb-2">
-      <MdError style={{ color: "red", marginRight: '5px' }} />
-      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-        {state.Settings.phoneNumError}
-      </label>
-    </div>
-  )}
+                  <div className="d-flex align-items-center p-1 mb-2">
+                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      {state.Settings.phoneNumError}
+                    </label>
+                  </div>
+                )}
 
 
 
 
               </div>
-              <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                <Form.Group className="mb-3">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Password <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                  </Form.Label>
-                  <InputGroup>
-                    <FormControl
-                      id="form-controls"
-                      placeholder="Enter password"
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => handlePassword(e)}
+              {
+                !editDetails &&
+
+                <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                  <Form.Group className="mb-3">
+                    <Form.Label
                       style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
+                        fontSize: 14,
+                        color: "#222222",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        borderRight: "none",
-                        height: "50px",
-                        borderRadius: "8px 0 0 8px",
-                      }}
-                    />
-                    <InputGroup.Text
-                      className="border-start-0"
-                      onClick={() => setShowPassword(!showPassword)}
-                      aria-label={showPassword ? "Hide Password" : "Show Password"}
-                      style={{
-                        backgroundColor: "#fff",
-                        border: "1px solid #D9D9D9",
-                        borderLeft: "none",
-                        cursor: "pointer",
-                        borderRadius: "0 8px 8px 0",
                       }}
                     >
-                      {showPassword ? (
-                        <img src={eye} alt="Hide Password" width={20} height={20} />
-                      ) : (
-                        <img src={eyeClosed} alt="Show Password" width={20} height={20} />
-                      )}
-                    </InputGroup.Text>
-                  </InputGroup>
-                </Form.Group>
-                {passwordError && <p style={{ color: "red", fontSize: 12 }}>{passwordError}</p>}
-              </div>
+                      Password <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                    </Form.Label>
+                    <InputGroup>
+                      <FormControl
+                        id="form-controls"
+                        placeholder="Enter password"
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => handlePassword(e)}
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #D9D9D9",
+                          borderRight: "none",
+                          height: "50px",
+                          borderRadius: "8px 0 0 8px",
+                        }}
+                      />
+                      <InputGroup.Text
+                        className="border-start-0"
+                        onClick={() => setShowPassword(!showPassword)}
+                        aria-label={showPassword ? "Hide Password" : "Show Password"}
+                        style={{
+                          backgroundColor: "#fff",
+                          border: "1px solid #D9D9D9",
+                          borderLeft: "none",
+                          cursor: "pointer",
+                          borderRadius: "0 8px 8px 0",
+                        }}
+                      >
+                        {showPassword ? (
+                          <img src={eye} alt="Hide Password" width={20} height={20} />
+                        ) : (
+                          <img src={eyeClosed} alt="Show Password" width={20} height={20} />
+                        )}
+                      </InputGroup.Text>
+                    </InputGroup>
+                  </Form.Group>
+                  {passwordError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{passwordError}</p>}
+                </div>
 
-
+              }
 
 
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
@@ -365,7 +477,7 @@ function User({ show, handleClose }) {
                     ))}
                   </Form.Select>
                 </Form.Group>
-    {roleError && <p style={{ color: "red", fontSize: 12 }}>{roleError}</p>}
+                {roleError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy" }}>{roleError}</p>}
               </div>
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -378,20 +490,20 @@ function User({ show, handleClose }) {
 
               </div>
 
+              {error && <p  style={{ color: "red",fontFamily: "Gilroy",fontSize:12 }}>{error}</p>}
 
 
 
             </div>
 
           </Modal.Body>
-
-
+         
           <Modal.Footer style={{ border: "none" }}>
 
             <Button
               onClick={handleSubmit}
-              className='w-100' style={{cursor:"pointer", backgroundColor: "#1E45E1", fontWeight: 600, padding: 12, borderRadius: 8, fontSize: 16, fontFamily: "Gilroy" }}>
-              Create User
+              className='w-100' style={{ cursor: "pointer", backgroundColor: "#1E45E1", fontWeight: 600, padding: 12, borderRadius: 8, fontSize: 16, fontFamily: "Gilroy" }}>
+              {editDetails ? 'Save Changes' : ' + Create User'}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
