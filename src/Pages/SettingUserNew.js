@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import {
     Button,
     Offcanvas,
+    Modal,
     Form,
     FormControl,
     FormSelect, InputGroup
@@ -29,6 +30,8 @@ function SettingNewUser() {
 const [addUserForm, setAddUserForm] = useState(false)
     const [showDots, setShowDots] = useState(null);
 const [editDetails, setEditDetails] = useState('')
+const [deleteId, setDeleteId] = useState('')
+const [isConfirmDelete, setIsConfirmDelete] = useState(false)
 
 
     // Function Declare//////////////////////////////////////////////////////////
@@ -60,9 +63,13 @@ const  handleEditForm = (item) =>{
 }
 
 const handleDeleteForm = (item) =>{
-
+setDeleteId(item.id)
+setIsConfirmDelete(true)
 }
 
+const handleClose = () =>{
+    setIsConfirmDelete(false)
+}
 
     // useEffect/////////////////////
 
@@ -411,6 +418,45 @@ console.log("state",state)
                 )
                 }
             </div>
+
+
+{
+    isConfirmDelete && 
+
+            <Modal show={isConfirmDelete} onHide={handleClose} centered backdrop="static">
+    <Modal.Header style={{display:"flex", justifyContent:"center"}} >
+      <Modal.Title style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy"}}>Delete User ?</Modal.Title>
+    </Modal.Header>
+
+    
+    
+    <Modal.Body style={{fontSize:18,fontWeight:600, fontFamily:"Gilroy", textAlign:"center"}}>
+         Are you sure you want to delete the User ?    </Modal.Body>
+    <Modal.Footer className='d-flex justify-content-center' style={{border:"none"}}>
+    <Button  
+    onClick={handleClose} 
+    style={{borderRadius:8, padding:"16px 45px",border:"1px solid #1E45E1",backgroundColor:"#FFF",color:"#1E45E1",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}>
+            Cancel
+          </Button>
+      
+          <Button style={{borderRadius:8, padding:"16px 45px",border:"1px solid #1E45E1",backgroundColor:"#1E45E1",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}
+        //    onClick={handleDelete}
+           >
+            Delete
+          </Button>
+         
+    </Modal.Footer>
+  </Modal>
+
+}
+
+
+
+
+
+
+
+
 
 
 {addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails}/>}
