@@ -110,8 +110,9 @@ export async function InvoiceSettings(params) {
   formData.append("hostel_Id", params.hostel_Id);
   if (params.prefix) formData.append("prefix", params.prefix);
   if (params.suffix) formData.append("suffix", params.suffix);
-  
-    
+  if (params.invoicedate) formData.append("invoicedate", params.invoicedate);
+  if (params.Invoice_duedate) formData.append("Invoice_duedate", params.Invoice_duedate);
+
   try {
     const response = await AxiosConfig.post('/invoice/settings',formData, {
       headers: {
@@ -134,6 +135,15 @@ export async function InvoiceSettings(params) {
     console.error("Axios Error", error);
          }
 }
+
+
+export async function InvoiceRecurringsettings(datum) {
+  return await AxiosConfig.post('/settings/add_recuring',datum,{
+    data:datum
+  })
+}
+
+
 
 
 
