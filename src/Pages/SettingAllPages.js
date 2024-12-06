@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SettingGeneral from "./SettingGeneral";
 import SettingManage from "./SettingManage";
@@ -16,10 +16,14 @@ import SettingNewUser from "./SettingUserNew";
 import SettingNewRole from "./SettingNewRole";
 import "./Settings.css";
 import {Button, Offcanvas,Form,FormControl,FormSelect} from "react-bootstrap";
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
 function SettingAllPages() {
+  
+  const dispatch = useDispatch();
+  const state = useSelector(state => state);
   const [activeItem, setActiveItem] = useState("General");
   const [generalPageShow, setGeneralPageShow] = useState(true);
   const [managePageShow, setManagePageShow] = useState(false);
@@ -208,6 +212,10 @@ function SettingAllPages() {
     setUserPageShow(false)
     setRolePageShow(true)
   }
+
+  useEffect(()=>{
+    dispatch({type:'HOSTELLIST'})
+  },[])
 
   return (
     <>
@@ -398,13 +406,13 @@ function SettingAllPages() {
                         // onChange={(e) => handleHostelId(e)}
                       >
                         <option>Select a PG</option>
-                        <option>Select</option>
+                        {/* <option>Select</option> */}
 
-                        {/* {state.UsersList?.hostelList?.map((item) => (
+                        {state.UsersList?.hostelList?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.Name}
                           </option>
-                        ))} */}
+                        ))}
                       </Form.Select>
                       {/* {hostelIdError && (
                         <div style={{ color: "red" }}>
