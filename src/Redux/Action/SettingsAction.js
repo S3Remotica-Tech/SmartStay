@@ -1,6 +1,7 @@
 import AxiosConfig from "../../WebService/AxiosConfig";
 
 export async function AddExpencesCategory(Expences) {
+
   console.log("Expences", Expences);
   return await AxiosConfig.post("/add/expense-category", Expences, {
     data: Expences,
@@ -24,9 +25,13 @@ export async function Addcomplainttype(type) {
   });
 }
 
-export async function Complainttypelist() {
-  return await AxiosConfig.get("/all_complaint_types", {});
-}
+export async function Complainttypelist(hostelID) {
+    console.log("actionfortypelist",hostelID);
+    
+    return await AxiosConfig.post('/all_complaint_types',hostelID,{
+      data:hostelID
+    })
+  } 
 
 export async function DeletecomplaintType(types) {
   return await AxiosConfig.post("/remove_complaint_type", types, {

@@ -37,6 +37,7 @@ function SettingAllPages() {
   const [amnitiesPageShow, setAmnitiesPageShow] = useState(false);
   const [userPageShow, setUserPageShow] = useState(false);
   const [rolePageShow, setRolePageShow] = useState(false);
+  const [hostel_Id,setHostel_Id] = useState('')
 
   const handleShowGeneralPage = () => {
     setGeneralPageShow(true);
@@ -213,9 +214,19 @@ function SettingAllPages() {
     setRolePageShow(true)
   }
 
+
+  const handleHostelId = (e) => {
+    setHostel_Id(e.target.value)
+  }
+
+  console.log("hostelid",hostel_Id);
+  
+
   useEffect(()=>{
     dispatch({type:'HOSTELLIST'})
   },[])
+
+
 
   return (
     <>
@@ -402,8 +413,8 @@ function SettingAllPages() {
                           height: 47,
                           borderRadius: 8,
                         }}
-                        // value={hostel_Id}
-                        // onChange={(e) => handleHostelId(e)}
+                        value={hostel_Id}
+                        onChange={(e) => handleHostelId(e)}
                       >
                         <option>Select a PG</option>
                         {/* <option>Select</option> */}
@@ -640,10 +651,10 @@ function SettingAllPages() {
             {securityPageShow && <SettingSecurity />}
             {subscriptionPageShow && <SettingSubscription />}
             {intgrationPageShow && <SettingIntergration />}
-            {electricityPageShow && <SettingElectricity />}
-            {invoicePageShow && <SettingInvoice />}
-            {expensesPageShow && <SettingExpenses />}
-            {compliancePageShow && <SettingCompliance />}
+            {electricityPageShow && <SettingElectricity hostelid={hostel_Id}/>}
+            {invoicePageShow && <SettingInvoice hostelid={hostel_Id}/>}
+            {expensesPageShow && <SettingExpenses hostelid={hostel_Id} />}
+            {compliancePageShow && <SettingCompliance hostelid={hostel_Id}/>}
             {amnitiesPageShow && <SettingAmenities />}
             {userPageShow && <SettingNewUser />}
             {rolePageShow && <SettingNewRole />}

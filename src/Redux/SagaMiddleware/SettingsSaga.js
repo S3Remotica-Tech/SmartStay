@@ -128,9 +128,8 @@ function* handleDeleteExpencescategory(action) {
 
 function* handleComplainttypelist(action) {
    const response = yield call(Complainttypelist, action.payload);
-   console.log("actionfortypelist", action.payload);
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'COMPLAINT_TYPE_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
+      yield put({ type: 'COMPLAINT_TYPE_LIST', payload: { response: response.data.complaint_types, statusCode: response.status || response.statusCode, message: response.data.message } })
    } else if (response.status === 401 || response.statusCode === 401) {
       Swal.fire({
          icon: 'warning',
@@ -147,7 +146,6 @@ function* handleComplainttypelist(action) {
 }
 
 function* handleComplaintTypeAdd(params) {
-   console.log("settings saga", params.payload);
    const response = yield call(Addcomplainttype, params.payload);
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -170,7 +168,6 @@ function* handleComplaintTypeAdd(params) {
         
        };
  
-       // Use the toast with the defined style
        toast.success(response.data.message, {
          position: "bottom-center",
          autoClose: 2000,
@@ -185,7 +182,17 @@ function* handleComplaintTypeAdd(params) {
    }
    else  if(response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'ALREADY_COMPLAINTTYPE_ERROR', payload: response.data.message })
- 
+      
+      toast.error(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+       })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -199,7 +206,6 @@ function* handleComplaintTypeAdd(params) {
 
 function* handleDeleteComplainttype(action) {
    const response = yield call(DeletecomplaintType, action.payload);
-   console.log(" response", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_COMPLAINT_TYPE', payload: { response: response.data, statusCode: response.status || response.statusCode  } })
      
@@ -232,6 +238,18 @@ function* handleDeleteComplainttype(action) {
          progress: undefined,
          style: toastStyle
        });
+   }
+   else if(response.status === 201 || response.statusCode === 201){
+      toast.error(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+       })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
