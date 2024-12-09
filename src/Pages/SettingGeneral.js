@@ -49,6 +49,8 @@ const [password,setPassword]=useState("")
   const [addressError,setAddressError] = useState("")
   const [passwordError,setPasswordError] = useState("")
   const [formError, setFormError] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
 
 // useEffect
 
@@ -120,6 +122,7 @@ const handleClose=()=>{
     setPhoneError("")
     setAddressError("")
     setPasswordError("")
+    setFormError("")
 }
 const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -141,29 +144,81 @@ const handleImageChange = async (event) => {
   const handleFirstName=(e)=>{
     setFirstName(e.target.value)
     setFirstNameError("")
+    setFormError("")
   }
   const handlelastName=(e)=>{
     setLastName(e.target.value)
     setLastNameError("")
+    setFormError("")
   }
-  const handlePhone=(e)=>{
-    setPhone(e.target.value)
-    setPhoneError("")
-    setPhoneAlready("")
-    dispatch({ type: "CLEAR_MOBILE_ERROR"});
-  }
+  // const handlePhone=(e)=>{
+  //   setPhone(e.target.value)
+  //   setPhoneError("")
+  //   setPhoneAlready("")
+  //   setFormError("")
+  //   dispatch({ type: "CLEAR_MOBILE_ERROR"});
+  // }
+  const handlePhone = (e) => {
+    setPhone(e.target.value);
+    const pattern = /^\d{1,10}$/;
+    const isValidMobileNo = pattern.test(e.target.value);
+
+    if (isValidMobileNo && e.target.value.length === 10) {
+      setPhoneError("");
+    } else {
+      setPhoneError("Invalid mobile number *");
+    }
+    setPhoneErrorMessage("");
+    dispatch({ type: "CLEAR_MOBILE_ERROR" });
+  };
+
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
+    setFormError("")
   };
-  const handleEmailId=(e)=>{
-    setEmailId(e.target.value)
-    setEmailError("")
-    setEmailAlready("")
-    dispatch({ type: "CLEAR_GENERAL_EMAIL_ERROR"});
-  }
+  // const handleEmailId=(e)=>{
+  //   setEmailId(e.target.value)
+  //   setEmailError("")
+  //   setEmailAlready("")
+  //   setFormError("")
+  //   dispatch({ type: "CLEAR_GENERAL_EMAIL_ERROR"});
+  // }
+
+  const handleEmailId = (e) => {
+    const emailValue = e.target.value;
+    setEmailId(emailValue);
+
+    
+    const hasUpperCase = /[A-Z]/.test(emailValue);
+    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+    
+    const isValidEmail = emailRegex.test(emailValue);
+
+    
+    if (!emailValue) {
+      setEmailError("");
+      setEmailErrorMessage("");
+    } else if (hasUpperCase) {
+      setEmailErrorMessage("Email should be in lowercase *");
+      setEmailError("Invalid Email Id *");
+    } else if (!isValidEmail) {
+      setEmailErrorMessage("");
+      setEmailError("Invalid Email Id *");
+    } else {
+      setEmailError("");
+      setEmailErrorMessage("");
+
+      setFormError("");
+    }
+
+    // Clear email error on input change
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+  };
   const handleAddress=(e)=>{
     setAddress(e.target.value)
     setAddressError("")
+    setFormError("")
   }
   const handlePassword=(e)=>{
     setPassword(e.target.value)
@@ -1041,6 +1096,12 @@ return(
                     {phoneError}
                   </div>
                 )}
+                 {phoneErrorMessage && (
+                        <div style={{ color: "red" }}>
+                          <MdError />
+                          {phoneErrorMessage}
+                        </div>
+                      )}
                   {phoneAlready && (
                   <div style={{ color: "red" }}>
                     <MdError />
@@ -1092,6 +1153,13 @@ return(
                     {emailAlready}
                   </div>
                 )}
+
+{emailErrorMessage && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          {emailErrorMessage}
+                                        </div>
+                                      )}
             </div>
 
           

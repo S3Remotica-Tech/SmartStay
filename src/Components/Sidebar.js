@@ -62,6 +62,7 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } f
 import SettingAllPages from '../Pages/SettingAllPages';
 
 
+
 function Sidebar() {
   const cookies = new Cookies()
   let navigate = useNavigate();
@@ -71,6 +72,17 @@ function Sidebar() {
   const stateLogin = useSelector(state => state.login)
 
   const [manageOpen, setManageOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [currentPageDrop, setCurrentPageDrop] = useState('settingNewDesign');
+  const [hostel_Id, setHostel_Id] = useState("");
+  const [payingGuestName, setPayingGuestName] = useState('payingGuest');
+
+ 
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   console.log("state for side bar", stateData)
 
    
@@ -324,6 +336,18 @@ function Sidebar() {
     setCurrentPage('compliance')
     localStorage.setItem('currentPage', 'compliance');
   }
+ 
+  const [selectedProfileImage,setSelectedProfileImage] = useState("")
+  const handleHostelId = (id,name,profile) => {
+    console.log("Selected Hostel ID:", id);
+    setPayingGuestName(name); 
+    setHostel_Id(id);  
+    setIsDropdownOpen(false);
+    setSelectedProfileImage(
+      profile && profile !== "0" && profile !== "" ? profile : Profileimage
+    );
+    handlePageClick('settingNewDesign');
+  };
   return (
     <>
 
@@ -343,7 +367,7 @@ function Sidebar() {
               </div>
 
 
-              <li className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`} onClick={() => handlePageClick('settingNewDesign')} style={{ listStyleType: "none", display: "flex" }}>
+              {/* <li className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`} onClick={() => handlePageClick('settingNewDesign')} style={{ listStyleType: "none", display: "flex" }}>
                   <img src={Manage} style={{ height: 20, width: 20 }} />
                   <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>payingGuest</span>
                   <span className="ms-auto ">
@@ -352,7 +376,90 @@ function Sidebar() {
                       color="#4B4B4B"
                     />
                   </span>
-                </li>
+                </li> */}
+<li
+  className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`}
+  onClick={toggleDropdown}
+  style={{
+    listStyleType: 'none',
+    display: 'flex',
+    position: 'relative', 
+    cursor: 'pointer',
+  }}
+>
+  {/* Dynamically display the selected profile image with a fallback */}
+  <img
+    src={
+      selectedProfileImage && selectedProfileImage !== "0" && selectedProfileImage !== ""
+        ? selectedProfileImage
+        : "default-profile.png" // Replace with the actual path to your default image
+    }
+    style={{ height: 20, width: 20, borderRadius: '50%', marginRight: 8 }}
+    alt="Selected Profile"
+  />
+  <span
+    className="Title"
+    style={{ fontSize: 14, fontWeight: 600, display: 'inline-block', fontFamily: 'Gilroy' }}
+  >
+    {payingGuestName}
+  </span>
+  <span className="ms-auto">
+    <ArrowDown2 size="16" color="#4B4B4B" />
+  </span>
+
+  {/* Dropdown */}
+  {isDropdownOpen && (
+    <div
+      style={{
+        position: 'absolute',
+        top: '100%', // Position it just below the parent item
+        left: 0,
+        backgroundColor: 'white',
+        boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
+        padding: '5px 0',
+        borderRadius: '4px',
+        width: '100%',
+        zIndex: 10,
+      }}
+    >
+      <ul style={{ margin: 0, padding: 0 }}>
+        {state.UsersList?.hostelList?.map((item) => (
+          <li
+            key={item.id}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '8px 12px',
+              cursor: 'pointer',
+              color: '#007bff',
+            }}
+            onClick={() => handleHostelId(item.id, item.Name, item.profile)} // Pass profile image as well
+          >
+            {/* Profile Image with fallback */}
+            <img
+              src={
+                item.profile && item.profile !== "0" && item.profile !== ""
+                  ? item.profile
+                  : Profileimage
+              }
+              style={{
+                height: 20,
+                width: 20,
+                borderRadius: '50%',
+                marginRight: 8,
+              }}
+              alt={item.Name || "Default Profile"}
+            />
+            {item.Name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</li>
+
+
+
               
               <ul className="p-0" style={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
                 <li className={`align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
