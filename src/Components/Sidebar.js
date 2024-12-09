@@ -60,6 +60,8 @@ import bank from '../Assets/Images/New_images/bank.png';
 import bankblank from '../Assets/Images/New_images/blank_bank.png';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 import SettingAllPages from '../Pages/SettingAllPages';
+import hostelimage from '../Assets/Images/New_images/hostelImage.png';
+import Profile from "../Assets/Images/New_images/profile-picture.png";
 
 
 
@@ -279,6 +281,7 @@ function Sidebar() {
   const handlePageClick = (page) => {
     setCurrentPage(page);
     setActivePage(false);
+    setIsDropdownOpen(false);
     localStorage.setItem('currentPage', page);
   };
 
@@ -344,7 +347,7 @@ function Sidebar() {
     setHostel_Id(id);  
     setIsDropdownOpen(false);
     setSelectedProfileImage(
-      profile && profile !== "0" && profile !== "" ? profile : Profileimage
+      profile && profile !== "0" && profile !== "" ? profile : Profile
     );
     handlePageClick('settingNewDesign');
   };
@@ -387,12 +390,12 @@ function Sidebar() {
     cursor: 'pointer',
   }}
 >
-  {/* Dynamically display the selected profile image with a fallback */}
+  
   <img
     src={
       selectedProfileImage && selectedProfileImage !== "0" && selectedProfileImage !== ""
         ? selectedProfileImage
-        : "default-profile.png" // Replace with the actual path to your default image
+        : hostelimage 
     }
     style={{ height: 20, width: 20, borderRadius: '50%', marginRight: 8 }}
     alt="Selected Profile"

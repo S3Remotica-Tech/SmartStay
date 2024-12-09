@@ -19,6 +19,7 @@ import { Autobrightness, Call, Sms, House, Buildings, ArrowLeft2, ArrowRight2, M
 import { MdError } from "react-icons/md";
 
 
+
 function SettingGeneral(){
   const state = useSelector((state) => state);
   console.log("SettingGeneral...", state);
