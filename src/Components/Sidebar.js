@@ -76,9 +76,9 @@ function Sidebar() {
   const [manageOpen, setManageOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [currentPageDrop, setCurrentPageDrop] = useState('settingNewDesign');
-  const [hostel_Id, setHostel_Id] = useState("");
+  const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState('payingGuest');
-
+console.log("allPageHostel_Id",allPageHostel_Id)
  
 
   const toggleDropdown = () => {
@@ -344,7 +344,7 @@ function Sidebar() {
   const handleHostelId = (id,name,profile) => {
     console.log("Selected Hostel ID:", id);
     setPayingGuestName(name); 
-    setHostel_Id(id);  
+    setAllPageHostel_Id(id);  
     setIsDropdownOpen(false);
     setSelectedProfileImage(
       profile && profile !== "0" && profile !== "" ? profile : Profile
@@ -407,7 +407,11 @@ function Sidebar() {
     {payingGuestName}
   </span>
   <span className="ms-auto">
-    <ArrowDown2 size="16" color="#4B4B4B" />
+    {isDropdownOpen ? (
+      <ArrowUp2 size="16" color="#4B4B4B" />
+    ) : (
+      <ArrowDown2 size="16" color="#4B4B4B" />
+    )}
   </span>
 
   {/* Dropdown */}
@@ -665,21 +669,21 @@ function Sidebar() {
               </Offcanvas.Body>
             </Offcanvas> */}
 
-            {currentPage === 'dashboard' && <Dashboards displayCompliance={handledisplaycompliace} />}
-            {currentPage === 'pg-list' && < PgLists />}
-            {currentPage === 'user-list' && < UserLists />}
-            {currentPage === 'invoice' && < Invoices />}
-            {currentPage === 'vendor' && < VendorComponent />}
-            {currentPage === 'compliance' && < Compliances />}
-            {currentPage === 'asset' && < Assets />}
-            {currentPage === 'reports' && < Report />}
-            {currentPage === 'settings' && < Setting />}
-            {currentPage === 'eb' && <  EbHostel />}
-            {currentPage === 'checkout' && <Checkout />}
-            {currentPage === 'expenses' && <Expenses />}
-            {currentPage === 'profile' && <Profilesettings />}
-            {currentPage === 'banking' && <Banking/>}
-            {currentPage === 'settingNewDesign' && <SettingAllPages/>}
+            {currentPage === 'dashboard' && <Dashboards displayCompliance={handledisplaycompliace} allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'pg-list' && < PgLists allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'user-list' && < UserLists allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'invoice' && < Invoices allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'vendor' && < VendorComponent allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'compliance' && < Compliances allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'asset' && < Assets allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'reports' && < Report allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'settings' && < Setting allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'eb' && <  EbHostel allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'checkout' && <Checkout allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'expenses' && <Expenses allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'profile' && <Profilesettings allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'banking' && <Banking allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id} />}
+            {currentPage === 'settingNewDesign' && <SettingAllPages allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
           </Col>
         </Row>
       </Container>
