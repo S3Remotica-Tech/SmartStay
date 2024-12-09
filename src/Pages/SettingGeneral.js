@@ -540,7 +540,7 @@ return(
                           }}
                         />
       <div class="ms-3">
-        <p class="mb-0" style={{fontSize:16,fontWeight:600,fontFamily:"Gilroy",whiteSpace:"nowrap"}}>{item.first_name}{item.last_name}</p>
+        <p class="mb-0" style={{fontSize:16,fontWeight:600,fontFamily:"Gilroy",whiteSpace:"nowrap"}}>{item.first_name} {item.last_name}</p>
       </div>
     </div>
     <div class="d-flex align-items-center">
