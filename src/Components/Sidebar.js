@@ -397,7 +397,7 @@ function Sidebar() {
         ? selectedProfileImage
         : hostelimage 
     }
-    style={{ height: 20, width: 20, borderRadius: '50%', marginRight: 8 }}
+    style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8 }}
     alt="Selected Profile"
   />
   <span
@@ -443,11 +443,11 @@ function Sidebar() {
               src={
                 item.profile && item.profile !== "0" && item.profile !== ""
                   ? item.profile
-                  : Profileimage
+                  : Profile
               }
               style={{
-                height: 20,
-                width: 20,
+                height: 25,
+                width: 25,
                 borderRadius: '50%',
                 marginRight: 8,
               }}
