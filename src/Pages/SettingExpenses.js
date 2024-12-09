@@ -287,6 +287,13 @@ console.log("uniqueExpences",uniqueExpences);
         }
     }
 
+    const [expandedCategoryId, setExpandedCategoryId] = useState(null); // Track which dropdown is expanded
+
+    // Toggle the dropdown for a specific category
+    const handleToggleDropdown = (categoryId) => {
+      setExpandedCategoryId((prev) => (prev === categoryId ? null : categoryId));
+    };
+
 
     return(
         <div className="container"> 
@@ -300,6 +307,75 @@ console.log("uniqueExpences",uniqueExpences);
             color: "#FFF",
             fontFamily: "Montserrat"}}>{" "}+ Add Category</Button>
       </div>
+
+      <div className="mt-4 d-flex row ">
+        {uniqueExpences.map((category) => (
+          <div key={category.category_Id} className="mb-3 col-lg-4">
+            {/* Dropdown Button */}
+            <button
+              className="btn btn-white dropdown-toggle border"
+              type="button"
+              onClick={() => handleToggleDropdown(category.category_Id)}
+              style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}
+            >
+              {category.category_Name}
+            </button>
+
+            {/* Subcategory Dropdown */}
+            {expandedCategoryId === category.category_Id && (
+              <ul
+                className="list-group mt-2"
+                style={{
+                  backgroundColor: "#f8f9fa",
+                  padding: "10px",
+                  borderRadius: "10px",
+                }}
+              >
+                {category.subcategory && category.subcategory.length > 0 ? (
+                  category.subcategory.map((sub, idx) => (
+                    <li
+                      key={idx}
+                      className="list-group-item d-flex justify-content-between align-items-center"
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        color: "#222",
+                      }}
+                    >
+                      {sub}
+                      <span
+                        style={{
+                          cursor: "pointer",
+                          color: "red",
+                        }}
+                        onClick={() =>
+                          alert(`Delete action for Subcategory: ${sub}`)
+                        }
+                      >
+                        <img src={Closebtn} height={15} width={15} alt="delete" />
+                      </span>
+                    </li>
+                  ))
+                ) : (
+                  <li
+                    className="list-group-item"
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontSize: 14,
+                      fontWeight: 500,
+                      color: "#555",
+                    }}
+                  >
+                    No Subcategories Available
+                  </li>
+                )}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+
 
       {showform && (
         <div
