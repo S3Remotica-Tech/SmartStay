@@ -29,12 +29,17 @@ export async function AddExpencesCategory(Expences) {
   }
 
 
-  export async function Complainttypelist() {
-    return await AxiosConfig.get('/all_complaint_types',{
+  export async function Complainttypelist(hostelID) {
+    console.log("actionfortypelist",hostelID);
+    
+    return await AxiosConfig.post('/all_complaint_types',hostelID,{
+      data:hostelID
     })
   }  
 
   export async function DeletecomplaintType(types) {
+    console.log("types",types);
+    
     return await AxiosConfig.post('/remove_complaint_type', types, {
       data: types
     })
