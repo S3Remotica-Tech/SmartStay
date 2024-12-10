@@ -14,7 +14,7 @@ import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
 
-function SettingAmenities() {
+function SettingAmenities({hostelid}) {
 
 // state declare//////////////////////////////////////////
 
@@ -25,24 +25,36 @@ function SettingAmenities() {
     const [showDots, setShowDots] = useState(false);
     const [openAmenitiesForm, setOpenAmenitiesForm] = useState(false)
     const [IsDisplayAssignAmenities, setIsDisplayAssignAmenities] = useState(false)
-
+const [amenitiesList, setAmenitiesList] =useState([])
     const popupRef = useRef(null);
-
+    const [editDetails, setEditDetails] = useState('')
+const [active, setActive] = useState(false)
     const [isChecked, setIsChecked] = useState(false);
     const [isDisplayRecurring, setIsDisplayRecurring] = useState(false)
+    const [amenityDetails, setAmenityDetails] = useState('')
+    const [checkedValues, setCheckedValues] = useState({});
 
 // function declare///////////////////////////////////////////////////////////
 
+const handleEditAmenities = (amenity) =>{
+setEditDetails(amenity)
+setOpenAmenitiesForm(true)
+}
 
+console.log("checkedValues",checkedValues)
 
-
-const handleToggle = () => {
+const handleToggle = (amenity) => {
     setIsChecked(!isChecked);
+    setCheckedValues((prev) => ({
+        ...prev,
+        [amenity.id]: !prev[amenity.id],
+    }));
+    setAmenityDetails(amenity)
 };
 
 
-    const handleDotsClick = () => {
-        setShowDots(!showDots);
+    const handleDotsClick = (index) => {
+        setShowDots((prev) => (prev === index ? null : index));
     };
 
 
@@ -57,6 +69,7 @@ const handleToggle = () => {
 
     const handleOpenAmenities = () =>{
         setOpenAmenitiesForm(true)
+        setEditDetails('')
     }
 
     const handleCloseAmenities = () =>{
@@ -78,6 +91,33 @@ const handleToggle = () => {
 // Useeffect Declare /////////////////////////////////
 
 useEffect(() => {
+    const initialCheckedState = {};
+    amenitiesList.forEach((amenity) => {
+        initialCheckedState[amenity.id] = amenity.active; 
+    });
+    setCheckedValues(initialCheckedState);
+}, [amenitiesList]);
+
+
+
+useEffect(() => {
+    dispatch({ type: 'AMENITIESLIST' ,payload:{ hostel_id : hostelid }})
+  
+  }, [])
+
+
+
+useEffect(()=>{
+    if(state.InvoiceList.AmenitiesList.length > 0 ) {
+        setAmenitiesList(state.InvoiceList.AmenitiesList)
+    }
+
+},[state.InvoiceList.AmenitiesList])
+
+
+
+
+useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
         document.removeEventListener('mousedown', handleClickOutside);
@@ -91,7 +131,30 @@ useEffect(()=>{
 },[isChecked])
 
 
+useEffect(() => {
+    if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode == 200) {
 
+        setOpenAmenitiesForm(false)
+      dispatch({ type: 'AMENITIESLIST' })
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
+      }, 1000)
+
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_STATUS_CODE_AMENITIES_UPDATE' })
+      }, 1000)
+    }
+
+  }, [state.InvoiceList?.statusCode, state.InvoiceList?.AmenitiesUpdateStatusCode])
+
+
+
+  useEffect(()=>{
+    if(state.InvoiceList?.addRecurringRole == 200){
+        dispatch({ type: 'AMENITIESLIST' })
+    }
+
+  },[state.InvoiceList?.addRecurringRole])
 
     return (
         <div className="container">
@@ -116,7 +179,11 @@ onClick={handleOpenAmenities}
             <div className='container mt-4 mb-3'>
 
 
-                <div className='row'>
+                <div className='row row-gap-3'>
+                    {
+                        amenitiesList.length > 0 && amenitiesList.map((amenity, index)=>(
+
+                       
                     <div className='col-lg-10 col-md-10 col-xs-12 col-sm-12 col-12 p-0' >
                         <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
                             <Card.Body>
@@ -127,11 +194,11 @@ onClick={handleOpenAmenities}
                                     <div>
 
                                         <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: showDots ? 1000 : 'auto' }}
-                                            onClick={handleDotsClick}
+                                            onClick={()=>handleDotsClick(index)}
                                         >
                                             <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />
 
-                                            {showDots && <>
+                                            {showDots === index && <>
 
                                                 <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 0, top: 50, width:170, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                                     <div >
@@ -159,7 +226,10 @@ onClick={handleOpenAmenities}
 
 
                                                         <div
-                                                            className="d-flex gap-2 mb-2 align-items-center">
+                                                            className="d-flex gap-2 mb-2 align-items-center"
+                                                            
+                                                            onClick={()=>handleEditAmenities(amenity)}
+                                                            >
                                                             <div>
                                                                 <Edit size="16" color="#1E45E1" />
                                                             </div>
@@ -218,15 +288,15 @@ onClick={handleOpenAmenities}
                                 <div class="row row-gap-3">
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Name</p>
-                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Food</p>
+                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{amenity.Amnities_Name}</p>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Amount</p>
-                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>₹1500</p>
+                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>₹{amenity.Amount}</p>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Assigned</p>
-                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>10</p>
+                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{'-'}</p>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-12">
                                         <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Recuring</p>
@@ -234,8 +304,9 @@ onClick={handleOpenAmenities}
                                         <div>
                                             <Form.Check
                                                 type="switch"
-                                                id="custom-switch"
-                                                onChange={handleToggle}
+                                                id={`custom-switch-${amenity.id}`}
+                                                checked={checkedValues[amenity.id] || false}
+                                                onChange={()=>handleToggle(amenity)}
 
                                             />
                                         </div>
@@ -246,11 +317,11 @@ onClick={handleOpenAmenities}
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation start date</p>
-                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>10</p>
+                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{amenity.startdate}</p>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation End date</p>
-                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>10</p>
+                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{amenity.enddate}</p>
                                     </div>
 
 
@@ -262,18 +333,20 @@ onClick={handleOpenAmenities}
                             </Card.Body>
                         </Card>
                     </div>
+                     ))
+                    }
                 </div>
 
             </div>
 
 {
-    openAmenitiesForm && <AddAmenities show={handleOpenAmenities} handleClose={handleCloseAmenities }/>
+    openAmenitiesForm && <AddAmenities show={handleOpenAmenities} handleClose={handleCloseAmenities } hostelid={hostelid}   editDetails = {editDetails} />
 }
 {
-    isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp}  />
+    isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={hostelid} amenityDetails={amenityDetails} />
 }
 {
-    IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} /> 
+    IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid}/> 
 }
         </div>
     )

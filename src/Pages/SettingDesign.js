@@ -200,6 +200,8 @@ const [checkboxValues, setCheckboxValues] = useState({
     setErrorForm("")
     setErrorPermission("")
   };
+
+  
   useEffect(() => {
     if (!checkboxValues || typeof checkboxValues !== 'object') {
       console.error("checkboxValues is undefined or not an object:", checkboxValues);
@@ -278,6 +280,7 @@ const [checkboxValues, setCheckboxValues] = useState({
         return;
     }
     const payload = {
+      hostel_id: 9 ,
         role_name: roleName,
         permissions: permissionRole,
     };

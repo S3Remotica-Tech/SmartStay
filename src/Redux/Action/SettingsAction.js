@@ -50,8 +50,11 @@ export async function GetEBBillingUnit() {
   return await AxiosConfig.get("/get_ebbilling_settings", {});
 }
 
-export async function GetAllRoles() {
-  return await AxiosConfig.get("/all_roles", {});
+export async function GetAllRoles(payload) {
+  console.log("getRole",payload)
+  return await AxiosConfig.post("/all_roles",payload, {
+data:payload
+  });
 }
 export async function AddSettingRole(datum) {
   console.log("AddSettingRole", datum);
@@ -146,7 +149,11 @@ export async function generalDelete(datum) {
     data: datum,
   });
 }
-// export async function AddGeneral(params) {
-//   return await AxiosConfig.get('/settings/add_general_user',{
-//   })
-// }
+
+
+
+export async function RecurringRole(reccurring) {
+  return await AxiosConfig.post('/settings/add_recuring',reccurring,{
+    data: reccurring
+  })
+}

@@ -1,9 +1,32 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AddExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete} from "../Action/SettingsAction"
+import { RecurringRole, AddExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete} from "../Action/SettingsAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
+function* handleRecurringRole(action) {
+   const response = yield call(RecurringRole, action.payload);
+
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'RECURRING_ROLE', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   } 
+  
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+}
+
+
+
+
+
 
 
 function* handleCategorylist(action) {
@@ -324,12 +347,12 @@ function* handleEBBillingUnitGet(action) {
    }
 }
 
-function* handleGetAllRoles() {
-   const response = yield call(GetAllRoles)
+function* handleGetAllRoles(action) {
+   const response = yield call(GetAllRoles, action.payload)
    console.log("response.....///",response)
    
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ROLE_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
+      yield put({ type: 'ROLE_LIST', payload:{response: response.data.roles, statusCode:response.status || response.statusCode}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -775,5 +798,8 @@ function* SettingsSaga() {
    yield takeEvery('GETALLGENERAL',handleGetAllGeneral)
    yield takeEvery('GENERALPASSWORDCHANGES',handleChangePasswordinStaff)
    yield takeEvery('GENERALDELETEGENERAL',handleDeleteGenerlPage)
+   
+   yield takeEvery('RECURRINGROLE',handleRecurringRole)
+
 }
 export default SettingsSaga;

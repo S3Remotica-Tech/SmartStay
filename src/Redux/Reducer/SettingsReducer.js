@@ -41,7 +41,8 @@ const initialState = {
   generalDelete: [],
   statusCodeForGeneralDelete: 0,
   generalEmailError:'',
-  generalMobileError:''
+  generalMobileError:'',
+  addRecurringRole:0
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -125,10 +126,10 @@ const SettingsReducer = (state = initialState, action) => {
     case "ROLE_LIST":
       return {
         ...state,
-        getsettingRoleList: action.payload,
+        getsettingRoleList: action.payload.response,
         statusCodeForRoleList: action.payload.statusCode,
       };
-    case "CLEAR_DELETE_BANKING_TRANSACTION":
+    case "CLEAR_ROLE_LIST":
       return { ...state, statusCodeForRoleList: 0 };
 
     case "ADD_SETTING_ROLE":
@@ -269,6 +270,13 @@ const SettingsReducer = (state = initialState, action) => {
         };
       case "CLEAR_DELETE_GENERAL":
         return { ...state, statusCodeForGeneralDelete: 0 };
+case 'RECURRING_ROLE':
+  return {...state, addRecurringRole:action.payload.statusCode}
+
+  case 'REMOVE_RECURRING_ROLE':
+    return {...state, addRecurringRole:0}
+  
+
   }
   return state;
 };

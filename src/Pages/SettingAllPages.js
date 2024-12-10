@@ -655,9 +655,9 @@ function SettingAllPages() {
             {invoicePageShow && <SettingInvoice hostelid={hostel_Id}/>}
             {expensesPageShow && <SettingExpenses hostelid={hostel_Id} />}
             {compliancePageShow && <SettingCompliance hostelid={hostel_Id}/>}
-            {amnitiesPageShow && <SettingAmenities />}
-            {userPageShow && <SettingNewUser />}
-            {rolePageShow && <SettingNewRole />}
+            {amnitiesPageShow && <SettingAmenities hostelid={hostel_Id}/>}
+            {userPageShow && <SettingNewUser  hostelid={hostel_Id}/>}
+            {rolePageShow && <SettingNewRole hostelid={hostel_Id}/>}
           </div>
         </div>
       </div>
