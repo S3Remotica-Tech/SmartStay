@@ -12,6 +12,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function CustomerReAssign(props){
+    const state = useSelector((state) => state);
+    console.log("state...", state);
+    const dispatch = useDispatch();
     const [selectedDate, setSelectedDate] = useState(null);
     const [dateError, setDateError] = useState("");
     const [currentFloor,setCurrentFloor] = useState("")
@@ -19,6 +22,10 @@ function CustomerReAssign(props){
     const [currentBed,setCurrentBed]= useState("")
     const [currentRoomRent,setCurrentRoomRent]=useState("")
     const [newRoomRent,setNewRoomRent]=useState("")
+    const [currentHostel_id,setCurrentHostel_Id]=useState("")
+    const [newFloor,setNewFloor]=useState("")
+    const [newRoom,setNewRoom]=useState("")
+    const [newBed,setNewBed]=useState("")
     console.log("props.reAssignDetail",props.reAssignDetail)
 
     useEffect(()=>{
@@ -26,10 +33,50 @@ function CustomerReAssign(props){
         setCurrentRoom(props.reAssignDetail.Rooms)
         setCurrentBed(props.reAssignDetail.Bed)
         setCurrentRoomRent(props.reAssignDetail.RoomRent)
+        setCurrentHostel_Id(props.reAssignDetail.Hostel_Id)
+
     },[props.reAssignDetail])
     const handleCloseReAssign=()=>{
         props.setCustomerReAssign(false)
     }
+
+    useEffect(() => {
+        dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: currentHostel_id } });
+      }, [currentHostel_id]);
+    
+      useEffect(() => {
+        if (currentHostel_id && newFloor) {
+          dispatch({
+            type: "ROOMDETAILS",
+            payload: { hostel_Id: currentHostel_id, floor_Id: newFloor },
+          });
+        }
+      }, [newFloor]);
+      const handleFloor = (e) => {
+        setNewFloor(e.target.value);
+        // setRooms("");
+        // setBed("");
+        // setfloorError("");
+      };
+      const handleBed = (e) => {
+        setNewBed(e.target.value);
+        // setRooms("");
+        // setBed("");
+        // setfloorError("");
+      };
+      const handleRooms = (e) => {
+        setNewRoom(e.target.value);
+        dispatch({
+          type: "BEDNUMBERDETAILS",
+          payload: {
+            hostel_id: currentHostel_id,
+            floor_id: newFloor,
+            room_id: e.target.value,
+          },
+        });
+        // setRoomRent("");
+        // setRoomError("");
+      };
    
     const customDateInput = (props) => {
         return (
@@ -337,15 +384,15 @@ function CustomerReAssign(props){
                         }}
                         id="form-selects"
                         className="border"
-                        // value={Floor}
-                        // onChange={(e) => handleFloor(e)}
+                        value={newFloor}
+                        onChange={(e) => handleFloor(e)}
                       >
                         <option>Selected Floor</option>
-                        {/* {state.UsersList?.hosteldetailslist?.map((u) => (
+                        {state.UsersList?.hosteldetailslist?.map((u) => (
                           <option key={u.floor_id} value={u.floor_id}>
                             {u.floor_name}
                           </option>
-                        ))} */}
+                        ))}
                       </Form.Select>
                       {/* {floorError && (
                         <div style={{ color: "red" }}>
@@ -382,19 +429,19 @@ function CustomerReAssign(props){
                           height: 50,
                           borderRadius: 8,
                         }}
-                        // value={Rooms}
+                        value={newRoom}
                         className="border"
                         id="form-selects"
-                        // onChange={(e) => handleRooms(e)}
+                        onChange={(e) => handleRooms(e)}
                       >
                         <option>Selected Room</option>
 
-                        {/* {state.UsersList?.roomdetails &&
+                        {state.UsersList?.roomdetails &&
                           state.UsersList.roomdetails.map((item) => (
                             <option key={item.Room_Id} value={item.Room_Id}>
                               {item.Room_Name}
                             </option>
-                          ))} */}
+                          ))}
                       </Form.Select>
                       {/* {roomError && (
                         <div style={{ color: "red" }}>
@@ -431,11 +478,11 @@ function CustomerReAssign(props){
                           height: 50,
                           borderRadius: 8,
                         }}
-                        // value={Bed}
+                        value={newBed}
                         className="border"
                         placeholder="Select a bed"
                         id="form-selects"
-                        // onChange={(e) => handleBed(e)}
+                        onChange={(e) => handleBed(e)}
                       >
                         <option value="" selected>
                           Selected Bed
@@ -453,7 +500,7 @@ function CustomerReAssign(props){
                             </option>
                           )} */}
 
-                        {/* {state.UsersList?.bednumberdetails?.bed_details &&
+                        {state.UsersList?.bednumberdetails?.bed_details &&
                           state.UsersList?.bednumberdetails?.bed_details
                             .filter(
                               (item) =>
@@ -466,7 +513,7 @@ function CustomerReAssign(props){
                               <option key={item.id} value={item.id}>
                                 {item.bed_no}
                               </option>
-                            ))} */}
+                            ))}
                       </Form.Select>
 
                       {/* {bedError && (
