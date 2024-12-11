@@ -25,9 +25,11 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
     const [errorForm, setErrorForm] = useState("")
     const [errorPermission, setErrorPermission] = useState("")
     const [editPermissionDetails, setEditPermissionDetails] = useState([])
-
+    const [errorIsChanged, setErrorIsChanged] = useState("");
+    const initialFormState = useRef(null);
     
-console.log("permissionRole",permissionRole)
+    
+
 
     const [checkboxValues, setCheckboxValues] = useState({
         Dashboard: [false, false, false, false],
@@ -106,7 +108,7 @@ console.log("permissionRole",permissionRole)
             };
         }).filter(Boolean);
 
-        console.log(JSON.stringify(permissions, null, 4));
+        // console.log(JSON.stringify(permissions, null, 4));
 
 
         setPermissionRole(prev => {
@@ -160,6 +162,10 @@ console.log("permissionRole",permissionRole)
             });
 
             setCheckboxValues(updatedCheckboxValues);
+            initialFormState.current = {
+                roleName: editRoleDetails.role_name,
+                permissionRole: editPermissionDetails,
+            };
 
 
         }
@@ -190,6 +196,16 @@ console.log("permissionRole",permissionRole)
     );
 
 
+    const normalizePermissions = (permissions) =>
+        permissions.map(({ permission_id, per_create, per_view, per_edit, per_delete }) => ({
+            permission_id,
+            per_create,
+            per_view,
+            per_edit,
+            per_delete,
+        }));
+
+
 
     const handleSubmit = () => {
         let isValid = true;
@@ -207,6 +223,26 @@ console.log("permissionRole",permissionRole)
             setErrorPermission("At least one permission must be selected.");
             isValid = false;
         }
+
+        const currentState = {
+            roleName,
+            permissionRole,
+        };
+
+        
+        const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole);
+        const normalizedCurrent = normalizePermissions(currentState.permissionRole);
+    
+        console.log("Normalized Initial:", normalizedInitial);
+        console.log("Normalized Current:", normalizedCurrent);
+    
+        if (JSON.stringify(normalizedInitial) === JSON.stringify(normalizedCurrent)) {
+            setErrorIsChanged("No changes detected in the form.");
+            isValid = false;
+        }
+
+
+
         const payload = {
             id: editRoleDetails.id || null,
             hostel_id: hostelid,
@@ -276,6 +312,16 @@ console.log("permissionRole",permissionRole)
                     </Modal.Header>
 
                     <Modal.Body>
+                   
+
+                    {errorIsChanged && (
+                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {errorIsChanged}
+                                </label>
+                            </div>
+                        )}
 
                         {errorForm && (
                             <div className="d-flex align-items-center p-1 mt-2 mb-2">

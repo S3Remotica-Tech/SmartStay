@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings} from "../Action/InvoiceAction"
+import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
@@ -106,6 +106,38 @@ function* handleAssignAmenities(action) {
   
    if (response.status === 200 || response.statusCode === 200 ) {
       yield put({ type: 'ASSIGN_AMENITIES', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
+  
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+      
+       toast.success('Assigned Successfully', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   
+   
+   
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -116,6 +148,69 @@ function* handleAssignAmenities(action) {
 }
 
 
+function* handleUnAssignAmenities(action) {
+   const response = yield call(UnAssignAmenities, action.payload)
+  
+  
+   if (response.status === 200 || response.statusCode === 200 ) {
+      yield put({ type: 'UN_ASSIGN_AMENITIES', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
+  
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+      
+       toast.success('UnAssigned Successfully', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+   
+   
+   
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+function* handleGetAssignAmenities(action) {
+   const response = yield call(GetAssignAmenities, action.payload)
+  
+   console.log("assign",response)
+  
+   if (response.status === 200 || response.statusCode === 200 ) {
+      yield put({ type: 'GET_ASSIGN_AMENITIES', payload: {unAssigned : response.data.unselected, Assigned : response.data.selected, statusCode:response.status || response.statusCode} })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
 
 
 
@@ -314,8 +409,8 @@ function* handleAmenitiesSettings(action){
    }
 }
 
-function* handleGetAmenities() {
-   const response = yield call(GetAmenities)
+function* handleGetAmenities(action) {
+   const response = yield call(GetAmenities, action.payload)
    
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'AMENITIES_LIST', payload:{response: response.data.data, statusCode:response.status || response.statusCode}})
@@ -766,9 +861,11 @@ function* InvoiceSaga() {
       yield takeEvery('DELETEUSER',handleDeleteUser)
       yield takeEvery('DELETEAMENITIES',handleDeleteAmenities)
       yield takeEvery('ASSIGNAMENITIES', handleAssignAmenities)
+      yield takeEvery('UNASSIGNAMENITIES', handleUnAssignAmenities)
+          yield takeEvery('GETASSIGNAMENITIES', handleGetAssignAmenities)
 
      
-
+      
       
 
 }

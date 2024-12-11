@@ -113,7 +113,7 @@ console.log("amenityDetails",amenityDetails)
                                     <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily:"Gilroy"}}>{errorRecurringDay}</div>
                                 )}
                     <Modal.Body>
-                        <div className='row mt-2'>
+                        <div className='row mt-2 row-gap-2'>
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities calculation Start Date will be
@@ -126,9 +126,10 @@ console.log("amenityDetails",amenityDetails)
                                 <Form.Select
                                     value={startDate}
                                     onChange={handleStartDateChange}
-
+                                    id="vendor-select"
+                                    style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
                                 >
-                                    <option value="">Select a day</option>
+                                    <option value="">Start Day</option>
                                     {dayOptions.map((day) => (
                                         <option key={day} value={day}>
                                             {day}
@@ -150,9 +151,11 @@ console.log("amenityDetails",amenityDetails)
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                                 <Form.Select
                                     value={endDate}
+                                    id="vendor-select"
+                                    style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
                                     onChange={handleEndDateChange}
                                 >
-                                    <option value="">Select a day</option>
+                                    <option value="">End day</option>
                                     {dayOptions.map((day) => (
                                         <option key={day} value={day}>
                                             {day}
@@ -172,6 +175,8 @@ console.log("amenityDetails",amenityDetails)
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                                 <Form.Select
+                                  id="vendor-select"
+                                style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
                                     value={recurringDay}
                                     onChange={handleRecurringDayChange}
                                 >
