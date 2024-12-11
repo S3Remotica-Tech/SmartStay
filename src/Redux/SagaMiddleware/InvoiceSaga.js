@@ -1,9 +1,128 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings} from "../Action/InvoiceAction"
+import { AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings} from "../Action/InvoiceAction"
 import Swal from 'sweetalert2'
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+
+function* handleDeleteUser(action) {
+   const response = yield call(DeleteUser, action.payload)
+  
+  
+   if (response.status === 200 || response.statusCode === 200 ) {
+      yield put({ type: 'DELETE_USER', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
+  
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+       toast.success('Deleted Successfully', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+  
+  
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+function* handleDeleteAmenities(action) {
+   const response = yield call(DeleteAmenities, action.payload)
+  
+  
+   if (response.status === 200 || response.statusCode === 200 ) {
+      yield put({ type: 'DELETE_AMENITIES', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
+ 
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+       toast.success('Deleted Successfully', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+  
+ 
+ 
+ 
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+function* handleAssignAmenities(action) {
+   const response = yield call(AssignAmenities, action.payload)
+  
+  
+   if (response.status === 200 || response.statusCode === 200 ) {
+      yield put({ type: 'ASSIGN_AMENITIES', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+
+
+
+
+
+
+
 
  function* handleinvoicelist (){
     const response = yield call (invoicelist);
@@ -566,10 +685,10 @@ function* handleDeleteRecuringBills(action) {
 
 function* handleAddInvoiceRecurringSettings (param){
    const response = yield call (InvoiceRecurringsettings,param.payload)
-   console.log("response",response);
    
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'SETTINGS_ADD_RECURRING', payload: response,statusCode:response.status || response.statusCode })
+   
+   if (response.status === 200 || response.data.statusCode === 200 || response.statusCode === 200) {
+      yield put({ type: 'SETTINGS_ADD_RECURRING', payload: response,statusCode:response.status || response.data.statusCode || response.statusCode})
    
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -644,5 +763,13 @@ function* InvoiceSaga() {
    yield takeEvery('RECURRING-BILLS-LIST',handleGetRecurrbills)
    yield takeEvery('DELETE-RECURRING-BILLS',handleDeleteRecuringBills)
    yield takeEvery('SETTINGSADDRECURRING',handleAddInvoiceRecurringSettings)
+      yield takeEvery('DELETEUSER',handleDeleteUser)
+      yield takeEvery('DELETEAMENITIES',handleDeleteAmenities)
+      yield takeEvery('ASSIGNAMENITIES', handleAssignAmenities)
+
+     
+
+      
+
 }
 export default InvoiceSaga;

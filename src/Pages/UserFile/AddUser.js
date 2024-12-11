@@ -16,7 +16,7 @@ import eyeClosed from '../../Assets/Images/pngaaa.com-6514750.png';
 
 
 
-function User({ show, handleClose, editDetails }) {
+function User({ show, handleClose, editDetails ,hostelid}) {
 
 
   const state = useSelector(state => state)
@@ -47,11 +47,12 @@ function User({ show, handleClose, editDetails }) {
  // ////////// UseEffect
 
 
- useEffect(() => {
-  dispatch({ type: 'SETTING_ROLE_LIST' })
+ 
+
+useEffect(() => {
+  dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: hostelid } })
   dispatch({ type: "COUNTRYLIST" });
 }, [])
-
 
 useEffect(() => {
   if (editDetails) {
@@ -159,7 +160,7 @@ useEffect(() => {
   }
 
 
-  
+
 
   console.log("country code", countryCode)
 
@@ -472,7 +473,7 @@ if (editDetails && !hasChanges) {
                     onChange={handleRoleChange}
                   >
                     <option value="">Select a Role</option>
-                    {state.Settings?.getsettingRoleList?.response?.roles?.map((u) => (
+                    {state.Settings?.getsettingRoleList?.map((u) => (
                       <option key={u.id} value={u.id}>
                         {u.role_name}
                       </option>

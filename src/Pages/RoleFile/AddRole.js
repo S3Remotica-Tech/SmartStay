@@ -216,8 +216,8 @@ console.log("permissionRole",permissionRole)
         };
 
         if (isValid) {
-            if(editPermissionDetails) {
-                alert('called')
+            if(editRoleDetails) {
+               
                 dispatch({ type: "EDITSETTINGROLEPERMISSION", payload });
             } else{
                 dispatch({ type: "SETTING_ADD_ROLE_LIST", payload });
@@ -250,6 +250,13 @@ console.log("permissionRole",permissionRole)
       
       },[addRole])
 
+
+
+
+     
+    
+    
+   
 
 
     return (

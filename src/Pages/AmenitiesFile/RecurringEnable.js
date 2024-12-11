@@ -69,12 +69,7 @@ console.log("amenityDetails",amenityDetails)
             setErrorEndDate('');
         }
 
-        if (!recurringDay) {
-            setErrorRecurringDay('Recurring Day is required.');
-            isValid = false;
-        } else {
-            setErrorRecurringDay('');
-        }
+       
 
         if (isValid) {
                dispatch({ type: 'RECURRINGROLE', payload: {
@@ -83,7 +78,7 @@ console.log("amenityDetails",amenityDetails)
           hostel_id:hostelid,
           start_date: startDate,
           end_date: endDate,
-          am_id:amenityDetails.Amnities_Id,
+          am_id:amenityDetails.id,
                }})
    
             
@@ -180,9 +175,9 @@ console.log("amenityDetails",amenityDetails)
                                     value={recurringDay}
                                     onChange={handleRecurringDayChange}
                                 >
-                                    <option value="">Select a day</option>
-                                    <option value="1">Weekly</option>
-                                    <option value="2">Monthly</option>
+                                    
+                                  
+                                    <option selected value="Monthly">Monthly</option>
 
                                 </Form.Select>
                                

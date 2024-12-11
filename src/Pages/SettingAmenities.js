@@ -32,7 +32,9 @@ const [active, setActive] = useState(false)
     const [isChecked, setIsChecked] = useState(false);
     const [isDisplayRecurring, setIsDisplayRecurring] = useState(false)
     const [amenityDetails, setAmenityDetails] = useState('')
-    const [checkedValues, setCheckedValues] = useState({});
+    const [switchStates, setSwitchStates] = useState({});
+    const [deleteAmenities, setDeleteAmenities] = useState(false)
+    const [deleteID, setDeleteID]  = useState('')
 
 // function declare///////////////////////////////////////////////////////////
 
@@ -41,15 +43,16 @@ setEditDetails(amenity)
 setOpenAmenitiesForm(true)
 }
 
-console.log("checkedValues",checkedValues)
+console.log("switchStates",switchStates)
 
 const handleToggle = (amenity) => {
     setIsChecked(!isChecked);
-    setCheckedValues((prev) => ({
+    setSwitchStates((prev) => ({
         ...prev,
         [amenity.id]: !prev[amenity.id],
     }));
     setAmenityDetails(amenity)
+    console.log(`Switch toggled for amenity ID ${amenity.id}:`, !switchStates[amenity.id]);
 };
 
 
@@ -88,15 +91,39 @@ const handleToggle = (amenity) => {
         setIsDisplayAssignAmenities(false)
     }
 
+
+const handleDeleteAmenities = (amen) =>{
+console.log("amen",amen)
+setDeleteID(amen.id)
+setDeleteAmenities(true)
+}
+
+const handleCloseDeleteFormAmenities = () =>{
+    setDeleteAmenities(false)
+}
+
+
+const handleDeleteAmenitiesConfirm = () =>{
+    if(deleteID){
+        dispatch({ type: 'DELETEAMENITIES', payload: { am_id : deleteID, hostel_id : hostelid }})
+
+    }
+}
+
+
 // Useeffect Declare /////////////////////////////////
 
-useEffect(() => {
-    const initialCheckedState = {};
-    amenitiesList.forEach((amenity) => {
-        initialCheckedState[amenity.id] = amenity.active; 
-    });
-    setCheckedValues(initialCheckedState);
-}, [amenitiesList]);
+useEffect(()=>{
+    const initialSwitchStates =  amenitiesList.reduce((acc, amenity) => {
+        acc[amenity.id] = amenity.recuring === 1; 
+        return acc;
+    }, {})
+
+
+    setSwitchStates(initialSwitchStates);
+
+},[amenitiesList])
+
 
 
 
@@ -155,6 +182,40 @@ useEffect(() => {
     }
 
   },[state.InvoiceList?.addRecurringRole])
+
+
+
+
+  useEffect(()=>{
+    
+if(state.Settings?.addRecurringRole == 200){
+    setIsDisplayRecurring(false)
+    dispatch({ type: 'AMENITIESLIST' })
+   
+setTimeout(()=>{
+dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING'})
+},2000)
+}
+
+  },[state.Settings?.addRecurringRole])
+
+useEffect(()=>{
+    if(state.InvoiceList?.deleteAmenitiesSuccessStatusCode == 200){
+
+        dispatch({ type: 'AMENITIESLIST' })
+
+ setDeleteAmenities(false)
+
+        setTimeout(()=>{
+dispatch({ type: 'REMOVE_DELETE_AMENITIES_STATUS_CODE'})
+        },2000)
+    }
+
+},[state.InvoiceList?.deleteAmenitiesSuccessStatusCode])
+
+
+
+
 
     return (
         <div className="container">
@@ -249,6 +310,7 @@ onClick={handleOpenAmenities}
                                                         </div>
                                                         <div
                                                             className="d-flex gap-2 mb-2 align-items-center"
+                                                            onClick={()=>handleDeleteAmenities(amenity)}
                                                         >
 
                                                             <div>
@@ -301,22 +363,21 @@ onClick={handleOpenAmenities}
                                     <div class="col-lg-12 col-md-12 col-12">
                                         <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Recuring</p>
 
-                                        <div>
-                                            <Form.Check
-                                                type="switch"
-                                                id={`custom-switch-${amenity.id}`}
-                                                checked={checkedValues[amenity.id] || false}
-                                                onChange={()=>handleToggle(amenity)}
-
-                                            />
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-12">
-                                        <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation type</p>
-                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>10</p>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-12">
-                                        <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation start date</p>
+                                                <div>
+                                                    <Form.Check
+                                                        type="switch"
+                                                        label="Recurring"
+                                                           checked={switchStates[amenity.id] || false} 
+                                                        onChange={() => handleToggle(amenity)} 
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation type</p>
+                                                <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Monthly</p>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <p class="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation start date</p>
                                         <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{amenity.startdate}</p>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-12">
@@ -348,6 +409,105 @@ onClick={handleOpenAmenities}
 {
     IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid}/> 
 }
+
+
+
+
+{ deleteAmenities && 
+    <Modal
+    show={deleteAmenities}
+    onHide={handleCloseDeleteFormAmenities}
+    centered
+    backdrop="static"
+    style={{
+      width: 388,
+      height: 250,
+      marginLeft: "500px",
+      marginTop: "200px",
+    }}
+  >
+    <Modal.Header style={{ borderBottom: "none" }}>
+      <Modal.Title
+        style={{
+          fontSize: "18px",
+          fontFamily: "Gilroy",
+          textAlign: "center",
+          fontWeight: 600,
+          color: "#222222",
+          flex: 1,
+        }}
+      >
+        Delete Amenities?
+      </Modal.Title>
+    </Modal.Header>
+
+    <Modal.Body
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        color: "#646464",
+        textAlign: "center",
+        marginTop: "-20px",
+      }}
+    >
+      Are you sure you want to delete this Amenities?
+    </Modal.Body>
+
+    <Modal.Footer
+      style={{
+        justifyContent: "center",
+        borderTop: "none",
+        marginTop: "-10px",
+      }}
+    >
+      <Button
+        style={{
+          width: 160,
+          height: 52,
+          borderRadius: 8,
+          padding: "12px 20px",
+          background: "#fff",
+          color: "#1E45E1",
+          border: "1px solid #1E45E1",
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          fontSize: "14px",
+          marginRight: 10,
+        }}
+        onClick={handleCloseDeleteFormAmenities}
+      >
+        Cancel
+      </Button>
+      <Button
+        style={{
+          width: 160,
+          height: 52,
+          borderRadius: 8,
+          padding: "12px 20px",
+          background: "#1E45E1",
+          color: "#FFFFFF",
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          fontSize: "14px",
+        }}
+        onClick={handleDeleteAmenitiesConfirm}
+      >
+        Delete
+      </Button>
+    </Modal.Footer>
+  </Modal>
+}
+
+
+
+
+
+
+
+
+
+
         </div>
     )
 }

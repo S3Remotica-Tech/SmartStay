@@ -13,6 +13,38 @@ function* handleRecurringRole(action) {
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'RECURRING_ROLE', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+  
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center", 
+         padding: "10px",
+        
+       };
+ 
+      
+       toast.success('Recurring Enabled successfully', {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle
+       })
+  
+  
+  
    } 
   
    else {

@@ -17,7 +17,7 @@ import SettingNewRole from "./SettingNewRole";
 import "./Settings.css";
 import {Button, Offcanvas,Form,FormControl,FormSelect} from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
-
+import { MdError } from "react-icons/md";
 
 
 function SettingAllPages() {
@@ -38,7 +38,8 @@ function SettingAllPages() {
   const [userPageShow, setUserPageShow] = useState(false);
   const [rolePageShow, setRolePageShow] = useState(false);
   const [hostel_Id,setHostel_Id] = useState('')
-
+  const [displayError, setDisplayError] = useState('')
+ 
   const handleShowGeneralPage = () => {
     setGeneralPageShow(true);
     setManagePageShow(false); 
@@ -178,10 +179,15 @@ function SettingAllPages() {
     setInvoicePageShow(false)
     setCompliancePageShow(false)
     setExpensesPageShow(false)
-    setAmnitiesPageShow(true)
+       setAmnitiesPageShow(true)
+      
     setUserPageShow(false)
     setRolePageShow(false)
   }
+
+
+
+
 
   const handleShowUserPage = () => {
     setManagePageShow(false);
@@ -217,7 +223,12 @@ function SettingAllPages() {
 
   const handleHostelId = (e) => {
     setHostel_Id(e.target.value)
+    setDisplayError('')
   }
+
+
+
+
 
   console.log("hostelid",hostel_Id);
   
@@ -425,13 +436,20 @@ function SettingAllPages() {
                           </option>
                         ))}
                       </Form.Select>
-                      {/* {hostelIdError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {hostelIdError}
+                      {displayError && (
+                        <div className="d-flex gap-2 align-items-center p-2">
+                        
+                          <MdError  style={{ color: "red", fontSize:12}}/>
+                        <div style={{ color: "red", fontSize:12 , fontFamily:"Gilroy" }}>
+                         
+                          {displayError}
                         </div>
-                      )} */}
+                        </div>
+                      )}
                     </div>
+                    {
+                      hostel_Id && 
+                   
 
 <div
               style={{
@@ -640,6 +658,7 @@ function SettingAllPages() {
                
               </p>
             </div>
+}
 </div>
 
 

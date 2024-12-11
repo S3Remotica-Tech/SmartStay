@@ -19,7 +19,7 @@ import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import AddUser from '../Pages/UserFile/AddUser'
 
-function SettingNewUser() {
+function SettingNewUser({hostelid}) {
 
     /////////////////////////// state
     const state = useSelector((state) => state);
@@ -63,6 +63,7 @@ const  handleEditForm = (item) =>{
 }
 
 const handleDeleteForm = (item) =>{
+    console.log("item",item)
 setDeleteId(item.id)
 setIsConfirmDelete(true)
 }
@@ -71,11 +72,44 @@ const handleClose = () =>{
     setIsConfirmDelete(false)
 }
 
+
+const handleDelete = () =>{
+    if(deleteId){
+        dispatch({ type: 'DELETEUSER', payload: { id: deleteId}})
+    }
+}
+
+
+
     // useEffect/////////////////////
 
     useEffect(() => {
         dispatch({ type: "GETUSERSTAFF" });
     }, [])
+
+
+
+useEffect(()=>{
+    if(state.InvoiceList?.deleteUserSuccessStatusCode == 200){
+        setIsConfirmDelete(false)
+        dispatch({ type: "GETUSERSTAFF" });
+        setTimeout(()=>{
+dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
+        },2000)
+
+    }
+
+
+},[state.InvoiceList?.deleteUserSuccessStatusCode])
+
+
+
+
+
+
+
+
+
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -305,7 +339,7 @@ console.log("state",state)
                                                     <PiDotsThreeOutlineVerticalFill
                                                         style={{ height: "20px", width: "20px" }}
                                                     />
-                                                    
+
                                                     {showDots === index && (
                                                         <div
                                                             ref={popupRef}
@@ -441,7 +475,7 @@ console.log("state",state)
           </Button>
       
           <Button style={{borderRadius:8, padding:"16px 45px",border:"1px solid #1E45E1",backgroundColor:"#1E45E1",color:"#fff",fontSize:14,fontWeight:600,fontFamily:"Gilroy"}}
-        //    onClick={handleDelete}
+           onClick={handleDelete}
            >
             Delete
           </Button>
@@ -460,7 +494,7 @@ console.log("state",state)
 
 
 
-{addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails}/>}
+{addUserForm && <AddUser show={addUserForm} handleClose={handleCloseAddUser} editDetails={editDetails} hostelid={hostelid}/>}
 
 
 
