@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react';
-import Edit from '../Assets/Images/New_images/edit.png';
+import Edit from '../Assets/Images/edit-Complaints.svg';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
@@ -8,8 +8,12 @@ import Tickicon from '../Assets/Images/tick-circle.png'
 import Profile_add from '../Assets/Images/profile-add.png'
 import moment from 'moment';
 import Delete from '../Assets/Images/New_images/trash.png';
-
-
+import ChangeStatusIcon from '../Assets/Images/ComplaintChangeStatusicon.svg';
+import AssignComplaintIcon from '../Assets/Images/profile-add-AssingnComplaint.svg';
+import CommentIcon from '../Assets/Images/Comment-icon-complaints page.svg';
+import manimg from '../Assets/Images/Man Img.svg';
+import closeicon from '../Assets/Images/close.svg';
+import send from '../Assets/Images/send.svg';
 
 const ComplianceList = (props) => {
 
@@ -126,7 +130,12 @@ function getFloorAbbreviation(floor_Id) {
           appearOnScro1l.observe(fader);
         })
       });
+//commentcard
+      const [showCard, setShowCard] = useState(false);
 
+      const handleIconClick = () => {
+        setShowCard(!showCard); 
+      };
     return (
         <Card className="h-100 fade-in" style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
             <Card.Body style={{ padding: 20 }}>
@@ -139,8 +148,8 @@ function getFloorAbbreviation(floor_Id) {
                             <div className='pb-2'>
                                 <label style={{fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 600, marginLeft: '10px' }} >{props.complaints && props.complaints.Name} </label>
                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFE0D9', padding: '6px 12px',  borderRadius: '60px', marginRight: '10px' ,fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500}}>{(props.complaints &&  props.complaints.room_name)} - B{props.complaints && props.complaints.Bed}</div>
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFEFCF', padding: '6px 12px',  borderRadius: '60px', fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{(props.complaints.floor_name)}
+                                    <div style={{ marginTop:5,display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFE0D9', padding: '6px 12px',  borderRadius: '60px', marginRight: '10px' ,fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500}}>{(props.complaints &&  props.complaints.room_name)} - B{props.complaints && props.complaints.Bed}</div>
+                                    <div style={{ marginTop:5, display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFEFCF', padding: '6px 12px',  borderRadius: '60px', fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{(props.complaints.floor_name)}
                                         {/* {props.complaints && props.complaints.Floor_id} */}
                                         {/* Ground floor */}
                                     </div>
@@ -154,9 +163,84 @@ function getFloorAbbreviation(floor_Id) {
                             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                             {showDots && <>
-                                <div style={{ backgroundColor: "#FFFFFF", position: "absolute", right: 0, top: 50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                                <div style={{ backgroundColor: "#EBEBEB", position: "absolute", right: 0, top: 50, width: 175, height: 159, border: "1px solid #EBEBEB", borderRadius: 12, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                     <div >
-                                    <div
+                                    
+{/* Change status */}
+<div
+  className={"mb-2"}
+  onClick={() => {
+    if (!props.complianceEditPermission) {
+      handleEdit(props.complaints);
+    }
+  }}
+  style={{
+    // backgroundColor: props.complianceEditPermission ? "#f9f9f9" : "#fff",
+    cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+  }}
+>
+  <img
+    src={ChangeStatusIcon}
+    style={{
+      height: 16,
+      width: 16,
+      filter: props.complianceEditPermission ? "grayscale(100%)" : "none",
+    }}
+    alt="Edit"
+  />
+  <label 
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.complianceEditPermission ? "#ccc" : "#222222",
+      cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+      paddingLeft:5
+    }}
+  >
+    Change Status
+  </label>
+</div>
+
+
+{/* Assign Complaint */}
+<div
+  className={"mb-2"}
+  onClick={() => {
+    if (!props.complianceEditPermission) {
+      handleEdit(props.complaints);
+    }
+  }}
+  style={{
+    // backgroundColor: props.complianceEditPermission ? "#f9f9f9" : "#fff",
+    cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+  }}
+>
+  <img
+    src={AssignComplaintIcon}
+    style={{
+      height: 16,
+      width: 16,
+      filter: props.complianceEditPermission ? "grayscale(100%)" : "none",
+    }}
+    alt="Edit"
+  />
+  <label 
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.complianceEditPermission ? "#ccc" : "#222222",
+      cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+      paddingLeft:5
+    }}
+  >
+    Assign Complaint
+  </label>
+</div>
+                                    
+{/* edit */}
+<div
   className={"mb-2"}
   onClick={() => {
     if (!props.complianceEditPermission) {
@@ -177,19 +261,22 @@ function getFloorAbbreviation(floor_Id) {
     }}
     alt="Edit"
   />
-  <label
+  <label 
     style={{
       fontSize: 14,
       fontWeight: 500,
       fontFamily: "Gilroy, sans-serif",
       color: props.complianceEditPermission ? "#ccc" : "#222222",
       cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+      paddingLeft:5
     }}
   >
     Edit
   </label>
 </div>
 
+
+{/* Delete */}
 <div
   className={"mb-2"}
   style={{
@@ -218,6 +305,7 @@ function getFloorAbbreviation(floor_Id) {
       fontFamily: "Gilroy, sans-serif",
       color: props.complianceDeletePermission ? "#ccc" : "#FF0000", 
       cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
+      paddingLeft:5
     }}
   >
     Delete
@@ -303,6 +391,7 @@ function getFloorAbbreviation(floor_Id) {
 
                 <hr style={{ border: "1px solid #E7E7E7" }} />
                 
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy, sans-serif" }}>
       {props.complaints.Assign === '' || props.complaints.Assign  == null ? (
         <p style={{ fontSize: '14px', fontWeight: 600, color: '#222', fontFamily: 'Gilroy' ,fontStyle:'normal',lineHeight:'normal'}}>
@@ -317,6 +406,138 @@ function getFloorAbbreviation(floor_Id) {
       )}
     </label>
 
+{/* CommentIcon  */}
+<div>
+  <div
+    style={{
+      border: "1px solid #DCDCDC",
+      borderRadius: 60,
+      padding: "8px 12px",
+      cursor: "pointer",
+    }}
+    onClick={handleIconClick}
+  >
+    <label>
+      <img src={CommentIcon} alt="Comments" /> 986
+    </label>
+  </div>
+
+  {showCard && (
+  <div
+    style={{
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      border: "1px solid #DCDCDC",
+      borderRadius: 10,
+      padding: "16px",
+      backgroundColor: "#FFF",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      zIndex: 1000,
+      width: 664,
+      height: 279
+    }}
+  >
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <p style={{ fontWeight: 600, fontSize: 18, fontFamily: "Gilroy, sans-serif", margin: 0 }}>
+        August 2024 . Monthly Report
+      </p>
+      <img
+        src={closeicon}
+        alt="Close"
+        style={{ cursor: "pointer", width: 20, height: 20 }}
+        onClick={handleIconClick}  // Add this line to close the window when clicked
+      />
+    </div>
+
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 20 }}>
+      <label style={{ fontWeight: 500, fontSize: 12, fontFamily: "Gilroy, sans-serif", margin: 0 }}>
+        <img
+          src={manimg}
+          alt="man"
+          style={{ cursor: "pointer", width: 20, height: 20 }}
+        /> Akash Rathod
+      </label>
+      <p style={{ fontWeight: 500, fontSize: 12, fontFamily: "Gilroy, sans-serif", margin: 0 }}>
+        01 September 2024
+      </p>
+    </div>
+
+    <div style={{ marginTop: 10 }}>
+      <p style={{ fontWeight: 500, fontSize: 14, fontFamily: "Gilroy, sans-serif", margin: 0 }}>
+        Lorem ipsum dolor sit amet consectetur. Tellus sed libero commodo leo scelerisque turpis in gravida.
+        Et facilisi eget id consequat maecenas diam velit eget accumsan. Nam suspendisse lectus vitae elementum integer.
+        Velit sem nec eget id ac. Sagittis sit mauris massa eget vel integer mattis pulvinar. Eget aliquet
+      </p>
+    </div>
+
+    <div style={{ border: "1px solid #E7E7E7", marginTop: 15, width: "100%" }}></div>
+
+    <div style={{ marginTop: 15, position: "relative", display: "inline-block", width: "100%" }}>
+      <input 
+        type="text" 
+        style={{
+          border: "1px solid #E7E7E7", 
+          paddingTop: 6,
+          paddingBottom: 6,
+          paddingLeft: 16, 
+          width: "100%", 
+          height: "52px", 
+          borderRadius: "12px"
+        }} 
+        placeholder="Post your reply here"
+      />
+      <div 
+        style={{
+          position: "absolute", 
+          right: "10px", 
+          top: "50%", 
+          transform: "translateY(-50%)", 
+          backgroundColor: "#1E45E1", 
+          border: "1px solid #E7E7E7", 
+          borderRadius: "60px", 
+          padding: "12px", 
+          display: "flex", 
+          justifyContent: "center", 
+          alignItems: "center", 
+          cursor: "pointer"
+        }}
+      >
+        <img 
+          src={send} 
+          alt="Send" 
+          style={{
+            width: "20px", 
+            height: "20px"
+          }} 
+        />
+      </div>
+    </div>
+  </div>
+)}
+
+{/* Background overlay */}
+{showCard && (
+  <div
+    onClick={handleIconClick}
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      zIndex: 999,
+    }}
+  />
+)}
+
+</div>
+
+
+
+  </div>
             </Card.Body>
         </Card>
     )
