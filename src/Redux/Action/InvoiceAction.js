@@ -144,6 +144,22 @@ export async function InvoiceRecurringsettings(datum) {
 }
 
 
+export async function DeleteUser(datum) {
+  return await AxiosConfig.post('/staffs/delete_staff',datum,{
+    data:datum
+  })
+}
 
+export async function DeleteAmenities(datum) {
+  return await AxiosConfig.post('/amenities/delete',datum,{
+    data:datum
+  })
+}
 
+// assign amenities
+export async function AssignAmenities(datum) {
+  return await AxiosConfig.post('/',datum,{
+    data:datum
+  })
+}
 
