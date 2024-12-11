@@ -28,9 +28,11 @@ const InvoiceSettingsList = (props) => {
     props.OnEditInvoice(item);
   };
 
-  const handleSetAsDefault = (e) => {
+  const handleSetAsDefault = (e , item) => {
+    console.log("recurr",item);
+    
     setActive(e.target.checked);
-    props.handleRecurringFormShow();
+    props.handleRecurringFormShow(item);
   };
 
   console.log("props invoicesett***********", props);
@@ -318,7 +320,7 @@ const InvoiceSettingsList = (props) => {
               <div>
                 <label
                   style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", fontStyle: "normal", lineHeight: "normal"}}>
-                   {props.item.due_date} 
+                   {moment(props.item.due_date).format('DD-MM-YYYY')} 
                 </label>
               </div>
             </div>
@@ -333,7 +335,7 @@ const InvoiceSettingsList = (props) => {
               type="switch"
               id="custom-switch"
               checked={active}
-              onChange={(e) => handleSetAsDefault(e)}
+              onChange={(e) => handleSetAsDefault(e,props.item)}
             />
           </div>
 
@@ -396,7 +398,8 @@ const InvoiceSettingsList = (props) => {
                     lineHeight: "normal",
                   }}
                 >
-                  {moment(props.item.inv_date).format('DD-MM-YYYY')}
+
+                  {props.item.inv_startdate}
                 </label>
               </div>
             </div>
@@ -427,7 +430,7 @@ const InvoiceSettingsList = (props) => {
                     lineHeight: "normal",
                   }}
                 >
-                  {moment(props.item.inv_startdate).format('DD-MM-YYYY')}
+                     {props.item.inv_enddate}
                 </label>
               </div>
             </div>

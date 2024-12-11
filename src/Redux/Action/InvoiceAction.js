@@ -110,8 +110,8 @@ export async function InvoiceSettings(params) {
   formData.append("hostel_Id", params.hostel_Id);
   if (params.prefix) formData.append("prefix", params.prefix);
   if (params.suffix) formData.append("suffix", params.suffix);
-  if (params.invoicedate) formData.append("invoicedate", params.invoicedate);
-  if (params.Invoice_duedate) formData.append("Invoice_duedate", params.Invoice_duedate);
+  if (params.inv_date) formData.append("inv_date", params.inv_date);
+  if (params.due_date) formData.append("due_date", params.due_date);
 
   try {
     const response = await AxiosConfig.post('/invoice/settings',formData, {
