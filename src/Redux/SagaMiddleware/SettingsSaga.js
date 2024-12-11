@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AddExpencesCategory, EditExpencesCategory,ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport} from "../Action/SettingsAction"
+import { AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete} from "../Action/SettingsAction"
+
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -149,9 +150,8 @@ function* handleDeleteExpencescategory(action) {
 
 function* handleComplainttypelist(action) {
    const response = yield call(Complainttypelist, action.payload);
-   console.log("actionfortypelist", action.payload);
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'COMPLAINT_TYPE_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
+      yield put({ type: 'COMPLAINT_TYPE_LIST', payload: { response: response.data.complaint_types, statusCode: response.status || response.statusCode, message: response.data.message } })
    } else if (response.status === 401 || response.statusCode === 401) {
       Swal.fire({
          icon: 'warning',
@@ -168,7 +168,6 @@ function* handleComplainttypelist(action) {
 }
 
 function* handleComplaintTypeAdd(params) {
-   console.log("settings saga", params.payload);
    const response = yield call(Addcomplainttype, params.payload);
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -191,7 +190,6 @@ function* handleComplaintTypeAdd(params) {
         
        };
  
-       // Use the toast with the defined style
        toast.success(response.data.message, {
          position: "bottom-center",
          autoClose: 2000,
@@ -206,7 +204,17 @@ function* handleComplaintTypeAdd(params) {
    }
    else  if(response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'ALREADY_COMPLAINTTYPE_ERROR', payload: response.data.message })
- 
+      
+      toast.error(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+       })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -220,7 +228,6 @@ function* handleComplaintTypeAdd(params) {
 
 function* handleDeleteComplainttype(action) {
    const response = yield call(DeletecomplaintType, action.payload);
-   console.log(" response", response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_COMPLAINT_TYPE', payload: { response: response.data, statusCode: response.status || response.statusCode  } })
      
@@ -253,6 +260,18 @@ function* handleDeleteComplainttype(action) {
          progress: undefined,
          style: toastStyle
        });
+   }
+   else if(response.status === 201 || response.statusCode === 201){
+      toast.error(response.data.message, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+       })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -573,6 +592,168 @@ function* handleGetAllReports() {
    }
 }
 
+function* handleAddGeneralPage(action) {
+   const response = yield call (AddGeneral, action.payload);
+
+   var toastStyle = {
+     backgroundColor: "#E6F6E6",
+     color: "black",
+     width: "auto",
+     borderRadius: "60px",
+     height: "20px",
+     fontFamily: "Gilroy",
+     fontWeight: 600,
+     fontSize: 14,
+     textAlign: "start",
+     display: "flex",
+     alignItems: "center", 
+     padding: "10px",
+    
+   };
+
+   // console.log("handleAddGeneralPage",response)
+   if (response.statusCode === 200){
+      console.log("handleAddGeneralPage",response)
+      yield put ({type : 'SETTING_GENERAL_ADD' , payload:{response:response, statusCode: response.statusCode}})
+      toast.success(`${response.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+     });
+   }
+   else if(response.statusCode === 202) {
+         
+      yield put({ type: 'GENERAL_EMAIL_ERROR', payload: response.message });
+   }
+   else if(response.statusCode === 203) {
+     
+      yield put({ type: 'MOBILE_ERROR', payload: response.message});
+   }
+
+   else {
+      yield put ({type:'ERROR', payload:response.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+function* handleGetAllGeneral() {
+   const response = yield call(GetAllGeneral)
+   console.log("handleGetAllGeneral.....///",response)
+   
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'GET_ALL_GENERAL', payload:{response: response.data, statusCode:response.status || response.statusCode}})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
+
+
+function* handleChangePasswordinStaff(action) {
+   const response = yield call (passwordChangesinstaff, action.payload);
+
+   var toastStyle = {
+     backgroundColor: "#E6F6E6",
+     color: "black",
+     width: "auto",
+     borderRadius: "60px",
+     height: "20px",
+     fontFamily: "Gilroy",
+     fontWeight: 600,
+     fontSize: 14,
+     textAlign: "start",
+     display: "flex",
+     alignItems: "center", 
+     padding: "10px",
+    
+   };
+
+   console.log("handleChangePasswordinStaff",response)
+   if (response.data.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'GENERAL_PASSWORD_CHANGES' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+      toast.success(`${response.data.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+     });
+   }
+
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+function* handleDeleteGenerlPage(action) {
+   const response = yield call(generalDelete, action.payload);
+   console.log("handleDeleteGenerlPage", response);
+ 
+   var toastStyle = {
+     backgroundColor: "#E6F6E6",
+     color: "black",
+     width: "100%",
+     borderRadius: "60px",
+     height: "20px",
+     fontFamily: "Gilroy",
+     fontWeight: 600,
+     fontSize: 14,
+     textAlign: "start",
+     display: "flex",
+     alignItems: "center", 
+     padding: "10px",
+    
+   };
+ 
+   if (response.status === 200 || response.statusCode === 200) {
+     yield put({
+       type: "DELETE_GENERAL",
+       payload: {
+         response: response.data,
+         statusCode: response.status || response.statusCode,
+       },
+     });
+     toast.success("Deleted successfully", {
+       position: "bottom-center",
+       autoClose: 2000,
+       hideProgressBar: true,
+       closeButton: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       style: toastStyle,
+     });
+   } else if (response.status === 201 || response.statusCode === 201) {
+     yield put({ type: "DELETE_GENERAL_ERROR", payload: response.data.message });
+    
+   }
+   if (response) {
+     refreshToken(response);
+   }
+ }
+
+
 
 function refreshToken(response) {
 
@@ -613,5 +794,9 @@ function* SettingsSaga() {
    yield takeEvery('ADDSTAFFUSER', handleAddStaffUserPage)
    yield takeEvery('GETUSERSTAFF',handleGetAllStaffs)
    yield takeEvery('GETUSERREPORT',handleGetAllReports)
+   yield takeEvery('ADDGENERALSETTING',handleAddGeneralPage)
+   yield takeEvery('GETALLGENERAL',handleGetAllGeneral)
+   yield takeEvery('GENERALPASSWORDCHANGES',handleChangePasswordinStaff)
+   yield takeEvery('GENERALDELETEGENERAL',handleDeleteGenerlPage)
 }
 export default SettingsSaga;

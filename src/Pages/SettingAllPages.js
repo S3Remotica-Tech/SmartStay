@@ -651,10 +651,10 @@ function SettingAllPages() {
             {securityPageShow && <SettingSecurity />}
             {subscriptionPageShow && <SettingSubscription />}
             {intgrationPageShow && <SettingIntergration />}
-            {electricityPageShow && <SettingElectricity />}
+            {electricityPageShow && <SettingElectricity hostelid={hostel_Id}/>}
             {invoicePageShow && <SettingInvoice hostelid={hostel_Id}/>}
             {expensesPageShow && <SettingExpenses hostelid={hostel_Id} />}
-            {compliancePageShow && <SettingCompliance />}
+            {compliancePageShow && <SettingCompliance hostelid={hostel_Id}/>}
             {amnitiesPageShow && <SettingAmenities />}
             {userPageShow && <SettingNewUser />}
             {rolePageShow && <SettingNewRole />}
