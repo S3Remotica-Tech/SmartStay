@@ -14,6 +14,7 @@ import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import InvoiceSettingsList from "./InvoicesettingsList";
 import Modal from "react-bootstrap/Modal";
 import { MdError } from "react-icons/md";
+import moment from 'moment';
 import { IoReturnDownForward } from "react-icons/io5";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import ComplianceList from "./ComplianceList";
@@ -22,7 +23,9 @@ import Calendars from "../Assets/Images/New_images/calendar.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function SettingInvoice() {
+function SettingInvoice({hostelid}) {
+
+
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
@@ -263,11 +266,16 @@ function SettingInvoice() {
      
       return;
     }
+
   
 
-     if (isPrefixValid && isStartNumberValid  &&selectedHostel.id && selectedDate && invoicedueDate) {
+     if (isPrefixValid && isStartNumberValid  && hostelid && selectedDate && invoicedueDate) {
+      const formattedInvoiceDate = moment(selectedDate).format('YYYY-MM-DD');    
+      const formattedDueDate = moment(invoicedueDate).format('YYYY-MM-DD');    
+
+      console.log("add_success")
       dispatch({ type: "INVOICESETTINGS",
-        payload: {hostel_Id: selectedHostel.id,prefix: prefix,suffix: startNumber , invoicedate :selectedDate , Invoice_duedate: invoicedueDate }});
+        payload: {hostel_Id: hostelid,prefix: prefix,suffix: startNumber , inv_date :formattedInvoiceDate , due_date: formattedDueDate }});
       
         dispatch({ type: "HOSTELLIST" });
 
@@ -276,20 +284,26 @@ function SettingInvoice() {
       setStartNumber("");
       setSelectedDate('')
       setInvoiceDueDate('')
+      
 
     } 
-    else if (isPrefixValid &&isStartNumberValid && !isSelectedImageValid && selectedHostel.id) {
-      dispatch({type: "INVOICESETTINGS",payload: { hostel_Id: selectedHostel.id, prefix: prefix,suffix: startNumber} });
-      
-      dispatch({ type: "HOSTELLIST" });
 
-      setShowForm(false);
-      setPrefix("");
-      setStartNumber("");
-      setSelectedImage("");
+    else {
       setSelectedDate('')
       setInvoiceDueDate('')
     }
+    // else if (isPrefixValid &&isStartNumberValid  && hostelid) {
+    //   dispatch({type: "INVOICESETTINGS",payload: { hostel_Id: hostelid, prefix: prefix,suffix: startNumber} });
+      
+    //   dispatch({ type: "HOSTELLIST" });
+
+    //   setShowForm(false);
+    //   setPrefix("");
+    //   setStartNumber("");
+    //   setSelectedImage("");
+    //   setSelectedDate('')
+    //   setInvoiceDueDate('')
+    // }
 
    
   };
@@ -300,6 +314,8 @@ function SettingInvoice() {
     if (state.InvoiceList?.invoiceSettingsStatusCode == 200) {
 
       dispatch({ type: "HOSTELLIST" });
+      setSelectedDate('')
+      setInvoiceDueDate('')
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_SETTINS_STATUSCODE" });
@@ -430,10 +446,20 @@ function SettingInvoice() {
     }
 
         dispatch({type: "SETTINGSADDRECURRING",
-        payload: { hostel_id: selectedHostel.id, type:'invoice', start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate)} });
+        payload: { hostel_id:Number(hostelid) , type:'invoice', start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate)} });
         setRecurringForm(false);
     }
 
+
+    useEffect(() => {
+      if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
+       
+        dispatch({ type: "HOSTELLIST" });
+          setTimeout(() => {
+              dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
+          }, 100)
+      }
+  }, [state.InvoiceList.settingsaddRecurringStatusCode])
 
 
   const handleShow = () => {
@@ -453,8 +479,12 @@ function SettingInvoice() {
     setInvoiceDueDate('')
   };
 
-  const handleRecurringFormShow = () => {
+  const handleRecurringFormShow = (item) => {
     setRecurringForm(true);
+    
+    setCalculatedstartdate(item.inv_startdate || '')
+    setCalculatedEnddate(item.inv_enddate || '')
+
   };
 
   const handleCloseRecurringForm = () => {
@@ -467,42 +497,83 @@ function SettingInvoice() {
 
 
   const handleEditInvoice = (editData) => {
-    console.log("editData",editData);
-    
+    console.log("editData", editData);
+  
     setEdit(true);
     setShowForm(true);
-    setPrefix(editData.prefix)
-    setStartNumber(editData.suffix)
-    setSelectedDate(editData.inv_date)
-    setInvoiceDueDate(editData.due_date)
-  }
+    setPrefix(editData.prefix);
+    setStartNumber(editData.suffix);
+  
+    const formattedInvDate = new Date(editData.inv_date); 
+    const formattedDueDate = new Date(editData.due_date);
+  
+    setSelectedDate(formattedInvDate);
+    setInvoiceDueDate(formattedDueDate);
+  };
+  
 
  
+useEffect(() => {
+  if (selectedDate && isNaN(new Date(selectedDate).getTime())) {
+    setSelectedDate(null); 
+  }
+}, [selectedDate]);
 
-  const customDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          // disabled={edit}
-          style={{ border: "1px solid #D9D9D9", borderRadius: 8, padding: 9, fontSize: 14, fontFamily: "Gilroy", fontWeight: props.value ? 600 : 500, width: "100%", height: 50, boxSizing: "border-box", boxShadow: "none"}}
-        />
-        <img
-          src={Calendars}
-          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+useEffect(() => {
+  if (invoicedueDate && isNaN(new Date(invoicedueDate).getTime())) {
+    setInvoiceDueDate(null); 
+  }
+}, [invoicedueDate]);
+
+  
+  
+
+ const customDateInput = React.forwardRef(({ value, onClick }, ref) => (
+  <div
+    className="date-input-container w-100"
+    onClick={onClick}
+    style={{ position: "relative" }}
+  >
+    <FormControl
+      type="text"
+      className="date_input"
+      value={value || "DD/MM/YYYY"} // Show placeholder if no value
+      readOnly
+      ref={ref}
+      style={{
+        border: "1px solid #D9D9D9",
+        borderRadius: 8,
+        padding: "9px 12px",
+        fontSize: 14,
+        fontFamily: "Gilroy",
+        fontWeight: value ? 600 : 500,
+        width: "100%",
+        height: 50,
+        boxSizing: "border-box",
+        boxShadow: "none",
+        cursor: "pointer",
+      }}
+      aria-label="Select date"
+    />
+    <img
+      src={Calendars}
+      style={{
+        height: 24,
+        width: 24,
+        cursor: "pointer",
+        position: "absolute",
+        right: 10,
+        top: "50%",
+        transform: "translateY(-50%)",
+      }}
+      alt="Open calendar"
+      onClick={onClick}
+    />
+  </div>
+));
+
+  
+  
 
   return (
     <div className="container">
@@ -513,13 +584,17 @@ function SettingInvoice() {
       </div>
 
       <div>
-        {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 &&
-          state.UsersList.hostelList.map((item) => (
-            <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
-              <InvoiceSettingsList item={item} handleRecurringFormShow={handleRecurringFormShow} OnEditInvoice={handleEditInvoice}/>
-            </div>
-          ))}
-      </div>
+     {state?.UsersList?.hostelList && state.UsersList.hostelList.length > 0 && state.UsersList.hostelList
+      .filter(item => item.prefix || item.suffix) 
+      .map((item) => (
+        <div key={item.id} className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 mt-3">
+          <InvoiceSettingsList item={item}  handleRecurringFormShow={handleRecurringFormShow} 
+            OnEditInvoice={handleEditInvoice}
+          />
+        </div>
+      ))}
+</div>
+
 
       {showform && (
         <div
@@ -651,6 +726,8 @@ function SettingInvoice() {
                   </div>
                   {/* </div> */}
 
+
+
                   <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
                     <Form.Group
                       className="mb-3"
@@ -689,8 +766,8 @@ function SettingInvoice() {
                       />
                     </Form.Group>
                   </div>
-
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  
+ <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2" controlId="purchaseDate">
                       <Form.Label
                         style={{
@@ -703,23 +780,22 @@ function SettingInvoice() {
                         Invoice date
                       </Form.Label>
                       <div style={{ position: "relative", width: "100%" }}>
-                        <DatePicker
-                          selected={selectedDate}
-                          onChange={(date) => {
-                            setInvoiceDateErrmsg("");
+         <DatePicker
+          selected={selectedDate}
+  onChange={(date) => setSelectedDate(date)} 
+  dateFormat="dd/MM/yyyy"
+  customInput={
+    React.createElement(customDateInput, {
+      value: selectedDate
+        ? selectedDate.toLocaleDateString("en-GB") 
+        : "", 
+    })
+  }
+/>
 
-                            setSelectedDate(date);
-                            setInvoiceDateErrmsg("");
-                          }}
-                          dateFormat="dd/MM/yyyy"
-                          maxDate={null}
-                          // disabled={edit}
-                          customInput={customDateInput({
-                            value: selectedDate
-                              ? selectedDate.toLocaleDateString("en-GB")
-                              : "",
-                          })}
-                        />
+
+
+
                       </div>
                     </Form.Group>
 
@@ -754,23 +830,24 @@ function SettingInvoice() {
                         Due date
                       </Form.Label>
                       <div style={{ position: "relative", width: "100%" }}>
-                        <DatePicker
-                          selected={invoicedueDate}
-                          onChange={(date) => {
-                            setDueDateErrmsg("");
+                    
+     <DatePicker
+          selected={invoicedueDate}
+          onChange={(date) => setInvoiceDueDate(date)} 
+         dateFormat="dd/MM/yyyy"
+         customInput={
+         React.createElement(customDateInput, {
+        value: invoicedueDate
+        ? invoicedueDate.toLocaleDateString("en-GB") 
+        : "", 
+    })
+  }
+/>
 
-                            setInvoiceDueDate(date);
-                            setDueDateErrmsg("");
-                          }}
-                          dateFormat="dd/MM/yyyy"
-                          maxDate={null}
-                          // disabled={edit}
-                          customInput={customDateInput({
-                            value: invoicedueDate
-                              ? invoicedueDate.toLocaleDateString("en-GB")
-                              : "",
-                          })}
-                        />
+
+
+
+
                       </div>
                     </Form.Group>
 
@@ -791,6 +868,11 @@ function SettingInvoice() {
                       </div>
                     )}
                   </div>
+                 
+
+                 
+
+
                   {totalErrormsg.trim() !== "" && (
                     <div>
                       <p
@@ -918,6 +1000,7 @@ function SettingInvoice() {
             value={calculatedstartdate}
             onChange={handlestartDateChange}
               >
+                <option value="">Select</option>
         {[...Array(31)].map((_, index) => (
           <option key={index + 1} value={index + 1}>
             {index + 1}

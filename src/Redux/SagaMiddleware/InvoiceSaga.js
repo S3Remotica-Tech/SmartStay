@@ -687,8 +687,8 @@ function* handleAddInvoiceRecurringSettings (param){
    const response = yield call (InvoiceRecurringsettings,param.payload)
    
    
-   if (response.status === 200 || response.data.statusCode === 200 || response.statusCode === 200) {
-      yield put({ type: 'SETTINGS_ADD_RECURRING', payload: response,statusCode:response.status || response.data.statusCode || response.statusCode})
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'SETTINGS_ADD_RECURRING', payload: { response,statusCode:response.status || response.data.statusCode }})
    
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -709,7 +709,7 @@ function* handleAddInvoiceRecurringSettings (param){
        // Use the toast with the defined style
        toast.success(response.data.message, {
          position: "bottom-center",
-         autoClose: 2000,
+         autoClose: 1000,
          hideProgressBar: true,
          closeButton: false,
          closeOnClick: true,

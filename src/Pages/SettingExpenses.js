@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
-import Closebtn from '../Assets/Images/CloseCircle-Linear-32px.png';
+import Editbtn from '../Assets/Images/Edit-Linear-32px.png';
+import Closebtn from '../Assets/Images/Trash-Linear-32px.png';
 import { MdError } from "react-icons/md"; 
 import Modal from 'react-bootstrap/Modal';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
@@ -12,7 +13,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 
 
-       function SettingExpenses(){
+       function SettingExpenses({hostelid}){
 
 
 
@@ -39,7 +40,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
   const [expenceDeletePermission,setExpenceDeletePermission]=useState("")
   const [expenceEditPermission,setExpenceEditPermission]=useState("")
   const [showform, setShowForm] = useState(false);
-
+  const [edit, setEdit] = useState(false);
 
 
   useEffect(() => {
@@ -118,21 +119,52 @@ console.log("uniqueExpences",uniqueExpences);
 
     const [showModal, setShowModal] = useState(false);  
     const [deleteItem, setDeleteItem] = useState(null);  
-
-
+    const [category_Id,setCategory_ID] = useState(null)
+    const [subcategory_Id,setSubCategory_ID] = useState(null)
 
     const handleShow = () => {
         setShowForm(true);
-        // setEdit(false);
+        setEdit(false);
       };
     
       const handleCloseForm = () => {
         setShowForm(false);
+        setSubType('');
+        setType('');
+        setIsSubCategory(false)
       };
 
+      const handleEditCategory = (item) => {
+        console.log("item",item);
+        
+        setEdit(true);
+        setShowForm(true);
+        if(item.category_Id) { 
+          setType(item.category_Name)
+          setCategory_ID(item.category_Id || '')   
+        }
+        else if (item.subcategory_Id){
+          setIsSubCategory(true)
+          setSubType(item.subcategory)
+          setSubCategory_ID(item.subcategory_Id)
+        }
+      
+      }
+
+      console.log("subtype",subType);
+      // console.log("subtype",category_Id);
+      console.log("subtype",subcategory_Id);
+
+
+      const handleUpdateCategory = () => {
+        dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: 1 , hostel_id:hostelid, name: type, type:1}
+      })}
+
     const handleDeleteExpensesCategory = (item) => {
-        setDeleteItem(item);  // Set item to delete
-        setShowModal(true);   // Show confirmation modal
+         console.log("deleteitem",item);
+         
+        setDeleteItem(item)
+        setShowModal(true)  
     };
 
     const confirmDelete = () => {
@@ -147,17 +179,45 @@ console.log("uniqueExpences",uniqueExpences);
         } else {
             dispatch({
                 type: 'DELETE-EXPENCES-CATEGORY',
-                payload: { id: deleteItem },
+                payload: { id: deleteItem.cat_id , sub_Category_Id:deleteItem.subcategory_Id },
             });
         }
-        setShowModal(false);  // Close the modal
+        setShowModal(false);  
     };
 
     const cancelDelete = () => {
-        setShowModal(false);  // Close modal without deleting
+        setShowModal(false)
     };
 
+
+    const updateType = () => {
+
+      if(hostelid && category_Id || subcategory_Id){
+        if(category_Id){
+          dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: category_Id , hostel_id:hostelid, name: type, type:1}})
+          setShowForm(false);  
+          setIsSubCategory(false)
+          setType('')
+        }
+        else if (subcategory_Id){
+          dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id , hostel_id:hostelid, name: subType, type:2}})
+          setShowForm(false); 
+          setIsSubCategory(false) 
+          setSubType('')
+        }
+
+      }
+      else{
+        console.log("doesn't update ");
+        
+      }
+    }
+
+
+
     const addType = () => {
+
+
 
         if( !type ){
             setCategoryErrmsg("Please Enter a Category")   
@@ -178,18 +238,21 @@ console.log("uniqueExpences",uniqueExpences);
                 }
               else  if (subType.trim()) {
                     console.log("subexecuted");
-                    dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { id: type, category_Name: namefilter, sub_Category: subType } });
+                    dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: {hostel_id:hostelid, id: type, category_Name: namefilter, sub_Category: subType } });
              
                     setSubType('');
                     setType('');
+                    setShowForm(false);
+                    setIsSubCategory(false)
                 } 
             
                 }
              else {
-
               
-                    dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { category_Name: type, sub_Category: '' } });
-                    setType('');            
+                    dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: {hostel_id:hostelid, category_Name: type, sub_Category: '' } });
+                    setType('');  
+                    setShowForm(false);  
+                    setIsSubCategory(false)        
             }
         } 
     
@@ -206,8 +269,8 @@ console.log("uniqueExpences",uniqueExpences);
       }, [state.Settings?.alreadycategoryerror])
 
     useEffect(() => {
-        dispatch({ type: 'EXPENCES-CATEGORY-LIST' })
-    }, [])
+        dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id:hostelid} })
+    }, [hostelid])
 
     useEffect(() => {
         if (state.Settings.getExpensesStatuscode === 200) {
@@ -221,20 +284,25 @@ console.log("uniqueExpences",uniqueExpences);
 
 
     useEffect(() => {
-        if (state.Settings.addexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
-            setTimeout(() => {
-                dispatch({ type: 'EXPENCES-CATEGORY-LIST' })
-                console.log("get expense category list executed")
-            }, 100)
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_ADD_EXPENCES_STATUS_CODE' })
-            }, 1000)
+      if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
+          setTimeout(() => {
+              dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id:hostelid} })
+              console.log("get expense category list executed")
+          }, 100)
+          
+          setTimeout(() => {
+            dispatch({ type: 'CLEAR_ADD_EXPENCES_STATUS_CODE' })
+        }, 1000)
 
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_DELETE_EXPENCES_STATUS_CODE' })
-            }, 1000)
-        }
-    }, [state.Settings.addexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
+          setTimeout(() => {
+              dispatch({ type: 'CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE' })
+          }, 1000)
+
+          setTimeout(() => {
+              dispatch({ type: 'CLEAR_DELETE_EXPENCES_STATUS_CODE' })
+          }, 1000)
+      }
+  }, [hostelid, state.Settings.addexpencesStatuscode, state.Settings.editexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
 
 
   
@@ -287,12 +355,15 @@ console.log("uniqueExpences",uniqueExpences);
         }
     }
 
-    const [expandedCategoryId, setExpandedCategoryId] = useState(null); // Track which dropdown is expanded
+    const [expandedCategoryId, setExpandedCategoryId] = useState(null); 
 
-    // Toggle the dropdown for a specific category
+   
     const handleToggleDropdown = (categoryId) => {
       setExpandedCategoryId((prev) => (prev === categoryId ? null : categoryId));
     };
+
+
+ 
 
 
     return(
@@ -308,34 +379,169 @@ console.log("uniqueExpences",uniqueExpences);
             fontFamily: "Montserrat"}}>{" "}+ Add Category</Button>
       </div>
 
-      <div className="mt-4 d-flex row ">
-        {uniqueExpences.map((category) => (
-          <div key={category.category_Id} className="mb-3 col-lg-4">
-            {/* Dropdown Button */}
-            <button
-              className="btn btn-white dropdown-toggle border"
-              type="button"
-              onClick={() => handleToggleDropdown(category.category_Id)}
-              style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}
-            >
-              {category.category_Name}
-            </button>
+      {/* <div className="mt-4 d-flex row">
+  {uniqueExpences.map((category) => (
+    <div key={category.category_Id} className="mb-3 col-lg-6">
+      <button
+  className="btn btn-white dropdown-toggle  w-100 border d-flex justify-between align-items-center"
+  type="button"
+  onClick={() => handleToggleDropdown(category.category_Id)}
+  style={{
+    fontFamily: "Gilroy",fontSize: 16, fontWeight: 500,
+  }}
+>
+  <span style={{ textAlign:'left', marginRight:'150px' }}>
+  {category.category_Name}
+  </span>
+ 
+  
+  <span  style={{ textAlign:'right' , marginRight:'50px'}}>
+    <img
+      src={Editbtn}
+      height={15}
+      width={15}
+      alt="edit"
+      style={{ marginRight: 10, cursor: "pointer" }}
+      onClick={()=>handleEditCategory(category)}
+    />
+    <img
+      src={Closebtn}
+      height={15}
+      width={15}
+      alt="delete"
+      style={{ cursor: "pointer" }}
+      onClick={(e) => {
+        e.stopPropagation(); 
+        handleDeleteExpensesCategory(category.category_Id);
+      }}
+    />
+  </span>
+</button>
 
-            {/* Subcategory Dropdown */}
-            {expandedCategoryId === category.category_Id && (
+ 
+
+      {expandedCategoryId === category.category_Id && (
+        <>
+        <hr/>
+        <ul
+          className="list-group mt-2 border"
+          style={{
+            padding: "10px",
+            borderRadius: "10px",
+            width: "100%", 
+          }}
+        >
+          {uniqueExpences
+            .filter((sub) => sub.category_Id === category.category_Id && sub.subcategory)
+            .map((sub, idx) => (
+              <li
+                key={idx}
+                className=" d-flex justify-content-between align-items-center"
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: "#222",
+                }}
+              >
+                {sub.subcategory}
+                <span style={{ cursor: "pointer", color: "red" }}>
+                  <img src={Editbtn} height={15} width={15} alt="edit"    onClick={()=>handleEditCategory(sub)}/>
+                  <img
+                    src={Closebtn}
+                    height={15}
+                    width={15}
+                    style={{marginLeft:'20px'}}
+                    alt="delete"
+                    onClick={() => handleDeleteExpensesCategory(sub)}
+                  />
+                </span>
+              </li>
+            ))}
+          {!uniqueExpences.some(
+            (sub) => sub.category_Id === category.category_Id && sub.subcategory
+          ) && (
+            <li
+              className="list-group-item"
+              style={{
+                fontFamily: "Gilroy",
+                fontSize: 14,
+                fontWeight: 500,
+                color: "#555",
+              }}
+            >
+              No Subcategories Available
+            </li>
+          )}
+        </ul>
+        </>
+      )}
+    </div>
+  ))}
+</div> */}
+
+<div className="mt-4 d-flex row">
+      {expences.map((category) => (
+        <div key={category.category_Id} className="mb-3 col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded me-3">
+          <button
+            className="btn btn-white w-100  d-flex justify-content-between align-items-center"
+            type="button"
+            onClick={() => handleToggleDropdown(category.category_Id)}
+            style={{
+              fontFamily: "Gilroy",
+              fontSize: 16,
+              fontWeight: 500,
+            }}
+          >
+            <span>{category.category_Name}</span>
+            <span className="d-flex align-items-center">
+          <img
+            src={Editbtn}
+            height={15}
+            width={15}
+            alt="edit"
+            style={{ marginRight: 10, cursor: "pointer" }}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent dropdown toggle
+              handleEditCategory(category);
+            }}
+          />
+          <img
+            src={Closebtn}
+            height={15}
+            width={15}
+            alt="delete"
+            style={{ marginRight: 10, cursor: "pointer" }}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent dropdown toggle
+              handleDeleteExpensesCategory(category.category_Id);
+            }}
+          />
+          <i
+            className={`bi ${
+              expandedCategoryId === category.category_Id ? 'bi-chevron-up' : 'bi-chevron-down'
+            }`}
+            style={{ cursor: "pointer" }}
+          ></i>
+        </span>
+          </button>
+
+          {expandedCategoryId === category.category_Id && (
+            <>
+              <hr />
               <ul
                 className="list-group mt-2"
                 style={{
-                  backgroundColor: "#f8f9fa",
                   padding: "10px",
                   borderRadius: "10px",
+                  width: "100%",
                 }}
               >
                 {category.subcategory && category.subcategory.length > 0 ? (
-                  category.subcategory.map((sub, idx) => (
+                  category.subcategory.map((sub) => (
                     <li
-                      key={idx}
-                      className="list-group-item d-flex justify-content-between align-items-center"
+                      key={sub.subcategory_Id}
+                      className="d-flex justify-content-between align-items-center"
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: 14,
@@ -343,38 +549,49 @@ console.log("uniqueExpences",uniqueExpences);
                         color: "#222",
                       }}
                     >
-                      {sub}
-                      <span
-                        style={{
-                          cursor: "pointer",
-                          color: "red",
-                        }}
-                        onClick={() =>
-                          alert(`Delete action for Subcategory: ${sub}`)
-                        }
-                      >
-                        <img src={Closebtn} height={15} width={15} alt="delete" />
+                      {sub.subcategory}
+                      <span>
+                        <img
+                          src={Editbtn}
+                          height={15}
+                          width={15}
+                          alt="edit"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleEditCategory(sub)}
+                        />
+                        <img
+                          src={Closebtn}
+                          height={15}
+                          width={15}
+                          alt="delete"
+                          style={{ cursor: "pointer", marginLeft: 10 }}
+                          onClick={() => handleDeleteExpensesCategory(sub)}
+                        />
                       </span>
                     </li>
                   ))
                 ) : (
                   <li
-                    className="list-group-item"
+                    className="text-muted"
                     style={{
                       fontFamily: "Gilroy",
                       fontSize: 14,
                       fontWeight: 500,
-                      color: "#555",
                     }}
                   >
                     No Subcategories Available
                   </li>
                 )}
               </ul>
-            )}
-          </div>
-        ))}
-      </div>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+
+
+
+
 
 
       {showform && (
@@ -414,7 +631,9 @@ console.log("uniqueExpences",uniqueExpences);
                       }}
                     >
                       {/* {edit ? "Edit Invoice" : "Add Invoice "} */}
-                      Add Category
+                      
+                      {edit ? "Edit Category" : "Add Category"}
+
 
                     </div>
                     <button
@@ -576,9 +795,11 @@ console.log("uniqueExpences",uniqueExpences);
                     fontStyle: "normal",
                     lineHeight: "normal",
                   }}
-                onClick={addType}
+
+            onClick={edit ? updateType : addType}
                 >
-                  Add Category
+                   {edit ? "Update Category" : "Add Category"}
+                  {/* Add Category */}
                   {/* {edit ? "Save invoice" : "Add invice"} */}
                 </Button>
               </Modal.Footer>
@@ -619,7 +840,7 @@ console.log("uniqueExpences",uniqueExpences);
       marginTop: '-20px'
     }}
   >
-    Are you sure you want to delete this Expences-category?
+    Are you sure you want to delete this Expences-category? 
   </Modal.Body>
   
   <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}> 

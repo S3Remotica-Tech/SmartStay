@@ -1,8 +1,10 @@
 const initialState = {
+
   Expences: [],
   message: "",
   getExpensesStatuscode: 0,
   addexpencesStatuscode: 0,
+  editexpencesStatuscode: 0,
   alreadycategoryerror: "",
   deleteexpencesStatusCode: 0,
   Complainttypelist: [],
@@ -58,13 +60,14 @@ const SettingsReducer = (state = initialState, action) => {
     case "CLEAR_GET_EXPENSES_STATUS_CODE":
       return { ...state, getExpensesStatuscode: 0 };
     case "EXPENCES_ADD":
-      return {
-        ...state,
-        message: action.payload.message,
-        addexpencesStatuscode: action.payload.statusCode,
-      };
+      return {...state,message: action.payload.message,addexpencesStatuscode: action.payload.statusCode};
     case "CLEAR_ADD_EXPENCES_STATUS_CODE":
       return { ...state, addexpencesStatuscode: 0 };
+
+    case 'EDIT-EXPENCES-CATEGORY':
+        return { ...state, message: action.payload.message  , editexpencesStatuscode : action.payload.statusCode}
+    case 'CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE':
+        return { ...state, editexpencesStatuscode: 0 }
     case "DELETE_EXPENCES":
       return { ...state, deleteexpencesStatusCode: action.payload.statusCode };
     case "CLEAR_DELETE_EXPENCES_STATUS_CODE":
@@ -281,3 +284,4 @@ case 'RECURRING_ROLE':
   return state;
 };
 export default SettingsReducer;
+
