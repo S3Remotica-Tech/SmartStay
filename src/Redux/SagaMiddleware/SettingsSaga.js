@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AddExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport} from "../Action/SettingsAction"
+import { AddExpencesCategory, EditExpencesCategory,ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport} from "../Action/SettingsAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -70,6 +70,27 @@ function* handleCategoryAdd(params) {
       
       
    }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+}
+
+
+function* handleEditCategory(params) {
+   console.log("settings saga", params.payload);
+   const response = yield call(EditExpencesCategory, params.payload);
+   
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'EDIT-EXPENCES-CATEGORY', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
+      
+      var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy", fontWeight: 600, fontSize: 14,  textAlign: "start", display: "flex",  alignItems: "center",  padding: "10px",  };
+       toast.success(response.data.message, { position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true,   pauseOnHover: true, draggable: true,  progress: undefined, style: toastStyle
+       })
+   }
+ 
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
@@ -577,6 +598,7 @@ function* SettingsSaga() {
 
    yield takeEvery('EXPENCES-CATEGORY-LIST', handleCategorylist)
    yield takeEvery('EXPENCES-CATEGORY-ADD', handleCategoryAdd)
+   yield takeEvery('EDIT_EXPENCES_CATEGORY', handleEditCategory)
    yield takeEvery('DELETE-EXPENCES-CATEGORY', handleDeleteExpencescategory)
    yield takeEvery('COMPLAINT-TYPE-LIST', handleComplainttypelist)
    yield takeEvery('COMPLAINT-TYPE-ADD', handleComplaintTypeAdd)

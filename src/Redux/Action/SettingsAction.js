@@ -9,9 +9,17 @@ export async function AddExpencesCategory(Expences) {
     })
   }
 
+  export async function EditExpencesCategory(Expences) {
+    console.log("Expences",Expences);
+    return await AxiosConfig.post('/edit/expense_category',Expences,{
+      data:Expences
+    })
+  }
 
-  export async function ExpencesCategorylist() {
-    return await AxiosConfig.post('/get/expense-category',{
+
+  export async function ExpencesCategorylist(Expences) {
+    return await AxiosConfig.post('/get/expense-category', Expences,{
+      data: Expences
     })
   }  
 
