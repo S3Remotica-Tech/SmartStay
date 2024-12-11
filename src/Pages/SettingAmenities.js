@@ -178,12 +178,7 @@ useEffect(() => {
 
 
 
-  useEffect(()=>{
-    if(state.InvoiceList?.addRecurringRole == 200){
-        dispatch({ type: 'AMENITIESLIST' ,payload:{ hostel_id : hostelid }})
-    }
-
-  },[state.InvoiceList?.addRecurringRole])
+  
 
 
 
@@ -192,7 +187,7 @@ useEffect(() => {
     
 if(state.Settings?.addRecurringRole == 200){
     setIsDisplayRecurring(false)
-    dispatch({ type: 'AMENITIESLIST' })
+    dispatch({ type: 'AMENITIESLIST' ,payload:{ hostel_id : hostelid }})
    
 setTimeout(()=>{
 dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING'})
