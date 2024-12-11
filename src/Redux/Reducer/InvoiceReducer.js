@@ -36,6 +36,10 @@ const initialState = {
     deleteUserSuccessStatusCode: 0,
     deleteAmenitiesSuccessStatusCode: 0,
     assignAmenitiesSuccessStatusCode: 0,
+    getAssignAmenitiesSuccessStatusCode:0,
+    GetAssignAmenitiesList:[],
+    GetUnAssignAmenitiesList:[],
+    UnAssignAmenitiesSuccessStatusCode:0,
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -60,6 +64,24 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE':
             return { ...state, assignAmenitiesSuccessStatusCode: 0 }
+
+            
+
+            case 'UN_ASSIGN_AMENITIES':
+                return { ...state, UnAssignAmenitiesSuccessStatusCode: action.payload.statusCode }
+    
+            case 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE':
+                return { ...state, UnAssignAmenitiesSuccessStatusCode: 0 }
+
+
+
+
+
+            case 'GET_ASSIGN_AMENITIES':
+                return { ...state,GetAssignAmenitiesList:action.payload.Assigned,GetUnAssignAmenitiesList:action.payload.unAssigned,  getAssignAmenitiesSuccessStatusCode: action.payload.statusCode }
+    
+            case 'REMOVE_GET_ASSIGN_AMENITIES_STATUS_CODE':
+                return { ...state, getAssignAmenitiesSuccessStatusCode: 0 }
 
         case 'INVOICE_LIST':
             return { ...state, Invoice: action.payload.response, InvoiceListStatusCode: action.payload.statusCode }

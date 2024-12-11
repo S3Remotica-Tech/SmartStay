@@ -78,8 +78,9 @@ export async function UpdateInvoice(datum) {
 
 
 
-  export async function GetAmenities() {
-    return await AxiosConfig.get('/list/amenities-list',{
+  export async function GetAmenities(datum) {
+    return await AxiosConfig.post('/list/amenities-list',datum, {
+      data:datum
     })
   }
 
@@ -159,6 +160,18 @@ export async function DeleteAmenities(datum) {
 // assign amenities
 export async function AssignAmenities(datum) {
   return await AxiosConfig.post('/',datum,{
+    data:datum
+  })
+}
+
+export async function UnAssignAmenities(datum) {
+  return await AxiosConfig.post('/',datum,{
+    data:datum
+  })
+}
+
+export async function GetAssignAmenities(datum) {
+  return await AxiosConfig.post('/settings/all_customer_list',datum,{
     data:datum
   })
 }

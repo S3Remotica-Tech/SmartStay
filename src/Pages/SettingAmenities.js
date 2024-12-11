@@ -35,6 +35,7 @@ const [active, setActive] = useState(false)
     const [switchStates, setSwitchStates] = useState({});
     const [deleteAmenities, setDeleteAmenities] = useState(false)
     const [deleteID, setDeleteID]  = useState('')
+    const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
 
 // function declare///////////////////////////////////////////////////////////
 
@@ -84,8 +85,9 @@ const handleToggle = (amenity) => {
     }
 
 
-    const handleDisplayAssignAmenities = () =>{
+    const handleDisplayAssignAmenities = (amenity) =>{
         setIsDisplayAssignAmenities(true)
+        setAssignAmenitiesDetails(amenity)
     }
     const handleDisplayAssignAmenitiesClose = () =>{
         setIsDisplayAssignAmenities(false)
@@ -162,7 +164,7 @@ useEffect(() => {
     if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode == 200) {
 
         setOpenAmenitiesForm(false)
-      dispatch({ type: 'AMENITIESLIST' })
+        dispatch({ type: 'AMENITIESLIST' ,payload:{ hostel_id : hostelid }})
       setTimeout(() => {
         dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
       }, 1000)
@@ -178,7 +180,7 @@ useEffect(() => {
 
   useEffect(()=>{
     if(state.InvoiceList?.addRecurringRole == 200){
-        dispatch({ type: 'AMENITIESLIST' })
+        dispatch({ type: 'AMENITIESLIST' ,payload:{ hostel_id : hostelid }})
     }
 
   },[state.InvoiceList?.addRecurringRole])
@@ -202,7 +204,7 @@ dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING'})
 useEffect(()=>{
     if(state.InvoiceList?.deleteAmenitiesSuccessStatusCode == 200){
 
-        dispatch({ type: 'AMENITIESLIST' })
+        dispatch({ type: 'AMENITIESLIST' ,payload:{ hostel_id : hostelid }})
 
  setDeleteAmenities(false)
 
@@ -245,7 +247,7 @@ onClick={handleOpenAmenities}
                         amenitiesList.length > 0 && amenitiesList.map((amenity, index)=>(
 
                        
-                    <div className='col-lg-10 col-md-10 col-xs-12 col-sm-12 col-12 p-0' >
+                    <div className='col-lg-8 col-md-8 col-xs-12 col-sm-12 col-12 p-0' >
                         <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
                             <Card.Body>
                                 <div className='d-flex justify-content-between align-items-center'>
@@ -264,7 +266,7 @@ onClick={handleOpenAmenities}
                                                 <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 0, top: 50, width:170, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                                     <div >
                                                     <div
-                                                    onClick={handleDisplayAssignAmenities}
+                                                    onClick={()=>handleDisplayAssignAmenities(amenity)}
                                                             className="d-flex gap-2 mb-2 align-items-center">
                                                             <div>
                                                             <ProfileAdd size="16" color="#1E45E1" />
@@ -407,7 +409,7 @@ onClick={handleOpenAmenities}
     isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={hostelid} amenityDetails={amenityDetails} />
 }
 {
-    IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid}/> 
+    IsDisplayAssignAmenities && <AssignAmenities  show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid}  assignAmenitiesDetails={assignAmenitiesDetails}              /> 
 }
 
 
