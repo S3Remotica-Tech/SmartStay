@@ -357,8 +357,7 @@ cursor:"pointer"
   className={"mb-2"}
   onClick={handleAssignComplaintClick}
   style={{
-    // backgroundColor: props.complianceEditPermission ? "#f9f9f9" : "#fff",
-    cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+   cursor:"pointer"
   }}
 >
   <img
@@ -366,7 +365,7 @@ cursor:"pointer"
     style={{
       height: 16,
       width: 16,
-      filter: props.complianceEditPermission ? "grayscale(100%)" : "none",
+
     }}
     alt="Edit"
   />
@@ -375,8 +374,7 @@ cursor:"pointer"
       fontSize: 14,
       fontWeight: 600,
       fontFamily: "Gilroy, sans-serif",
-      color: props.complianceEditPermission ? "#ccc" : "#222222",
-      cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+cursor:"pointer",
       paddingLeft:5
     }}
   >
