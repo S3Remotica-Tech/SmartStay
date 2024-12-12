@@ -102,7 +102,12 @@ function UserList(props) {
   const [customerReassign,setCustomerReAssign]=useState(false);
   const [customerCheckoutpage,setCustomerCheckoutpage]=useState(false)
   const [reAssignDetail,setReasignDetail]=useState("")
-
+  const [uniqueostel_Id,setUniqostel_Id]=useState('')
+  console.log("uniqueostel_Id",props.allPageHostel_Id)
+  useEffect(() => {
+    console.log("uniqueHostelId:", props.allPageHostel_Id);
+    setUniqostel_Id(props.allPageHostel_Id);
+  }, [props.allPageHostel_Id]);
 
   const handleCustomerReAssign=(reuser)=>{
     console.log("reuser",reuser)
@@ -1276,14 +1281,20 @@ function UserList(props) {
         show={showbookingForm}
         handleClose={closeModal}
         setShowbookingForm={setShowbookingForm}
+        uniqueostel_Id={uniqueostel_Id}
+        setUniqostel_Id={setUniqostel_Id}
       />
 
-      <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} />
+      <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal}    uniqueostel_Id={uniqueostel_Id}
+                 setUniqostel_Id={setUniqostel_Id}/>
 
       <UserlistWalkinForm
         show={walkInForm}
         handleClose={walkinFormcloseModal}
         customerrolePermission={customerrolePermission}
+
+        uniqueostel_Id={uniqueostel_Id}
+        setUniqostel_Id={setUniqostel_Id}
       />
 
       {userList && (
@@ -2612,6 +2623,8 @@ function UserList(props) {
                   toggleForm={toggleForm}
                   customerBookingAddPermission={customerBookingAddPermission}
                   customerrolePermission={customerrolePermission}
+                  uniqueostel_Id={uniqueostel_Id}
+                 setUniqostel_Id={setUniqostel_Id}
                 />
               </TabPanel>
               <TabPanel value="3">
@@ -2619,6 +2632,8 @@ function UserList(props) {
                   id={props.id}
                   customerrolePermission={customerrolePermission}
                   customerCheckoutPermission={customerCheckoutPermission}
+                  uniqueostel_Id={uniqueostel_Id}
+                  setUniqostel_Id={setUniqostel_Id}
                 />
               </TabPanel>
               <TabPanel value="4">
@@ -2626,6 +2641,8 @@ function UserList(props) {
                   id={props.id}
                   customerrolePermission={customerrolePermission}
                   customerWalkInAddPermission={customerWalkInAddPermission}
+                  uniqueostel_Id={uniqueostel_Id}
+                  setUniqostel_Id={setUniqostel_Id}
                 />
               </TabPanel>
             </TabContext>
@@ -2768,6 +2785,8 @@ function UserList(props) {
           amnitiescurrentPage={amnitiescurrentPage}
           handleAdhaarChange={handleAdhaarChange}
           customerEditPermission={customerEditPermission}
+          uniqueostel_Id={uniqueostel_Id}
+          setUniqostel_Id={setUniqostel_Id}
         />
       ) : null}
 
@@ -2796,6 +2815,8 @@ function UserList(props) {
           userList={userList}
           setUserList={setUserList}
           OnShowTable={OnShowTableForCustomer}
+          uniqueostel_Id={uniqueostel_Id}
+          setUniqostel_Id={setUniqostel_Id}
         />
       ) : null}
 

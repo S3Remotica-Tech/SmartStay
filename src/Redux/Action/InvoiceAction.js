@@ -78,8 +78,9 @@ export async function UpdateInvoice(datum) {
 
 
 
-  export async function GetAmenities() {
-    return await AxiosConfig.get('/list/amenities-list',{
+  export async function GetAmenities(datum) {
+    return await AxiosConfig.post('/list/amenities-list',datum, {
+      data:datum
     })
   }
 
@@ -110,8 +111,8 @@ export async function InvoiceSettings(params) {
   formData.append("hostel_Id", params.hostel_Id);
   if (params.prefix) formData.append("prefix", params.prefix);
   if (params.suffix) formData.append("suffix", params.suffix);
-  if (params.invoicedate) formData.append("invoicedate", params.invoicedate);
-  if (params.Invoice_duedate) formData.append("Invoice_duedate", params.Invoice_duedate);
+  if (params.inv_date) formData.append("inv_date", params.inv_date);
+  if (params.due_date) formData.append("due_date", params.due_date);
 
   try {
     const response = await AxiosConfig.post('/invoice/settings',formData, {
@@ -144,6 +145,34 @@ export async function InvoiceRecurringsettings(datum) {
 }
 
 
+export async function DeleteUser(datum) {
+  return await AxiosConfig.post('/staffs/delete_staff',datum,{
+    data:datum
+  })
+}
 
+export async function DeleteAmenities(datum) {
+  return await AxiosConfig.post('/amenities/delete',datum,{
+    data:datum
+  })
+}
 
+// assign amenities
+export async function AssignAmenities(datum) {
+  return await AxiosConfig.post('/settings/assign_amenity',datum,{
+    data:datum
+  })
+}
+
+export async function UnAssignAmenities(datum) {
+  return await AxiosConfig.post('/settings/remove_assigned_amenitie',datum,{
+    data:datum
+  })
+}
+
+export async function GetAssignAmenities(datum) {
+  return await AxiosConfig.post('/settings/all_customer_list',datum,{
+    data:datum
+  })
+}
 

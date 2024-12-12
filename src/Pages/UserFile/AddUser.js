@@ -12,11 +12,11 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } f
 import Form from 'react-bootstrap/Form';
 import eye from '../../Assets/Images/login-password.png'
 import eyeClosed from '../../Assets/Images/pngaaa.com-6514750.png';
-import { use } from 'react';
 
 
 
-function User({ show, handleClose, editDetails }) {
+
+function User({ show, handleClose, editDetails ,hostelid}) {
 
 
   const state = useSelector(state => state)
@@ -47,11 +47,12 @@ function User({ show, handleClose, editDetails }) {
  // ////////// UseEffect
 
 
- useEffect(() => {
-  dispatch({ type: 'SETTING_ROLE_LIST' })
+ 
+
+useEffect(() => {
+  dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: hostelid } })
   dispatch({ type: "COUNTRYLIST" });
 }, [])
-
 
 useEffect(() => {
   if (editDetails) {
@@ -157,6 +158,8 @@ useEffect(() => {
     setPasswordError("")
     setError('')
   }
+
+
 
 
   console.log("country code", countryCode)
@@ -470,7 +473,7 @@ if (editDetails && !hasChanges) {
                     onChange={handleRoleChange}
                   >
                     <option value="">Select a Role</option>
-                    {state.Settings?.getsettingRoleList?.response?.roles?.map((u) => (
+                    {state.Settings?.getsettingRoleList?.map((u) => (
                       <option key={u.id} value={u.id}>
                         {u.role_name}
                       </option>
