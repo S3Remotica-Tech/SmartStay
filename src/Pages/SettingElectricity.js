@@ -16,7 +16,7 @@ const SettingElectricity = ({ hostelid }) => {
   const [showFormElectricity, setShowFormElectricity] = useState(false);
   const [unit, setUnit] = useState('');
   const [amount, setAmount] = useState('');
-  const [tableShow, setTableShow] = useState(true);
+  const [tableShow, setTableShow] = useState(false);
 
   useEffect(() => {
     if (hostelid) {
