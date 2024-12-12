@@ -47,12 +47,13 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
 
 
 const handleAssignUser = () =>{
-// dispatch({ type: ''})
+dispatch({ type: 'ASSIGNAMENITIES', payload:{hostel_id: hostelid, am_id: assignAmenitiesDetails.id,user_ids: assignedCheckedUsers }})
 }
 
 
 const handleUnAssignUser = () =>{
-  // dispatch({ type: ''})
+  dispatch({ type: 'UNASSIGNAMENITIES', payload:{hostel_id: hostelid, am_id: assignAmenitiesDetails.id,user_ids: unAssignedCheckedUsers }})
+
 }
 
   useEffect(() => {
@@ -82,7 +83,8 @@ const handleUnAssignUser = () =>{
 
 
 useEffect(()=>{
-  if(state.InvoiceList.assignAmenitiesSuccessStatusCode == 200  || state.InvoiceList.UnAssignAmenitiesSuccessStatusCode == 200){
+  
+  if(state.InvoiceList.assignAmenitiesSuccessStatusCode){
     dispatch({
       type: 'GETASSIGNAMENITIES', payload: {
         hostel_id: hostelid,
@@ -90,8 +92,25 @@ useEffect(()=>{
       }
     })
   }
+  setAssignedCheckedUsers([])
 
-},[state.InvoiceList.assignAmenitiesSuccessStatusCode, state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
+},[state.InvoiceList?.assignAmenitiesSuccessStatusCode])
+
+
+useEffect(()=>{
+  
+  if(state.InvoiceList.UnAssignAmenitiesSuccessStatusCode == 200){
+    dispatch({
+      type: 'GETASSIGNAMENITIES', payload: {
+        hostel_id: hostelid,
+        am_id: assignAmenitiesDetails.id,
+      }
+    })
+  }
+  setUnassignedCheckedUsers([])
+  
+},[state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
+
 
 
   console.log("unAssignedCheckedUsers", unAssignedCheckedUsers)
@@ -136,8 +155,8 @@ useEffect(()=>{
                             <div>
                               <Form.Check aria-label="option 1" style={{ cursor: "pointer" , boxShadow:"none"}}
 
-                                checked={unAssignedCheckedUsers.includes(list.user_id)}
-                                onChange={() => handleUnassignedCheckboxChange(list.user_id)}
+                                checked={assignedCheckedUsers.includes(list.user_id)}
+                                onChange={() => handleAssignedCheckboxChange(list.user_id)}
 
                               />
                             </div>
@@ -156,10 +175,10 @@ useEffect(()=>{
               <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center" style={{ position: 'relative' }}>
                 <div className="d-flex flex-column align-items-center justify-content-center" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                   <div>
-                    <Image src={Forward} onClick={handleAssignUser} />
+                    <Image src={Forward} onClick={handleAssignUser} style={{cursor: "pointer"}}/>
                   </div>
                   <div>
-                    <Image src={BackWard} onClick={handleUnAssignUser}/>
+                    <Image src={BackWard} onClick={handleUnAssignUser} style={{cursor: "pointer"}}/>
                   </div>
                 </div>
               </div>
@@ -168,7 +187,7 @@ useEffect(()=>{
               <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                 <Card style={{ border: "1px solid #DCDCDC", borderRadius: 8, cursor: "pointer" }} className='h-100 ' >
                   <Card.Header style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Assigned</Card.Header>
-                  <Card.Body style={{ maxHeight: 300, overflowY: "auto" }}>
+                  <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 p-2">
                     {AssignedList.length > 0 && AssignedList.map((list) => {
                       return (
                         <div>
@@ -179,10 +198,14 @@ useEffect(()=>{
                             </div>
 
                             <div>
-                              <Form.Check aria-label="option 1" style={{ cursor: "pointer" , boxShadow:"none"}}
+                              <Form.Check aria-label="option 1" 
+                              style={{
+                                cursor: "pointer",
+                                boxShadow: "none",
+                                                             }}
 
-                                checked={assignedCheckedUsers.includes(list.user_id)}
-                                onChange={() => handleAssignedCheckboxChange(list.user_id)}
+                                checked={unAssignedCheckedUsers.includes(list.user_id)}
+                                onChange={() => handleUnassignedCheckboxChange(list.user_id)}
 
                               />
                             </div>

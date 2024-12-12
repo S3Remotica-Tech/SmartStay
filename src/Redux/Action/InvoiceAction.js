@@ -159,13 +159,13 @@ export async function DeleteAmenities(datum) {
 
 // assign amenities
 export async function AssignAmenities(datum) {
-  return await AxiosConfig.post('/',datum,{
+  return await AxiosConfig.post('/settings/assign_amenity',datum,{
     data:datum
   })
 }
 
 export async function UnAssignAmenities(datum) {
-  return await AxiosConfig.post('/',datum,{
+  return await AxiosConfig.post('/settings/remove_assigned_amenitie',datum,{
     data:datum
   })
 }
