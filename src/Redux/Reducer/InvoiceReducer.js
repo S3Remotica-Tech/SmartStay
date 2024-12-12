@@ -32,6 +32,7 @@ const initialState = {
     RecurringBills : [],
     RecurringbillsgetStatuscode : 0,
     deleterecurringbillsStatuscode:0,
+    settingsaddRecurringStatusCode:0
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -106,6 +107,11 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, deleterecurringbillsStatuscode: action.payload.statusCode }
         case 'CLEAR_DELETE_RECURRINGBILLS_STATUS_CODE':
             return { ...state, deleterecurringbillsStatuscode: 0 }
+
+        case 'SETTINGS_ADD_RECURRING':
+                return { ...state,  settingsaddRecurringStatusCode:action.payload.statusCode} 
+        case 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING':
+                return { ...state, settingsaddRecurringStatusCode: 0 } 
         }
     
     return state;

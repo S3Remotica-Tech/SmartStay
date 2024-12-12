@@ -101,25 +101,7 @@ console.log("uniqueExpences",uniqueExpences);
 
     const [namefilter, setNamefilter] = useState()
 
-    //    useEffect(() => {
-    //     console.log("useEffect triggered");
-    //     console.log("state.Settings.Expences.data", state.Settings.Expences.data);
-    //     console.log("typeid", typeidname);
-
-    //     // if (state.Settings.Expences.data && type !== undefined) {
-    //     //     // Filter the data based on the typeidname
-    //     //     console.log("type",type);
-    //     //     const Typeidnamefilter = state.Settings.Expences.data.filter((typename) => {
-    //     //         console.log("all", typename.id);
-    //     //         return typename.id === type;
-    //     //     });
-    //     //     // Set the filtered data to the state
-    //     //     setNamefilter(Typeidnamefilter);
-    //     //     // Log the filtered data for debugging
-    //     //     console.log("Typeidnamefilter", Typeidnamefilter);
-    //     // }
-    // }, [state.Settings.Expences.data, type]); 
-
+   
 
     const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
     const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
@@ -127,8 +109,8 @@ console.log("uniqueExpences",uniqueExpences);
 
 
 
-    const [showModal, setShowModal] = useState(false);  // Modal visibility state
-    const [deleteItem, setDeleteItem] = useState(null);  // Store item to delete
+    const [showModal, setShowModal] = useState(false);  
+    const [deleteItem, setDeleteItem] = useState(null);  
 
     const handleDeleteExpensesCategory = (item) => {
         setDeleteItem(item);  // Set item to delete
@@ -187,15 +169,9 @@ console.log("uniqueExpences",uniqueExpences);
                 }
              else {
 
-                // if( !type ){
-                //     setCategoryErrmsg("Please Enter a Category")   
-                //    return;
-                // }
-
-                // else{
+              
                     dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { category_Name: type, sub_Category: '' } });
-                    setType('');
-                // }              
+                    setType('');            
             }
         } 
     
@@ -243,54 +219,7 @@ console.log("uniqueExpences",uniqueExpences);
     }, [state.Settings.addexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
 
 
-    // const handleDeleteExpensesCategory = (item) => {
-    //     console.log("deleteitem", item)
-    //     if (item && item.category_Id && item.subcategory_Id) {
-    //         Swal.fire({
-    //             icon: 'warning',
-    //             title: 'Do you want to delete the Expenses sub Category ?',
-    //             confirmButtonText: 'Yes',
-    //             cancelButtonText: 'No',
-    //             showCancelButton: true,
-    //         }).then((result) => {
-    //             if (result.isConfirmed) {
-    //                 dispatch({
-    //                     type: 'DELETE-EXPENCES-CATEGORY',
-    //                     payload: {
-    //                         id: item.category_Id,
-    //                         sub_Category_Id: item.subcategory_Id
-    //                     },
-    //                 });
-    //                 console.log("deleteexecuted");
-                 
-    //             }
-    //         });
-
-    //     }
-
-    //     else {
-    //         Swal.fire({
-    //             icon: 'warning',
-    //             title: 'Do you want to delete the Expenses Category ?',
-    //             confirmButtonText: 'Yes',
-    //             cancelButtonText: 'No',
-    //             showCancelButton: true,
-    //         }).then((result) => {
-    //             if (result.isConfirmed) {
-    //                 dispatch({
-    //                     type: 'DELETE-EXPENCES-CATEGORY',
-    //                     payload: {
-    //                         id: item,
-    //                     },
-    //                 });
-    //                 console.log("deleteexecuted");
-                 
-    //             }
-    //         });
-    //     }
-
-
-    // }
+  
 
 
     const handleCategoryid = (e) => {
