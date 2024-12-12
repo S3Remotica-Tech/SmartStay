@@ -314,7 +314,7 @@ function* handleEBBillingUnitGet(action) {
    const response = yield call(GetEBBillingUnit, action.payload);
 
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'EB_BILLING_UNIT_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode  } })
+      yield put({ type: 'EB_BILLING_UNIT_LIST', payload: { response: response.data.eb_settings, statusCode: response.status || response.statusCode  } })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
