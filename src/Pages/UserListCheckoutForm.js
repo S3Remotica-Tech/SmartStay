@@ -106,9 +106,12 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
   const [isChangedError, setIsChangedError] = useState('')
 
   const handleCheckOutCustomer = () => {
+
     const formattedDate = moment(checkOutDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    const formattedrequestDate = moment(checkOutrequestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
     console.log("formattedDate", formattedDate, "checkOutDate", checkOutDate);
-    if (!selectedCustomer && !selectedHostel && !checkOutDate) {
+
+    if (!selectedCustomer && !selectedHostel && !checkOutDate && !checkOutrequestDate) {
       setGeneralError('Please select all mandatory fields');
       return;
     }
@@ -123,12 +126,12 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
     }
 
     if (!checkOutDate) {
-      setCheckOutDateError('Please enter a checkout date.');
+      setCheckOutDateError('Please select a checkout date.');
       // return;
     }
 
     if (!checkOutrequestDate) {
-      setCheckOutRequestDateError('Please enter a request date.');
+      setCheckOutRequestDateError('Please select a request date.');
       // return;
     }
 
@@ -149,14 +152,15 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
       setIsChangedError('No Changes detected');
       return;
     }
-    if (selectedCustomer && selectedHostel && checkOutDate) {
+    if (selectedCustomer && selectedHostel && checkOutDate && checkOutrequestDate) {
       dispatch({
         type: 'ADDCHECKOUTCUSTOMER', payload: {
           checkout_date: formattedDate,
           user_id: selectedCustomer,
           hostel_id: selectedHostel,
           comments: comments,
-          action: currentItem ? 2 : 1
+          action: currentItem ? 2 : 1,
+          req_date:formattedrequestDate
         }
       })
     }
@@ -164,6 +168,8 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
   }
   useEffect(() => {
     if (currentItem) {
+      console.log("current_item",currentItem);
+      
 
       setCheckOutDate(currentItem.CheckoutDate ? new Date(currentItem.CheckoutDate) : null);
       setCheckOutRequestDate(currentItem.checkOutrequestDate ? new Date(currentItem.checkOutrequestDate) : null)
@@ -179,6 +185,8 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
       setCheckOutRequestDate('')
       setSelectedHostel('');
       setSelectedCustomer('');
+      setCurrentBed('')
+      setCurrentFloor('')
       setNoticeDays('');
       setComments('');
       dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
@@ -353,6 +361,7 @@ if(checkOutDate){
                 onChange={handleCustomerChange}
                 options={formatOptions()}
                 placeholder="Select a customer"
+                isDisabled={checkouteditaction}
               />
 
               {customerWError && (
