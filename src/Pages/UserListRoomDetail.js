@@ -461,28 +461,35 @@ function UserListRoomDetail(props) {
     "state.UsersList?.bednumberdetails?.bed_details",
     state.UsersList?.bednumberdetails?.bed_details
   );
-
-  const handleHostelId = (e) => {
-    const selectedHostelId = e.target.value;
-    // handleInputChange()
-    const selectedHostel =
-      state.UsersList.hostelList &&
-      state.UsersList.hostelList.filter((item) => item.id == e.target.value);
-    setHostel_Id(selectedHostelId);
+  useEffect(()=>{
+    const selectedHostel=  state.UsersList.hostelList &&
+    state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    if (selectedHostelId === "Select a PG") {
-      setHostelIdError("Please select a valid PG");
-    } else {
-      setHostelIdError("");
-    }
-    setFloor("");
-    setRooms("");
-    setBed("");
-    setHostelIdError("");
-    setFormError("");
-    setRoomId("");
-    setBedId("");
-  };
+    setHostel_Id(props.uniqueostel_Id);
+  },[])
+  console.log("selectedHostel",hostel_Id)
+
+  // const handleHostelId = (e) => {
+  //   const selectedHostelId = e.target.value;
+  //   // handleInputChange()
+  //   const selectedHostel =
+  //     state.UsersList.hostelList &&
+  //     state.UsersList.hostelList.filter((item) => item.id == e.target.value);
+  //   setHostel_Id(selectedHostelId);
+  //   setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
+  //   if (selectedHostelId === "Select a PG") {
+  //     setHostelIdError("Please select a valid PG");
+  //   } else {
+  //     setHostelIdError("");
+  //   }
+  //   setFloor("");
+  //   setRooms("");
+  //   setBed("");
+  //   setHostelIdError("");
+  //   setFormError("");
+  //   setRoomId("");
+  //   setBedId("");
+  // };
   const handleFloor = (e) => {
     setFloor(e.target.value);
 
@@ -2413,7 +2420,7 @@ const handleFileChange = (e, type) => {
                                     )}
                                   </div>
 
-                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Label
                                       style={{
                                         fontSize: 14,
@@ -2465,7 +2472,7 @@ const handleFileChange = (e, type) => {
                                         {hostelIdError}
                                       </div>
                                     )}
-                                  </div>
+                                  </div> */}
                                 </div>
                                 {formError && (
                                   <div style={{ color: "red" }}>
