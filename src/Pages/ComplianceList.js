@@ -136,6 +136,21 @@ function getFloorAbbreviation(floor_Id) {
       const handleIconClick = () => {
         setShowCard(!showCard); 
       };
+
+      //change status
+      const [showChangeStatus, setShowChangeStatus] = useState(false);
+
+      const handleChangeStatusClick = () => {
+        setShowChangeStatus(!showChangeStatus); 
+      };
+
+      //assign complaint
+      const [showAssignComplaint, setShowAssignComplaint] = useState(false);
+
+      const handleAssignComplaintClick = () => {
+        setShowAssignComplaint(!showAssignComplaint); 
+      };
+      
     return (
         <Card className="h-100 fade-in" style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
             <Card.Body style={{ padding: 20 }}>
@@ -169,14 +184,9 @@ function getFloorAbbreviation(floor_Id) {
 {/* Change status */}
 <div
   className={"mb-2"}
-  onClick={() => {
-    if (!props.complianceEditPermission) {
-      handleEdit(props.complaints);
-    }
-  }}
+  onClick={handleChangeStatusClick}
   style={{
-    // backgroundColor: props.complianceEditPermission ? "#f9f9f9" : "#fff",
-    cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+cursor:"pointer"
   }}
 >
   <img
@@ -184,7 +194,7 @@ function getFloorAbbreviation(floor_Id) {
     style={{
       height: 16,
       width: 16,
-      filter: props.complianceEditPermission ? "grayscale(100%)" : "none",
+
     }}
     alt="Edit"
   />
@@ -193,24 +203,159 @@ function getFloorAbbreviation(floor_Id) {
       fontSize: 14,
       fontWeight: 600,
       fontFamily: "Gilroy, sans-serif",
-      color: props.complianceEditPermission ? "#ccc" : "#222222",
-      cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+    
+      cursor:"pointer",
       paddingLeft:5
     }}
   >
     Change Status
   </label>
+
+
+
+  {showChangeStatus && (
+  <div
+    style={{
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      border: "1px solid #DCDCDC",
+      borderRadius: 24,
+      padding: "16px",
+      backgroundColor: "#FFF",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      zIndex: 1000,
+      width: 472,
+      height: 278,
+    }}
+    onClick={(e) => e.stopPropagation()} // Prevent click event from propagating to overlay
+  >
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <p
+        style={{
+          fontWeight: 600,
+          fontSize: 18,
+          fontFamily: "Gilroy, sans-serif",
+          margin: 0,
+        }}
+      >
+        Change Status
+      </p>
+      <img
+        src={closeicon}
+        alt="Close"
+        style={{ cursor: "pointer", width: 20, height: 20 }}
+        onClick={handleChangeStatusClick}
+      />
+    </div>
+
+    <div
+      style={{
+        border: "1px solid #E7E7E7",
+        marginTop: 15,
+        width: "100%",
+      }}
+    ></div>
+
+    <div
+      style={{
+        marginTop: 15,
+        position: "relative",
+        display: "inline-block",
+        width: "100%",
+      }}
+    >
+      <label
+        style={{
+          marginTop: 15,
+          fontWeight: 500,
+          fontSize: 14,
+          fontFamily: "Gilroy, sans-serif",
+        }}
+      >
+        Change Status
+      </label>
+
+      {/* Dropdown */}
+      <select
+        style={{
+          marginTop: 15,
+          border: "1px solid #E7E7E7",
+          paddingTop: 6,
+          paddingBottom: 6,
+          paddingLeft: 16,
+          width: "100%",
+          height: "52px",
+          borderRadius: "12px",
+          fontWeight: 500,
+          fontSize: 14,
+          fontFamily: "Gilroy, sans-serif",
+        }}
+      >
+        <option value="" disabled selected>
+          Select a status
+        </option>
+        <option value="open">Open</option>
+        <option value="in-progress">In Progress</option>
+        <option value="resolved">Resolved</option>
+      </select>
+
+      {/* Button */}
+      <button
+        style={{
+          marginTop: 15,
+          width: "100%",
+          height: "59px",
+          borderRadius: "12px",
+          backgroundColor: "#1E45E1",
+          color: "white",
+          border: "none",
+          fontSize: "16px",
+          fontWeight: "400px",
+          paddingTop: "20px",
+          paddingBottom: "20px",
+          paddingLeft: "40px",
+          paddingRight: "40px",
+          cursor: "pointer",
+        }}
+      >
+        Change Status
+      </button>
+    </div>
+  </div>
+)}
+
+{/* Background overlay */}
+{showChangeStatus && (
+  <div
+    onClick={handleChangeStatusClick}
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      zIndex: 999,
+    }}
+  />
+)}
+
+
 </div>
 
 
 {/* Assign Complaint */}
 <div
   className={"mb-2"}
-  onClick={() => {
-    if (!props.complianceEditPermission) {
-      handleEdit(props.complaints);
-    }
-  }}
+  onClick={handleAssignComplaintClick}
   style={{
     // backgroundColor: props.complianceEditPermission ? "#f9f9f9" : "#fff",
     cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
@@ -237,6 +382,143 @@ function getFloorAbbreviation(floor_Id) {
   >
     Assign Complaint
   </label>
+
+
+  {showAssignComplaint && (
+  <div
+    style={{
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      border: "1px solid #DCDCDC",
+      borderRadius: 24,
+      padding: "16px",
+      backgroundColor: "#FFF",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      zIndex: 1000,
+      width: 472,
+      height: 278,
+    }}
+    onClick={(e) => e.stopPropagation()} // Prevent click event from propagating to overlay
+  >
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <p
+        style={{
+          fontWeight: 600,
+          fontSize: 18,
+          fontFamily: "Gilroy, sans-serif",
+          margin: 0,
+        }}
+      >
+        Assign Complaint
+      </p>
+      <img
+        src={closeicon}
+        alt="Close"
+        style={{ cursor: "pointer", width: 20, height: 20 }}
+        onClick={handleAssignComplaintClick}
+      />
+    </div>
+
+    <div
+      style={{
+        border: "1px solid #E7E7E7",
+        marginTop: 15,
+        width: "100%",
+      }}
+    ></div>
+
+    <div
+      style={{
+        marginTop: 15,
+        position: "relative",
+        display: "inline-block",
+        width: "100%",
+      }}
+    >
+      <label
+        style={{
+          marginTop: 15,
+          fontWeight: 500,
+          fontSize: 14,
+          fontFamily: "Gilroy, sans-serif",
+        }}
+      >
+        Assign Complaint
+      </label>
+
+      {/* Dropdown */}
+      <select
+        style={{
+          marginTop: 15,
+          border: "1px solid #E7E7E7",
+          paddingTop: 6,
+          paddingBottom: 6,
+          paddingLeft: 16,
+          width: "100%",
+          height: "52px",
+          borderRadius: "12px",
+          fontWeight: 500,
+          fontSize: 14,
+          fontFamily: "Gilroy, sans-serif",
+        }}
+      >
+        <option value="" disabled selected>
+          Select a Complaint
+        </option>
+        <option value="open">Open</option>
+        <option value="in-progress">In Progress</option>
+        <option value="resolved">Resolved</option>
+      </select>
+
+      {/* Button */}
+      <button
+        style={{
+          marginTop: 15,
+          width: "100%",
+          height: "59px",
+          borderRadius: "12px",
+          backgroundColor: "#1E45E1",
+          color: "white",
+          border: "none",
+          fontSize: "16px",
+          fontWeight: "400px",
+          paddingTop: "20px",
+          paddingBottom: "20px",
+          paddingLeft: "40px",
+          paddingRight: "40px",
+          cursor: "pointer",
+        }}
+      >
+        Assign Complaint
+      </button>
+    </div>
+  </div>
+)}
+
+{/* Background overlay */}
+{showAssignComplaint && (
+  <div
+    onClick={handleAssignComplaintClick}
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      zIndex: 999,
+    }}
+  />
+)}
+
 </div>
                                     
 {/* edit */}
