@@ -87,9 +87,12 @@ export async function AddEBBillingUnit(type) {
   });
 }
 
-export async function GetEBBillingUnit() {
-  return await AxiosConfig.get("/get_ebbilling_settings", {});
-}
+  export async function GetEBBillingUnit(hostel_Id) {
+    return await AxiosConfig.post('/get_ebbilling_settings',hostel_Id,{
+      data:hostel_Id
+    })
+  }
+
 
 export async function GetAllRoles(payload) {
   console.log("getRole",payload)

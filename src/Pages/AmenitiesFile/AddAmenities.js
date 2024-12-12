@@ -213,7 +213,7 @@ const [initialState, setInitialState] = useState(null)
                                 <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                     <div className='d-flex justify-content-between align-items-center'>
                                         <div>
-                                            <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>State</label>
+                                            <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Set as Default</label>
                                         </div>
                                         <div>
                                             <Form.Check
