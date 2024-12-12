@@ -94,7 +94,8 @@ function Booking(props) {
   const [bookingPermissionError, setBookingPermissionError] = useState("");
   const [bookingEditPermissionError, setBookingEditPermissionError] = useState("");
   const [bookingDeletePermissionError, setBookingDeletePermissionError] = useState("");
-
+  console.log("userlisthostelid",props.uniqueostel_Id);
+  // const HostelID = props.allhost_id 
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
     lastName: "",
@@ -156,7 +157,9 @@ function Booking(props) {
 
 
 
+
   const handleEdit = (item) => {
+    alert ('hiii')
     dispatch({
       type: "BOOKINGBEDDETAILS",
       payload: {
@@ -166,7 +169,7 @@ function Booking(props) {
         joining_date: joiningDate,
       },
     });
-    
+    console.log("editted",setFormEdit);
     setFormEdit(true);
     if (item && item.id) {
       setFirstName(item.first_name || "");
@@ -1627,6 +1630,7 @@ try {
         handleSave={handleSave}
         setFormEdit={setFormEdit}
         formEdit = {formEdit}
+        HostelID = {props.uniqueostel_Id}
       />
 
       <AssignBooking
