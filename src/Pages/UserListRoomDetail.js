@@ -7,16 +7,8 @@ import dots from "../Assets/Images/New_images/Group 14.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import Flatpickr from "react-flatpickr";
 import verify from "../Assets/Images/verify.png";
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
-  ArrowLeft2,
-  ArrowRight2,
-  MoreCircle,
-} from "iconsax-react";
+import "./UserList.css";
+import {Autobrightness,Call,Sms,House, Buildings,ArrowLeft2,ArrowRight2,MoreCircle,} from "iconsax-react";
 import Group from "../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import Money from "../Assets/Images/New_images/Money.png";
@@ -51,6 +43,9 @@ import { style } from "@mui/system";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import editliner from "../Assets/Images/Edit-Linear-32px.png";
+import upload from "../Assets/Images/New_images/upload.png";
+import UserListKyc from "./UserListKyc";
+import UserAdditionalContact from "./UserAdditionalContact";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -104,6 +99,17 @@ function UserListRoomDetail(props) {
   const [bedError, setBedError] = useState("");
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomrentError, setRoomRentError] = useState("");
+  const [kycdetailsForm,setKycDetailForm] = useState(false)
+  const [additionalForm,setAdditionalForm] = useState(false)
+
+
+  const handleKycdetailsForm =()=>{
+    setKycDetailForm(true)
+  }
+  const handleAdditionalForm =()=>{
+    setAdditionalForm(true)
+  }
+
 
   const handleCountryCodeChange = (e) => {
     setCountryCode(e.target.value);
@@ -420,7 +426,10 @@ function UserListRoomDetail(props) {
   const handleIsActiveUser = (e) => {
     setIsActive(e.target.value);
   };
-
+  const aadharInputRef = useRef(null);
+  const otherDocInputRef = useRef(null);
+  const [aadharFile, setAadharFile] = useState(null);
+  const [otherDocFile, setOtherDocFile] = useState(null);
   const handleImageChange = async (event) => {
     // handleInputChange()
 
@@ -993,6 +1002,33 @@ setTimeout(() => {
 };
 console.log("props.roomDetail12344",props.userDetails )
 
+
+
+const handleAadharUploadClick = () => {
+  if (aadharInputRef.current) {
+    aadharInputRef.current.click();
+  }
+};
+
+// Handle Other Document upload click
+const handleOtherDocUploadClick = () => {
+  if (otherDocInputRef.current) {
+    otherDocInputRef.current.click();
+  }
+};
+
+// Handle file selection
+const handleFileChange = (e, type) => {
+  const file = e.target.files[0];
+  if (file) {
+    if (type === "aadhar") {
+      setAadharFile(file.name); // Store file name for Aadhar
+    } else if (type === "otherDoc") {
+      setOtherDocFile(file.name); // Store file name for Other Document
+    }
+  }
+};
+
   return (
     <>
       {props.roomDetail && (
@@ -1052,14 +1088,14 @@ console.log("props.roomDetail12344",props.userDetails )
                             }}
                           >
                             {item.Name}
-                            <img
+                            {/* <img
                               src={verify}
                               width={17}
                               height={17}
                               style={{ marginTop: "-3px" }}
-                            />
+                            /> */}
                           </span>
-                          <p style={{ marginTop: 10 }}>
+                          {/* <p style={{ marginTop: 10 }}>
                             <span
                               style={{
                                 backgroundColor: "#FFE0D9",
@@ -1093,6 +1129,14 @@ console.log("props.roomDetail12344",props.userDetails )
                                 ? item.Floor
                                 : "N/A"}
                             </span>
+                          </p> */}
+                          <p style={{marginTop:8}} onClick={handleKycdetailsForm}>
+                          KYC Verified<img
+                              src={verify}
+                              width={17}
+                              height={17}
+                              style={{ marginTop: "-3px" }}
+                            />
                           </p>
                         </div>
                       </div>
@@ -1206,10 +1250,12 @@ console.log("props.roomDetail12344",props.userDetails )
                     </div>
                     <TabPanel value="1" className="px-0">
                       <>
-                        <div className="mt-3 d-flex flex-column flex-md-row justify-content-end">
+<div className="roomdetailscard">
+  <div style={{flex:1}}>
+                        {/* <div className="mt-3 d-flex flex-column flex-md-row justify-content-end"> */}
                           <div
-                            className="col-md-6 mb-3 mb-md-0"
-                            style={{ marginLeft: "-23px" }}
+                            className="col-md-12 mb-3 mb-md-0"
+                           
                           >
                             <div
                               className="card"
@@ -1504,7 +1550,148 @@ console.log("props.roomDetail12344",props.userDetails )
                           </div>
 
                           <div
-  className="col-md-6 mb-3 mb-md-0"
+                          className="card col-lg-12 col-md-12  "
+                          style={{
+                            borderRadius: "20px",
+                            padding: "20px",
+                            marginTop: 30,
+                            
+                          
+                          }}
+                        >
+      {/* Header */}
+      <div
+        className="card-header d-flex justify-content-between align-items-center"
+        style={{
+          backgroundColor: "transparent",
+          display: "flex",
+          alignItems: "center",
+          borderBottom: "1px solid #e0e0e0",
+          marginBottom: "15px",
+        }}
+      >
+        <div
+          style={{
+            fontSize: 16,
+            fontWeight: 600,
+            fontFamily: "Gilroy, sans-serif",
+            lineHeight: "40px",
+          }}
+        >
+          Document details
+        </div>
+      </div>
+
+      {/* Upload Section */}
+      <div
+        className="row"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        {/* Aadhar Card */}
+        <div className="col-6 text-start">
+          <label
+            style={{
+              display: "block",
+              fontSize: 14,
+              fontWeight: 500,
+              marginBottom: "10px",
+            }}
+          >
+            Aadhar Card
+          </label>
+          <button
+            className="btn "
+            style={{
+              borderRadius: "10px",
+              padding: "10px 20px",
+              fontSize: "14px",
+              border:"1px solid #D9D9D9"
+            }}
+            onClick={handleAadharUploadClick}
+          >
+            <img src={upload} width={20} height={20} style={{marginRight:"8px"}}/>
+            Upload Document
+          </button>
+          <input
+            type="file"
+            ref={aadharInputRef}
+            style={{ display: "none" }}
+            onChange={(e) => handleFileChange(e, "aadhar")}
+          />
+          {aadharFile && (
+            <div
+              style={{
+                marginTop: "10px",
+                fontSize: "14px",
+                color: "#555",
+              }}
+            >
+             {aadharFile}
+            </div>
+          )}
+        </div>
+
+        {/* Other Document */}
+        <div className="col-6 text-start">
+          <label
+            style={{
+              display: "block",
+              fontSize: 14,
+              fontWeight: 500,
+              marginBottom: "10px",
+            }}
+          >
+            Other Document
+          </label>
+          <button
+            className="btn "
+            style={{
+              borderRadius: "10px",
+              padding: "10px 20px",
+              fontSize: "14px",
+              border:"1px solid #D9D9D9"
+            }}
+            onClick={handleOtherDocUploadClick}
+          >
+           <img src={upload} width={20} height={20} style={{marginRight:"8px"}}/>
+            Upload Document
+          </button>
+          <input
+            type="file"
+            ref={otherDocInputRef}
+            style={{ display: "none" }}
+            onChange={(e) => handleFileChange(e, "otherDoc")}
+          />
+          {otherDocFile && (
+            <div
+              style={{
+                marginTop: "10px",
+                fontSize: "14px",
+                color: "#555",
+              }}
+            >
+              Selected File: {otherDocFile}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+</div>
+
+                        {/* </div> */}
+                        <div style={{flex:1}}>
+                        <div >
+     
+
+
+
+
+
+    <div
+  className="col-md-12 col-lg-12 mb-3 mb-md-0"
   style={{ paddingLeft: 20, paddingRight: 20 }}
 >
   {state.UsersList?.customerdetails?.data?.map((g) => (
@@ -1624,177 +1811,161 @@ console.log("props.roomDetail12344",props.userDetails )
     </div>
   ))}
 </div>
+    <div
+  className=" col-md-12 col-lg-12 mb-md-0"
+  style={{ paddingLeft: 20, paddingRight: 20,marginTop:30 }}
+>
+<div
+  className="card "
+  style={{
+    borderRadius: "20px",
+    padding: "20px",
+   
+  }}
+>
+ 
+  <div
+    className="card-header d-flex justify-content-between align-items-center"
+    style={{
+      backgroundColor: "transparent",
+      borderBottom: "1px solid #e0e0e0",
+      marginBottom: "15px",
+    }}
+  >
+    <div
+      style={{
+        fontSize: 16,
+        fontWeight: 600,
+        fontFamily: "Gilroy, sans-serif",
+        lineHeight: "40px",
+      }}
+    >
+      Additional Contact
+    </div>
+    <button
+      className="btn btn-link"
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        textDecoration: "none",
+      }}
+      onClick={handleAdditionalForm}
+    >
+      + Add Contact
+    </button>
+  </div>
 
+  {/* Contact Info */}
+  <div className="card-body">
+    
+     <p>Contact Info <img src={editliner} alt="Edit Icon" width={15} height={15} /></p>
+    
+    <div className="row mb-3">
 
-                        </div>
+      
+      <div className="col-sm-4 d-flex flex-column align-items-start">
+        <p
+          style={{
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: "Gilroy, sans-serif",
+          }}
+        >
+          Contact Name
+        </p>
+        <p
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            fontFamily: "Gilroy, sans-serif",
+          }}
+        >
+          {/* {contactDetails.name || "N/A"} */}
+        </p>
+      </div>
+      <div className="col-sm-4 d-flex flex-column align-items-center">
+        <p
+          style={{
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: "Gilroy, sans-serif",
+          }}
+        >
+          Mobile no.
+        </p>
+        <p
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            fontFamily: "Gilroy, sans-serif",
+          }}
+        >
+          {/* {contactDetails.phone || "N/A"} */}
+        </p>
+      </div>
+      <div className="col-sm-4 d-flex flex-column align-items-end">
+        <p
+          style={{
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: "Gilroy, sans-serif",
+          }}
+        >
+          Guardian
+        </p>
+        <p
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            fontFamily: "Gilroy, sans-serif",
+          }}
+        >
+          {/* {contactDetails.guardian || "N/A"} */}
+        </p>
+      </div>
+    </div>
 
-                        <div
-                          className="card col-lg-6 col-md-6 mb-3 "
-                          style={{
-                            borderRadius: "20px",
-                            padding: "20px",
-                            marginTop: 30,
-                            
-                          
-                          }}
-                        >
-                          {/* <div
-                            className="card-header d-flex justify-content-between align-items-center"
-                            style={{ backgroundColor: "transparent" }}
-                          >
-                            <div
-                              style={{
-                                fontSize: 16,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              KYC details
-                            </div>
-                          </div>
-                          <div className="card-body">
-                            <div className="row">
-                              <div className="col-lg-8 col-md-8 col-sm-12">
-                                <Form.Group className="mb-3">
-                                  <Form.Label
-                                    style={{
-                                      fontSize: 14,
-                                      color: "#222222",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    Aadhaar Number
-                                  </Form.Label>
-                                  <FormControl
-                                    id="form-controls"
-                                    placeholder="987654321012"
-                                    type="text"
-                                    value={props.aadhaarNo}
-                                    maxLength={12}
-                                    onChange={props.handleAdhaarChange}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 50,
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                </Form.Group>
-                              </div>
+    <div className="row">
+      <div className="col-sm-12">
+        <p
+          style={{
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: "Gilroy, sans-serif",
+          }}
+        >
+          Address
+        </p>
+        <p
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            fontFamily: "Gilroy, sans-serif",
+          }}
+        >
+          {/* {contactDetails.address || "N/A"} */}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 
-                              {props.showOtpValidation && (
-                                <>
-                                  <div className="col-lg-3 col-md-6 col-sm-12">
-                                    <Form.Group className="mb-3">
-                                      <Form.Label
-                                        style={{
-                                          fontSize: 14,
-                                          color: "#222222",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        OTP
-                                      </Form.Label>
-                                      <FormControl
-                                        type="text"
-                                        id="form-controls"
-                                        placeholder="****"
-                                        value={props.kycOtpValue}
-                                        onChange={props.handleKycOtpChange}
-                                        style={{
-                                          fontSize: 16,
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          border: "1px solid #D9D9D9",
-                                          height: 50,
-                                          borderRadius: 8,
-                                        }}
-                                      />
-                                    </Form.Group>
-                                    <span
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Didn’t receive OTP?{" "}
-                                      <a
-                                        href="#"
-                                        style={{
-                                          textDecoration: "none",
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                        onClick={() =>
-                                          props.handleValidateAadhaar(item.id)
-                                        }
-                                      >
-                                        Resend
-                                      </a>
-                                    </span>
-                                  </div>
-                                </>
-                              )}
+</div>
+</div>
+</div>
+</div>
 
-                              {props.showValidate && (
-                                <div
-                                  className="mt-2"
-                                  style={{ marginBottom: 20 }}
-                                >
-                                  <Button
-                                    style={{
-                                      fontFamily: "Montserrat",
-                                      fontSize: 16,
-                                      backgroundColor: "#1E45E1",
-                                      color: "white",
-                                      height: 52,
-                                      letterSpacing: 1,
-                                      borderRadius: 12,
-                                      width: "fit-content",
-                                    }}
-                                    onClick={() =>
-                                      props.handleValidateAadhaar(item.id)
-                                    }
-                                  >
-                                    Validate Aadhaar
-                                  </Button>
-                                </div>
-                              )}
-
-                              {props.showOtpValidation && (
-                                <div style={{ marginBottom: 20 }}>
-                                  <Button
-                                    style={{
-                                      fontFamily: "Montserrat",
-                                      fontSize: 16,
-                                      backgroundColor: "#1E45E1",
-                                      color: "white",
-                                      height: 52,
-                                      letterSpacing: 1,
-                                      borderRadius: 12,
-                                      width: 152,
-                                    }}
-                                    onClick={() =>
-                                      props.handleVerifyOtp(item.id)
-                                    }
-                                  >
-                                    Save Changes
-                                  </Button>
-                                </div>
-                              )}
-                            </div>
-                          </div> */}
-                        </div>
+{
+  kycdetailsForm == true ? (
+<UserListKyc kycdetailsForm={kycdetailsForm} setKycDetailForm={setKycDetailForm}/>
+  ) :null
+}
+{
+  additionalForm == true ? (
+<UserAdditionalContact additionalForm={additionalForm} setAdditionalForm={setAdditionalForm}/>
+  ) :null
+}
+  
                       </>
                     </TabPanel>
 
@@ -2719,6 +2890,8 @@ console.log("props.roomDetail12344",props.userDetails )
                             )}
                           </div>
                         </Modal.Body>
+
+
 
                         <Modal.Footer style={{ border: "none" }}></Modal.Footer>
                       </Modal.Dialog>
