@@ -3,7 +3,10 @@
   border-collapse: collapse;
   margin-top: 20px;
 }
-
+.roomdetailscard{
+  display: flex;
+  flex-direction: row;
+}
 .Customer_Name_Hover:hover{
 
 text-decoration: underline;
@@ -106,8 +109,23 @@ text-decoration: underline;
  
 
  }
+ .additional{
+  margin-top:"-100px" !important;
+ }
+ .modal-dialog-bx{
+  margin-left: 500px;
+ }
  @media (max-width:800px) {
-    
+  .additional{
+    margin-top:"0px";
+   }
+   .modal-dialog-bx{
+    margin-left: 0px;
+   }
+   .roomdetailscard{
+    display: flex;
+    flex-direction: column;
+  }
   .tapppinfour{
     display: flex;
     flex-direction: column;
