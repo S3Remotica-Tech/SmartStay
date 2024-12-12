@@ -261,8 +261,21 @@ onClick={handleOpenAmenities}
                                                 <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 0, top: 50, width:170, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                                                     <div >
                                                     <div
-                                                    onClick={()=>handleDisplayAssignAmenities(amenity)}
-                                                            className="d-flex gap-2 mb-2 align-items-center">
+                                                    // onClick={()=>handleDisplayAssignAmenities(amenity)}
+                                                    onClick={() => {
+                                                        if (amenity.setAsDefault !== 1) {
+                                                            handleDisplayAssignAmenities(amenity);
+                                                        }
+                                                    }}
+                                                            className="d-flex gap-2 mb-2 align-items-center"
+                                                            
+                                                            style={{
+                                                                cursor: amenity.setAsDefault === 1 ? "not-allowed" : "pointer",
+                                                                opacity: amenity.setAsDefault === 1 ? 0.5 : 1,
+                                                            }}
+                                                            
+                                                            
+                                                            >
                                                             <div>
                                                             <ProfileAdd size="16" color="#1E45E1" />
                                                             </div>
@@ -273,7 +286,7 @@ onClick={handleOpenAmenities}
                                                                         fontWeight: 600,
                                                                         fontFamily: "Gilroy",
                                                                         color: "#222222",
-                                                                        cursor: "pointer"
+                                                                        cursor: amenity.setAsDefault === 1 ? "not-allowed" : "pointer",
                                                                     }}
                                                                 >
                                                                  Assign Amenities
