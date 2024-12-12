@@ -144,6 +144,7 @@ function CheckOut(props) {
     setcheckoutForm(true);
     setCheckOutEdit(checkout);
     setCheckoutEditAction(true)
+    setCheckoutAction(false)
   };
 
   const handleConfirmCheckout = (checkout)=> {
@@ -151,6 +152,7 @@ function CheckOut(props) {
     setcheckoutForm(true);
     setCheckOutConfirm(checkout)
     setCheckoutAction(true)
+    setCheckoutEditAction(false)
   }
 
   const handleDelete = (checkout) => {

@@ -280,7 +280,7 @@ if(checkOutDate){
     <Modal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Header className="d-flex justify-content-between align-items-center">
         <Modal.Title style={{ fontWeight: '600', fontSize: '16px', fontFamily: "Gilroy" }}>
-          {checkoutaction ? 'Confirm Check-out'  : (currentItem ? 'Edit check-out' : 'Add Check-out')}</Modal.Title>
+          {data && checkoutaction ? 'Confirm Check-out'  : (currentItem && checkouteditaction ? 'Edit check-out' : 'Add Check-out')}</Modal.Title>
         <img
           src={Closecircle}
           alt="Close"
@@ -692,11 +692,8 @@ if(checkOutDate){
           padding: '16px 24px', width: '100%', backgroundColor: "#1E45E1"
         }}
           onClick={handleCheckOutCustomer}
-        >{checkoutaction 
-          ? 'Confirm Check-out' 
-          : (checkouteditaction 
-              ? 'Save Changes' 
-              : (currentItem ? 'Save Changes' : 'Add Check-out'))}
+        >{data && checkoutaction ? 'Confirm Check-out'  :
+               (currentItem && checkouteditaction ? 'Save Changes' : 'Add Check-out')}
         </Button>
     
       </Modal.Body>
