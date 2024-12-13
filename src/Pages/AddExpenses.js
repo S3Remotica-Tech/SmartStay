@@ -488,7 +488,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
           <Modal.Body style={{ padding: 20 }}>
             <div className="row mt-1">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-2"
                   controlId="exampleForm.ControlInput1"
@@ -669,7 +669,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                                             ))
                                         }
                                     </Form.Select> */}
-                </Form.Group>
+                {/* </Form.Group>
                 {assetError && (
                   <div className="d-flex align-items-center p-1 mb-2">
                     <MdError style={{ color: "red", marginRight: "5px" }} />
@@ -686,7 +686,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                     </label>
                   </div>
                 )}
-              </div>
+              </div>  */}
               {state.ExpenseList.categoryList &&
                 state.ExpenseList.categoryList.length == 0 && (
                   <label
@@ -1015,6 +1015,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                       border: "1px solid #D9D9D9",
                       height: 50,
                       borderRadius: 8,
+                      backgroundColor:"#E7F1FF"
                     }}
                   />
                 </Form.Group>
