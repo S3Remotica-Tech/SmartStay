@@ -72,13 +72,17 @@ function EBRoomReading(props) {
   //   setFormError('')
     
   // };
-  useEffect(()=>{
-    // const selectedHostel=  state.UsersList.hostelList &&
-    // state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
-    // setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    setHostelId(props.uniqueostel_Id);
-  },[])
-  console.log("setHostelId",hostelId)
+  // useEffect(()=>{
+  //   console.log("setHostelId..?",props.uniqueostel_Id)
+  //   setHostelId(props.uniqueostel_Id);
+  // },[props.uniqueostel_Id])
+  useEffect(() => {
+    console.log("setHostelId..?", props.uniqueostel_Id);
+  
+    // Only set hostelId if it's different from the current state
+    setHostelId((prev) => (prev !== props.uniqueostel_Id ? props.uniqueostel_Id : prev));
+  }, [props.uniqueostel_Id])
+  console.log("setHostelId..?",props.uniqueostel_Id)
 
   const handleReadingChange = (e) => {
     setReading(e.target.value);

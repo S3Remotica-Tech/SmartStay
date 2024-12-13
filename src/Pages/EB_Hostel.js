@@ -248,13 +248,19 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
   //   setEbErrorunit("");
   //   dispatch({ type: "CLEAR_EB_ERROR" });
   // };
-
-  useEffect(()=>{
-    // const selectedHostel=  state.UsersList.hostelList &&
-    // state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
-    // setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    setSelectedHostel(uniqueostel_Id);
-  },[])
+  useEffect(() => {
+    console.log("setHostelId..?", uniqueostel_Id);
+  
+    // Only set hostelId if it's different from the current state
+    setSelectedHostel((prev) => (prev !== uniqueostel_Id ? uniqueostel_Id : prev));
+  }, [uniqueostel_Id])
+  console.log("setHostelId..?",uniqueostel_Id)
+  // useEffect(()=>{
+  //   // const selectedHostel=  state.UsersList.hostelList &&
+  //   // state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
+  //   // setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
+  //   setSelectedHostel(props.allPageHostel_Id);
+  // },[props.allPageHostel_Id])
   const handleFloor = (e) => {
     setFloor(e.target.value);
     const filteredRooms = state.UsersList?.hosteldetailslist.filter(
@@ -519,7 +525,7 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
     setEbErrorunit("");
     setStartmeter("");
     setEndmeter("");
-    setSelectedHostel("");
+    // setSelectedHostel("");
     setRooms("");
     setFloor("");
     setSelectedDate("");
