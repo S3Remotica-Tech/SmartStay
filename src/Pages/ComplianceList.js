@@ -14,9 +14,12 @@ import CommentIcon from '../Assets/Images/Comment-icon-complaints page.svg';
 import manimg from '../Assets/Images/Man Img.svg';
 import closeicon from '../Assets/Images/close.svg';
 import send from '../Assets/Images/send.svg';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ComplianceList = (props) => {
 
+  const state = useSelector(state => state)
+    const dispatch = useDispatch()
     
 function getFloorName(floor_Id) {
     if (floor_Id === 1) {
@@ -93,7 +96,10 @@ function getFloorAbbreviation(floor_Id) {
 
 
     const [showDots, setShowDots] = useState(false)
-
+    const [status, setStatus] = useState('')
+    const [statusError, setStatusError] =useState('')
+    const [compliant, setCompliant] = useState('')
+    const [complianceError, setComplianceError] = useState('')
     const handleShowDots = () => {
         setShowDots(!showDots)
     }
@@ -140,17 +146,55 @@ function getFloorAbbreviation(floor_Id) {
       //change status
       const [showChangeStatus, setShowChangeStatus] = useState(false);
 
-      const handleChangeStatusClick = () => {
-        setShowChangeStatus(!showChangeStatus); 
+      const handleChangeStatusClick = (complaints) => {
+        console.log("compliancesss", complaints);
+        // props.onEditComplaints(complaints)
+        // setShowChangeStatus(!showChangeStatus); 
+        if (!compliant) {
+          setComplianceError('Please Select Compliant')
+        } else {
+          dispatch({type:'COMPLIANCE-CHANGE-STATUS', payload:{type :'status_change', assigner:'', status : status, id :complaints.ID, hostel_id :''}})
+        }
       };
+      
+      const handleChangeStatusOpenClose =() =>{
+        setShowChangeStatus(!showChangeStatus); 
+      }
 
       //assign complaint
       const [showAssignComplaint, setShowAssignComplaint] = useState(false);
 
-      const handleAssignComplaintClick = () => {
-        setShowAssignComplaint(!showAssignComplaint); 
+      const handleAssignComplaintClick = (Compliance) => {
+        console.log("compliancesss", Compliance);
+        // COMPLIANCE-CHANGE-STATUS 
+        if (!status) {
+          setStatusError('Please Select status')
+        }
+        else{
+          dispatch({type:'COMPLIANCE-CHANGE-STATUS', payload:{type :'assign', assigner:'', status : status, id :Compliance.ID, hostel_id :''}})
+        }
+       
+        
       };
-      
+      const handleAssignOpenClose =() =>{
+        setShowAssignComplaint(!showAssignComplaint); 
+      }
+      const handleCompliant =(e) =>{
+        setCompliant(e.target.value)
+        if (e.target.value !== '') {
+          setComplianceError("Please Select Compliant")
+        } else {
+          setComplianceError("")
+        }
+      }
+      const handleStatus =(e) =>{
+        setStatus(e.target.value)
+        if (e.target.value !== '') {
+          setStatusError("Please Select Status")
+        } else {
+          setStatusError("")
+        }
+      }
     return (
         <Card className="h-100 fade-in" style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
             <Card.Body style={{ padding: 20 }}>
@@ -184,7 +228,7 @@ function getFloorAbbreviation(floor_Id) {
 {/* Change status */}
 <div
   className={"mb-2"}
-  onClick={handleChangeStatusClick}
+  onClick={handleChangeStatusOpenClose}
   style={{
 cursor:"pointer"
   }}
@@ -252,7 +296,7 @@ cursor:"pointer"
         src={closeicon}
         alt="Close"
         style={{ cursor: "pointer", width: 20, height: 20 }}
-        onClick={handleChangeStatusClick}
+        onClick={handleChangeStatusOpenClose}
       />
     </div>
 
@@ -298,6 +342,8 @@ cursor:"pointer"
           fontSize: 14,
           fontFamily: "Gilroy, sans-serif",
         }}
+        value={status}
+        onChange={(e)=>{handleStatus(e)}}
       >
         <option value="" disabled selected>
           Select a status
@@ -306,7 +352,7 @@ cursor:"pointer"
         <option value="in-progress">In Progress</option>
         <option value="resolved">Resolved</option>
       </select>
-
+{statusError && <span style={{color:'red'}}>{statusError}</span>}
       {/* Button */}
       <button
         style={{
@@ -325,6 +371,7 @@ cursor:"pointer"
           paddingRight: "40px",
           cursor: "pointer",
         }}
+        onClick={()=>{handleChangeStatusClick(props.complaints)}}
       >
         Change Status
       </button>
@@ -335,7 +382,7 @@ cursor:"pointer"
 {/* Background overlay */}
 {showChangeStatus && (
   <div
-    onClick={handleChangeStatusClick}
+    onClick={handleChangeStatusOpenClose}
     style={{
       position: "fixed",
       top: 0,
@@ -355,7 +402,7 @@ cursor:"pointer"
 {/* Assign Complaint */}
 <div
   className={"mb-2"}
-  onClick={handleAssignComplaintClick}
+  onClick={handleAssignOpenClose}
   style={{
    cursor:"pointer"
   }}
@@ -421,7 +468,7 @@ cursor:"pointer",
         src={closeicon}
         alt="Close"
         style={{ cursor: "pointer", width: 20, height: 20 }}
-        onClick={handleAssignComplaintClick}
+        onClick={handleAssignOpenClose}
       />
     </div>
 
@@ -467,6 +514,8 @@ cursor:"pointer",
           fontSize: 14,
           fontFamily: "Gilroy, sans-serif",
         }}
+        value={compliant}
+        onChange={(e)=>{handleCompliant(e)}}
       >
         <option value="" disabled selected>
           Select a Complaint
@@ -475,6 +524,7 @@ cursor:"pointer",
         <option value="in-progress">In Progress</option>
         <option value="resolved">Resolved</option>
       </select>
+      {complianceError && <span style={{color:'red'}}>{complianceError}</span>}
 
       {/* Button */}
       <button
@@ -494,6 +544,7 @@ cursor:"pointer",
           paddingRight: "40px",
           cursor: "pointer",
         }}
+        onClick={()=>{handleAssignComplaintClick(props.complaints)}}
       >
         Assign Complaint
       </button>
@@ -504,7 +555,7 @@ cursor:"pointer",
 {/* Background overlay */}
 {showAssignComplaint && (
   <div
-    onClick={handleAssignComplaintClick}
+    onClick={handleAssignOpenClose}
     style={{
       position: "fixed",
       top: 0,
