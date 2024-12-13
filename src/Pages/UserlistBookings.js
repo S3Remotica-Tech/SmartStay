@@ -157,17 +157,17 @@ function Booking(props) {
 
 
   const handleEdit = (item) => {
-    dispatch({
-      type: "BOOKINGBEDDETAILS",
-      payload: {
-        hostel_id: HostelIds,
-        floor_id: FloorIds,
-        room_id: roomId,
-        joining_date: joiningDate,
-      },
-    });
+    // dispatch({
+    //   type: "BOOKINGBEDDETAILS",
+    //   payload: {
+    //     hostel_id: HostelIds,
+    //     floor_id: FloorIds,
+    //     room_id: roomId,
+    //     joining_date: joiningDate,
+    //   },
+    // });
     
-    setFormEdit(true);
+    setFormEdit(true)
     if (item && item.id) {
       setFirstName(item.first_name || "");
       setLastName(item.last_name || "");
@@ -1381,11 +1381,12 @@ try {
 
 <div
   className="mb-2 d-flex align-items-center"
-  onClick={() => {
-    if (bookingEditPermissionError) {
-      handleEdit(customer);
-    }
-  }}
+  // onClick={() => {
+  //   if (bookingEditPermissionError) {
+  //     handleEdit(customer);
+  //   }
+  // }}
+  onClick={()=>handleEdit(customer)}
   style={{
     cursor:bookingEditPermissionError ? "not-allowed" : "pointer",
     pointerEvents:bookingEditPermissionError ? "none" : "auto",
