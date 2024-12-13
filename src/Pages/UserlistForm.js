@@ -190,8 +190,10 @@ function UserlistForm(props) {
     setemailIdError(state.UsersList.emailError);
   }, [state.UsersList.emailError]);
 
+
   const validateField = (value, fieldName) => {
-    if (!value || value.trim() === "") {
+    const trimmedValue = String(value).trim(); // Ensure value is a string and trim it
+    if (!trimmedValue) {
       switch (fieldName) {
         case "First Name":
           setFirstnameError("First Name is required");
@@ -215,6 +217,33 @@ function UserlistForm(props) {
     }
     return true;
   };
+  
+
+  // const validateField = (value, fieldName) => {
+  //   if (!value || value.trim() === "") {
+  //     switch (fieldName) {
+  //       case "First Name":
+  //         setFirstnameError("First Name is required");
+  //         break;
+  //       case "Phone Number":
+  //         setPhoneError("Phone Number is required");
+  //         break;
+  //       case "Email":
+  //         setEmailError("Email is required");
+  //         break;
+  //       case "Address":
+  //         setAddressError("Address is required");
+  //         break;
+  //       case "Hostel ID":
+  //         setHostelIdError("Hostel ID is required");
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const handleLastName = (e) => {
     setLastname(e.target.value);
@@ -463,7 +492,7 @@ function UserlistForm(props) {
     setLicence("");
     setPhone("");
     setEmail("");
-    setHostel_Id("");
+    // setHostel_Id("");
     setFloor("");
     setRooms("");
     setBed("");

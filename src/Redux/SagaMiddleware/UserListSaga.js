@@ -132,6 +132,8 @@ function* handleCreateFloor(data) {
 
 function* handleRoomsDetails(ID) {
    const response = yield call(roomsCount, ID.payload)
+   console.log("responsesss",response);
+   
  
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ROOM_DETAILS', payload: response.data.responseData,statusCode:response.status || response.statusCode })
