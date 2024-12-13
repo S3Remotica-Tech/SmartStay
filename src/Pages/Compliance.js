@@ -61,7 +61,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import excelimg from "../Assets/Images/New_images/excel (5).png";
 
-const Compliance = () => {
+const Compliance = ({allPageHostel_Id}) => {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch()
@@ -643,7 +643,7 @@ useEffect(()=>{
       // console.log();
       const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
       if (id && hasChanges) {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id } })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id , Description:description} })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -659,7 +659,7 @@ useEffect(()=>{
         setHostel_Id('')
       }
       else {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status } })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status, Description: description} })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -752,13 +752,14 @@ useEffect(()=>{
   console.log("complainttypelist", state);
 
   useEffect(() => {
-    dispatch({ type: 'COMPLAINT-TYPE-LIST' })
+    dispatch({ type: 'COMPLAINT-TYPE-LIST', payload:{hostel_id:allPageHostel_Id} })
 
   }, [])
 
   useEffect(() => {
+console.log("state.Settings.Complainttypelist.complaint_types",state.Settings.Complainttypelist);
 
-    setComplainttypelist(state.Settings.Complainttypelist.complaint_types)
+    setComplainttypelist(state.Settings.Complainttypelist)
 
 
   }, [state.Settings.Complainttypelist.complaint_types])

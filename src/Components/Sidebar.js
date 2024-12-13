@@ -351,6 +351,22 @@ console.log("allPageHostel_Id",allPageHostel_Id)
     );
     handlePageClick('settingNewDesign');
   };
+  useEffect(() => {
+    if (state.UsersList?.hostelList?.length) {
+      const lowestIdItem = state.UsersList.hostelList.reduce((prev, current) => 
+        prev.id < current.id ? prev : current
+      );
+
+      setPayingGuestName(lowestIdItem.Name); 
+      setAllPageHostel_Id(lowestIdItem.id);  
+      setIsDropdownOpen(false);
+      setSelectedProfileImage(
+        lowestIdItem.profile && lowestIdItem.profile !== "0" && lowestIdItem.profile !== "" ? lowestIdItem.profile : Profile
+      );
+      // Call handleHostelId with the lowest ID item's details
+      // handleHostelId(lowestIdItem.id, lowestIdItem.Name, lowestIdItem.profile);
+    }
+  }, [state.UsersList?.hostelList]);
   return (
     <>
 
