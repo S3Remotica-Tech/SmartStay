@@ -61,17 +61,28 @@ function EBRoomReading(props) {
       setActiveRow(eb_Id);
     }
   };
-  const handleHostelChange = (e) => {
-    setHostelId(e.target.value);
-    setFloor("");
-    setRooms("");
-    setHostelIdError("");
-    setEbErrorunit("");
-    setReading("")
-    setRoomId("")
-    setFormError('')
+  // const handleHostelChange = (e) => {
+  //   setHostelId(e.target.value);
+  //   setFloor("");
+  //   setRooms("");
+  //   setHostelIdError("");
+  //   setEbErrorunit("");
+  //   setReading("")
+  //   setRoomId("")
+  //   setFormError('')
     
-  };
+  // };
+  // useEffect(()=>{
+  //   console.log("setHostelId..?",props.uniqueostel_Id)
+  //   setHostelId(props.uniqueostel_Id);
+  // },[props.uniqueostel_Id])
+  useEffect(() => {
+    console.log("setHostelId..?", props.uniqueostel_Id);
+  
+    // Only set hostelId if it's different from the current state
+    setHostelId((prev) => (prev !== props.uniqueostel_Id ? props.uniqueostel_Id : prev));
+  }, [props.uniqueostel_Id])
+  console.log("setHostelId..?",props.uniqueostel_Id)
 
   const handleReadingChange = (e) => {
     setReading(e.target.value);
@@ -93,6 +104,10 @@ function EBRoomReading(props) {
       console.log("unitAmount is not a valid array or is empty.");
     }
   }, [state.Settings.EBBillingUnitlist.eb_settings, hostelId]);
+// console.log("state.Settings.EBBillingUnitlist.eb_settings",state.Settings.EBBillingUnitlist.eb_settings)
+
+
+
 
   
   useEffect(() => {
@@ -1237,7 +1252,7 @@ console.log('Formatted Date:', formattedDate);
         </Modal.Header>
         <Modal.Body>
           <div className="row ">
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 {ebErrorunit && (
                   <div style={{ color: "red" }}>
                     <MdError />
@@ -1312,7 +1327,7 @@ console.log('Formatted Date:', formattedDate);
                       </label>
                     </>
                   )}
-              </div>
+              </div> */}
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
                   style={{

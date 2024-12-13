@@ -99,7 +99,7 @@ function UserListKyc(props){
   <FormControl
     type="text"
     id="form-controls"
-    placeholder="Enter amount"
+    placeholder="Enter Aadhar Number"
     style={{
       fontSize: 16,
       color: "#4B4B4B",
