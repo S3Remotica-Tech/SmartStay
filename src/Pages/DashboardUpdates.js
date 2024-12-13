@@ -276,7 +276,7 @@ function DashboardUpdates() {
           </div>
         </div>
 
-        <div className="col-lg-5 mb-4"></div>
+        
       </div>
     </div>
   );
