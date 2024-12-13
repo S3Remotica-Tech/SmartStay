@@ -381,7 +381,7 @@ function UserlistWalkin(props) {
                                         fontFamily: "Gilroy",
                                         background: "#E7F1FF",
                                         border: "none"
-                                    }}>Comments</th>
+                                    }}>Address</th>
 
                                     <th style={{
                                         textAlign: "center",
