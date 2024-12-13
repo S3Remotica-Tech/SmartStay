@@ -240,25 +240,20 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
     }
   }, [selectedDate]);
 
-  // const handleHostelChange = (e) => {
-  //   setSelectedHostel(e.target.value);
-  //   setFloor("");
-  //   setRooms("");
-  //   setHostelIdError("");
-  //   setEbErrorunit("");
-  //   dispatch({ type: "CLEAR_EB_ERROR" });
-  // };
+  const handleHostelChange = (e) => {
+    setSelectedHostel(e.target.value);
+    setFloor("");
+    setRooms("");
+    setHostelIdError("");
+    setEbErrorunit("");
+    dispatch({ type: "CLEAR_EB_ERROR" });
+  };
   // useEffect(() => {
   //   console.log("setHostelId..?", uniqueostel_Id);
   //   setSelectedHostel(uniqueostel_Id)
   // }, [uniqueostel_Id])
   // console.log("setHostelId..?",uniqueostel_Id)
-
-   useEffect(() => {
-      console.log("setHostelId..?", uniqueostel_Id);
-      setSelectedHostel((prev) => (prev !== uniqueostel_Id ? uniqueostel_Id : prev));
-    }, [uniqueostel_Id])
-    console.log("setSelectedHostel..?",uniqueostel_Id)
+  
   // useEffect(()=>{
   //   // const selectedHostel=  state.UsersList.hostelList &&
   //   // state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
@@ -297,8 +292,6 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
 
   useEffect(() => {
     if (selectedHostel && Floor) {
-      console.log("selectedHostelllll",selectedHostel, Floor);
-      
       dispatch({
         type: "ROOMDETAILS",
         payload: { hostel_Id: selectedHostel, floor_Id: Floor },
@@ -311,7 +304,6 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
       type: "HOSTELDETAILLIST",
       payload: { hostel_Id: selectedHostel },
     });
-    console.log("selectedHostelpppppp",selectedHostel)
   }, [selectedHostel]);
 
   useEffect(() => {
@@ -830,7 +822,6 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
     setSelectedDate(date);
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
-console.log("state.UsersList.roomdetails",state.UsersList.roomdetails);
 
   return (
     <div style={{ paddingLeft: 15, marginTop: 8 }}>
@@ -1594,7 +1585,7 @@ console.log("state.UsersList.roomdetails",state.UsersList.roomdetails);
           </Modal.Header>
           <Modal.Body>
             <div className="row ">
-              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 {ebErrorunit && (
                   <div style={{ color: "red" }}>
                     <MdError />
@@ -1669,7 +1660,7 @@ console.log("state.UsersList.roomdetails",state.UsersList.roomdetails);
                       </label>
                     </>
                   )}
-              </div> */}
+              </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
@@ -1762,7 +1753,7 @@ console.log("state.UsersList.roomdetails",state.UsersList.roomdetails);
                 >
                   <option>Select a Room</option>
                   {state.UsersList?.roomdetails &&
-                    state.UsersList.roomdetails.map((item) => (
+                    state.UsersList?.roomdetails.map((item) => (
                       <>
                         <option key={item.Room_Id} value={item.Room_Id}>
                           {item.Room_Name}
