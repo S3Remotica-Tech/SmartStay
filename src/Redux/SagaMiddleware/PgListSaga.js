@@ -183,8 +183,8 @@ function* handleCheckEbStartmeterlist() {
     refreshToken(response);
   }
 }
-function* handleCustomerEblist() {
-  const response = yield call(EB_CustomerListTable);
+function* handleCustomerEblist(action) {
+  const response = yield call(EB_CustomerListTable,action.payload);
   if (response.status === 200 || response.statusCode === 200) {
     console.log("....responsecus", response);
     yield put({ type: "EB_CUSTOMER_EBLIST", payload: response.data });
