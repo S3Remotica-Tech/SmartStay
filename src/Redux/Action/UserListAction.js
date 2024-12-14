@@ -197,12 +197,14 @@ export async function DeleteWalkInCustomer(walk) {
 
 
 
-export async function getCheckOutCustomer() {
-  return await AxiosConfig.get('/checkout_list',{
+export async function getCheckOutCustomer(datum) {
+  return await AxiosConfig.post('/checkout_list',datum,{
+    data:datum
   })
 }
 
-// 
+ 
+
 
 
 
@@ -213,8 +215,17 @@ export async function AddCheckOutCustomer(checkout) {
   })
 }
 
+export async function GetConfirmCheckOut(checkout) {
+  return await AxiosConfig.post('/get/confirm_checkout',checkout,{
+    data:checkout
+  })
+}
 
-
+export async function AddConfirmCheckOut(checkout) {
+  return await AxiosConfig.post('/add/confirm_checkout',checkout,{
+    data:checkout
+  })
+}
 
 
 export async function DeleteCheckOutCustomer(checkout) {
