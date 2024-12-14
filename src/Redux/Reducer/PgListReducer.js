@@ -49,6 +49,7 @@ const initialState = {
     OccupiedCustomer:[],
     OccupiedCustomerGetStatusCode:0,
     EB_customerTable:[],
+    statusCodeforEbCustomer:0,
     dleteHostelImagesStatusCode:0,
     statusCodeForEditElectricity:0,
     editElectricity:[],
@@ -122,8 +123,9 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
             return { ...state, EB_startmeterlist: action.payload }
             case 'EB_CUSTOMER_EBLIST':
                 console.log("EB_CUSTOMER_EBLIST", action.payload)
-                return { ...state, EB_customerTable: action.payload }
-
+                return { ...state, EB_customerTable: action.payload,statusCodeforEbCustomer:action.payload.statusCode }
+                case 'CLEAR_EB_CUSTOMER_EBLIST':
+                    return { ...state, statusCodeforEbCustomer: 0 }
 
         case 'EB_ERROR':
             return { ...state,ebError: action.payload }

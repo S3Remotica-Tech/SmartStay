@@ -57,8 +57,11 @@ export async function EB_Customerlist() {
 export async function EB_startmeterlist() {
   return await AxiosConfig.get("/list/Ebstartmeter", {});
 }
-export async function EB_CustomerListTable() {
-  return await AxiosConfig.get("/customer_readings", {});
+export async function EB_CustomerListTable(datum) {
+  console.log("EB_CustomerListTable",datum)
+  return await AxiosConfig.post("/customer_readings",datum, {
+data:datum,
+  });
 }
 
 export async function createRoom(datum) {
