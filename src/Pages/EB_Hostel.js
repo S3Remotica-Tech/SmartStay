@@ -93,6 +93,7 @@ function EB_Hostel(props) {
   const [ebEditPermission, setEbEditPermission] = useState("");
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
+  const [hostelBased, setHostelBased] = useState("s");
   const [uniqueostel_Id,setUniqostel_Id]=useState('')
   console.log("uniqueostel_Id",props.allPageHostel_Id)
   useEffect(() => {
@@ -313,8 +314,9 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
   }, [selectedHostel]);
 
   useEffect(() => {
-    dispatch({ type: "EB-BILLING-UNIT-LIST" });
-  }, []);
+    console.log("selectedHostelebbill",selectedHostel)
+    dispatch({ type: "EB-BILLING-UNIT-LIST",payload: {hostel_id: selectedHostel}});
+  }, [selectedHostel]);
   useEffect(() => {
     dispatch({ type: "TRANSACTIONHISTORY" });
   }, []);
@@ -356,7 +358,7 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
 
 
   useEffect(() => {
-    const FilterEbAmount = state.Settings.EBBillingUnitlist.eb_settings?.filter(
+    const FilterEbAmount = state.Settings.EBBillingUnitlist?.filter(
       (item) => item.hostel_id == selectedHostel
     );
     console.log("FilteredEBAmount:", FilterEbAmount);
@@ -367,8 +369,23 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
     } else {
       console.log("unitAmount is not a valid array or is empty.");
     }
-  }, [state.Settings.EBBillingUnitlist.eb_settings, selectedHostel]);
+  }, [state.Settings.EBBillingUnitlist, selectedHostel]);
 
+
+
+  useEffect(() => {
+    const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
+      (item) => item.hostel_id == selectedHostel
+    );
+    console.log("FilterHostelBased:", FilterHostelBased);
+    setHostelBased(FilterHostelBased);
+    if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
+      console.log("hostel_based..123?", FilterHostelBased[0]?.hostel_based);
+      setHostelBased(FilterHostelBased[0]?.hostel_based);
+    } else {
+      console.log("unitAmount is not a valid array or is empty.");
+    }
+  }, [state.Settings.EBBillingUnitlist, selectedHostel]);
   const totalMeterReading =
     endmeter -
     (startmeter && startmeter.end_Meter_Reading
@@ -401,25 +418,7 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
   // const hostelBasedFilter =state?.Settings?.EBBillingUnitlist &&  state?.Settings?.EBBillingUnitlist?.filter((u)=> u.id == selectedHostel)
   // const hostelBasedFilter = state?.Settings?.EBBillingUnitlist?.filter((u) => u.id == selectedHostel) || [];
   // Normalize selectedHostel to a number for type-safe comparison
-const selectedHostelNumber = Number(selectedHostel);
 
-// Filter the list
-const hostelBasedFilter = state?.Settings?.EBBillingUnitlist?.filter((u) => {
-  console.log(`Checking: u.id = ${u.id}, Selected Hostel = ${selectedHostelNumber}`);
-  return Number(u.id) == selectedHostelNumber;
-}) || [];
-
-// Log the results
-if (hostelBasedFilter.length > 0) {
-  console.log("Hostel Based Filter:", hostelBasedFilter);
-  console.log("Hostel Based Value:", hostelBasedFilter[0]?.hostel_based);
-} else {
-  console.error("No match found for Selected Hostel:", selectedHostelNumber);
-}
-
-
-  
-  console.log("hostelBasedFilter",hostelBasedFilter);
 
   useEffect(() => {
     if (state.PgList.AddEBstatusCode === 200) {

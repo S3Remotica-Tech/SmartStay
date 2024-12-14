@@ -389,7 +389,7 @@ function* handleEBBillingUnitAdd(params) {
 
 function* handleEBBillingUnitGet(action) {
    const response = yield call(GetEBBillingUnit, action.payload);
-
+console.log("responsehandleEBBillingUnitGet",response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'EB_BILLING_UNIT_LIST', payload: { response: response.data.eb_settings, statusCode: response.status || response.statusCode  } })
    }
