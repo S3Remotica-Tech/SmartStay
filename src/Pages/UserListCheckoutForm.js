@@ -367,10 +367,47 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
   
   const handleConfirmCheckout = () => {
 
+    if (!selectedCustomer && !data.Hostel_Id && !checkOutDate ) {
+      setGeneralError('Please select all mandatory fields');
+      return;
+    }
+    if (!selectedCustomer) {
+      setCustomerError('Please select a customer.');
+      // return;
+    }
+
+    if (!uniqueostel_Id) {
+      setHostelError('Please select a hostel.');
+      // return;
+    }
+
+    if (!checkOutDate) {
+      setCheckOutDateError('Please select a checkout date.');
+      // return;
+    }
+
+   
+
+    // const formattedCheckOutDate = checkOutDate
+    // ? checkOutDate.toISOString().split('T')[0] 
+    // : '';
+
     const formattedDate = moment(checkOutDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
     const Reinburse = isChecked == "true" ? 1 : 0
 
-    if (selectedCustomer && data.Hostel_Id && formattedDate ) {
+    const hasChanges = formattedDate !== data?.CheckoutDate ||
+    selectedCustomer !== data?.ID ||
+    noticeDays !== data?.notice_period ||
+    comments !== data?.checkout_comment;
+
+  
+    
+  // if (!hasChanges) {
+  //   setIsChangedError('No Changes detected');
+  //   return;
+  // }
+
+    if (selectedCustomer && data.Hostel_Id && formattedDate && advanceamount ) {
       dispatch({
         type: 'ADDCONFIRMCHECKOUTCUSTOMER', payload: {
           checkout_date: formattedDate,
@@ -382,7 +419,7 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
         }
       })
     }
-    handleClose();
+  
     setSelectedCustomer('');
     setCurrentBed('')
     setCurrentFloor('')
@@ -477,35 +514,7 @@ if(checkOutDate){
 
       <Modal.Body>
         <div className='row row-gap-2'>
-          {/* <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-            <div className="form-group">
-              <label style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest <span style={{ color: 'red', fontSize: '20px' }}>*</span></label>
-              <Form.Group controlId="category" style={{ border: "1px solid rgb(217, 217, 217)", borderRadius: '8px', marginTop: '10px' }}>
-                <Form.Select aria-label="Default select example"
-                  value={selectedHostel}
-                  onChange={handleHostelChange}
-
-                  className='' style={{ height: 50, fontSize: 16, color: selectedHostel ? "#222" : "#4b4b4b", fontFamily: "Gilroy", fontWeight: selectedHostel ? 600 : 500 }}>
-                  <option value="" >Select an hostel</option>
-                  {state.UsersList.hostelList && state.UsersList.hostelList.map((view) => (
-                    <>
-
-                      <option key={view.id} value={view.id}>{view.Name}</option>
-
-                    </>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-              {hostelError && (
-                <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {hostelError}
-                  </label>
-                </div>
-              )}
-            </div>
-          </div> */}
+    
  {
             !checkoutaction && !checkouteditaction &&
 
@@ -776,10 +785,10 @@ if(checkOutDate){
   style={{
     width: "16px",
     height: "16px",
-    border: "2px solid #1E45E1", // Custom border color
-    borderRadius: "3px", // Optional: Rounding for edges
-    appearance: "auto", // Allow default appearance to show the tick
-    cursor: "pointer", // Pointer cursor for better UX
+    border: "2px solid #1E45E1", 
+    borderRadius: "3px", 
+    appearance: "auto", 
+    cursor: "pointer", 
   }}
   onChange={handleCheckboxChange}
 />

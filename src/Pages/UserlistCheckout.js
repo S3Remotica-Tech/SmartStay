@@ -104,7 +104,7 @@ function CheckOut(props) {
 
   useEffect(()=> {
       if(state.UsersList.statusCodeAddConfirmCheckout === 200){
-
+        checkoutcloseModal()
         dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: props.uniqueostel_Id }});
         setTimeout(()=>{   
           dispatch({type:"CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER"})
@@ -1032,7 +1032,7 @@ function CheckOut(props) {
             </div>
             <div style={{ textAlign: "center" }}>
               <Button
-                onClick={props.toggleForm}
+                // onClick={props.toggleForm}
                 disabled={props.customerBookingAddPermission}
                 style={{
                   fontSize: 16,
@@ -1046,6 +1046,8 @@ function CheckOut(props) {
                   color: "#FFF",
                   fontFamily: "Montserrat",
                 }}
+
+                onClick={checkOutForm}
               >
                 {" "}
                 + Add Checkout
