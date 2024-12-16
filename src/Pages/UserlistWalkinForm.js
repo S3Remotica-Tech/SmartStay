@@ -11,6 +11,10 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FormControl } from 'react-bootstrap';
+import Plus from '../Assets/Images/New_images/addplus-circle.svg';
+import Image from 'react-bootstrap/Image';
+import Profile from '../Assets/Images/New_images/profile-picture.png';
+import imageCompression from 'browser-image-compression';
 
 function CustomerForm({ show, handleClose, initialData, modalType }) {
     const [name, setName] = useState('');
@@ -355,6 +359,23 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
     };
 
+  const [file, setFile] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true
+      };
+      imageCompression(file, options).then((compressedFile) => {
+        setFile(compressedFile);
+      }).catch((error) => {
+        console.error('Error compressing image:', error);
+      });
+    }
+  };
 
 
     const customDateInput = (props) => {
@@ -446,8 +467,43 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
 
                 <Modal.Body>
 
+                <div className='d-flex align-items-center'>
+
+
+<div className="" style={{ height: 100, width: 100, position: "relative" }}>
+
+  <Image src={file ? (typeof file == 'string' ? file : URL.createObjectURL(file)) : Profile} roundedCircle style={{ height: 100, width: 100 }} />
+
+  <label htmlFor="imageInput" className='' >
+    <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
+    <input
+      type="file"
+      accept="image/*"
+      multiple
+      className="sr-only"
+      id="imageInput"
+      onChange={handleImageChange}
+      style={{ display: "none" }} />
+  </label>
+
+
+</div>
+<div className='ps-3'>
+  <div>
+    <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
+  </div>
+  <div>
+    <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
+  </div>
+</div>
+</div>
                     <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+ 
+
+
+
                             <Form.Group controlId="formCustomerName" className="mb-3">
                                 <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
                                     First Name
