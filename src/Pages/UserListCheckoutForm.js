@@ -20,9 +20,10 @@ import { InputGroup, FormControl } from 'react-bootstrap';
 
 
 
-const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,checkouteditaction}) => {
 
+const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,checkoutaction ,data ,checkouteditaction}) => {
 
+  console.log("uniqueostel_Id",uniqueostel_Id);
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
@@ -49,7 +50,26 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
   const [selectedCustomer, setSelectedCustomer] = useState('');
   const [noticeDays, setNoticeDays] = useState('');
   const [comments, setComments] = useState('');
+  const [advanceamount,setAdvanceAmount] = useState('')
+  const [dueamount, SetDueAmount] = useState('')
+  const [invoicenumber, SetInvoiceNumber] = useState('')
+
   const calendarRef = useRef(null);
+
+  const handlecloseform = () => {
+    handleClose()
+    setSelectedCustomer('');
+    setCurrentBed('')
+    setCurrentFloor('')
+    setNoticeDays('');
+    setComments('');
+    setCheckOutDate('');
+    setCheckOutRequestDate('')
+  }
+
+  const [isChecked, setIsChecked] = useState(false);
+
+
 
   const handleHostelChange = (event) => {
     setSelectedHostel(event.target.value);
@@ -90,8 +110,91 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
     setNoticeDays(notice_period);
   };
 
+  const [dateDifference, setDateDifference] = useState(null);
+
+  const calculateDateDifference = (checkOutDate, checkOutrequestDate) => {
+    if (checkOutDate && checkOutrequestDate) {
+      const diffInMs = checkOutDate - checkOutrequestDate; 
+      const diffInDays = Math.ceil(Math.abs(diffInMs) / (1000 * 60 * 60 * 24)) + 1;
+      setDateDifference(diffInDays);
+    } else {
+      setDateDifference(null);
+    }
+  };
 
 
+  useEffect(() => {
+    if (currentItem) {
+      console.log("current_item",currentItem);
+      
+
+      setCheckOutDate(currentItem.CheckoutDate  ? new Date(currentItem.CheckoutDate) : null);
+      setCheckOutRequestDate(currentItem.req_date ? new Date(currentItem.req_date) : null)
+      // setSelectedHostel(currentItem.Hostel_Id);
+      setSelectedCustomer(currentItem.ID);
+      setCurrentBed(currentItem.Bed )
+      setCurrentFloor(currentItem.Floor )
+      setNoticeDays(currentItem.notice_period);
+      setComments(currentItem.checkout_comment );
+
+    } else {
+      setCheckOutDate('');
+      setCheckOutRequestDate('')
+      // setSelectedHostel('');
+      setSelectedCustomer('');
+      setCurrentBed('')
+      setCurrentFloor('')
+      setNoticeDays('');
+      setComments('');
+      dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
+    }
+  }, [currentItem, show ])
+
+
+  useEffect(() => {
+    if (data) {
+      
+
+      setCheckOutDate( data.CheckoutDate ? new Date(data.CheckoutDate) : null);
+      setCheckOutRequestDate(data.req_date ? new Date(data.req_date) : null)
+      // setSelectedHostel(currentItem.Hostel_Id);
+      setSelectedCustomer(data.ID);
+      setCurrentBed(data.Bed )
+      setCurrentFloor(data.Floor)
+      setNoticeDays(data.notice_period);
+      setComments( data.checkout_comment);
+
+    } else {
+      setCheckOutDate('');
+      setCheckOutRequestDate('')
+      // setSelectedHostel('');
+      setSelectedCustomer('');
+      setCurrentBed('')
+      setCurrentFloor('')
+      setNoticeDays('');
+      setComments('');
+      dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
+    }
+  }, [data, show ])
+
+
+  useEffect(() => {
+
+    if (selectedCustomer && !data && !currentItem) {
+      console.log("done", state.UsersList.Users);
+      console.log("done", selectedCustomer);
+  
+    
+      const filteruserlist = state.UsersList.Users?.filter((u) => u.ID === selectedCustomer);
+      if (filteruserlist && filteruserlist.length > 0) {
+        setCurrentBed(filteruserlist[0].Bed);
+        setCurrentFloor(filteruserlist[0].Floor);
+      } else {
+        console.log("No matching user found for selectedCustomer:", selectedCustomer);
+      }
+    }
+  }, [selectedCustomer, state.UsersList.Users, data, currentItem]);
+  
 
 
   console.log("checkOutDate", checkOutDate,)
@@ -111,7 +214,7 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
     const formattedrequestDate = moment(checkOutrequestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
     console.log("formattedDate", formattedDate, "checkOutDate", checkOutDate);
 
-    if (!selectedCustomer && !selectedHostel && !checkOutDate && !checkOutrequestDate) {
+    if (!selectedCustomer && !uniqueostel_Id && !checkOutDate && !checkOutrequestDate) {
       setGeneralError('Please select all mandatory fields');
       return;
     }
@@ -120,7 +223,7 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
       // return;
     }
 
-    if (!selectedHostel) {
+    if (!uniqueostel_Id) {
       setHostelError('Please select a hostel.');
       // return;
     }
@@ -141,7 +244,7 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
 
 
     const hasChanges = formattedCheckOutDate !== currentItem?.CheckoutDate ||
-      selectedHostel !== currentItem?.Hostel_Id ||
+      // selectedHostel !== currentItem?.Hostel_Id ||
       selectedCustomer !== currentItem?.ID ||
       noticeDays !== currentItem?.notice_period ||
       comments !== currentItem?.checkout_comment;
@@ -152,12 +255,12 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
       setIsChangedError('No Changes detected');
       return;
     }
-    if (selectedCustomer && selectedHostel && checkOutDate && checkOutrequestDate) {
+    if (selectedCustomer && uniqueostel_Id && checkOutDate && checkOutrequestDate) {
       dispatch({
         type: 'ADDCHECKOUTCUSTOMER', payload: {
           checkout_date: formattedDate,
           user_id: selectedCustomer,
-          hostel_id: selectedHostel,
+          hostel_id: uniqueostel_Id,
           comments: comments,
           action: currentItem ? 2 : 1,
           req_date:formattedrequestDate
@@ -166,32 +269,10 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
     }
 
   }
-  useEffect(() => {
-    if (currentItem) {
-      console.log("current_item",currentItem);
-      
+ 
 
-      setCheckOutDate(currentItem.CheckoutDate ? new Date(currentItem.CheckoutDate) : null);
-      setCheckOutRequestDate(currentItem.checkOutrequestDate ? new Date(currentItem.checkOutrequestDate) : null)
-      setSelectedHostel(currentItem.Hostel_Id);
-      setSelectedCustomer(currentItem.ID);
-      setCurrentBed(currentItem)
-      setCurrentFloor(currentItem)
-      setNoticeDays(currentItem.notice_period);
-      setComments(currentItem.checkout_comment);
-
-    } else {
-      setCheckOutDate('');
-      setCheckOutRequestDate('')
-      setSelectedHostel('');
-      setSelectedCustomer('');
-      setCurrentBed('')
-      setCurrentFloor('')
-      setNoticeDays('');
-      setComments('');
-      dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
-    }
-  }, [currentItem, show])
+  console.log("name",selectedCustomer);
+  
 
 
 
@@ -234,11 +315,121 @@ const CheckOutForm = ({ show, handleClose, currentItem ,checkoutaction ,data ,ch
 
 
   useEffect(() => {
-    if (selectedHostel) {
-      dispatch({ type: 'AVAILABLECHECKOUTCUSTOMER', payload: { hostel_id: selectedHostel } })
+    if (uniqueostel_Id) {
+      dispatch({ type: 'AVAILABLECHECKOUTCUSTOMER', payload: { hostel_id: uniqueostel_Id } })
     }
-  }, [selectedHostel])
+  }, [uniqueostel_Id])
 
+
+  useEffect(() => {
+    
+    if (selectedCustomer && data) {
+      dispatch({ type: 'GETCONFIRMCHECKOUTCUSTOMER', 
+        payload: {id:selectedCustomer, hostel_id:  data.Hostel_Id } })      
+    } 
+  }, [selectedCustomer ,data])
+
+
+  useEffect(()=> {
+    if(state.UsersList.statusCodegetConfirmCheckout === 200){
+      setAdvanceAmount(state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount)
+      SetDueAmount(state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0)
+      SetInvoiceNumber(state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.invoiceid || 0) 
+      setTimeout(()=>{   
+        dispatch({type:"CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER"})
+      },500)  
+    }
+    
+   
+  },[state.UsersList.statusCodegetConfirmCheckout])
+
+  console.log("data",data);
+
+  const handleCheckboxChange = (e) => {
+    const checked = e.target.checked;
+    console.log("checked", checked);
+    setIsChecked(checked);
+  
+    if (checked && dueamount > 0) {
+      const updatedAdvanceAmount = advanceamount - dueamount;
+      setAdvanceAmount(updatedAdvanceAmount); 
+      SetDueAmount(0); 
+    }
+  };
+
+  useEffect(() => {
+    if (!isChecked) {
+      setAdvanceAmount(state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount); 
+      SetDueAmount(state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0); 
+    }
+  }, [isChecked]);
+
+  
+  const handleConfirmCheckout = () => {
+
+    if (!selectedCustomer && !data.Hostel_Id && !checkOutDate ) {
+      setGeneralError('Please select all mandatory fields');
+      return;
+    }
+    if (!selectedCustomer) {
+      setCustomerError('Please select a customer.');
+      // return;
+    }
+
+    if (!uniqueostel_Id) {
+      setHostelError('Please select a hostel.');
+      // return;
+    }
+
+    if (!checkOutDate) {
+      setCheckOutDateError('Please select a checkout date.');
+      // return;
+    }
+
+   
+
+    // const formattedCheckOutDate = checkOutDate
+    // ? checkOutDate.toISOString().split('T')[0] 
+    // : '';
+
+    const formattedDate = moment(checkOutDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    const Reinburse = isChecked == "true" ? 1 : 0
+
+    const hasChanges = formattedDate !== data?.CheckoutDate ||
+    selectedCustomer !== data?.ID ||
+    noticeDays !== data?.notice_period ||
+    comments !== data?.checkout_comment;
+
+  
+    
+  // if (!hasChanges) {
+  //   setIsChangedError('No Changes detected');
+  //   return;
+  // }
+
+    if (selectedCustomer && data.Hostel_Id && formattedDate && advanceamount ) {
+      dispatch({
+        type: 'ADDCONFIRMCHECKOUTCUSTOMER', payload: {
+          checkout_date: formattedDate,
+          id: selectedCustomer,
+          hostel_id: data.Hostel_Id,
+          comments: comments,
+          advance_return: advanceamount,
+          reinburse:Reinburse  // click ==> 1 or 0
+        }
+      })
+    }
+  
+    setSelectedCustomer('');
+    setCurrentBed('')
+    setCurrentFloor('')
+    setNoticeDays('');
+    setComments('');
+    setCheckOutDate('');
+    setCheckOutRequestDate('')
+  }
+
+  
 
   const customDateInput = (props) => {
     return (
@@ -285,7 +476,7 @@ if(checkOutDate){
 
 
   return (<>
-    <Modal show={show} onHide={handleClose} centered backdrop="static">
+    <Modal show={show} onHide={handlecloseform} centered backdrop="static">
       <Modal.Header className="d-flex justify-content-between align-items-center">
         <Modal.Title style={{ fontWeight: '600', fontSize: '16px', fontFamily: "Gilroy" }}>
           {data && checkoutaction ? 'Confirm Check-out'  : (currentItem && checkouteditaction ? 'Edit check-out' : 'Add Check-out')}</Modal.Title>
@@ -293,7 +484,7 @@ if(checkOutDate){
           src={Closecircle}
           alt="Close"
           style={{ cursor: 'pointer', width: '24px', height: '24px' }}
-          onClick={handleClose}
+          onClick={handlecloseform}
         />
       </Modal.Header>
       {state.UsersList.errorMessageAddCheckOut && (
@@ -323,35 +514,10 @@ if(checkOutDate){
 
       <Modal.Body>
         <div className='row row-gap-2'>
-          {/* <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-            <div className="form-group">
-              <label style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Paying Guest <span style={{ color: 'red', fontSize: '20px' }}>*</span></label>
-              <Form.Group controlId="category" style={{ border: "1px solid rgb(217, 217, 217)", borderRadius: '8px', marginTop: '10px' }}>
-                <Form.Select aria-label="Default select example"
-                  value={selectedHostel}
-                  onChange={handleHostelChange}
+    
+ {
+            !checkoutaction && !checkouteditaction &&
 
-                  className='' style={{ height: 50, fontSize: 16, color: selectedHostel ? "#222" : "#4b4b4b", fontFamily: "Gilroy", fontWeight: selectedHostel ? 600 : 500 }}>
-                  <option value="" >Select an hostel</option>
-                  {state.UsersList.hostelList && state.UsersList.hostelList.map((view) => (
-                    <>
-
-                      <option key={view.id} value={view.id}>{view.Name}</option>
-
-                    </>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-              {hostelError && (
-                <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {hostelError}
-                  </label>
-                </div>
-              )}
-            </div>
-          </div> */}
           <div className='col-lg-12 col-md-12 col-sm-12 colxs-12'>
             <div className="form-group">
               <label className='mt-2' style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Customer <span style={{ color: 'red', fontSize: '20px' }}>*</span></label>
@@ -376,6 +542,9 @@ if(checkOutDate){
 
             </div>
           </div>
+}
+
+
           {/* <div className='col-lg-6 col-md-6 col-sm-12 colxs-12'>
             <label htmlFor="check-out-date" style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Check-out Date <span style={{ color: 'red', fontSize: '20px' }}>*</span></label>
             <div className='position-relative'>
@@ -531,15 +700,18 @@ if(checkOutDate){
               <div style={{ position: 'relative', width: "100%" }}>
                 <DatePicker
                 selected={checkOutDate instanceof Date ? checkOutDate : null}
+                
                   onChange={(date) => {
                     setCheckOutDateError('');
                     setCheckOutDate(date);
+                    calculateDateDifference(date, checkOutrequestDate);
                     setIsChangedError('')
                     setGeneralError('')
                   }}
                   dateFormat="dd/MM/yyyy"
                   maxDate={null}
                 minDate={null}
+                isDisabled={checkoutaction}
                   customInput={customDateInput({
                     value: checkOutDate instanceof Date ? checkOutDate.toLocaleDateString('en-GB') : '',
                   })}
@@ -570,23 +742,25 @@ if(checkOutDate){
                   onChange={(date) => {
                     setCheckOutRequestDateError('');
                     setCheckOutRequestDate(date);
+                    calculateDateDifference(checkOutDate, date);
                     setIsChangedError('')
                     setGeneralError('')
                   }}
+                 
                   dateFormat="dd/MM/yyyy"
                   maxDate={null}
-                minDate={null}
+                  minDate={null}
                   customInput={customDateInput({
                     value: checkOutrequestDate instanceof Date ? checkOutrequestDate.toLocaleDateString('en-GB') : '',
                   })}
                 />
               </div>
             </Form.Group>
-            {checkoUtDateError && (
+            {checkoUtrequestDateError && (
               <div className="d-flex align-items-center p-1 mb-2">
                 <MdError style={{ color: "red", marginRight: '5px' }} />
                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  {checkoUtDateError}
+                  {checkoUtrequestDateError}
                 </label>
               </div>
             )}
@@ -596,13 +770,51 @@ if(checkOutDate){
           {
             checkoutaction && 
             <>
-  <div className='col-lg-6 col-md-6 col-sm-12 colxs-12'>
-            <label htmlFor="Advance" className='mt-2' style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Advance Return</label>
+  <div className='col-lg-6 col-md-6 col-sm-12 colxs-12 mt-2'>
+           
+           <div style={{display:'flex',flexDirection:'row'}}>
+  <label htmlFor="Advance" style={{fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500}}>
+  Advance Return
+</label>
+<div
+  className="d-flex align-items-center ms-1"
+  style={{ gap: 5 }} 
+>
+<input
+  type="checkbox"
+  style={{
+    width: "16px",
+    height: "16px",
+    border: "2px solid #1E45E1", 
+    borderRadius: "3px", 
+    appearance: "auto", 
+    cursor: "pointer", 
+  }}
+  onChange={handleCheckboxChange}
+/>
+
+
+
+
+  <p
+    style={{
+      margin: 0, 
+      fontSize: 10,
+      color: "#1E45E1",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+    }}
+  >
+    Reimburse with Rent
+  </p>
+</div></div>
+
+ 
             <input
               type="text"
               name="Advance"
               id="Advance"
-              // value={comments}
+              value={advanceamount}
               // onChange={handleCommentsChange}
               className="form-control mt-2"
               placeholder="Add Advance amount"
@@ -628,23 +840,23 @@ if(checkOutDate){
                           </span>
                         </Form.Label>
                         <FormControl
-                          id="form-controls"
-                          placeholder="Enter invoice"
-                          type="text"
-                          value={currentFloor}
-                        //   onChange={(e) => handleFirstName(e)}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #E7F1FF",
-                            height: 50,
-                            borderRadius: 8,
-                            backgroundColor:"#E7F1FF"
-                          }}
-                        />
+      id="form-controls"
+      placeholder="Enter invoice"
+      type="text"
+      value={`${invoicenumber}- ${dueamount}`} 
+      readOnly
+      style={{
+        fontSize: 16,
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        border: "1px solid #E7F1FF",
+        height: 50,
+        borderRadius: 8,
+        backgroundColor: "#E7F1FF",
+      }}
+    />
                       </Form.Group>
                       {/* {firstnameError && (
                         <div style={{ color: "red" }}>
@@ -692,6 +904,21 @@ if(checkOutDate){
               style={{ height: '50px', borderRadius: '8px', fontSize: 16, color: comments ? "#222" : "#4b4b4b", fontFamily: "Gilroy", fontWeight: comments ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9" }}
             />
           </div>
+
+          {dateDifference !== null && (
+        <div className="col-12 mt-3">
+          <p
+            style={{
+              fontSize: 15,
+              fontFamily: "Gilroy",
+              fontWeight: 500,
+              color: "#1E45E1",
+            }}
+          >
+           ( Notice Days* - {dateDifference} days )
+          </p>
+        </div>
+      )}
         </div>
         <Button className="mt-4" style={{
           borderRadius: '8px',
@@ -700,7 +927,8 @@ if(checkOutDate){
           fontSize: '14px',
           padding: '16px 24px', width: '100%', backgroundColor: "#1E45E1"
         }}
-          onClick={handleCheckOutCustomer}
+          disabled={dueamount > 0}
+          onClick={data && checkoutaction ? handleConfirmCheckout : handleCheckOutCustomer}
         >{data && checkoutaction ? 'Confirm Check-out'  :
                (currentItem && checkouteditaction ? 'Save Changes' : 'Add Check-out')}
         </Button>

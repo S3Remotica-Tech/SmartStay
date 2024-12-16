@@ -10,18 +10,34 @@ import { MdError } from "react-icons/md";
 import Plus from "../Assets/Images/New_images/add-circle.png";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
+// import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 function CustomerCheckout(props){
+
+  
+    
+  
+    const state = useSelector(state => state)
+    const dispatch = useDispatch();
+
     const [selectedDate, setSelectedDate] = useState(null);
     const [requestDate, setRequestDate] = useState(null);
     const [dateError, setDateError] = useState("");
     const [dateDifference, setDateDifference] = useState(null);
+    const [comments, setComments] = useState('');
+    const [checkoUtDateError, setCheckOutDateError] = useState('')
+    const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
     console.log("dateDifference",dateDifference)
 
     const handleCloseCheckout=()=>{
         props.setCustomerCheckoutpage(false)
     }
+
+    const handleCommentsChange = (event) => {
+      setComments(event.target.value);
+    };
+
     const calculateDateDifference = (checkoutDate, reqDate) => {
         if (checkoutDate && reqDate) {
           const diffInMs = checkoutDate - reqDate; 
@@ -31,6 +47,52 @@ function CustomerCheckout(props){
           setDateDifference(null);
         }
       };
+
+
+      const handleCheckOutCustomer = () => {
+
+        const formattedDate = moment(selectedDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
+        const formattedrequestDate = moment(requestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
+        // console.log("formattedDate", formattedDate, "checkOutDate", checkOutDate);
+    
+        // if ( !setUniqostel_Id && !checkOutDate && !requestDate) {
+        //   setGeneralError('Please select all mandatory fields');
+        //   return;
+        // }
+       
+    
+        // if (!setUniqostel_Id) {
+        //   setHostelError('Please select a hostel.');
+        //   return;
+        // }
+
+        if(!selectedDate || !requestDate){
+          if (!selectedDate) {
+            setCheckOutDateError('Please select a checkout date.');
+          }
+      
+          if (!requestDate) {
+            setCheckOutRequestDateError('Please select a request date.');
+          }
+          return
+        }
+    
+      
+       
+        if (props.uniqueostel_Id && formattedDate  && formattedrequestDate ) {
+          dispatch({
+            type: 'ADDCHECKOUTCUSTOMER', payload: {
+              checkout_date: formattedDate,
+              user_id: props.data.ID, 
+              hostel_id: props.uniqueostel_Id,
+              comments: comments,
+              action:  1,
+              req_date:formattedrequestDate
+            }
+          })
+        }
+    
+      }
   
 
     const customDateInput = (props) => {
@@ -153,6 +215,7 @@ function CustomerCheckout(props){
               onChange={(date) => {
                 setSelectedDate(date);
                 calculateDateDifference(date, requestDate);
+                setCheckOutDateError('');
               }}
               dateFormat="dd/MM/yyyy"
               customInput={customDateInput({
@@ -164,6 +227,14 @@ function CustomerCheckout(props){
             />
           </div>
         </Form.Group>
+        {checkoUtDateError && (
+              <div className="d-flex align-items-center p-1 mb-2">
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                  {checkoUtDateError}
+                </label>
+              </div>
+            )}
       </div>
 
       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -184,6 +255,7 @@ function CustomerCheckout(props){
               onChange={(date) => {
                 setRequestDate(date);
                 calculateDateDifference(selectedDate, date);
+                setCheckOutRequestDateError('')
               }}
               dateFormat="dd/MM/yyyy"
               customInput={customDateInput({
@@ -195,45 +267,36 @@ function CustomerCheckout(props){
             />
           </div>
         </Form.Group>
+        {checkoUtrequestDateError && (
+              <div className="d-flex align-items-center p-1 mb-2">
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                  {checkoUtrequestDateError}
+                </label>
+              </div>
+            )}
       </div>
 
      
    
 
                     
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3">
-  <Form.Label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      display: "flex",
-      alignItems: "center",
-     
-    }}
-  >
-    Comments
-    
-  </Form.Label>
-  <FormControl
-    type="text"
-    id="form-controls"
-    placeholder="Enter amount"
-    style={{
-      fontSize: 16,
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-      border: "1px solid #D9D9D9",
-      height: 50,
-      borderRadius: 8,
-      marginTop: 8,
-    }}
-  />
-</Form.Group>
-</div>
+      <div className='col-lg-12 col-md-12 col-sm-12 colxs-12'>
+            <label htmlFor="comments" className='mt-2' style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Comments</label>
+            <input
+              type="text"
+              name="comments"
+              id="comments"
+              value={comments}
+              onChange={handleCommentsChange}
+              className="form-control mt-2"
+              placeholder="Enter Comments"
+              required
+              style={{ height: '50px', borderRadius: '8px', fontSize: 16, color: comments ? "#222" : "#4b4b4b", fontFamily: "Gilroy", fontWeight:  500, boxShadow: "none", border: "1px solid #D9D9D9" }}
+            />
+          </div>
+
+
 {dateDifference !== null && (
         <div className="col-12 mt-3">
           <p
@@ -261,7 +324,7 @@ function CustomerCheckout(props){
                       fontSize: 16,
                       fontFamily: "Montserrat",
                     }}
-                    // onClick={handleSaveUserlistAddUser}
+                    onClick={handleCheckOutCustomer}
                   >
                   Move Check-out
                   </Button>

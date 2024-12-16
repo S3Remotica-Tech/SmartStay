@@ -103,6 +103,7 @@ function UserList(props) {
   const [customerCheckoutpage,setCustomerCheckoutpage]=useState(false)
   const [reAssignDetail,setReasignDetail]=useState("")
   const [uniqueostel_Id,setUniqostel_Id]=useState('')
+  const [customercheckoutdata, setCustomerCheckoutData] = useState('')
   console.log("uniqueostel_Id",props.allPageHostel_Id)
   useEffect(() => {
     console.log("uniqueHostelId:", props.allPageHostel_Id);
@@ -115,8 +116,9 @@ function UserList(props) {
     setCustomerReAssign(true)
     // setUserList(false);
   }
-  const handleCustomerCheckout=()=>{
+  const handleCustomerCheckout=(item)=>{
     setCustomerCheckoutpage(true)
+    setCustomerCheckoutData(item)
     // setUserList(false);
   }
 
@@ -2277,7 +2279,7 @@ function UserList(props) {
                                                       //     handleShowAddBed(user);
                                                       //   }
                                                       // }}
-                                                      onClick={handleCustomerCheckout}
+                                                      onClick={()=>handleCustomerCheckout(user)}
                                                       style={{
                                                         backgroundColor: "#fff",
                                                         cursor:
@@ -2610,7 +2612,7 @@ function UserList(props) {
       ) : null}
 
 {customerCheckoutpage == true ? (
-        <CustomerCheckout customerCheckoutpage={customerCheckoutpage} setCustomerCheckoutpage={setCustomerCheckoutpage}/>
+        <CustomerCheckout customerCheckoutpage={customerCheckoutpage} setCustomerCheckoutpage={setCustomerCheckoutpage}  uniqueostel_Id={uniqueostel_Id} data={customercheckoutdata}/>
       ) : null}
               </TabPanel>
               <TabPanel value="2">
@@ -2624,7 +2626,7 @@ function UserList(props) {
                   customerBookingAddPermission={customerBookingAddPermission}
                   customerrolePermission={customerrolePermission}
                   uniqueostel_Id={uniqueostel_Id}
-                 setUniqostel_Id={setUniqostel_Id}
+                  setUniqostel_Id={setUniqostel_Id}
                 />
               </TabPanel>
               <TabPanel value="3">
