@@ -1192,7 +1192,8 @@ console.log('Formatted Date:', formattedDate);
             </li>
           </ul>
         </nav>
-      )}</>
+      )}
+      </>
     }
       
 

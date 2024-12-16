@@ -139,3 +139,33 @@ export async function dashboardFilter(datum) {
     data: datum,
   });
 }
+
+// Hostel_based
+
+export async function ebHostelBasedRead(datum) {
+  console.log("ebHostelBasedRead",datum)
+  return await AxiosConfig.post("/get_hostel_reading", datum, {
+    data: datum,
+  });
+}
+
+export async function ebAddHostelReading(datum) {
+  console.log("ebAddHostelReading",datum)
+  return await AxiosConfig.post("/add_hostel_reading", datum, {
+    data: datum,
+  });
+}
+
+
+export async function ebAddHostelEdit(datum) {
+  console.log("ebAddHostelEdit",datum)
+  return await AxiosConfig.post("/edit_hostel_reading", datum, {
+    data: datum,
+  });
+}
+export async function ebAddHostelDelete(datum) {
+  console.log("ebAddHostelDelete",datum)
+  return await AxiosConfig.post("/delete_hostel_reading", datum, {
+    data: datum,
+  });
+}
