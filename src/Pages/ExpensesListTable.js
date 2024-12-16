@@ -14,6 +14,7 @@ import closeicon from '../Assets/Images/close.svg';
 
 function ExpensesListTable(props) {
 
+console.log("mylist",props);
 
   const [showDots, setShowDots] = useState('')
   const popupRef = useRef(null);
@@ -53,6 +54,43 @@ function ExpensesListTable(props) {
     }
   };
 
+  const [assetname , setAssetName] = useState('')
+  const [assetnameerror , setAssetNameError] = useState('')
+
+  const handleAssetname = (e) => {
+    setAssetName (e.target.value)
+
+    if(!e.target.value){
+      setAssetNameError("Please select a assetname ")
+    }
+    else {
+      setAssetNameError('')
+    }
+  }
+
+  const handleTagAsset = () => {
+
+    if (!assetname){
+      setAssetNameError("Please select a assetname ")
+      return;
+    }
+    if (assetname) {
+        dispatch({ type: 'ADDEXPENSETAG', payload: {id: props.item.id, asset_id: assetname , hostel_id : props.item.hostel_id } })
+      }
+    }
+
+useEffect(() => {
+    if (state.ExpenseList.StatusCodeForAddExpenseTagSuccess === 200) {
+
+      setshowTagAsset(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_ADD_EXPENSE_TAG_STATUS_CODE' })
+      }, 100)
+    }
+  }, [state.ExpenseList.StatusCodeForAddExpenseTagSuccess])
+    
+  
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -78,7 +116,7 @@ const handleHideTagAsset = () => {
 
 
 
-  return (
+  return (<>
     <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.id}>
 
       <td style={{ color: "black", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center",border: "none"}}>
@@ -228,28 +266,53 @@ const handleHideTagAsset = () => {
         </label>
 
         {/* Dropdown */}
-        <select
-          style={{
-            marginTop: 15,
-            border: "1px solid #E7E7E7",
-            paddingTop: 6,
-            paddingBottom: 6,
-            paddingLeft: 16,
-            width: "100%",
-            height: "52px",
-            borderRadius: "12px",
-            fontWeight: 500,
-            fontSize: 14,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          <option value="" disabled selected>
-            Select a Asset
-          </option>
-          <option value="open">Open</option>
-          <option value="in-progress">In Progress</option>
-          <option value="resolved">Resolved</option>
-        </select>
+        {/* Dropdown */}
+<select
+  style={{
+    marginTop: 15,
+    border: "1px solid #E7E7E7",
+    paddingTop: 6,
+    paddingBottom: 6,
+    paddingLeft: 16,
+    width: "100%",
+    height: "52px",
+    borderRadius: "12px",
+    fontWeight: 500,
+    fontSize: 14,
+    fontFamily: "Gilroy, sans-serif",
+  }}
+  defaultValue="" // To ensure the placeholder is shown initially
+
+  value={assetname}
+  onChange={(e)=> handleAssetname(e)}
+>
+  <option value="" disabled>
+    Select an Asset
+  </option>
+  {state.AssetList.assetList.map((view) => (
+    <option key={view.asset_id} value={view.asset_id}>
+      {view.asset_name}
+    </option>
+  ))}
+</select>
+
+{state.AssetList.assetList &&
+                state.AssetList.assetList.length == 0 && (
+                  <label
+                    className="pb-1"
+                    style={{
+                      fontSize: 14,
+                      color: "red",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {" "}
+                    Please add an 'Asset' option in Asset page, accessible after
+                    adding an expense.
+                  </label>
+                )}
+
 
         {/* Button */}
         <button
@@ -269,6 +332,8 @@ const handleHideTagAsset = () => {
             paddingRight: "40px",
             cursor: "pointer",
           }}
+
+          onClick={handleTagAsset}
         >
           Tag Asset
         </button>
@@ -370,6 +435,7 @@ const handleHideTagAsset = () => {
         </div>
       </td>
     </tr>
+    </>
   )
 }
 

@@ -27,7 +27,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
 
-function StaticExample({ show, handleClose, currentItem }) {
+function StaticExample({ show, handleClose, currentItem, hostelId }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -79,6 +79,14 @@ function StaticExample({ show, handleClose, currentItem }) {
     setHostelError("");
     setIsChangedError("");
   };
+
+   useEffect(()=> {
+    dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id: hostelId} })
+   },[])
+
+   useEffect(() => {
+       dispatch({ type: 'ASSETLIST' })
+     }, [])
 
   const [errors, setErrors] = useState({});
 
@@ -306,19 +314,19 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
 
     const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
-    if (modeOfPayment && count && price && category && selectedDate) {
+    if (hostelId && modeOfPayment && count && price && category && selectedDate) {
       dispatch({
         type: "ADDEXPENSE",
         payload: {
-          vendor_id: vendorName || "",
-          asset_id: assetName || "",
+          // vendor_id: vendorName || "",
+          // asset_id: assetName || "",
           category_id: category,
           purchase_date: formattedDate,
           unit_count: count,
           unit_amount: price,
           description: description,
           payment_mode: modeOfPayment,
-          hostel_id: hostelName || "",
+          hostel_id: hostelId ,
           id: currentItem ? currentItem.id : null,
           bank_id: account,
         },
@@ -687,8 +695,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                   </div>
                 )}
               </div>  */}
-              {state.ExpenseList.categoryList &&
-                state.ExpenseList.categoryList.length == 0 && (
+              {state.Settings.Expences.data &&
+                state.Settings.Expences.data.length == 0 && (
                   <label
                     className="pb-1"
                     style={{
@@ -737,8 +745,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                     }}
                   >
                     <option>Select a Category</option>
-                    {state.ExpenseList.categoryList &&
-                      state.ExpenseList.categoryList.map((view) => (
+                    {state.Settings.Expences.data &&
+                     state.Settings.Expences.data.map((view) => (
                         <>
                           <option
                             key={view.category_Id}
