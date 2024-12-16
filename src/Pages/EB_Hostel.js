@@ -47,6 +47,7 @@ import {
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { MdError } from "react-icons/md";
 import { set } from "date-fns";
+import EBHostelReading from "./EB_Hostel_Based";
 
 function EB_Hostel(props) {
   const dispatch = useDispatch();
@@ -93,13 +94,29 @@ function EB_Hostel(props) {
   const [ebEditPermission, setEbEditPermission] = useState("");
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
-  const [hostelBased, setHostelBased] = useState("s");
+  const [hostelBased, setHostelBased] = useState("");
   const [uniqueostel_Id,setUniqostel_Id]=useState('')
+  const [hostelName,setHostelName]=useState('')
+  const [but_val,setButval]=useState(false)
+
+
+  const [hostelBasedForm,setHostelBasedForm] = useState(false)
   console.log("uniqueostel_Id",props.allPageHostel_Id)
   useEffect(() => {
     console.log("uniqueHostelId:", props.allPageHostel_Id);
     setUniqostel_Id(props.allPageHostel_Id);
   }, [props.allPageHostel_Id]);
+
+const handleHostelForm=()=>{
+
+  console.log("/////////")
+  
+  setHostelBasedForm(true);
+  setButval(true);
+
+}
+
+console.log("hostelBasedForm",hostelBasedForm);
 
 
   useEffect(() => {
@@ -196,7 +213,9 @@ function EB_Hostel(props) {
   // };
   const handleChanges = (event, newValue) => {
     setValue(newValue);
-    setaddEbDetail(false); // Reset the addEbDetail state when switching tabs
+    setaddEbDetail(false);
+    setHostelBasedForm(false)
+    setButval(true) // Reset the addEbDetail state when switching tabs
   };
 
   console.log("selectedDate", selectedDate);
@@ -296,6 +315,12 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
   //     setStartmeterValue("");
   //   }
   // }, [startmeter]);
+  useEffect(() => {
+      dispatch({
+        type: "HOSTELBASEDEBLIST",
+        payload: { hostel_id: selectedHostel}
+      });
+    }, [selectedHostel]);
 
   useEffect(() => {
     if (selectedHostel && Floor) {
@@ -378,14 +403,17 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
       (item) => item.hostel_id == selectedHostel
     );
     console.log("FilterHostelBased:", FilterHostelBased);
-    setHostelBased(FilterHostelBased);
+    // setHostelBased(FilterHostelBased);
     if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
       console.log("hostel_based..123?", FilterHostelBased[0]?.hostel_based);
       setHostelBased(FilterHostelBased[0]?.hostel_based);
+      setHostelName(FilterHostelBased[0]?.Name)
+      
     } else {
       console.log("unitAmount is not a valid array or is empty.");
     }
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
+  
   const totalMeterReading =
     endmeter -
     (startmeter && startmeter.end_Meter_Reading
@@ -820,6 +848,9 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
   }, [state.ExpenseList.transactionHistory]);
   const [activeTab, setActiveTab] = useState(1);
 
+  console.log("[[[[[[[[[[[[[[[[[[[[",hostelBased);
+  
+
   const customDateInput = (props) => {
     return (
       <div
@@ -909,27 +940,64 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
             )}
           </div>
 
-          <div>
-            <Button
-              style={{
-                fontFamily: "Montserrat",
-                fontSize: 14,
-                backgroundColor: "#1E45E1",
-                color: "white",
-                height: 52,
-                fontWeight: 600,
-                borderRadius: 8,
-                width: 140,
-                padding: "14px, 22px, 14px, 22px",
-                border: "none",
-                cursor: "pointer",
-              }}
-              disabled={ebAddPermission}
-              onClick={handleAddEbDetails}
-            >
-              + Add Reading
-            </Button>
-          </div>
+          {
+  hostelBased == 1 ? (
+    <div>
+      <Button
+        style={{
+          fontFamily: "Montserrat",
+          fontSize: 14,
+          backgroundColor: "#1E45E1",
+          color: "white",
+          height: 52,
+          fontWeight: 600,
+          borderRadius: 8,
+          width: 160,
+          // padding: "5px 5px",// Corrected padding
+          border: "none",
+          cursor: "pointer",
+          whiteSpace:"nowrap",
+          paddingTop:10,
+          paddingBottom:10,
+          paddingLeft:5,
+          paddingRight:0
+        }}
+        disabled={ebAddPermission}
+        onClick={handleHostelForm}
+      >
+        + Add HostelReading
+      </Button>
+    </div>
+  ) : (
+    <div>
+      <Button
+        style={{
+          fontFamily: "Montserrat",
+          fontSize: 14,
+          backgroundColor: "#1E45E1",
+          color: "white",
+          height: 52,
+          fontWeight: 600,
+          borderRadius: 8,
+          width: 160,
+          padding: "5px 12px", // Corrected padding
+          border: "none",
+          cursor: "pointer",
+          whiteSpace:"nowrap",
+          paddingTop:10,
+          paddingBottom:10,
+          paddingLeft:5,
+          paddingRight:5
+        }}
+        disabled={ebAddPermission}
+        onClick={handleAddEbDetails}
+      >
+        + Add RoomReading
+      </Button>
+    </div>
+  )
+}
+       
         </div>
       </div>
 
@@ -956,26 +1024,61 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                   textTransform: "none",
                 }}
               />
-              <Tab
-                label= "Room Reading"
-                value="2"
-                style={{
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                  color: "#4B4B4B",
-                  lineHeight: "normal",
-                  fontStyle: "normal",
-                  fontWeight: 500,
-                  textTransform: "none",
-                }}
-              />
+              
+              {
+  hostelBased == 1 ? (
+    <Tab
+      label="Hostel Reading"
+      value="3"
+      style={{
+        fontSize: 16,
+        fontFamily: "Gilroy",
+        color: "#4B4B4B",
+        lineHeight: "normal",
+        fontStyle: "normal",
+        fontWeight: 500,
+        textTransform: "none",
+      }}
+    />
+  ) : (
+    <Tab
+      label="Room Reading"
+      value="2"
+      style={{
+        fontSize: 16,
+        fontFamily: "Gilroy",
+        color: "#4B4B4B",
+        lineHeight: "normal",
+        fontStyle: "normal",
+        fontWeight: 500,
+        textTransform: "none",
+      }}
+    />
+  )
+}
+
+             
+            
             </TabList>
           </Box>
         </div>
         <TabPanel value="1">
           <>
+       
+         
+            <EBHostelReading
+              hostelBasedForm={hostelBasedForm}
+              setHostelBasedForm={setHostelBasedForm}
+              uniqueostel_Id={uniqueostel_Id}
+              hostelName={hostelName}
+              setHostelName={setHostelName}
+              value={value}
+            />
+         
+
             {ebpermissionError ? (
               <>
+              
                 <div
                   style={{
                     display: "flex",
@@ -1070,32 +1173,39 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                           >
                             Paying Guest
                           </th>
-                          <th
-                            style={{
-                              color: "#939393",
-                              fontWeight: 500,
-                              fontSize: "14px",
-                              fontFamily: "Gilroy",
-                              paddingTop: "10px",
-                              paddingBottom: "10px",
-                              textAlign: "center",
-                            }}
-                          >
-                            Floor
-                          </th>
-                          <th
-                            style={{
-                              color: "#939393",
-                              fontWeight: 500,
-                              fontSize: "14px",
-                              fontFamily: "Gilroy",
-                              paddingTop: "10px",
-                              paddingBottom: "10px",
-                              textAlign: "center",
-                            }}
-                          >
-                            Room
-                          </th>
+
+                        
+                          {hostelBased !== 1 && (
+  <>
+    <th
+      style={{
+        color: "#939393",
+        fontWeight: 500,
+        fontSize: "14px",
+        fontFamily: "Gilroy",
+        paddingTop: "10px",
+        paddingBottom: "10px",
+        textAlign: "center",
+      }}
+    >
+      Floor
+    </th>
+    <th
+      style={{
+        color: "#939393",
+        fontWeight: 500,
+        fontSize: "14px",
+        fontFamily: "Gilroy",
+        paddingTop: "10px",
+        paddingBottom: "10px",
+        textAlign: "center",
+      }}
+    >
+      Room
+    </th>
+  </>
+)}
+
                           <th
                             style={{
                               color: "#939393",
@@ -1268,6 +1378,8 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                                   {v.HostelName}
                                 </span>
                               </td>
+                              {hostelBased !== 1 && (
+                                <>
                               <td
                                 style={{
                                   fontSize: "16px",
@@ -1292,6 +1404,8 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                               >
                                 {v.Room_Id}
                               </td>
+                              </>
+                              )}
                               <td
                                 style={{
                                   fontSize: "16px",
@@ -1426,7 +1540,7 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                         There are no customer readings available.{" "}
                       </div>
 
-                      <div style={{ textAlign: "center" }}>
+                      {/* <div style={{ textAlign: "center" }}>
                         <Button
                           disabled={ebAddPermission}
                           onClick={handleAddEbDetails}
@@ -1444,7 +1558,50 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                         >
                           + Add Reading
                         </Button>
-                      </div>
+                      </div> */}
+                             {
+  hostelBased == 1 ? (
+    <div style={{ textAlign: "center" }}>
+      <Button
+        style={{
+          fontSize: 16,
+          backgroundColor: "#1E45E1",
+          color: "white",
+          height: 59,
+          fontWeight: 600,
+          borderRadius: 12,
+          width: 185,
+          padding: "18px, 20px, 18px, 20px",
+          fontFamily: "Gilroy",
+        }}
+        disabled={ebAddPermission}
+        onClick={handleHostelForm}
+      >
+        + Add Hostel Reading
+      </Button>
+    </div>
+  ) : (
+    <div style={{ textAlign: "center" }}>
+      <Button
+        style={{
+          fontSize: 16,
+          backgroundColor: "#1E45E1",
+          color: "white",
+          height: 59,
+          fontWeight: 600,
+          borderRadius: 12,
+          width: 185,
+          padding: "18px, 20px, 18px, 20px",
+          fontFamily: "Gilroy",
+        }}
+        disabled={ebAddPermission}
+        onClick={handleAddEbDetails}
+      >
+        + Add Room Reading
+      </Button>
+    </div>
+  )
+}
                     </div>
                   )}
                 </div>
@@ -1993,7 +2150,23 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
             setUniqostel_Id={setUniqostel_Id}
           />
         </TabPanel>
+       
+        <TabPanel value="3">
+          <EBHostelReading
+          hostelBasedForm={hostelBasedForm} setHostelBasedForm={setHostelBasedForm} uniqueostel_Id={uniqueostel_Id}
+          hostelName={hostelName} setHostelName={setHostelName} value={value} handleHostelForm={handleHostelForm}
+            
+          />
+        </TabPanel>
+
       </TabContext>
+
+      {/* {
+        hostelBasedForm == true ?(
+<EBHostelReading hostelBasedForm={hostelBasedForm} setHostelBasedForm={setHostelBasedForm} uniqueostel_Id={uniqueostel_Id}
+          hostelName={hostelName} setHostelName={setHostelName} value={value}/>
+        ):null
+      } */}
     </div>
   );
 }
