@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList} from "../Action/ComplianceAction"
+import {compliance,Compliancedetails, VendorList,addVendor, DeleteVendorList, ComplianceChange} from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -140,7 +140,51 @@ function* handleAddVendor(action) {
   
 }
 
+// ComplianceChange
 
+function* handleComplianceChange(action) {
+   const response = yield call (ComplianceChange,action.payload);
+ console.log("response", response)
+
+ var toastStyle = {
+   backgroundColor: "#E6F6E6",
+   color: "black",
+   width: "100%",
+   borderRadius: "60px",
+   height: "20px",
+   fontFamily: "Gilroy",
+   fontWeight: 600,
+   fontSize: 14,
+   textAlign: "start",
+   display: "flex",
+   alignItems: "center", 
+   padding: "10px",
+  
+ };
+
+   if (response.statusCode === 200 || response.status === 200){
+      yield put ({type : 'COMPLIANCE_CHANGE_STATUS' , payload:{response:response.data, statusCode:response.statusCode || response.status}})
+      toast.success(`${response.data.message}`, {
+         position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      // progress: undefined,
+      style: toastStyle,
+       });
+   }
+   else{
+      
+      yield put ({type:'COMPLIANCE_CHANGE_STATUS_ERROR', payload:response.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+  
+}
 
 function* handleDeleteVendor(action) {
    const response = yield call (DeleteVendorList,action.payload);
@@ -215,6 +259,7 @@ function* ComplianceSaga() {
     yield takeEvery('VENDORLIST',handleVendorGet)
     yield takeEvery('ADDVENDOR',handleAddVendor)
     yield takeEvery('DELETEVENDOR',handleDeleteVendor)
+    yield takeEvery('COMPLIANCE-CHANGE-STATUS',handleComplianceChange)    
 
 }
 export default ComplianceSaga;

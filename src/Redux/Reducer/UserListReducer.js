@@ -71,8 +71,10 @@ const initialState = {
     statusCodeForExportWalkin:0,
     exportCheckoutDetails:[],
     statusCodeForExportCheckout:0,
-
-
+    statusCodegetConfirmCheckout:0,
+    GetconfirmcheckoutBillDetails:[],
+    GetconfirmcheckoutUserDetails:'',
+    statusCodeAddConfirmCheckout:0,
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -339,6 +341,17 @@ case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
                       case "CLEAR_EXPORT_CHECKOUT_DETAILS":
                         return { ...state, statusCodeForExportCheckout: 0 };
 
+         case "GET_CONFIRM_CHECK_OUT_CUSTOMER":
+             return { ...state, GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
+                                GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
+                                statusCodegetConfirmCheckout: action.payload.statusCode,};
+        case "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER":
+             return { ...state, statusCodegetConfirmCheckout: 0 };
+
+        case "ADD_CONFIRM_CHECK_OUT_CUSTOMER":
+            return { ...state, statusCodeAddConfirmCheckout: action.payload.statusCode};
+        case "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER":
+            return { ...state, statusCodeAddConfirmCheckout: 0 };
     }
     return state;
 }

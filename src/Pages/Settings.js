@@ -547,9 +547,9 @@ if(!amount){
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
 
-  if (state.Settings.EBBillingUnitlist.length != 0) {
-    var currentRows = state?.Settings?.EBBillingUnitlist?.eb_settings.slice(indexOfFirstRow, indexOfLastRow);
-    var totalPages = Math.ceil(state?.Settings?.EBBillingUnitlist?.eb_settings.length / rowsPerPage);
+  if (state.Settings.EBBillingUnitlist?.length != 0) {
+    var currentRows = state?.Settings?.EBBillingUnitlist?.eb_settings?.slice(indexOfFirstRow, indexOfLastRow);
+    var totalPages = Math.ceil(state?.Settings?.EBBillingUnitlist?.eb_settings?.length / rowsPerPage);
   } else {
     var currentRows = 0;
     var totalPages = 0;
@@ -862,12 +862,12 @@ if(!amount){
                 </thead>
                 <tbody style={{ height: "50px", fontSize: "11px" }}>
 
-                  {state.Settings.EBBillingUnitlist.eb_settings && state.Settings.EBBillingUnitlist.eb_settings.length > 0 && state.Settings.EBBillingUnitlist.eb_settings.map((item) => (
+                  {state.Settings.EBBillingUnitlist?.eb_settings && state.Settings.EBBillingUnitlist.eb_settings?.length > 0 && state.Settings.EBBillingUnitlist.eb_settings?.map((item) => (
                     <EBBillingUnitlist item={item} modalEditEbunit={handleEdit} ebEditPermission={ebEditPermission}/>
 
 
                   ))}
-                  {currentRows.length === 0 && (
+                  {currentRows?.length === 0 && (
                     <tr>
                       <td colSpan="6" style={{ textAlign: "center", color: "red", fontSize: 14 }}>No data found</td>
                     </tr>
@@ -875,7 +875,7 @@ if(!amount){
 
                 </tbody>
               </Table>
-              {currentRows.length > 0 && (
+              {currentRows?.length > 0 && (
                 <nav>
                   <ul style={{ display: 'flex', alignItems: 'center', listStyleType: 'none', padding: 0, justifyContent: 'end' }}>
                     <li style={{ margin: '0 5px' }}>

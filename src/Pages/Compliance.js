@@ -61,7 +61,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import excelimg from "../Assets/Images/New_images/excel (5).png";
 
-const Compliance = () => {
+const Compliance = ({allPageHostel_Id}) => {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch()
@@ -643,7 +643,7 @@ useEffect(()=>{
       // console.log();
       const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
       if (id && hasChanges) {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id } })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id , Description:description} })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -659,7 +659,7 @@ useEffect(()=>{
         setHostel_Id('')
       }
       else {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status } })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status, Description: description} })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -752,13 +752,14 @@ useEffect(()=>{
   console.log("complainttypelist", state);
 
   useEffect(() => {
-    dispatch({ type: 'COMPLAINT-TYPE-LIST' })
+    dispatch({ type: 'COMPLAINT-TYPE-LIST', payload:{hostel_id:allPageHostel_Id} })
 
   }, [])
 
   useEffect(() => {
+console.log("state.Settings.Complainttypelist.complaint_types",state.Settings.Complainttypelist);
 
-    setComplainttypelist(state.Settings.Complainttypelist.complaint_types)
+    setComplainttypelist(state.Settings.Complainttypelist)
 
 
   }, [state.Settings.Complainttypelist.complaint_types])
@@ -1163,6 +1164,8 @@ useEffect(()=>{
                 </div>
 
                 <div className='row mt-1'>
+
+                  {/* Customer */}
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
@@ -1209,6 +1212,8 @@ useEffect(()=>{
 
 
                   </div>
+
+                  {/* complaint type */}
                   <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'> 
     <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
         <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
@@ -1248,9 +1253,11 @@ useEffect(()=>{
 </div>
 
 
-                  {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length == 0 && <><label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>* Please add a 'ComplaintType' option in Settings, accessible after  adding an Complaints.</label></>}
+{state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length == 0 && <>
+<label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>* 
+Please add a 'ComplaintType' option in Settings, accessible after  adding an Complaints.</label></>}
 
-
+{/* 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label
@@ -1268,9 +1275,30 @@ useEffect(()=>{
                       // style={inputStyle}
                       />
                     </Form.Group>
-                  </div>
+                  </div> */}
 
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+{/* //floor  */}
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label
+                        //  style={labelStyle}
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Floor<span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Paying Guests"
+                        value={hostelname}
+                        readOnly
+                        style={{backgroundColor:"#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      // style={inputStyle}
+                      />
+                    </Form.Group>
+                  </div>
+                  
+                  {/* bed  */}
+                  {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label
                         style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
@@ -1287,7 +1315,27 @@ useEffect(()=>{
                       // style={inputStyle}
                       />
                     </Form.Group>
+                  </div> */}
+
+                  {/* Room  */}
+                                    <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      >
+                        Room <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Rooms"
+                        value={Rooms}
+                        readOnly
+                        style={{ backgroundColor:"#E7F1FF",fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      // style={inputStyle}
+                      />
+                    </Form.Group>
                   </div>
+
                   {/* {!edit &&  Assign == !null( */}
                   {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
@@ -1314,7 +1362,8 @@ useEffect(()=>{
                     </Form.Group>
                   </div> */}
 
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+{/* status  */}
+                  {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                       <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
                         Status<span style={{ color: 'red', fontSize: '20px' }}>*</span>
@@ -1324,19 +1373,19 @@ useEffect(()=>{
                         style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                         value={Status}
                         onChange={(e) =>  handleStatus(e)}
-                      >
+                      > */}
                         {/* {edit ? (
           <option selected value={Status}>{Status}</option>
 
         ) : (
           <> */}
-                        <option value="">Select a status</option>
+                        {/* <option value="">Select a status</option>
                         <option value="Pending">Pending</option>
                         <option value="In Progress">In Progress</option>
-                        <option value="Completed">Completed</option>
+                        <option value="Completed">Completed</option> */}
                         {/* </> */}
                         {/* )} */}
-                      </Form.Select>
+                      {/* </Form.Select>
     
 
 {statsuserrormsg.trim() !== "" && (
@@ -1347,12 +1396,12 @@ useEffect(()=>{
   </div>
 )}
                     </Form.Group>
-                  </div>
+                  </div> */}
                   {/* )} */}
 
 
-
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+{/* Floor no*/}
+                  {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                       <Form.Label
                         style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
@@ -1368,8 +1417,28 @@ useEffect(()=>{
                       // style={inputStyle}
                       />
                     </Form.Group>
-                  </div>
+                  </div> */}
 
+{/* bet */}
+
+<div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label
+                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
+                      // style={labelStyle}
+                      >
+                        Bet<span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Beds"
+                        value={beds}
+                        readOnly
+                        style={{ backgroundColor:"#E7F1FF",fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
+                      // style={inputStyle}
+                      />
+                    </Form.Group>
+                  </div>
 
                   {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                     <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Complaint date</Form.Label><span style={{ color: 'red', fontSize: '20px' }}>*</span>

@@ -1,5 +1,5 @@
-import React, { useState ,useEffect} from 'react';
-import Edit from '../Assets/Images/New_images/edit.png';
+import React, { useState, useEffect } from 'react';
+import Edit from '../Assets/Images/edit-Complaints.svg';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
@@ -8,13 +8,20 @@ import Tickicon from '../Assets/Images/tick-circle.png'
 import Profile_add from '../Assets/Images/profile-add.png'
 import moment from 'moment';
 import Delete from '../Assets/Images/New_images/trash.png';
-
-
+import ChangeStatusIcon from '../Assets/Images/ComplaintChangeStatusicon.svg';
+import AssignComplaintIcon from '../Assets/Images/profile-add-AssingnComplaint.svg';
+import CommentIcon from '../Assets/Images/Comment-icon-complaints page.svg';
+import manimg from '../Assets/Images/Man Img.svg';
+import closeicon from '../Assets/Images/close.svg';
+import send from '../Assets/Images/send.svg';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ComplianceList = (props) => {
 
-    
-function getFloorName(floor_Id) {
+  const state = useSelector(state => state)
+  const dispatch = useDispatch()
+
+  function getFloorName(floor_Id) {
     if (floor_Id === 1) {
       return 'Ground Floor';
     } else if (floor_Id === 2) {
@@ -29,7 +36,7 @@ function getFloorName(floor_Id) {
     } else {
       const lastDigit = floor_Id % 10;
       let suffix = 'th';
-  
+
       switch (lastDigit) {
         case 1:
           suffix = 'st';
@@ -41,7 +48,7 @@ function getFloorName(floor_Id) {
           suffix = 'rd';
           break;
       }
-  
+
       return `${floor_Id - 1}${suffix} Floor`;
     }
   }
@@ -50,275 +57,851 @@ function getFloorName(floor_Id) {
   function getFormattedRoomId(floor_Id, room_Id) {
     const roomIdString = String(room_Id);
     switch (floor_Id) {
-        case 1:
-            return `${roomIdString.padStart(3, '0')}`;
-        case 1:
-            return `G${roomIdString.padStart(3, '0')}`;
-        case 2:
-            return `F${roomIdString.padStart(3, '0')}`;
-        case 3:
-            return `S${roomIdString.padStart(3, '0')}`;
-        case 4:
-            return `T${roomIdString.padStart(3, '0')}`;
-        default:
-            const floorAbbreviation = getFloorAbbreviation(floor_Id-1);
-            console.log("floorAbbreviation",floorAbbreviation,floor_Id );
-            // return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
-            return `${roomIdString.padStart(3, '0')}`;
+      case 1:
+        return `${roomIdString.padStart(3, '0')}`;
+      case 1:
+        return `G${roomIdString.padStart(3, '0')}`;
+      case 2:
+        return `F${roomIdString.padStart(3, '0')}`;
+      case 3:
+        return `S${roomIdString.padStart(3, '0')}`;
+      case 4:
+        return `T${roomIdString.padStart(3, '0')}`;
+      default:
+        const floorAbbreviation = getFloorAbbreviation(floor_Id - 1);
+        console.log("floorAbbreviation", floorAbbreviation, floor_Id);
+        // return `${floorAbbreviation}${roomIdString.padStart(3, '0')}`;
+        return `${roomIdString.padStart(3, '0')}`;
     }
-}
+  }
 
-function getFloorAbbreviation(floor_Id) {
+  function getFloorAbbreviation(floor_Id) {
 
     switch (floor_Id) {
-        case 5:
-            return 'F';
-        case 6:
-            return 'S';
-        case 8:
-            return 'E';
-        case 9:
-            return 'N';
-        case 10:
-            return 'T';
+      case 5:
+        return 'F';
+      case 6:
+        return 'S';
+      case 8:
+        return 'E';
+      case 9:
+        return 'N';
+      case 10:
+        return 'T';
 
-        default:
-            return `${floor_Id}`;
+      default:
+        return `${floor_Id}`;
     }
-}
+  }
 
 
-    const [showDots, setShowDots] = useState(false)
+  const [showDots, setShowDots] = useState(false)
+  const [status, setStatus] = useState('')
+  const [statusError, setStatusError] = useState('')
+  const [compliant, setCompliant] = useState('')
+  const [complianceError, setComplianceError] = useState('')
+  const handleShowDots = () => {
+    setShowDots(!showDots)
+  }
 
-    const handleShowDots = () => {
-        setShowDots(!showDots)
-    }
+  const handleEdit = (item) => {
+    props.onEditComplaints(item);
+  };
 
-    const handleEdit = (item) => {
-        props.onEditComplaints(item);
+  const handleassignshow = () => {
+    console.log('Assign button clicked'); // Add a log here
+    props.onAssignshow()
+  }
+
+  console.log("handleSow props", props)
+
+  useEffect(() => {
+    dispatch({ type: 'GETUSERSTAFF' })
+  }, [])
+
+  useEffect(() => {
+    const appearOptions = {
+      threshold: 0.5
     };
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOnScro1l = new IntersectionObserver(function (entries, appearOnScrool) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+        else {
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader => {
+      appearOnScro1l.observe(fader);
+    })
+  });
+  //commentcard
+  const [showCard, setShowCard] = useState(false);
 
-    const handleassignshow = () => {
-        console.log('Assign button clicked'); // Add a log here
-        props.onAssignshow()
+  const handleIconClick = () => {
+    setShowCard(!showCard);
+  };
+
+  //change status
+  const [showChangeStatus, setShowChangeStatus] = useState(false);
+
+  const handleChangeStatusClick = (complaints) => {
+    console.log("compliancesss", complaints);
+    // props.onEditComplaints(complaints)
+    // setShowChangeStatus(!showChangeStatus); 
+    if (status === '') {
+      setComplianceError('Please Select Compliant')
+    } else {
+      console.log("COMPLIANCE");
+
+      dispatch({ type: 'COMPLIANCE-CHANGE-STATUS', payload: { type: 'status_change', assigner: compliant, status: status, id: complaints.ID, hostel_id: complaints.Hostel_id } })
+    }
+  };
+
+  const handleChangeStatusOpenClose = () => {
+    setShowDots(false)
+    setStatus('')
+    setShowChangeStatus(!showChangeStatus);
+  }
+
+  //assign complaint
+  const [showAssignComplaint, setShowAssignComplaint] = useState(false);
+
+  const handleAssignComplaintClick = (Compliance) => {
+    console.log("compliancesss", Compliance);
+    if (compliant === '') {
+      setStatusError('Please Select status')
+    }
+    else {
+      dispatch({ type: 'COMPLIANCE-CHANGE-STATUS', payload: { type: 'assign', assigner: compliant, status: status, id: Compliance.ID, hostel_id: Compliance.Hostel_id } })
     }
 
-    console.log("handleSow props", props)
 
-    
-    useEffect(() => {
-        const appearOptions = {
-          threshold : 0.5
-        };
-        const faders = document.querySelectorAll('.fade-in'); 
-        const appearOnScro1l = new IntersectionObserver(function(entries,appearOnScrool){
-          entries.forEach(entry =>{
-            if(!entry.isIntersecting){
-              return;
-            }
-            else{
-              entry.target.classList.add('appear');
-              appearOnScro1l.unobserve(entry.target);
-            }
-          })
-        }, appearOptions)
-        faders.forEach(fader =>{
-          appearOnScro1l.observe(fader);
-        })
-      });
-
-    return (
-        <Card className="h-100 fade-in" style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
-            <Card.Body style={{ padding: 20 }}>
-                <div className="d-flex justify-content-between align-items-center flex-wrap" >
-                    <div className='d-flex gap-2'>
-                        <div className="">
-                            <Image src={User} roundedCircle style={{ height: "60px", width: "60px" }} />
-                        </div>
-                        <div >
-                            <div className='pb-2'>
-                                <label style={{fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 600, marginLeft: '10px' }} >{props.complaints && props.complaints.Name} </label>
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFE0D9', padding: '6px 12px',  borderRadius: '60px', marginRight: '10px' ,fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500}}>{(props.complaints &&  props.complaints.room_name)} - B{props.complaints && props.complaints.Bed}</div>
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFEFCF', padding: '6px 12px',  borderRadius: '60px', fontFamily:'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{(props.complaints.floor_name)}
-                                        {/* {props.complaints && props.complaints.Floor_id} */}
-                                        {/* Ground floor */}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div style={{ height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={handleShowDots}>
-                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                            {showDots && <>
-                                <div style={{ backgroundColor: "#FFFFFF", position: "absolute", right: 0, top: 50, width: 163, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
-                                    <div >
-                                    <div
-  className={"mb-2"}
-  onClick={() => {
-    if (!props.complianceEditPermission) {
-      handleEdit(props.complaints);
+  };
+  const handleAssignOpenClose = () => {
+    setShowDots(false)
+    setCompliant('')
+    setShowAssignComplaint(!showAssignComplaint);
+  }
+  const handleCompliant = (e) => {
+    setCompliant(e.target.value)
+    if (e.target.value === '') {
+      setComplianceError("Please Select Compliant")
+    } else {
+      setComplianceError(" ")
     }
-  }}
-  style={{
-    // backgroundColor: props.complianceEditPermission ? "#f9f9f9" : "#fff",
-    cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
-  }}
->
-  <img
-    src={Edit}
-    style={{
-      height: 16,
-      width: 16,
-      filter: props.complianceEditPermission ? "grayscale(100%)" : "none",
-    }}
-    alt="Edit"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-      color: props.complianceEditPermission ? "#ccc" : "#222222",
-      cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
-    }}
-  >
-    Edit
-  </label>
-</div>
+  }
+  const handleStatus = (e) => {
+    setStatus(e.target.value)
+    if (e.target.value === '') {
+      setStatusError("Please Select Status")
+    } else {
+      setStatusError("")
+    }
+  }
+  // state.Settings.addSettingStaffList
+  console.log("state.Settings.addSettingStaffList", state.Settings.addSettingStaffList);
 
-<div
-  className={"mb-2"}
-  style={{
-    // backgroundColor: props.complianceDeletePermission ? "#f9f9f9" : "#fff",
-    cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
-  }}
-//   onClick={() => {
-//     if (!props.complianceDeletePermission) {
-//       handleDelete(props.complaints); // Replace with your delete function if necessary
-//     }
-//   }}
->
-  <img
-    src={Delete}
-    style={{
-      height: 16,
-      width: 16,
-      filter: props.complianceDeletePermission ? "grayscale(100%)" : "none", // Dim icon when disabled
-    }}
-    alt="Delete"
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-      color: props.complianceDeletePermission ? "#ccc" : "#FF0000", 
-      cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
-    }}
-  >
-    Delete
-  </label>
-</div>
+  useEffect(() => {
+    if (state.ComplianceList.complianceChangeStatus === 200) {
+      handleAssignOpenClose()
+      handleChangeStatusOpenClose()
 
-                                    </div>
-                                </div>
+      dispatch({ type: 'COMPLIANCE-LIST' })
 
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_COMPLIANCE_CHANGE_STATUS_CODE' })
+      }, 500);
+    }
+  }, [state.ComplianceList.complianceChangeStatus])
 
-                            </>}
-
-                        </div>
-                    </div>
+  return (
+    <Card className="h-100 fade-in" style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
+      <Card.Body style={{ padding: 20 }}>
+        <div className="d-flex justify-content-between align-items-center flex-wrap" >
+          <div className='d-flex gap-2'>
+            <div className="">
+              <Image src={User} roundedCircle style={{ height: "60px", width: "60px" }} />
+            </div>
+            <div >
+              <div className='pb-2'>
+                <label style={{ fontFamily: 'Gilroy', fontSize: 16, color: "#222", fontWeight: 600, marginLeft: '10px' }} >{props.complaints && props.complaints.Name} </label>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <div style={{ marginTop: 5, display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFE0D9', padding: '6px 12px', borderRadius: '60px', marginRight: '10px', fontFamily: 'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{(props.complaints && props.complaints.room_name)} - B{props.complaints && props.complaints.Bed}</div>
+                  <div style={{ marginTop: 5, display: 'flex', alignItems: 'flex-start', gap: '10px', background: '#FFEFCF', padding: '6px 12px', borderRadius: '60px', fontFamily: 'Gilroy', fontSize: 16, color: "#222", fontWeight: 500 }}>{(props.complaints.floor_name)}
+                    {/* {props.complaints && props.complaints.Floor_id} */}
+                    {/* Ground floor */}
+                  </div>
                 </div>
-                <hr style={{ border: "1px solid #E7E7E7" }} />
+              </div>
+            </div>
+          </div>
 
-                <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+          <div>
+            <div style={{ height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={handleShowDots}>
+              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-                    <div className='mb-2'>
-                        <div className='mb-1'>
-                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal' }}>Request ID </label>
+              {showDots && <>
+                <div style={{ backgroundColor: "#EBEBEB", position: "absolute", right: 0, top: 50, width: 175, height: 159, border: "1px solid #EBEBEB", borderRadius: 12, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                  <div >
+
+                    {/* Change status */}
+                    <div
+                      className={"mb-2"}
+                      onClick={handleChangeStatusOpenClose}
+                      style={{
+                        cursor: "pointer"
+                      }}
+                    >
+                      <img
+                        src={ChangeStatusIcon}
+                        style={{
+                          height: 16,
+                          width: 16,
+
+                        }}
+                        alt="Edit"
+                      />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy, sans-serif",
+
+                          cursor: "pointer",
+                          paddingLeft: 5
+                        }}
+                      >
+                        Change Status
+                      </label>
+
+
+
+                      {showChangeStatus && (
+                        <div
+                          style={{
+                            position: "fixed",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            border: "1px solid #DCDCDC",
+                            borderRadius: 24,
+                            padding: "16px",
+                            backgroundColor: "#FFF",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                            zIndex: 1000,
+                            width: 472,
+                            height: 278,
+                          }}
+                          onClick={(e) => e.stopPropagation()} // Prevent click event from propagating to overlay
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <p
+                              style={{
+                                fontWeight: 600,
+                                fontSize: 18,
+                                fontFamily: "Gilroy, sans-serif",
+                                margin: 0,
+                              }}
+                            >
+                              Change Status
+                            </p>
+                            <img
+                              src={closeicon}
+                              alt="Close"
+                              style={{ cursor: "pointer", width: 20, height: 20 }}
+                              onClick={handleChangeStatusOpenClose}
+                            />
+                          </div>
+
+                          <div
+                            style={{
+                              border: "1px solid #E7E7E7",
+                              marginTop: 15,
+                              width: "100%",
+                            }}
+                          ></div>
+
+                          <div
+                            style={{
+                              marginTop: 15,
+                              position: "relative",
+                              display: "inline-block",
+                              width: "100%",
+                            }}
+                          >
+                            <label
+                              style={{
+                                marginTop: 15,
+                                fontWeight: 500,
+                                fontSize: 14,
+                                fontFamily: "Gilroy, sans-serif",
+                              }}
+                            >
+                              Change Status
+                            </label>
+
+                            {/* Dropdown */}
+                            <select
+                              style={{
+                                marginTop: 15,
+                                border: "1px solid #E7E7E7",
+                                paddingTop: 6,
+                                paddingBottom: 6,
+                                paddingLeft: 16,
+                                width: "100%",
+                                height: "52px",
+                                borderRadius: "12px",
+                                fontWeight: 500,
+                                fontSize: 14,
+                                fontFamily: "Gilroy, sans-serif",
+                              }}
+                              value={status}
+                              onChange={(e) => { handleStatus(e) }}
+                            >
+                              <option value="" disabled selected>
+                                Select a status
+                              </option>
+                              <option value="open">Open</option>
+                              <option value="in-progress">In Progress</option>
+                              <option value="resolved">Resolved</option>
+                            </select>
+                            {statusError && <span style={{ color: 'red' }}>{statusError}</span>}
+                            {/* Button */}
+                            <button
+                              style={{
+                                marginTop: 15,
+                                width: "100%",
+                                height: "59px",
+                                borderRadius: "12px",
+                                backgroundColor: "#1E45E1",
+                                color: "white",
+                                border: "none",
+                                fontSize: "16px",
+                                fontWeight: "400px",
+                                paddingTop: "20px",
+                                paddingBottom: "20px",
+                                paddingLeft: "40px",
+                                paddingRight: "40px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => { handleChangeStatusClick(props.complaints) }}
+                            >
+                              Change Status
+                            </button>
+                          </div>
                         </div>
-                        <div >
-                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>{props.complaints && props.complaints.Requestid}</label>
-                        </div>
+                      )}
+
+                      {/* Background overlay */}
+                      {showChangeStatus && (
+                        <div
+                          onClick={handleChangeStatusOpenClose}
+                          style={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            zIndex: 999,
+                          }}
+                        />
+                      )}
+
 
                     </div>
 
-                    <div className='mb-2'>
-                        <div className='mb-1'>
-                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal' }}> Complaint date</label>
+
+                    {/* Assign Complaint */}
+                    <div
+                      className={"mb-2"}
+                      onClick={handleAssignOpenClose}
+                      style={{
+                        cursor: "pointer"
+                      }}
+                    >
+                      <img
+                        src={AssignComplaintIcon}
+                        style={{
+                          height: 16,
+                          width: 16,
+
+                        }}
+                        alt="Edit"
+                      />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy, sans-serif",
+                          cursor: "pointer",
+                          paddingLeft: 5
+                        }}
+                      >
+                        Assign Complaint
+                      </label>
+
+
+                      {showAssignComplaint && (
+                        <div
+                          style={{
+                            position: "fixed",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            border: "1px solid #DCDCDC",
+                            borderRadius: 24,
+                            padding: "16px",
+                            backgroundColor: "#FFF",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                            zIndex: 1000,
+                            width: 472,
+                            height: 278,
+                          }}
+                          onClick={(e) => e.stopPropagation()} // Prevent click event from propagating to overlay
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <p
+                              style={{
+                                fontWeight: 600,
+                                fontSize: 18,
+                                fontFamily: "Gilroy, sans-serif",
+                                margin: 0,
+                              }}
+                            >
+                              Assign Complaint
+                            </p>
+                            <img
+                              src={closeicon}
+                              alt="Close"
+                              style={{ cursor: "pointer", width: 20, height: 20 }}
+                              onClick={handleAssignOpenClose}
+                            />
+                          </div>
+
+                          <div
+                            style={{
+                              border: "1px solid #E7E7E7",
+                              marginTop: 15,
+                              width: "100%",
+                            }}
+                          ></div>
+
+                          <div
+                            style={{
+                              marginTop: 15,
+                              position: "relative",
+                              display: "inline-block",
+                              width: "100%",
+                            }}
+                          >
+                            <label
+                              style={{
+                                marginTop: 15,
+                                fontWeight: 500,
+                                fontSize: 14,
+                                fontFamily: "Gilroy, sans-serif",
+                              }}
+                            >
+                              Assign Complaint
+                            </label>
+
+                            {/* Dropdown */}
+                            <select
+                              style={{
+                                marginTop: 15,
+                                border: "1px solid #E7E7E7",
+                                paddingTop: 6,
+                                paddingBottom: 6,
+                                paddingLeft: 16,
+                                width: "100%",
+                                height: "52px",
+                                borderRadius: "12px",
+                                fontWeight: 500,
+                                fontSize: 14,
+                                fontFamily: "Gilroy, sans-serif",
+                              }}
+                              value={compliant}
+                              onChange={(e) => { handleCompliant(e) }}
+                            >
+                              <option value="" disabled selected>
+                                Select a Complaint
+                              </option>
+                              {
+                                state.Settings.addSettingStaffList?.response && state.Settings.addSettingStaffList.response.map((v, i) => {
+                                  return (
+                                    <option key={v.id} value={v.id}>{v.first_name}</option>
+                                  )
+                                })
+                              }
+                              {/* <option value="open">Open</option>
+        <option value="in-progress">In Progress</option>
+        <option value="resolved">Resolved</option> */}
+                            </select>
+                            {complianceError && <span style={{ color: 'red' }}>{complianceError}</span>}
+
+                            {/* Button */}
+                            <button
+                              style={{
+                                marginTop: 15,
+                                width: "100%",
+                                height: "59px",
+                                borderRadius: "12px",
+                                backgroundColor: "#1E45E1",
+                                color: "white",
+                                border: "none",
+                                fontSize: "16px",
+                                fontWeight: "400px",
+                                paddingTop: "20px",
+                                paddingBottom: "20px",
+                                paddingLeft: "40px",
+                                paddingRight: "40px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => { handleAssignComplaintClick(props.complaints) }}
+                            >
+                              Assign Complaint
+                            </button>
+                          </div>
                         </div>
-                        <div>
-                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>{moment(props.complaints.date).format('DD-MM-YYYY')} </label>
-                        </div>
+                      )}
+
+                      {/* Background overlay */}
+                      {showAssignComplaint && (
+                        <div
+                          onClick={handleAssignOpenClose}
+                          style={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            zIndex: 999,
+                          }}
+                        />
+                      )}
 
                     </div>
 
-                    <div className='mb-2'>
-                        <div className='mb-1'>
-                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal' }}>Assigned to</label>
-                        </div>
-                        <div>
-                        <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>
-      {props.complaints.Assign  === '' || props.complaints.Assign == null ? (
-        <p 
-        // onClick={handleassignshow}
-         style={{color:'#1E45E1',fontSize:'16px'}}>+ Assign</p>
-      ) : (
-        props.complaints.Assign
-      )}
-    </label>                        </div>
-
+                    {/* edit */}
+                    <div
+                      className={"mb-2"}
+                      onClick={() => {
+                        if (!props.complianceEditPermission) {
+                          handleEdit(props.complaints);
+                        }
+                      }}
+                      style={{
+                        // backgroundColor: props.complianceEditPermission ? "#f9f9f9" : "#fff",
+                        cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      <img
+                        src={Edit}
+                        style={{
+                          height: 16,
+                          width: 16,
+                          filter: props.complianceEditPermission ? "grayscale(100%)" : "none",
+                        }}
+                        alt="Edit"
+                      />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy, sans-serif",
+                          color: props.complianceEditPermission ? "#ccc" : "#222222",
+                          cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+                          paddingLeft: 5
+                        }}
+                      >
+                        Edit
+                      </label>
                     </div>
+
+
+                    {/* Delete */}
+                    <div
+                      className={"mb-2"}
+                      style={{
+                        // backgroundColor: props.complianceDeletePermission ? "#f9f9f9" : "#fff",
+                        cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
+                      }}
+                    //   onClick={() => {
+                    //     if (!props.complianceDeletePermission) {
+                    //       handleDelete(props.complaints); // Replace with your delete function if necessary
+                    //     }
+                    //   }}
+                    >
+                      <img
+                        src={Delete}
+                        style={{
+                          height: 16,
+                          width: 16,
+                          filter: props.complianceDeletePermission ? "grayscale(100%)" : "none", // Dim icon when disabled
+                        }}
+                        alt="Delete"
+                      />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy, sans-serif",
+                          color: props.complianceDeletePermission ? "#ccc" : "#FF0000",
+                          cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
+                          paddingLeft: 5
+                        }}
+                      >
+                        Delete
+                      </label>
+                    </div>
+
+                  </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'row',justifyContent:'space-between' }}>
-                <div className='mb-2'>
-                    <div className='mb-1'>
-                        <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal' }}> Complaint type</label>
 
-                    </div>
+              </>}
 
-                    <div>
-                        <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal'  }}>{props.complaints && props.complaints.complaint_name}- {props.complaints && props.complaints.Description}</label>
-                    </div>
+            </div>
+          </div>
+        </div>
+        <hr style={{ border: "1px solid #E7E7E7" }} />
 
+        <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+
+          <div className='mb-2'>
+            <div className='mb-1'>
+              <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}>Request ID </label>
+            </div>
+            <div >
+              <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}>{props.complaints && props.complaints.Requestid}</label>
+            </div>
+
+          </div>
+
+          <div className='mb-2'>
+            <div className='mb-1'>
+              <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}> Complaint date</label>
+            </div>
+            <div>
+              <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}>{moment(props.complaints.date).format('DD-MM-YYYY')} </label>
+            </div>
+
+          </div>
+
+          <div className='mb-2'>
+            <div className='mb-1'>
+              <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}>Assigned to</label>
+            </div>
+            <div>
+              <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}>
+                {props.complaints.Assign === '' || props.complaints.Assign == null ? (
+                  <p
+                    // onClick={handleassignshow}
+                    style={{ color: '#1E45E1', fontSize: '16px' }}>+ Assign</p>
+                ) : (
+                  props.complaints.Assign
+                )}
+              </label>                        </div>
+
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <div className='mb-2'>
+            <div className='mb-1'>
+              <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}> Complaint type</label>
+
+            </div>
+
+            <div>
+              <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}>{props.complaints && props.complaints.complaint_name}- {props.complaints && props.complaints.Description}</label>
+            </div>
+
+          </div>
+
+          <div className='mb-2'>
+            <div className='mb-1'>
+              <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}> Status</label>
+
+            </div>
+
+            <div>
+              <label style={(props.complaints && props.complaints.Status.toUpperCase() === "COMPLETED") ? { color: "#00A32E" } : { color: "#FF9E00" }}>{props.complaints && props.complaints.Status}</label>
+            </div>
+
+          </div>
+        </div>
+
+        <hr style={{ border: "1px solid #E7E7E7" }} />
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy, sans-serif" }}>
+            {props.complaints.Assign === '' || props.complaints.Assign == null ? (
+              <p style={{ fontSize: '14px', fontWeight: 600, color: '#222', fontFamily: 'Gilroy', fontStyle: 'normal', lineHeight: 'normal' }}>
+                <img src={Profile_add} className='me-2' alt="Add Profile" />
+                Yet to assign the complaint
+              </p>
+            ) : (
+              <p style={{ fontSize: '14px', fontWeight: 600, color: '#222', fontFamily: 'Gilroy', fontStyle: 'normal', lineHeight: 'normal' }}>
+                <img src={Tickicon} className='me-2' alt="Success" />
+                successfully attended on {moment(props.complaints.date).format('DD-MM-YYYY')}
+              </p>
+            )}
+          </label>
+
+          {/* CommentIcon  */}
+          <div>
+            <div
+              style={{
+                border: "1px solid #DCDCDC",
+                borderRadius: 60,
+                padding: "8px 12px",
+                cursor: "pointer",
+              }}
+              onClick={handleIconClick}
+            >
+              <label>
+                <img src={CommentIcon} alt="Comments" /> 986
+              </label>
+            </div>
+
+            {showCard && (
+              <div
+                style={{
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  border: "1px solid #DCDCDC",
+                  borderRadius: 10,
+                  padding: "16px",
+                  backgroundColor: "#FFF",
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                  zIndex: 1000,
+                  width: 664,
+                  height: 279
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <p style={{ fontWeight: 600, fontSize: 18, fontFamily: "Gilroy, sans-serif", margin: 0 }}>
+                    August 2024 . Monthly Report
+                  </p>
+                  <img
+                    src={closeicon}
+                    alt="Close"
+                    style={{ cursor: "pointer", width: 20, height: 20 }}
+                    onClick={handleIconClick}  // Add this line to close the window when clicked
+                  />
                 </div>
 
-                <div className='mb-2'>
-                    <div className='mb-1'>
-                        <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",fontStyle:'normal',lineHeight:'normal' }}> Status</label>
-
-                    </div>
-
-                    <div>
-                        <label style={(props.complaints && props.complaints.Status.toUpperCase() === "COMPLETED") ? { color: "#00A32E" } : { color: "#FF9E00" }}>{props.complaints && props.complaints.Status}</label>
-                    </div>
-
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 20 }}>
+                  <label style={{ fontWeight: 500, fontSize: 12, fontFamily: "Gilroy, sans-serif", margin: 0 }}>
+                    <img
+                      src={manimg}
+                      alt="man"
+                      style={{ cursor: "pointer", width: 20, height: 20 }}
+                    /> Akash Rathod
+                  </label>
+                  <p style={{ fontWeight: 500, fontSize: 12, fontFamily: "Gilroy, sans-serif", margin: 0 }}>
+                    01 September 2024
+                  </p>
                 </div>
+
+                <div style={{ marginTop: 10 }}>
+                  <p style={{ fontWeight: 500, fontSize: 14, fontFamily: "Gilroy, sans-serif", margin: 0 }}>
+                    Lorem ipsum dolor sit amet consectetur. Tellus sed libero commodo leo scelerisque turpis in gravida.
+                    Et facilisi eget id consequat maecenas diam velit eget accumsan. Nam suspendisse lectus vitae elementum integer.
+                    Velit sem nec eget id ac. Sagittis sit mauris massa eget vel integer mattis pulvinar. Eget aliquet
+                  </p>
                 </div>
 
-                <hr style={{ border: "1px solid #E7E7E7" }} />
-                
-                <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy, sans-serif" }}>
-      {props.complaints.Assign === '' || props.complaints.Assign  == null ? (
-        <p style={{ fontSize: '14px', fontWeight: 600, color: '#222', fontFamily: 'Gilroy' ,fontStyle:'normal',lineHeight:'normal'}}>
-          <img src={Profile_add} className='me-2' alt="Add Profile" />
-          Yet to assign the complaint
-        </p>
-      ) : (
-        <p style={{ fontSize: '14px', fontWeight: 600, color: '#222', fontFamily: 'Gilroy',fontStyle:'normal',lineHeight:'normal' }}>
-          <img src={Tickicon} className='me-2' alt="Success" />
-          successfully attended on {moment(props.complaints.date).format('DD-MM-YYYY')}
-        </p>
-      )}
-    </label>
+                <div style={{ border: "1px solid #E7E7E7", marginTop: 15, width: "100%" }}></div>
 
-            </Card.Body>
-        </Card>
-    )
+                <div style={{ marginTop: 15, position: "relative", display: "inline-block", width: "100%" }}>
+                  <input
+                    type="text"
+                    style={{
+                      border: "1px solid #E7E7E7",
+                      paddingTop: 6,
+                      paddingBottom: 6,
+                      paddingLeft: 16,
+                      width: "100%",
+                      height: "52px",
+                      borderRadius: "12px"
+                    }}
+                    placeholder="Post your reply here"
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      right: "10px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      backgroundColor: "#1E45E1",
+                      border: "1px solid #E7E7E7",
+                      borderRadius: "60px",
+                      padding: "12px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={send}
+                      alt="Send"
+                      style={{
+                        width: "20px",
+                        height: "20px"
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Background overlay */}
+            {showCard && (
+              <div
+                onClick={handleIconClick}
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  zIndex: 999,
+                }}
+              />
+            )}
+
+          </div>
+
+
+
+        </div>
+      </Card.Body>
+    </Card>
+  )
 }
 export default ComplianceList;

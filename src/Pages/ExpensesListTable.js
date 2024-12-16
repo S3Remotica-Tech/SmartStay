@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
+import TagAsset from '../Assets/Images/TagAsset.svg';
+import closeicon from '../Assets/Images/close.svg';
 
 function ExpensesListTable(props) {
 
@@ -61,6 +63,20 @@ function ExpensesListTable(props) {
 
   console.log("props ##############", props)
 
+  //Tag Asset
+  const [showTagAsset, setshowTagAsset] = useState(false);
+
+
+const handleShowTagAsset = () => {
+  setshowTagAsset(!showTagAsset)
+};
+
+
+const handleHideTagAsset = () => {
+  setshowTagAsset(false); // Hide the modal
+};
+
+
 
   return (
     <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.id}>
@@ -112,6 +128,172 @@ function ExpensesListTable(props) {
                 <div style={{ backgroundColor: "#f9f9f9" }} className=''>
 
 
+{/* Tag Asset  */}
+<div
+  className="mb-1 d-flex justify-content-start align-items-center gap-2"
+  style={{
+    cursor: "pointer",
+  }}
+  onClick={handleShowTagAsset} 
+>
+  <div>
+    <img src={TagAsset} />
+  </div>
+  <div>
+    <label
+      style={{
+        cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        color: "black",
+      }}
+    >
+      Tag Asset
+    </label>
+  </div>
+</div>
+
+{showTagAsset && (
+  <>
+    <div
+      style={{
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        border: "1px solid #DCDCDC",
+        borderRadius: 24,
+        padding: "16px",
+        backgroundColor: "#FFF",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        zIndex: 1000,
+        width: 472,
+        height: 278,
+      }}
+      onClick={(e) => e.stopPropagation()} 
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <p
+          style={{
+            fontWeight: 600,
+            fontSize: 18,
+            fontFamily: "Gilroy, sans-serif",
+            margin: 0,
+          }}
+        >
+          Tag Asset
+        </p>
+        <img
+          src={closeicon}
+          alt="Close"
+          style={{ cursor: "pointer", width: 20, height: 20 }}
+          onClick={handleHideTagAsset} 
+        />
+      </div>
+
+      <div
+        style={{
+          border: "1px solid #E7E7E7",
+          marginTop: 15,
+          width: "100%",
+        }}
+      ></div>
+
+      <div
+        style={{
+          marginTop: 15,
+          position: "relative",
+          display: "inline-block",
+          width: "100%",
+        }}
+      >
+        <label
+          style={{
+            marginTop: 15,
+            fontWeight: 500,
+            fontSize: 14,
+            fontFamily: "Gilroy, sans-serif",
+            display: "block", 
+            textAlign: "left", 
+          }}
+        >
+          Asset Unique Name
+        </label>
+
+        {/* Dropdown */}
+        <select
+          style={{
+            marginTop: 15,
+            border: "1px solid #E7E7E7",
+            paddingTop: 6,
+            paddingBottom: 6,
+            paddingLeft: 16,
+            width: "100%",
+            height: "52px",
+            borderRadius: "12px",
+            fontWeight: 500,
+            fontSize: 14,
+            fontFamily: "Gilroy, sans-serif",
+          }}
+        >
+          <option value="" disabled selected>
+            Select a Asset
+          </option>
+          <option value="open">Open</option>
+          <option value="in-progress">In Progress</option>
+          <option value="resolved">Resolved</option>
+        </select>
+
+        {/* Button */}
+        <button
+          style={{
+            marginTop: 15,
+            width: "100%",
+            height: "59px",
+            borderRadius: "12px",
+            backgroundColor: "#1E45E1",
+            color: "white",
+            border: "none",
+            fontSize: "16px",
+            fontWeight: "400px",
+            paddingTop: "20px",
+            paddingBottom: "20px",
+            paddingLeft: "40px",
+            paddingRight: "40px",
+            cursor: "pointer",
+          }}
+        >
+          Tag Asset
+        </button>
+      </div>
+    </div>
+
+    {/* Background overlay */}
+    <div
+      onClick={handleHideTagAsset} 
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        zIndex: 999,
+      }}
+    />
+  </>
+)}
+
+
+
+{/* edit  */}
                 <div
   className="mb-2 d-flex justify-content-start align-items-center gap-2 "
   onClick={() => {
@@ -144,6 +326,7 @@ function ExpensesListTable(props) {
   </div>
 </div>
 
+{/* Delete  */}
 <div
   className="mb-1 d-flex justify-content-start align-items-center gap-2"
   style={{

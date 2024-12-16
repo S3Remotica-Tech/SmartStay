@@ -1,8 +1,10 @@
 const initialState = {
+
   Expences: [],
   message: "",
   getExpensesStatuscode: 0,
   addexpencesStatuscode: 0,
+  editexpencesStatuscode: 0,
   alreadycategoryerror: "",
   deleteexpencesStatusCode: 0,
   Complainttypelist: [],
@@ -41,7 +43,8 @@ const initialState = {
   generalDelete: [],
   statusCodeForGeneralDelete: 0,
   generalEmailError:'',
-  generalMobileError:''
+  generalMobileError:'',
+  addRecurringRole:0
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -57,13 +60,14 @@ const SettingsReducer = (state = initialState, action) => {
     case "CLEAR_GET_EXPENSES_STATUS_CODE":
       return { ...state, getExpensesStatuscode: 0 };
     case "EXPENCES_ADD":
-      return {
-        ...state,
-        message: action.payload.message,
-        addexpencesStatuscode: action.payload.statusCode,
-      };
+      return {...state,message: action.payload.message,addexpencesStatuscode: action.payload.statusCode};
     case "CLEAR_ADD_EXPENCES_STATUS_CODE":
       return { ...state, addexpencesStatuscode: 0 };
+
+    case 'EDIT-EXPENCES-CATEGORY':
+        return { ...state, message: action.payload.message  , editexpencesStatuscode : action.payload.statusCode}
+    case 'CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE':
+        return { ...state, editexpencesStatuscode: 0 }
     case "DELETE_EXPENCES":
       return { ...state, deleteexpencesStatusCode: action.payload.statusCode };
     case "CLEAR_DELETE_EXPENCES_STATUS_CODE":
@@ -125,10 +129,10 @@ const SettingsReducer = (state = initialState, action) => {
     case "ROLE_LIST":
       return {
         ...state,
-        getsettingRoleList: action.payload,
+        getsettingRoleList: action.payload.response,
         statusCodeForRoleList: action.payload.statusCode,
       };
-    case "CLEAR_DELETE_BANKING_TRANSACTION":
+    case "CLEAR_ROLE_LIST":
       return { ...state, statusCodeForRoleList: 0 };
 
     case "ADD_SETTING_ROLE":
@@ -193,7 +197,7 @@ const SettingsReducer = (state = initialState, action) => {
     case "USER_STAFF_LIST":
       return {
         ...state,
-        addSettingStaffList: action.payload,
+        addSettingStaffList: action.payload.response,
         StatusForaddSettingStaffList: action.payload.statusCode,
       };
     case "CLEAR_USER_STAFF_LIST":
@@ -269,7 +273,15 @@ const SettingsReducer = (state = initialState, action) => {
         };
       case "CLEAR_DELETE_GENERAL":
         return { ...state, statusCodeForGeneralDelete: 0 };
+case 'RECURRING_ROLE':
+  return {...state, addRecurringRole:action.payload.statusCode}
+
+  case 'REMOVE_RECURRING_ROLE':
+    return {...state, addRecurringRole:0}
+  
+
   }
   return state;
 };
 export default SettingsReducer;
+

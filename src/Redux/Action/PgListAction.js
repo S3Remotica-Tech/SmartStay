@@ -54,11 +54,17 @@ export async function EB_Customerlist() {
   return await AxiosConfig.get("/list/eb_list", {});
 }
 
-export async function EB_startmeterlist() {
-  return await AxiosConfig.get("/list/Ebstartmeter", {});
+export async function EB_startmeterlist(datum) {
+  console.log("EB_startmeterlist",datum)
+  return await AxiosConfig.post("/list/Ebstartmeter",datum, {
+    data:datum,
+  });
 }
-export async function EB_CustomerListTable() {
-  return await AxiosConfig.get("/customer_readings", {});
+export async function EB_CustomerListTable(datum) {
+  console.log("EB_CustomerListTable",datum)
+  return await AxiosConfig.post("/customer_readings",datum, {
+data:datum,
+  });
 }
 
 export async function createRoom(datum) {
@@ -133,6 +139,36 @@ export async function deleteElectricity(datum) {
 
 export async function dashboardFilter(datum) {
   return await AxiosConfig.post("/dash_filter", datum, {
+    data: datum,
+  });
+}
+
+// Hostel_based
+
+export async function ebHostelBasedRead(datum) {
+  console.log("ebHostelBasedRead",datum)
+  return await AxiosConfig.post("/get_hostel_reading", datum, {
+    data: datum,
+  });
+}
+
+export async function ebAddHostelReading(datum) {
+  console.log("ebAddHostelReading",datum)
+  return await AxiosConfig.post("/add_hostel_reading", datum, {
+    data: datum,
+  });
+}
+
+
+export async function ebAddHostelEdit(datum) {
+  console.log("ebAddHostelEdit",datum)
+  return await AxiosConfig.post("/edit_hostel_reading", datum, {
+    data: datum,
+  });
+}
+export async function ebAddHostelDelete(datum) {
+  console.log("ebAddHostelDelete",datum)
+  return await AxiosConfig.post("/delete_hostel_reading", datum, {
     data: datum,
   });
 }

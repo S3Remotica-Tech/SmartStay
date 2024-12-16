@@ -104,7 +104,13 @@ function UserList(props) {
   const [customerReassign,setCustomerReAssign]=useState(false);
   const [customerCheckoutpage,setCustomerCheckoutpage]=useState(false)
   const [reAssignDetail,setReasignDetail]=useState("")
-
+  const [uniqueostel_Id,setUniqostel_Id]=useState('')
+  const [customercheckoutdata, setCustomerCheckoutData] = useState('')
+  console.log("uniqueostel_Id",props.allPageHostel_Id)
+  useEffect(() => {
+    console.log("uniqueHostelId:", props.allPageHostel_Id);
+    setUniqostel_Id(props.allPageHostel_Id);
+  }, [props.allPageHostel_Id]);
 
   const handleCustomerReAssign=(reuser)=>{
     console.log("reuser",reuser)
@@ -112,8 +118,9 @@ function UserList(props) {
     setCustomerReAssign(true)
     // setUserList(false);
   }
-  const handleCustomerCheckout=()=>{
+  const handleCustomerCheckout=(item)=>{
     setCustomerCheckoutpage(true)
+    setCustomerCheckoutData(item)
     // setUserList(false);
   }
 
@@ -519,7 +526,7 @@ function UserList(props) {
 // useEffect(()=>{
 //   setAll_Hos_Id(props.allPageHostel_Id)
 // },[props.allPageHostel_Id])
-const [uniqueostel_Id,setUniqostel_Id]=useState('')
+// const [uniqueostel_Id,setUniqostel_Id]=useState('')
 console.log("uniqueostel_Id",props.allPageHostel_Id)
 useEffect(() => {
   console.log("uniqueHostelId:", props.allPageHostel_Id);
@@ -1295,12 +1302,16 @@ useEffect(() => {
         setUniqostel_Id={setUniqostel_Id}
       />
 
-      <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal} />
+      <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal}    uniqueostel_Id={uniqueostel_Id}
+                 setUniqostel_Id={setUniqostel_Id}/>
 
       <UserlistWalkinForm
         show={walkInForm}
         handleClose={walkinFormcloseModal}
         customerrolePermission={customerrolePermission}
+
+        uniqueostel_Id={uniqueostel_Id}
+        setUniqostel_Id={setUniqostel_Id}
       />
 
       {userList && (
@@ -2283,7 +2294,7 @@ useEffect(() => {
                                                       //     handleShowAddBed(user);
                                                       //   }
                                                       // }}
-                                                      onClick={handleCustomerCheckout}
+                                                      onClick={()=>handleCustomerCheckout(user)}
                                                       style={{
                                                         backgroundColor: "#fff",
                                                         cursor:
@@ -2616,7 +2627,7 @@ useEffect(() => {
       ) : null}
 
 {customerCheckoutpage == true ? (
-        <CustomerCheckout customerCheckoutpage={customerCheckoutpage} setCustomerCheckoutpage={setCustomerCheckoutpage}/>
+        <CustomerCheckout customerCheckoutpage={customerCheckoutpage} setCustomerCheckoutpage={setCustomerCheckoutpage}  uniqueostel_Id={uniqueostel_Id} data={customercheckoutdata}/>
       ) : null}
               </TabPanel>
               <TabPanel value="2">
@@ -2629,9 +2640,9 @@ useEffect(() => {
                   toggleForm={toggleForm}
                   customerBookingAddPermission={customerBookingAddPermission}
                   customerrolePermission={customerrolePermission}
-                  // allhost_id={allhost_id}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
+                 
                 />
               </TabPanel>
               <TabPanel value="3">
@@ -2639,6 +2650,8 @@ useEffect(() => {
                   id={props.id}
                   customerrolePermission={customerrolePermission}
                   customerCheckoutPermission={customerCheckoutPermission}
+                  uniqueostel_Id={uniqueostel_Id}
+                  setUniqostel_Id={setUniqostel_Id}
                 />
               </TabPanel>
               <TabPanel value="4">
@@ -2646,6 +2659,8 @@ useEffect(() => {
                   id={props.id}
                   customerrolePermission={customerrolePermission}
                   customerWalkInAddPermission={customerWalkInAddPermission}
+                  uniqueostel_Id={uniqueostel_Id}
+                  setUniqostel_Id={setUniqostel_Id}
                 />
               </TabPanel>
             </TabContext>
@@ -2788,6 +2803,8 @@ useEffect(() => {
           amnitiescurrentPage={amnitiescurrentPage}
           handleAdhaarChange={handleAdhaarChange}
           customerEditPermission={customerEditPermission}
+          uniqueostel_Id={uniqueostel_Id}
+          setUniqostel_Id={setUniqostel_Id}
         />
       ) : null}
 
@@ -2816,6 +2833,8 @@ useEffect(() => {
           userList={userList}
           setUserList={setUserList}
           OnShowTable={OnShowTableForCustomer}
+          uniqueostel_Id={uniqueostel_Id}
+          setUniqostel_Id={setUniqostel_Id}
         />
       ) : null}
 

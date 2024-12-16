@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {AvailableCheckOutCustomer,DeleteCheckOutCustomer, AddCheckOutCustomer,getCheckOutCustomer, AddWalkInCustomer,DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist,exportDetails} from "../Action/UserListAction"
+import {AvailableCheckOutCustomer,DeleteCheckOutCustomer, AddCheckOutCustomer,getCheckOutCustomer, AddWalkInCustomer,DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount,hosteliddetail,userBillPaymentHistory,createFloor,roomFullCheck,deleteFloor,deleteRoom,deleteBed,CustomerDetails,amenitieshistory,amnitiesnameList,amenitieAddUser,beddetailsNumber,countrylist,exportDetails,GetConfirmCheckOut,AddConfirmCheckOut} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -132,6 +132,8 @@ function* handleCreateFloor(data) {
 
 function* handleRoomsDetails(ID) {
    const response = yield call(roomsCount, ID.payload)
+   console.log("responsesss",response);
+   
  
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ROOM_DETAILS', payload: response.data.responseData,statusCode:response.status || response.statusCode })
@@ -814,8 +816,8 @@ function* handleDeleteWalkInCustomer(action) {
 }
 
 
-function* handleCheckoutCustomer(){
-   const response = yield call (getCheckOutCustomer);
+function* handleCheckoutCustomer(action){
+   const response = yield call (getCheckOutCustomer, action.payload);
    
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'CHECKOUT_CUSTOMER_LIST' , payload:{response:response.data.checkout_details, statusCode:response.status || response.statusCode}})
@@ -932,6 +934,64 @@ function* handleAvailableCheckOUtCustomer(action) {
    }
   
 }
+
+function* handlegetConfirmCheckOUtCustomer(action) {
+   const response = yield call (GetConfirmCheckOut,action.payload);
+ console.log("response", response)
+
+   if (response.statusCode === 200 || response.status === 200){
+      yield put ({type : 'GET_CONFIRM_CHECK_OUT_CUSTOMER' , payload:{response:response.data , statusCode: response.statusCode || response.status}})  
+   }
+   if(response){
+      refreshToken(response)
+   }
+  
+}
+
+function* handleAddConfirmCheckout(action) {
+   const response = yield call (AddConfirmCheckOut,action.payload);
+ console.log("response", response)
+
+ var toastStyle = {
+   backgroundColor: "#E6F6E6",
+   color: "black",
+   width: "100%",
+   borderRadius: "60px",
+   height: "20px",
+   fontFamily: "Gilroy",
+   fontWeight: 600,
+   fontSize: 14,
+   textAlign: "start",
+   display: "flex",
+   alignItems: "center", 
+   padding: "10px",
+  
+ };
+
+   if (response.statusCode === 200 || response.status === 200){
+      yield put ({type : 'ADD_CONFIRM_CHECK_OUT_CUSTOMER' , payload:{ statusCode: response.statusCode || response.status}})  
+    toast.success(`${response.data.message}`, {
+         position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+       });
+   }
+   else if (response.status === 201 || response.statusCode === 201) {
+      yield put ({type:'ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR',payload:response.data.message})
+   }
+   if(response){
+      refreshToken(response)
+   }
+  
+}
+
+
 
 
 function* handleExportDetails(action) {
@@ -1099,8 +1159,8 @@ function* UserListSaga() {
    yield takeEvery('EXPORTBOOKINGDETAILS',  handleBookingExportDetails)
    yield takeEvery('EXPORTWALKINGDETAILS',  handleWalkinExportDetails)
    yield takeEvery('EXPORTCHECKOUTDETAILS',  handleCheckoutExportDetails)
-
-
+   yield takeEvery('GETCONFIRMCHECKOUTCUSTOMER',  handlegetConfirmCheckOUtCustomer)
+   yield takeEvery('ADDCONFIRMCHECKOUTCUSTOMER',  handleAddConfirmCheckout)
   
  
 }

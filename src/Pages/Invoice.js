@@ -1941,6 +1941,7 @@ let serialNumber = 1;
 
 
   {showLoader && <LoaderComponent />}
+  
 
   <div style={{ display: 'flex', flexDirection: 'row' }}>
 
@@ -2004,6 +2005,7 @@ let serialNumber = 1;
     <TabList orientation={isSmallScreen ? 'vertical' : 'horizontal'} onChange={handleChanges} aria-label="lab API tabs example" style={{ marginLeft: '20px' }} className='d-flex flex-column flex-xs-column flex-sm-column flex-lg-row'>
       <Tab label="Bills" value="1" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
       <Tab label="Recurring Bills" value="2" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
+      <Tab label="Receipt" value="3" style={{ fontSize: 16, fontFamily: "Gilroy", color: '#4B4B4B', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 500, textTransform: 'none' }} />
     </TabList>
   </Box>
 </div>

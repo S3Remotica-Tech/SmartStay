@@ -108,6 +108,7 @@ function UserlistForm(props) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
 
+
   console.log("selectedDate", selectedDate);
 
   const handleCountryCodeChange = (e) => {
@@ -189,8 +190,10 @@ function UserlistForm(props) {
     setemailIdError(state.UsersList.emailError);
   }, [state.UsersList.emailError]);
 
+
   const validateField = (value, fieldName) => {
-    if (!value || value.trim() === "") {
+    const trimmedValue = String(value).trim(); // Ensure value is a string and trim it
+    if (!trimmedValue) {
       switch (fieldName) {
         case "First Name":
           setFirstnameError("First Name is required");
@@ -214,6 +217,33 @@ function UserlistForm(props) {
     }
     return true;
   };
+  
+
+  // const validateField = (value, fieldName) => {
+  //   if (!value || value.trim() === "") {
+  //     switch (fieldName) {
+  //       case "First Name":
+  //         setFirstnameError("First Name is required");
+  //         break;
+  //       case "Phone Number":
+  //         setPhoneError("Phone Number is required");
+  //         break;
+  //       case "Email":
+  //         setEmailError("Email is required");
+  //         break;
+  //       case "Address":
+  //         setAddressError("Address is required");
+  //         break;
+  //       case "Hostel ID":
+  //         setHostelIdError("Hostel ID is required");
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const handleLastName = (e) => {
     setLastname(e.target.value);
@@ -279,23 +309,31 @@ function UserlistForm(props) {
     setIsActive(e.target.value);
   };
 
-  const handleHostelId = (e) => {
-    const selectedHostelId = e.target.value;
-    const selectedHostel =
-      state.UsersList.hostelList &&
-      state.UsersList.hostelList.filter((item) => item.id == e.target.value);
-    setHostel_Id(selectedHostelId);
+  useEffect(()=>{
+    const selectedHostel=  state.UsersList.hostelList &&
+    state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    if (selectedHostelId === "Select a PG") {
-      setHostelIdError("Please select a valid PG");
-    } else {
-      setHostelIdError("");
-    }
-    setFloor("");
-    setRooms("");
-    setBed("");
-    setHostelIdError("");
-  };
+    setHostel_Id(props.uniqueostel_Id);
+  },[])
+  console.log("selectedHostel",hostel_Id)
+
+  // const handleHostelId = (e) => {
+  //   const selectedHostelId = e.target.value;
+  //   const selectedHostel =
+  //     state.UsersList.hostelList &&
+  //     state.UsersList.hostelList.filter((item) => item.id == e.target.value);
+  //   setHostel_Id(selectedHostelId);
+  //   setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
+  //   if (selectedHostelId === "Select a PG") {
+  //     setHostelIdError("Please select a valid PG");
+  //   } else {
+  //     setHostelIdError("");
+  //   }
+  //   setFloor("");
+  //   setRooms("");
+  //   setBed("");
+  //   setHostelIdError("");
+  // };
 
 
   const validateAssignField = (value, fieldName) => {
@@ -454,7 +492,7 @@ function UserlistForm(props) {
     setLicence("");
     setPhone("");
     setEmail("");
-    setHostel_Id("");
+    // setHostel_Id("");
     setFloor("");
     setRooms("");
     setBed("");
@@ -571,7 +609,7 @@ function UserlistForm(props) {
       PancardNo: PancardNo,
       licence: licence,
       HostelName: HostelName,
-      hostel_Id: hostel_Id,
+      hostel_Id:hostel_Id,
       Floor: Floor,
       Rooms: Rooms,
       Bed: Bed,
@@ -1154,7 +1192,7 @@ function UserlistForm(props) {
                       </Form.Group>
                     </div>
 
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -1198,7 +1236,7 @@ function UserlistForm(props) {
                           {hostelIdError}
                         </div>
                       )}
-                    </div>
+                    </div> */}
                   </div>
 
                   <Button

@@ -351,6 +351,26 @@ console.log("allPageHostel_Id",allPageHostel_Id)
     );
     handlePageClick('settingNewDesign');
   };
+  const [isInitialized, setIsInitialized] = useState(false); 
+
+  useEffect(() => {
+    if (!isInitialized && state.UsersList.hostelList.length > 0) {
+      const lowestIdItem = state.UsersList.hostelList.reduce((prev, current) =>
+        prev.id < current.id ? prev : current
+      );
+
+      setPayingGuestName(lowestIdItem.Name);
+      setAllPageHostel_Id(lowestIdItem.id);
+      setIsDropdownOpen(false);
+      setSelectedProfileImage(
+        lowestIdItem.profile && lowestIdItem.profile !== "0" && lowestIdItem.profile !== ""
+          ? lowestIdItem.profile
+          : Profile
+      );
+
+      setIsInitialized(true); 
+    }
+  }, [state.UsersList.hostelList, isInitialized, Profile]);
   return (
     <>
 

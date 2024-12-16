@@ -131,7 +131,7 @@ function CustomerReAssign(props){
           }}
           className="m-0 p-0"
         >
-          <Modal.Body>
+          <Modal.Body       style={{marginTop:-30}}>
             <div className="d-flex align-items-center">
               
                 <div className="container">

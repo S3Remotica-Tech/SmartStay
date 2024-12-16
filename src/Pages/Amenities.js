@@ -313,7 +313,7 @@ function Amenities() {
     }
 
     else if (amenitiesName && amount && selectedhostel) {
-      dispatch({ type: 'AMENITIESSETTINGS', payload: { amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedhostel } });
+      dispatch({ type: 'AMENITIESSETTINGS', payload: { amenitiesName: amenitiesName, Amount: amount, setAsDefault: setAsDefault, Hostel_Id: selectedhostel ,hostel_id: selectedhostel,} });
 
       setSelecteDHostel('')
       setAmenitiesName('');
