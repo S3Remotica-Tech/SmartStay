@@ -579,7 +579,7 @@ useEffect(() => {
     console.log("initialStateAssign.lastName:", initialStateAssign.lastName);
     // console.log("Comments:", comments);
     // console.log("initialStateAssign.comments:", initialStateAssign.comments);
-    console.log("Profile:", file);
+    console.log("ProfileImage", file);
     console.log("initialStateAssign.Profile:", initialStateAssign.file);
     console.log("Address:", Address);
     console.log("initialStateAssign.Address:", initialStateAssign.Address);
@@ -1720,17 +1720,18 @@ try {
         <div className="" style={{ height: 100, width: 100, position: "relative" }}>
 
    
-<Image
+        <Image
   src={
-    file
+    file && file !== 0 // Ensure `file` is not 0 or falsy
       ? typeof file === "string"
-        ? file // Handle case if file is an existing URL
-        : URL.createObjectURL(file) // Handle file object preview
-      : Profile2 // Default placeholder
+        ? file // Handle case if `file` is an existing URL
+        : URL.createObjectURL(file) // Handle `file` object preview
+      : Profile2 // Default placeholder if `file` is 0, null, or undefined
   }
   roundedCircle
   style={{ height: 100, width: 100 }}
 />
+
 
   
   <label htmlFor="imageInput" className='' >

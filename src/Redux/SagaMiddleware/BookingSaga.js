@@ -24,19 +24,20 @@ function* handleAddBooking(action) {
     };
 
     console.log("responseinggggg",response)
-    if (response.data.status === 200 || response.data.statusCode === 200 || response.statusCode === 200){
-       yield put ({type : 'ADD_USER_BOOKING' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode || response.statusCode}})
-       toast.success(`${response.data.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+    if (response.status === 200 || response.statusCode === 200){
+      yield put ({type : 'ADD_USER_BOOKING' , payload:{response:response.data, statusCode:response.status ||  response.statusCode}})
+      toast.success(`${response.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+     });
+
 
 
  
