@@ -14,6 +14,7 @@ export async function AddBooking(datum) {
   const formData = new FormData();
 
   // Append each field from datum to the FormData
+  if (datum.id) formData.append('id', datum.id);
   if (datum.profile) formData.append('profile', datum.profile);
   if (datum.f_name) formData.append('f_name', datum.f_name);
   if (datum.l_name) formData.append('l_name', datum.l_name);
@@ -56,9 +57,12 @@ export async function AddBooking(datum) {
   }
   export async function assignBooking(datum){
    
-      return await AxiosConfig.post('/assign_booking',datum,{
+      const response =  await AxiosConfig.post('/assign_booking',datum,{
         data:datum
       })
+      console.log('assignbookinggg',response);
+      
+      return response
     }
 
 

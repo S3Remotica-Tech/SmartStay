@@ -382,6 +382,7 @@ const handleSubmit = () => {
   setEmail("");
   setAddress("");
   setFile(null);
+  props.handleClose()
 };
   
   // const handleSubmit = () => {
@@ -526,7 +527,9 @@ const handleSubmit = () => {
   console.log("stateghjhsjdhjs",state)
 
   useEffect(() => {
+    console.log("Booking successfully",state?.Booking?.statusCodeForAddBooking);
     if (state?.Booking?.statusCodeForAddBooking === 200) {
+    
       dispatch({type:"CLEAR_EMAIL_ERROR"})
       dispatch({type:"CLEAR_PHONE_ERROR"})
       handleAddClose()

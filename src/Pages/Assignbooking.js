@@ -13,6 +13,8 @@ function AssignBooking (props){
 
   const state = useSelector((state) => state);
   console.log("state...",state)
+  console.log("propss",props);
+  
   const dispatch = useDispatch();
 
   const [firstName, setFirstName] = useState('');
@@ -44,24 +46,33 @@ function AssignBooking (props){
   const [bedError, setBedError] = useState("");
 const [rentError,setRentError] = useState("");
 const[advanceError,setAdavanceError] = useState("")
+ const [hostalId, setHostalId] = useState(null);
+   const [hostelIdError, setHostelIdError] = useState("");
+
+ const [bedDetails, setBedDetails] = useState([]);
 
   console.log(props.assignBooking,"?????????");
 
-
+console.log("assigning", props.uniqueostel_Id);
   useEffect(() => {
     dispatch({ type: "COUNTRYLIST" });
   }, [])
-  
+
+
+  useEffect(() => {
+   dispatch({type: "HOSTELDETAILLIST", payload:{hostel_Id:hostalId}}) 
+  },[])
+
+  useEffect(() => {
+    
+    setHostalId(props.HostelID);
+    
+     
+  }, [props.HostelID]);
 
 const handleAssignClose =()=>{
   props.setModalType(false)
-  setMobileNo('')
-  setEmail('')
-  setAddress('')
-  setEmailError('')
-  setPhoneError('')
-  setAddressError('')
-  setEmailErrorMessage('')
+ 
   setFloor('')
   setRoom('')
   setBed('')
@@ -147,19 +158,71 @@ const MobileNumber = `${countryCode}${mobileno}`;
 
 //   }
 // })
-useEffect(()=>{
-  if(props.assignBooking){
+// useEffect(()=>{
+//   if(props.assignBooking){
    
-    setFloor(props.assignBooking.floor_id)
-    setRoom(props.assignBooking.room_id)
-    setBed(props.assignBooking.bed_id)
-    setAdvanceamount(props.assignBooking.address)
-    setRentAmount(props.assignBooking.email_id)
+//     setFloor(props.assignBooking.floor_id)
+//     setRoom(props.assignBooking.room_id)
+//     setBed(props.assignBooking.bed_id)
+//     setAdvanceamount(props.assignBooking.amount)
+//     setRentAmount(props.assignBooking.room_rent
+//     )
+
+//   //   const newdate = props.assignBooking.joining_date
+//   //  const joiningdate =  newdate.toLocaleDateString('en-GB') 
+//   //   console.log("dateee",joiningdate);
+//   const newdate = props.assignBooking.joining_date;
+
+// if (newdate) {
+//     // Convert to Date object if `newdate` is a valid date string
+//     const dateObject = new Date(newdate);
+
+//     if (!isNaN(dateObject)) {
+//         const joiningdate = dateObject.toLocaleDateString('en-GB');
+//         setJoiningDate (joiningdate)
+     
+//         console.log("dateee", joiningdate);
+//     } else {
+//         console.error("Invalid date format:", newdate);
+//     }
+// } else {
+//     console.error("Joining date is missing!");
+// }
+
     
+//     // setJoiningDate (props.assignBooking.joining_date
+//     // )
     
 
+//   }
+// })
+useEffect(() => {
+  if (props.assignBooking) {
+    // setFloor(props.assignBooking.floor_id);
+    // setRoom(props.assignBooking.room_id);
+    // setBed(props.assignBooking.bed_id);
+    setAdvanceamount(props.assignBooking.amount);
+    setRentAmount(props.assignBooking.room_rent);
+    // setJoiningDate (props.assignBooking.joining_date);
+    
+      
+    // const newdate = props.assignBooking.joining_date;
+
+    // if (newdate) {
+    //   const dateObject = new Date(newdate); // Convert the date string to a Date object
+    //   if (!isNaN(dateObject)) {
+    //     const formattedDate = dateObject.toLocaleDateString('en-GB'); // Format the date
+    //     setJoiningDate(formattedDate); // Update the state
+    //     console.log('Formatted Date:', formattedDate);
+    //   } else {
+    //     console.error('Invalid date format:', newdate);
+    //   }
+    // } else {
+    //   console.error('Joining date is missing!');
+    // }
   }
-})
+}, [props.assignBooking]);
+
 
 console.log("props.assignBooking",props.assignBooking)
 
@@ -213,7 +276,10 @@ const validateAssignField = (value, fieldName) => {
             break;
             case "rentAmount":
               setRentError("RentAmount is required");
-              break;  
+              break; 
+              case "hostalId":
+                setHostelIdError("Hostel ID is required");
+                break; 
       default:
         break;
     }
@@ -237,6 +303,9 @@ const validateAssignField = (value, fieldName) => {
             case "rentAmount":
               setRentError("");
               break; 
+              case "hostalId":
+                setHostelIdError("");
+                break;
       default:
         break;
     }
@@ -247,30 +316,69 @@ const validateAssignField = (value, fieldName) => {
 console.log('MobileNumber',MobileNumber)
 
 
-
+console.log("checkin",props.uniqueostel_Id)
 
   
-  const handleSubmit = (event) => {
-    
-    const payload = {
+const handleSubmit = (event) => {
+  event.preventDefault(); // Prevent default form submission behavior
+  
+  const isFloorvalid = validateAssignField(floor, "floor");
+  const isRoomValid = validateAssignField(room, "room");
+  const isbedvalid = validateAssignField(bed, "bed");
+ 
+ 
+ 
+  if (
+        !isFloorvalid ||
+        !isRoomValid ||
+        !isbedvalid 
+        
+       
+        
+       )
+  {
+        return;
+      }
+
+  let formattedDate = null;
+  try {
+    let date = new Date(joiningDate);
+    date.setDate(date.getDate() + 1);
+    formattedDate = date.toISOString().split("T")[0];
+  } catch (error) {
+    setDateError("Date is required.");
+    console.error(error);
+    return;
+  }
+  const payload = {
+      floor: floor,
+      room: room,
+      bed: bed,
+      hostel_id:props.assignBooking.hostel_id,
       
-      firstname: firstName,
-      lastname: lastName,
-      Phone: MobileNumber,
-      Email: email,
-      Address: address,
-      HostelName: props.assignBooking.hostel_name,
-      Hostel_Id:  props.assignBooking.hostel_id,
-      country_code:countryCode, 
+      join_date: formattedDate,
+      ad_amount: Advanceamount,
+      rent_amount: rentamount,
       id: props.assignBooking.id,
-    };
-    dispatch({
+  };
+  console.log("Floor:", floor);
+console.log("Room:", room);
+console.log("Bed:", bed);
+console.log("Hostel ID:", hostalId);
+console.log("Joining Date:", formattedDate);
+console.log("Advance Amount:", Advanceamount);
+console.log("Rent Amount:", rentamount);
+console.log("Booking ID:", props.assignBooking.id);
+
+
+  console.log("Payload", payload); // Log the payload to the console
+
+  dispatch({
       type: "ASSIGN_BOOKING",
       payload: payload,
-    });
+  });
+};
 
-   
-  };
 
   useEffect(()=>{
     if(state.Booking.statusCodeForAssignBooking === 200){
@@ -301,21 +409,101 @@ console.log('MobileNumber',MobileNumber)
       }
     }
   };
+  // console.log("floorids",state.UsersList.hosteldetailslist.floor_id)
   const handleFloor = (e) => {
-    setFloor(e.target.value);
+    const selectedFloor = e.target.value; // Get the selected floor ID
+  setFloor(selectedFloor);
+    
+    if (selectedFloor) {
+      console.log("selectedfloor",selectedFloor);
+      
+      // Dispatch the action to fetch room details based on floor ID and hostel ID
+      // dispatch({
+      //   type: 'ROOMDETAILS',
+      //   payload: { floor_Id: selectedFloor, hostel_Id: hostalId },
+      // });
+      dispatch({
+        type: "ROOMCOUNT",
+        payload: { floor_Id: selectedFloor, hostel_Id: hostalId },
+      });
+      console.log("statuss",state)
+      setfloorError(""); // Clear any existing floor error
+    } else {
+      setfloorError("Please select a valid floor."); // Set an error if no floor is selected
+    }
    setfloorError("")
   };
 
-  const handleRoom = (e) => {
-    setRoom(e.target.value);
-    setRoomError("")
+  // const handleRoom = (e) => {
+  //   setRoom(e.target.value);
+  //   setRoomError("")
+    
    
-  };
+  // };
+  const handleRoom = (e) => {
+    const selectedRoomId = e.target.value; // Get selected Room ID
+    setRoom(selectedRoomId); // Update the room state
+    setBed(""); // Reset the selected bed when a new room is chosen
 
+    let formattedDate = null;
+  try {
+    let date = new Date(joiningDate);
+    date.setDate(date.getDate() + 1);
+    formattedDate = date.toISOString().split("T")[0];
+  } catch (error) {
+    setDateError("Date is required.");
+    console.error(error);
+    return;
+  }
+  
+    if (selectedRoomId) {
+      const payload = {
+        hostel_id: hostalId,
+        floor_id: floor,
+        room_id: selectedRoomId, 
+        joining_date: formattedDate, 
+      };
+  
+      console.log("Dispatching Payload:", payload); // Log payload to console for debugging
+  
+      dispatch({
+        type: "BOOKINGBEDDETAILS",
+        payload: payload,
+      });
+  
+      setRoomError(""); // Clear any existing room error
+    } else {
+      setRoomError("Please select a valid room."); // Set error for invalid room
+      setBedDetails([]); // Clear bed details if no room is selected
+    }
+  };
+  
+  //  useEffect(() => {
+  //     dispatch({
+  //       type: "BOOKINGBEDDETAILS",
+  //       payload: { hostel_id: hostalId, floor_id: selectedFloor, room_id: room ,joining_date:joiningDate},
+  //     });
+  //   }, [room]);
   const handleBed = (e) => {
     setBed(e.target.value);
    setBedError("")
   };
+
+  // const handleBed = (e) => {
+  //   setBed(e.target.value);
+  //   const Bedfilter =state?.UsersList?.roomdetails && state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == paying && u.Floor_Id == floor  && u.Room_Id == room  )
+    
+  //   const Roomamountfilter = Bedfilter&& Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == e.target.value)
+    
+  //   if (Roomamountfilter.length !=0) {
+  //     setAdvanceamount(Roomamountfilter[0].bed_amount)
+  //     console.log("Roomamountfilter",Roomamountfilter[0].bed_amount);
+  //   }
+  //   setBedError("");
+  //   setamountError('')
+    
+
+  // };
 
   const handleRentAmount = (e) => {
     setRentAmount(e.target.value);
@@ -470,8 +658,8 @@ console.log('MobileNumber',MobileNumber)
                 }}
               >
                 <option>Select a Room</option>
-                {state.UsersList?.roomdetails &&
-                  state.UsersList?.roomdetails.map((item) => (
+                {state.PgList?.roomCount &&
+                  state.PgList?.roomCount.map((item) => (
                     <>
                       <option key={item.Room_Id} value={item.Room_Id}>
                         {item.Room_Name}
@@ -505,7 +693,7 @@ console.log('MobileNumber',MobileNumber)
                 Bed 
               </Form.Label>
 
-              <Form.Select
+              {/* <Form.Select
                 aria-label="Default select example"
                 style={{
                   fontSize: 16,
@@ -527,16 +715,54 @@ console.log('MobileNumber',MobileNumber)
                   Selected Bed
                 </option>
 
-                {/* {props.edit === "Edit" &&
-    Bednum &&
-    Bednum.Bed &&
-    Bednum.Bed !== "undefined" &&  Bednum.Bed !== "" &&  Bednum.Bed !== "null" &&  Bednum.Bed !== "0" && (
-      <option value={Bednum.Bed} selected>
-        {Bednum.Bed}
-      </option>
-    )} */}
+    
 
                 {state.Booking?.availableBedBooking?.bed_details &&
+                 state.Booking?.availableBedBooking?.bed_details
+                    .filter(
+                      (item) =>
+                        item.bed_no !== "0" &&
+                        item.bed_no !== "undefined" &&
+                        item.bed_no !== "" &&
+                        item.bed_no !== "null"
+                    )
+                    .map((item) => (
+                      <option key={item.bed_id} value={item.bed_id}>
+                        {item.bed_no}
+                      </option>
+                    ))}
+              </Form.Select> */}
+              <Form.Select
+  aria-label="Default select example"
+  style={{
+    fontSize: 16,
+    color: "#4B4B4B",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    boxShadow: "none",
+    border: "1px solid #D9D9D9",
+    height: 50,
+    borderRadius: 8,
+  }}
+  value={bed}
+  className="border"
+  placeholder="Select a bed"
+  onChange={(e) => handleBed(e)}
+>
+  <option value="" disabled>
+    Select a Bed
+  </option>
+  {/* {bedDetails.length > 0 ? (
+    bedDetails.map((item) => (
+      <option key={item.id} value={item.bed_no}>
+        {item.bed_no} 
+      </option>
+    ))
+  ) : (
+    <option disabled>No beds available</option>
+  )} */}
+
+{state.Booking?.availableBedBooking?.bed_details &&
                  state.Booking?.availableBedBooking?.bed_details
                     .filter(
                       (item) =>
@@ -550,14 +776,16 @@ console.log('MobileNumber',MobileNumber)
                         {item.bed_no}
                       </option>
                     ))}
-              </Form.Select>
+</Form.Select>
+{bedError && (
+  <div style={{ color: "red" }}>
+    <MdError />
+    {bedError}
+  </div>
+)}
+
             </Form.Group>
-            {bedError && (
-              <div style={{ color: "red" }}>
-                <MdError />
-                {bedError}
-              </div>
-            )}
+           
            
                   </Col>
       
