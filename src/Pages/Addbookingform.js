@@ -10,7 +10,10 @@ import { MdError } from "react-icons/md";
 import Booking from "./UserlistBookings";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import Plus from '../Assets/Images/New_images/addplus-circle.svg'
+import Profile2 from '../Assets/Images/New_images/profile-picture.png'
+import Image from 'react-bootstrap/Image';
+import imageCompression from 'browser-image-compression';
 // const BookingModal = ({
 
 //   show,
@@ -21,7 +24,14 @@ import 'react-datepicker/dist/react-datepicker.css';
 // }) => {
 
 function BookingModal(props) {
+
+  console.log('propss',props);
+  
+
+  console.log("addhostel",props.uniqueostel_Id)
+  
   const state = useSelector((state) => state);
+
 
   const dispatch = useDispatch();
 
@@ -61,8 +71,17 @@ function BookingModal(props) {
   const [phonenumError, setphonenumError] = useState("");
   const [errorInPhone, seterrorInPhone] = useState("");
   const [errorInEmail, seterrorInEmail] = useState("");
+  const [hostalId, setHostalId] = useState(null);
+
+console.log("paying",paying)
+
+console.log('editform',props.formEdit);
 
 
+useEffect(() => {
+  // console.log("allhost_id", props.allhost_id);
+  setHostalId(props.uniqueostel_Id); 
+}, [props.uniqueostel_Id]);
 
   useEffect(() => {
     dispatch({ type: "HOSTELLIST" });
@@ -119,6 +138,8 @@ function BookingModal(props) {
     const selectedHostel =
       state.UsersList.hostelList &&
       state.UsersList.hostelList.filter((item) => item.id == e.target.value);
+      console.log("user",state.UsersList.hostelList);
+      
     setPaying(selectedHostelId);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     if (selectedHostelId === "Select a PG") {
@@ -224,10 +245,10 @@ function BookingModal(props) {
   const validateAssignField = (value, fieldName) => {
     if (
       !value ||
-      value === "Select a PG" ||
-      value === "Select a floor" ||
-      value === "Select a room" ||
-      value === "Select a bed"
+      value === "Select a PG"
+      // value === "Select a floor" ||
+      // value === "Select a room" ||
+      // value === "Select a bed"
     ) {
       switch (fieldName) {
         case "firstName":
@@ -245,15 +266,15 @@ function BookingModal(props) {
         case "paying":
           setHostelIdError("Hostel ID is required");
           break;
-        case "floor":
-          setfloorError("Floor is required");
-          break;
-        case "room":
-          setRoomError("Room is required");
-          break;
-        case "bed":
-          setBedError("Bed is required");
-          break;
+        // case "floor":
+        //   setfloorError("Floor is required");
+        //   break;
+        // case "room":
+        //   setRoomError("Room is required");
+        //   break;
+        // case "bed":
+        //   setBedError("Bed is required");
+        //   break;
           case "Address":
           setAddressError("Address is required");
           break;
@@ -281,15 +302,15 @@ function BookingModal(props) {
         case "paying":
           setHostelIdError("");
           break;
-        case "floor":
-          setfloorError("");
-          break;
-        case "room":
-          setRoomError("");
-          break;
-        case "bed":
-          setBedError("");
-          break;
+        // case "floor":
+        //   setfloorError("");
+        //   break;
+        // case "room":
+        //   setRoomError("");
+        //   break;
+        // case "bed":
+        //   setBedError("");
+        //   break;
           case "Address":
           setAddressError("");
           break;
@@ -307,108 +328,159 @@ function BookingModal(props) {
     setCountryCode(e.target.value);
   };
   const MobileNumber = `${countryCode}${Phone}`;
-  const handleSubmit = () => {
-    const isFirstnameValid = validateAssignField(firstName, "firstName");
-    const isphoneValid = validateAssignField(Phone, "Phone");
-    const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
-    const isamountValid = validateAssignField(amount, "amount");
-    const isHostelValid = validateAssignField(paying, "paying");
-    const isFloorvalid = validateAssignField(floor, "floor");
-    const isRoomValid = validateAssignField(room, "room");
-    const isbedvalid = validateAssignField(bed, "bed");
-    const isaddressValid = validateAssignField(Address, "Address");
 
 
-    if (phoneError === "Invalid mobile number *") {
-      setPhoneErrorMessage("Please enter a valid 10-digit phone number");
-      // return;
-    } else {
-      setPhoneErrorMessage("");
-    }
 
-    if (paying === "Select a PG" || !isHostelValid) {
-      setHostelIdError("Please select a valid Hostel");
-      return; // Prevent save
-    } else {
-      setfloorError(""); // Clear the error if valid
-    }
-    if (floor === "Select a floor" || !isFloorvalid) {
-      setfloorError("Please select a valid Floor");
-      return; // Prevent save
-    } else {
-      setfloorError(""); // Clear the error if valid
-    }
-
-    // Validate Room field
-    if (room === "Select a room" || !isRoomValid) {
-      setRoomError("Please select a valid Room");
-      return; // Prevent save
-    } else {
-      setRoomError("");
-    }
-    if (bed === "Select a bed" || !isbedvalid) {
-      setBedError("Please select a valid Room");
-      return; // Prevent save
-    } else {
-      setBedError(""); // Clear the error if valid
-    }
-
-    if (
-      !isFirstnameValid ||
-      !isphoneValid||
-      !isjoiningDateValid ||
-      !isaddressValid ||
-      (!isamountValid &&
-        !isHostelValid &&
-        !isFloorvalid &&
-        !isRoomValid &&
-        !isbedvalid)
-    ) {
-      return;
-    }
-    let formattedDate = null;
-    try {
-      let date = new Date(joiningDate);
-      date.setDate(date.getDate() + 1); 
-      formattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      setDateError("Date is required.");
-      console.error(error);
-      return;
-    }
-    dispatch({
-      type: "ADD_BOOKING",
-      payload: {
-        first_name: firstName,
-        last_name: lastName,
-        joining_date: formattedDate,
-        amount: amount,
-        hostel_id: paying,
-        floor_id: floor,
-        room_id: room,
-        bed_id: bed,
-        comments: comments,
-        phone_number:MobileNumber,
-        email_id:Email,
-        address:Address
-
-      },
-    });
-   
+const handleSubmit = () => {
+  const isFirstnameValid = validateAssignField(firstName, "firstName");
+  const isphoneValid = validateAssignField(Phone, "Phone");
+  const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
+  const isamountValid = validateAssignField(amount, "amount");
+  const isHostelValid = validateAssignField(paying, "paying");
+  const isaddressValid = validateAssignField(Address, "Address");
+  if (
+        !isFirstnameValid ||
+        !isphoneValid ||
+        !isjoiningDateValid ||
+        !isaddressValid ||
+        !isamountValid ||
+        isHostelValid
+  )
+  {
+        return;
+      }
+  let formattedDate = null;
+  try {
+    let date = new Date(joiningDate);
+    date.setDate(date.getDate() + 1);
+    formattedDate = date.toISOString().split("T")[0];
+  } catch (error) {
+    setDateError("Date is required.");
+    console.error(error);
+    return;
+  }
+  dispatch({
+    type: "ADD_BOOKING",
+    payload: {
+      f_name: firstName,
+      l_name: lastName,
+      joining_date: formattedDate,
+      amount:amount,
+      hostel_id: hostalId,
+      mob_no: MobileNumber,
+      email_id: Email,
+      address: Address,
+      profile:file
+    },
+  });
+  setFirstName("");
+  setLastName("");
+  setJoiningDate("");
+  setAmount("");
+  setHostalId("");
+  setPhone("");
+  setEmail("");
+  setAddress("");
+  setFile(null);
+  props.handleClose()
+};
+  
+  // const handleSubmit = () => {
+  //   // alert ('message')
+  //   const isFirstnameValid = validateAssignField(firstName, "firstName");
+  //   console.log('isFirstnameValid',isFirstnameValid);
     
+  //   const isphoneValid = validateAssignField(Phone, "Phone");
+  //   const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
+  //   const isamountValid = validateAssignField(amount, "amount");
+  //   const isHostelValid = validateAssignField(paying, "paying");
+  //   // const isFloorvalid = validateAssignField(floor, "floor");
+  //   // const isRoomValid = validateAssignField(room, "room");
+  //   // const isbedvalid = validateAssignField(bed, "bed");
+  //   const isaddressValid = validateAssignField(Address, "Address");
 
-  };
+
+  //   if (phoneError === "Invalid mobile number *") {
+  //     setPhoneErrorMessage("Please enter a valid 10-digit phone number");
+  //     return;
+  //   } else {
+  //     setPhoneErrorMessage("");
+  //   }
+
+  //   if (paying === "Select a PG" || !isHostelValid) {
+  //     setHostelIdError("Please select a valid Hostel");
+  //     return; // Prevent save
+  //   } else {
+  //     setfloorError(""); // Clear the error if valid
+  //   }
+  //   // if (floor === "Select a floor" || !isFloorvalid) {
+  //   //   setfloorError("Please select a valid Floor");
+  //   //   return; // Prevent save
+  //   // } else {
+  //   //   setfloorError(""); // Clear the error if valid
+  //   // }
+
+  //   // // Validate Room field
+  //   // if (room === "Select a room" || !isRoomValid) {
+  //   //   setRoomError("Please select a valid Room");
+  //   //   return; // Prevent save
+  //   // } else {
+  //   //   setRoomError("");
+  //   // }
+  //   // if (bed === "Select a bed" || !isbedvalid) {
+  //   //   setBedError("Please select a valid Room");
+  //   //   return; // Prevent save
+  //   // } else {
+  //   //   setBedError(""); // Clear the error if valid
+  //   // }
+
+  //   if (
+  //     !isFirstnameValid ||
+  //     !isphoneValid||
+  //     !isjoiningDateValid ||
+  //     !isaddressValid ||
+  //     (!isamountValid &&
+  //       !isHostelValid 
+  //       // !isFloorvalid &&
+  //       // !isRoomValid &&
+  //       // !isbedvalid
+  //     )
+  //   ) {
+  //     return;
+  //   }
+  //   let formattedDate = null;
+  //   try {
+  //     let date = new Date(joiningDate);
+  //     date.setDate(date.getDate() + 1); 
+  //     formattedDate = date.toISOString().split("T")[0];
+  //   } catch (error) {
+  //     setDateError("Date is required.");
+  //     console.error(error);
+  //     return;
+  //   }
+  //   dispatch({
+  //     type: "ADD_BOOKING",
+  //     payload: {
+  //       f_name: firstName,
+  //       l_name: lastName,
+  //       joining_date: formattedDate,
+  //       amount:amount,
+  //       hostel_id:hostalId,
+  //       mob_no:MobileNumber,
+  //       email_id:Email,
+  //       address:Address
+
+  //     },
+  //   });
+   
+  
+
+  // };
   const handleAddClose=()=>{
     setFirstName('')
       setLastName('')
       setAmount('')
       setJoiningDate('')
-      setPaying('')
-      setFloor('')
-      setRoom('')
-      setBed('')
-      setComments('')
-      setBedError('')
       setPhone('')
       setPhoneError('')
       setAddress('')
@@ -417,7 +489,6 @@ function BookingModal(props) {
       setfloorError('')
       setHostelIdError('')
       setDateError('')
-      setRoomError('')
       setamountError('')
       setEmail('')
       setEmailError('')
@@ -456,7 +527,9 @@ function BookingModal(props) {
   console.log("stateghjhsjdhjs",state)
 
   useEffect(() => {
+    console.log("Booking successfully",state?.Booking?.statusCodeForAddBooking);
     if (state?.Booking?.statusCodeForAddBooking === 200) {
+    
       dispatch({type:"CLEAR_EMAIL_ERROR"})
       dispatch({type:"CLEAR_PHONE_ERROR"})
       handleAddClose()
@@ -466,7 +539,28 @@ function BookingModal(props) {
       }, 500);
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
+  
+  const [file, setFile] = useState(null);
 
+
+   const handleImageChange = async (event) => {
+      const fileImage = event.target.files[0];
+      if (fileImage) {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 800,
+          useWebWorker: true
+        };
+        try {
+          const compressedFile = await imageCompression(fileImage, options);
+          setFile(compressedFile);
+        } catch (error) {
+          console.error('Image compression error:', error);
+        }
+      }
+    };
+
+  
 
   const customDateInput = (props) => {
     return (
@@ -510,16 +604,15 @@ function BookingModal(props) {
   };
 
   return (
-    <Modal
+    <div>
+<Modal
       show={props.show}
       onHide={handleAddClose}
       centered
       backdrop="static"
-    >
-      {/* <Form noValidate validated={validated} > */}
-      <Modal.Header className="d-flex justify-content-between">
-        <Modal.Title style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600}}>New Booking</Modal.Title>
-        <CloseCircle
+>       <Modal.Header className="d-flex justify-content-between">         
+  <Modal.Title style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600}}>Add Booking</Modal.Title>
+         <CloseCircle
           size="32"
           color="#222222"
           onClick={handleAddClose}
@@ -527,9 +620,54 @@ function BookingModal(props) {
         />
       </Modal.Header>
       <Modal.Body>
+      <div className='d-flex align-items-center'>
+
+
+<div className="" style={{ height: 100, width: 100, position: "relative" }}>
+
+
+<Image
+        src={
+          file
+            ? typeof file === "string"
+              ? file // Handle case if file is an existing URL
+              : URL.createObjectURL(file) // Handle file object preview
+            : Profile2 // Default placeholder
+        }
+        roundedCircle
+        style={{ height: 100, width: 100 }}
+      />
+  
+  <label htmlFor="imageInput" className='' >
+    <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
+    <input
+      type="file"
+      accept="image/*"
+      multiple
+      className="sr-only"
+      id="imageInput"
+      onChange={handleImageChange}
+      style={{ display: "none" }} />
+  </label>
+
+
+
+
+
+</div>
+<div className='ps-3'>
+  <div>
+    <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
+  </div>
+  <div>
+    <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
+  </div>
+</div>
+</div>
+
         <Row>
-          <Col md={6}>
-            <Form.Group controlId="formFirstName" className="mb-3">
+          <Col md={6}>           
+ <Form.Group controlId="formFirstName" className="mb-3">
               <Form.Label
                 style={{
                   fontSize: 14,
@@ -538,11 +676,11 @@ function BookingModal(props) {
                   fontWeight: 500,
                 }}
               >
-                First Name <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                First Name 
               </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter first name"
+                placeholder="Enter name"
                 style={{
                   fontSize: 14,
                   color: "rgba(75, 75, 75, 1)",
@@ -561,9 +699,9 @@ function BookingModal(props) {
               </div>
             )}
           </Col>
-          <Col md={6}>
+                   <Col md={6}>
             <Form.Group controlId="formLastName" className="mb-3">
-              <Form.Label
+               <Form.Label
                 style={{
                   fontSize: 14,
                   color: "#222222",
@@ -580,7 +718,7 @@ function BookingModal(props) {
               </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter last name"
+                placeholder="Enter name"
                 style={{
                   fontSize: 14,
                   color: "rgba(75, 75, 75, 1)",
@@ -593,11 +731,10 @@ function BookingModal(props) {
               />
             </Form.Group>
           </Col>
-        </Row>
-
-        <Row>
-          <Col md={6}>
-          <Form.Group
+          </Row>
+          <Row>
+            <Col md={6}>
+                       <Form.Group
                      
                       controlId="exampleForm.ControlInput1"
                     >
@@ -609,11 +746,7 @@ function BookingModal(props) {
                           fontWeight: 500,
                         }}
                       >
-                        Mobile number{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
+                        Mobile number
                       </Form.Label>
 
                       <InputGroup>
@@ -700,8 +833,9 @@ function BookingModal(props) {
                       )}
                     </Form.Group>
            
-          </Col>
-          <Col md={6}>
+            </Col>
+
+                      <Col md={6}>
             <Form.Group controlId="formLastName" className="mb-3">
               <Form.Label
                 style={{
@@ -711,16 +845,11 @@ function BookingModal(props) {
                   fontWeight: 500,
                 }}
               >
-                Email <span
-                            style={{ color: "transparent", fontSize: "20px" }}
-                          >
-                            {" "}
-                            *{" "}
-                          </span>
+                Email address 
               </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter Email"
+                placeholder="email@gmail.com"
                 style={{
                   fontSize: 14,
                   color: "rgba(75, 75, 75, 1)",
@@ -757,17 +886,48 @@ function BookingModal(props) {
                           </div>
                         )}
           </Col>
-        </Row>
+          </Row>
+                  <Col md={12}>
+            <Form.Group controlId="formFirstName" className="mb-3">
+             <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Address 
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Address"
+                style={{
+                  fontSize: 14,
+                  color: "rgba(75, 75, 75, 1)",
+                  fontFamily: "Gilroy",
+                  height: "50px",
+                }}
+                value={Address}
+                className={formErrors.firstName ? "is-invalid" : ""}
+                onChange={(e) => handleAddress(e)}
+              />
+            </Form.Group>
+            {addressError && (
+                          <div style={{ color: "red" }}>
+                            <MdError />
+                            {addressError}
+                          </div>
+                        )}
+          </Col>
 
-
-        <Row>
-        
-<Col md={6}>
-      <Form.Group className="mb-2" controlId="purchaseDate">
+          <Row>
+           <Col md={6}>
+       <Form.Group className="mb-2" controlId="purchaseDate">
         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-        Joining_Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-        </Form.Label>
-        <div style={{ position: 'relative', width: "100%" }}>
+         Joining_Date
+         </Form.Label>
+         <div style={{ position: 'relative', width: "100%" }}>
           <DatePicker
             selected={joiningDate}
             onChange={(date) => {
@@ -790,237 +950,8 @@ function BookingModal(props) {
         </div>
       )}
     </Col>
-         
-           <Col>
-            <Form.Group className="mb-2" controlId="formPaying">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Paying Guest <span style={{ color: "#FF0000" }}>*</span>
-              </Form.Label>
-             
 
-              <Form.Select
-                aria-label="Default select example"
-                className="border"
-                value={paying}
-                onChange={(e) => handlePayingguest(e)}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  lineHeight: "18.83px",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-              >
-                <option
-                  style={{ fontSize: 14, fontWeight: 600 }}
-                  selected
-                  value=""
-                >
-                  Select a PG <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </option>
-                {state.UsersList?.hostelList &&
-                  state.UsersList?.hostelList.map((item) => (
-                    <>
-                      <option key={item.id} value={item.id}>
-                        {item.Name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select>
-            </Form.Group>
-            {hostelIdError && (
-              <div style={{ color: "red" }}>
-                <MdError />
-                {hostelIdError}
-              </div>
-            )}
-          </Col>
-        </Row>
-        <Row>
-         
-          <Col>
-            <Form.Group className="mb-2" controlId="formFloor">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Floor <span style={{ color: "#FF0000" }}>*</span>
-              </Form.Label>
-
-              <Form.Select
-                aria-label="Default select example"
-                className="border"
-                value={floor}
-                onChange={(e) => handleFloor(e)}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-              >
-                <option
-                  style={{ fontSize: 14, fontWeight: 600 }}
-                  selected
-                  value=""
-                >
-                  Select Floor
-                </option>
-                {state?.UsersList?.hosteldetailslist &&
-                  state?.UsersList?.hosteldetailslist.map((item) => (
-                    <>
-                      <option key={item.floor_id} value={item.floor_id}>
-                        {item.floor_name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select>
-            </Form.Group>
-            {floorError && (
-              <div style={{ color: "red" }}>
-                <MdError />
-                {floorError}
-              </div>
-            )}
-          </Col>
-          <Col>
-            <Form.Group className="mb-2" controlId="formRoom">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Room <span style={{ color: "#FF0000" }}>*</span>
-              </Form.Label>
-
-              <Form.Select
-                aria-label="Default select example"
-                className="border"
-                value={room}
-                onChange={(e) => handleRoom(e)}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-              >
-                <option>Select a Room</option>
-                {state.UsersList?.roomdetails &&
-                  state.UsersList?.roomdetails.map((item) => (
-                    <>
-                      <option key={item.Room_Id} value={item.Room_Id}>
-                        {item.Room_Name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select>
-            </Form.Group>
-            {roomError && (
-              <div style={{ color: "red" }}>
-                <MdError />
-                {roomError}
-              </div>
-            )}
-          </Col>
-        </Row>
-
-        <Row>
-        
-          <Col>
-            <Form.Group className="mb-2" controlId="formBed">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Bed <span style={{ color: "#FF0000" }}>*</span>
-              </Form.Label>
-
-              <Form.Select
-                aria-label="Default select example"
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-                value={bed}
-                className="border"
-                placeholder="Select a bed"
-                id="form-selects"
-                onChange={(e) => handleBed(e)}
-              >
-                <option value="" selected>
-                  Selected Bed
-                </option>
-
-                {/* {props.edit === "Edit" &&
-    Bednum &&
-    Bednum.Bed &&
-    Bednum.Bed !== "undefined" &&  Bednum.Bed !== "" &&  Bednum.Bed !== "null" &&  Bednum.Bed !== "0" && (
-      <option value={Bednum.Bed} selected>
-        {Bednum.Bed}
-      </option>
-    )} */}
-
-                {state.Booking?.availableBedBooking?.bed_details &&
-                 state.Booking?.availableBedBooking?.bed_details
-                    .filter(
-                      (item) =>
-                        item.bed_no !== "0" &&
-                        item.bed_no !== "undefined" &&
-                        item.bed_no !== "" &&
-                        item.bed_no !== "null"
-                    )
-                    .map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.bed_no}
-                      </option>
-                    ))}
-              </Form.Select>
-            </Form.Group>
-            {bedError && (
-              <div style={{ color: "red" }}>
-                <MdError />
-                {bedError}
-              </div>
-            )}
-          </Col>
-           <Col md={6}>
+                <Col md={6}>
           <Form.Group className="">
                                       <Form.Label
                                         style={{
@@ -1029,16 +960,7 @@ function BookingModal(props) {
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        Booking Amount{" "}
-                                        <span
-                                          style={{
-                                            color: "red",
-                                            fontSize: "20px",
-                                          }}
-                                        >
-                                          {" "}
-                                          *{" "}
-                                        </span>
+                                        Booking Amount
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -1065,70 +987,10 @@ function BookingModal(props) {
               </div>
             )}
           </Col>
-        </Row>
+          </Row>
 
-
-        <Col md={12}>
-            <Form.Group controlId="formFirstName" className="mb-3">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Address <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Address"
-                style={{
-                  fontSize: 14,
-                  color: "rgba(75, 75, 75, 1)",
-                  fontFamily: "Gilroy",
-                  height: "50px",
-                }}
-                value={Address}
-                className={formErrors.firstName ? "is-invalid" : ""}
-                onChange={(e) => handleAddress(e)}
-              />
-            </Form.Group>
-            {addressError && (
-                          <div style={{ color: "red" }}>
-                            <MdError />
-                            {addressError}
-                          </div>
-                        )}
-          </Col>
-
-        <Form.Group controlId="formComments" className="mb-3">
-          <Form.Label
-            style={{
-              fontSize: 14,
-              color: "#222222",
-              fontFamily: "Gilroy",
-              fontWeight: 500,
-            }}
-          >
-            Comments
-          </Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            placeholder="Enter comments"
-            value={comments}
-            onChange={(e) => handleComments(e)}
-            style={{
-              fontSize: 14,
-              color: "rgba(75, 75, 75, 1)",
-              fontFamily: "Gilroy",
-            }}
-          />
-        </Form.Group>
-      
-        <Modal.Footer>
-          <Button
+                  <Modal.Footer>
+         <Button
             variant="primary"
             type="submit"
             className="w-100"
@@ -1144,12 +1006,655 @@ function BookingModal(props) {
             }}
             onClick={handleSubmit}
           >
-            New Booking
+            Add Booking
           </Button>
         </Modal.Footer>
       </Modal.Body>
-      {/* </Form> */}
-    </Modal>
+
+</Modal>
+    </div>
+
+//     <Modal
+//       show={props.show}
+//       onHide={handleAddClose}
+//       centered
+//       backdrop="static"
+//     >
+//       {/* <Form noValidate validated={validated} > */}
+//       <Modal.Header className="d-flex justify-content-between">
+//         <Modal.Title style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600}}>New Booking</Modal.Title>
+//         <CloseCircle
+//           size="32"
+//           color="#222222"
+//           onClick={handleAddClose}
+//           style={{ cursor: "pointer" }}
+//         />
+//       </Modal.Header>
+//       <Modal.Body>
+//         <Row>
+//           <Col md={6}>
+//             <Form.Group controlId="formFirstName" className="mb-3">
+//               <Form.Label
+//                 style={{
+//                   fontSize: 14,
+//                   color: "#222222",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                 }}
+//               >
+//                 First Name <span style={{ color: "red", fontSize: "20px" }}> * </span>
+//               </Form.Label>
+//               <Form.Control
+//                 type="text"
+//                 placeholder="Enter first name"
+//                 style={{
+//                   fontSize: 14,
+//                   color: "rgba(75, 75, 75, 1)",
+//                   fontFamily: "Gilroy",
+//                   height: "50px",
+//                 }}
+//                 value={firstName}
+//                 className={formErrors.firstName ? "is-invalid" : ""}
+//                 onChange={(e) => handleFirstName(e)}
+//               />
+//             </Form.Group>
+//             {firstNameError && (
+//               <div style={{ color: "red" }}>
+//                 <MdError />
+//                 {firstNameError}
+//               </div>
+//             )}
+//           </Col>
+//           <Col md={6}>
+//             <Form.Group controlId="formLastName" className="mb-3">
+//               <Form.Label
+//                 style={{
+//                   fontSize: 14,
+//                   color: "#222222",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                 }}
+//               >
+//                 Last Name <span
+//                             style={{ color: "transparent", fontSize: "20px" }}
+//                           >
+//                             {" "}
+//                             *{" "}
+//                           </span>
+//               </Form.Label>
+//               <Form.Control
+//                 type="text"
+//                 placeholder="Enter last name"
+//                 style={{
+//                   fontSize: 14,
+//                   color: "rgba(75, 75, 75, 1)",
+//                   fontFamily: "Gilroy",
+//                   height: "50px",
+//                 }}
+//                 value={lastName}
+//                 isInvalid={!!formErrors.lastName}
+//                 onChange={(e) => handleLastName(e)}
+//               />
+//             </Form.Group>
+//           </Col>
+//         </Row>
+
+//         <Row>
+//           <Col md={6}>
+//           <Form.Group
+                     
+//                       controlId="exampleForm.ControlInput1"
+//                     >
+//                       <Form.Label
+//                         style={{
+//                           fontSize: 14,
+//                           color: "#222222",
+//                           fontFamily: "Gilroy",
+//                           fontWeight: 500,
+//                         }}
+//                       >
+//                         Mobile number{" "}
+//                         <span style={{ color: "red", fontSize: "20px" }}>
+//                           {" "}
+//                           *{" "}
+//                         </span>
+//                       </Form.Label>
+
+//                       <InputGroup>
+//                         <Form.Select
+//                           value={countryCode}
+//                           id="vendor-select-pg"
+//                           onChange={handleCountryCodeChange}
+//                           style={{
+//                             border: "1px solid #D9D9D9",
+
+//                             borderRadius: "8px 0 0 8px",
+//                             height: 50,
+//                             fontSize: 16,
+//                             color: "#4B4B4B",
+//                             fontFamily: "Gilroy",
+//                             fontWeight: countryCode ? 600 : 500,
+//                             boxShadow: "none",
+//                             backgroundColor: "#fff",
+//                             maxWidth: 90,
+//                             paddingRight: 10,
+//                           }}
+//                         >
+//                           {state.UsersList?.countrycode?.country_codes?.map(
+//                             (item) => {
+//                               return (
+//                                 console.log(
+//                                   "item.country_flag",
+//                                   item.country_flag
+//                                 ),
+//                                 (
+//                                   <>
+//                                     <option value={item.country_code}>
+//                                       +{item.country_code}
+//                                     </option>
+//                                   </>
+//                                 )
+//                               );
+//                             }
+//                           )}
+//                         </Form.Select>
+//                         <Form.Control
+//                           value={Phone}
+//                           onChange={handlePhone}
+//                           type="text"
+//                           placeholder="9876543210"
+//                           maxLength={10}
+//                           style={{
+//                             fontSize: 16,
+//                             color: "#4B4B4B",
+//                             fontFamily: "Gilroy",
+//                             fontWeight: Phone ? 600 : 500,
+//                             boxShadow: "none",
+//                             borderLeft: "unset",
+//                             borderRight: "1px solid #D9D9D9",
+//                             borderTop: "1px solid #D9D9D9",
+//                             borderBottom: "1px solid #D9D9D9",
+//                             height: 50,
+//                             borderRadius: "0 8px 8px 0",
+//                           }}
+//                         />
+//                       </InputGroup>
+//                       <p
+//                         id="MobileNumberError"
+//                         style={{ color: "red", fontSize: 11, marginTop: 5 }}
+//                       ></p>
+//                       {phoneError && (
+//                         <div style={{ color: "red" }}>
+//                           <MdError />
+//                           {phoneError}
+//                         </div>
+//                       )}
+                      
+//                       {phoneErrorMessage && (
+//                         <div style={{ color: "red" }}>
+//                           <MdError />
+//                           {phoneErrorMessage}
+//                         </div>
+//                       )}
+//                         {state.Booking.bookingPhoneError && (
+//                         <div style={{ color: "red" }}>
+//                           <MdError />
+//                           {state.Booking.bookingPhoneError}
+//                         </div>
+//                       )}
+//                     </Form.Group>
+           
+//           </Col>
+//           <Col md={6}>
+//             <Form.Group controlId="formLastName" className="mb-3">
+//               <Form.Label
+//                 style={{
+//                   fontSize: 14,
+//                   color: "#222222",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                 }}
+//               >
+//                 Email <span
+//                             style={{ color: "transparent", fontSize: "20px" }}
+//                           >
+//                             {" "}
+//                             *{" "}
+//                           </span>
+//               </Form.Label>
+//               <Form.Control
+//                 type="text"
+//                 placeholder="Enter Email"
+//                 style={{
+//                   fontSize: 14,
+//                   color: "rgba(75, 75, 75, 1)",
+//                   fontFamily: "Gilroy",
+//                   height: "50px",
+//                 }}
+//                 value={Email}
+//                 isInvalid={!!formErrors.lastName}
+//                 onChange={(e) => handleEmail(e)}
+//               />
+//             </Form.Group>
+//             {emailError && (
+//                           <div style={{ color: "red" }}>
+//                             <MdError />
+//                             {emailError}
+//                           </div>
+//                         )}
+//                         {emailIdError && (
+//                           <div style={{ color: "red" }}>
+//                             <MdError />
+//                             {emailIdError}
+//                           </div>
+//                         )}
+//                         {emailErrorMessage && (
+//                           <div style={{ color: "red" }}>
+//                             <MdError />
+//                             {emailErrorMessage}
+//                           </div>
+//                         )}
+//                         {state?.Booking?.bookingEmailError && (
+//                           <div style={{ color: "red" }}>
+//                             <MdError />
+//                             {state?.Booking?.bookingEmailError}
+//                           </div>
+//                         )}
+//           </Col>
+//         </Row>
+
+
+//         <Row>
+        
+// <Col md={6}>
+//       <Form.Group className="mb-2" controlId="purchaseDate">
+//         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+//         Joining_Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+//         </Form.Label>
+//         <div style={{ position: 'relative', width: "100%" }}>
+//           <DatePicker
+//             selected={joiningDate}
+//             onChange={(date) => {
+//               setDateError('');
+//               setJoiningDate(date);
+//             }}
+//             dateFormat="dd/MM/yyyy"
+//             minDate={null} 
+//             // disabled={edit}
+//             customInput={customDateInput({
+//               value: joiningDate ? joiningDate.toLocaleDateString('en-GB') : '',
+//             })}
+//           />
+//         </div>
+//       </Form.Group>
+//       {dateError && (
+//         <div style={{ color: "red" }}>
+//           <MdError />
+//           {dateError}
+//         </div>
+//       )}
+//     </Col>
+         
+//            <Col>
+//             <Form.Group className="mb-2" controlId="formPaying">
+//               <Form.Label
+//                 style={{
+//                   fontSize: 14,
+//                   color: "#222222",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                 }}
+//               >
+//                 Paying Guest <span style={{ color: "#FF0000" }}>*</span>
+//               </Form.Label>
+             
+
+//               <Form.Select
+//                 aria-label="Default select example"
+//                 className="border"
+//                 value={paying}
+//                 onChange={(e) => handlePayingguest(e)}
+//                 style={{
+//                   fontSize: 16,
+//                   color: "#4B4B4B",
+//                   fontFamily: "Gilroy",
+//                   lineHeight: "18.83px",
+//                   fontWeight: 500,
+//                   boxShadow: "none",
+//                   border: "1px solid #D9D9D9",
+//                   height: 50,
+//                   borderRadius: 8,
+//                 }}
+//               >
+//                 <option
+//                   style={{ fontSize: 14, fontWeight: 600 }}
+//                   selected
+//                   value=""
+//                 >
+//                   Select a PG <span style={{ color: "red", fontSize: "20px" }}> * </span>
+//                 </option>
+//                 {state.UsersList?.hostelList &&
+//                   state.UsersList?.hostelList.map((item) => (
+//                     <>
+//                       <option key={item.id} value={item.id}>
+//                         {item.Name}
+//                       </option>
+//                     </>
+//                   ))}
+//               </Form.Select>
+//             </Form.Group>
+//             {hostelIdError && (
+//               <div style={{ color: "red" }}>
+//                 <MdError />
+//                 {hostelIdError}
+//               </div>
+//             )}
+//           </Col>
+//         </Row>
+//         <Row>
+         
+//           <Col>
+//             <Form.Group className="mb-2" controlId="formFloor">
+//               <Form.Label
+//                 style={{
+//                   fontSize: 14,
+//                   color: "#222222",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                 }}
+//               >
+//                 Floor <span style={{ color: "#FF0000" }}>*</span>
+//               </Form.Label>
+
+//               <Form.Select
+//                 aria-label="Default select example"
+//                 className="border"
+//                 value={floor}
+//                 onChange={(e) => handleFloor(e)}
+//                 style={{
+//                   fontSize: 16,
+//                   color: "#4B4B4B",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                   boxShadow: "none",
+//                   border: "1px solid #D9D9D9",
+//                   height: 50,
+//                   borderRadius: 8,
+//                 }}
+//               >
+//                 <option
+//                   style={{ fontSize: 14, fontWeight: 600 }}
+//                   selected
+//                   value=""
+//                 >
+//                   Select Floor
+//                 </option>
+//                 {state?.UsersList?.hosteldetailslist &&
+//                   state?.UsersList?.hosteldetailslist.map((item) => (
+//                     <>
+//                       <option key={item.floor_id} value={item.floor_id}>
+//                         {item.floor_name}
+//                       </option>
+//                     </>
+//                   ))}
+//               </Form.Select>
+//             </Form.Group>
+//             {floorError && (
+//               <div style={{ color: "red" }}>
+//                 <MdError />
+//                 {floorError}
+//               </div>
+//             )}
+//           </Col>
+//           <Col>
+//             <Form.Group className="mb-2" controlId="formRoom">
+//               <Form.Label
+//                 style={{
+//                   fontSize: 14,
+//                   color: "#222222",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                 }}
+//               >
+//                 Room <span style={{ color: "#FF0000" }}>*</span>
+//               </Form.Label>
+
+//               <Form.Select
+//                 aria-label="Default select example"
+//                 className="border"
+//                 value={room}
+//                 onChange={(e) => handleRoom(e)}
+//                 style={{
+//                   fontSize: 16,
+//                   color: "#4B4B4B",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                   boxShadow: "none",
+//                   border: "1px solid #D9D9D9",
+//                   height: 50,
+//                   borderRadius: 8,
+//                 }}
+//               >
+//                 <option>Select a Room</option>
+//                 {state.UsersList?.roomdetails &&
+//                   state.UsersList?.roomdetails.map((item) => (
+//                     <>
+//                       <option key={item.Room_Id} value={item.Room_Id}>
+//                         {item.Room_Name}
+//                       </option>
+//                     </>
+//                   ))}
+//               </Form.Select>
+//             </Form.Group>
+//             {roomError && (
+//               <div style={{ color: "red" }}>
+//                 <MdError />
+//                 {roomError}
+//               </div>
+//             )}
+//           </Col>
+//         </Row>
+
+//         <Row>
+        
+//           <Col>
+//             <Form.Group className="mb-2" controlId="formBed">
+//               <Form.Label
+//                 style={{
+//                   fontSize: 14,
+//                   color: "#222222",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                 }}
+//               >
+//                 Bed <span style={{ color: "#FF0000" }}>*</span>
+//               </Form.Label>
+
+//               <Form.Select
+//                 aria-label="Default select example"
+//                 style={{
+//                   fontSize: 16,
+//                   color: "#4B4B4B",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                   boxShadow: "none",
+//                   border: "1px solid #D9D9D9",
+//                   height: 50,
+//                   borderRadius: 8,
+//                 }}
+//                 value={bed}
+//                 className="border"
+//                 placeholder="Select a bed"
+//                 id="form-selects"
+//                 onChange={(e) => handleBed(e)}
+//               >
+//                 <option value="" selected>
+//                   Selected Bed
+//                 </option>
+
+//                 {/* {props.edit === "Edit" &&
+//     Bednum &&
+//     Bednum.Bed &&
+//     Bednum.Bed !== "undefined" &&  Bednum.Bed !== "" &&  Bednum.Bed !== "null" &&  Bednum.Bed !== "0" && (
+//       <option value={Bednum.Bed} selected>
+//         {Bednum.Bed}
+//       </option>
+//     )} */}
+
+//                 {state.Booking?.availableBedBooking?.bed_details &&
+//                  state.Booking?.availableBedBooking?.bed_details
+//                     .filter(
+//                       (item) =>
+//                         item.bed_no !== "0" &&
+//                         item.bed_no !== "undefined" &&
+//                         item.bed_no !== "" &&
+//                         item.bed_no !== "null"
+//                     )
+//                     .map((item) => (
+//                       <option key={item.id} value={item.id}>
+//                         {item.bed_no}
+//                       </option>
+//                     ))}
+//               </Form.Select>
+//             </Form.Group>
+//             {bedError && (
+//               <div style={{ color: "red" }}>
+//                 <MdError />
+//                 {bedError}
+//               </div>
+//             )}
+//           </Col>
+//            <Col md={6}>
+//           <Form.Group className="">
+//                                       <Form.Label
+//                                         style={{
+//                                           fontSize: 14,
+//                                           fontWeight: 500,
+//                                           fontFamily: "Gilroy",
+//                                         }}
+//                                       >
+//                                         Booking Amount{" "}
+//                                         <span
+//                                           style={{
+//                                             color: "red",
+//                                             fontSize: "20px",
+//                                           }}
+//                                         >
+//                                           {" "}
+//                                           *{" "}
+//                                         </span>
+//                                       </Form.Label>
+//                                       <FormControl
+//                                         type="text"
+//                                         id="form-controls"
+//                                         placeholder="Enter amount"
+//                                         value={amount}
+//                                         onChange={(e) => handleAmount(e)}
+//                                         style={{
+//                                           fontSize: 16,
+//                                           color: "#4B4B4B",
+//                                           fontFamily: "Gilroy",
+//                                           fontWeight: 500,
+//                                           boxShadow: "none",
+//                                           border: "1px solid #D9D9D9",
+//                                           height: 50,
+//                                           borderRadius: 8,
+//                                         }}
+//                                       />
+//                                     </Form.Group>
+//             {amountError && (
+//               <div style={{ color: "red" }}>
+//                 <MdError />
+//                 {amountError}
+//               </div>
+//             )}
+//           </Col>
+//         </Row>
+
+
+//         <Col md={12}>
+//             <Form.Group controlId="formFirstName" className="mb-3">
+//               <Form.Label
+//                 style={{
+//                   fontSize: 14,
+//                   color: "#222222",
+//                   fontFamily: "Gilroy",
+//                   fontWeight: 500,
+//                 }}
+//               >
+//                 Address <span style={{ color: "red", fontSize: "20px" }}> * </span>
+//               </Form.Label>
+//               <Form.Control
+//                 type="text"
+//                 placeholder="Enter Address"
+//                 style={{
+//                   fontSize: 14,
+//                   color: "rgba(75, 75, 75, 1)",
+//                   fontFamily: "Gilroy",
+//                   height: "50px",
+//                 }}
+//                 value={Address}
+//                 className={formErrors.firstName ? "is-invalid" : ""}
+//                 onChange={(e) => handleAddress(e)}
+//               />
+//             </Form.Group>
+//             {addressError && (
+//                           <div style={{ color: "red" }}>
+//                             <MdError />
+//                             {addressError}
+//                           </div>
+//                         )}
+//           </Col>
+
+//         <Form.Group controlId="formComments" className="mb-3">
+//           <Form.Label
+//             style={{
+//               fontSize: 14,
+//               color: "#222222",
+//               fontFamily: "Gilroy",
+//               fontWeight: 500,
+//             }}
+//           >
+//             Comments
+//           </Form.Label>
+//           <Form.Control
+//             as="textarea"
+//             rows={3}
+//             placeholder="Enter comments"
+//             value={comments}
+//             onChange={(e) => handleComments(e)}
+//             style={{
+//               fontSize: 14,
+//               color: "rgba(75, 75, 75, 1)",
+//               fontFamily: "Gilroy",
+//             }}
+//           />
+//         </Form.Group>
+      
+//         <Modal.Footer>
+//           <Button
+//             variant="primary"
+//             type="submit"
+//             className="w-100"
+//             style={{
+//               borderRadius: 12,
+//               padding: "12px",
+//               border: "1px solid rgba(36, 0, 255, 1)",
+//               backgroundColor: "#1E45E1",
+//               color: "#fff",
+//               fontSize: 16,
+//               fontWeight: 600,
+//               fontFamily: "Gilroy"
+//             }}
+//             onClick={handleSubmit}
+//           >
+//             New Booking
+//           </Button>
+//         </Modal.Footer>
+//       </Modal.Body>
+//       {/* </Form> */}
+//     </Modal>
+
   );
 }
 

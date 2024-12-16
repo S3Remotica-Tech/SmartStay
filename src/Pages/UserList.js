@@ -73,6 +73,8 @@ function UserList(props) {
   const selectRef = useRef("select");
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
+ 
+  
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -518,6 +520,18 @@ function UserList(props) {
   const [customerUser_Id, setcustomerUser_Id] = useState("");
   const [createbyamni, setcreatebyamni] = useState("");
   const [amnitytableshow, setamnitytableshow] = useState(false);
+//   const [allhost_id,setAll_Hos_Id] = useState("")
+// console.log("userhostelid",props.allPageHostel_Id);
+
+// useEffect(()=>{
+//   setAll_Hos_Id(props.allPageHostel_Id)
+// },[props.allPageHostel_Id])
+// const [uniqueostel_Id,setUniqostel_Id]=useState('')
+console.log("uniqueostel_Id",props.allPageHostel_Id)
+useEffect(() => {
+  console.log("uniqueHostelId:", props.allPageHostel_Id);
+  setUniqostel_Id(props.allPageHostel_Id);
+}, [props.allPageHostel_Id]);
 
   const handleRoomDetailsPage = (userData) => {
     const clickedUserDataArray = Array.isArray(userData)
@@ -1283,6 +1297,7 @@ function UserList(props) {
         show={showbookingForm}
         handleClose={closeModal}
         setShowbookingForm={setShowbookingForm}
+        // allhost_id={allhost_id}
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
       />
@@ -2627,6 +2642,7 @@ function UserList(props) {
                   customerrolePermission={customerrolePermission}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
+                 
                 />
               </TabPanel>
               <TabPanel value="3">

@@ -34,6 +34,9 @@ import { MdError } from "react-icons/md";
 import { be } from "date-fns/locale";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import imageCompression from 'browser-image-compression';
+import Plus from '../Assets/Images/New_images/addplus-circle.svg'
+import Profile2 from '../Assets/Images/New_images/profile-picture.png'
 
 function Booking(props) {
   const state = useSelector((state) => state);
@@ -94,7 +97,8 @@ function Booking(props) {
   const [bookingPermissionError, setBookingPermissionError] = useState("");
   const [bookingEditPermissionError, setBookingEditPermissionError] = useState("");
   const [bookingDeletePermissionError, setBookingDeletePermissionError] = useState("");
-
+  console.log("userlisthostelid",props.uniqueostel_Id);
+  // const HostelID = props.allhost_id 
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
     lastName: "",
@@ -111,7 +115,10 @@ function Booking(props) {
     Email: "",
   });
 
-
+useEffect(() => {
+  // console.log("allhost_id", props.allhost_id);
+  setHostelIds(props.uniqueostel_Id); 
+}, [props.uniqueostel_Id]);
   useEffect(() => {
     console.log("===customerrolePermission[0]", props.customerrolePermission);
     if (
@@ -156,7 +163,15 @@ function Booking(props) {
 
 
 
+
   const handleEdit = (item) => {
+    // console.log("Full item during edit:", item); // Log entire item
+    // console.log("Item file during edit:", item.profile); // Log file specifically
+    // if (!item.profile) {
+    //   console.warn("File is missing or undefined in the item data.");
+    // }
+  
+    // setFile(item.profile || Profile2);
     // dispatch({
     //   type: "BOOKINGBEDDETAILS",
     //   payload: {
@@ -166,28 +181,28 @@ function Booking(props) {
     //     joining_date: joiningDate,
     //   },
     // });
-    
-    setFormEdit(true)
+   
+    setFormEdit(true);
     if (item && item.id) {
       setFirstName(item.first_name || "");
       setLastName(item.last_name || "");
-      // setJoiningDate(item.joining_date || "")
+      setJoiningDate(item.joining_date || "")
       const formattedJoiningDate = item.joining_date
         ? new Date(item.joining_date)
         : null;
         console.log("itemEdit...///", formattedJoiningDate);
       setJoiningDate(formattedJoiningDate);
-      
+      setFile(item.profile || "");
       setAmount(item.amount || "");
-      setPaying(item.hostel_name || "");
-      setFloor(item.floor_name || "");
-      setRoom(item.room_name || "");
-      setBed(item.bed_name || "");
-      setComments(item.comments || "");
+      // setPaying(item.hostel_name || "");
+      // setFloor(item.floor_name || "");
+      // setRoom(item.room_name || "");
+      // setBed(item.bed_name || "");
+      // setComments(item.comments || "");
       setHostelIds(item.hostel_id || "");
-      setFloorIds(item.floor_id || "");
-      setRoomId(item.room_id || "");
-      setBedIds(item.bed_id || "");
+      // setFloorIds(item.floor_id || "");
+      // setRoomId(item.room_id || "");
+      // setBedIds(item.bed_id || "");
       setId(item.id || "");
       const phoneNumber = String(item.phone_number || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
@@ -196,22 +211,23 @@ function Booking(props) {
       setPhone(mobileNumber);
       setEmail(item.email_id || "");
       setAddress(item.address || "");
-      setBednum(item);
-      seteditBed("editbeddet");
+      // setBednum(item);
+      // seteditBed("editbeddet");
 
       setInitialStateAssign({
         firstName: item.first_name || "",
         lastName: item.last_name || "",
-        floor: item.floor_id || "",
-        room: item.room_id || "",
-        bed: item.bed_id || "",
+        // floor: item.floor_id || "",
+        // room: item.room_id || "",
+        // bed: item.bed_id || "",
         Phone: item.phone_number || "",
         Email: item.email_id || "",
         Address: item.address || "",
         joiningDate: formattedJoiningDate || "",
         amount: item.amount || "",
         paying: item.hostel_id || "",
-        comments: item.comments || "",
+        file :item.profile || "",
+        // comments: item.comments || "",
       });
 
       seteditMode(true);
@@ -421,10 +437,10 @@ function Booking(props) {
   const validateAssignField = (value, fieldName) => {
     if (
       !value ||
-      (value === "Select a PG" && value === "") ||
-      (value === "Select a floor" && value === "") ||
-      (value === "Select a room" && value === "") ||
-      (value === "Select a bed" && value === "")
+      value === "Select a PG" 
+      // (value === "Select a floor" && value === "") ||
+      // (value === "Select a room" && value === "") ||
+      // (value === "Select a bed" && value === "")
     ) {
       switch (fieldName) {
         case "firstName":
@@ -439,15 +455,15 @@ function Booking(props) {
         case "paying":
           setHostelIdError("Hostel ID is required");
           break;
-        case "floor":
-          setfloorError("Floor is required");
-          break;
-        case "room":
-          setRoomError("Room is required");
-          break;
-        case "bed":
-          setBedError("Bed is required");
-          break;
+        // case "floor":
+        //   setfloorError("Floor is required");
+        //   break;
+        // case "room":
+        //   setRoomError("Room is required");
+        //   break;
+        // case "bed":
+        //   setBedError("Bed is required");
+        //   break;
         case "Address":
           setAddressError("Address is required");
           break;
@@ -473,15 +489,15 @@ function Booking(props) {
         case "paying":
           setHostelIdError("");
           break;
-        case "floor":
-          setfloorError("");
-          break;
-        case "room":
-          setRoomError("");
-          break;
-        case "bed":
-          setBedError("");
-          break;
+        // case "floor":
+        //   setfloorError("");
+        //   break;
+        // case "room":
+        //   setRoomError("");
+        //   break;
+        // case "bed":
+        //   setBedError("");
+        //   break;
         case "Address":
           setAddressError("");
           break;
@@ -495,60 +511,61 @@ function Booking(props) {
       return true;
     }
   };
-  // const MobileNumber = `${countryCode}${Phone}`;
+  
   const handleSubmit = () => {
     const isFirstnameValid = validateAssignField(firstName, "firstName");
     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
     const isamountValid = validateAssignField(amount, "amount");
-
+    const isphoneValid = validateAssignField(Phone, "Phone");
     const isHostelValid = validateAssignField(HostelIds, "paying");
-    const isFloorvalid = validateAssignField(FloorIds, "floor");
-    const isRoomValid = validateAssignField(roomId, "room");
-    const isbedvalid = validateAssignField(bedIds, "bed");
+    const isaddressValid = validateAssignField(Address, "Address");
+    // const isFloorvalid = validateAssignField(FloorIds, "floor");
+    // const isRoomValid = validateAssignField(roomId, "room");
+    // const isbedvalid = validateAssignField(bedIds, "bed");
 
-    if ((HostelIds === "Select a PG" && HostelIds === "") || !isHostelValid) {
-      setHostelIdError("Please select a valid Hostel");
-      return;
-    } else {
-      setfloorError("");
-    }
-    if ((FloorIds === "Select a floor" && FloorIds === "") || !isFloorvalid) {
-      setfloorError("Please select a valid Floor");
-      return;
-    } else {
-      setfloorError("");
-    }
+    // if ((HostelIds === "Select a PG" && HostelIds === "") || !isHostelValid) {
+    //   setHostelIdError("Please select a valid Hostel");
+    //   return;
+    // } else {
+    //   setfloorError("");
+    // }
+    // if ((FloorIds === "Select a floor" && FloorIds === "") || !isFloorvalid) {
+    //   setfloorError("Please select a valid Floor");
+    //   return;
+    // } else {
+    //   setfloorError("");
+    // }
 
-    if ((roomId === "Select a room" && roomId === "") || !isRoomValid) {
-      setRoomError("Please select a valid Room");
-      return;
-    } else {
-      setRoomError("");
-    }
-    if ((bedIds === "Select a bed" && bedIds === "") || !isbedvalid) {
-      setBedError("Please select a valid Room");
-      return;
-    } else {
-      setBedError("");
-    }
+    // if ((roomId === "Select a room" && roomId === "") || !isRoomValid) {
+    //   setRoomError("Please select a valid Room");
+    //   return;
+    // } else {
+    //   setRoomError("");
+    // }
+    // if ((bedIds === "Select a bed" && bedIds === "") || !isbedvalid) {
+    //   setBedError("Please select a valid Room");
+    //   return;
+    // } else {
+    //   setBedError("");
+    // }
 
     if (
       !isFirstnameValid ||
       !isjoiningDateValid ||
       !isamountValid ||
-      !isHostelValid ||
-      !isFloorvalid ||
-      !isRoomValid ||
-      !isbedvalid
+      !isphoneValid ||
+      !isaddressValid ||
+      !isHostelValid // Negate this condition
     ) {
       return;
     }
-    console.log("FloorIds:", FloorIds);
-    console.log("initialStateAssign.floor:", initialStateAssign.floor);
-    console.log("RoomId:", roomId);
-    console.log("initialStateAssign.room:", initialStateAssign.room);
-    console.log("BedIds:", bedIds);
-    console.log("initialStateAssign.bed:", initialStateAssign.bed);
+    
+    // console.log("FloorIds:", FloorIds);
+    // console.log("initialStateAssign.floor:", initialStateAssign.floor);
+    // console.log("RoomId:", roomId);
+    // console.log("initialStateAssign.room:", initialStateAssign.room);
+    // console.log("BedIds:", bedIds);
+    // console.log("initialStateAssign.bed:", initialStateAssign.bed);
     console.log("JoiningDate:", joiningDate);
     console.log(
       "initialStateAssign.joiningDate:",
@@ -560,16 +577,17 @@ function Booking(props) {
     console.log("initialStateAssign.firstName:", initialStateAssign.firstName);
     console.log("LastName:", lastName);
     console.log("initialStateAssign.lastName:", initialStateAssign.lastName);
-    console.log("Comments:", comments);
-    console.log("initialStateAssign.comments:", initialStateAssign.comments);
-
+    // console.log("Comments:", comments);
+    // console.log("initialStateAssign.comments:", initialStateAssign.comments);
+    console.log("ProfileImage", file);
+    console.log("initialStateAssign.Profile:", initialStateAssign.file);
     console.log("Address:", Address);
     console.log("initialStateAssign.Address:", initialStateAssign.Address);
     console.log("Email:", Email);
     console.log("initialStateAssign.Email:", initialStateAssign.Email);
     console.log("Phone:", Phone);
     console.log("initialStateAssign.Phone:", initialStateAssign.Phone);
-
+    console.log("isHostelValid:", isHostelValid);
     console.log("Phone:", countryCode);
     console.log("initialStateAssign.Phone:", initialStateAssign.countryCode);
 
@@ -577,19 +595,20 @@ function Booking(props) {
       return !isNaN(Date.parse(date));
     };
     const isChangedBed =
-      (isNaN(FloorIds)
-        ? String(FloorIds).toLowerCase() !==
-          String(initialStateAssign.floor).toLowerCase()
-        : Number(FloorIds) !== Number(initialStateAssign.floor)) ||
-      (isNaN(roomId)
-        ? String(roomId).toLowerCase() !==
-          String(initialStateAssign.room).toLowerCase()
-        : Number(roomId) !== Number(initialStateAssign.room)) ||
-      (isNaN(bedIds)
-        ? String(bedIds).toLowerCase() !==
-          String(initialStateAssign.bed).toLowerCase()
-        : Number(bedIds) !== Number(initialStateAssign.bed)) ||
-      (isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
+      // (isNaN(FloorIds)
+      //   ? String(FloorIds).toLowerCase() !==
+      //     String(initialStateAssign.floor).toLowerCase()
+      //   : Number(FloorIds) !== Number(initialStateAssign.floor)) ||
+      // (isNaN(roomId)
+      //   ? String(roomId).toLowerCase() !==
+      //     String(initialStateAssign.room).toLowerCase()
+      //   : Number(roomId) !== Number(initialStateAssign.room)) ||
+      // (isNaN(bedIds)
+      //   ? String(bedIds).toLowerCase() !==
+      //     String(initialStateAssign.bed).toLowerCase()
+      //   : Number(bedIds) !== Number(initialStateAssign.bed)) ||
+      (
+        isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
         ? new Date(joiningDate).toISOString().split("T")[0] !==
           new Date(initialStateAssign.joiningDate).toISOString().split("T")[0]
         : joiningDate !== initialStateAssign.joiningDate) ||
@@ -598,8 +617,9 @@ function Booking(props) {
       String(Address) !== String(initialStateAssign.Address) ||
       String(Email) !== String(initialStateAssign.Email) ||
       Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-      String(lastName) !== String(initialStateAssign.lastName) ||
-      String(comments) !== String(initialStateAssign.comments);
+      file !== initialStateAssign.file ||
+      String(lastName) !== String(initialStateAssign.lastName)
+      // String(comments) !== String(initialStateAssign.comments);
 
     if (!isChangedBed) {
       setFormError("No changes detected.");
@@ -630,21 +650,20 @@ try {
     dispatch({
       type: "ADD_BOOKING",
       payload: {
-        first_name: firstName,
-        last_name: lastName,
+        f_name: firstName,
+        l_name: lastName,
         joining_date: formattedDate,
         amount: amount,
         hostel_id: HostelIds,
-        floor_id: FloorIds,
-        room_id: roomId,
-        bed_id: bedIds,
-        comments: comments,
-        phone_number: normalizedPhoneNumber,
+        mob_no: normalizedPhoneNumber,
         email_id: Email,
         address: Address,
+        profile:file,
         id: id,
       },
     });
+    setFormEdit(false);
+    // props.handleClose()
   
   };
 
@@ -814,8 +833,45 @@ try {
       }, 500);
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
- 
 
+  
+  
+   const [file, setFile] = useState(null);
+ 
+ 
+    // const handleImageChange = async (event) => {
+    //    const fileImage = event.target.files[0];
+    //    if (fileImage) {
+    //      const options = {
+    //        maxSizeMB: 1,
+    //        maxWidthOrHeight: 800,
+    //        useWebWorker: true
+    //      };
+    //      try {
+    //        const compressedFile = await imageCompression(fileImage, options);
+    //        setFile(compressedFile);
+    //      } catch (error) {
+    //        console.error('Image compression error:', error);
+    //      }
+    //    }
+    //  };
+    const handleImageChange = async (event) => {
+      const fileImage = event.target.files[0];
+      if (fileImage) {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 800,
+          useWebWorker: true
+        };
+        try {
+          const compressedFile = await imageCompression(fileImage, options);
+          setFile(compressedFile);
+        } catch (error) {
+          console.error('Image compression error:', error);
+        }
+      }
+    };
+  
   const popupRef = useRef(null);
   const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -1628,6 +1684,7 @@ try {
         handleSave={handleSave}
         setFormEdit={setFormEdit}
         formEdit = {formEdit}
+        HostelID = {props.uniqueostel_Id}
       />
 
       <AssignBooking
@@ -1639,6 +1696,7 @@ try {
         handleSave={handleSave}
         setAssignBooking={setAssignBooking}
         assignBooking={assignBooking}
+        HostelID = {props.uniqueostel_Id}
       />
 
       <Modal
@@ -1657,6 +1715,47 @@ try {
           />
         </Modal.Header>
         <Modal.Body>
+        <div className='d-flex align-items-center'>
+
+        <div className="" style={{ height: 100, width: 100, position: "relative" }}>
+
+   
+        <Image
+  src={
+    file && file !== 0 // Ensure `file` is not 0 or falsy
+      ? typeof file === "string"
+        ? file // Handle case if `file` is an existing URL
+        : URL.createObjectURL(file) // Handle `file` object preview
+      : Profile2 // Default placeholder if `file` is 0, null, or undefined
+  }
+  roundedCircle
+  style={{ height: 100, width: 100 }}
+/>
+
+
+  
+  <label htmlFor="imageInput" className='' >
+    <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
+    <input
+      type="file"
+      accept="image/*"
+      multiple
+      className="sr-only"
+      id="imageInput"
+      onChange={handleImageChange}
+      style={{ display: "none" }} />
+  </label>
+
+</div>
+<div className='ps-3'>
+  <div>
+    <label style={{ fontSize: 16, fontWeight: 500, color: "#222222", fontFamily: "Gilroy" }}>Profile Photo</label>
+  </div>
+  <div>
+    <label style={{ fontSize: 14, fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>Max size of image 10MB</label>
+  </div>
+</div>
+</div>
           <Row>
             <Col md={6}>
               <Form.Group controlId="formFirstName" className="mb-3">
@@ -1835,7 +1934,7 @@ try {
                     fontWeight: 500,
                   }}
                 >
-                  Email <span
+                  Email address <span
                             style={{ color: "transparent", fontSize: "20px" }}
                           >
                             {" "}
@@ -1882,6 +1981,39 @@ try {
               )}
             </Col>
           </Row>
+                <Col md={12}>
+                      <Form.Group controlId="formFirstName" className="mb-3">
+                       <Form.Label
+                          style={{
+                            fontSize: 14,
+                            color: "#222222",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Address 
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter Address"
+                          style={{
+                            fontSize: 14,
+                            color: "rgba(75, 75, 75, 1)",
+                            fontFamily: "Gilroy",
+                            height: "50px",
+                          }}
+                          value={Address}
+                          className={formErrors.firstName ? "is-invalid" : ""}
+                          onChange={(e) => handleAddress(e)}
+                        />
+                      </Form.Group>
+                      {addressError && (
+                                    <div style={{ color: "red" }}>
+                                      <MdError />
+                                      {addressError}
+                                    </div>
+                                  )}
+                    </Col>
           <Row>
           <Col md={6}>
   <Form.Group className="mb-2" controlId="purchaseDate">
@@ -1920,7 +2052,7 @@ try {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  Amount{" "}
+                Booking Amount{" "}
                   <span
                     style={{
                       color: "red",
@@ -1957,7 +2089,7 @@ try {
               )}
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col>
               <Form.Group className="mb-2" controlId="formPaying">
                 <Form.Label
@@ -1970,19 +2102,7 @@ try {
                 >
                   Paying Guest <span style={{ color: "#FF0000" }}>*</span>
                 </Form.Label>
-                {/* <Form.Select
-        aria-label="Paying Guest"
-        value={paying}
-        isInvalid={!!formErrors.paying}
-         className='' id="vendor-select"
-        onChange={(e) => handlePayingguest(e)}
-        style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy" }}
-      >
-        <option value="">Select a PG</option>
-        <option value="UPI/BHIM">Paying guest 1</option>
-        <option value="CASH">Paying guest 2</option>
-        <option value="Net Banking">Paying guest 3</option>
-      </Form.Select> */}
+        
 
                 <Form.Select
                   aria-label="Default select example"
@@ -2078,9 +2198,9 @@ try {
                 </div>
               )}
             </Col>
-          </Row>
+          </Row> */}
 
-          <Row>
+          {/* <Row>
             <Col>
               <Form.Group className="mb-2" controlId="formRoom">
                 <Form.Label
@@ -2163,14 +2283,7 @@ try {
                     Selected Bed
                   </option>
 
-                  {/* {props.edit === "Edit" &&
-    Bednum &&
-    Bednum.Bed &&
-    Bednum.Bed !== "undefined" &&  Bednum.Bed !== "" &&  Bednum.Bed !== "null" &&  Bednum.Bed !== "0" && (
-      <option value={Bednum.Bed} selected>
-        {Bednum.Bed}
-      </option>
-    )} */}
+    
      {Editbed == "editbeddet" &&
                                         Bednum &&
                                         Bednum.bed_id && (
@@ -2205,8 +2318,8 @@ try {
                 </div>
               )}
             </Col>
-          </Row>
-          <Col md={12}>
+          </Row> */}
+          {/* <Col md={12}>
             <Form.Group controlId="formFirstName" className="mb-3">
               <Form.Label
                 style={{
@@ -2239,9 +2352,9 @@ try {
                 {addressError}
               </div>
             )}
-          </Col>
+          </Col> */}
 
-          <Form.Group controlId="formComments" className="mb-3">
+          {/* <Form.Group controlId="formComments" className="mb-3">
             <Form.Label
               style={{
                 fontSize: 14,
@@ -2270,7 +2383,7 @@ try {
               <MdError />
               {formError}
             </div>
-          )}
+          )} */}
           <Modal.Footer>
             <Button
               variant="primary"
