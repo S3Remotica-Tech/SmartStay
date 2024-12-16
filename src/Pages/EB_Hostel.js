@@ -224,7 +224,6 @@ console.log("hostelBasedForm",hostelBasedForm);
   useEffect(() => {
     
     dispatch({ type: "EBLIST" });
-    dispatch({ type: "EBSTARTMETERLIST" });
     
   }, []);
   useEffect(()=>{
@@ -233,22 +232,22 @@ console.log("hostelBasedForm",hostelBasedForm);
     }
   },[selectedHostel])
 
-  useEffect(() => {
-    const filteredstartmeter = state.PgList?.EB_startmeterlist.filter((item) =>
-      item.Floor == 0 && item.Room == 0
-        ? item.hostel_Id == selectedHostel
-        : item?.hostel_Id == selectedHostel &&
-          item.Floor == Floor &&
-          item.Room == Rooms
-    );
+  // useEffect(() => {
+  //   const filteredstartmeter = state.PgList?.EB_startmeterlist.filter((item) =>
+  //     item.Floor == 0 && item.Room == 0
+  //       ? item.hostel_Id == selectedHostel
+  //       : item?.hostel_Id == selectedHostel &&
+  //         item.Floor == Floor &&
+  //         item.Room == Rooms
+  //   );
 
-    const lastItem =
-      filteredstartmeter?.length > 0
-        ? filteredstartmeter[filteredstartmeter.length - 1]
-        : null;
-    setStartmeter(lastItem);
-  }, [selectedHostel, state.PgList?.EB_startmeterlist, Floor, Rooms]);
-console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
+  //   const lastItem =
+  //     filteredstartmeter?.length > 0
+  //       ? filteredstartmeter[filteredstartmeter.length - 1]
+  //       : null;
+  //   setStartmeter(lastItem);
+  // }, [selectedHostel, state.PgList?.EB_startmeterlist, Floor, Rooms]);
+// console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
   const options = {
     dateFormat: "Y/m/d",
     // defaultDate: selectedDate || new Date(),
@@ -450,7 +449,7 @@ console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
 
   useEffect(() => {
     if (state.PgList.AddEBstatusCode === 200) {
-      dispatch({ type: "EBSTARTMETERLIST" });
+      dispatch({ type: "EBSTARTMETERLIST",payload: {hostel_id: selectedHostel } });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB" });

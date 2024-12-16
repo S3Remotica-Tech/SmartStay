@@ -863,7 +863,7 @@ useEffect(()=>{
             fontFamily: "Gilroy",
           }}
         >
-          + Add Reading
+          + Add HostelReading
         </Button>
       </div>
     </div>

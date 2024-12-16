@@ -175,7 +175,23 @@ function EBRoomReading(props) {
   }, []);
   useEffect(()=>{
     dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: hostelId }});
-  })
+  },[hostelId])
+
+useEffect(()=>{
+    if (state.PgList?.statusCodeForEbRoomList === 200) {
+      setelectricityFilterddata(state.PgList?.EB_startmeterlist);
+     
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EB_STARTMETER_LIST"});
+      }, 200);
+    }
+  },[state.PgList.statusCodeForEbRoomList])
+
+// useEffect(()=>{
+//   setelectricityFilterddata(state.PgList?.EB_startmeterlist);
+// },[state.PgList?.EB_startmeterlist])
+
+
   const [initialStateAssign, setInitialStateAssign] = useState({
     selectedHostel: "",
     Floor: "",
@@ -437,9 +453,9 @@ try {
     return pageNumberselectricity;
   };
 
-  useEffect(() => {
-    setelectricityFilterddata(state.PgList?.EB_startmeterlist);
-  }, [state.PgList?.EB_startmeterlist]);
+  // useEffect(() => {
+  //   setelectricityFilterddata(state.PgList?.EB_startmeterlist);
+  // }, [state.PgList?.EB_startmeterlist]);
 
 
   const handleDeleteReading =()=>{
@@ -455,8 +471,8 @@ try {
   useEffect(()=>{
     if(state.PgList.statusCodeForDeleteElectricity === 200){
       handleCloseDelete()
-      dispatch({ type: "EBSTARTMETERLIST"});
-      dispatch({ type: "CUSTOMEREBLIST"});
+      dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: hostelId}});
+      dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:hostelId}});
     
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ELECTRICITY" });
@@ -516,9 +532,9 @@ try {
 useEffect(()=>{
 if(state.PgList.statusCodeForEditElectricity === 200){
   handleClose()
-  dispatch({ type: "EBSTARTMETERLIST"});
-  dispatch({ type: "CUSTOMEREBLIST"});
-
+  dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: hostelId}})
+  dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:hostelId}})
+  
   setTimeout(() => {
     dispatch({ type: "CLEAR_EDIT_ELECTRICITY" });
   }, 200);
