@@ -17,6 +17,7 @@ const initialState = {
     createEBList: [],
     EB_Customerlist: [],
     EB_startmeterlist: [],
+    statusCodeForEbRoomList:0,
     createRoomMessage: '',
     errMessage: "",
     roomCount: [],
@@ -129,7 +130,11 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
             return { ...state, EB_Customerlist: action.payload }
         case 'EB_STARTMETER_LIST':
             console.log("EB_STARTMETER_LIST", action.payload)
-            return { ...state, EB_startmeterlist: action.payload }
+            return { ...state, EB_startmeterlist: action.payload,statusCodeForEbRoomList:action.payload.statusCode }
+            case 'CLEAR_EB_STARTMETER_LIST':
+                return { ...state, statusCodeForEbRoomLists: 0 }
+
+
             case 'EB_CUSTOMER_EBLIST':
                 console.log("EB_CUSTOMER_EBLIST", action.payload)
                 return { ...state, EB_customerTable: action.payload,statusCodeforEbCustomer:action.payload.statusCode }

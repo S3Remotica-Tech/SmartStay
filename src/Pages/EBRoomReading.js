@@ -171,8 +171,11 @@ function EBRoomReading(props) {
   console.log("state", state);
   useEffect(() => {
     dispatch({ type: "EBLIST" });
-    dispatch({ type: "EBSTARTMETERLIST" });
+   
   }, []);
+  useEffect(()=>{
+    dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: hostelId }});
+  })
   const [initialStateAssign, setInitialStateAssign] = useState({
     selectedHostel: "",
     Floor: "",

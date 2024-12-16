@@ -176,8 +176,8 @@ function* handleCheckEblist() {
   }
 }
 
-function* handleCheckEbStartmeterlist() {
-  const response = yield call(EB_startmeterlist);
+function* handleCheckEbStartmeterlist(action) {
+  const response = yield call(EB_startmeterlist,action.payload);
   if (response.status === 200 || response.statusCode === 200) {
     console.log("....responsePG", response);
     yield put({ type: "EB_STARTMETER_LIST", payload: response.data.data });
