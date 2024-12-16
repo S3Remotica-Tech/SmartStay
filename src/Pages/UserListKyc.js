@@ -5,9 +5,21 @@ import { Button, Offcanvas, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
 
 function UserListKyc(props){
+
+const dispatch = useDispatch()
+    const state = useSelector(state => state)
+   const [aadhaarNo, setAadhaarNo] = useState('');
+      const [otp, setOtp] = useState('')
+
     const handleCloseyc=()=>{
         props.setKycDetailForm(false)
     }
+    
+    const handleValidate = () => {
+      // dispatch({ type: 'KYCVALIDATE', payload: {aadhar_number:'', user_id:''} })
+      // KYCVALIDATEOTPVERIFY
+      dispatch({ type: 'KYCVALIDATEOTPVERIFY', payload: {aadhar_number:aadhaarNo, user_id:'', otp:otp, ref_id:''} })
+  }
     return(
         <div>
              <Modal
@@ -111,6 +123,8 @@ function UserListKyc(props){
       borderRadius: 8,
       marginTop: 8,
     }}
+    value={aadhaarNo}
+    onChange={(e) => { setAadhaarNo(e.target.value) }}
   />
 </Form.Group>
 </div>
@@ -150,6 +164,8 @@ function UserListKyc(props){
                     textAlign: "center",
                     borderRadius: 8,
                   }}
+                  value={otp}
+                  onChange={(e) => { setOtp(e.target.value) }}
                 />
               ))}
             </div>
@@ -169,7 +185,7 @@ function UserListKyc(props){
                       fontSize: 16,
                       fontFamily: "Montserrat",
                     }}
-                    // onClick={handleSaveUserlistAddUser}
+                    onClick={handleValidate}
                   >
                   Submit
                   </Button>

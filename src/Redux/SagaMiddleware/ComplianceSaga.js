@@ -164,7 +164,7 @@ function* handleComplianceChange(action) {
 
    if (response.statusCode === 200 || response.status === 200){
       yield put ({type : 'COMPLIANCE_CHANGE_STATUS' , payload:{response:response.data, statusCode:response.statusCode || response.status}})
-      toast.success(`${response.message}`, {
+      toast.success(`${response.data.message}`, {
          position: "bottom-center",
       autoClose: 2000,
       hideProgressBar: true,
@@ -172,7 +172,7 @@ function* handleComplianceChange(action) {
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
-      progress: undefined,
+      // progress: undefined,
       style: toastStyle,
        });
    }

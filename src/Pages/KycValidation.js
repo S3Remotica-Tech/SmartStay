@@ -21,37 +21,22 @@ const MyComponent = () => {
 
 
     const [showPassword, setShowpassword] = useState(false)
-
+    const [aadhaarNo, setAadhaarNo] = useState('');
+    const [otp, setOtp] = useState('')
 
     const togglePasswordVisibility = () => {
         setShowpassword(!showPassword);
     };
 
 
-
-
-
-
-
-
-
     console.log("state for kyc", state)
 
 
-
-
-
-
-const handleValidate = () =>{
-    
-}
-
-
-
-
-
-
-
+    const handleValidate = () => {
+        // dispatch({ type: 'KYCVALIDATE', payload: {aadhar_number:'', user_id:''} })
+        // KYCVALIDATEOTPVERIFY
+        dispatch({ type: 'KYCVALIDATEOTPVERIFY', payload: {aadhar_number:aadhaarNo, user_id:'', otp:otp, ref_id:''} })
+    }
 
 
 
@@ -83,6 +68,8 @@ const handleValidate = () =>{
                                 style={{ boxShadow: "none", border: "1px solid rgba(217, 217, 217, 1)", fontSize: 16, fontWeight: 500, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy" }}
                                 autoFocus
                                 size="lg"
+                                value={aadhaarNo}
+                                onChange={(e) => { setAadhaarNo(e.target.value) }}
                             />
 
 
@@ -102,6 +89,8 @@ const handleValidate = () =>{
                                         fontFamily: "Gilroy",
                                         borderRight: "none"
                                     }}
+                                    value={otp}
+                                    onChange={(e) => { setOtp(e.target.value) }}
                                 />
                                 <InputGroup.Text onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer", borderLeft: "none" }}>
                                     {showPassword ? (
