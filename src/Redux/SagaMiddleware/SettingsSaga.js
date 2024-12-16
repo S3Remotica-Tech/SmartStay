@@ -623,7 +623,7 @@ function* handleGetAllStaffs() {
    console.log("response.....///",response)
    
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
+      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.statusCode}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

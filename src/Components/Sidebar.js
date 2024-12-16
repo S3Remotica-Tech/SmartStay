@@ -351,22 +351,26 @@ console.log("allPageHostel_Id",allPageHostel_Id)
     );
     handlePageClick('settingNewDesign');
   };
+  const [isInitialized, setIsInitialized] = useState(false); 
+
   useEffect(() => {
-    if (state.UsersList?.hostelList?.length) {
-      const lowestIdItem = state.UsersList.hostelList.reduce((prev, current) => 
+    if (!isInitialized && state.UsersList.hostelList.length > 0) {
+      const lowestIdItem = state.UsersList.hostelList.reduce((prev, current) =>
         prev.id < current.id ? prev : current
       );
 
-      setPayingGuestName(lowestIdItem.Name); 
-      setAllPageHostel_Id(lowestIdItem.id);  
+      setPayingGuestName(lowestIdItem.Name);
+      setAllPageHostel_Id(lowestIdItem.id);
       setIsDropdownOpen(false);
       setSelectedProfileImage(
-        lowestIdItem.profile && lowestIdItem.profile !== "0" && lowestIdItem.profile !== "" ? lowestIdItem.profile : Profile
+        lowestIdItem.profile && lowestIdItem.profile !== "0" && lowestIdItem.profile !== ""
+          ? lowestIdItem.profile
+          : Profile
       );
-      // Call handleHostelId with the lowest ID item's details
-      // handleHostelId(lowestIdItem.id, lowestIdItem.Name, lowestIdItem.profile);
+
+      setIsInitialized(true); 
     }
-  }, [state.UsersList?.hostelList]);
+  }, [state.UsersList.hostelList, isInitialized, Profile]);
   return (
     <>
 
