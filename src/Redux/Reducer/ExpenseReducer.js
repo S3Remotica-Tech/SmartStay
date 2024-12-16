@@ -9,7 +9,9 @@ const initialState = {
     categorylist:[],
     paymentModeList:[],
     nodataGetExpenseStatusCode:0,
-    transactionHistory:[]
+    transactionHistory:[],
+    StatusCodeForAddExpenseTagSuccess: 0,
+    
 }
 
 const ExpenseReducer = (state = initialState, action) => {
@@ -35,6 +37,11 @@ case 'NOEXPENSEDATA':
     return {...state, nodataGetExpenseStatusCode:action.payload.statusCode}
     case 'CLEAR_NOEXPENSEdATA':
         return {...state,nodataGetExpenseStatusCode:0}
+
+        case 'ADD_EXPENSE_TAG':
+            return { ...state, StatusCodeForAddExpenseTagSuccess: action.payload.statusCode }
+        case 'CLEAR_ADD_EXPENSE_TAG_STATUS_CODE':
+            return { ...state, StatusCodeForAddExpenseTagSuccess: 0 }
 
     }
     return state;

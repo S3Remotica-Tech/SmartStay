@@ -770,7 +770,7 @@ function CheckOut(props) {
                            {moment(checkout.CheckoutDate, "YYYY-MM-DD").format("DD MMM YYYY")}
                         </span>
                       </td>
-                      <td
+                      {/* <td
                         style={{
                           padding: "10px",
                           border: "none",
@@ -798,7 +798,16 @@ function CheckOut(props) {
                         >
                           {checkout.formattedDate}
                         </span>
-                      </td>
+                      </td> */}
+                      <td  style={{   padding: "10px",
+                          border: "none",
+                          textAlign: "start",
+                          fontSize: "16px",
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          whiteSpace: "nowrap",  color: checkout.BalanceDue === 0 ? "green" : "red" }}>
+                    {checkout.isActive === 0 ? <span style={{ backgroundColor: '#D9FFD9',  color: '#000', borderRadius: '14px', fontFamily: 'Gilroy',padding:"8px 12px" }}>Completed</span> : <span
+                        style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy',  color: '#000', borderRadius: '14px' ,padding:"8px 12px"}}>Pending</span>}</td>
 
 
                       <td>

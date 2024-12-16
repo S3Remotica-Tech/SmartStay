@@ -37,7 +37,7 @@ import excelimg from "../Assets/Images/New_images/excel (5).png";
 
 
 
-function Expenses() {
+function Expenses({allPageHostel_Id}) {
 
 
   const state = useSelector(state => state)
@@ -232,7 +232,7 @@ useEffect(()=>{
 
   useEffect(() => {
     dispatch({ type: 'ASSETLIST'})
-    dispatch({ type: 'CATEGORYLIST'})
+    dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id: allPageHostel_Id} })
     dispatch({ type: 'VENDORLIST'})
     dispatch({ type: 'EXPENSELIST'})
     setLoading(true)
@@ -1299,7 +1299,7 @@ const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
     </div>
     }
      
-      {showModal && <AddExpenses show={showModal} handleClose={handleClose} currentItem={currentItem} />}
+      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} handleClose={handleClose} currentItem={currentItem} />}
 
 
 

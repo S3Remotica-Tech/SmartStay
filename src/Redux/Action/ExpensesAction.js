@@ -6,7 +6,11 @@ export async function GetExpenseCatogory() {
       })
 }
 
-
+export async function AddExpenseTag(datum) {
+  return await AxiosConfig.post('/add_expense_tag',datum , {
+    data:datum
+      })
+}
 
 
 export async function GetExpense(datum) {

@@ -242,12 +242,16 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
     ? checkOutDate.toISOString().split('T')[0] 
     : '';
 
+    const formattedCheckOutRequestDate = checkOutrequestDate
+    ? checkOutrequestDate.toISOString().split('T')[0] 
+    : '';
+
 
     const hasChanges = formattedCheckOutDate !== currentItem?.CheckoutDate ||
       // selectedHostel !== currentItem?.Hostel_Id ||
       selectedCustomer !== currentItem?.ID ||
       noticeDays !== currentItem?.notice_period ||
-      comments !== currentItem?.checkout_comment;
+      comments !== currentItem?.checkout_comment || formattedCheckOutRequestDate !== currentItem?.checkOutrequestDate
 
       console.log("hasChanges",hasChanges, checkOutDate, currentItem?.CheckoutDate)
       
@@ -255,12 +259,12 @@ const CheckOutForm = ({item,uniqueostel_Id, show, handleClose, currentItem ,chec
       setIsChangedError('No Changes detected');
       return;
     }
-    if (selectedCustomer && uniqueostel_Id && checkOutDate && checkOutrequestDate) {
+    if (selectedCustomer || currentItem.ID && uniqueostel_Id || currentItem.Hostel_Id &&  checkOutDate && checkOutrequestDate) {
       dispatch({
         type: 'ADDCHECKOUTCUSTOMER', payload: {
           checkout_date: formattedDate,
-          user_id: selectedCustomer,
-          hostel_id: uniqueostel_Id,
+          user_id: selectedCustomer || currentItem.ID, 
+          hostel_id: uniqueostel_Id || currentItem.Hostel_Id,
           comments: comments,
           action: currentItem ? 2 : 1,
           req_date:formattedrequestDate
@@ -920,18 +924,24 @@ if(checkOutDate){
         </div>
       )}
         </div>
-        <Button className="mt-4" style={{
-          borderRadius: '8px',
-          fontFamily: "Gilroy",
-          fontWeight: '600',
-          fontSize: '14px',
-          padding: '16px 24px', width: '100%', backgroundColor: "#1E45E1"
-        }}
-          disabled={dueamount > 0}
-          onClick={data && checkoutaction ? handleConfirmCheckout : handleCheckOutCustomer}
-        >{data && checkoutaction ? 'Confirm Check-out'  :
-               (currentItem && checkouteditaction ? 'Save Changes' : 'Add Check-out')}
-        </Button>
+        <Button  className="mt-4" 
+          style={{ borderRadius: '8px', fontFamily: "Gilroy", fontWeight: '600', fontSize: '14px', padding: '16px 24px', 
+            width: '100%',  backgroundColor: "#1E45E1"}}
+  disabled={dueamount > 0}
+  onClick={
+    checkoutaction ? handleConfirmCheckout // Confirm Check-out
+      : checkouteditaction 
+        ? handleCheckOutCustomer // Save Changes 
+        : handleCheckOutCustomer // Add Check-out
+  }
+>
+  {data && checkoutaction 
+    ? 'Confirm Check-out' 
+    : (currentItem && checkouteditaction 
+        ? 'Save Changes' 
+        : 'Add Check-out')}
+</Button>
+
     
       </Modal.Body>
     </Modal>
