@@ -18,7 +18,12 @@ import {
   EB_CustomerListTable,
   editElectricity,
   deleteElectricity,
-  dashboardFilter
+  dashboardFilter,
+  ebAddHostelReading,
+  ebHostelBasedRead,
+  ebAddHostelEdit,
+  ebAddHostelDelete
+
 } from "../Action/PgListAction";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
@@ -755,6 +760,152 @@ function* handleDropFilterRevenue(action) {
      refreshToken(response)
   }
 }
+
+
+// hostelBased
+
+function* handleAddHostelElectricity(action) {
+  const response = yield call (ebAddHostelReading, action.payload);
+
+  var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "auto",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
+   
+  };
+
+  console.log("handleAddHostelElectricity",response)
+  if (response.data.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'ADD_HOSTEL_BASED' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+     toast.success(`${response.data.message}`, {
+       position: "bottom-center",
+       autoClose: 2000,
+       hideProgressBar: true,
+       closeButton: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       style: toastStyle,
+    });
+  }
+
+  else {
+     yield put ({type:'ERROR', payload:response.data.message})
+  }
+  if(response){
+     refreshToken(response)
+  }
+}
+
+function* handleHostelEditElectricity(action) {
+  const response = yield call (ebAddHostelEdit, action.payload);
+
+  var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "auto",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
+   
+  };
+
+  console.log("handleHostelEditElectricity",response)
+  if (response.data.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'EDIT_HOSTEL_BASED' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+     toast.success(`${response.data.message}`, {
+       position: "bottom-center",
+       autoClose: 2000,
+       hideProgressBar: true,
+       closeButton: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       style: toastStyle,
+    });
+  }
+
+  else {
+     yield put ({type:'ERROR', payload:response.data.message})
+  }
+  if(response){
+     refreshToken(response)
+  }
+}
+
+function* handleHostelDeleteElectricity(action) {
+  const response = yield call (ebAddHostelDelete, action.payload);
+
+  var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "auto",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center", 
+    padding: "10px",
+   
+  };
+
+  console.log("handleHostelDeleteElectricity",response)
+  if (response.data.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'DELETE_HOSTEL_BASED' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+     toast.success(`${response.data.message}`, {
+       position: "bottom-center",
+       autoClose: 2000,
+       hideProgressBar: true,
+       closeButton: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       style: toastStyle,
+    });
+  }
+
+  else {
+     yield put ({type:'ERROR', payload:response.data.message})
+  }
+  if(response){
+     refreshToken(response)
+  }
+}
+
+function* handleHostelBasedEblist(action) {
+  const response = yield call(ebHostelBasedRead,action.payload);
+  if (response.status === 200 || response.statusCode === 200) {
+    console.log("....handleHostelBasedEblist", response);
+    yield put({ type: "EB_CUSTOMER_HOSTEL_EBLIST", payload: response.data });
+  } else {
+    yield put({ type: "ERROR", payload: response.data.message });
+  }
+  if (response) {
+    refreshToken(response);
+  }
+}
+
 function refreshToken(response) {
   if (response.data && response.data.refresh_token) {
     const refreshTokenGet = response.data.refresh_token;
@@ -790,6 +941,11 @@ function* PgListSaga() {
   yield takeEvery("DASHBOARDFILTER", handleDropFilter);
   yield takeEvery("DASHBOARDFILTERCASHBACK", handleDropFilterCashBack);
   yield takeEvery("DASHBOARDFILTERREVENUE", handleDropFilterRevenue);
+  yield takeEvery("HOSTELBASEDEBLIST", handleHostelBasedEblist);
+  yield takeEvery("HOSTELBASEDDELETEEB", handleHostelDeleteElectricity);
+  yield takeEvery("HOSTELBASEDEDITEB", handleHostelEditElectricity);
+  yield takeEvery("HOSTELBASEDADDEB", handleAddHostelElectricity);
+
 
 }
 export default PgListSaga;

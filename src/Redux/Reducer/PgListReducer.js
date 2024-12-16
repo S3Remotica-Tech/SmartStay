@@ -61,7 +61,16 @@ const initialState = {
     dashboardFilterCashback:[],
     statusCodeForDashboardFilterCashBack:0,
     dashboardFilterRevenu:[],
-    statusCodeForDashboardFilterRevenue:0
+    statusCodeForDashboardFilterRevenue:0,
+    addHostelBasedReading:[],
+    statusCodeForAddHostelBased:0,
+    editHostelBasedReading:[],
+    statusCodeForEditHostelBased:0,
+    getHostelBasedRead:[],
+    getStatusCodeForHostelBased:0,
+    deleteHostelBasedReading:[],
+    statusCodeForDeleteHostelBased:0,
+
 
 }
 const PgListReducer = (state = initialState, action) => {
@@ -269,6 +278,50 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
                             };
                           case "CLEAR_DASHBOARD_FILTER_REVENUE":
                             return { ...state, statusCodeForDashboardFilterRevenue: 0 };
+
+
+
+// HostelBased
+case "ADD_HOSTEL_BASED":
+    return {
+      ...state,
+      addHostelBasedReading: action.payload,
+      statusCodeForAddHostelBased: action.payload.statusCode,
+    };
+  case "CLEAR_ADD_HOSTEL_BASED":
+    return { ...state, statusCodeForAddHostelBased: 0 };
+
+
+
+    case "EDIT_HOSTEL_BASED":
+    return {
+      ...state,
+      editHostelBasedReading: action.payload,
+      statusCodeForEditHostelBased: action.payload.statusCode,
+    };
+  case "CLEAR_EDIT_HOSTEL_BASED":
+    return { ...state, statusCodeForEditHostelBased: 0 };
+
+
+
+    case "DELETE_HOSTEL_BASED":
+    return {
+      ...state,
+      deleteHostelBasedReading: action.payload,
+      statusCodeForDeleteHostelBased: action.payload.statusCode,
+    };
+  case "CLEAR_DELETE_HOSTEL_BASED":
+    return { ...state, statusCodeForDeleteHostelBased: 0 };
+
+
+    case "EB_CUSTOMER_HOSTEL_EBLIST":
+        return {
+          ...state,
+          getHostelBasedRead: action.payload,
+          getStatusCodeForHostelBased: action.payload.statusCode,
+        };
+      case "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST":
+        return { ...state, getStatusCodeForHostelBased: 0 };
 
 // ///////////////////////////////////////////////
 
