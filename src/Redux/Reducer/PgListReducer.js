@@ -130,9 +130,9 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
             return { ...state, EB_Customerlist: action.payload }
         case 'EB_STARTMETER_LIST':
             console.log("EB_STARTMETER_LIST", action.payload)
-            return { ...state, EB_startmeterlist: action.payload,statusCodeForEbRoomList:action.payload.statusCode }
+            return { ...state, EB_startmeterlist: action.payload.response,statusCodeForEbRoomList:action.payload.statusCode }
             case 'CLEAR_EB_STARTMETER_LIST':
-                return { ...state, statusCodeForEbRoomLists: 0 }
+                return { ...state, statusCodeForEbRoomList: 0 }
 
 
             case 'EB_CUSTOMER_EBLIST':
@@ -232,7 +232,7 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
             case "EDIT_ELECTRICITY":
                 return {
                   ...state,
-                  editElectricity: action.payload,
+                  editElectricity: action.payload.response,
                   statusCodeForEditElectricity: action.payload.statusCode,
                 };
               case "CLEAR_EDIT_ELECTRICITY":
@@ -249,7 +249,7 @@ case 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE':
                 case "DELETE_ELECTRICITY":
                     return {
                       ...state,
-                      deleteElectricity: action.payload,
+                      deleteElectricity: action.payload.response,
                       statusCodeForDeleteElectricity: action.payload.statusCode,
                     };
                   case "CLEAR_DELETE_ELECTRICITY":
