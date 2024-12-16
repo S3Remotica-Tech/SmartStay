@@ -946,13 +946,13 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
       <Button
         style={{
           fontFamily: "Montserrat",
-          fontSize: 14,
+          fontSize: 13,
           backgroundColor: "#1E45E1",
           color: "white",
           height: 52,
           fontWeight: 600,
           borderRadius: 8,
-          width: 160,
+          width: 162,
           // padding: "5px 5px",// Corrected padding
           border: "none",
           cursor: "pointer",
@@ -960,7 +960,7 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
           paddingTop:10,
           paddingBottom:10,
           paddingLeft:5,
-          paddingRight:0
+          paddingRight:5
         }}
         disabled={ebAddPermission}
         onClick={handleHostelForm}
@@ -979,7 +979,7 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
           height: 52,
           fontWeight: 600,
           borderRadius: 8,
-          width: 160,
+          width: 162,
           padding: "5px 12px", // Corrected padding
           border: "none",
           cursor: "pointer",
