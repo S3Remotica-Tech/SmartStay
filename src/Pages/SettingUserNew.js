@@ -119,8 +119,8 @@ dispatch({ type: 'REMOVE_DELETE_USER_STATUS_CODE'})
     }, []);
 
     useEffect(() => {
-        setUsersFilterddata(state.Settings?.addSettingStaffList?.response?.user_details)
-    }, [state.Settings?.addSettingStaffList?.response?.user_details])
+        setUsersFilterddata(state.Settings?.addSettingStaffList)
+    }, [state.Settings?.addSettingStaffList])
 
 console.log("state",state)
 

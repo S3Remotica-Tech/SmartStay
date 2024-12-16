@@ -197,7 +197,7 @@ const SettingsReducer = (state = initialState, action) => {
     case "USER_STAFF_LIST":
       return {
         ...state,
-        addSettingStaffList: action.payload,
+        addSettingStaffList: action.payload.response,
         StatusForaddSettingStaffList: action.payload.statusCode,
       };
     case "CLEAR_USER_STAFF_LIST":
