@@ -1182,16 +1182,16 @@ const mergedData = months.map((monthData) => {
 
 <div className="complaints-container p-3 overflow-auto">
   <div className="d-flex justify-content-between align-items-center">
-    <p className="m-0 fw-semibold fs-5">Active Complaints</p>
+    <p className="m-0 " style={{fontSize:18,fontFamily:"Montserrat",fontWeight:600}}>Active Complaints</p>
     <a
-      className="text-primary fw-semibold fs-6 text-end"
-      style={{ cursor: "pointer" }}
+      className=" text-end"
+      style={{ cursor: "pointer",color:"#00C2FF",textDecoration:"none",fontSize:16,fontFamily:"Montserrat",fontWeight:600 }}
       onClick={() => handlecompliance()}
     >
       View all
     </a>
   </div>
-
+<div style={{marginTop:10}}>
   {activecommpliance?.map((complaint, index) => {
     let Dated = new Date(complaint.date);
     let day = Dated.getDate();
@@ -1201,7 +1201,7 @@ const mergedData = months.map((monthData) => {
 
     return (
       <div
-        className="d-flex flex-wrap align-items-center "
+        className="d-flex flex-wrap align-items-center"
         key={index}
       >
         <img
@@ -1211,22 +1211,38 @@ const mergedData = months.map((monthData) => {
           style={{ width: "40px", height: "40px", objectFit: "cover" }}
         />
         <div className="flex-grow-1">
-          <p className="m-0 fw-semibold">{complaint.Name}</p>
-          <p className="m-0 text-muted">
+          <p className="m-0 " style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600}}>{complaint.Name}</p>
+          <p className="m-0 text-muted" style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500}}>
             {complaint.complaint_name} &middot; {formattedDate}
           </p>
         </div>
         <div className="text-end">
-          <p
-            className={`badge rounded-pill ${
-              complaint.Status === "Pending"
-                ? "bg-warning text-dark"
-                : "bg-success text-dark"
-            }`}
-          >
-            {complaint.Status}
-          </p>
-          <p className="m-0 text-muted">
+        <p
+                style={{
+                  fontSize: 14,
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  color: "#222222",
+                  borderRadius: 60,
+                  paddingTop: 3,
+                  paddingBottom: 0,
+                  paddingLeft: 5,
+                  paddingRight: 20,
+                  marginBottom: "0px",
+                  textAlign: "end",
+                  width: 91,
+                  marginLeft: 18,
+                  whiteSpace:"nowrap",
+
+                  backgroundColor:
+                    complaint.Status === "Pending"
+                      ? "#FFED9A"
+                      : "#DAFFD9",
+                }}
+              >
+                <span >{complaint.Status ? complaint.Status : "null"}</span>
+              </p>
+          <p className=" text-muted" style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500}}>
             Room #{complaint.Room}, Bed {complaint.Bed}
           </p>
         </div>
@@ -1239,6 +1255,7 @@ const mergedData = months.map((monthData) => {
       <p>No Data</p>
     </div>
   )}
+  </div>
 </div>
 
 </div>
