@@ -248,27 +248,30 @@ const handlePinCodeChange = (e) => {
 
   const handleAddVendor = () => {
 
+    let isValid = true
+
+
     const emailInvalid = errors.email_Id === 'Invalid Email Id *';
     const mobileInvalid = errors.vendor_Mobile === 'Invalid mobile number *';
 
     if (!first_Name && !vendor_Mobile &&  !address && !business_Name && !countryCode && !country && !pinCode) {
       setGeneralError('Please fill in all the required fields.');
-      return;
+      isValid = false
     }
 
     if (!first_Name) {
       setFirstNameError('Please enter First Name');
-      // return;
+      isValid = false
     }
 
     if (!countryCode) {
       setCountryCodeError('Please select a country code');
-      // return;
+      isValid = false
     }
 
     if (!vendor_Mobile) {
       setMobileError('Please enter a mobile number');
-      // return;
+      isValid = false
     }
 
     // if (!email_Id) {
@@ -277,34 +280,42 @@ const handlePinCodeChange = (e) => {
 
     if (!business_Name) {
       setBusinessNameError('Please enter a business name');
-      // return;
+      isValid = false
     }
 
     if (!address) {
       setAddressError('Please enter an address');
-      // return;
+      isValid = false
     }
 
     
 
     if (!country) {
       setCountryError('Please enter a country');
-      // return;
+      isValid = false
     }
 
     if (!pinCode) {
       setPinCodeError('Please enter a pin code');
-      // return;
-    }
+      isValid = false
+       } else if (!/^\d+$/.test(pinCode)) { 
+      setPinCodeError('Pin code must be numeric');
+      isValid = false
+  } else {
+      setPinCodeError(''); 
+  }
+  
    
 
 
     if (emailInvalid || mobileInvalid) {
       if (emailInvalid) {
         setEmailError('Enter a valid Email ID');
+        isValid = false
       }
       if (mobileInvalid) {
         setMobileError('Enter a valid 10 digit  mobile number');
+        isValid = false
       }
       return;
     }
@@ -324,7 +335,7 @@ const handlePinCodeChange = (e) => {
 
     if (!isChanged) {
       setIsChangedError('No changes detected');
-      return;
+      isValid = false
     }
 
 
@@ -333,7 +344,7 @@ const handlePinCodeChange = (e) => {
 
     
 
-    if (first_Name && MobileNumber && address && countryCode && business_Name && country && pinCode) {
+    if (isValid) {
       if (check === 'EDIT') {
         dispatch({
           type: 'ADDVENDOR',
@@ -759,7 +770,7 @@ console.log("initial state",initialState)
               <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Pin code<span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                  <Form.Control value={pinCode} onChange={(e) => handlePinCodeChange(e)} type="text" placeholder="Enter Pin code" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: address ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
+                  <Form.Control value={pinCode} onChange={(e) => handlePinCodeChange(e)} type="text" placeholder="Enter Pin code" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: pinCode ? 600 : 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
                   {pinCodeError && (
                     <div className="d-flex align-items-center p-1 mb-2">
                       <MdError style={{ color: "red", marginRight: '5px' }} />
