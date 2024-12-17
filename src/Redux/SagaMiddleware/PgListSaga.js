@@ -252,7 +252,7 @@ function* handleCreateEB(action) {
       progress: undefined,
       style: toastStyle,
     });
-  } else {
+  } else if(response.data.statusCode === 201) {
     yield put({ type: "EB_ERROR", payload: response.data.message });
   }
   if (response) {
@@ -657,7 +657,7 @@ function* handleEditElectricity(action) {
     });
   }
 
-  else {
+  else if(response.data.statusCode === 201){
      yield put ({type:'ERROR_EDIT_ELECTRICITY', payload:response.data.message})
   }
   if(response){
@@ -799,9 +799,9 @@ function* handleAddHostelElectricity(action) {
     });
   }
 
-  else {
-     yield put ({type:'ERROR', payload:response.data.message})
-  }
+  else if(response.data.statusCode === 201){
+    yield put({ type: 'SAME_DATE_ALREADY', payload: {response:response.data.message}})
+ }
   if(response){
      refreshToken(response)
   }
@@ -842,9 +842,9 @@ function* handleHostelEditElectricity(action) {
     });
   }
 
-  else {
-     yield put ({type:'ERROR', payload:response.data.message})
-  }
+  else if(response.data.statusCode === 201){
+    yield put({ type: 'EDIT_SAME_DATE_ALREADY', payload: {response:response.data.message}})
+ }
   if(response){
      refreshToken(response)
   }
@@ -884,7 +884,6 @@ function* handleHostelDeleteElectricity(action) {
        style: toastStyle,
     });
   }
-
   else {
      yield put ({type:'ERROR', payload:response.data.message})
   }

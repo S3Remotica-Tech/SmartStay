@@ -109,7 +109,7 @@ function EB_Hostel(props) {
 
 const handleHostelForm=()=>{
 
-  console.log("/////////")
+  console.log("/////////",hostelName)
   
   setHostelBasedForm(true);
   setButval(true);
@@ -256,7 +256,7 @@ console.log("hostelBasedForm",hostelBasedForm);
   };
 
   useEffect(() => {
-    setEbErrorunit(state?.PgList?.ebError);
+    setDateError(state?.PgList?.ebError);
   }, [state?.PgList?.ebError]);
 
   useEffect(() => {
@@ -412,7 +412,7 @@ console.log("hostelBasedForm",hostelBasedForm);
       console.log("unitAmount is not a valid array or is empty.");
     }
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
-  
+  console.log("hostelName",hostelName)
   const totalMeterReading =
     endmeter -
     (startmeter && startmeter.end_Meter_Reading
@@ -961,7 +961,7 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
           paddingLeft:5,
           paddingRight:5
         }}
-        disabled={ebAddPermission}
+        // disabled={ebAddPermission}
         onClick={handleHostelForm}
       >
         + Add HostelReading
@@ -1072,6 +1072,7 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
               hostelName={hostelName}
               setHostelName={setHostelName}
               value={value}
+              hostelBased={hostelBased}
             />
          
 
@@ -2153,7 +2154,7 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
         <TabPanel value="3">
           <EBHostelReading
           hostelBasedForm={hostelBasedForm} setHostelBasedForm={setHostelBasedForm} uniqueostel_Id={uniqueostel_Id}
-          hostelName={hostelName} setHostelName={setHostelName} value={value} handleHostelForm={handleHostelForm}
+          hostelName={hostelName} setHostelName={setHostelName} value={value} handleHostelForm={handleHostelForm} hostelBased={hostelBased}
             
           />
         </TabPanel>

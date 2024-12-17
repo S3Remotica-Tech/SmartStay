@@ -111,7 +111,7 @@ function EBRoomReading(props) {
 
   
   useEffect(() => {
-    setEbErrorunit(state?.PgList?.ebEditError);
+    setDateError(state?.PgList?.ebEditError);
    
   }, [state?.PgList?.ebEditError]);
   useEffect(() => {
@@ -1520,12 +1520,12 @@ console.log('Formatted Date:', formattedDate);
                   />
                 </div>
               </Form.Group>
-              {/* {dateError && (
+              {dateError && (
         <div style={{ color: "red" }}>
           <MdError />
           {dateError}
         </div>
-      )} */}
+      )}
             </div>
           </div>
         </Modal.Body>
