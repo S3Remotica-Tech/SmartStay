@@ -845,7 +845,7 @@ useEffect(()=>{
           color: "rgba(75, 75, 75, 1)",
         }}
       >
-        There are no room readings available.
+        There are no Hostel readings available.
       </div>
 
       <div style={{ textAlign: "center" }}>
