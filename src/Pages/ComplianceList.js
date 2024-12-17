@@ -279,147 +279,6 @@ const ComplianceList = (props) => {
                         Change Status
                       </label>
 
-
-
-                      {showChangeStatus && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                            border: "1px solid #DCDCDC",
-                            borderRadius: 24,
-                            padding: "16px",
-                            backgroundColor: "#FFF",
-                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                            zIndex: 1000,
-                            width: 472,
-                            height: 278,
-                          }}
-                          onClick={(e) => e.stopPropagation()} // Prevent click event from propagating to overlay
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <p
-                              style={{
-                                fontWeight: 600,
-                                fontSize: 18,
-                                fontFamily: "Gilroy, sans-serif",
-                                margin: 0,
-                              }}
-                            >
-                              Change Status
-                            </p>
-                            <img
-                              src={closeicon}
-                              alt="Close"
-                              style={{ cursor: "pointer", width: 20, height: 20 }}
-                              onClick={handleChangeStatusOpenClose}
-                            />
-                          </div>
-
-                          <div
-                            style={{
-                              border: "1px solid #E7E7E7",
-                              marginTop: 15,
-                              width: "100%",
-                            }}
-                          ></div>
-
-                          <div
-                            style={{
-                              marginTop: 15,
-                              position: "relative",
-                              display: "inline-block",
-                              width: "100%",
-                            }}
-                          >
-                            <label
-                              style={{
-                                marginTop: 15,
-                                fontWeight: 500,
-                                fontSize: 14,
-                                fontFamily: "Gilroy, sans-serif",
-                              }}
-                            >
-                              Change Status
-                            </label>
-
-                            {/* Dropdown */}
-                            <select
-                              style={{
-                                marginTop: 15,
-                                border: "1px solid #E7E7E7",
-                                paddingTop: 6,
-                                paddingBottom: 6,
-                                paddingLeft: 16,
-                                width: "100%",
-                                height: "52px",
-                                borderRadius: "12px",
-                                fontWeight: 500,
-                                fontSize: 14,
-                                fontFamily: "Gilroy, sans-serif",
-                              }}
-                              value={status}
-                              onChange={(e) => { handleStatus(e) }}
-                            >
-                              <option value="" disabled selected>
-                                Select a status
-                              </option>
-                              <option value="open">Open</option>
-                              <option value="in-progress">In Progress</option>
-                              <option value="resolved">Resolved</option>
-                            </select>
-                            {statusError && <span style={{ color: 'red' }}>{statusError}</span>}
-                            {/* Button */}
-                            <button
-                              style={{
-                                marginTop: 15,
-                                width: "100%",
-                                height: "59px",
-                                borderRadius: "12px",
-                                backgroundColor: "#1E45E1",
-                                color: "white",
-                                border: "none",
-                                fontSize: "16px",
-                                fontWeight: "400px",
-                                paddingTop: "20px",
-                                paddingBottom: "20px",
-                                paddingLeft: "40px",
-                                paddingRight: "40px",
-                                cursor: "pointer",
-                              }}
-                              onClick={() => { handleChangeStatusClick(props.complaints) }}
-                            >
-                              Change Status
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Background overlay */}
-                      {showChangeStatus && (
-                        <div
-                          onClick={handleChangeStatusOpenClose}
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            zIndex: 999,
-                          }}
-                        />
-                      )}
-
-
                     </div>
 
 
@@ -453,151 +312,7 @@ const ComplianceList = (props) => {
                       </label>
 
 
-                      {showAssignComplaint && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                            border: "1px solid #DCDCDC",
-                            borderRadius: 24,
-                            padding: "16px",
-                            backgroundColor: "#FFF",
-                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                            zIndex: 1000,
-                            width: 472,
-                            height: 278,
-                          }}
-                          onClick={(e) => e.stopPropagation()} // Prevent click event from propagating to overlay
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <p
-                              style={{
-                                fontWeight: 600,
-                                fontSize: 18,
-                                fontFamily: "Gilroy, sans-serif",
-                                margin: 0,
-                              }}
-                            >
-                              Assign Complaint
-                            </p>
-                            <img
-                              src={closeicon}
-                              alt="Close"
-                              style={{ cursor: "pointer", width: 20, height: 20 }}
-                              onClick={handleAssignOpenClose}
-                            />
-                          </div>
 
-                          <div
-                            style={{
-                              border: "1px solid #E7E7E7",
-                              marginTop: 15,
-                              width: "100%",
-                            }}
-                          ></div>
-
-                          <div
-                            style={{
-                              marginTop: 15,
-                              position: "relative",
-                              display: "inline-block",
-                              width: "100%",
-                            }}
-                          >
-                            <label
-                              style={{
-                                marginTop: 15,
-                                fontWeight: 500,
-                                fontSize: 14,
-                                fontFamily: "Gilroy, sans-serif",
-                              }}
-                            >
-                              Assign Complaint
-                            </label>
-
-                            {/* Dropdown */}
-                            <select
-                              style={{
-                                marginTop: 15,
-                                border: "1px solid #E7E7E7",
-                                paddingTop: 6,
-                                paddingBottom: 6,
-                                paddingLeft: 16,
-                                width: "100%",
-                                height: "52px",
-                                borderRadius: "12px",
-                                fontWeight: 500,
-                                fontSize: 14,
-                                fontFamily: "Gilroy, sans-serif",
-                              }}
-                              value={compliant}
-                              onChange={(e) => { handleCompliant(e) }}
-                            >
-                              <option value="" disabled selected>
-                                Select a Complaint
-                              </option>
-                              {
-                                state.Settings.addSettingStaffList?.response && state.Settings.addSettingStaffList.response.map((v, i) => {
-                                  return (
-                                    <option key={v.id} value={v.id}>{v.first_name}</option>
-                                  )
-                                })
-                              }
-                              {/* <option value="open">Open</option>
-        <option value="in-progress">In Progress</option>
-        <option value="resolved">Resolved</option> */}
-                            </select>
-                            {complianceError && <span style={{ color: 'red' }}>{complianceError}</span>}
-
-                            {/* Button */}
-                            <button
-                              style={{
-                                marginTop: 15,
-                                width: "100%",
-                                height: "59px",
-                                borderRadius: "12px",
-                                backgroundColor: "#1E45E1",
-                                color: "white",
-                                border: "none",
-                                fontSize: "16px",
-                                fontWeight: "400px",
-                                paddingTop: "20px",
-                                paddingBottom: "20px",
-                                paddingLeft: "40px",
-                                paddingRight: "40px",
-                                cursor: "pointer",
-                              }}
-                              onClick={() => { handleAssignComplaintClick(props.complaints) }}
-                            >
-                              Assign Complaint
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Background overlay */}
-                      {showAssignComplaint && (
-                        <div
-                          onClick={handleAssignOpenClose}
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            zIndex: 999,
-                          }}
-                        />
-                      )}
 
                     </div>
 
@@ -896,6 +611,295 @@ const ComplianceList = (props) => {
             )}
 
           </div>
+
+{/* change status card */}
+
+{showChangeStatus && (
+                        <div
+                          style={{
+                            position: "fixed",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            border: "1px solid #DCDCDC",
+                            borderRadius: 24,
+                            padding: "16px",
+                            backgroundColor: "#FFF",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                            zIndex: 1000,
+                            width: 472,
+                            height: 278,
+                          }}
+                          onClick={(e) => e.stopPropagation()} // Prevent click event from propagating to overlay
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <p
+                              style={{
+                                fontWeight: 600,
+                                fontSize: 18,
+                                fontFamily: "Gilroy, sans-serif",
+                                margin: 0,
+                              }}
+                            >
+                              Change Status
+                            </p>
+                            <img
+                              src={closeicon}
+                              alt="Close"
+                              style={{ cursor: "pointer", width: 20, height: 20 }}
+                              onClick={handleChangeStatusOpenClose}
+                            />
+                          </div>
+
+                          <div
+                            style={{
+                              border: "1px solid #E7E7E7",
+                              marginTop: 15,
+                              width: "100%",
+                            }}
+                          ></div>
+
+                          <div
+                            style={{
+                              marginTop: 15,
+                              position: "relative",
+                              display: "inline-block",
+                              width: "100%",
+                            }}
+                          >
+                            <label
+                              style={{
+                                marginTop: 15,
+                                fontWeight: 500,
+                                fontSize: 14,
+                                fontFamily: "Gilroy, sans-serif",
+                              }}
+                            >
+                              Change Status
+                            </label>
+
+                            {/* Dropdown */}
+                            <select
+                              style={{
+                                marginTop: 15,
+                                border: "1px solid #E7E7E7",
+                                paddingTop: 6,
+                                paddingBottom: 6,
+                                paddingLeft: 16,
+                                width: "100%",
+                                height: "52px",
+                                borderRadius: "12px",
+                                fontWeight: 500,
+                                fontSize: 14,
+                                fontFamily: "Gilroy, sans-serif",
+                              }}
+                              value={status}
+                              onChange={(e) => { handleStatus(e) }}
+                            >
+                              <option value="" disabled selected>
+                                Select a status
+                              </option>
+                              <option value="open">Open</option>
+                              <option value="in-progress">In Progress</option>
+                              <option value="resolved">Resolved</option>
+                            </select>
+                            {statusError && <span style={{ color: 'red' }}>{statusError}</span>}
+                            {/* Button */}
+                            <button
+                              style={{
+                                marginTop: 15,
+                                width: "100%",
+                                height: "59px",
+                                borderRadius: "12px",
+                                backgroundColor: "#1E45E1",
+                                color: "white",
+                                border: "none",
+                                fontSize: "16px",
+                                fontWeight: "400px",
+                                paddingTop: "20px",
+                                paddingBottom: "20px",
+                                paddingLeft: "40px",
+                                paddingRight: "40px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => { handleChangeStatusClick(props.complaints) }}
+                            >
+                              Change Status
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Background overlay */}
+                      {showChangeStatus && (
+                        <div
+                          onClick={handleChangeStatusOpenClose}
+                          style={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            zIndex: 999,
+                          }}
+                        />
+                      )}
+
+
+
+{/* assign complaint card  */}
+          {showAssignComplaint && (
+                        <div
+                          style={{
+                            position: "fixed",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            border: "1px solid #DCDCDC",
+                            borderRadius: 24,
+                            padding: "16px",
+                            backgroundColor: "#FFF",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                            zIndex: 1000,
+                            width: 472,
+                            height: 278,
+                          }}
+                          onClick={(e) => e.stopPropagation()} // Prevent click event from propagating to overlay
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <p
+                              style={{
+                                fontWeight: 600,
+                                fontSize: 18,
+                                fontFamily: "Gilroy, sans-serif",
+                                margin: 0,
+                              }}
+                            >
+                              Assign Complaint
+                            </p>
+                            <img
+                              src={closeicon}
+                              alt="Close"
+                              style={{ cursor: "pointer", width: 20, height: 20 }}
+                              onClick={handleAssignOpenClose}
+                            />
+                          </div>
+
+                          <div
+                            style={{
+                              border: "1px solid #E7E7E7",
+                              marginTop: 15,
+                              width: "100%",
+                            }}
+                          ></div>
+
+                          <div
+                            style={{
+                              marginTop: 15,
+                              position: "relative",
+                              display: "inline-block",
+                              width: "100%",
+                            }}
+                          >
+                            <label
+                              style={{
+                                marginTop: 15,
+                                fontWeight: 500,
+                                fontSize: 14,
+                                fontFamily: "Gilroy, sans-serif",
+                              }}
+                            >
+                              Assign Complaint
+                            </label>
+
+                            {/* Dropdown */}
+                            <select
+                              style={{
+                                marginTop: 15,
+                                border: "1px solid #E7E7E7",
+                                paddingTop: 6,
+                                paddingBottom: 6,
+                                paddingLeft: 16,
+                                width: "100%",
+                                height: "52px",
+                                borderRadius: "12px",
+                                fontWeight: 500,
+                                fontSize: 14,
+                                fontFamily: "Gilroy, sans-serif",
+                              }}
+                              value={compliant}
+                              onChange={(e) => { handleCompliant(e) }}
+                            >
+                              <option value="" disabled selected>
+                                Select a Complaint
+                              </option>
+                              {
+                                state.Settings.addSettingStaffList?.response && state.Settings.addSettingStaffList.response.map((v, i) => {
+                                  return (
+                                    <option key={v.id} value={v.id}>{v.first_name}</option>
+                                  )
+                                })
+                              }
+                              {/* <option value="open">Open</option>
+        <option value="in-progress">In Progress</option>
+        <option value="resolved">Resolved</option> */}
+                            </select>
+                            {complianceError && <span style={{ color: 'red' }}>{complianceError}</span>}
+
+                            {/* Button */}
+                            <button
+                              style={{
+                                marginTop: 15,
+                                width: "100%",
+                                height: "59px",
+                                borderRadius: "12px",
+                                backgroundColor: "#1E45E1",
+                                color: "white",
+                                border: "none",
+                                fontSize: "16px",
+                                fontWeight: "400px",
+                                paddingTop: "20px",
+                                paddingBottom: "20px",
+                                paddingLeft: "40px",
+                                paddingRight: "40px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => { handleAssignComplaintClick(props.complaints) }}
+                            >
+                              Assign Complaint
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Background overlay */}
+                      {showAssignComplaint && (
+                        <div
+                          onClick={handleAssignOpenClose}
+                          style={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            zIndex: 999,
+                          }}
+                        />
+                      )}
 
 
 
