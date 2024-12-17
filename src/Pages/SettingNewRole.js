@@ -11,6 +11,7 @@ import rolecircle from "../Assets/Images/New_images/role_circle.png";
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import Modal from "react-bootstrap/Modal";
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 function SettingNewRole({ hostelid }) {
 
@@ -167,7 +168,7 @@ const handleEditForm = (view) =>{
             <div className="row mt-3 mb-3">
 
                 {
-                    roleList.length > 0 && roleList.map((view, index) => {
+                    roleList.length > 0 ? roleList.map((view, index) => {
                         return (
                             <div key={index} className="col-12 col-sm-6 col-md-12 col-lg-4 col-xs-12 mb-3 ">
                                 <div
@@ -279,6 +280,17 @@ const handleEditForm = (view) =>{
 
                         )
                     })
+
+
+                    :
+                        
+                    <div>
+                    <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                    <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Role available</div>
+                   
+                  </div>
+
+
                 }
 
 
