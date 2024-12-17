@@ -124,6 +124,7 @@ function UserList(props) {
     // setUserList(false);
   }
 
+ 
   useEffect(() => {
     setCustomerRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
