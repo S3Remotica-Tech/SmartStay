@@ -738,7 +738,7 @@ function CheckOut(props) {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {checkout.Bed}
+                          {checkout.bed_name}
                         </span>
                       </td>
                       <td
