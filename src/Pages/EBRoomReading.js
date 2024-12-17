@@ -6,15 +6,7 @@ import squre from "../Assets/Images/New_images/minus-square.png";
 import Image from "react-bootstrap/Image";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import Button from "react-bootstrap/Button";
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
-  ArrowLeft2,
-  ArrowRight2,
-} from "iconsax-react";
+import {ArrowLeft2,ArrowRight2,} from "iconsax-react";
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -61,28 +53,12 @@ function EBRoomReading(props) {
       setActiveRow(eb_Id);
     }
   };
-  // const handleHostelChange = (e) => {
-  //   setHostelId(e.target.value);
-  //   setFloor("");
-  //   setRooms("");
-  //   setHostelIdError("");
-  //   setEbErrorunit("");
-  //   setReading("")
-  //   setRoomId("")
-  //   setFormError('')
-    
-  // };
+ 
   useEffect(()=>{
     console.log("setHostelId..?",props.uniqueostel_Id)
     setHostelId(props.uniqueostel_Id);
   },[props.uniqueostel_Id])
-  // useEffect(() => {
-  //   console.log("setHostelId..?", props.uniqueostel_Id);
   
-  //   // Only set hostelId if it's different from the current state
-  //   setHostelId((prev) => (prev !== props.uniqueostel_Id ? props.uniqueostel_Id : prev));
-  // }, [props.uniqueostel_Id])
-  // console.log("setHostelId..?",props.uniqueostel_Id)
 
   const handleReadingChange = (e) => {
     setReading(e.target.value);
@@ -104,14 +80,13 @@ function EBRoomReading(props) {
       console.log("unitAmount is not a valid array or is empty.");
     }
   }, [state.Settings.EBBillingUnitlist.eb_settings, hostelId]);
-// console.log("state.Settings.EBBillingUnitlist.eb_settings",state.Settings.EBBillingUnitlist.eb_settings)
 
 
 
 
   
   useEffect(() => {
-    setEbErrorunit(state?.PgList?.ebEditError);
+    setDateError(state?.PgList?.ebEditError);
    
   }, [state?.PgList?.ebEditError]);
   useEffect(() => {
@@ -187,9 +162,7 @@ useEffect(()=>{
     }
   },[state.PgList.statusCodeForEbRoomList])
 
-// useEffect(()=>{
-//   setelectricityFilterddata(state.PgList?.EB_startmeterlist);
-// },[state.PgList?.EB_startmeterlist])
+
 
 
   const [initialStateAssign, setInitialStateAssign] = useState({
@@ -242,9 +215,6 @@ useEffect(()=>{
         case "reading":
           setReadingError("reading is required");
           break;
-          case "Hostel ID":
-            setHostelIdError("Hostel is required");
-            break;
           case "Floor":
             setfloorError("Floor is required");
             break;
@@ -266,9 +236,7 @@ useEffect(()=>{
       case "reading":
         setReadingError("");
         break;
-        case "Hostel ID":
-          setHostelIdError("");
-          break;
+        
         case "Floor":
           setfloorError("");
           break;
@@ -287,18 +255,10 @@ useEffect(()=>{
   const handleSaveChanges = () => {
     const isreadingValid = validateAssignField(reading, "reading");
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
-    const isHostelValid = validateAssignField(selectedHostel,"Hostel ID");
     const isFloorValid = validateAssignField(Floor, "Floor");
     const isRoomValid = validateAssignField(Rooms, "Rooms");
 
 
-
-    if (selectedHostel === "Select PG" || !isHostelValid) {
-      setHostelIdError("Please select a valid Hostel");
-      return;
-    } else {
-      setHostelIdError("");
-    }
 
     if (Floor === "Select Floor" || !isFloorValid) {
       setfloorError("Please select a valid Floor");
@@ -318,7 +278,7 @@ useEffect(()=>{
     //   return;
     // }
     if (
-      !isHostelValid ||
+      
       !isreadingValid ||
       (!isFloorValid && !isRoomValid && !isDatevalid)
     ) {
@@ -840,18 +800,7 @@ console.log('Formatted Date:', formattedDate);
                       >
                         {v.Room_Id}
                       </td>
-                      {/* <td
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "center",
-                          verticalAlign: "middle",
-                          borderBottom: "none",
-                        }}
-                      >
-                        {v.start_Meter_Reading}
-                      </td> */}
+
                       <td
                         style={{
                           fontSize: "16px",
@@ -912,7 +861,6 @@ console.log('Formatted Date:', formattedDate);
                         {v.total_amount}
                       </td>
                       <td style={{ paddingTop: 12, border: "none" }}>
-                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
                         <div
                           style={{
@@ -983,7 +931,7 @@ console.log('Formatted Date:', formattedDate);
       fontSize: 14,
       fontWeight: 500,
       fontFamily: "Gilroy, sans-serif",
-      color: props.ebEditPermission ? "#ccc" : "#222222", // Change text color if disabled
+      color: props.ebEditPermission ? "#ccc" : "#222222", 
       cursor: props.ebEditPermission ? "not-allowed" : "pointer",
     }}
   >
@@ -992,13 +940,6 @@ console.log('Formatted Date:', formattedDate);
 </div>
 
 
-                                  {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                                onClick={() => { handleShowform(props) }}
-                                                style={{ backgroundColor: "#fff" }}
-                                            >
-                                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
-
-                                            </div> */}
 
 <div
   className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
@@ -1049,7 +990,7 @@ console.log('Formatted Date:', formattedDate);
           </Table>
         )}
 
-        {state.PgList?.EB_startmeterlist?.length === 0 && (
+        {currentRowelectricity?.length === 0 && (
           <div>
             <div style={{ textAlign: "center" }}>
               <img src={emptyimg} width={240} height={240} alt="emptystate" />
@@ -1094,7 +1035,7 @@ console.log('Formatted Date:', formattedDate);
                   fontFamily: "Gilroy",
                 }}
               >
-                + Add Reading
+                + Add Room Reading
               </Button>
             </div>
           </div>
@@ -1222,11 +1163,7 @@ console.log('Formatted Date:', formattedDate);
         backdrop="static"
         centered
       >
-        {/* <Modal.Header closeButton className="text-center">
-            <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
-              Add a Reading
-            </Modal.Title>
-          </Modal.Header> */}
+     
 
         <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
           <div
@@ -1272,82 +1209,7 @@ console.log('Formatted Date:', formattedDate);
         </Modal.Header>
         <Modal.Body>
           <div className="row ">
-          {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                {ebErrorunit && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {ebErrorunit}
-                  </div>
-                )}
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Paying Guest
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  value={hostelId}
-                  onChange={(e) => handleHostelChange(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    lineHeight: "18.83px",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                >
-                  <option
-                    style={{ fontSize: 14, fontWeight: 600 }}
-                    selected
-                    value=""
-                  >
-                    Select PG
-                  </option>
-                  {state.UsersList?.hostelList &&
-                    state.UsersList?.hostelList.map((item) => (
-                      <>
-                        <option key={item.id} value={item.id}>
-                          {item.Name}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select>
-                {hostelIdError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {hostelIdError}
-                  </div>
-                )}
-                {unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel != "" && (
-                    <>
-                      <label
-                        className="pb-1"
-                        style={{
-                          fontSize: 12,
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {" "}
-                        Please add a 'ebUnitAmount in Settings'
-                      </label>
-                    </>
-                  )}
-              </div> */}
+          
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
                   style={{
@@ -1520,12 +1382,12 @@ console.log('Formatted Date:', formattedDate);
                   />
                 </div>
               </Form.Group>
-              {/* {dateError && (
+              {dateError && (
         <div style={{ color: "red" }}>
           <MdError />
           {dateError}
         </div>
-      )} */}
+      )}
             </div>
           </div>
         </Modal.Body>
