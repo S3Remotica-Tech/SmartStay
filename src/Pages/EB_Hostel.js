@@ -1,28 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
-import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
-import Logo from "../Assets/Images/Logo-Icon.png";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
-import Roombased from "./EB_RoomBased";
-import CryptoJS from "crypto-js";
-import Filter from "../Assets/Images/New_images/Group 13.png";
 import Button from "react-bootstrap/Button";
 import "./EB_Hostel.css";
-import dottt from "../Assets/Images/Group 14.png";
-import { Dropdown, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { FormControl } from "react-bootstrap";
 import Calendars from "../Assets/Images/New_images/calendar.png";
-import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
-import Swal from "sweetalert2";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import down from "../Assets/Images/New_images/down.png";
 import squre from "../Assets/Images/New_images/minus-square.png";
 import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -34,39 +24,19 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import excelimg from "../Assets/Images/New_images/excel (5).png";
-
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
-  ArrowLeft2,
-  ArrowRight2,
-} from "iconsax-react";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { MdError } from "react-icons/md";
-import { set } from "date-fns";
 import EBHostelReading from "./EB_Hostel_Based";
 
 function EB_Hostel(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log("state", state);
   const theme = useTheme();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [loginid, setLoginid] = useState();
   const loginId = localStorage.getItem("loginId");
-  useEffect(() => {
-    dispatch({ type: "HOSTELLIST" });
-  }, []);
-
-  const [isvisible, setISVisible] = useState(false);
-  const [backbtn, setBackbtn] = useState(true);
-  const [hosteldetails, setHosteldetails] = useState("");
-  const [transactionshow, settransactionshow] = useState(true);
   const [ebShow, setebshow] = useState(false);
   const [addEbDetail, setaddEbDetail] = useState(false);
   const [selectedHostel, setSelectedHostel] = useState("");
@@ -75,12 +45,10 @@ function EB_Hostel(props) {
   const [roomsByFloor, setRoomsByFloor] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
   const [startmeterdata, setStartmeterData] = useState([]);
-  console.log("startmeterdata", startmeterdata);
   const [startmeter, setStartmeter] = useState([]);
   const [endmeter, setEndmeter] = useState("");
   const [amount, setAmount] = useState("");
   const [unitAmount, setUnitAmount] = useState("");
-  console.log("unitAmount", unitAmount);
   const [totmetReading, settotmetReading] = useState("");
   const [id, setId] = useState("");
   const [edit, setEdit] = useState("");
@@ -95,41 +63,37 @@ function EB_Hostel(props) {
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [hostelBased, setHostelBased] = useState("");
-  const [uniqueostel_Id,setUniqostel_Id]=useState('')
-  const [hostelName,setHostelName]=useState('')
-  const [but_val,setButval]=useState(false)
+  const [uniqueostel_Id, setUniqostel_Id] = useState("");
+  const [hostelName, setHostelName] = useState("");
+  const [floorError, setfloorError] = useState("");
+  const [roomError, setRoomError] = useState("");
+  const [bedError, setBedError] = useState("");
+  const [endMeterError, setendMeterError] = useState("");
+  const [dateError, setDateError] = useState("");
+  const [hostelBasedForm, setHostelBasedForm] = useState(false);
+  const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
+  const [electricityFilterddata, setelectricityFilterddata] = useState([]);
+  const [tranactioncurrentPage, settranactioncurrentPage] = useState(1);
+  const [TransactionFilterddata, seteleTransactionFilterddata] = useState([]);
 
-
-  const [hostelBasedForm,setHostelBasedForm] = useState(false)
-  console.log("uniqueostel_Id",props.allPageHostel_Id)
   useEffect(() => {
-    console.log("uniqueHostelId:", props.allPageHostel_Id);
+    dispatch({ type: "HOSTELLIST" });
+  }, []);
+
+  useEffect(() => {
     setUniqostel_Id(props.allPageHostel_Id);
   }, [props.allPageHostel_Id]);
 
-const handleHostelForm=()=>{
-
-  console.log("/////////",hostelName)
-  
-  setHostelBasedForm(true);
-  setButval(true);
-
-}
-
-console.log("hostelBasedForm",hostelBasedForm);
-
+  const handleHostelForm = () => {
+    setHostelBasedForm(true);
+  };
 
   useEffect(() => {
-    console.log(
-      "File URL in state:",
-      state.UsersList?.exportEbDetails?.response?.fileUrl
-    );
     if (state.UsersList?.exportEbDetails?.response?.fileUrl) {
       setExcelDownload(state.UsersList?.exportEbDetails?.response?.fileUrl);
     }
   }, [state.UsersList?.exportEbDetails?.response?.fileUrl]);
 
-  console.log("excelDownload", excelDownload);
   const handleEbExcel = () => {
     dispatch({
       type: "EXPORTEBSDETAILS",
@@ -162,7 +126,6 @@ console.log("hostelBasedForm",hostelBasedForm);
   }, [state.createAccount.accountList]);
 
   useEffect(() => {
-    console.log("===ebrolePermission[0]", ebrolePermission);
     if (
       ebrolePermission[0]?.is_owner == 1 ||
       ebrolePermission[0]?.role_permissions[12]?.per_view == 1
@@ -174,7 +137,6 @@ console.log("hostelBasedForm",hostelBasedForm);
   }, [ebrolePermission]);
 
   useEffect(() => {
-    console.log("===ebrolePermission[0]", ebrolePermission);
     if (
       ebrolePermission[0]?.is_owner == 1 ||
       ebrolePermission[0]?.role_permissions[12]?.per_create == 1
@@ -186,7 +148,6 @@ console.log("hostelBasedForm",hostelBasedForm);
   }, [ebrolePermission]);
 
   useEffect(() => {
-    console.log("===ebrolePermission[0]", ebrolePermission);
     if (
       ebrolePermission[0]?.is_owner == 1 ||
       ebrolePermission[0]?.role_permissions[12]?.per_delete == 1
@@ -197,7 +158,6 @@ console.log("hostelBasedForm",hostelBasedForm);
     }
   }, [ebrolePermission]);
   useEffect(() => {
-    console.log("===ebrolePermission[0]", ebrolePermission);
     if (
       ebrolePermission[0]?.is_owner == 1 ||
       ebrolePermission[0]?.role_permissions[12]?.per_edit == 1
@@ -207,50 +167,28 @@ console.log("hostelBasedForm",hostelBasedForm);
       setEbEditPermission("Permission Denied");
     }
   }, [ebrolePermission]);
-  // const handleChanges = (event, newValue) => {
-  //   setValue(newValue);
 
-  // };
   const handleChanges = (event, newValue) => {
     setValue(newValue);
     setaddEbDetail(false);
-    setHostelBasedForm(false)
-    setButval(true) // Reset the addEbDetail state when switching tabs
+    setHostelBasedForm(false);
   };
 
-  console.log("selectedDate", selectedDate);
   const calendarRef = useRef(null);
-  console.log("selectedHostel",selectedHostel)
   useEffect(() => {
-    
     dispatch({ type: "EBLIST" });
-    
   }, []);
-  useEffect(()=>{
-    if(selectedHostel){
-      dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:selectedHostel}});
+  useEffect(() => {
+    if (selectedHostel) {
+      dispatch({
+        type: "CUSTOMEREBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
     }
-  },[selectedHostel])
+  }, [selectedHostel]);
 
-  // useEffect(() => {
-  //   const filteredstartmeter = state.PgList?.EB_startmeterlist.filter((item) =>
-  //     item.Floor == 0 && item.Room == 0
-  //       ? item.hostel_Id == selectedHostel
-  //       : item?.hostel_Id == selectedHostel &&
-  //         item.Floor == Floor &&
-  //         item.Room == Rooms
-  //   );
-
-  //   const lastItem =
-  //     filteredstartmeter?.length > 0
-  //       ? filteredstartmeter[filteredstartmeter.length - 1]
-  //       : null;
-  //   setStartmeter(lastItem);
-  // }, [selectedHostel, state.PgList?.EB_startmeterlist, Floor, Rooms]);
-// console.log("state.PgList?.EB_startmeterlist",state.PgList?.EB_startmeterlist)
   const options = {
     dateFormat: "Y/m/d",
-    // defaultDate: selectedDate || new Date(),
     maxDate: new Date(),
     minDate: null,
   };
@@ -265,32 +203,15 @@ console.log("hostelBasedForm",hostelBasedForm);
     }
   }, [selectedDate]);
 
-  // const handleHostelChange = (e) => {
-  //   setSelectedHostel(e.target.value);
-  //   setFloor("");
-  //   setRooms("");
-  //   setHostelIdError("");
-  //   setEbErrorunit("");
-  //   dispatch({ type: "CLEAR_EB_ERROR" });
-  // };
   useEffect(() => {
-    console.log("setHostelId..?", uniqueostel_Id);
-    setSelectedHostel(uniqueostel_Id)
-  }, [uniqueostel_Id])
-  console.log("setHostelId..?",uniqueostel_Id)
-  
-  // useEffect(()=>{
-  //   // const selectedHostel=  state.UsersList.hostelList &&
-  //   // state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
-  //   // setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-  //   setSelectedHostel(props.allPageHostel_Id);
-  // },[props.allPageHostel_Id])
+    setSelectedHostel(uniqueostel_Id);
+  }, [uniqueostel_Id]);
+
   const handleFloor = (e) => {
     setFloor(e.target.value);
     const filteredRooms = state.UsersList?.hosteldetailslist.filter(
       (room) => room.floor_id == e.target.value
     );
-    console.log("filteredRooms", filteredRooms);
     setRoomsByFloor(filteredRooms);
     setRooms("");
     setfloorError("");
@@ -304,22 +225,13 @@ console.log("hostelBasedForm",hostelBasedForm);
     setEbErrorunit("");
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
-  const [startmeterValue, setStartmeterValue] = useState("");
 
-  // useEffect(() => {
-  //   if (startmeter && startmeter.end_Meter_Reading) {
-  //     setStartmeterValue(startmeter.end_Meter_Reading);
-  //     setstartMeterError("");
-  //   } else {
-  //     setStartmeterValue("");
-  //   }
-  // }, [startmeter]);
   useEffect(() => {
-      dispatch({
-        type: "HOSTELBASEDEBLIST",
-        payload: { hostel_id: selectedHostel}
-      });
-    }, [selectedHostel]);
+    dispatch({
+      type: "HOSTELBASEDEBLIST",
+      payload: { hostel_id: selectedHostel },
+    });
+  }, [selectedHostel]);
 
   useEffect(() => {
     if (selectedHostel && Floor) {
@@ -338,31 +250,17 @@ console.log("hostelBasedForm",hostelBasedForm);
   }, [selectedHostel]);
 
   useEffect(() => {
-    console.log("selectedHostelebbill",selectedHostel)
-    dispatch({ type: "EB-BILLING-UNIT-LIST",payload: {hostel_id: selectedHostel}});
+    dispatch({
+      type: "EB-BILLING-UNIT-LIST",
+      payload: { hostel_id: selectedHostel },
+    });
   }, [selectedHostel]);
   useEffect(() => {
     dispatch({ type: "TRANSACTIONHISTORY" });
   }, []);
 
-  const handleEbbill = (hostel) => {
-    setISVisible(true);
-    setHosteldetails(hostel);
-  };
-
-  const handleback = (isShow) => {
-    setBackbtn(isShow);
-    setISVisible(false);
-  };
-
   const handleAddEbDetails = () => {
     setaddEbDetail(true);
-    console.log("addEbDetail", addEbDetail);
-  };
-
-  const handleTransactionsShow = () => {
-    settransactionshow(true);
-    setebshow(false);
   };
 
   const handleendmeter = (e) => {
@@ -372,97 +270,62 @@ console.log("hostelBasedForm",hostelBasedForm);
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
-  const handleamount = (e) => {
-    setAmount(e.target.value);
-  };
-  const handleebViewShow = () => {
-    setebshow(true);
-    settransactionshow(false);
-  };
-
-
   useEffect(() => {
     const FilterEbAmount = state.Settings.EBBillingUnitlist?.filter(
       (item) => item.hostel_id == selectedHostel
     );
-    console.log("FilteredEBAmount:", FilterEbAmount);
     setUnitAmount(FilterEbAmount);
     if (Array.isArray(FilterEbAmount) && FilterEbAmount.length > 0) {
-      console.log("unitAmount..123?", FilterEbAmount[0]?.amount);
       setUnitAmount(FilterEbAmount[0]?.amount);
     } else {
       console.log("unitAmount is not a valid array or is empty.");
     }
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
 
-
-
   useEffect(() => {
     const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
       (item) => item.hostel_id == selectedHostel
     );
-    console.log("FilterHostelBased:", FilterHostelBased);
-    // setHostelBased(FilterHostelBased);
+
     if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
-      console.log("hostel_based..123?", FilterHostelBased[0]?.hostel_based);
       setHostelBased(FilterHostelBased[0]?.hostel_based);
-      setHostelName(FilterHostelBased[0]?.Name)
-      
+      setHostelName(FilterHostelBased[0]?.Name);
     } else {
       console.log("unitAmount is not a valid array or is empty.");
     }
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
-  console.log("hostelName",hostelName)
   const totalMeterReading =
     endmeter -
     (startmeter && startmeter.end_Meter_Reading
       ? parseFloat(startmeter.end_Meter_Reading)
       : 0);
-  console.log("totalMeterReading", totalMeterReading);
 
   const totalAmountRead =
     (unitAmount ? parseFloat(unitAmount) : 0) * (totalMeterReading || 0);
   console.log("totalAmountRead", totalAmountRead);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (state.PgList.statusCodeforEbCustomer === 200) {
       setelectricityFilterddata(state.PgList?.EB_customerTable?.eb_details);
-      // dispatch({ type: "EBSTARTMETERLIST" });
 
-      // dispatch({ type: "CUSTOMEREBLIST", payload: { hostel_id: selectedHostel}});
-      // setSelectedHostel("")
-
-     
-      
       setTimeout(() => {
-        dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST"});
+        dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
       }, 200);
     }
-  },[state.PgList.statusCodeforEbCustomer])
-
-  
-
-  // const hostelBasedFilter =state?.Settings?.EBBillingUnitlist &&  state?.Settings?.EBBillingUnitlist?.filter((u)=> u.id == selectedHostel)
-  // const hostelBasedFilter = state?.Settings?.EBBillingUnitlist?.filter((u) => u.id == selectedHostel) || [];
-  // Normalize selectedHostel to a number for type-safe comparison
-
+  }, [state.PgList.statusCodeforEbCustomer]);
 
   useEffect(() => {
     if (state.PgList.AddEBstatusCode === 200) {
-      dispatch({ type: "EBSTARTMETERLIST",payload: {hostel_id: selectedHostel } });
+      dispatch({
+        type: "EBSTARTMETERLIST",
+        payload: { hostel_id: selectedHostel },
+      });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB" });
       }, 200);
     }
   }, [state.PgList.AddEBstatusCode]);
-  const [hostelIdError, setHostelIdError] = useState("");
-  const [floorError, setfloorError] = useState("");
-  const [roomError, setRoomError] = useState("");
-  const [bedError, setBedError] = useState("");
-  const [endMeterError, setendMeterError] = useState("");
-
-  const [dateError, setDateError] = useState("");
 
   const validateAssignField = (value, fieldName) => {
     const isValueEmpty =
@@ -472,9 +335,6 @@ console.log("hostelBasedForm",hostelBasedForm);
       value === "0";
     if (isValueEmpty) {
       switch (fieldName) {
-        case "Hostel ID":
-          setHostelIdError("Hostel is required");
-          break;
         case "Floor":
           setfloorError("Floor is required");
           break;
@@ -496,11 +356,7 @@ console.log("hostelBasedForm",hostelBasedForm);
       return false;
     }
 
-    // Clear the error if value is valid
     switch (fieldName) {
-      case "Hostel ID":
-        setHostelIdError("");
-        break;
       case "Floor":
         setfloorError("");
         break;
@@ -523,83 +379,14 @@ console.log("hostelBasedForm",hostelBasedForm);
     return true;
   };
 
-  // const validateAssignField = (value, fieldName) => {
-
-  //   const isValueEmpty =
-  //     (typeof value === "string" && value.trim() === "") ||
-  //     value === "undefined" ||
-  //     value === "null" ||
-  //     value === "0";
-
-  //   if (isValueEmpty) {
-  //     switch (fieldName) {
-  //       case "Hostel ID":
-  //         setHostelIdError("Hostel is required");
-  //         break;
-  //       case "Floor":
-  //         setfloorError("Floor is required");
-  //         break;
-  //       case "Rooms":
-  //         setRoomError("Rooms is required");
-  //         break;
-  //       case "Bed":
-  //         setBedError("Bed is required");
-  //         break;
-  //       case "selectedDate":
-  //         setDateError("date is required");
-  //         break;
-  //       case "endmeter":
-  //         setendMeterError("endmeter is required");
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //     return false;
-  //   }
-
-  //   // Clear errors if the value is valid
-  //   switch (fieldName) {
-  //     case "Hostel ID":
-  //       setHostelIdError("");
-  //       break;
-  //     case "Floor":
-  //       setfloorError("");
-  //       break;
-  //     case "Rooms":
-  //       setRoomError("");
-  //       break;
-  //     case "Bed":
-  //       setBedError("");
-  //       break;
-  //     case "selectedDate":
-  //       setDateError("");
-  //       break;
-  //     case "endmeter":
-  //       setendMeterError("");
-  //       break;
-  //       default:
-  //         break;
-  //   }
-
-  //   return true;
-  // };
-
-  const handleDate = (selectedDates) => {
-    setSelectedDate(selectedDates[0]);
-    setDateError("");
-    console.log("selectedDates", selectedDates);
-  };
-
   const handleClose = () => {
     setaddEbDetail(false);
-    setHostelIdError("");
     setfloorError("");
     setRoomError("");
     setendMeterError("");
     setEbErrorunit("");
     setStartmeter("");
     setEndmeter("");
-    // setSelectedHostel("");
     setRooms("");
     setFloor("");
     setSelectedDate("");
@@ -607,19 +394,11 @@ console.log("hostelBasedForm",hostelBasedForm);
   };
 
   const handleSaveEbBill = () => {
-    const isHostelValid = validateAssignField(selectedHostel, "Hostel ID");
     const isFloorValid = validateAssignField(Floor, "Floor");
     const isRoomValid = validateAssignField(Rooms, "Rooms");
 
     const isEndMeterValid = validateAssignField(endmeter, "endmeter");
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
-
-    if (selectedHostel === "Select PG" || !isHostelValid) {
-      setHostelIdError("Please select a valid Hostel");
-      return;
-    } else {
-      setHostelIdError("");
-    }
 
     if (Floor === "Select Floor" || !isFloorValid) {
       setfloorError("Please select a valid Floor");
@@ -637,14 +416,14 @@ console.log("hostelBasedForm",hostelBasedForm);
     }
 
     if (
-      !isHostelValid ||
+      
       !isEndMeterValid ||
       (!isFloorValid && !isRoomValid && !isDatevalid)
     ) {
       return;
     }
     console.log("selectedDate", selectedDate);
-    if (selectedHostel && Floor && Rooms && endmeter && selectedDate) {
+    if ( Floor && Rooms && endmeter && selectedDate) {
       const incrementDateAndFormat = (date) => {
         const newDate = new Date(date);
         newDate.setDate(newDate.getDate() + 1);
@@ -665,31 +444,18 @@ console.log("hostelBasedForm",hostelBasedForm);
         },
       });
     }
-    // else if (selectedHostel && endmeter) {
-    //   dispatch({
-    //     type: "CREATEEB",
-    //     payload: {
-    //       Hostel_Id: selectedHostel,
-    //       end_Meter_Reading: endmeter,
-
-    //       // EbAmount: totalAmountRead,
-    //       date: selectedDate,
-    //     },
-    //   });
-    // }
-
-    // Reset fields after successful save
   };
   useEffect(() => {
     if (state.PgList?.AddEBstatusCode === 200) {
       handleClose();
-      dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id: selectedHostel} });
+      dispatch({
+        type: "CUSTOMEREBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
     }
   }, [state.PgList?.AddEBstatusCode]);
 
   const electricityrowsPerPage = 5;
-  const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
-  const [electricityFilterddata, setelectricityFilterddata] = useState([]);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
@@ -763,13 +529,12 @@ console.log("hostelBasedForm",hostelBasedForm);
     return pageNumberselectricity;
   };
 
-  // useEffect(() => {
-  //   setelectricityFilterddata(state.PgList?.EB_customerTable?.eb_details);
-  // }, [state.PgList?.EB_customerTable?.eb_details]);
-console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_customerTable?.eb_details)
+  console.log(
+    "state.PgList?.EB_customerTable?.eb_details",
+    state.PgList?.EB_customerTable?.eb_details
+  );
+
   const transactionrowsPerPage = 10;
-  const [tranactioncurrentPage, settranactioncurrentPage] = useState(1);
-  const [TransactionFilterddata, seteleTransactionFilterddata] = useState([]);
 
   const indexOfLastRowtransaction =
     tranactioncurrentPage * transactionrowsPerPage;
@@ -845,10 +610,6 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
   useEffect(() => {
     seteleTransactionFilterddata(state.ExpenseList.transactionHistory);
   }, [state.ExpenseList.transactionHistory]);
-  const [activeTab, setActiveTab] = useState(1);
-
-  console.log("[[[[[[[[[[[[[[[[[[[[",hostelBased);
-  
 
   const customDateInput = (props) => {
     return (
@@ -939,64 +700,61 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
             )}
           </div>
 
-          {
-  hostelBased == 1 ? (
-    <div>
-      <Button
-        style={{
-          fontFamily: "Montserrat",
-          fontSize: 13,
-          backgroundColor: "#1E45E1",
-          color: "white",
-          height: 52,
-          fontWeight: 600,
-          borderRadius: 8,
-          width: 162,
-          // padding: "5px 5px",// Corrected padding
-          border: "none",
-          cursor: "pointer",
-          whiteSpace:"nowrap",
-          paddingTop:10,
-          paddingBottom:10,
-          paddingLeft:5,
-          paddingRight:5
-        }}
-        // disabled={ebAddPermission}
-        onClick={handleHostelForm}
-      >
-        + Add HostelReading
-      </Button>
-    </div>
-  ) : (
-    <div>
-      <Button
-        style={{
-          fontFamily: "Montserrat",
-          fontSize: 14,
-          backgroundColor: "#1E45E1",
-          color: "white",
-          height: 52,
-          fontWeight: 600,
-          borderRadius: 8,
-          width: 162,
-          padding: "5px 12px", // Corrected padding
-          border: "none",
-          cursor: "pointer",
-          whiteSpace:"nowrap",
-          paddingTop:10,
-          paddingBottom:10,
-          paddingLeft:5,
-          paddingRight:5
-        }}
-        disabled={ebAddPermission}
-        onClick={handleAddEbDetails}
-      >
-        + Add RoomReading
-      </Button>
-    </div>
-  )
-}
-       
+          {hostelBased == 1 ? (
+            <div>
+              <Button
+                style={{
+                  fontFamily: "Montserrat",
+                  fontSize: 13,
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  height: 52,
+                  fontWeight: 600,
+                  borderRadius: 8,
+                  width: 162,
+                  // padding: "5px 5px",// Corrected padding
+                  border: "none",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                }}
+                // disabled={ebAddPermission}
+                onClick={handleHostelForm}
+              >
+                + Add HostelReading
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <Button
+                style={{
+                  fontFamily: "Montserrat",
+                  fontSize: 14,
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  height: 52,
+                  fontWeight: 600,
+                  borderRadius: 8,
+                  width: 162,
+                  padding: "5px 12px", // Corrected padding
+                  border: "none",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                }}
+                disabled={ebAddPermission}
+                onClick={handleAddEbDetails}
+              >
+                + Add RoomReading
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1023,48 +781,41 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                   textTransform: "none",
                 }}
               />
-              
-              {
-  hostelBased == 1 ? (
-    <Tab
-      label="Hostel Reading"
-      value="3"
-      style={{
-        fontSize: 16,
-        fontFamily: "Gilroy",
-        color: "#4B4B4B",
-        lineHeight: "normal",
-        fontStyle: "normal",
-        fontWeight: 500,
-        textTransform: "none",
-      }}
-    />
-  ) : (
-    <Tab
-      label="Room Reading"
-      value="2"
-      style={{
-        fontSize: 16,
-        fontFamily: "Gilroy",
-        color: "#4B4B4B",
-        lineHeight: "normal",
-        fontStyle: "normal",
-        fontWeight: 500,
-        textTransform: "none",
-      }}
-    />
-  )
-}
 
-             
-            
+              {hostelBased == 1 ? (
+                <Tab
+                  label="Hostel Reading"
+                  value="3"
+                  style={{
+                    fontSize: 16,
+                    fontFamily: "Gilroy",
+                    color: "#4B4B4B",
+                    lineHeight: "normal",
+                    fontStyle: "normal",
+                    fontWeight: 500,
+                    textTransform: "none",
+                  }}
+                />
+              ) : (
+                <Tab
+                  label="Room Reading"
+                  value="2"
+                  style={{
+                    fontSize: 16,
+                    fontFamily: "Gilroy",
+                    color: "#4B4B4B",
+                    lineHeight: "normal",
+                    fontStyle: "normal",
+                    fontWeight: 500,
+                    textTransform: "none",
+                  }}
+                />
+              )}
             </TabList>
           </Box>
         </div>
         <TabPanel value="1">
           <>
-       
-         
             <EBHostelReading
               hostelBasedForm={hostelBasedForm}
               setHostelBasedForm={setHostelBasedForm}
@@ -1074,11 +825,9 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
               value={value}
               hostelBased={hostelBased}
             />
-         
 
             {ebpermissionError ? (
               <>
-              
                 <div
                   style={{
                     display: "flex",
@@ -1174,37 +923,36 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                             Paying Guest
                           </th>
 
-                        
                           {hostelBased !== 1 && (
-  <>
-    <th
-      style={{
-        color: "#939393",
-        fontWeight: 500,
-        fontSize: "14px",
-        fontFamily: "Gilroy",
-        paddingTop: "10px",
-        paddingBottom: "10px",
-        textAlign: "center",
-      }}
-    >
-      Floor
-    </th>
-    <th
-      style={{
-        color: "#939393",
-        fontWeight: 500,
-        fontSize: "14px",
-        fontFamily: "Gilroy",
-        paddingTop: "10px",
-        paddingBottom: "10px",
-        textAlign: "center",
-      }}
-    >
-      Room
-    </th>
-  </>
-)}
+                            <>
+                              <th
+                                style={{
+                                  color: "#939393",
+                                  fontWeight: 500,
+                                  fontSize: "14px",
+                                  fontFamily: "Gilroy",
+                                  paddingTop: "10px",
+                                  paddingBottom: "10px",
+                                  textAlign: "center",
+                                }}
+                              >
+                                Floor
+                              </th>
+                              <th
+                                style={{
+                                  color: "#939393",
+                                  fontWeight: 500,
+                                  fontSize: "14px",
+                                  fontFamily: "Gilroy",
+                                  paddingTop: "10px",
+                                  paddingBottom: "10px",
+                                  textAlign: "center",
+                                }}
+                              >
+                                Room
+                              </th>
+                            </>
+                          )}
 
                           <th
                             style={{
@@ -1380,31 +1128,31 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                               </td>
                               {hostelBased !== 1 && (
                                 <>
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "center",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.floor_name}
-                              </td>
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "center",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.Room_Id}
-                              </td>
-                              </>
+                                  <td
+                                    style={{
+                                      fontSize: "16px",
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      textAlign: "center",
+                                      verticalAlign: "middle",
+                                      borderBottom: "none",
+                                    }}
+                                  >
+                                    {v.floor_name}
+                                  </td>
+                                  <td
+                                    style={{
+                                      fontSize: "16px",
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      textAlign: "center",
+                                      verticalAlign: "middle",
+                                      borderBottom: "none",
+                                    }}
+                                  >
+                                    {v.Room_Id}
+                                  </td>
+                                </>
                               )}
                               <td
                                 style={{
@@ -1559,49 +1307,47 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                           + Add Reading
                         </Button>
                       </div> */}
-                             {
-  hostelBased == 1 ? (
-    <div style={{ textAlign: "center" }}>
-      <Button
-        style={{
-          fontSize: 16,
-          backgroundColor: "#1E45E1",
-          color: "white",
-          height: 59,
-          fontWeight: 600,
-          borderRadius: 12,
-          width: 185,
-          padding: "18px, 20px, 18px, 20px",
-          fontFamily: "Gilroy",
-        }}
-        disabled={ebAddPermission}
-        onClick={handleHostelForm}
-      >
-        + Add Hostel Reading
-      </Button>
-    </div>
-  ) : (
-    <div style={{ textAlign: "center" }}>
-      <Button
-        style={{
-          fontSize: 16,
-          backgroundColor: "#1E45E1",
-          color: "white",
-          height: 59,
-          fontWeight: 600,
-          borderRadius: 12,
-          width: 185,
-          padding: "18px, 20px, 18px, 20px",
-          fontFamily: "Gilroy",
-        }}
-        disabled={ebAddPermission}
-        onClick={handleAddEbDetails}
-      >
-        + Add Room Reading
-      </Button>
-    </div>
-  )
-}
+                      {hostelBased == 1 ? (
+                        <div style={{ textAlign: "center" }}>
+                          <Button
+                            style={{
+                              fontSize: 16,
+                              backgroundColor: "#1E45E1",
+                              color: "white",
+                              height: 59,
+                              fontWeight: 600,
+                              borderRadius: 12,
+                              width: 185,
+                              padding: "18px, 20px, 18px, 20px",
+                              fontFamily: "Gilroy",
+                            }}
+                            disabled={ebAddPermission}
+                            onClick={handleHostelForm}
+                          >
+                            + Add Hostel Reading
+                          </Button>
+                        </div>
+                      ) : (
+                        <div style={{ textAlign: "center" }}>
+                          <Button
+                            style={{
+                              fontSize: 16,
+                              backgroundColor: "#1E45E1",
+                              color: "white",
+                              height: 59,
+                              fontWeight: 600,
+                              borderRadius: 12,
+                              width: 185,
+                              padding: "18px, 20px, 18px, 20px",
+                              fontFamily: "Gilroy",
+                            }}
+                            disabled={ebAddPermission}
+                            onClick={handleAddEbDetails}
+                          >
+                            + Add Room Reading
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1740,12 +1486,6 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
           backdrop="static"
           centered
         >
-          {/* <Modal.Header closeButton className="text-center">
-            <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
-              Add a Reading
-            </Modal.Title>
-          </Modal.Header> */}
-
           <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
             <div
               style={{
@@ -1790,83 +1530,6 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
           </Modal.Header>
           <Modal.Body>
             <div className="row ">
-              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                {ebErrorunit && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {ebErrorunit}
-                  </div>
-                )}
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Paying Guest
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  value={selectedHostel}
-                  onChange={(e) => handleHostelChange(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    lineHeight: "18.83px",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                >
-                  <option
-                    style={{ fontSize: 14, fontWeight: 600 }}
-                    selected
-                    value=""
-                  >
-                    Select PG
-                  </option>
-                  {state.UsersList?.hostelList &&
-                    state.UsersList?.hostelList.map((item) => (
-                      <>
-                        <option key={item.id} value={item.id}>
-                          {item.Name}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select>
-                {hostelIdError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {hostelIdError}
-                  </div>
-                )}
-                {unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel != "" && (
-                    <>
-                      <label
-                        className="pb-1"
-                        style={{
-                          fontSize: 12,
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {" "}
-                        Please add a 'ebUnitAmount in Settings'
-                      </label>
-                    </>
-                  )}
-              </div> */}
-
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
                   style={{
@@ -1882,11 +1545,6 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                 <Form.Select
                   aria-label="Default select example"
                   className="border"
-                  disabled={
-                    unitAmount &&
-                    unitAmount?.length === 0 &&
-                    selectedHostel != ""
-                  }
                   value={Floor}
                   onChange={(e) => handleFloor(e)}
                   style={{
@@ -1938,11 +1596,6 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                 <Form.Select
                   aria-label="Default select example"
                   className="border"
-                  disabled={
-                    unitAmount &&
-                    unitAmount?.length === 0 &&
-                    selectedHostel != ""
-                  }
                   value={Rooms}
                   onChange={(e) => handleRoom(e)}
                   style={{
@@ -2013,76 +1666,6 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
                 )}
               </div>
 
-              {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222",
-                    fontFamily: "'Gilroy'",
-                    fontWeight: 500,
-                  }}
-                >
-                  Date{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-
-                <div style={{ position: "relative" }}>
-                  <label
-                    htmlFor="date-input"
-                    style={{
-                      border: "1px solid #D9D9D9",
-                      borderRadius: 8,
-                      padding: 11,
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      color: "#222222",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between", // Ensure space between text and icon
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      if (calendarRef.current) {
-                        calendarRef.current.flatpickr.open();
-                      }
-                    }}
-                  >
-                    {selectedDate
-                      ? selectedDate.toLocaleDateString("en-GB")
-                      : "YYYY/MM/DD"}
-                    <img
-                      src={Calendars}
-                      style={{ height: 24, width: 24, marginLeft: 10 }}
-                      alt="Calendar"
-                    />
-                  </label>
-                  <Flatpickr
-                    ref={calendarRef}
-                    options={options}
-                    value={selectedDate}
-                    onChange={(selectedDates) => handleDate(selectedDates)}
-                    style={{
-                      padding: 10,
-                      fontSize: 16,
-                      width: "100%",
-                      borderRadius: 8,
-                      border: "1px solid #D9D9D9",
-                      position: "absolute",
-                      top: 100,
-                      left: 100,
-                      zIndex: 1000,
-                      display: "none",
-                    }}
-                  />
-                </div>
-                {dateError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {dateError}
-                  </div>
-                )}
-              </div> */}
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group className="mb-2" controlId="purchaseDate">
                   <Form.Label
@@ -2150,23 +1733,20 @@ console.log("state.PgList?.EB_customerTable?.eb_details",state.PgList?.EB_custom
             setUniqostel_Id={setUniqostel_Id}
           />
         </TabPanel>
-       
+
         <TabPanel value="3">
           <EBHostelReading
-          hostelBasedForm={hostelBasedForm} setHostelBasedForm={setHostelBasedForm} uniqueostel_Id={uniqueostel_Id}
-          hostelName={hostelName} setHostelName={setHostelName} value={value} handleHostelForm={handleHostelForm} hostelBased={hostelBased}
-            
+            hostelBasedForm={hostelBasedForm}
+            setHostelBasedForm={setHostelBasedForm}
+            uniqueostel_Id={uniqueostel_Id}
+            hostelName={hostelName}
+            setHostelName={setHostelName}
+            value={value}
+            handleHostelForm={handleHostelForm}
+            hostelBased={hostelBased}
           />
         </TabPanel>
-
       </TabContext>
-
-      {/* {
-        hostelBasedForm == true ?(
-<EBHostelReading hostelBasedForm={hostelBasedForm} setHostelBasedForm={setHostelBasedForm} uniqueostel_Id={uniqueostel_Id}
-          hostelName={hostelName} setHostelName={setHostelName} value={value}/>
-        ):null
-      } */}
     </div>
   );
 }

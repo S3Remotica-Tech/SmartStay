@@ -983,7 +983,7 @@ console.log('Formatted Date:', formattedDate);
       fontSize: 14,
       fontWeight: 500,
       fontFamily: "Gilroy, sans-serif",
-      color: props.ebEditPermission ? "#ccc" : "#222222", // Change text color if disabled
+      color: props.ebEditPermission ? "#ccc" : "#222222", 
       cursor: props.ebEditPermission ? "not-allowed" : "pointer",
     }}
   >
@@ -992,13 +992,6 @@ console.log('Formatted Date:', formattedDate);
 </div>
 
 
-                                  {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                                onClick={() => { handleShowform(props) }}
-                                                style={{ backgroundColor: "#fff" }}
-                                            >
-                                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
-
-                                            </div> */}
 
 <div
   className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
@@ -1222,11 +1215,7 @@ console.log('Formatted Date:', formattedDate);
         backdrop="static"
         centered
       >
-        {/* <Modal.Header closeButton className="text-center">
-            <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
-              Add a Reading
-            </Modal.Title>
-          </Modal.Header> */}
+     
 
         <Modal.Header style={{ marginBottom: "30px", position: "relative" }}>
           <div
@@ -1272,82 +1261,7 @@ console.log('Formatted Date:', formattedDate);
         </Modal.Header>
         <Modal.Body>
           <div className="row ">
-          {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                {ebErrorunit && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {ebErrorunit}
-                  </div>
-                )}
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Paying Guest
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  value={hostelId}
-                  onChange={(e) => handleHostelChange(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    lineHeight: "18.83px",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                >
-                  <option
-                    style={{ fontSize: 14, fontWeight: 600 }}
-                    selected
-                    value=""
-                  >
-                    Select PG
-                  </option>
-                  {state.UsersList?.hostelList &&
-                    state.UsersList?.hostelList.map((item) => (
-                      <>
-                        <option key={item.id} value={item.id}>
-                          {item.Name}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select>
-                {hostelIdError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {hostelIdError}
-                  </div>
-                )}
-                {unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel != "" && (
-                    <>
-                      <label
-                        className="pb-1"
-                        style={{
-                          fontSize: 12,
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {" "}
-                        Please add a 'ebUnitAmount in Settings'
-                      </label>
-                    </>
-                  )}
-              </div> */}
+          
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
                   style={{
