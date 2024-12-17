@@ -161,7 +161,10 @@ useEffect(() => {
   const MobileNumber = `${countryCode}${Phone}`;
 
 
+  
 
+  
+  
 
 
   const handleEdit = (item) => {
@@ -193,6 +196,11 @@ useEffect(() => {
         console.log("itemEdit...///", formattedJoiningDate);
       setJoiningDate(formattedJoiningDate);
       setFile(item.profile || "");
+      // setFile(item.profile === 0 || item.profile === "0" ? Profile2 : item.profile);
+
+
+      // console.log("item.profile:", item.profile);
+
       setAmount(item.amount || "");
       // setPaying(item.hostel_name || "");
       // setFloor(item.floor_name || "");
@@ -512,160 +520,273 @@ useEffect(() => {
     }
   };
   
-  const handleSubmit = () => {
-    const isFirstnameValid = validateAssignField(firstName, "firstName");
-    const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
-    const isamountValid = validateAssignField(amount, "amount");
-    const isphoneValid = validateAssignField(Phone, "Phone");
-    const isHostelValid = validateAssignField(HostelIds, "paying");
-    const isaddressValid = validateAssignField(Address, "Address");
-    // const isFloorvalid = validateAssignField(FloorIds, "floor");
-    // const isRoomValid = validateAssignField(roomId, "room");
-    // const isbedvalid = validateAssignField(bedIds, "bed");
+//   const handleSubmit = () => {
+//     const isFirstnameValid = validateAssignField(firstName, "firstName");
+//     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
+//     const isamountValid = validateAssignField(amount, "amount");
+//     const isphoneValid = validateAssignField(Phone, "Phone");
+//     const isHostelValid = validateAssignField(HostelIds, "paying");
+//     const isaddressValid = validateAssignField(Address, "Address");
+//     // const isFloorvalid = validateAssignField(FloorIds, "floor");
+//     // const isRoomValid = validateAssignField(roomId, "room");
+//     // const isbedvalid = validateAssignField(bedIds, "bed");
 
-    // if ((HostelIds === "Select a PG" && HostelIds === "") || !isHostelValid) {
-    //   setHostelIdError("Please select a valid Hostel");
-    //   return;
-    // } else {
-    //   setfloorError("");
-    // }
-    // if ((FloorIds === "Select a floor" && FloorIds === "") || !isFloorvalid) {
-    //   setfloorError("Please select a valid Floor");
-    //   return;
-    // } else {
-    //   setfloorError("");
-    // }
+//     // if ((HostelIds === "Select a PG" && HostelIds === "") || !isHostelValid) {
+//     //   setHostelIdError("Please select a valid Hostel");
+//     //   return;
+//     // } else {
+//     //   setfloorError("");
+//     // }
+//     // if ((FloorIds === "Select a floor" && FloorIds === "") || !isFloorvalid) {
+//     //   setfloorError("Please select a valid Floor");
+//     //   return;
+//     // } else {
+//     //   setfloorError("");
+//     // }
 
-    // if ((roomId === "Select a room" && roomId === "") || !isRoomValid) {
-    //   setRoomError("Please select a valid Room");
-    //   return;
-    // } else {
-    //   setRoomError("");
-    // }
-    // if ((bedIds === "Select a bed" && bedIds === "") || !isbedvalid) {
-    //   setBedError("Please select a valid Room");
-    //   return;
-    // } else {
-    //   setBedError("");
-    // }
+//     // if ((roomId === "Select a room" && roomId === "") || !isRoomValid) {
+//     //   setRoomError("Please select a valid Room");
+//     //   return;
+//     // } else {
+//     //   setRoomError("");
+//     // }
+//     // if ((bedIds === "Select a bed" && bedIds === "") || !isbedvalid) {
+//     //   setBedError("Please select a valid Room");
+//     //   return;
+//     // } else {
+//     //   setBedError("");
+//     // }
 
-    if (
-      !isFirstnameValid ||
-      !isjoiningDateValid ||
-      !isamountValid ||
-      !isphoneValid ||
-      !isaddressValid ||
-      !isHostelValid // Negate this condition
-    ) {
-      return;
-    }
+//     if (
+//       !isFirstnameValid ||
+//       !isjoiningDateValid ||
+//       !isamountValid ||
+//       !isphoneValid ||
+//       !isaddressValid ||
+//       !isHostelValid // Negate this condition
+//     ) {
+//       return;
+//     }
     
-    // console.log("FloorIds:", FloorIds);
-    // console.log("initialStateAssign.floor:", initialStateAssign.floor);
-    // console.log("RoomId:", roomId);
-    // console.log("initialStateAssign.room:", initialStateAssign.room);
-    // console.log("BedIds:", bedIds);
-    // console.log("initialStateAssign.bed:", initialStateAssign.bed);
-    console.log("JoiningDate:", joiningDate);
-    console.log(
-      "initialStateAssign.joiningDate:",
-      initialStateAssign.joiningDate
-    );
-    console.log("Amount:", amount);
-    console.log("initialStateAssign.amount:", initialStateAssign.amount);
-    console.log("FirstName:", firstName);
-    console.log("initialStateAssign.firstName:", initialStateAssign.firstName);
-    console.log("LastName:", lastName);
-    console.log("initialStateAssign.lastName:", initialStateAssign.lastName);
-    // console.log("Comments:", comments);
-    // console.log("initialStateAssign.comments:", initialStateAssign.comments);
-    console.log("ProfileImage", file);
-    console.log("initialStateAssign.Profile:", initialStateAssign.file);
-    console.log("Address:", Address);
-    console.log("initialStateAssign.Address:", initialStateAssign.Address);
-    console.log("Email:", Email);
-    console.log("initialStateAssign.Email:", initialStateAssign.Email);
-    console.log("Phone:", Phone);
-    console.log("initialStateAssign.Phone:", initialStateAssign.Phone);
-    console.log("isHostelValid:", isHostelValid);
-    console.log("Phone:", countryCode);
-    console.log("initialStateAssign.Phone:", initialStateAssign.countryCode);
+//     // console.log("FloorIds:", FloorIds);
+//     // console.log("initialStateAssign.floor:", initialStateAssign.floor);
+//     // console.log("RoomId:", roomId);
+//     // console.log("initialStateAssign.room:", initialStateAssign.room);
+//     // console.log("BedIds:", bedIds);
+//     // console.log("initialStateAssign.bed:", initialStateAssign.bed);
+//     console.log("JoiningDate:", joiningDate);
+//     console.log(
+//       "initialStateAssign.joiningDate:",
+//       initialStateAssign.joiningDate
+//     );
+//     console.log("Amount:", amount);
+//     console.log("initialStateAssign.amount:", initialStateAssign.amount);
+//     console.log("FirstName:", firstName);
+//     console.log("initialStateAssign.firstName:", initialStateAssign.firstName);
+//     console.log("LastName:", lastName);
+//     console.log("initialStateAssign.lastName:", initialStateAssign.lastName);
+//     // console.log("Comments:", comments);
+//     // console.log("initialStateAssign.comments:", initialStateAssign.comments);
+//     console.log("ProfileImage", file);
+//     console.log("initialStateAssign.Profile:", initialStateAssign.file);
+//     console.log("Address:", Address);
+//     console.log("initialStateAssign.Address:", initialStateAssign.Address);
+//     console.log("Email:", Email);
+//     console.log("initialStateAssign.Email:", initialStateAssign.Email);
+//     console.log("Phone:", Phone);
+//     console.log("initialStateAssign.Phone:", initialStateAssign.Phone);
+//     console.log("isHostelValid:", isHostelValid);
+//     console.log("Phone:", countryCode);
+//     console.log("initialStateAssign.Phone:", initialStateAssign.countryCode);
 
-    const isValidDate = (date) => {
-      return !isNaN(Date.parse(date));
-    };
-    const isChangedBed =
-      // (isNaN(FloorIds)
-      //   ? String(FloorIds).toLowerCase() !==
-      //     String(initialStateAssign.floor).toLowerCase()
-      //   : Number(FloorIds) !== Number(initialStateAssign.floor)) ||
-      // (isNaN(roomId)
-      //   ? String(roomId).toLowerCase() !==
-      //     String(initialStateAssign.room).toLowerCase()
-      //   : Number(roomId) !== Number(initialStateAssign.room)) ||
-      // (isNaN(bedIds)
-      //   ? String(bedIds).toLowerCase() !==
-      //     String(initialStateAssign.bed).toLowerCase()
-      //   : Number(bedIds) !== Number(initialStateAssign.bed)) ||
-      (
-        isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
-        ? new Date(joiningDate).toISOString().split("T")[0] !==
-          new Date(initialStateAssign.joiningDate).toISOString().split("T")[0]
-        : joiningDate !== initialStateAssign.joiningDate) ||
-      Number(amount) !== Number(initialStateAssign.amount) ||
-      String(firstName) !== String(initialStateAssign.firstName) ||
-      String(Address) !== String(initialStateAssign.Address) ||
-      String(Email) !== String(initialStateAssign.Email) ||
-      Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-      file !== initialStateAssign.file ||
-      String(lastName) !== String(initialStateAssign.lastName)
-      // String(comments) !== String(initialStateAssign.comments);
+//     const isValidDate = (date) => {
+//       return !isNaN(Date.parse(date));
+//     };
+//     const isChangedBed =
+//       // (isNaN(FloorIds)
+//       //   ? String(FloorIds).toLowerCase() !==
+//       //     String(initialStateAssign.floor).toLowerCase()
+//       //   : Number(FloorIds) !== Number(initialStateAssign.floor)) ||
+//       // (isNaN(roomId)
+//       //   ? String(roomId).toLowerCase() !==
+//       //     String(initialStateAssign.room).toLowerCase()
+//       //   : Number(roomId) !== Number(initialStateAssign.room)) ||
+//       // (isNaN(bedIds)
+//       //   ? String(bedIds).toLowerCase() !==
+//       //     String(initialStateAssign.bed).toLowerCase()
+//       //   : Number(bedIds) !== Number(initialStateAssign.bed)) ||
+//       (
+//         isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
+//         ? new Date(joiningDate).toISOString().split("T")[0] !==
+//           new Date(initialStateAssign.joiningDate).toISOString().split("T")[0]
+//         : joiningDate !== initialStateAssign.joiningDate) ||
+//       Number(amount) !== Number(initialStateAssign.amount) ||
+//       String(firstName) !== String(initialStateAssign.firstName) ||
+//       String(Address) !== String(initialStateAssign.Address) ||
+//       String(Email) !== String(initialStateAssign.Email) ||
+//       Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
+//       String(lastName) !== String(initialStateAssign.lastName)
+//       // file !== initialStateAssign.file ||
+     
+    
+//       // String(comments) !== String(initialStateAssign.comments);
 
-    if (!isChangedBed) {
-      setFormError("No changes detected.");
-      return;
-    } else {
-      setFormError("");
-    }
-    // let formattedDate = null;
-    // try {
-    //   formattedDate = new Date(joiningDate).toISOString().split("T")[0];
-    // } catch (error) {
-    //   setDateError("date is required.");
-    //   console.error(error);
-    //   return;
-    // }
-    let formattedDate = null;
-try {
-  let date = new Date(joiningDate);
-  date.setDate(date.getDate() + 1); // Add 1 day
-  formattedDate = date.toISOString().split("T")[0];
-} catch (error) {
-  setDateError("Date is required.");
-  console.error(error);
-  return;
-}
-    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+//     if (!isChangedBed) {
+//       setFormError("No changes detected.");
+//       return;
+//     } else {
+//       setFormError("");
+//     }
+//     // let formattedDate = null;
+//     // try {
+//     //   formattedDate = new Date(joiningDate).toISOString().split("T")[0];
+//     // } catch (error) {
+//     //   setDateError("date is required.");
+//     //   console.error(error);
+//     //   return;
+//     // }
+//     let formattedDate = null;
+// try {
+//   let date = new Date(joiningDate);
+//   date.setDate(date.getDate() + 1); // Add 1 day
+//   formattedDate = date.toISOString().split("T")[0];
+// } catch (error) {
+//   setDateError("Date is required.");
+//   console.error(error);
+//   return;
+// }
+//     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
 
-    dispatch({
-      type: "ADD_BOOKING",
-      payload: {
-        f_name: firstName,
-        l_name: lastName,
-        joining_date: formattedDate,
-        amount: amount,
-        hostel_id: HostelIds,
-        mob_no: normalizedPhoneNumber,
-        email_id: Email,
-        address: Address,
-        profile:file,
-        id: id,
-      },
-    });
-    setFormEdit(false);
-    // props.handleClose()
+//     dispatch({
+//       type: "ADD_BOOKING",
+//       payload: {
+//         f_name: firstName,
+//         l_name: lastName,
+//         joining_date: formattedDate,
+//         amount: amount,
+//         hostel_id: HostelIds,
+//         mob_no: normalizedPhoneNumber,
+//         email_id: Email,
+//         address: Address,
+//         profile:file,
+//         id: id,
+//       },
+//     });
+//     setFormEdit(false);
+//     // props.handleClose()
   
-  };
+//   };
+const handleSubmit = () => {
+  // Validation checks
+  const isFirstnameValid = validateAssignField(firstName, "firstName");
+  const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
+  const isamountValid = validateAssignField(amount, "amount");
+  const isphoneValid = validateAssignField(Phone, "Phone");
+  const isHostelValid = validateAssignField(HostelIds, "paying");
+  const isaddressValid = validateAssignField(Address, "Address");
+
+  if (
+    !isFirstnameValid ||
+    !isjoiningDateValid ||
+    !isamountValid ||
+    !isphoneValid ||
+    !isaddressValid ||
+    !isHostelValid
+  ) {
+    return;
+  }
+
+  // Debugging logs
+  console.log("JoiningDate:", joiningDate);
+  console.log("initialStateAssign.joiningDate:", initialStateAssign.joiningDate);
+  console.log("Amount:", amount);
+  console.log("initialStateAssign.amount:", initialStateAssign.amount);
+  console.log("FirstName:", firstName);
+  console.log("initialStateAssign.firstName:", initialStateAssign.firstName);
+  console.log("LastName:", lastName);
+  console.log("initialStateAssign.lastName:", initialStateAssign.lastName);
+
+  // Check for 'file' object and print details
+  if (file instanceof File || file instanceof Blob) {
+    console.log("ProfileImage Name:", file.name);
+    console.log("ProfileImage Type:", file.type);
+    console.log("ProfileImage Size:", file.size);
+  } else {
+    console.log("ProfileImage Value:", JSON.stringify(file, null, 2));
+  }
+
+  console.log("initialStateAssign.Profile:", initialStateAssign.file);
+  console.log("Address:", Address);
+  console.log("initialStateAssign.Address:", initialStateAssign.Address);
+  console.log("Email:", Email);
+  console.log("initialStateAssign.Email:", initialStateAssign.Email);
+  console.log("Phone:", Phone);
+  console.log("initialStateAssign.Phone:", initialStateAssign.Phone);
+  console.log("isHostelValid:", isHostelValid);
+  console.log("Country Code:", countryCode);
+  console.log("initialStateAssign.CountryCode:", initialStateAssign.countryCode);
+
+  // Check if any values have changed
+  const isValidDate = (date) => !isNaN(Date.parse(date));
+
+  const isChangedBed =
+    (isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
+      ? new Date(joiningDate).toISOString().split("T")[0] !==
+        new Date(initialStateAssign.joiningDate).toISOString().split("T")[0]
+      : joiningDate !== initialStateAssign.joiningDate) ||
+    Number(amount) !== Number(initialStateAssign.amount) ||
+    String(firstName) !== String(initialStateAssign.firstName) ||
+    String(Address) !== String(initialStateAssign.Address) ||
+    String(Email) !== String(initialStateAssign.Email) ||
+    Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
+    String(lastName) !== String(initialStateAssign.lastName) ||
+    ((file instanceof File || file instanceof Blob) &&
+      file.name !== initialStateAssign.file?.name) || // Correct file comparison
+    file !== initialStateAssign.file;
+
+  if (!isChangedBed) {
+    setFormError("No changes detected.");
+    return;
+  } else {
+    setFormError("");
+  }
+
+  // Format the date correctly
+  let formattedDate = null;
+  try {
+    let date = new Date(joiningDate);
+    date.setDate(date.getDate() + 1); // Add 1 day to fix timezone issues
+    formattedDate = date.toISOString().split("T")[0];
+  } catch (error) {
+    setDateError("Date is required.");
+    console.error(error);
+    return;
+  }
+
+  // Normalize phone number
+  const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+
+  // Dispatch action
+  dispatch({
+    type: "ADD_BOOKING",
+    payload: {
+      f_name: firstName,
+      l_name: lastName,
+      joining_date: formattedDate,
+      amount: amount,
+      hostel_id: HostelIds,
+      mob_no: normalizedPhoneNumber,
+      email_id: Email,
+      address: Address,
+      profile: file,
+      id: id,
+    },
+  });
+
+  // Reset form state
+  setFormEdit(false);
+};
+
 
   console.log("stateghjhsjdhjs", state);
 
@@ -839,22 +960,7 @@ try {
    const [file, setFile] = useState(null);
  
  
-    // const handleImageChange = async (event) => {
-    //    const fileImage = event.target.files[0];
-    //    if (fileImage) {
-    //      const options = {
-    //        maxSizeMB: 1,
-    //        maxWidthOrHeight: 800,
-    //        useWebWorker: true
-    //      };
-    //      try {
-    //        const compressedFile = await imageCompression(fileImage, options);
-    //        setFile(compressedFile);
-    //      } catch (error) {
-    //        console.error('Image compression error:', error);
-    //      }
-    //    }
-    //  };
+  
     const handleImageChange = async (event) => {
       const fileImage = event.target.files[0];
       if (fileImage) {
@@ -1174,7 +1280,7 @@ try {
                     console.log("Dated..?", Dated);
 
                     let day1 = createDated.getDate();
-                    let month1 = createDated.getMonth() + 1;
+                    let month1 = createDated.getMonth();
                     let year1 = createDated.getFullYear();
 
                     const monthNamesformate = [
@@ -1193,6 +1299,7 @@ try {
                     ];
                     let formattedMonthjj = monthNamesformate[month1];
                     let formattedDatecreate = `${year1} ${formattedMonthjj} ${day1}`;
+                    console.log("formatted date", formattedDatecreate);
 
                     return (
                       <tr key={customer.id} className="customer-row">
@@ -1718,23 +1825,21 @@ try {
         <div className='d-flex align-items-center'>
 
         <div className="" style={{ height: 100, width: 100, position: "relative" }}>
-
-   
         <Image
   src={
-    file && file !== 0 // Ensure `file` is not 0 or falsy
-      ? typeof file === "string"
-        ? file // Handle case if `file` is an existing URL
-        : URL.createObjectURL(file) // Handle `file` object preview
-      : Profile2 // Default placeholder if `file` is 0, null, or undefined
+    file && (file === "0" || file === 0) // Check if file is "0" or number 0
+      ? Profile2
+      : file instanceof File || file instanceof Blob
+      ? URL.createObjectURL(file)
+      : file || Profile2 // Fallback to file or Profile2
   }
   roundedCircle
   style={{ height: 100, width: 100 }}
 />
 
 
-  
-  <label htmlFor="imageInput" className='' >
+
+<label htmlFor="imageInput" className='' >
     <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
     <input
       type="file"
