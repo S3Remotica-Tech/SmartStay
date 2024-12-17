@@ -840,18 +840,7 @@ console.log('Formatted Date:', formattedDate);
                       >
                         {v.Room_Id}
                       </td>
-                      {/* <td
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "center",
-                          verticalAlign: "middle",
-                          borderBottom: "none",
-                        }}
-                      >
-                        {v.start_Meter_Reading}
-                      </td> */}
+
                       <td
                         style={{
                           fontSize: "16px",
@@ -912,7 +901,6 @@ console.log('Formatted Date:', formattedDate);
                         {v.total_amount}
                       </td>
                       <td style={{ paddingTop: 12, border: "none" }}>
-                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
                         <div
                           style={{
@@ -1042,7 +1030,7 @@ console.log('Formatted Date:', formattedDate);
           </Table>
         )}
 
-        {state.PgList?.EB_startmeterlist?.length === 0 && (
+        {currentRowelectricity?.length === 0 && (
           <div>
             <div style={{ textAlign: "center" }}>
               <img src={emptyimg} width={240} height={240} alt="emptystate" />
@@ -1087,7 +1075,7 @@ console.log('Formatted Date:', formattedDate);
                   fontFamily: "Gilroy",
                 }}
               >
-                + Add Reading
+                + Add Room Reading
               </Button>
             </div>
           </div>

@@ -904,7 +904,8 @@ function EB_Hostel(props) {
                               fontFamily: "Gilroy",
                               paddingTop: "10px",
                               paddingBottom: "10px",
-                              textAlign: "center",
+                              // textAlign: "center",
+                              textAlign: hostelBased === 1 ? "start" : "center",
                             }}
                           >
                             Name
