@@ -84,7 +84,7 @@ const handleDelete = () =>{
     // useEffect/////////////////////
 
     useEffect(() => {
-        dispatch({ type: "GETUSERSTAFF" });
+                dispatch({ type: "GETUSERSTAFF" });
     }, [])
 
 

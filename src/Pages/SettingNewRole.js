@@ -69,8 +69,10 @@ const [addRole, setAddRole] = useState(false)
       }
 
     useEffect(() => {
+        if(hostelid){
         dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: hostelid } })
-    }, [])
+        }
+    }, [hostelid])
 
 
     useEffect(() => {

@@ -180,9 +180,12 @@ function SettingAmenities({ hostelid }) {
 
 
     useEffect(() => {
-        dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: hostelid } })
+        if(hostelid){
+            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: hostelid } })
 
-    }, [])
+        }
+
+    }, [hostelid])
 
 
 
