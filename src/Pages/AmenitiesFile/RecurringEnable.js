@@ -10,19 +10,19 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 
-function RecurringEnable({ show, handleCloseRecurring,hostelid,amenityDetails}) {
+function RecurringEnable({ show, handleCloseRecurring, hostelid, amenityDetails }) {
 
     const state = useSelector(state => state)
-  
+
     const dispatch = useDispatch();
 
-console.log("state",state)
-console.log("amenityDetails",amenityDetails)
+    console.log("state", state)
+    console.log("amenityDetails", amenityDetails)
 
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [recurringDay, setRecurringDay] = useState('');
-   
+
     const [errorStartDate, setErrorStartDate] = useState('');
     const [errorEndDate, setErrorEndDate] = useState('');
     const [errorRecurringDay, setErrorRecurringDay] = useState('');
@@ -30,26 +30,26 @@ console.log("amenityDetails",amenityDetails)
     const handleStartDateChange = (e) => {
         setStartDate(e.target.value);
         setErrorStartDate('');
-        
+
     };
 
     const handleEndDateChange = (e) => {
         setEndDate(e.target.value);
         setErrorEndDate('');
-        
+
     };
 
     const handleRecurringDayChange = (e) => {
         setRecurringDay(e.target.value);
         setErrorRecurringDay('');
-        
+
     };
     const dayOptions = Array.from({ length: 31 }, (_, i) => i + 1);
 
 
-   
 
-   
+
+
 
 
     const handleSubmit = () => {
@@ -69,19 +69,22 @@ console.log("amenityDetails",amenityDetails)
             setErrorEndDate('');
         }
 
-       
+
 
         if (isValid) {
-               dispatch({ type: 'RECURRINGROLE', payload: {
-          
-   type: "amenities" ,
-          hostel_id:hostelid,
-          start_date: startDate,
-          end_date: endDate,
-          am_id:amenityDetails.id,
-               }})
-   
-            
+            dispatch({
+                type: 'RECURRINGROLE', payload: {
+
+                    type: "amenities",
+                    recure: 1,
+                    hostel_id: hostelid,
+                    start_date: startDate,
+                    end_date: endDate,
+                    am_id: amenityDetails.id,
+                }
+            })
+
+
         }
     };
 
@@ -104,14 +107,14 @@ console.log("amenityDetails",amenityDetails)
                         <CloseCircle size="24" color="#000" onClick={handleCloseRecurring} />
                     </Modal.Header>
                     {errorStartDate && (
-                                    <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily:"Gilroy" }}>{errorStartDate}</div>
-                                )}
-                                  {errorEndDate && (
-                                    <div style={{ color: 'red', fontSize: 12, marginLeft: 10 , fontFamily:"Gilroy"}}>{errorEndDate}</div>
-                                )}
-                                 {errorRecurringDay && (
-                                    <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily:"Gilroy"}}>{errorRecurringDay}</div>
-                                )}
+                        <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorStartDate}</div>
+                    )}
+                    {errorEndDate && (
+                        <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorEndDate}</div>
+                    )}
+                    {errorRecurringDay && (
+                        <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorRecurringDay}</div>
+                    )}
                     <Modal.Body>
                         <div className='row mt-2 row-gap-2'>
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
@@ -136,7 +139,7 @@ console.log("amenityDetails",amenityDetails)
                                         </option>
                                     ))}
                                 </Form.Select>
-                                
+
                             </div>
 
 
@@ -163,7 +166,7 @@ console.log("amenityDetails",amenityDetails)
                                     ))}
                                 </Form.Select>
 
-                              
+
                             </div>
 
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
@@ -175,17 +178,17 @@ console.log("amenityDetails",amenityDetails)
                             </div>
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                                 <Form.Select
-                                  id="vendor-select"
-                                style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
+                                    id="vendor-select"
+                                    style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
                                     value={recurringDay}
                                     onChange={handleRecurringDayChange}
                                 >
-                                    
-                                  
+
+
                                     <option selected value="Monthly">Monthly</option>
 
                                 </Form.Select>
-                               
+
                             </div>
                         </div>
 
@@ -194,7 +197,7 @@ console.log("amenityDetails",amenityDetails)
                     <Modal.Footer style={{ border: "none" }}>
 
                         <Button
-                              onClick={handleSubmit}
+                            onClick={handleSubmit}
                             className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, padding: 12, borderRadius: 8, fontSize: 16, fontFamily: "Gilroy" }}>
                             Add Amenities
                         </Button>
