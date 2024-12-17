@@ -6,15 +6,7 @@ import squre from "../Assets/Images/New_images/minus-square.png";
 import Image from "react-bootstrap/Image";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import Button from "react-bootstrap/Button";
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
-  ArrowLeft2,
-  ArrowRight2,
-} from "iconsax-react";
+import {ArrowLeft2,ArrowRight2,} from "iconsax-react";
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -61,28 +53,12 @@ function EBRoomReading(props) {
       setActiveRow(eb_Id);
     }
   };
-  // const handleHostelChange = (e) => {
-  //   setHostelId(e.target.value);
-  //   setFloor("");
-  //   setRooms("");
-  //   setHostelIdError("");
-  //   setEbErrorunit("");
-  //   setReading("")
-  //   setRoomId("")
-  //   setFormError('')
-    
-  // };
+ 
   useEffect(()=>{
     console.log("setHostelId..?",props.uniqueostel_Id)
     setHostelId(props.uniqueostel_Id);
   },[props.uniqueostel_Id])
-  // useEffect(() => {
-  //   console.log("setHostelId..?", props.uniqueostel_Id);
   
-  //   // Only set hostelId if it's different from the current state
-  //   setHostelId((prev) => (prev !== props.uniqueostel_Id ? props.uniqueostel_Id : prev));
-  // }, [props.uniqueostel_Id])
-  // console.log("setHostelId..?",props.uniqueostel_Id)
 
   const handleReadingChange = (e) => {
     setReading(e.target.value);
@@ -104,7 +80,6 @@ function EBRoomReading(props) {
       console.log("unitAmount is not a valid array or is empty.");
     }
   }, [state.Settings.EBBillingUnitlist.eb_settings, hostelId]);
-// console.log("state.Settings.EBBillingUnitlist.eb_settings",state.Settings.EBBillingUnitlist.eb_settings)
 
 
 
@@ -187,9 +162,7 @@ useEffect(()=>{
     }
   },[state.PgList.statusCodeForEbRoomList])
 
-// useEffect(()=>{
-//   setelectricityFilterddata(state.PgList?.EB_startmeterlist);
-// },[state.PgList?.EB_startmeterlist])
+
 
 
   const [initialStateAssign, setInitialStateAssign] = useState({
@@ -242,9 +215,6 @@ useEffect(()=>{
         case "reading":
           setReadingError("reading is required");
           break;
-          case "Hostel ID":
-            setHostelIdError("Hostel is required");
-            break;
           case "Floor":
             setfloorError("Floor is required");
             break;
@@ -266,9 +236,7 @@ useEffect(()=>{
       case "reading":
         setReadingError("");
         break;
-        case "Hostel ID":
-          setHostelIdError("");
-          break;
+        
         case "Floor":
           setfloorError("");
           break;
@@ -287,18 +255,10 @@ useEffect(()=>{
   const handleSaveChanges = () => {
     const isreadingValid = validateAssignField(reading, "reading");
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
-    const isHostelValid = validateAssignField(selectedHostel,"Hostel ID");
     const isFloorValid = validateAssignField(Floor, "Floor");
     const isRoomValid = validateAssignField(Rooms, "Rooms");
 
 
-
-    if (selectedHostel === "Select PG" || !isHostelValid) {
-      setHostelIdError("Please select a valid Hostel");
-      return;
-    } else {
-      setHostelIdError("");
-    }
 
     if (Floor === "Select Floor" || !isFloorValid) {
       setfloorError("Please select a valid Floor");
