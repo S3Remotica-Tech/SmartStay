@@ -278,7 +278,7 @@ useEffect(()=>{
     //   return;
     // }
     if (
-      !isHostelValid ||
+      
       !isreadingValid ||
       (!isFloorValid && !isRoomValid && !isDatevalid)
     ) {

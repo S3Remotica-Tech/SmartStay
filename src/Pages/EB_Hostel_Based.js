@@ -285,7 +285,8 @@ useEffect(()=>{
   useEffect(() => {
     if (state.PgList.statusCodeForAddHostelBased === 200) {
       handleCloseHostel();
-      dispatch({ type: "EBSTARTMETERLIST" });
+      dispatch({ type: "EBSTARTMETERLIST",payload: {hostel_id: selectedHostel } });
+      dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:selectedHostel}});
       dispatch({
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
@@ -585,22 +586,25 @@ useEffect(()=>{
       <tbody style={{ fontSize: "12px" }}>
         {currentRowelectricity.map((v) => {
           const imageUrl = v.profile || Profile;
-
           let formattedDate;
 
-          if (v.date && v.date !== "0000-00-00") {
-            let Dated = new Date(v.date);
-            let day = Dated.getDate() - 1;
-            let month = Dated.getMonth() + 1;
-            let year = Dated.getFullYear();
-            formattedDate = `${day}/${month}/${year}`;
-          } else {
-            let initialDate = new Date(v.initial_date);
-            let day = initialDate.getDate() - 1;
-            let month = initialDate.getMonth() + 1;
-            let year = initialDate.getFullYear();
-            formattedDate = `${day}/${month}/${year}`;
-          }
+if (v.date && v.date !== "0000-00-00") {
+  // Parse the date correctly even if it includes a timestamp
+  let dateParts = v.date.split("T")[0]; // Extract only the date part (YYYY-MM-DD)
+  let [year, month, day] = dateParts.split("-");
+  formattedDate = `${day}/${month}/${year}`;
+} else {
+  // Format the current date
+  let today = new Date();
+  let day = String(today.getDate()).padStart(2, "0");
+  let month = String(today.getMonth() + 1).padStart(2, "0");
+  let year = today.getFullYear();
+  formattedDate = `${day}/${month}/${year}`;
+}
+
+console.log("formattedDate:", formattedDate);
+
+
 
           return (
             <tr key={v.eb_Id}>

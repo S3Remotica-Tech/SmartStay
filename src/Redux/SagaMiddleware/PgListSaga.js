@@ -784,8 +784,8 @@ function* handleAddHostelElectricity(action) {
   };
 
   console.log("handleAddHostelElectricity",response)
-  if (response.data.status === 200 || response.data.statusCode === 200){
-     yield put ({type : 'ADD_HOSTEL_BASED' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+  if (response.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'ADD_HOSTEL_BASED' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
      toast.success(`${response.data.message}`, {
        position: "bottom-center",
        autoClose: 2000,
