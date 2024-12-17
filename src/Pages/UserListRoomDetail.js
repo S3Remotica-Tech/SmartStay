@@ -103,10 +103,12 @@ function UserListRoomDetail(props) {
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomrentError, setRoomRentError] = useState("");
   const [kycdetailsForm,setKycDetailForm] = useState(false)
-  const [additionalForm,setAdditionalForm] = useState(false)
+  const [additionalForm,setAdditionalForm] = useState(false);
+  const [kycuserDetails, setkycuserDetails] = useState('')
 
 
-  const handleKycdetailsForm =()=>{
+  const handleKycdetailsForm =(item)=>{
+    setkycuserDetails(item)
     setKycDetailForm(true)
   }
   const handleAdditionalForm =()=>{
@@ -1140,7 +1142,7 @@ const handleFileChange = (e, type) => {
                                 : "N/A"}
                             </span>
                           </p> */}
-                          <p style={{marginTop:8}} onClick={handleKycdetailsForm}>
+                          <p style={{marginTop:8}} onClick={()=>{handleKycdetailsForm(item)}}>
                           KYC Verified<img
                               src={verify}
                               width={17}
@@ -1967,7 +1969,7 @@ const handleFileChange = (e, type) => {
 
 {
   kycdetailsForm == true ? (
-<UserListKyc kycdetailsForm={kycdetailsForm} setKycDetailForm={setKycDetailForm}/>
+<UserListKyc kycdetailsForm={kycdetailsForm} setKycDetailForm={setKycDetailForm} kycuserDetails={kycuserDetails}/>
   ) :null
 }
 {
