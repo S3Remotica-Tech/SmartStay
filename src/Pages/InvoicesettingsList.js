@@ -383,7 +383,7 @@ const InvoiceSettingsList = (props) => {
             <Form.Check
               type="switch"
               label="Recurring"
-              checked={switchStates[props.item.id] || false }
+              checked={props.item.recure || false }
              onChange={() => handleToggle(props.item)} />
           </div>
 
