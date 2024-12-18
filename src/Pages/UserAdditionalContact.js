@@ -53,7 +53,18 @@ const handleSubmitContact=()=>{
     }
   })
 }
+useEffect(()=>{
+if(state.UsersList.statusCodeForCustomerCoatact === 200){
+  handleCloseAdditionalForm()
+  dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id} });
+  
 
+setTimeout(() => {
+  dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT"});
+}, 200);
+
+}
+},[state.UsersList.statusCodeForCustomerCoatact])
 
 // useEffect(()=>{
 // if(state.UsersList.statusCodeForCustomerCoatact === 200){
@@ -369,7 +380,7 @@ Address
 <FormControl
 type="text"
 id="form-controls"
-placeholder="Enter amount"
+placeholder="Enter Address"
 onChange={(e)=>handleAddress(e)}
 value={address}
 style={{
