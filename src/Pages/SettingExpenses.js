@@ -122,6 +122,14 @@ console.log("uniqueExpences",uniqueExpences);
     const [category_Id,setCategory_ID] = useState(null)
     const [subcategory_Id,setSubCategory_ID] = useState(null)
 
+    const [deleteCategoryId, setDeleteCategoryId] = useState('')
+    const [subCategory_Id, setSubCategory_Id] = useState('')
+
+
+
+console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
+
+
     const handleShow = () => {
         setShowForm(true);
         setEdit(false);
@@ -163,23 +171,33 @@ console.log("uniqueExpences",uniqueExpences);
     const handleDeleteExpensesCategory = (item) => {
          console.log("deleteitem",item);
          
-        setDeleteItem(item)
+        setDeleteCategoryId(item.category_Id)
+        const sub = item.subcategory[0]?.subcategory_Id
+
+
+        setSubCategory_Id(sub)
         setShowModal(true)  
+
+
     };
 
+
+
+
     const confirmDelete = () => {
-        if (deleteItem && deleteItem.category_Id && deleteItem.subcategory_Id) {
+          if ( deleteCategoryId && subCategory_Id) {
             dispatch({
                 type: 'DELETE-EXPENCES-CATEGORY',
                 payload: {
-                    id: deleteItem.category_Id,
-                    sub_Category_Id: deleteItem.subcategory_Id
+                    id: deleteCategoryId,
+                    sub_Category_Id: subCategory_Id
                 },
             });
         } else {
             dispatch({
                 type: 'DELETE-EXPENCES-CATEGORY',
-                payload: { id: deleteItem.cat_id , sub_Category_Id:deleteItem.subcategory_Id },
+                payload: { id: deleteCategoryId,
+                  sub_Category_Id: subCategory_Id},
             });
         }
         setShowModal(false);  
@@ -514,7 +532,7 @@ console.log("uniqueExpences",uniqueExpences);
             style={{ marginRight: 10, cursor: "pointer" }}
             onClick={(e) => {
               e.stopPropagation(); // Prevent dropdown toggle
-              handleDeleteExpensesCategory(category.category_Id);
+              handleDeleteExpensesCategory(category);
             }}
           />
           <i
