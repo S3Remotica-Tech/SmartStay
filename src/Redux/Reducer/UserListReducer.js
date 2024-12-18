@@ -75,6 +75,8 @@ const initialState = {
     GetconfirmcheckoutBillDetails:[],
     GetconfirmcheckoutUserDetails:'',
     statusCodeAddConfirmCheckout:0,
+    reassignbeddetails:[],
+    statusCodeForReassinBed:0
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -352,6 +354,20 @@ case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
             return { ...state, statusCodeAddConfirmCheckout: action.payload.statusCode};
         case "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER":
             return { ...state, statusCodeAddConfirmCheckout: 0 };
+
+
+            case "REASSIGN_BED":
+                return {
+                  ...state,
+                  reassignbeddetails: action.payload,
+                  statusCodeForReassinBed: action.payload.statusCode,
+                };
+              case "CLEAR_REASSIGN_BED":
+                return { ...state, statusCodeForReassinBed: 0 };
+
+
+
+
     }
     return state;
 }
