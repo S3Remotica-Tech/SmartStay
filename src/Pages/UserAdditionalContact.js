@@ -90,6 +90,13 @@ const handlePhone = (e) => {
     const handleCloseAdditionalForm=()=>{
         props.setAdditionalForm(false)
     }
+    useEffect(() => {
+        if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+          }, 1000);
+        }
+      }, [state.UsersList.CustomerdetailsgetStatuscode]);
     
     return(
         <div>
