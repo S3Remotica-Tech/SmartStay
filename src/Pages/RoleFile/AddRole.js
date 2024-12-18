@@ -175,7 +175,7 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
 
     const handleRoleName = (e) => {
         setErrorForm('')
-        setRoleName(e.target.value)
+        setRoleName(e.target.value.trim());
 
     }
 
@@ -229,7 +229,10 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
             permissionRole,
         };
 
-        
+        const hasChanges  = initialFormState.current.roleName !== currentState.roleName
+
+        console.log("hasChanges",hasChanges, )
+
         const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole);
         const normalizedCurrent = normalizePermissions(currentState.permissionRole);
     
@@ -237,6 +240,9 @@ function AddRole({ showRole, handleClose, hostelid, editRoleDetails,addRole }) {
         console.log("Normalized Current:", normalizedCurrent);
     
         if (JSON.stringify(normalizedInitial) === JSON.stringify(normalizedCurrent)) {
+            setErrorIsChanged("No changes detected in the form.");
+            isValid = false;
+        }else if(!hasChanges){
             setErrorIsChanged("No changes detected in the form.");
             isValid = false;
         }
