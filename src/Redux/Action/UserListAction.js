@@ -247,3 +247,11 @@ export async function exportDetails(datum) {
     data:datum
   })
 }
+
+
+export async function customerReAssignBed(datum) {
+  console.log("reassign",datum)
+  return await AxiosConfig.post('/customers/reassign_bed',datum,{
+    data:datum
+  })
+}
