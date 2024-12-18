@@ -255,3 +255,17 @@ export async function customerReAssignBed(datum) {
     data:datum
   })
 }
+
+export async function customerAddContact(datum) {
+  console.log("customerAddContact",datum)
+  return await AxiosConfig.post('/contacts/add_contact',datum,{
+    data:datum
+  })
+}
+
+export async function customerAllContact(datum) {
+  console.log("customerAllContact",datum)
+  return await AxiosConfig.post('/customers/all_contacts',datum,{
+    data:datum
+  })
+}
