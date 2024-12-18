@@ -29,7 +29,7 @@ function SettingAmenities({ hostelid }) {
     const popupRef = useRef(null);
     const [editDetails, setEditDetails] = useState('')
     const [active, setActive] = useState(false)
-    const [isChecked, setIsChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(null);
     const [isDisplayRecurring, setIsDisplayRecurring] = useState(false)
     const [amenityDetails, setAmenityDetails] = useState('')
     const [switchStates, setSwitchStates] = useState({});
@@ -77,11 +77,7 @@ function SettingAmenities({ hostelid }) {
         setAmenityDetails(amenity);
     };
 
-    useEffect(() => {
-        if (isChecked) {
-            setIsDisplayRecurring(true)
-        }
-    }, [isChecked])
+    
 
 
     useEffect(() => {
@@ -97,6 +93,8 @@ function SettingAmenities({ hostelid }) {
                     am_id: amenityDetails.id,
                 },
             });
+        }else{
+            setIsDisplayRecurring(true)
         }
     }, [isChecked]);
 
