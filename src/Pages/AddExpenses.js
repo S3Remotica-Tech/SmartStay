@@ -723,6 +723,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                     
                     }}
                   >
                     Category{" "}
@@ -738,7 +739,8 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                     className=""
                     id="vendor-select"
                     style={{
-                      fontSize: 14,
+                       marginTop:"5px",
+                      fontSize: '16px',
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       fontWeight: category ? 600 : 500,
@@ -1041,7 +1043,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                       fontWeight: 500,
                     }}
                   >
-                    Mode of payment{" "}
+                   Mode of transaction{" "}
                     <span
                       style={{
                         color: "#FF0000",
@@ -1059,13 +1061,13 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
                     className=""
                     id="vendor-select"
                     style={{
-                      fontSize: 14,
+                      fontSize: 16,
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       fontWeight: modeOfPayment ? 600 : 500,
                     }}
                   >
-                    <option value="">Select mode of payment</option>
+                    <option value="">Select a mode</option>
                     <option value="UPI/BHIM">UPI/BHIM</option>
                     <option value="CASH">CASH</option>
                     <option value="Net Banking">Net Banking</option>
