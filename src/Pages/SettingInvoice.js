@@ -446,7 +446,7 @@ function SettingInvoice({hostelid}) {
     }
 
         dispatch({type: "SETTINGSADDRECURRING",
-        payload: { hostel_id:Number(hostelid) , type:'invoice', start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate)} });
+        payload: { hostel_id:Number(hostelid) , type:'invoice',recure : 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate)} });
         setRecurringForm(false);
     }
 
@@ -482,9 +482,8 @@ function SettingInvoice({hostelid}) {
   const handleRecurringFormShow = (item) => {
     setRecurringForm(true);
     
-    setCalculatedstartdate(item.inv_startdate || '')
-    setCalculatedEnddate(item.inv_enddate || '')
-
+    // setCalculatedstartdate(item.inv_startdate || '')
+    // setCalculatedEnddate(item.inv_enddate || '')
   };
 
   const handleCloseRecurringForm = () => {
