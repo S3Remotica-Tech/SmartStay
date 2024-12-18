@@ -81,7 +81,13 @@ function SettingAmenities({ hostelid }) {
 
 
     useEffect(() => {
+        if (isChecked === null) {
+            return; 
+        }
         if (!isChecked) {
+
+console.log("che",isChecked)
+
             dispatch({
                 type: 'RECURRINGROLE',
                 payload: {
