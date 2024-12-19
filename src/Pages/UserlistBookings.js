@@ -2489,6 +2489,14 @@ const handleSubmit = () => {
               {formError}
             </div>
           )} */}
+
+
+{formError && (
+                <div style={{ color: "red" }}>
+                  <MdError />
+                  {formError}
+                </div>
+              )}
           <Modal.Footer>
             <Button
               variant="primary"
@@ -2537,7 +2545,7 @@ const handleSubmit = () => {
               flex: 1,
             }}
           >
-            Delete Check-out?
+            Delete Booking?
           </Modal.Title>
         </Modal.Header>
 
@@ -2551,7 +2559,7 @@ const handleSubmit = () => {
             marginTop: "-20px",
           }}
         >
-          Are you sure you want to delete this check-out?
+          Are you sure you want to delete this Booking?
         </Modal.Body>
 
         <Modal.Footer
