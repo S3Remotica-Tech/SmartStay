@@ -78,7 +78,7 @@ function Expenses({allPageHostel_Id}) {
  
 console.log("excelDownload",excelDownload)
 const handleExpenceExcel = () => {
-    dispatch({ type: "EXPORTEXPENCESDETAILS", payload: { type: "expenses"} });
+    dispatch({ type: "EXPORTEXPENCESDETAILS", payload: { type: "expenses",hostel_id :state.login.selectedHostel_Id} });
     setIsDownloadTriggered(true)
 };
 useEffect(() => {
