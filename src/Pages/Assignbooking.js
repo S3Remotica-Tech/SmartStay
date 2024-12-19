@@ -325,13 +325,16 @@ const handleSubmit = (event) => {
   const isFloorvalid = validateAssignField(floor, "floor");
   const isRoomValid = validateAssignField(room, "room");
   const isbedvalid = validateAssignField(bed, "bed");
- 
+  const isjoiningDatevalid = validateAssignField(joiningDate,"joiningDate"); 
+  const isrentAmountvalid = validateAssignField(rentamount,"rentAmount");
  
  
   if (
         !isFloorvalid ||
         !isRoomValid ||
-        !isbedvalid 
+        !isbedvalid ||
+        !isjoiningDatevalid ||
+        !isrentAmountvalid
         
        
         
@@ -792,7 +795,7 @@ console.log("Booking ID:", props.assignBooking.id);
                   
                   <Col md={6}>
                  
-                        <Form.Group className="mb-2" controlId="purchaseDate">
+                        <Form.Group className="mb-2" controlId="joiningDate">
         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
         Joining_Date 
         </Form.Label>
