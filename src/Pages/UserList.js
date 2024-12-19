@@ -73,13 +73,7 @@ function UserList(props) {
   const selectRef = useRef("select");
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
- 
-  
-
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
-  
-
   const [showLoader, setShowLoader] = useState(false);
   const [selectedItems, setSelectedItems] = useState("");
   const [filterInput, setFilterInput] = useState("");
@@ -526,18 +520,12 @@ function UserList(props) {
   const [customerUser_Id, setcustomerUser_Id] = useState("");
   const [createbyamni, setcreatebyamni] = useState("");
   const [amnitytableshow, setamnitytableshow] = useState(false);
-//   const [allhost_id,setAll_Hos_Id] = useState("")
-// console.log("userhostelid",props.allPageHostel_Id);
 
-// useEffect(()=>{
-//   setAll_Hos_Id(props.allPageHostel_Id)
-// },[props.allPageHostel_Id])
-// const [uniqueostel_Id,setUniqostel_Id]=useState('')
-console.log("uniqueostel_Id",props.allPageHostel_Id)
-useEffect(() => {
-  console.log("uniqueHostelId:", props.allPageHostel_Id);
-  setUniqostel_Id(props.allPageHostel_Id);
-}, [props.allPageHostel_Id]);
+// console.log("uniqueostel_Id",props.allPageHostel_Id)
+// useEffect(() => {
+//   console.log("uniqueHostelId:", props.allPageHostel_Id);
+//   setUniqostel_Id(props.allPageHostel_Id);
+// }, [props.allPageHostel_Id]);
 
   const handleRoomDetailsPage = (userData) => {
     const clickedUserDataArray = Array.isArray(userData)
@@ -648,7 +636,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: "USERLIST",payload:{hostel_id:uniqueostel_Id} });
+      dispatch({ type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
 
       setHostelIds(propsHostel);
       setBedIds(propsBeds);

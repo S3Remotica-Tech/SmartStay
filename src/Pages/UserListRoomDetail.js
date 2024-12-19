@@ -176,24 +176,7 @@ setAdditionalForm(true)
     console.log("itemitem", item);
 
     if (item[0].ID) {
-      if (item) {
-        dispatch({
-          type: "HOSTELDETAILLIST",
-          payload: { hostel_Id: item[0].Hostel_Id },
-        });
-        dispatch({
-          type: "ROOMDETAILS",
-          payload: { hostel_Id: item[0].Hostel_Id, floor_Id: item[0].Floor },
-        });
-        dispatch({
-          type: "BEDNUMBERDETAILS",
-          payload: {
-            hostel_id: item[0].Hostel_Id,
-            floor_id: item[0].Floor,
-            room_id: item[0].Rooms,
-          },
-        });
-      }
+     
       setBednum(item);
       seteditBed("editbeddet");
       setcustomerAsignBed(true);
@@ -265,24 +248,7 @@ setAdditionalForm(true)
   const handleEditUser = (item) => {
     console.log("item...", item);
     if (item[0].ID) {
-      if (item) {
-        dispatch({
-          type: "HOSTELDETAILLIST",
-          payload: { hostel_Id: item[0].Hostel_Id },
-        });
-        dispatch({
-          type: "ROOMDETAILS",
-          payload: { hostel_Id: item[0].Hostel_Id, floor_Id: item[0].Floor },
-        });
-        dispatch({
-          type: "BEDNUMBERDETAILS",
-          payload: {
-            hostel_id: item[0].Hostel_Id,
-            floor_id: item[0].Floor,
-            room_id: item[0].Rooms,
-          },
-        });
-      }
+     
       const phoneNumber = String(item[0].Phone || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
       const mobileNumber = phoneNumber.slice(-10);
@@ -338,7 +304,7 @@ setAdditionalForm(true)
     if (hostel_Id && Floor) {
       dispatch({
         type: "ROOMDETAILS",
-        payload: { hostel_Id: hostel_Id, floor_Id: Floor },
+        payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: Floor },
       });
     }
   }, [Floor]);
@@ -482,7 +448,7 @@ setAdditionalForm(true)
   }, [props.id]);
 
   useEffect(() => {
-    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostel_Id } });
+    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
   }, [hostel_Id]);
   console.log(
     "state.UsersList?.bednumberdetails?.bed_details",
@@ -490,9 +456,9 @@ setAdditionalForm(true)
   );
   useEffect(()=>{
     const selectedHostel=  state.UsersList.hostelList &&
-    state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
+    state.UsersList.hostelList.filter((item) => item.id == state.login.selectedHostel_Id);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    setHostel_Id(props.uniqueostel_Id);
+    setHostel_Id(state.login.selectedHostel_Id);
   },[])
   console.log("selectedHostel",hostel_Id)
 
@@ -538,7 +504,7 @@ setAdditionalForm(true)
   useEffect(() => {
     dispatch({
       type: "BEDNUMBERDETAILS",
-      payload: { hostel_id: hostel_Id, floor_id: Floor, room_id: RoomId },
+      payload: { hostel_id: state.login.selectedHostel_Id, floor_id: Floor, room_id: RoomId },
     });
   }, [Rooms]);
 

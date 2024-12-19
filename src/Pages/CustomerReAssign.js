@@ -40,7 +40,7 @@ function CustomerReAssign(props){
         setCurrentRoom(props.reAssignDetail.Rooms)
         setCurrentBed(props.reAssignDetail.Bed)
         setCurrentRoomRent(props.reAssignDetail.RoomRent)
-        setCurrentHostel_Id(props.reAssignDetail.Hostel_Id)
+        setCurrentHostel_Id(state.login.selectedHostel_Id)
         setUserId(props.reAssignDetail.ID)
         setCurrentBedId(props.reAssignDetail.hstl_Bed)
         setCurrentRoomId(props.reAssignDetail.room_id)
@@ -61,14 +61,14 @@ function CustomerReAssign(props){
     }
 
     useEffect(() => {
-        dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: currentHostel_id } });
+        dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
       }, [currentHostel_id]);
     
       useEffect(() => {
         if (currentHostel_id && newFloor) {
           dispatch({
             type: "ROOMDETAILS",
-            payload: { hostel_Id: currentHostel_id, floor_Id: newFloor },
+            payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: newFloor },
           });
         }
       }, [newFloor]);
@@ -89,7 +89,7 @@ function CustomerReAssign(props){
         dispatch({
           type: "BEDNUMBERDETAILS",
           payload: {
-            hostel_id: currentHostel_id,
+            hostel_id: state.login.selectedHostel_Id,
             floor_id: newFloor,
             room_id: e.target.value,
           },
@@ -210,7 +210,7 @@ const handleSaveReassignBed = ()=>{
 useEffect(()=>{
 if(state.UsersList.statusCodeForReassinBed === 200){
   handleCloseReAssign()
-  dispatch({ type: "USERLIST" });
+  dispatch({ type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
 
 setTimeout(() => {
   dispatch({ type: "CLEAR_REASSIGN_BED"});
