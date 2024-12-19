@@ -53,32 +53,18 @@ const handleSubmitContact=()=>{
     }
   })
 }
+
+
 useEffect(()=>{
-if(state.UsersList.statusCodeForCustomerCoatact === 200){
-  handleCloseAdditionalForm()
-  dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id} });
-  
-
-setTimeout(() => {
-  dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT"});
-}, 200);
-
-}
+  if(state.UsersList.statusCodeForCustomerCoatact === 200){
+    handleCloseAdditionalForm()
+    dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT"});
+    }, 100);
+        
+  }
 },[state.UsersList.statusCodeForCustomerCoatact])
-
-// useEffect(()=>{
-// if(state.UsersList.statusCodeForCustomerCoatact === 200){
-//   handleCloseAdditionalForm()
-//   dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id} });
-
-
-// setTimeout(() => {
-//   dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT"});
-// }, 200);
-
-// }
-// },[state.UsersList.statusCodeForCustomerCoatact])
-
 
 const handleCountryCodeChange = (e) => {
   setCountryCode(e.target.value);
@@ -101,14 +87,7 @@ const handlePhone = (e) => {
     const handleCloseAdditionalForm=()=>{
         props.setAdditionalForm(false)
     }
-    useEffect(() => {
-        if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-          setTimeout(() => {
-            dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-          }, 1000);
-        }
-      }, [state.UsersList.CustomerdetailsgetStatuscode]);
-    
+   
     return(
         <div>
         <Modal
