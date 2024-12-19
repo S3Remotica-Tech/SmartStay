@@ -10,14 +10,21 @@ import Tickicon from "../Assets/Images/tick-circle.png";
 import Profile_add from "../Assets/Images/profile-add.png";
 import moment from "moment";
 import Delete from "../Assets/Images/New_images/trash.png";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const InvoiceSettingsList = (props) => {
  
- 
- 
- 
-  const [showDots, setShowDots] = useState(false);
-  const [active, setActive] = useState(false);
+  const dispatch = useDispatch();
+   const state = useSelector((state) => state);
+
+   console.log("props",props);
+   
+   const [isChecked, setIsChecked] = useState(null);
+   const [invoiceDetails, setInvoiceDetails] = useState('')
+   const [switchStates, setSwitchStates] = useState({});
+   const [showDots, setShowDots] = useState(false);
+   const [active, setActive] = useState(false);
 
   const handleShowDots = () => {
     setShowDots(!showDots);
@@ -28,12 +35,54 @@ const InvoiceSettingsList = (props) => {
     props.OnEditInvoice(item);
   };
 
-  const handleSetAsDefault = (e , item) => {
-    console.log("recurr",item);
+ 
+
+  const handleToggle = (item) => {
+    setSwitchStates((prevSwitchStates) => {
+        const newChecked = !prevSwitchStates[item.id];
+
+          console.log("togglevalue",item);
+        setIsChecked(newChecked);
+
+        console.log(`Switch toggled for invoice ID ${item.id}:`, newChecked);
+
+        return {
+            ...prevSwitchStates,
+            [item.id]: newChecked,
+        };
+    });
+
+
+    setInvoiceDetails(item);
+};
+
+    useEffect(() => {
+      if (isChecked === null) {
+        return; 
+    }
+        if (!isChecked ) {
+       
+         console.log("ischecked", isChecked);
+            dispatch({
+              type: 'SETTINGSADDRECURRING',
+              payload: {
+                  type: "invoice",
+                  recure: 0,
+                  hostel_id: Number(props.item.id),
+                  start_date: '0',
+                  end_date: '0',
+                  // am_id: amenityDetails.id,
+              },
+          });
+                
+        }else{
+          console.log("form closed");   
+          props.handleRecurringFormShow();
+        }
+    }, [isChecked]);
+
     
-    setActive(e.target.checked);
-    props.handleRecurringFormShow(item);
-  };
+    
 
   console.log("props invoicesett***********", props);
 
@@ -333,10 +382,9 @@ const InvoiceSettingsList = (props) => {
             </label>
             <Form.Check
               type="switch"
-              id="custom-switch"
-              checked={active}
-              onChange={(e) => handleSetAsDefault(e,props.item)}
-            />
+              label="Recurring"
+              checked={props.item.recure || false }
+             onChange={() => handleToggle(props.item)} />
           </div>
 
           <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap mt-3">

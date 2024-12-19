@@ -501,6 +501,7 @@
    
 }
 
+
 }
 
 
@@ -625,7 +626,7 @@ height: 70px;
     margin-left: 0px;
   }
  
-@media (max-width: 900px) {
+@media (max-width: 700px) {
 
   /* .recharts-surface{
     width: 230 !important;
@@ -666,6 +667,7 @@ height: 70px;
     height:auto;
     width: auto;
     margin-left: 0px;
+    margin-top: 10px;
 
   }
   .dashthree{
@@ -676,12 +678,12 @@ height: 70px;
     .dashfour{
       width:auto;
     height:auto;
-    margin-left:0px;
+    margin-left:10px;
     }
     .dashfive{
       width:auto;
       height:auto;
-      margin-left:0px; 
+      margin-left:10px; 
     }
     .spacedash{
       margin-top: 20px;
@@ -708,6 +710,177 @@ height: 70px;
 .chart-container {
   overflow-x: hidden; /* Default: no scroll for large screens */
 }
+
+  @media only screen and (max-width: 900px) and (min-width: 700px) {
+    .invoicepending{
+      margin-left: 0px;
+    }
+    .dashfirst{
+      display: flex;
+      flex-direction: column;
+    }
+    .chatwidth{
+      width:auto;
+    }
+  
+    .firstcard{
+      height:auto;
+      width: auto;
+    }
+    .spacecard{
+      margin-left: 0px;
+      width:auto;
+    }
+    .secondcard{
+      width: auto;
+      height:auto;
+      
+    }
+    .eighthcard{
+      height: auto;
+      width:auto;
+      /* padding-top: 8px; */
+      margin-top: 9px;
+    }
+    .dashtwo{
+      display: flex;
+      flex-direction: row;
+      height:auto;
+      width: auto;
+      margin-left: 0px;
+      margin-top: 10px;
+  
+    }
+    .dashthree{
+      width:auto;
+      height: auto;
+      margin-left:0px;
+      }
+      .dashfour{
+        width:auto;
+      height:auto;
+      margin-left:10px;
+      }
+      .dashfive{
+        width:auto;
+        height:auto;
+        margin-left:10px; 
+      }
+      .spacedash{
+        margin-top: 20px;
+      }
+      .booking{
+        display: flex;
+        flex-direction:column;
+      }
+      .complaints-container{
+        height: auto;
+      }
+      .eigthdesign{
+        margin-left: 0px;
+      }
+      .chatwidth{
+        width: auto;
+      }
+      /* .center-text{
+  }
+  
+  
+  @media only screen and (max-width: 1200px) and (min-width: 900px) {
+    .dashfirst{
+      display: flex;
+      flex-direction: column;
+      width: auto;
+     
+      
+    }
+    .firstcard{
+      height:auto;
+      width: auto;
+    }
+    .dashtwo{
+      display: flex;
+      flex-direction:row;
+      height:auto;
+      width:auto;
+      margin-left: 0px;
+      margin-top: 10px;
+    }
+    .firstcard{
+      height: auto;
+      width: auto;
+      margin-top:10px;
+    }
+    .spacedash{
+      margin-top: 10px;
+      margin-left: 20px;
+    }
+    .spacecard{
+      margin-left:20px;
+      width: auto;
+      height: auto;
+      margin-top: 0px;
+    }
+   
+  
+  }
+  
+  
+  @media only screen and (max-width: 1295px) and (min-width: 1200px) {
+    .dashfirst{
+      display: flex;
+      flex-direction: row;
+      width: auto;
+     
+      
+    }
+    /* .firstcard{
+      height:auto;
+      width: auto;
+    } */
+    .firstcard{
+      height: 170px;
+      width: auto;
+      margin-top: 0px;
+    }
+    .dashtwo{
+      display: flex;
+      flex-direction:row;
+      height:auto;
+      width:auto;
+      margin-left: 40px;
+      margin-top: 10px;
+    }
+    
+    .spacedash{
+      margin-top: 0px;
+    }
+    /* .spacecard{
+      margin-left:0;
+      width: auto;
+      height: auto;
+      margin-top: 0px;
+    } */
+    .spacecard{
+      margin-left: 10px;
+      width: auto;
+      margin-top: 10px;
+      padding-left: 30px;
+    }
+    .eigthdesign{
+      margin-left: 10px;
+    }
+    .eighthcard{
+      height: 173px;
+      width: 150px;
+      padding-top: 8px;
+      margin-top: 9px;
+    }
+   
+  
+  }
+
+
 
 @media only screen and (max-width: 1200px) and (min-width: 900px) {
   .dashfirst{

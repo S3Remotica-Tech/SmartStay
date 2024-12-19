@@ -292,28 +292,16 @@ setSelectExpence(e.target.value)
 
 console.log("cashBackData",cashBackData)
 
-// const total = cashBackData?.[0]?.Revenue || 0; 
-// const percentage =
-//   total > 0
-//     ? ((total - (cashBackData?.[0]?.overdue || 0)) / total) * 100
-//     : 0;
-// console.log("percentage", percentage);
 
-const total = cashBackData?.[0]?.Revenue;
-const percentage = total
-  ? ((cashBackData?.[0]?.Revenue - cashBackData?.[0]?.overdue) / total) * 100
-  : 0;
-
-// const currentvalue = cashBackData?.[0]?.Revenue - cashBackData?.[0]?.overdue;
-const currentvalue = (cashBackData?.[0]?.Revenue || 0) - (cashBackData?.[0]?.overdue || 0)
+const currentvalue = (cashBackData?.[0]?.Revenue || 0) + (cashBackData?.[0]?.overdue || 0)
 console.log("currentvalue",currentvalue)
- 
-  // const pathColor = currentvalue >= cashBackData?.[0]?.overdue ? "#00A32E" : "EBEBEB";
-  // const trailColor = cashBackData?.[0]?.overdue >= currentvalue ? "#EBEBEB" : "#00A32E";
 
-//   const pathColor = total > 0 && currentvalue > 0 ? "#00A32E" : "#EBEBEB"; 
-// const trailColor = "#EBEBEB";
-const pathColor = total > 0 ? (currentvalue > 0 ? "#00A32E" : "#EBEBEB") : "#EBEBEB";
+const percentage = currentvalue
+  ? ((currentvalue - cashBackData?.[0]?.overdue) / currentvalue) * 100
+  : 0;
+console.log("percentage",percentage)
+
+const pathColor = currentvalue > 0 ? (cashBackData?.[0]?.overdue > 0 ? "#00A32E" : "#EBEBEB") : "#EBEBEB";
 const trailColor = "#EBEBEB";
   // const getRandomColor = () => {
   //   const letters = "0123456789ABCDEF";
@@ -928,186 +916,88 @@ const mergedData = months.map((monthData) => {
 
 
 
-<Card
-  className="animated-text"
+<Card  className="animated-text"
   style={{
     marginTop: 15,
     height: "auto",
     width: "97%",
     borderRadius: "20px",
-  }}
->
+  }}>
   <Card.Body>
-  <div
-    className="dropp"
-    style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      padding: "10 20px",
-      
-    }}
-  >
-    <div style={{ display: "flex", textAlign: "start" }} >
-      <p
-        style={{
-          fontFamily: "Montserrat",
-          fontSize: 18,
-          fontWeight: 600,
-          paddingLeft: 10,
-          whiteSpace:"nowrap"
-        }}
-      >
-        Receivable vs Pending
-      </p>
-    </div>
-    <div
-      className="d-flex align-items-end mb-3 justify-content-end"
-      
-    >
-      <div style={{ position: "relative", width: 158, height: 36 }}>
+    <div className="d-flex justify-content-between flex-wrap align-items-center">
+      <p  style={{fontFamily: "Montserrat",fontSize: 18,fontWeight: 600,whiteSpace:"nowrap"}}>Receivable vs Pending</p>
+      <div>
         <select
-        onChange={(e)=>handleSelectedReceived(e)}
-        value={selectCashback}
-          aria-label="Default select example"
+          onChange={(e) => handleSelectedReceived(e)}
+          value={selectCashback}
+          className="form-select rounded-pill border-secondary"
           style={{
-            fontSize: 12,
-            color: "#4B4B4B",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            boxShadow: "none",
-            border: "1px solid #D9D9D9",
-            height: 36,
-            width: 150,
-            borderRadius: 60,
-            paddingTop: 6,
-            paddingBottom: 6,
-            paddingRight: 10,
-            paddingLeft: 10,
-            appearance: "none",
-            background: `url(${drop}) no-repeat right 10px center`,
+            width: "150px",
+            backgroundImage: `url(${drop})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "right 10px center",
             backgroundSize: "16px 16px",
           }}
         >
           <option value="this_month">This month</option>
-          <option value="last_month">last months</option>
-          <option value="last_three_months">last 3 months</option>
-          <option value="last_six_months">last 6 months</option>
-          <option value="this_year">last 1 year</option>
-          
-          {/* <option>2</option> */}
+          <option value="last_month">Last month</option>
+          <option value="last_three_months">Last 3 months</option>
+          <option value="last_six_months">Last 6 months</option>
+          <option value="this_year">Last 1 year</option>
         </select>
       </div>
     </div>
+
+    <div className="d-flex flex-wrap align-items-center">
+  {/* Circular Progress Bar */}
+  <div className="flex-shrink-0 me-3" style={{ width: "40%",marginLeft:15,marginTop:5 }}>
+    <CircularProgressbar
+      value={percentage}
+      text={`₹${currentvalue || 0}`}
+      circleRatio={0.5}
+      styles={buildStyles({
+        rotation: 0.75,
+        pathColor: pathColor,
+        trailColor: trailColor,
+        textColor: "#000",
+        textSize: 15,
+        text: {
+          fill: "#000",
+          transform: "rotate(80deg)",
+          transformOrigin: "center center",
+          fontFamily: "Gilroy",
+          fontWeight: 600,
+          fontSize: "24px",
+        },
+      })}
+    />
   </div>
-    <div className="circulardesone">
-      <div
-        className="circular-progressbar-container"
-        style={{ width: "35%", marginLeft: 30, marginTop: 10 }}
-      >
-        {/* <CircularProgressbar
-          value={percentage}
-          text={"₹" + Revenue.toLocaleString()}
-          circleRatio={0.5}
-          styles={buildStyles({
-            rotation: 0.75,
-            pathColor: "#EBEBEB",
-            trailColor: "#00A32E",
-            textColor: "#000000",
-            textSize: 15,
-            
-            text: {
-              fill: "#0000000",
 
-              transform: "rotate(80deg)",
-              transformOrigin: "center center",
-              fontFamily: "Gilroy",
-              fontWeight: 600,
-              fontSize: "24px",
-            },
-          })}
-        /> */}
-     <CircularProgressbar
-  value={percentage}
-  // text={`₹${total}`}
-  text={`₹${total || 0}`}
-  circleRatio={0.5}
-  styles={buildStyles({
-    rotation: 0.75, 
-    // pathColor:"#DCDCDC",
-   
-    // trailColor: "#00A32E", 
-    pathColor: pathColor,
-    trailColor: trailColor,
-    textColor: "#000000",
-    textSize: 15,
-    text: {
-      fill: "#000000",
-      transform: "rotate(80deg)",
-      transformOrigin: "center center",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: "24px",
-    },
-  })}
-/>
-
-      </div>
-
-      <div className="texrtalii">
-        <div className="status-item">
-          <div className="dot received"></div>
-          <div>
-            <div
-              style={{
+  {/* Status Section - Aligned to Right */}
+  <div className="d-flex flex-column ms-auto pe-5" >
+    <div className="d-flex align-items-center mb-2">
+      <div className="bg-success rounded-circle me-2" style={{ width: "15px", height: "15px" }}></div>
+      <div>
+        <p className="m-0 " style={{
                 fontSize: 16,
                 fontWeight: 600,
                 fontFamily: "Montserrat",
-              }}
-            >
-              Received
-            </div>
-            <div
-              style={{
-                fontSize: 16,
-                fontWeight: 600,
-                fontFamily: "Gilry",
-              }}
-            >
-              {/* ₹{cashBackData && cashBackData[0]?.overdue} */}
-              ₹{currentvalue}
-            </div>
-          </div>
-        </div>
-        <div className="status-item">
-          <div className="dot receivable"></div>
-          <div style={{ marginTop: 10 }}>
-            <div
-              style={{
-                fontSize: 16,
-                fontWeight: 600,
-                fontFamily: "Montserrat",
-              }}
-            >
-              Receivable
-            </div>
-            <div
-              style={{
-                fontSize: 16,
-                fontWeight: 600,
-                fontFamily: "Gilry",
-              }}
-            >
-              {/* ₹{currentvalue} */}
-              {/* ₹{cashBackData && cashBackData[0]?.overdue} */}
-              ₹{(cashBackData && cashBackData[0]?.overdue > 0) ? cashBackData[0]?.overdue : 0}
-            </div>
-          </div>
-        </div>
+              }}>Received</p>
+        <p className="m-0 fw-semibold fs-6">₹{cashBackData?.[0]?.Revenue || 0}</p>
       </div>
     </div>
+    <div className="d-flex align-items-center">
+      <div className="rounded-circle me-2" style={{ width: "15px", height: "15px" ,backgroundColor:"#EBEBEB"}}></div>
+      <div>
+        <p className="m-0 " style={{fontSize: 16,fontWeight: 600,fontFamily: "Montserrat",}}>Receivable</p>
+        <p className="m-0 fw-semibold fs-6">₹{cashBackData?.[0]?.overdue || 0}</p>
+      </div>
+    </div>
+  </div>
+</div>
   </Card.Body>
 </Card>
+
 </div>
 
 <div style={{ flex: 1 }}>
@@ -1290,84 +1180,44 @@ const mergedData = months.map((monthData) => {
 
 </div>
 
-<div className="complaints-container animated-text" 
-// style={{
-  // overflowY: 'auto'
-  >
-  <div className="header">
-    <p
-      style={{
-        fontSize: 18,
-        fontWeight: 600,
-        fontFamily: "Montserrat",
-        paddingLeft: "10px",
-        marginTop: 15,
-      }}
-    >
-      Active Complaints
-    </p>
+<div className="complaints-container p-3 overflow-auto">
+  <div className="d-flex justify-content-between align-items-center">
+    <p className="m-0 " style={{fontSize:18,fontFamily:"Montserrat",fontWeight:600}}>Active Complaints</p>
     <a
-      style={{
-        textAlign: "right",
-        paddingRight: 15,
-        fontWeight: 600,
-        fontSize: 16,
-        fontFamily: "Montserrat",
-        color: "#1E45E1",
-        cursor: "pointer",
-      }}
+      className=" text-end"
+      style={{ cursor: "pointer",color:"#00C2FF",textDecoration:"none",fontSize:16,fontFamily:"Montserrat",fontWeight:600 }}
       onClick={() => handlecompliance()}
     >
       View all
     </a>
   </div>
+<div style={{marginTop:10}}>
   {activecommpliance?.map((complaint, index) => {
     let Dated = new Date(complaint.date);
-    console.log("Dated..?", Dated);
-
     let day = Dated.getDate();
-    let month = Dated.getMonth() + 1; // Months are zero-based
+    let month = Dated.getMonth() + 1;
     let year = Dated.getFullYear();
-
     let formattedDate = `${day}/${month}/${year}`;
 
     return (
-      <>
-        <div className="complaint">
-          {/* <img src={Profile} alt={complaint.name} className="avatar" /> */}
-          <img
-            src={
-              complaint.profile === "0" ? Profile : complaint.profile
-            }
-            className="avatar"
-          />
-
-          <div className="complaint-info">
-            <p
-              className="name"
-              style={{
-                fontSize: 16,
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-              }}
-            >
-              {complaint.Name}
-            </p>
-            <p
-              className="details"
-              style={{
-                fontSize: 14,
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                color: "#4B4B4B",
-              }}
-            >
-              {complaint.complaint_name} . {formattedDate}
-            </p>
-          </div>
-          <div>
-            <div>
-              <p
+      <div
+        className="d-flex flex-wrap align-items-center"
+        key={index}
+      >
+        <img
+          src={complaint.profile === "0" ? Profile : complaint.profile}
+          className="rounded-circle me-3"
+          alt={complaint.name}
+          style={{ width: "40px", height: "40px", objectFit: "cover" }}
+        />
+        <div className="flex-grow-1">
+          <p className="m-0 " style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600}}>{complaint.Name}</p>
+          <p className="m-0 text-muted" style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500}}>
+            {complaint.complaint_name} &middot; {formattedDate}
+          </p>
+        </div>
+        <div className="text-end">
+        <p
                 style={{
                   fontSize: 14,
                   fontFamily: "Gilroy",
@@ -1375,13 +1225,14 @@ const mergedData = months.map((monthData) => {
                   color: "#222222",
                   borderRadius: 60,
                   paddingTop: 3,
-                  paddingBottom: 3,
-                  // paddingLeft: 5,
+                  paddingBottom: 0,
+                  paddingLeft: 5,
                   paddingRight: 20,
                   marginBottom: "0px",
                   textAlign: "end",
                   width: 91,
                   marginLeft: 18,
+                  whiteSpace:"nowrap",
 
                   backgroundColor:
                     complaint.Status === "Pending"
@@ -1389,37 +1240,24 @@ const mergedData = months.map((monthData) => {
                       : "#DAFFD9",
                 }}
               >
-                <span>{complaint.Status}</span>
+                <span >{complaint.Status ? complaint.Status : "null"}</span>
               </p>
-              {/* <p style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500,color:"#222222",paddingTop:3,paddingBottom:3,paddingLeft:2,paddingRight:2,marginBottom:"0px"}}> {complaint.Status}</p> */}
-            </div>
-            <div
-              className="room"
-              style={{
-                fontSize: 14,
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                color: "#4B4B4B",
-                paddingRight: "10px",
-              }}
-            >
-              Room #{complaint.Room}.Bed{complaint.Bed}{" "}
-            </div>
-          </div>
+          <p className=" text-muted" style={{fontSize:14,fontFamily:"Gilroy",fontWeight:500}}>
+            Room #{complaint.Room}, Bed {complaint.Bed}
+          </p>
         </div>
-
-
-
-       
-      </>
+      </div>
     );
   })}
-   {(!activecommpliance || activecommpliance.length === 0) && (
-    <div style={{textAlign:"center",color:"red"}}>
+
+  {(!activecommpliance || activecommpliance.length === 0) && (
+    <div className="text-center text-danger">
       <p>No Data</p>
     </div>
   )}
+  </div>
 </div>
+
 </div>
 </div>
 

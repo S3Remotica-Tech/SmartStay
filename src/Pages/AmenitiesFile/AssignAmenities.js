@@ -23,6 +23,8 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
   const [AssignedList, setAssignedList] = useState([])
   const [unAssignedCheckedUsers, setUnassignedCheckedUsers] = useState([]);
   const [assignedCheckedUsers, setAssignedCheckedUsers] = useState([]);
+  const [errorAssign, setErrorAssign] = useState('')
+  const [errorUnAssign, setUnErrorAssign] = useState('')
 
 
   console.log("state", state)
@@ -30,6 +32,7 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
   console.log("assignAmenitiesDetails", assignAmenitiesDetails)
 
   const handleUnassignedCheckboxChange = (user_id) => {
+    setUnErrorAssign('')
     setUnassignedCheckedUsers((prevChecked) =>
       prevChecked.includes(user_id)
         ? prevChecked.filter((id) => id !== user_id)
@@ -38,6 +41,7 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
   };
 
   const handleAssignedCheckboxChange = (user_id) => {
+    setErrorAssign('')
     setAssignedCheckedUsers((prevChecked) =>
       prevChecked.includes(user_id)
         ? prevChecked.filter((id) => id !== user_id)
@@ -46,15 +50,29 @@ function AssignAmenities({ show, handleClose, hostelid, assignAmenitiesDetails }
   };
 
 
-const handleAssignUser = () =>{
-dispatch({ type: 'ASSIGNAMENITIES', payload:{hostel_id: hostelid, am_id: assignAmenitiesDetails.id,user_ids: assignedCheckedUsers }})
-}
+  const handleAssignUser = () => {
+
+    if (!assignedCheckedUsers || assignedCheckedUsers.length === 0) {
+      setErrorAssign("Please select at least one user before assigning amenities.");
+      return;
+    }
 
 
-const handleUnAssignUser = () =>{
-  dispatch({ type: 'UNASSIGNAMENITIES', payload:{hostel_id: hostelid, am_id: assignAmenitiesDetails.id,user_ids: unAssignedCheckedUsers }})
 
-}
+    dispatch({ type: 'ASSIGNAMENITIES', payload: { hostel_id: hostelid, am_id: assignAmenitiesDetails.id, user_ids: assignedCheckedUsers } })
+  }
+
+
+  const handleUnAssignUser = () => {
+
+    if (!unAssignedCheckedUsers || unAssignedCheckedUsers.length === 0) {
+      setUnErrorAssign("Please select at least one user before Unassigning amenities.");
+      return;
+    }
+
+    dispatch({ type: 'UNASSIGNAMENITIES', payload: { hostel_id: hostelid, am_id: assignAmenitiesDetails.id, user_ids: unAssignedCheckedUsers } })
+
+  }
 
   useEffect(() => {
     dispatch({
@@ -82,34 +100,34 @@ const handleUnAssignUser = () =>{
 
 
 
-useEffect(()=>{
-  
-  if(state.InvoiceList.assignAmenitiesSuccessStatusCode){
-    dispatch({
-      type: 'GETASSIGNAMENITIES', payload: {
-        hostel_id: hostelid,
-        am_id: assignAmenitiesDetails.id,
-      }
-    })
-  }
-  setAssignedCheckedUsers([])
+  useEffect(() => {
 
-},[state.InvoiceList?.assignAmenitiesSuccessStatusCode])
+    if (state.InvoiceList.assignAmenitiesSuccessStatusCode) {
+      dispatch({
+        type: 'GETASSIGNAMENITIES', payload: {
+          hostel_id: hostelid,
+          am_id: assignAmenitiesDetails.id,
+        }
+      })
+    }
+    setAssignedCheckedUsers([])
+
+  }, [state.InvoiceList?.assignAmenitiesSuccessStatusCode])
 
 
-useEffect(()=>{
-  
-  if(state.InvoiceList.UnAssignAmenitiesSuccessStatusCode == 200){
-    dispatch({
-      type: 'GETASSIGNAMENITIES', payload: {
-        hostel_id: hostelid,
-        am_id: assignAmenitiesDetails.id,
-      }
-    })
-  }
-  setUnassignedCheckedUsers([])
-  
-},[state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
+  useEffect(() => {
+
+    if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode == 200) {
+      dispatch({
+        type: 'GETASSIGNAMENITIES', payload: {
+          hostel_id: hostelid,
+          am_id: assignAmenitiesDetails.id,
+        }
+      })
+    }
+    setUnassignedCheckedUsers([])
+
+  }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
 
 
 
@@ -136,7 +154,19 @@ useEffect(()=>{
             <CloseCircle size="24" color="#000" onClick={handleClose} />
           </Modal.Header>
           <Modal.Body>
+            {errorAssign && (
+              <div className="d-flex align-items-center mt-1 mb-2">
+                <MdError style={{ color: 'red', marginRight: '5px' }} />
+                <span style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{errorAssign}</span>
+              </div>
+            )}
 
+            {errorUnAssign && (
+              <div className="d-flex align-items-center mt-1 mb-2">
+                <MdError style={{ color: 'red', marginRight: '5px' }} />
+                <span style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{errorUnAssign}</span>
+              </div>
+            )}
 
             <div className="row">
               <div className="col-lg-5 col-md-4 col-sm-12 col-xs-12">
@@ -153,7 +183,7 @@ useEffect(()=>{
                             </div>
 
                             <div>
-                              <Form.Check aria-label="option 1" style={{ cursor: "pointer" , boxShadow:"none"}}
+                              <Form.Check aria-label="option 1" style={{ cursor: "pointer", boxShadow: "none" }}
 
                                 checked={assignedCheckedUsers.includes(list.user_id)}
                                 onChange={() => handleAssignedCheckboxChange(list.user_id)}
@@ -175,10 +205,10 @@ useEffect(()=>{
               <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center" style={{ position: 'relative' }}>
                 <div className="d-flex flex-column align-items-center justify-content-center" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                   <div>
-                    <Image src={Forward} onClick={handleAssignUser} style={{cursor: "pointer"}}/>
+                    <Image src={Forward} onClick={handleAssignUser} style={{ cursor: "pointer" }} />
                   </div>
                   <div>
-                    <Image src={BackWard} onClick={handleUnAssignUser} style={{cursor: "pointer"}}/>
+                    <Image src={BackWard} onClick={handleUnAssignUser} style={{ cursor: "pointer" }} />
                   </div>
                 </div>
               </div>
@@ -198,11 +228,11 @@ useEffect(()=>{
                             </div>
 
                             <div>
-                              <Form.Check aria-label="option 1" 
-                              style={{
-                                cursor: "pointer",
-                                boxShadow: "none",
-                                                             }}
+                              <Form.Check aria-label="option 1"
+                                style={{
+                                  cursor: "pointer",
+                                  boxShadow: "none",
+                                }}
 
                                 checked={unAssignedCheckedUsers.includes(list.user_id)}
                                 onChange={() => handleUnassignedCheckboxChange(list.user_id)}

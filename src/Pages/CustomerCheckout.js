@@ -38,6 +38,16 @@ function CustomerCheckout(props){
       setComments(event.target.value);
     };
 
+      useEffect(() => {
+          if ( state.UsersList.addCheckoutCustomerStatusCode == 200 ) {
+            props.setCustomerCheckoutpage(false)
+            setTimeout(() => {
+              dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
+            }, 2000);
+          }
+        }, [state.UsersList.addCheckoutCustomerStatusCode]);
+    
+
     const calculateDateDifference = (checkoutDate, reqDate) => {
         if (checkoutDate && reqDate) {
           const diffInMs = checkoutDate - reqDate; 

@@ -6,15 +6,7 @@ import squre from "../Assets/Images/New_images/minus-square.png";
 import Image from "react-bootstrap/Image";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import Button from "react-bootstrap/Button";
-import {
-  Autobrightness,
-  Call,
-  Sms,
-  House,
-  Buildings,
-  ArrowLeft2,
-  ArrowRight2,
-} from "iconsax-react";
+import {ArrowLeft2,ArrowRight2} from "iconsax-react";
 import Edit from "../Assets/Images/Edit-Linear-32px.png";
 import Delete from "../Assets/Images/Trash-Linear-32px.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -25,11 +17,12 @@ import Modal from "react-bootstrap/Modal";
 import { FormControl } from "react-bootstrap";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import Form from "react-bootstrap/Form";
-import { Room } from "@material-ui/icons";
 import { MdError } from "react-icons/md";
 import { setISODay } from "date-fns";
 
 function EBHostelReading(props) {
+  console.log("priya",props);
+  
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
    const popupRef = useRef(null);
@@ -42,17 +35,9 @@ function EBHostelReading(props) {
   const [deleteShow, setDeleteShow] = useState(false);
   const [selectedHostel, setSelectedHostel] = useState("");
   const [hos_Name, setHos_Name] = useState("");
-  const [Floor, setFloor] = useState("");
-  const [Rooms, setRooms] = useState("");
   const [reading, setReading] = useState("");
   const [readingError, setReadingError] = useState("");
   const [formError, setFormError] = useState("");
-  const [id, setId] = useState("");
-  const [roomId, setRoomId] = useState("");
-  const [hostelId, setHostelId] = useState("");
-  const [floorError, setfloorError] = useState("");
-  const [roomError, setRoomError] = useState("");
-  const [unitAmount, setUnitAmount] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
   const [ebErrorunit, setEbErrorunit] = useState("");
   const [hosteldeleteId, setHostelDeleteId] = useState("");
@@ -133,11 +118,24 @@ const handleEditEb = (user) => {
   console.log("handleEditEb", user);
 };
 
+useEffect(()=>{
+  setDateError(state.PgList.dateAlready)
+},[state.PgList.dateAlready])
+
+
+useEffect(()=>{
+  if(editeb){
+    setDateError(state.PgList.editDateAlready
+    )
+  }
+ 
+},[state.PgList.editDateAlready
+])
  
   useEffect(() => {
     setSelectedHostel(props.uniqueostel_Id);
     setHos_Name(props.hostelName);
-  }, [props.uniqueostel_Id]);
+  }, [props]);
 
   useEffect(() => {
     dispatch({
@@ -287,7 +285,8 @@ const handleEditEb = (user) => {
   useEffect(() => {
     if (state.PgList.statusCodeForAddHostelBased === 200) {
       handleCloseHostel();
-      dispatch({ type: "EBSTARTMETERLIST" });
+      dispatch({ type: "EBSTARTMETERLIST",payload: {hostel_id: selectedHostel } });
+      dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:selectedHostel}});
       dispatch({
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
@@ -324,10 +323,12 @@ const handleEditEb = (user) => {
     setDateError("");
     setReadingError("")
     setFormError("")
+    setDateError("")
   };
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
+    dispatch({ type: "CLEAR_SAME_DATE_ALREADY"});
+    dispatch({ type: "CLEAR_EDIT_SAME_DATE_ALREADY"});
     setDateError("");
     setEbErrorunit("");
     setFormError("");
@@ -585,22 +586,25 @@ useEffect(()=>{
       <tbody style={{ fontSize: "12px" }}>
         {currentRowelectricity.map((v) => {
           const imageUrl = v.profile || Profile;
-
           let formattedDate;
 
-          if (v.date && v.date !== "0000-00-00") {
-            let Dated = new Date(v.date);
-            let day = Dated.getDate() - 1;
-            let month = Dated.getMonth() + 1;
-            let year = Dated.getFullYear();
-            formattedDate = `${day}/${month}/${year}`;
-          } else {
-            let initialDate = new Date(v.initial_date);
-            let day = initialDate.getDate() - 1;
-            let month = initialDate.getMonth() + 1;
-            let year = initialDate.getFullYear();
-            formattedDate = `${day}/${month}/${year}`;
-          }
+if (v.date && v.date !== "0000-00-00") {
+  // Parse the date correctly even if it includes a timestamp
+  let dateParts = v.date.split("T")[0]; // Extract only the date part (YYYY-MM-DD)
+  let [year, month, day] = dateParts.split("-");
+  formattedDate = `${day}/${month}/${year}`;
+} else {
+  // Format the current date
+  let today = new Date();
+  let day = String(today.getDate()).padStart(2, "0");
+  let month = String(today.getMonth() + 1).padStart(2, "0");
+  let year = today.getFullYear();
+  formattedDate = `${day}/${month}/${year}`;
+}
+
+console.log("formattedDate:", formattedDate);
+
+
 
           return (
             <tr key={v.eb_Id}>
@@ -1213,51 +1217,54 @@ useEffect(()=>{
                   </div>
                 )}
               </div> */}
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  HostelName{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="6542310"
-                  value={hos_Name}
-                  //   onChange={(e) => handleReadingChange(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                />
-              </Form.Group>
-{hostelIdError && (
+             
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <Form.Group className="mb-3">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    HostelName{" "}
+                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  </Form.Label>
+                  <FormControl
+                    type="text"
+                    id="form-controls"
+                    placeholder="6542310"
+                    value={hos_Name}
+                    //   onChange={(e) => handleReadingChange(e)}
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                  />
+                </Form.Group>
+  {hostelIdError && (
+                    <div style={{ color: "red" }}>
+                      <MdError />
+                      {hostelIdError}
+                    </div>
+                  )}
+  
+                {/* {readingError && (
                   <div style={{ color: "red" }}>
                     <MdError />
-                    {hostelIdError}
+                    {readingError}
                   </div>
-                )}
-
-              {/* {readingError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {readingError}
-                </div>
-              )} */}
-            </div>
+                )} */}
+              </div>
+              
+           
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
                 <Form.Label

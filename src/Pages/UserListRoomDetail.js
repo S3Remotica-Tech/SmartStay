@@ -103,10 +103,41 @@ function UserListRoomDetail(props) {
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomrentError, setRoomRentError] = useState("");
   const [kycdetailsForm,setKycDetailForm] = useState(false)
-  const [additionalForm,setAdditionalForm] = useState(false)
+  const [additionalForm,setAdditionalForm] = useState(false);
+  const [kycuserDetails, setkycuserDetails] = useState('')
+  const [contactList, setContactList] = useState('')
 
 
-  const handleKycdetailsForm =()=>{
+useEffect(()=>{
+  dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
+},[props.id])
+
+useEffect(()=>{
+if(state.UsersList.statusCodeForCustomerCoatact === 200){
+  setAdditionalForm(false)
+  dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id} });
+  
+
+setTimeout(() => {
+  dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT"});
+}, 200);
+
+}
+},[state.UsersList.statusCodeForCustomerCoatact])
+
+useEffect(()=>{
+  if(state.UsersList.statusCodeForCustomerAllDetails === 200){
+  
+  
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_CUSTOMER_ALL_DETAILS"});
+  }, 1000);
+  
+  }
+  },[state.UsersList.statusCodeForCustomerAllDetails])
+
+  const handleKycdetailsForm =(item)=>{
+    setkycuserDetails(item)
     setKycDetailForm(true)
   }
   const handleAdditionalForm =()=>{
@@ -596,6 +627,11 @@ function UserListRoomDetail(props) {
     setFormError("");
   };
 
+useEffect(()=>{
+setContactList(props.userDetails)
+},[props])
+
+
   // useEffect(() => {
   //   if (props.userDetails && props.userDetails.ID) {
   //     seteditBed("editbeddet");
@@ -958,6 +994,8 @@ function UserListRoomDetail(props) {
 };
 
 
+console.log("mydata",state.UsersList.customerdetails.contact_details);
+
  
 
   useEffect(() => {
@@ -971,7 +1009,7 @@ function UserListRoomDetail(props) {
   useEffect(()=>{
     if(state.UsersList.statusCodeForAddUser === 200){
    
-dispatch({type:"USERLIST"})
+dispatch({type:"USERLIST",payload:{hostel_id:hostel_Id}})
 setTimeout(() => {
   dispatch({ type: "CLEAR_STATUS_CODES" });
 }, 100);
@@ -1140,7 +1178,7 @@ const handleFileChange = (e, type) => {
                                 : "N/A"}
                             </span>
                           </p> */}
-                          <p style={{marginTop:8}} onClick={handleKycdetailsForm}>
+                          <p style={{marginTop:8}} onClick={()=>{handleKycdetailsForm(item)}}>
                           KYC Verified<img
                               src={verify}
                               width={17}
@@ -1866,98 +1904,214 @@ const handleFileChange = (e, type) => {
   </div>
 
   {/* Contact Info */}
-  <div className="card-body">
-    
+
+  {/* <div className="card-body">
+  {
+      state?.UsersList?.customerdetails?.contact_details?.map((v)=>{
+        return(
+
+        
+        <>
      <p>Contact Info <img src={editliner} alt="Edit Icon" width={15} height={15} /></p>
-    
-    <div className="row mb-3">
+   
+       
+         <div className="row mb-3">
 
       
-      <div className="col-sm-4 d-flex flex-column align-items-start">
-        <p
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          Contact Name
-        </p>
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          {/* {contactDetails.name || "N/A"} */}
-        </p>
-      </div>
-      <div className="col-sm-4 d-flex flex-column align-items-center">
-        <p
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          Mobile no.
-        </p>
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          {/* {contactDetails.phone || "N/A"} */}
-        </p>
-      </div>
-      <div className="col-sm-4 d-flex flex-column align-items-end">
-        <p
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          Guardian
-        </p>
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          {/* {contactDetails.guardian || "N/A"} */}
-        </p>
-      </div>
-    </div>
+<div className="col-sm-4 d-flex flex-column align-items-start">
+  <p
+    style={{
+      fontSize: 12,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+    }}
+  >
+    Contact Name
+  </p>
+  <p
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy, sans-serif",
+    }}
+  >
+   {v.user_name}
+  </p>
+</div>
+<div className="col-sm-4 d-flex flex-column align-items-center">
+  <p
+    style={{
+      fontSize: 12,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+    }}
+  >
+    Mobile no.
+  </p>
+  <p
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy, sans-serif",
+    }}
+  >
+     {v.mob_no}
+  </p>
+</div>
+<div className="col-sm-4 d-flex flex-column align-items-end">
+  <p
+    style={{
+      fontSize: 12,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+    }}
+  >
+    Guardian
+  </p>
+  <p
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy, sans-serif",
+    }}
+  >
+    {v.guardian}
+  </p>
+</div>
+</div>
 
-    <div className="row">
-      <div className="col-sm-12">
-        <p
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          Address
-        </p>
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            fontFamily: "Gilroy, sans-serif",
-          }}
-        >
-          {/* {contactDetails.address || "N/A"} */}
-        </p>
-      </div>
-    </div>
-  </div>
+<div className="row">
+<div className="col-sm-12">
+  <p
+    style={{
+      fontSize: 12,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+    }}
+  >
+    Address
+  </p>
+  <p
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy, sans-serif",
+    }}
+  >
+    {v.address}
+  </p>
+</div>
+</div>
+        </>
+        )
+      })
+
+    }
+   
+  </div> */}
+  <div className="card-body">
+  {state?.UsersList?.customerdetails?.contact_details?.length > 0 ? (
+    state.UsersList.customerdetails.contact_details.map((v, index) => {
+      return (
+        <React.Fragment key={index}>
+          <p>
+            Contact Info{" "}
+            <img src={editliner} alt="Edit Icon" width={15} height={15} />
+          </p>
+
+          <div className="row mb-3">
+            <div className="col-sm-4 d-flex flex-column align-items-start">
+              <p
+                style={{
+                  fontSize: 12,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy, sans-serif",
+                }}
+              >
+                Contact Name
+              </p>
+              <p
+                style={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  fontFamily: "Gilroy, sans-serif",
+                }}
+              >
+                {v.user_name}
+              </p>
+            </div>
+            <div className="col-sm-4 d-flex flex-column align-items-center">
+              <p
+                style={{
+                  fontSize: 12,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy, sans-serif",
+                }}
+              >
+                Mobile no.
+              </p>
+              <p
+                style={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  fontFamily: "Gilroy, sans-serif",
+                }}
+              >
+                {v.mob_no}
+              </p>
+            </div>
+            <div className="col-sm-4 d-flex flex-column align-items-end">
+              <p
+                style={{
+                  fontSize: 12,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy, sans-serif",
+                }}
+              >
+                Guardian
+              </p>
+              <p
+                style={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  fontFamily: "Gilroy, sans-serif",
+                }}
+              >
+                {v.guardian}
+              </p>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-sm-12">
+              <p
+                style={{
+                  fontSize: 12,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy, sans-serif",
+                }}
+              >
+                Address
+              </p>
+              <p
+                style={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  fontFamily: "Gilroy, sans-serif",
+                }}
+              >
+                {v.address}
+              </p>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    })
+  ) : (
+    <p>No data available</p>
+  )}
+</div>
+
 </div>
 
 </div>
@@ -1967,12 +2121,12 @@ const handleFileChange = (e, type) => {
 
 {
   kycdetailsForm == true ? (
-<UserListKyc kycdetailsForm={kycdetailsForm} setKycDetailForm={setKycDetailForm}/>
+<UserListKyc kycdetailsForm={kycdetailsForm} setKycDetailForm={setKycDetailForm} kycuserDetails={kycuserDetails}/>
   ) :null
 }
 {
   additionalForm == true ? (
-<UserAdditionalContact additionalForm={additionalForm} setAdditionalForm={setAdditionalForm}/>
+<UserAdditionalContact additionalForm={additionalForm} setAdditionalForm={setAdditionalForm} contactList={contactList} id={props.id}/>
   ) :null
 }
   

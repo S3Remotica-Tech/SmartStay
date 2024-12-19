@@ -71,9 +71,12 @@ const initialState = {
     getStatusCodeForHostelBased:0,
     deleteHostelBasedReading:[],
     statusCodeForDeleteHostelBased:0,
+    dateAlready:'',
+    editDateAlready:''
 
 
 }
+
 const PgListReducer = (state = initialState, action) => {
     console.log("action.payload", action.payload);
     switch (action.type) {
@@ -330,9 +333,19 @@ case "ADD_HOSTEL_BASED":
 
 // ///////////////////////////////////////////////
 
+case 'SAME_DATE_ALREADY':
+    return { ...state,dateAlready: action.payload.response}
+
+case 'CLEAR_SAME_DATE_ALREADY':
+    return { ...state, dateAlready: ''}
 
 
 
+    case 'EDIT_SAME_DATE_ALREADY':
+    return { ...state,editDateAlready: action.payload.response}
+
+case 'CLEAR_EDIT_SAME_DATE_ALREADY':
+    return { ...state, editDateAlready: ''}
         //         case 'ROOM_COUNT':
         // console.log("action.payload.response",action.payload.response)
         //             if (state.roomCount.length > 0) {

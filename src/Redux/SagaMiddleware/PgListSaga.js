@@ -252,7 +252,7 @@ function* handleCreateEB(action) {
       progress: undefined,
       style: toastStyle,
     });
-  } else {
+  } else if(response.data.statusCode === 201) {
     yield put({ type: "EB_ERROR", payload: response.data.message });
   }
   if (response) {
@@ -657,7 +657,7 @@ function* handleEditElectricity(action) {
     });
   }
 
-  else {
+  else if(response.data.statusCode === 201){
      yield put ({type:'ERROR_EDIT_ELECTRICITY', payload:response.data.message})
   }
   if(response){
@@ -784,8 +784,8 @@ function* handleAddHostelElectricity(action) {
   };
 
   console.log("handleAddHostelElectricity",response)
-  if (response.data.status === 200 || response.data.statusCode === 200){
-     yield put ({type : 'ADD_HOSTEL_BASED' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+  if (response.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'ADD_HOSTEL_BASED' , payload:{response:response.data, statusCode:response.status || response.data.statusCode}})
      toast.success(`${response.data.message}`, {
        position: "bottom-center",
        autoClose: 2000,
@@ -799,9 +799,9 @@ function* handleAddHostelElectricity(action) {
     });
   }
 
-  else {
-     yield put ({type:'ERROR', payload:response.data.message})
-  }
+  else if(response.data.statusCode === 201){
+    yield put({ type: 'SAME_DATE_ALREADY', payload: {response:response.data.message}})
+ }
   if(response){
      refreshToken(response)
   }
@@ -842,9 +842,9 @@ function* handleHostelEditElectricity(action) {
     });
   }
 
-  else {
-     yield put ({type:'ERROR', payload:response.data.message})
-  }
+  else if(response.data.statusCode === 201){
+    yield put({ type: 'EDIT_SAME_DATE_ALREADY', payload: {response:response.data.message}})
+ }
   if(response){
      refreshToken(response)
   }
@@ -884,7 +884,6 @@ function* handleHostelDeleteElectricity(action) {
        style: toastStyle,
     });
   }
-
   else {
      yield put ({type:'ERROR', payload:response.data.message})
   }

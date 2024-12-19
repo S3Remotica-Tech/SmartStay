@@ -214,14 +214,14 @@ useEffect(()=>{
   }, [compliancerolePermission]);
 
   useEffect(() => {
-    dispatch({ type: 'COMPLIANCE-LIST' })
+    dispatch({ type: 'COMPLIANCE-LIST', payload:{hostel_id:allPageHostel_Id} })
     dispatch({ type: 'USERLIST' });
-  }, [])
+  }, [allPageHostel_Id])
 
   useEffect(() => {
     // Run whenever there's an update in statusCodeForAddCompliance or filterInput
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
-      dispatch({ type: 'COMPLIANCE-LIST' });
+      dispatch({ type: 'COMPLIANCE-LIST', payload:{hostel_id:allPageHostel_Id} });
   
       setTimeout(() => {
         dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' });
