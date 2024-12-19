@@ -62,7 +62,10 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Edit, Trash } f
 import SettingAllPages from '../Pages/SettingAllPages';
 import hostelimage from '../Assets/Images/New_images/hostelImage.png';
 import Profile from "../Assets/Images/New_images/profile-picture.png";
-
+import sidebarOne from '../Assets/Images/sidebariconOne.svg';
+import sidebarTwo from '../Assets/Images/sidebariconTwo.svg';
+import sidebarThree from '../Assets/Images/sidebariconThree.svg';
+import sidebarFour from '../Assets/Images/sidebariconFour.svg';
 
 
 function Sidebar() {
@@ -400,7 +403,7 @@ console.log("allPageHostel_Id",allPageHostel_Id)
                     />
                   </span>
                 </li> */}
-<li
+{/* <li
   className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`}
   onClick={toggleDropdown}
   style={{
@@ -416,6 +419,88 @@ console.log("allPageHostel_Id",allPageHostel_Id)
       selectedProfileImage && selectedProfileImage !== "0" && selectedProfileImage !== ""
         ? selectedProfileImage
         : hostelimage 
+    }
+    style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8 }}
+    alt="Selected Profile"
+  />
+  <span
+    className="Title"
+    style={{ fontSize: 14, fontWeight: 600, display: 'inline-block', fontFamily: 'Gilroy' }}
+  >
+    {payingGuestName}
+  </span>
+  <span className="ms-auto">
+    {isDropdownOpen ? (
+      <ArrowUp2 size="16" color="#4B4B4B" />
+    ) : (
+      <ArrowDown2 size="16" color="#4B4B4B" />
+    )}
+  </span>
+
+  {isDropdownOpen && (
+    <div
+      style={{
+        position: 'absolute',
+        top: '100%', 
+        left: 0,
+        backgroundColor: 'white',
+        boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
+        padding: '5px 0',
+        borderRadius: '4px',
+        width: '100%',
+        zIndex: 10,
+      }}
+    >
+      <ul style={{ margin: 0, padding: 0 }}>
+        {state.UsersList?.hostelList?.map((item) => (
+          <li
+            key={item.id}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '8px 12px',
+              cursor: 'pointer',
+              color: '#007bff',
+            }}
+            onClick={() => handleHostelId(item.id, item.Name, item.profile)} 
+          >
+
+            <img
+              src={
+                item.profile && item.profile !== "0" && item.profile !== ""
+                  ? item.profile
+                  : Profile
+              }
+              style={{
+                height: 25,
+                width: 25,
+                borderRadius: '50%',
+                marginRight: 8,
+              }}
+              alt={item.Name || "Default Profile"}
+            />
+            {item.Name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</li> */}
+<li
+  className={`align-items-center list-Item ${currentPage === 'settingNewDesign' ? 'active' : ''}`}
+  onClick={toggleDropdown}
+  style={{
+    listStyleType: 'none',
+    display: 'flex',
+    position: 'relative',
+    cursor: 'pointer',
+  }}
+>
+  <img
+    src={
+      selectedProfileImage && selectedProfileImage !== "0" && selectedProfileImage !== ""
+        ? selectedProfileImage
+        : hostelimage
     }
     style={{ height: 25, width: 25, borderRadius: '50%', marginRight: 8 }}
     alt="Selected Profile"
@@ -450,36 +535,48 @@ console.log("allPageHostel_Id",allPageHostel_Id)
       }}
     >
       <ul style={{ margin: 0, padding: 0 }}>
-        {state.UsersList?.hostelList?.map((item) => (
-          <li
-            key={item.id}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              padding: '8px 12px',
-              cursor: 'pointer',
-              color: '#007bff',
-            }}
-            onClick={() => handleHostelId(item.id, item.Name, item.profile)} // Pass profile image as well
-          >
-            {/* Profile Image with fallback */}
-            <img
-              src={
-                item.profile && item.profile !== "0" && item.profile !== ""
-                  ? item.profile
-                  : Profile
-              }
+        {state.UsersList?.hostelList && state.UsersList?.hostelList.length > 0 ? (
+          state.UsersList.hostelList.map((item) => (
+            <li
+              key={item.id}
               style={{
-                height: 25,
-                width: 25,
-                borderRadius: '50%',
-                marginRight: 8,
+                display: 'flex',
+                alignItems: 'center',
+                padding: '8px 12px',
+                cursor: 'pointer',
+                color: '#007bff',
               }}
-              alt={item.Name || "Default Profile"}
-            />
-            {item.Name}
+              onClick={() => handleHostelId(item.id, item.Name, item.profile)} // Pass profile image as well
+            >
+              {/* Profile Image with fallback */}
+              <img
+                src={
+                  item.profile && item.profile !== "0" && item.profile !== ""
+                    ? item.profile
+                    : Profile
+                }
+                style={{
+                  height: 25,
+                  width: 25,
+                  borderRadius: '50%',
+                  marginRight: 8,
+                }}
+                alt={item.Name || "Default Profile"}
+              />
+              {item.Name}
+            </li>
+          ))
+        ) : (
+          <li
+            style={{
+              padding: '8px 12px',
+              textAlign: 'center',
+              color: '#6c757d', 
+            }}
+          >
+            No hostel available
           </li>
-        ))}
+        )}
       </ul>
     </div>
   )}
@@ -488,7 +585,13 @@ console.log("allPageHostel_Id",allPageHostel_Id)
 
 
               
-              <ul className="p-0" style={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
+              <ul className="first p-0" style={{ display: "flex", flexDirection: "column", alignItems: "start" ,position:"relative",
+                maxHeight: manageOpen ? "300px" : "unset", 
+                overflowY: manageOpen ? "auto" : "hidden", 
+                scrollbarWidth: 'thin', 
+                 
+                
+              }}>
                 <li className={`align-items-center list-Item ${currentPage === 'dashboard' ? 'active' : ''}`} onClick={() => handlePageClick('dashboard')} style={{ listStyleType: "none", display: "flex", }}>
                   {/* <div className='d-flex  align-items-center justify-content-between' > */}
                     <img src={currentPage === 'dashboard' ? Dash2 : Dash} style={{ height: 20, width: 20 }} />
@@ -497,8 +600,9 @@ console.log("allPageHostel_Id",allPageHostel_Id)
                 </li>
 
 
-
-                <li className={`align-items-center list-Item ${currentPage === 'manage' ? 'active' : ''}`} onClick={() => setManageOpen(!manageOpen)} style={{ listStyleType: "none", display: "flex" }}>
+{/* manage */}
+                <li className={`align-items-center list-Item ${currentPage === 'manage' ? 'active' : ''}`}
+                 onClick={() => setManageOpen(!manageOpen)} style={{ listStyleType: "none", display: "flex" ,position: "relative" }}>
                   <img src={Manage} style={{ height: 20, width: 20 }} />
                   <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Manage</span>
                   <span className="ms-auto ">{manageOpen ?
@@ -515,7 +619,9 @@ console.log("allPageHostel_Id",allPageHostel_Id)
 
 
                 {manageOpen && (
-                  <ul className="p-1"style={{marginLeft:10}}>
+                  <ul className="p-1" style={{ marginLeft: 10, zIndex: 1, position: "relative",
+                    // marginTop: manageOpen ? "20px" : "0px",
+                  }}>
                     <li className={` align-items-center list-sub-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", display: "flex" }}>
                       <img src={currentPage === 'pg-list' ? Paying2 : Paying} style={{ height: 20, width: 20 }} />
                       <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Paying Guest</span>
@@ -542,14 +648,6 @@ console.log("allPageHostel_Id",allPageHostel_Id)
 <img src={currentPage === 'banking' ? bank : bankblank} style={{ height: 20, width: 20 }} />
 
 <span className="Title" style={{ fontSize: 14, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy" }}>Banking</span></li>
-
-
-
-
-
-
-
-
 
                 {/* <li className={`p-2 mb-2 align-items-center list-Item ${currentPage === 'pg-list' ? 'active' : ''}`} onClick={() => handlePageClick('pg-list')} style={{ listStyleType: "none", position: "", display: "flex" }}>
 
@@ -606,13 +704,8 @@ console.log("allPageHostel_Id",allPageHostel_Id)
 
 
               </ul>
-
-
-
-
-
-            </div>
-            <ul className="p-0" style={{ position: "absolute", bottom: 0, left: 10, display: "flex", flexDirection: "column", alignItems: "center" }}>
+</div>
+            <ul className="second p-0" style={{ position: "absolute", bottom: 0, left: 10, display: "flex", flexDirection: "column", alignItems: "center" }}>
               <li className={` align-items-center list-Items ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageClick('profile')} style={{ listStyleType: "none", display: "flex", width: 200 }}>
                 <div className="mr-3" style={{ cursor: "pointer" }}>
                   <Image
@@ -625,9 +718,18 @@ console.log("allPageHostel_Id",allPageHostel_Id)
                   <span className="ms-3 Title" style={{ fontSize: 12, fontWeight: 600, display: "inline-block", fontFamily: "Gilroy", color: 'blue' }}>Admin</span>
                 </div>
 
+
               </li>
+              <p style={{border:" 1px solid white"}}></p>
+              <div style={{display: 'flex', flexDirection: 'row',gap:30}}>
+  <img src={sidebarOne}/>
+  <img src={sidebarTwo}/>
+  <img src={sidebarThree}/>
+  <img src={sidebarFour}/>
+</div>            
+ 
             </ul>
-            
+
  
 
 
