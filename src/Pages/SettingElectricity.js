@@ -5,6 +5,7 @@ import { Container, Row, Col, Card, Form, Button, InputGroup, FormControl } from
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
 import SettingsElectricityTable from './SettingsElectricityTable';
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 const SettingElectricity = ({ hostelid }) => {
 
@@ -123,102 +124,132 @@ const SettingElectricity = ({ hostelid }) => {
         </Col>
         <Col className="d-flex justify-content-end">
           <Button style={{ backgroundColor: "#1E45E1" }} onClick={handleShowFormElectricity}>
-            + Add Electricity
+            + Add Electricity 
           </Button>
         </Col>
       </div>
+
       {
         tableShow ?
           <SettingsElectricityTable hostelid={hostelid} />
           :
           <>
-            {
-              state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.map((v, i) => {
-                return (
-                  <Row>
-                    <Col lg={8} md={12} sm={12}>
-                      <Card className="p-2 border" style={{ borderRadius: 16 }}>
-                        <Card.Body>
-                          <div className='d-flex flex-wrap justify-content-between align-items-center mb-4'>
-                            <h4 style={{
-                              fontSize: 18,
-                              color: "#000000",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                            }}>Electricity Information</h4>
-                            <img src={round} width="30" height="30" alt="icon" />
-                          </div>
-                          <hr />
-                          <Form>
-                            <Row className="mb-3">
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Per unit Amount</Form.Label>
-                                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>₹ {v.amount}</h6>
-                                {/* <InputGroup>
-                      <InputGroup.Text>₹</InputGroup.Text>
-                      <Form.Control type="text" value="1,500" disabled />
-                    </InputGroup> */}
-                              </Col>
 
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Room Based Calculation</Form.Label>
-                                <Form.Check
-                                  type="switch"
-                                  id="roomBased"
-                                  label="Enabled"
-                                  checked={v.room_based === 1}
-                                  // checked={roomBasedCalculation}
-                                  onChange={() => setRoomBasedCalculation(!roomBasedCalculation)}
-                                />
-                              </Col>
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Hostel Based Calculation</Form.Label>
-                                <Form.Check
-                                  type="switch"
-                                  id="hostelBased"
-                                  label="Enabled"
-                                  checked={v.hostel_based === 1}
-                                  // checked={hostelBasedCalculation}
-                                  onChange={() => setHostelBasedCalculation(!hostelBasedCalculation)}
-                                />
-                              </Col>
-                            </Row>
+{
+  state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.length > 0 ? (
+    state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.map((v, i) => {
+      return (
+        <Row>
+          <Col lg={8} md={12} sm={12}>
+            <Card className="p-2 border" style={{ borderRadius: 16 }}>
+              <Card.Body>
+                <div className='d-flex flex-wrap justify-content-between align-items-center mb-4'>
+                  <h4 style={{
+                    fontSize: 18,
+                    color: "#000000",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                  }}>Electricity Information</h4>
+                  <img src={round} width="30" height="30" alt="icon" />
+                </div>
+                <hr />
+                <Form>
+                  <Row className="mb-3">
+                    <Col>
+                      <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Per unit Amount</Form.Label>
+                      <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>₹ {v.amount}</h6>
+                      {/* <InputGroup>
+            <InputGroup.Text>₹</InputGroup.Text>
+            <Form.Control type="text" value="1,500" disabled />
+          </InputGroup> */}
+                    </Col>
 
-                            <Row className="mb-3">
-                              <Col md={6}>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Recurring</Form.Label>
-                                <Form.Check
-                                  type="switch"
-                                  id="recurring"
-                                  label="Recurring"
-                                  checked={isRecurring}
-                                  onChange={() => handleRecurringFormShow()}
-                                />
-                              </Col>
-                            </Row>
-
-                            <Row className="mb-3">
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Calculation Type</Form.Label>
-                                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Monthly</h6>
-                              </Col>
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Calculation Start Day</Form.Label>
-                                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{v.start_date}</h6>
-                              </Col>
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Calculation End Day</Form.Label>
-                                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{v.end_date}</h6>
-                              </Col>
-                            </Row>
-                          </Form>
-                        </Card.Body>
-                      </Card>
+                    <Col>
+                      <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Room Based Calculation</Form.Label>
+                      <Form.Check
+                        type="switch"
+                        id="roomBased"
+                        label="Enabled"
+                        checked={v.room_based === 1}
+                        // checked={roomBasedCalculation}
+                        onChange={() => setRoomBasedCalculation(!roomBasedCalculation)}
+                      />
+                    </Col>
+                    <Col>
+                      <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Hostel Based Calculation</Form.Label>
+                      <Form.Check
+                        type="switch"
+                        id="hostelBased"
+                        label="Enabled"
+                        checked={v.hostel_based === 1}
+                        // checked={hostelBasedCalculation}
+                        onChange={() => setHostelBasedCalculation(!hostelBasedCalculation)}
+                      />
                     </Col>
                   </Row>
-                )
-              })
-            }
+
+                  <Row className="mb-3">
+                    <Col md={6}>
+                      <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Recurring</Form.Label>
+                      <Form.Check
+                        type="switch"
+                        id="recurring"
+                        label="Recurring"
+                        checked={isRecurring}
+                        onChange={() => handleRecurringFormShow()}
+                      />
+                    </Col>
+                  </Row>
+
+                  <Row className="mb-3">
+                    <Col>
+                      <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Calculation Type</Form.Label>
+                      <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Monthly</h6>
+                    </Col>
+                    <Col>
+                      <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Calculation Start Day</Form.Label>
+                      <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{v.start_date}</h6>
+                    </Col>
+                    <Col>
+                      <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Calculation End Day</Form.Label>
+                      <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{v.end_date}</h6>
+                    </Col>
+                  </Row>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      )
+    })
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <img
+          src={EmptyState}
+          style={{ height: 240, width: 240 }}
+          alt="Empty state"
+        />
+      </div>
+      <div
+        className="pb-1 mt-3"
+        style={{
+          textAlign: "center",
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          fontSize: 20,
+          color: "rgba(75, 75, 75, 1)",
+        }}
+      >
+        No Amenities available
+      </div>
+    </div>
+  )
+}
+
+
+
+
           </>
       }
 
