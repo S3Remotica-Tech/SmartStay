@@ -172,6 +172,9 @@ line-height: normal;
   max-height: 5px !important;
 }
 
+
+
+
 @media (max-width: 767px) {
   /* Hide scrollbar on small and extra-small screens */
   .show-scroll {

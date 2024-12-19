@@ -64,8 +64,8 @@ function* handleAddBooking(action) {
 
 
 
- function* handleGetBooking() {
-   const response = yield call(GetAddBooking)
+ function* handleGetBooking(action) {
+   const response = yield call(GetAddBooking, action.payload)
    console.log("response.....///",response)
    
    if (response.status === 200 || response.statusCode === 200) {

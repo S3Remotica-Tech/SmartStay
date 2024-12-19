@@ -781,8 +781,8 @@ function* handleCountrylist() {
 }
 
 
-function* handleGetWalkInCustomer() {
-   const response = yield call(getWalkInCustomer);
+function* handleGetWalkInCustomer(action) {
+   const response = yield call(getWalkInCustomer, action.payload);
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'WALK_IN_CUSTOMER_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
@@ -931,6 +931,8 @@ function* handleAddCheckoutCustomer(action) {
    } else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: response.data.message })
    }
+
+
 
    if (response) {
       refreshToken(response)

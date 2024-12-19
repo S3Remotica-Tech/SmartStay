@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { StoreSelectedHostelAction } from '../Redux/Action/smartStayAction';
 import '../Components/Sidebar.css'
 import Dashboards from '../Pages/Dashboard';
 import PgLists from '../Pages/PgList';
@@ -348,12 +349,32 @@ console.log("allPageHostel_Id",allPageHostel_Id)
     console.log("Selected Hostel ID:", id);
     setPayingGuestName(name); 
     setAllPageHostel_Id(id);  
+
+    
+
+
     setIsDropdownOpen(false);
     setSelectedProfileImage(
       profile && profile !== "0" && profile !== "" ? profile : Profile
     );
     handlePageClick('settingNewDesign');
   };
+
+
+
+
+useEffect(()=>{
+  if(allPageHostel_Id){
+    dispatch(StoreSelectedHostelAction(allPageHostel_Id))
+  }
+
+},[allPageHostel_Id])
+
+
+
+
+
+
   const [isInitialized, setIsInitialized] = useState(false); 
 
   useEffect(() => {
@@ -585,10 +606,10 @@ console.log("allPageHostel_Id",allPageHostel_Id)
 
 
               
-              <ul className="first p-0" style={{ display: "flex", flexDirection: "column", alignItems: "start" ,position:"relative",
-                maxHeight: manageOpen ? "300px" : "unset", 
+              <ul className="first p-0 show-scrolls" style={{ display: "flex", flexDirection: "column", alignItems: "start" ,position:"relative",
+                maxHeight: manageOpen ? "400px" : "unset", 
                 overflowY: manageOpen ? "auto" : "hidden", 
-                scrollbarWidth: 'thin', 
+                 
                  
                 
               }}>
@@ -797,7 +818,7 @@ console.log("allPageHostel_Id",allPageHostel_Id)
             {currentPage === 'invoice' && < Invoices allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'vendor' && < VendorComponent allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'compliance' && < Compliances allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
-            {currentPage === 'asset' && < Assets allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
+            {currentPage === 'asset' && < Assets allPageHostel_Id={allPageHostel_Id} />}
             {currentPage === 'reports' && < Report allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'settings' && < Setting allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}
             {currentPage === 'eb' && <  EbHostel allPageHostel_Id={allPageHostel_Id} setAllPageHostel_Id={setAllPageHostel_Id}/>}

@@ -99,13 +99,13 @@ function CheckOut(props) {
   }, [props.customerrolePermission]);
 
   useEffect(() => {
-    dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: props.uniqueostel_Id }});
+    dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: state.login.selectedHostel_Id }});
   }, []);
 
   useEffect(()=> {
       if(state.UsersList.statusCodeAddConfirmCheckout === 200){
         checkoutcloseModal()
-        dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: props.uniqueostel_Id }});
+        dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: state.login.selectedHostel_Id }});
         setTimeout(()=>{   
           dispatch({type:"CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER"})
         },1000)
@@ -127,7 +127,7 @@ function CheckOut(props) {
       state.UsersList.addCheckoutCustomerStatusCode == 200 ||
       state.UsersList.deleteCheckoutCustomerStatusCode == 200
     ) {
-      dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: props.uniqueostel_Id } });
+      dispatch({ type: "CHECKOUTCUSTOMERLIST" , payload: { hostel_id: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
       setModalType(null);
       setTimeout(() => {

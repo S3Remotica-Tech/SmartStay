@@ -46,8 +46,9 @@ export async function AddBooking(datum) {
 }
 
 
-  export async function GetAddBooking() {
-    return await AxiosConfig.get('/all_bookings',{
+  export async function GetAddBooking(booking) {
+    return await AxiosConfig.post('/all_bookings',booking, {
+      data:booking
     })
   }
   export async function DeleteBooking(datum) {

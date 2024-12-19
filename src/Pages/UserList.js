@@ -110,10 +110,12 @@ function UserList(props) {
   }, [props.allPageHostel_Id]);
 
 
+
+
   useEffect(() => {
     setLoading(true);
-    dispatch({ type: "USERLIST",payload:{hostel_id:uniqueostel_Id} });
-  }, [uniqueostel_Id]);
+    dispatch({ type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+  }, []);
 
   const handleCustomerReAssign=(reuser)=>{
     console.log("reuser",reuser)
@@ -220,12 +222,12 @@ function UserList(props) {
   }, [customerrolePermission]);
 
   useEffect(() => {
-    dispatch({ type: "GET_BOOKING_LIST" });
+    dispatch({ type: "GET_BOOKING_LIST" , payload :{ hostel_id: state.login.selectedHostel_Id }});
   }, []);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      dispatch({ type: "GET_BOOKING_LIST" });
+      dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 200);
@@ -1093,7 +1095,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      dispatch({ type: "GET_BOOKING_LIST" });
+      dispatch({ type: "GET_BOOKING_LIST" , payload :{ hostel_id: state.login.selectedHostel_Id }});
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 200);
@@ -2623,6 +2625,7 @@ useEffect(() => {
                     )}
                   </div>
                 )}
+
 
 
 
