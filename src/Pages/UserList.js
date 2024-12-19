@@ -78,10 +78,7 @@ function UserList(props) {
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  useEffect(() => {
-    setLoading(true);
-    dispatch({ type: "USERLIST" });
-  }, []);
+  
 
   const [showLoader, setShowLoader] = useState(false);
   const [selectedItems, setSelectedItems] = useState("");
@@ -111,6 +108,12 @@ function UserList(props) {
     console.log("uniqueHostelId:", props.allPageHostel_Id);
     setUniqostel_Id(props.allPageHostel_Id);
   }, [props.allPageHostel_Id]);
+
+
+  useEffect(() => {
+    setLoading(true);
+    dispatch({ type: "USERLIST",payload:{hostel_id:uniqueostel_Id} });
+  }, [uniqueostel_Id]);
 
   const handleCustomerReAssign=(reuser)=>{
     console.log("reuser",reuser)
@@ -643,7 +646,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: "USERLIST" });
+      dispatch({ type: "USERLIST",payload:{hostel_id:uniqueostel_Id} });
 
       setHostelIds(propsHostel);
       setBedIds(propsBeds);

@@ -1,4 +1,3 @@
-import { exportDetails } from "../Action/UserListAction";
 
 const initialState = {
     Users: [],
@@ -75,6 +74,13 @@ const initialState = {
     GetconfirmcheckoutBillDetails:[],
     GetconfirmcheckoutUserDetails:'',
     statusCodeAddConfirmCheckout:0,
+    reassignbeddetails:[],
+    statusCodeForReassinBed:0,
+    statusCodeForCustomerCoatact:0,
+    customerContact:[],
+    customerAllDetails:[],
+    statusCodeForCustomerAllDetails:0
+
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -352,6 +358,34 @@ case 'AVAILABLE_CHECK_OUT_CUSTOMER' : {
             return { ...state, statusCodeAddConfirmCheckout: action.payload.statusCode};
         case "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER":
             return { ...state, statusCodeAddConfirmCheckout: 0 };
+
+
+            case "REASSIGN_BED":
+                return {
+                  ...state,
+                  reassignbeddetails: action.payload,
+                  statusCodeForReassinBed: action.payload.statusCode,
+                };
+              case "CLEAR_REASSIGN_BED":
+                return { ...state, statusCodeForReassinBed: 0 };
+
+                case "CUSTOMER_ADD_CONTACT":
+                    return {
+                      ...state,
+                      customerContact: action.payload,
+                      statusCodeForCustomerCoatact: action.payload.statusCode,
+                    };
+                  case "CLEAR_CUSTOMER_ADD_CONTACT":
+                    return { ...state, statusCodeForCustomerCoatact: 0 };
+                    case "CUSTOMER_ALL_DETAILS":
+                        return {
+                          ...state,
+                          customerAllDetails: action.payload.response,
+                          statusCodeForCustomerAllDetails: action.payload.statusCode,
+                        };
+                      case "CLEAR_CUSTOMER_ALL_DETAILS":
+                        return { ...state, statusCodeForCustomerAllDetails: 0 };
+
     }
     return state;
 }
