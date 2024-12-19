@@ -524,7 +524,7 @@ console.log("allPageHostel_Id",allPageHostel_Id)
     <div
       style={{
         position: 'absolute',
-        top: '100%', // Position it just below the parent item
+        top: '100%', 
         left: 0,
         backgroundColor: 'white',
         boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
