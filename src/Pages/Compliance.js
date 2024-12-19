@@ -762,7 +762,7 @@ console.log("state.Settings.Complainttypelist.complaint_types",state.Settings.Co
     setComplainttypelist(state.Settings.Complainttypelist)
 
 
-  }, [state.Settings.Complainttypelist.complaint_types])
+  }, [state.Settings.Complainttypelist])
 
 
   useEffect(() => {
