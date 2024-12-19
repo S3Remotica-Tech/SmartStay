@@ -366,7 +366,7 @@ const handleSubmit = () => {
       l_name: lastName,
       joining_date: formattedDate,
       amount:amount,
-      hostel_id: hostalId,
+      hostel_id: state.login.selectedHostel_Id,
       mob_no: MobileNumber,
       email_id: Email,
       address: Address,
@@ -533,7 +533,7 @@ const handleSubmit = () => {
       dispatch({type:"CLEAR_EMAIL_ERROR"})
       dispatch({type:"CLEAR_PHONE_ERROR"})
       handleAddClose()
-      dispatch({ type:"GET_BOOKING_LIST" });
+      dispatch({ type:"GET_BOOKING_LIST",  payload:{ hostel_id: state.login.selectedHostel_Id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);

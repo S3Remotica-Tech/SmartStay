@@ -6,13 +6,12 @@ import { toast } from 'react-toastify';
 
 
 
-function* handleGetAsset() {
-   const response = yield call(GetAsset);
+function* handleGetAsset(action) {
+   console.log("asset action", action)
+   const response = yield call(GetAsset, action.payload);
    console.log("response for get", response.status)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
-
-
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

@@ -264,6 +264,7 @@ function CustomerForm({ show, handleClose, initialData, modalType }) {
                 payload: {
                     customer_Name: name,
                     email_Id: email,
+                    hostel_id: state.login.selectedHostel_Id,
                     mobile_Number: Mobile_Number,
                     walk_In_Date: formattedDate,
                     comments: comments,

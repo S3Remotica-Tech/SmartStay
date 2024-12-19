@@ -354,7 +354,7 @@ const handleSubmit = (event) => {
       floor: floor,
       room: room,
       bed: bed,
-      hostel_id:props.assignBooking.hostel_id,
+      hostel_id:state.login.selectedHostel_Id,
       
       join_date: formattedDate,
       ad_amount: Advanceamount,
@@ -383,8 +383,8 @@ console.log("Booking ID:", props.assignBooking.id);
   useEffect(()=>{
     if(state.Booking.statusCodeForAssignBooking === 200){
       handleAssignClose()
-      dispatch({ type: "USERLIST"});
-      dispatch({ type: "GET_BOOKING_LIST" });
+      dispatch({ type: "USERLIST", payload:{ hostel_id: state.login.selectedHostel_Id}});
+      dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id}});
 
     }
 

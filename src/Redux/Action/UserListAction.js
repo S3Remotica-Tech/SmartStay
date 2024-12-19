@@ -170,8 +170,9 @@ export async function countrylist() {
 
 
 
-export async function getWalkInCustomer() {
-  return await AxiosConfig.get('/get_walkin-customer',{
+export async function getWalkInCustomer(walk) {
+  return await AxiosConfig.post('/get_walkin-customer',walk,{
+    data:walk
   })
 }
 
@@ -214,6 +215,8 @@ export async function AddCheckOutCustomer(checkout) {
     data:checkout
   })
 }
+
+
 
 export async function GetConfirmCheckOut(checkout) {
   return await AxiosConfig.post('/get/confirm_checkout',checkout,{

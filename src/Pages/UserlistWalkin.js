@@ -102,7 +102,7 @@ function UserlistWalkin(props) {
     const [walkInCustomer, setWalkInCustomer] = useState([])
 
     useEffect(() => {
-        dispatch({ type: 'WALKINCUSTOMERLIST' })
+        dispatch({ type: 'WALKINCUSTOMERLIST', payload:{hostel_id: state.login.selectedHostel_Id  } })
     }, [])
 
 
@@ -133,7 +133,7 @@ function UserlistWalkin(props) {
 
     useEffect(() => {
         if (state.UsersList.addWalkInCustomerStatusCode == 200 || state.UsersList.deleteWalkInCustomerStatusCode == 200) {
-            dispatch({ type: 'WALKINCUSTOMERLIST' })
+            dispatch({ type: 'WALKINCUSTOMERLIST',payload:{hostel_id: state.login.selectedHostel_Id  } })
 
             setShowForm(false);
 

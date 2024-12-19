@@ -15,12 +15,15 @@ const initialState = {
    JWTtoken:'',
    Notification:[],
    UpdateNotificationMessage:'',
-   twoStepOtpError: ''
+   twoStepOtpError: '',
+   selectedHostel_Id: ''
    
 }
 const SmartStayReducer = (state = initialState, action) => {
 
    switch (action.type) {
+      case "STORE_HOSTEL_DATA": 
+      return { ...state, selectedHostel_Id: action.payload }; 
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
       case 'LOGIN-INFO':
