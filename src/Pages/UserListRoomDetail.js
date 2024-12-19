@@ -44,10 +44,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import editliner from "../Assets/Images/Edit-Linear-32px.png";
 import upload from "../Assets/Images/New_images/upload.png";
-
 import UserListKyc from "./UserListKyc";
-
-
 import UserAdditionalContact from "./UserAdditionalContact";
 
 function UserListRoomDetail(props) {
@@ -107,6 +104,8 @@ function UserListRoomDetail(props) {
   const [kycuserDetails, setkycuserDetails] = useState('')
   const [contactList, setContactList] = useState('')
   const [contactDetails,setContactDetails] = useState('')
+  const [contactEdit,setContactEdit] = useState("")
+  const [editAdditional,setEditAdditional]=useState(false)
 
 
 useEffect(()=>{
@@ -123,12 +122,18 @@ useEffect(()=>{
   }
 },[state.UsersList.statusCodeForCustomerAllDetails])
 
-
+const handleContactEdit=(u)=>{
+  setEditAdditional(true)
+console.log("vvvvvvvvvvvv//",u)
+setContactEdit(u)
+setAdditionalForm(true)
+}
   const handleKycdetailsForm =(item)=>{
     setkycuserDetails(item)
     setKycDetailForm(true)
   }
   const handleAdditionalForm =()=>{
+    setEditAdditional(false)
     setAdditionalForm(true)
   }
 
@@ -1973,7 +1978,7 @@ const handleFileChange = (e, type) => {
         <React.Fragment key={index}>
           <p>
             Contact Info{" "}
-            <img src={editliner} alt="Edit Icon" width={15} height={15} />
+            <img src={editliner} alt="Edit Icon" width={15} height={15}  onClick={()=>handleContactEdit(v)}/>
           </p>
 
           <div className="row mb-3">
@@ -2014,7 +2019,14 @@ const handleFileChange = (e, type) => {
                   fontFamily: "Gilroy, sans-serif",
                 }}
               >
-                {v.mob_no}
+                  +
+                                        {v &&
+                                          String(v.mob_no).slice(
+                                            0,
+                                            String(v.mob_no).length - 10
+                                          )}{" "}
+                                        {v && String(v.mob_no).slice(-10)}
+                {/* {v.mob_no} */}
               </p>
             </div>
             <div className="col-sm-4 d-flex flex-column align-items-end">
@@ -2083,7 +2095,7 @@ const handleFileChange = (e, type) => {
 }
 {
   additionalForm == true ? (
-<UserAdditionalContact additionalForm={additionalForm} setAdditionalForm={setAdditionalForm} contactList={contactList} id={props.id}/>
+<UserAdditionalContact additionalForm={additionalForm} setAdditionalForm={setAdditionalForm} contactList={contactList} id={props.id} contactEdit={contactEdit} editAdditional={editAdditional} setEditAdditional={setEditAdditional}/>
   ) :null
 }
   
