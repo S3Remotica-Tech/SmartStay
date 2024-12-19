@@ -905,7 +905,6 @@ setAdditionalForm(true)
         ID: id,
       },
     });
-
     // Trigger post-edit actions
     props.AfterEditHostels(hostel_Id);
     props.AfterEditFloors(Floor);

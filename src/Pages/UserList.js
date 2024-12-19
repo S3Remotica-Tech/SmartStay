@@ -1156,14 +1156,14 @@ function UserList(props) {
   console.log("excelDownload", excelDownload);
   const handleCustomerExcel = () => {
     if (value === "1") {
-      dispatch({ type: "EXPORTDETAILS", payload: { type: "customers" } });
+      dispatch({ type: "EXPORTDETAILS", payload: { type: "customers",hostel_id :state.login.selectedHostel_Id} });
       setIsDownloadTriggered(true);
     }
   };
 
   const handleBookingExcel = () => {
     if (value === "2") {
-      dispatch({ type: "EXPORTBOOKINGDETAILS", payload: { type: "booking" } });
+      dispatch({ type: "EXPORTBOOKINGDETAILS", payload: { type: "booking",hostel_id :state.login.selectedHostel_Id } });
       setIsDownloadTriggered(true);
     }
   };
@@ -1172,7 +1172,7 @@ function UserList(props) {
     if (value === "3") {
       dispatch({
         type: "EXPORTCHECKOUTDETAILS",
-        payload: { type: "checkout" },
+        payload: { type: "checkout",hostel_id :state.login.selectedHostel_Id },
       });
       setIsDownloadTriggered(true);
     }
@@ -1180,7 +1180,7 @@ function UserList(props) {
 
   const handlewalkinExcel = () => {
     if (value === "4") {
-      dispatch({ type: "EXPORTWALKINGDETAILS", payload: { type: "walkin" } });
+      dispatch({ type: "EXPORTWALKINGDETAILS", payload: { type: "walkin",hostel_id :state.login.selectedHostel_Id } });
       setIsDownloadTriggered(true);
     }
   };

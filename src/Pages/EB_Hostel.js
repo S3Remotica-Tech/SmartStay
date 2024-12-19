@@ -97,7 +97,7 @@ function EB_Hostel(props) {
   const handleEbExcel = () => {
     dispatch({
       type: "EXPORTEBSDETAILS",
-      payload: { type: "customer_readings" },
+      payload: { type: "customer_readings",hostel_id :state.login.selectedHostel_Id },
     });
     setIsDownloadTriggered(true);
   };
@@ -204,8 +204,8 @@ function EB_Hostel(props) {
   }, [selectedDate]);
 
   useEffect(() => {
-    setSelectedHostel(uniqueostel_Id);
-  }, [uniqueostel_Id]);
+    setSelectedHostel(state.login.selectedHostel_Id );
+  }, [state.login.selectedHostel_Id ]);
 
   const handleFloor = (e) => {
     setFloor(e.target.value);
