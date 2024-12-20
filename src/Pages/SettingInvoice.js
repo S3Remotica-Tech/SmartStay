@@ -22,6 +22,7 @@ import { FormControl, InputGroup, Pagination } from "react-bootstrap";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 function SettingInvoice({hostelid}) {
 
@@ -595,325 +596,345 @@ useEffect(() => {
 </div>
 
 
-      {showform && (
-        <div
-          className="modal show"
-          style={{ display: "block", position: "initial", fontFamily: "Gilroy,sans-serif"}}
-        >
-          <Modal show={showform} onHide={handleCloseForm} centered backdrop="static">
-            <Modal.Dialog
-              style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px"}}
-              className="m-0 p-0"
+{showform ? (
+  <div
+  className="modal show"
+  style={{ display: "block", position: "initial", fontFamily: "Gilroy,sans-serif"}}
+>
+  <Modal show={showform} onHide={handleCloseForm} centered backdrop="static">
+    <Modal.Dialog
+      style={{ maxWidth: 950, paddingRight: "10px", paddingRight: "10px", borderRadius: "30px"}}
+      className="m-0 p-0"
+    >
+      <Modal.Body>
+        <div>
+          <Modal.Header
+            style={{ marginBottom: "30px", position: "relative" }}
+          >
+            <div
+              style={{fontSize: 20,fontWeight: 600,fontFamily: "Gilroy"}}
             >
-              <Modal.Body>
-                <div>
-                  <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
-                  >
-                    <div
-                      style={{fontSize: 20,fontWeight: 600,fontFamily: "Gilroy"}}
-                    >
-                      {edit ? "Edit Invoice" : "Add Invoice "}
-                    </div>
-                    <button
-                      type="button"
-                      className="close"
-                      aria-label="Close"
-                      onClick={handleCloseForm}
-                      style={{ position: "absolute", right: "10px", top: "16px", border: "1px solid black", background: "transparent", cursor: "pointer", padding: "0",display: "flex",justifyContent: "center", alignItems: "center",width: "32px", height: "32px", borderRadius: "50%"}}
-                    >
-                      <span
-                        aria-hidden="true"
-                        style={{ fontSize: "30px", paddingBottom: "6px"}}
-                      >
-                        &times;
-                      </span>
-                    </button>
-                  </Modal.Header>
-                </div>
-
-                <div className="row mt-1">
-                  <div className="d-flex row ">
-                    <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1"
-                      >
-            <Form.Label
-             style={{ fontFamily: "Gilroy", fontSize: 14,fontWeight: 500, color: "#000",fontStyle: "normal",lineHeight: "normal"}}>
-                          Prefix </Form.Label>
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "10px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px",fontWeight: 500}}
-                          type="text"
-                          placeholder="prefix"
-                          value={prefix}
-                          onChange={(e) => handlePrefix(e)}
-                          // readOnly
-                          // style={inputStyle}
-                        />
-                      </Form.Group>
-
-                      {prefixerrormsg.trim() !== "" && (
-                      <div>
-                        <p
-                          style={{
-                            fontSize: "15px",
-                            color: "red",
-                            // marginBottom: "15px",
-                          }}
-                        >
-                          {prefixerrormsg !== " " && (
-                            <MdError
-                              style={{ fontSize: "15px", color: "red" }}
-                            />
-                          )}{" "}
-                          {prefixerrormsg}
-                        </p>
-                      </div>
-                    )}
-                    </div>
-              
-               
-                    <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group
-                        className="mb-3"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{  fontFamily: "Gilroy",  fontSize: 14,  fontWeight: 500,  color: "#000",  fontStyle: "normal",lineHeight: "normal",}}
-                        >
-                          Suffix
-                        </Form.Label>
-                        <Form.Control
-                          style={{
-                            padding: "10px",
-                            marginTop: "10px",
-                            fontSize: 14,
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            lineHeight: "18.83px",
-                            fontWeight: 500,
-                          }}
-                          type="text"
-                          placeholder="suffix"
-                          value={startNumber}
-                          onChange={(e) => handleSuffix(e)}
-                          // readOnly
-                        />
-
-
-
-                        {suffixerrormsg.trim() !== "" && (
-                          <div>
-                            <p
-                              style={{
-                                fontSize: "15px",
-                                color: "red",
-                                marginTop: "3px",
-                              }}
-                            >
-                              {suffixerrormsg !== " " && (
-                                <MdError
-                                  style={{ fontSize: "15px", color: "red" }}
-                                />
-                              )}{" "}
-                              {suffixerrormsg}
-                            </p>
-                          </div>
-                        )}
-                      </Form.Group>
-                    </div>
-                  </div>
-                  {/* </div> */}
-
-
-
-                  <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                    <Form.Group
-                      className="mb-3"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          fontWeight: 500,
-                          color: "#000",
-                          fontStyle: "normal",
-                          lineHeight: "normal",
-                        }}
-                        // style={labelStyle}
-                      >
-                        Preview
-                      </Form.Label>
-                      <Form.Control
-                        style={{
-                          padding: "10px",
-                          marginTop: "10px",
-                          fontSize: 14,
-                          backgroundColor: "#E7F1FF",
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          lineHeight: "18.83px",
-                          fontWeight: 500,
-                        }}
-                        type="text"
-                        placeholder="preview"
-                        readOnly
-                        value={prefix + startNumber}
-                        // readOnly
-                      />
-                    </Form.Group>
-                  </div>
-                  
- <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-2" controlId="purchaseDate">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Invoice date
-                      </Form.Label>
-                      <div style={{ position: "relative", width: "100%" }}>
-         <DatePicker
-          selected={selectedDate}
-  onChange={(date) => setSelectedDate(date)} 
-  dateFormat="dd/MM/yyyy"
-  customInput={
-    React.createElement(customDateInput, {
-      value: selectedDate
-        ? selectedDate.toLocaleDateString("en-GB") 
-        : "", 
-    })
-  }
-/>
-
-
-
-
-                      </div>
-                    </Form.Group>
-
-                    {invoicedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {invoicedateerrmsg}
-                        </label>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-2" controlId="purchaseDate">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Due date
-                      </Form.Label>
-                      <div style={{ position: "relative", width: "100%" }}>
-                    
-     <DatePicker
-          selected={invoicedueDate}
-          onChange={(date) => setInvoiceDueDate(date)} 
-         dateFormat="dd/MM/yyyy"
-         customInput={
-         React.createElement(customDateInput, {
-        value: invoicedueDate
-        ? invoicedueDate.toLocaleDateString("en-GB") 
-        : "", 
-    })
-  }
-/>
-
-
-
-
-
-                      </div>
-                    </Form.Group>
-
-                    {duedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px" }} />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {duedateerrmsg}
-                        </label>
-                      </div>
-                    )}
-                  </div>
-                 
-
-                 
-
-
-                  {totalErrormsg.trim() !== "" && (
-                    <div>
-                      <p
-                        style={{
-                          fontSize: "15px",
-                          color: "red",
-                          marginTop: "3px",
-                        }}
-                      >
-                        {totalErrormsg !== " " && (
-                          <MdError style={{ fontSize: "15px", color: "red" }} />
-                        )}{" "}
-                        {totalErrormsg}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </Modal.Body>
-
-              <Modal.Footer style={{ border: "none" }}>
-                <Button
-                  className="w-100"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 500,
-                    height: 50,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                  }}
-                  onClick={handleInvoiceSettings}
-                >
-                  Add Invoice
-                  {/* {edit ? "Save invoice" : "Add invice"} */}
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
+              {edit ? "Edit Invoice" : "Add Invoice "}
+            </div>
+            <button
+              type="button"
+              className="close"
+              aria-label="Close"
+              onClick={handleCloseForm}
+              style={{ position: "absolute", right: "10px", top: "16px", border: "1px solid black", background: "transparent", cursor: "pointer", padding: "0",display: "flex",justifyContent: "center", alignItems: "center",width: "32px", height: "32px", borderRadius: "50%"}}
+            >
+              <span
+                aria-hidden="true"
+                style={{ fontSize: "30px", paddingBottom: "6px"}}
+              >
+                &times;
+              </span>
+            </button>
+          </Modal.Header>
         </div>
-      )}
+
+        <div className="row mt-1">
+          <div className="d-flex row ">
+            <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1"
+              >
+    <Form.Label
+     style={{ fontFamily: "Gilroy", fontSize: 14,fontWeight: 500, color: "#000",fontStyle: "normal",lineHeight: "normal"}}>
+                  Prefix </Form.Label>
+                <Form.Control
+                  style={{ padding: "10px", marginTop: "10px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px",fontWeight: 500}}
+                  type="text"
+                  placeholder="prefix"
+                  value={prefix}
+                  onChange={(e) => handlePrefix(e)}
+                  // readOnly
+                  // style={inputStyle}
+                />
+              </Form.Group>
+
+              {prefixerrormsg.trim() !== "" && (
+              <div>
+                <p
+                  style={{
+                    fontSize: "15px",
+                    color: "red",
+                    // marginBottom: "15px",
+                  }}
+                >
+                  {prefixerrormsg !== " " && (
+                    <MdError
+                      style={{ fontSize: "15px", color: "red" }}
+                    />
+                  )}{" "}
+                  {prefixerrormsg}
+                </p>
+              </div>
+            )}
+            </div>
+      
+       
+            <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label
+                  style={{  fontFamily: "Gilroy",  fontSize: 14,  fontWeight: 500,  color: "#000",  fontStyle: "normal",lineHeight: "normal",}}
+                >
+                  Suffix
+                </Form.Label>
+                <Form.Control
+                  style={{
+                    padding: "10px",
+                    marginTop: "10px",
+                    fontSize: 14,
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    lineHeight: "18.83px",
+                    fontWeight: 500,
+                  }}
+                  type="text"
+                  placeholder="suffix"
+                  value={startNumber}
+                  onChange={(e) => handleSuffix(e)}
+                  // readOnly
+                />
+
+
+
+                {suffixerrormsg.trim() !== "" && (
+                  <div>
+                    <p
+                      style={{
+                        fontSize: "15px",
+                        color: "red",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {suffixerrormsg !== " " && (
+                        <MdError
+                          style={{ fontSize: "15px", color: "red" }}
+                        />
+                      )}{" "}
+                      {suffixerrormsg}
+                    </p>
+                  </div>
+                )}
+              </Form.Group>
+            </div>
+          </div>
+          {/* </div> */}
+
+
+
+          <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlInput1"
+            >
+              <Form.Label
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: "#000",
+                  fontStyle: "normal",
+                  lineHeight: "normal",
+                }}
+                // style={labelStyle}
+              >
+                Preview
+              </Form.Label>
+              <Form.Control
+                style={{
+                  padding: "10px",
+                  marginTop: "10px",
+                  fontSize: 14,
+                  backgroundColor: "#E7F1FF",
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  lineHeight: "18.83px",
+                  fontWeight: 500,
+                }}
+                type="text"
+                placeholder="preview"
+                readOnly
+                value={prefix + startNumber}
+                // readOnly
+              />
+            </Form.Group>
+          </div>
+          
+<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <Form.Group className="mb-2" controlId="purchaseDate">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Invoice date
+              </Form.Label>
+              <div style={{ position: "relative", width: "100%" }}>
+ <DatePicker
+  selected={selectedDate}
+onChange={(date) => setSelectedDate(date)} 
+dateFormat="dd/MM/yyyy"
+customInput={
+React.createElement(customDateInput, {
+value: selectedDate
+? selectedDate.toLocaleDateString("en-GB") 
+: "", 
+})
+}
+/>
+
+
+
+
+              </div>
+            </Form.Group>
+
+            {invoicedateerrmsg.trim() !== "" && (
+              <div className="d-flex align-items-center p-1">
+                <MdError style={{ color: "red", marginRight: "5px" }} />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {invoicedateerrmsg}
+                </label>
+              </div>
+            )}
+          </div>
+
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <Form.Group className="mb-2" controlId="purchaseDate">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Due date
+              </Form.Label>
+              <div style={{ position: "relative", width: "100%" }}>
+            
+<DatePicker
+  selected={invoicedueDate}
+  onChange={(date) => setInvoiceDueDate(date)} 
+ dateFormat="dd/MM/yyyy"
+ customInput={
+ React.createElement(customDateInput, {
+value: invoicedueDate
+? invoicedueDate.toLocaleDateString("en-GB") 
+: "", 
+})
+}
+/>
+
+
+
+
+
+              </div>
+            </Form.Group>
+
+            {duedateerrmsg.trim() !== "" && (
+              <div className="d-flex align-items-center p-1">
+                <MdError style={{ color: "red", marginRight: "5px" }} />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {duedateerrmsg}
+                </label>
+              </div>
+            )}
+          </div>
+         
+
+         
+
+
+          {totalErrormsg.trim() !== "" && (
+            <div>
+              <p
+                style={{
+                  fontSize: "15px",
+                  color: "red",
+                  marginTop: "3px",
+                }}
+              >
+                {totalErrormsg !== " " && (
+                  <MdError style={{ fontSize: "15px", color: "red" }} />
+                )}{" "}
+                {totalErrormsg}
+              </p>
+            </div>
+          )}
+        </div>
+      </Modal.Body>
+
+      <Modal.Footer style={{ border: "none" }}>
+        <Button
+          className="w-100"
+          style={{
+            backgroundColor: "#1E45E1",
+            fontWeight: 500,
+            height: 50,
+            borderRadius: 12,
+            fontSize: 16,
+            fontFamily: "Gilroy",
+            fontStyle: "normal",
+            lineHeight: "normal",
+          }}
+          onClick={handleInvoiceSettings}
+        >
+          Add Invoice
+          {/* {edit ? "Save invoice" : "Add invice"} */}
+        </Button>
+      </Modal.Footer>
+    </Modal.Dialog>
+  </Modal>
+</div>
+
+) : (
+  <div>
+    <div className="d-flex justify-content-center">
+      <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+    </div>
+    <div
+      className="pb-1 mt-3"
+      style={{
+        textAlign: "center",
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        fontSize: 20,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      No Amenities available
+    </div>
+  </div>
+)}
+
 
       {recurringform && (
         <div
