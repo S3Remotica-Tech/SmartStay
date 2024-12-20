@@ -253,7 +253,7 @@ function SettingCompliance({ hostelid }) {
           color: "rgba(75, 75, 75, 1)",
         }}
       >
-        No Amenities available
+        No Complaints available
       </div>
     </div>
   )}
