@@ -65,12 +65,11 @@ import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
 
-
-
 function UserList(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const selectRef = useRef("select");
+  const popupRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -85,45 +84,47 @@ function UserList(props) {
   const [customerAddPermission, setCustomerAddPermission] = useState("");
   const [customerDeletePermission, setCustomerDeletePermission] = useState("");
   const [customerEditPermission, setCustomerEditPermission] = useState("");
-  const [customerBookingAddPermission, setCustomerBookingAddPermission] =useState("");
-  const [customerWalkInAddPermission, setCustomerWalkInAddPermission] =useState("");
-  const [customerCheckoutPermission, setCustomerCheckoutAddPermission] =useState("");
+  const [customerBookingAddPermission, setCustomerBookingAddPermission] =
+    useState("");
+  const [customerWalkInAddPermission, setCustomerWalkInAddPermission] =
+    useState("");
+  const [customerCheckoutPermission, setCustomerCheckoutAddPermission] =
+    useState("");
   const [excelDownload, setExcelDownload] = useState("");
   const [excelDownloadBooking, setExcelDownloadBooking] = useState("");
   const [excelDownloadChecout, setExcelDownloadCheckout] = useState("");
   const [excelDownloadCheckIn, setExcelDownloadChecIn] = useState("");
-  const [customerReassign,setCustomerReAssign]=useState(false);
-  const [customerCheckoutpage,setCustomerCheckoutpage]=useState(false)
-  const [reAssignDetail,setReasignDetail]=useState("")
-  const [uniqueostel_Id,setUniqostel_Id]=useState('')
-  const [customercheckoutdata, setCustomerCheckoutData] = useState('')
-  console.log("uniqueostel_Id",props.allPageHostel_Id)
+  const [customerReassign, setCustomerReAssign] = useState(false);
+  const [customerCheckoutpage, setCustomerCheckoutpage] = useState(false);
+  const [reAssignDetail, setReasignDetail] = useState("");
+  const [uniqueostel_Id, setUniqostel_Id] = useState("");
+  const [customercheckoutdata, setCustomerCheckoutData] = useState("");
+  console.log("uniqueostel_Id", props.allPageHostel_Id);
   useEffect(() => {
     console.log("uniqueHostelId:", props.allPageHostel_Id);
     setUniqostel_Id(props.allPageHostel_Id);
   }, [props.allPageHostel_Id]);
 
-
-
-
   useEffect(() => {
     setLoading(true);
-    dispatch({ type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+    dispatch({
+      type: "USERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
   }, []);
 
-  const handleCustomerReAssign=(reuser)=>{
-    console.log("reuser",reuser)
-    setReasignDetail(reuser)
-    setCustomerReAssign(true)
+  const handleCustomerReAssign = (reuser) => {
+    console.log("reuser", reuser);
+    setReasignDetail(reuser);
+    setCustomerReAssign(true);
     // setUserList(false);
-  }
-  const handleCustomerCheckout=(item)=>{
-    setCustomerCheckoutpage(true)
-    setCustomerCheckoutData(item)
+  };
+  const handleCustomerCheckout = (item) => {
+    setCustomerCheckoutpage(true);
+    setCustomerCheckoutData(item);
     // setUserList(false);
-  }
+  };
 
- 
   useEffect(() => {
     setCustomerRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
@@ -216,12 +217,18 @@ function UserList(props) {
   }, [customerrolePermission]);
 
   useEffect(() => {
-    dispatch({ type: "GET_BOOKING_LIST" , payload :{ hostel_id: state.login.selectedHostel_Id }});
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
   }, []);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id } });
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 200);
@@ -342,31 +349,36 @@ function UserList(props) {
   const [activeRow, setActiveRow] = useState(null);
 
   const handleShowDots = (id) => {
-    if (activeRow === id) {
+    if (activeRow == id) {
       setActiveRow(null);
     } else {
       setActiveRow(id);
     }
     setSearch(false);
   };
-  const popupRef = useRef(null);
-  // const handleClickOutside = (event) => {
-  //   if (popupRef.current && !popupRef.current.contains(event.target)) {
-  //     setShowDots(false);
-  //   }
-  // };
+
+
   useEffect(() => {
-        const handleClickOutside = (event) => {
-          if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setActiveRow(null);
-          }
-        };
-    
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-          document.removeEventListener("mousedown", handleClickOutside);
-        };
-      }, []);
+    const handleClickOutsideAccount = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setActiveRow(null);
+      } else {
+        setActiveRow(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutsideAccount);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideAccount);
+    };
+  }, []);
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setShowDots(false);
+    }
+  };
+
   const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -533,11 +545,11 @@ function UserList(props) {
   const [createbyamni, setcreatebyamni] = useState("");
   const [amnitytableshow, setamnitytableshow] = useState(false);
 
-// console.log("uniqueostel_Id",props.allPageHostel_Id)
-// useEffect(() => {
-//   console.log("uniqueHostelId:", props.allPageHostel_Id);
-//   setUniqostel_Id(props.allPageHostel_Id);
-// }, [props.allPageHostel_Id]);
+  // console.log("uniqueostel_Id",props.allPageHostel_Id)
+  // useEffect(() => {
+  //   console.log("uniqueHostelId:", props.allPageHostel_Id);
+  //   setUniqostel_Id(props.allPageHostel_Id);
+  // }, [props.allPageHostel_Id]);
 
   const handleRoomDetailsPage = (userData) => {
     const clickedUserDataArray = Array.isArray(userData)
@@ -648,7 +660,10 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
 
       setHostelIds(propsHostel);
       setBedIds(propsBeds);
@@ -1095,7 +1110,10 @@ function UserList(props) {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      dispatch({ type: "GET_BOOKING_LIST" , payload :{ hostel_id: state.login.selectedHostel_Id }});
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 200);
@@ -1168,14 +1186,23 @@ function UserList(props) {
   console.log("excelDownload", excelDownload);
   const handleCustomerExcel = () => {
     if (value === "1") {
-      dispatch({ type: "EXPORTDETAILS", payload: { type: "customers",hostel_id :state.login.selectedHostel_Id} });
+      dispatch({
+        type: "EXPORTDETAILS",
+        payload: {
+          type: "customers",
+          hostel_id: state.login.selectedHostel_Id,
+        },
+      });
       setIsDownloadTriggered(true);
     }
   };
 
   const handleBookingExcel = () => {
     if (value === "2") {
-      dispatch({ type: "EXPORTBOOKINGDETAILS", payload: { type: "booking",hostel_id :state.login.selectedHostel_Id } });
+      dispatch({
+        type: "EXPORTBOOKINGDETAILS",
+        payload: { type: "booking", hostel_id: state.login.selectedHostel_Id },
+      });
       setIsDownloadTriggered(true);
     }
   };
@@ -1184,7 +1211,7 @@ function UserList(props) {
     if (value === "3") {
       dispatch({
         type: "EXPORTCHECKOUTDETAILS",
-        payload: { type: "checkout",hostel_id :state.login.selectedHostel_Id },
+        payload: { type: "checkout", hostel_id: state.login.selectedHostel_Id },
       });
       setIsDownloadTriggered(true);
     }
@@ -1192,7 +1219,10 @@ function UserList(props) {
 
   const handlewalkinExcel = () => {
     if (value === "4") {
-      dispatch({ type: "EXPORTWALKINGDETAILS", payload: { type: "walkin",hostel_id :state.login.selectedHostel_Id } });
+      dispatch({
+        type: "EXPORTWALKINGDETAILS",
+        payload: { type: "walkin", hostel_id: state.login.selectedHostel_Id },
+      });
       setIsDownloadTriggered(true);
     }
   };
@@ -1308,14 +1338,17 @@ function UserList(props) {
         setUniqostel_Id={setUniqostel_Id}
       />
 
-      <CheckOutForm show={checkoutForm} handleClose={checkoutcloseModal}    uniqueostel_Id={uniqueostel_Id}
-                 setUniqostel_Id={setUniqostel_Id}/>
+      <CheckOutForm
+        show={checkoutForm}
+        handleClose={checkoutcloseModal}
+        uniqueostel_Id={uniqueostel_Id}
+        setUniqostel_Id={setUniqostel_Id}
+      />
 
       <UserlistWalkinForm
         show={walkInForm}
         handleClose={walkinFormcloseModal}
         customerrolePermission={customerrolePermission}
-
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
       />
@@ -2300,7 +2333,11 @@ function UserList(props) {
                                                       //     handleShowAddBed(user);
                                                       //   }
                                                       // }}
-                                                      onClick={()=>handleCustomerCheckout(user)}
+                                                      onClick={() =>
+                                                        handleCustomerCheckout(
+                                                          user
+                                                        )
+                                                      }
                                                       style={{
                                                         backgroundColor: "#fff",
                                                         cursor:
@@ -2352,7 +2389,11 @@ function UserList(props) {
                                                       //     handleShowAddBed(user);
                                                       //   }
                                                       // }}
-                                                      onClick={()=>handleCustomerReAssign(user)}
+                                                      onClick={() =>
+                                                        handleCustomerReAssign(
+                                                          user
+                                                        )
+                                                      }
                                                       style={{
                                                         backgroundColor: "#fff",
                                                         cursor:
@@ -2626,16 +2667,22 @@ function UserList(props) {
                   </div>
                 )}
 
+                {customerReassign == true ? (
+                  <CustomerReAssign
+                    customerReassign={customerReassign}
+                    setCustomerReAssign={setCustomerReAssign}
+                    reAssignDetail={reAssignDetail}
+                  />
+                ) : null}
 
-
-
-{customerReassign == true ? (
-        <CustomerReAssign customerReassign={customerReassign} setCustomerReAssign={setCustomerReAssign} reAssignDetail={reAssignDetail}/>
-      ) : null}
-
-{customerCheckoutpage == true ? (
-        <CustomerCheckout customerCheckoutpage={customerCheckoutpage} setCustomerCheckoutpage={setCustomerCheckoutpage}  uniqueostel_Id={uniqueostel_Id} data={customercheckoutdata}/>
-      ) : null}
+                {customerCheckoutpage == true ? (
+                  <CustomerCheckout
+                    customerCheckoutpage={customerCheckoutpage}
+                    setCustomerCheckoutpage={setCustomerCheckoutpage}
+                    uniqueostel_Id={uniqueostel_Id}
+                    data={customercheckoutdata}
+                  />
+                ) : null}
               </TabPanel>
               <TabPanel value="2">
                 <UserlistBookings
@@ -2649,7 +2696,6 @@ function UserList(props) {
                   customerrolePermission={customerrolePermission}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
-                 
                 />
               </TabPanel>
               <TabPanel value="3">
@@ -2844,10 +2890,6 @@ function UserList(props) {
           setUniqostel_Id={setUniqostel_Id}
         />
       ) : null}
-
-
-
-      
     </div>
   );
 }
