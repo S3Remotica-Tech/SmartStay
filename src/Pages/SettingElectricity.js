@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
 import SettingsElectricityTable from './SettingsElectricityTable';
 import { MdError } from "react-icons/md";
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 const SettingElectricity = ({ hostelid }) => {
 
