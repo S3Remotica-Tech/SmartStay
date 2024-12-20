@@ -2905,7 +2905,7 @@ const handleFileChange = (e, type) => {
                                           boxShadow: "none",
                                           border: "1px solid #D9D9D9",
                                           height: 50,
-                                          c
+                                          borderRadius:8
                                         }}
                                       />
                                     </Form.Group>
