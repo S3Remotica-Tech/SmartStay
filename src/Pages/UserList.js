@@ -350,11 +350,23 @@ function UserList(props) {
     setSearch(false);
   };
   const popupRef = useRef(null);
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setShowDots(false);
-    }
-  };
+  // const handleClickOutside = (event) => {
+  //   if (popupRef.current && !popupRef.current.contains(event.target)) {
+  //     setShowDots(false);
+  //   }
+  // };
+  useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setActiveRow(null);
+          }
+        };
+    
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, []);
   const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
