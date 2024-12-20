@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import Edit from '../Assets/Images/edit-Complaints.svg';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from 'react-bootstrap/Card';
@@ -100,6 +100,7 @@ const ComplianceList = (props) => {
   const [statusError, setStatusError] = useState('')
   const [compliant, setCompliant] = useState('')
   const [complianceError, setComplianceError] = useState('')
+   const popupRef = useRef(null);
   const handleShowDots = () => {
     setShowDots(!showDots)
   }
@@ -219,6 +220,19 @@ const ComplianceList = (props) => {
     }
   }, [state.ComplianceList.complianceChangeStatus])
 
+   useEffect(() => {
+          const handleClickOutside = (event) => {
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+              setShowDots(null);
+            }
+          };
+      
+          document.addEventListener("mousedown", handleClickOutside);
+          return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+          };
+        }, []);
+
   return (
     <Card className="h-100 fade-in" style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}>
       <Card.Body style={{ padding: 20 }}>
@@ -246,7 +260,9 @@ const ComplianceList = (props) => {
               <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
               {showDots && <>
-                <div style={{ backgroundColor: "#EBEBEB", position: "absolute", right: 0, top: 50, width: 175, height: 159, border: "1px solid #EBEBEB", borderRadius: 12, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                <div 
+                ref={popupRef}
+                  style={{ backgroundColor: "#EBEBEB", position: "absolute", right: 0, top: 50, width: 175, height: 159, border: "1px solid #EBEBEB", borderRadius: 12, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                   <div >
 
                     {/* Change status */}

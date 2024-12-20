@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
 import SettingsElectricityTable from './SettingsElectricityTable';
 import { MdError } from "react-icons/md";
+import EmptyState from '../Assets/Images/New_images/empty_image.png';
 
 const SettingElectricity = ({ hostelid }) => {
 
@@ -229,7 +230,7 @@ const SettingElectricity = ({ hostelid }) => {
           <SettingsElectricityTable hostelid={hostelid} />
           :
           <>
-            {
+            {state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.length > 0 ? (
               state.Settings.EBBillingUnitlist && state.Settings.EBBillingUnitlist.map((v, i) => {
                 return (
                   <Row>
@@ -318,6 +319,29 @@ const SettingElectricity = ({ hostelid }) => {
                   </Row>
                 )
               })
+            ) : (
+              <div>
+                <div className="d-flex justify-content-center">
+                  <img
+                    src={EmptyState}
+                    style={{ height: 240, width: 240 }}
+                    alt="Empty state"
+                  />
+                </div>
+                <div
+                  className="pb-1 mt-3"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 20,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  No Amenities available
+                </div>
+              </div>
+            )          
             }
           </>
       }
@@ -649,4 +673,3 @@ const SettingElectricity = ({ hostelid }) => {
 };
 
 export default SettingElectricity;
-

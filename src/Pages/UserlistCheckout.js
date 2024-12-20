@@ -121,6 +121,18 @@ function CheckOut(props) {
       }, 2000);
     }
   }, [state.UsersList.GetCheckOutCustomerStatusCode]);
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+          setActiveDotsId(null);
+        }
+      };
+  
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
 
   useEffect(() => {
     if (
@@ -142,6 +154,7 @@ function CheckOut(props) {
     state.UsersList.addCheckoutCustomerStatusCode,
     state.UsersList.deleteCheckoutCustomerStatusCode,
   ]);
+  const popupRef = useRef(null);
 
   // Pagination logic
   const indexOfLastCustomer = currentPage * itemsPerPage;
@@ -834,6 +847,7 @@ function CheckOut(props) {
 
 {activeDotsId === checkout.ID && (
                         <div
+                        ref={popupRef}
                           style={{
                             cursor: "pointer",
                             backgroundColor: "#EBEBEB",
@@ -881,7 +895,7 @@ function CheckOut(props) {
                             </label>
                           </div>
 
-                          <div  className="d-flex align-items-center mt-2" >
+                          {/* <div  className="d-flex align-items-center mt-2" >
                             <img
                               src={Addbtn}
                               style={{
@@ -901,7 +915,7 @@ function CheckOut(props) {
                             >
                               Reassign bed
                             </label>
-                          </div>
+                          </div> */}
 
                           <div
                             className="mb-2 mt-2 d-flex align-items-center"

@@ -498,7 +498,7 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
   ))}
 </div> */}
 
-<div className="mt-4 d-flex row">
+{/* <div className="mt-4 d-flex row">
       {expences.map((category) => (
         <div key={category.category_Id} className="mb-3 col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded me-3">
           <button
@@ -606,8 +606,137 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
         </div>
       ))}
     </div>
+ */}
 
+<div className="mt-4 d-flex row">
+  {expences.length > 0 ? (
+   expences.map((category) => (
+    <div key={category.category_Id} className="mb-3 col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded me-3">
+      <button
+        className="btn btn-white w-100  d-flex justify-content-between align-items-center"
+        type="button"
+        onClick={() => handleToggleDropdown(category.category_Id)}
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: 16,
+          fontWeight: 500,
+        }}
+      >
+        <span>{category.category_Name}</span>
+        <span className="d-flex align-items-center">
+      <img
+        src={Editbtn}
+        height={15}
+        width={15}
+        alt="edit"
+        style={{ marginRight: 10, cursor: "pointer" }}
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent dropdown toggle
+          handleEditCategory(category);
+        }}
+      />
+      <img
+        src={Closebtn}
+        height={15}
+        width={15}
+        alt="delete"
+        style={{ marginRight: 10, cursor: "pointer" }}
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent dropdown toggle
+          handleDeleteExpensesCategory(category);
+        }}
+      />
+      <i
+        className={`bi ${
+          expandedCategoryId === category.category_Id ? 'bi-chevron-up' : 'bi-chevron-down'
+        }`}
+        style={{ cursor: "pointer" }}
+      ></i>
+    </span>
+      </button>
 
+      {expandedCategoryId === category.category_Id && (
+        <>
+          <hr />
+          <ul
+            className="list-group mt-2"
+            style={{
+              padding: "10px",
+              borderRadius: "10px",
+              width: "100%",
+            }}
+          >
+            {category.subcategory && category.subcategory.length > 0 ? (
+              category.subcategory.map((sub) => (
+                <li
+                  key={sub.subcategory_Id}
+                  className="d-flex justify-content-between align-items-center"
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: "#222",
+                  }}
+                >
+                  {sub.subcategory}
+                  <span>
+                    <img
+                      src={Editbtn}
+                      height={15}
+                      width={15}
+                      alt="edit"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleEditCategory(sub)}
+                    />
+                    <img
+                      src={Closebtn}
+                      height={15}
+                      width={15}
+                      alt="delete"
+                      style={{ cursor: "pointer", marginLeft: 10 }}
+                      onClick={() => handleDeleteExpensesCategory(sub)}
+                    />
+                  </span>
+                </li>
+              ))
+            ) : (
+              <li
+                className="text-muted"
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: 14,
+                  fontWeight: 500,
+                }}
+              >
+                No Subcategories Available
+              </li>
+            )}
+          </ul>
+        </>
+      )}
+    </div>
+  ))
+
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+      </div>
+      <div
+        className="pb-1 mt-3"
+        style={{
+          textAlign: "center",
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          fontSize: 20,
+          color: "rgba(75, 75, 75, 1)",
+        }}
+      >
+        No Amenities available
+      </div>
+    </div>
+  )}
+</div>
 
 
 

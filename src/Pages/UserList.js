@@ -357,6 +357,7 @@ function UserList(props) {
     setSearch(false);
   };
 
+
   useEffect(() => {
     const handleClickOutsideAccount = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -377,6 +378,7 @@ function UserList(props) {
       setShowDots(false);
     }
   };
+
   const rowsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
