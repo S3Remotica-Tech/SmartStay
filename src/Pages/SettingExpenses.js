@@ -708,7 +708,7 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
                   fontWeight: 500,
                 }}
               >
-                No Subcategories Available
+                No Expenses Available
               </li>
             )}
           </ul>
