@@ -732,7 +732,7 @@ console.log("deleteCategoryId",deleteCategoryId,"subCategory_Id",subCategory_Id)
           color: "rgba(75, 75, 75, 1)",
         }}
       >
-        No Amenities available
+        No Expense available
       </div>
     </div>
   )}

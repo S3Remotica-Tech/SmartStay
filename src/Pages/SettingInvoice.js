@@ -930,7 +930,7 @@ value: invoicedueDate
         color: "rgba(75, 75, 75, 1)",
       }}
     >
-      No Amenities available
+      No Invoice available
     </div>
   </div>
 )}

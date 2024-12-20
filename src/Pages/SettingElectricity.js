@@ -338,7 +338,7 @@ const SettingElectricity = ({ hostelid }) => {
                     color: "rgba(75, 75, 75, 1)",
                   }}
                 >
-                  No Amenities available
+                  No Electricity available
                 </div>
               </div>
             )          
