@@ -124,7 +124,7 @@ function Banking() {
 
   useEffect(() => {
     // setLoading(true);
-    dispatch({ type: "BANKINGLIST" });
+    dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
   }, []);
 
   const handleShowDots = (id) => {
@@ -194,7 +194,7 @@ useEffect(() => {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
       // setLoading(false);
       setShowAccountTypeOptions(null);
-      dispatch({ type: "BANKINGLIST" });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
       }, 1000);
@@ -205,7 +205,7 @@ useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
       // setLoading(false);
       handleCloseAddBalance();
-      dispatch({ type: "BANKINGLIST" });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
       }, 1000);
@@ -217,6 +217,7 @@ useEffect(() => {
     setShowForm(true);
     setEditAddBank(item);
     setOpenMenuId(false);
+    
   };
 
   const handleShowForm = () => {
@@ -242,7 +243,7 @@ useEffect(() => {
   useEffect(()=>{
     if(state.bankingDetails.statusCodeDeleteBank === 200){
       handleCloseDelete()
-      dispatch({ type: "BANKINGLIST" });
+      dispatch({ type: "BANKINGLIST" ,payload:{hostel_id:state.login.selectedHostel_Id}});
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING" });
       }, 1000);
@@ -299,7 +300,7 @@ useEffect(() => {
   useEffect(()=>{
     if(state.bankingDetails.statusCodeForDeleteTrans === 200){
       handleCloseTransactionDelete()
-      dispatch({ type: "BANKINGLIST" });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING_TRANSACTION" });
       }, 1000);
@@ -332,7 +333,7 @@ useEffect(() => {
   const handleAddAmountSubmit = () => {
     dispatch({
       type: "ADDBANKAMOUNT",
-      payload: { id: typeId, amount: AddBankAmount },
+      payload: { id: typeId, amount: AddBankAmount,hostel_id:state.login.selectedHostel_Id },
     });
   };
 

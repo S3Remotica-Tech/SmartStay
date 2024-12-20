@@ -168,6 +168,7 @@ useEffect(()=>{
         ifsc_code: ifscCode,
         desc: description,
         id: props.edit ? bankId : "",
+        hostel_id:state.login.selectedHostel_Id
       },
     });
   };
@@ -188,7 +189,7 @@ useEffect(()=>{
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
       handleClose();
-      dispatch({ type: "BANKINGLIST" });
+      dispatch({ type: "BANKINGLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BANKING" });
       }, 1000);
