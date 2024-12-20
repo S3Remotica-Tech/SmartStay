@@ -158,14 +158,14 @@ function UserlistForm(props) {
   };
 
   useEffect(() => {
-    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostel_Id } });
+    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
   }, [hostel_Id]);
 
   useEffect(() => {
     if (hostel_Id && Floor) {
       dispatch({
         type: "ROOMDETAILS",
-        payload: { hostel_Id: hostel_Id, floor_Id: Floor },
+        payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: Floor },
       });
     }
   }, [Floor]);
@@ -311,9 +311,9 @@ function UserlistForm(props) {
 
   useEffect(()=>{
     const selectedHostel=  state.UsersList.hostelList &&
-    state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
+    state.UsersList.hostelList.filter((item) => item.id == state.login.selectedHostel_Id);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    setHostel_Id(props.uniqueostel_Id);
+    setHostel_Id(state.login.selectedHostel_Id);
   },[])
   console.log("selectedHostel",hostel_Id)
 
@@ -404,7 +404,7 @@ function UserlistForm(props) {
     dispatch({
       type: "BEDNUMBERDETAILS",
       payload: {
-        hostel_id: hostel_Id,
+        hostel_id: state.login.selectedHostel_Id,
         floor_id: Floor,
         room_id: e.target.value,
       },

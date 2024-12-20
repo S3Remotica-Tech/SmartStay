@@ -55,9 +55,9 @@ function EBRoomReading(props) {
   };
  
   useEffect(()=>{
-    console.log("setHostelId..?",props.uniqueostel_Id)
-    setHostelId(props.uniqueostel_Id);
-  },[props.uniqueostel_Id])
+    console.log("setHostelId..?",state.login.selectedHostel_Id)
+    setHostelId(state.login.selectedHostel_Id);
+  },[state.login.selectedHostel_Id])
   
 
   const handleReadingChange = (e) => {

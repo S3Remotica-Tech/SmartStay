@@ -44,10 +44,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import editliner from "../Assets/Images/Edit-Linear-32px.png";
 import upload from "../Assets/Images/New_images/upload.png";
-
 import UserListKyc from "./UserListKyc";
-
-
 import UserAdditionalContact from "./UserAdditionalContact";
 
 function UserListRoomDetail(props) {
@@ -106,6 +103,9 @@ function UserListRoomDetail(props) {
   const [additionalForm,setAdditionalForm] = useState(false);
   const [kycuserDetails, setkycuserDetails] = useState('')
   const [contactList, setContactList] = useState('')
+  const [contactDetails,setContactDetails] = useState('')
+  const [contactEdit,setContactEdit] = useState("")
+  const [editAdditional,setEditAdditional]=useState(false)
 
 
 useEffect(()=>{
@@ -113,34 +113,27 @@ useEffect(()=>{
 },[props.id])
 
 useEffect(()=>{
-if(state.UsersList.statusCodeForCustomerCoatact === 200){
-  setAdditionalForm(false)
-  dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id} });
-  
-
-setTimeout(() => {
-  dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT"});
-}, 200);
-
-}
-},[state.UsersList.statusCodeForCustomerCoatact])
-
-useEffect(()=>{
   if(state.UsersList.statusCodeForCustomerAllDetails === 200){
-  
-  
-  setTimeout(() => {
-    dispatch({ type: "CLEAR_CUSTOMER_ALL_DETAILS"});
-  }, 1000);
-  
+    
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_CUSTOMER_ALL_DETAILS"});
+    }, 100);
+        
   }
-  },[state.UsersList.statusCodeForCustomerAllDetails])
+},[state.UsersList.statusCodeForCustomerAllDetails])
 
+const handleContactEdit=(u)=>{
+  setEditAdditional(true)
+console.log("vvvvvvvvvvvv//",u)
+setContactEdit(u)
+setAdditionalForm(true)
+}
   const handleKycdetailsForm =(item)=>{
     setkycuserDetails(item)
     setKycDetailForm(true)
   }
   const handleAdditionalForm =()=>{
+    setEditAdditional(false)
     setAdditionalForm(true)
   }
 
@@ -183,24 +176,7 @@ useEffect(()=>{
     console.log("itemitem", item);
 
     if (item[0].ID) {
-      if (item) {
-        dispatch({
-          type: "HOSTELDETAILLIST",
-          payload: { hostel_Id: item[0].Hostel_Id },
-        });
-        dispatch({
-          type: "ROOMDETAILS",
-          payload: { hostel_Id: item[0].Hostel_Id, floor_Id: item[0].Floor },
-        });
-        dispatch({
-          type: "BEDNUMBERDETAILS",
-          payload: {
-            hostel_id: item[0].Hostel_Id,
-            floor_id: item[0].Floor,
-            room_id: item[0].Rooms,
-          },
-        });
-      }
+     
       setBednum(item);
       seteditBed("editbeddet");
       setcustomerAsignBed(true);
@@ -272,24 +248,7 @@ useEffect(()=>{
   const handleEditUser = (item) => {
     console.log("item...", item);
     if (item[0].ID) {
-      if (item) {
-        dispatch({
-          type: "HOSTELDETAILLIST",
-          payload: { hostel_Id: item[0].Hostel_Id },
-        });
-        dispatch({
-          type: "ROOMDETAILS",
-          payload: { hostel_Id: item[0].Hostel_Id, floor_Id: item[0].Floor },
-        });
-        dispatch({
-          type: "BEDNUMBERDETAILS",
-          payload: {
-            hostel_id: item[0].Hostel_Id,
-            floor_id: item[0].Floor,
-            room_id: item[0].Rooms,
-          },
-        });
-      }
+     
       const phoneNumber = String(item[0].Phone || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
       const mobileNumber = phoneNumber.slice(-10);
@@ -345,7 +304,7 @@ useEffect(()=>{
     if (hostel_Id && Floor) {
       dispatch({
         type: "ROOMDETAILS",
-        payload: { hostel_Id: hostel_Id, floor_Id: Floor },
+        payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: Floor },
       });
     }
   }, [Floor]);
@@ -489,7 +448,7 @@ useEffect(()=>{
   }, [props.id]);
 
   useEffect(() => {
-    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: hostel_Id } });
+    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
   }, [hostel_Id]);
   console.log(
     "state.UsersList?.bednumberdetails?.bed_details",
@@ -497,9 +456,9 @@ useEffect(()=>{
   );
   useEffect(()=>{
     const selectedHostel=  state.UsersList.hostelList &&
-    state.UsersList.hostelList.filter((item) => item.id == props.uniqueostel_Id);
+    state.UsersList.hostelList.filter((item) => item.id == state.login.selectedHostel_Id);
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    setHostel_Id(props.uniqueostel_Id);
+    setHostel_Id(state.login.selectedHostel_Id);
   },[])
   console.log("selectedHostel",hostel_Id)
 
@@ -545,7 +504,7 @@ useEffect(()=>{
   useEffect(() => {
     dispatch({
       type: "BEDNUMBERDETAILS",
-      payload: { hostel_id: hostel_Id, floor_id: Floor, room_id: RoomId },
+      payload: { hostel_id: state.login.selectedHostel_Id, floor_id: Floor, room_id: RoomId },
     });
   }, [Rooms]);
 
@@ -627,43 +586,7 @@ useEffect(()=>{
     setFormError("");
   };
 
-useEffect(()=>{
-setContactList(props.userDetails)
-},[props])
-
-
-  // useEffect(() => {
-  //   if (props.userDetails && props.userDetails.ID) {
-  //     seteditBed("editbeddet");
-  //     setId(props.userDetails.ID);
-  //     if (props.userDetails.profile == 0) setFile(null);
-  //     else {
-  //       setFile(props.userDetails.profile);
-  //     }
-  //     let value = props.userDetails.Name.split(" ");
-  //     setFirstname(value[0]);
-  //     setLastname(value[1]);
-  //     setAddress(props.userDetails.Address);
-  //     setAadharNo(props.userDetails.AadharNo);
-  //     setPancardNo(props.userDetails.PancardNo);
-  //     setLicence(props.userDetails.licence);
-  //     setPhone(props.userDetails.Phone);
-  //     setEmail(props.userDetails.Email);
-  //     setHostelName(props.userDetails.HostelName);
-  //     setHostel_Id(props.userDetails.Hostel_Id);
-  //     setFloor(props.userDetails.Floor);
-  //     setRooms(props.userDetails.Rooms);
-  //     setBed(props.userDetails.Bed);
-  //     setAdvanceAmount(props.userDetails.AdvanceAmount);
-  //     setRoomRent(props.userDetails.RoomRent);
-  //     setPaymentType(props.userDetails.PaymentType);
-  //     setBalanceDue(props.userDetails.BalanceDue);
-  //     setPaidAdvance(props.userDetails.paid_advance);
-  //     setPaidrent(props.userDetails.paid_rent);
-  //   } else {
-  //     props.setEdit("Add");
-  //   }
-  // }, [props.userDetails]);
+  
 
   const handleCloseEditcustomer = () => {
     setFormShow(false);
@@ -982,7 +905,6 @@ setContactList(props.userDetails)
         ID: id,
       },
     });
-
     // Trigger post-edit actions
     props.AfterEditHostels(hostel_Id);
     props.AfterEditFloors(Floor);
@@ -997,15 +919,20 @@ setContactList(props.userDetails)
 console.log("mydata",state.UsersList.customerdetails.contact_details);
 
  
+ console.log("state.UsersList.statusCodeForCustomerAllDetails",state.UsersList.statusCodeForCustomerAllDetails)
+ console.log("state.UsersList.statusCodeForCustomerCoatact",state.UsersList.statusCodeForCustomerCoatact)
 
-  useEffect(() => {
-    if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-      }, 1000);
-    }
-  }, [state.UsersList.CustomerdetailsgetStatuscode]);
- 
+useEffect(()=>{
+  if(state.UsersList.statusCodeForCustomerCoatact === 200){
+    dispatch({ type: "CUSTOMERALLDETAILS",payload:{user_id:props.id}});
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_CUSTOMER_ADD_CONTACT"});
+    }, 100);
+        
+  }
+},[state.UsersList.statusCodeForCustomerCoatact])
+
+
   useEffect(()=>{
     if(state.UsersList.statusCodeForAddUser === 200){
    
@@ -2010,13 +1937,13 @@ const handleFileChange = (e, type) => {
    
   </div> */}
   <div className="card-body">
-  {state?.UsersList?.customerdetails?.contact_details?.length > 0 ? (
-    state.UsersList.customerdetails.contact_details.map((v, index) => {
+  {state?.UsersList?.customerAllDetails?.contact_details?.length > 0 ? (
+    state.UsersList.customerAllDetails.contact_details.map((v, index) => {
       return (
         <React.Fragment key={index}>
           <p>
             Contact Info{" "}
-            <img src={editliner} alt="Edit Icon" width={15} height={15} />
+            <img src={editliner} alt="Edit Icon" width={15} height={15}  onClick={()=>handleContactEdit(v)}/>
           </p>
 
           <div className="row mb-3">
@@ -2057,7 +1984,14 @@ const handleFileChange = (e, type) => {
                   fontFamily: "Gilroy, sans-serif",
                 }}
               >
-                {v.mob_no}
+                  +
+                                        {v &&
+                                          String(v.mob_no).slice(
+                                            0,
+                                            String(v.mob_no).length - 10
+                                          )}{" "}
+                                        {v && String(v.mob_no).slice(-10)}
+                {/* {v.mob_no} */}
               </p>
             </div>
             <div className="col-sm-4 d-flex flex-column align-items-end">
@@ -2126,7 +2060,7 @@ const handleFileChange = (e, type) => {
 }
 {
   additionalForm == true ? (
-<UserAdditionalContact additionalForm={additionalForm} setAdditionalForm={setAdditionalForm} contactList={contactList} id={props.id}/>
+<UserAdditionalContact additionalForm={additionalForm} setAdditionalForm={setAdditionalForm} contactList={contactList} id={props.id} contactEdit={contactEdit} editAdditional={editAdditional} setEditAdditional={setEditAdditional}/>
   ) :null
 }
   
@@ -2971,7 +2905,7 @@ const handleFileChange = (e, type) => {
                                           boxShadow: "none",
                                           border: "1px solid #D9D9D9",
                                           height: 50,
-                                          borderRadius: 8,
+                                          
                                         }}
                                       />
                                     </Form.Group>

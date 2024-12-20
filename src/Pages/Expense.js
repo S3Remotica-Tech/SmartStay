@@ -78,7 +78,7 @@ function Expenses({allPageHostel_Id}) {
  
 console.log("excelDownload",excelDownload)
 const handleExpenceExcel = () => {
-    dispatch({ type: "EXPORTEXPENCESDETAILS", payload: { type: "expenses"} });
+    dispatch({ type: "EXPORTEXPENCESDETAILS", payload: { type: "expenses",hostel_id :state.login.selectedHostel_Id} });
     setIsDownloadTriggered(true)
 };
 useEffect(() => {
@@ -231,10 +231,10 @@ useEffect(()=>{
   console.log("getData", getData)
 
   useEffect(() => {
-    dispatch({ type: 'ASSETLIST'})
-    dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id: allPageHostel_Id} })
+    dispatch({ type: 'ASSETLIST',  payload:{ hostel_id: state.login.selectedHostel_Id }   })
+    dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id: state.login.selectedHostel_Id} })
     dispatch({ type: 'VENDORLIST'})
-    dispatch({ type: 'EXPENSELIST'})
+    dispatch({ type: 'EXPENSELIST', payload:{hostel_id: state.login.selectedHostel_Id}})
     setLoading(true)
   }, [])
 
@@ -276,7 +276,7 @@ useEffect(()=>{
 
 
     if (selectedValue === 'All') {
-      dispatch({ type: 'EXPENSELIST' })
+      dispatch({ type: 'EXPENSELIST', payload:{hostel_id: state.login.selectedHostel_Id} })
       setCategoryValue('')
       setAssetValue('')
       setVendorValue('')
@@ -287,7 +287,7 @@ useEffect(()=>{
       setMinAmount('')
       setMaxAmount('')
     } else if (categoryValue) {
-      dispatch({ type: 'EXPENSELIST', payload: { category: categoryValue } })
+      dispatch({ type: 'EXPENSELIST', payload: { category: categoryValue,hostel_id: state.login.selectedHostel_Id } })
       setCategoryValue('')
       setAssetValue('')
       setVendorValue('')
@@ -298,7 +298,7 @@ useEffect(()=>{
       setMinAmount('')
       setMaxAmount('')
     } else if (assetValue) {
-      dispatch({ type: 'EXPENSELIST', payload: { asset_id: assetValue } })
+      dispatch({ type: 'EXPENSELIST', payload: { asset_id: assetValue,hostel_id: state.login.selectedHostel_Id } })
       setCategoryValue('')
       setAssetValue('')
       setVendorValue('')
@@ -309,7 +309,7 @@ useEffect(()=>{
       setMinAmount('')
       setMaxAmount('')
     } else if (vendorValue) {
-      dispatch({ type: 'EXPENSELIST', payload: { vendor_id: vendorValue } })
+      dispatch({ type: 'EXPENSELIST', payload: { vendor_id: vendorValue ,hostel_id: state.login.selectedHostel_Id } })
       setCategoryValue('')
       setAssetValue('')
       setVendorValue('')
@@ -320,7 +320,7 @@ useEffect(()=>{
       setMinAmount('')
       setMaxAmount('')
     } else if (modeValue) {
-      dispatch({ type: 'EXPENSELIST', payload: { payment_mode: modeValue } })
+      dispatch({ type: 'EXPENSELIST', payload: { payment_mode: modeValue , hostel_id: state.login.selectedHostel_Id } })
       setCategoryValue('')
       setAssetValue('')
       setVendorValue('')
@@ -331,7 +331,7 @@ useEffect(()=>{
       setMinAmount('')
       setMaxAmount('')
     } else if (startDate && endDate) {
-      dispatch({ type: 'EXPENSELIST', payload: { start_date: startDate, end_date: endDate } })
+      dispatch({ type: 'EXPENSELIST', payload: { start_date: startDate, end_date: endDate , hostel_id: state.login.selectedHostel_Id} })
       setCategoryValue('')
       setAssetValue('')
       setVendorValue('')
@@ -342,7 +342,7 @@ useEffect(()=>{
       setMinAmount('')
       setMaxAmount('')
     } else if (minAmount || maxAmount) {
-      dispatch({ type: 'EXPENSELIST', payload: { min_amount: minAmount, max_amount: maxAmount } })
+      dispatch({ type: 'EXPENSELIST', payload: { min_amount: minAmount, max_amount: maxAmount, hostel_id: state.login.selectedHostel_Id } })
       setCategoryValue('')
       setAssetValue('')
       setVendorValue('')
@@ -406,7 +406,7 @@ useEffect(()=>{
 
   useEffect(() => {
     if (state.ExpenseList.StatusCodeForAddExpenseSuccess == 200 || state.ExpenseList.deleteExpenseStatusCode == 200) {
-      dispatch({ type: 'EXPENSELIST' })
+      dispatch({ type: 'EXPENSELIST' , payload: {hostel_id: state.login.selectedHostel_Id}})
       setShowModal(false);
       setShowExpenseDelete(false)
       setTimeout(() => {

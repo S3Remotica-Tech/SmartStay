@@ -81,11 +81,11 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
   };
 
    useEffect(()=> {
-    dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id: hostelId} })
+    dispatch({ type: 'EXPENCES-CATEGORY-LIST' , payload: {hostel_id: state.login.selectedHostel_Id} })
    },[])
 
    useEffect(() => {
-       dispatch({ type: 'ASSETLIST' })
+       dispatch({ type: 'ASSETLIST', payload: {hostel_id: state.login.selectedHostel_Id}  })
      }, [])
 
   const [errors, setErrors] = useState({});
@@ -329,6 +329,7 @@ function StaticExample({ show, handleClose, currentItem, hostelId }) {
           hostel_id: hostelId ,
           id: currentItem ? currentItem.id : null,
           bank_id: account,
+          hostel_id: state.login.selectedHostel_Id
         },
       });
     }

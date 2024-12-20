@@ -123,7 +123,17 @@ border-radius: 6px;
 }
 
 
-
+.show-scrolls::-webkit-scrollbar-track {
+  background: #E0E0E0 !important;
+  border-radius: 8px !important;
+ 
+}
+.show-scrolls::-webkit-scrollbar-thumb {
+  background: #E0E0E0 !important;
+  border: 3px solid #E0E0E0 !important;
+   border-radius: 8px;
+  max-height: 5px !important;
+} 
 
 
 @media (max-width: 768px) {

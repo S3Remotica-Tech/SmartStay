@@ -263,9 +263,9 @@ useEffect(() => {
         case "amount":
           setamountError("Amount is required");
           break;
-        case "paying":
-          setHostelIdError("Hostel ID is required");
-          break;
+        // case "paying":
+        //   setHostelIdError("Hostel ID is required");
+        //   break;
         // case "floor":
         //   setfloorError("Floor is required");
         //   break;
@@ -299,9 +299,9 @@ useEffect(() => {
         case "amount":
           setamountError("");
           break;
-        case "paying":
-          setHostelIdError("");
-          break;
+        // case "paying":
+        //   setHostelIdError("");
+        //   break;
         // case "floor":
         //   setfloorError("");
         //   break;
@@ -331,59 +331,65 @@ useEffect(() => {
 
 
 
-const handleSubmit = () => {
-  const isFirstnameValid = validateAssignField(firstName, "firstName");
-  const isphoneValid = validateAssignField(Phone, "Phone");
-  const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
-  const isamountValid = validateAssignField(amount, "amount");
-  const isHostelValid = validateAssignField(paying, "paying");
-  const isaddressValid = validateAssignField(Address, "Address");
-  if (
-        !isFirstnameValid ||
-        !isphoneValid ||
-        !isjoiningDateValid ||
-        !isaddressValid ||
-        !isamountValid ||
-        isHostelValid
-  )
-  {
-        return;
-      }
-  let formattedDate = null;
-  try {
-    let date = new Date(joiningDate);
-    date.setDate(date.getDate() + 1);
-    formattedDate = date.toISOString().split("T")[0];
-  } catch (error) {
-    setDateError("Date is required.");
-    console.error(error);
-    return;
-  }
-  dispatch({
-    type: "ADD_BOOKING",
-    payload: {
-      f_name: firstName,
-      l_name: lastName,
-      joining_date: formattedDate,
-      amount:amount,
-      hostel_id: hostalId,
-      mob_no: MobileNumber,
-      email_id: Email,
-      address: Address,
-      profile:file
-    },
-  });
-  setFirstName("");
-  setLastName("");
-  setJoiningDate("");
-  setAmount("");
-  setHostalId("");
-  setPhone("");
-  setEmail("");
-  setAddress("");
-  setFile(null);
-  props.handleClose()
-};
+  const handleSubmit = () => {
+    // Validate fields
+    const isFirstnameValid = validateAssignField(firstName, "firstName");
+    const isPhoneValid = validateAssignField(Phone, "Phone");
+    const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate");
+    const isAmountValid = validateAssignField(amount, "amount");
+    // const isHostelValid = validateAssignField(paying, "paying");
+    const isAddressValid = validateAssignField(Address, "Address");
+  
+    // If any validation fails, return early
+    if (!isFirstnameValid || !isPhoneValid || !isJoiningDateValid || !isAddressValid || !isAmountValid ) {
+      return;
+    }
+  
+    // Format the joining date
+    let formattedDate = null;
+    try {
+      const date = new Date(joiningDate);
+      date.setDate(date.getDate() + 1); // Adjust date if necessary
+      formattedDate = date.toISOString().split("T")[0];
+    } catch (error) {
+      setDateError("Date is required.");
+      console.error("Error formatting date:", error);
+      return;
+    }
+  
+    // Ensure all required fields are present before dispatching
+    
+      dispatch({
+        type: "ADD_BOOKING",
+        payload: {
+          f_name: firstName,
+          l_name: lastName,
+          joining_date: formattedDate,
+          amount: amount,
+          hostel_id: state.login.selectedHostel_Id,
+          mob_no: MobileNumber,
+          email_id: Email,
+          address: Address,
+          profile: file,
+        },
+      });
+  
+     
+    
+    
+
+      //  setFirstName("");
+      //  setLastName("");
+      //  setJoiningDate("");
+      //  setAmount("");
+      //  setHostalId("");
+      //  setPhone("");
+      //  setEmail("");
+      //  setAddress("");
+      //  setFile(null);
+    
+  };
+  
   
   // const handleSubmit = () => {
   //   // alert ('message')
@@ -505,9 +511,10 @@ const handleSubmit = () => {
   }
   useEffect(()=>{
     if(state.Booking.bookingPhoneError){
+      console.log("state.Booking.bookingPhoneError",state.Booking.bookingPhoneError);
+      
       // seterrorInPhone(state.Booking.bookingPhoneError)
-      setTimeout(()=>{
-       
+      setTimeout(()=>{   
         dispatch({type:"CLEAR_PHONE_ERROR"})
       },2000)
 
@@ -527,13 +534,14 @@ const handleSubmit = () => {
   console.log("stateghjhsjdhjs",state)
 
   useEffect(() => {
-    console.log("Booking successfully",state?.Booking?.statusCodeForAddBooking);
+    console.log("Booking_successfully",state?.Booking?.statusCodeForAddBooking);
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-    
+      handleAddClose()
+      dispatch({ type:"GET_BOOKING_LIST",  payload:{ hostel_id: state.login.selectedHostel_Id} });
       dispatch({type:"CLEAR_EMAIL_ERROR"})
       dispatch({type:"CLEAR_PHONE_ERROR"})
-      handleAddClose()
-      dispatch({ type:"GET_BOOKING_LIST" });
+     
+   
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);

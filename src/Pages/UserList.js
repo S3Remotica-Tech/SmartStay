@@ -73,13 +73,7 @@ function UserList(props) {
   const selectRef = useRef("select");
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
- 
-  
-
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
-  
-
   const [showLoader, setShowLoader] = useState(false);
   const [selectedItems, setSelectedItems] = useState("");
   const [filterInput, setFilterInput] = useState("");
@@ -110,10 +104,12 @@ function UserList(props) {
   }, [props.allPageHostel_Id]);
 
 
+
+
   useEffect(() => {
     setLoading(true);
-    dispatch({ type: "USERLIST",payload:{hostel_id:uniqueostel_Id} });
-  }, [uniqueostel_Id]);
+    dispatch({ type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
+  }, []);
 
   const handleCustomerReAssign=(reuser)=>{
     console.log("reuser",reuser)
@@ -220,12 +216,12 @@ function UserList(props) {
   }, [customerrolePermission]);
 
   useEffect(() => {
-    dispatch({ type: "GET_BOOKING_LIST" });
+    dispatch({ type: "GET_BOOKING_LIST" , payload :{ hostel_id: state.login.selectedHostel_Id }});
   }, []);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      dispatch({ type: "GET_BOOKING_LIST" });
+      dispatch({ type: "GET_BOOKING_LIST" , payload:{ hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 200);
@@ -524,18 +520,12 @@ function UserList(props) {
   const [customerUser_Id, setcustomerUser_Id] = useState("");
   const [createbyamni, setcreatebyamni] = useState("");
   const [amnitytableshow, setamnitytableshow] = useState(false);
-//   const [allhost_id,setAll_Hos_Id] = useState("")
-// console.log("userhostelid",props.allPageHostel_Id);
 
-// useEffect(()=>{
-//   setAll_Hos_Id(props.allPageHostel_Id)
-// },[props.allPageHostel_Id])
-// const [uniqueostel_Id,setUniqostel_Id]=useState('')
-console.log("uniqueostel_Id",props.allPageHostel_Id)
-useEffect(() => {
-  console.log("uniqueHostelId:", props.allPageHostel_Id);
-  setUniqostel_Id(props.allPageHostel_Id);
-}, [props.allPageHostel_Id]);
+// console.log("uniqueostel_Id",props.allPageHostel_Id)
+// useEffect(() => {
+//   console.log("uniqueHostelId:", props.allPageHostel_Id);
+//   setUniqostel_Id(props.allPageHostel_Id);
+// }, [props.allPageHostel_Id]);
 
   const handleRoomDetailsPage = (userData) => {
     const clickedUserDataArray = Array.isArray(userData)
@@ -646,7 +636,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: "USERLIST",payload:{hostel_id:uniqueostel_Id} });
+      dispatch({ type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id} });
 
       setHostelIds(propsHostel);
       setBedIds(propsBeds);
@@ -1093,7 +1083,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      dispatch({ type: "GET_BOOKING_LIST" });
+      dispatch({ type: "GET_BOOKING_LIST" , payload :{ hostel_id: state.login.selectedHostel_Id }});
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 200);
@@ -1166,14 +1156,14 @@ useEffect(() => {
   console.log("excelDownload", excelDownload);
   const handleCustomerExcel = () => {
     if (value === "1") {
-      dispatch({ type: "EXPORTDETAILS", payload: { type: "customers" } });
+      dispatch({ type: "EXPORTDETAILS", payload: { type: "customers",hostel_id :state.login.selectedHostel_Id} });
       setIsDownloadTriggered(true);
     }
   };
 
   const handleBookingExcel = () => {
     if (value === "2") {
-      dispatch({ type: "EXPORTBOOKINGDETAILS", payload: { type: "booking" } });
+      dispatch({ type: "EXPORTBOOKINGDETAILS", payload: { type: "booking",hostel_id :state.login.selectedHostel_Id } });
       setIsDownloadTriggered(true);
     }
   };
@@ -1182,7 +1172,7 @@ useEffect(() => {
     if (value === "3") {
       dispatch({
         type: "EXPORTCHECKOUTDETAILS",
-        payload: { type: "checkout" },
+        payload: { type: "checkout",hostel_id :state.login.selectedHostel_Id },
       });
       setIsDownloadTriggered(true);
     }
@@ -1190,7 +1180,7 @@ useEffect(() => {
 
   const handlewalkinExcel = () => {
     if (value === "4") {
-      dispatch({ type: "EXPORTWALKINGDETAILS", payload: { type: "walkin" } });
+      dispatch({ type: "EXPORTWALKINGDETAILS", payload: { type: "walkin",hostel_id :state.login.selectedHostel_Id } });
       setIsDownloadTriggered(true);
     }
   };
@@ -2623,6 +2613,7 @@ useEffect(() => {
                     )}
                   </div>
                 )}
+
 
 
 

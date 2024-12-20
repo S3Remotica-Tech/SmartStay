@@ -37,24 +37,18 @@ function* handleAddBooking(action) {
         progress: undefined,
         style: toastStyle,
      });
-
-
-
- 
     }
 
-
-
-    else if(response.data.statusCode === 203) {
-         
-      yield put({ type: 'BOOKING_PHONE_ERROR', payload: response.data.message});
+    else if(response.statusCode === 202 ) {
+      yield put({ type: 'BOOKING_EMAIL_ERROR', payload: response.message });
    }
-   else if(response.data.statusCode === 202) {
-     
-      yield put({ type: 'BOOKING_EMAIL_ERROR', payload: response.data.message});
+
+    else if(response.statusCode === 203 )  {   
+      yield put({ type: 'BOOKING_PHONE_ERROR', payload: response.message });
    }
+  
     else {
-       yield put ({type:'ERROR_BOOKING', payload:response.data.message})
+       yield put ({type:'ERROR_BOOKING', payload:response.message})
     }
     if(response){
        refreshToken(response)
@@ -64,8 +58,8 @@ function* handleAddBooking(action) {
 
 
 
- function* handleGetBooking() {
-   const response = yield call(GetAddBooking)
+ function* handleGetBooking(action) {
+   const response = yield call(GetAddBooking, action.payload)
    console.log("response.....///",response)
    
    if (response.status === 200 || response.statusCode === 200) {
