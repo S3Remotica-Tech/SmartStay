@@ -217,7 +217,7 @@ useEffect(() => {
     setShowForm(true);
     setEditAddBank(item);
     setOpenMenuId(false);
-    
+
   };
 
   const handleShowForm = () => {
@@ -1899,6 +1899,7 @@ useEffect(() => {
           setEditAddBank={setEditAddBank}
           setEdit={setEdit}
           edit={edit}
+          updateTransaction = {updateTransaction}
         />
       ) : null}
     </div>

@@ -51,9 +51,10 @@ function BankingAddForm(props) {
     setDescriptionError("")
   };
 
-
+console.log("props.editAddBank",props)
 useEffect(()=>{
   if(props.editAddBank && props.editAddBank.id){
+
     props.setEdit(true)
     setAccountName(props.editAddBank.acc_name)
     setAccountNo(props.editAddBank.acc_num)

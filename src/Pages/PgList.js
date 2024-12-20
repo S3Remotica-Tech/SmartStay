@@ -926,7 +926,7 @@ function PgList() {
                       }}
                     >
                       {" "}
-                      + Add new PG
+                      + Manage PG
                     </Button>
                   </div>
                 </div>
