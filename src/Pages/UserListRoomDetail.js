@@ -12,6 +12,7 @@ import {Autobrightness,Call,Sms,House, Buildings,ArrowLeft2,ArrowRight2,MoreCirc
 import Group from "../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import Money from "../Assets/Images/New_images/Money.png";
+import Carousel from 'react-bootstrap/Carousel'
 import {
   Button,
   Offcanvas,
@@ -46,6 +47,7 @@ import editliner from "../Assets/Images/Edit-Linear-32px.png";
 import upload from "../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
+import trash from "../Assets/Images/New_images/trash.png";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -106,6 +108,7 @@ function UserListRoomDetail(props) {
   const [contactDetails,setContactDetails] = useState('')
   const [contactEdit,setContactEdit] = useState("")
   const [editAdditional,setEditAdditional]=useState(false)
+  const [deleteAdditional,setDeleteAdditional]=useState(false)
 
 
 useEffect(()=>{
@@ -1004,6 +1007,13 @@ const handleFileChange = (e, type) => {
   }
 };
 
+
+const handleContactDelete=(v)=>{
+  console.log("handleContactDelete",v)
+  setDeleteAdditional(true)
+
+}
+
   return (
     <>
       {props.roomDetail && (
@@ -1786,269 +1796,163 @@ const handleFileChange = (e, type) => {
     </div>
   ))}
 </div>
-    <div
-  className=" col-md-12 col-lg-12 mb-md-0"
-  style={{ paddingLeft: 20, paddingRight: 20,marginTop:30 }}
->
+
+
+
+
+
+
 <div
-  className="card "
-  style={{
-    borderRadius: "20px",
-    padding: "20px",
-   
-  }}
+  className="col-md-12 col-lg-12 mb-md-0"
+  style={{ paddingLeft: 20, paddingRight: 20, marginTop: 30 }}
 >
- 
-  <div
-    className="card-header d-flex justify-content-between align-items-center"
-    style={{
-      backgroundColor: "transparent",
-      borderBottom: "1px solid #e0e0e0",
-      marginBottom: "15px",
-    }}
-  >
+  <div className="card" style={{ borderRadius: "20px", padding: "20px" }}>
     <div
+      className="card-header d-flex justify-content-between align-items-center"
       style={{
-        fontSize: 16,
-        fontWeight: 600,
-        fontFamily: "Gilroy, sans-serif",
-        lineHeight: "40px",
+        backgroundColor: "transparent",
+        borderBottom: "1px solid #e0e0e0",
+        marginBottom: "15px",
       }}
     >
-      Additional Contact
+      <div className="fw-semibold" style={{ fontSize: 16, lineHeight: "40px" }}>
+        Additional Contact
+      </div>
+      <button
+        className="btn btn-link fw-medium text-decoration-none"
+        style={{ fontSize: 14 }}
+        onClick={handleAdditionalForm}
+      >
+        + Add Contact
+      </button>
     </div>
-    <button
-      className="btn btn-link"
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        textDecoration: "none",
-      }}
-      onClick={handleAdditionalForm}
-    >
-      + Add Contact
-    </button>
-  </div>
 
-  {/* Contact Info */}
+    <div className="card-body">
+      {state?.UsersList?.customerAllDetails?.contact_details?.length > 0 ? (
+        state.UsersList.customerAllDetails.contact_details.length > 1 ? (
+          <Carousel interval={null} indicators>
+            {state.UsersList.customerAllDetails.contact_details.map((v, index) => (
+              <Carousel.Item key={index}>
+                <div>
+                  <p>
+                    Contact Info{" "}
+                    <img
+                      src={editliner}
+                      alt="Edit Icon"
+                      width={15}
+                      height={15}
+                      onClick={() => handleContactEdit(v)}
+                    />
+                    <img
+                      src={trash}
+                      alt="Trash Icon"
+                      width={15}
+                      height={15}
+                      className="ms-2"
+                      onClick={() => handleContactDelete(v)}
+                    />
+                  </p>
 
-  {/* <div className="card-body">
-  {
-      state?.UsersList?.customerdetails?.contact_details?.map((v)=>{
-        return(
+                  <div className="row mb-3">
+                    <div className="col-sm-4">
+                      <p className="mb-1 small fw-medium">Contact Name</p>
+                      <p className="mb-0 fw-semibold">{v.user_name}</p>
+                    </div>
+                    <div className="col-sm-4 text-center">
+                      <p className="mb-1 small fw-medium">Mobile no.</p>
+                      <p className="mb-0 fw-semibold">
+                        +
+                        {v &&
+                          String(v.mob_no).slice(
+                            0,
+                            String(v.mob_no).length - 10
+                          )}{" "}
+                        {v && String(v.mob_no).slice(-10)}
+                      </p>
+                    </div>
+                    <div className="col-sm-4 text-end">
+                      <p className="mb-1 small fw-medium">Guardian</p>
+                      <p className="mb-0 fw-semibold">{v.guardian}</p>
+                    </div>
+                  </div>
 
-        
-        <>
-     <p>Contact Info <img src={editliner} alt="Edit Icon" width={15} height={15} /></p>
-   
-       
-         <div className="row mb-3">
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <p className="mb-1 small fw-medium">Address</p>
+                      <p className="mb-0 fw-semibold">{v.address}</p>
+                    </div>
+                  </div>
+                </div>
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        ) : (
+          <div>
+            {state.UsersList.customerAllDetails.contact_details.map((v, index) => (
+              <div key={index}>
+                <p>
+                  Contact Info{" "}
+                  <img
+                    src={editliner}
+                    alt="Edit Icon"
+                    width={15}
+                    height={15}
+                    onClick={() => handleContactEdit(v)}
+                  />
+                  <img
+                    src={trash}
+                    alt="Trash Icon"
+                    width={15}
+                    height={15}
+                    className="ms-2"
+                    onClick={() => handleContactDelete(v)}
+                  />
+                </p>
 
-      
-<div className="col-sm-4 d-flex flex-column align-items-start">
-  <p
-    style={{
-      fontSize: 12,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-    }}
-  >
-    Contact Name
-  </p>
-  <p
-    style={{
-      fontSize: 14,
-      fontWeight: 600,
-      fontFamily: "Gilroy, sans-serif",
-    }}
-  >
-   {v.user_name}
-  </p>
-</div>
-<div className="col-sm-4 d-flex flex-column align-items-center">
-  <p
-    style={{
-      fontSize: 12,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-    }}
-  >
-    Mobile no.
-  </p>
-  <p
-    style={{
-      fontSize: 14,
-      fontWeight: 600,
-      fontFamily: "Gilroy, sans-serif",
-    }}
-  >
-     {v.mob_no}
-  </p>
-</div>
-<div className="col-sm-4 d-flex flex-column align-items-end">
-  <p
-    style={{
-      fontSize: 12,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-    }}
-  >
-    Guardian
-  </p>
-  <p
-    style={{
-      fontSize: 14,
-      fontWeight: 600,
-      fontFamily: "Gilroy, sans-serif",
-    }}
-  >
-    {v.guardian}
-  </p>
-</div>
-</div>
+                <div className="row mb-3">
+                  <div className="col-sm-4">
+                    <p className="mb-1 small fw-medium">Contact Name</p>
+                    <p className="mb-0 fw-semibold">{v.user_name}</p>
+                  </div>
+                  <div className="col-sm-4 text-center">
+                    <p className="mb-1 small fw-medium">Mobile no.</p>
+                    <p className="mb-0 fw-semibold">
+                      +
+                      {v &&
+                        String(v.mob_no).slice(
+                          0,
+                          String(v.mob_no).length - 10
+                        )}{" "}
+                      {v && String(v.mob_no).slice(-10)}
+                    </p>
+                  </div>
+                  <div className="col-sm-4 text-end">
+                    <p className="mb-1 small fw-medium">Guardian</p>
+                    <p className="mb-0 fw-semibold">{v.guardian}</p>
+                  </div>
+                </div>
 
-<div className="row">
-<div className="col-sm-12">
-  <p
-    style={{
-      fontSize: 12,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-    }}
-  >
-    Address
-  </p>
-  <p
-    style={{
-      fontSize: 14,
-      fontWeight: 600,
-      fontFamily: "Gilroy, sans-serif",
-    }}
-  >
-    {v.address}
-  </p>
-</div>
-</div>
-        </>
+                <div className="row">
+                  <div className="col-sm-12">
+                    <p className="mb-1 small fw-medium">Address</p>
+                    <p className="mb-0 fw-semibold">{v.address}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         )
-      })
-
-    }
-   
-  </div> */}
-  <div className="card-body">
-  {state?.UsersList?.customerAllDetails?.contact_details?.length > 0 ? (
-    state.UsersList.customerAllDetails.contact_details.map((v, index) => {
-      return (
-        <React.Fragment key={index}>
-          <p>
-            Contact Info{" "}
-            <img src={editliner} alt="Edit Icon" width={15} height={15}  onClick={()=>handleContactEdit(v)}/>
-          </p>
-
-          <div className="row mb-3">
-            <div className="col-sm-4 d-flex flex-column align-items-start">
-              <p
-                style={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy, sans-serif",
-                }}
-              >
-                Contact Name
-              </p>
-              <p
-                style={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                  fontFamily: "Gilroy, sans-serif",
-                }}
-              >
-                {v.user_name}
-              </p>
-            </div>
-            <div className="col-sm-4 d-flex flex-column align-items-center">
-              <p
-                style={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy, sans-serif",
-                }}
-              >
-                Mobile no.
-              </p>
-              <p
-                style={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                  fontFamily: "Gilroy, sans-serif",
-                }}
-              >
-                  +
-                                        {v &&
-                                          String(v.mob_no).slice(
-                                            0,
-                                            String(v.mob_no).length - 10
-                                          )}{" "}
-                                        {v && String(v.mob_no).slice(-10)}
-                {/* {v.mob_no} */}
-              </p>
-            </div>
-            <div className="col-sm-4 d-flex flex-column align-items-end">
-              <p
-                style={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy, sans-serif",
-                }}
-              >
-                Guardian
-              </p>
-              <p
-                style={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                  fontFamily: "Gilroy, sans-serif",
-                }}
-              >
-                {v.guardian}
-              </p>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-sm-12">
-              <p
-                style={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy, sans-serif",
-                }}
-              >
-                Address
-              </p>
-              <p
-                style={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                  fontFamily: "Gilroy, sans-serif",
-                }}
-              >
-                {v.address}
-              </p>
-            </div>
-          </div>
-        </React.Fragment>
-      );
-    })
-  ) : (
-    <p>No data available</p>
-  )}
+      ) : (
+        <p>No data available</p>
+      )}
+    </div>
+  </div>
 </div>
 
-</div>
 
-</div>
+
+
+
 </div>
 </div>
 </div>
