@@ -345,13 +345,13 @@ if(state.UsersList.statusCustomerAddUser === 200){
           style={{ backgroundColor: "#F5F5FF" }}
           className="text-center"
         >
-          <Modal.Title style={{ fontSize: 18 }} className="text-center">
+          <Modal.Title  style={{fontSize: 20,fontWeight: 600,fontFamily: "Gilroy",}} className="text-center">
             Add Amenities 
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="mb-3 ps-2 pe-2">
-            <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
+            <label className="mb-1" style={{ fontSize: 14, fontWeight: 500,fontFamily: "Gilroy"}}>
             AmenitiesName
             </label>
             <Form.Control
@@ -361,10 +361,11 @@ if(state.UsersList.statusCustomerAddUser === 200){
               aria-describedby="basic-addon2"
               value={createby[0]?.Amnities_Name}
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: "530",
                 opacity: 1,
-                borderRadius: "4px",
+                borderRadius: "8px",
+                height:45,
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
@@ -378,7 +379,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
             </div>
           )}
           <div className="mb-3 ps-2 pe-2">
-            <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
+            <label className="mb-1" style={{ fontSize: 14, fontWeight: 500 ,fontFamily: "Gilroy"}}>
               HostelName
             </label>
             <Form.Control
@@ -388,10 +389,11 @@ if(state.UsersList.statusCustomerAddUser === 200){
               aria-describedby="basic-addon2"
               value={props.hostelName}
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: "530",
+                height: 45,
                 opacity: 1,
-                borderRadius: "4px",
+                borderRadius: "8px",
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
@@ -399,7 +401,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
           </div>
 
           <div className="mb-3 ps-2 pe-2">
-            <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
+            <label className="mb-1" style={{ fontSize: 14, fontWeight: 500,fontFamily: "Gilroy", }}>
               Amount
             </label>
             <Form.Control
@@ -409,10 +411,11 @@ if(state.UsersList.statusCustomerAddUser === 200){
               aria-describedby="basic-addon2"
               value={createby[0]?.Amount}
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: "530",
                 opacity: 1,
-                borderRadius: "4px",
+                borderRadius: "8px",
+                height:45,
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
@@ -420,7 +423,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
           </div>
           {statusShow && (
             <div className="mb-3 ps-2  pe-2">
-              <label className="mb-1" style={{ fontSize: 14, fontWeight: 650 }}>
+              <label className="mb-1" style={{ fontSize: 14, fontWeight: 500,fontFamily:"Gilroy" }}>
                 Select Status
               </label>
               <Form.Select
@@ -428,12 +431,14 @@ if(state.UsersList.statusCustomerAddUser === 200){
                 value={statusAmni}
                 onChange={(e) => handleStatusAmnities(e)}
                 style={{
-                  fontSize: 13,
-                  fontWeight: 600,
+                  fontSize: 14,
+                  fontWeight: 500,
                   backgroundColor: "#f8f9fa",
+                  height:45,
+                  borderRadius:8
                 }}
               >
-                <option style={{ fontSize: 14, fontWeight: 600 }}>
+                <option style={{ fontSize: 14, fontWeight: 500,fontFamily: "Gilroy", }}>
                   Select Status
                 </option>
 
@@ -452,7 +457,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
               height: 50,
               borderRadius: 12,
               fontSize: 16,
-              fontFamily: "Montserrat, sans-serif",
+              fontFamily: "Gilroy",
               marginTop: 20,
             }}
             onClick={handleAddUserAmnities}
@@ -618,7 +623,7 @@ if(state.UsersList.statusCustomerAddUser === 200){
                       fontFamily: "Gilroy",
                     }}
                   >
-                    Monthly
+                    {v.month_name}
                   </td>
                   <td
                     style={{
